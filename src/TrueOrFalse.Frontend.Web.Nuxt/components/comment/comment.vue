@@ -123,10 +123,10 @@ async function saveAnswer() {
                         <span v-html="props.comment.title"></span>
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length === 1">&nbsp;
-                                {{ props.comment.answers.length }} {{ t('comment.posts.singular') }}</span>
-                            <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
-                                {{ t('comment.posts.plural') }}</span>
+                            <span class="commentSpeechBubbleText">
+                                &nbsp;
+                                {{ t('comment.posts', props.comment.answers.length) }}
+                            </span>
                         </span>
                     </div>
                     <div class="commentTitle" v-else-if="props.comment.text.length > 25">
@@ -134,20 +134,20 @@ async function saveAnswer() {
 
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length === 1">&nbsp;
-                                {{ props.comment.answers.length }} {{ t('comment.posts.singular') }}</span>
-                            <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
-                                {{ t('comment.posts.plural') }}</span>
+                            <span class="commentSpeechBubbleText">
+                                &nbsp;
+                                {{ t('comment.posts', props.comment.answers.length) }}
+                            </span>
                         </span>
                     </div>
                     <div class="commentTitle" v-else>
                         <span v-html="props.comment.text"></span>
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length === 1">&nbsp;
-                                {{ props.comment.answers.length }} {{ t('comment.posts.singular') }}</span>
-                            <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
-                                {{ t('comment.posts.plural') }}</span>
+                            <span class="commentSpeechBubbleText">
+                                &nbsp;
+                                {{ t('comment.posts', props.comment.answers.length) }}
+                            </span>
                         </span>
                     </div>
                 </div>
@@ -168,9 +168,7 @@ async function saveAnswer() {
                     <div class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers" :class="{ 'clickable': props.comment.answers.length > 0 }">
                         <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                         <div class="commentSpeechBubbleText">
-                            {{ props.comment.answers.length === 1 ?
-                                '1 ' + t('comment.answers.singular') :
-                                props.comment.answers.length + ' ' + t('comment.answers.plural') }}
+                            {{ t('comment.posts', props.comment.answers.length) }}
                             <template v-if="props.comment.answers.length > 0 && !showCommentAnswers">
                                 {{ t('comment.answers.show') }}
                             </template>

@@ -76,7 +76,7 @@ watch(() => props.content, (c) => {
         <editor-content :editor="editor"
             :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
         <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 10" class="field-error">
-            Bitte formuliere einen Titel mit mind. 10 Zeichen.
+            {{ t('comment.form.titleError') }}
         </div>
     </div>
 </template>

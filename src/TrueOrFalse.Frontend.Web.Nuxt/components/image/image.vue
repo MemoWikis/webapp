@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useImageLicenseStore } from './imageLicenseStore'
 import { ImageFormat } from './imageFormatEnum'
+const { t } = useI18n()
 
 interface Props {
 	src: string,
@@ -79,7 +80,8 @@ const getCustomStyle = computed(() => {
 		<img v-else :src="imgSrc" class="page" :alt="props.alt" :style="getCustomStyle" />
 
 		<div v-if="props.showLicense && props.imageId != undefined && !props.src.includes('no-category-picture')"
-			class="license-btn" @click="openImage()">Lizenzinfos
+			class="license-btn" @click="openImage()">
+			{{ t('image.license.info') }}
 		</div>
 		<slot name="bottom"></slot>
 	</div>

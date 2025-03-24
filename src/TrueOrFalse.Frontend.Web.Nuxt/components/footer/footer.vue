@@ -92,7 +92,7 @@ const { t, setLocale, locale, locales } = useI18n()
 
                         </div>
                         <div class="footer-group">
-                            <div class="overline-m no-line">Software</div>
+                            <div class="overline-m no-line">{{ t('footer.software') }}</div>
                             <NuxtLink @click="handleError()" to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'github']" /> {{ t('footer.github') }}
                             </NuxtLink>

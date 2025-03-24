@@ -115,24 +115,24 @@ const router = useRouter()
 
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
-function handleBreadcrumb(t: Tab) {
-    if (t === Tab.Settings) {
-        router.push({ path: '/Nutzer/Einstellungen' })
+function handleBreadcrumb(tab: Tab) {
+    if (tab === Tab.Settings) {
+        router.push({ path: `/${t('url.user')}/${t('url.settings')}` })
 
         const breadcrumbItem: BreadcrumbItem = {
-            name: 'Einstellungen',
-            url: `/Nutzer/Einstellungen`
+            name: t('url.settings'),
+            url: `/${t('url.user')}/${t('url.settings')}`
         }
         emit('setBreadcrumb', [breadcrumbItem])
 
-    } else if (profile.value && profile.value.user.id > 0 && t === Tab.Wishknowledge) {
+    } else if (profile.value && profile.value.user.id > 0 && tab === Tab.Wishknowledge) {
         const newPath = `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
         router.push({ path: newPath })
 
         const breadcrumbItems: BreadcrumbItem[] = [
             {
-                name: 'Nutzer',
-                url: '/Nutzer'
+                name: t('url.user'),
+                url: `/${t('url.user')}`
             },
             {
                 name: `${profile.value.user.name}'s Wunschwissen`,
@@ -140,14 +140,14 @@ function handleBreadcrumb(t: Tab) {
             }]
         emit('setBreadcrumb', breadcrumbItems)
     }
-    else if (profile.value?.user.id && profile.value.user.id > 0 && t === Tab.Overview) {
+    else if (profile.value?.user.id && profile.value.user.id > 0 && tab === Tab.Overview) {
         const newPath = $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
         router.push({ path: newPath })
 
         const breadcrumbItems: BreadcrumbItem[] = [
             {
-                name: 'Nutzer',
-                url: '/Nutzer'
+                name: t('url.user'),
+                url: `/${t('url.user')}`
             },
             {
                 name: `${profile.value.user.name}`,

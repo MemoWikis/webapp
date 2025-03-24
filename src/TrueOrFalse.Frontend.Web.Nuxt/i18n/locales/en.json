@@ -181,7 +181,8 @@
         "legalNotice": "Imprint",
         "user": "User",
         "users": "Users",
-        "prices": "Prices"
+        "prices": "Prices",
+        "settings": "Settings"
     },
     "search": {
         "results": "{count} results",

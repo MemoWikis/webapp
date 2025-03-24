@@ -39,7 +39,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: t('editor.placeholderComment'),
+            placeholder: t('comment.editor.placeholderComment'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({
@@ -80,14 +80,14 @@ watch(() => props.content, (c) => {
                 <div class="col-xs-12">
                     <div id="AddAnswerTextFormContainer" class="inline-question-editor">
                         <div class="input-container">
-                            <div class="overline-s no-line">Deine Antwort</div>
+                            <div class="overline-s no-line">{{ t('comment.answer.yourAnswer') }}</div>
                             <div v-if="editor">
                                 <EditorMenuBar :editor="editor" />
                                 <editor-content :editor="editor"
                                     :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
                                 <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0"
                                     class="field-error">
-                                    Bitte formuliere einen Kommentar mit min. 10 Zeichen.
+                                    {{ t('comment.answer.minCharsError') }}
                                 </div>
                             </div>
                         </div>

@@ -67,8 +67,8 @@ watch([showLoginIsInProgress, showGooglePluginInfo, showFacebookPluginInfo, show
     if (inProgress || googleInfo || fbInfo)
         primaryBtnLabel.value = undefined
     else if (pwReset)
-        primaryBtnLabel.value = 'Link anfordern'
-    else primaryBtnLabel.value = 'Anmelden'
+        primaryBtnLabel.value = t('login.button.requestLink')
+    else primaryBtnLabel.value = t('login.button.signIn')
 })
 
 async function primaryAction() {
@@ -110,47 +110,42 @@ onMounted(() => {
             @close="userStore.showLoginModal = false" @primary-btn="primaryAction" :show="userStore.showLoginModal"
             @keydown.esc="userStore.showLoginModal = false">
             <template v-slot:header>
-                <h2 v-if="showGooglePluginInfo && !allowGooglePlugin">Login mit Google</h2>
-                <h2 v-else-if="showFacebookPluginInfo && !allowFacebookPlugin">Login mit Facebook</h2>
-                <h2 v-else-if="showPasswordReset">Passwort zürcksetzen</h2>
-                <h2 v-else>Anmelden</h2>
+                <h2 v-if="showGooglePluginInfo && !allowGooglePlugin">{{ t('login.title.google') }}</h2>
+                <h2 v-else-if="showFacebookPluginInfo && !allowFacebookPlugin">{{ t('login.title.facebook') }}</h2>
+                <h2 v-else-if="showPasswordReset">{{ t('login.title.resetPassword') }}</h2>
+                <h2 v-else>{{ t('login.title.default') }}</h2>
             </template>
             <template v-slot:body>
                 <div v-if="showLoginIsInProgress">
-                    Die Anmeldung / Registrierung wird in einem neuen Fenster fortgesetzt.
+                    {{ t('login.message.loginInProgress') }}
                 </div>
                 <div v-else-if="(showGooglePluginInfo && !allowGooglePlugin) || (showFacebookPluginInfo && !allowFacebookPlugin)"
                     class="row">
                     <div v-if="showGooglePluginInfo && !allowGooglePlugin" class="col-xs-12">
                         <p>
-                            Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht
-                            nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer
-                            <NuxtLink href="/Impressum">Datenschutzerklärung</NuxtLink> .
+                            {{ t('login.message.googlePrivacy') }}
+                            <NuxtLink href="/Impressum">{{ t('common.privacyPolicy') }}</NuxtLink>.
                         </p>
                     </div>
 
                     <div v-else-if="showFacebookPluginInfo && !allowFacebookPlugin" class="col-xs-12">
                         <p>
-                            Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies
-                            geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in
-                            unserer <NuxtLink href="/Impressum">Datenschutzerklärung</NuxtLink>.
+                            {{ t('login.message.facebookPrivacy') }}
+                            <NuxtLink href="/Impressum">{{ t('common.privacyPolicy') }}</NuxtLink>.
                         </p>
                     </div>
                 </div>
                 <template v-else-if="showPasswordReset">
                     <div>
                         <p>
-                            Gib hier die E-Mail-Adresse an, mit der du dich registriert hast. Wir schicken dir einen
-                            Link,
-                            mit dem du dir ein neues Passwort setzen kannst.
+                            {{ t('login.message.resetPasswordInfo') }}
                         </p>
                     </div>
 
                     <div>
                         <form class="form-horizontal">
-
                             <div class="input-container">
-                                <div class="overline-s no-line">E-Mail</div>
+                                <div class="overline-s no-line">{{ t('login.form.email') }}</div>
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <input name="passwordReset" placeholder="" type="email" width="100%"
@@ -172,13 +167,13 @@ onMounted(() => {
                                         v-if="allowGooglePlugin" @click="googleLogin()">
                                         <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg"
                                             alt="socialMediaBtnContainer" class="socialMediaLogo">
-                                        <div class="socialMediaLabel">weiter mit Google</div>
+                                        <div class="socialMediaLabel">{{ t('login.button.continueWithGoogle') }}</div>
                                     </div>
                                     <div class="btn btn-block cursor-hand socialMediaBtn" v-else
                                         @click="showGooglePluginInfo = true">
                                         <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg"
                                             alt="socialMediaBtnContainer" class="socialMediaLogo">
-                                        <div class="socialMediaLabel">weiter mit Google</div>
+                                        <div class="socialMediaLabel">{{ t('login.button.continueWithGoogle') }}</div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
@@ -186,29 +181,36 @@ onMounted(() => {
                                         v-if="allowFacebookPlugin" @click="facebookLogin()">
                                         <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
                                             alt="FacebookLogin" class="socialMediaLogo">
-                                        <div class="socialMediaLabel">weiter mit Facebook</div>
+                                        <div class="socialMediaLabel">{{ t('login.button.continueWithFacebook') }}</div>
                                     </div>
                                     <div class="btn btn-block cursor-hand socialMediaBtn" v-else
                                         @click="showFacebookPluginInfo = true">
                                         <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
                                             alt="FacebookLogin" class="socialMediaLogo">
-                                        <div class="socialMediaLabel">weiter mit Facebook</div>
+                                        <div class="socialMediaLabel">{{ t('login.button.continueWithFacebook') }}</div>
                                     </div>
                                 </div>
                             </div>
-
                         </LazyClientOnly>
-
                     </div>
 
-                    <p class="consentInfoText">
-                        Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
-                        <NuxtLink to="/AGB">Nutzungsbedingungen</NuxtLink> und unserer <NuxtLink to="/Impressum">
-                            Datenschutzerklärung</NuxtLink>
-                        einverstanden. Du musst mind. 16 Jahre alt sein, <NuxtLink to="/Impressum#under16">hier mehr
-                            Infos!
-                        </NuxtLink>
-                    </p>
+                    <i18n-t keypath="register.registerNote">
+                        <template #termsOfUse>
+                            <NuxtLink :to="`/${t('url.termsOfUse')}`">
+                                {{ t('label.termsOfUse') }}
+                            </NuxtLink>
+                        </template>
+                        <template #privacyPolicy>
+                            <NuxtLink :to="`/${t('url.legalNotice')}`">
+                                {{ t('label.privacyPolicy') }}
+                            </NuxtLink>
+                        </template>
+                        <template #hereMoreInfos>
+                            <NuxtLink :to="`/${t('url.legalNotice')}#under16`">
+                                {{ t('register.hereMoreInfos') }}
+                            </NuxtLink>
+                        </template>
+                    </i18n-t>
                     <form class="form-horizontal">
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-xs-12">
@@ -218,44 +220,39 @@ onMounted(() => {
                                     </div>
                                     <div class="register-divider-label-container">
                                         <div class="register-divider-label">
-                                            oder
+                                            {{ t('login.message.or') }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="input-container">
-                            <div class="overline-s no-line">E-Mail</div>
+                            <div class="overline-s no-line">{{ t('login.form.email') }}</div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <input name="login" placeholder="" type="email" width="100%" class="login-inputs"
-                                        v-model="eMail" @keydown.enter="primaryAction" @click="errorMessage = ''" />
+                                    <input name="login" placeholder="" type="email" width="100%" class="login-inputs" v-model="eMail" @keydown.enter="primaryAction" @click="errorMessage = ''" />
                                 </div>
                             </div>
                         </div>
                         <div class="input-container">
-                            <div class="overline-s no-line">Passwort</div>
+                            <div class="overline-s no-line">{{ t('login.form.password') }}</div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <input name="password" placeholder="" :type="passwordInputType" width="100%"
-                                        class="login-inputs" v-model="password" @keydown.enter="primaryAction"
-                                        @click="errorMessage = ''" />
-                                    <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
-                                        v-if="passwordInputType === 'password'" @click="passwordInputType = 'text'" />
-                                    <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                                        v-if="passwordInputType === 'text'" @click="passwordInputType = 'password'" />
+                                    <input name="password" placeholder="" :type="passwordInputType" width="100%" class="login-inputs" v-model="password" @keydown.enter="primaryAction" @click="errorMessage = ''" />
+                                    <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon" v-if="passwordInputType === 'password'" @click="passwordInputType = 'text'" />
+                                    <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon" v-if="passwordInputType === 'text'" @click="passwordInputType = 'password'" />
                                 </div>
                             </div>
                             <div class="infoContainer col-sm-12 noPadding">
                                 <div class="col-sm-4 noPadding">
                                     <label class="cursor-hand">
                                         <input type="checkbox" class="cursor-hand" v-model="persistentLogin" />
-                                        <span class="checkboxText">Angemeldet bleiben</span>
+                                        <span class="checkboxText">{{ t('login.form.stayLoggedIn') }}</span>
                                     </label>
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-4 noPadding" style="text-align: right;">
                                     <div class="btn btn-link" @click="showPasswordReset = true">
-                                        Passwort vergessen?
+                                        {{ t('login.button.forgotPassword') }}
                                     </div>
                                 </div>
                             </div>
@@ -271,23 +268,23 @@ onMounted(() => {
                     <p>
                         <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px"
                             @click="showLoginIsInProgress = false">
-                            Zurück
+                            {{ t('login.button.back') }}
                         </button>
-
                     </p>
                 </div>
                 <div v-else-if="showPasswordReset" class="footerText">
                     <p>
-                        <strong>Passwort wieder eingefallen?</strong><br />
+                        <strong>{{ t('login.message.rememberedPassword') }}</strong><br />
                         <button class="btn-link" @click="showPasswordReset = false">
-                            Klicke hier um Dich anzumelden.
+                            {{ t('login.message.clickToLogin') }}
                         </button>
                     </p>
                 </div>
                 <div class="footerText" v-else-if="!showGooglePluginInfo && !showFacebookPluginInfo">
                     <p>
-                        <strong style="font-weight: 700;">Noch kein Benutzer?</strong> <br />
-                        <NuxtLink to="/Registrieren" @click="userStore.showLoginModal = false">Jetzt Registrieren!
+                        <strong style="font-weight: 700;">{{ t('login.message.notRegistered') }}</strong> <br />
+                        <NuxtLink to="/Registrieren" @click="userStore.showLoginModal = false">
+                            {{ t('login.button.registerNow') }}
                         </NuxtLink>
                     </p>
                 </div>
@@ -295,11 +292,11 @@ onMounted(() => {
                     <p>
                         <button type="button" class="btn btn-primary pull-right memo-button"
                             @click="loadGooglePlugin()">
-                            Einverstanden
+                            {{ t('login.button.agree') }}
                         </button>
                         <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px"
                             @click="showGooglePluginInfo = false">
-                            Abbrechen
+                            {{ t('login.button.cancel') }}
                         </button>
                     </p>
                 </div>
@@ -307,11 +304,11 @@ onMounted(() => {
                     <p>
                         <button type="button" class="btn btn-primary pull-right memo-button"
                             @click="loadFacebookPlugin(true)">
-                            Einverstanden
+                            {{ t('login.button.agree') }}
                         </button>
                         <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px"
                             @click="showFacebookPluginInfo = false">
-                            Abbrechen
+                            {{ t('login.button.cancel') }}
                         </button>
                     </p>
                 </div>

@@ -169,14 +169,17 @@
         "continueLearning": "Weiterlernen",
         "accept": "Einverstanden",
         "registerWithGoogle": "Registrierung mit Google",
-        "registerWithFacebook": "Registrierung mit Facebook"
+        "registerWithFacebook": "Registrierung mit Facebook",
+        "attention": "Achtung",
+        "toUpload": "hochzuladen und so einzubinden.",
+        "cancel": "Abbrechen"
     },
     "register": {
         "title": "Registrieren",
         "description": "Dein Wiki ist noch einen Klick entfernt.",
         "alreadyRegistered": "Bist Du schon Nutzer?",
         "orDivider": "oder",
-        "registerNote": "Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren {termsOfUse}und unserer {privacyPolicy} einverstanden. Du musst mind. 16 Jahre alt sein, {hereMoreInfos}",
+        "registerNote": "Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren {termsOfUse} und unserer {privacyPolicy} einverstanden. Du musst mind. 16 Jahre alt sein, {hereMoreInfos}",
         "hereMoreInfos": "hier mehr Infos!"
     },
     "url": {
@@ -184,7 +187,8 @@
         "legalNotice": "Impressum",
         "user": "Nutzer",
         "users": "Nutzer",
-        "prices": "Preise"
+        "prices": "Preise",
+        "settings": "Einstellungen"
     },
     "search": {
         "results": "{count} Treffer",
@@ -399,7 +403,7 @@
             "licenseConfirmation": "Du bestätigst, dass die Texte und gegebenenfalls auch Bilder Deine eigene Arbeit sind und nicht aus urheberrechtlich geschützten Quellen kopiert wurden."
         },
         "feed": {
-            "includeSubpages": "UnterSeiten einschließen",
+            "includeSubpages": "Unterseiten einschließen",
             "groupItems": "Gruppieren",
             "includeQuestions": "Fragen einschließen",
             "today": "Heute",
@@ -429,7 +433,13 @@
             },
             "modal": {
                 "newComment": "Neuer Kommentar",
-                "by": "von"
+                "by": "von",
+                "showChanges": "Änderungen anzeigen",
+                "showWithoutChanges": "Text ohne Änderung",
+                "addedParentPages": "Hinzugefügte OberSeiten",
+                "removedParentPages": "Entfernte OberSeiten",
+                "addedChildPages": "Hinzugefügte Unterseiten",
+                "removedChildPages": "Entfernte Unterseiten"
             },
             "userCard": {
                 "by": "von",
@@ -829,15 +839,20 @@
             "hide": "ausblenden"
         },
         "status": {
-            "closed": "geschlossen"
+            "closed": "geschlossen",
+            "settled": "Dieser Kommentar wurde als erledigt markiert."
         },
-        "posts": {
-            "singular": "Beitrag",
-            "plural": "Beiträge"
-        },
+        "posts": "Keine Beiträge | Ein Beitrag | {count} Beiträge",
         "readMore": {
             "more": "Mehr",
             "less": "Weniger"
+        },
+        "answer": {
+            "yourAnswer": "Deine Antwort",
+            "minCharsError": "Bitte formuliere einen Kommentar mit min. 10 Zeichen."
+        },
+        "editor": {
+            "placeholderComment": "Schreibe hier deine Antwort..."
         },
         "answers": {
             "singular": "Antwort",
@@ -852,10 +867,21 @@
         "buttons": {
             "reply": "Antworten",
             "closeDiscussion": "Diskussion schliessen",
-            "reopenDiscussion": "Diskussion wieder eröffnen"
+            "reopenDiscussion": "Diskussion wieder eröffnen",
+            "cancel": "Abbrechen"
         },
         "messages": {
             "discussionClosed": "Leider wurde die Diskussion in der Zwischenzeit geschlossen"
+        },
+        "form": {
+            "title": "Titel der Diskussion",
+            "titleError": "Bitte formuliere einen Titel mit mind. 10 Zeichen.",
+            "text": "Dein Diskussionsbeitrag",
+            "textError": "Bitte formuliere einen Kommentar mit min. 10 Zeichen."
+        },
+        "login": {
+            "required": "Um zu kommentieren, musst du eingeloggt sein.",
+            "register": "Jetzt registrieren"
         }
     },
     "user": {
@@ -929,11 +955,128 @@
             "created": "Erstellt: {questions} Fragen / {pages} Seiten",
             "wishknowledge": "Wunschwissen: {questions} Fragen / {pages} Seiten",
             "privateWishknowledge": "{name}s Wunschwissen ist privat",
-            "toWiki": "Zu {name}s Wiki"
+            "toWiki": "Zu {name}s Wiki",
+            "rank": "Rang",
+            "createdTitle": "Erstellt"
+        },
+        "tabs": {
+            "allUsers": "Alle Nutzer"
         }
     },
     "deletePageStore": {
         "confirm": "verstanden",
         "cantDeleteInfo": "Die Seite: \"{name}\" kann nicht gelöscht werden"
+    },
+    "login": {
+        "title": {
+            "default": "Anmelden",
+            "google": "Login mit Google",
+            "facebook": "Login mit Facebook",
+            "resetPassword": "Passwort zurücksetzen"
+        },
+        "button": {
+            "signIn": "Anmelden",
+            "requestLink": "Link anfordern",
+            "continueWithGoogle": "weiter mit Google",
+            "continueWithFacebook": "weiter mit Facebook",
+            "agree": "Einverstanden",
+            "cancel": "Abbrechen",
+            "back": "Zurück",
+            "registerNow": "Jetzt Registrieren!",
+            "forgotPassword": "Passwort vergessen?"
+        },
+        "form": {
+            "email": "E-Mail",
+            "password": "Passwort",
+            "stayLoggedIn": "Angemeldet bleiben"
+        },
+        "message": {
+            "loginInProgress": "Die Anmeldung / Registrierung wird in einem neuen Fenster fortgesetzt.",
+            "googlePrivacy": "Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer Datenschutzerklärung.",
+            "facebookPrivacy": "Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer Datenschutzerklärung.",
+            "resetPasswordInfo": "Gib hier die E-Mail-Adresse an, mit der du dich registriert hast. Wir schicken dir einen Link, mit dem du dir ein neues Passwort setzen kannst.",
+            "or": "oder",
+            "notRegistered": "Noch kein Benutzer?",
+            "rememberedPassword": "Passwort wieder eingefallen?",
+            "clickToLogin": "Klicke hier um Dich anzumelden."
+        }
+    },
+    "levelPopUp": {
+        "buttons": {
+            "register": "Registrieren",
+            "continueLearning": "Weiterlernen"
+        },
+        "header": {
+            "progress": "Fortschritt:",
+            "currentLevel": "Du bist jetzt Level",
+            "congratulation": "Super! Du wirst immer schlauer."
+        },
+        "body": {
+            "nextLevel": "Das nächste Level erreichst du bei {points} Punkten.",
+            "registerKeepProgress": "Wenn du dich jetzt registrierst, behältst du deine Punkte und dein erreichtes Level.",
+            "registerCta": "{register} dich jetzt und werde immer schlauer mit memoWikis!"
+        }
+    },
+    "banner": {
+        "info": {
+            "subText": "Alles an einem Ort",
+            "mainText": "Wiki und Lernwerkzeuge vereint!",
+            "toDocumentation": "Zur Dokumentation"
+        }
+    },
+    "errorContent": {
+        "route": {
+            "notFound": "Diese Seite wurde nicht gefunden."
+        },
+        "backToHome": "Zurück zur Startseite",
+        "emailContact": "Oder schicke eine E-Mail an {email}.",
+        "notifications": {
+            "emailSent": "Wir wurden per E-Mail informiert.",
+            "urgentContact": "Bei dringenden Fragen kannst du Robert unter 0178-1866848 erreichen.",
+            "emailOption": "Oder schicke eine E-Mail an {email}."
+        }
+    },
+    "image": {
+        "license": {
+            "info": "Lizenzinfos"
+        },
+        "upload": {
+            "header": "Seitenbild hochladen",
+            "buttons": {
+                "loadPreview": "Vorschau laden",
+                "useImage": "Bild übernehmen",
+                "chooseFile": "Datei auswählen"
+            },
+            "warnings": {
+                "attention": "Achtung: Bildrechte sind ein sensibles Thema. Bitte lade nur Bilder hoch, die gemeinfrei sind, die unter einer entsprechenden Lizenz stehen oder die du selbst erstellt hast.",
+                "allowedFormats": "Nur folgende Formate sind erlaubt: {formats}"
+            },
+            "options": {
+                "wikimedia": "Bilder von Wikimedia verwenden.",
+                "custom": "Eigene Bilder"
+            },
+            "wikimedia": {
+                "info": "Bei Wikipedia/ Wikimedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. Auf Wikimedia-Commons kannst du gezielt nach Inhalten suchen.",
+                "tip": "Tipp: Wenn du bei Wikipedia oder Wikimedia-Commons auf das gewünschte Bild klickst, kommst du zur Detailansicht. (Bei manchen Karten musst du auf das \"i\"-Logo in der rechten unteren Ecke klicken.) Kopiere einfach die Url dieser Seite.",
+                "urlLabel": "Wikimedia-URL",
+                "urlTooltip": "Hier kann für Bilder von Wikipedia/ Wikimedia wahlweise die Url der Detailseite, die Url der Bildanzeige im Media Viewer, die Url der Bilddatei oder der Dateiname (inkl. Dateiendung) angegeben werden."
+            },
+            "dropzone": {
+                "title": "Bild Hochladen",
+                "dragHere": "Zieh ein Bild hierher",
+                "or": "oder.."
+            },
+            "preview": "Bildvorschau:",
+            "license": {
+                "title": "Urheberrechtsinformation:",
+                "info": "Wir benötigen Urheberrechtsinformationen für dieses Bild, damit wir sicherstellen können, dass Inhalte auf memoWikis frei weiterverwendet werden können. memoWikis folgt dem Wikipedia Prinzip.",
+                "isOwnWork": "Dieses Bild ist meine eigene Arbeit.",
+                "notOwnWork": "Dieses Bild ist nicht meine eigene Arbeit.",
+                "declaration": "Ich, {name}, der Rechteinhaber dieses Werks gewähre unwiderruflich jedem das Recht, es gemäß der \"Creative Commons\"-Lizenz „Namensnennung 4.0 International\" (CC BY 4.0) {licenseLink} zu nutzen.",
+                "licenseText": "(Text der Lizenz)",
+                "namePlaceholder": "Name",
+                "useWikimedia": "Wir bitten dich das Bild auf Wikimedia hochzuladen und so einzubinden."
+            }
+        }
     }
 }

@@ -64,6 +64,37 @@ const getCountryCode = (language: string) => {
                     <div class="content-languages-container">
                         <CircleFlags v-for="language in props.user.contentLanguages" :country="getCountryCode(language)" class="country-flag" />
                     </div>
+
+                    <div class="user-body-card">
+                        <div class="user-body-card-title">
+                            {{ t('usersOverview.card.rank') }}
+                        </div>
+                        <div class="user-body-card-content">
+                            <div>
+                                <font-awesome-icon :icon="['fal', 'medal']" /> {{ props.user.rank }}
+                            </div>
+
+                            <div>
+                                <font-awesome-icon :icon="['fas', 'flask']" /> {{ props.user.reputationPoints }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-body-card">
+                        <div class="user-body-card-title">
+                            {{ t('usersOverview.card.createdTitle') }}
+                        </div>
+                        <div class="user-body-card-content">
+                            <div>
+                                <font-awesome-icon :icon="['fas', 'circle-question']" /> {{ props.user.createdQuestionsCount }}
+                            </div>
+                            <div>
+                                <font-awesome-icon :icon="['fas', 'file']" /> {{ props.user.createdPagesCount }}
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -129,6 +160,7 @@ const getCountryCode = (language: string) => {
 
             .user-body {
                 overflow-wrap: break-word;
+                display: flex;
 
                 .inactive {
                     color: @memo-grey-dark;
@@ -145,6 +177,27 @@ const getCountryCode = (language: string) => {
                     }
                 }
 
+                .user-body-card {
+                    padding: 1em;
+                    height: 100%;
+                    margin: 0.5em;
+                    border: solid 1px @memo-grey-light;
+                    border-radius: 4px;
+                    width: 40%;
+
+                    .user-body-card-title {
+                        font-size: 14px;
+                        color: @memo-grey-dark;
+                    }
+
+                    .user-body-card-content {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-size: 14px;
+                        color: @memo-grey-darker;
+                    }
+                }
             }
         }
     }

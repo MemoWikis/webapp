@@ -146,13 +146,12 @@ const { t } = useI18n()
             </template>
         </h1>
         <div id="PageHeaderDetails" :class="{ 'is-mobile': isMobile }">
-            <div v-if="pageStore.childPageCount > 0 && !isMobile" class="page-detail clickable" @click="scrollToChildPages()" v-tooltip="'Alle UnterSeiten'">
+            <div v-if="pageStore.childPageCount > 0 && !isMobile" class="page-detail clickable" @click="scrollToChildPages()" v-tooltip="'Alle Unterseiten'">
                 <font-awesome-icon icon="fa-solid fa-sitemap" class="page-fa-icon" />
                 <div class="page-detail-label">{{ pageStore.childPageCount }}</div>
             </div>
 
-            <div class="page-detail-spacer" v-if="showParents && pageStore.childPageCount > 0">
-            </div>
+            <div class="page-detail-spacer" v-if="showParents && pageStore.childPageCount > 0"></div>
 
             <VDropdown :aria-id="ariaId" :distance="6">
                 <button v-show="showParents" class="parent-tree-btn">
@@ -177,8 +176,7 @@ const { t } = useI18n()
                 </template>
             </VDropdown>
 
-            <div class="page-detail-spacer" v-if="pageStore.views > 0 && (pageStore.childPageCount > 1 && !isMobile || pageStore.parentPageCount > 1)">
-            </div>
+            <div class="page-detail-spacer" v-if="pageStore.views > 0 && (pageStore.childPageCount > 1 && !isMobile || pageStore.parentPageCount > 1)"></div>
 
             <div v-if="pageStore.views > 0" class="page-detail">
                 <div class="page-detail-label">
@@ -186,9 +184,7 @@ const { t } = useI18n()
                 </div>
             </div>
 
-            <div v-if="pageStore.views > 0 ||
-                (pageStore.childPageCount > 0 || pageStore.parentPageCount > 0)" class="page-detail-spacer">
-            </div>
+            <div v-if="pageStore.views > 0 || (pageStore.childPageCount > 0 || pageStore.parentPageCount > 0)" class="page-detail-spacer"></div>
 
             <template v-for="author in firstAuthors">
                 <LazyNuxtLink v-if="author.id > 0" :to="$urlHelper.getUserUrl(author.name, author.id)"

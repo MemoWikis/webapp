@@ -105,8 +105,17 @@ export default <RouterConfig>{
             component: () => import("~/pages/user/[name]/[id].vue"),
         },
         {
-            name: "userSettingsPage",
+            name: "userSettingsPageDE",
             path: "/Nutzer/:name/:id/Einstellungen",
+            component: () => import("~/pages/user/[name]/[id].vue"),
+            props: { tab: UserTab.Settings },
+            meta: {
+                key: (route) => `/${route.params.name}/${route.params.id}`,
+            },
+        },
+        {
+            name: "userSettingsPageEN",
+            path: "/User/:name/:id/Settings",
             component: () => import("~/pages/user/[name]/[id].vue"),
             props: { tab: UserTab.Settings },
             meta: {

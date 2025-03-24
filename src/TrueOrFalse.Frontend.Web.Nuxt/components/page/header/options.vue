@@ -148,7 +148,7 @@ const { t, localeProperties } = useI18n()
                         </div>
                     </template>
 
-                    <div class="dropdown-row">
+                    <div class="dropdown-row no-hover">
                         <div class="dropdown-label content-language-info">
                             {{ t('page.header.contentLanguage') }}:
                             <div>

@@ -177,11 +177,12 @@
         "hereMoreInfos": "clique ici pour plus d'infos !"
     },
     "url": {
-        "termsOfUse": "CGU",
-        "legalNotice": "Mentions légales",
-        "user": "Utilisateur",
-        "users": "Utilisateurs",
-        "prices": "Tarifs"
+        "termsOfUse": "Terms",
+        "legalNotice": "Imprint",
+        "user": "User",
+        "users": "Users",
+        "prices": "Prices",
+        "settings": "Settings"
     },
     "search": {
         "results": "{count} résultats",

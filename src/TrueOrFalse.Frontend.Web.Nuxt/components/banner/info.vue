@@ -3,6 +3,8 @@ import { Page } from '../page/pageStore'
 import { useUserStore } from '../user/userStore'
 
 const userStore = useUserStore()
+const { t } = useI18n()
+
 interface Props {
     documentation: Page
 }
@@ -54,16 +56,16 @@ watch(showBanner, (val) => {
                     <div class="row fullWidth">
                         <div class="col-xs-12">
                             <div class="sub-text">
-                                Alles an einem Ort
+                                {{ t('banner.info.subText') }}
                             </div>
-                            <div class="main-text">Wiki und Lernwerkzeuge vereint!</div>
+                            <div class="main-text">{{ t('banner.info.mainText') }}</div>
                         </div>
                     </div>
                 </div>
                 <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memoWikis-info-partial">
                     <NuxtLink class="memo-button btn btn-primary"
                         :to="$urlHelper.getPageUrl(props.documentation.name, props.documentation.id)">
-                        Zur Dokumentation
+                        {{ t('banner.info.toDocumentation') }}
                     </NuxtLink>
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
                         class="hidden-xs close-banner" />
@@ -85,7 +87,6 @@ watch(showBanner, (val) => {
 }
 
 #BannerRedirectBtn {
-
     .close-banner {
         margin-left: 34px;
     }
