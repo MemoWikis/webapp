@@ -60,7 +60,8 @@ public class PageDataManager(
                     _httpContextAccessor,
                     _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Page).Url,
-            Visibility = (int)page.Visibility
+            Visibility = (int)page.Visibility,
+            LanguageCode = page.Language
         };
 
         return miniPageItem;
