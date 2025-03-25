@@ -21,7 +21,7 @@ const { t } = useI18n()
                         v-html="handleNewLine(imageLicenseStore.attributionHtmlString)">
                     </div>
                     <p class="description" v-if="imageLicenseStore.description.length > 0">
-                        <span class="InfoLabel">{{ t('image.license.modal.description') }}</span>
+                        <span class="InfoLabel">{{ t('image.modal.description') }}</span>
                         {{ imageLicenseStore.description }}
                     </p>
                 </div>
