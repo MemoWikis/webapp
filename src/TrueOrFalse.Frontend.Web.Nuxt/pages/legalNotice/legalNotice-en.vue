@@ -49,7 +49,7 @@ useHead(() => ({
 				<h2>1. Legal Notice</h2>
 
 				<h3>Information pursuant to § 5 TMG:</h3>
-				memoWikis GmbH<br />
+				memucho GmbH<br />
 				Am Moorhof <br />
 				Nettgendorfer Str. 7 <br />
 				14947 Nuthe-Urstromtal<br />
