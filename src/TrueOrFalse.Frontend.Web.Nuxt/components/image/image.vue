@@ -109,10 +109,11 @@ const getCustomStyle = computed(() => {
 	.license-btn {
 		cursor: pointer;
 		color: @memo-grey-dark;
-		line-height: 18px;
+		line-height: 12px;
 		font-size: 10px;
 		text-align: center;
 		z-index: 2;
+		user-select: none;
 
 		&:hover {
 			color: @memo-blue-lighter;
