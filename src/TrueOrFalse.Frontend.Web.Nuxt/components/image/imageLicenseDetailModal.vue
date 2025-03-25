@@ -10,7 +10,7 @@ const { t } = useI18n()
         @keydown.esc="imageLicenseStore.show = false">
         <template v-slot:header>
             <h2>
-                {{ t('image.license.modal.title') }}
+                {{ t('image.modal.title') }}
             </h2>
         </template>
         <template v-slot:body>
