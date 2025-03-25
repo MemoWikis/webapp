@@ -36,9 +36,6 @@ const emit = defineEmits(['set-wuwi-state'])
 onMounted(() => {
     pinStore.$onAction(({ after }) => {
         after((result: FetchResult<PinData>) => {
-            // const alertStore = useAlertStore()
-            // alertStore.openAlert(AlertType.Success, { text: "Success" })
-            // alertStore.openAlert(AlertType.Error, { text: "Error" })
             if (result.data?.id != props.questionId) return
             if (result.success) {
                 pinState.value = result.data?.state
@@ -84,19 +81,17 @@ function unpin() {
 
 <template>
     <div>
-
-        <span v-if="pinState === PinState.Added" @click="unpin()" v-tooltip="'Aus deinem Wunschwissen entfernen'">
+        <span v-if="pinState === PinState.Added" @click="unpin()" v-tooltip="t('pin.tooltips.removeFromWishknowledge')">
             <font-awesome-icon icon="fa-solid fa-heart" class="pin-icon" />
         </span>
         <span v-else-if="pinState === PinState.Loading">
             <font-awesome-icon icon="fa-solid fa-spinner fa-spin" class="pin-icon" />
         </span>
-        <span v-else v-tooltip="'Zu deinem Wunschwissen hinzuzufügen'" @click="pin()">
+        <span v-else v-tooltip="t('pin.tooltips.addToWishknowledge')" @click="pin()">
             <font-awesome-icon icon="fa-regular fa-heart" class="pin-icon" />
-            <span v-if="showLabel" class="pin-label">Hinzufügen</span>
+            <span v-if="showLabel" class="pin-label">{{ t('pin.labels.add') }}</span>
         </span>
     </div>
-
 </template>
 
 <style lang="less" scoped>

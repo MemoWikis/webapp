@@ -18,7 +18,8 @@ const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
 const commentsStore = useCommentsStore()
 const deleteQuestionStore = useDeleteQuestionStore()
-
+const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 interface Props {
     id: number,
     landingPage?: boolean
@@ -30,7 +31,7 @@ await commentsStore.loadFirst(props.id)
 
 const visibility = ref<Visibility>(Visibility.All)
 const personalProbability = ref(0)
-const personalProbabilityText = ref('Nicht im Wunschwissen')
+const personalProbabilityText = ref(t('questionLandingPage.probability.status.notInWishknowledge'))
 const personalColor = ref(color.memoGreyLight)
 const avgProbability = ref(0)
 const personalAnswerCount = ref(0)
@@ -880,27 +881,27 @@ const backgroundColor = ref('')
 const currentKnowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
 const correctnessProbabilityLabel = ref('Nicht gelernt')
 
-function setKnowledgebarData() {
+// function setKnowledgebarData() {
 
-    switch (currentKnowledgeStatus.value) {
-        case KnowledgeStatus.Solid:
-            backgroundColor.value = "solid"
-            correctnessProbabilityLabel.value = "Sicheres Wissen"
-            break
-        case KnowledgeStatus.NeedsConsolidation:
-            backgroundColor.value = "needsConsolidation"
-            correctnessProbabilityLabel.value = "Zu festigen"
-            break
-        case KnowledgeStatus.NeedsLearning:
-            backgroundColor.value = "needsLearning"
-            correctnessProbabilityLabel.value = "Zu lernen"
-            break
-        default:
-            backgroundColor.value = "notLearned"
-            correctnessProbabilityLabel.value = "Nicht gelernt"
-            break
-    }
-}
+//     switch (currentKnowledgeStatus.value) {
+//         case KnowledgeStatus.Solid:
+//             backgroundColor.value = "solid"
+//             correctnessProbabilityLabel.value = "Sicheres Wissen"
+//             break
+//         case KnowledgeStatus.NeedsConsolidation:
+//             backgroundColor.value = "needsConsolidation"
+//             correctnessProbabilityLabel.value = "Zu festigen"
+//             break
+//         case KnowledgeStatus.NeedsLearning:
+//             backgroundColor.value = "needsLearning"
+//             correctnessProbabilityLabel.value = "Zu lernen"
+//             break
+//         default:
+//             backgroundColor.value = "notLearned"
+//             correctnessProbabilityLabel.value = "Nicht gelernt"
+//             break
+//     }
+// }
 
 const showExtendedDetails = ref(false)
 watch(showExtendedDetails, () => {
@@ -910,8 +911,7 @@ watch(showExtendedDetails, () => {
 
 const activityPointsStore = useActivityPointsStore()
 
-const { $urlHelper } = useNuxtApp()
-const { t } = useI18n()
+
 </script>
 
 <template>

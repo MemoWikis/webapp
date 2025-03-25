@@ -1024,6 +1024,23 @@
                 "change": "Change",
                 "notPublic": "Not public",
                 "userNotPublished": "{name} has not published her / his Wish-Knowledge."
+            },
+            "questions": {
+                "title": "Questions in Wunschwissen ({count})",
+                "search": "Search",
+                "noResults": "Hmm..., unfortunately there is no question with \"{term}\""
+            },
+            "pages": {
+                "title": "Pages with Wunschwissen ({count})",
+                "search": "Search",
+                "noResults": "Oops! We couldn't find a page \"{term}\".",
+                "withQuestions": "with {count} questions"
+            },
+            "pagination": {
+                "previous": "Previous",
+                "next": "Next",
+                "first": "First",
+                "last": "Last"
             }
         },
         "tabs": {
@@ -1278,6 +1295,15 @@
         "aria": {
             "rootPageButton": "Go to homepage",
             "pageLink": "Go to {pageName}"
+        }
+    },
+    "pin": {
+        "tooltips": {
+            "removeFromWishknowledge": "Remove from your Wunschwissen",
+            "addToWishknowledge": "Add to your Wunschwissen"
+        },
+        "labels": {
+            "add": "Add"
         }
     }
 }

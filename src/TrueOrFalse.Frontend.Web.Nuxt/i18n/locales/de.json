@@ -1024,6 +1024,23 @@
                 "change": "Ändern",
                 "notPublic": "Nicht öffentlich",
                 "userNotPublished": "{name} hat ihr / sein Wunschwissen nicht veröffentlicht."
+            },
+            "questions": {
+                "title": "Fragen im Wunschwissen ({count})",
+                "search": "Suche",
+                "noResults": "Hmmm..., leider gibt es keine Frage mit \"{term}\""
+            },
+            "pages": {
+                "title": "Seiten mit Wunschwissen ({count})",
+                "search": "Suche",
+                "noResults": "Huch! Wir haben keine Seite \"{term}\" gefunden.",
+                "withQuestions": "mit {count} Fragen"
+            },
+            "pagination": {
+                "previous": "Vorherige",
+                "next": "Nächste",
+                "first": "Erste",
+                "last": "Letzte"
             }
         },
         "tabs": {
@@ -1280,6 +1297,15 @@
         "aria": {
             "rootPageButton": "Zur Startseite",
             "pageLink": "Gehe zu {pageName}"
+        }
+    },
+    "pin": {
+        "tooltips": {
+            "removeFromWishknowledge": "Aus deinem Wunschwissen entfernen",
+            "addToWishknowledge": "Zu deinem Wunschwissen hinzufügen"
+        },
+        "labels": {
+            "add": "Hinzufügen"
         }
     }
 }

@@ -1014,6 +1014,23 @@
                 "change": "Cambiar",
                 "notPublic": "No público",
                 "userNotPublished": "{name} no ha publicado su Wishknowledge."
+            },
+            "questions": {
+                "title": "Preguntas en Wunschwissen ({count})",
+                "search": "Buscar",
+                "noResults": "Hmm..., desafortunadamente no hay ninguna pregunta con \"{term}\""
+            },
+            "pages": {
+                "title": "Páginas con Wunschwissen ({count})",
+                "search": "Buscar",
+                "noResults": "¡Vaya! No encontramos una página \"{term}\".",
+                "withQuestions": "con {count} preguntas"
+            },
+            "pagination": {
+                "previous": "Anterior",
+                "next": "Siguiente",
+                "first": "Primera",
+                "last": "Última"
             }
         },
         "tabs": {
@@ -1267,6 +1284,15 @@
         "aria": {
             "rootPageButton": "Ir a la página de inicio",
             "pageLink": "Ir a {pageName}"
+        }
+    },
+    "pin": {
+        "tooltips": {
+            "removeFromWishknowledge": "Eliminar de tu Wunschwissen",
+            "addToWishknowledge": "Agregar a tu Wunschwissen"
+        },
+        "labels": {
+            "add": "Agregar"
         }
     }
 }
