@@ -193,12 +193,14 @@
     "search": {
         "results": "{count} Treffer",
         "pages": "Seiten",
+        "pagesInOtherLanguages": "Seiten in anderen Sprachen",
         "questions": "Fragen",
-        "countedQuestions": "@:label.questionCount",
-        "users": "Nutzer",
-        "showUserResults": "zeige {count} Treffer",
+        "users": "Benutzer",
+        "resultsInCurrentLanguage": "({count})",
+        "countedQuestions": "{count} Fragen",
+        "showUserResults": "Alle anzeigen ({count})",
         "noResults": "Keine Ergebnisse gefunden",
-        "inYourLanguage": "in deiner Sprache."
+        "inYourLanguage": "in deiner Sprache"
     },
     "sideSheet": {
         "myWikis": "Meine Wikis",
@@ -676,6 +678,14 @@
         "notLearned": "Noch nicht gelernt",
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
     },
+    "questionFilterOptions": {
+        "inWuwi": "Im Wunschwissen",
+        "notInWuwi": "Nicht im Wunschwissen",
+        "createdByCurrentUser": "Von mir erstellt",
+        "notCreatedByCurrentUser": "Nicht von mir erstellt",
+        "private": "Private Fragen",
+        "public": "Öffentliche Fragen"
+    },
     "answerbody": {
         "feedbackCorrectPopUp": "Richtig!",
         "feedbackWrongPopUp": "Leider falsch",
@@ -1086,14 +1096,16 @@
                 }
             }
         },
-        "row": {
-            "markAsRead": "als gelesen markieren",
-            "markAsUnread": "als ungelesen markieren",
-            "tooltip": {
-                "isRead": "Die Nachricht ist gelesen",
-                "isUnread": "Die Nachricht ist ungelesen"
-            },
-            "ago": "vor"
+        "messages": {
+            "row": {
+                "markAsRead": "als gelesen markieren",
+                "markAsUnread": "als ungelesen markieren",
+                "tooltip": {
+                    "isRead": "Die Nachricht ist gelesen",
+                    "isUnread": "Die Nachricht ist ungelesen"
+                },
+                "ago": "vor"
+            }
         }
     },
     "usersOverview": {
@@ -1126,7 +1138,8 @@
             "privateWishknowledge": "{name}s Wunschwissen ist privat",
             "toWiki": "Zu {name}s Wiki",
             "rank": "Rang",
-            "createdTitle": "Erstellt"
+            "createdTitle": "Erstellt",
+            "languages": "Sprachen"
         },
         "tabs": {
             "allUsers": "Alle Nutzer"

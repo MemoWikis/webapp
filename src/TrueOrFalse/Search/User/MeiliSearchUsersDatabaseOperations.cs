@@ -69,7 +69,10 @@ namespace TrueOrFalse.Search
                 Rank = user.ActivityLevel,
                 WishCountQuestions = user.WishCountQuestions,
             };
-            if (LanguageExtensions.CodeExists(user.UiLanguage))
+            var userCacheItem = EntityCache.GetUserByIdNullable(user.Id);
+            if (userCacheItem != null)
+                userMap.ContentLanguages = userCacheItem.ContentLanguages.Select(l => l.GetCode()).ToList();
+            else if (LanguageExtensions.CodeExists(user.UiLanguage))
                 userMap.ContentLanguages = [user.UiLanguage];
 
             return userMap;

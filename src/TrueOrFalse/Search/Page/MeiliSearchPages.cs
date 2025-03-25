@@ -1,88 +1,93 @@
 ﻿using Meilisearch;
 
-namespace TrueOrFalse.Search
+namespace TrueOrFalse.Search;
+
+public class MeiliSearchPages : MeiliSearchHelper, IRegisterAsInstancePerLifetime
 {
-    public class MeiliSearchPages : MeiliSearchHelper, IRegisterAsInstancePerLifetime
+    private List<PageCacheItem> _pages = new();
+    private MeiliSearchPagesResult _result;
+    private readonly PermissionCheck _permissionCheck;
+    private int _size;
+
+    public MeiliSearchPages(PermissionCheck permissionCheck, int size = 5)
     {
-        private List<PageCacheItem> _pages = new();
-        private MeiliSearchPagesResult _result;
-        private readonly PermissionCheck _permissionCheck;
-        private int _size;
+        _permissionCheck = permissionCheck;
+        _size = size;
+    }
 
-        /// <summary>
-        /// Construktor with optional Parameter size = 5
-        /// </summary>
-        /// <param name="permissionCheck"></param>
-        /// <param name="size"></param>
-        public MeiliSearchPages(PermissionCheck permissionCheck, int size = 5)
+    public async Task<ISearchPagesResult> RunAsync(string searchTerm, List<Language>? languages = null)
+    {
+        var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
+        var index = client.Index(MeiliSearchConstants.Pages);
+        _result = new MeiliSearchPagesResult();
+
+        _result.PageIds.AddRange(
+            await LoadSearchResults(searchTerm, index, languages)
+        );
+
+        return _result;
+    }
+
+    private async Task<List<int>> LoadSearchResults(
+        string searchTerm,
+        Meilisearch.Index index,
+        List<Language>? languages = null
+    )
+    {
+        var boostedMaps = new List<MeiliSearchPageMap>();
+        if (languages != null && languages.Any())
         {
-            _permissionCheck = permissionCheck;
-            _size = size;
-        }
+            var clauses = languages
+                .Select(lang => lang.GetCode())
+                .Select(code => $"Language = \"{code}\"")
+                .ToList();
 
-        /// <summary>
-        /// Get Pages From MeiliSearch Async
-        /// </summary>
-        /// <param name="searchTerm"></param>
-        /// <returns></returns>
-        public async Task<ISearchPagesResult> RunAsync(string searchTerm, List<Language>? languages = null)
-        {
-            var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
-            var index = client.Index(MeiliSearchConstants.Pages);
-            _result = new MeiliSearchPagesResult();
-
-            _result.PageIds
-                .AddRange(await LoadSearchResults(searchTerm, index)
-                .ConfigureAwait(false));
-
-            return _result;
-        }
-
-        private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index, List<Language>? languages = null)
-        {
-            var sq = new SearchQuery { Limit = _count };
-            if (languages != null && languages.Any())
+            var sqBoosted = new SearchQuery
             {
-                var clauses = languages
-                    .Select(lang => lang.GetCode())
-                    .Select(code => $"Language = \"{code}\"")
-                    .ToList();
-
-                sq.Filter = string.Join(" OR ", clauses);
-            }
-
-            var maps = (await index.SearchAsync<MeiliSearchPageMap>(searchTerm, sq)).Hits;
-
-            _result.Count = maps.Count;
-
-            var mapsSkip = maps
-                .Skip(_count - 20)
-                .ToList();
-
-            FilterCacheItems(mapsSkip);
-
-            if (IsReloadRequired(maps.Count, _pages.Count()))
-            {
-                _count += 20;
-                await LoadSearchResults(searchTerm, index, languages);
-            }
-
-            return _pages
-                .Select(c => c.Id)
-                .Take(_size)
-                .ToList();
+                Q = searchTerm,
+                Limit = _count,
+                Filter = string.Join(" OR ", clauses)
+            };
+            var resBoosted = await index.SearchAsync<MeiliSearchPageMap>(searchTerm, sqBoosted);
+            boostedMaps = resBoosted.Hits.ToList();
         }
 
-        private void FilterCacheItems(List<MeiliSearchPageMap> pageMaps)
+        var sqAll = new SearchQuery
         {
-            var pagesTemp = EntityCache.GetPages(
-                    pageMaps.Select(c => c.Id))
-                .Where(_permissionCheck.CanView)
-                .ToList();
-            _pages.AddRange(pagesTemp);
-            _pages = _pages
-                .Distinct()
-                .ToList();
+            Q = searchTerm,
+            Limit = _count
+        };
+        var resAll = await index.SearchAsync<MeiliSearchPageMap>(searchTerm, sqAll);
+        var allMaps = resAll.Hits.ToList();
+
+        var remainder = allMaps.Where(a => boostedMaps.All(b => b.Id != a.Id));
+        var merged = boostedMaps.Concat(remainder).ToList();
+
+        _result.Count = merged.Count;
+
+        FilterCacheItems(merged);
+
+        if (IsReloadRequired(merged.Count, _pages.Count()))
+        {
+            _count += 20;
+            await LoadSearchResults(searchTerm, index, languages);
         }
+
+        return _pages
+            .Select(c => c.Id)
+            .Take(_size)
+            .ToList();
+    }
+
+    private void FilterCacheItems(List<MeiliSearchPageMap> pageMaps)
+    {
+        var pagesTemp = EntityCache
+            .GetPages(pageMaps.Select(c => c.Id))
+            .Where(_permissionCheck.CanView)
+            .ToList();
+
+        _pages.AddRange(pagesTemp);
+        _pages = _pages.Distinct().ToList();
     }
 }
+

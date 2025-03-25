@@ -55,7 +55,10 @@ public static class LanguageExtensions
         var pageLanguage = GetLanguage(code);
 
         if (pageLanguage != null && user.ContentLanguages.All(language => language != pageLanguage))
+        {
             user.ContentLanguages.Add((Language)pageLanguage);
+            EntityCache.AddOrUpdate(user);
+        }
         else
             Logg.r.Error($"Could not set content language {code} on author {user.Id}");
     }

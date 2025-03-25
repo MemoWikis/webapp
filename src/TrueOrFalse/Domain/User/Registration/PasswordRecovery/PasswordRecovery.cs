@@ -14,7 +14,7 @@ public class PasswordRecovery(
         try
         {
             var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
-            var passwordResetUrl = Settings.BaseUrl + "/NeuesPasswort/" + token;
+            var passwordResetUrl = Settings.BaseUrl + "/NewPassword/" + token;
 
             _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
             SendEmail.Run(GetMailMessage(email, passwordResetUrl), _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);

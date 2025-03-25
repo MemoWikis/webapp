@@ -18,7 +18,6 @@ namespace TrueOrFalse.Search
                 MeiliSearchConstants.MasterKey);
         }
 
-
         public async Task Run()
         {
             var taskId = (await _client.DeleteIndexAsync(MeiliSearchConstants.Questions)).TaskUid;
@@ -40,6 +39,32 @@ namespace TrueOrFalse.Search
             }
 
             var index = _client.Index(MeiliSearchConstants.Questions);
+            await index.UpdateFilterableAttributesAsync(new[] { "Language" });
+            await index.AddDocumentsAsync(meiliSearchQuestions);
+        }
+
+        public async Task RunCache()
+        {
+            var taskId = (await _client.DeleteIndexAsync(MeiliSearchConstants.Questions)).TaskUid;
+            await _client.WaitForTaskAsync(taskId);
+
+            var allQuestions = EntityCache.GetAllQuestions();
+            var allValuations = _questionValuationReadingRepo.GetAll();
+            var meiliSearchQuestions = new List<MeiliSearchQuestionMap>();
+
+            foreach (var question in allQuestions)
+            {
+                var id = question.Id;
+                var questionValuations = allValuations
+                    .Where(qv => qv.Question.Id == question.Id && qv.User != null)
+                    .Select(qv => qv.ToCacheItem())
+                    .ToList();
+                meiliSearchQuestions.Add(
+                    MeiliSearchToQuestionMap.Run(question, questionValuations));
+            }
+
+            var index = _client.Index(MeiliSearchConstants.Questions);
+            await index.UpdateFilterableAttributesAsync(new[] { "Language" });
             await index.AddDocumentsAsync(meiliSearchQuestions);
         }
     }

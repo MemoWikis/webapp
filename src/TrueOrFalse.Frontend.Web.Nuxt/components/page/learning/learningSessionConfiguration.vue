@@ -110,7 +110,7 @@ const { t } = useI18n()
                         <font-awesome-icon class="dropdown-filter-icon" :icon="q.icon" />
 
                         <div class="selectable-item dropdown-item-label" :class="{ 'item-disabled': !userStore.isLoggedIn }">
-                            {{ q.label }} ({{ q.count }})
+                            {{ t(q.label) }} ({{ q.count }})
                         </div>
                     </div>
 
@@ -151,7 +151,7 @@ const { t } = useI18n()
                         <template v-for="s in learningSessionConfigurationStore.knowledgeSummary">
                             <div v-if="s.isSelected" class="knowledge-summary-chip" :class="s.colorClass">
                                 <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount === 1">
-                                    {{ s.label }}
+                                    {{ t(s.label) }}
                                 </template>
                             </div>
                         </template>
@@ -174,7 +174,7 @@ const { t } = useI18n()
                         <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active" v-if="k.isSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
                         <div :class="k.colorClass" class="knowledge-summary-chip">
-                            {{ k.label }} ({{ k.count }})
+                            {{ t(k.label) }} ({{ k.count }})
                         </div>
                     </div>
 

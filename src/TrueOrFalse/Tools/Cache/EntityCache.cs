@@ -287,6 +287,7 @@ public class EntityCache
     public static void AddOrUpdate(UserCacheItem user)
     {
         user.CleanupWikiIdsAndFavoriteIds();
+        user.PreserveContentLanguages();
         AddOrUpdate(Users, user);
     }
 

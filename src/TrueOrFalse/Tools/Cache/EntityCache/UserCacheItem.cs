@@ -168,4 +168,11 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         WikiIds = WikiIds.Where(id => EntityCache.GetPage(id) != null).ToList();
         FavoriteIds = FavoriteIds.Where(id => EntityCache.GetPage(id) != null).ToList();
     }
+
+    public void PreserveContentLanguages()
+    {
+        var userCacheItem = EntityCache.GetUserByIdNullable(Id);
+        if (userCacheItem != null)
+            ContentLanguages = userCacheItem.ContentLanguages;
+    }
 }

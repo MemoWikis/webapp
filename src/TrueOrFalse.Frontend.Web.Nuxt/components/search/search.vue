@@ -174,6 +174,22 @@ watch(() => props.showSearch, (val) => {
 })
 const ariaId = useId()
 
+const pagesInCurrentLanguage = computed(() => {
+    return pages.value.filter(p => p.languageCode === locale.value)
+})
+
+const pagesInOtherLanguages = computed(() => {
+    return pages.value.filter(p => p.languageCode !== locale.value)
+})
+
+const questionsInCurrentLanguage = computed(() => {
+    return questions.value.filter(q => q.languageCode === locale.value)
+})
+
+const questionsInOtherLanguages = computed(() => {
+    return questions.value.filter(q => q.languageCode !== locale.value)
+})
+
 </script>
 
 <template>
@@ -195,31 +211,59 @@ const ariaId = useId()
                 :placement="props.placement">
                 <template #popper>
                     <div class="searchDropdown">
-                        <div v-if="pages.length > 0" class="searchBanner">
+                        <div v-if="pagesInCurrentLanguage.length > 0" class="searchBanner">
                             <div>{{ t('search.pages') }} </div>
-                            <div>{{ t('search.results', pageCount) }}</div>
+                            <div>{{ t('search.resultsInCurrentLanguage', { count: pagesInCurrentLanguage.length }) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="p in pages" @click="selectItem(p)" v-tooltip="p.name">
+                        <div class="searchResultItem" v-for="p in pagesInCurrentLanguage" @click="selectItem(p)" v-tooltip="p.name">
                             <Image :src="p.imageUrl" :format="ImageFormat.Page" />
                             <div class="searchResultLabelContainer">
                                 <div class="searchResultLabel body-m">{{ p.name }}</div>
                                 <div class="searchResultSubLabel body-s">{{ t('search.countedQuestions', p.questionCount) }}</div>
                             </div>
                         </div>
-                        <div v-if="pages.length != pageCount">
-                            {{ pages.length }} {{ t('search.inYourLanguage') }}
+
+                        <div v-if="pagesInOtherLanguages.length > 0" class="searchBanner subBanner">
+                            <div>{{ t('search.pagesInOtherLanguages') }} </div>
+                            <div>{{ t('search.results', { count: pagesInOtherLanguages.length }) }}</div>
                         </div>
-                        <div v-if="questions.length > 0" class="searchBanner">
+                        <div class="searchResultItem" v-for="p in pagesInOtherLanguages" @click="selectItem(p)" v-tooltip="p.name">
+                            <Image :src="p.imageUrl" :format="ImageFormat.Page" />
+                            <div class="searchResultLabelContainer">
+                                <div class="searchResultLabel body-m">{{ p.name }}</div>
+                                <div class="searchResultSubLabel body-s">
+                                    <span class="language-tag">{{ p.languageCode }}</span>
+                                    {{ t('search.countedQuestions', p.questionCount) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="questionsInCurrentLanguage.length > 0" class="searchBanner">
                             <div>{{ t('search.questions') }} </div>
-                            <div>{{ t('search.results', questionCount) }}</div>
+                            <div>{{ t('search.resultsInCurrentLanguage', { count: questionsInCurrentLanguage.length }) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.name">
+                        <div class="searchResultItem" v-for="q in questionsInCurrentLanguage" @click="selectItem(q)" v-tooltip="q.name">
                             <Image :src="q.imageUrl" />
                             <div class="searchResultLabelContainer">
                                 <div class="searchResultLabel body-m">{{ q.name }}</div>
                                 <div class="searchResultSubLabel body-s"></div>
                             </div>
                         </div>
+
+                        <div v-if="questionsInOtherLanguages.length > 0" class="searchBanner">
+                            <div>{{ t('search.questionsInOtherLanguages') }} </div>
+                            <div>{{ t('search.results', { count: questionsInOtherLanguages.length }) }}</div>
+                        </div>
+                        <div class="searchResultItem" v-for="q in questionsInOtherLanguages" @click="selectItem(q)" v-tooltip="q.name">
+                            <Image :src="q.imageUrl" />
+                            <div class="searchResultLabelContainer">
+                                <div class="searchResultLabel body-m">{{ q.name }}</div>
+                                <div class="searchResultSubLabel body-s">
+                                    <span class="language-tag">{{ q.languageCode }}</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div v-if="users.length > 0" class="searchBanner">
                             <div>{{ t('search.users') }}</div>
                             <div class="link" @click="openUsers()">{{ t('search.showUserResults', userCount) }}</div>
@@ -323,6 +367,11 @@ const ariaId = useId()
             }
         }
     }
+
+    &.subBanner {
+        background: @memo-grey-lighter;
+        color: @memo-grey-darker;
+    }
 }
 
 .searchInputContainer {
@@ -419,5 +468,16 @@ input,
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.language-tag {
+    background-color: @memo-blue-link;
+    color: white;
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    text-transform: uppercase;
+    font-style: normal;
 }
 </style>

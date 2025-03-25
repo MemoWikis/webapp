@@ -150,12 +150,41 @@ public class VueMaintenanceController(
         };
     }
 
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> MeiliReIndexAllQuestionsCache()
+    {
+        await _meiliSearchReIndexAllQuestions.RunCache();
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Fragen wurden neu indiziert."
+        };
+    }
+
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllPages()
     {
         await meiliSearchReIndexPages.Run();
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Themen wurden neu indiziert."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> MeiliReIndexAllPagesCache()
+    {
+        await meiliSearchReIndexPages.RunCache();
 
         return new VueMaintenanceResult
         {

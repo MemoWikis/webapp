@@ -17,28 +17,28 @@ export default <RouterConfig>{
             },
         },
         {
-            name: "termsDePage",
+            name: "termsDEPage",
             path: "/AGB",
             component: () => import("~/pages/terms/terms-de.vue"),
         },
         {
-            name: "termsEnPage",
+            name: "termsENPage",
             path: "/TermsOfUse",
             component: () => import("~/pages/terms/terms-en.vue"),
         },
         {
-            name: "userSettingsSubscription",
+            name: "userSettingsSubscriptionDE",
             path: "/Nutzer/Einstellungen/Subscription",
             component: () => import("~/pages/user/[name]/[id].vue"),
             props: { isSettingsPage: true, activeContentProp: "Subscription" },
         },
         {
-            name: "legalNoticeDePage",
+            name: "legalNoticeDEPage",
             path: "/Impressum",
             component: () => import("~/pages/legalNotice/legalNotice-de.vue"),
         },
         {
-            name: "legalNoticeEnPage",
+            name: "legalNoticeENPage",
             path: "/LegalNotice",
             component: () => import("~/pages/legalNotice/legalNotice-en.vue"),
         },
@@ -69,12 +69,12 @@ export default <RouterConfig>{
         },
         {
             name: "resetPasswordPage",
-            path: "/NeuesPasswort/:token",
+            path: "/NewPassword/:token",
             component: () => import("~/pages/user/resetPassword.vue"),
         },
         {
             name: "confirmEmailPage",
-            path: "/EmailBestaetigen/:token",
+            path: "/ConfirmMail/:token",
             component: () => import("~/pages/user/confirmEmail.vue"),
         },
         {
@@ -100,8 +100,13 @@ export default <RouterConfig>{
             props: { tab: UsersTab.AllUsers },
         },
         {
-            name: "userPage",
+            name: "userPageDE",
             path: "/Nutzer/:name/:id(\\d+)",
+            component: () => import("~/pages/user/[name]/[id].vue"),
+        },
+        {
+            name: "userPageEN",
+            path: "/User/:name/:id(\\d+)",
             component: () => import("~/pages/user/[name]/[id].vue"),
         },
         {
@@ -132,7 +137,7 @@ export default <RouterConfig>{
             },
         },
         {
-            name: "directUserSettingsPage",
+            name: "directUserSettingsPageDE",
             path: "/Nutzer/Einstellungen",
             component: () => import("~/pages/user/[name]/[id].vue"),
             props: { tab: UserTab.Settings },
@@ -141,8 +146,26 @@ export default <RouterConfig>{
             },
         },
         {
-            name: "userSubscriptionPage",
+            name: "directUserSettingsPageEN",
+            path: "/User/Settings",
+            component: () => import("~/pages/user/[name]/[id].vue"),
+            props: { tab: UserTab.Settings },
+            meta: {
+                key: (route) => `/${route.params.name}/${route.params.id}`,
+            },
+        },
+        {
+            name: "userSubscriptionPageDE",
             path: "/Nutzer/Einstellungen/Mitgliedschaft",
+            component: () => import("~/pages/user/[name]/[id].vue"),
+            props: { tab: UserTab.Settings, content: Content.Membership },
+            meta: {
+                key: (route) => `/${route.params.name}/${route.params.id}`,
+            },
+        },
+        {
+            name: "userSubscriptionPageEN",
+            path: "/User/Settings/Membership",
             component: () => import("~/pages/user/[name]/[id].vue"),
             props: { tab: UserTab.Settings, content: Content.Membership },
             meta: {

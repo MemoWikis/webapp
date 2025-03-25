@@ -40,7 +40,7 @@ public class SearchHelper
         int[] pageIdsToFilter = null) => items.AddRange(
         elements.Pages
             .Where(c => permissionCheck.CanView(c) &&
-                        (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)) && LanguageExtensions.LanguageIsInList(languages, c.Language))
+                        (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)))
             .Select(c => FillSearchPageItem(c, userId))
     );
 

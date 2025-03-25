@@ -134,13 +134,13 @@ onBeforeMount(() => {
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn"
                         v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Basic">
-                        <NuxtLink to="/Nutzer/Einstellungen/Mitgliedschaft">
+                        <NuxtLink to="/User/Settings/Membership">
                             {{ t('user.membership.plans.downgrade') }}
                         </NuxtLink>
                     </button>
                     <button class="memo-button btn-success btn"
                         v-else-if="userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Basic">
-                        <NuxtLink to="/Nutzer/Einstellungen/Mitgliedschaft">
+                        <NuxtLink to="/User/Settings/Membership">
                             {{ t('user.membership.plans.yourMembership') }}
                         </NuxtLink>
                     </button>
@@ -168,7 +168,7 @@ onBeforeMount(() => {
                     </button>
                     <button class="memo-button btn-success"
                         v-else-if="userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Plus">
-                        <NuxtLink to="/Nutzer/Einstellungen/Mitgliedschaft">
+                        <NuxtLink to="/User/Settings/Membership">
                             {{ t('user.membership.plans.yourMembership') }}
                         </NuxtLink>
                     </button>

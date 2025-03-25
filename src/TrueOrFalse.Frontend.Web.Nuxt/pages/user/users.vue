@@ -38,6 +38,12 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
     },
     default: () => null
 })
+
+watch(totalUserCount, (val) => {
+    console.log(val)
+    if (val)
+        userCount.value = val
+})
 const { $logger } = useNuxtApp()
 const selectedLanguages = ref<string[]>([locale.value])
 
@@ -232,7 +238,7 @@ const ariaId2 = useId()
 
                     <div class="col-xs-12" v-if="searchTerm.length === 0">
                         <div class="pagination hidden-xs">
-                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="totalUserCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
                                 <template #first-page-button>
                                     <font-awesome-layers>
                                         <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />

@@ -1,22 +1,11 @@
-﻿public class PageCreator : IRegisterAsInstancePerLifetime
+﻿public class PageCreator(
+    Logg _logg,
+    PageRepository _pageRepository,
+    UserReadingRepo _userReadingRepo,
+    PageRelationRepo _pageRelationRepo,
+    UserWritingRepo _userWritingRepo)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly Logg _logg;
-    private readonly PageRepository _pageRepository;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly PageRelationRepo _pageRelationRepo;
-
-    public PageCreator(
-        Logg logg,
-        PageRepository pageRepository,
-        UserReadingRepo userReadingRepo,
-        PageRelationRepo pageRelationRepo)
-    {
-        _logg = logg;
-        _pageRepository = pageRepository;
-        _userReadingRepo = userReadingRepo;
-        _pageRelationRepo = pageRelationRepo;
-    }
-
     public readonly record struct CreateResult(
         bool Success,
         string MessageKey,
@@ -48,8 +37,8 @@
         _pageRepository.Create(page);
 
         var user = EntityCache.GetUserById(sessionUser.UserId);
-
         LanguageExtensions.AddContentLanguageToUser(user, page.Language);
+        _userWritingRepo.Update(user);
 
         var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo);
         modifyRelationsForPage.AddChild(parentPageId, page.Id, sessionUser.UserId);

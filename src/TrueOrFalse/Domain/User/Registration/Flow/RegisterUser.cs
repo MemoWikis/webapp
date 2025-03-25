@@ -59,9 +59,9 @@ public class RegisterUser(
         _pageRepository.Create(page);
         user.StartPageId = page.Id;
         user.DateCreated = DateTime.Now;
-        _userWritingRepo.Update(user);
         var userCacheItem = EntityCache.GetUserById(user.Id);
         LanguageExtensions.AddContentLanguageToUser(userCacheItem, user.UiLanguage);
+        _userWritingRepo.Update(user);
 
         return new RegisterResult
         {

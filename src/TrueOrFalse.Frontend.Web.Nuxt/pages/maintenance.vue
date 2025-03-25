@@ -44,10 +44,11 @@ const pageMethods = ref<MethodData[]>([
 ])
 const meiliSearchMethods = ref<MethodData[]>([
     { url: 'MeiliReIndexAllQuestions', label: 'Fragen' },
+    { url: 'MeiliReIndexAllQuestionsCache', label: 'Fragen (Cache)' },
     { url: 'MeiliReIndexAllPages', label: 'Seiten' },
+    { url: 'MeiliReIndexAllPagesCache', label: 'Seiten (Cache)' },
     { url: 'MeiliReIndexAllUsers', label: 'Nutzer' },
     { url: 'MeiliReIndexAllUsersCache', label: 'Nutzer (Cache)' }
-
 ])
 const userMethods = ref<MethodData[]>([
     { url: 'UpdateUserReputationAndRankings', label: 'Rankings und Reputation + Aggregates' },
@@ -67,7 +68,7 @@ const resultMsg = ref('')
 
 async function handleClick(url: string) {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
-        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
@@ -87,7 +88,7 @@ const emit = defineEmits(['setBreadcrumb'])
 
 onBeforeMount(() => {
     if (!isAdmin.value && !userStore.isAdmin)
-        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     emit('setBreadcrumb', [{ name: 'Maintenance', url: '/Maintenance' }])
 })
@@ -95,7 +96,7 @@ onBeforeMount(() => {
 const userIdToDelete = ref(0)
 async function deleteUser() {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
-        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
@@ -114,7 +115,7 @@ async function deleteUser() {
 
 async function removeAdminRights() {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
-        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
