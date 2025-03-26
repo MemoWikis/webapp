@@ -40,7 +40,6 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
 })
 
 watch(totalUserCount, (val) => {
-    console.log(val)
     if (val)
         userCount.value = val
 })
