@@ -183,19 +183,21 @@
         "hereMoreInfos": "¡aquí más información!"
     },
     "url": {
-        "termsOfUse": "Terminos",
-        "legalNotice": "AvisoLegal",
-        "user": "Usuario",
-        "users": "Usuarios",
-        "prices": "Precios",
-        "settings": "Configuración"
+        "termsOfUse": "TermsOfUse",
+        "legalNotice": "LegalNotice",
+        "user": "User",
+        "users": "Users",
+        "prices": "Prices",
+        "settings": "Settings"
     },
     "search": {
         "results": "{count} resultados",
         "pages": "Páginas",
+        "pagesInOtherLanguages": "Páginas en otros idiomas",
         "questions": "Preguntas",
-        "countedQuestions": "@:label.questionCount",
         "users": "Usuarios",
+        "resultsInCurrentLanguage": "({count})",
+        "countedQuestions": "@:label.questionCount",
         "showUserResults": "mostrar {count} resultados",
         "noResults": "No se encontraron resultados",
         "inYourLanguage": "en tu idioma."
@@ -698,6 +700,14 @@
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Aún no aprendido",
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+    },
+    "questionFilterOptions": {
+        "inWuwi": "En Conocimiento-Deseado",
+        "notInWuwi": "No en Conocimiento-Deseado",
+        "createdByCurrentUser": "Creadas por mí",
+        "notCreatedByCurrentUser": "No creadas por mí",
+        "private": "Preguntas privadas",
+        "public": "Preguntas públicas"
     },
     "answerbody": {
         "feedbackCorrectPopUp": "¡Correcto!",
@@ -1204,14 +1214,16 @@
                 }
             }
         },
-        "row": {
-            "markAsRead": "marcar como leído",
-            "markAsUnread": "marcar como no leído",
-            "tooltip": {
-                "isRead": "El mensaje está leído",
-                "isUnread": "El mensaje está sin leer"
-            },
-            "ago": "hace"
+        "messages": {
+            "row": {
+                "markAsRead": "marcar como leído",
+                "markAsUnread": "marcar como no leído",
+                "tooltip": {
+                    "isRead": "El mensaje está leído",
+                    "isUnread": "El mensaje está sin leer"
+                },
+                "ago": "hace"
+            }
         }
     },
     "usersOverview": {
@@ -1244,7 +1256,8 @@
             "privateWishknowledge": "El Wishknowledge de {name} es privado",
             "toWiki": "Ir al Wiki de {name}",
             "rank": "Rango",
-            "createdTitle": "Creado"
+            "createdTitle": "Creado",
+            "languages": "Idiomas"
         },
         "tabs": {
             "allUsers": "Todos los usuarios"

@@ -1214,14 +1214,16 @@
                 }
             }
         },
-        "row": {
-            "markAsRead": "Mark as read",
-            "markAsUnread": "Mark as unread",
-            "tooltip": {
-                "isRead": "The message is read",
-                "isUnread": "The message is unread"
-            },
-            "ago": "ago"
+        "messages": {
+            "row": {
+                "markAsRead": "Mark as read",
+                "markAsUnread": "Mark as unread",
+                "tooltip": {
+                    "isRead": "The message is read",
+                    "isUnread": "The message is unread"
+                },
+                "ago": "ago"
+            }
         }
     },
     "usersOverview": {
