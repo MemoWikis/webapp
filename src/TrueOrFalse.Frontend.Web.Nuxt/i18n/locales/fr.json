@@ -254,7 +254,11 @@
         "placeholderFlashcardFront": "Recto de la carte",
         "placeholderFlashcardBack": "Verso de la carte",
         "placeholderDescription": "Compléments à la question, ex. images, code, etc.",
-        "placeholder": "Clique ici pour taper…"
+        "placeholder": "Clique ici pour taper…",
+        "placeholderAdditions": "Ajouter des détails",
+        "questionDescriptionTitle": "Détails supplémentaires sur la question",
+        "answerInputError": "Veuillez entrer une réponse.",
+        "questionInputError": "Veuillez entrer une question."
     },
     "page": {
         "header": {
@@ -879,6 +883,36 @@
             },
             "confirmation": "Veux-tu vraiment supprimer définitivement « {name} » ? Toutes les données associées seront effacées !",
             "progress": "La question est en cours de suppression… Merci de patienter un instant."
+        },
+        "edit": {
+            "matchList": {
+                "answers": "Réponses",
+                "leftElement": "Élément gauche",
+                "rightElement": "Élément droit",
+                "addPair": "Ajouter une paire",
+                "createRightElement": "Créer un élément droit",
+                "randomizePairs": "Mélanger les paires",
+                "errors": {
+                    "leftElementRequired": "Veuillez fournir un élément gauche.",
+                    "rightElementRequired": "Veuillez sélectionner un élément droit.",
+                    "createRightElement": "Veuillez créer un élément droit."
+                }
+            },
+            "multipleChoice": {
+                "answers": "Réponses",
+                "addAnswer": "Ajouter une réponse",
+                "randomizeAnswers": "Mélanger les réponses",
+                "errors": {
+                    "answerRequired": "Veuillez entrer une réponse."
+                }
+            },
+            "text": {
+                "answer": "Réponse",
+                "enterAnswer": "Tapez votre réponse ici",
+                "errors": {
+                    "answerRequired": "Veuillez entrer une réponse."
+                }
+            }
         }
     },
     "settings": {
@@ -1095,7 +1129,7 @@
             "questions": {
                 "title": "Questions dans Wunschwissen ({count})",
                 "search": "Recherche",
-                "noResults": "Hmmm..., malheureusement, il n'y a aucune question avec \"{term}\""
+                "noResults": "Hmmm…, malheureusement, il n'y a aucune question avec \"{term}\""
             },
             "pages": {
                 "title": "Pages avec Wunschwissen ({count})",

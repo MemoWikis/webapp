@@ -149,7 +149,7 @@ const checkContentImages = () => {
                 :class="{ 'is-empty': highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
         </template>
         <div v-if="highlightEmptyFields && editor && editor.state.doc.textContent.length <= 0" class="field-error">
-            Bitte gib eine Antwort an.
+            {{ t('editor.answerInputError') }}
         </div>
     </div>
 </template>

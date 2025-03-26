@@ -4,6 +4,7 @@ interface Props {
     solution?: string
 }
 const props = defineProps<Props>()
+const { t } = useI18n()
 const choices = ref([{
     Text: '',
     IsCorrect: true
@@ -64,7 +65,7 @@ function toggleCorrectness(index: number) {
 
 <template>
     <div class="input-container">
-        <div class="overline-s no-line">Antworten</div>
+        <div class="overline-s no-line">{{ t('question.edit.multipleChoice.answers') }}</div>
 
         <div class="form-group" v-for="(choice, index) in choices" :key="index">
             <div class="input-group">
@@ -83,18 +84,21 @@ function toggleCorrectness(index: number) {
                     <font-awesome-icon icon="fa-solid fa-trash" />
                 </div>
             </div>
-            <div v-if="choice.Text.length <= 0 && highlightEmptyFields" class="field-error">Bitte gib eine Antwort ein.
+            <div v-if="choice.Text.length <= 0 && highlightEmptyFields" class="field-error">
+                {{ t('question.edit.multipleChoice.errors.answerRequired') }}
             </div>
         </div>
         <div class="d-flex">
-            <div @click="addChoice()" class="btn grey-bg form-control col-md-6">Antwort hinzufügen</div>
+            <div @click="addChoice()" class="btn grey-bg form-control col-md-6">
+                {{ t('question.edit.multipleChoice.addAnswer') }}
+            </div>
             <div class="col-sm-12 hidden-xs"></div>
         </div>
         <div class="checkbox-container">
             <div class="checkbox">
                 <label>
                     <input type="checkbox" v-model="solutionIsOrdered" :true-value="false" :false-value="true">
-                    Antworten zufällig anordnen
+                    {{ t('question.edit.multipleChoice.randomizeAnswers') }}
                 </label>
             </div>
         </div>

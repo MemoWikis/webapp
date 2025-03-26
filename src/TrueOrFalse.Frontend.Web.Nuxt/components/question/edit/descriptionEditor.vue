@@ -106,7 +106,8 @@ const checkContentImages = () => {
     <template v-else>
         <div class="d-flex">
             <div class="btn grey-bg form-control col-md-6" @click="showDescription = true">
-                Ergänzungen hinzufügen</div>
+                {{ t('editor.placeholderAdditions') }}
+            </div>
             <div class="col-sm-12 hidden-xs"></div>
         </div>
     </template>

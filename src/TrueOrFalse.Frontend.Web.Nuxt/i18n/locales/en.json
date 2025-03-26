@@ -254,7 +254,11 @@
         "placeholderFlashcardFront": "Front side of the flashcard",
         "placeholderFlashcardBack": "Back side of the flashcard",
         "placeholderDescription": "Additions to the question, e.g. images, code, etc.",
-        "placeholder": "Click here to type..."
+        "placeholder": "Click here to type...",
+        "placeholderAdditions": "Add details",
+        "questionDescriptionTitle": "Additional details about the question",
+        "answerInputError": "Please enter an answer.",
+        "questionInputError": "Please enter a question."
     },
     "page": {
         "header": {
@@ -879,6 +883,36 @@
             },
             "confirmation": "Would you like to irretrievably delete \"{name}\"? All associated data will be removed!",
             "progress": "The question is being deleted... Please be patient."
+        },
+        "edit": {
+            "matchList": {
+                "answers": "Answers",
+                "leftElement": "Left element",
+                "rightElement": "Right element",
+                "addPair": "Add pair",
+                "createRightElement": "Create right element",
+                "randomizePairs": "Randomize pairs",
+                "errors": {
+                    "leftElementRequired": "Please provide a left element.",
+                    "rightElementRequired": "Please select a right element.",
+                    "createRightElement": "Please create a right element."
+                }
+            },
+            "multipleChoice": {
+                "answers": "Answers",
+                "addAnswer": "Add answer",
+                "randomizeAnswers": "Randomize answers",
+                "errors": {
+                    "answerRequired": "Please enter an answer."
+                }
+            },
+            "text": {
+                "answer": "Answer",
+                "enterAnswer": "Type your answer here",
+                "errors": {
+                    "answerRequired": "Please enter an answer."
+                }
+            }
         }
     },
     "settings": {

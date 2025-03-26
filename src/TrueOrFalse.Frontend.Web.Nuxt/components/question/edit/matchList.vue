@@ -4,6 +4,7 @@ interface Props {
     solution?: string
 }
 const props = defineProps<Props>()
+const { t } = useI18n()
 const pairs = ref([{
     ElementRight: { Text: "" },
     ElementLeft: { Text: "" }
@@ -74,31 +75,30 @@ function addRightElement() {
 
 <template>
     <div class="input-container matchlist-container">
-        <div class="overline-s no-line">Antworten</div>
+        <div class="overline-s no-line">{{ t('question.edit.matchList.answers') }}</div>
 
         <form class="form-inline matchlist-pairs" v-for="(pair, index) in pairs" :key="'pair' + index">
             <div class="matchlist-left form-group">
                 <div v-if="pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields" class="field-error-container">
-                    <div class="field-error">Bitte gib ein linkes Element an.</div>
+                    <div class="field-error">{{ t('question.edit.matchList.errors.leftElementRequired') }}</div>
                 </div>
                 <input type="text" class="form-control col-sm-10 matchlist-input" :id="'left-' + index"
-                    v-model="pair.ElementLeft.Text" placeholder="Linkes Element" v-on:change="solutionBuilder()"
+                    v-model="pair.ElementLeft.Text" :placeholder="t('question.edit.matchList.leftElement')" v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields }">
                 <font-awesome-icon icon="fa-solid fa-arrow-right" class="col-sm-2 col-spacer fa-icon" />
             </div>
             <div class="matchlist-right form-group">
                 <div v-if="pair.ElementLeft.Text.length <= 0 && props.highlightEmptyFields" class="field-error-container">
-                    <div class="field-error">Bitte wähle ein rechtes Element aus.</div>
+                    <div class="field-error">{{ t('question.edit.matchList.errors.rightElementRequired') }}</div>
                 </div>
                 <select v-model="pair.ElementRight.Text" :id="'right-' + index" class="col-sm-10 matchlist-select"
                     v-on:change="solutionBuilder()"
                     :class="{ 'is-empty': pair.ElementRight.Text.length <= 0 && props.highlightEmptyFields }">
-                    <option disabled selected value="" hidden>Rechtes Element</option>
+                    <option disabled selected value="" hidden>{{ t('question.edit.matchList.rightElement') }}</option>
                     <template v-for="el in rightElements">
                         <option v-if="el.Text != null && el.Text.length > 0" :value="el.Text">
                             {{ el.Text }}</option>
                     </template>
-
                 </select>
                 <div @click="deletePair(index)" class="btn grey-bg col-sm-2 col-spacer delete-btn" v-if="pairs.length > 1">
                     <font-awesome-icon icon="fa-solid fa-trash" />
@@ -108,7 +108,9 @@ function addRightElement() {
         </form>
         <div class="matchlist-options">
             <div class="matchlist-left d-flex">
-                <div @click="addPair()" class="form-control btn col-sm-10 grey-bg">Paar hinzufügen</div>
+                <div @click="addPair()" class="form-control btn col-sm-10 grey-bg">
+                    {{ t('question.edit.matchList.addPair') }}
+                </div>
                 <div class="col-sm-2 col-spacer xs-hide"></div>
             </div>
             <div class="matchlist-right">
@@ -122,28 +124,24 @@ function addRightElement() {
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div @click="addRightElement()" class="btn col-sm-10 form-control grey-bg" :class="{ 'is-empty': rightElements.length <= 0 && props.highlightEmptyFields }">Rechtes
-                        Element
-                        erstellen</div>
+                    <div @click="addRightElement()" class="btn col-sm-10 form-control grey-bg" :class="{ 'is-empty': rightElements.length <= 0 && props.highlightEmptyFields }">
+                        {{ t('question.edit.matchList.createRightElement') }}
+                    </div>
                     <div class="col-sm-2 col-spacer xs-hide"></div>
                 </div>
-                <div v-if="rightElements.length <= 0 && props.highlightEmptyFields" class="field-error">Bitte
-                    erstelle
-                    ein
-                    rechtes Element.</div>
+                <div v-if="rightElements.length <= 0 && props.highlightEmptyFields" class="field-error">
+                    {{ t('question.edit.matchList.errors.createRightElement') }}
+                </div>
             </div>
-
         </div>
         <div class="checkbox-container">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" v-model="solutionIsOrdered" :true-value="false" :false-value="true">Paare
-                    zufällig anordnen
+                    <input type="checkbox" v-model="solutionIsOrdered" :true-value="false" :false-value="true">
+                    {{ t('question.edit.matchList.randomizePairs') }}
                 </label>
             </div>
         </div>
-
-
     </div>
 </template>
 

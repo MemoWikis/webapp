@@ -252,7 +252,11 @@
         "placeholderFlashcardFront": "Anverso de la tarjeta",
         "placeholderFlashcardBack": "Reverso de la tarjeta",
         "placeholderDescription": "Información adicional, por ejemplo imágenes, código, etc.",
-        "placeholder": "Haz clic aquí para escribir..."
+        "placeholder": "Haz clic aquí para escribir...",
+        "placeholderAdditions": "Agregar detalles",
+        "questionDescriptionTitle": "Detalles adicionales sobre la pregunta",
+        "answerInputError": "Por favor, introduce una respuesta.",
+        "questionInputError": "Por favor, introduce una pregunta."
     },
     "page": {
         "header": {
@@ -869,6 +873,36 @@
             },
             "confirmation": "¿Realmente deseas eliminar de forma irreversible «{name}»? ¡Se eliminarán todos los datos asociados!",
             "progress": "La pregunta se está eliminando... Por favor, espera un momento."
+        },
+        "edit": {
+            "matchList": {
+                "answers": "Respuestas",
+                "leftElement": "Elemento izquierdo",
+                "rightElement": "Elemento derecho",
+                "addPair": "Agregar par",
+                "createRightElement": "Crear elemento derecho",
+                "randomizePairs": "Ordenar pares aleatoriamente",
+                "errors": {
+                    "leftElementRequired": "Por favor, proporciona un elemento izquierdo.",
+                    "rightElementRequired": "Por favor, selecciona un elemento derecho.",
+                    "createRightElement": "Por favor, crea un elemento derecho."
+                }
+            },
+            "multipleChoice": {
+                "answers": "Respuestas",
+                "addAnswer": "Agregar respuesta",
+                "randomizeAnswers": "Ordenar respuestas aleatoriamente",
+                "errors": {
+                    "answerRequired": "Por favor, introduce una respuesta."
+                }
+            },
+            "text": {
+                "answer": "Respuesta",
+                "enterAnswer": "Escribe tu respuesta aquí",
+                "errors": {
+                    "answerRequired": "Por favor, introduce una respuesta."
+                }
+            }
         }
     },
     "settings": {

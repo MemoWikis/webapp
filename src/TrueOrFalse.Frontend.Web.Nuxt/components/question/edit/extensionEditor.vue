@@ -102,7 +102,7 @@ watch(() => props.content, (o, n) => {
 </script>
 
 <template>
-    <div class="overline-s no-line">Ergänzungen zur Frage</div>
+    <div class="overline-s no-line">{{ t('editor.questionDescriptionTitle') }}</div>
     <div v-if="showExtension && editor">
         <EditorMenuBar :editor="editor" />
         <editor-content :editor="editor" />
@@ -110,7 +110,8 @@ watch(() => props.content, (o, n) => {
     <template v-else>
         <div class="d-flex">
             <div class="btn grey-bg form-control col-md-6" @click="showExtension = true">
-                Ergänzungen hinzufügen</div>
+                {{ t('editor.placeholderDescription') }}
+            </div>
             <div class="col-sm-12 hidden-xs"></div>
         </div>
     </template>

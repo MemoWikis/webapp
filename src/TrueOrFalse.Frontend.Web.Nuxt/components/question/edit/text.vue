@@ -7,6 +7,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { t } = useI18n() // Auto-imported by Nuxt
 const text = ref('')
 const isEmpty = ref('')
 
@@ -38,26 +39,23 @@ watch(text, (e) => {
 
     isEmpty.value = e.length === 0 ? 'is-empty' : ''
 })
-
-
 </script>
 
 <template>
     <div class="input-container">
-        <div class="overline-s no-line">Antwort</div>
+        <div class="overline-s no-line">{{ t('question.edit.text.answer') }}</div>
 
         <form class="form-horizontal">
             <div class="form-group">
                 <div class="col-sm-12 textsolution">
-                    <textarea placeholder="Tippe hier deine Antwort" @input="resize()" ref="textArea" v-model="text"
+                    <textarea :placeholder="t('question.edit.text.enterAnswer')" @input="resize()" ref="textArea" v-model="text"
                         :class="{ 'is-empty': text.length === 0 && props.highlightEmptyFields }"></textarea>
 
                     <div v-if="text.length === 0 && props.highlightEmptyFields" class="field-error"
-                        style="margin-top : -5px;">Bitte gib eine Antwort ein.</div>
+                        style="margin-top : -5px;">{{ t('question.edit.text.errors.answerRequired') }}</div>
                 </div>
             </div>
         </form>
-
     </div>
 </template>
 

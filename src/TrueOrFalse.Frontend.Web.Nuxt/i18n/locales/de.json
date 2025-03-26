@@ -254,7 +254,11 @@
         "placeholderFlashcardFront": "Vorderseite der Karteikarte",
         "placeholderFlashcardBack": "Rückseite der Karteikarte",
         "placeholderDescription": "Ergänzungen zur Frage, zB. Bilder, Code usw.",
-        "placeholder": "Klicke hier um zu tippen..."
+        "placeholder": "Klicke hier um zu tippen...",
+        "placeholderAdditions": "Ergänzungen hinzufügen",
+        "questionDescriptionTitle": "Ergänzungen zur Frage",
+        "answerInputError": "Bitte gib eine Antwort ein.",
+        "questionInputError": "Bitte gib eine Frage ein."
     },
     "page": {
         "header": {
@@ -879,6 +883,36 @@
             },
             "confirmation": "Möchtest Du \"{name}\" unwiederbringlich löschen? Alle damit verknüpften Daten werden entfernt!",
             "progress": "Die Frage wird gelöscht... Bitte habe einen Moment Geduld."
+        },
+        "edit": {
+            "matchList": {
+                "answers": "Antworten",
+                "leftElement": "Linkes Element",
+                "rightElement": "Rechtes Element",
+                "addPair": "Paar hinzufügen",
+                "createRightElement": "Rechtes Element erstellen",
+                "randomizePairs": "Paare zufällig anordnen",
+                "errors": {
+                    "leftElementRequired": "Bitte gib ein linkes Element an.",
+                    "rightElementRequired": "Bitte wähle ein rechtes Element aus.",
+                    "createRightElement": "Bitte erstelle ein rechtes Element."
+                }
+            },
+            "multipleChoice": {
+                "answers": "Antworten",
+                "addAnswer": "Antwort hinzufügen",
+                "randomizeAnswers": "Antworten zufällig anordnen",
+                "errors": {
+                    "answerRequired": "Bitte gib eine Antwort ein."
+                }
+            },
+            "text": {
+                "answer": "Antwort",
+                "enterAnswer": "Tippe hier deine Antwort",
+                "errors": {
+                    "answerRequired": "Bitte gib eine Antwort ein."
+                }
+            }
         }
     },
     "settings": {
