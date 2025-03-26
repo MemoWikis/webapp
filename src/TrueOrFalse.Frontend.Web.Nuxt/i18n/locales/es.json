@@ -227,7 +227,8 @@
         "popularPages": "Páginas populares"
     },
     "alert": {
-        "showDetails": "Mostrar detalles"
+        "showDetails": "Mostrar detalles",
+        "copySourceCode": "Copiar el código fuente"
     },
     "globalLicense": {
         "text": {
@@ -742,7 +743,53 @@
             "toPage": "Ir a la página",
             "newSession": "Nueva sesión de aprendizaje",
             "maxQuestionsShown": "No se muestran más de 300 preguntas en la evaluación"
-        }
+        },
+        "tries": {
+            "0": "0 intentos",
+            "1": "un intento",
+            "2": "dos intentos",
+            "3": "tres intentos",
+            "4": "cuatro intentos",
+            "5": "cinco intentos",
+            "6": "muy persistente",
+            "7": "¡Respeto!",
+            "many": "¡Respeto!"
+        },
+        "errorMessages": {
+            "churchill": "Es una gran ventaja en la vida cometer cuanto antes los errores de los que se puede aprender. (Churchill)",
+            "keepGoing": "Sigue, sigue, no te rindas.",
+            "practice": "La práctica hace al maestro. Vas por buen camino."
+        },
+        "repeatedErrorMessages": {
+            "confucius": "Quien comete un error y no lo corrige comete un segundo. (Confucio)",
+            "balanced": "Una persona equilibrada es la que puede cometer el mismo error dos veces sin ponerse nerviosa."
+        },
+        "successMessages": {
+            "yeah": "¡Yeah!",
+            "goodWay": "Vas por buen camino.",
+            "clean": "¡Limpio!",
+            "wellDone": "¡Bien hecho!",
+            "great": "¡Genial!",
+            "keepItUp": "¡Sigue así!",
+            "exactly": "Exactamente.",
+            "absolutely": "Absolutamente.",
+            "cantBeMoreCorrect": "No podría ser más correcto.",
+            "flawless": "¡Impecable!",
+            "correct": "¡Corrrrrecto!",
+            "perfect": "Perfecto.",
+            "more": "¡Más de eso!",
+            "awesome": "¡Increíble!",
+            "schubidu": "¡Schubidu!",
+            "thereYouGo": "¡Ahí lo tienes!",
+            "exact": "Exacto.",
+            "thatsIt": "Así es.",
+            "nothingToComplain": "Nada de qué quejarse.",
+            "looksGood": "Se ve bien.",
+            "oha": "¡Oha!",
+            "rrrright": "¡Exactoo!"
+        },
+        "emptyAnswerMessage": "Al menos podrías intentarlo... (Esto no cuenta como intento).",
+        "noCorrectAnswers": "¡Ninguna de las respuestas es correcta!"
     },
     "question": {
         "editModal": {
@@ -1293,6 +1340,20 @@
         },
         "labels": {
             "add": "Agregar"
+        }
+    },
+    "questionDetail": {
+        "tooltips": {
+            "correctFirstTry": "Respondida correctamente en el primer intento",
+            "correctLaterTry": "Respondida correctamente en el segundo o tercer intento",
+            "unanswered": "Sin respuesta",
+            "wrong": "Respondida incorrectamente"
+        },
+        "labels": {
+            "correctAnswer": "Respuesta correcta:",
+            "yourTry": "Tu {number}. intento:",
+            "skipped": "(omitida)",
+            "notSeen": "(todavía no vista)"
         }
     }
 }

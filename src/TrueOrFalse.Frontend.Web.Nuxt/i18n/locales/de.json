@@ -229,7 +229,8 @@
         "popularPages": "Beliebte Seiten"
     },
     "alert": {
-        "showDetails": "Details anzeigen"
+        "showDetails": "Details anzeigen",
+        "copySourceCode": "Quellcode kopieren"
     },
     "globalLicense": {
         "text": {
@@ -752,7 +753,53 @@
             "toPage": "Zur Seite",
             "newSession": "Neue Lernsitzung",
             "maxQuestionsShown": "Es werden nicht mehr als 300 Fragen in der Auswertung angezeigt"
-        }
+        },
+        "tries": {
+            "0": "0 Versuche",
+            "1": "ein Versuch",
+            "2": "zwei Versuche",
+            "3": "drei Versuche",
+            "4": "vier Versuche",
+            "5": "fünf Versuche",
+            "6": "sehr hartnäckig",
+            "7": "Respekt!",
+            "many": "Respekt!"
+        },
+        "errorMessages": {
+            "churchill": "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
+            "keepGoing": "Weiter, weiter, nicht aufgeben.",
+            "practice": "Übung macht den Meister. Du bist auf dem richtigen Weg."
+        },
+        "repeatedErrorMessages": {
+            "confucius": "Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
+            "balanced": "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden."
+        },
+        "successMessages": {
+            "yeah": "Yeah!",
+            "goodWay": "Du bist auf einem guten Weg.",
+            "clean": "Sauber!",
+            "wellDone": "Well done!",
+            "great": "Toll!",
+            "keepItUp": "Weiter so!",
+            "exactly": "Genau.",
+            "absolutely": "Absolut.",
+            "cantBeMoreCorrect": "Richtiger wird's nicht.",
+            "flawless": "Fehlerlos!",
+            "correct": "Korrrrrekt!",
+            "perfect": "Einwandfrei",
+            "more": "Mehr davon!",
+            "awesome": "Klasse.",
+            "schubidu": "Schubidu!",
+            "thereYouGo": "Wer sagt's denn!",
+            "exact": "Exakt.",
+            "thatsIt": "So ist es.",
+            "nothingToComplain": "Da kannste nicht meckern.",
+            "looksGood": "Sieht gut aus.",
+            "oha": "Oha!",
+            "rrrright": "Rrrrrrichtig!"
+        },
+        "emptyAnswerMessage": "Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
+        "noCorrectAnswers": "Keine der Antworten ist richtig!"
     },
     "question": {
         "editModal": {
@@ -1306,6 +1353,20 @@
         },
         "labels": {
             "add": "Hinzufügen"
+        }
+    },
+    "questionDetail": {
+        "tooltips": {
+            "correctFirstTry": "Beim 1. Versuch richtig beantwortet",
+            "correctLaterTry": "Beim 2. oder 3. Versuch richtig beantwortet",
+            "unanswered": "Nicht beantwortet",
+            "wrong": "Falsch beantwortet"
+        },
+        "labels": {
+            "correctAnswer": "Richtige Antwort:",
+            "yourTry": "Dein {number}. Versuch:",
+            "skipped": "(übersprungen)",
+            "notSeen": "(noch nicht gesehen)"
         }
     }
 }

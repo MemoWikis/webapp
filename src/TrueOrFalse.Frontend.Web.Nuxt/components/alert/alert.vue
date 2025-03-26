@@ -105,7 +105,7 @@ const { t } = useI18n()
                                 <code> {{ alertStore.msg.customDetails }} </code>
                             </div>
                             <div class="copy-container">
-                                <div class="copy-icon" v-tooltip="'Quelltext kopieren'" @click="copyToClipboard">
+                                <div class="copy-icon" v-tooltip="t('alert.copySourceCode')" @click="copyToClipboard">
                                     <font-awesome-icon :icon="['fas', 'copy']" />
                                 </div>
                             </div>

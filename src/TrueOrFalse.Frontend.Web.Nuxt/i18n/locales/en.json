@@ -229,7 +229,8 @@
         "popularPages": "Popular pages"
     },
     "alert": {
-        "showDetails": "Show details"
+        "showDetails": "Show details",
+        "copySourceCode": "Copy source code"
     },
     "globalLicense": {
         "text": {
@@ -752,7 +753,53 @@
             "toPage": "To the page",
             "newSession": "New study session",
             "maxQuestionsShown": "No more than 300 questions are displayed in the evaluation"
-        }
+        },
+        "tries": {
+            "0": "0 tries",
+            "1": "one try",
+            "2": "two tries",
+            "3": "three tries",
+            "4": "four tries",
+            "5": "five tries",
+            "6": "very persistent",
+            "7": "Respect!",
+            "many": "Respect!"
+        },
+        "errorMessages": {
+            "churchill": "It is a great advantage in life to make mistakes from which you can learn, as early as possible. (Churchill)",
+            "keepGoing": "Keep going, don’t give up.",
+            "practice": "Practice makes perfect. You are on the right track."
+        },
+        "repeatedErrorMessages": {
+            "confucius": "He who makes a mistake and does not correct it commits a second one. (Confucius)",
+            "balanced": "A balanced person is someone who can make the same mistake twice without getting nervous."
+        },
+        "successMessages": {
+            "yeah": "Yeah!",
+            "goodWay": "You’re on the right track.",
+            "clean": "Clean!",
+            "wellDone": "Well done!",
+            "great": "Great!",
+            "keepItUp": "Keep it up!",
+            "exactly": "Exactly.",
+            "absolutely": "Absolutely.",
+            "cantBeMoreCorrect": "It couldn’t be more correct.",
+            "flawless": "Flawless!",
+            "correct": "Corrrrrect!",
+            "perfect": "Perfect.",
+            "more": "More of that!",
+            "awesome": "Awesome.",
+            "schubidu": "Schubidu!",
+            "thereYouGo": "There you go!",
+            "exact": "Exact.",
+            "thatsIt": "That’s it.",
+            "nothingToComplain": "No complaints there.",
+            "looksGood": "Looks good.",
+            "oha": "Oha!",
+            "rrrright": "Rrrrright!"
+        },
+        "emptyAnswerMessage": "You could at least try ... (This won’t count as an attempt.)",
+        "noCorrectAnswers": "None of the answers is correct!"
     },
     "question": {
         "editModal": {
@@ -1304,6 +1351,20 @@
         },
         "labels": {
             "add": "Add"
+        }
+    },
+    "questionDetail": {
+        "tooltips": {
+            "correctFirstTry": "Answered correctly on the first attempt",
+            "correctLaterTry": "Answered correctly on the second or third attempt",
+            "unanswered": "Unanswered",
+            "wrong": "Answered incorrectly"
+        },
+        "labels": {
+            "correctAnswer": "Correct answer:",
+            "yourTry": "Your {number}. attempt:",
+            "skipped": "(skipped)",
+            "notSeen": "(not yet viewed)"
         }
     }
 }

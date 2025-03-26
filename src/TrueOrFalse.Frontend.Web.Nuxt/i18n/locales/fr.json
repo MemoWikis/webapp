@@ -229,7 +229,8 @@
         "popularPages": "Pages populaires"
     },
     "alert": {
-        "showDetails": "Afficher les détails"
+        "showDetails": "Afficher les détails",
+        "copySourceCode": "Copier le code source"
     },
     "globalLicense": {
         "text": {
@@ -752,7 +753,53 @@
             "toPage": "Aller à la page",
             "newSession": "Nouvelle session d’apprentissage",
             "maxQuestionsShown": "Pas plus de 300 questions ne sont affichées dans les résultats"
-        }
+        },
+        "tries": {
+            "0": "0 tentatives",
+            "1": "une tentative",
+            "2": "deux tentatives",
+            "3": "trois tentatives",
+            "4": "quatre tentatives",
+            "5": "cinq tentatives",
+            "6": "très persévérant",
+            "7": "Respect!",
+            "many": "Respect!"
+        },
+        "errorMessages": {
+            "churchill": "C’est un grand avantage dans la vie de commettre, dès que possible, les erreurs dont on peut tirer des leçons. (Churchill)",
+            "keepGoing": "Encore, encore, ne lâche pas.",
+            "practice": "La pratique rend parfait. Tu es sur la bonne voie."
+        },
+        "repeatedErrorMessages": {
+            "confucius": "Celui qui fait une erreur et ne la corrige pas en commet une seconde. (Confucius)",
+            "balanced": "Une personne équilibrée est celle qui peut refaire la même erreur deux fois sans devenir nerveuse."
+        },
+        "successMessages": {
+            "yeah": "Ouais!",
+            "goodWay": "Tu es sur la bonne voie.",
+            "clean": "Impeccable!",
+            "wellDone": "Bien joué!",
+            "great": "Génial!",
+            "keepItUp": "Continue comme ça!",
+            "exactly": "Exactement.",
+            "absolutely": "Absolument.",
+            "cantBeMoreCorrect": "On ne peut pas faire plus juste.",
+            "flawless": "Sans faute!",
+            "correct": "Corrrrrect!",
+            "perfect": "Parfait.",
+            "more": "Encore plus!",
+            "awesome": "Super.",
+            "schubidu": "Schubidu!",
+            "thereYouGo": "Et voilà!",
+            "exact": "Exact.",
+            "thatsIt": "C’est ça.",
+            "nothingToComplain": "Rien à redire.",
+            "looksGood": "Ça a l’air bon.",
+            "oha": "Oh là là!",
+            "rrrright": "Exacteeeement!"
+        },
+        "emptyAnswerMessage": "Tu pourrais au moins essayer… (Ceci ne compte pas comme tentative.)",
+        "noCorrectAnswers": "Aucune des réponses n’est correcte!"
     },
     "question": {
         "editModal": {
@@ -1304,6 +1351,20 @@
         },
         "labels": {
             "add": "Ajouter"
+        }
+    },
+    "questionDetail": {
+        "tooltips": {
+            "correctFirstTry": "Répondu correctement dès le premier essai",
+            "correctLaterTry": "Répondu correctement au deuxième ou troisième essai",
+            "unanswered": "Sans réponse",
+            "wrong": "Répondu incorrectement"
+        },
+        "labels": {
+            "correctAnswer": "Réponse correcte :",
+            "yourTry": "Votre {number}. essai :",
+            "skipped": "(ignoré)",
+            "notSeen": "(pas encore vu)"
         }
     }
 }

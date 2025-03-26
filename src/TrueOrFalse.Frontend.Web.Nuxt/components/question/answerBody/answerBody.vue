@@ -17,6 +17,7 @@ const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const commentsStore = useCommentsStore()
 const publishQuestionStore = usePublishQuestionStore()
+const { t } = useI18n()
 
 commentsStore.loadComments()
 
@@ -44,25 +45,23 @@ const amountOfTries = ref(0)
 const amountOfTriesText = ref('')
 
 watch(amountOfTries, (val) => {
-    const tryTexts = ["0 Versuche", "ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"]
-
     switch (val) {
         case 0:
         case 1:
-            amountOfTriesText.value = tryTexts[val]
+            amountOfTriesText.value = t(`answerbody.tries.${val}`)
             break
         case 2:
         case 3:
         case 4:
         case 5:
-            amountOfTriesText.value = tryTexts[val] + " Versuche"
+            amountOfTriesText.value = t(`answerbody.tries.${val}`)
             break
         case 6:
         case 7:
-            amountOfTriesText.value = tryTexts[val]
+            amountOfTriesText.value = t(`answerbody.tries.${val}`)
             break
         default:
-            amountOfTriesText.value = tryTexts[7]
+            amountOfTriesText.value = t('answerbody.tries.many')
     }
 })
 const answersSoFar = ref<string[]>([])
@@ -80,17 +79,40 @@ function flip() {
 }
 
 const _errMsgs = [
-    "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
-    "Weiter, weiter, nicht aufgeben.",
-    "Übung macht den Meister. Du bist auf dem richtigen Weg.",
+    t('answerbody.errorMessages.churchill'),
+    t('answerbody.errorMessages.keepGoing'),
+    t('answerbody.errorMessages.practice')
 ]
 
-const _repeatedErrMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
-    "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden."]
+const _repeatedErrMsgs = [
+    t('answerbody.repeatedErrorMessages.confucius'),
+    t('answerbody.repeatedErrorMessages.balanced')
+]
 
-const _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well done!", "Toll!", "Weiter so!", "Genau.", "Absolut.",
-    "Richtiger wird's nicht.", "Fehlerlos!", "Korrrrrekt!", "Einwandfrei", "Mehr davon!", "Klasse.", "Schubidu!",
-    "Wer sagt's denn!", "Exakt.", "So ist es.", "Da kannste nicht meckern.", "Sieht gut aus.", "Oha!", "Rrrrrrichtig!"]
+const _successMsgs = [
+    t('answerbody.successMessages.yeah'),
+    t('answerbody.successMessages.goodWay'),
+    t('answerbody.successMessages.clean'),
+    t('answerbody.successMessages.wellDone'),
+    t('answerbody.successMessages.great'),
+    t('answerbody.successMessages.keepItUp'),
+    t('answerbody.successMessages.exactly'),
+    t('answerbody.successMessages.absolutely'),
+    t('answerbody.successMessages.cantBeMoreCorrect'),
+    t('answerbody.successMessages.flawless'),
+    t('answerbody.successMessages.correct'),
+    t('answerbody.successMessages.perfect'),
+    t('answerbody.successMessages.more'),
+    t('answerbody.successMessages.awesome'),
+    t('answerbody.successMessages.schubidu'),
+    t('answerbody.successMessages.thereYouGo'),
+    t('answerbody.successMessages.exact'),
+    t('answerbody.successMessages.thatsIt'),
+    t('answerbody.successMessages.nothingToComplain'),
+    t('answerbody.successMessages.looksGood'),
+    t('answerbody.successMessages.oha'),
+    t('answerbody.successMessages.rrrright')
+]
 
 const wellDoneMsg = ref('')
 
@@ -101,7 +123,7 @@ async function answer() {
     showWrongAnswers.value = false
 
     if (answerBodyModel.value?.solutionType === SolutionType.Text && text.value.getAnswerText().trim().length === 0) {
-        wrongAnswerMsg.value = 'Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)'
+        wrongAnswerMsg.value = t('answerbody.emptyAnswerMessage')
         showWrongAnswers.value = true
         return
     }
@@ -298,7 +320,7 @@ async function loadSolution(answered: boolean = true) {
         })
     if (solutionResult != null) {
         if (answerBodyModel.value!.solutionType === SolutionType.MultipleChoice && solutionResult.answer == null) {
-            solutionResult.answer = 'Keine der Antworten ist richtig!'
+            solutionResult.answer = t('answerbody.noCorrectAnswers')
             solutionResult.answerAsHTML = solutionResult.answer
         }
         solutionData.value = solutionResult
@@ -372,7 +394,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
     }
 })
 
-const { t } = useI18n()
+
 </script>
 
 <template>
@@ -425,7 +447,7 @@ const { t } = useI18n()
                         class="row"
                         :class="{ 'hasFlashCard': answerBodyModel.solutionType === SolutionType.FlashCard }">
                         <div id="AnswerInputSection">
-                            <template v-if="answerBodyModel.solutionType != SolutionType.FlashCard">
+                            <template v-if="answerBodyModel.solutionType === SolutionType.FlashCard">
                                 <Transition name="fade">
                                     <div class="answerFeedback answerFeedbackCorrect" v-show="answerIsCorrectPopUp">
                                         <font-awesome-icon icon="fa-solid fa-circle-check" />
