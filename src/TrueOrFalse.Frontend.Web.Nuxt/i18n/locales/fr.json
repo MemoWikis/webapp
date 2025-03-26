@@ -517,6 +517,24 @@
                 "childPageDeleted": "Sous-page supprimée",
                 "questionDeleted": "Question supprimée",
                 "private": "Privé"
+            },
+            "relations": {
+                "parentsAdded": {
+                    "singular": "Page parente ajoutée",
+                    "plural": "Pages parentes ajoutées"
+                },
+                "parentsRemoved": {
+                    "singular": "Page parente supprimée",
+                    "plural": "Pages parentes supprimées"
+                },
+                "childrenAdded": {
+                    "singular": "Sous-page ajoutée",
+                    "plural": "Sous-pages ajoutées"
+                },
+                "childrenRemoved": {
+                    "singular": "Sous-page supprimée",
+                    "plural": "Sous-pages supprimées"
+                }
             }
         },
         "analytics": {
@@ -799,7 +817,9 @@
             "rrrright": "Exacteeeement!"
         },
         "emptyAnswerMessage": "Tu pourrais au moins essayer… (Ceci ne compte pas comme tentative.)",
-        "noCorrectAnswers": "Aucune des réponses n’est correcte!"
+        "noCorrectAnswers": "Aucune des réponses n’est correcte!",
+        "answerKnown": "(Réponse connue)",
+        "answerNotKnown": "(Réponse inconnue)"
     },
     "question": {
         "editModal": {

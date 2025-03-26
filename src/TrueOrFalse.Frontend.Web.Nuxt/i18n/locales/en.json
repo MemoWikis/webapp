@@ -517,6 +517,24 @@
                 "childPageDeleted": "Sub-page deleted",
                 "questionDeleted": "Question deleted",
                 "private": "Private"
+            },
+            "relations": {
+                "parentsAdded": {
+                    "singular": "Parent page added",
+                    "plural": "Parent pages added"
+                },
+                "parentsRemoved": {
+                    "singular": "Parent page removed",
+                    "plural": "Parent pages removed"
+                },
+                "childrenAdded": {
+                    "singular": "Subpage added",
+                    "plural": "Subpages added"
+                },
+                "childrenRemoved": {
+                    "singular": "Subpage removed",
+                    "plural": "Subpages removed"
+                }
             }
         },
         "analytics": {
@@ -799,7 +817,9 @@
             "rrrright": "Rrrrright!"
         },
         "emptyAnswerMessage": "You could at least try ... (This won’t count as an attempt.)",
-        "noCorrectAnswers": "None of the answers is correct!"
+        "noCorrectAnswers": "None of the answers is correct!",
+        "answerKnown": "(Answer known)",
+        "answerNotKnown": "(Answer not known)"
     },
     "question": {
         "editModal": {

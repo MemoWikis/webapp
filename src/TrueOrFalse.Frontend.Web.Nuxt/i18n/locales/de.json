@@ -517,6 +517,24 @@
                 "childPageDeleted": "Unterseite gelöscht",
                 "questionDeleted": "Frage gelöscht",
                 "private": "Privat"
+            },
+            "relations": {
+                "parentsAdded": {
+                    "singular": "Übergeordnete Seite hinzugefügt",
+                    "plural": "Übergeordnete Seiten hinzugefügt"
+                },
+                "parentsRemoved": {
+                    "singular": "Übergeordnete Seite entfernt",
+                    "plural": "Übergeordnete Seiten entfernt"
+                },
+                "childrenAdded": {
+                    "singular": "Unterseite hinzugefügt",
+                    "plural": "Unterseiten hinzugefügt"
+                },
+                "childrenRemoved": {
+                    "singular": "Unterseite entfernt",
+                    "plural": "Unterseiten entfernt"
+                }
             }
         },
         "analytics": {
@@ -799,7 +817,9 @@
             "rrrright": "Rrrrrrichtig!"
         },
         "emptyAnswerMessage": "Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
-        "noCorrectAnswers": "Keine der Antworten ist richtig!"
+        "noCorrectAnswers": "Keine der Antworten ist richtig!",
+        "answerKnown": "(Antwort gewusst)",
+        "answerNotKnown": "(Antwort nicht gewusst)"
     },
     "question": {
         "editModal": {

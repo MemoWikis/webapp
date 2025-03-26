@@ -5,9 +5,10 @@ interface Props {
     relationChanges: RelationChanges
 }
 const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 const props = defineProps<Props>()
-const setRelatedPages = () => {
 
+const setRelatedPages = () => {
     if (props.relationChanges) {
         addedChildren.value = props.relationChanges.addedChildren
         removedChildren.value = props.relationChanges.removedChildren
@@ -20,7 +21,6 @@ const addedParents = ref<RelatedPage[]>([])
 const removedParents = ref<RelatedPage[]>([])
 const addedChildren = ref<RelatedPage[]>([])
 const removedChildren = ref<RelatedPage[]>([])
-
 
 const clearRelatedPages = () => {
     addedChildren.value = []
@@ -37,15 +37,14 @@ watch(() => props.relationChanges, () => {
     clearRelatedPages()
     setRelatedPages()
 }, { deep: true })
-
 </script>
 
 <template>
-
     <div class="feed-item-label-text-body">
-
         <div v-if="addedParents.length > 0">
-            {{ addedParents.length > 1 ? 'Übergeordnete Seiten hinzugefügt' : 'Übergeordnete Seite hinzugefügt' }}
+            {{ addedParents.length > 1
+                ? t('page.feed.relations.parentsAdded.plural')
+                : t('page.feed.relations.parentsAdded.singular') }}
 
             <div class="feed-item-relation-list" v-for="addedParent in addedParents.slice(0, 3)">
                 <NuxtLink :to="$urlHelper.getPageUrl(addedParent.name, addedParent.id)" @click.stop>
@@ -56,30 +55,34 @@ watch(() => props.relationChanges, () => {
         </div>
 
         <div v-if="removedParents.length > 0">
-            {{ removedParents.length > 1 ? 'Übergeordnete Seiten entfernt' : 'Übergeordnete Seite entfernt' }}
+            {{ removedParents.length > 1
+                ? t('page.feed.relations.parentsRemoved.plural')
+                : t('page.feed.relations.parentsRemoved.singular') }}
             <div class="feed-item-relation-list" v-for="removedParent in removedParents.slice(0, 3)">
                 <NuxtLink :to="$urlHelper.getPageUrl(removedParent.name, removedParent.id)" @click.stop>
                     {{ removedParent.name }}
                 </NuxtLink>
             </div>
             <div v-if="removedParents.length > 3">...</div>
-
         </div>
 
         <div v-if="addedChildren.length > 0">
-            {{ addedChildren.length > 1 ? 'Unterseiten hinzugefügt' : 'Unterseite hinzugefügt' }}
+            {{ addedChildren.length > 1
+                ? t('page.feed.relations.childrenAdded.plural')
+                : t('page.feed.relations.childrenAdded.singular') }}
 
             <div class="feed-item-relation-list" v-for="addedChild in addedChildren.slice(0, 3)">
                 <NuxtLink :to="$urlHelper.getPageUrl(addedChild.name, addedChild.id)" @click.stop>
                     {{ addedChild.name }}
                 </NuxtLink>
             </div>
-
             <div v-if="addedChildren.length > 3">...</div>
         </div>
 
         <div v-if="removedChildren.length > 0">
-            {{ removedChildren.length > 1 ? 'Unterseiten entfernt' : 'Unterseite entfernt' }}
+            {{ removedChildren.length > 1
+                ? t('page.feed.relations.childrenRemoved.plural')
+                : t('page.feed.relations.childrenRemoved.singular') }}
             <div class="feed-item-relation-list" v-for="removedChild in removedChildren.slice(0, 3)">
                 <NuxtLink :to="$urlHelper.getPageUrl(removedChild.name, removedChild.id)" @click.stop>
                     {{ removedChild.name }}
@@ -87,7 +90,5 @@ watch(() => props.relationChanges, () => {
             </div>
             <div v-if="removedChildren.length > 3">...</div>
         </div>
-
     </div>
-
 </template>
