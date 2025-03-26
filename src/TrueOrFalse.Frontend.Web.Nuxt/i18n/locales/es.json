@@ -23,7 +23,7 @@
             "passwordReset": "Tu contraseña se ha restablecido.",
             "passwordVerificationMailSent": "¡Correo de verificación enviado! Por favor, revisa tu bandeja de entrada.",
             "supportLoginUpdated": "Los datos de tu inicio de sesión de soporte se han actualizado correctamente.",
-            "wuwiVisibilityUpdated": "Tu configuración de Wishknowledge se ha actualizado correctamente."
+            "wuwiVisibilityUpdated": "Tu configuración de Conocimiento deseado se ha actualizado correctamente."
         },
         "collaboration": {
             "connected": "Estás viendo la versión en vivo de esta página"
@@ -31,31 +31,31 @@
     },
     "error": {
         "subscription": {
-            "cantAddKnowledge": "No puedes añadir más Wishknowledge en la versión gratuita. Cambia a una membresía Plus para tener Wishknowledge ilimitado.",
-            "cantSavePrivateQuestion": "No puedes añadir más preguntas privadas en la versión gratuita. Cambia a una membresía Plus para tener preguntas privadas ilimitadas.",
-            "cantSavePrivatePage": "No puedes añadir más páginas privadas en la versión gratuita. Cambia a una membresía Plus para tener páginas privadas ilimitadas."
+            "cantAddKnowledge": "No puedes añadir más Conocimiento deseado en la versión gratuita. Pásate a una membresía Plus para tener Conocimiento deseado ilimitado.",
+            "cantSavePrivateQuestion": "No puedes añadir más preguntas privadas en la versión gratuita. Pásate a una membresía Plus para tener preguntas privadas ilimitadas.",
+            "cantSavePrivatePage": "No puedes añadir más páginas privadas en la versión gratuita. Pásate a una membresía Plus para tener páginas privadas ilimitadas."
         },
         "page": {
             "parentIsPrivate": "No es posible publicar. La página superior es privada.",
             "publicChildPages": "Esta página tiene subpáginas públicas.",
             "publicQuestions": "Esta página tiene preguntas públicas.",
             "notLastChild": "No se puede eliminar esta página porque todavía tiene subpáginas. Elimina todas las subpáginas e inténtalo de nuevo.",
-            "noRemainingParents": "No se puede eliminar la vinculación de la página. Esta página debe permanecer vinculada al menos a una página superior pública.",
-            "parentIsRoot": "En el « Wiki Global », solo puedes añadir una página privada",
+            "noRemainingParents": "No se puede eliminar la vinculación de la página. Debe permanecer al menos con una página superior pública.",
+            "parentIsRoot": "En el «Wiki Global», solo puedes añadir una página privada.",
             "loopLink": "Una página no puede subordinarse a sí misma.",
             "isAlreadyLinkedAsChild": "Esta página ya está vinculada como subpágina.",
             "isNotAChild": "Esta página ya no es una subpágina.",
-            "isLinkedInNonWuwi": "Ya has vinculado esta página fuera de tu Wishknowledge. Desactiva « Mostrar solo tu Wishknowledge » y añade la página a tu Wishknowledge.",
+            "isLinkedInNonWuwi": "Ya has vinculado esta página fuera de tu Conocimiento deseado. Desactiva «Mostrar solo tu Conocimiento deseado» y añádela a tu Conocimiento deseado.",
             "childIsParent": "No se puede asignar una página superior como subpágina.",
             "nameIsTaken": " ya está en uso, por favor elige otro nombre.",
             "nameIsForbidden": " está prohibido, por favor elige otro nombre.",
             "rootPageMustBePublic": "La página raíz no puede establecerse como privada.",
             "missingRights": "No tienes los permisos necesarios.",
-            "tooPopular": "Esta página está incluida con demasiada frecuencia en el Wishknowledge de otros usuarios.",
+            "tooPopular": "Esta página está incluida demasiadas veces en el Conocimiento deseado de otros usuarios.",
             "saveImageError": "No se pudo guardar la imagen.",
             "pinnedQuestions": "",
-            "circularReference": "La página superior no puede agregarse como subpágina",
-            "pageNotSelected": "No has seleccionado ninguna página",
+            "circularReference": "La página superior no puede agregarse como subpágina.",
+            "pageNotSelected": "No has seleccionado ninguna página.",
             "newPageIdIsPageIdToBeDeleted": "La página seleccionada no puede ser la misma que se va a eliminar.",
             "noChange": "No se han realizado cambios.",
             "noChildSelected": "No has seleccionado ninguna subpágina."
@@ -65,9 +65,9 @@
             "missingAnswer": "Falta la respuesta a la pregunta.",
             "save": "No se pudo guardar tu pregunta.",
             "creation": "No se pudo crear tu pregunta.",
-            "isInWuwi": "No se puede eliminar la pregunta porque aparece {count} vez/veces en el Wishknowledge de otros usuarios. Por favor, contáctanos si crees que debería eliminarse igualmente.",
+            "isInWuwi": "No se puede eliminar la pregunta porque aparece {count} vez/veces en el Conocimiento deseado de otros usuarios. Contáctanos si crees que debería eliminarse igualmente.",
             "rights": "No tienes permiso para hacer eso.",
-            "errorOnDelete": "Ha ocurrido un error. Es posible que haya referencias parciales a la pregunta (sesiones de aprendizaje, citas, entradas de Wishknowledge...).",
+            "errorOnDelete": "Ha ocurrido un error. Puede que haya referencias parciales a la pregunta (sesiones de aprendizaje, citas, entradas de Conocimiento deseado...).",
             "couldNotAddFlashcards": "No se pudieron añadir las tarjetas."
         },
         "user": {
@@ -76,13 +76,13 @@
             "falseEmailFormat": "El formato de la dirección de correo electrónico no es válido.",
             "userNameInUse": "Este nombre de usuario ya está en uso.",
             "passwordIsWrong": "Contraseña incorrecta. Introdúcela de nuevo.",
-            "samePassword": "La nueva contraseña coincide con la anterior. Por favor, introduce una contraseña diferente.",
-            "passwordNotCorrectlyRepeated": "La contraseña repetida no coincide con la nueva contraseña.",
+            "samePassword": "La nueva contraseña coincide con la anterior. Por favor, introduce otra diferente.",
+            "passwordNotCorrectlyRepeated": "La contraseña repetida no coincide con la nueva.",
             "inputError": "Por favor, revisa tus datos.",
             "passwordResetTokenIsInvalid": "El enlace es inválido. Si tienes problemas, escríbenos a team(at)memucho.de.",
             "passwordResetTokenIsExpired": "El enlace ha caducado.",
             "doesNotExist": "No se encontró el usuario especificado. Verifica tus datos de acceso.",
-            "invalidFBToken": "¡Hola! Parece que el token de Facebook proporcionado no es correcto. Prueba de nuevo con un nuevo inicio de sesión en Facebook. Si aún falla, contacta con nosotros. ¡Con gusto te ayudamos!",
+            "invalidFBToken": "¡Hola! Parece que el token de Facebook proporcionado no es correcto. Prueba de nuevo con un nuevo inicio de sesión en Facebook. Si aún falla, contáctanos. ¡Con gusto te ayudamos!",
             "emailIsInvalid": "{email} no es una dirección de correo electrónico válida.",
             "passwordTooShort": "La contraseña debe tener al menos 5 caracteres.",
             "loginFailed": "No se ha podido iniciar sesión. Verifica tu correo electrónico y tu contraseña."
@@ -97,7 +97,7 @@
             "tooBig": "La imagen es demasiado grande. El archivo no debe superar 1 MB."
         },
         "learningSession": {
-            "noQuestionsAvailableWithCurrentConfig": "No hay preguntas disponibles para estos parámetros. Modifica el nivel de conocimiento o selecciona todas las preguntas."
+            "noQuestionsAvailableWithCurrentConfig": "No hay preguntas disponibles para estos parámetros. Cambia tu nivel de conocimiento o selecciona todas las preguntas."
         },
         "api": {
             "title": "¡Vaya!",
@@ -118,24 +118,24 @@
     },
     "info": {
         "page": {
-            "toggleHideText": "Desactiva la introducción de texto para que la página sea solo de navegación sin contenido textual. Solo posible si la página no tiene texto actualmente."
+            "toggleHideText": "Desactiva la introducción de texto para que la página sea solo de navegación sin contenido. Solo posible si la página no tiene texto actualmente."
         },
         "question": {
-            "newQuestionNotInFilter": "Atención: después de crearla, la pregunta no se mostrará porque las opciones seleccionadas no coinciden con tus filtros. Ajusta tu filtro de aprendizaje para verla.",
-            "notInFilter": "La pregunta no se puede mostrar con tu configuración de filtro actual.",
+            "newQuestionNotInFilter": "Atención: la pregunta no se mostrará después de crearla porque no coincide con tus filtros. Ajusta tu filtro de aprendizaje para verla.",
+            "notInFilter": "La pregunta no se puede mostrar con la configuración de filtro actual.",
             "isPrivate": "La pregunta es privada. Por favor, inicia sesión.",
             "notInPage": "La pregunta no está añadida a esta página."
         },
-        "googleLogin": "Al iniciar sesión con Google, se intercambian datos con los servidores de Google. Esto también se aplica a visitas posteriores tras un registro/inicio de sesión exitoso. Más información en nuestra ",
-        "facebookLogin": "Al iniciar sesión con Facebook, se intercambian datos con los servidores de Facebook. Esto también se aplica a visitas posteriores tras un registro/inicio de sesión exitoso. Más información en nuestra ",
-        "passwordResetRequested": "Si el usuario existe en nuestro sistema, hemos enviado un correo con un enlace para restablecer tu contraseña a {email}.",
+        "googleLogin": "Al iniciar sesión con Google, se intercambian datos con sus servidores. Esto también se aplica a futuras visitas tras iniciar sesión. Más información en nuestra ",
+        "facebookLogin": "Al iniciar sesión con Facebook, se intercambian datos con sus servidores. Esto también se aplica a futuras visitas tras iniciar sesión. Más información en nuestra ",
+        "passwordResetRequested": "Si este usuario existe en nuestro sistema, hemos enviado un correo con un enlace para restablecer tu contraseña a {email}.",
         "joinNow": "¿Listo para acceso ilimitado? – ¡Hazte miembro Plus!",
         "feed": {
             "private": "Solo tú puedes ver esta entrada"
         },
         "ai": {
-            "flashcardsCreatedWillBePublicCauseLimit": "Has alcanzado el límite de tarjetas privadas. Las nuevas tarjetas se crearán como públicas.",
-            "someFlashcardsCreatedWillBePublicCauseLimit": "Has alcanzado el límite de tarjetas privadas. Algunas nuevas tarjetas se crearán como públicas."
+            "flashcardsCreatedWillBePublicCauseLimit": "Has alcanzado el límite de tarjetas privadas. Las nuevas se crearán como públicas.",
+            "someFlashcardsCreatedWillBePublicCauseLimit": "Has alcanzado el límite de tarjetas privadas. Algunas nuevas se crearán como públicas."
         }
     },
     "label": {
@@ -176,10 +176,10 @@
     },
     "register": {
         "title": "Registro",
-        "description": "Tu Wiki está a un solo clic.",
+        "description": "Tu Wiki está a un clic.",
         "alreadyRegistered": "¿Ya tienes cuenta?",
         "orDivider": "o",
-        "registerNote": "Al registrarte con Google o Facebook, aceptas nuestros {termsOfUse} y {privacyPolicy}. Debes tener al menos 16 años, {hereMoreInfos}",
+        "registerNote": "Al registrarte con Google o Facebook, aceptas nuestros {termsOfUse} y nuestra {privacyPolicy}. Debes tener al menos 16 años, {hereMoreInfos}",
         "hereMoreInfos": "¡aquí más información!"
     },
     "url": {
@@ -245,15 +245,15 @@
             "text": "Con {learningPoints},{breakpoint} estás en el {level}.",
             "learningPoints": "{count} puntos de aprendizaje",
             "level": "Nivel {count}",
-            "nextLevelText": "Faltan {pointsToNextLevel} punto(s){breakpoint} para alcanzar el nivel {nextLevel}"
+            "nextLevelText": "Te faltan {pointsToNextLevel} puntos{breakpoint} para alcanzar el nivel {nextLevel}"
         }
     },
     "editor": {
-        "placeholderComment": "Describe aquí tu comentario. Por favor, sé cortés, amable y objetivo...",
+        "placeholderComment": "Describe aquí tu comentario. Sé cortés, amable y objetivo...",
         "placholderQuestion": "Introduce el texto de la pregunta",
         "placeholderFlashcardFront": "Anverso de la tarjeta",
         "placeholderFlashcardBack": "Reverso de la tarjeta",
-        "placeholderDescription": "Información adicional, por ejemplo imágenes, código, etc.",
+        "placeholderDescription": "Información adicional: imágenes, código, etc.",
         "placeholder": "Haz clic aquí para escribir...",
         "placeholderAdditions": "Agregar detalles",
         "questionDescriptionTitle": "Detalles adicionales sobre la pregunta",
@@ -333,7 +333,7 @@
             },
             "dnd": {
                 "errors": {
-                    "noPermission": "Desafortunadamente, no tienes permisos para mover {pageName}"
+                    "noPermission": "Lo sentimos, no tienes permisos para mover {pageName}"
                 },
                 "buttons": {
                     "login": "Iniciar sesión",
@@ -360,7 +360,7 @@
             "chooseAll": "Seleccionar todas",
             "test": "Test",
             "learn": "Aprender",
-            "learnDescription": "Primero aprende las preguntas más difíciles y repite aquellas que contestes mal o que omitas.",
+            "learnDescription": "Primero aprende las preguntas más difíciles y repite las que respondas mal o que omitas.",
             "sortByEasy": "Las más fáciles primero",
             "sortByHard": "Las más difíciles primero",
             "sortByNotKnown": "Preguntas desconocidas primero",
@@ -469,7 +469,7 @@
             "licenseInfo": "Estás publicando bajo la licencia «Creative Commons - Atribución 4.0 Internacional» (CC BY 4.0,",
             "licenseLink": "Texto de la licencia, resumen en alemán",
             "licenseUsage": "El contenido puede reutilizarse sin restricciones, siempre que se cite la autoría.",
-            "licenseConfirmation": "Confirmas que los textos y eventuales imágenes son de tu propia autoría y no están copiados de fuentes con derechos de autor."
+            "licenseConfirmation": "Confirmas que los textos y eventuales imágenes son de tu autoría y no están copiados de fuentes con derechos de autor."
         },
         "feed": {
             "includeSubpages": "Incluir subpáginas",
@@ -545,7 +545,7 @@
             "yourKnowledgeStatus": "Tu nivel de conocimiento",
             "questionsGroupedByStatus": "Preguntas agrupadas por estado",
             "noQuestionsAnswered": "Aún no has respondido ninguna pregunta en esta página.",
-            "pageData": "Datos sobre esta página",
+            "pageData": "Datos de esta página",
             "questionsLabel": "Preguntas:",
             "includedQuestions": "preguntas incluidas",
             "directlyLinkedQuestions": "preguntas vinculadas directamente",
@@ -586,7 +586,7 @@
         "toPrivateModal": {
             "title": "Establecer {name} como privada",
             "button": "Establecer página como privada",
-            "description": "El contenido solo puede ser utilizado por ti. Nadie más puede verlo ni utilizarlo.",
+            "description": "El contenido solo puede ser utilizado por ti. Nadie más puede verlo ni usarlo.",
             "questions": {
                 "personal": "¿Deseas poner también en privado {count} de tus {totalCount} preguntas públicas? (Solo puedes hacer privadas tus propias preguntas).",
                 "admin": "¿Deseas poner también en privado {count} preguntas públicas? (Admin)",
@@ -702,8 +702,8 @@
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
     },
     "questionFilterOptions": {
-        "inWuwi": "En Conocimiento-Deseado",
-        "notInWuwi": "No en Conocimiento-Deseado",
+        "inWuwi": "En Conocimiento deseado",
+        "notInWuwi": "No en Conocimiento deseado",
         "createdByCurrentUser": "Creadas por mí",
         "notCreatedByCurrentUser": "No creadas por mí",
         "private": "Preguntas privadas",
@@ -922,7 +922,7 @@
             "password": "Contraseña",
             "deleteProfile": "Eliminar perfil",
             "settings": "Configuración",
-            "showWuwi": "Mostrar Wishknowledge",
+            "showWuwi": "Mostrar Conocimiento deseado",
             "supportLogin": "Inicio de sesión de soporte",
             "membership": "Membresía",
             "notifications": "Notificaciones",
@@ -959,8 +959,8 @@
             "contactReason": "para que podamos conservar tu valioso contenido y eliminar tu perfil por ti."
         },
         "wuwi": {
-            "showWuwi": "Mostrar Wishknowledge",
-            "explanation": "Si está activado, será visible públicamente qué preguntas están en tu Wishknowledge (excepto las preguntas privadas). No se muestran las estadísticas de respuestas."
+            "showWuwi": "Mostrar Conocimiento deseado",
+            "explanation": "Si está activado, será visible públicamente qué preguntas están en tu Conocimiento deseado (excepto las preguntas privadas). No se muestran estadísticas de respuestas."
         },
         "supportLogin": {
             "allow": "Permitir inicio de sesión de soporte",
@@ -980,7 +980,7 @@
                 "never": "Nunca"
             },
             "description": "El informe de conocimiento te informa sobre tu nivel de conocimiento actual de tu",
-            "additionalInfo": "Wishknowledge y sobre el nuevo contenido en memoWikis. Solo se envía si tienes Wishknowledge."
+            "additionalInfo": "Conocimiento deseado y sobre el nuevo contenido en memoWikis. Solo se envía si tienes Conocimiento deseado."
         }
     },
     "questionLandingPage": {
@@ -1000,7 +1000,7 @@
                 "notLoggedIn": "Esta es la probabilidad de que respondas correctamente. Inicia sesión para que podamos calcular tu probabilidad personal."
             },
             "status": {
-                "notInWishknowledge": "No está en el Wishknowledge",
+                "notInWishknowledge": "No está en el Conocimiento deseado",
                 "solid": "Conocimiento sólido",
                 "needsConsolidation": "Para consolidar",
                 "needsLearning": "Para aprender",
@@ -1102,9 +1102,9 @@
             "reputation": {
                 "title": "Puntos de reputación",
                 "total": "total",
-                "questionsInOtherWishknowledges": "Preguntas propias en el Wishknowledge de otros",
+                "questionsInOtherWishknowledges": "Preguntas propias en el Conocimiento deseado de otros",
                 "questionsCreated": "Preguntas creadas",
-                "publicWishknowledges": "Publicación de tu propio Wishknowledge",
+                "publicWishknowledges": "Publicación de tu propio Conocimiento deseado",
                 "learnMore": "Saber más sobre puntos de reputación"
             },
             "content": {
@@ -1115,24 +1115,24 @@
                 "privatePages": "Páginas privadas"
             },
             "wishknowledge": {
-                "title": "En el Wishknowledge",
+                "title": "En el Conocimiento deseado",
                 "questions": "Preguntas"
             }
         },
         "wishknowledge": {
             "private": {
-                "own": "Tu Wishknowledge no es público.",
+                "own": "Tu Conocimiento deseado no es público.",
                 "change": "Cambiar",
                 "notPublic": "No público",
-                "userNotPublished": "{name} no ha publicado su Wishknowledge."
+                "userNotPublished": "{name} no ha publicado su Conocimiento deseado."
             },
             "questions": {
-                "title": "Preguntas en Wunschwissen ({count})",
+                "title": "Preguntas en el Conocimiento deseado ({count})",
                 "search": "Buscar",
                 "noResults": "Hmm..., desafortunadamente no hay ninguna pregunta con \"{term}\""
             },
             "pages": {
-                "title": "Páginas con Wunschwissen ({count})",
+                "title": "Páginas con el Conocimiento deseado ({count})",
                 "search": "Buscar",
                 "noResults": "¡Vaya! No encontramos una página \"{term}\".",
                 "withQuestions": "con {count} preguntas"
@@ -1146,7 +1146,7 @@
         },
         "tabs": {
             "overview": "Resumen",
-            "wishknowledge": "Wishknowledge",
+            "wishknowledge": "Conocimiento deseado",
             "settings": "Configuración"
         },
         "membership": {
@@ -1173,7 +1173,7 @@
                         "publicContent": "Contenido público ilimitado (ver, crear y aprender)",
                         "privatePages": "{count} páginas privadas",
                         "privateQuestions": "{count} preguntas privadas",
-                        "wishknowledge": "máx. {count} preguntas en el Wishknowledge"
+                        "wishknowledge": "máx. {count} preguntas en el Conocimiento deseado"
                     }
                 },
                 "plus": {
@@ -1184,7 +1184,7 @@
                         "support": "Nos apoyas :-)",
                         "unlimitedPages": "Páginas privadas ilimitadas",
                         "unlimitedQuestions": "Preguntas privadas ilimitadas",
-                        "unlimitedWishknowledge": "Wishknowledge ilimitado"
+                        "unlimitedWishknowledge": "Conocimiento deseado ilimitado"
                     }
                 },
                 "team": {
@@ -1241,7 +1241,7 @@
             "label": "Ordenar por:",
             "options": {
                 "rank": "Rango",
-                "wishknowledge": "Wishknowledge",
+                "wishknowledge": "Conocimiento deseado",
                 "notSelected": "No seleccionado"
             }
         },
@@ -1252,8 +1252,8 @@
         "card": {
             "reputation": "Reputación: {points} (Rango {rank})",
             "created": "Creadas: {questions} preguntas / {pages} páginas",
-            "wishknowledge": "Wishknowledge: {questions} preguntas / {pages} páginas",
-            "privateWishknowledge": "El Wishknowledge de {name} es privado",
+            "wishknowledge": "Conocimiento deseado: {questions} preguntas / {pages} páginas",
+            "privateWishknowledge": "El Conocimiento deseado de {name} es privado",
             "toWiki": "Ir al Wiki de {name}",
             "rank": "Rango",
             "createdTitle": "Creado",
@@ -1292,8 +1292,8 @@
         },
         "message": {
             "loginInProgress": "El inicio de sesión/registro continúa en una nueva ventana.",
-            "googlePrivacy": "Al iniciar sesión con Google, se intercambian datos con los servidores de Google. Esto también sucede en visitas posteriores tras un inicio de sesión/registro exitoso. Más detalles en nuestra Política de Privacidad.",
-            "facebookPrivacy": "Al iniciar sesión con Facebook, se intercambian datos con los servidores de Facebook. Esto también sucede en visitas posteriores tras un inicio de sesión/registro exitoso. Más detalles en nuestra Política de Privacidad.",
+            "googlePrivacy": "Al iniciar sesión con Google, se intercambian datos con sus servidores. También sucede en visitas posteriores tras un inicio de sesión/registro exitoso. Más detalles en nuestra Política de Privacidad.",
+            "facebookPrivacy": "Al iniciar sesión con Facebook, se intercambian datos con sus servidores. También sucede en visitas posteriores tras un inicio de sesión/registro exitoso. Más detalles en nuestra Política de Privacidad.",
             "resetPasswordInfo": "Introduce la dirección de correo con la que te registraste. Te enviaremos un enlace para restablecer tu contraseña.",
             "or": "o",
             "notRegistered": "¿Aún no tienes cuenta?",
@@ -1379,7 +1379,7 @@
                 "declaration": "Yo, {name}, el titular de los derechos de esta obra, concedo irrevocablemente a todos el derecho de usarla bajo la licencia «Creative Commons - Atribución 4.0 Internacional» (CC BY 4.0) {licenseLink}.",
                 "licenseText": "(Texto de la licencia)",
                 "namePlaceholder": "Nombre",
-                "useWikimedia": "Te pedimos que subas la imagen a Wikimedia e la incrustes desde allí."
+                "useWikimedia": "Te pedimos que subas la imagen a Wikimedia y la incrustes desde allí."
             }
         }
     },
@@ -1402,8 +1402,8 @@
     },
     "pin": {
         "tooltips": {
-            "removeFromWishknowledge": "Eliminar de tu Wunschwissen",
-            "addToWishknowledge": "Agregar a tu Wunschwissen"
+            "removeFromWishknowledge": "Eliminar de tu Conocimiento deseado",
+            "addToWishknowledge": "Agregar a tu Conocimiento deseado"
         },
         "labels": {
             "add": "Agregar"

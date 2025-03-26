@@ -23,7 +23,7 @@
             "passwordReset": "Ton mot de passe a été réinitialisé !",
             "passwordVerificationMailSent": "E-mail de vérification envoyé ! Vérifie ta boîte de réception.",
             "supportLoginUpdated": "Tes infos de connexion au support sont à jour !",
-            "wuwiVisibilityUpdated": "Tes paramètres de Wunschwissen sont à jour !"
+            "wuwiVisibilityUpdated": "Tes paramètres de Connaissances souhaitées sont à jour !"
         },
         "collaboration": {
             "connected": "Tu consultes la version en direct de cette page !"
@@ -31,7 +31,7 @@
     },
     "error": {
         "subscription": {
-            "cantAddKnowledge": "Tu ne peux plus ajouter de Wunschwissen avec la version gratuite. Passe à l’abonnement Plus pour un Wunschwissen illimité !",
+            "cantAddKnowledge": "Tu ne peux plus ajouter de Connaissances souhaitées avec la version gratuite. Passe à l’abonnement Plus pour des Connaissances souhaitées illimitées !",
             "cantSavePrivateQuestion": "Tu ne peux plus créer de questions privées avec la version gratuite. Passe à l’abonnement Plus pour en créer à volonté !",
             "cantSavePrivatePage": "Tu ne peux plus créer de pages privées avec la version gratuite. Passe à l’abonnement Plus pour en créer autant que tu veux !"
         },
@@ -45,13 +45,13 @@
             "loopLink": "Les pages ne peuvent pas se référencer elles-mêmes comme sous-pages.",
             "isAlreadyLinkedAsChild": "Cette page est déjà liée comme sous-page.",
             "isNotAChild": "Cette page n’est déjà plus une sous-page.",
-            "isLinkedInNonWuwi": "Cette page est déjà liée en dehors de ton Wunschwissen. Désactive « Afficher uniquement ton Wunschwissen » pour l’ajouter.",
+            "isLinkedInNonWuwi": "Cette page est déjà liée en dehors de tes Connaissances souhaitées. Désactive « Afficher uniquement tes Connaissances souhaitées » pour l’ajouter.",
             "childIsParent": "Impossible d’ajouter une page parente comme sous-page.",
             "nameIsTaken": " est déjà pris, choisis un autre nom !",
             "nameIsForbidden": " est interdit, choisis un autre nom !",
             "rootPageMustBePublic": "La page d’origine ne peut pas devenir privée.",
             "missingRights": "Tu n’as pas les droits nécessaires.",
-            "tooPopular": "Cette page est trop souvent utilisée dans le Wunschwissen d’autres utilisateurs.",
+            "tooPopular": "Cette page est trop souvent utilisée dans les Connaissances souhaitées d’autres utilisateurs.",
             "saveImageError": "Impossible d’enregistrer l’image.",
             "pinnedQuestions": "",
             "circularReference": "La page parente ne peut pas devenir sa propre sous-page.",
@@ -65,7 +65,7 @@
             "missingAnswer": "Il manque la réponse de la question.",
             "save": "Ta question n’a pas pu être enregistrée.",
             "creation": "Impossible de créer la question.",
-            "isInWuwi": "Impossible de la supprimer, elle est présente {count} fois dans le Wunschwissen d’autres utilisateurs. Contacte-nous si tu penses qu’elle devrait quand même être retirée.",
+            "isInWuwi": "Impossible de la supprimer, elle est présente {count} fois dans les Connaissances souhaitées d’autres utilisateurs. Contacte-nous si tu penses qu’elle devrait quand même être retirée.",
             "rights": "Tu n’as pas l’autorisation de faire ça.",
             "errorOnDelete": "Oups, un problème est survenu ! Les références à la question (sessions d’apprentissage, etc.) ont peut-être été partiellement supprimées.",
             "couldNotAddFlashcards": "Impossible d’ajouter ces cartes."
@@ -588,7 +588,7 @@
             "button": "Rendre la page privée",
             "description": "Le contenu n’est accessible qu’à toi. Personne d’autre ne le voit ni ne peut l’utiliser.",
             "questions": {
-                "personal": "Veux-tu aussi rendre privées {count} de tes {totalCount} questions publiques ? (Tu ne peux rendre privées que les tiennes.)",
+                "personal": "Veux-tu aussi rendre privées {count} de tes {totalCount} questions publiques ? (Tu ne peux rendre privées que tes propres questions.)",
                 "admin": "Veux-tu aussi rendre privées {count} questions publiques ? (Admin)",
                 "question": "question | questions"
             }
@@ -702,8 +702,8 @@
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
     },
     "questionFilterOptions": {
-        "inWuwi": "Dans le Wunschwissen",
-        "notInWuwi": "Pas dans le Wunschwissen",
+        "inWuwi": "Dans les Connaissances souhaitées",
+        "notInWuwi": "Pas dans les Connaissances souhaitées",
         "createdByCurrentUser": "Créées par moi",
         "notCreatedByCurrentUser": "Pas créées par moi",
         "private": "Questions privées",
@@ -922,7 +922,7 @@
             "password": "Mot de passe",
             "deleteProfile": "Supprimer le profil",
             "settings": "Paramètres",
-            "showWuwi": "Afficher Wunschwissen",
+            "showWuwi": "Afficher les Connaissances souhaitées",
             "supportLogin": "Connexion Support",
             "membership": "Adhésion",
             "notifications": "Notifications",
@@ -959,8 +959,8 @@
             "contactReason": "afin qu’on sauvegarde tes données et qu’on le supprime pour toi."
         },
         "wuwi": {
-            "showWuwi": "Rendre mon Wunschwissen visible",
-            "explanation": "Si tu coches, il sera visible publiquement quelles questions sont dans ton Wunschwissen (sauf tes questions privées). Les stats de réponses ne s’affichent pas."
+            "showWuwi": "Rendre mes Connaissances souhaitées visibles",
+            "explanation": "Si tu coches, il sera visible publiquement quelles questions sont dans tes Connaissances souhaitées (sauf tes questions privées). Les stats de réponses ne s’affichent pas."
         },
         "supportLogin": {
             "allow": "Autoriser la connexion Support",
@@ -980,7 +980,7 @@
                 "never": "Jamais"
             },
             "description": "Le rapport te montre ton niveau de connaissance dans",
-            "additionalInfo": "ton Wunschwissen et les nouveautés de memoWikis. Un e-mail n’est envoyé que si tu possèdes du Wunschwissen."
+            "additionalInfo": "tes Connaissances souhaitées et les nouveautés de memoWikis. Un e-mail n’est envoyé que si tu as des Connaissances souhaitées."
         }
     },
     "questionLandingPage": {
@@ -1000,7 +1000,7 @@
                 "notLoggedIn": "C’est la chance de bonne réponse. Connecte-toi pour ton pourcentage personnalisé."
             },
             "status": {
-                "notInWishknowledge": "Pas dans le Wunschwissen",
+                "notInWishknowledge": "Pas dans les Connaissances souhaitées",
                 "solid": "Bien maîtrisée",
                 "needsConsolidation": "À consolider",
                 "needsLearning": "À apprendre",
@@ -1023,7 +1023,7 @@
                 "answered": "fois répondue",
                 "correct": "correcte",
                 "wrong": "fausse",
-                "privateQuestion": "Cette question est privée, donc visible seulement pour toi",
+                "privateQuestion": "Cette question est privée et seulement visible pour toi",
                 "noAnswers": "Personne n’a encore répondu à cette question."
             }
         },
@@ -1102,9 +1102,9 @@
             "reputation": {
                 "title": "Points de réputation",
                 "total": "total",
-                "questionsInOtherWishknowledges": "Tes propres questions dans le Wunschwissen des autres",
+                "questionsInOtherWishknowledges": "Tes propres questions dans les Connaissances souhaitées d’autrui",
                 "questionsCreated": "Questions créées",
-                "publicWishknowledges": "Publication de ton propre Wunschwissen",
+                "publicWishknowledges": "Publication de tes propres Connaissances souhaitées",
                 "learnMore": "En savoir plus sur la réputation"
             },
             "content": {
@@ -1115,24 +1115,24 @@
                 "privatePages": "Pages privées"
             },
             "wishknowledge": {
-                "title": "Dans le Wunschwissen",
+                "title": "Dans les Connaissances souhaitées",
                 "questions": "Questions"
             }
         },
         "wishknowledge": {
             "private": {
-                "own": "Ton Wunschwissen n’est pas public.",
+                "own": "Tes Connaissances souhaitées ne sont pas publiques.",
                 "change": "Modifier",
                 "notPublic": "Non public",
-                "userNotPublished": "{name} n’a pas partagé son Wunschwissen."
+                "userNotPublished": "{name} n’a pas partagé ses Connaissances souhaitées."
             },
             "questions": {
-                "title": "Questions dans le Wunschwissen ({count})",
+                "title": "Questions dans les Connaissances souhaitées ({count})",
                 "search": "Rechercher",
                 "noResults": "Aïe, aucune question pour « {term} »"
             },
             "pages": {
-                "title": "Pages avec Wunschwissen ({count})",
+                "title": "Pages avec Connaissances souhaitées ({count})",
                 "search": "Rechercher",
                 "noResults": "Oups, aucune page pour « {term} ».",
                 "withQuestions": "avec {count} questions"
@@ -1146,7 +1146,7 @@
         },
         "tabs": {
             "overview": "Aperçu",
-            "wishknowledge": "Wunschwissen",
+            "wishknowledge": "Connaissances souhaitées",
             "settings": "Paramètres"
         },
         "membership": {
@@ -1173,7 +1173,7 @@
                         "publicContent": "Contenu public illimité (créer, voir, apprendre)",
                         "privatePages": "{count} pages privées",
                         "privateQuestions": "{count} questions privées",
-                        "wishknowledge": "max {count} questions dans ton Wunschwissen"
+                        "wishknowledge": "max {count} questions dans tes Connaissances souhaitées"
                     }
                 },
                 "plus": {
@@ -1184,7 +1184,7 @@
                         "support": "Merci pour ton soutien !",
                         "unlimitedPages": "Pages privées illimitées",
                         "unlimitedQuestions": "Questions privées illimitées",
-                        "unlimitedWishknowledge": "Wunschwissen illimité"
+                        "unlimitedWishknowledge": "Connaissances souhaitées illimitées"
                     }
                 },
                 "team": {
@@ -1241,7 +1241,7 @@
             "label": "Trier par :",
             "options": {
                 "rank": "Rang",
-                "wishknowledge": "Wunschwissen",
+                "wishknowledge": "Connaissances souhaitées",
                 "notSelected": "Non sélectionné"
             }
         },
@@ -1252,8 +1252,8 @@
         "card": {
             "reputation": "Réputation : {points} (rang {rank})",
             "created": "Créé : {questions} questions / {pages} pages",
-            "wishknowledge": "Wunschwissen : {questions} questions / {pages} pages",
-            "privateWishknowledge": "Le Wunschwissen de {name} est privé",
+            "wishknowledge": "Connaissances souhaitées : {questions} questions / {pages} pages",
+            "privateWishknowledge": "Les Connaissances souhaitées de {name} sont privées",
             "toWiki": "Aller au wiki de {name}",
             "rank": "Rang",
             "createdTitle": "Créé",
@@ -1402,8 +1402,8 @@
     },
     "pin": {
         "tooltips": {
-            "removeFromWishknowledge": "Retirer de ton Wunschwissen",
-            "addToWishknowledge": "Ajouter à ton Wunschwissen"
+            "removeFromWishknowledge": "Retirer de tes Connaissances souhaitées",
+            "addToWishknowledge": "Ajouter à tes Connaissances souhaitées"
         },
         "labels": {
             "add": "Ajouter"
