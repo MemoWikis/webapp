@@ -1388,5 +1388,8 @@
             "skipped": "(übersprungen)",
             "notSeen": "(noch nicht gesehen)"
         }
+    },
+    "chip": {
+        "showSpoiler": "Spoiler anzeigen"
     }
 }

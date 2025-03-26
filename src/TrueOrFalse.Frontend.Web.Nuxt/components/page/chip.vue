@@ -10,6 +10,8 @@ interface Props {
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['removePage'])
+const { t } = useI18n()
+const { $urlHelper } = useNuxtApp()
 
 const hover = ref(false)
 const name = ref('')
@@ -29,7 +31,6 @@ name.value = props.page.name.length > 30 ? props.page.name.substring(0, 26) + ' 
 if (props.isSpoiler)
     showName.value = false
 
-const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
@@ -48,7 +49,7 @@ const { $urlHelper } = useNuxtApp()
             </NuxtLink>
             <div class="page-chip spoiler" v-else @click="showName = true">
                 <div class="page-chip-label">
-                    Spoiler anzeigen
+                    {{ t('chip.showSpoiler') }}
                 </div>
             </div>
         </div>

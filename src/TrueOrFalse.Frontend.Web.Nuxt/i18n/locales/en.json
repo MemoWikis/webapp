@@ -1386,5 +1386,8 @@
             "skipped": "(skipped)",
             "notSeen": "(not yet viewed)"
         }
+    },
+    "chip": {
+        "showSpoiler": "Show spoiler"
     }
 }
