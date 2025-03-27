@@ -14,27 +14,30 @@ function openEmail() {
 }
 
 onBeforeMount(() => {
-	if (locale.value != 'en' && !userStore.isLoggedIn) {
+	if (locale.value !== 'en' && !userStore.isLoggedIn) {
 		setLocale('en')
 	}
 })
 
-watch(() => locale.value, async (newLocale) => {
-	switch (newLocale) {
-		case 'de':
-			await navigateTo('/Impressum')
-			break
-		case 'en':
-			await navigateTo('/LegalNotice')
-			break
-		case 'fr':
-			await navigateTo('/MentionsLegales')
-			break
-		case 'es':
-			await navigateTo('/AvisoLegal')
-			break
+watch(
+	() => locale.value,
+	async (newLocale) => {
+		switch (newLocale) {
+			case 'de':
+				await navigateTo('/Impressum')
+				break
+			case 'en':
+				await navigateTo('/LegalNotice')
+				break
+			case 'fr':
+				await navigateTo('/MentionsLegales')
+				break
+			case 'es':
+				await navigateTo('/AvisoLegal')
+				break
+		}
 	}
-})
+)
 
 useHead(() => ({
 	htmlAttrs: {
@@ -44,7 +47,7 @@ useHead(() => ({
 		{
 			rel: 'canonical',
 			href: `${config.public.officialBase}/LegalNotice`
-		},
+		}
 	],
 	meta: [
 		{
@@ -62,7 +65,7 @@ useHead(() => ({
 		{
 			property: 'og:type',
 			content: `website`
-		},
+		}
 	]
 }))
 </script>
@@ -72,7 +75,8 @@ useHead(() => ({
 		<div class="row main-page">
 			<div class="form-horizontal col-md-12 main-content">
 
-				<h1 class="PageHeader" id="Impressum">Legal Notice & Privacy Policy</h1>
+				<!-- ***************** LEGAL NOTICE ***************** -->
+				<h1 class="PageHeader" id="Impressum">Legal Notice &amp; Privacy Policy</h1>
 
 				<h2>1. Legal Notice</h2>
 
@@ -84,13 +88,13 @@ useHead(() => ({
 
 				<h3>Registry Entry:</h3>
 				Register Court: Amtsgericht Cottbus, HRB 13499 CB<br />
+
 				<h3>Represented by:</h3>
 				Managing Director:<br />
 				Robert Mischke<br />
 
 				<h3 id="Kontakt">Contact:</h3>
-				Telephone:
-				<br />
+				Telephone:<br />
 				+49-178 186 68 48<br />
 				<span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
 
@@ -154,7 +158,8 @@ useHead(() => ({
 				</p>
 				<p>
 					Your parents can provide consent by email or phone. They can contact
-					us here: <span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
+					us here:
+					<span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
 				</p>
 				<p>
 					You can of course use the site anonymously—that is, without registration.
@@ -167,8 +172,9 @@ useHead(() => ({
 							target="_blank"
 							:external="true">
 							Disclaimer
-						</NuxtLink> by
-						eRecht24, the portal for internet law by <NuxtLink
+						</NuxtLink>
+						by eRecht24, the portal for internet law by
+						<NuxtLink
 							to="http://www.e-recht24.de/"
 							target="_blank"
 							:external="true">
@@ -180,6 +186,7 @@ useHead(() => ({
 
 				<br />
 
+				<!-- ***************** PRIVACY POLICY ***************** -->
 				<h1>Privacy Policy</h1>
 
 				<h2>Data Protection</h2>
@@ -188,7 +195,7 @@ useHead(() => ({
 					explain, pursuant to the requirements of the
 					<NuxtLink
 						:external="true"
-						to="https://eur-lex.europa.eu/legal-content/DE/ALL/?tid=1234&uri=celex%3A32016R0679&tid=311128432">
+						to="https://eur-lex.europa.eu/legal-content/EN/ALL/?tid=1234&uri=celex%3A32016R0679&tid=311128432">
 						EU General Data Protection Regulation (EU) 2016/679
 					</NuxtLink>,
 					what information we collect, how we use that data, and which choices
@@ -229,7 +236,7 @@ useHead(() => ({
 					The legal basis under
 					<NuxtLink
 						:external="true"
-						to="https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32016R0679&from=DE&tid=311128432">
+						to="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679&from=EN&tid=311128432">
 						Article 6(1)(f) GDPR
 					</NuxtLink>
 					is that there is a legitimate interest in enabling the error-free
@@ -300,27 +307,29 @@ useHead(() => ({
 					At this point, let’s briefly discuss the different types of HTTP
 					cookies:
 				</p>
-				<p>There are 4 types of cookies:</p>
-
-				<p>**Essential Cookies**
+				<p>
+					<strong>Essential Cookies</strong><br />
 					These cookies are necessary to ensure basic site functions. For example,
 					these cookies are needed to keep items in a shopping cart—even when
 					you close the browser window—and allow you to continue where you left
 					off.
 				</p>
 
-				<p>**Functional Cookies**
+				<p>
+					<strong>Functional Cookies</strong><br />
 					These cookies gather information about user behavior and any errors.
 					They also measure load times and the website’s behavior across
 					different browsers.
 				</p>
 
-				<p>**Targeted Cookies**
+				<p>
+					<strong>Targeted Cookies</strong><br />
 					These cookies improve user experience—for instance, saving entered
 					locations, font sizes, or form data.
 				</p>
 
-				<p>**Advertising Cookies**
+				<p>
+					<strong>Advertising Cookies</strong><br />
 					Also known as targeting cookies, these deliver individualized
 					advertising to users. This can be quite convenient but also
 					annoying at times.
@@ -345,12 +354,11 @@ useHead(() => ({
 					change cookie settings, or delete cookies, you can find instructions
 					in your browser settings:
 				</p>
-
 				<p>
 					<NuxtLink
 						:external="true"
 						to="https://support.google.com/chrome/answer/95647?tid=311128432">
-						Chrome: Delete, enable & manage cookies
+						Chrome: Delete, enable &amp; manage cookies
 					</NuxtLink>
 				</p>
 				<p>
@@ -403,9 +411,7 @@ useHead(() => ({
 				<p>
 					If you want to learn more about cookies, especially the technical
 					details, we recommend:
-					<NuxtLink
-						:external="true"
-						to="https://tools.ietf.org/html/rfc6265">
+					<NuxtLink :external="true" to="https://tools.ietf.org/html/rfc6265">
 						https://tools.ietf.org/html/rfc6265
 					</NuxtLink>,
 					the “HTTP State Management Mechanism” Request for Comments by the
@@ -437,7 +443,7 @@ useHead(() => ({
 					The legal basis under
 					<NuxtLink
 						:external="true"
-						to="https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32016R0679&from=DE&tid=311128432">
+						to="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679&from=EN&tid=311128432">
 						Article 6(1)(a) GDPR
 					</NuxtLink>
 					is that you consent to the processing of the data you have entered.
@@ -561,7 +567,7 @@ useHead(() => ({
 					protection by design,”
 					<NuxtLink
 						:external="true"
-						to="https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32016R0679&from=DE&tid=311128432">
+						to="https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32016R0679&from=EN&tid=311128432">
 						Article 25(1) GDPR
 					</NuxtLink>).
 					By using TLS (Transport Layer Security), an encryption protocol for
@@ -681,8 +687,8 @@ useHead(() => ({
 					our website. The Google Fonts API was created to minimize the
 					collection, storage, and use of end-user data required to deliver
 					fonts efficiently. (“API” stands for Application Programming
-					Interface, serving among other things as a data transmitter in
-					software.)
+					Interface, which serves among other things as a data transmitter in
+					the software realm.)
 				</p>
 				<p>
 					Google Fonts securely stores requests for CSS and fonts at Google
@@ -691,8 +697,7 @@ useHead(() => ({
 					results internally (e.g., in Google Analytics) or via its BigQuery
 					service. Additionally, Google uses its own web crawler to see which
 					websites use Google Fonts, publishing these findings in the BigQuery
-					database for Google Fonts. BigQuery is a Google web service for
-					companies seeking to handle and analyze large volumes of data.
+					database for Google Fonts.
 				</p>
 				<p>
 					Bear in mind that each request for Google Fonts automatically sends
@@ -810,19 +815,125 @@ useHead(() => ({
 					points are stored because fewer cookies are set.
 				</p>
 				<p>
-					In the following list, we show cookies that were set in a test.
-					We list both cookies set without a logged-in YouTube account and
-					cookies set when logged in. Because user data always depends on
+					In the following list, we show example cookies that were set in a
+					test. We list both cookies set without a logged-in YouTube account
+					and cookies set when logged in. Because user data always depends on
 					interactions with YouTube, this list cannot be exhaustive:
 				</p>
 
-				<!-- Example cookies... (omitted for brevity in the explanation) -->
+				<!-- EXAMPLE COOKIES FOR YOUTUBE (Not logged in) -->
+				<ul>
+					<li><strong>Name:</strong> YSC</li>
+					<li><strong>Value:</strong> b9-CV6ojI5311128432Y</li>
+					<li><strong>Purpose:</strong> Registers a unique ID to store statistics of the viewed video.</li>
+					<li><strong>Expiration:</strong> End of session</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> PREF</li>
+					<li><strong>Value:</strong> f1=50000000</li>
+					<li>
+						<strong>Purpose:</strong> This cookie also registers your unique ID. Google receives
+						statistics about how you use YouTube videos on our website via PREF.
+					</li>
+					<li><strong>Expiration:</strong> After 8 months</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> GPS</li>
+					<li><strong>Value:</strong> 1</li>
+					<li><strong>Purpose:</strong> This cookie registers your unique ID on mobile devices to track GPS location.</li>
+					<li><strong>Expiration:</strong> After 30 minutes</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> VISITOR_INFO1_LIVE</li>
+					<li><strong>Value:</strong> 31112843295Chz8bagyU</li>
+					<li>
+						<strong>Purpose:</strong> This cookie tries to estimate the user’s bandwidth on our pages (with embedded YouTube video).
+					</li>
+					<li><strong>Expiration:</strong> After 8 months</li>
+				</ul>
+
+				<p>
+					<em>Note:</em> These cookies were identified during testing and do not claim
+					to be exhaustive.
+				</p>
+
+				<!-- EXAMPLE COOKIES FOR YOUTUBE (When logged in) -->
+				<p>
+					Additional cookies may be set if you are logged into your YouTube account
+					(especially for analyzing user interactions):
+				</p>
+				<ul>
+					<li><strong>Name:</strong> APISID</li>
+					<li><strong>Value:</strong> zILlvClZSkqGsSwI/AU1aZI6HY7311128432-</li>
+					<li>
+						<strong>Purpose:</strong> Used to build a profile of your interests for personalized ads.
+					</li>
+					<li><strong>Expiration:</strong> After 2 years</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> CONSENT</li>
+					<li><strong>Value:</strong> YES+AT.en+20150628-20-0</li>
+					<li>
+						<strong>Purpose:</strong> Stores the user’s consent status for using various Google services;
+						also used for security to verify users and protect user data from unauthorized access.
+					</li>
+					<li><strong>Expiration:</strong> After 19 years</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> HSID</li>
+					<li><strong>Value:</strong> AcRwpgUik9Dveht0I</li>
+					<li>
+						<strong>Purpose:</strong> Used to build a profile of your interests for personalized ads.
+					</li>
+					<li><strong>Expiration:</strong> After 2 years</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> LOGIN_INFO</li>
+					<li><strong>Value:</strong> AFmmF2swRQIhALl6aL…</li>
+					<li><strong>Purpose:</strong> Stores your login data.</li>
+					<li><strong>Expiration:</strong> After 2 years</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> SAPISID</li>
+					<li><strong>Value:</strong> 7oaPxoG-pZsJuuF5/AnUdDUIsJ9iJz2vdM</li>
+					<li>
+						<strong>Purpose:</strong> Identifies your browser and device uniquely; used to create a profile of your interests.
+					</li>
+					<li><strong>Expiration:</strong> After 2 years</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> SID</li>
+					<li><strong>Value:</strong> oQfNKjAsI311128432-</li>
+					<li>
+						<strong>Purpose:</strong> Stores your Google Account ID and your most recent login time in a digitally
+						signed and encrypted form.
+					</li>
+					<li><strong>Expiration:</strong> After 2 years</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> SIDCC</li>
+					<li><strong>Value:</strong> AN0-TYuqub2JOcDTyL</li>
+					<li>
+						<strong>Purpose:</strong> Stores information about how you use the website and which ads you may
+						have seen before visiting our site.
+					</li>
+					<li><strong>Expiration:</strong> After 3 months</li>
+				</ul>
 
 				<p>
 					If you are logged into your YouTube account, YouTube can store and
 					associate many of your actions/interactions on our website with your
-					YouTube account via cookies. This gives YouTube information like how
-					long you surf on our site, which browser type you use, which screen
+					YouTube account via cookies. This gives YouTube information such as
+					how long you surf on our site, which browser type you use, which screen
 					resolution you prefer, or which actions you perform.
 				</p>
 				<p>
@@ -831,6 +942,70 @@ useHead(() => ({
 					use Google Ads).
 				</p>
 
+				<!-- ***************** YOUTUBE SUBSCRIBE BUTTON ***************** -->
+				<h2>YouTube Subscribe Button Privacy Policy</h2>
+				<p>
+					We have integrated the YouTube Subscribe Button (sometimes displayed
+					with the text “Subscribe” or a YouTube logo) on our website. This
+					button typically features YouTube’s branding (red/white with the
+					“play” symbol) and allows you to subscribe to our YouTube channel
+					directly from our site—no need to visit YouTube separately. This is
+					intended to make accessing our video content as convenient as possible.
+					Please note that YouTube can store and process data from you as a result
+					of loading or interacting with this button.
+				</p>
+				<p>
+					When you see or use the embedded “Subscribe” button on our site,
+					YouTube—according to Google—sets at least one cookie. This cookie
+					stores your IP address and the URL of our page. It may also capture
+					information about your browser type, approximate location, and
+					language settings. In our tests, for visitors not logged into a
+					YouTube (Google) account, the following cookies were set:
+				</p>
+				<ul>
+					<li><strong>Name:</strong> YSC</li>
+					<li><strong>Value:</strong> b9-CV6ojI5Y</li>
+					<li><strong>Purpose:</strong> Registers a unique ID to store statistics of the viewed video.</li>
+					<li><strong>Expiration:</strong> End of session</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> PREF</li>
+					<li><strong>Value:</strong> f1=50000000</li>
+					<li>
+						<strong>Purpose:</strong> Registers your unique ID. Used by Google to get statistics about how
+						you use YouTube videos.
+					</li>
+					<li><strong>Expiration:</strong> After 8 months</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> GPS</li>
+					<li><strong>Value:</strong> 1</li>
+					<li><strong>Purpose:</strong> Registers a unique ID on mobile devices to track GPS location.</li>
+					<li><strong>Expiration:</strong> After 30 minutes</li>
+				</ul>
+
+				<ul>
+					<li><strong>Name:</strong> VISITOR_INFO1_LIVE</li>
+					<li><strong>Value:</strong> 31112843295Chz8bagyU</li>
+					<li>
+						<strong>Purpose:</strong> Attempts to estimate the user’s bandwidth on pages with embedded YouTube video.
+					</li>
+					<li><strong>Expiration:</strong> After 8 months</li>
+				</ul>
+				<p>
+					<em>Note:</em> These cookies were set after a test and do not claim to be complete.
+				</p>
+				<p>
+					If you are logged into your YouTube account, YouTube can store more
+					details of your interactions and associate them with your profile (e.g.,
+					how long you stayed on our site, which actions you took, etc.). YouTube
+					uses this data to provide analytics, improve user experience, and
+					share summarized statistics with advertisers using Google Ads.
+				</p>
+
+				<!-- ***************** ONLINE JOB APPLICATIONS ***************** -->
 				<h4>Online Job Applications / Publication of Job Advertisements</h4>
 				<p>
 					We offer you the opportunity to apply to us via our website. In these
@@ -880,7 +1055,10 @@ useHead(() => ({
 						Sample Privacy Policy
 					</NuxtLink>
 					by
-					<NuxtLink target="_blank" :external="true" to="https://www.adsimple.de/">
+					<NuxtLink
+						target="_blank"
+						:external="true"
+						to="https://www.adsimple.de/">
 						adsimple.de
 					</NuxtLink>
 				</p>
@@ -890,7 +1068,6 @@ useHead(() => ({
 					memoWikis is funded under the EXIST program by the Federal Ministry
 					for Economic Affairs and Energy and the European Social Fund.
 				</p>
-
 			</div>
 		</div>
 	</div>
