@@ -131,6 +131,16 @@ useHead(() => ({
 
 const ariaId = useId()
 const ariaId2 = useId()
+
+const toggleLanguage = (code: string) => {
+    const index = selectedLanguages.value.indexOf(code)
+    if (index === -1) {
+        selectedLanguages.value.push(code)
+    } else {
+        selectedLanguages.value.splice(index, 1)
+    }
+    currentPage.value = 1
+}
 </script>
 
 <template>
@@ -172,17 +182,27 @@ const ariaId2 = useId()
                                 <div class="language-dropdown">
                                     <VDropdown :aria-id="ariaId" :distance="0">
                                         <div class="language-select">
-                                            <font-awesome-icon icon="fa-solid fa-language" />
-                                            <div class="language-label">{{ t('usersOverview.contentLanguageLabel') }}</div>
+                                            <div class="select-label">
+                                                <font-awesome-icon icon="fa-solid fa-language" />
+                                                <div class="language-label">{{ t('usersOverview.contentLanguageLabel') }}</div>
+                                            </div>
+
+                                            <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
+
                                         </div>
 
                                         <template #popper>
-                                            <div class="dropdown-row" v-for="locale in locales" :key="locale.code">
-                                                <div class="language-checkbox ">
-                                                    <label :for="`lang-${locale.code}`" class="language-label">
-                                                        <input type="checkbox" :id="`lang-${locale.code}`" :value="locale.code" v-model="selectedLanguages" @change="currentPage = 1">
-                                                        <span class="checkbox-text">{{ locale.name }}</span>
-                                                    </label>
+                                            <div class="dropdown-row select-row" v-for="locale in locales" :key="locale.code">
+                                                <div class="language-checkbox"
+                                                    @click="toggleLanguage(locale.code)"
+                                                    @keydown.space.prevent="toggleLanguage(locale.code)"
+                                                    @keydown.enter.prevent="toggleLanguage(locale.code)"
+                                                    :class="{ 'active': selectedLanguages.includes(locale.code) }"
+                                                    role="checkbox"
+                                                    :aria-checked="selectedLanguages.includes(locale.code)"
+                                                    tabindex="0">
+                                                    <font-awesome-icon :icon="selectedLanguages.includes(locale.code) ? 'fa-solid fa-square-check' : 'fa-regular fa-square'" class="checkbox-icon" />
+                                                    <span class="checkbox-text">{{ locale.name }}</span>
                                                 </div>
                                             </div>
                                         </template>
@@ -331,10 +351,13 @@ const ariaId2 = useId()
     z-index: 2;
     flex-wrap: wrap;
 
+    @media (max-width: 1091px) {
+        flex-direction: row-reverse;
+    }
+
     .search-section {
-        @media (max-width: 630px) {
+        @media (max-width: 1091px) {
             width: 100%;
-            margin-bottom: 8px;
         }
 
         .search-container {
@@ -397,7 +420,7 @@ const ariaId2 = useId()
         display: flex;
         justify-content: flex-end;
         align-items: center;
-
+        flex-wrap: wrap;
     }
 
     .sort-section,
@@ -406,15 +429,23 @@ const ariaId2 = useId()
         align-items: center;
         // margin: auto;
         margin-left: auto;
+        cursor: pointer;
+        margin-top: 8px;
+
+        @media (min-width: 1092px) {
+            margin-top: 0px;
+        }
+
 
         .sort-label,
         .language-label {
             margin: 0 8px;
+            cursor: pointer;
         }
     }
 
-    .language-section {
-        margin-right: 1rem;
+    .sort-section {
+        margin-left: 8px;
     }
 }
 
@@ -425,7 +456,7 @@ const ariaId2 = useId()
 }
 
 .orderby-dropdown {
-    width: 150px;
+    width: 230px;
 }
 
 .language-dropdown {
@@ -434,7 +465,8 @@ const ariaId2 = useId()
 
 .v-popper--shown {
 
-    .orderby-select {
+    .orderby-select,
+    .language-select {
 
         .chevron {
             transform: rotate(180deg)
@@ -472,7 +504,13 @@ const ariaId2 = useId()
     justify-content: space-between;
     align-items: center;
     user-select: none;
-    width: 150px;
+    width: 100%;
+
+    .select-label {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
 
     &:hover {
         color: @memo-blue;
@@ -486,5 +524,24 @@ const ariaId2 = useId()
 
 .language-select {
     width: auto;
+}
+
+.language-checkbox {
+    cursor: pointer;
+
+    .checkbox-icon {
+        margin-right: 8px;
+        color: @memo-grey-dark;
+    }
+
+    &.active {
+        &.checkbox-text {
+            font-weight: 500;
+        }
+
+        .checkbox-icon {
+            color: @memo-blue-link;
+        }
+    }
 }
 </style>
