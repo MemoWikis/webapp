@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { useUserStore } from '~/components/user/userStore'
+const userStore = useUserStore()
+
 const config = useRuntimeConfig()
 
-const { locale } = useI18n()
+const { locale, setLocale } = useI18n()
+
+onBeforeMount(() => {
+    if (locale.value != 'es' && !userStore.isLoggedIn) {
+        setLocale('es')
+    }
+})
 
 watch(() => locale.value, async (newLocale) => {
     switch (newLocale) {
@@ -21,6 +30,9 @@ watch(() => locale.value, async (newLocale) => {
 })
 
 useHead(() => ({
+    htmlAttrs: {
+        lang: 'es'
+    },
     link: [
         {
             rel: 'canonical',
