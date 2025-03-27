@@ -1,20 +1,17 @@
 <script lang="ts" setup>
+import { Site } from '~/components/shared/siteEnum'
 import { useUserStore } from '~/components/user/userStore'
 const userStore = useUserStore()
-
-const emit = defineEmits(['setBreadcrumb'])
-
-onBeforeMount(() => {
-	emit('setBreadcrumb', [{ name: 'Impressum & Datenschutz', url: '/Impressum' }])
-})
-
-function openEmail() {
-	window.location.href = "mailto:team@memucho.de"
-}
 
 const config = useRuntimeConfig()
 
 const { locale, setLocale } = useI18n()
+const emit = defineEmits(['setPage'])
+emit('setPage', Site.Imprint)
+
+function openEmail() {
+	window.location.href = "mailto:team@memucho.de"
+}
 
 onBeforeMount(() => {
 	if (locale.value != 'de' && !userStore.isLoggedIn) {
