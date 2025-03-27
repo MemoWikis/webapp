@@ -6,7 +6,6 @@ import { useDragStore, TargetPosition, MovePageTransferData } from '~~/component
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { useUserStore } from '~/components/user/userStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
-import { useI18n } from 'vue-i18n'
 
 const editPageRelationStore = useEditPageRelationStore()
 const dragStore = useDragStore()

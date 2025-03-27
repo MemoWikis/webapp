@@ -5,7 +5,6 @@ import { Site } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
 import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
 import { useConvertStore } from '../page/convert/convertStore'
-import { useI18n } from 'vue-i18n'
 
 interface Props {
 	site: Site
