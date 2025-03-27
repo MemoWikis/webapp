@@ -378,6 +378,11 @@ convertStore.$onAction(({ name, after }) => {
 		</VDropdown>
 
 	</div>
+	<div v-else id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth">
+		<div class="breadcrumb-item no-pl">
+			{{ pageTitle }}
+		</div>
+	</div>
 	<div ref="remainingWidthDiv"></div>
 </template>
 
@@ -425,6 +430,10 @@ convertStore.$onAction(({ name, after }) => {
 		flex-shrink: 1;
 
 		&.current-wiki {
+			padding-left: 0px;
+		}
+
+		&.no-pl {
 			padding-left: 0px;
 		}
 

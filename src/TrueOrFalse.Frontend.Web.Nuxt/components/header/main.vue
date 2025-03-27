@@ -114,12 +114,13 @@ onMounted(() => {
                 <div class="row">
                     <div class="header-container col-xs-12" ref="headerContainer">
 
-                        <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
-                            ref="partialLeft">
-
-                            <HeaderBreadcrumb :site="props.site" :show-search="showSearch"
+                        <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }" ref="partialLeft">
+                            <HeaderBreadcrumb
+                                :site="props.site"
+                                :show-search="showSearch"
                                 :question-page-data="props.questionPageData"
-                                :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
+                                :custom-breadcrumb-items="props.breadcrumbItems"
+                                :partial-left="partialLeft" />
                         </div>
                         <ClientOnly>
                             <div class="partial end" ref="headerExtras" :class="{ 'hide-partial': hidePartial }">

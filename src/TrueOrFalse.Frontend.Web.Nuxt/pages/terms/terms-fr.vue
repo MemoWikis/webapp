@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { Site } from '~/components/shared/siteEnum'
 import { useUserStore } from '~/components/user/userStore'
 const userStore = useUserStore()
 
 const config = useRuntimeConfig()
 
 const { locale, setLocale } = useI18n()
+const emit = defineEmits(['setPage'])
+emit('setPage', Site.Terms)
 
 onBeforeMount(() => {
     if (locale.value != 'fr' && !userStore.isLoggedIn) {
