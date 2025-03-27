@@ -14,7 +14,7 @@ function openEmail() {
 }
 
 onBeforeMount(() => {
-	if (locale.value != 'fr' && !userStore.isLoggedIn) {
+	if (locale.value !== 'fr' && !userStore.isLoggedIn) {
 		setLocale('fr')
 	}
 })
@@ -44,7 +44,7 @@ useHead(() => ({
 		{
 			rel: 'canonical',
 			href: `${config.public.officialBase}/MentionsLegales`
-		},
+		}
 	],
 	meta: [
 		{
@@ -62,7 +62,7 @@ useHead(() => ({
 		{
 			property: 'og:type',
 			content: `website`
-		},
+		}
 	]
 }))
 </script>
@@ -72,7 +72,7 @@ useHead(() => ({
 		<div class="row main-page">
 			<div class="form-horizontal col-md-12 main-content">
 
-				<h1 class="PageHeader" id="Impressum">Mentions légales & Politique de confidentialité</h1>
+				<h1 class="PageHeader" id="Impressum">Mentions légales &amp; Politique de confidentialité</h1>
 
 				<h2>1. Mentions légales</h2>
 
@@ -171,11 +171,17 @@ useHead(() => ({
 
 				<p>
 					(Une) source : <i>
-						<NuxtLink to="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank" :external="true">
+						<NuxtLink
+							to="http://www.e-recht24.de/muster-disclaimer.htm"
+							target="_blank"
+							:external="true">
 							Disclaimer
 						</NuxtLink> de
 						eRecht24, le portail de droit internet du
-						<NuxtLink to="http://www.e-recht24.de/" target="_blank" :external="true">
+						<NuxtLink
+							to="http://www.e-recht24.de/"
+							target="_blank"
+							:external="true">
 							Rechtsanwalt
 						</NuxtLink>
 						Sören Siebert.
@@ -188,11 +194,15 @@ useHead(() => ({
 
 				<h2>Protection des données</h2>
 				<p>
-					Nous avons rédigé cette déclaration de confidentialité (version du 15.11.2019-311128432)
-					afin de vous expliquer, conformément aux exigences du Règlement général sur
-					la protection des données (UE) 2016/679, quelles informations nous recueillons,
-					comment nous utilisons ces données et quelles possibilités de décision vous
-					avez en tant que visiteur de ce site web.
+					Nous avons rédigé cette déclaration de confidentialité (version du
+					15.11.2019-311128432) afin de vous expliquer, conformément aux exigences du
+					<NuxtLink
+						:external="true"
+						to="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32016R0679&tid=311128432">
+						Règlement général sur la protection des données (UE) 2016/679
+					</NuxtLink>,
+					quelles informations nous recueillons, comment nous utilisons ces données et
+					quelles possibilités de décision vous avez en tant que visiteur de ce site web.
 				</p>
 				<p>
 					Malheureusement, de par la nature du sujet, ces explications peuvent sembler
@@ -220,9 +230,7 @@ useHead(() => ({
 					<li>La date et l’heure</li>
 				</ul>
 
-				<p>
-					dans des fichiers de type « Logfiles » du serveur web.
-				</p>
+				<p>dans des fichiers de type « Logfiles » du serveur web.</p>
 				<p>
 					En règle générale, ces Logfiles sont conservés pendant deux semaines
 					avant d’être supprimés automatiquement. Nous ne transmettons pas ces
@@ -230,7 +238,12 @@ useHead(() => ({
 					de comportement illicite.
 				</p>
 				<p>
-					La base légale découle de l’article 6, paragraphe 1, point f) du RGPD
+					La base légale découle de
+					<NuxtLink
+						:external="true"
+						to="https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:32016R0679&from=FR&tid=311128432">
+						l’article 6, paragraphe 1, point f) du RGPD
+					</NuxtLink>
 					(licéité du traitement) : nous avons un intérêt légitime à rendre possible
 					un fonctionnement correct de ce site web en collectant les Logfiles du serveur web.
 				</p>
@@ -292,9 +305,7 @@ useHead(() => ({
 					<li>Valeur : GA1.2.1326744211.152311128432</li>
 				</ul>
 
-				<p>
-					Un navigateur devrait supporter les tailles minimales suivantes :
-				</p>
+				<p>Un navigateur devrait supporter les tailles minimales suivantes :</p>
 				<ul>
 					<li>Un cookie doit pouvoir comporter au moins 4096 bytes</li>
 					<li>Au moins 50 cookies doivent pouvoir être enregistrés par domaine</li>
@@ -358,30 +369,36 @@ useHead(() => ({
 					le faire dans les paramètres de votre navigateur :
 				</p>
 				<p>
-					<NuxtLink :external="true" to="https://support.google.com/chrome/answer/95647?tid=311128432">
+					<NuxtLink
+						:external="true"
+						to="https://support.google.com/chrome/answer/95647?tid=311128432">
 						Chrome : supprimer, activer et gérer les cookies
 					</NuxtLink>
 				</p>
 				<p>
-					<NuxtLink :external="true" to="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac?tid=311128432">
+					<NuxtLink
+						:external="true"
+						to="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac?tid=311128432">
 						Safari : gérer les cookies et les données de site web
 					</NuxtLink>
 				</p>
 				<p>
-					<NuxtLink :external="true"
+					<NuxtLink
+						:external="true"
 						to="https://support.mozilla.org/fr/kb/effacer-cookies-donnees-site-firefox?tid=311128432">
-						Firefox : supprimer les cookies pour supprimer les données que les sites
-						web ont placées sur votre ordinateur
+						Firefox : supprimer les cookies pour supprimer les données que les sites web ont placées sur votre ordinateur
 					</NuxtLink>
 				</p>
 				<p>
-					<NuxtLink :external="true"
+					<NuxtLink
+						:external="true"
 						to="https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
 						Internet Explorer : supprimer et gérer les cookies
 					</NuxtLink>
 				</p>
 				<p>
-					<NuxtLink :external="true"
+					<NuxtLink
+						:external="true"
 						to="https://support.microsoft.com/fr-fr/help/4027947/windows-delete-cookies?tid=311128432">
 						Microsoft Edge : supprimer et gérer les cookies
 					</NuxtLink>
@@ -435,7 +452,12 @@ useHead(() => ({
 					donc de ne jamais transmettre de données confidentielles non cryptées par e-mail.
 				</p>
 				<p>
-					La base légale résulte de l’article 6, paragraphe 1, point a) du RGPD :
+					La base légale résulte de
+					<NuxtLink
+						:external="true"
+						to="https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:32016R0679&from=FR&tid=311128432">
+						l’article 6, paragraphe 1, point a) du RGPD
+					</NuxtLink> :
 					vous nous donnez votre consentement pour traiter les données que vous
 					avez saisies. Vous pouvez à tout moment révoquer ce consentement – un e-mail
 					informel suffit. Vous trouverez nos coordonnées dans les mentions légales.
@@ -466,7 +488,8 @@ useHead(() => ({
 					Si vous estimez que le traitement de vos données enfreint la législation
 					sur la protection des données, ou que vos droits en la matière ont été violés
 					d’une quelconque manière, vous pouvez vous adresser au
-					<NuxtLink :external="true"
+					<NuxtLink
+						:external="true"
 						to="https://www.bfdi.bund.de/EN/Buerger/Inhalte/Allgemein/Datenschutz/BeschwerdeBeiDatenschutzbehoerden.html?tid=311128432">
 						Commissaire fédéral à la protection des données et à la liberté
 						d’information (BfDI)
@@ -517,8 +540,13 @@ useHead(() => ({
 
 				<p><strong>5.2 Base juridique du traitement des données personnelles</strong></p>
 				<p>
-					La base juridique du traitement des données de l’utilisateur est l’art. 6,
-					paragraphe 1, point f du RGPD ou le § 15, paragraphe 3 TMG.
+					La base juridique du traitement des données de l’utilisateur est
+					<NuxtLink
+						:external="true"
+						to="https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:32016R0679&from=FR&tid=311128432">
+						l’article 6, paragraphe 1, point f) du RGPD
+					</NuxtLink>
+					ou le § 15, paragraphe 3 TMG.
 				</p>
 
 				<p><strong>5.3 Finalité du traitement</strong></p>
@@ -558,14 +586,19 @@ useHead(() => ({
 
 				<h2>Chiffrement TLS via https</h2>
 				<p>
-					Nous utilisons https pour transmettre nos données de manière sécurisée
-					sur Internet (protection des données par la configuration technique,
-					article 25, paragraphe 1 du RGPD). Grâce à TLS (Transport Layer Security),
-					un protocole de cryptage permettant la transmission sécurisée de données
-					sur Internet, nous pouvons assurer la protection de données confidentielles.
-					Vous pouvez reconnaître l’utilisation de ce dispositif de sécurité
-					au petit symbole de cadenas situé en haut à gauche de votre navigateur
-					ainsi qu’à la mention « https » dans notre adresse web (au lieu de « http »).
+					Nous utilisons https afin de transmettre nos données de manière sécurisée
+					sur Internet (<em>protection des données par la conception technique</em>,
+					<NuxtLink
+						:external="true"
+						to="https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:32016R0679&from=FR&tid=311128432#d1e2349-1-1">
+						article 25, paragraphe 1 du RGPD
+					</NuxtLink>).
+					Grâce à TLS (Transport Layer Security), un protocole de cryptage permettant
+					la transmission sécurisée de données sur Internet, nous pouvons assurer
+					la protection de données confidentielles. Vous pouvez reconnaître l’utilisation
+					de ce dispositif de sécurité au petit symbole de cadenas situé en haut à gauche
+					de votre navigateur ainsi qu’à la mention « https » dans notre adresse web
+					(au lieu de « http »).
 				</p>
 
 				<h2>Newsletter – Déclaration de confidentialité</h2>
@@ -662,11 +695,15 @@ useHead(() => ({
 				</p>
 				<p>
 					Nous utilisons Google Fonts pour afficher notre contenu en ligne
-					de manière attrayante et cohérente. Selon l’article 6, paragraphe 1,
-					point f) du RGPD, cela constitue un « intérêt légitime » au traitement
-					des données personnelles. Dans ce contexte, un « intérêt légitime »
-					peut être aussi bien juridique qu’économique ou idéologique,
-					pour autant qu’il soit reconnu par le système juridique.
+					de manière attrayante et cohérente. Selon
+					<NuxtLink
+						:external="true"
+						to="https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:32016R0679&from=FR&tid=311128432">
+						l’article 6, paragraphe 1, point f) du RGPD
+					</NuxtLink>,
+					cela constitue un « intérêt légitime » au traitement des données personnelles.
+					Dans ce contexte, un « intérêt légitime » peut être aussi bien juridique
+					qu’économique ou idéologique, pour autant qu’il soit reconnu par le système juridique.
 				</p>
 
 				<h3>Quelles données Google enregistre-t-il ?</h3>
@@ -678,7 +715,7 @@ useHead(() => ({
 					la version du navigateur et son nom. L’API Google Fonts a été conçue
 					pour réduire au minimum la collecte, le stockage et l’utilisation
 					des données de l’utilisateur final. Toutefois, Google n’explique
-					pas clairement si ces données sont enregistrées.
+					pas clairement si ces données sont effectivement enregistrées et, si oui, comment.
 				</p>
 				<p>
 					Google Fonts stocke en toute sécurité les requêtes CSS et les polices
@@ -737,7 +774,8 @@ useHead(() => ({
 				</p>
 				<p>
 					Vous pouvez également consulter
-					<NuxtLink :external="true"
+					<NuxtLink
+						:external="true"
 						to="https://policies.google.com/privacy?hl=fr&amp;tid=311128432">
 						https://www.google.com/intl/policies/privacy/
 					</NuxtLink>
@@ -926,7 +964,8 @@ useHead(() => ({
 					Les données que YouTube collecte et traite sont stockées sur les serveurs
 					de Google, pour la plupart aux États-Unis. Vous pouvez consulter
 					l’emplacement exact des centres de données Google ici :
-					<NuxtLink :external="true"
+					<NuxtLink
+						:external="true"
 						to="https://www.google.com/about/datacenters/inside/locations/?hl=fr">
 						https://www.google.com/about/datacenters/inside/locations/?hl=fr
 					</NuxtLink>.
@@ -958,30 +997,36 @@ useHead(() => ({
 					comment gérer les cookies :
 				</p>
 				<p>
-					<NuxtLink :external="true" to="https://support.google.com/chrome/answer/95647?tid=311128432">
+					<NuxtLink
+						:external="true"
+						to="https://support.google.com/chrome/answer/95647?tid=311128432">
 						Chrome : supprimer, activer et gérer les cookies
 					</NuxtLink>
 				</p>
 				<p>
-					<NuxtLink :external="true" to="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac?tid=311128432">
+					<NuxtLink
+						:external="true"
+						to="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac?tid=311128432">
 						Safari : gérer les cookies et les données de sites web
 					</NuxtLink>
 				</p>
 				<p>
-					<NuxtLink :external="true"
+					<NuxtLink
+						:external="true"
 						to="https://support.mozilla.org/fr/kb/effacer-cookies-donnees-site-firefox?tid=311128432">
-						Firefox : supprimer les cookies pour supprimer des données que des sites web
-						ont placées sur votre ordinateur
+						Firefox : supprimer les cookies pour supprimer des données que des sites web ont placées sur votre ordinateur
 					</NuxtLink>
 				</p>
 				<p>
-					<NuxtLink :external="true"
+					<NuxtLink
+						:external="true"
 						to="https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
 						Internet Explorer : supprimer et gérer les cookies
 					</NuxtLink>
 				</p>
 				<p>
-					<NuxtLink :external="true"
+					<NuxtLink
+						:external="true"
 						to="https://support.microsoft.com/fr-fr/help/4027947/windows-delete-cookies?tid=311128432">
 						Microsoft Edge : supprimer et gérer les cookies
 					</NuxtLink>
@@ -1087,7 +1132,12 @@ useHead(() => ({
 				</p>
 				<p>
 					La base légale pour ce traitement est le § 26 al. 1 phrase 1 BDSG
-					conjointement à l’art. 88 al. 1 du RGPD.
+					conjointement à
+					<NuxtLink
+						:external="true"
+						to="https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:32016R0679&from=FR&tid=311128432">
+						l’article 88, paragraphe 1 du RGPD
+					</NuxtLink>.
 				</p>
 				<p>
 					Si, à l’issue de ce processus, nous concluons un contrat de travail,
@@ -1097,7 +1147,7 @@ useHead(() => ({
 				</p>
 				<p>
 					La base légale pour ce traitement est également le § 26 al. 1 phrase 1 BDSG
-					conjointement à l’art. 88 al. 1 RGPD.
+					conjointement à l’article 88 al. 1 RGPD.
 				</p>
 				<p>
 					En cas de refus d’une candidature, nous supprimons automatiquement les données
@@ -1108,15 +1158,25 @@ useHead(() => ({
 					judiciaire.
 				</p>
 				<p>
-					La base légale est alors l’article 6, paragraphe 1, point f) du RGPD ainsi que
-					le § 24 al. 1 n° 2 BDSG. Notre intérêt légitime réside dans la défense en
+					La base légale est alors
+					<NuxtLink
+						:external="true"
+						to="https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:32016R0679&from=FR&tid=311128432">
+						l’article 6, paragraphe 1, point f) du RGPD
+					</NuxtLink>
+					ainsi que le § 24 al. 1 n° 2 BDSG. Notre intérêt légitime réside dans la défense en
 					justice ou la revendication de droits.
 				</p>
 				<p>
 					Si vous consentez expressément à ce que vos données soient conservées plus
 					longtemps (par exemple pour être intégré(e) dans une base de candidats ou
 					de personnes intéressées), vos données seront traitées sur la base de votre
-					consentement. La base légale est alors l’article 6, paragraphe 1, point a) du RGPD.
+					consentement. La base légale est alors
+					<NuxtLink
+						:external="true"
+						to="https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:32016R0679&from=FR&tid=311128432">
+						l’article 6, paragraphe 1, point a) du RGPD
+					</NuxtLink>.
 					Vous pouvez bien sûr révoquer à tout moment votre consentement pour l’avenir
 					(art. 7, paragraphe 3 du RGPD) en nous en faisant la demande.
 				</p>

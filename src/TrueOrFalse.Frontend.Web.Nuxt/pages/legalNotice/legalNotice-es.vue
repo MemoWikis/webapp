@@ -14,7 +14,7 @@ function openEmail() {
 }
 
 onBeforeMount(() => {
-    if (locale.value != 'es' && !userStore.isLoggedIn) {
+    if (locale.value !== 'es' && !userStore.isLoggedIn) {
         setLocale('es')
     }
 })
@@ -44,7 +44,7 @@ useHead(() => ({
         {
             rel: 'canonical',
             href: `${config.public.officialBase}/AvisoLegal`
-        },
+        }
     ],
     meta: [
         {
@@ -62,7 +62,7 @@ useHead(() => ({
         {
             property: 'og:type',
             content: `website`
-        },
+        }
     ]
 }))
 </script>
@@ -72,7 +72,9 @@ useHead(() => ({
         <div class="row main-page">
             <div class="form-horizontal col-md-12 main-content">
 
-                <h1 class="PageHeader" id="Impressum">Aviso legal y política de privacidad</h1>
+                <h1 class="PageHeader" id="Impressum">
+                    Aviso legal y política de privacidad
+                </h1>
 
                 <h2>1. Aviso legal</h2>
 
@@ -90,8 +92,7 @@ useHead(() => ({
                 Robert Mischke<br />
 
                 <h3 id="Kontakt">Contacto:</h3>
-                Teléfono:
-                <br />
+                Teléfono:<br />
                 +49-178 186 68 48<br />
                 <span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
 
@@ -169,11 +170,19 @@ useHead(() => ({
 
                 <p>
                     (Una) fuente: <i>
-                        <NuxtLink to="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank" :external="true">
+                        <NuxtLink
+                            to="http://www.e-recht24.de/muster-disclaimer.htm"
+                            target="_blank"
+                            :external="true">
                             Disclaimer
                         </NuxtLink> de
-                        eRecht24, el portal de derecho en Internet de <NuxtLink to="http://www.e-recht24.de/"
-                            target="_blank" :external="true">el abogado</NuxtLink>
+                        eRecht24, el portal de derecho en Internet de
+                        <NuxtLink
+                            to="http://www.e-recht24.de/"
+                            target="_blank"
+                            :external="true">
+                            el abogado
+                        </NuxtLink>
                         Sören Siebert.
                     </i>
                 </p>
@@ -185,8 +194,13 @@ useHead(() => ({
                 <h2>Protección de datos</h2>
                 <p>
                     Hemos redactado esta declaración de protección de datos (versión 15.11.2019-311128432)
-                    para informarle, de conformidad con las disposiciones del Reglamento General de Protección
-                    de Datos (UE) 2016/679, sobre qué información recopilamos, cómo usamos los datos
+                    para informarle, de conformidad con las disposiciones del
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679&tid=311128432">
+                        Reglamento General de Protección de Datos (UE) 2016/679
+                    </NuxtLink>,
+                    sobre qué información recopilamos, cómo usamos los datos
                     y qué opciones de decisión tiene como visitante de este sitio web.
                 </p>
                 <p>
@@ -214,9 +228,7 @@ useHead(() => ({
                     <li>Fecha y hora</li>
                 </ul>
 
-                <p>
-                    en los archivos de registro (Webserver-Logfiles).
-                </p>
+                <p>en los archivos de registro (Webserver-Logfiles).</p>
                 <p>
                     Generalmente, dichos archivos de registro del servidor web se almacenan durante
                     dos semanas y luego se borran automáticamente. No compartimos estos datos con
@@ -224,9 +236,14 @@ useHead(() => ({
                     de comportamiento ilegal.
                 </p>
                 <p>
-                    La base legal se encuentra en el art. 6 párr. 1 f del RGPD (legitimidad del tratamiento),
-                    dado nuestro interés legítimo en permitir el funcionamiento correcto de este
-                    sitio mediante el registro de archivos de registro del servidor web.
+                    La base legal se encuentra en
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432">
+                        el art. 6 párr. 1 letra f) del RGPD
+                    </NuxtLink>
+                    (legitimidad del tratamiento), dado nuestro interés legítimo en permitir el funcionamiento
+                    correcto de este sitio mediante el registro de archivos de registro del servidor web.
                 </p>
 
                 <h2>Cookies</h2>
@@ -262,8 +279,8 @@ useHead(() => ({
                     que en otros, como Firefox, todas las cookies se almacenan en un único archivo.
                 </p>
                 <p>
-                    Existen tanto cookies de origen (first-party cookies) como cookies de terceros
-                    (third-party cookies). Las de origen las crea nuestro sitio web, mientras que
+                    Existen tanto cookies de origen (first-party) como cookies de terceros
+                    (third-party). Las de origen las crea nuestro sitio web, mientras que
                     las de terceros las crean sitios web asociados (por ejemplo, Google Analytics).
                     Cada cookie debe evaluarse individualmente, ya que cada una almacena datos
                     diferentes. El tiempo de expiración de una cookie varía desde un par de minutos
@@ -279,9 +296,7 @@ useHead(() => ({
                     <li>Valor de ejemplo: GA1.2.1326744211.152311128432</li>
                 </ul>
 
-                <p>
-                    Un navegador debería soportar los siguientes tamaños mínimos:
-                </p>
+                <p>Un navegador debería soportar los siguientes tamaños mínimos:</p>
                 <ul>
                     <li>Una cookie puede contener al menos 4096 bytes</li>
                     <li>Se deben poder guardar al menos 50 cookies por dominio</li>
@@ -343,29 +358,36 @@ useHead(() => ({
                     configuración de su navegador:
                 </p>
                 <p>
-                    <NuxtLink :external="true" to="https://support.google.com/chrome/answer/95647?tid=311128432">
+                    <NuxtLink
+                        :external="true"
+                        to="https://support.google.com/chrome/answer/95647?tid=311128432">
                         Chrome: Eliminar, habilitar y administrar cookies en Chrome
                     </NuxtLink>
                 </p>
                 <p>
-                    <NuxtLink :external="true" to="https://support.apple.com/es-es/guide/safari/sfri11471/mac?tid=311128432">
+                    <NuxtLink
+                        :external="true"
+                        to="https://support.apple.com/es-es/guide/safari/sfri11471/mac?tid=311128432">
                         Safari: Administrar cookies y datos de sitios web en Safari
                     </NuxtLink>
                 </p>
                 <p>
-                    <NuxtLink :external="true"
+                    <NuxtLink
+                        :external="true"
                         to="https://support.mozilla.org/es/kb/Borrar%20cookies?tid=311128432">
                         Firefox: Eliminar cookies para eliminar los datos que sitios web han guardado en tu computadora
                     </NuxtLink>
                 </p>
                 <p>
-                    <NuxtLink :external="true"
+                    <NuxtLink
+                        :external="true"
                         to="https://support.microsoft.com/es-es/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
                         Internet Explorer: Eliminar y administrar cookies
                     </NuxtLink>
                 </p>
                 <p>
-                    <NuxtLink :external="true"
+                    <NuxtLink
+                        :external="true"
                         to="https://support.microsoft.com/es-es/help/4027947/windows-delete-cookies?tid=311128432">
                         Microsoft Edge: Eliminar y administrar cookies
                     </NuxtLink>
@@ -419,11 +441,16 @@ useHead(() => ({
                     datos confidenciales sin cifrar por correo electrónico.
                 </p>
                 <p>
-                    La base legal se establece en el art. 6 párr. 1 a del RGPD (legitimidad del tratamiento),
-                    dado que nos otorga su consentimiento para procesar los datos que introduzca.
-                    Puede revocar este consentimiento en cualquier momento; basta con enviarnos
-                    un correo electrónico informal, encontrará nuestros datos de contacto
-                    en el aviso legal (Impressum).
+                    La base legal se establece en
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432">
+                        el art. 6 párr. 1 letra a) del RGPD
+                    </NuxtLink>
+                    (legitimidad del tratamiento), dado que nos otorga su consentimiento para procesar
+                    los datos que introduzca. Puede revocar este consentimiento en cualquier momento;
+                    basta con enviarnos un correo electrónico informal. Encontrará nuestros datos de
+                    contacto en el aviso legal.
                 </p>
 
                 <h2>Derechos según el Reglamento General de Protección de Datos</h2>
@@ -431,25 +458,71 @@ useHead(() => ({
                     De acuerdo con el RGPD, en general usted tiene los siguientes derechos:
                 </p>
                 <ul>
-                    <li>Derecho a la rectificación (artículo 16 RGPD)</li>
-                    <li>Derecho a la supresión (“derecho al olvido”) (artículo 17 RGPD)</li>
-                    <li>Derecho a la limitación del tratamiento (artículo 18 RGPD)</li>
                     <li>
-                        Derecho de notificación: obligación de comunicar la rectificación o supresión
-                        de datos personales o la limitación del tratamiento (artículo 19 RGPD)
+                        Derecho a la rectificación (
+                        <NuxtLink
+                            :external="true"
+                            to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432#d1e2803-1-1">
+                            artículo 16 RGPD
+                        </NuxtLink>)
                     </li>
-                    <li>Derecho a la portabilidad de los datos (artículo 20 RGPD)</li>
-                    <li>Derecho de oposición (artículo 21 RGPD)</li>
+                    <li>
+                        Derecho a la supresión (“derecho al olvido”) (
+                        <NuxtLink
+                            :external="true"
+                            to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432#d1e2865-1-1">
+                            artículo 17 RGPD
+                        </NuxtLink>)
+                    </li>
+                    <li>
+                        Derecho a la limitación del tratamiento (
+                        <NuxtLink
+                            :external="true"
+                            to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432#d1e2898-1-1">
+                            artículo 18 RGPD
+                        </NuxtLink>)
+                    </li>
+                    <li>
+                        Derecho de notificación en relación con la rectificación o supresión
+                        de datos personales o la limitación del tratamiento (
+                        <NuxtLink
+                            :external="true"
+                            to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432#d1e2941-1-1">
+                            artículo 19 RGPD
+                        </NuxtLink>)
+                    </li>
+                    <li>
+                        Derecho a la portabilidad de los datos (
+                        <NuxtLink
+                            :external="true"
+                            to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432#d1e2958-1-1">
+                            artículo 20 RGPD
+                        </NuxtLink>)
+                    </li>
+                    <li>
+                        Derecho de oposición (
+                        <NuxtLink
+                            :external="true"
+                            to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432#d1e2987-1-1">
+                            artículo 21 RGPD
+                        </NuxtLink>)
+                    </li>
                     <li>
                         Derecho a no ser objeto de una decisión basada únicamente en el tratamiento
-                        automatizado (incluida la elaboración de perfiles) (artículo 22 RGPD)
+                        automatizado, incluida la elaboración de perfiles (
+                        <NuxtLink
+                            :external="true"
+                            to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432#d1e3019-1-1">
+                            artículo 22 RGPD
+                        </NuxtLink>)
                     </li>
                 </ul>
                 <p>
                     Si considera que el tratamiento de sus datos infringe la ley de protección
                     de datos o que se han vulnerado sus derechos de protección de datos de otra
                     manera, puede dirigirse al
-                    <NuxtLink :external="true"
+                    <NuxtLink
+                        :external="true"
                         to="https://www.bfdi.bund.de/EN/Buerger/Inhalte/Allgemein/Datenschutz/BeschwerdeBeiDatenschutzbehoerden.html?tid=311128432">
                         Comisionado/a Federal de Protección de Datos y Libertad de Información (BfDI)
                     </NuxtLink>.
@@ -497,8 +570,13 @@ useHead(() => ({
 
                 <p><strong>5.2 Base legal para el tratamiento de los datos personales</strong></p>
                 <p>
-                    La base legal para el tratamiento de los datos del usuario es el art. 6 párr. 1
-                    letra f del RGPD y/o el § 15 párr. 3 TMG.
+                    La base legal para el tratamiento de los datos del usuario es
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432">
+                        el art. 6 párr. 1 letra f) del RGPD
+                    </NuxtLink>
+                    y/o el § 15 párr. 3 TMG.
                 </p>
 
                 <p><strong>5.3 Finalidad del tratamiento</strong></p>
@@ -529,7 +607,8 @@ useHead(() => ({
                 <p>
                     Para más información sobre la protección de datos, consulte la política de
                     privacidad en:
-                    <NuxtLink :external="true" to="https://matomo.org/privacy-policy/">matomo.org/privacy-policy/
+                    <NuxtLink :external="true" to="https://matomo.org/privacy-policy/">
+                        matomo.org/privacy-policy/
                     </NuxtLink>
                 </p>
 
@@ -537,14 +616,19 @@ useHead(() => ({
 
                 <h2>Cifrado TLS con https</h2>
                 <p>
-                    Usamos https para transmitir datos de forma segura por Internet (protección
-                    de datos mediante configuración técnica, art. 25 párr.1 RGPD). Con el uso de
-                    TLS (Transport Layer Security), un protocolo de cifrado para la transmisión
-                    segura de datos en Internet, podemos garantizar la protección de datos
-                    confidenciales. Reconocerá el uso de esta protección en la transmisión de datos
-                    al ver el pequeño icono de candado en la esquina superior izquierda de su
-                    navegador y la utilización del esquema https (en lugar de http) como parte de
-                    nuestra dirección web.
+                    Usamos https para transmitir datos de forma segura por Internet (<em>protección
+                        de datos mediante configuración técnica</em>,
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432">
+                        art. 25 párr.1 RGPD
+                    </NuxtLink>).
+                    Con el uso de TLS (Transport Layer Security), un protocolo de cifrado para la
+                    transmisión segura de datos en Internet, podemos garantizar la protección
+                    de datos confidenciales. Reconocerá el uso de esta protección en la transmisión
+                    de datos al ver el pequeño icono de candado en la esquina superior izquierda
+                    de su navegador y la utilización del esquema https (en lugar de http) como parte
+                    de nuestra dirección web.
                 </p>
 
                 <h2>Newsletter – declaración de privacidad</h2>
@@ -552,7 +636,8 @@ useHead(() => ({
                     Si se suscribe a nuestro boletín (newsletter), nos transmite los datos personales
                     mencionados anteriormente y nos concede el derecho de ponernos en contacto con
                     usted por correo electrónico. Los datos guardados en el proceso de suscripción
-                    al boletín se utilizan exclusivamente para nuestro boletín y no se comparten.
+                    al boletín se utilizan exclusivamente para nuestro boletín y no se comparten
+                    con terceros.
                 </p>
                 <p>
                     Si desea darse de baja del boletín, encontrará el enlace para hacerlo
@@ -573,16 +658,16 @@ useHead(() => ({
                 <p>
                     Google Fonts (antes Google Web Fonts) es un directorio interactivo con más de 800
                     tipografías que
-                    <NuxtLink :external="true" to="https://es.wikipedia.org/w/index.php?title=Google&tid=311128432">
+                    <NuxtLink
+                        :external="true"
+                        to="https://es.wikipedia.org/w/index.php?title=Google&tid=311128432">
                         Google LLC
                     </NuxtLink>
                     pone a disposición de forma gratuita. Con Google Fonts uno podría usar las fuentes
                     sin tener que subirlas a su propio servidor. Sin embargo, para impedir cualquier
-                    comunicación con los servidores de Google al respecto, hemos descargado las
-                    fuentes en nuestro servidor, garantizando así que no se envíen datos a Google
-                    Fonts.
+                    comunicación con los servidores de Google, hemos descargado las fuentes en nuestro
+                    servidor, garantizando así que no se envíen datos a Google Fonts.
                 </p>
-
                 <p>
                     A diferencia de otras fuentes web, Google nos permite el acceso ilimitado a todas
                     sus tipografías. Podemos, por tanto, acceder sin restricciones a una inmensa
@@ -601,21 +686,22 @@ useHead(() => ({
                 <p>
                     Para utilizar estas tipografías de Google no necesita registrarse ni establecer
                     una contraseña. Tampoco se almacenan cookies en su navegador. Los archivos (CSS
-                    y tipografías/Fonts) se solicitan a través de los dominios
-                    fonts.googleapis.com y fonts.gstatic.com. Según Google, estas solicitudes de CSS
-                    y fuentes están completamente separadas de otros servicios de Google. Si tiene
-                    una cuenta de Google, no debe preocuparse de que se transmitan datos de su cuenta
-                    de Google mientras use Google Fonts. Google recopila la utilización de CSS
-                    (Hojas de estilo en cascada) y de las tipografías empleadas y almacena estos datos
-                    de manera segura. Más abajo examinaremos en detalle cómo es ese almacenamiento de
-                    datos.
+                    y tipografías/Fonts) se solicitan a través de los dominios fonts.googleapis.com
+                    y fonts.gstatic.com. Según Google, estas solicitudes de CSS y fuentes están
+                    completamente separadas de otros servicios de Google. Si tiene una cuenta de Google,
+                    no debe preocuparse de que se transmitan datos de su cuenta de Google mientras
+                    use Google Fonts. Google recopila la utilización de CSS (Hojas de estilo en cascada)
+                    y de las tipografías empleadas y almacena estos datos de manera segura. A
+                    continuación examinaremos en detalle cómo es ese almacenamiento de datos.
                 </p>
 
                 <h3>¿Qué son Google Fonts?</h3>
                 <p>
                     Google Fonts (antes Google Web Fonts) es un directorio interactivo con más de 800
                     tipografías que
-                    <NuxtLink :external="true" to="https://de.wikipedia.org/wiki/Google_LLC?tid=311128432">
+                    <NuxtLink
+                        :external="true"
+                        to="https://de.wikipedia.org/wiki/Google_LLC?tid=311128432">
                         Google LLC
                     </NuxtLink>
                     pone a disposición de forma gratuita.
@@ -641,10 +727,15 @@ useHead(() => ({
                 </p>
                 <p>
                     Utilizamos Google Fonts para mostrar nuestro contenido en línea de manera bonita
-                    y uniforme. Según el art. 6 párr. 1 f del RGPD, esto constituye un “interés
-                    legítimo” en el tratamiento de datos personales. Se entiende por “interés
-                    legítimo” en este contexto tanto los intereses legales como económicos o
-                    ideológicos que sean reconocidos por el sistema legal.
+                    y uniforme. Según
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432">
+                        el art. 6 párr. 1 letra f) del RGPD
+                    </NuxtLink>,
+                    esto constituye un “interés legítimo” en el tratamiento de datos personales. Se
+                    entiende por “interés legítimo” en este contexto tanto los intereses legales
+                    como económicos o ideológicos reconocidos por el sistema jurídico.
                 </p>
 
                 <h3>¿Qué datos almacena Google?</h3>
@@ -670,8 +761,8 @@ useHead(() => ({
                     Tenga en cuenta que cada vez que solicita Google Fonts, también se transmiten
                     datos como la dirección IP, la configuración de idioma, la resolución de la
                     pantalla, la versión del navegador y el nombre del navegador a los servidores
-                    de Google. No está claro si estos datos también se almacenan y Google no
-                    lo comunica con total claridad.
+                    de Google. No está claro si estos datos también se almacenan, pues Google no
+                    lo comunica de forma precisa.
                 </p>
 
                 <h3>¿Cuánto tiempo y dónde se almacenan los datos?</h3>
@@ -692,7 +783,9 @@ useHead(() => ({
                     Los datos que Google almacena por un día o por un año no pueden borrarse
                     simplemente. Se transmiten de forma automática al visitar la página. Para
                     borrarlos antes, deberá contactar al soporte de Google en:
-                    <NuxtLink :external="true" to="https://support.google.com/?hl=es&amp;tid=311128432">
+                    <NuxtLink
+                        :external="true"
+                        to="https://support.google.com/?hl=es&amp;tid=311128432">
                         https://support.google.com/?hl=es
                     </NuxtLink>.
                     En este caso, la única forma de evitar el almacenamiento de datos es
@@ -712,7 +805,9 @@ useHead(() => ({
                 <p>
                     Puede consultar qué datos recopila Google en general y con qué fines los usa
                     en
-                    <NuxtLink :external="true" to="https://policies.google.com/privacy?hl=es&amp;tid=311128432">
+                    <NuxtLink
+                        :external="true"
+                        to="https://policies.google.com/privacy?hl=es&amp;tid=311128432">
                         https://policies.google.com/privacy?hl=es
                     </NuxtLink>.
                 </p>
@@ -806,11 +901,11 @@ useHead(() => ({
 
                 <ul>
                     <li>Nombre: VISITOR_INFO1_LIVE</li>
-                    <li>Valor: 95Chz8bagyU</li>
+                    <li>Valor: 31112843295Chz8bagyU</li>
                 </ul>
                 <p>
                     Uso: Este cookie intenta estimar el ancho de banda del usuario en nuestras páginas
-                    con videos de YouTube incrustados.
+                    que tienen video incrustado de YouTube.
                 </p>
                 <p>Expira: tras 8 meses</p>
 
@@ -891,8 +986,7 @@ useHead(() => ({
                     Los datos que YouTube recopila y procesa se guardan en servidores de Google,
                     en su mayoría en EE.UU. Puede ver la ubicación exacta de los centros de datos
                     de Google en:
-                    <NuxtLink :external="true"
-                        to="https://www.google.com/about/datacenters/inside/locations/?hl=es">
+                    <NuxtLink :external="true" to="https://www.google.com/about/datacenters/inside/locations/?hl=es">
                         https://www.google.com/about/datacenters/inside/locations/?hl=es
                     </NuxtLink>.
                     Sus datos se distribuyen en los servidores, para protegerlos mejor de la
@@ -911,39 +1005,46 @@ useHead(() => ({
                 <h3>¿Cómo puedo borrar mis datos o impedir el almacenamiento?</h3>
                 <p>
                     En general, puede borrar datos manualmente en su cuenta de Google. La función
-                    de borrado automático, introducida en 2019, elimina datos de ubicación y
+                    de borrado automático introducida en 2019 elimina datos de ubicación y
                     actividad según su decisión, a los 3 o 18 meses.
                 </p>
                 <p>
                     Independientemente de si tiene o no una cuenta de Google, puede configurar
-                    su navegador para borrar o desactivar las cookies de Google. Según el
-                    navegador que utilice, este procedimiento será diferente. Las siguientes
+                    su navegador para borrar o desactivar las cookies de Google. Según
+                    el navegador que utilice, este procedimiento será diferente. Las siguientes
                     instrucciones muestran cómo gestionar cookies en su navegador:
                 </p>
                 <p>
-                    <NuxtLink :external="true" to="https://support.google.com/chrome/answer/95647?tid=311128432">
+                    <NuxtLink
+                        :external="true"
+                        to="https://support.google.com/chrome/answer/95647?tid=311128432">
                         Chrome: Eliminar, habilitar y administrar cookies
                     </NuxtLink>
                 </p>
                 <p>
-                    <NuxtLink :external="true" to="https://support.apple.com/es-es/guide/safari/sfri11471/mac?tid=311128432">
+                    <NuxtLink
+                        :external="true"
+                        to="https://support.apple.com/es-es/guide/safari/sfri11471/mac?tid=311128432">
                         Safari: Administrar cookies y datos de sitios web
                     </NuxtLink>
                 </p>
                 <p>
-                    <NuxtLink :external="true"
+                    <NuxtLink
+                        :external="true"
                         to="https://support.mozilla.org/es/kb/Borrar%20cookies?tid=311128432">
                         Firefox: Borrar cookies para eliminar datos guardados por sitios
                     </NuxtLink>
                 </p>
                 <p>
-                    <NuxtLink :external="true"
+                    <NuxtLink
+                        :external="true"
                         to="https://support.microsoft.com/es-es/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
                         Internet Explorer: Eliminar y administrar cookies
                     </NuxtLink>
                 </p>
                 <p>
-                    <NuxtLink :external="true"
+                    <NuxtLink
+                        :external="true"
                         to="https://support.microsoft.com/es-es/help/4027947/windows-delete-cookies?tid=311128432">
                         Microsoft Edge: Eliminar y administrar cookies
                     </NuxtLink>
@@ -1047,7 +1148,11 @@ useHead(() => ({
                 </p>
                 <p>
                     La base legal para este tratamiento es § 26 párr. 1 s. 1 BDSG en relación con
-                    el art. 88 párr. 1 RGPD.
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432">
+                        el art. 88 párr. 1 RGPD
+                    </NuxtLink>.
                 </p>
                 <p>
                     Si, tras el proceso de solicitud, se establece una relación laboral, guardaremos
@@ -1068,21 +1173,40 @@ useHead(() => ({
                     finalización de un procedimiento judicial.
                 </p>
                 <p>
-                    En este caso, la base legal es el art. 6 párr. 1 letra f) RGPD y § 24 párr. 1
-                    nº 2 BDSG. Nuestro interés legítimo radica en la defensa o el ejercicio
+                    En este caso, la base legal es
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432">
+                        el art. 6 párr. 1 letra f) RGPD
+                    </NuxtLink>
+                    y § 24 párr. 1 nº 2 BDSG. Nuestro interés legítimo radica en la defensa o el ejercicio
                     de derechos legales.
                 </p>
                 <p>
                     Si usted da su consentimiento expreso para que se conserven sus datos
                     (por ejemplo, para una base de datos de candidatos o interesados), sus datos
                     se seguirán procesando en base a dicha autorización. En ese caso, la base legal
-                    es el art. 6 párr. 1 letra a) RGPD. Por supuesto, puede revocar su consentimiento
-                    en cualquier momento con efecto futuro (art. 7 párr. 3 RGPD) simplemente
-                    comunicándonoslo.
+                    es
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432">
+                        el art. 6 párr. 1 letra a) RGPD
+                    </NuxtLink>.
+                    Por supuesto, puede revocar su consentimiento en cualquier momento con efecto
+                    futuro (
+                    <NuxtLink
+                        :external="true"
+                        to="https://eur-lex.europa.eu/legal-content/ES/TXT/HTML/?uri=CELEX:32016R0679&from=ES&tid=311128432">
+                        art. 7 párr. 3 RGPD
+                    </NuxtLink>
+                    ) simplemente comunicándonoslo.
                 </p>
 
                 <p>
-                    <NuxtLink target="_blank" :external="true" to="https://www.adsimple.de/datenschutz-generator/">
+                    <NuxtLink
+                        target="_blank"
+                        :external="true"
+                        to="https://www.adsimple.de/datenschutz-generator/">
                         Modelo de declaración de protección de datos
                     </NuxtLink>
                     de
