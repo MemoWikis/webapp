@@ -62,11 +62,11 @@ function handleError() {
                         {{ t('errorContent.backToHome') }}
                     </button>
                     <h2 class="error-message">{{ description }}</h2>
-                    <p class="email">{{ t('error.emailContact', { email: 'team@memucho.de' }) }}</p>
+                    <p class="email">{{ t('errorContent.emailContact', { email: 'team@memucho.de' }) }}</p>
                     <ul>
-                        <li>{{ t('error.notifications.emailSent') }}</li>
-                        <li>{{ t('error.notifications.urgentContact') }}</li>
-                        <li>{{ t('error.notifications.emailOption', { email: 'team@memucho.de' }) }}</li>
+                        <li>{{ t('errorContent.notifications.emailSent') }}</li>
+                        <li>{{ t('errorContent.notifications.urgentContact') }}</li>
+                        <li>{{ t('errorContent.notifications.emailOption', { email: 'team@memucho.de' }) }}</li>
                     </ul>
                 </div>
             </div>

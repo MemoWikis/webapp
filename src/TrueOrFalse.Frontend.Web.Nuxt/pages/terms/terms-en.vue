@@ -2,6 +2,25 @@
 
 const config = useRuntimeConfig()
 
+const { locale } = useI18n()
+
+watch(() => locale.value, async (newLocale) => {
+    switch (newLocale) {
+        case 'de':
+            await navigateTo('/AGB')
+            break
+        case 'en':
+            await navigateTo('/TermsOfUse')
+            break
+        case 'fr':
+            await navigateTo('/ConditionsGenerales')
+            break
+        case 'es':
+            await navigateTo('/CondicionesDeUso')
+            break
+    }
+})
+
 useHead(() => ({
     link: [
         {

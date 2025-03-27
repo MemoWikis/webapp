@@ -11,6 +11,25 @@ function openEmail() {
 
 const config = useRuntimeConfig()
 
+const { locale } = useI18n()
+
+watch(() => locale.value, async (newLocale) => {
+	switch (newLocale) {
+		case 'de':
+			await navigateTo('/Impressum')
+			break
+		case 'en':
+			await navigateTo('/LegalNotice')
+			break
+		case 'fr':
+			await navigateTo('/MentionsLegales')
+			break
+		case 'es':
+			await navigateTo('/AvisoLegal')
+			break
+	}
+})
+
 useHead(() => ({
 	link: [
 		{
@@ -328,28 +347,28 @@ useHead(() => ({
 				<p>
 					<NuxtLink
 						:external="true"
-						to="https://support.apple.com/de-at/guide/safari/sfri11471/mac?tid=311128432">
+						to="https://support.apple.com/en-gb/guide/safari/sfri11471/mac?tid=311128432">
 						Safari: Manage cookies and website data
 					</NuxtLink>
 				</p>
 				<p>
 					<NuxtLink
 						:external="true"
-						to="https://support.mozilla.org/de/kb/cookies-und-website-daten-in-firefox-loschen?tid=311128432">
+						to="https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox?tid=311128432">
 						Firefox: Delete cookies to remove data websites have placed on your computer
 					</NuxtLink>
 				</p>
 				<p>
 					<NuxtLink
 						:external="true"
-						to="https://support.microsoft.com/de-at/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
+						to="https://support.microsoft.com/en-gb/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
 						Internet Explorer: Delete and manage cookies
 					</NuxtLink>
 				</p>
 				<p>
 					<NuxtLink
 						:external="true"
-						to="https://support.microsoft.com/de-at/help/4027947/windows-delete-cookies?tid=311128432">
+						to="https://support.microsoft.com/en-gb/help/4027947/windows-delete-cookies?tid=311128432">
 						Microsoft Edge: Delete and manage cookies
 					</NuxtLink>
 				</p>
@@ -444,7 +463,7 @@ useHead(() => ({
 					contact the
 					<NuxtLink
 						:external="true"
-						to="https://www.bfdi.bund.de/DE/Datenschutz/Ueberblick/MeineRechte/Artikel/BeschwerdeBeiDatenschutzbehoereden.html?tid=311128432">
+						to="https://www.bfdi.bund.de/EN/Buerger/Inhalte/Allgemein/Datenschutz/BeschwerdeBeiDatenschutzbehoerden.html?tid=311128432">
 						Federal Commissioner for Data Protection and Freedom of Information (BfDI)
 					</NuxtLink>.
 				</p>
@@ -569,7 +588,7 @@ useHead(() => ({
 				<p>
 					Google Fonts (formerly Google Web Fonts) is an interactive directory
 					of over 800 fonts made freely available by
-					<NuxtLink :external="true" to="https://de.wikipedia.org/wiki/Google_LLC?tid=311128432">
+					<NuxtLink :external="true" to="https://en.wikipedia.org/w/index.php?title=Google&tid=311128432">
 						Google LLC
 					</NuxtLink>.
 					With Google Fonts, one can normally use these fonts without hosting
@@ -698,8 +717,8 @@ useHead(() => ({
 					Support via
 					<NuxtLink
 						:external="true"
-						to="https://support.google.com/?hl=de&tid=311128432">
-						https://support.google.com/?hl=de&tid=311128432
+						to="https://support.google.com/?hl=en&tid=311128432">
+						https://support.google.com/?hl=en&tid=311128432
 					</NuxtLink>.
 					Preventing data storage here is only possible by not visiting our
 					website.
@@ -722,8 +741,8 @@ useHead(() => ({
 					used, see
 					<NuxtLink
 						:external="true"
-						to="https://policies.google.com/privacy?hl=de&tid=311128432">
-						https://www.google.com/intl/de/policies/privacy/
+						to="https://policies.google.com/privacy?hl=en&tid=311128432">
+						https://www.google.com/intl/policies/privacy/
 					</NuxtLink>.
 				</p>
 

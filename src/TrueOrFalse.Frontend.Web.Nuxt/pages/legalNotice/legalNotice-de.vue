@@ -11,6 +11,25 @@ function openEmail() {
 
 const config = useRuntimeConfig()
 
+const { locale } = useI18n()
+
+watch(() => locale.value, async (newLocale) => {
+	switch (newLocale) {
+		case 'de':
+			await navigateTo('/Impressum')
+			break
+		case 'en':
+			await navigateTo('/LegalNotice')
+			break
+		case 'fr':
+			await navigateTo('/MentionsLegales')
+			break
+		case 'es':
+			await navigateTo('/AvisoLegal')
+			break
+	}
+})
+
 useHead(() => ({
 	link: [
 		{
@@ -21,11 +40,11 @@ useHead(() => ({
 	meta: [
 		{
 			name: 'description',
-			content: 'Legal information and company details for memoWikis.'
+			content: 'Rechtliche Informationen und Unternehmensdetails für memoWikis.'
 		},
 		{
 			property: 'og:title',
-			content: 'Imprint | memoWikis'
+			content: 'Impressum | memoWikis'
 		},
 		{
 			property: 'og:url',
@@ -38,6 +57,7 @@ useHead(() => ({
 	]
 }))
 </script>
+
 
 <template>
 	<div class="container">
@@ -419,7 +439,7 @@ useHead(() => ({
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.apple.com/de-at/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten
+						to="https://support.apple.com/de-de/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten
 						von
 						Cookies und Websitedaten mit Safari</NuxtLink>
 				</p>
@@ -434,14 +454,14 @@ useHead(() => ({
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.microsoft.com/de-at/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
+						to="https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
 						Internet
 						Explorer: L&ouml;schen und Verwalten von Cookies</NuxtLink>
 				</p>
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.microsoft.com/de-at/help/4027947/windows-delete-cookies?tid=311128432">
+						to="https://support.microsoft.com/de-de/help/4027947/windows-delete-cookies?tid=311128432">
 						Microsoft
 						Edge: L&ouml;schen und Verwalten von Cookies</NuxtLink>
 				</p>
@@ -578,7 +598,7 @@ useHead(() => ({
 					datenschutzrechtlichen Anspr&uuml;che sonst in einer Weise verletzt worden sind, k&ouml;nnen Sie
 					sich an
 					die&nbsp;&nbsp;<NuxtLink :external="true"
-						to="https://www.bfdi.bund.de/DE/Datenschutz/Ueberblick/MeineRechte/Artikel/BeschwerdeBeiDatenschutzbehoereden.html?tid=311128432">
+						to="https://www.bfdi.bund.de/DE/Buerger/Inhalte/Allgemein/Datenschutz/BeschwerdeBeiDatenschutzbehoereden.html?tid=311128432">
 						Bundesbeauftragte
 						f&uuml;r den Datenschutz und die Informationsfreiheit (BfDI)</NuxtLink>&nbsp;wenden.
 				</p>
@@ -1297,7 +1317,7 @@ useHead(() => ({
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.apple.com/de-at/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten
+						to="https://support.apple.com/de-de/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten
 						von
 						Cookies und Websitedaten mit Safari</NuxtLink>
 				</p>
@@ -1312,14 +1332,14 @@ useHead(() => ({
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.microsoft.com/de-at/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
+						to="https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies?tid=311128432">
 						Internet
 						Explorer: L&ouml;schen und Verwalten von Cookies</NuxtLink>
 				</p>
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.microsoft.com/de-at/help/4027947/windows-delete-cookies?tid=311128432">
+						to="https://support.microsoft.com/de-de/help/4027947/windows-delete-cookies?tid=311128432">
 						Microsoft
 						Edge: L&ouml;schen und Verwalten von Cookies</NuxtLink>
 				</p>

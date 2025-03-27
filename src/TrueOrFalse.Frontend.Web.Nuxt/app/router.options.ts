@@ -17,14 +17,24 @@ export default <RouterConfig>{
             },
         },
         {
-            name: "termsDEPage",
+            name: "termsPageDE",
             path: "/AGB",
             component: () => import("~/pages/terms/terms-de.vue"),
         },
         {
-            name: "termsENPage",
+            name: "termsPageEN",
             path: "/TermsOfUse",
             component: () => import("~/pages/terms/terms-en.vue"),
+        },
+        {
+            name: "termsPageFR",
+            path: "/ConditionsGenerales",
+            component: () => import("~/pages/terms/terms-fr.vue"),
+        },
+        {
+            name: "termsPageES",
+            path: "/CondicionesDeUso",
+            component: () => import("~/pages/terms/terms-es.vue"),
         },
         {
             name: "userSettingsSubscriptionDE",
@@ -33,22 +43,32 @@ export default <RouterConfig>{
             props: { isSettingsPage: true, activeContentProp: "Subscription" },
         },
         {
-            name: "legalNoticeDEPage",
+            name: "legalNoticePageDE",
             path: "/Impressum",
             component: () => import("~/pages/legalNotice/legalNotice-de.vue"),
         },
         {
-            name: "legalNoticeENPage",
+            name: "legalNoticePageEN",
             path: "/LegalNotice",
             component: () => import("~/pages/legalNotice/legalNotice-en.vue"),
         },
         {
-            name: "priceDePage",
+            name: "legalNoticePageFR",
+            path: "/MentionsLegales",
+            component: () => import("~/pages/legalNotice/legalNotice-fr.vue"),
+        },
+        {
+            name: "legalNoticePageES",
+            path: "/AvisoLegal",
+            component: () => import("~/pages/legalNotice/legalNotice-es.vue"),
+        },
+        {
+            name: "pricePageDE",
             path: "/Preise",
             component: () => import("~/pages/membership/price.vue"),
         },
         {
-            name: "priceEnPage",
+            name: "pricePageEN",
             path: "/Prices",
             component: () => import("~/pages/membership/price.vue"),
         },
@@ -78,7 +98,7 @@ export default <RouterConfig>{
             component: () => import("~/pages/user/confirmEmail.vue"),
         },
         {
-            name: "messagesPage",
+            name: "messagPageES",
             path: "/Nachrichten",
             component: () => import("~/pages/user/messages.vue"),
         },
