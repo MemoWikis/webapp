@@ -29,8 +29,8 @@ public class UsersController(
         bool ShowWuwi,
         int WikiId,
         int WuwiQuestionsCount,
-        int WuwiPagesCount
-    );
+        int WuwiPagesCount,
+        List<string> ContentLanguages);
 
     public readonly record struct UsersResult(IEnumerable<UserResult> Users, int TotalItems);
 
@@ -38,11 +38,17 @@ public class UsersController(
     public async Task<UsersResult> Get(
         int page,
         int pageSize,
+        string[] languages,
         string searchTerm = "",
         SearchUsersOrderBy orderBy = SearchUsersOrderBy.Rank)
     {
-        var result = await _meiliSearchUsers.GetUsersByPagerAsync(searchTerm,
-            new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page }, orderBy);
+        var pager = new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page };
+
+        var result = await _meiliSearchUsers.GetUsersByPagerAsync(
+            searchTerm,
+            pager,
+            orderBy,
+            languages);
 
         var users = EntityCache.GetUsersByIds(result.searchResultUser.Select(u => u.Id));
         var usersResult = users.Select(GetUserResult);
@@ -90,7 +96,8 @@ public class UsersController(
             ImgUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                 .GetUrl_128px_square(user)
                 .Url,
-            WikiId = _permissionCheck.CanViewPage(user.StartPageId) ? user.StartPageId : -1
+            WikiId = _permissionCheck.CanViewPage(user.StartPageId) ? user.StartPageId : -1,
+            ContentLanguages = user.ContentLanguages.Select(l => l.GetCode()).ToList()
         };
     }
 }

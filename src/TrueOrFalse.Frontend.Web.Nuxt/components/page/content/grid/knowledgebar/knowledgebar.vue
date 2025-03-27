@@ -26,16 +26,18 @@ function setKnowledgebarData() {
     knowledgebarTooltipData.value = knowledgebarTooltipData.value.slice().reverse()
 }
 
+const { t } = useI18n()
+
 function getTooltipLabel(key: string, count: number) {
     switch (key) {
         case 'solid':
-            return `Sicheres Wissen: ${count} Fragen`
+            return t('knowledgeStatus.solidCount', count)
         case 'needsConsolidation':
-            return `Solltest du festigen: ${count} Fragen`
+            return t('knowledgeStatus.needsConsolidationCount', count)
         case 'needsLearning':
-            return `Solltest du lernen: ${count} Fragen`
+            return t('knowledgeStatus.needsLearningCount', count)
         case 'notLearned':
-            return `Noch nicht gelernt: ${count} Fragen`
+            return t('knowledgeStatus.notLearnedCount', count)
     }
 }
 
@@ -62,14 +64,14 @@ const ariaId = useId()
             </div>
         </div>
         <template #popper>
-            <b>Dein Wissenstand:</b>
+            <b>{{ t('page.grid.knowledgeStatus.title') }}</b>
             <div v-for="d in knowledgebarTooltipData" v-if="knowledgebarTooltipData.some(d => d.value > 0)"
                 class="knowledgesummary-info">
                 <div class="color-container" :class="`color-${d.class}`"></div>
                 <div>{{ getTooltipLabel(d.class!, d.value) }}</div>
             </div>
             <div v-else>
-                Du hast noch keine Fragen auf dieser Seite
+                {{ t('page.grid.knowledgeStatus.noQuestions') }}
             </div>
         </template>
     </VTooltip>

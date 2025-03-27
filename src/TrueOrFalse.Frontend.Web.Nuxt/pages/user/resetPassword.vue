@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { AlertType, useAlertStore } from '~/components/alert/alertStore'
 import { Site } from '~/components/shared/siteEnum'
 import { CurrentUser, useUserStore } from '~/components/user/userStore'
 const userStore = useUserStore()
@@ -8,6 +8,8 @@ interface Props {
     site: Site
 }
 const props = defineProps<Props>()
+const { t } = useI18n()
+
 const emit = defineEmits(['setPage'])
 
 onBeforeMount(() => {
@@ -29,8 +31,8 @@ const { data: tokenValidationResult } = await useFetch<FetchResult<any>>(`/apiVu
 })
 const errorMessage = ref<string>('')
 
-if (tokenValidationResult.value?.success === false) {
-    errorMessage.value = messages.getByCompositeKey(tokenValidationResult.value?.messageKey)
+if (tokenValidationResult.value?.success === false && tokenValidationResult.value?.messageKey) {
+    errorMessage.value = t(tokenValidationResult.value.messageKey)
 }
 
 const newPassword = ref<string>('')
@@ -47,7 +49,7 @@ async function saveNewPassword() {
         return
     }
     if (newPassword.value.length < 5) {
-        errorMessage.value = messages.error.user.passwordTooShort
+        errorMessage.value = t('error.user.passwordTooShort')
         return
     }
 
@@ -68,7 +70,7 @@ async function saveNewPassword() {
         if (userStore.isLoggedIn)
             return navigateTo('/')
     } else {
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
     }
 }
 </script>

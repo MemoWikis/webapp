@@ -16,7 +16,7 @@ import UploadImage from '~/components/shared/imageUploadExtension'
 import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isEmpty } from 'underscore'
-import { messages } from '~~/components/alert/alertStore'
+'~~/components/alert/alertStore'
 
 import { getRandomColor } from '~/components/shared/utils'
 
@@ -61,7 +61,7 @@ const handleConnectionLost = () => {
 
     const data: SnackbarData = {
         type: 'error',
-        text: messages.error.collaboration.connectionLost,
+        text: { message: t('error.collaboration.connectionLost') },
         duration: 8000
     }
     snackbarStore.showSnackbar(data)
@@ -135,13 +135,14 @@ const initProvider = () => {
                     loadCollab.value = false
                     recreate()
                 }
-
             }
         }
     })
 }
 
 const deleteImageSrc = ref()
+
+const { t, locale } = useI18n()
 
 const initEditor = () => {
     editor.value = new Editor({
@@ -168,7 +169,7 @@ const initEditor = () => {
             Placeholder.configure({
                 emptyEditorClass: 'is-editor-empty',
                 emptyNodeClass: 'is-empty',
-                placeholder: 'Klicke hier um zu tippen ...',
+                placeholder: t('editor.placeholder'),
                 showOnlyWhenEditable: true,
                 showOnlyCurrent: true,
             }),
@@ -289,6 +290,10 @@ const initEditor = () => {
     })
 }
 
+watch(locale, () => {
+    if (editor.value && editor.value.isEmpty)
+        recreate()
+})
 
 const recreate = (login: boolean = false) => {
     provider.value?.destroy()

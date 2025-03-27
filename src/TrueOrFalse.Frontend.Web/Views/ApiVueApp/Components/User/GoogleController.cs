@@ -9,7 +9,7 @@ public class GoogleController(
     FrontEndUserData _frontEndUserData,
     GoogleLogin _googleLogin) : Controller
 {
-    public readonly record struct LoginRequest(string? credential, string? accessToken);
+    public readonly record struct LoginRequest(string? credential, string? accessToken, string language);
 
     public readonly record struct LoginResponse(
         bool Success,
@@ -20,7 +20,7 @@ public class GoogleController(
     public async Task<LoginResponse> Login([FromBody] LoginRequest request)
     {
 
-        var loginResult = await _googleLogin.Login(request.credential, request.accessToken);
+        var loginResult = await _googleLogin.Login(request.language, request.credential, request.accessToken);
 
         if (loginResult.Success)
             return new LoginResponse

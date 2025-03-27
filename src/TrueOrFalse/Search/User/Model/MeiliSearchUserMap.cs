@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace TrueOrFalse.Search
 {
     public class MeiliSearchUserMap
@@ -8,5 +10,8 @@ namespace TrueOrFalse.Search
         public int WishCountQuestions { get; set; }
         public int Rank { get; set; }
         public int Id { get; set; }
+
+        [JsonPropertyName("ContentLanguages")]
+        public List<string?> ContentLanguages { get; set; }
     }
 }

@@ -98,6 +98,17 @@
                 filter: brightness(0.85)
             }
 
+            &.no-hover {
+                cursor: default;
+                &:hover {
+                    color: @memo-grey-dark;
+                    filter: brightness(1)
+                }
+                &:active {
+                    filter: brightness(1)
+                }
+            }
+
             &.select-row {
                 &.active {
                     color: @memo-blue;

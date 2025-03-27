@@ -23,11 +23,11 @@ function getAnswerText(): string {
     return answer.value
 }
 defineExpose({ getAnswerDataString, getAnswerText })
-
+const { t } = useI18n()
 </script>
 
 <template>
-    <textarea id="txtAnswer" class="form-control " rows="1" placeholder="Gib hier bitte deine Antwort ein." @input="resize"
+    <textarea id="txtAnswer" class="form-control " rows="1" :placeholder="t('answerBody.textPlaceholderAddAnswer')" @input="resize"
         v-model="answer" ref="textArea" :disabled="props.showAnswer">
             </textarea>
 </template>

@@ -5,41 +5,42 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Search
 {
-    public class MeiliSearchUsers : MeiliSearchHelper, IRegisterAsInstancePerLifetime
+    public class MeiliSearchUsers(
+        IHttpContextAccessor _httpContextAccessor,
+        IWebHostEnvironment _webHostEnvironment)
+        : MeiliSearchHelper, IRegisterAsInstancePerLifetime
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private List<UserCacheItem> _users = new();
 
         private MeiliSearchUsersResult _result;
 
-        public MeiliSearchUsers(
-            IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+        public async Task<ISearchUsersResult> RunAsync(string searchTerm, List<Language>? languages = null)
         {
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
-        }
-
-        public async Task<ISearchUsersResult> RunAsync(
-            string searchTerm)
-        {
-            var client = new MeilisearchClient(MeiliSearchConstants.Url,
-                MeiliSearchConstants.MasterKey);
+            var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
             var index = client.Index(MeiliSearchConstants.Users);
             _result = new MeiliSearchUsersResult(_httpContextAccessor, _webHostEnvironment);
 
-            _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index));
+            _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index, languages));
 
             return _result;
         }
 
-        private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index)
+        private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index, List<Language>? languages = null)
         {
             var sq = new SearchQuery
             {
                 Limit = _count
             };
+
+            if (languages != null && languages.Any())
+            {
+                var clauses = languages
+                    .Select(lang => lang.GetCode())
+                    .Select(code => $"ContentLanguages = \"{code}\"")
+                    .ToList();
+
+                sq.Filter = string.Join(" OR ", clauses);
+            }
 
             var userMaps =
                 (await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq))
@@ -54,7 +55,7 @@ namespace TrueOrFalse.Search
             if (IsReloadRequired(userMaps.Count, _users.Count()))
             {
                 _count += 20;
-                await LoadSearchResults(searchTerm, index);
+                await LoadSearchResults(searchTerm, index, languages);
             }
 
             ;
@@ -77,24 +78,42 @@ namespace TrueOrFalse.Search
         }
 
         public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)>
-            GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy)
+            GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy, string[] languageCodes)
         {
             var userMaps = new List<MeiliSearchUserMap>();
             var count = 0;
+            var languages = LanguageExtensions.GetLanguages(languageCodes);
             if (string.IsNullOrEmpty(searchTerm))
             {
-                userMaps = EntityCache.GetAllUsers().Select(ConvertToUserMap).ToList();
+                userMaps = EntityCache.GetAllUsers().Where(u => LanguageExtensions.AnyLanguageIsInList(languages, u.ContentLanguages)).Select(ConvertToUserMap).ToList();
                 count = userMaps.Count;
             }
             else
             {
-                var client = new MeilisearchClient(MeiliSearchConstants.Url,
-                    MeiliSearchConstants.MasterKey);
+                var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
                 var index = client.Index(MeiliSearchConstants.Users);
 
+                string filterString = null;
+
+                if (languages.Any())
+                {
+                    var clauses = languages
+                        .Select(lang => lang.GetCode()) // "German", "English", etc.
+                        .Select(code => $"ContentLanguages = \"{code}\"")
+                        .ToList();
+
+                    filterString = string.Join(" OR ", clauses);
+                }
+
+                // Create the search query
                 var sq = new SearchQuery
                 {
-                    Limit = 100
+                    // The search text
+                    Q = searchTerm,
+                    // Limit how many hits we fetch
+                    Limit = 100,
+                    // Add the filter (only if we have at least one language selected)
+                    Filter = filterString
                 };
 
                 var searchResult = await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq);
@@ -143,7 +162,8 @@ namespace TrueOrFalse.Search
                 Id = user.Id,
                 Name = user.Name,
                 Rank = user.ReputationPos,
-                WishCountQuestions = user.WishCountQuestions
+                WishCountQuestions = user.WishCountQuestions,
+                ContentLanguages = user.ContentLanguages.Select(l => l.GetCode()).ToList()
             };
             return result;
         }

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { messages } from '~/components/alert/messages'
+
 import { GeneratedFlashCard, usePageStore } from '../../pageStore'
 import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
 import { useLearningSessionConfigurationStore } from '~/components/page/learning/learningSessionConfigurationStore'
@@ -9,6 +9,7 @@ const pageStore = usePageStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const snackbarStore = useSnackbarStore()
+const { t } = useI18n()
 
 const show = ref(false)
 const acceptFlashCards = async () => {
@@ -46,7 +47,7 @@ const acceptFlashCards = async () => {
     } else if (result.messageKey) {
         const data: SnackbarData = {
             type: 'error',
-            text: messages.getByCompositeKey(result.messageKey),
+            text: { message: t(result.messageKey) },
             dismissible: true
         }
         snackbarStore.showSnackbar(data)
@@ -62,7 +63,7 @@ const handleLearningSession = (startIndex: number, lastIndex: number) => {
 
     const data: SnackbarData = {
         type: 'success',
-        text: messages.success.question.flashcardsAdded(lastIndex - startIndex + 1),
+        text: { message: t('success.question.flashcardsAdded', lastIndex - startIndex + 1) },
         dismissible: true
     }
     snackbarStore.showSnackbar(data)
@@ -78,12 +79,12 @@ pageStore.$onAction(({ name, after }) => {
                 show.value = true
                 flashcards.value = result.flashcards
                 if (result.messageKey) {
-                    message.value = messages.getByCompositeKey(result.messageKey)
+                    message.value = t(result.messageKey)
                 }
             } else if (result.messageKey) {
                 const data: SnackbarData = {
                     type: 'error',
-                    text: messages.getByCompositeKey(result.messageKey),
+                    text: { message: t(result.messageKey) },
                     dismissible: true
                 }
                 snackbarStore.showSnackbar(data)
@@ -95,12 +96,12 @@ pageStore.$onAction(({ name, after }) => {
             if (result.flashcards.length > 0) {
                 flashcards.value = result.flashcards
                 if (result.messageKey) {
-                    message.value = messages.getByCompositeKey(result.messageKey)
+                    message.value = t(result.messageKey)
                 }
             } else if (result.messageKey) {
                 const data: SnackbarData = {
                     type: 'error',
-                    text: messages.getByCompositeKey(result.messageKey),
+                    text: { message: t(result.messageKey) },
                     dismissible: true
                 }
                 snackbarStore.showSnackbar(data)
@@ -112,25 +113,25 @@ pageStore.$onAction(({ name, after }) => {
 const deleteFlashcard = (index: number) => {
     flashcards.value.splice(index, 1)
 }
-
 </script>
 
-
 <template>
-    <Modal :show="show" @close="show = false" @primary-btn="acceptFlashCards" :show-cancel-btn="true" :primary-btn-label="'Karteikarte erstellen'" content-class="wide-modal" :fullscreen="false" container-class="wide-modal"
+    <Modal :show="show" @close="show = false" @primary-btn="acceptFlashCards" :show-cancel-btn="true"
+        :primary-btn-label="t('page.ai.flashcard.button.create')" content-class="wide-modal"
+        :fullscreen="false" container-class="wide-modal"
         :show-close-button="true" :disabled="flashcards.length === 0">
         <template #body>
             <div v-if="message" class="alert alert-info">{{ message }}</div>
             <div id="AiFlashCard">
-                <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i" @delete-flashcard="deleteFlashcard" />
+                <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i"
+                    @delete-flashcard="deleteFlashcard" />
                 <div v-if="flashcards.length === 0" class="no-flashcards">
-                    <p>Oops! Du hast keine Karteikarten.</p>
+                    <p>{{ t('page.ai.flashcard.message.noFlashcards') }}</p>
                 </div>
             </div>
         </template>
     </Modal>
 </template>
-
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
@@ -169,6 +170,5 @@ const deleteFlashcard = (index: number) => {
         padding: 24px;
         color: @memo-grey;
     }
-
 }
 </style>

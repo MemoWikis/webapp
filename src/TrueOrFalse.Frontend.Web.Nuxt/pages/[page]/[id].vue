@@ -4,7 +4,6 @@ import { Page, usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { Site } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
-import { messages } from '~/components/alert/messages'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useConvertStore } from '~/components/page/convert/convertStore'
 
@@ -21,6 +20,8 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const { t } = useI18n()
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -46,7 +47,7 @@ const { data: page, refresh } = await useFetch<Page>(`/apiVue/Page/GetPage/${rou
 
 if (page.value?.errorCode && page.value?.messageKey) {
     $logger.warn(`Page: ${page.value.messageKey} route ${route.fullPath}`)
-    throw createError({ statusCode: page.value.errorCode, statusMessage: messages.getByCompositeKey(page.value.messageKey) })
+    throw createError({ statusCode: page.value.errorCode, statusMessage: t(page.value.messageKey) })
 }
 
 const tabSwitched = ref(false)
@@ -58,7 +59,7 @@ function setPage() {
 
         if (page.value?.errorCode && page.value?.messageKey) {
             $logger.warn(`Page: ${page.value.messageKey} route ${route.fullPath}`)
-            throw createError({ statusCode: page.value.errorCode, statusMessage: messages.getByCompositeKey(page.value.messageKey) })
+            throw createError({ statusCode: page.value.errorCode, statusMessage: t(page.value.messageKey) })
         } else {
 
             pageStore.setPage(page.value)
@@ -75,6 +76,7 @@ function setPage() {
                 tabSwitched.value = true
                 if (page.value == null || parseInt(route.params.id.toString()) != page.value.id)
                     return
+
                 if (t === Tab.Text)
                     router.push($urlHelper.getPageUrl(page.value.name, page.value.id))
 
@@ -137,6 +139,9 @@ watch(page, async (oldPage, newPage) => {
 }, { deep: true, immediate: true })
 
 useHead(() => ({
+    htmlAttrs: {
+        lang: page.value?.language ?? 'en'
+    },
     link: [
         {
             rel: 'canonical',
@@ -183,6 +188,7 @@ convertStore.$onAction(({ name, after }) => {
         })
     }
 })
+
 </script>
 
 <template>
@@ -219,8 +225,8 @@ convertStore.$onAction(({ name, after }) => {
                                 <div class="row">
                                 </div>
                             </template>
-                            <PageTabsAnalytics v-show="tabsStore.activeTab === Tab.Analytics || (props.tab === Tab.Analytics && !tabSwitched)" />
                             <LazyPageTabsFeed v-show="tabsStore.activeTab === Tab.Feed || (props.tab === Tab.Feed && !tabSwitched)" />
+                            <PageTabsAnalytics v-show="tabsStore.activeTab === Tab.Analytics || (props.tab === Tab.Analytics && !tabSwitched)" />
                         </ClientOnly>
 
                         <ClientOnly>
@@ -234,7 +240,6 @@ convertStore.$onAction(({ name, after }) => {
                         </ClientOnly>
                     </template>
                 </div>
-
 
                 <ClientOnly>
                     <Sidebar class="is-page" :show-outline="true" :site="Site.Page" v-if="pageStore?.id != 0" />

@@ -22,6 +22,8 @@ const props = defineProps<Props>()
 const showDropdown = ref(false)
 const ariaId = useId()
 
+const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 </script>
 
 <template>
@@ -39,7 +41,9 @@ const ariaId = useId()
                     <div class="dropdown-icon">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </div>
-                    <div class="dropdown-label">Frage bearbeiten</div>
+                    <div class="dropdown-label">
+                        {{ t('answerbody.options.editQuestion') }}
+                    </div>
 
                 </div>
 
@@ -49,7 +53,9 @@ const ariaId = useId()
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-file" />
                         </div>
-                        <div class="dropdown-label">Frageseite anzeigen</div>
+                        <div class="dropdown-label">
+                            {{ t('answerbody.options.showQuestionPage') }}
+                        </div>
                     </div>
                 </LazyNuxtLink>
 
@@ -59,7 +65,9 @@ const ariaId = useId()
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-code-fork" />
                         </div>
-                        <div class="dropdown-label">Bearbeitungshistorie der Frage</div>
+                        <div class="dropdown-label">
+                            {{ t('answerbody.options.showEditHistory') }}
+                        </div>
                     </div>
                 </LazyNuxtLink>
 
@@ -67,7 +75,9 @@ const ariaId = useId()
                     <div class="dropdown-icon">
                         <font-awesome-icon icon="fa-solid fa-comment" />
                     </div>
-                    <div class="dropdown-label">Frage kommentieren</div>
+                    <div class="dropdown-label">
+                        {{ t('answerbody.options.comment') }}
+                    </div>
                 </div>
 
                 <div class="dropdown-row" @click="deleteQuestionStore.openModal(props.id); hide()"
@@ -75,7 +85,9 @@ const ariaId = useId()
                     <div class="dropdown-icon">
                         <font-awesome-icon icon="fa-solid fa-trash" />
                     </div>
-                    <div class="dropdown-label">Frage löschen</div>
+                    <div class="dropdown-label">
+                        {{ t('answerbody.options.delete') }}
+                    </div>
                 </div>
 
             </template>

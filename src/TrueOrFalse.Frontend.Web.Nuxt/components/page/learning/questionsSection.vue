@@ -45,7 +45,7 @@ function getClass(): string {
     else return !learningSessionConfigurationStore.showFilter ? `${str} no-questions` : str
 }
 const ariaId = useId()
-
+const { t } = useI18n()
 </script>
 
 <template>
@@ -57,16 +57,12 @@ const ariaId = useId()
                     <slot>
                         <div class="drop-down-question-sort col-xs-12">
                             <div class="session-config-header">
-                                <span class="hidden-xs">Du lernst </span>
-                                <template v-if="learningSessionStore.steps.length === pageStore.questionCount">
-                                    <b> alle </b>
-                                </template>
-                                <template v-else>
-                                    <b> {{ learningSessionStore.steps.length }} </b>
-                                </template>
-                                <template v-if="learningSessionStore.steps.length === 1"> Frage </template>
-                                <template v-else> Fragen </template>
-                                <span class="hidden-xs">auf dieser Seite</span>
+                                <span class="hidden-xs">{{ t('page.questionsSection.youAreLearning') }}&nbsp;</span>
+                                <b v-if="learningSessionStore.steps.length === pageStore.questionCount">{{ t('page.questionsSection.all') }}&nbsp;</b>
+                                <b v-else>{{ learningSessionStore.steps.length }}&nbsp;</b>
+                                <template v-if="learningSessionStore.steps.length === 1"> {{ t('page.questionsSection.question') }}&nbsp;</template>
+                                <template v-else>{{ t('page.questionsSection.questions') }}&nbsp;</template>
+                                <span class="hidden-xs">{{ t('page.questionsSection.onThisPage') }}</span>
                                 ({{ pageStore.questionCount }})
                             </div>
 
@@ -81,7 +77,7 @@ const ariaId = useId()
                                                 <div class="dropdown-icon">
                                                     <font-awesome-icon icon="fa-solid fa-circle-plus" />
                                                 </div>
-                                                <div class="dropdown-label">Frage hinzufügen</div>
+                                                <div class="dropdown-label">{{ t('page.questionsSection.addQuestion') }}</div>
 
                                             </div>
 
@@ -91,7 +87,7 @@ const ariaId = useId()
                                                     <font-awesome-icon icon="fa-solid fa-angles-up" />
                                                 </div>
                                                 <div class="dropdown-label">
-                                                    Alle Fragen zuklappen
+                                                    {{ t('page.questionsSection.collapseAllQuestions') }}
                                                 </div>
                                             </div>
                                             <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded"
@@ -100,7 +96,7 @@ const ariaId = useId()
                                                     <font-awesome-icon icon="fa-solid fa-angles-down" />
                                                 </div>
                                                 <div class="dropdown-label">
-                                                    Alle Fragen erweitern
+                                                    {{ t('page.questionsSection.expandAllQuestions') }}
                                                 </div>
                                             </div>
 
@@ -109,7 +105,7 @@ const ariaId = useId()
                                                     <font-awesome-icon icon="fa-solid fa-play" />
                                                 </div>
                                                 <div class="dropdown-label">
-                                                    Fragen jetzt lernen
+                                                    {{ t('page.questionsSection.learnQuestionsNow') }}
                                                 </div>
                                             </div>
                                         </template>
@@ -125,7 +121,7 @@ const ariaId = useId()
             <div class="session-configurator no-questions" v-else-if="!learningSessionConfigurationStore.showFilter">
                 <div class="session-config-header">
                     <div class="col-xs-12 drop-down-question-sort">
-                        Leider hat diese Seite noch keine Fragen, erstelle oder füge eine Frage hinzu.
+                        {{ t('page.questionsSection.noQuestionsYet') }}
                     </div>
                 </div>
             </div>

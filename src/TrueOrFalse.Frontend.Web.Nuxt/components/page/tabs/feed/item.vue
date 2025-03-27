@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { Visibility } from '~/components/shared/visibilityEnum'
-import { PageFeedItem, PageChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author, getPageChangeTypeName, getQuestionChangeTypeName } from './feedHelper'
+import { PageFeedItem, PageChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author, getPageChangeTypeKey, getQuestionChangeTypeKey } from './feedHelper'
 import { color } from '~/components/shared/colors'
-import { messages } from '~/components/alert/messages'
+
 import { usePageStore } from '../../pageStore'
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const pageStore = usePageStore()
+const { t } = useI18n()
 
 enum FeedType {
     Page,
@@ -49,7 +50,7 @@ const setFeedItem = (item: PageFeedItem | QuestionFeedItem) => {
         const questionItem = item as QuestionFeedItem
         feedItem.value = {
             date: questionItem.date,
-            params: { label: getQuestionChangeTypeName(questionItem.type), color: getQuestionChangeColor(questionItem.type), id: questionItem.questionChangeId, type: questionItem.type },
+            params: { label: t(getQuestionChangeTypeKey(questionItem.type)), color: getQuestionChangeColor(questionItem.type), id: questionItem.questionChangeId, type: questionItem.type },
             feedType: FeedType.Question,
             id: questionItem.questionId,
             visibility: questionItem.visibility,
@@ -65,7 +66,7 @@ const setFeedItem = (item: PageFeedItem | QuestionFeedItem) => {
         const pageItem = item as PageFeedItem
         feedItem.value = {
             date: pageItem.date,
-            params: { label: getPageChangeTypeName(pageItem.type), color: getPageChangeColor(pageItem.type), id: pageItem.pageChangeId, type: pageItem.type },
+            params: { label: t(getPageChangeTypeKey(pageItem.type)), color: getPageChangeColor(pageItem.type), id: pageItem.pageChangeId, type: pageItem.type },
             feedType: FeedType.Page,
             id: pageItem.pageId,
             visibility: pageItem.visibility,
@@ -169,15 +170,12 @@ const { $urlHelper } = useNuxtApp()
 <template>
     <div class="feed-item" v-if="feedItem" @click="handleClick" :class="{ 'no-modal': !canOpen, 'mobile': !isDesktop }">
         <div class="feed-item-info">
-            <div class="feed-item-change-type" :style="`background: ${feedItem.params.color}`">
-                {{ feedItem.params.label }}
-            </div>
             <div class="feed-item-date">
                 {{ date }}
             </div>
 
             <div v-if="!isDesktop" class="feed-item-info-visibility" @click.stop>
-                <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="messages.info.feed.private" class="feed-item-visibility-icon" />
+                <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="t('page.feed.item.private')" class="feed-item-visibility-icon" />
             </div>
         </div>
         <div class="feed-item-label">
@@ -219,21 +217,17 @@ const { $urlHelper } = useNuxtApp()
                         :added-parent="props.pageFeedItem.relationChanges.addedParents[0]" />
 
                     <div class="feed-item-label-deleted" v-else-if="feedItem.params.type === PageChangeType.ChildPageDeleted">
-                        Unterseite gelöscht
+                        {{ t('page.feed.item.childPageDeleted') }}
                     </div>
                     <div class="feed-item-label-deleted" v-else-if="feedItem.params.type === PageChangeType.QuestionDeleted">
-                        Frage gelöscht
+                        {{ t('page.feed.item.questionDeleted') }}
                     </div>
-                </template>
-
-                <template v-if="feedItem.feedType === FeedType.Question && feedItem.params.type === QuestionChangeType.AddComment && props.questionFeedItem">
-                    <div class="feed-item-label-commentadd" v-html="props.questionFeedItem.comment?.title"> </div>
                 </template>
             </div>
         </div>
 
         <div class="feed-item-visibility" v-if="isDesktop">
-            <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="messages.info.feed.private" class="feed-item-visibility-icon" />
+            <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="t('page.feed.item.private')" class="feed-item-visibility-icon" />
         </div>
     </div>
 </template>

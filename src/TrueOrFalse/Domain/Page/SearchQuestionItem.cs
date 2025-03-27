@@ -6,4 +6,5 @@
     public int Visibility { get; set; }
     public string PrimaryPageName { get; set; }
     public int PrimaryPageId { get; set; }
+    public string LanguageCode { get; set; }
 }

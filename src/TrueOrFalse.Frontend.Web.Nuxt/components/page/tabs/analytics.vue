@@ -44,16 +44,18 @@ const past90DaysLabelsQuestions = computed(() => pageStore.viewsPast90DaysDirect
 }) as string[])
 const past90DaysCountsQuestions = computed(() => pageStore.viewsPast90DaysDirectQuestions?.map(v => v.count) as number[])
 
+const { t } = useI18n()
+
 function getLabel(key: string) {
     switch (key) {
         case 'solid':
-            return `sicher gewusst`
+            return t('knowledgeStatus.solid')
         case 'needsConsolidation':
-            return `zu festigen`
+            return t('knowledgeStatus.needsConsolidation')
         case 'needsLearning':
-            return `zu lernen`
+            return t('knowledgeStatus.needsLearning')
         case 'notLearned':
-            return `noch nicht gelernt`
+            return t('knowledgeStatus.notLearned')
     }
 }
 
@@ -73,6 +75,7 @@ onMounted(() => {
 
 })
 
+
 </script>
 
 <template>
@@ -80,11 +83,11 @@ onMounted(() => {
         <div class="col-xs-12">
             <div class="data-section">
                 <div class="knowledgesummary-section">
-                    <h3>Dein Wissenstand</h3>
+                    <h3>{{ t('page.analytics.yourKnowledgeStatus') }}</h3>
                     <div class="knowledgesummary-container">
                         <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
                             <div class="knowledgesummary-sub-label">
-                                Fragen nach Status gruppiert
+                                {{ t('page.analytics.questionsGroupedByStatus') }}
                             </div>
                             <div class="knowledgesummary-content">
                                 <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info" :key="d.value">
@@ -96,24 +99,24 @@ onMounted(() => {
                         </div>
 
                         <div v-else>
-                            Du hast noch keine Fragen auf dieser Seite beantwortet.
+                            {{ t('page.analytics.noQuestionsAnswered') }}
                         </div>
                     </div>
                 </div>
 
                 <div class="pagedata-section">
-                    <h3>Daten zu dieser Seite</h3>
+                    <h3>{{ t('page.analytics.pageData') }}</h3>
                     <div class="pagedata-container">
                         <div class="pagedata-sub-label">
-                            Fragen:
+                            {{ t('page.analytics.questionsLabel') }}
                         </div>
                         <div class="pagedata-content">
                             <ul>
                                 <li>
-                                    <b>{{ pageStore.questionCount }}</b> eingeschlossene Fragen
+                                    <b>{{ pageStore.questionCount }}</b> {{ t('page.analytics.includedQuestions') }}
                                 </li>
                                 <li>
-                                    <b>{{ pageStore.directQuestionCount }}</b> direkt verknüpfte Fragen
+                                    <b>{{ pageStore.directQuestionCount }}</b> {{ t('page.analytics.directlyLinkedQuestions') }}
                                 </li>
                             </ul>
                         </div>
@@ -121,18 +124,18 @@ onMounted(() => {
                     </div>
                     <div class="pagedata-container">
                         <div class="pagedata-sub-label">
-                            Seiten:
+                            {{ t('page.analytics.pagesLabel') }}
                         </div>
                         <div class="pagedata-content">
                             <ul>
                                 <li>
-                                    <b>{{ pageStore.childPageCount }} </b> eingeschlossene Seiten
+                                    <b>{{ pageStore.childPageCount }} </b> {{ t('page.analytics.includedPages') }}
                                 </li>
                                 <li>
-                                    <b>{{ pageStore.directVisibleChildPageCount }}</b> direkt verknüpfte UnterSeiten
+                                    <b>{{ pageStore.directVisibleChildPageCount }}</b> {{ t('page.analytics.directlyLinkedChildPages') }}
                                 </li>
                                 <li>
-                                    <b> {{ pageStore.parentPageCount }} </b> übergeordnete Seiten
+                                    <b> {{ pageStore.parentPageCount }} </b> {{ t('page.analytics.parentPages') }}
                                 </li>
                             </ul>
                         </div>
@@ -141,39 +144,39 @@ onMounted(() => {
                 </div>
             </div>
             <div class="statistics-section" v-if="pageStore.analyticsLoaded">
-                <h3>Statistiken</h3>
+                <h3>{{ t('page.analytics.statistics') }}</h3>
                 <div class="statistics-sub-label">
-                    Seitenaufrufe der letzten 90 Tage
+                    {{ t('page.analytics.pageViewsLast90Days') }}
                 </div>
                 <div class="statistics-container">
                     <div class="statistics-content">
 
                         <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsPages" :datasets="past90DaysCountsPages" :color="color.middleBlue"
-                                title="Ohne UnterSeiten" />
+                                :title="t('page.analytics.withoutChildPages')" />
                         </div>
 
                         <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsAggregatedPages" :datasets="past90DaysCountsAggregatedPages" :color="color.darkBlue"
-                                :title="`Inkl. ${pageStore.childPageCount} UnterSeiten`" />
+                                :title="t('page.analytics.withChildPages', { count: pageStore.childPageCount })" />
                         </div>
 
                     </div>
                 </div>
                 <div class="statistics-sub-label">
-                    Fragenaufrufe der letzten 90 Tage
+                    {{ t('page.analytics.questionViewsLast90Days') }}
                 </div>
                 <div class="statistics-container">
                     <div class="statistics-content">
 
                         <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsQuestions" :datasets="past90DaysCountsQuestions" :color="color.memoGreen"
-                                :title="`Direkt verknüpfte Fragen`" />
+                                :title="t('page.analytics.directlyLinkedQuestionsTitle')" />
                         </div>
 
                         <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsAggregatedQuestions" :datasets="past90DaysCountsAggregatedQuestions" :color="color.darkGreen"
-                                :title="`Eingeschlossene Fragen (${pageStore.childPageCount} UnterSeiten)`" />
+                                :title="t('page.analytics.includedQuestions90Days', { count: pageStore.childPageCount })" />
                         </div>
 
                     </div>

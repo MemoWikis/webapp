@@ -1,37 +1,40 @@
 import { defineStore } from "pinia"
-import { useAlertStore, AlertType, messages } from "~~/components/alert/alertStore"
+import { useAlertStore, AlertType } from "~~/components/alert/alertStore"
 import { Visibility } from "~~/components/shared/visibilityEnum"
 import { usePageStore } from "../pageStore"
 import { useUserStore } from "~~/components/user/userStore"
 
 interface PublishPageData {
-    success: boolean,
-    name?: string,
-    questionCount?: number,
-    questionIds?: number[],
+    success: boolean
+    name?: string
+    questionCount?: number
+    questionIds?: number[]
     key?: string
 }
 
-export const usePublishPageStore = defineStore('publishPageStore', {
+export const usePublishPageStore = defineStore("publishPageStore", {
     state: () => {
         return {
             id: 0,
-            name: '',
+            name: "",
             questionCount: 0,
             questionIds: [] as number[],
             showModal: false,
             includeQuestionsToPublish: false,
-            confirmLicense: false
+            confirmLicense: false,
         }
     },
     actions: {
         async openModal(id: number) {
             this.includeQuestionsToPublish = false
             this.confirmLicense = false
-            const result = await $api<PublishPageData>(`/apiVue/PublishPageStore/Get/${id}`, {
-                mode: 'cors',
-                credentials: 'include'
-            })
+            const result = await $api<PublishPageData>(
+                `/apiVue/PublishPageStore/Get/${id}`,
+                {
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
             if (result.success) {
                 this.name = result.name!
                 this.questionCount = result.questionCount!
@@ -49,16 +52,28 @@ export const usePublishPageStore = defineStore('publishPageStore', {
 
             const alertStore = useAlertStore()
             const data = {
-                id: this.id
+                id: this.id,
             }
-            const result = await $api<FetchResult<number[]>>('/apiVue/PublishPageStore/PublishPage', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            const result = await $api<FetchResult<number[]>>(
+                "/apiVue/PublishPageStore/PublishPage",
+                {
+                    method: "POST",
+                    body: data,
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
+            const nuxtApp = useNuxtApp()
+            const { $i18n } = nuxtApp
+
             if (result.success) {
                 this.showModal = false
 
-                if (this.includeQuestionsToPublish)
-                    this.publishQuestions()
+                if (this.includeQuestionsToPublish) this.publishQuestions()
 
-                alertStore.openAlert(AlertType.Success, { text: messages.success.page.publish })
+                alertStore.openAlert(AlertType.Success, {
+                    text: $i18n.t("success.page.publish"),
+                })
 
                 const pageStore = usePageStore()
                 if (pageStore.id == this.id)
@@ -66,14 +81,16 @@ export const usePublishPageStore = defineStore('publishPageStore', {
 
                 return {
                     success: true,
-                    id: this.id
+                    id: this.id,
                 }
             } else {
                 this.showModal = false
-                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+                alertStore.openAlert(AlertType.Error, {
+                    text: $i18n.t(result.messageKey),
+                })
                 return {
                     success: false,
-                    id: this.id
+                    id: this.id,
                 }
             }
         },
@@ -81,8 +98,12 @@ export const usePublishPageStore = defineStore('publishPageStore', {
             const data = {
                 questionIds: this.questionIds,
             }
-            $api('/apiVue/PublishPageStore/PublishQuestions', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
-        }
-
+            $api("/apiVue/PublishPageStore/PublishQuestions", {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            })
+        },
     },
 })

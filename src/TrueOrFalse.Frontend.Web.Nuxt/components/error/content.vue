@@ -2,7 +2,7 @@
 import { Site } from '~/components/shared/siteEnum'
 import { ErrorCode } from '~~/components/error/errorCodeEnum'
 import type { NuxtError } from '#app'
-import { messages } from '../alert/messages'
+'../alert/messages'
 
 const props = defineProps({
     error: Object as () => NuxtError,
@@ -12,6 +12,7 @@ const props = defineProps({
 const emit = defineEmits(['setPage', 'clearError'])
 emit('setPage', Site.Error)
 
+const { t } = useI18n()
 
 onBeforeMount(() => {
     if (props.error?.statusCode)
@@ -44,7 +45,7 @@ function setErrorImage(statusCode: number) {
 }
 
 const errorImgSrc = ref<string>('/Images/Error/memo-500_german_600.png')
-const description = ref<string>(messages.error.route.notFound)
+const description = ref<string>(t('errorContent.route.notFound'))
 
 function handleError() {
     clearError({ redirect: '/' })
@@ -58,20 +59,19 @@ function handleError() {
                 <div class="error-page">
                     <Image v-if="errorImgSrc" :src="errorImgSrc" class="error-image" />
                     <button navigate class="btn back-btn" @click="handleError">
-                        Zurück zur Startseite
+                        {{ t('errorContent.backToHome') }}
                     </button>
                     <h2 class="error-message">{{ description }}</h2>
-                    <p class="email">Oder schicke eine E-Mail an team@memucho.de.</p>
+                    <p class="email">{{ t('errorContent.emailContact', { email: 'team@memucho.de' }) }}</p>
                     <ul>
-                        <li>Wir wurden per E-Mail informiert.</li>
-                        <li>Bei dringenden Fragen kannst du Robert unter 0178-1866848 erreichen.</li>
-                        <li>Oder schicke eine E-Mail an team@memucho.de.</li>
+                        <li>{{ t('errorContent.notifications.emailSent') }}</li>
+                        <li>{{ t('errorContent.notifications.urgentContact') }}</li>
+                        <li>{{ t('errorContent.notifications.emailOption', { email: 'team@memucho.de' }) }}</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-
 </template>
 
 <style lang="less" scoped>

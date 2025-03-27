@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import { messages } from '../alert/messages'
+'../alert/messages'
 import { useLoadingStore } from '../loading/loadingStore'
 import { useUserStore } from '../user/userStore'
 const userStore = useUserStore()
 const loadingStore = useLoadingStore()
+const { t } = useI18n()
+
 interface Props {
     showModal: boolean
 }
@@ -11,7 +13,7 @@ const props = defineProps<Props>()
 
 const { $logger } = useNuxtApp()
 
-const primaryBtnLabel = ref('Wiki erstellen')
+const primaryBtnLabel = computed(() => t('sideSheet.createWikiModal.createButton'))
 
 const name = ref('')
 const showErrorMsg = ref(false)
@@ -36,7 +38,7 @@ const validateName = async () => {
     if (result.success)
         return true
     else if (result.success === false) {
-        errorMsg.value = messages.getByCompositeKey(result.messageKey)
+        errorMsg.value = t(result.messageKey)
         forbiddenWikiName.value = result.data.name
         if (result.data.url)
             existingPageUrl.value = result.data.url
@@ -77,7 +79,7 @@ const createWiki = async () => {
         await nextTick()
         navigateTo(`/${result.data.name}/${result.data.id}`)
     } else if (result.success === false) {
-        errorMsg.value = messages.getByCompositeKey(result.messageKey)
+        errorMsg.value = t(result.messageKey)
         showErrorMsg.value = true
 
         if (result.data.cantSavePrivateWiki) {
@@ -95,14 +97,14 @@ const emit = defineEmits(['closeWikiModal', 'wikiCreated'])
     <LazyModal :show="props.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="createWiki" @close="emit('closeWikiModal')" :show-cancel-btn="true">
         <template v-slot:header>
             <h4 class="modal-title">
-                Wiki erstellen
+                {{ t('sideSheet.createWikiModal.title') }}
             </h4>
         </template>
         <template v-slot:body>
             <form v-on:submit.prevent="createWiki">
                 <div class="form-group">
                     <input class="form-control create-input" v-model="name"
-                        placeholder="Bitte gib den Namen des Themas ein" />
+                        :placeholder="t('sideSheet.createWikiModal.inputPlaceholder')" />
                     <small class="form-text text-muted"></small>
                 </div>
             </form>
@@ -111,12 +113,11 @@ const emit = defineEmits(['closeWikiModal', 'wikiCreated'])
                 {{ errorMsg }}
             </div>
             <div class="link-to-sub-container" v-if="privatePageLimitReached">
-                <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ messages.info.joinNow }}</b></NuxtLink>
+                <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ t('info.joinNow') }}</b></NuxtLink>
             </div>
             <div class="pageIsPrivate" v-else>
                 <p>
-                    <b>Dieses Wiki ist privat.</b> Du kannst sie später im Dreipunkt-Menü oder direkt über das
-                    Schloss-Icon veröffentlichen.
+                    <b>{{ t('sideSheet.createWikiModal.privateWikiMessage') }}</b>
                 </p>
             </div>
         </template>

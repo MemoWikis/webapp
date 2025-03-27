@@ -7,7 +7,7 @@ import { useEditPageRelationStore } from '../relation/editPageRelationStore'
 import { usePageToPrivateStore } from '../toPrivate/pageToPrivateStore'
 import { usePublishPageStore } from '../publish/publishPageStore'
 import { useDeletePageStore } from '../delete/deletePageStore'
-import { messages } from '~/components/alert/messages'
+
 import { useConvertStore } from '../convert/convertStore'
 
 const userStore = useUserStore()
@@ -21,6 +21,8 @@ const convertStore = useConvertStore()
 
 const hoverLock = ref(false)
 const ariaId = useId()
+
+const { t, localeProperties } = useI18n()
 
 </script>
 
@@ -36,8 +38,8 @@ const ariaId = useId()
                     <div @click="pageStore.hideOrShowText()" class="dropdown-row hide-text-option"
                         :class="{ 'page-has-content': pageStore.content?.length > 0 || pageStore.contentHasChanged }">
                         <div class="dropdown-label">
-                            Keine Texteingabe <font-awesome-icon :icon="['fas', 'circle-info']" class="toggle-info"
-                                v-tooltip="messages.info.page.toggleHideText" />
+                            {{ t('page.header.noTextInput') }} <font-awesome-icon :icon="['fas', 'circle-info']" class="toggle-info"
+                                v-tooltip="t('info.page.toggleHideText')" />
                         </div>
                         <div class="toggle-icon-container">
                             <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="pageStore.textIsHidden"
@@ -51,14 +53,14 @@ const ariaId = useId()
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-circle-plus" />
                         </div>
-                        <div class="dropdown-label">Frage hinzufügen</div>
+                        <div class="dropdown-label">{{ t('page.header.addQuestion') }}</div>
                     </div>
 
                     <div @click="editPageRelationStore.createPage(); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-circle-plus" />
                         </div>
-                        <div class="dropdown-label">Seite erstellen</div>
+                        <div class="dropdown-label">{{ t('page.header.createPage') }}</div>
                     </div>
 
                     <div @click="editPageRelationStore.addParent(pageStore.id); hide()" class="dropdown-row">
@@ -66,7 +68,7 @@ const ariaId = useId()
                             <font-awesome-icon icon="fa-solid fa-link" />
                         </div>
                         <div class="dropdown-label">
-                            Übergeordnete Seite verknüpfen
+                            {{ t('page.header.addParentPage') }}
                         </div>
                     </div>
 
@@ -75,7 +77,7 @@ const ariaId = useId()
                             <font-awesome-icon icon="fa-solid fa-link" />
                         </div>
                         <div class="dropdown-label">
-                            Unterseite verknüpfen
+                            {{ t('page.header.addChildPage') }}
                         </div>
                     </div>
 
@@ -90,7 +92,7 @@ const ariaId = useId()
                             </font-awesome-layers>
                         </div>
                         <div class="dropdown-label">
-                            Zu meinem Wiki hinzufügen
+                            {{ t('page.header.addToPersonalWiki') }}
                         </div>
                     </div>
 
@@ -100,7 +102,7 @@ const ariaId = useId()
                             <font-awesome-icon icon="fa-solid fa-lock" />
                         </div>
                         <div class="dropdown-label">
-                            Seite auf privat setzen
+                            {{ t('page.header.setToPrivate') }}
                         </div>
                     </div>
                     <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Owner"
@@ -109,7 +111,7 @@ const ariaId = useId()
                             <font-awesome-icon icon="fa-solid fa-unlock" />
                         </div>
                         <div class="dropdown-label">
-                            Seite veröffentlichen
+                            {{ t('page.header.publishPage') }}
                         </div>
                     </div>
 
@@ -119,7 +121,7 @@ const ariaId = useId()
                             <font-awesome-icon :icon="['fas', 'folder']" />
                         </div>
                         <div class="dropdown-label">
-                            Seite in Wiki konvertieren
+                            {{ t('page.header.convertToWiki') }}
                         </div>
                     </div>
                     <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.isWiki"
@@ -128,7 +130,7 @@ const ariaId = useId()
                             <font-awesome-icon :icon="['fas', 'file']" />
                         </div>
                         <div class="dropdown-label">
-                            Wiki in Seite konvertieren
+                            {{ t('page.header.convertToPage') }}
                         </div>
                     </div>
                     <template v-if="pageStore.canBeDeleted">
@@ -141,10 +143,19 @@ const ariaId = useId()
                                 <font-awesome-icon icon="fa-solid fa-trash" />
                             </div>
                             <div class="dropdown-label">
-                                Seite löschen
+                                {{ t('page.header.deletePage') }}
                             </div>
                         </div>
                     </template>
+
+                    <div class="dropdown-row no-hover">
+                        <div class="dropdown-label content-language-info">
+                            {{ t('page.header.contentLanguage') }}:
+                            <div>
+                                {{ localeProperties.name }} ({{ localeProperties.code }})
+                            </div>
+                        </div>
+                    </div>
 
                 </template>
             </VDropdown>
@@ -279,5 +290,11 @@ li {
     height: 1px;
     background: @memo-grey-lighter;
     margin: 10px 0px;
+}
+
+.content-language-info {
+    font-size: 1.25rem;
+    color: @memo-grey;
+
 }
 </style>

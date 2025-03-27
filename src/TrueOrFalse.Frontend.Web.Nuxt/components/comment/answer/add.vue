@@ -7,7 +7,7 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
+import { AlertType, useAlertStore } from '../../alert/alertStore'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
@@ -19,6 +19,7 @@ const alertStore = useAlertStore()
 
 const emit = defineEmits(['setAnswer'])
 
+const { t } = useI18n()
 const lowlight = createLowlight(all)
 const editor = useEditor({
     extensions: [
@@ -38,7 +39,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...',
+            placeholder: t('comment.editor.placeholderComment'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({
@@ -55,7 +56,7 @@ const editor = useEditor({
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
                 let src = content[0].attrs.src
                 if (src.length > 1048576 && src.startsWith('data:image')) {
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                    alertStore.openAlert(AlertType.Error, { text: t('error.image.tooBig') })
                     return true
                 }
             }
@@ -79,14 +80,14 @@ watch(() => props.content, (c) => {
                 <div class="col-xs-12">
                     <div id="AddAnswerTextFormContainer" class="inline-question-editor">
                         <div class="input-container">
-                            <div class="overline-s no-line">Deine Antwort</div>
+                            <div class="overline-s no-line">{{ t('comment.answer.yourAnswer') }}</div>
                             <div v-if="editor">
                                 <EditorMenuBar :editor="editor" />
                                 <editor-content :editor="editor"
                                     :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
                                 <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0"
                                     class="field-error">
-                                    Bitte formuliere einen Kommentar mit min. 10 Zeichen.
+                                    {{ t('comment.answer.minCharsError') }}
                                 </div>
                             </div>
                         </div>
@@ -101,6 +102,7 @@ watch(() => props.content, (c) => {
 .commentAnswersContainer {
     padding-top: 0px;
 }
+
 .commentAnswerAddContainer {
     padding-top: 24px;
 }

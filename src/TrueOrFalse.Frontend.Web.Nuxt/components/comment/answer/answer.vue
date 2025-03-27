@@ -10,6 +10,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { t } = useI18n()
 
 const readMore = ref(false)
 const { $urlHelper } = useNuxtApp()
@@ -27,11 +28,11 @@ const { $urlHelper } = useNuxtApp()
                         <span class="commentUserName">{{ props.answer.creatorName }}</span>
                     </NuxtLink>
 
-                    <span class="commentDate">vor {{ props.answer.creationDateNiceText }}</span>
+                    <span class="commentDate">{{ t('comment.time.ago') }} {{ props.answer.creationDateNiceText }}</span>
                     <span v-if="props.answer.isSettled">
                         <br />
                         <span class="commentSettledInfo"><i class="fa fa-check">&nbsp;</i>
-                            Dieser Kommentar wurde als erledigt markiert.</span>
+                            {{ t('comment.status.settled') }}</span>
                     </span>
                 </div>
                 <div class="answerTextContainer">
@@ -40,7 +41,7 @@ const { $urlHelper } = useNuxtApp()
                         <span v-if="readMore" v-html="props.answer.text"></span>
                         <span v-else class="commentText" v-html="props.answer.text.slice(0, 350) + '...'"></span>
                         <button class="cursor-hand" @click="readMore = !readMore">
-                            {{ readMore ? 'Weniger' : 'Mehr' }}
+                            {{ readMore ? t('comment.readMore.less') : t('comment.readMore.more') }}
                         </button>
                     </span>
                 </div>
@@ -62,6 +63,7 @@ const { $urlHelper } = useNuxtApp()
     .answerContainer {
         padding-top: 16px;
         margin-top: -8px;
+
         &.highlight {
             background: fade(@memo-green, 10%);
             margin-top: -16px;
@@ -74,5 +76,4 @@ const { $urlHelper } = useNuxtApp()
     }
 
 }
-
 </style>

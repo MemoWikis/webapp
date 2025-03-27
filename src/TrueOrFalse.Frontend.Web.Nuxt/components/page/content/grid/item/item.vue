@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAlertStore, AlertType, messages } from '~/components/alert/alertStore'
+import { useAlertStore, AlertType } from '~/components/alert/alertStore'
 import { ImageFormat } from '~/components/image/imageFormatEnum'
 import { ToggleState } from '../toggleStateEnum'
 import { GridPageItem } from './gridPageItem'
@@ -57,6 +57,7 @@ watch(() => props.dropExpand, val => {
 
 const children = ref<GridPageItem[]>([])
 const childrenLoaded = ref<boolean>(false)
+const { t } = useI18n()
 
 async function loadChildren(force: boolean = false) {
 
@@ -73,7 +74,7 @@ async function loadChildren(force: boolean = false) {
     if (result.success === true) {
         children.value = result.data
     } else if (result.success === false) {
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
     }
 
     childrenLoaded.value = true
@@ -85,11 +86,11 @@ const { $urlHelper } = useNuxtApp()
 const detailLabel = computed(() => {
     const { questionCount, childrenCount } = props.page
 
-    const childrenLabel = `${childrenCount} ${childrenCount === 1 ? 'Unterseite' : 'UnterSeiten'}`
-    const questionLabel = `${questionCount} ${questionCount === 1 ? 'Frage' : 'Fragen'}`
+    const childrenLabel = `${childrenCount} ${t(`page.grid.item.childPage.${childrenCount === 1 ? 'one' : 'other'}`)}`
+    const questionLabel = `${questionCount} ${t(`page.grid.item.question.${questionCount === 1 ? 'one' : 'other'}`)}`
 
     if (childrenCount > 0 && questionCount > 0)
-        return `${childrenLabel} und ${questionLabel}`
+        return `${childrenLabel} ${t('page.grid.item.and')} ${questionLabel}`
 
     if (childrenCount > 0)
         return childrenLabel
@@ -204,7 +205,7 @@ async function addGridItem(id: number) {
         else
             children.value.push(result.data)
     } else if (result.success === false)
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
 }
 
 async function loadGridItem(id: number) {
@@ -221,7 +222,7 @@ async function reloadGridItem(id: number) {
     if (result.success === true) {
         children.value = children.value.map(i => i.id === result.data.id ? result.data : i)
     } else if (result.success === false)
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
 }
 
 const dragActive = ref(false)

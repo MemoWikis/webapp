@@ -7,7 +7,7 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { AlertType, useAlertStore, messages } from '../alert/alertStore'
+import { AlertType, useAlertStore } from '../alert/alertStore'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
@@ -16,6 +16,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
+const { t } = useI18n()
 
 const emit = defineEmits(['setText'])
 
@@ -38,7 +39,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...',
+            placeholder: t('editor.placeholderComment'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({
@@ -53,9 +54,9 @@ const editor = useEditor({
             let eventContent = event.content as any
             let content = eventContent.content
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                let src = content[0].attrs.src;
+                let src = content[0].attrs.src
                 if (src.length > 1048576 && src.startsWith('data:image')) {
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                    alertStore.openAlert(AlertType.Error, { text: t('error.image.tooBig') })
                     return true
                 }
             }
@@ -80,7 +81,7 @@ watch(() => props.content, (c) => {
         <editor-content :editor="editor"
             :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
         <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
-            Bitte formuliere einen Kommentar mit min. 10 Zeichen.
+            {{ t('comment.form.textError') }}
         </div>
     </div>
 </template>

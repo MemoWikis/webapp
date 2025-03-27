@@ -23,6 +23,8 @@ const isError = ref(false)
 const isSuccess = ref(false)
 const slots = useSlots()
 
+const { t } = useI18n()
+
 const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
 const openModal = ref(false)
 const hasHeader = ref(false)
@@ -88,7 +90,7 @@ watch(() => props.show, (val) => {
                                             :class="{
                                                 'full-size-buttons': props.isFullSizeButtons
                                             }" @click="emit('close')">
-                                            Abbrechen
+                                            {{ t('label.cancel') }}
                                         </button>
                                     </div>
                                 </div>

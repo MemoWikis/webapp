@@ -56,12 +56,15 @@ onMounted(async () => {
 
 const tabsStore = useTabsStore()
 
+const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
+
 </script>
 
 <template>
     <div v-if="learningSessionResult">
         <h2 style="margin-bottom: 15px; margin-top: 0px;">
-            Ergebnis
+            {{ t('answerbody.learningSessionResult.heading') }}
         </h2>
 
         <div class="row">
@@ -92,26 +95,25 @@ const tabsStore = useTabsStore()
                 <div class="result-legend">
                     <div v-if="learningSessionResult.correct.count > 0" class="result-info">
                         <div class="color-container" :class="`color-correct`"></div>
-                        <div class="result-label">Fragen richtig beantwortet:
+                        <div class="result-label">{{ t('answerbody.learningSessionResult.correctAnswers') }}
                             <b>{{ learningSessionResult.correct.count }}</b>
                         </div>
                     </div>
                     <div v-if="learningSessionResult.correctAfterRepetition.count > 0" class="result-info">
                         <div class="color-container" :class="`color-correctAfterRepetition`"></div>
-                        <div class="result-label">Fragen beim Wiederholen richtig beantwortet:
-
+                        <div class="result-label">{{ t('answerbody.learningSessionResult.correctAfterRepetition') }}
                             <b>{{ learningSessionResult.correctAfterRepetition.count }}</b>
                         </div>
                     </div>
                     <div v-if="learningSessionResult.wrong.count > 0" class="result-info">
                         <div class="color-container" :class="`color-wrong`"></div>
-                        <div class="result-label">Fragen falsch beantwortet:
+                        <div class="result-label">{{ t('answerbody.learningSessionResult.wrongAnswers') }}
                             <b>{{ learningSessionResult.wrong.count }}</b>
                         </div>
                     </div>
                     <div v-if="learningSessionResult.notAnswered.count > 0" class="result-info">
                         <div class="color-container" :class="`color-notAnswered`"></div>
-                        <div class="result-label">Fragen übersprungen:
+                        <div class="result-label">{{ t('answerbody.learningSessionResult.skippedQuestions') }}
                             <b>{{ learningSessionResult.notAnswered.count }}</b>
                         </div>
                     </div>
@@ -122,34 +124,32 @@ const tabsStore = useTabsStore()
 
                         <button @click="emit('startNewSession')" class="btn btn-primary nextLearningSession memo-button"
                             style="padding-right: 10px">
-                            Weiterlernen
+                            {{ t('answerbody.learningSessionResult.continueStudying') }}
                         </button>
                         <button v-if="tabsStore.activeTab === Tab.Learning" @click="tabsStore.activeTab = Tab.Text"
                             class="memo-button btn btn-link">
-                            Zur Seite
+                            {{ t('answerbody.learningSessionResult.toPage') }}
                         </button>
                         <NuxtLink v-else
                             :to="$urlHelper.getPageUrl(learningSessionResult.pageName, learningSessionResult.pageId)"
                             class="memo-button btn btn-link" style="padding-right: 10px">
                             <button class="memo-button btn btn-link">
-                                Zur Seite
+                                {{ t('answerbody.learningSessionResult.toPage') }}
                             </button>
                         </NuxtLink>
                     </template>
                     <button v-else class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px" @click="emit('startNewSession')">
-                        Neue Lernsitzung
+                        {{ t('answerbody.learningSessionResult.newSession') }}
                     </button>
                 </div>
 
                 <QuestionAnswerBodyLearningSessionResultQuestionDetail v-if="learningSessionResult.questions" :questions="learningSessionResult.questions" />
 
                 <div v-if="learningSessionResult.questions.length > 300">
-                    Es werden nicht mehr als 300 Fragen in der Auswertung angezeigt
+                    {{ t('answerbody.learningSessionResult.maxQuestionsShown') }}
                 </div>
             </div>
-
         </div>
-
     </div>
 </template>
 

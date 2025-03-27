@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { CommentModel, useCommentsStore } from '~/components/comment/commentsStore'
-import { ContentChange, FeedItem, FeedType, getPageChangeTypeName, QuestionChangeType, PageChangeType } from '../feedHelper'
+import { ContentChange, FeedItem, FeedType, getPageChangeTypeKey, QuestionChangeType, PageChangeType } from '../feedHelper'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 
 interface Props {
@@ -85,22 +85,24 @@ const addAnswer = () => {
     getComment()
     emit('get-feed-items')
 }
+const { t, localeProperties } = useI18n()
 
 const niceDate = (date: string) => {
-    return new Date(date).toLocaleDateString('de-DE', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+    const iso = localeProperties.value.iso
+    return new Date(date).toLocaleDateString(iso, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
 }
-
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
 
-    <Modal :show="props.show" @close="emit('close')" :show-close-button="true" :has-header="true">
+    <Modal :show="props.show" :feed-item="props.feedItem" @close="emit('close')" :show-close-button="true" :has-header="true">
         <template #header>
-            <h2 v-if="isPage && feedItem.pageFeedItem">{{ getPageChangeTypeName(feedItem.pageFeedItem.type) }}</h2>
-            <h2 v-else-if="isQuestion && feedItem.questionFeedItem?.type === QuestionChangeType.AddComment">Neuer Kommentar</h2>
+            <h2 v-if="isPage && feedItem.pageFeedItem">{{ t(getPageChangeTypeKey(feedItem.pageFeedItem.type)) }}</h2>
+            <h2 v-else-if="isQuestion && feedItem.questionFeedItem?.type === QuestionChangeType.AddComment">{{ t('page.feed.modal.newComment') }}</h2>
             <div class="modal-header-date">
                 {{ niceDate(feedItem.date) }}
-                von:
+                {{ t('page.feed.modal.by') }}:
                 <NuxtLink :to="$urlHelper.getUserUrl(feedItem.author.name, feedItem.author.id)">
                     {{ feedItem.author.name }}
                 </NuxtLink>

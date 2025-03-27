@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { AlertType, messages, useAlertStore } from '../alert/alertStore'
+import { AlertType, useAlertStore } from '../alert/alertStore'
 import { usePageStore } from '../page/pageStore'
 import { ImageFormat } from './imageFormatEnum'
 
 const pageStore = usePageStore()
 const alertStore = useAlertStore()
+const { t } = useI18n()
 
 interface Props {
     show: boolean
@@ -19,11 +20,11 @@ const selectedImageUploadMode = ref<ImageUploadMode>(ImageUploadMode.Wikimedia)
 const emit = defineEmits(['close'])
 const imageLoaded = ref(false)
 
-const primaryLabel = ref('Vorschau laden')
+const primaryLabel = ref(t('image.upload.buttons.loadPreview'))
 watch(imageLoaded, (val) => {
     if (val)
-        primaryLabel.value = 'Bild übernehmen'
-    else primaryLabel.value = 'Vorschau laden'
+        primaryLabel.value = t('image.upload.buttons.useImage')
+    else primaryLabel.value = t('image.upload.buttons.loadPreview')
 })
 
 const wikimediaUrl = ref('')
@@ -144,11 +145,11 @@ async function upload() {
 
     if (result) {
         emit('close')
-        alertStore.openAlert(AlertType.Success, { text: messages.success.page.saveImage })
+        alertStore.openAlert(AlertType.Success, { text: t('success.page.saveImage') })
         pageStore.refreshPageImage()
         resetModal()
     } else {
-        alertStore.openAlert(AlertType.Error, { text: messages.error.page.saveImageError })
+        alertStore.openAlert(AlertType.Error, { text: t('error.page.saveImageError ') })
     }
 }
 
@@ -178,61 +179,47 @@ function resetModal() {
     <Modal :show="props.show" :show-cancel-btn="true" @close="emit('close')" @primary-btn="upload"
         :primary-btn-label="primaryLabel" :disabled="disablePrimaryButton">
         <template v-slot:header>
-            Seitenbild hochladen
+            {{ t('image.upload.header') }}
         </template>
         <template v-slot:body>
             <div class="alert alert-info">
-                <b>Achtung:</b> Bildrechte sind ein sensibles Thema. Bitte lade nur Bilder hoch, die gemeinfrei sind,
-                die
-                unter einer entsprechenden Lizenz stehen oder die du selbst erstellt hast.
+                <b>{{ t('label.attention') }}:</b> {{ t('image.upload.warnings.attention') }}
             </div>
             <div class="imagetype-select-container">
                 <div @click="selectedImageUploadMode = ImageUploadMode.Wikimedia" class="imagetype-select">
                     <font-awesome-icon icon="fa-solid fa-circle-dot" class="imagetype-select-radio active"
                         v-if="selectedImageUploadMode === ImageUploadMode.Wikimedia" />
                     <font-awesome-icon icon="fa-regular fa-circle" class="imagetype-select-radio" v-else />
-                    Bilder von Wikimedia verwenden.
+                    {{ t('image.upload.options.wikimedia') }}
                 </div>
 
                 <div @click="selectedImageUploadMode = ImageUploadMode.Custom" class="imagetype-select">
                     <font-awesome-icon icon="fa-solid fa-circle-dot" class="imagetype-select-radio active"
                         v-if="selectedImageUploadMode === ImageUploadMode.Custom" />
                     <font-awesome-icon icon="fa-regular fa-circle" class="imagetype-select-radio" v-else />
-                    Eigene Bilder
+                    {{ t('image.upload.options.custom') }}
                 </div>
             </div>
             <Transition name="fade">
                 <div v-if="selectedImageUploadMode === ImageUploadMode.Wikimedia" class="content">
-                    <p>
-                        Bei Wikipedia/ Wikimedia sind viele Millionen Bilder zu finden, die frei genutzt werden können.
-                        Auf
-                        <NuxtLink to="https://commons.wikimedia.org/wiki/Hauptseite?uselang=de" :external="true">
-                            Wikimedia-Commons</NuxtLink> kannst du gezielt nach Inhalten suchen.
-                    </p>
+                    <p>{{ t('image.upload.wikimedia.info') }}</p>
 
                     <p>
-                        Tipp: Wenn du bei <NuxtLink to="https://de.wikipedia.org/" :external="true">Wikipedia</NuxtLink>
-                        oder
-                        <NuxtLink to="https://commons.wikimedia.org/wiki/Hauptseite?uselang=de" :external="true">
-                            Wikimedia-Commons</NuxtLink> auf das gewünschte Bild klickst, kommst du zur
-                        Detailansicht. (Bei manchen Karten musst du auf das "i"-Logo in der rechten unteren Ecke
-                        klicken.)
-                        Kopiere einfach die Url dieser Seite.
+                        {{ t('image.upload.wikimedia.tip') }}
                     </p>
 
                     <div class="form-group">
                         <input class="form-control wikimedia-url-input" v-model="wikimediaUrl" placeholder="http://" />
-                        <small class="form-text text-muted">Wikimedia-URL <font-awesome-icon
+                        <small class="form-text text-muted">{{ t('image.upload.wikimedia.urlLabel') }} <font-awesome-icon
                                 :icon="['fas', 'circle-info']"
-                                v-tooltip="'Hier kann für Bilder von Wikipedia/ Wikimedia wahlweise die Url der Detailseite, die Url der Bildanzeige im Media Viewer, die Url der Bilddatei oder der Dateiname (inkl. Dateiendung) angegeben werden.'" /></small>
+                                v-tooltip="t('image.upload.wikimedia.urlTooltip')" /></small>
                     </div>
                     <div v-if="showWikimediaError" class="alert alert-warning">
-                        Nur folgende Formate sind erlaubt: {{
-                            allowedExtensions.join(', ') }}
+                        {{ t('image.upload.warnings.allowedFormats', { formats: allowedExtensions.join(', ') }) }}
                     </div>
 
                     <div v-if="imageLoaded" class="image-preview-container">
-                        <b>Bildvorschau:</b>
+                        <b>{{ t('image.upload.preview') }}</b>
                         <Image :src="wikiMediaPreviewUrl" :format="ImageFormat.Page" class="image-preview"
                             :square="true" />
                     </div>
@@ -247,61 +234,62 @@ function resetModal() {
                         <div>
                             <h4>
                                 <font-awesome-icon icon="fa-solid fa-upload" />
-                                Bild Hochladen
+                                {{ t('image.upload.dropzone.title') }}
                             </h4>
                         </div>
                         <div>
-                            Zieh ein Bild hierher
+                            {{ t('image.upload.dropzone.dragHere') }}
                             <br />
-                            oder..
+                            {{ t('image.upload.dropzone.or') }}
                             <br />
                             <div class="memo-button btn-link btn">
-                                Datei auswählen
+                                {{ t('image.upload.buttons.chooseFile') }}
                             </div>
                         </div>
                     </label>
                     <div v-if="showTypeError" class="alert alert-warning">
-                        Nur folgende Formate sind erlaubt: {{
-                            allowedExtensions.join(', ') }}
+                        {{ t('image.upload.warnings.allowedFormats', { formats: allowedExtensions.join(', ') }) }}
                     </div>
                     <div v-if="imageLoaded" class="image-preview-container">
-                        <b>Bildvorschau:</b>
+                        <b>{{ t('image.upload.preview') }}</b>
                         <Image :src="customImgUrl" :format="ImageFormat.Page" class="image-preview" :square="true" />
                     </div>
                     <div v-if="imageLoaded" class="license-container">
-                        <b>Urheberrechtsinformation:</b>
-                        <p>
-                            Wir benötigen Urheberrechtsinformationen für dieses Bild, damit wir sicherstellen können,
-                            dass
-                            Inhalte auf memoWikis frei weiterverwendet werden können. memoWikis folgt dem Wikipedia Prinzip.
-                        </p>
+                        <b>{{ t('image.upload.license.title') }}</b>
+                        <p>{{ t('image.upload.license.info') }}</p>
 
                         <div>
                             <div @click="isPersonalCreation = true" class="license-select">
                                 <font-awesome-icon icon="fa-solid fa-circle-dot" class="license-select-radio active"
                                     v-if="isPersonalCreation === true" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="license-select-radio" v-else />
-                                Dieses Bild ist meine eigene Arbeit.
+                                {{ t('image.upload.license.isOwnWork') }}
                             </div>
                             <p v-if="isPersonalCreation === true" class="license-info">
-                                Ich, <input v-model="licenseGiverName" type="text" placeholder="Name"
-                                    class="creator-name-input" />, der Rechteinhaber
-                                dieses Werks gewähre unwiderruflich jedem das Recht, es gemäß der
-                                „Creative Commons“-Lizenz „Namensnennung 4.0 International" (CC BY 4.0) <NuxtLink
-                                    to="https://creativecommons.org/licenses/by/4.0/deed.de" :external="true">(Text der
-                                    Lizenz)</NuxtLink> zu
-                                nutzen.
+                                <i18n-t keypath="image.upload.license.declaration" tag="span">
+                                    <template #name>
+                                        <input v-model="licenseGiverName" :placeholder="t('image.upload.license.namePlaceholder')"
+                                            class="creator-name-input" />
+                                    </template>
+                                    <template #licenseLink>
+                                        <NuxtLink to="https://creativecommons.org/licenses/by/4.0/deed.de" :external="true">
+                                            {{ t('image.upload.license.licenseText') }}
+                                        </NuxtLink>
+                                    </template>
+                                </i18n-t>
                             </p>
 
                             <div @click="isPersonalCreation = false" class="license-select">
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="license-select-radio active"
-                                    v-if="isPersonalCreation === false" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="license-select-radio active" v-if="isPersonalCreation === false" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="license-select-radio" v-else />
-                                Dieses Bild ist nicht meine eigene Arbeit.
+                                {{ t('image.upload.license.notOwnWork') }}
                             </div>
                             <p v-if="isPersonalCreation === false" class="license-info">
-                                Wir bitten dich das Bild auf <NuxtLink to="https://commons.wikimedia.org/wiki/Main_Page"
-                                    :external="true">Wikimedia </NuxtLink> hochzuladen und so einzubinden.
+                                {{ t('image.upload.license.useWikimedia') }}
+                                <NuxtLink to="https://commons.wikimedia.org/wiki/Main_Page" :external="true">
+                                    Wikimedia
+                                </NuxtLink>
+                                {{ t('label.toUpload') }}
                             </p>
                         </div>
                     </div>

@@ -57,5 +57,6 @@ public class UserMap : ClassMap<User>
 
         Map(x => x.WikiIds);
         Map(x => x.FavoriteIds);
+        Map(x => x.UiLanguage);
     }
 }

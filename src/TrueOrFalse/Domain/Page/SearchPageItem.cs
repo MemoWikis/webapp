@@ -6,4 +6,5 @@
     public string ImageUrl { get; set; }
     public string MiniImageUrl { get; set; }
     public int Visibility { get; set; }
+    public string LanguageCode { get; set; }
 }

@@ -3,19 +3,20 @@ import { usePageToPrivateStore } from './pageToPrivateStore'
 import { useUserStore } from '~~/components/user/userStore'
 const pageToPrivateStore = usePageToPrivateStore()
 const userStore = useUserStore()
+const { t } = useI18n()
 </script>
 
 <template>
     <LazyModal :show="pageToPrivateStore.showModal" :show-cancel-btn="true" v-if="pageToPrivateStore.showModal"
-        @primary-btn="pageToPrivateStore.setToPrivate()" primary-btn-label="Seite auf Privat setzen"
+        @primary-btn="pageToPrivateStore.setToPrivate()" :primary-btn-label="t('page.toPrivateModal.button')"
         @close="pageToPrivateStore.showModal = false" @keydown.esc="pageToPrivateStore.showModal = false">
         <template v-slot:header>
-            <h4>{{ pageToPrivateStore.name }} auf privat setzen</h4>
+            <h4>{{ t('page.toPrivateModal.title', { name: pageToPrivateStore.name }) }}</h4>
         </template>
 
         <template v-slot:body>
             <div class="subHeader">
-                Der Inhalt kann nur von Dir genutzt werden. Niemand sonst kann ihn sehen oder nutzen.
+                {{ t('page.toPrivateModal.description') }}
             </div>
             <div class="checkbox-container"
                 @click="pageToPrivateStore.questionsToPrivate = !pageToPrivateStore.questionsToPrivate"
@@ -25,14 +26,12 @@ const userStore = useUserStore()
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label">
-                    Möchtest Du {{ pageToPrivateStore.personalQuestionCount }} von {{
-                        pageToPrivateStore.allQuestionCount
-                    }} öffentliche
-                    Frage{{ pageToPrivateStore.personalQuestionCount > 0 ? 'n' : '' }} ebenfalls auf privat stellen?
-                    (Du kannst nur deine
-                    eigenen Fragen auf privat stellen.)
+                    {{ t('page.toPrivateModal.questions.personal', {
+                        count: pageToPrivateStore.personalQuestionCount,
+                        totalCount: pageToPrivateStore.allQuestionCount,
+                        question: t('page.toPrivateModal.questions.question', pageToPrivateStore.personalQuestionCount)
+                    }) }}
                 </div>
-
             </div>
 
             <div class="checkbox-container"
@@ -43,13 +42,11 @@ const userStore = useUserStore()
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label">
-                    Möchtest Du {{ pageToPrivateStore.allQuestionCount }} öffentliche Frage{{
-                        pageToPrivateStore.allQuestionCount > 0 ? 'n' : ''
-                    }} ebenfalls
-                    auf
-                    privat stellen? (Admin)
+                    {{ t('page.toPrivateModal.questions.admin', {
+                        count: pageToPrivateStore.allQuestionCount,
+                        question: t('page.toPrivateModal.questions.question', pageToPrivateStore.allQuestionCount)
+                    }) }}
                 </div>
-
             </div>
         </template>
     </LazyModal>

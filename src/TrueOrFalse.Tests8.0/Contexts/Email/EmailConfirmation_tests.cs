@@ -55,7 +55,7 @@ public class EmailConfirmationServiceTests : BaseTest
     {
         var user = new User
         { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
-        var expectedUrl = $"{Settings.BaseUrl}/EmailBestaetigen/{EmailConfirmationService.CreateEmailConfirmationToken(user)}";
+        var expectedUrl = $"{Settings.BaseUrl}/ConfirmMail/{EmailConfirmationService.CreateEmailConfirmationToken(user)}";
 
         var result = CreateEmailConfirmationLink.Run(user);
 

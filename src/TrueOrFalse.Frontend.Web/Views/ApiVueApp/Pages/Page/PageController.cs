@@ -60,6 +60,7 @@ public class PageController(
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
             ErrorCode = data.ErrorCode,
+            Language = data.Language
         };
     }
 
@@ -94,6 +95,7 @@ public class PageController(
         List<DailyViews> ViewsLast30DaysAggregatedPage,
         List<DailyViews> ViewsLast30DaysPage,
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
-        List<DailyViews> ViewsLast30DaysQuestions
+        List<DailyViews> ViewsLast30DaysQuestions,
+        string Language
     );
 }

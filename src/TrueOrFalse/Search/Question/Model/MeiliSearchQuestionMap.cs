@@ -1,4 +1,6 @@
-﻿namespace TrueOrFalse.Search
+﻿using System.Text.Json.Serialization;
+
+namespace TrueOrFalse.Search
 {
     public class MeiliSearchQuestionMap : IRegisterAsInstancePerLifetime
     {
@@ -11,5 +13,8 @@
         public int? CreatorId { get; set; }
         public ICollection<string> Pages { get; set; }
         public ICollection<int> PageIds { get; set; }
+
+        [JsonPropertyName("Language")]
+        public string Language { get; set; }
     }
 }

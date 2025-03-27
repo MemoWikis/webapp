@@ -4,6 +4,7 @@ import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { UserResult } from '~~/components/users/userResult'
 
+const { t, locales, locale } = useI18n()
 const loadingStore = useLoadingStore()
 
 const userCount = ref(200)
@@ -37,12 +38,19 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
     },
     default: () => null
 })
-const { $logger } = useNuxtApp()
 
-const { data: pageData, status } = await useFetch<GetResponse>('/apiVue/Users/Get', {
+watch(totalUserCount, (val) => {
+    if (val)
+        userCount.value = val
+})
+const { $logger } = useNuxtApp()
+const selectedLanguages = ref<string[]>([locale.value])
+
+const { data: pageData, status, refresh } = await useFetch<GetResponse>('/apiVue/Users/Get', {
     query: {
         page: currentPage,
         pageSize: usersPerPageCount,
+        languages: selectedLanguages,
         searchTerm: searchTerm,
         orderBy: orderBy
     },
@@ -60,6 +68,8 @@ const { data: pageData, status } = await useFetch<GetResponse>('/apiVue/Users/Ge
     immediate: true
 })
 
+watch(selectedLanguages, () => refresh)
+
 watch(pageData, (e) => {
     if (e != null) {
         userCount.value = e.totalItems
@@ -76,23 +86,23 @@ watch(status, (s) => {
 
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
-
 onMounted(() => {
     emit('setPage', Site.Default)
     const breadcrumbItem: BreadcrumbItem = {
-        name: 'Alle Nutzer',
-        url: '/Nutzer'
+        name: t('usersOverview.title'),
+        url: t('url.users')
     }
     emit('setBreadcrumb', [breadcrumbItem])
 })
+
 const getSelectedOrderLabel = computed(() => {
     switch (orderBy.value) {
         case SearchUsersOrderBy.Rank:
-            return 'Rang'
+            return t('usersOverview.sort.options.rank')
         case SearchUsersOrderBy.WishCount:
-            return 'Wunschwissen'
+            return t('usersOverview.sort.options.wishknowledge')
         default:
-            return 'Nicht ausgewählt'
+            return t('usersOverview.sort.options.notSelected')
     }
 })
 
@@ -106,11 +116,11 @@ useHead(() => ({
     meta: [
         {
             name: 'description',
-            content: 'List of all users'
+            content: t('usersOverview.meta.description')
         },
         {
             property: 'og:title',
-            content: 'Users'
+            content: t('usersOverview.meta.title')
         },
         {
             property: 'og:url',
@@ -120,7 +130,7 @@ useHead(() => ({
 }))
 
 const ariaId = useId()
-
+const ariaId2 = useId()
 </script>
 
 <template>
@@ -128,26 +138,26 @@ const ariaId = useId()
         <div class="row main-page">
             <div class="col-xs-12 container">
                 <div class="users-header">
-                    <h1>Alle Nutzer</h1>
+                    <h1>{{ t('usersOverview.title') }}</h1>
                 </div>
 
                 <div class="row content" v-if="pageData">
                     <div class="col-xs-12 col-sm-12">
-
                         <div class="overline-s no-line" v-if="pageData.totalItems <= 0 && searchTerm.length > 0">
-                            Kein Nutzer mit dem Namen "{{ searchTerm }}"
+                            {{ t('usersOverview.search.noResults', { term: searchTerm }) }}
                         </div>
                         <div class="overline-s no-line" v-else-if="pageData.totalItems > 0 && searchTerm.length > 0">
-                            Ergebnisse für "{{ searchTerm }}" ({{ pageData.totalItems }})
+                            {{ t('usersOverview.search.results', { term: searchTerm, count: pageData.totalItems }) }}
                         </div>
                         <div class="overline-s no-line" v-else>
-                            Alle Nutzer <template v-if="totalUserCount != null"> ({{ totalUserCount }})</template>
+                            {{ t('usersOverview.search.allUsers') }}
+                            <template v-if="totalUserCount != null"> ({{ totalUserCount }})</template>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 users-options">
                         <div class="search-section">
                             <div class="search-container">
-                                <input type="text" v-model="searchTerm" class="search-input" placeholder="Suche" />
+                                <input type="text" v-model="searchTerm" class="search-input" :placeholder="t('usersOverview.search.placeholder')" />
                                 <div class="search-icon reset-icon" v-if="searchTerm.length > 0" @click="searchTerm = ''">
                                     <font-awesome-icon icon="fa-solid fa-xmark" />
                                 </div>
@@ -156,37 +166,59 @@ const ariaId = useId()
                                 </div>
                             </div>
                         </div>
+                        <div class="filter-options">
+                            <div class="language-section">
 
-                        <div class="sort-section">
-
-                            <font-awesome-icon icon="fa-solid fa-sort" />
-                            <div class="sort-label">Sortieren nach: </div>
-                            <div class="orderby-dropdown">
-                                <VDropdown :aria-id="ariaId" :distance="0">
-                                    <div class="orderby-select">
-                                        <div>
-                                            {{ getSelectedOrderLabel }}
+                                <div class="language-dropdown">
+                                    <VDropdown :aria-id="ariaId" :distance="0">
+                                        <div class="language-select">
+                                            <font-awesome-icon icon="fa-solid fa-language" />
+                                            <div class="language-label">{{ t('usersOverview.contentLanguageLabel') }}</div>
                                         </div>
-                                        <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
-                                    </div>
 
-                                    <template #popper="{ hide }">
-                                        <div class="dropdown-row select-row"
-                                            @click="orderBy = SearchUsersOrderBy.Rank; hide()"
-                                            :class="{ 'active': orderBy === SearchUsersOrderBy.Rank }">
-                                            <div class="dropdown-label select-option">
-                                                Rang
+                                        <template #popper>
+                                            <div class="dropdown-row" v-for="locale in locales" :key="locale.code">
+                                                <div class="language-checkbox ">
+                                                    <label :for="`lang-${locale.code}`" class="language-label">
+                                                        <input type="checkbox" :id="`lang-${locale.code}`" :value="locale.code" v-model="selectedLanguages" @change="currentPage = 1">
+                                                        <span class="checkbox-text">{{ locale.name }}</span>
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="dropdown-row"
-                                            @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
-                                            :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
-                                            <div class="dropdown-label select-option">
-                                                Wunschwissen
+                                        </template>
+                                    </VDropdown>
+                                </div>
+                            </div>
+                            <div class="sort-section">
+                                <font-awesome-icon icon="fa-solid fa-sort" />
+                                <div class="sort-label">{{ t('usersOverview.sort.label') }}</div>
+                                <div class="orderby-dropdown">
+                                    <VDropdown :aria-id="ariaId2" :distance="0">
+                                        <div class="orderby-select">
+                                            <div>
+                                                {{ getSelectedOrderLabel }}
                                             </div>
+                                            <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
                                         </div>
-                                    </template>
-                                </VDropdown>
+
+                                        <template #popper="{ hide }">
+                                            <div class="dropdown-row select-row"
+                                                @click="orderBy = SearchUsersOrderBy.Rank; hide()"
+                                                :class="{ 'active': orderBy === SearchUsersOrderBy.Rank }">
+                                                <div class="dropdown-label select-option">
+                                                    {{ t('usersOverview.sort.options.rank') }}
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-row"
+                                                @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
+                                                :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
+                                                <div class="dropdown-label select-option">
+                                                    {{ t('usersOverview.sort.options.wishknowledge') }}
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </VDropdown>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,13 +231,13 @@ const ariaId = useId()
 
                     <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
                         <div class="empty-page">
-                            Leider gibt es keinen Nutzer mit "{{ searchTerm }}"
+                            {{ t('usersOverview.search.noUserWithName', { term: searchTerm }) }}
                         </div>
                     </div>
 
                     <div class="col-xs-12" v-if="searchTerm.length === 0">
                         <div class="pagination hidden-xs">
-                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="totalUserCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
                                 <template #first-page-button>
                                     <font-awesome-layers>
                                         <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
@@ -225,7 +257,6 @@ const ariaId = useId()
                                     </font-awesome-layers>
                                 </template>
                             </vue-awesome-paginate>
-
                         </div>
                         <div class="pagination hidden-sm hidden-md hidden-lg">
                             <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
@@ -251,8 +282,7 @@ const ariaId = useId()
                         </div>
                     </div>
                     <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">
-                        Wir zeigen nur die
-                        ersten 100, für mehr/andere Ergebnisse verfeinern Sie die Suche
+                        {{ t('usersOverview.search.limitedResults') }}
                     </div>
                 </div>
             </div>
@@ -295,12 +325,11 @@ const ariaId = useId()
 
 .users-options {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
     z-index: 2;
     flex-wrap: wrap;
-
 
     .search-section {
         @media (max-width: 630px) {
@@ -364,15 +393,28 @@ const ariaId = useId()
         }
     }
 
-    .sort-section {
+    .filter-options {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+    }
+
+    .sort-section,
+    .language-section {
         display: flex;
         align-items: center;
         // margin: auto;
         margin-left: auto;
 
-        .sort-label {
+        .sort-label,
+        .language-label {
             margin: 0 8px;
         }
+    }
+
+    .language-section {
+        margin-right: 1rem;
     }
 }
 
@@ -386,6 +428,9 @@ const ariaId = useId()
     width: 150px;
 }
 
+.language-dropdown {
+    width: auto;
+}
 
 .v-popper--shown {
 
@@ -394,6 +439,13 @@ const ariaId = useId()
         .chevron {
             transform: rotate(180deg)
         }
+    }
+}
+
+.v-popper--shown {
+
+    .language-select {
+        display: flex;
     }
 }
 
@@ -409,7 +461,8 @@ const ariaId = useId()
     }
 }
 
-.orderby-select {
+.orderby-select,
+.language-select {
     padding: 6px 12px;
     height: 34px;
     cursor: pointer;
@@ -429,5 +482,9 @@ const ariaId = useId()
     &:active {
         filter: brightness(0.85)
     }
+}
+
+.language-select {
+    width: auto;
 }
 </style>

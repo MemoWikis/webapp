@@ -5,6 +5,10 @@ interface Props {
     addedParent: RelatedPage
 }
 const props = defineProps<Props>()
+
+const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
+
 const setParentPage = () => {
 
     if (props.addedParent) {
@@ -28,7 +32,8 @@ watch(() => props.addedParent, () => {
 <template>
     <div class="feed-item-label-text-body">
         <div>
-            Übergeordnete Seite: <NuxtLink :to="$urlHelper.getPageUrl(addedParent.name, addedParent.id)" @click.stop>
+            {{ t('page.feed.create.parentPage') }}
+            <NuxtLink :to="$urlHelper.getPageUrl(addedParent.name, addedParent.id)" @click.stop>
                 {{ addedParent.name }}
             </NuxtLink>
         </div>

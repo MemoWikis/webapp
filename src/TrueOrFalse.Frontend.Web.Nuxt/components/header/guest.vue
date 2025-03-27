@@ -9,6 +9,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const { t } = useI18n()
+
 const userStore = useUserStore()
 
 const showSearch = ref(true)
@@ -83,13 +85,13 @@ const rootPageChipStore = useRootPageChipStore()
                             <button class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
                                 <font-awesome-icon :icon="['fa-solid', 'right-to-bracket']" class="login-icon" />
                                 <div class="login-btn-label hidden-xxs">
-                                    Anmelden
+                                    {{ t('label.login') }}
                                 </div>
                             </button>
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                 <button navigate class="btn memo-button register-btn">
                                     <NuxtLink to="/Registrieren" class="" @click="handleError">
-                                        Registrieren
+                                        {{ t('label.register') }}
                                     </NuxtLink>
                                 </button>
                             </div>

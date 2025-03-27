@@ -7,7 +7,7 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import { AlertType, useAlertStore, AlertMsg } from '../../alert/alertStore'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 import UploadImage from '~/components/shared/imageUploadExtension'
 import { useEditQuestionStore } from './editQuestionStore'
@@ -18,12 +18,11 @@ interface Props {
     isInit: boolean
 }
 const props = defineProps<Props>()
-const alertStore = useAlertStore()
 const editQuestionStore = useEditQuestionStore()
 
 const emit = defineEmits(['setQuestionExtensionData'])
 const lowlight = createLowlight(all)
-
+const { t } = useI18n()
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -42,7 +41,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
+            placeholder: t('editor.placeholderDescription'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({
@@ -103,7 +102,7 @@ watch(() => props.content, (o, n) => {
 </script>
 
 <template>
-    <div class="overline-s no-line">Ergänzungen zur Frage</div>
+    <div class="overline-s no-line">{{ t('editor.questionDescriptionTitle') }}</div>
     <div v-if="showExtension && editor">
         <EditorMenuBar :editor="editor" />
         <editor-content :editor="editor" />
@@ -111,7 +110,8 @@ watch(() => props.content, (o, n) => {
     <template v-else>
         <div class="d-flex">
             <div class="btn grey-bg form-control col-md-6" @click="showExtension = true">
-                Ergänzungen hinzufügen</div>
+                {{ t('editor.placeholderDescription') }}
+            </div>
             <div class="col-sm-12 hidden-xs"></div>
         </div>
     </template>

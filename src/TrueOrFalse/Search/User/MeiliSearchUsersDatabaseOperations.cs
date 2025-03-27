@@ -52,7 +52,7 @@ namespace TrueOrFalse.Search
             var taskInfo = await index
                  .DeleteOneDocumentAsync(userMapAndIndex.Id.ToString())
                  .ConfigureAwait(false);
-            
+
             await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
@@ -60,14 +60,21 @@ namespace TrueOrFalse.Search
         {
             var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
             index = client.Index(indexConstant);
+
             var userMap = new MeiliSearchUserMap
             {
                 Id = user.Id,
                 DateCreated = DateTime.Now,
                 Name = user.Name,
                 Rank = user.ActivityLevel,
-                WishCountQuestions = user.WishCountQuestions
+                WishCountQuestions = user.WishCountQuestions,
             };
+            var userCacheItem = EntityCache.GetUserByIdNullable(user.Id);
+            if (userCacheItem != null)
+                userMap.ContentLanguages = userCacheItem.ContentLanguages.Select(l => l.GetCode()).ToList();
+            else if (LanguageExtensions.CodeExists(user.UiLanguage))
+                userMap.ContentLanguages = [user.UiLanguage];
+
             return userMap;
         }
     }

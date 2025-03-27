@@ -31,6 +31,19 @@ public class SearchHelper
                 .Select(c => FillSearchPageItem(c, userId))
             );
 
+    public void AddPageItems(
+        List<SearchPageItem> items,
+        GlobalSearchResult elements,
+        PermissionCheck permissionCheck,
+        int userId,
+        List<Language> languages,
+        int[] pageIdsToFilter = null) => items.AddRange(
+        elements.Pages
+            .Where(c => permissionCheck.CanView(c) &&
+                        (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)))
+            .Select(c => FillSearchPageItem(c, userId))
+    );
+
     public void AddPublicPageItems(
         List<SearchPageItem> items,
         GlobalSearchResult elements,
@@ -74,7 +87,8 @@ public class SearchHelper
             MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo
                     .GetBy(page.Id, ImageType.Page), _httpContextAccessor, _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Page).Url,
-            Visibility = (int)page.Visibility
+            Visibility = (int)page.Visibility,
+            LanguageCode = page.Language
         };
     }
 
@@ -94,7 +108,8 @@ public class SearchHelper
                         .GetUrl_50px_square()
                         .Url,
                     PrimaryPageId = q.PagesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
-                    PrimaryPageName = q.PagesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name
+                    PrimaryPageName = q.PagesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name,
+                    LanguageCode = q.Language
                 }));
     }
 
@@ -107,7 +122,8 @@ public class SearchHelper
                 Name = u.Name,
                 ImageUrl = new UserImageSettings(u.Id, _httpContextAccessor)
                     .GetUrl_50px_square(u)
-                    .Url
+                    .Url,
+                LanguageCodes = u.ContentLanguages.Select(l => l.GetCode()).ToList()
             }));
     }
 }

@@ -4,6 +4,7 @@ import { useUserStore } from '../userStore'
 import { Message } from './message'
 
 const userStore = useUserStore()
+const { t } = useI18n()
 
 interface Props {
     message: Message,
@@ -51,22 +52,24 @@ watch(() => props.forceShow, (val) => showMessage.value = val)
             </div>
 
             <div class="col-sm-5 footer">
-                <span class="show-tooltip" :title="props.message.date">vor {{
+                <span class="show-tooltip" :title="props.message.date">{{ t('user.messages.row.ago') }} {{
                     props.message.timeElapsed
-                    }}</span>
+                }}</span>
             </div>
-            <div class="col-sm-7  footer" v-if="props.message.id != 0">
+            <div class="col-sm-7 footer" v-if="props.message.id != 0">
                 <span class="pull-right" v-if="read">
                     <div class="TextLinkWithIcon" @click="markAsRead()">
-                        <span class="TextSpan">als gelesen makieren</span>
-                        <font-awesome-icon icon="fa-regular fa-square" v-tooltip="'Die Frage ist ungelesen'" />
+                        <span class="TextSpan">{{ t('user.messages.row.markAsRead') }}</span>
+                        <font-awesome-icon icon="fa-regular fa-square"
+                            v-tooltip="t('user.messages.row.tooltip.isUnread')" />
                     </div>
                 </span>
 
                 <span class="pull-right" v-else>
                     <div class="TextLinkWithIcon" @click="markAsUnread()">
-                        <span class="TextSpan">als ungelesen makieren</span>
-                        <font-awesome-icon icon="fa-solid fa-square-check" v-tooltip="'Die Frage ist gelesen'" />
+                        <span class="TextSpan">{{ t('user.messages.row.markAsUnread') }}</span>
+                        <font-awesome-icon icon="fa-solid fa-square-check"
+                            v-tooltip="t('user.messages.row.tooltip.isRead')" />
                     </div>
                 </span>
             </div>

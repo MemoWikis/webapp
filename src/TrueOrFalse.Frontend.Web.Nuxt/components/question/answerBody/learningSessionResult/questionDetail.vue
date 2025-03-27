@@ -18,6 +18,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const collapseTrackingArray = ref<boolean[]>([])
+const { t } = useI18n()
 
 onBeforeMount(() => {
     collapseTrackingArray.value = []
@@ -37,19 +38,19 @@ onBeforeMount(() => {
                     <div>
                         <font-awesome-icon icon="fa-solid fa-circle-check"
                             v-if="question.steps[0].answerState === AnswerState.Correct && question.steps.length === 1"
-                            v-tooltip="'Beim 1. Versuch richtig beantwortet'" />
+                            v-tooltip="t('questionDetail.tooltips.correctFirstTry')" />
 
                         <font-awesome-icon icon="fa-solid fa-circle-check"
                             v-else-if="question.steps[0].answerState != AnswerState.Unanswered && question.steps.length > 1 && question.steps[question.steps.length - 1].answerState === AnswerState.Correct"
-                            v-tooltip="'Beim 2. oder 3. Versuch richtig beantwortet'" />
+                            v-tooltip="t('questionDetail.tooltips.correctLaterTry')" />
 
                         <font-awesome-icon icon="fa-solid fa-circle"
                             v-else-if="question.steps.every(s => s.answerState === AnswerState.Unanswered)"
-                            v-tooltip="'Nicht beantwortet'" />
+                            v-tooltip="t('questionDetail.tooltips.unanswered')" />
 
                         <font-awesome-icon icon="fa-solid fa-circle-minus"
                             v-else-if="question.steps.some(s => s.answerState === AnswerState.False) && question.steps.every(s => s.answerState != AnswerState.Correct)"
-                            v-tooltip="'Falsch beantwortet'" />
+                            v-tooltip="t('questionDetail.tooltips.wrong')" />
 
                         {{ question.title }}
                     </div>
@@ -70,17 +71,17 @@ onBeforeMount(() => {
                                 </div>
                             </div>
                             <div class="col-xs-9 col-sm-10">
-                                <p class="rightAnswer">Richtige Antwort:
+                                <p class="rightAnswer">{{ t('questionDetail.labels.correctAnswer') }}
                                     <span v-html="handleNewLine(question.correctAnswerHtml)"></span>
                                 </p>
                                 <br />
-                                <p class="answerTry" v-for="(step, index) in question.steps">
-                                    Dein {{ index + 1 }}. Versuch:
+                                <p class="answerTry" v-for="(step, stepIndex) in question.steps">
+                                    {{ t('questionDetail.labels.yourTry', { number: stepIndex + 1 }) }}
                                     <template v-if="step.answerState === AnswerState.Skipped">
-                                        (übersprungen)
+                                        {{ t('questionDetail.labels.skipped') }}
                                     </template>
                                     <template v-else-if="step.answerState === AnswerState.Unanswered">
-                                        (noch nicht gesehen)
+                                        {{ t('questionDetail.labels.notSeen') }}
                                     </template>
                                     <template v-else>
                                         <span v-html="step.answerAsHtml"></span>

@@ -19,9 +19,25 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     showSearchIcon: true,
     placement: 'bottom-start',
-    placeholderLabel: 'Suche',
     pageIdsToFilter: () => [],
     distance: 6
+})
+
+const { t, locale } = useI18n()
+const placeHolderText = ref()
+
+const setPlaceholderText = () => {
+    if (props.placeholderLabel)
+        placeHolderText.value = props.placeholderLabel
+    else placeHolderText.value = t('label.search')
+}
+
+onBeforeMount(() => {
+    setPlaceholderText()
+})
+
+watch(locale, () => {
+    setPlaceholderText()
 })
 
 const emit = defineEmits(['selectItem', 'navigateToUrl'])
@@ -79,10 +95,12 @@ async function search() {
         term: string
         pageIdsToFilter?: number[]
         includePrivatePages?: boolean
+        languages: string[]
     }
 
     let data: BodyType = {
         term: searchTerm.value,
+        languages: [locale.value]
     }
     if ((props.searchType === SearchType.page ||
         props.searchType === SearchType.pageInWiki))
@@ -156,6 +174,22 @@ watch(() => props.showSearch, (val) => {
 })
 const ariaId = useId()
 
+const pagesInCurrentLanguage = computed(() => {
+    return pages.value.filter(p => p.languageCode === locale.value)
+})
+
+const pagesInOtherLanguages = computed(() => {
+    return pages.value.filter(p => p.languageCode !== locale.value)
+})
+
+const questionsInCurrentLanguage = computed(() => {
+    return questions.value.filter(q => q.languageCode === locale.value)
+})
+
+const questionsInOtherLanguages = computed(() => {
+    return questions.value.filter(q => q.languageCode !== locale.value)
+})
+
 </script>
 
 <template>
@@ -166,10 +200,9 @@ const ariaId = useId()
                     <div class="searchInputContainer">
                         <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }"
                             type="text" v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
-                            :placeholder="props.placeholderLabel" ref="searchInput" />
+                            :placeholder="placeHolderText" ref="searchInput" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />
-
                     </div>
                 </div>
             </form>
@@ -178,32 +211,62 @@ const ariaId = useId()
                 :placement="props.placement">
                 <template #popper>
                     <div class="searchDropdown">
-                        <div v-if="pages.length > 0" class="searchBanner">
-                            <div>Seiten </div>
-                            <div>{{ pageCount }} Treffer</div>
+                        <div v-if="pagesInCurrentLanguage.length > 0" class="searchBanner">
+                            <div>{{ t('search.pages') }} </div>
+                            <div>{{ t('search.resultsInCurrentLanguage', { count: pagesInCurrentLanguage.length }) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="t in pages" @click="selectItem(t)" v-tooltip="t.name">
-                            <Image :src="t.imageUrl" :format="ImageFormat.Page" />
+                        <div class="searchResultItem" v-for="p in pagesInCurrentLanguage" @click="selectItem(p)" v-tooltip="p.name">
+                            <Image :src="p.imageUrl" :format="ImageFormat.Page" />
                             <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ t.name }}</div>
-                                <div class="searchResultSubLabel body-s">{{ t.questionCount }} Frage<template
-                                        v-if="t.questionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ p.name }}</div>
+                                <div class="searchResultSubLabel body-s">{{ t('search.countedQuestions', p.questionCount) }}</div>
                             </div>
                         </div>
-                        <div v-if="questions.length > 0" class="searchBanner">
-                            <div>Fragen </div>
-                            <div>{{ questionCount }} Treffer</div>
+
+                        <div v-if="pagesInOtherLanguages.length > 0" class="searchBanner subBanner">
+                            <div>{{ t('search.pagesInOtherLanguages') }} </div>
+                            <div>{{ t('search.results', { count: pagesInOtherLanguages.length }) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.name">
+                        <div class="searchResultItem" v-for="p in pagesInOtherLanguages" @click="selectItem(p)" v-tooltip="p.name">
+                            <Image :src="p.imageUrl" :format="ImageFormat.Page" />
+                            <div class="searchResultLabelContainer">
+                                <div class="searchResultLabel body-m">{{ p.name }}</div>
+                                <div class="searchResultSubLabel body-s">
+                                    <span class="language-tag">{{ p.languageCode }}</span>
+                                    {{ t('search.countedQuestions', p.questionCount) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="questionsInCurrentLanguage.length > 0" class="searchBanner">
+                            <div>{{ t('search.questions') }} </div>
+                            <div>{{ t('search.resultsInCurrentLanguage', { count: questionsInCurrentLanguage.length }) }}</div>
+                        </div>
+                        <div class="searchResultItem" v-for="q in questionsInCurrentLanguage" @click="selectItem(q)" v-tooltip="q.name">
                             <Image :src="q.imageUrl" />
                             <div class="searchResultLabelContainer">
                                 <div class="searchResultLabel body-m">{{ q.name }}</div>
                                 <div class="searchResultSubLabel body-s"></div>
                             </div>
                         </div>
+
+                        <div v-if="questionsInOtherLanguages.length > 0" class="searchBanner">
+                            <div>{{ t('search.questionsInOtherLanguages') }} </div>
+                            <div>{{ t('search.results', { count: questionsInOtherLanguages.length }) }}</div>
+                        </div>
+                        <div class="searchResultItem" v-for="q in questionsInOtherLanguages" @click="selectItem(q)" v-tooltip="q.name">
+                            <Image :src="q.imageUrl" />
+                            <div class="searchResultLabelContainer">
+                                <div class="searchResultLabel body-m">{{ q.name }}</div>
+                                <div class="searchResultSubLabel body-s">
+                                    <span class="language-tag">{{ q.languageCode }}</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div v-if="users.length > 0" class="searchBanner">
-                            <div>Nutzer </div>
-                            <div class="link" @click="openUsers()">zeige {{ userCount }} Treffer</div>
+                            <div>{{ t('search.users') }}</div>
+                            <div class="link" @click="openUsers()">{{ t('search.showUserResults', userCount) }}</div>
                         </div>
                         <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.name">
                             <Image :src="u.imageUrl" :format="ImageFormat.Author" />
@@ -213,14 +276,12 @@ const ariaId = useId()
                             </div>
                         </div>
                         <div v-if="noResults" class="noResult">
-                            <div>Kein Treffer</div>
+                            <div>{{ t('search.noResults') }}</div>
                         </div>
                     </div>
-
                 </template>
             </VDropdown>
         </div>
-
     </LazyClientOnly>
 </template>
 
@@ -305,6 +366,11 @@ const ariaId = useId()
                 text-decoration: underline;
             }
         }
+    }
+
+    &.subBanner {
+        background: @memo-grey-lighter;
+        color: @memo-grey-darker;
     }
 }
 
@@ -402,5 +468,16 @@ input,
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.language-tag {
+    background-color: @memo-blue-link;
+    color: white;
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    text-transform: uppercase;
+    font-style: normal;
 }
 </style>

@@ -5,6 +5,8 @@ import { useCommentsStore } from './commentsStore'
 
 const commentsStore = useCommentsStore()
 const userStore = useUserStore()
+const { t } = useI18n()
+
 const highlightEmptyTitle = ref(false)
 const commentTitle = ref<string>('')
 function setTitle(editor: Editor) {
@@ -72,12 +74,12 @@ async function saveComment() {
                         <div class="inline-question-editor col-xs-11 noPadding">
 
                             <div class="input-container" id="AddCommentTitleFormContainer">
-                                <div class="overline-s no-line">Titel der Diskussion</div>
+                                <div class="overline-s no-line">{{ t('comment.form.title') }}</div>
                                 <CommentTitleEditor :highlight-empty-fields="highlightEmptyTitle"
                                     :content="commentTitle" @set-title="setTitle" />
                             </div>
                             <div class="input-container" id="AddCommentTextFormContainer">
-                                <div class="overline-s no-line">Dein Diskussionsbeitrag</div>
+                                <div class="overline-s no-line">{{ t('comment.form.text') }}</div>
 
                                 <CommentTextEditor :highlight-empty-fields="highlightEmptyComment"
                                     :content="commentText" @set-text="setText" />
@@ -87,11 +89,11 @@ async function saveComment() {
                     <div class="col-xs-1"></div>
                     <div class="col-xs-11 noPadding">
                         <button class="btn btn-primary memo-button pull-right" @click="saveComment()">
-                            Diskussion hinzufügen
+                            {{ t('comment.buttons.addDiscussion') }}
                         </button>
                         <button class="btn btn-lg btn-link memo-button pull-right "
                             @click="commentsStore.show = false">
-                            Abbrechen
+                            {{ t('comment.buttons.cancel') }}
                         </button>
                     </div>
                 </div>
@@ -99,9 +101,9 @@ async function saveComment() {
         </div>
         <div v-else class="row commentLoginContainer">
             <div class="col-xs-12 commentLoginText">
-                Um zu kommentieren, musst du eingeloggt sein. &nbsp;
+                {{ t('comment.login.required') }} &nbsp;
                 <NuxtLink href="/Registrieren" @click="commentsStore.show = false" class="pointer">
-                    Jetzt registrieren
+                    {{ t('comment.login.register') }}
                 </NuxtLink>
             </div>
         </div>

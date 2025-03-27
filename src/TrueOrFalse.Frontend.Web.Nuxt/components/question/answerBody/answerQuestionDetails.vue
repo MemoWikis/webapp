@@ -18,7 +18,8 @@ const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
 const commentsStore = useCommentsStore()
 const deleteQuestionStore = useDeleteQuestionStore()
-
+const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 interface Props {
     id: number,
     landingPage?: boolean
@@ -30,7 +31,7 @@ await commentsStore.loadFirst(props.id)
 
 const visibility = ref<Visibility>(Visibility.All)
 const personalProbability = ref(0)
-const personalProbabilityText = ref('Nicht im Wunschwissen')
+const personalProbabilityText = ref(t('questionLandingPage.probability.status.notInWishknowledge'))
 const personalColor = ref(color.memoGreyLight)
 const avgProbability = ref(0)
 const personalAnswerCount = ref(0)
@@ -880,27 +881,27 @@ const backgroundColor = ref('')
 const currentKnowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
 const correctnessProbabilityLabel = ref('Nicht gelernt')
 
-function setKnowledgebarData() {
+// function setKnowledgebarData() {
 
-    switch (currentKnowledgeStatus.value) {
-        case KnowledgeStatus.Solid:
-            backgroundColor.value = "solid"
-            correctnessProbabilityLabel.value = "Sicheres Wissen"
-            break
-        case KnowledgeStatus.NeedsConsolidation:
-            backgroundColor.value = "needsConsolidation"
-            correctnessProbabilityLabel.value = "Zu festigen"
-            break
-        case KnowledgeStatus.NeedsLearning:
-            backgroundColor.value = "needsLearning"
-            correctnessProbabilityLabel.value = "Zu lernen"
-            break
-        default:
-            backgroundColor.value = "notLearned"
-            correctnessProbabilityLabel.value = "Nicht gelernt"
-            break
-    }
-}
+//     switch (currentKnowledgeStatus.value) {
+//         case KnowledgeStatus.Solid:
+//             backgroundColor.value = "solid"
+//             correctnessProbabilityLabel.value = "Sicheres Wissen"
+//             break
+//         case KnowledgeStatus.NeedsConsolidation:
+//             backgroundColor.value = "needsConsolidation"
+//             correctnessProbabilityLabel.value = "Zu festigen"
+//             break
+//         case KnowledgeStatus.NeedsLearning:
+//             backgroundColor.value = "needsLearning"
+//             correctnessProbabilityLabel.value = "Zu lernen"
+//             break
+//         default:
+//             backgroundColor.value = "notLearned"
+//             correctnessProbabilityLabel.value = "Nicht gelernt"
+//             break
+//     }
+// }
 
 const showExtendedDetails = ref(false)
 watch(showExtendedDetails, () => {
@@ -910,7 +911,7 @@ watch(showExtendedDetails, () => {
 
 const activityPointsStore = useActivityPointsStore()
 
-const { $urlHelper } = useNuxtApp()
+
 </script>
 
 <template>
@@ -923,41 +924,42 @@ const { $urlHelper } = useNuxtApp()
                     </div>
                     <div class="answerDetails">
                         <div>
-                            <strong>{{ personalProbability }}%</strong> Antwortwahrscheinlichkeit
+                            <strong>{{ personalProbability }}%</strong> {{ t('answerbody.details.answerProbability') }}
                         </div>
                         <div class="counter">
                             <div>
-                                <strong>{{ answerCount }}</strong> mal beantwortet
+                                <strong>{{ answerCount }}</strong> {{ t('answerbody.details.answeredXTimes') }}
                             </div>
                             <div class="spacer"></div>
                             <div>
-                                <strong>{{ correctAnswers }} </strong> richtig /<strong>{{ wrongAnswers }}</strong> falsch
+                                <strong>{{ correctAnswers }} </strong> {{ t('answerbody.details.correct') }} /
+                                <strong>{{ wrongAnswers }}</strong> {{ t('answerbody.details.wrong') }}
                             </div>
-
                         </div>
                     </div>
                     <div @click="showExtendedDetails = true" class="expendDetailsToggle">
-                        Details anzeigen
+                        {{ t('answerbody.details.showDetails') }}
                     </div>
                 </div>
                 <div @click="showExtendedDetails = false" class="expendDetailsToggle" v-if="showExtendedDetails">
-                    Details ausblenden
+                    {{ t('answerbody.details.hideDetails') }}
                 </div>
             </div>
 
             <div id="ActivityPointsDisplay">
                 <div>
-                    <small>Dein Punktestand</small>
+                    <small>{{ t('answerbody.details.yourScore') }}</small>
                 </div>
                 <div class="activitypoints-display-detail">
                     <span id="ActivityPoints">
                         {{ activityPointsStore.points }}
                     </span>
-                    <font-awesome-icon icon="fa-solid fa-circle-info" class="activity-points-icon" v-tooltip="'Du bekommst Lernpunkte für das Beantworten von Fragen'" />
+                    <font-awesome-icon
+                        icon="fa-solid fa-circle-info"
+                        class="activity-points-icon"
+                        v-tooltip="t('answerbody.details.tooltipLearningPoints')" />
                 </div>
-
             </div>
-
         </div>
         <div class="separationBorderTop"></div>
 
@@ -965,81 +967,84 @@ const { $urlHelper } = useNuxtApp()
 
             <div id="questionDetailsContainer" class="row" style="min-height:265px">
                 <div id="pageList" class="col-sm-5" :class="{ isLandingPage: 'isLandingPage' }">
-                    <div class="overline-s no-line">Seiten</div>
+                    <div class="overline-s no-line">{{ t('answerbody.details.pages') }}</div>
                     <div class="pageListChips">
                         <div style="display: flex; flex-wrap: wrap;">
-
-                            <PageChip v-for="(t, index) in pages" :key="t.id + index" :page="t" :index="index"
+                            <PageChip
+                                v-for="(t, index) in pages"
+                                :key="t.id + index"
+                                :page="t"
+                                :index="index"
                                 :is-spoiler="learningSessionStore.isInTestMode && t.isSpoiler && !$props.landingPage" />
                         </div>
                     </div>
                 </div>
                 <div id="questionStatistics" class="col-sm-7">
                     <div id="probabilityContainer" class="" ref="probabilityContainer">
-                        <div class="overline-s no-line">Antwortwahrscheinlichkeit</div>
+                        <div class="overline-s no-line">{{ t('answerbody.details.answerProbability') }}</div>
                         <div id="semiPieSection">
                             <div id="semiPieChart" style="min-height:130px">
-                                <svg class="semiPieSvgContainer" ref="semiPie" width="200" height="130"
-                                    :class="{ 'isInWishknowledge': isInWishknowledge }">
-                                </svg>
+                                <svg
+                                    class="semiPieSvgContainer"
+                                    ref="semiPie"
+                                    width="200"
+                                    height="130"
+                                    :class="{ 'isInWishknowledge': isInWishknowledge }"></svg>
                             </div>
                             <div id="probabilityText">
                                 <div v-if="userStore.isLoggedIn" style="">
-                                    <strong>{{ personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass du
-                                    die Frage richtig beantwortest. Durchschnitt aller memoWikis-Nutzer:
+                                    <strong>{{ personalProbability }}%</strong>
+                                    {{ t('answerbody.details.loggedInProbabilityText') }}
                                     <strong>{{ avgProbability }}%</strong>
                                 </div>
                                 <div v-else style="">
-                                    <strong>{{ personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass du
-                                    die Frage richtig beantwortest. Melde dich an, damit wir deine individuelle
-                                    Wahrscheinlichkeit berechnen können.
+                                    <strong>{{ personalProbability }}%</strong>
+                                    {{ t('answerbody.details.notLoggedInProbabilityText') }}
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div id="counterContainer" class="" style="font-size:12px">
-                        <div class="overline-s no-line">Antworten</div>
-
+                        <div class="overline-s no-line">{{ t('answerbody.details.answers') }}</div>
                         <div class="counterBody">
                             <div class="counterHalf">
                                 <svg ref="personalCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="personalAnswerCount > 0" class="counterLabel">
                                     <template v-if="userStore.isLoggedIn">
-                                        Von Dir:
+                                        {{ t('answerbody.details.fromYou') }}
                                     </template>
                                     <template v-else>
-                                        Von unangemeldeten
-                                        <br />
-                                        Nutzern:
-                                    </template> <br />
-                                    <strong>{{ answerCount }}</strong> mal beantwortet <br />
-                                    <strong>{{ correctAnswers }}</strong> richtig / <strong>{{ wrongAnswers }}</strong>
-                                    falsch
+                                        {{ t('answerbody.details.fromUnregistered') }}
+                                    </template>
+                                    <br />
+                                    <strong>{{ answerCount }}</strong> {{ t('answerbody.details.answeredXTimes') }} <br />
+                                    <strong>{{ correctAnswers }}</strong> {{ t('answerbody.details.correct') }} /
+                                    <strong>{{ wrongAnswers }}</strong> {{ t('answerbody.details.wrong') }}
                                 </div>
                                 <div v-else-if="userStore.isLoggedIn" class="counterLabel">
-                                    Du hast diese Frage noch nie beantwortet.
+                                    {{ t('answerbody.details.neverAnswered') }}
                                 </div>
                                 <div v-else class="counterLabel">
-                                    Du bist nicht angemeldet. Wir haben keine Daten. <button class="btn-link" @click="userStore.openLoginModal()">Anmelden</button>
+                                    {{ t('answerbody.details.youAreNotLoggedInNoData') }}
+                                    <button class="btn-link" @click="userStore.openLoginModal()">
+                                        {{ t('answerbody.details.login') }}
+                                    </button>
                                 </div>
                             </div>
                             <div class="counterHalf">
                                 <svg ref="overallCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="overallAnswerCount > 0" class="counterLabel">
-                                    Von allen Nutzern: <br />
-                                    <strong>{{ allAnswerCount }}</strong> mal beantwortet <br />
-                                    <strong>{{ allCorrectAnswers }}</strong> richtig /
-                                    <strong>{{ allWrongAnswers }}</strong> falsch
+                                    {{ t('answerbody.details.fromAllUsers') }} <br />
+                                    <strong>{{ allAnswerCount }}</strong> {{ t('answerbody.details.answeredXTimes') }} <br />
+                                    <strong>{{ allCorrectAnswers }}</strong> {{ t('answerbody.details.correct') }} /
+                                    <strong>{{ allWrongAnswers }}</strong> {{ t('answerbody.details.wrong') }}
                                 </div>
                                 <div v-else class="counterLabel">
                                     <template v-if="visibility === 1">
-                                        Diese Frage ist <br />
-                                        privat und nur für <br />
-                                        dich sichtbar
+                                        {{ t('answerbody.details.privateQuestionForYou') }}
                                     </template>
                                     <template v-else>
-                                        Diese Frage wurde noch nie beantwortet.
+                                        {{ t('answerbody.details.neverAnsweredAll') }}
                                     </template>
                                 </div>
                             </div>
@@ -1051,7 +1056,6 @@ const { $urlHelper } = useNuxtApp()
         </div>
         <div id="QuestionDetailsFooter">
             <div class="questionDetailsFooterPartialLeft">
-
                 <div id="LicenseQuestion">
                     <VTooltip :aria-id="ariaId" v-if="license.isDefault">
                         <div class="TextLinkWithIcon">
@@ -1062,19 +1066,17 @@ const { $urlHelper } = useNuxtApp()
                                 </span>
                             </div>
                         </div>
-
-
                         <template #popper>
                             <div class="tooltip-header">
-                                Infos zur Lizenz: {{ license.shortText }}
+                                {{ t('answerbody.details.licenseInfoHeader') }}: {{ license.shortText }}
                             </div>
-                            Autor: <NuxtLink v-if="creator.id > 0"
-                                :to="$urlHelper.getUserUrl(creator.name, creator.id)">
-                                {{ creator.name }} </NuxtLink>
+                            {{ t('answerbody.details.author') }}:
+                            <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
+                                {{ creator.name }}
+                            </NuxtLink>
                             <div v-html="license.fullText"></div>
                         </template>
                     </VTooltip>
-
                     <VTooltip :aria-id="ariaId2" v-else>
                         <div class="TextLinkWithIcon">
                             <div class="TextDiv">
@@ -1084,22 +1086,20 @@ const { $urlHelper } = useNuxtApp()
                                 <font-awesome-icon icon="fa-solid fa-circle-info" class="license-info" />
                             </div>
                         </div>
-
                         <template #popper>
                             {{ license.fullText }}
                         </template>
                     </VTooltip>
                 </div>
-                <div class="created"> Erstellt von:
+                <div class="created">
+                    {{ t('answerbody.details.createdBy') }}
                     <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
                         &nbsp;{{ creator.name }}&nbsp;
                     </NuxtLink>
-                    vor {{ creationDate }}
+                    {{ t('answerbody.details.ago') }} {{ creationDate }}
                 </div>
             </div>
-
             <div class="questionDetailsFooterPartialRight">
-
                 <div class="wishknowledgeCount">
                     <font-awesome-icon icon="fa-solid fa-heart" />
                     <span class="detail-label">
@@ -1123,6 +1123,7 @@ const { $urlHelper } = useNuxtApp()
         </div>
     </div>
 </template>
+
 
 <style lang="less" scoped>
 // Imports

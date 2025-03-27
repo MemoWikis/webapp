@@ -1,13 +1,16 @@
-import { defineStore } from 'pinia'
-import { PageItem } from '../../search/searchHelper'
-import { usePageStore } from '../pageStore'
-import { useUserStore } from '../../user/userStore'
-import { useTabsStore, Tab } from '../tabs/tabsStore'
-import { isEqual } from 'underscore'
-import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
-import { TargetPosition } from '~/components/shared/dragStore'
-import { GridPageItem } from '../content/grid/item/gridPageItem'
-import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { defineStore } from "pinia"
+import { PageItem } from "../../search/searchHelper"
+import { usePageStore } from "../pageStore"
+import { useUserStore } from "../../user/userStore"
+import { useTabsStore, Tab } from "../tabs/tabsStore"
+import { isEqual } from "underscore"
+import { AlertType, useAlertStore } from "~/components/alert/alertStore"
+import { TargetPosition } from "~/components/shared/dragStore"
+import { GridPageItem } from "../content/grid/item/gridPageItem"
+import {
+    SnackbarData,
+    useSnackbarStore,
+} from "~/components/snackBar/snackBarStore"
 
 export enum EditPageRelationType {
     Create,
@@ -15,7 +18,7 @@ export enum EditPageRelationType {
     AddParent,
     AddChild,
     None,
-    AddToPersonalWiki
+    AddToPersonalWiki,
 }
 
 export interface EditRelationData {
@@ -29,14 +32,14 @@ export interface EditRelationData {
 }
 
 interface MoveTarget {
-    movingPage: GridPageItem,
-    targetId: number,
-    position: TargetPosition,
-    newParentId: number,
+    movingPage: GridPageItem
+    targetId: number
+    position: TargetPosition
+    newParentId: number
     oldParentId: number
 }
 
-export const useEditPageRelationStore = defineStore('editPageRelationStore', {
+export const useEditPageRelationStore = defineStore("editPageRelationStore", {
     state: () => {
         return {
             showModal: false,
@@ -49,7 +52,7 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
             personalWiki: null as PageItem | null,
             recentlyUsedRelationTargetPages: null as PageItem[] | null,
             pageIdToRemove: 0,
-            moveHistory: {} as MoveTarget
+            moveHistory: {} as MoveTarget,
         }
     },
     actions: {
@@ -63,7 +66,10 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
             this.pageIdToRemove = data.pageIdToRemove ?? 0
             this.redirect = data.redirect ?? false
 
-            if (data.editCategoryRelation == EditPageRelationType.AddToPersonalWiki)
+            if (
+                data.editCategoryRelation ==
+                EditPageRelationType.AddToPersonalWiki
+            )
                 this.initWikiData()
 
             this.showModal = true
@@ -82,18 +88,24 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
         },
         async initWikiData() {
             type personalWikiDataResult = {
-                personalWiki: PageItem,
+                personalWiki: PageItem
                 recentlyUsedRelationTargetPages: PageItem[]
             }
-            const id = EditPageRelationType.AddParent ? this.childId : this.parentId
-            const result = await $api<FetchResult<personalWikiDataResult>>(`/apiVue/EditPageRelationStore/GetPersonalWikiData/${id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+            const id = EditPageRelationType.AddParent
+                ? this.childId
+                : this.parentId
+            const result = await $api<FetchResult<personalWikiDataResult>>(
+                `/apiVue/EditPageRelationStore/GetPersonalWikiData/${id}`,
+                { method: "GET", mode: "cors", credentials: "include" }
+            )
 
             if (!!result && result.success) {
                 this.personalWiki = result.data.personalWiki
                 this.pagesToFilter = []
                 this.pagesToFilter.push(this.personalWiki.id)
 
-                this.recentlyUsedRelationTargetPages = result.data.recentlyUsedRelationTargetPages?.reverse()
+                this.recentlyUsedRelationTargetPages =
+                    result.data.recentlyUsedRelationTargetPages?.reverse()
                 this.recentlyUsedRelationTargetPages?.forEach((el) => {
                     this.pagesToFilter.push(el.id)
                 })
@@ -122,7 +134,7 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
             const editPageRelationData: EditRelationData = {
                 parentId: id,
                 redirect: redirect,
-                editCategoryRelation: EditPageRelationType.AddChild
+                editCategoryRelation: EditPageRelationType.AddChild,
             }
 
             this.openModal(editPageRelationData)
@@ -134,28 +146,36 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
                 return
             }
 
-            const result = await $api<any>(`/apiVue/EditPageRelationStore/AddToPersonalWiki/${id}`, {
-                method: "POST",
-                mode: "cors",
-                credentials: "include",
-            })
+            const result = await $api<any>(
+                `/apiVue/EditPageRelationStore/AddToPersonalWiki/${id}`,
+                {
+                    method: "POST",
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
+            const nuxtApp = useNuxtApp()
+            const { $i18n } = nuxtApp
 
             if (result.success == true) {
-
                 const snackbarStore = useSnackbarStore()
                 const data: SnackbarData = {
-                    type: 'success',
-                    text: messages.success.page.addedToPersonalWiki
+                    type: "success",
+                    text: {
+                        message: $i18n.t("success.page.addedToPersonalWiki"),
+                    },
                 }
                 snackbarStore.showSnackbar(data)
 
                 return {
                     success: true,
-                    id: id
+                    id: id,
                 }
             } else if (result.success == false) {
                 const alertStore = useAlertStore()
-                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+                alertStore.openAlert(AlertType.Error, {
+                    text: $i18n.t(result.messageKey),
+                })
             }
         },
         async removeFromPersonalWiki(id: number) {
@@ -165,20 +185,28 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
                 return
             }
 
-            const result = await $api<any>(`/apiVue/EditPageRelationStore/RemoveFromPersonalWiki/${id}`, {
-                method: "POST",
-                mode: "cors",
-                credentials: "include",
-            })
+            const result = await $api<any>(
+                `/apiVue/EditPageRelationStore/RemoveFromPersonalWiki/${id}`,
+                {
+                    method: "POST",
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
 
             if (result.success == true) {
                 return {
                     success: true,
-                    id: id
+                    id: id,
                 }
             } else if (result.success == false) {
                 const alertStore = useAlertStore()
-                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+                const nuxtApp = useNuxtApp()
+                const { $i18n } = nuxtApp
+
+                alertStore.openAlert(AlertType.Error, {
+                    text: $i18n.t(result.messageKey),
+                })
             }
         },
         addPage(childId: number) {
@@ -190,7 +218,7 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
         removePage(childId: number, parentIdToRemove: number) {
             return {
                 parentId: parentIdToRemove,
-                childId: childId
+                childId: childId,
             }
         },
         async removeChild(parentId: number, childId: number) {
@@ -219,23 +247,31 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
                 childIds: childIds,
             }
 
-            const result = await $api<FetchResult<number[]>>("/apiVue/EditPageRelationStore/RemovePages", {
-                method: "POST",
-                body: data,
-                mode: "cors",
-                credentials: "include",
-            })
+            const result = await $api<FetchResult<number[]>>(
+                "/apiVue/EditPageRelationStore/RemovePages",
+                {
+                    method: "POST",
+                    body: data,
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
 
             if (result.success == true) {
                 return {
                     parentId: parentId,
-                    removedChildIds: result.data
+                    removedChildIds: result.data,
                 }
             }
         },
 
-        async movePage(movingPage: GridPageItem, targetId: number, position: TargetPosition, newParentId: number, oldParentId: number) {
-
+        async movePage(
+            movingPage: GridPageItem,
+            targetId: number,
+            position: TargetPosition,
+            newParentId: number,
+            oldParentId: number
+        ) {
             const userStore = useUserStore()
 
             if (!userStore.isLoggedIn) {
@@ -243,16 +279,22 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
                 return
             }
 
-            this.tempInsert(movingPage, targetId, oldParentId, newParentId, position)
+            this.tempInsert(
+                movingPage,
+                targetId,
+                oldParentId,
+                newParentId,
+                position
+            )
 
             const data = {
                 movingPageId: movingPage.id,
                 targetId: targetId,
                 position: position,
                 newParentId: newParentId,
-                oldParentId: oldParentId
+                oldParentId: oldParentId,
             }
-            
+
             interface MovePageResult {
                 success: boolean
                 data?: MovePageData
@@ -264,13 +306,16 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
                 newParentId: number
                 undoMove: MoveTarget
             }
-        
-            const result = await $api<MovePageResult>("/apiVue/EditPageRelationStore/MovePage", {
-                method: "POST",
-                body: data,
-                mode: "cors",
-                credentials: "include"
-            })
+
+            const result = await $api<MovePageResult>(
+                "/apiVue/EditPageRelationStore/MovePage",
+                {
+                    method: "POST",
+                    body: data,
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
 
             if (result.success && result.data) {
                 const data = result.data
@@ -279,7 +324,7 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
                     targetId: data.undoMove.targetId,
                     position: data.undoMove.position,
                     newParentId: data.undoMove.newParentId,
-                    oldParentId: data.undoMove.oldParentId
+                    oldParentId: data.undoMove.oldParentId,
                 }
                 this.moveHistory = newMoveTarget
 
@@ -288,12 +333,19 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
                 this.cancelMovePage(oldParentId, newParentId, result.error)
             }
         },
-        cancelMovePage(oldParentId: number, newParentId: number, errorMsg?: string) {
-            if (errorMsg) {
+        cancelMovePage(
+            oldParentId: number,
+            newParentId: number,
+            messageKey?: string
+        ) {
+            if (messageKey) {
                 const snackbarStore = useSnackbarStore()
+                const nuxtApp = useNuxtApp()
+                const { $i18n } = nuxtApp
+
                 const data: SnackbarData = {
-                    type: 'error',
-                    text: messages.getByCompositeKey(errorMsg)
+                    type: "error",
+                    text: { message: $i18n.t(messageKey) },
                 }
                 snackbarStore.showSnackbar(data)
             }
@@ -304,17 +356,28 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
             }
         },
         async undoMovePage() {
-            return this.movePage(this.moveHistory.movingPage, this.moveHistory.targetId, this.moveHistory.position, this.moveHistory.newParentId, this.moveHistory.oldParentId)
+            return this.movePage(
+                this.moveHistory.movingPage,
+                this.moveHistory.targetId,
+                this.moveHistory.position,
+                this.moveHistory.newParentId,
+                this.moveHistory.oldParentId
+            )
         },
-        tempInsert(movePage: GridPageItem, targetId: number, oldParentId: number, newParentId: number, position: TargetPosition) {
+        tempInsert(
+            movePage: GridPageItem,
+            targetId: number,
+            oldParentId: number,
+            newParentId: number,
+            position: TargetPosition
+        ) {
             return {
                 movePage,
                 targetId,
                 oldParentId,
                 newParentId,
-                position
+                position,
             }
-        }
+        },
     },
 })
-

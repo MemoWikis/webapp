@@ -11,6 +11,7 @@ function openUploadModal() {
         showModal.value = true
 }
 const hover = ref(false)
+const { t } = useI18n()
 </script>
 
 <template>
@@ -20,7 +21,7 @@ const hover = ref(false)
         <div v-if="userStore.isLoggedIn" class="edit-overlay" :class="{ 'show-overlay': hover }" @click="openUploadModal">
             <font-awesome-icon :icon="['fas', 'pen']" class="edit-overlay-icon" />
             <div class="edit-overlay-label">
-                Bild ändern
+                {{ t('page.header.changeImage') }}
             </div>
         </div>
     </div>

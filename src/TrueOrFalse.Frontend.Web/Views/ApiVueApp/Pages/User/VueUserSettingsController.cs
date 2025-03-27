@@ -70,14 +70,14 @@ public class VueUserSettingsController(
             return new ChangePasswordResult
             {
                 Success = false,
-                Message = "passwordIsWrong"
+                Message = FrontendMessageKeys.Error.User.PasswordIsWrong
             };
 
         if (data.CurrentPassword == data.NewPassword)
             return new ChangePasswordResult
             {
                 Success = false,
-                Message = "samePassword"
+                Message = FrontendMessageKeys.Error.User.SamePassword
             };
 
         var user = _userReadingRepo.GetById(_sessionUser.User.Id);
@@ -86,7 +86,7 @@ public class VueUserSettingsController(
         return new ChangePasswordResult
         {
             Success = true,
-            Message = "passwordChanged"
+            Message = FrontendMessageKeys.Success.User.PasswordChanged
         };
     }
 
@@ -232,7 +232,7 @@ public class VueUserSettingsController(
         return new ChangeWuwiVisibilityJsonResult
         {
             Success = true,
-            Message = "wuwiChanged"
+            Message = FrontendMessageKeys.Success.User.WuwiVisibilityUpdated
         };
     }
 

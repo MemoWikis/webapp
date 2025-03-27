@@ -6,6 +6,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const { isMobile } = useDevice()
+const { t } = useI18n()
 
 const allUsersLabelEl = ref()
 
@@ -22,12 +23,11 @@ function getWidth(e: VueElement) {
         <div class="tab">
 
             <div class="tab-label chip-tab active not-absolute" ref="allUsersLabelEl">
-                Alle Nutzer
+                {{ t('usersOverview.tabs.allUsers') }}
                 <div class="chip" v-if="props.allUserCount > 0">
                     {{ props.allUserCount }}
                 </div>
             </div>
-
 
             <div class="active-tab"></div>
         </div>
@@ -49,4 +49,3 @@ function getWidth(e: VueElement) {
     padding: 0 4px;
 }
 </style>
-

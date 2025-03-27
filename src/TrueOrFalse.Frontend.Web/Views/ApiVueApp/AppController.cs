@@ -27,7 +27,8 @@ public class AppController(
         string SubscriptionStartDate,
         bool IsSubscriptionCanceled,
         bool IsEmailConfirmed,
-        string CollaborationToken);
+        string CollaborationToken,
+        string UiLanguage);
 
     public record struct ActivityPoints(
         int Points,
@@ -70,8 +71,8 @@ public class AppController(
             SubscriptionStartDate = currentUser.SubscriptionStartDate,
             IsSubscriptionCanceled = currentUser.IsSubscriptionCanceled,
             IsEmailConfirmed = currentUser.IsEmailConfirmed,
-            CollaborationToken = currentUser.CollaborationToken
-
+            CollaborationToken = currentUser.CollaborationToken,
+            UiLanguage = currentUser.UiLanguage
         };
     }
 

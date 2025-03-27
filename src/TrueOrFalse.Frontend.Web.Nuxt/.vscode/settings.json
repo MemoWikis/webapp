@@ -1,4 +1,12 @@
 {
     "volar.inlayHints.eventArgumentInInlineHandlers": false,
     "volar.addSpaceBetweenDoubleCurlyBrackets": false,
+    "editor.formatOnSave": true,
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }

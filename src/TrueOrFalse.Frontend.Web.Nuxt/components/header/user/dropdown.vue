@@ -5,9 +5,15 @@ import { ImageFormat } from '~/components/image/imageFormatEnum'
 
 const userStore = useUserStore()
 const activityPointsStore = useActivityPointsStore()
+const { t } = useI18n()
 
 const { isMobile } = useDevice()
 const ariaId = useId()
+
+const { locale, locales, setLocale, localeProperties } = useI18n()
+
+
+const showLanguages = ref(false)
 </script>
 
 <template>
@@ -36,12 +42,25 @@ const ariaId = useId()
                 </template>
 
                 <div class="user-dropdown-info">
-                    <div class="user-dropdown-label">Deine Lernpunkte</div>
+                    <div class="user-dropdown-label">{{ t('userDropdown.activitySection.title') }}</div>
 
                     <div class="user-dropdown-container level-info">
                         <div class="primary-info">
-                            Mit {{ activityPointsStore.points }} <b>Lernpunkten</b> <br />
-                            bist du in <b>Level {{ activityPointsStore.level }}</b>.
+                            <i18n-t keypath="userDropdown.activitySection.text" tag="p">
+                                <template #learningPoints>
+                                    <b>
+                                        {{ t('userDropdown.activitySection.learningPoints', activityPointsStore.points) }}
+                                    </b>
+                                </template>
+                                <template #breakpoint>
+                                    <br />
+                                </template>
+                                <template #level>
+                                    <b>
+                                        {{ t('userDropdown.activitySection.level', activityPointsStore.level) }}
+                                    </b>
+                                </template>
+                            </i18n-t>
                         </div>
                         <div class="progress-bar-container">
                             <div class="p-bar">
@@ -57,8 +76,19 @@ const ariaId = useId()
                             </div>
                         </div>
                         <div class="secondary-info">
-                            Noch {{ activityPointsStore.activityPointsTillNextLevel }} Punkte <br />
-                            bis Level {{ activityPointsStore.level + 1 }}
+                            <i18n-t keypath="userDropdown.activitySection.nextLevelText" tag="p">
+                                <template #pointsToNextLevel>
+                                    <b> {{ activityPointsStore.activityPointsTillNextLevel }} </b>
+                                </template>
+                                <template #breakpoint>
+                                    <br />
+                                </template>
+                                <template #nextLevel>
+                                    <b>
+                                        {{ activityPointsStore.level + 1 }}
+                                    </b>
+                                </template>
+                            </i18n-t>
                         </div>
                     </div>
                 </div>
@@ -66,13 +96,33 @@ const ariaId = useId()
                 <div class="divider"></div>
 
                 <div class="user-dropdown-font-size-selector">
-                    <div class="user-dropdown-label">Schriftgröße</div>
+                    <div class="user-dropdown-label">{{ t('label.fontSize') }}</div>
                     <div class="user-dropdown-container">
                         <div class="font-size-selector">
-                            <div @click="userStore.setFontSize(FontSize.Small)" class="font-size-selector-btn small" :class="{ 'is-active': userStore.fontSize === FontSize.Small }">Aa</div>
-                            <div @click="userStore.setFontSize(FontSize.Medium)" class="font-size-selector-btn medium" :class="{ 'is-active': userStore.fontSize === FontSize.Medium }">Aa</div>
-                            <div @click="userStore.setFontSize(FontSize.Large)" class="font-size-selector-btn large" :class="{ 'is-active': userStore.fontSize === FontSize.Large }">Aa</div>
+                            <div @click="userStore.setFontSize(FontSize.Small)" class="font-size-selector-btn small" :class="{ 'is-active': userStore.fontSize === FontSize.Small }">{{ t('label.fontSizeSample') }}</div>
+                            <div @click="userStore.setFontSize(FontSize.Medium)" class="font-size-selector-btn medium" :class="{ 'is-active': userStore.fontSize === FontSize.Medium }">{{ t('label.fontSizeSample') }}</div>
+                            <div @click="userStore.setFontSize(FontSize.Large)" class="font-size-selector-btn large" :class="{ 'is-active': userStore.fontSize === FontSize.Large }">{{ t('label.fontSizeSample') }}</div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="user-dropdown-language-selector">
+                    <div class="user-dropdown-label language-header" @click.prevent="showLanguages = !showLanguages">
+                        {{ t('label.language') }}
+                        <CircleFlags :country="localeProperties.flag" class="country-flag" />
+                    </div>
+                    <div class="user-dropdown-container" :class="{ 'hidden': !showLanguages }">
+
+                        <Transition name="collapse">
+                            <div class="language-selector" v-if="showLanguages">
+                                <div v-for="l in locales">
+                                    <div @click.prevent.stop="setLocale(l.code)" class="language-selector-btn" :class="{ 'is-active': l.code === locale }">
+                                        {{ l.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </Transition>
+
                     </div>
                 </div>
 
@@ -80,7 +130,7 @@ const ariaId = useId()
 
                 <div class="user-dropdown-social">
                     <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`" @click="hide()">
-                        <div class="user-dropdown-label">Deine Profilseite</div>
+                        <div class="user-dropdown-label">{{ t('label.yourProfilePage') }}</div>
                     </NuxtLink>
                 </div>
 
@@ -88,16 +138,19 @@ const ariaId = useId()
 
                 <div class="user-dropdown-managment">
                     <NuxtLink @click="hide()" :to="`/Nutzer/Einstellungen`">
-                        <div class="user-dropdown-label">Konto-Einstellungen</div>
+                        <div class="user-dropdown-label">
+                            {{ t('label.accountSettings') }}
+                        </div>
                     </NuxtLink>
 
                     <LazyNuxtLink to="/Maintenance" @click="hide()" v-if="userStore.isAdmin">
                         <div class="user-dropdown-label" @click="hide()">
-                            Administrativ
+                            {{ t('label.administrative') }}
                         </div>
                     </LazyNuxtLink>
+
                     <div class="user-dropdown-label" @click="userStore.logout(), hide()">
-                        Ausloggen
+                        {{ t('label.logout') }}
                     </div>
                 </div>
             </div>
@@ -209,6 +262,10 @@ const ariaId = useId()
 
     .user-dropdown-container {
         padding: 10px 25px;
+
+        &.hidden {
+            padding: 0px;
+        }
     }
 
     a {
@@ -352,6 +409,72 @@ const ariaId = useId()
             &.large {
                 font-size: 20px;
             }
+        }
+    }
+}
+
+.user-dropdown-language-selector {
+    .user-dropdown-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        padding-bottom: 0px;
+
+        &.language-header {
+            background: white;
+            user-select: none;
+            padding-bottom: 10px;
+
+            &:hover {
+                background-color: @memo-grey-lighter;
+            }
+
+            &:active {
+                background-color: @memo-grey-light;
+            }
+
+            .country-flag {
+                height: 2rem;
+                width: 2rem;
+                margin-left: 8px;
+            }
+        }
+
+        .user-dropdown-container {
+            padding-top: none;
+        }
+
+    }
+
+    .language-selector {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px 0;
+
+        .is-active {
+            background-color: @memo-grey-lighter;
+        }
+
+        .language-selector-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 24px;
+            padding: 3px 12px;
+            margin: 1px 0;
+
+            &:hover {
+                background-color: @memo-grey-lighter;
+            }
+
+            &:active {
+                background-color: @memo-grey-light;
+            }
+
+
         }
     }
 }

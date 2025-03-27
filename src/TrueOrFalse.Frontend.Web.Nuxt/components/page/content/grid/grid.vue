@@ -4,7 +4,7 @@ import { ToggleState } from './toggleStateEnum'
 import { GridPageItem } from './item/gridPageItem'
 import { EditRelationData, EditPageRelationType, useEditPageRelationStore } from '~/components/page/relation/editPageRelationStore'
 import { useUserStore } from '~/components/user/userStore'
-import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { AlertType, useAlertStore } from '~/components/alert/alertStore'
 import { usePublishPageStore } from '~/components/page/publish/publishPageStore'
 import { usePageToPrivateStore } from '~/components/page/toPrivate/pageToPrivateStore'
 import { useDeletePageStore } from '~/components/page/delete/deletePageStore'
@@ -105,6 +105,7 @@ deletePageStore.$onAction(({ after, name }) => {
         })
     }
 })
+const { t } = useI18n()
 
 async function addGridItem(id: number) {
     const result = await loadGridItem(id)
@@ -112,7 +113,7 @@ async function addGridItem(id: number) {
     if (result.success === true) {
         pageStore.gridItems.push(result.data)
     } else if (result.success === false)
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
 }
 
 async function loadGridItem(id: number) {
@@ -129,7 +130,7 @@ async function reloadGridItem(id: number) {
     if (result.success === true) {
         pageStore.gridItems = pageStore.gridItems.map(i => i.id === result.data.id ? result.data : i)
     } else if (result.success === false)
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
 }
 
 function removeGridItem(id: number) {
@@ -188,7 +189,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
             <div class="grid-container">
                 <div class="grid-header ">
                     <div class="grid-title no-line" :class="{ 'overline-m': !isMobile, 'overline-s': isMobile }">
-                        {{ isMobile ? 'UnterSeiten' : 'Untergeordnete Seiten' }} ({{ pageStore.childPageCount }})
+                        {{ isMobile ? t('page.grid.childPagesMobile') : t('page.grid.childPages') }} ({{ pageStore.childPageCount }})
                     </div>
 
                     <div class="grid-options">
@@ -226,7 +227,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
                         <button @click="addPage(true)">
                             <font-awesome-icon :icon="['fas', 'plus']" />
                             <span class="button-label" :class="{ 'is-mobile': isMobile }">
-                                {{ isMobile ? 'Seite erstellen' : 'Unterseite erstellen' }}
+                                {{ isMobile ? t('page.grid.createChildPageMobile') : t('page.grid.createChildPage') }}
                             </span>
                         </button>
                     </div>
@@ -235,7 +236,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
                         <button @click="addPage(false)">
                             <font-awesome-icon :icon="['fas', 'link']" />
                             <span class="button-label" :class="{ 'is-mobile': isMobile }">
-                                {{ isMobile ? 'Seite verknüpfen' : 'Unterseite verknüpfen' }}
+                                {{ isMobile ? t('page.grid.linkChildPageMobile') : t('page.grid.linkChildPage') }}
                             </span>
                         </button>
                     </div>

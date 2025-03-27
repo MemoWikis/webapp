@@ -2,7 +2,7 @@ import { Visibility } from "~/components/shared/visibilityEnum"
 
 export enum FeedType {
     Page,
-    Question
+    Question,
 }
 
 export enum PageChangeType {
@@ -22,22 +22,24 @@ export enum PageChangeType {
 }
 
 const PageChangeTypeNames: { [key in PageChangeType]: string } = {
-    [PageChangeType.Create]: 'Erstellt',
-    [PageChangeType.Update]: 'Aktualisiert',
-    [PageChangeType.Delete]: 'Gelöscht',
-    [PageChangeType.Published]: 'Veröffentlicht',
-    [PageChangeType.Privatized]: 'Privatisiert',
-    [PageChangeType.Renamed]: 'Umbenannt',
-    [PageChangeType.Text]: 'Textinhalt',
-    [PageChangeType.Relations]: 'Verknüpfungen',
-    [PageChangeType.Image]: 'Bild',
-    [PageChangeType.Restore]: 'Wiederhergestellt',
-    [PageChangeType.Moved]: 'Verschoben',
-    [PageChangeType.ChildPageDeleted]: 'Gelöscht',
-    [PageChangeType.QuestionDeleted]: 'Gelöscht',
+    [PageChangeType.Create]: "page.feed.helper.pageChangeType.created",
+    [PageChangeType.Update]: "page.feed.helper.pageChangeType.updated",
+    [PageChangeType.Delete]: "page.feed.helper.pageChangeType.deleted",
+    [PageChangeType.Published]: "page.feed.helper.pageChangeType.published",
+    [PageChangeType.Privatized]: "page.feed.helper.pageChangeType.privatized",
+    [PageChangeType.Renamed]: "page.feed.helper.pageChangeType.renamed",
+    [PageChangeType.Text]: "page.feed.helper.pageChangeType.text",
+    [PageChangeType.Relations]: "page.feed.helper.pageChangeType.relations",
+    [PageChangeType.Image]: "page.feed.helper.pageChangeType.image",
+    [PageChangeType.Restore]: "page.feed.helper.pageChangeType.restored",
+    [PageChangeType.Moved]: "page.feed.helper.pageChangeType.moved",
+    [PageChangeType.ChildPageDeleted]:
+        "page.feed.helper.pageChangeType.childPageDeleted",
+    [PageChangeType.QuestionDeleted]:
+        "page.feed.helper.pageChangeType.questionDeleted",
 }
 
-export function getPageChangeTypeName(type: PageChangeType): string {
+export function getPageChangeTypeKey(type: PageChangeType): string {
     return PageChangeTypeNames[type]
 }
 
@@ -49,13 +51,14 @@ export enum QuestionChangeType {
 }
 
 const QuestionChangeTypeNames: { [key in QuestionChangeType]: string } = {
-    [QuestionChangeType.Create]: 'Erstellt',
-    [QuestionChangeType.Update]: 'Aktualisiert',
-    [QuestionChangeType.Delete]: 'Gelöscht',
-    [QuestionChangeType.AddComment]: 'Kommentar',
+    [QuestionChangeType.Create]: "page.feed.helper.questionChangeType.created",
+    [QuestionChangeType.Update]: "page.feed.helper.questionChangeType.updated",
+    [QuestionChangeType.Delete]: "page.feed.helper.questionChangeType.deleted",
+    [QuestionChangeType.AddComment]:
+        "page.feed.helper.questionChangeType.comment",
 }
 
-export function getQuestionChangeTypeName(type: QuestionChangeType): string {
+export function getQuestionChangeTypeKey(type: QuestionChangeType): string {
     return QuestionChangeTypeNames[type]
 }
 
@@ -138,7 +141,10 @@ export interface FeedItemGroupByAuthor {
     feedItems: FeedItem[]
 }
 
-export const getTime = (date: string):string => {
-    const options = { hour: '2-digit', minute: '2-digit' } as Intl.DateTimeFormatOptions
-    return new Date(date).toLocaleString('de-DE', options)
+export const getTime = (date: string): string => {
+    const options = {
+        hour: "2-digit",
+        minute: "2-digit",
+    } as Intl.DateTimeFormatOptions
+    return new Date(date).toLocaleString("de-DE", options)
 }

@@ -62,6 +62,7 @@ function getClass(c: Choice) {
 }
 
 init()
+const { t } = useI18n()
 </script>
 
 <template>
@@ -76,31 +77,14 @@ init()
                     <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon"
                         :class="{ 'disabled': props.showAnswer }" />
                     <span class="checkbox-label">
-
                         {{ choice.Text }}
-
                     </span>
-                    <!-- 
-                        <template v-if="props.showAnswer">
-
-                            <font-awesome-layers v-if="validate(choice)" class="label-icon is-correct">
-                                <font-awesome-icon icon="circle" />
-                                <font-awesome-icon icon="check" class="inner" />
-                            </font-awesome-layers>
-
-                            <font-awesome-layers v-else class="label-icon is-wrong">
-                                <font-awesome-icon icon="circle" />
-                                <font-awesome-icon icon="fa-xmark" class="inner" />
-                            </font-awesome-layers>
-
-                        </template> -->
-
                 </div>
             </label>
         </div>
         <br />
         <h6 class="ItemInfo">
-            Es können keine oder mehrere Antworten richtig sein!
+            {{ t('answerbody.multipleChoiceInfo') }}
         </h6>
     </div>
 </template>

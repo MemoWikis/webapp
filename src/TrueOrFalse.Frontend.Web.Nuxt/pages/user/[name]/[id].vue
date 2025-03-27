@@ -5,7 +5,6 @@ import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Content } from '~/components/user/settings/contentEnum'
 import { Site } from '~/components/shared/siteEnum'
-import { messages } from '~/components/alert/messages'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 
 const route = useRoute()
@@ -13,6 +12,7 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const userStore = useUserStore()
 const { $logger, $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 
 interface Props {
     content?: Content,
@@ -84,7 +84,7 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
 if (profile.value && profile.value.messageKey && profile.value?.messageKey != "") {
 
     $logger.warn(`User: ${profile.value.messageKey} route ${route.fullPath}`)
-    throw createError({ statusCode: profile.value.errorCode, statusMessage: messages.getByCompositeKey(profile.value.messageKey) })
+    throw createError({ statusCode: profile.value.errorCode, statusMessage: t(profile.value.messageKey) })
 }
 
 const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/User/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {
@@ -115,24 +115,24 @@ const router = useRouter()
 
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
-function handleBreadcrumb(t: Tab) {
-    if (t === Tab.Settings) {
-        router.push({ path: '/Nutzer/Einstellungen' })
+function handleBreadcrumb(tab: Tab) {
+    if (tab === Tab.Settings) {
+        router.push({ path: `/${t('url.user')}/${t('url.settings')}` })
 
         const breadcrumbItem: BreadcrumbItem = {
-            name: 'Einstellungen',
-            url: `/Nutzer/Einstellungen`
+            name: t('url.settings'),
+            url: `/${t('url.user')}/${t('url.settings')}`
         }
         emit('setBreadcrumb', [breadcrumbItem])
 
-    } else if (profile.value && profile.value.user.id > 0 && t === Tab.Wishknowledge) {
+    } else if (profile.value && profile.value.user.id > 0 && tab === Tab.Wishknowledge) {
         const newPath = `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
         router.push({ path: newPath })
 
         const breadcrumbItems: BreadcrumbItem[] = [
             {
-                name: 'Nutzer',
-                url: '/Nutzer'
+                name: t('url.user'),
+                url: `/${t('url.user')}`
             },
             {
                 name: `${profile.value.user.name}'s Wunschwissen`,
@@ -140,14 +140,14 @@ function handleBreadcrumb(t: Tab) {
             }]
         emit('setBreadcrumb', breadcrumbItems)
     }
-    else if (profile.value?.user.id && profile.value.user.id > 0 && t === Tab.Overview) {
+    else if (profile.value?.user.id && profile.value.user.id > 0 && tab === Tab.Overview) {
         const newPath = $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
         router.push({ path: newPath })
 
         const breadcrumbItems: BreadcrumbItem[] = [
             {
-                name: 'Nutzer',
-                url: '/Nutzer'
+                name: t('url.user'),
+                url: `/${t('url.user')}`
             },
             {
                 name: `${profile.value.user.name}`,
@@ -215,11 +215,11 @@ userStore.$onAction(({ name, after }) => {
                         <div class="profile-header-info">
                             <h1>{{ profile.user.name }}</h1>
                             <div class="sub-info">
-                                <b>{{ profile.user.reputationPoints }}</b> Reputationspunkte
+                                <b>{{ profile.user.reputationPoints }}</b> {{ t('user.profile.reputationPoints') }}
                                 <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
-                                (Rang {{ profile.user.rank }})
+                                ({{ t('user.profile.rank') }} {{ profile.user.rank }})
                                 <NuxtLink class="link-to-all-users" to="/Nutzer">
-                                    Zur Übersicht aller Nutzer
+                                    {{ t('user.profile.viewAllUsers') }}
                                 </NuxtLink>
                             </div>
                             <div class="profile-btn-container">
@@ -227,7 +227,7 @@ userStore.$onAction(({ name, after }) => {
                                     <NuxtLink :to="profile.user.wikiUrl">
                                         <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                                         <font-awesome-icon icon="fa-solid fa-house" v-else />
-                                        Zu {{ isCurrentUser ? 'meinem' : `${profile.user.name}s` }} Wiki
+                                        {{ t(isCurrentUser ? 'user.profile.toMyWiki' : 'user.profile.toUserWiki', { name: profile.user.name }) }}
                                     </NuxtLink>
                                 </button>
 
@@ -245,7 +245,7 @@ userStore.$onAction(({ name, after }) => {
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
                             <div class="overline-s">
-                                Reputationspunkte
+                                {{ t('user.overview.reputation.title') }}
                             </div>
 
                             <div class="main-counter-container">
@@ -253,7 +253,7 @@ userStore.$onAction(({ name, after }) => {
                                     <h1>{{ profile.overview.activityPoints.total }}</h1>
                                 </div>
                                 <div class="count-label">
-                                    <div>gesamt</div>
+                                    <div>{{ t('user.overview.reputation.total') }}</div>
                                 </div>
                             </div>
 
@@ -263,29 +263,29 @@ userStore.$onAction(({ name, after }) => {
                                 <div class="count">
                                     {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
                                 </div>
-                                <div class="count-label">Eigene Fragen im Wunschwissen anderer</div>
+                                <div class="count-label">{{ t('user.overview.reputation.questionsInOtherWishknowledges') }}</div>
                             </div>
                             <div class="sub-counter-container">
                                 <div class="count">
                                     {{ profile.overview.activityPoints.questionsCreated }} P
                                 </div>
-                                <div class="count-label">Erstellte Fragen</div>
+                                <div class="count-label">{{ t('user.overview.reputation.questionsCreated') }}</div>
                             </div>
                             <div class="sub-counter-container">
                                 <div class="count">
                                     {{ profile.overview.activityPoints.publicWishknowledges }} P
                                 </div>
-                                <div class="count-label">Veröffentlichung des eigenes Wunschwissen</div>
+                                <div class="count-label">{{ t('user.overview.reputation.publicWishknowledges') }}</div>
                             </div>
 
                             <div class="divider"></div>
 
-                            <NuxtLink to="/Globales-Wiki/1">Erfahre mehr über Reputationspunkte</NuxtLink>
+                            <NuxtLink to="/Globales-Wiki/1">{{ t('user.overview.reputation.learnMore') }}</NuxtLink>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
                             <div class="overline-s">
-                                Erstellte Inhalte
+                                {{ t('user.overview.content.title') }}
                             </div>
 
                             <div class="main-counter-container">
@@ -294,7 +294,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Öffentliche Fragen
+                                        {{ t('user.overview.content.publicQuestions') }}
                                     </div>
                                 </div>
                             </div>
@@ -306,7 +306,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Öffentliche Seiten
+                                        {{ t('user.overview.content.publicPages') }}
                                     </div>
                                 </div>
                             </div>
@@ -317,7 +317,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Private Fragen <font-awesome-icon icon="fa-solid fa-lock" />
+                                        {{ t('user.overview.content.privateQuestions') }} <font-awesome-icon icon="fa-solid fa-lock" />
                                     </div>
                                 </div>
                             </div>
@@ -329,7 +329,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Private Seiten <font-awesome-icon icon="fa-solid fa-lock" />
+                                        {{ t('user.overview.content.privatePages') }} <font-awesome-icon icon="fa-solid fa-lock" />
                                     </div>
                                 </div>
                             </div>
@@ -338,7 +338,7 @@ userStore.$onAction(({ name, after }) => {
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
                             <div class="overline-s">
-                                Im Wunschwissen
+                                {{ t('user.overview.wishknowledge.title') }}
                             </div>
 
                             <div class="main-counter-container">
@@ -346,7 +346,7 @@ userStore.$onAction(({ name, after }) => {
                                     <h1>{{ profile.overview.wuwiCount }}</h1>
                                 </div>
                                 <div class="count-label">
-                                    <div>Fragen</div>
+                                    <div>{{ t('user.overview.wishknowledge.questions') }}</div>
                                 </div>
 
                             </div>
@@ -359,12 +359,11 @@ userStore.$onAction(({ name, after }) => {
                     <div v-show="tab === Tab.Wishknowledge">
                         <div v-if="!profile.user.showWuwi" class="wuwi-is-hidden">
                             <template v-if="profile.isCurrentUser">
-                                Dein Wunschwissen ist nicht öffentlich. <span @click="tab = Tab.Settings"
-                                    class="btn-link">Ändern</span>
+                                {{ t('user.wishknowledge.private.own') }} <span @click="tab = Tab.Settings"
+                                    class="btn-link">{{ t('user.wishknowledge.private.change') }}</span>
                             </template>
                             <template v-else>
-                                <b>Nicht öffentlich</b> {{ profile.user.name }} hat ihr / sein Wunschwissen nicht
-                                veröffentlicht.
+                                <b>{{ t('user.wishknowledge.private.notPublic') }}</b> {{ t('user.wishknowledge.private.userNotPublished', { name: profile.user.name }) }}
                             </template>
                         </div>
                         <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">

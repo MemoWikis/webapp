@@ -7,7 +7,6 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { useAlertStore } from '../../alert/alertStore'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import UploadImage from '~/components/shared/imageUploadExtension'
@@ -21,13 +20,12 @@ interface Props {
 
 const props = defineProps<Props>()
 const emit = defineEmits(['setFlashCardContent'])
-const alertStore = useAlertStore()
 const editQuestionStore = useEditQuestionStore()
 
 const content = ref(null)
 const lowlight = createLowlight(all)
 const deleteImageSrc = ref<string | null>(null)
-
+const { t } = useI18n()
 const editor = useEditor({
     editable: true,
     extensions: [
@@ -47,7 +45,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Rückseite der Karteikarte',
+            placeholder: t('editor.placeholderFlashcardBack'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({
@@ -151,7 +149,7 @@ const checkContentImages = () => {
                 :class="{ 'is-empty': highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
         </template>
         <div v-if="highlightEmptyFields && editor && editor.state.doc.textContent.length <= 0" class="field-error">
-            Bitte gib eine Antwort an.
+            {{ t('editor.answerInputError') }}
         </div>
     </div>
 </template>

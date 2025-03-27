@@ -6,7 +6,7 @@ import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
 import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
-import { messages } from '~/components/alert/messages'
+
 
 const { $logger } = useNuxtApp()
 const userStore = useUserStore()
@@ -17,6 +17,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const { t } = useI18n()
+
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -24,9 +26,10 @@ const headers = useRequestHeaders(['cookie']) as HeadersInit
 interface Question {
 	answerBodyModel?: AnswerBodyModel
 	solutionData?: SolutionData
-	answerQuestionDetailsModel?: AnswerQuestionDetailsResult,
+	answerQuestionDetailsModel?: AnswerQuestionDetailsResult
 	messageKey?: string
 	errorCode?: ErrorCode
+	language: "de" | "en" | "fr" | "es"
 }
 
 const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage/GetQuestionPage/${route.params.id}`,
@@ -44,10 +47,10 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 		},
 	})
 
-if (question.value && question.value?.messageKey != "" && question.value?.errorCode != null) {
+if (question.value && question.value.messageKey && question.value.messageKey.length > 0 && question.value.errorCode != null) {
 	$logger.warn(`Question: ${question.value.messageKey} route ${route.fullPath}`)
 
-	throw createError({ statusCode: question.value.errorCode, statusMessage: messages.getByCompositeKey(question.value.messageKey) })
+	throw createError({ statusCode: question.value.errorCode, statusMessage: t(question.value.messageKey) })
 }
 
 function highlightCode(id: string) {
@@ -86,6 +89,9 @@ onBeforeMount(() => {
 })
 const { $urlHelper } = useNuxtApp()
 useHead(() => ({
+	htmlAttrs: {
+		lang: question.value?.language ?? 'en'
+	},
 	link: [
 		{
 			rel: 'canonical',
@@ -114,12 +120,12 @@ useHead(() => ({
 			content: question.value?.answerBodyModel?.imgUrl
 		}
 	]
-}))
+}))	
 </script>
 
 <template>
 	<title v-if="question && question?.answerBodyModel != null">
-		Frageseite zu '{{ question.answerBodyModel.title }}'
+		{{ t('questionLandingPage.title', { title: question.answerBodyModel.title }) }}
 	</title>
 	<div class="container page-container">
 		<div class="question-page-container row main-page">
@@ -184,8 +190,8 @@ useHead(() => ({
 															:to="$urlHelper.getPageUrlWithQuestionId(question.answerBodyModel.primaryPageName, question.answerBodyModel.primaryPageId, question.answerBodyModel.id)"
 															id="btnStartTestSession"
 															class="btn btn-primary show-tooltip" rel="nofollow"
-															v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen auf dieser Seite' : 'Lerne 5 zufällig ausgewählte Fragen von ' + question.answerBodyModel.primaryPageName">
-															<b>Weiterlernen</b>
+															v-tooltip="userStore.isLoggedIn ? t('questionLandingPage.tooltip.learnAllQuestions') : t('questionLandingPage.tooltip.learnRandomQuestions', { pageName: question.answerBodyModel.primaryPageName })">
+															<b>{{ t('questionLandingPage.continueLearning') }}</b>
 														</NuxtLink>
 													</div>
 												</div>
@@ -196,7 +202,7 @@ useHead(() => ({
 
 														<div id="Solution">
 															<div class="solution-label">
-																Richtige Antwort:
+																{{ t('questionLandingPage.rightAnswer') }}
 															</div>
 
 															<div class="Content body-m" id="SolutionContent"
@@ -210,7 +216,7 @@ useHead(() => ({
 														v-if="question.solutionData != null && question.solutionData.answerDescription.trim().length > 0">
 														<div id="Description">
 															<div class="solution-label">
-																Ergänzungen zur Antwort:
+																{{ t('questionLandingPage.answerAdditions') }}
 															</div>
 
 															<div class="Content body-m" id="ExtendedSolutionContent"

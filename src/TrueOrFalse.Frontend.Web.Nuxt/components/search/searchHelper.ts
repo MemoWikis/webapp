@@ -1,4 +1,3 @@
-
 export enum SearchType {
     all = 0,
     category = 1,
@@ -7,11 +6,11 @@ export enum SearchType {
     categoryInWiki = 4,
 
     page = category,
-    pageInWiki = categoryInWiki
+    pageInWiki = categoryInWiki,
 }
 
 export interface PageItem {
-    type?: 'PageItem'
+    type?: "PageItem"
     id: number
     name: string
     url: string | null
@@ -20,10 +19,11 @@ export interface PageItem {
     miniImageUrl: string
     visibility: number
     isSpoiler?: boolean
+    languageCode: string
 }
 
-export interface QuestionItem { 
-    type?: 'QuestionItem'
+export interface QuestionItem {
+    type?: "QuestionItem"
     id: number
     name: string
     url: string | null
@@ -31,15 +31,17 @@ export interface QuestionItem {
     visibility: number
     primaryPageId: number
     primaryPageName: string
+    languageCode: string
 }
 
 export interface UserItem {
-    type?: 'UserItem'
+    type?: "UserItem"
     id: number
     name: string
     url: string | null
     imageUrl: string
     visibility: number
+    LanguageCodes: string[]
 }
 
 export type FullSearch = {

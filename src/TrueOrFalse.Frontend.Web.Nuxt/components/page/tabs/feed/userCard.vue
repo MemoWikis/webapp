@@ -10,6 +10,7 @@ const { $urlHelper } = useNuxtApp()
 const emit = defineEmits(['open-feed-modal'])
 const { isDesktop, isMobile } = useDevice()
 const showCard = ref(true)
+const { t } = useI18n()
 
 watch(() => props.authorGroup, () => {
     showCard.value = true
@@ -23,13 +24,13 @@ watch(() => props.authorGroup, () => {
         </div>
         <div class="feed-container">
             <div class="feed-header">
-                {{ authorGroup.dateLabel }} von:
+                {{ authorGroup.dateLabel }} {{ t('page.feed.userCard.by') }}:
                 <NuxtLink :to="$urlHelper.getUserUrl(authorGroup.author.name, authorGroup.author.id)">
                     <Image v-if="isMobile" :src="authorGroup.author.imageUrl" :alt="authorGroup.author.name" :width="20" :height="20" :format="ImageFormat.Author" class="header-icon" />
                     {{ authorGroup.author.name }}
                 </NuxtLink>
 
-                <div @click="showCard = !showCard" class="collapse-button">
+                <div @click="showCard = !showCard" class="collapse-button" :aria-label="t('page.feed.userCard.collapseExpand')">
                     <font-awesome-icon v-if="showCard" icon="fa-solid fa-chevron-up"
                         class="filter-button-icon" />
                     <font-awesome-icon v-else icon="fa-solid fa-chevron-down" class="filter-button-icon" />
@@ -69,6 +70,7 @@ watch(() => props.authorGroup, () => {
     .feed-container {
         flex-grow: 2;
         overflow: hidden;
+
         .feed-header {
             display: flex;
             flex-wrap: nowrap;
@@ -88,7 +90,7 @@ watch(() => props.authorGroup, () => {
                 margin-left: 4px;
             }
 
-            .collapse-button{
+            .collapse-button {
                 height: 24px;
                 width: 24px;
                 color: @memo-grey-dark;
@@ -99,12 +101,13 @@ watch(() => props.authorGroup, () => {
                 align-items: center;
                 cursor: pointer;
                 margin-left: 8px;
-                user-select: none;;
+                user-select: none;
+                ;
 
-                &:hover{
+                &:hover {
                     filter: brightness(0.95);
                 }
-                
+
                 &:active {
                     filter: brightness(0.9);
                 }
@@ -112,7 +115,7 @@ watch(() => props.authorGroup, () => {
         }
 
         .feed-body {
-            overflow:hidden;
+            overflow: hidden;
         }
 
     }

@@ -11,7 +11,7 @@ export enum Type {
     Basic,
     Plus,
     Team,
-    Organisation
+    Organisation,
 }
 
 export interface BasicLimits {
@@ -21,36 +21,71 @@ export interface BasicLimits {
 }
 
 export const plans = (limit: BasicLimits) => {
+    const nuxtApp = useNuxtApp()
+    const { $i18n } = nuxtApp
+
     return {
         basic: {
-            name: 'Kostenlos',
+            name: $i18n.t("user.membership.plans.basic.name"),
             price: 0,
-            priceLabel: 'Kostenlos für immer!',
-            description: ['Du kannst alles machen. Nur die Anzahl der privaten Inhalte ist begrenzt.'],
-            list: ['Unbeschränkt öffentliche Inhalte (ansehen, erstellen und lernen)', `${limit.maxPrivatePageCount} private Seiten`, `${limit.maxPrivateQuestionCount} private Fragen`, `max ${limit.maxWishknowledgeCount} Fragen im Wunschwissen`],
+            priceLabel: $i18n.t("user.membership.plans.basic.priceLabel"),
+            description: [$i18n.t("user.membership.plans.basic.description")],
+            list: [
+                $i18n.t("user.membership.plans.basic.list.publicContent"),
+                $i18n.t("user.membership.plans.basic.list.privatePages", {
+                    count: limit.maxPrivatePageCount,
+                }),
+                $i18n.t("user.membership.plans.basic.list.privateQuestions", {
+                    count: limit.maxPrivateQuestionCount,
+                }),
+                $i18n.t("user.membership.plans.basic.list.wishknowledge", {
+                    count: limit.maxWishknowledgeCount,
+                }),
+            ],
         } as Plan,
         plus: {
-            name: 'Plus',
+            name: $i18n.t("user.membership.plans.plus.name"),
             price: 3,
-            priceLabel: 'pro Monat',
-            description: ['Du unterstützt die Weiterentwicklung! Uneingeschränkt private Inhalte!'],
-            list: ['Du unterstützt uns :-)', 'Unbeschränkt private Seiten', 'Unbeschränkt private Fragen', 'Unbeschränktes Wunschwissen'],
+            priceLabel: $i18n.t("user.membership.plans.plus.priceLabel"),
+            description: [$i18n.t("user.membership.plans.plus.description")],
+            list: [
+                $i18n.t("user.membership.plans.plus.list.support"),
+                $i18n.t("user.membership.plans.plus.list.unlimitedPages"),
+                $i18n.t("user.membership.plans.plus.list.unlimitedQuestions"),
+                $i18n.t(
+                    "user.membership.plans.plus.list.unlimitedWishknowledge"
+                ),
+            ],
         } as Plan,
         team: {
-            name: 'Team',
+            name: $i18n.t("user.membership.plans.team.name"),
             price: 7,
-            priceLabel: 'pro Monat & Nutzer',
-            description: ['Für Teams, die eine zentrale Addministration und private Inhalte benötigen.'],
-            listLabel: 'Alles aus Plus und zusätzlich:',
-            list: ['Private Inhalte im Team bearbeiten', 'Teams verwalten'],
+            priceLabel: $i18n.t("user.membership.plans.team.priceLabel"),
+            description: [$i18n.t("user.membership.plans.team.description")],
+            listLabel: $i18n.t("user.membership.plans.team.listLabel"),
+            list: [
+                $i18n.t("user.membership.plans.team.list.teamPrivateContent"),
+                $i18n.t("user.membership.plans.team.list.manageTeams"),
+            ],
         } as Plan,
         organisation: {
-            name: 'Organisation',
-            price: 'Auf Anfrage',
-            priceLabel: 'Individuelle Preise. Bitte kontaktiert uns für mehr Informationen.',
-            description: ['Für Unternehmen und Institutionen, die zusätzliche Unterstützung benötigen.', 'Bringen Sie Ihr Team auf den neuesten Stand.'],
-            listLabel: 'Alles aus Team, plus:',
-            list: ['SSO / AD-Integration', 'Eigener Server / Hosting in Eurem Rechenzentrium', 'Customizing'],
-        } as Plan
+            name: $i18n.t("user.membership.plans.organisation.name"),
+            price: $i18n.t("user.membership.plans.organisation.price"),
+            priceLabel: $i18n.t(
+                "user.membership.plans.organisation.priceLabel"
+            ),
+            description: [
+                $i18n.t(
+                    "user.membership.plans.organisation.description.support"
+                ),
+                $i18n.t("user.membership.plans.organisation.description.team"),
+            ],
+            listLabel: $i18n.t("user.membership.plans.organisation.listLabel"),
+            list: [
+                $i18n.t("user.membership.plans.organisation.list.sso"),
+                $i18n.t("user.membership.plans.organisation.list.hosting"),
+                $i18n.t("user.membership.plans.organisation.list.customizing"),
+            ],
+        } as Plan,
     }
 }

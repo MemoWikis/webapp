@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { messages } from '~/components/alert/messages'
-throw createError({ statusCode: 404, statusMessage: messages.error.route.notFound })
+const { t } = useI18n()
+throw createError({ statusCode: 404, statusMessage: t('error.route.notFound') })
 </script>
 <template>
     <div></div>

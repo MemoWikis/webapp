@@ -69,6 +69,7 @@ namespace TrueOrFalse.Search
                 Description = page.Description ?? "",
                 Name = page.Name,
                 Id = page.Id,
+                Language = page.Language
             };
             return pageMap;
         }

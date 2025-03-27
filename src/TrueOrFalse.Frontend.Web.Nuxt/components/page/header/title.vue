@@ -6,7 +6,8 @@ import { Author } from '~~/components/author/author'
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
-
+const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 const pageStore = usePageStore()
 const tabsStore = useTabsStore()
 const outlineStore = useOutlineStore()
@@ -106,7 +107,7 @@ const page = useState<Page>('page')
 
 const viewsLabel = computed(() => {
     if (pageStore.views === 1)
-        return `1 Aufruf`
+        return t('page.header.views.one')
 
     let viewCount = pageStore.views.toString()
 
@@ -114,7 +115,7 @@ const viewsLabel = computed(() => {
         const formatter = new Intl.NumberFormat('de-DE')
         viewCount = formatter.format(pageStore.views)
     }
-    return `${viewCount} Aufrufe`
+    return t('page.header.views.other', { count: viewCount })
 })
 
 const pageTitle = ref()
@@ -132,27 +133,25 @@ const showParents = computed(() => {
 })
 const ariaId = useId()
 const ariaId2 = useId()
-const { $urlHelper } = useNuxtApp()
 
 </script>
 
 <template>
     <div id="PageHeaderContainer">
         <h1 id="PageTitle" ref="pageTitle">
-            <textarea placeholder="Gib deiner Seite einen Titel" @input="resize()" ref="textArea"
+            <textarea :placeholder="t('page.header.titlePlaceholder')" @input="resize()" ref="textArea"
                 v-model="pageStore.name" v-if="pageStore" :readonly="readonly" @focus="focus" @blur="blur"></textarea>
             <template v-else-if="page">
                 {{ page.name }}
             </template>
         </h1>
         <div id="PageHeaderDetails" :class="{ 'is-mobile': isMobile }">
-            <div v-if="pageStore.childPageCount > 0 && !isMobile" class="page-detail clickable" @click="scrollToChildPages()" v-tooltip="'Alle UnterSeiten'">
+            <div v-if="pageStore.childPageCount > 0 && !isMobile" class="page-detail clickable" @click="scrollToChildPages()" v-tooltip="t('page.header.childPages')">
                 <font-awesome-icon icon="fa-solid fa-sitemap" class="page-fa-icon" />
                 <div class="page-detail-label">{{ pageStore.childPageCount }}</div>
             </div>
 
-            <div class="page-detail-spacer" v-if="showParents && pageStore.childPageCount > 0">
-            </div>
+            <div class="page-detail-spacer" v-if="showParents && pageStore.childPageCount > 0"></div>
 
             <VDropdown :aria-id="ariaId" :distance="6">
                 <button v-show="showParents" class="parent-tree-btn">
@@ -177,8 +176,7 @@ const { $urlHelper } = useNuxtApp()
                 </template>
             </VDropdown>
 
-            <div class="page-detail-spacer" v-if="pageStore.views > 0 && (pageStore.childPageCount > 1 && !isMobile || pageStore.parentPageCount > 1)">
-            </div>
+            <div class="page-detail-spacer" v-if="pageStore.views > 0 && (pageStore.childPageCount > 1 && !isMobile || pageStore.parentPageCount > 1)"></div>
 
             <div v-if="pageStore.views > 0" class="page-detail">
                 <div class="page-detail-label">
@@ -186,21 +184,19 @@ const { $urlHelper } = useNuxtApp()
                 </div>
             </div>
 
-            <div v-if="pageStore.views > 0 ||
-                (pageStore.childPageCount > 0 || pageStore.parentPageCount > 0)" class="page-detail-spacer">
-            </div>
+            <div v-if="pageStore.views > 0 || (pageStore.childPageCount > 0 || pageStore.parentPageCount > 0)" class="page-detail-spacer"></div>
 
             <template v-for="author in firstAuthors">
                 <LazyNuxtLink v-if="author.id > 0" :to="$urlHelper.getUserUrl(author.name, author.id)"
                     v-tooltip="author.name" class="header-author-icon-link">
                     <Image :src="author.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
-                        :alt="`${author.name}'s profile picture'`" />
+                        :alt="t('page.header.authorProfilePicture', { name: author.name })" />
                 </LazyNuxtLink>
             </template>
 
             <VDropdown :aria-id="ariaId2" :distance="6">
                 <div v-if="isMobile && groupedAuthors.length === 1 && mobileFirstAuthor && mobileFirstAuthor.id > 0" :to="$urlHelper.getUserUrl(mobileFirstAuthor.name, mobileFirstAuthor.id)" class="header-author-icon-link">
-                    <Image :src="mobileFirstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon" :alt="`${mobileFirstAuthor.name}'s profile picture'`" />
+                    <Image :src="mobileFirstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon" :alt="t('page.header.authorProfilePicture', { name: mobileFirstAuthor.name })" />
                 </div>
                 <div v-else-if="groupedAuthors.length > 1" class="additional-authors-btn" :class="{ 'long': groupedAuthors.length > 9 }">
                     <span>
@@ -219,8 +215,6 @@ const { $urlHelper } = useNuxtApp()
                     </template>
                 </template>
             </VDropdown>
-
-
         </div>
     </div>
 </template>

@@ -10,4 +10,5 @@ export interface UserResult {
     wuwiPagesCount: number
     imgUrl: string
     wikiId: number
+    contentLanguages: string[]
 }

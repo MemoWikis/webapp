@@ -54,9 +54,10 @@ public class PageStoreController(
 
         pageCacheItem.Content = req.Content;
         page.Content = req.Content;
-        _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
 
         EntityCache.AddOrUpdate(pageCacheItem);
+        LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
+        _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
 
         return new SaveResult
         {
@@ -94,9 +95,9 @@ public class PageStoreController(
 
         pageCacheItem.Name = req.Name.Trim();
         page.Name = req.Name.Trim();
-        _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Renamed);
-
         EntityCache.AddOrUpdate(pageCacheItem);
+        LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
+        _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Renamed);
 
         return new SaveResult
         {

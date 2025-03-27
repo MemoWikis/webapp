@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TrueOrFalse.Search;
 using static VueApp.ChildModifier;
 
 namespace VueApp;
@@ -20,7 +21,8 @@ public class PageRelationEditController(
     IWebHostEnvironment _webHostEnvironment,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    IGlobalSearch _search) : Controller
+    IGlobalSearch _search,
+    MeiliSearchReIndexUser _meiliSearchReIndexUser) : Controller
 {
     public readonly record struct ValidateNameParam(string Name);
 
@@ -59,6 +61,9 @@ public class PageRelationEditController(
                 CantSavePrivatePage = data.Data.CantSavePrivatePage
             }
         };
+
+        if (result.Success)
+            _meiliSearchReIndexUser.Run(EntityCache.GetUserById(_sessionUser.UserId));
 
         return result;
     }

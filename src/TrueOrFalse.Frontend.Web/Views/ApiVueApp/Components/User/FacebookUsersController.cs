@@ -18,88 +18,89 @@ public class FacebookUsersController(
     UserWritingRepo _userWritingRepo,
     PageViewRepo _pageViewRepo) : Controller
 {
-    public readonly record struct LoginJson(string facebookUserId, string facebookAccessToken);
+    public readonly record struct LoginRequest(string facebookUserId, string facebookAccessToken);
 
-    public readonly record struct LoginResult(
+    public readonly record struct LoginResponse(
         bool Success,
         string MessageKey,
         FrontEndUserData.CurrentUserData Data);
 
     [HttpPost]
-    public async Task<LoginResult> Login([FromBody] LoginJson json)
+    public async Task<LoginResponse> Login([FromBody] LoginRequest request)
     {
-        var user = _userReadingRepo.UserGetByFacebookId(json.facebookUserId);
+        var user = _userReadingRepo.UserGetByFacebookId(request.facebookUserId);
 
         if (user == null)
         {
-            return new LoginResult
+            return new LoginResponse
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.User.DoesNotExist
             };
         }
 
-        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken,
-            json.facebookUserId))
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(request.facebookAccessToken,
+            request.facebookUserId))
         {
             _sessionUser.Login(user, _pageViewRepo);
             _userWritingRepo.Update(user);
-            return new LoginResult
+            return new LoginResponse
             {
                 Success = true,
                 Data = _frontEndUserData.Get()
             };
         }
 
-        return new LoginResult
+        return new LoginResponse
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.User.InvalidFBToken
         };
     }
 
-    public readonly record struct CreateAndLoginJson(
+    public readonly record struct CreateAndLoginRequest(
         FacebookUserCreateParameter facebookUser,
-        string facebookAccessToken);
+        string facebookAccessToken,
+        string language);
 
     [HttpPost]
-    public async Task<LoginResult> CreateAndLogin([FromBody] CreateAndLoginJson json)
+    public async Task<LoginResponse> CreateAndLogin([FromBody] CreateAndLoginRequest request)
     {
-        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken,
-            json.facebookUser.id))
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(request.facebookAccessToken,
+            request.facebookUser.id))
         {
-            var user = _userReadingRepo.UserGetByFacebookId(json.facebookUser.id);
+            var user = _userReadingRepo.UserGetByFacebookId(request.facebookUser.id);
 
             if (user != null)
             {
                 _sessionUser.Login(user, _pageViewRepo);
 
-                return new LoginResult
+                return new LoginResponse
                 {
                     Success = true,
                     Data = _frontEndUserData.Get()
                 };
             }
 
-            var registerResult = _registerUser.SetFacebookUser(json.facebookUser);
+            var registerResult = _registerUser.SetFacebookUser(request.facebookUser, request.language);
 
             if (registerResult.Success)
             {
-                return new LoginResult
+                return new LoginResponse
                 {
                     Success = true,
                     Data = _frontEndUserData.Get()
                 };
             }
 
-            return new LoginResult
+            return new LoginResponse
             {
                 Success = registerResult.Success,
                 MessageKey = registerResult.MessageKey
             };
         }
 
-        return new LoginResult
+        return new LoginResponse
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.User.InvalidFBToken

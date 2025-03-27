@@ -16,7 +16,7 @@ public class SearchController(
     QuestionReadingRepo _questionReadingRepo
 ) : Controller
 {
-    public readonly record struct SearchAllJson(string term);
+    public readonly record struct SearchAllRequest(string term, string[] languages);
 
     public readonly record struct AllResult(
         List<SearchPageItem> Pages,
@@ -28,20 +28,27 @@ public class SearchController(
         string UserSearchUrl);
 
     [HttpPost]
-    public async Task<AllResult> All([FromBody] SearchAllJson json)
+    public async Task<AllResult> All([FromBody] SearchAllRequest request)
     {
         var pageItems = new List<SearchPageItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
-        var elements = await _search.Go(json.term);
+
+        var languages = request.languages?.Length > 0 ? LanguageExtensions.GetLanguages(request.languages) : LanguageExtensions.GetLanguages();
+        var elements = await _search.Go(request.term, languages);
 
         var searchHelper = new SearchHelper(_imageMetaDataReadingRepo,
             _httpContextAccessor,
             _questionReadingRepo);
 
+
         if (elements.Pages.Any())
-            searchHelper.AddPageItems(pageItems, elements, _permissionCheck,
-                _sessionUser.UserId);
+            searchHelper.AddPageItems(
+                pageItems,
+                elements,
+                _permissionCheck,
+                _sessionUser.UserId,
+                languages);
 
         if (elements.Questions.Any())
             searchHelper.AddQuestionItems(questionItems, elements, _permissionCheck,
@@ -56,7 +63,7 @@ public class SearchController(
             QuestionCount: elements.QuestionsResultCount,
             Users: userItems,
             UserCount: elements.UsersResultCount,
-            UserSearchUrl: Links.UsersSearch(json.term)
+            UserSearchUrl: Links.UsersSearch(request.term)
         );
 
         return result;

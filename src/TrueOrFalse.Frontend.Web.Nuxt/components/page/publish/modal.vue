@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { usePublishPageStore } from './publishPageStore'
+
 const publishPageStore = usePublishPageStore()
+const { t } = useI18n()
 
 const blinkTimer = ref<ReturnType<typeof setTimeout>>()
 const blink = ref(false)
@@ -20,19 +22,19 @@ async function publish() {
 </script>
 
 <template>
-    <LazyModal :show="publishPageStore.showModal" primary-btn-label="Veröffentlichen" v-if="publishPageStore.showModal"
+    <LazyModal :show="publishPageStore.showModal" :primary-btn-label="t('page.publishModal.button.publish')" v-if="publishPageStore.showModal"
         @close="publishPageStore.showModal = false" @primary-btn="publish()"
         @keydown.esc="publishPageStore.showModal = false" :disabled="!publishPageStore.confirmLicense"
         :show-cancel-btn="true">
 
         <template v-slot:header>
-            <h4>{{ publishPageStore.name }} veröffentlichen</h4>
+            <h4>{{ t('page.publishModal.title', { name: publishPageStore.name }) }}</h4>
         </template>
 
         <template v-slot:body>
             <div class="subHeader">
-                Öffentliche Inhalte sind für alle auffindbar und können frei weiterverwendet werden. <br />
-                Du veröffentlichst unter Creative-Commons-Lizenz.
+                {{ t('page.publishModal.intro.public') }} <br />
+                {{ t('page.publishModal.intro.license') }}
             </div>
             <div class="checkbox-container"
                 @click="publishPageStore.includeQuestionsToPublish = !publishPageStore.includeQuestionsToPublish"
@@ -42,7 +44,7 @@ async function publish() {
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label">
-                    Möchtest Du {{ publishPageStore.questionCount }} private Fragen veröffentlichen?
+                    {{ t('page.publishModal.questions.publish', { count: publishPageStore.questionCount }) }}
                 </div>
 
             </div>
@@ -53,11 +55,13 @@ async function publish() {
                     <font-awesome-icon icon="fa-regular fa-square" v-else />
                 </div>
                 <div class="checkbox-label" :class="{ blink: blink }">
-                    Ich stelle diesen Eintrag unter die Lizenz "Creative Commons - Namensnennung 4.0 International" (CC
-                    BY 4.0, <NuxtLink :external="true" to="https://creativecommons.org/licenses/by/4.0/legalcode.de"
-                        target="_blank">Lizenztext, deutsche Zusammenfassung</NuxtLink>).
-                    Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden. Die Texte
-                    und ggf. Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert.
+                    <i18n-t keypath="page.publishModal.license.confirmation" tag="span">
+                        <template #0>
+                            <NuxtLink :external="true" to="https://creativecommons.org/licenses/by/4.0/legalcode.de"
+                                target="_blank">{{ t('page.publishModal.license.linkText') }}</NuxtLink>
+                        </template>
+                    </i18n-t>
+                    {{ t('page.publishModal.license.usage') }}
                 </div>
             </div>
         </template>
