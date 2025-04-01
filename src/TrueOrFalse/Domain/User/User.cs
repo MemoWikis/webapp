@@ -66,6 +66,10 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string? FavoriteIds { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
 
+    public virtual int FreeTokens { get; set; }
+    public virtual int PaidTokens { get; set; }
+    public virtual DateTime? FreeTokenResetDate { get; set; }
+
     public virtual bool IsStartPagePageId(int pageId)
     {
         return pageId == StartPageId;

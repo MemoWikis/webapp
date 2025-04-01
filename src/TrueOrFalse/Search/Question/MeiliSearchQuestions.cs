@@ -57,7 +57,6 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
             await LoadSearchResults(searchTerm, index, languages);
         }
 
-        ;
         _result.Count = _questions.Count;
         return _questions
             .Select(c => c.Id)
