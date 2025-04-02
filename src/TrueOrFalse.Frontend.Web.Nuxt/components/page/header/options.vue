@@ -9,6 +9,7 @@ import { usePublishPageStore } from '../publish/publishPageStore'
 import { useDeletePageStore } from '../delete/deletePageStore'
 
 import { useConvertStore } from '../convert/convertStore'
+import { useSharePageStore } from '../sharing/sharePageStore'
 
 const userStore = useUserStore()
 const pageStore = usePageStore()
@@ -18,6 +19,7 @@ const publishPageStore = usePublishPageStore()
 const deletePageStore = useDeletePageStore()
 const pageToPrivateStore = usePageToPrivateStore()
 const convertStore = useConvertStore()
+const sharePageStore = useSharePageStore()
 
 const hoverLock = ref(false)
 const ariaId = useId()
@@ -34,6 +36,17 @@ const { t, localeProperties } = useI18n()
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>
                 <template #popper="{ hide }">
+
+                    <div @click="sharePageStore.openModal(pageStore.id); hide()" class="dropdown-row">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon icon="fa-solid fa-link" />
+                        </div>
+                        <div class="dropdown-label">
+                            Share
+                        </div>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
 
                     <div @click="pageStore.hideOrShowText()" class="dropdown-row hide-text-option"
                         :class="{ 'page-has-content': pageStore.content?.length > 0 || pageStore.contentHasChanged }">

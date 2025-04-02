@@ -9,7 +9,8 @@ public class EntityCacheInitializer(
     QuestionViewRepository _questionViewRepository,
     PageChangeRepo pageChangeRepo,
     QuestionChangeRepo _questionChangeRepo,
-    AnswerRepo _answerRepo) : IRegisterAsInstancePerLifetime
+    AnswerRepo _answerRepo,
+    ShareInfoRepository _shareInfoRepository) : IRegisterAsInstancePerLifetime
 {
     public void Init(string customMessage = "")
     {
@@ -65,6 +66,11 @@ public class EntityCacheInitializer(
             EntityCache.Questions.FirstOrDefault(q => q.Key == question.Id).Value.References =
                 ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
         }
+
+        var allShareInfos = _shareInfoRepository.GetAll();
+        Logg.r.Information("EntityCache ShareInfos Loaded " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var shareCacheItems = allShareInfos.Select(ShareInfoCacheItem.ToCacheItem).ToList();
+        Cache.IntoForeverCache(EntityCache.CacheKeyPageShares, shareCacheItems.ToConcurrentDictionary());
 
         Logg.r.Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
         EntityCache.IsFirstStart = false;

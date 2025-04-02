@@ -8,6 +8,7 @@ public class EntityCache
     public const string CacheKeyPages = "allPages_EntityCache";
     public const string CacheKeyPageQuestionsList = "pageQuestionsList_EntityCache";
     public const string CacheKeyRelations = "allRelations_EntityCache";
+    public const string CacheKeyPageShares = "pageShares_EntityCache";
 
     public static bool IsFirstStart = true;
 
@@ -22,6 +23,9 @@ public class EntityCache
 
     private static ConcurrentDictionary<int, PageRelationCache> Relations =>
         Cache.Mgr.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
+
+    private static ConcurrentDictionary<int, List<ShareInfoCacheItem>> PageShares =>
+        Cache.Mgr.Get<ConcurrentDictionary<int, List<ShareInfoCacheItem>>>(CacheKeyPageShares);
 
     /// <summary>
     /// Dictionary(key:pageId, value:questions)
@@ -334,6 +338,14 @@ public class EntityCache
     {
         AddOrUpdate(Pages, pageCacheItem);
     }
+    public static void AddOrUpdate(ShareInfoCacheItem shareInfoCacheItem)
+    {
+        var pageId = shareInfoCacheItem.PageId;
+        var shareCacheItems = GetPageShares(pageId);
+        shareCacheItems.Add(shareInfoCacheItem);
+        AddOrUpdate(pageId, shareCacheItems);
+    }
+
     public static void UpdatePageReferencesInQuestions(PageCacheItem pageCacheItem)
     {
         var affectedQuestionsIds = GetQuestionIdsForPage(pageCacheItem.Id);
@@ -350,6 +362,11 @@ public class EntityCache
                 question.Pages[index] = pageCacheItem;
             }
         }
+    }
+
+    public static void AddOrUpdate(int pageId, List<ShareInfoCacheItem> shareCacheItems)
+    {
+        PageShares.AddOrUpdate(pageId, shareCacheItems, (key, existingList) => shareCacheItems);
     }
 
     public static void Remove(int id, int userId) => Remove(GetPage(id), userId);
@@ -401,6 +418,12 @@ public class EntityCache
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
+    private static void AddOrUpdate(
+        ConcurrentDictionary<int, ShareInfoCacheItem> objectToCache,
+        ShareInfoCacheItem obj)
+    {
+        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
+    }
 
     private static void Remove(
         ConcurrentDictionary<int, UserCacheItem> objectToCache,
@@ -426,6 +449,13 @@ public class EntityCache
     private static void Remove(
         ConcurrentDictionary<int, QuestionCacheItem> objectToCache,
         QuestionCacheItem obj)
+    {
+        objectToCache.TryRemove(obj.Id, out _);
+    }
+
+    private static void Remove(
+        ConcurrentDictionary<int, ShareInfoCacheItem> objectToCache,
+        ShareInfoCacheItem obj)
     {
         objectToCache.TryRemove(obj.Id, out _);
     }
@@ -489,5 +519,33 @@ public class EntityCache
     public static void Clear()
     {
         Cache.Mgr.Clear();
+    }
+
+    // Helper methods for updating share info:
+    public static void AddOrUpdatePageShares(int pageId, List<ShareInfoCacheItem> shareCacheItems)
+    {
+        PageShares.AddOrUpdate(pageId, shareCacheItems, (key, existingList) => shareCacheItems);
+    }
+
+    public static List<ShareInfoCacheItem> GetPageShares(int pageId)
+    {
+        PageShares.TryGetValue(pageId, out var list);
+        return list ?? new List<ShareInfoCacheItem>();
+    }
+
+    public static void RemovePageShares(int pageId)
+    {
+        PageShares.TryRemove(pageId, out _);
+    }
+
+    public static void RenewTokenForPage(int pageId)
+    {
+        var shares = GetPageShares(pageId);
+        foreach (var share in shares)
+        {
+            // Generate a new token (e.g., using a GUID) to invalidate the old token.
+            share.Token = Guid.NewGuid().ToString();
+        }
+        AddOrUpdatePageShares(pageId, shares);
     }
 }
