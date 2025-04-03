@@ -8,7 +8,13 @@
             "saveImage": "The new image has been saved",
             "saved": "The page has been saved successfully.",
             "convertedToWiki": "The page '{name}' has been successfully converted into a Wiki.",
-            "convertedToPage": "The Wiki '{name}' has been successfully converted into a page."
+            "convertedToPage": "The Wiki '{name}' has been successfully converted into a page.",
+            "shared": "The page has been successfully shared.",
+            "rightsUpdated": "Access rights have been successfully updated.",
+            "token": {
+                "renewed": "The share link has been successfully renewed.",
+                "copied": "The share link has been copied to clipboard."
+            }
         },
         "question": {
             "created": "Your question has been successfully created.",
@@ -58,7 +64,9 @@
             "pageNotSelected": "You have not selected a page",
             "newPageIdIsPageIdToBeDeleted": "The selected page cannot be the page that is to be deleted.",
             "noChange": "No changes were made.",
-            "noChildSelected": "You have not selected a sub-page."
+            "noChildSelected": "You have not selected a sub-page.",
+            "noUsersSelected": "Please select at least one user to share with.",
+            "shareFailure": "The page could not be shared. Please try again."
         },
         "question": {
             "missingText": "The question text is missing.",
@@ -114,6 +122,12 @@
         "ai": {
             "generateFlashcards": "Flashcards could not be created.",
             "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit is reached! Since the page is private, no flashcards have been created."
+        },
+        "loading": {
+            "shares": "Could not load sharing information."
+        },
+        "token": {
+            "generation": "Could not generate share link. Please try again."
         }
     },
     "info": {
@@ -688,6 +702,46 @@
                     "toPage": "Do you really want to convert the Wiki \"{name}\" into a page?"
                 },
                 "keepParents": "Keep links to parent Wikis/pages (optional)"
+            }
+        },
+        "sharing": {
+            "modal": {
+                "titleManage": "Manage Page Access",
+                "titleShareWith": "Share with {user}",
+                "close": "Close",
+                "cancel": "Cancel",
+                "shareWithUser": "Share"
+            },
+            "permission": {
+                "label": "Permission level",
+                "view": "View only",
+                "edit": "Can edit",
+                "viewWithChildren": "View with children",
+                "editWithChildren": "Edit with children",
+                "description": {
+                    "0": "User can only view this page",
+                    "1": "User can edit content on this page",
+                    "2": "User can view this page and all child pages",
+                    "3": "User can edit this page and all child pages"
+                }
+            },
+            "search": {
+                "placeholder": "Search for users to share with..."
+            },
+            "existingShares": {
+                "title": "Current Access",
+                "none": "No one has access to this page yet"
+            },
+            "notification": {
+                "send": "Notify user about this share",
+                "message": "Add a custom message (optional)",
+                "placeholder": "Type your message here..."
+            },
+            "link": {
+                "title": "Share via Link",
+                "generate": "Generate Link",
+                "renew": "Reset Link",
+                "info": "Anyone with the link will be able to access this page with view permissions."
             }
         }
     },

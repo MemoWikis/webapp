@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSharePageStore, SharePermission } from './sharePageStore'
+import { useSharePageStore, SharePermission, UserWithPermission } from './sharePageStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { SearchType, UserItem } from '~~/components/search/searchHelper'
 import { useLoadingStore } from '~/components/loading/loadingStore'
@@ -9,57 +9,65 @@ const userStore = useUserStore()
 const loadingStore = useLoadingStore()
 const { t } = useI18n()
 
-const selectedUsers = ref<any[]>([])
-const sharePermission = ref<SharePermission>(SharePermission.View)
+// Track the current UI mode (search or edit)
+const currentMode = ref('search') // 'search' or 'edit'
+const currentUser = ref()
+const notifyUser = ref(true)
+const customMessage = ref('')
 
-const permissionOptions = [
+const permissionOptions = reactive([
     { value: SharePermission.View, label: t('page.sharing.permission.view') },
     { value: SharePermission.Edit, label: t('page.sharing.permission.edit') },
     { value: SharePermission.ViewWithChildren, label: t('page.sharing.permission.viewWithChildren') },
     { value: SharePermission.EditWithChildren, label: t('page.sharing.permission.editWithChildren') }
-]
+])
 
-function addSelectedUser(user: UserItem) {
-    if (!selectedUsers.value.some(u => u.id === user.id)) {
-        selectedUsers.value.push({
-            id: user.id,
-            name: user.name,
-            imageUrl: user.imageUrl,
-            permission: sharePermission.value
-        })
+function selectUserToShare(user: UserItem) {
+    currentUser.value = {
+        id: user.id,
+        name: user.name,
+        avatarUrl: user.imageUrl,
+        permission: SharePermission.View
+    }
+    currentMode.value = 'edit'
+}
+
+function goBackToSearch() {
+    currentUser.value = null
+    currentMode.value = 'search'
+}
+
+function updatePermission(permission: SharePermission) {
+    if (currentUser.value) {
+        currentUser.value.permission = permission
     }
 }
 
-function removeUser(userId: number) {
-    selectedUsers.value = selectedUsers.value.filter(u => u.id !== userId)
-}
-
-function updateUserPermission(userId: number, permission: SharePermission) {
-    const user = selectedUsers.value.find(u => u.id === userId)
-    if (user) {
-        user.permission = permission
-    }
-}
-
-async function saveSharing() {
-    if (!userStore.isLoggedIn) {
-        userStore.openLoginModal()
-        return
-    }
+async function shareWithCurrentUser() {
+    if (!currentUser.value) return
 
     loadingStore.startLoading()
 
-    // Map the user permissions to the format expected by the store
-    sharePageStore.setUserIds(selectedUsers.value.map(u => u.id))
-    sharePageStore.setPermission(sharePermission.value)
-
-    const result = await sharePageStore.sharePage()
+    const result = await sharePageStore.shareToUser(
+        currentUser.value.id,
+        currentUser.value.permission,
+        customMessage.value,
+    )
 
     loadingStore.stopLoading()
 
     if (result.success) {
-        sharePageStore.closeModal()
+        // Reload existing shares to show updated list
+        await sharePageStore.loadExistingShares()
+
+        // Reset to search mode
+        goBackToSearch()
     }
+}
+
+function removeExistingShare(userId: number) {
+    // Implement removal of sharing rights
+    // This would need an additional backend endpoint
 }
 
 async function renewToken() {
@@ -68,84 +76,177 @@ async function renewToken() {
     loadingStore.stopLoading()
 }
 
-watch(() => sharePageStore.showModal, (show) => {
-    if (!show) {
-        selectedUsers.value = []
-        sharePermission.value = SharePermission.View
+async function generateShareToken() {
+    loadingStore.startLoading()
+    const result = await sharePageStore.sharePageByToken(sharePageStore.pageId)
+    loadingStore.stopLoading()
+}
+
+watch(() => sharePageStore.showModal, async (show) => {
+    if (show) {
+        // When modal opens, load existing shares
+        currentMode.value = 'search'
+        currentUser.value = null
+        notifyUser.value = true
+        customMessage.value = ''
+        await sharePageStore.loadExistingShares()
     }
 })
+
+const ariaId = useId()
+
 </script>
 
 <template>
     <LazyModal @close="sharePageStore.closeModal()" :show="sharePageStore.showModal"
-        primary-btn-label="Share" @primary-btn="saveSharing()"
-        :show-cancel-btn="true">
+        :primary-btn-label="currentMode === 'search' ? t('page.sharing.modal.close') : t('page.sharing.modal.shareWithUser')"
+        :secondary-btn-label="currentMode === 'edit' ? t('page.sharing.modal.cancel') : ''"
+        @primary-btn="currentMode === 'search' ? sharePageStore.closeModal() : shareWithCurrentUser()"
+        @secondary-btn="currentMode === 'edit' ? goBackToSearch() : null"
+        :show-cancel-btn="false">
 
         <template v-slot:header>
-            <h4 class="modal-title">{{ t('page.sharing.modal.title') }}</h4>
+            <h4 class="modal-title">
+                {{ currentMode === 'search'
+                    ? t('page.sharing.modal.titleManage')
+                    : t('page.sharing.modal.titleShareWith', { user: currentUser?.name })
+                }}
+            </h4>
         </template>
 
         <template v-slot:body>
             <div class="sharing-container">
-                <!-- User search -->
-                <div class="search-container">
-                    <Search
-                        :search-type="SearchType.users"
-                        :show-search="true"
-                        :show-search-icon="true"
-                        :placeholder-label="t('page.sharing.search.placeholder')"
-                        @select-item="addSelectedUser" />
-                </div>
+                <!-- User search mode -->
+                <div v-if="currentMode === 'search'">
+                    <!-- User search -->
+                    <div class="search-container">
+                        <Search
+                            :search-type="SearchType.users"
+                            :show-search="true"
+                            :show-search-icon="true"
+                            :placeholder-label="t('page.sharing.search.placeholder')"
+                            @select-item="selectUserToShare" />
+                    </div>
 
-                <!-- Selected users list -->
-                <div class="selected-users" v-if="selectedUsers.length > 0">
-                    <div class="selected-user-item" v-for="user in selectedUsers" :key="user.id">
-                        <div class="user-info">
-                            <img :src="user.imageUrl" class="user-avatar" alt="User avatar" />
-                            <span class="user-name">{{ user.name }}</span>
+                    <!-- Existing shares list -->
+                    <template v-if="sharePageStore.existingShares.length > 0">
+
+                        <div class="section-heading">
+                            <h5>{{ t('page.sharing.existingShares.title') }}</h5>
                         </div>
 
-                        <div class="user-actions">
-                            <div class="permission-dropdown">
-                                <VDropdown class="form-select permission-select">
-                                    <template #trigger>
-                                        <div class="select-trigger">
-                                            {{permissionOptions.find(option => option.value === user.permission)?.label}}
-                                            <font-awesome-icon icon="fa-solid fa-chevron-down" class="select-icon" />
-                                        </div>
-                                    </template>
-                                    <template #default>
-                                        <div class="dropdown-menu">
-                                            <div
-                                                v-for="option in permissionOptions"
-                                                :key="option.value"
-                                                @click="updateUserPermission(user.id, option.value)"
-                                                class="dropdown-item"
-                                                :class="{ 'active': option.value === user.permission }">
-                                                {{ option.label }}
-                                            </div>
-                                        </div>
-                                    </template>
-                                </VDropdown>
-                            </div>
+                        <div class="existing-shares">
+                            <div class="user-item" v-for="user in sharePageStore.existingShares" :key="user.id">
+                                <div class="user-info">
+                                    <img :src="user.imageUrl" class="user-avatar" alt="User avatar" />
+                                    <span class="user-name">{{ user.name }}</span>
+                                </div>
 
-                            <button class="btn-remove" @click="removeUser(user.id)">
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                                <div class="user-detail">
+                                    <span class="user-permission">
+                                        {{permissionOptions.find(option => option.value === user.permission)?.label}}
+                                    </span>
+                                    <button class="btn-remove" @click="removeExistingShare(user.id)">
+                                        <font-awesome-icon icon="fa-solid fa-xmark" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </template>
+
+                    <!-- Sharing link section -->
+                    <div class="sharing-link-section">
+                        <div class="section-heading">
+                            <h5>{{ t('page.sharing.link.title') }}</h5>
+                        </div>
+
+                        <div class="link-actions">
+                            <button class="btn btn-primary btn-generate" @click="generateShareToken()">
+                                {{ t('page.sharing.link.generate') }}
+                            </button>
+                            <button class="btn btn-secondary btn-renew" @click="renewToken()">
+                                {{ t('page.sharing.link.renew') }}
                             </button>
                         </div>
+
+                        <div class="link-info">
+                            <p>{{ t('page.sharing.link.info') }}</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Sharing link section -->
-                <div class="sharing-link-section">
-                    <div class="link-header">
-                        <h5>{{ t('page.sharing.link.title') }}</h5>
-                        <button class="btn-renew" @click="renewToken()">
-                            {{ t('page.sharing.link.renew') }}
-                        </button>
+                <!-- Edit permissions mode -->
+                <div v-else-if="currentMode === 'edit' && currentUser" class="edit-container">
+                    <!-- Selected user info -->
+                    <div class="selected-user">
+                        <img :src="currentUser.avatarUrl" class="user-avatar large" alt="User avatar" />
+                        <span class="user-name">{{ currentUser.name }}</span>
                     </div>
-                    <div class="link-info">
-                        <p>{{ t('page.sharing.link.info') }}</p>
+
+                    <!-- Permission selection -->
+                    <div class="permission-selection">
+                        <div class="form-group">
+                            <label>{{ t('page.sharing.permission.label') }}</label>
+                            <VDropdown class="permission-dropdown" :distance="5" :aria-id="ariaId">
+                                <div class="permission-dropdown-trigger">
+                                    {{permissionOptions.find(option => option.value === currentUser.permission)?.label}}
+                                    <font-awesome-icon icon="fa-solid fa-chevron-down" />
+                                </div>
+
+                                <template #popper="{ hide }">
+                                    <div class="permission-dropdown-menu">
+                                        <div
+                                            @click="updatePermission(SharePermission.View); hide()"
+                                            class="dropdown-item"
+                                            :class="{ 'active': currentUser.permission === SharePermission.View }">
+                                            {{ t('page.sharing.permission.view') }}
+                                        </div>
+
+                                        <div
+                                            @click="updatePermission(SharePermission.Edit); hide()"
+                                            class="dropdown-item"
+                                            :class="{ 'active': currentUser.permission === SharePermission.Edit }">
+                                            {{ t('page.sharing.permission.edit') }}
+                                        </div>
+
+                                        <div
+                                            @click="updatePermission(SharePermission.ViewWithChildren); hide()"
+                                            class="dropdown-item"
+                                            :class="{ 'active': currentUser.permission === SharePermission.ViewWithChildren }">
+                                            {{ t('page.sharing.permission.viewWithChildren') }}
+                                        </div>
+
+                                        <div
+                                            @click="updatePermission(SharePermission.EditWithChildren); hide()"
+                                            class="dropdown-item"
+                                            :class="{ 'active': currentUser.permission === SharePermission.EditWithChildren }">
+                                            {{ t('page.sharing.permission.editWithChildren') }}
+                                        </div>
+                                    </div>
+                                </template>
+                            </VDropdown>
+
+                            <!-- Keep the description for selected permission -->
+                            <div class="permission-description">
+                                {{ t(`page.sharing.permission.description.${currentUser.permission}`) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification settings -->
+                    <div class="notification-settings">
+                        <div class="form-group">
+                            <div class="notification-checkbox">
+                                <input type="checkbox" id="notify-user" v-model="notifyUser">
+                                <label for="notify-user">{{ t('page.sharing.notification.send') }}</label>
+                            </div>
+
+                            <div v-if="notifyUser" class="custom-message">
+                                <label for="custom-message">{{ t('page.sharing.notification.message') }}</label>
+                                <textarea id="custom-message" v-model="customMessage" :placeholder="t('page.sharing.notification.placeholder')" rows="3"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,25 +260,35 @@ watch(() => sharePageStore.showModal, (show) => {
 .sharing-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
 }
 
 .search-container {
-    padding-bottom: 16px;
-    border-bottom: 1px solid @memo-grey-light;
+    margin-bottom: 24px;
 }
 
-.selected-users {
+.section-heading {
+    margin-bottom: 12px;
+
+    h5 {
+        font-weight: 600;
+        margin: 0;
+        color: @memo-blue;
+    }
+}
+
+.existing-shares {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin-bottom: 24px;
 }
 
-.selected-user-item {
+.user-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px;
+    padding: 10px;
     border-radius: 4px;
     background-color: @memo-grey-lighter;
 
@@ -189,7 +300,7 @@ watch(() => sharePageStore.showModal, (show) => {
 .user-info {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
 }
 
 .user-avatar {
@@ -197,62 +308,26 @@ watch(() => sharePageStore.showModal, (show) => {
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
+
+    &.large {
+        width: 64px;
+        height: 64px;
+    }
 }
 
-.user-actions {
+.user-name {
+    font-weight: 500;
+}
+
+.user-detail {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
 }
 
-.permission-select {
-    min-width: 150px;
-}
-
-.permission-dropdown {
-    position: relative;
-
-    .select-trigger {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 6px 12px;
-        background: white;
-        border: 1px solid @memo-grey-light;
-        border-radius: 4px;
-        cursor: pointer;
-        min-width: 150px;
-
-        &:hover {
-            border-color: @memo-blue;
-        }
-
-        .select-icon {
-            margin-left: 8px;
-            font-size: 0.8rem;
-        }
-    }
-
-    .dropdown-menu {
-        min-width: 150px;
-        background: white;
-        border-radius: 4px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
-        .dropdown-item {
-            padding: 8px 12px;
-            cursor: pointer;
-
-            &:hover {
-                background-color: @memo-grey-lighter;
-            }
-
-            &.active {
-                background-color: @memo-blue-lighter;
-                font-weight: 500;
-            }
-        }
-    }
+.user-permission {
+    color: @memo-grey-dark;
+    font-size: 0.9rem;
 }
 
 .btn-remove {
@@ -260,44 +335,166 @@ watch(() => sharePageStore.showModal, (show) => {
     border: none;
     cursor: pointer;
     color: @memo-grey-dark;
+    padding: 4px 8px;
 
     &:hover {
-        color: @memo-blue;
+        color: @memo-wuwi-red;
     }
 }
 
 .sharing-link-section {
-    margin-top: 16px;
-    padding-top: 16px;
+    margin-top: 12px;
+    padding-top: 12px;
     border-top: 1px solid @memo-grey-light;
 }
 
-.link-header {
+.link-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-
-    h5 {
-        margin: 0;
-    }
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
-.btn-renew {
+.btn-generate {
     background-color: @memo-blue;
     color: white;
-    border: none;
-    padding: 4px 12px;
-    border-radius: 4px;
-    cursor: pointer;
 
     &:hover {
         background-color: darken(@memo-blue, 10%);
     }
 }
 
+.btn-renew {
+    background-color: transparent;
+    color: @memo-blue;
+    border: 1px solid @memo-blue;
+
+    &:hover {
+        background-color: fade(@memo-blue, 10%);
+    }
+}
+
 .link-info {
     color: @memo-grey-dark;
     font-size: 0.9rem;
+}
+
+.no-shares {
+    color: @memo-grey-dark;
+    font-style: italic;
+    padding: 12px;
+    background: @memo-grey-lighter;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Edit mode styles */
+.edit-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.selected-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background-color: fade(@memo-blue, 5%);
+    border-radius: 8px;
+
+    .user-name {
+        font-size: 1.2rem;
+    }
+}
+
+.permission-selection {
+    .form-group {
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+    }
+
+    .permission-dropdown {
+        width: 100%;
+        margin-bottom: 12px;
+        position: relative;
+        /* Add this for proper positioning context */
+
+        .permission-dropdown-trigger {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            border: 1px solid @memo-grey-light;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+
+            &:hover {
+                border-color: @memo-blue;
+            }
+        }
+
+        :deep(.v-popper__popper) {
+            /* Add these to ensure proper z-index and width */
+            z-index: 1000 !important;
+            width: 100% !important;
+        }
+
+        .permission-dropdown-menu {
+            width: 100%;
+            background-color: white;
+            border: 1px solid @memo-grey-light;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: none !important;
+            /* Ensure menu takes full width */
+            z-index: 200;
+        }
+    }
+
+    .permission-description {
+        padding: 12px;
+        border-radius: 4px;
+        background-color: fade(@memo-blue, 5%);
+        color: @memo-grey-dark;
+        font-size: 0.9rem;
+    }
+}
+
+.notification-settings {
+    .notification-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    .custom-message {
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid @memo-grey-light;
+            border-radius: 4px;
+
+            &:focus {
+                outline: none;
+                border-color: @memo-blue;
+            }
+        }
+    }
 }
 </style>

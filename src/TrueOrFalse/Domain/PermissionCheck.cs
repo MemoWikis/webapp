@@ -39,6 +39,10 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (page.Visibility == PageVisibility.Owner && page.CreatorId == userId)
             return true;
 
+        var shareInfos = EntityCache.GetPageShares(page.Id);
+        if (shareInfos.Any(s => s.UserId == userId))
+            return true;
+
         return false;
     }
 

@@ -72,6 +72,9 @@ onBeforeMount(() => {
         case SearchType.pageInWiki:
             searchUrl.value = '/apiVue/Search/PageInPersonalWiki'
             break
+        case SearchType.users:
+            searchUrl.value = '/apiVue/Search/Users'
+            break
         default:
             searchUrl.value = '/apiVue/Search/All'
     }

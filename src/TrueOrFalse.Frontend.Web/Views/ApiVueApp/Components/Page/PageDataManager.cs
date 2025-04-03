@@ -147,7 +147,7 @@ public class PageDataManager(
                 .Any(r => r.ChildId == page.Id),
             TextIsHidden = page.TextIsHidden,
             MessageKey = "",
-            Language = page.Language
+            Language = page.Language,
         };
     }
 

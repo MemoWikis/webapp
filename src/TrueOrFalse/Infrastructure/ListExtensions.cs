@@ -73,10 +73,16 @@ public static class ListExtensions
                 (imageMetaData.TypeId, (int)imageMetaData.Type), imageMetaData)));
     }
 
-    public static ConcurrentDictionary<int, ShareInfoCacheItem> ToConcurrentDictionary(
-        this IList<ShareInfoCacheItem> list)
+    public static ConcurrentDictionary<int, List<ShareInfoCacheItem>> ToConcurrentDictionary(
+        this List<ShareInfoCacheItem> shareInfos)
     {
-        return new ConcurrentDictionary<int, ShareInfoCacheItem>(list.Select(s =>
-            new KeyValuePair<int, ShareInfoCacheItem>(s.PageId, s)));
+        var grouped = shareInfos
+            .GroupBy(s => s.PageId)
+            .ToDictionary(
+                g => g.Key,
+                g => g.ToList()
+            );
+
+        return new ConcurrentDictionary<int, List<ShareInfoCacheItem>>(grouped);
     }
 }
