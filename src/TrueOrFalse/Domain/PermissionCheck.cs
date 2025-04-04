@@ -44,7 +44,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return true;
 
         var closestSharePermission = ShareInfoHelper.GetClosestParentSharePermission(page.Id, _userId);
-        return closestSharePermission == SharePermission.EditWithChildren;
+        return closestSharePermission is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
     }
 
     public bool CanView(int creatorId, PageVisibility visibility)
