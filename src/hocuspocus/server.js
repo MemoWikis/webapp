@@ -38,7 +38,7 @@ const server = Server.configure({
   extensions: [
     redisDatabaseExtension,
   ],
-  async onAuthenticate({ documentName, token }) {
+  async onAuthenticate({ documentName, token, connection }) {
     const data = {
       token: token,
       hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
@@ -48,7 +48,7 @@ const server = Server.configure({
       if (response.status === 200 && response.data.canView === true) {
 
         if (response.data.canEdit === false)
-          data.connection.readOnly = true
+          connection.readOnly = true
 
         return
       }
