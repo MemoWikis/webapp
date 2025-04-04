@@ -49,6 +49,7 @@ export class Page {
     viewsLast30DaysAggregatedQuestions: ViewSummary[] | null = null
     viewsLast30DaysQuestions: ViewSummary[] | null = null
     language: "de" | "en" | "fr" | "es" = "en"
+    canEdit: boolean = false
 }
 
 export interface ViewSummary {
@@ -140,6 +141,7 @@ export const usePageStore = defineStore("pageStore", {
             text: "",
             selectedText: "",
             contentLanguage: "en" as "en" | "de" | "fr" | "es",
+            canEdit: false,
         }
     },
     actions: {
@@ -189,6 +191,7 @@ export const usePageStore = defineStore("pageStore", {
                 this.selectedText = ""
 
                 this.contentLanguage = page.language
+                this.canEdit = page.canEdit
             }
         },
         async saveContent() {

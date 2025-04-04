@@ -60,7 +60,8 @@ public class PageController(
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
             ErrorCode = data.ErrorCode,
-            Language = data.Language
+            Language = data.Language,
+            CanEdit = _permissionCheck.CanEditPage(data.Id),
         };
     }
 
@@ -96,6 +97,7 @@ public class PageController(
         List<DailyViews> ViewsLast30DaysPage,
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
         List<DailyViews> ViewsLast30DaysQuestions,
-        string Language
+        string Language,
+        bool CanEdit
     );
 }

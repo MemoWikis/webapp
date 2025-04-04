@@ -107,13 +107,12 @@ const initProvider = () => {
             loadCollab.value = false
             recreate()
         },
-        onSynced() {
+        onSynced(e) {
             if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
                 doc.getMap('config').set('initialContentLoaded', true)
                 editor.value.commands.setContent(pageStore.initialContent)
             }
             providerContentLoaded.value = true
-            console.log(doc)
 
             if (editor.value) {
                 const contentArray: JSONContent[] | undefined = editor.value.getJSON().content
@@ -288,6 +287,7 @@ const initEditor = () => {
             }
         },
     })
+    editor.value.setEditable(pageStore.canEdit)
 }
 
 watch(locale, () => {
@@ -306,6 +306,8 @@ const recreate = (login: boolean = false) => {
         initProvider()
     else if (!userStore.isLoggedIn)
         providerLoaded.value = true
+
+    console.log(provider.value?.configuration)
 
     initEditor()
 }
