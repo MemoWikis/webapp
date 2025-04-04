@@ -307,8 +307,6 @@ const recreate = (login: boolean = false) => {
     else if (!userStore.isLoggedIn)
         providerLoaded.value = true
 
-    console.log(provider.value?.configuration)
-
     initEditor()
 }
 
