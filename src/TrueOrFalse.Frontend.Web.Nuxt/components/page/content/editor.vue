@@ -16,7 +16,6 @@ import UploadImage from '~/components/shared/imageUploadExtension'
 import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isEmpty } from 'underscore'
-'~~/components/alert/alertStore'
 
 import { getRandomColor } from '~/components/shared/utils'
 
@@ -114,6 +113,7 @@ const initProvider = () => {
                 editor.value.commands.setContent(pageStore.initialContent)
             }
             providerContentLoaded.value = true
+            console.log(doc)
 
             if (editor.value) {
                 const contentArray: JSONContent[] | undefined = editor.value.getJSON().content

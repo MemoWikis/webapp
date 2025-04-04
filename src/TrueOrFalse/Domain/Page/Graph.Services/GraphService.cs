@@ -52,8 +52,7 @@ public class GraphService
         int childId,
         PermissionCheck permissionCheck)
     {
-        var currentGeneration =
-            new HashSet<PageCacheItem>(VisibleParents(childId, permissionCheck));
+        var currentGeneration = new HashSet<PageCacheItem>(VisibleParents(childId, permissionCheck));
         var ascendants = new HashSet<PageCacheItem>();
 
         while (currentGeneration.Count > 0)
@@ -80,6 +79,86 @@ public class GraphService
         }
 
         return ascendants.ToList();
+    }
+
+    public static bool CanViewByAscendant(
+        int childId,
+        PermissionCheck permissionCheck,
+        int userId)
+    {
+        var currentGeneration = new HashSet<PageCacheItem>(VisibleParents(childId, permissionCheck));
+        var ascendants = new HashSet<PageCacheItem>();
+
+        while (currentGeneration.Count > 0)
+        {
+            var nextGeneration = new HashSet<PageCacheItem>();
+
+            foreach (var parent in currentGeneration)
+            {
+                if (parent.Id != childId)
+                {
+                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.UserId == userId);
+                    if (shareInfo != null)
+                    {
+                        if (shareInfo.Permission == SharePermission.ViewWithChildren)
+                            return true;
+                    }
+                    ascendants.Add(parent);
+                }
+
+                foreach (var grandparent in VisibleParents(parent.Id, permissionCheck))
+                {
+                    if (grandparent.Id != childId)
+                    {
+                        nextGeneration.Add(grandparent);
+                    }
+                }
+            }
+
+            currentGeneration = nextGeneration;
+        }
+
+        return false;
+    }
+
+    public static bool CanEditByAscendant(
+        int childId,
+        PermissionCheck permissionCheck,
+        int userId)
+    {
+        var currentGeneration = new HashSet<PageCacheItem>(VisibleParents(childId, permissionCheck));
+        var ascendants = new HashSet<PageCacheItem>();
+
+        while (currentGeneration.Count > 0)
+        {
+            var nextGeneration = new HashSet<PageCacheItem>();
+
+            foreach (var parent in currentGeneration)
+            {
+                if (parent.Id != childId)
+                {
+                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.UserId == userId);
+                    if (shareInfo != null)
+                    {
+                        if (shareInfo.Permission == SharePermission.EditWithChildren)
+                            return true;
+                    }
+                    ascendants.Add(parent);
+                }
+
+                foreach (var grandparent in VisibleParents(parent.Id, permissionCheck))
+                {
+                    if (grandparent.Id != childId)
+                    {
+                        nextGeneration.Add(grandparent);
+                    }
+                }
+            }
+
+            currentGeneration = nextGeneration;
+        }
+
+        return false;
     }
 
     public static List<PageCacheItem> VisibleParents(

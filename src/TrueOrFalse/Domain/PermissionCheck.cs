@@ -43,7 +43,8 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (shareInfos.Any(s => s.UserId == userId))
             return true;
 
-        return false;
+        var closestSharePermission = ShareInfoHelper.GetClosestParentSharePermission(page.Id, _userId);
+        return closestSharePermission == SharePermission.EditWithChildren;
     }
 
     public bool CanView(int creatorId, PageVisibility visibility)
@@ -57,7 +58,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return false;
     }
 
-    public bool CanEditPage(int paegId) => CanEdit(EntityCache.GetPage(paegId));
+    public bool CanEditPage(int pageId) => CanEdit(EntityCache.GetPage(pageId));
     public bool CanEdit(Page page) => CanEdit(EntityCache.GetPage(page.Id));
 
     public bool CanView(PageChange change)
@@ -82,7 +83,18 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (!CanView(page))
             return false;
 
-        return true;
+        if (page.CreatorId == _userId || _isInstallationAdmin)
+            return true;
+
+        var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.UserId == _userId);
+        if (shareInfos.Any(s => s.Permission is SharePermission.Edit or SharePermission.EditWithChildren))
+            return true;
+
+        if (shareInfos.Any(s => s.Permission is SharePermission.View or SharePermission.ViewWithChildren))
+            return false;
+
+        var closestSharePermission = ShareInfoHelper.GetClosestParentSharePermission(page.Id, _userId);
+        return closestSharePermission == SharePermission.EditWithChildren;
     }
 
     public bool CanConvertPage(PageCacheItem page)

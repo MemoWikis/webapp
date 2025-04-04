@@ -7,7 +7,8 @@ namespace VueApp;
 
 public class SharePageStoreController(
         PermissionCheck _permissionCheck,
-        SessionUser _sessionUser
+        SessionUser _sessionUser,
+        ShareInfoRepository _shareInfoRepository
     ) : Controller
 {
     // This record remains for representing individual share settings.
@@ -75,31 +76,7 @@ public class SharePageStoreController(
         if (!_permissionCheck.CanEdit(page))
             return new ShareToUserResponse(false, "Missing rights to share this page.");
 
-        // Get existing share settings for this page.
-        var existingShares = EntityCache.GetPageShares(req.PageId);
-
-        // Find if there's an existing entry for this user.
-        var existingShare = existingShares.FirstOrDefault(s => s.UserId == req.UserId);
-        if (existingShare != null)
-        {
-            // Update the permission.
-            existingShare.Permission = req.Permission;
-        }
-        else
-        {
-            // Add new share info.
-            existingShares.Add(new ShareInfoCacheItem
-            {
-                UserId = req.UserId,
-                PageId = req.PageId,
-                Permission = req.Permission,
-                GrantedBy = _sessionUser.UserId,
-                Token = ""
-            });
-        }
-
-        // Update the in-memory cache.
-        EntityCache.AddOrUpdatePageShares(req.PageId, existingShares);
+        ShareInfoHelper.AddShareToPage(req.PageId, req.UserId, req.Permission, _sessionUser.UserId, _shareInfoRepository);
 
         return new ShareToUserResponse(true, "");
     }
@@ -125,7 +102,7 @@ public class SharePageStoreController(
         return new RenewShareTokenResponse(true, "");
     }
 
-    public readonly record struct SharePageByTokenRequest(int PageId);
+    public readonly record struct SharePageByTokenRequest(int PageId, SharePermission Permission);
     public readonly record struct SharePageByTokenResponse(
         bool Success,
         [CanBeNull] string Token
@@ -141,8 +118,7 @@ public class SharePageStoreController(
         if (!_permissionCheck.CanEdit(page))
             return new SharePageByTokenResponse(false, null);
 
-        // Generate a new token and store it in the cache.
-        var token = ShareInfoHelper.GenerateShareToken(req.PageId, _sessionUser.UserId);
+        var token = ShareInfoHelper.GenerateShareToken(req.PageId, req.Permission, _sessionUser.UserId, _shareInfoRepository);
         return new SharePageByTokenResponse(true, token);
     }
 

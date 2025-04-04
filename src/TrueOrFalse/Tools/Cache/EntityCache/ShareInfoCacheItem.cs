@@ -21,4 +21,17 @@ public class ShareInfoCacheItem : IPersistable
             GrantedBy = dbItem.GrantedBy
         };
     }
+
+    public ShareInfo ToDbItem()
+    {
+        return new ShareInfo
+        {
+            Id = Id,
+            PageId = PageId,
+            UserId = UserId,
+            Token = Token,
+            Permission = Permission,
+            GrantedBy = GrantedBy
+        };
+    }
 }

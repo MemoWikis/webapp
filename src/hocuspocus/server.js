@@ -45,8 +45,13 @@ const server = Server.configure({
       pageId: documentName.substring(5)
     }
     await axios.post(`${process.env.BACKEND_BASE_URL}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
-      if (response.status === 200 && response.data === true) 
+      if (response.status === 200 && response.data.canView === true) {
+
+        if (response.data.canEdit === false)
+          data.connection.readOnly = true
+
         return
+      }
       else 
         throw new Error("Not authorized!")
     })
