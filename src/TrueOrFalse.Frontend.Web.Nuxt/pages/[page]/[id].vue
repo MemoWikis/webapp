@@ -27,7 +27,14 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
 
-const { data: page, refresh } = await useFetch<Page>(`/apiVue/Page/GetPage/${route.params.id}`,
+const pageUrl = computed(() => {
+    if (route.params.token != null) {
+        return `/apiVue/Page/GetPage/${route.params.id}?t=${route.params.token}`
+    }
+    return `/apiVue/Page/GetPage/${route.params.id}`
+})
+
+const { data: page, refresh } = await useFetch<Page>(pageUrl.value,
     {
         credentials: 'include',
         mode: 'cors',
@@ -63,6 +70,9 @@ function setPage() {
         } else {
 
             pageStore.setPage(page.value)
+            if (route.params?.token != null) {
+                pageStore.setToken(route.params.token.toString())
+            }
 
             watch(() => pageStore.id, (val) => {
                 if (val != 0)

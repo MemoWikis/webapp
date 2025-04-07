@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class HocuspocusController : Controller
 {
-    public readonly record struct AuthoriseRequest(string Token, string HocuspocusKey, int PageId);
+    public readonly record struct AuthoriseRequest(string Token, string HocuspocusKey, int PageId, [CanBeNull] string ShareToken);
 
     public readonly record struct AuthoriseResponse(bool CanView = false, bool CanEdit = false);
 
@@ -26,7 +27,7 @@ public class HocuspocusController : Controller
         }
 
         var permissionCheck = new PermissionCheck(userId);
-        if (permissionCheck.CanEditPage(req.PageId))
+        if (permissionCheck.CanEditPage(req.PageId, req.ShareToken, isLoggedIn: isValid))
         {
             Logg.r.Error("Collaboration - Authorise: No Permission - userId:{0}, pageId:{1}", userId, req.PageId);
             return new AuthoriseResponse(CanView: true, CanEdit: true);

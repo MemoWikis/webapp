@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ public class PageController(
 
 {
     [HttpGet]
-    public PageDataResult GetPage([FromRoute] int id)
+    public PageDataResult GetPage([FromRoute] int id, [CanBeNull] string t)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
 
@@ -29,7 +30,7 @@ public class PageController(
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
-            .GetPageData(id);
+            .GetPageData(id, t);
 
         return new PageDataResult
         {
@@ -61,7 +62,7 @@ public class PageController(
             MessageKey = data.MessageKey,
             ErrorCode = data.ErrorCode,
             Language = data.Language,
-            CanEdit = _permissionCheck.CanEditPage(data.Id),
+            CanEdit = _permissionCheck.CanEditPage(data.Id, t),
         };
     }
 

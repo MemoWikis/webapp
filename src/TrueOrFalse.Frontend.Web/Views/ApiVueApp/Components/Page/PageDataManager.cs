@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -11,7 +12,7 @@ public class PageDataManager(
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo)
 {
-    public PageDataResult GetPageData(int id)
+    public PageDataResult GetPageData(int id, [CanBeNull] string token = null)
     {
         var page = EntityCache.GetPage(id);
         if (page == null)
@@ -21,7 +22,7 @@ public class PageDataManager(
                 MessageKey = FrontendMessageKeys.Error.Page.NotFound
             };
 
-        if (_permissionCheck.CanView(_sessionUser.UserId, page))
+        if (_permissionCheck.CanView(_sessionUser.UserId, page, token))
         {
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Page);
             var knowledgeSummary =

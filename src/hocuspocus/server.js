@@ -10,6 +10,37 @@ if (process.env.ENVIRONMENT.trim() == 'development') {
   dotenv.config()
 }
 
+function extractDocumentInfo(documentName) {
+  if (!documentName || typeof documentName !== 'string') {
+    return { documentName, pageId: null, shareToken: null }
+  }
+  
+  if (!documentName.startsWith('ydoc-')) {
+    return { documentName, pageId: null, shareToken: null }
+  }
+  
+  const withoutPrefix = documentName.substring(5)
+  
+  if (withoutPrefix.includes(':')) {
+    const [pageIdStr, shareToken] = withoutPrefix.split(':')
+    const pageId = parseInt(pageIdStr, 10)
+    
+    return {
+      documentName,
+      pageId: isNaN(pageId) ? null : pageId,
+      shareToken
+    }
+  } else {
+    const pageId = parseInt(withoutPrefix, 10)
+    
+    return {
+      documentName,
+      pageId: isNaN(pageId) ? null : pageId,
+      shareToken: null
+    }
+  }
+}
+
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'localhost',
   port: process.env.REDIS_PORT || 6379,
@@ -17,14 +48,18 @@ const redis = new Redis({
 
 const redisDatabaseExtension = new Database({
   fetch: async ({ documentName }) => {
-    const data = await redis.get(documentName)
+    const documentInfo = extractDocumentInfo(documentName)
+
+    const data = await redis.get(documentInfo.documentName)
     if (data) {
       return Buffer.from(data, 'base64')
     }
     return null
   },
   store: async ({ documentName, state }) => {
-    await redis.set(documentName, state.toString('base64'))
+    const documentInfo = extractDocumentInfo(documentName)
+
+    await redis.set(documentInfo.documentName, state.toString('base64'))
   },
 })
 
@@ -39,10 +74,12 @@ const server = Server.configure({
     redisDatabaseExtension,
   ],
   async onAuthenticate({ documentName, token, connection }) {
+    const documentInfo = extractDocumentInfo(documentName)
     const data = {
       token: token,
       hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
-      pageId: documentName.substring(5)
+      pageId: documentInfo.pageId,
+      shareToken: documentInfo.shareToken
     }
     await axios.post(`${process.env.BACKEND_BASE_URL}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
       if (response.status === 200 && response.data.canView === true) {

@@ -202,6 +202,15 @@ export default <RouterConfig>{
             },
         },
         {
+            name: "pageContentPageWithToken",
+            path: "/:page/:id(\\d+)/:token",
+            component: () => import("~/pages/[page]/[id].vue"),
+            props: { tab: PageTab.Text },
+            meta: {
+                key: (route) => `/${route.params.page}/${route.params.id}`,
+            },
+        },
+        {
             name: "pageLearningPage",
             path: "/:page/:id(\\d+)/Lernen",
             component: () => import("~/pages/[page]/[id].vue"),

@@ -3,17 +3,20 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
+    private readonly bool _isLoggedIn;
 
     public PermissionCheck(SessionUser sessionUser)
     {
         _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
         _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
+        _isLoggedIn = sessionUser.SessionIsActive() && sessionUser.IsLoggedIn;
     }
 
     public PermissionCheck(UserCacheItem userCacheItem)
     {
         _userId = userCacheItem.Id;
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
+        _isLoggedIn = false;
     }
 
     public PermissionCheck(int userId)
@@ -21,6 +24,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         var userCacheItem = EntityCache.GetUserById(userId);
         _userId = userCacheItem.Id;
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
+        _isLoggedIn = false;
     }
 
     //setter is for tests
@@ -28,7 +32,10 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
     public bool CanView(Page page) => CanView(EntityCache.GetPage(page.Id));
     public bool CanView(PageCacheItem? page) => CanView(_userId, page);
 
-    public bool CanView(int userId, PageCacheItem? page)
+    public bool CanView(PageCacheItem? page, string shareToken) => CanView(_userId, page, shareToken);
+
+
+    public bool CanView(int userId, PageCacheItem? page, string? token = null)
     {
         if (page == null)
             return false;
@@ -38,6 +45,16 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
         if (page.Visibility == PageVisibility.Owner && page.CreatorId == userId)
             return true;
+
+        if (token != null)
+        {
+            var shareInfosByToken = EntityCache.GetPageShares(page.Id);
+            if (shareInfosByToken.Any(s => s.Token == token))
+                return true;
+
+            var closestSharePermissionByToken = ShareInfoHelper.GetClosestParentSharePermission(page.Id, null, token);
+            return closestSharePermissionByToken is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
+        }
 
         var shareInfos = EntityCache.GetPageShares(page.Id);
         if (shareInfos.Any(s => s.UserId == userId))
@@ -57,7 +74,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
         return false;
     }
-
+    public bool CanEditPage(int pageId, string? token, bool isLoggedIn = false) => CanEdit(EntityCache.GetPage(pageId), token, isLoggedIn);
     public bool CanEditPage(int pageId) => CanEdit(EntityCache.GetPage(pageId));
     public bool CanEdit(Page page) => CanEdit(EntityCache.GetPage(page.Id));
 
@@ -69,7 +86,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
                CanView(change.Page.Creator.Id, change.GetPageChangeData().Visibility);
     }
 
-    public bool CanEdit(PageCacheItem page)
+    public bool CanEdit(PageCacheItem page, string? token = null, bool isLoggedIn = false)
     {
         if (_userId == default)
             return false;
@@ -80,11 +97,24 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (FeaturedPage.Lockedpage(page.Id) && !_isInstallationAdmin)
             return false;
 
-        if (!CanView(page))
+        if (!CanView(page, token))
             return false;
 
         if (page.CreatorId == _userId || _isInstallationAdmin)
             return true;
+
+        if (token != null && (_isLoggedIn || isLoggedIn))
+        {
+            var shareInfosByToken = EntityCache.GetPageShares(page.Id).Where(s => s.Token == token);
+            if (shareInfosByToken.Any(s => s.Permission is SharePermission.Edit or SharePermission.EditWithChildren))
+                return true;
+
+            if (shareInfosByToken.Any(s => s.Permission is SharePermission.View or SharePermission.ViewWithChildren))
+                return false;
+
+            var closestSharePermissionByToken = ShareInfoHelper.GetClosestParentSharePermission(page.Id, null, token);
+            return closestSharePermissionByToken == SharePermission.EditWithChildren;
+        }
 
         var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.UserId == _userId);
         if (shareInfos.Any(s => s.Permission is SharePermission.Edit or SharePermission.EditWithChildren))

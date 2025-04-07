@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,12 @@ namespace VueApp;
 public class SharePageStoreController(
         PermissionCheck _permissionCheck,
         SessionUser _sessionUser,
-        ShareInfoRepository _shareInfoRepository
+        ShareInfoRepository _shareInfoRepository,
+        IHttpContextAccessor _httpContextAccessor
     ) : Controller
 {
-    // This record remains for representing individual share settings.
     public readonly record struct ShareInfoRequest(int UserId, SharePermission Permission);
 
-    // Renamed from SharePageRequest to EditRightsRequest for bulk editing.
     public readonly record struct EditRightsRequest(
         int PageId,
         List<ShareInfoRequest> Users
@@ -25,7 +25,6 @@ public class SharePageStoreController(
         string MessageKey
     );
 
-    // Bulk editing endpoint (renamed from SharePage)
     [HttpPost]
     [AccessOnlyAsLoggedIn]
     public EditRightsResponse EditRights([FromBody] EditRightsRequest req)
@@ -46,13 +45,11 @@ public class SharePageStoreController(
             Token = ""
         }).ToList();
 
-        // Replace the current sharing settings with the new bulk list.
         EntityCache.AddOrUpdatePageShares(req.PageId, shareInfos);
 
         return new EditRightsResponse(true, "");
     }
 
-    // New endpoint to add or update sharing for a single user.
     public readonly record struct ShareToUserRequest(
         int PageId,
         int UserId,
@@ -136,15 +133,87 @@ public class SharePageStoreController(
         if (!_permissionCheck.CanEdit(EntityCache.GetPage(id)))
             return new GetShareInfoResponse();
 
-
         var existingShares = EntityCache.GetPageShares(id);
         var users = existingShares.Where(s => s.UserId != null).Select(s =>
         {
             var user = EntityCache.GetUserById((int)s.UserId);
-            var imageUrl = "";
+            var imageUrl = new UserImageSettings(user.Id,
+                    _httpContextAccessor)
+                .GetUrl_50px_square(user)
+                .Url;
             return new UserWithPermission(user.Id, user.Name, imageUrl, s.Permission);
 
         }).ToList();
         return new GetShareInfoResponse(users);
     }
+
+    public readonly record struct BatchUpdatePermissionsRequest(
+        int PageId,
+        List<PermissionUpdate> PermissionUpdates,
+        List<int> RemovedUserIds
+    );
+
+    public readonly record struct PermissionUpdate(
+        int UserId,
+        SharePermission Permission
+    );
+
+    public readonly record struct BatchUpdatePermissionsResponse(
+        bool Success,
+        string MessageKey
+    );
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public BatchUpdatePermissionsResponse BatchUpdatePermissions([FromBody] BatchUpdatePermissionsRequest req)
+    {
+        var page = EntityCache.GetPage(req.PageId);
+        if (page == null)
+            return new BatchUpdatePermissionsResponse(false, "Page not found.");
+
+        if (!_permissionCheck.CanEdit(page))
+            return new BatchUpdatePermissionsResponse(false, "Missing rights to update permissions for this page.");
+
+        var existingShares = EntityCache.GetPageShares(req.PageId);
+
+        foreach (var update in req.PermissionUpdates)
+        {
+            var share = existingShares.FirstOrDefault(s => s.UserId == update.UserId);
+            if (share != null)
+            {
+                share.Permission = update.Permission;
+                _shareInfoRepository.CreateOrUpdate(share.ToDbItem());
+            }
+            else
+            {
+                var newShare = new ShareInfo
+                {
+                    UserId = update.UserId,
+                    PageId = req.PageId,
+                    Permission = update.Permission,
+                    GrantedBy = _sessionUser.UserId,
+                    Token = ""
+                };
+                _shareInfoRepository.CreateOrUpdate(newShare);
+                var dbItem = _shareInfoRepository.GetById(newShare.Id);
+                var newShareCacheItem = ShareInfoCacheItem.ToCacheItem(dbItem);
+                existingShares.Add(newShareCacheItem);
+            }
+        }
+
+        foreach (var userId in req.RemovedUserIds)
+        {
+            var share = existingShares.FirstOrDefault(s => s.UserId == userId);
+            if (share != null)
+            {
+                _shareInfoRepository.Delete(share.Id);
+            }
+        }
+        existingShares.RemoveAll(s => s.UserId.HasValue && req.RemovedUserIds.Contains(s.UserId.Value));
+
+        EntityCache.AddOrUpdatePageShares(req.PageId, existingShares);
+
+        return new BatchUpdatePermissionsResponse(true, "");
+    }
+
 }

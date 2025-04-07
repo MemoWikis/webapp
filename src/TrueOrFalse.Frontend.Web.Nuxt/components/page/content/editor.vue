@@ -91,9 +91,14 @@ const tryReconnect = () => {
 }
 
 const initProvider = () => {
+
+    const documentName = pageStore.shareToken
+        ? `ydoc-${pageStore.id}:${pageStore.shareToken}`
+        : `ydoc-${pageStore.id}`
+
     provider.value = new TiptapCollabProvider({
         baseUrl: config.public.hocuspocusWebsocketUrl,
-        name: 'ydoc-' + pageStore.id,
+        name: documentName,
         token: userStore.collaborationToken,
         preserveConnection: false,
         document: doc,

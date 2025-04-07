@@ -2,7 +2,7 @@
 {
     public static string GenerateShareToken(int pageId, SharePermission permission, int grantedById, ShareInfoRepository shareInfoRepository)
     {
-        var token = Guid.NewGuid().ToString();
+        var token = Guid.NewGuid().ToString("N");
         var existingShares = EntityCache.GetPageShares(pageId);
 
         var shareInfo = new ShareInfo
@@ -51,7 +51,7 @@
         EntityCache.AddOrUpdatePageShares(pageId, existingShares);
     }
 
-    public static SharePermission? GetClosestParentSharePermission(int childId, int userId)
+    public static SharePermission? GetClosestParentSharePermission(int childId, int? userId, string? token = null)
     {
         var child = EntityCache.GetPage(childId);
         if (child == null)
@@ -74,12 +74,24 @@
             {
                 var parent = EntityCache.GetPage(pid);
                 if (parent == null) continue;
-
-                var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.UserId == userId);
-                if (shareInfo != null)
+                if (userId != null)
                 {
-                    bestPermissionThisLevel = GetHigherPermission(bestPermissionThisLevel, shareInfo.Permission);
+                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.UserId == userId);
+                    if (shareInfo != null)
+                    {
+                        bestPermissionThisLevel = GetHigherPermission(bestPermissionThisLevel, shareInfo.Permission);
+                    }
                 }
+
+                else if (token != null)
+                {
+                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.Token == token);
+                    if (shareInfo != null)
+                    {
+                        bestPermissionThisLevel = GetHigherPermission(bestPermissionThisLevel, shareInfo.Permission);
+                    }
+                }
+
             }
 
             if (bestPermissionThisLevel.HasValue)

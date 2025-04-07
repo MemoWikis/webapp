@@ -65,9 +65,9 @@ async function shareWithCurrentUser() {
     }
 }
 
+// Replace immediate remove with pending remove
 function removeExistingShare(userId: number) {
-    // Implement removal of sharing rights
-    // This would need an additional backend endpoint
+    sharePageStore.markUserForRemoval(userId)
 }
 
 async function renewToken() {
@@ -76,32 +76,78 @@ async function renewToken() {
     loadingStore.stopLoading()
 }
 
-async function generateShareToken() {
-    loadingStore.startLoading()
-    const result = await sharePageStore.sharePageByToken(sharePageStore.pageId)
-    loadingStore.stopLoading()
-}
+// async function generateShareToken() {
+//     loadingStore.startLoading()
+//     const result = await sharePageStore.sharePageByToken(sharePageStore.pageId)
+//     loadingStore.stopLoading()
+// }
 
-watch(() => sharePageStore.showModal, async (show) => {
+// Reset pending changes when modal opens/closes
+watch(() => sharePageStore.showModal, (show) => {
     if (show) {
-        // When modal opens, load existing shares
+        // When modal opens, load existing shares and reset pending changes
         currentMode.value = 'search'
         currentUser.value = null
         notifyUser.value = true
         customMessage.value = ''
-        await sharePageStore.loadExistingShares()
+        sharePageStore.resetPendingChanges()
+        sharePageStore.loadExistingShares()
+    } else {
+        // Reset pending changes when modal closes
+        sharePageStore.resetPendingChanges()
     }
 })
 
 const ariaId = useId()
 
+// Replace the immediate updateExistingSharePermission with pending updates
+const updateExistingSharePermission = (userId: number, permission: SharePermission) => {
+    sharePageStore.updatePendingPermission(userId, permission)
+}
+
+// Compute the primary button label based on mode and pending changes
+const primaryButtonLabel = computed(() => {
+    if (currentMode.value === 'edit') {
+        return t('page.sharing.modal.shareWithUser')
+    } else if (sharePageStore.hasPendingChanges) {
+        return t('page.sharing.modal.saveChanges')
+    } else {
+        return t('page.sharing.modal.close')
+    }
+})
+
+// Handle primary button action based on mode and pending changes
+const handlePrimaryButtonClick = async () => {
+    if (currentMode.value === 'edit') {
+        await shareWithCurrentUser()
+    } else if (sharePageStore.hasPendingChanges) {
+        loadingStore.startLoading()
+        const result = await sharePageStore.savePermissionChanges()
+        loadingStore.stopLoading()
+
+        if (result.success) {
+            // Don't close modal - let user see updated list
+        }
+    } else {
+        sharePageStore.closeModal()
+    }
+}
+
+const linkPermission = ref<SharePermission>(SharePermission.View)
+
+async function generateShareToken() {
+    loadingStore.startLoading()
+    const result = await sharePageStore.sharePageByToken(sharePageStore.pageId, linkPermission.value)
+    loadingStore.stopLoading()
+}
+
 </script>
 
 <template>
     <LazyModal @close="sharePageStore.closeModal()" :show="sharePageStore.showModal"
-        :primary-btn-label="currentMode === 'search' ? t('page.sharing.modal.close') : t('page.sharing.modal.shareWithUser')"
+        :primary-btn-label="primaryButtonLabel"
         :secondary-btn-label="currentMode === 'edit' ? t('page.sharing.modal.cancel') : ''"
-        @primary-btn="currentMode === 'search' ? sharePageStore.closeModal() : shareWithCurrentUser()"
+        @primary-btn="handlePrimaryButtonClick"
         @secondary-btn="currentMode === 'edit' ? goBackToSearch() : null"
         :show-cancel-btn="false">
 
@@ -130,35 +176,117 @@ const ariaId = useId()
 
                     <!-- Existing shares list -->
                     <template v-if="sharePageStore.existingShares.length > 0">
-
                         <div class="section-heading">
                             <h5>{{ t('page.sharing.existingShares.title') }}</h5>
                         </div>
 
                         <div class="existing-shares">
-                            <div class="user-item" v-for="user in sharePageStore.existingShares" :key="user.id">
+                            <div class="user-item" v-for="user in sharePageStore.existingShares" :key="user.id"
+                                :class="{ 'pending-removal': sharePageStore.pendingRemovals.has(user.id) }">
                                 <div class="user-info">
                                     <img :src="user.imageUrl" class="user-avatar" alt="User avatar" />
                                     <span class="user-name">{{ user.name }}</span>
                                 </div>
 
                                 <div class="user-detail">
-                                    <span class="user-permission">
-                                        {{permissionOptions.find(option => option.value === user.permission)?.label}}
-                                    </span>
+                                    <!-- Permission dropdown -->
+                                    <VDropdown class="share-permission-dropdown" :distance="5" :aria-id="`existing-share-${user.id}`">
+                                        <div class="permission-dropdown-trigger"
+                                            :class="{ 'pending-change': sharePageStore.getEffectivePermission(user.id) !== user.permission }">
+                                            <span class="user-permission">
+                                                {{permissionOptions.find(option => option.value ===
+                                                    (sharePageStore.getEffectivePermission(user.id) ?? user.permission))?.label}}
+                                            </span>
+                                            <font-awesome-icon icon="fa-solid fa-chevron-down" />
+                                        </div>
+
+                                        <template #popper="{ hide }">
+                                            <div class="permission-dropdown-menu">
+                                                <div
+                                                    @click="updateExistingSharePermission(user.id, SharePermission.View); hide()"
+                                                    class="permission-dropdown-item"
+                                                    :class="{ 'active': sharePageStore.getEffectivePermission(user.id) === SharePermission.View }">
+                                                    {{ t('page.sharing.permission.view') }}
+                                                </div>
+
+                                                <div
+                                                    @click="updateExistingSharePermission(user.id, SharePermission.Edit); hide()"
+                                                    class="permission-dropdown-item"
+                                                    :class="{ 'active': sharePageStore.getEffectivePermission(user.id) === SharePermission.Edit }">
+                                                    {{ t('page.sharing.permission.edit') }}
+                                                </div>
+
+                                                <div
+                                                    @click="updateExistingSharePermission(user.id, SharePermission.ViewWithChildren); hide()"
+                                                    class="permission-dropdown-item"
+                                                    :class="{ 'active': sharePageStore.getEffectivePermission(user.id) === SharePermission.ViewWithChildren }">
+                                                    {{ t('page.sharing.permission.viewWithChildren') }}
+                                                </div>
+
+                                                <div
+                                                    @click="updateExistingSharePermission(user.id, SharePermission.EditWithChildren); hide()"
+                                                    class="permission-dropdown-item"
+                                                    :class="{ 'active': sharePageStore.getEffectivePermission(user.id) === SharePermission.EditWithChildren }">
+                                                    {{ t('page.sharing.permission.editWithChildren') }}
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </VDropdown>
+
                                     <button class="btn-remove" @click="removeExistingShare(user.id)">
                                         <font-awesome-icon icon="fa-solid fa-xmark" />
                                     </button>
                                 </div>
                             </div>
                         </div>
-
                     </template>
 
                     <!-- Sharing link section -->
                     <div class="sharing-link-section">
                         <div class="section-heading">
                             <h5>{{ t('page.sharing.link.title') }}</h5>
+                        </div>
+
+                        <div class="link-permission">
+                            <label>{{ t('page.sharing.link.permission') }}</label>
+                            <VDropdown class="share-link-dropdown" :distance="5" :aria-id="'share-link-permission'">
+                                <div class="permission-dropdown-trigger">
+                                    {{permissionOptions.find(option => option.value === linkPermission)?.label}}
+                                    <font-awesome-icon icon="fa-solid fa-chevron-down" />
+                                </div>
+
+                                <template #popper="{ hide }">
+                                    <div class="permission-dropdown-menu">
+                                        <div
+                                            @click="linkPermission = SharePermission.View; hide()"
+                                            class="permission-dropdown-item"
+                                            :class="{ 'active': linkPermission === SharePermission.View }">
+                                            {{ t('page.sharing.permission.view') }}
+                                        </div>
+
+                                        <div
+                                            @click="linkPermission = SharePermission.Edit; hide()"
+                                            class="permission-dropdown-item"
+                                            :class="{ 'active': linkPermission === SharePermission.Edit }">
+                                            {{ t('page.sharing.permission.edit') }}
+                                        </div>
+
+                                        <div
+                                            @click="linkPermission = SharePermission.ViewWithChildren; hide()"
+                                            class="permission-dropdown-item"
+                                            :class="{ 'active': linkPermission === SharePermission.ViewWithChildren }">
+                                            {{ t('page.sharing.permission.viewWithChildren') }}
+                                        </div>
+
+                                        <div
+                                            @click="linkPermission = SharePermission.EditWithChildren; hide()"
+                                            class="permission-dropdown-item"
+                                            :class="{ 'active': linkPermission === SharePermission.EditWithChildren }">
+                                            {{ t('page.sharing.permission.editWithChildren') }}
+                                        </div>
+                                    </div>
+                                </template>
+                            </VDropdown>
                         </div>
 
                         <div class="link-actions">
@@ -198,30 +326,30 @@ const ariaId = useId()
                                     <div class="permission-dropdown-menu">
                                         <div
                                             @click="updatePermission(SharePermission.View); hide()"
-                                            class="dropdown-item"
+                                            class="permission-dropdown-item"
                                             :class="{ 'active': currentUser.permission === SharePermission.View }">
                                             {{ t('page.sharing.permission.view') }}
                                         </div>
 
                                         <div
                                             @click="updatePermission(SharePermission.Edit); hide()"
-                                            class="dropdown-item"
+                                            class="permission-dropdown-item"
                                             :class="{ 'active': currentUser.permission === SharePermission.Edit }">
-                                            {{ t('page.sharing.permission.edit') }}
+                                            {{ t('page.sharing.permission.edit') }}ed
                                         </div>
 
                                         <div
                                             @click="updatePermission(SharePermission.ViewWithChildren); hide()"
-                                            class="dropdown-item"
+                                            class="permission-dropdown-item"
                                             :class="{ 'active': currentUser.permission === SharePermission.ViewWithChildren }">
                                             {{ t('page.sharing.permission.viewWithChildren') }}
                                         </div>
 
                                         <div
                                             @click="updatePermission(SharePermission.EditWithChildren); hide()"
-                                            class="dropdown-item"
+                                            class="permission-dropdown-item"
                                             :class="{ 'active': currentUser.permission === SharePermission.EditWithChildren }">
-                                            {{ t('page.sharing.permission.editWithChildren') }}
+                                            {{ t('page.sharing.permission.editWithChildren') }}edi
                                         </div>
                                     </div>
                                 </template>
@@ -497,4 +625,79 @@ const ariaId = useId()
         }
     }
 }
+
+.share-permission-dropdown {
+
+    .permission-dropdown-trigger {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: fade(@memo-blue, 5%);
+        }
+
+        .user-permission {
+            color: @memo-grey-dark;
+            font-size: 0.9rem;
+        }
+    }
+
+    :deep(.v-popper__popper) {
+        z-index: 1000 !important;
+    }
+
+
+}
+</style>
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.permission-dropdown-menu {
+    background-color: white;
+    border: 1px solid @memo-grey-light;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+}
+
+.permission-dropdown-item {
+    padding: 10px 25px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: fade(@memo-blue, 5%);
+    }
+
+    &.active {
+        background-color: fade(@memo-blue, 10%);
+        font-weight: 500;
+    }
+}
+
+/* Add styles for pending changes */
+.permission-dropdown-trigger {
+    &.pending-change {
+        border: 1px solid @memo-blue;
+        background-color: fade(@memo-blue, 5%);
+
+        .user-permission {
+            font-weight: 600;
+            color: @memo-blue;
+        }
+    }
+}
+
+.user-item {
+    &.pending-removal {
+        opacity: 0.5;
+        text-decoration: line-through;
+    }
+}
+
+/* Rest of styles... */
 </style>

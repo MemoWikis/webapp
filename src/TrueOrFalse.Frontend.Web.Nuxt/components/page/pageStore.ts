@@ -142,6 +142,7 @@ export const usePageStore = defineStore("pageStore", {
             selectedText: "",
             contentLanguage: "en" as "en" | "de" | "fr" | "es",
             canEdit: false,
+            shareToken: null as string | null,
         }
     },
     actions: {
@@ -599,6 +600,9 @@ export const usePageStore = defineStore("pageStore", {
             )
 
             this.questionCount = result
+        },
+        setToken(token: string) {
+            this.shareToken = token
         },
     },
     getters: {
