@@ -54,7 +54,7 @@ class UrlHelper {
         name: string,
         id: number | string,
         tab: Tab = Tab.Text,
-        token: string | null = null
+        token: string | null | undefined = null
     ): string {
         const url = token
             ? `/${this.sanitizeUri(name)}/${id}/${token}`

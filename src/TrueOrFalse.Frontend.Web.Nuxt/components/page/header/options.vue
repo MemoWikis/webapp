@@ -37,7 +37,7 @@ const { t, localeProperties } = useI18n()
                 </div>
                 <template #popper="{ hide }">
 
-                    <div @click="sharePageStore.openModal(pageStore.id); hide()" class="dropdown-row">
+                    <div @click="sharePageStore.openModal(pageStore.id, pageStore.name); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-link" />
                         </div>

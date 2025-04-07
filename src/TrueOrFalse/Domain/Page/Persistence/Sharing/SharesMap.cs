@@ -1,8 +1,8 @@
 ﻿using FluentNHibernate.Mapping;
 
-public class ShareInfoMap : ClassMap<ShareInfo>
+public class SharesMap : ClassMap<Share>
 {
-    public ShareInfoMap()
+    public SharesMap()
     {
         Table("share_info");
         Id(x => x.Id);

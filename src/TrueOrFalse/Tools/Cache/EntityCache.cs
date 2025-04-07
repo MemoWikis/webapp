@@ -24,8 +24,8 @@ public class EntityCache
     private static ConcurrentDictionary<int, PageRelationCache> Relations =>
         Cache.Mgr.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
 
-    private static ConcurrentDictionary<int, List<ShareInfoCacheItem>> PageShares =>
-        Cache.Mgr.Get<ConcurrentDictionary<int, List<ShareInfoCacheItem>>>(CacheKeyPageShares);
+    private static ConcurrentDictionary<int, List<ShareCacheItem>> PageShares =>
+        Cache.Mgr.Get<ConcurrentDictionary<int, List<ShareCacheItem>>>(CacheKeyPageShares);
 
     /// <summary>
     /// Dictionary(key:pageId, value:questions)
@@ -338,11 +338,11 @@ public class EntityCache
     {
         AddOrUpdate(Pages, pageCacheItem);
     }
-    public static void AddOrUpdate(ShareInfoCacheItem shareInfoCacheItem)
+    public static void AddOrUpdate(ShareCacheItem shareCacheItem)
     {
-        var pageId = shareInfoCacheItem.PageId;
+        var pageId = shareCacheItem.PageId;
         var shareCacheItems = GetPageShares(pageId);
-        shareCacheItems.Add(shareInfoCacheItem);
+        shareCacheItems.Add(shareCacheItem);
         AddOrUpdate(pageId, shareCacheItems);
     }
 
@@ -364,7 +364,7 @@ public class EntityCache
         }
     }
 
-    public static void AddOrUpdate(int pageId, List<ShareInfoCacheItem> shareCacheItems)
+    public static void AddOrUpdate(int pageId, List<ShareCacheItem> shareCacheItems)
     {
         PageShares.AddOrUpdate(pageId, shareCacheItems, (key, existingList) => shareCacheItems);
     }
@@ -419,8 +419,8 @@ public class EntityCache
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
     private static void AddOrUpdate(
-        ConcurrentDictionary<int, ShareInfoCacheItem> objectToCache,
-        ShareInfoCacheItem obj)
+        ConcurrentDictionary<int, ShareCacheItem> objectToCache,
+        ShareCacheItem obj)
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
@@ -454,8 +454,8 @@ public class EntityCache
     }
 
     private static void Remove(
-        ConcurrentDictionary<int, ShareInfoCacheItem> objectToCache,
-        ShareInfoCacheItem obj)
+        ConcurrentDictionary<int, ShareCacheItem> objectToCache,
+        ShareCacheItem obj)
     {
         objectToCache.TryRemove(obj.Id, out _);
     }
@@ -522,15 +522,15 @@ public class EntityCache
     }
 
     // Helper methods for updating share info:
-    public static void AddOrUpdatePageShares(int pageId, List<ShareInfoCacheItem> shareCacheItems)
+    public static void AddOrUpdatePageShares(int pageId, List<ShareCacheItem> shareCacheItems)
     {
         PageShares.AddOrUpdate(pageId, shareCacheItems, (key, existingList) => shareCacheItems);
     }
 
-    public static List<ShareInfoCacheItem> GetPageShares(int pageId)
+    public static List<ShareCacheItem> GetPageShares(int pageId)
     {
         PageShares.TryGetValue(pageId, out var list);
-        return list ?? new List<ShareInfoCacheItem>();
+        return list ?? new List<ShareCacheItem>();
     }
 
     public static void RemovePageShares(int pageId)

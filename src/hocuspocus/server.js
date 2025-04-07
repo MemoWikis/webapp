@@ -10,34 +10,22 @@ if (process.env.ENVIRONMENT.trim() == 'development') {
   dotenv.config()
 }
 
-function extractDocumentInfo(documentName) {
-  if (!documentName || typeof documentName !== 'string') {
-    return { documentName, pageId: null, shareToken: null }
+function extractTokens(tokenString) {
+  if (!tokenString || typeof tokenString !== 'string') {
+    return { collaborationToken: null, shareToken: null };
   }
   
-  if (!documentName.startsWith('ydoc-')) {
-    return { documentName, pageId: null, shareToken: null }
-  }
-  
-  const withoutPrefix = documentName.substring(5)
-  
-  if (withoutPrefix.includes(':')) {
-    const [pageIdStr, shareToken] = withoutPrefix.split(':')
-    const pageId = parseInt(pageIdStr, 10)
-    
+  if (tokenString.includes('|accessToken=')) {
+    const parts = tokenString.split('|accessToken=');
     return {
-      documentName,
-      pageId: isNaN(pageId) ? null : pageId,
-      shareToken
-    }
+      collaborationToken: parts[0],
+      shareToken: parts[1]
+    };
   } else {
-    const pageId = parseInt(withoutPrefix, 10)
-    
     return {
-      documentName,
-      pageId: isNaN(pageId) ? null : pageId,
+      collaborationToken: tokenString,
       shareToken: null
-    }
+    };
   }
 }
 
@@ -48,18 +36,14 @@ const redis = new Redis({
 
 const redisDatabaseExtension = new Database({
   fetch: async ({ documentName }) => {
-    const documentInfo = extractDocumentInfo(documentName)
-
-    const data = await redis.get(documentInfo.documentName)
+    const data = await redis.get(documentName)
     if (data) {
       return Buffer.from(data, 'base64')
     }
     return null
   },
   store: async ({ documentName, state }) => {
-    const documentInfo = extractDocumentInfo(documentName)
-
-    await redis.set(documentInfo.documentName, state.toString('base64'))
+    await redis.set(documentName, state.toString('base64'))
   },
 })
 
@@ -74,14 +58,15 @@ const server = Server.configure({
     redisDatabaseExtension,
   ],
   async onAuthenticate({ documentName, token, connection }) {
-    const documentInfo = extractDocumentInfo(documentName)
+    const tokens = extractTokens(token)
+    console.log(tokens)
     const data = {
-      token: token,
+      token: tokens.collaborationToken,
       hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
-      pageId: documentInfo.pageId,
-      shareToken: documentInfo.shareToken
+      pageId: documentName.substring(5),
+      shareToken: tokens.shareToken
     }
-    await axios.post(`${process.env.BACKEND_BASE_URL}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
+    await axios.post(`${process.env.BACKEND_BASE_URL}/apiVue/Hocuspocus/Authorize`, data).then(function (response) {
       if (response.status === 200 && response.data.canView === true) {
 
         if (response.data.canEdit === false)

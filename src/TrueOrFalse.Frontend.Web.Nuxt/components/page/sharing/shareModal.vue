@@ -1,16 +1,14 @@
 <script lang="ts" setup>
-import { useSharePageStore, SharePermission, UserWithPermission } from './sharePageStore'
-import { useUserStore } from '~~/components/user/userStore'
+import { useSharePageStore, SharePermission } from './sharePageStore'
 import { SearchType, UserItem } from '~~/components/search/searchHelper'
 import { useLoadingStore } from '~/components/loading/loadingStore'
+import { Tab } from '../tabs/tabsStore'
 
 const sharePageStore = useSharePageStore()
-const userStore = useUserStore()
 const loadingStore = useLoadingStore()
 const { t } = useI18n()
 
-// Track the current UI mode (search or edit)
-const currentMode = ref('search') // 'search' or 'edit'
+const currentMode = ref('search')
 const currentUser = ref()
 const notifyUser = ref(true)
 const customMessage = ref('')
@@ -65,7 +63,6 @@ async function shareWithCurrentUser() {
     }
 }
 
-// Replace immediate remove with pending remove
 function removeExistingShare(userId: number) {
     sharePageStore.markUserForRemoval(userId)
 }
@@ -76,16 +73,8 @@ async function renewToken() {
     loadingStore.stopLoading()
 }
 
-// async function generateShareToken() {
-//     loadingStore.startLoading()
-//     const result = await sharePageStore.sharePageByToken(sharePageStore.pageId)
-//     loadingStore.stopLoading()
-// }
-
-// Reset pending changes when modal opens/closes
 watch(() => sharePageStore.showModal, (show) => {
     if (show) {
-        // When modal opens, load existing shares and reset pending changes
         currentMode.value = 'search'
         currentUser.value = null
         notifyUser.value = true
@@ -93,19 +82,16 @@ watch(() => sharePageStore.showModal, (show) => {
         sharePageStore.resetPendingChanges()
         sharePageStore.loadExistingShares()
     } else {
-        // Reset pending changes when modal closes
         sharePageStore.resetPendingChanges()
     }
 })
 
 const ariaId = useId()
 
-// Replace the immediate updateExistingSharePermission with pending updates
 const updateExistingSharePermission = (userId: number, permission: SharePermission) => {
     sharePageStore.updatePendingPermission(userId, permission)
 }
 
-// Compute the primary button label based on mode and pending changes
 const primaryButtonLabel = computed(() => {
     if (currentMode.value === 'edit') {
         return t('page.sharing.modal.shareWithUser')
@@ -116,7 +102,6 @@ const primaryButtonLabel = computed(() => {
     }
 })
 
-// Handle primary button action based on mode and pending changes
 const handlePrimaryButtonClick = async () => {
     if (currentMode.value === 'edit') {
         await shareWithCurrentUser()
@@ -141,6 +126,16 @@ async function generateShareToken() {
     loadingStore.stopLoading()
 }
 
+const { $urlHelper } = useNuxtApp()
+const config = useRuntimeConfig()
+
+const currentTokenUrl = computed(() => {
+    if (sharePageStore.currentToken) {
+        return `${config.public.officialBase}${$urlHelper.getPageUrl(sharePageStore.pageName, sharePageStore.pageId, Tab.Text, sharePageStore.currentToken)}`
+    }
+    return ''
+})
+
 </script>
 
 <template>
@@ -162,7 +157,6 @@ async function generateShareToken() {
 
         <template v-slot:body>
             <div class="sharing-container">
-                <!-- User search mode -->
                 <div v-if="currentMode === 'search'">
                     <!-- User search -->
                     <div class="search-container">
@@ -300,6 +294,10 @@ async function generateShareToken() {
 
                         <div class="link-info">
                             <p>{{ t('page.sharing.link.info') }}</p>
+                        </div>
+
+                        <div v-if="sharePageStore.currentToken">
+                            {{ currentTokenUrl }}
                         </div>
                     </div>
                 </div>

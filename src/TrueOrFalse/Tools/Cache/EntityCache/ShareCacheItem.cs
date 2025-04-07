@@ -1,34 +1,37 @@
 ﻿using Seedworks.Lib.Persistence;
 
-public class ShareInfoCacheItem : IPersistable
+public class ShareCacheItem : IPersistable
 {
     public int Id { get; set; }
     public int PageId { get; set; }
-    public int? UserId { get; set; }
+    public UserCacheItem? User { get; set; }
     public string Token { get; set; } = "";
     public SharePermission Permission { get; set; } = SharePermission.View;
     public int GrantedBy { get; set; }
 
-    public static ShareInfoCacheItem ToCacheItem(ShareInfo dbItem)
+    public static ShareCacheItem ToCacheItem(Share dbItem)
     {
-        return new ShareInfoCacheItem
+        var user = dbItem.UserId != null
+            ? EntityCache.GetUserByIdNullable(dbItem.UserId.Value)
+            : null;
+        return new ShareCacheItem
         {
             Id = dbItem.Id,
             PageId = dbItem.PageId,
-            UserId = dbItem.UserId,
+            User = user,
             Token = dbItem.Token,
             Permission = dbItem.Permission,
             GrantedBy = dbItem.GrantedBy
         };
     }
 
-    public ShareInfo ToDbItem()
+    public Share ToDbItem()
     {
-        return new ShareInfo
+        return new Share
         {
             Id = Id,
             PageId = PageId,
-            UserId = UserId,
+            UserId = User?.Id,
             Token = Token,
             Permission = Permission,
             GrantedBy = GrantedBy

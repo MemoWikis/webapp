@@ -706,7 +706,7 @@ public class PageCacheItem : IPersistable
         EntityCache.AddOrUpdate(this);
     }
 
-    public IList<ShareInfoCacheItem> GetDirectShareInfos()
+    public IList<ShareCacheItem> GetDirectShareInfos()
     {
         return EntityCache.GetPageShares(Id);
     }

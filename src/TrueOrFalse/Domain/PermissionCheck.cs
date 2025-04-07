@@ -52,15 +52,15 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             if (shareInfosByToken.Any(s => s.Token == token))
                 return true;
 
-            var closestSharePermissionByToken = ShareInfoHelper.GetClosestParentSharePermission(page.Id, null, token);
+            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermission(page.Id, null, token);
             return closestSharePermissionByToken is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
         }
 
         var shareInfos = EntityCache.GetPageShares(page.Id);
-        if (shareInfos.Any(s => s.UserId == userId))
+        if (shareInfos.Any(s => s.User?.Id == userId))
             return true;
 
-        var closestSharePermission = ShareInfoHelper.GetClosestParentSharePermission(page.Id, _userId);
+        var closestSharePermission = SharesService.GetClosestParentSharePermission(page.Id, _userId);
         return closestSharePermission is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
     }
 
@@ -112,18 +112,18 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             if (shareInfosByToken.Any(s => s.Permission is SharePermission.View or SharePermission.ViewWithChildren))
                 return false;
 
-            var closestSharePermissionByToken = ShareInfoHelper.GetClosestParentSharePermission(page.Id, null, token);
+            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermission(page.Id, null, token);
             return closestSharePermissionByToken == SharePermission.EditWithChildren;
         }
 
-        var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.UserId == _userId);
+        var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.User?.Id == _userId);
         if (shareInfos.Any(s => s.Permission is SharePermission.Edit or SharePermission.EditWithChildren))
             return true;
 
         if (shareInfos.Any(s => s.Permission is SharePermission.View or SharePermission.ViewWithChildren))
             return false;
 
-        var closestSharePermission = ShareInfoHelper.GetClosestParentSharePermission(page.Id, _userId);
+        var closestSharePermission = SharesService.GetClosestParentSharePermission(page.Id, _userId);
         return closestSharePermission == SharePermission.EditWithChildren;
     }
 

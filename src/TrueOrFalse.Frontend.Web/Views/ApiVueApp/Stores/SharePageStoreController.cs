@@ -9,46 +9,46 @@ namespace VueApp;
 public class SharePageStoreController(
         PermissionCheck _permissionCheck,
         SessionUser _sessionUser,
-        ShareInfoRepository _shareInfoRepository,
+        SharesRepository _sharesRepository,
         IHttpContextAccessor _httpContextAccessor
     ) : Controller
 {
-    public readonly record struct ShareInfoRequest(int UserId, SharePermission Permission);
+    public readonly record struct SharesRequest(int UserId, SharePermission Permission);
 
     public readonly record struct EditRightsRequest(
         int PageId,
-        List<ShareInfoRequest> Users
+        List<SharesRequest> Users
     );
 
-    public readonly record struct EditRightsResponse(
-        bool Success,
-        string MessageKey
-    );
+    //public readonly record struct EditRightsResponse(
+    //    bool Success,
+    //    string MessageKey
+    //);
 
-    [HttpPost]
-    [AccessOnlyAsLoggedIn]
-    public EditRightsResponse EditRights([FromBody] EditRightsRequest req)
-    {
-        var page = EntityCache.GetPage(req.PageId);
-        if (page == null)
-            return new EditRightsResponse(false, "Page not found.");
+    //[HttpPost]
+    //[AccessOnlyAsLoggedIn]
+    //public EditRightsResponse EditRights([FromBody] EditRightsRequest request)
+    //{
+    //    var page = EntityCache.GetPage(request.PageId);
+    //    if (page == null)
+    //        return new EditRightsResponse(false, "Page not found.");
 
-        if (!_permissionCheck.CanEdit(page))
-            return new EditRightsResponse(false, "Missing rights to edit sharing settings for this page.");
+    //    if (!_permissionCheck.CanEdit(page))
+    //        return new EditRightsResponse(false, "Missing rights to edit sharing settings for this page.");
 
-        var shareInfos = req.Users.Select(u => new ShareInfoCacheItem
-        {
-            UserId = u.UserId,
-            PageId = req.PageId,
-            Permission = u.Permission,
-            GrantedBy = _sessionUser.UserId,
-            Token = ""
-        }).ToList();
+    //    var shareInfos = request.Users.Select(u => new ShareCacheItem
+    //    {
+    //        User = u.UserId,
+    //        PageId = request.PageId,
+    //        Permission = u.Permission,
+    //        GrantedBy = _sessionUser.UserId,
+    //        Token = ""
+    //    }).ToList();
 
-        EntityCache.AddOrUpdatePageShares(req.PageId, shareInfos);
+    //    EntityCache.AddOrUpdatePageShares(request.PageId, shareInfos);
 
-        return new EditRightsResponse(true, "");
-    }
+    //    return new EditRightsResponse(true, "");
+    //}
 
     public readonly record struct ShareToUserRequest(
         int PageId,
@@ -73,7 +73,7 @@ public class SharePageStoreController(
         if (!_permissionCheck.CanEdit(page))
             return new ShareToUserResponse(false, "Missing rights to share this page.");
 
-        ShareInfoHelper.AddShareToPage(req.PageId, req.UserId, req.Permission, _sessionUser.UserId, _shareInfoRepository);
+        SharesService.AddShareToPage(req.PageId, req.UserId, req.Permission, _sessionUser.UserId, _sharesRepository);
 
         return new ShareToUserResponse(true, "");
     }
@@ -115,7 +115,7 @@ public class SharePageStoreController(
         if (!_permissionCheck.CanEdit(page))
             return new SharePageByTokenResponse(false, null);
 
-        var token = ShareInfoHelper.GenerateShareToken(req.PageId, req.Permission, _sessionUser.UserId, _shareInfoRepository);
+        var token = SharesService.GenerateShareToken(req.PageId, req.Permission, _sessionUser.UserId, _sharesRepository);
         return new SharePageByTokenResponse(true, token);
     }
 
@@ -134,14 +134,13 @@ public class SharePageStoreController(
             return new GetShareInfoResponse();
 
         var existingShares = EntityCache.GetPageShares(id);
-        var users = existingShares.Where(s => s.UserId != null).Select(s =>
+        var users = existingShares.Where(s => s.User != null).Select(s =>
         {
-            var user = EntityCache.GetUserById((int)s.UserId);
-            var imageUrl = new UserImageSettings(user.Id,
+            var imageUrl = new UserImageSettings(s.User.Id,
                     _httpContextAccessor)
-                .GetUrl_50px_square(user)
+                .GetUrl_50px_square(s.User)
                 .Url;
-            return new UserWithPermission(user.Id, user.Name, imageUrl, s.Permission);
+            return new UserWithPermission(s.User.Id, s.User.Name, imageUrl, s.Permission);
 
         }).ToList();
         return new GetShareInfoResponse(users);
@@ -178,15 +177,15 @@ public class SharePageStoreController(
 
         foreach (var update in req.PermissionUpdates)
         {
-            var share = existingShares.FirstOrDefault(s => s.UserId == update.UserId);
+            var share = existingShares.FirstOrDefault(s => s.User?.Id == update.UserId);
             if (share != null)
             {
                 share.Permission = update.Permission;
-                _shareInfoRepository.CreateOrUpdate(share.ToDbItem());
+                _sharesRepository.CreateOrUpdate(share.ToDbItem());
             }
             else
             {
-                var newShare = new ShareInfo
+                var newShare = new Share
                 {
                     UserId = update.UserId,
                     PageId = req.PageId,
@@ -194,22 +193,22 @@ public class SharePageStoreController(
                     GrantedBy = _sessionUser.UserId,
                     Token = ""
                 };
-                _shareInfoRepository.CreateOrUpdate(newShare);
-                var dbItem = _shareInfoRepository.GetById(newShare.Id);
-                var newShareCacheItem = ShareInfoCacheItem.ToCacheItem(dbItem);
+                _sharesRepository.CreateOrUpdate(newShare);
+                var dbItem = _sharesRepository.GetById(newShare.Id);
+                var newShareCacheItem = ShareCacheItem.ToCacheItem(dbItem);
                 existingShares.Add(newShareCacheItem);
             }
         }
 
         foreach (var userId in req.RemovedUserIds)
         {
-            var share = existingShares.FirstOrDefault(s => s.UserId == userId);
+            var share = existingShares.FirstOrDefault(s => s.User?.Id == userId);
             if (share != null)
             {
-                _shareInfoRepository.Delete(share.Id);
+                _sharesRepository.Delete(share.Id);
             }
         }
-        existingShares.RemoveAll(s => s.UserId.HasValue && req.RemovedUserIds.Contains(s.UserId.Value));
+        existingShares.RemoveAll(s => s.User != null && req.RemovedUserIds.Contains(s.User.Id));
 
         EntityCache.AddOrUpdatePageShares(req.PageId, existingShares);
 

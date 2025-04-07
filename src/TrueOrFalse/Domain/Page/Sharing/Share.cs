@@ -1,6 +1,6 @@
 ﻿using Seedworks.Lib.Persistence;
 
-public class ShareInfo : DomainEntity
+public class Share : DomainEntity
 {
     public virtual int PageId { get; set; }
     public virtual int? UserId { get; set; } // null for token-based sharing

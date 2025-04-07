@@ -87,6 +87,7 @@ export interface UserWithPermission {
 export const useSharePageStore = defineStore("sharePageStore", () => {
     const showModal = ref(false)
     const pageId = ref(0)
+    const pageName = ref("")
     const selectedUsers = ref<UserWithPermission[]>([])
     const existingShares = ref<UserWithPermission[]>([])
 
@@ -102,8 +103,9 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             pendingRemovals.value.size > 0
     )
 
-    const openModal = (id: number) => {
+    const openModal = (id: number, name: string) => {
         pageId.value = id
+        pageName.value = name
         selectedUsers.value = []
         showModal.value = true
     }
@@ -271,69 +273,69 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
-    const editRights = async () => {
-        const userStore = useUserStore()
-        if (!userStore.isLoggedIn) {
-            userStore.openLoginModal()
-            return { success: false }
-        }
+    // const editRights = async () => {
+    //     const userStore = useUserStore()
+    //     if (!userStore.isLoggedIn) {
+    //         userStore.openLoginModal()
+    //         return { success: false }
+    //     }
 
-        if (selectedUsers.value.length === 0) {
-            const snackbarStore = useSnackbarStore()
-            const nuxtApp = useNuxtApp()
-            const { $i18n } = nuxtApp
+    //     if (selectedUsers.value.length === 0) {
+    //         const snackbarStore = useSnackbarStore()
+    //         const nuxtApp = useNuxtApp()
+    //         const { $i18n } = nuxtApp
 
-            snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
-                text: { message: $i18n.t("error.page.noUsersSelected") },
-                duration: 4000,
-            })
-            return { success: false }
-        }
+    //         snackbarStore.showSnackbar({
+    //             type: SnackbarType.Error.toString(),
+    //             text: { message: $i18n.t("error.page.noUsersSelected") },
+    //             duration: 4000,
+    //         })
+    //         return { success: false }
+    //     }
 
-        const users = selectedUsers.value.map((user) => ({
-            userId: user.id,
-            permission: user.permission,
-        }))
+    //     const users = selectedUsers.value.map((user) => ({
+    //         userId: user.id,
+    //         permission: user.permission,
+    //     }))
 
-        const data: EditRightsRequest = {
-            pageId: pageId.value,
-            users: users,
-        }
+    //     const data: EditRightsRequest = {
+    //         pageId: pageId.value,
+    //         users: users,
+    //     }
 
-        const result = await $api<EditRightsResponse>(
-            "/apiVue/SharePageStore/EditRights",
-            {
-                method: "POST",
-                body: data,
-                mode: "cors",
-                credentials: "include",
-            }
-        )
+    //     const result = await $api<EditRightsResponse>(
+    //         "/apiVue/SharePageStore/EditRights",
+    //         {
+    //             method: "POST",
+    //             body: data,
+    //             mode: "cors",
+    //             credentials: "include",
+    //         }
+    //     )
 
-        const snackbarStore = useSnackbarStore()
-        const nuxtApp = useNuxtApp()
-        const { $i18n } = nuxtApp
+    //     const snackbarStore = useSnackbarStore()
+    //     const nuxtApp = useNuxtApp()
+    //     const { $i18n } = nuxtApp
 
-        if (result.success) {
-            closeModal()
-            snackbarStore.showSnackbar({
-                type: SnackbarType.Success.toString(),
-                text: { message: $i18n.t("success.page.rightsUpdated") },
-                duration: 4000,
-            })
-            return { success: true }
-        } else {
-            snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
-                text: {
-                    message: $i18n.t(result.messageKey || "error.general"),
-                },
-                duration: 6000,
-            })
-            return { success: false }
-        }
-    }
+    //     if (result.success) {
+    //         closeModal()
+    //         snackbarStore.showSnackbar({
+    //             type: SnackbarType.Success.toString(),
+    //             text: { message: $i18n.t("success.page.rightsUpdated") },
+    //             duration: 4000,
+    //         })
+    //         return { success: true }
+    //     } else {
+    //         snackbarStore.showSnackbar({
+    //             type: SnackbarType.Error.toString(),
+    //             text: {
+    //                 message: $i18n.t(result.messageKey || "error.general"),
+    //             },
+    //             duration: 6000,
+    //         })
+    //         return { success: false }
+    //     }
+    // }
 
     const savePermissionChanges = async () => {
         const userStore = useUserStore()
@@ -445,6 +447,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
+    const currentToken = ref<string | null>(null)
+
     const sharePageByToken = async (
         id: number,
         permission: SharePermission
@@ -482,6 +486,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
                 text: { message: $i18n.t("success.token.copied") },
                 duration: 4000,
             })
+            currentToken.value = result.token
             return { success: true, token: result.token }
         } else {
             snackbarStore.showSnackbar({
@@ -496,10 +501,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     return {
         showModal,
         pageId,
+        pageName,
         selectedUsers,
         existingShares,
         hasPendingChanges,
         pendingRemovals,
+        currentToken,
 
         openModal,
         closeModal,
@@ -507,7 +514,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         removeUser,
         updateUserPermission,
         shareToUser,
-        editRights,
+        // editRights,
         renewShareToken,
         sharePageByToken,
         loadExistingShares,

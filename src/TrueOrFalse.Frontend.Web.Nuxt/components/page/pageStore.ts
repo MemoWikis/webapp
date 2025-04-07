@@ -214,6 +214,7 @@ export const usePageStore = defineStore("pageStore", {
             const data = {
                 id: this.id,
                 content: this.content,
+                shareToken: this.shareToken,
             }
 
             const result = await $api<FetchResult<boolean>>(
@@ -285,6 +286,7 @@ export const usePageStore = defineStore("pageStore", {
             const data = {
                 id: this.id,
                 name: this.name,
+                shareToken: this.shareToken,
             }
 
             const result = await $api<FetchResult<boolean>>(
