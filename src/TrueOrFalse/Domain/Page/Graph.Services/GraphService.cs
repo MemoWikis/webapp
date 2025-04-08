@@ -97,7 +97,7 @@ public class GraphService
             {
                 if (parent.Id != childId)
                 {
-                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.User?.Id == userId);
+                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.SharedWith?.Id == userId);
                     if (shareInfo != null)
                     {
                         if (shareInfo.Permission == SharePermission.ViewWithChildren)
@@ -137,7 +137,7 @@ public class GraphService
             {
                 if (parent.Id != childId)
                 {
-                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.User?.Id == userId);
+                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.SharedWith?.Id == userId);
                     if (shareInfo != null)
                     {
                         if (shareInfo.Permission == SharePermission.EditWithChildren)

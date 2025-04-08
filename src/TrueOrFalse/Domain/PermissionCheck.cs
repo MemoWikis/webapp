@@ -57,7 +57,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         }
 
         var shareInfos = EntityCache.GetPageShares(page.Id);
-        if (shareInfos.Any(s => s.User?.Id == userId))
+        if (shareInfos.Any(s => s.SharedWith?.Id == userId))
             return true;
 
         var closestSharePermission = SharesService.GetClosestParentSharePermission(page.Id, _userId);
@@ -116,7 +116,8 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return closestSharePermissionByToken == SharePermission.EditWithChildren;
         }
 
-        var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.User?.Id == _userId);
+        var sh = EntityCache.GetPageShares(page.Id);
+        var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.SharedWith?.Id == _userId);
         if (shareInfos.Any(s => s.Permission is SharePermission.Edit or SharePermission.EditWithChildren))
             return true;
 

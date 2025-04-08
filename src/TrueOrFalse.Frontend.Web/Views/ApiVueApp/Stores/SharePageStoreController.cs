@@ -10,15 +10,16 @@ public class SharePageStoreController(
         PermissionCheck _permissionCheck,
         SessionUser _sessionUser,
         SharesRepository _sharesRepository,
-        IHttpContextAccessor _httpContextAccessor
+        IHttpContextAccessor _httpContextAccessor,
+        UserReadingRepo _userReadingRepo
     ) : Controller
 {
-    public readonly record struct SharesRequest(int UserId, SharePermission Permission);
+    //public readonly record struct SharesRequest(int UserId, SharePermission Permission);
 
-    public readonly record struct EditRightsRequest(
-        int PageId,
-        List<SharesRequest> Users
-    );
+    //public readonly record struct EditRightsRequest(
+    //    int PageId,
+    //    List<SharesRequest> Users
+    //);
 
     //public readonly record struct EditRightsResponse(
     //    bool Success,
@@ -68,38 +69,40 @@ public class SharePageStoreController(
     {
         var page = EntityCache.GetPage(req.PageId);
         if (page == null)
-            return new ShareToUserResponse(false, "Page not found.");
+            return new ShareToUserResponse(false, FrontendMessageKeys.Error.Page.NotFound);
 
         if (!_permissionCheck.CanEdit(page))
-            return new ShareToUserResponse(false, "Missing rights to share this page.");
+            return new ShareToUserResponse(false, FrontendMessageKeys.Error.Page.MissingRights);
 
-        SharesService.AddShareToPage(req.PageId, req.UserId, req.Permission, _sessionUser.UserId, _sharesRepository);
+        SharesService.AddShareToPage(req.PageId, req.UserId, req.Permission, _sessionUser.UserId, _sharesRepository, _userReadingRepo);
 
         return new ShareToUserResponse(true, "");
     }
 
-    public readonly record struct RenewShareTokenRequest(int PageId);
+    public readonly record struct RenewShareTokenRequest(int PageId, [CanBeNull] string ShareToken);
     public readonly record struct RenewShareTokenResponse(
         bool Success,
-        string MessageKey
+        [CanBeNull] string Token = null
+
     );
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public RenewShareTokenResponse RenewShareToken([FromBody] RenewShareTokenRequest req)
+    public RenewShareTokenResponse RenewShareToken([FromBody] RenewShareTokenRequest request)
     {
-        var page = EntityCache.GetPage(req.PageId);
+        var page = EntityCache.GetPage(request.PageId);
         if (page == null)
-            return new RenewShareTokenResponse(false, "Page not found.");
+            return new RenewShareTokenResponse(false);
 
-        if (!_permissionCheck.CanEdit(page))
-            return new RenewShareTokenResponse(false, "Missing rights to renew share token.");
+        if (!_permissionCheck.CanEdit(page, request.ShareToken))
+            return new RenewShareTokenResponse(false);
 
-        EntityCache.RenewTokenForPage(req.PageId);
-        return new RenewShareTokenResponse(true, "");
+        var token = SharesService.RenewShareToken(request.PageId, _sessionUser.UserId, _sharesRepository);
+
+        return new RenewShareTokenResponse(true, token);
     }
 
-    public readonly record struct SharePageByTokenRequest(int PageId, SharePermission Permission);
+    public readonly record struct SharePageByTokenRequest(int PageId, SharePermission Permission, [CanBeNull] string ShareToken);
     public readonly record struct SharePageByTokenResponse(
         bool Success,
         [CanBeNull] string Token
@@ -107,15 +110,15 @@ public class SharePageStoreController(
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public SharePageByTokenResponse SharePageByToken([FromBody] SharePageByTokenRequest req)
+    public SharePageByTokenResponse SharePageByToken([FromBody] SharePageByTokenRequest request)
     {
-        var page = EntityCache.GetPage(req.PageId);
+        var page = EntityCache.GetPage(request.PageId);
         if (page == null)
             return new SharePageByTokenResponse(false, null);
-        if (!_permissionCheck.CanEdit(page))
+        if (!_permissionCheck.CanEdit(page, request.ShareToken))
             return new SharePageByTokenResponse(false, null);
 
-        var token = SharesService.GenerateShareToken(req.PageId, req.Permission, _sessionUser.UserId, _sharesRepository);
+        var token = SharesService.GetShareToken(request.PageId, request.Permission, _sessionUser.UserId, _sharesRepository);
         return new SharePageByTokenResponse(true, token);
     }
 
@@ -124,26 +127,30 @@ public class SharePageStoreController(
         string Name,
         [CanBeNull] string ImageUrl,
         SharePermission Permission);
-    public readonly record struct GetShareInfoResponse([CanBeNull] List<UserWithPermission> Users);
+    public readonly record struct GetShareInfoResponse([CanBeNull] List<UserWithPermission> Users, [CanBeNull] string ShareToken = null);
 
 
     [HttpGet]
-    public GetShareInfoResponse GetShareInfo([FromRoute] int id)
+    public GetShareInfoResponse GetShareInfo([FromRoute] int id, [CanBeNull] string token = null)
     {
-        if (!_permissionCheck.CanEdit(EntityCache.GetPage(id)))
+        var page = EntityCache.GetPage(id);
+
+        if (page != null && !_permissionCheck.CanEdit(page, token))
             return new GetShareInfoResponse();
 
         var existingShares = EntityCache.GetPageShares(id);
-        var users = existingShares.Where(s => s.User != null).Select(s =>
+        var users = existingShares.Where(s => s.SharedWith != null).Select(s =>
         {
-            var imageUrl = new UserImageSettings(s.User.Id,
+            var imageUrl = new UserImageSettings(s.SharedWith.Id,
                     _httpContextAccessor)
-                .GetUrl_50px_square(s.User)
+                .GetUrl_50px_square(s.SharedWith)
                 .Url;
-            return new UserWithPermission(s.User.Id, s.User.Name, imageUrl, s.Permission);
+            return new UserWithPermission(s.SharedWith.Id, s.SharedWith.Name, imageUrl, s.Permission);
 
         }).ToList();
-        return new GetShareInfoResponse(users);
+
+        var shareToken = existingShares.FirstOrDefault(s => s.Token.Length > 0)?.Token;
+        return new GetShareInfoResponse(users, shareToken);
     }
 
     public readonly record struct BatchUpdatePermissionsRequest(
@@ -164,31 +171,31 @@ public class SharePageStoreController(
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public BatchUpdatePermissionsResponse BatchUpdatePermissions([FromBody] BatchUpdatePermissionsRequest req)
+    public BatchUpdatePermissionsResponse BatchUpdatePermissions([FromBody] BatchUpdatePermissionsRequest request)
     {
-        var page = EntityCache.GetPage(req.PageId);
+        var page = EntityCache.GetPage(request.PageId);
         if (page == null)
-            return new BatchUpdatePermissionsResponse(false, "Page not found.");
+            return new BatchUpdatePermissionsResponse(false, FrontendMessageKeys.Error.Page.NotFound);
 
         if (!_permissionCheck.CanEdit(page))
-            return new BatchUpdatePermissionsResponse(false, "Missing rights to update permissions for this page.");
+            return new BatchUpdatePermissionsResponse(false, FrontendMessageKeys.Error.Page.NoRights);
 
-        var existingShares = EntityCache.GetPageShares(req.PageId);
+        var existingShares = EntityCache.GetPageShares(request.PageId);
 
-        foreach (var update in req.PermissionUpdates)
+        foreach (var update in request.PermissionUpdates)
         {
-            var share = existingShares.FirstOrDefault(s => s.User?.Id == update.UserId);
+            var share = existingShares.FirstOrDefault(s => s.SharedWith?.Id == update.UserId);
             if (share != null)
             {
                 share.Permission = update.Permission;
-                _sharesRepository.CreateOrUpdate(share.ToDbItem());
+                _sharesRepository.CreateOrUpdate(share.ToDbItem(_userReadingRepo));
             }
             else
             {
                 var newShare = new Share
                 {
-                    UserId = update.UserId,
-                    PageId = req.PageId,
+                    User = _userReadingRepo.GetById(update.UserId),
+                    PageId = request.PageId,
                     Permission = update.Permission,
                     GrantedBy = _sessionUser.UserId,
                     Token = ""
@@ -200,17 +207,17 @@ public class SharePageStoreController(
             }
         }
 
-        foreach (var userId in req.RemovedUserIds)
+        foreach (var userId in request.RemovedUserIds)
         {
-            var share = existingShares.FirstOrDefault(s => s.User?.Id == userId);
+            var share = existingShares.FirstOrDefault(s => s.SharedWith?.Id == userId);
             if (share != null)
             {
                 _sharesRepository.Delete(share.Id);
             }
         }
-        existingShares.RemoveAll(s => s.User != null && req.RemovedUserIds.Contains(s.User.Id));
+        existingShares.RemoveAll(s => s.SharedWith != null && request.RemovedUserIds.Contains(s.SharedWith.Id));
 
-        EntityCache.AddOrUpdatePageShares(req.PageId, existingShares);
+        EntityCache.AddOrUpdatePageShares(request.PageId, existingShares);
 
         return new BatchUpdatePermissionsResponse(true, "");
     }

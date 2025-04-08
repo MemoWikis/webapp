@@ -7,7 +7,7 @@ public class SharesMap : ClassMap<Share>
         Table("share_info");
         Id(x => x.Id);
         Map(x => x.PageId);
-        Map(x => x.UserId).Nullable();
+        References(x => x.User).Column("UserId").Cascade.None();
         Map(x => x.Token).Not.Nullable();
         Map(x => x.Permission).CustomType<SharePermission>();
         Map(x => x.GrantedBy).Not.Nullable();

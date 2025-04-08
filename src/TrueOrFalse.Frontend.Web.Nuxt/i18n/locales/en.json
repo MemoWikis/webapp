@@ -714,22 +714,24 @@
             },
             "permission": {
                 "label": "Permission level",
-                "view": "View only",
-                "edit": "Can edit",
-                "viewWithChildren": "View with children",
-                "editWithChildren": "Edit with children",
+                "view": "Viewer",
+                "edit": "Editor",
+                "viewWithChildren": "Viewer (incl. Childpages)",
+                "editWithChildren": "Editor (incl. Childpages)",
                 "description": {
                     "0": "User can only view this page",
                     "1": "User can edit content on this page",
                     "2": "User can view this page and all child pages",
                     "3": "User can edit this page and all child pages"
-                }
+                },
+                "removing": "Remove",
+                "remove": "Remove access"
             },
             "search": {
                 "placeholder": "Search for users to share with..."
             },
             "existingShares": {
-                "title": "Current Access",
+                "title": "People with access",
                 "none": "No one has access to this page yet"
             },
             "notification": {
@@ -739,7 +741,7 @@
             },
             "link": {
                 "title": "Share via Link",
-                "generate": "Generate Link",
+                "copy": "Copy Link",
                 "renew": "Reset Link",
                 "info": "Anyone with the link will be able to access this page with view permissions."
             }

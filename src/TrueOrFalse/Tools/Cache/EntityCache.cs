@@ -537,15 +537,4 @@ public class EntityCache
     {
         PageShares.TryRemove(pageId, out _);
     }
-
-    public static void RenewTokenForPage(int pageId)
-    {
-        var shares = GetPageShares(pageId);
-        foreach (var share in shares)
-        {
-            // Generate a new token (e.g., using a GUID) to invalidate the old token.
-            share.Token = Guid.NewGuid().ToString();
-        }
-        AddOrUpdatePageShares(pageId, shares);
-    }
 }

@@ -5,27 +5,13 @@ import {
     SnackbarType,
 } from "~~/components/snackBar/snackBarStore"
 import { useLoadingStore } from "~/components/loading/loadingStore"
+import { usePageStore } from "../pageStore"
 
 export enum SharePermission {
     View = 0,
     Edit = 1,
     ViewWithChildren = 2,
     EditWithChildren = 3,
-}
-
-interface ShareInfoRequest {
-    userId: number
-    permission: SharePermission
-}
-
-interface EditRightsRequest {
-    pageId: number
-    users: ShareInfoRequest[]
-}
-
-interface EditRightsResponse {
-    success: boolean
-    messageKey: string
 }
 
 interface ShareToUserRequest {
@@ -46,16 +32,18 @@ interface GetShareInfoResponse {
 
 interface RenewShareTokenRequest {
     pageId: number
+    shareToken: string | null
 }
 
 interface RenewShareTokenResponse {
     success: boolean
-    messageKey: string
+    token: string | null
 }
 
 interface SharePageByTokenRequest {
     pageId: number
     permission: SharePermission
+    shareToken: string | null
 }
 
 interface SharePageByTokenResponse {
@@ -171,6 +159,10 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         pendingRemovals.value.add(userId)
     }
 
+    const removeFromMarkUserForRemoval = (userId: number) => {
+        pendingRemovals.value.delete(userId)
+    }
+
     const resetPendingChanges = () => {
         pendingPermissionChanges.value.clear()
         pendingRemovals.value.clear()
@@ -188,8 +180,13 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         loadingStore.startLoading()
 
         try {
+            const pageStore = usePageStore()
+            const tokenString = pageStore.shareToken
+                ? `?token=${pageStore.shareToken}`
+                : ""
+
             const response = await $api<GetShareInfoResponse>(
-                `/apiVue/SharePageStore/GetShareInfo/${pageId.value}`,
+                `/apiVue/SharePageStore/GetShareInfo/${pageId.value}${tokenString}`,
                 {
                     method: "GET",
                     mode: "cors",
@@ -273,70 +270,6 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
-    // const editRights = async () => {
-    //     const userStore = useUserStore()
-    //     if (!userStore.isLoggedIn) {
-    //         userStore.openLoginModal()
-    //         return { success: false }
-    //     }
-
-    //     if (selectedUsers.value.length === 0) {
-    //         const snackbarStore = useSnackbarStore()
-    //         const nuxtApp = useNuxtApp()
-    //         const { $i18n } = nuxtApp
-
-    //         snackbarStore.showSnackbar({
-    //             type: SnackbarType.Error.toString(),
-    //             text: { message: $i18n.t("error.page.noUsersSelected") },
-    //             duration: 4000,
-    //         })
-    //         return { success: false }
-    //     }
-
-    //     const users = selectedUsers.value.map((user) => ({
-    //         userId: user.id,
-    //         permission: user.permission,
-    //     }))
-
-    //     const data: EditRightsRequest = {
-    //         pageId: pageId.value,
-    //         users: users,
-    //     }
-
-    //     const result = await $api<EditRightsResponse>(
-    //         "/apiVue/SharePageStore/EditRights",
-    //         {
-    //             method: "POST",
-    //             body: data,
-    //             mode: "cors",
-    //             credentials: "include",
-    //         }
-    //     )
-
-    //     const snackbarStore = useSnackbarStore()
-    //     const nuxtApp = useNuxtApp()
-    //     const { $i18n } = nuxtApp
-
-    //     if (result.success) {
-    //         closeModal()
-    //         snackbarStore.showSnackbar({
-    //             type: SnackbarType.Success.toString(),
-    //             text: { message: $i18n.t("success.page.rightsUpdated") },
-    //             duration: 4000,
-    //         })
-    //         return { success: true }
-    //     } else {
-    //         snackbarStore.showSnackbar({
-    //             type: SnackbarType.Error.toString(),
-    //             text: {
-    //                 message: $i18n.t(result.messageKey || "error.general"),
-    //             },
-    //             duration: 6000,
-    //         })
-    //         return { success: false }
-    //     }
-    // }
-
     const savePermissionChanges = async () => {
         const userStore = useUserStore()
         if (!userStore.isLoggedIn) {
@@ -403,7 +336,10 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
-    const renewShareToken = async (id: number) => {
+    const renewShareToken = async (
+        id: number,
+        shareToken: string | null = null
+    ) => {
         const userStore = useUserStore()
         if (!userStore.isLoggedIn) {
             userStore.openLoginModal()
@@ -412,6 +348,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         const data: RenewShareTokenRequest = {
             pageId: id,
+            shareToken: shareToken,
         }
 
         const result = await $api<RenewShareTokenResponse>(
@@ -428,18 +365,20 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         const nuxtApp = useNuxtApp()
         const { $i18n } = nuxtApp
 
-        if (result.success) {
+        if (result.success && result.token) {
             snackbarStore.showSnackbar({
                 type: SnackbarType.Success.toString(),
                 text: { message: $i18n.t("success.token.renewed") },
                 duration: 4000,
             })
+            currentToken.value = result.token
+
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
                 type: SnackbarType.Error.toString(),
                 text: {
-                    message: $i18n.t(result.messageKey || "error.general"),
+                    message: $i18n.t("error.general"),
                 },
                 duration: 6000,
             })
@@ -451,7 +390,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
     const sharePageByToken = async (
         id: number,
-        permission: SharePermission
+        permission: SharePermission,
+        shareToken: string | null = null
     ) => {
         const userStore = useUserStore()
         if (!userStore.isLoggedIn) {
@@ -462,6 +402,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         const data: SharePageByTokenRequest = {
             pageId: id,
             permission: permission,
+            shareToken: shareToken,
         }
 
         const result = await $api<SharePageByTokenResponse>(
@@ -479,8 +420,6 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         const { $i18n } = nuxtApp
 
         if (result.success && result.token) {
-            await navigator.clipboard.writeText(result.token)
-
             snackbarStore.showSnackbar({
                 type: SnackbarType.Success.toString(),
                 text: { message: $i18n.t("success.token.copied") },
@@ -514,7 +453,6 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         removeUser,
         updateUserPermission,
         shareToUser,
-        // editRights,
         renewShareToken,
         sharePageByToken,
         loadExistingShares,
@@ -524,5 +462,6 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         resetPendingChanges,
         savePermissionChanges,
         markUserForRemoval,
+        removeFromMarkUserForRemoval,
     }
 })

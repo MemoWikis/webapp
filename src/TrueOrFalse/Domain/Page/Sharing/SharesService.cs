@@ -1,41 +1,82 @@
 ﻿public class SharesService
 {
-    public static string GenerateShareToken(int pageId, SharePermission permission, int grantedById, SharesRepository sharesRepository)
+    public static string GetShareToken(int pageId, SharePermission permission, int grantedById, SharesRepository sharesRepository)
     {
         var token = Guid.NewGuid().ToString("N");
         var existingShares = EntityCache.GetPageShares(pageId);
 
-        var shareInfo = new Share
+        var currentShareByToken = existingShares.FirstOrDefault(share => share.Token.Length > 0);
+        var shareInfo = new Share();
+        if (currentShareByToken != null)
         {
-            UserId = null,
-            PageId = pageId,
-            Permission = permission,
-            GrantedBy = grantedById,
-            Token = token
-        };
+            currentShareByToken.Permission = permission;
+            currentShareByToken.GrantedBy = grantedById;
 
-        sharesRepository.CreateOrUpdate(shareInfo);
-        var dbItem = sharesRepository.GetById(shareInfo.Id);
-        var newShareInfoCacheItem = ShareCacheItem.ToCacheItem(dbItem);
-        existingShares.Add(newShareInfoCacheItem);
+            EntityCache.AddOrUpdate(currentShareByToken);
 
-        return shareInfo.Token;
+            var dbItem = sharesRepository.GetById(currentShareByToken.Id);
+            dbItem.Permission = permission;
+            dbItem.GrantedBy = grantedById;
+            sharesRepository.Update(dbItem);
+            return currentShareByToken.Token;
+        }
+        else
+        {
+            shareInfo = new Share
+            {
+                User = null,
+                PageId = pageId,
+                Permission = permission,
+                GrantedBy = grantedById,
+                Token = token
+            };
+
+            sharesRepository.CreateOrUpdate(shareInfo);
+            var dbItem = sharesRepository.GetById(shareInfo.Id);
+            var newShareInfoCacheItem = ShareCacheItem.ToCacheItem(dbItem);
+            existingShares.Add(newShareInfoCacheItem);
+            return shareInfo.Token;
+
+        }
     }
 
-    public static void AddShareToPage(int pageId, int userId, SharePermission permission, int grantedById, SharesRepository sharesRepository)
+    public static string RenewShareToken(int pageId, int grantedById, SharesRepository sharesRepository)
+    {
+        var token = Guid.NewGuid().ToString("N");
+        var existingShares = EntityCache.GetPageShares(pageId);
+
+        var currentShareByToken = existingShares.FirstOrDefault(share => share.Token.Length > 0);
+
+        if (currentShareByToken == null)
+            throw new Exception("Cannot renew ShareToken, missing ShareItem");
+
+        currentShareByToken.GrantedBy = grantedById;
+        currentShareByToken.Token = token;
+
+        EntityCache.AddOrUpdate(currentShareByToken);
+
+        var dbItem = sharesRepository.GetById(currentShareByToken.Id);
+        dbItem.GrantedBy = grantedById;
+        dbItem.Token = token;
+        sharesRepository.Update(dbItem);
+        return currentShareByToken.Token;
+
+    }
+
+    public static void AddShareToPage(int pageId, int userId, SharePermission permission, int grantedById, SharesRepository sharesRepository, UserReadingRepo userReadingRepo)
     {
         var existingShares = EntityCache.GetPageShares(pageId);
-        var existingShare = existingShares.FirstOrDefault(s => s.User?.Id == userId);
+        var existingShare = existingShares.FirstOrDefault(s => s.SharedWith?.Id == userId);
         if (existingShare != null)
         {
             existingShare.Permission = permission;
-            sharesRepository.CreateOrUpdate(existingShare.ToDbItem());
+            sharesRepository.CreateOrUpdate(existingShare.ToDbItem(userReadingRepo));
         }
         else
         {
             var shareInfo = new Share
             {
-                UserId = userId,
+                User = userReadingRepo.GetById(userId),
                 PageId = pageId,
                 Permission = permission,
                 GrantedBy = grantedById,
@@ -76,7 +117,7 @@
                 if (parent == null) continue;
                 if (userId != null)
                 {
-                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.User?.Id == userId);
+                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.SharedWith?.Id == userId);
                     if (shareInfo != null)
                     {
                         bestPermissionThisLevel = GetHigherPermission(bestPermissionThisLevel, shareInfo.Permission);
