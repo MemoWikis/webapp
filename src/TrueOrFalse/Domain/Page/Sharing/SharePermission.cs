@@ -3,5 +3,6 @@
     View,
     Edit,
     ViewWithChildren,
-    EditWithChildren
+    EditWithChildren,
+    RestrictAccess = 10
 }

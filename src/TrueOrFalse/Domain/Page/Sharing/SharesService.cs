@@ -63,6 +63,14 @@
 
     }
 
+    public static void RemoveShareToken(int pageId, SharesRepository sharesRepository)
+    {
+        var existingShares = EntityCache.GetPageShares(pageId);
+        var shareIdsToRemove = existingShares.Where(share => share.Token.Length > 0).Select(share => share.Id).ToList();
+        EntityCache.RemoveShares(pageId, shareIdsToRemove);
+        sharesRepository.Delete(shareIdsToRemove);
+    }
+
     public static void AddShareToPage(int pageId, int userId, SharePermission permission, int grantedById, SharesRepository sharesRepository, UserReadingRepo userReadingRepo)
     {
         var existingShares = EntityCache.GetPageShares(pageId);
@@ -92,7 +100,7 @@
         EntityCache.AddOrUpdatePageShares(pageId, existingShares);
     }
 
-    public static SharePermission? GetClosestParentSharePermission(int childId, int? userId, string? token = null)
+    public static SharePermission? GetClosestParentSharePermissionByUserId(int childId, int? userId, string? token = null)
     {
         var child = EntityCache.GetPage(childId);
         if (child == null)
@@ -117,7 +125,7 @@
                 if (parent == null) continue;
                 if (userId != null)
                 {
-                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.SharedWith?.Id == userId);
+                    var shareInfo = parent.GetDirectShares().FirstOrDefault(s => s.SharedWith?.Id == userId);
                     if (shareInfo != null)
                     {
                         bestPermissionThisLevel = GetHigherPermission(bestPermissionThisLevel, shareInfo.Permission);
@@ -126,7 +134,7 @@
 
                 else if (token != null)
                 {
-                    var shareInfo = parent.GetDirectShareInfos().FirstOrDefault(s => s.Token == token);
+                    var shareInfo = parent.GetDirectShares().FirstOrDefault(s => s.Token == token);
                     if (shareInfo != null)
                     {
                         bestPermissionThisLevel = GetHigherPermission(bestPermissionThisLevel, shareInfo.Permission);
@@ -172,7 +180,192 @@
             SharePermission.View => 2,
             SharePermission.EditWithChildren => 3,
             SharePermission.ViewWithChildren => 4,
+            SharePermission.RestrictAccess => 10,
             _ => 0
         };
     }
+
+    public static Dictionary<int, List<SharePermission>> GetParentSharePermissionsWithChildAccess(int childId)
+    {
+        var result = new Dictionary<int, List<SharePermission>>();
+        var child = EntityCache.GetPage(childId);
+        if (child == null)
+            return result;
+
+        var visited = new HashSet<int> { childId };
+        var currentGeneration = new List<int>(child.ParentRelations.Select(r => r.ParentId));
+
+        while (currentGeneration.Count > 0)
+        {
+            currentGeneration = currentGeneration.Where(pid => !visited.Contains(pid)).ToList();
+            if (currentGeneration.Count == 0) break;
+
+            foreach (var pid in currentGeneration)
+                visited.Add(pid);
+
+            foreach (var pid in currentGeneration)
+            {
+                var parent = EntityCache.GetPage(pid);
+                if (parent == null) continue;
+
+                var directShareInfos = parent.GetDirectShares();
+                if (directShareInfos != null && directShareInfos.Any())
+                {
+                    var childAccessPermissions = directShareInfos
+                        .Where(s => s.Permission == SharePermission.ViewWithChildren ||
+                                    s.Permission == SharePermission.EditWithChildren)
+                        .Select(s => s.Permission)
+                        .Distinct()
+                        .ToList();
+
+                    if (childAccessPermissions.Any())
+                    {
+                        result[pid] = childAccessPermissions;
+                    }
+                }
+            }
+
+            var nextGeneration = new List<int>();
+            foreach (var pid in currentGeneration)
+            {
+                var p = EntityCache.GetPage(pid);
+                if (p != null)
+                {
+                    nextGeneration.AddRange(p.ParentRelations.Select(r => r.ParentId));
+                }
+            }
+
+            currentGeneration = nextGeneration;
+        }
+
+        return result;
+    }
+
+    public static bool IsShared(int pageId)
+    {
+        return EntityCache.GetPageShares(pageId).Any() || GetParentSharePermissionsWithChildAccess(pageId).Any();
+    }
+
+    public static void BatchUpdatePageShares(
+        int pageId,
+        List<(int UserId, SharePermission Permission)> permissionUpdates,
+        List<int> userIdsToRemove,
+        bool removeShareToken,
+        int grantedById,
+        SharesRepository sharesRepository,
+        UserReadingRepo userReadingRepo)
+    {
+        var existingShares = EntityCache.GetPageShares(pageId);
+
+        foreach (var update in permissionUpdates)
+        {
+            var share = existingShares.FirstOrDefault(s => s.SharedWith?.Id == update.UserId);
+            if (share != null)
+            {
+                share.Permission = update.Permission;
+                sharesRepository.CreateOrUpdate(share.ToDbItem(userReadingRepo));
+            }
+            else
+            {
+                var newShare = new Share
+                {
+                    User = userReadingRepo.GetById(update.UserId),
+                    PageId = pageId,
+                    Permission = update.Permission,
+                    GrantedBy = grantedById,
+                    Token = ""
+                };
+                sharesRepository.CreateOrUpdate(newShare);
+                var dbItem = sharesRepository.GetById(newShare.Id);
+                var newShareCacheItem = ShareCacheItem.ToCacheItem(dbItem);
+                existingShares.Add(newShareCacheItem);
+            }
+        }
+
+        foreach (var userId in userIdsToRemove)
+        {
+            var share = existingShares.FirstOrDefault(s => s.SharedWith?.Id == userId);
+            if (share != null)
+            {
+                sharesRepository.Delete(share.Id);
+            }
+        }
+        existingShares.RemoveAll(s => s.SharedWith != null && userIdsToRemove.Contains(s.SharedWith.Id));
+        EntityCache.AddOrUpdatePageShares(pageId, existingShares);
+
+        if (removeShareToken)
+            RemoveShareToken(pageId, sharesRepository);
+    }
+
+    public static List<ShareCacheItem> GetParentShareCacheItem(int childId)
+    {
+        var result = new Dictionary<int, ShareCacheItem>(); // UserId -> ShareCacheItem
+        var tokenShares = new List<ShareCacheItem>(); // Shares with tokens (no UserId)
+
+        var child = EntityCache.GetPage(childId);
+        if (child == null)
+            return new List<ShareCacheItem>();
+
+        var visited = new HashSet<int> { childId };
+        var currentGeneration = new List<int>(child.ParentRelations.Select(r => r.ParentId));
+
+        while (currentGeneration.Count > 0)
+        {
+            currentGeneration = currentGeneration.Where(pid => !visited.Contains(pid)).ToList();
+            if (currentGeneration.Count == 0) break;
+
+            foreach (var pid in currentGeneration)
+                visited.Add(pid);
+
+            foreach (var pid in currentGeneration)
+            {
+                var parent = EntityCache.GetPage(pid);
+                if (parent == null) continue;
+
+                var directShares = parent.GetDirectShares();
+                if (directShares != null && directShares.Any())
+                {
+                    foreach (var share in directShares)
+                    {
+                        if (share.Permission == SharePermission.ViewWithChildren ||
+                            share.Permission == SharePermission.EditWithChildren)
+                        {
+                            if (share.SharedWith != null)
+                            {
+                                if (!result.ContainsKey(share.SharedWith.Id))
+                                {
+                                    result.Add(share.SharedWith.Id, share);
+                                }
+                            }
+                            else if (!string.IsNullOrEmpty(share.Token))
+                            {
+                                tokenShares.Add(share);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (result.Any() || tokenShares.Any())
+                break;
+
+            var nextGeneration = new List<int>();
+            foreach (var pid in currentGeneration)
+            {
+                var p = EntityCache.GetPage(pid);
+                if (p != null)
+                {
+                    nextGeneration.AddRange(p.ParentRelations.Select(r => r.ParentId));
+                }
+            }
+
+            currentGeneration = nextGeneration;
+        }
+
+        var allShares = result.Values.ToList();
+        allShares.AddRange(tokenShares);
+
+        return allShares;
+    }
+
 }

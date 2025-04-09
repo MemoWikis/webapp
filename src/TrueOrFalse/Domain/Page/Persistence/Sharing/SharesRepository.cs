@@ -3,9 +3,23 @@ using NHibernate;
 
 public class SharesRepository(ISession session) : RepositoryDbBase<Share>(session)
 {
-    public IList<Share> GetAll()
+
+    public IList<Share> GetAllEager()
     {
-        return base.GetAll();
+        var shares = _session.QueryOver<Share>().Future().ToList();
+
+        _session.QueryOver<Share>()
+            .Fetch(SelectMode.Fetch, x => x.User)
+            .Future();
+
+        var result = shares;
+
+        foreach (var share in result)
+        {
+            NHibernateUtil.Initialize(share.User);
+        }
+
+        return result.ToList();
     }
 
     public void Create(Share share)
@@ -25,4 +39,21 @@ public class SharesRepository(ISession session) : RepositoryDbBase<Share>(sessio
         base.Delete(share);
         Flush();
     }
+    public void Delete(IList<int> shareIds)
+    {
+        if (shareIds == null || !shareIds.Any())
+            return;
+
+        foreach (var shareId in shareIds)
+        {
+            var share = GetById(shareId);
+            if (share != null)
+            {
+                base.Delete(share);
+            }
+        }
+
+        Flush();
+    }
+
 }

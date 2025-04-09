@@ -63,6 +63,7 @@ public class PageController(
             ErrorCode = data.ErrorCode,
             Language = data.Language,
             CanEdit = _permissionCheck.CanEditPage(data.Id, t),
+            IsShared = SharesService.IsShared(data.Id)
         };
     }
 
@@ -99,6 +100,7 @@ public class PageController(
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
         List<DailyViews> ViewsLast30DaysQuestions,
         string Language,
-        bool CanEdit
+        bool CanEdit,
+        bool IsShared
     );
 }

@@ -9,7 +9,6 @@ public class EntityCacheInitializer(
     QuestionViewRepository _questionViewRepository,
     PageChangeRepo pageChangeRepo,
     QuestionChangeRepo _questionChangeRepo,
-    AnswerRepo _answerRepo,
     SharesRepository _sharesRepository) : IRegisterAsInstancePerLifetime
 {
     private Stopwatch _stopWatch;
@@ -103,7 +102,7 @@ public class EntityCacheInitializer(
 
     private void InitializeShareInfos()
     {
-        var allShareInfos = _sharesRepository.GetAll();
+        var allShareInfos = _sharesRepository.GetAllEager();
         Logg.r.Information("EntityCache ShareInfos Loaded " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var shareCacheItems = allShareInfos.Select(ShareCacheItem.ToCacheItem).ToList();

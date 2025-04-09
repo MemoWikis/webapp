@@ -5,13 +5,14 @@ import {
     SnackbarType,
 } from "~~/components/snackBar/snackBarStore"
 import { useLoadingStore } from "~/components/loading/loadingStore"
-import { usePageStore } from "../pageStore"
+import { usePageStore, TinyPageModel } from "../pageStore"
 
 export enum SharePermission {
     View = 0,
     Edit = 1,
     ViewWithChildren = 2,
     EditWithChildren = 3,
+    RestrictAccess = 10,
 }
 
 interface ShareToUserRequest {
@@ -70,6 +71,15 @@ export interface UserWithPermission {
     name?: string
     imageUrl?: string
     permission: SharePermission
+    inheritedFrom?: TinyPageModel
+}
+
+interface RemoveShareTokenRequest {
+    pageId: number
+}
+
+interface RemoveShareTokenResponse {
+    success: boolean
 }
 
 export const useSharePageStore = defineStore("sharePageStore", () => {
@@ -84,11 +94,13 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     )
 
     const pendingRemovals = ref<Set<number>>(new Set())
+    const pendingTokenRemoval = ref(false)
 
     const hasPendingChanges = computed(
         () =>
             pendingPermissionChanges.value.size > 0 ||
-            pendingRemovals.value.size > 0
+            pendingRemovals.value.size > 0 ||
+            pendingTokenRemoval.value
     )
 
     const openModal = (id: number, name: string) => {
@@ -163,9 +175,18 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         pendingRemovals.value.delete(userId)
     }
 
+    const markTokenForRemoval = () => {
+        pendingTokenRemoval.value = true
+    }
+
+    const cancelTokenRemoval = () => {
+        pendingTokenRemoval.value = false
+    }
+
     const resetPendingChanges = () => {
         pendingPermissionChanges.value.clear()
         pendingRemovals.value.clear()
+        pendingTokenRemoval.value = false
     }
 
     const loadExistingShares = async () => {
@@ -196,6 +217,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
             if (response && response.users) {
                 existingShares.value = response.users
+
                 return { success: true, users: response.users }
             } else {
                 return { success: false }
@@ -279,61 +301,78 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         if (
             pendingPermissionChanges.value.size === 0 &&
-            pendingRemovals.value.size === 0
+            pendingRemovals.value.size === 0 &&
+            !pendingTokenRemoval.value
         ) {
             return { success: true }
         }
 
-        const updates = Array.from(
-            pendingPermissionChanges.value.entries()
-        ).map(([userId, permission]) => ({
-            userId,
-            permission,
-        }))
+        // First handle user permission changes
+        if (
+            pendingPermissionChanges.value.size > 0 ||
+            pendingRemovals.value.size > 0
+        ) {
+            const updates = Array.from(
+                pendingPermissionChanges.value.entries()
+            ).map(([userId, permission]) => ({
+                userId,
+                permission,
+            }))
 
-        const removedUserIds = Array.from(pendingRemovals.value)
+            const removedUserIds = Array.from(pendingRemovals.value)
 
-        const data: BatchUpdatePermissionsRequest = {
-            pageId: pageId.value,
-            permissionUpdates: updates,
-            removedUserIds: removedUserIds,
+            const data: BatchUpdatePermissionsRequest = {
+                pageId: pageId.value,
+                permissionUpdates: updates,
+                removedUserIds: removedUserIds,
+            }
+
+            const result = await $api<BatchUpdatePermissionsResponse>(
+                "/apiVue/SharePageStore/BatchUpdatePermissions",
+                {
+                    method: "POST",
+                    body: data,
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
+
+            const snackbarStore = useSnackbarStore()
+            const nuxtApp = useNuxtApp()
+            const { $i18n } = nuxtApp
+
+            if (!result.success) {
+                snackbarStore.showSnackbar({
+                    type: SnackbarType.Error.toString(),
+                    text: {
+                        message: $i18n.t(result.messageKey || "error.general"),
+                    },
+                    duration: 6000,
+                })
+                return { success: false }
+            }
         }
 
-        const result = await $api<BatchUpdatePermissionsResponse>(
-            "/apiVue/SharePageStore/BatchUpdatePermissions",
-            {
-                method: "POST",
-                body: data,
-                mode: "cors",
-                credentials: "include",
-            }
-        )
+        // Then handle token removal if pending
+        if (pendingTokenRemoval.value) {
+            await removeShareToken()
+            pendingTokenRemoval.value = false
+        }
+
+        resetPendingChanges()
+
+        await loadExistingShares()
 
         const snackbarStore = useSnackbarStore()
         const nuxtApp = useNuxtApp()
         const { $i18n } = nuxtApp
 
-        if (result.success) {
-            resetPendingChanges()
-
-            await loadExistingShares()
-
-            snackbarStore.showSnackbar({
-                type: SnackbarType.Success.toString(),
-                text: { message: $i18n.t("success.page.rightsUpdated") },
-                duration: 4000,
-            })
-            return { success: true }
-        } else {
-            snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
-                text: {
-                    message: $i18n.t(result.messageKey || "error.general"),
-                },
-                duration: 6000,
-            })
-            return { success: false }
-        }
+        snackbarStore.showSnackbar({
+            type: SnackbarType.Success.toString(),
+            text: { message: $i18n.t("success.page.rightsUpdated") },
+            duration: 4000,
+        })
+        return { success: true }
     }
 
     const renewShareToken = async (
@@ -437,6 +476,49 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
+    const removeShareToken = async () => {
+        const userStore = useUserStore()
+        if (!userStore.isLoggedIn) {
+            userStore.openLoginModal()
+            return { success: false }
+        }
+
+        const data: RemoveShareTokenRequest = {
+            pageId: pageId.value,
+        }
+
+        const result = await $api<RemoveShareTokenResponse>(
+            "/apiVue/SharePageStore/RemoveShareToken",
+            {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            }
+        )
+
+        const snackbarStore = useSnackbarStore()
+        const nuxtApp = useNuxtApp()
+        const { $i18n } = nuxtApp
+
+        if (result.success) {
+            snackbarStore.showSnackbar({
+                type: SnackbarType.Success.toString(),
+                text: { message: $i18n.t("success.token.removed") },
+                duration: 4000,
+            })
+            currentToken.value = null
+            return { success: true }
+        } else {
+            snackbarStore.showSnackbar({
+                type: SnackbarType.Error.toString(),
+                text: { message: $i18n.t("error.token.removal") },
+                duration: 6000,
+            })
+            return { success: false }
+        }
+    }
+
     return {
         showModal,
         pageId,
@@ -446,6 +528,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         hasPendingChanges,
         pendingRemovals,
         currentToken,
+        pendingTokenRemoval,
 
         openModal,
         closeModal,
@@ -463,5 +546,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         savePermissionChanges,
         markUserForRemoval,
         removeFromMarkUserForRemoval,
+        removeShareToken,
+        markTokenForRemoval,
+        cancelTokenRemoval,
     }
 })

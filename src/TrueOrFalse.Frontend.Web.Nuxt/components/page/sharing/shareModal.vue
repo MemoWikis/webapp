@@ -19,7 +19,8 @@ const permissionOptions = reactive([
     { value: SharePermission.View, label: t('page.sharing.permission.view') },
     { value: SharePermission.Edit, label: t('page.sharing.permission.edit') },
     { value: SharePermission.ViewWithChildren, label: t('page.sharing.permission.viewWithChildren') },
-    { value: SharePermission.EditWithChildren, label: t('page.sharing.permission.editWithChildren') }
+    { value: SharePermission.EditWithChildren, label: t('page.sharing.permission.editWithChildren') },
+    { value: SharePermission.RestrictAccess, label: t('page.sharing.permission.restrictAccess') }
 ])
 
 function selectUserToShare(user: UserItem) {
@@ -193,14 +194,23 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                             <div class="user-item" v-for="user in sharePageStore.existingShares" :key="user.id">
                                 <div class="user-info" :class="{ 'pending-removal': sharePageStore.pendingRemovals.has(user.id) }">
                                     <img :src="user.imageUrl" class="user-avatar" alt="User avatar" />
-                                    <span class="user-name">{{ user.name }}</span>
+                                    <div class="user-name-container">
+                                        <span class="user-name">{{ user.name }}</span>
+                                        <span v-if="user.inheritedFrom" class="inherited-badge">
+                                            {{ t('page.sharing.permission.inherited') }} {{ t('page.sharing.permission.from') }} {{ user.inheritedFrom.name }}
+                                        </span>
+                                    </div>
+
                                 </div>
 
                                 <div class="user-detail">
                                     <!-- Permission dropdown -->
                                     <VDropdown class="share-permission-dropdown" :distance="5" :aria-id="`existing-share-${user.id}`">
                                         <div class="permission-dropdown-trigger"
-                                            :class="{ 'pending-change': sharePageStore.getEffectivePermission(user.id) !== user.permission, 'pending-removal-trigger': sharePageStore.pendingRemovals.has(user.id) }">
+                                            :class="{
+                                                'pending-change': sharePageStore.getEffectivePermission(user.id) !== user.permission,
+                                                'pending-removal-trigger': sharePageStore.pendingRemovals.has(user.id),
+                                            }">
                                             <span class="user-permission">
                                                 <template v-if="sharePageStore.pendingRemovals.has(user.id)">
                                                     {{ t('page.sharing.permission.removing') }}
@@ -209,11 +219,19 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                                                     {{permissionOptions.find(option => option.value ===
                                                         (sharePageStore.getEffectivePermission(user.id) ?? user.permission))?.label}}
                                                 </template>
-
                                             </span>
+                                            <!-- <span class="permission-icon" v-if="user.permission === SharePermission.EditWithChildren || user.permission === SharePermission.ViewWithChildren">
+                                                <font-awesome-icon :icon="user.permission === SharePermission.EditWithChildren
+                                                    ? ['fas', 'pen']
+                                                    : ['fas', 'eye']" :title="user.permission === SharePermission.EditWithChildren || user.permission === SharePermission.ViewWithChildren
+                                                        ? t('page.sharing.permission.includesChildren')
+                                                        : ''" />
+                                                <font-awesome-icon v-if="user.permission === SharePermission.EditWithChildren || user.permission === SharePermission.ViewWithChildren" icon="fa-solid fa-sitemap" class="children-icon" />
+                                            </span> -->
                                             <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
                                         </div>
 
+                                        <!-- Only show dropdown for non-inherited permissions -->
                                         <template #popper="{ hide }">
                                             <div class="permission-dropdown-menu">
                                                 <div
@@ -244,11 +262,18 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                                                     {{ t('page.sharing.permission.editWithChildren') }}
                                                 </div>
 
+                                                <div
+                                                    @click="updateExistingSharePermission(user.id, SharePermission.RestrictAccess); hide()"
+                                                    class="permission-dropdown-item"
+                                                    :class="{ 'active': permissionIsActive(user.id, SharePermission.RestrictAccess) }">
+                                                    {{ t('page.sharing.permission.restrictAccess') }}
+                                                </div>
+
                                                 <div class="divider"></div>
 
                                                 <div
                                                     @click="removeExistingShare(user.id); hide()"
-                                                    class="permission-dropdown-item"
+                                                    class="permission-dropdown-item permission-dropdown-item-danger"
                                                     :class="{ 'active': sharePageStore.pendingRemovals.has(user.id) }">
                                                     {{ t('page.sharing.permission.remove') }}
                                                 </div>
@@ -270,39 +295,53 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                         <div class="link-actions-section">
                             <div class="link-permission">
                                 <VDropdown class="share-link-dropdown" :distance="5" :aria-id="'share-link-permission'">
-                                    <div class="permission-dropdown-trigger">
-                                        {{permissionOptions.find(option => option.value === linkPermission)?.label}}
+                                    <div class="permission-dropdown-trigger" :class="{ 'pending-removal-trigger': sharePageStore.pendingTokenRemoval }">
+                                        <span v-if="sharePageStore.pendingTokenRemoval">
+                                            {{ t('page.sharing.link.pendingRemoval') }}
+                                        </span>
+                                        <span v-else>
+                                            {{permissionOptions.find(option => option.value === linkPermission)?.label}}
+                                        </span>
                                         <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
                                     </div>
 
                                     <template #popper="{ hide }">
                                         <div class="permission-dropdown-menu">
                                             <div
-                                                @click="linkPermission = SharePermission.View; hide()"
+                                                @click="linkPermission = SharePermission.View; sharePageStore.pendingTokenRemoval && sharePageStore.cancelTokenRemoval(); hide()"
                                                 class="permission-dropdown-item"
-                                                :class="{ 'active': linkPermission === SharePermission.View }">
+                                                :class="{ 'active': linkPermission === SharePermission.View && !sharePageStore.pendingTokenRemoval }">
                                                 {{ t('page.sharing.permission.view') }}
                                             </div>
 
                                             <div
-                                                @click="linkPermission = SharePermission.Edit; hide()"
+                                                @click="linkPermission = SharePermission.Edit; sharePageStore.pendingTokenRemoval && sharePageStore.cancelTokenRemoval(); hide()"
                                                 class="permission-dropdown-item"
-                                                :class="{ 'active': linkPermission === SharePermission.Edit }">
+                                                :class="{ 'active': linkPermission === SharePermission.Edit && !sharePageStore.pendingTokenRemoval }">
                                                 {{ t('page.sharing.permission.edit') }}
                                             </div>
 
                                             <div
-                                                @click="linkPermission = SharePermission.ViewWithChildren; hide()"
+                                                @click="linkPermission = SharePermission.ViewWithChildren; sharePageStore.pendingTokenRemoval && sharePageStore.cancelTokenRemoval(); hide()"
                                                 class="permission-dropdown-item"
-                                                :class="{ 'active': linkPermission === SharePermission.ViewWithChildren }">
+                                                :class="{ 'active': linkPermission === SharePermission.ViewWithChildren && !sharePageStore.pendingTokenRemoval }">
                                                 {{ t('page.sharing.permission.viewWithChildren') }}
                                             </div>
 
                                             <div
-                                                @click="linkPermission = SharePermission.EditWithChildren; hide()"
+                                                @click="linkPermission = SharePermission.EditWithChildren; sharePageStore.pendingTokenRemoval && sharePageStore.cancelTokenRemoval(); hide()"
                                                 class="permission-dropdown-item"
-                                                :class="{ 'active': linkPermission === SharePermission.EditWithChildren }">
+                                                :class="{ 'active': linkPermission === SharePermission.EditWithChildren && !sharePageStore.pendingTokenRemoval }">
                                                 {{ t('page.sharing.permission.editWithChildren') }}
+                                            </div>
+
+                                            <div class="divider"></div>
+
+                                            <div
+                                                @click="sharePageStore.markTokenForRemoval(); hide()"
+                                                class="permission-dropdown-item permission-dropdown-item-danger"
+                                                :class="{ 'active': sharePageStore.pendingTokenRemoval }">
+                                                {{ t('page.sharing.link.remove') }}
                                             </div>
                                         </div>
                                     </template>
@@ -310,10 +349,10 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                             </div>
 
                             <div class="link-actions">
-                                <button class="btn btn-primary btn-copy" @click="copyShareUrl()">
+                                <button class="btn btn-primary btn-copy" @click="copyShareUrl()" :disabled="sharePageStore.pendingTokenRemoval">
                                     <font-awesome-icon :icon="['fas', 'link']" /> {{ t('page.sharing.link.copy') }}
                                 </button>
-                                <button class="btn btn-secondary btn-renew" @click="renewToken()">
+                                <button class="btn btn-secondary btn-renew" @click="renewToken()" :disabled="sharePageStore.pendingTokenRemoval">
                                     {{ t('page.sharing.link.renew') }}
                                 </button>
                             </div>
@@ -358,7 +397,7 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                                             @click="updatePermission(SharePermission.Edit); hide()"
                                             class="permission-dropdown-item"
                                             :class="{ 'active': currentUser.permission === SharePermission.Edit }">
-                                            {{ t('page.sharing.permission.edit') }}ed
+                                            {{ t('page.sharing.permission.edit') }}
                                         </div>
 
                                         <div
@@ -372,8 +411,10 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                                             @click="updatePermission(SharePermission.EditWithChildren); hide()"
                                             class="permission-dropdown-item"
                                             :class="{ 'active': currentUser.permission === SharePermission.EditWithChildren }">
-                                            {{ t('page.sharing.permission.editWithChildren') }}edi
+                                            {{ t('page.sharing.permission.editWithChildren') }}
                                         </div>
+
+
                                     </div>
                                 </template>
                             </VDropdown>
@@ -468,7 +509,13 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 }
 
 .user-name {
-    font-weight: 500;
+    font-weight: 600;
+    color: @memo-grey-darkest;
+}
+
+.user-name-container {
+    display: flex;
+    flex-direction: column;
 }
 
 .user-detail {
@@ -485,7 +532,7 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
     padding: 4px 8px;
 
     &:hover {
-        color: @memo-wuwi-red;
+        color: @memo-grey-darkest;
     }
 }
 
@@ -676,11 +723,146 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
 }
 
+.share-link-dropdown {
+    .permission-dropdown-trigger {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        height: 36px;
+        background: white;
+        user-select: none;
+        width: 100%;
+        justify-content: space-between;
+
+        &:hover {
+            filter: brightness(0.925);
+        }
+
+        &:active {
+            filter: brightness(0.85);
+        }
+
+        &.pending-removal-trigger {
+            color: @memo-grey-darkest;
+        }
+
+        .permission-dropdown-trigger-icon {
+            transition: transform 0.2s ease;
+        }
+    }
+
+    :deep(.v-popper__popper) {
+        z-index: 1000 !important;
+    }
+}
+
 .link-actions-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
+}
+
+.inherited-shares {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.inherited-page-group {
+    background-color: fade(@memo-grey-lighter, 50%);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.page-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid @memo-grey-light;
+}
+
+.page-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.page-name {
+    font-weight: 600;
+    color: @memo-blue;
+    font-size: 0.9rem;
+}
+
+.inherited-permission {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    height: 36px;
+    background: white;
+}
+
+.permission-icon {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: @memo-grey-dark;
+}
+
+.children-icon {
+    font-size: 0.8em;
+    margin-left: 2px;
+}
+
+.inherited-badge {
+    font-size: 0.8rem;
+    color: @memo-grey-dark;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.permission-dropdown-trigger {
+    &.pending-change {
+
+        .user-permission {
+            font-weight: 600;
+            color: @memo-blue;
+        }
+    }
+
+    /* Add transition for smoother icon rotation */
+    .permission-dropdown-trigger-icon {
+        transition: transform 0.2s ease;
+    }
+}
+
+.user-item {
+    .pending-removal {
+        .user-name {
+            text-decoration: line-through;
+            color: @memo-grey-dark;
+        }
+    }
+}
+
+.pending-removal-trigger {
+    opacity: 0.8;
+}
+
+.v-popper--shown {
+
+    .permission-dropdown-trigger-icon {
+        transform: rotate3d(1, 0, 0, 180deg);
+    }
 }
 </style>
 
@@ -701,34 +883,20 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
         filter: brightness(0.9);
         font-weight: 500;
     }
-}
 
-.permission-dropdown-trigger {
-    &.pending-change {
+    &.permission-dropdown-item-danger {
+        color: @memo-grey-darkest;
+        font-weight: 500;
 
-        .user-permission {
-            font-weight: 600;
-            color: @memo-blue;
+        &:hover {
+            background-color: fade(@memo-grey-dark, 15%);
         }
     }
 }
 
-.user-item {
-    .pending-removal {
-        .user-name {
-            text-decoration: line-through;
-        }
-    }
-}
-
-.pending-removal-trigger {
-    opacity: 1;
-}
-
-.v-popper--shown {
-
-    .permission-dropdown-trigger-icon {
-        transform: rotate3d(1, 0, 0, 180deg);
-    }
+.divider {
+    height: 1px;
+    background-color: @memo-grey-light;
+    margin: 4px 0;
 }
 </style>

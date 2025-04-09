@@ -178,8 +178,9 @@ const { t, localeProperties } = useI18n()
             <font-awesome-icon icon="fa-solid fa-unlock" v-show="hoverLock" />
         </div>
 
-        <div class="share-btn" v-if="pageStore.visibility != Visibility.All" @click="sharePageStore.openModal(pageStore.id, pageStore.name)">
-            <font-awesome-icon :icon="['fas', 'earth-europe']" />
+        <div class="share-btn" @click="sharePageStore.openModal(pageStore.id, pageStore.name)">
+            <font-awesome-icon :icon="['fas', 'user-group']" v-if="pageStore.isShared" />
+            <font-awesome-icon :icon="['fas', 'user-plus']" v-else />
         </div>
 
     </div>

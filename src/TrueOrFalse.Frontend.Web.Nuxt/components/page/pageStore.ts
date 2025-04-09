@@ -50,6 +50,7 @@ export class Page {
     viewsLast30DaysQuestions: ViewSummary[] | null = null
     language: "de" | "en" | "fr" | "es" = "en"
     canEdit: boolean = false
+    isShared: boolean = false
 }
 
 export interface ViewSummary {
@@ -143,10 +144,13 @@ export const usePageStore = defineStore("pageStore", {
             contentLanguage: "en" as "en" | "de" | "fr" | "es",
             canEdit: false,
             shareToken: null as string | null,
+            isShared: false,
         }
     },
     actions: {
         setPage(page: Page) {
+            this.shareToken = null
+
             if (page != null) {
                 this.id = page.id
                 this.name = page.name
@@ -193,6 +197,7 @@ export const usePageStore = defineStore("pageStore", {
 
                 this.contentLanguage = page.language
                 this.canEdit = page.canEdit
+                this.isShared = page.isShared
             }
         },
         async saveContent() {

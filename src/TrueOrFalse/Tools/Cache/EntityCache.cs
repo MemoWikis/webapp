@@ -537,4 +537,22 @@ public class EntityCache
     {
         PageShares.TryRemove(pageId, out _);
     }
+
+    public static void RemoveShares(int pageId, IList<int> shareIdsToRemove)
+    {
+        if (shareIdsToRemove == null || !shareIdsToRemove.Any())
+            return;
+
+        var currentShares = GetPageShares(pageId);
+        if (currentShares == null || !currentShares.Any())
+            return;
+
+        var shareIdsSet = new HashSet<int>(shareIdsToRemove);
+        var updatedShares = currentShares.Where(share => !shareIdsSet.Contains(share.Id)).ToList();
+
+        if (updatedShares.Count != currentShares.Count)
+        {
+            AddOrUpdatePageShares(pageId, updatedShares);
+        }
+    }
 }
