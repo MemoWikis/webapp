@@ -726,7 +726,8 @@
                     "3": "User can edit this page and all subpages"
                 },
                 "removing": "Remove",
-                "remove": "Remove access"
+                "remove": "Remove access",
+                "creator": "Creator"
             },
             "search": {
                 "placeholder": "Search for users to share with..."

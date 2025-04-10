@@ -11,7 +11,8 @@ public class SharePageStoreController(
         SessionUser _sessionUser,
         SharesRepository _sharesRepository,
         IHttpContextAccessor _httpContextAccessor,
-        UserReadingRepo _userReadingRepo
+        UserReadingRepo _userReadingRepo,
+        NotifyUserPerEmail _notifyUserPerEmail
     ) : Controller
 {
     public readonly record struct ShareToUserRequest(
@@ -28,16 +29,17 @@ public class SharePageStoreController(
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public ShareToUserResponse ShareToUser([FromBody] ShareToUserRequest req)
+    public ShareToUserResponse ShareToUser([FromBody] ShareToUserRequest request)
     {
-        var page = EntityCache.GetPage(req.PageId);
+        var page = EntityCache.GetPage(request.PageId);
         if (page == null)
             return new ShareToUserResponse(false, FrontendMessageKeys.Error.Page.NotFound);
 
         if (!_permissionCheck.CanEdit(page))
             return new ShareToUserResponse(false, FrontendMessageKeys.Error.Page.MissingRights);
 
-        SharesService.AddShareToPage(req.PageId, req.UserId, req.Permission, _sessionUser.UserId, _sharesRepository, _userReadingRepo);
+        SharesService.AddShareToPage(request.PageId, request.UserId, request.Permission, _sessionUser.UserId, _sharesRepository, _userReadingRepo);
+        _notifyUserPerEmail.Run(request.UserId, request.PageId, request.Permission, request.CustomMessage);
 
         return new ShareToUserResponse(true, "");
     }
@@ -85,13 +87,14 @@ public class SharePageStoreController(
         return new SharePageByTokenResponse(true, token);
     }
 
+    public readonly record struct CreatorResponse(int Id, string Name, [CanBeNull] string ImageUrl);
     public readonly record struct UserWithPermission(
         int Id,
         string Name,
         [CanBeNull] string ImageUrl,
         SharePermission Permission,
         [CanBeNull] PageResponse? InheritedFrom = null);
-    public readonly record struct GetShareInfoResponse([CanBeNull] List<UserWithPermission> Users, [CanBeNull] string ShareToken = null);
+    public readonly record struct GetShareInfoResponse(CreatorResponse Creator, [CanBeNull] List<UserWithPermission> Users, [CanBeNull] string ShareToken = null);
 
     public readonly record struct PageResponse(int Id, string Name);
 
@@ -135,8 +138,15 @@ public class SharePageStoreController(
             users.AddRange(usersWithParentPermissions);
         }
 
+        var creator = EntityCache.GetUserById(page.CreatorId);
+        var creatorResponse = new CreatorResponse(creator.Id, creator.Name, new UserImageSettings(
+                creator.Id,
+                _httpContextAccessor)
+            .GetUrl_50px_square(creator)
+            .Url);
+
         var shareToken = existingShares.FirstOrDefault(s => s.Token.Length > 0)?.Token;
-        return new GetShareInfoResponse(users, shareToken);
+        return new GetShareInfoResponse(creatorResponse, users, shareToken);
     }
 
     public readonly record struct BatchUpdatePermissionsRequest(

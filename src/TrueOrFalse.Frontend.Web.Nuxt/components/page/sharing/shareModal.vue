@@ -185,12 +185,29 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                     </div>
 
                     <!-- Existing shares list -->
-                    <template v-if="sharePageStore.existingShares.length > 0">
+                    <template v-if="sharePageStore.existingShares.length > 0 || sharePageStore.creator">
                         <div class="section-heading">
                             <h5>{{ t('page.sharing.existingShares.title') }}</h5>
                         </div>
 
                         <div class="existing-shares">
+                            <!-- Display creator first -->
+                            <div class="user-item creator" v-if="sharePageStore.creator">
+                                <div class="user-info">
+                                    <img :src="sharePageStore.creator.imageUrl" class="user-avatar" alt="Creator avatar" />
+                                    <div class="user-name-container">
+                                        <span class="user-name">{{ sharePageStore.creator.name }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="user-detail no-hover">
+                                    <div class="permission-display">
+                                        <span class="user-permission">{{ t('page.sharing.permission.creator') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Display other users -->
                             <div class="user-item" v-for="user in sharePageStore.existingShares" :key="user.id">
                                 <div class="user-info" :class="{ 'pending-removal': sharePageStore.pendingRemovals.has(user.id) }">
                                     <img :src="user.imageUrl" class="user-avatar" alt="User avatar" />
@@ -220,14 +237,6 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                                                         (sharePageStore.getEffectivePermission(user.id) ?? user.permission))?.label}}
                                                 </template>
                                             </span>
-                                            <!-- <span class="permission-icon" v-if="user.permission === SharePermission.EditWithChildren || user.permission === SharePermission.ViewWithChildren">
-                                                <font-awesome-icon :icon="user.permission === SharePermission.EditWithChildren
-                                                    ? ['fas', 'pen']
-                                                    : ['fas', 'eye']" :title="user.permission === SharePermission.EditWithChildren || user.permission === SharePermission.ViewWithChildren
-                                                        ? t('page.sharing.permission.includesChildren')
-                                                        : ''" />
-                                                <font-awesome-icon v-if="user.permission === SharePermission.EditWithChildren || user.permission === SharePermission.ViewWithChildren" icon="fa-solid fa-sitemap" class="children-icon" />
-                                            </span> -->
                                             <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
                                         </div>
 
@@ -828,6 +837,15 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
     color: @memo-grey-dark;
     border-radius: 4px;
     white-space: nowrap;
+}
+
+.permission-display {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    height: 36px;
+    user-select: none;
 }
 
 .permission-dropdown-trigger {

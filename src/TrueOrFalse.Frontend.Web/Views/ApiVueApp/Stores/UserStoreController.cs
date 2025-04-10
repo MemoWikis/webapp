@@ -81,7 +81,7 @@ public class UserStoreController(
     [HttpPost]
     public LoginResponse ResetPassword([FromBody] ResetPasswordRequest req)
     {
-        var result = _passwordRecovery.RunForNuxt(req.Email);
+        var result = _passwordRecovery.Run(req.Email);
         //Don't reveal if email exists 
         return new LoginResponse { Success = result.Success || result.EmailDoesNotExist };
     }

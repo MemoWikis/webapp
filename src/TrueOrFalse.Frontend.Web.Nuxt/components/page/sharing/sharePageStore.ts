@@ -28,7 +28,15 @@ interface ShareToUserResponse {
 }
 
 interface GetShareInfoResponse {
+    creator: CreatorResponse
     users?: UserWithPermission[]
+    shareToken?: string
+}
+
+interface CreatorResponse {
+    id: number
+    name: string
+    imageUrl?: string
 }
 
 interface RenewShareTokenRequest {
@@ -88,6 +96,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     const pageName = ref("")
     const selectedUsers = ref<UserWithPermission[]>([])
     const existingShares = ref<UserWithPermission[]>([])
+    const creator = ref<CreatorResponse | null>(null)
 
     const pendingPermissionChanges = ref<Map<number, SharePermission>>(
         new Map()
@@ -215,8 +224,18 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
                 }
             )
 
-            if (response && response.users) {
-                existingShares.value = response.users
+            if (response) {
+                if (response.users) {
+                    existingShares.value = response.users
+                }
+
+                if (response.creator) {
+                    creator.value = response.creator
+                }
+
+                if (response.shareToken) {
+                    currentToken.value = response.shareToken
+                }
 
                 return { success: true, users: response.users }
             } else {
@@ -529,6 +548,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         pendingRemovals,
         currentToken,
         pendingTokenRemoval,
+        creator,
 
         openModal,
         closeModal,

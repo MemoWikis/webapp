@@ -57,7 +57,10 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         }
 
         var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.SharedWith?.Id == _userId);
-        if (shareInfos.Any(s => s.Permission is SharePermission.Edit or SharePermission.EditWithChildren or SharePermission.View or SharePermission.ViewWithChildren))
+        if (shareInfos.Any(s => s.Permission is SharePermission.Edit
+                or SharePermission.EditWithChildren
+                or SharePermission.View
+                or SharePermission.ViewWithChildren))
             return true;
 
         if (shareInfos.Any(s => s.Permission is SharePermission.RestrictAccess))
