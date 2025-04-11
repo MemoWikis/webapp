@@ -6,7 +6,7 @@ public class NotifyUserPerEmail(
     UserReadingRepo _userReadingRepo)
     : IRegisterAsInstancePerLifetime
 {
-    public NotifyUserPerEmail Run(int userId, int pageId, SharePermission permission, string customMessage = "")
+    public NotifyUserPerEmail Run(int userId, int pageId, SharePermission permission, string? customMessage = "")
     {
         try
         {
@@ -21,7 +21,7 @@ public class NotifyUserPerEmail(
             var pageUrl = Settings.BaseUrl + "/" + UriSanitizer.Run(page.Name) + "/" + pageId;
 
             var language = LanguageExtensions.GetLanguage(user.UiLanguage);
-            var mailMessage = GetMailMessage(user.EmailAddress, page, pageUrl, customMessage, language, permission);
+            var mailMessage = GetMailMessage(user.EmailAddress, page, pageUrl, language, permission, customMessage);
 
             SendEmail.Run(mailMessage, _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);
         }
@@ -33,7 +33,7 @@ public class NotifyUserPerEmail(
         return this;
     }
 
-    private MailMessage GetMailMessage(string email, PageCacheItem page, string pageUrl, string customMessage, Language? language, SharePermission permission)
+    private MailMessage GetMailMessage(string email, PageCacheItem page, string pageUrl, Language? language, SharePermission permission, string? customMessage)
     {
         bool isEditPermission = permission == SharePermission.Edit || permission == SharePermission.EditWithChildren;
 
@@ -42,7 +42,7 @@ public class NotifyUserPerEmail(
             To = { new MailAddress(email) },
             From = new MailAddress(Settings.EmailFrom),
             Subject = GetSubjectByUiLanguage(language, page.Name, isEditPermission),
-            Body = GetBodyByUiLanguage(language, page.Name, pageUrl, customMessage, page.Creator.Name, isEditPermission)
+            Body = GetBodyByUiLanguage(language, page.Name, pageUrl, page.Creator.Name, isEditPermission, customMessage)
         };
 
         return mailMessage;
@@ -72,7 +72,7 @@ public class NotifyUserPerEmail(
         }
     }
 
-    private static string GetBodyByUiLanguage(Language? language, string pageName, string pageUrl, string customMessage, string creatorName, bool isEditPermission)
+    private static string GetBodyByUiLanguage(Language? language, string pageName, string pageUrl, string creatorName, bool isEditPermission, string? customMessage)
     {
         var customMessageText = !string.IsNullOrEmpty(customMessage)
             ? $"\n\n\"{customMessage}\"\n\n"

@@ -56,4 +56,46 @@ public class SharesRepository(ISession session) : RepositoryDbBase<Share>(sessio
         Flush();
     }
 
+    public void DeleteAllForPage(int pageId)
+    {
+        using var transaction = _session.BeginTransaction();
+
+        try
+        {
+            _session.CreateQuery("DELETE FROM Share WHERE PageId = :pageId")
+                .SetParameter("pageId", pageId)
+                .ExecuteUpdate();
+
+            transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+
+            Logg.r.Error($"Error deleting shares for page {pageId}: {ex.Message}");
+            throw;
+        }
+    }
+
+    public void DeleteAllForUser(int userId)
+    {
+        using var transaction = _session.BeginTransaction();
+
+        try
+        {
+            _session.CreateQuery("DELETE FROM Share WHERE UserId = :userId")
+                .SetParameter("userId", userId)
+                .ExecuteUpdate();
+
+            transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+
+            Logg.r.Error($"Error deleting shares for user {userId}: {ex.Message}");
+            throw;
+        }
+    }
+
 }

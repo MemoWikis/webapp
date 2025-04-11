@@ -342,8 +342,17 @@ public class EntityCache
     {
         var pageId = shareCacheItem.PageId;
         var shareCacheItems = GetPageShares(pageId);
-        shareCacheItems.Add(shareCacheItem);
-        AddOrUpdate(pageId, shareCacheItems);
+        if (shareCacheItems.Any(c => c.Id == shareCacheItem.Id))
+        {
+            var index = shareCacheItems.IndexOf(shareCacheItems.First(c => c.Id == shareCacheItem.Id));
+            shareCacheItems[index] = shareCacheItem;
+            AddOrUpdate(pageId, shareCacheItems);
+        }
+        else
+        {
+            shareCacheItems.Add(shareCacheItem);
+            AddOrUpdate(pageId, shareCacheItems);
+        }
     }
 
     public static void UpdatePageReferencesInQuestions(PageCacheItem pageCacheItem)

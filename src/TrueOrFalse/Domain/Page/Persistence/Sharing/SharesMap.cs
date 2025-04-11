@@ -4,7 +4,7 @@ public class SharesMap : ClassMap<Share>
 {
     public SharesMap()
     {
-        Table("share_info");
+        Table("shares");
         Id(x => x.Id);
         Map(x => x.PageId);
         References(x => x.User).Column("UserId").Cascade.None();

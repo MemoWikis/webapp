@@ -35,8 +35,10 @@
             var dbItem = sharesRepository.GetById(shareInfo.Id);
             var newShareInfoCacheItem = ShareCacheItem.ToCacheItem(dbItem);
             existingShares.Add(newShareInfoCacheItem);
-            return shareInfo.Token;
 
+            EntityCache.AddOrUpdate(newShareInfoCacheItem);
+
+            return shareInfo.Token;
         }
     }
 
@@ -78,13 +80,19 @@
         if (existingShare != null)
         {
             existingShare.Permission = permission;
-            sharesRepository.CreateOrUpdate(existingShare.ToDbItem(userReadingRepo));
+            var dbShare = sharesRepository.GetById(existingShare.Id);
+            if (dbShare != null)
+            {
+                dbShare.Permission = existingShare.Permission;
+                sharesRepository.Update(dbShare);
+            }
         }
         else
         {
+            var user = userReadingRepo.GetById(userId);
             var shareInfo = new Share
             {
-                User = userReadingRepo.GetById(userId),
+                User = user,
                 PageId = pageId,
                 Permission = permission,
                 GrantedBy = grantedById,
@@ -263,7 +271,12 @@
             if (share != null)
             {
                 share.Permission = update.Permission;
-                sharesRepository.CreateOrUpdate(share.ToDbItem(userReadingRepo));
+                var dbShare = sharesRepository.GetById(share.Id);
+                if (dbShare != null)
+                {
+                    dbShare.Permission = update.Permission;
+                    sharesRepository.Update(dbShare);
+                }
             }
             else
             {

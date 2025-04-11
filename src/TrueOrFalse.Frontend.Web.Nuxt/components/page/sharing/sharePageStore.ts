@@ -97,6 +97,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     const selectedUsers = ref<UserWithPermission[]>([])
     const existingShares = ref<UserWithPermission[]>([])
     const creator = ref<CreatorResponse | null>(null)
+    const markShareViaToken = ref(false)
 
     const pendingPermissionChanges = ref<Map<number, SharePermission>>(
         new Map()
@@ -185,10 +186,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     }
 
     const markTokenForRemoval = () => {
+        markShareViaToken.value = false
         pendingTokenRemoval.value = true
     }
 
     const cancelTokenRemoval = () => {
+        markShareViaToken.value = true
         pendingTokenRemoval.value = false
     }
 
@@ -538,6 +541,13 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
+    const shareViaToken = () => {
+        return (
+            (currentToken.value || markShareViaToken.value) &&
+            !pendingTokenRemoval.value
+        )
+    }
+
     return {
         showModal,
         pageId,
@@ -549,6 +559,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         currentToken,
         pendingTokenRemoval,
         creator,
+        markShareViaToken,
 
         openModal,
         closeModal,
@@ -569,5 +580,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         removeShareToken,
         markTokenForRemoval,
         cancelTokenRemoval,
+
+        shareViaToken,
     }
 })

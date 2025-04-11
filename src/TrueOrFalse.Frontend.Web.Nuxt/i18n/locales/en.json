@@ -708,9 +708,11 @@
             "modal": {
                 "titleManage": "Manage Page Access",
                 "titleShareWith": "Share with {user}",
-                "close": "Close",
+                "close": "Done",
                 "cancel": "Cancel",
-                "shareWithUser": "Share"
+                "shareWithUser": "Share",
+                "pendingChanges": "Pending changes",
+                "saveChanges": "Save"
             },
             "permission": {
                 "label": "Permission level",

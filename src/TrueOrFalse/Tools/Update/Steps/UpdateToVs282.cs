@@ -10,7 +10,7 @@ internal class UpdateToVs282
         try
         {
             nhibernateSession.CreateSQLQuery(
-                    @"CREATE TABLE `share_info` (
+                    @"CREATE TABLE `shares` (
                         `Id` INT NOT NULL AUTO_INCREMENT,
                         `PageId` INT NOT NULL,
                         `UserId` INT NULL,
