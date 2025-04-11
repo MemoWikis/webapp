@@ -18,6 +18,9 @@ internal class UpdateToVs282
                         `Permission` INT NOT NULL,
                         `GrantedBy` INT NOT NULL,
                         PRIMARY KEY (`Id`)
+                        INDEX `idx_shares_pageid` (`PageId`),
+                        INDEX `idx_shares_userid` (`UserId`),
+                        INDEX `idx_shares_token` (`Token`)
                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")
                 .ExecuteUpdate();
 

@@ -84,6 +84,7 @@ const init = async () => {
     sideSheetStore.wikis = await $api<GetWikisResponse[]>('/apiVue/SideSheet/GetWikis')
     sideSheetStore.favorites = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetFavorites')
     sideSheetStore.recentPages = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetRecentPages')
+    sideSheetStore.sharedPages = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetSharedPages')
 }
 
 onBeforeMount(async () => {
@@ -131,6 +132,7 @@ watch(() => userStore.isLoggedIn, (isLoggedIn) => {
 const showWikis = ref(true)
 const showFavorites = ref(true)
 const showRecents = ref(true)
+const showShared = ref(true)
 const { $urlHelper } = useNuxtApp()
 
 watch(() => sideSheetStore.showSideSheet, (show) => {
@@ -382,6 +384,38 @@ onMounted(() => {
 
                 </SideSheetSection>
 
+                <SideSheetSection :class="{ 'no-b-padding': !showShared }">
+                    <template #header>
+                        <div class="header-container" @click="showShared = !showShared">
+                            <template v-if="!collapsed">
+                                <font-awesome-icon v-if="showShared" :icon="['fas', 'angle-down']" class="angle-icon" />
+                                <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
+                            </template>
+                            <font-awesome-icon :icon="['fas', 'share-nodes']" />
+                            <div v-show="!hidden" class="header-title">
+                                {{ t('sideSheet.sharedWithMe') }}
+                            </div>
+                        </div>
+                    </template>
+
+                    <template #content v-if="!collapsed">
+                        <Transition name="collapse">
+                            <div v-if="showShared">
+                                <div v-for="page in sideSheetStore.sharedPages" class="content-item">
+                                    <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)" :class="{ 'is-here': page.id === pageStore.id }">
+                                        <div class="link">
+                                            {{ page.name }}
+                                        </div>
+                                    </NuxtLink>
+                                </div>
+                                <div v-if="sideSheetStore.sharedPages.length === 0" class="empty-shared-pages">
+                                    {{ t('sideSheet.noSharedPages') }}
+                                </div>
+                            </div>
+                        </Transition>
+                    </template>
+                </SideSheetSection>
+
                 <SideSheetSection :class="{ 'no-b-padding': !showRecents }">
                     <template #header>
                         <div class="header-container" @click="showRecents = !showRecents">
@@ -562,6 +596,13 @@ onMounted(() => {
             color: @memo-blue-link;
         }
     }
+}
+
+.empty-shared-pages {
+    padding: 8px 16px;
+    color: @memo-grey-dark;
+    font-style: italic;
+    font-size: 14px;
 }
 </style>
 

@@ -208,6 +208,8 @@
         "convertToPage": "In Seite umwandeln",
         "favourites": "Favoriten",
         "lastVisited": "Zuletzt besucht",
+        "sharedWithMe": "Mit mir geteilt",
+        "noSharedPages": "Noch keine Seiten mit dir geteilt",
         "help": "Hilfe",
         "documentation": "Dokumentation",
         "createWikiModal": {
@@ -688,6 +690,59 @@
                     "toPage": "Möchtest Du wirklich das Wiki \"{name}\" in eine Seite umwandeln?"
                 },
                 "keepParents": "Verknüpfungen zu Übergeordneten Wikis/Seiten beibehalten (optional)"
+            }
+        },
+        "sharing": {
+            "modal": {
+                "titleManage": "Seitenzugriff verwalten",
+                "titleShareWith": "Teilen mit {user}",
+                "close": "Fertig",
+                "cancel": "Abbrechen",
+                "shareWithUser": "Teilen",
+                "pendingChanges": "Ausstehende Änderungen",
+                "saveChanges": "Speichern",
+                "info": "Beim Teilen von Seiten werden alle Fragen einbezogen"
+            },
+            "permission": {
+                "label": "Berechtigungsstufe",
+                "view": "Betrachter",
+                "edit": "Bearbeiter",
+                "viewWithChildren": "Betrachter (inkl. Unterseiten)",
+                "editWithChildren": "Bearbeiter (inkl. Unterseiten)",
+                "restrictAccess": "Zugriff einschränken",
+                "description": {
+                    "0": "Nutzer kann diese Seite nur ansehen",
+                    "1": "Nutzer kann Inhalte auf dieser Seite bearbeiten",
+                    "2": "Nutzer kann diese Seite und alle Unterseiten ansehen",
+                    "3": "Nutzer kann diese Seite und alle Unterseiten bearbeiten"
+                },
+                "removing": "Entfernen",
+                "remove": "Zugriff entfernen",
+                "creator": "Ersteller"
+            },
+            "search": {
+                "placeholder": "Nach Nutzern zum Teilen suchen..."
+            },
+            "existingShares": {
+                "title": "Personen mit Zugriff",
+                "none": "Noch niemand hat Zugriff auf diese Seite"
+            },
+            "notification": {
+                "send": "Nutzer über diese Freigabe benachrichtigen",
+                "message": "Benutzerdefinierte Nachricht hinzufügen (optional)",
+                "placeholder": "Tippe hier deine Nachricht..."
+            },
+            "link": {
+                "title": "Per Link teilen",
+                "copy": "Link kopieren",
+                "renew": "Link zurücksetzen",
+                "info": "Jeder mit dem Link kann auf diese Seite mit Leseberechtigungen zugreifen.",
+                "publicDescription": "Jeder mit dem geheimen Link kann auf diese Seite zugreifen.",
+                "restrictedDescription": "Nur Personen mit Zugriff können diese Seite sehen.",
+                "includeToken": "Zugriffsschlüssel einbeziehen",
+                "shareViaLink": "Jeder mit dem Link",
+                "restrict": "Eingeschränkt",
+                "renewTooltip": "Der Link wird zurückgesetzt und alle vorherigen Links sind nicht mehr gültig."
             }
         }
     },

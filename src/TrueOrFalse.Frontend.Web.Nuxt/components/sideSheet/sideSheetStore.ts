@@ -11,8 +11,7 @@ export interface SideSheetPage {
     name: string
 }
 
-export const useSideSheetStore = defineStore('sideSheetStore', () => {
-
+export const useSideSheetStore = defineStore("sideSheetStore", () => {
     const showSideSheet = ref(false)
 
     const wikis = ref<SideSheetWiki[]>([])
@@ -21,14 +20,17 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
             wikis.value.push({
                 name: name,
                 id: id,
-                hasParents: false
+                hasParents: false,
             })
         } else {
-            wikis.value = [{
-                name: name,
-                id: id,
-                hasParents: false}]
-            }
+            wikis.value = [
+                {
+                    name: name,
+                    id: id,
+                    hasParents: false,
+                },
+            ]
+        }
     }
 
     const favorites = ref<SideSheetPage[]>([])
@@ -36,13 +38,16 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
         if (favorites.value) {
             favorites.value.push({
                 name: name,
-                id: id
+                id: id,
             })
         } else {
-            favorites.value = [{
-                name: name,
-                id: id}]
-            }
+            favorites.value = [
+                {
+                    name: name,
+                    id: id,
+                },
+            ]
+        }
     }
     const removeFromFavoritePages = (id: number) => {
         if (favorites.value)
@@ -57,7 +62,9 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
         } as SideSheetPage
 
         if (recentPages.value) {
-            recentPages.value = recentPages.value.filter((page) => page.id !== sideSheetPage.id)
+            recentPages.value = recentPages.value.filter(
+                (page) => page.id !== sideSheetPage.id
+            )
 
             if (recentPages.value.length > 5) {
                 recentPages.value.pop()
@@ -69,6 +76,17 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
         }
     }
 
+    const sharedPages = ref<SideSheetPage[]>([])
 
-    return { wikis, favorites, recentPages, addToFavoriteWikis, addToFavoritePages, removeFromFavoritePages, handleRecentPage, showSideSheet }
+    return {
+        wikis,
+        favorites,
+        recentPages,
+        sharedPages,
+        addToFavoriteWikis,
+        addToFavoritePages,
+        removeFromFavoritePages,
+        handleRecentPage,
+        showSideSheet,
+    }
 })

@@ -689,6 +689,59 @@
                 },
                 "keepParents": "Conserver les liens vers les wikis/pages parentes (optionnel)"
             }
+        },
+        "sharing": {
+            "modal": {
+                "titleManage": "Gérer l'accès à la page",
+                "titleShareWith": "Partager avec {user}",
+                "close": "Terminé",
+                "cancel": "Annuler",
+                "shareWithUser": "Partager",
+                "pendingChanges": "Modifications en attente",
+                "saveChanges": "Enregistrer",
+                "info": "Le partage de pages inclut toutes les questions"
+            },
+            "permission": {
+                "label": "Niveau de permission",
+                "view": "Lecteur",
+                "edit": "Éditeur",
+                "viewWithChildren": "Lecteur (incl. sous-pages)",
+                "editWithChildren": "Éditeur (incl. sous-pages)",
+                "restrictAccess": "Restreindre l'accès",
+                "description": {
+                    "0": "L'utilisateur peut seulement voir cette page",
+                    "1": "L'utilisateur peut modifier le contenu de cette page",
+                    "2": "L'utilisateur peut voir cette page et toutes ses sous-pages",
+                    "3": "L'utilisateur peut modifier cette page et toutes ses sous-pages"
+                },
+                "removing": "Supprimer",
+                "remove": "Retirer l'accès",
+                "creator": "Créateur"
+            },
+            "search": {
+                "placeholder": "Chercher des utilisateurs à inviter..."
+            },
+            "existingShares": {
+                "title": "Personnes ayant accès",
+                "none": "Personne n'a encore accès à cette page"
+            },
+            "notification": {
+                "send": "Notifier l'utilisateur de ce partage",
+                "message": "Ajouter un message personnalisé (optionnel)",
+                "placeholder": "Écris ton message ici..."
+            },
+            "link": {
+                "title": "Partager via un lien",
+                "copy": "Copier le lien",
+                "renew": "Réinitialiser le lien",
+                "info": "Toute personne avec le lien pourra accéder à cette page avec des permissions de lecture.",
+                "publicDescription": "N'importe qui avec le lien secret peut accéder à cette page.",
+                "restrictedDescription": "Seules les personnes autorisées peuvent voir cette page.",
+                "includeToken": "Inclure la clé d'accès",
+                "shareViaLink": "Toute personne avec le lien",
+                "restrict": "Restreint",
+                "renewTooltip": "La réinitialisation du lien invalidera l'ancien lien."
+            }
         }
     },
     "knowledgeStatus": {
@@ -1134,7 +1187,7 @@
             "pages": {
                 "title": "Pages avec Connaissances souhaitées ({count})",
                 "search": "Rechercher",
-                "noResults": "Oups, aucune page pour « {term} ».",
+                "noResults": "Oups, aucune page pour « {term} ». ",
                 "withQuestions": "avec {count} questions"
             },
             "pagination": {

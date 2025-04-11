@@ -10,10 +10,16 @@ const loadingStore = useLoadingStore()
 const pageStore = usePageStore()
 const { t } = useI18n()
 
-const currentMode = ref('search')
+enum CurrentMode {
+    Search = 'search',
+    Edit = 'edit'
+}
+
+const currentMode = ref<CurrentMode>(CurrentMode.Search)
 const currentUser = ref()
 const notifyUser = ref(true)
 const customMessage = ref('')
+const includeToken = ref(true)  // New ref to track if token should be included in URL
 
 const permissionOptions = reactive([
     { value: SharePermission.View, label: t('page.sharing.permission.view') },
@@ -30,12 +36,12 @@ function selectUserToShare(user: UserItem) {
         avatarUrl: user.imageUrl,
         permission: SharePermission.View
     }
-    currentMode.value = 'edit'
+    currentMode.value = CurrentMode.Edit
 }
 
 function goBackToSearch() {
     currentUser.value = null
-    currentMode.value = 'search'
+    currentMode.value = CurrentMode.Search
 }
 
 function updatePermission(permission: SharePermission) {
@@ -81,7 +87,7 @@ async function renewToken() {
 
 watch(() => sharePageStore.showModal, (show) => {
     if (show) {
-        currentMode.value = 'search'
+        currentMode.value = CurrentMode.Search
         currentUser.value = null
         notifyUser.value = true
         customMessage.value = ''
@@ -110,7 +116,7 @@ const primaryButtonLabel = computed(() => {
 })
 
 const handlePrimaryButtonClick = async () => {
-    if (currentMode.value === 'edit') {
+    if (currentMode.value === CurrentMode.Edit) {
         await shareWithCurrentUser()
     } else if (sharePageStore.hasPendingChanges) {
         loadingStore.startLoading()
@@ -127,20 +133,25 @@ const handlePrimaryButtonClick = async () => {
 
 const linkPermission = ref<SharePermission>(SharePermission.View)
 
-async function copyShareUrl() {
+const copyBaseUrl = async () => {
+    const pageUrl = `${config.public.officialBase}${$urlHelper.getPageUrl(sharePageStore.pageName, sharePageStore.pageId, Tab.Text)}`
+    await navigator.clipboard.writeText(pageUrl)
+}
 
-    if (sharePageStore.shareViaToken()) {
-        loadingStore.startLoading()
-        const result = await sharePageStore.sharePageByToken(sharePageStore.pageId, linkPermission.value, pageStore.shareToken)
-        loadingStore.stopLoading()
-
-        if (result.success)
-            await navigator.clipboard.writeText(currentTokenUrl.value)
-
-    } else {
-        const pageUrl = `${config.public.officialBase}${$urlHelper.getPageUrl(sharePageStore.pageName, sharePageStore.pageId, Tab.Text)}`
-        await navigator.clipboard.writeText(pageUrl)
+const copyShareUrl = async () => {
+    // If token is disabled or sharing via token isn't active, use base URL
+    if (!includeToken.value || !sharePageStore.shareViaToken()) {
+        await copyBaseUrl()
+        return
     }
+
+    // If sharing via token is enabled, generate token URL
+    loadingStore.startLoading()
+    const result = await sharePageStore.sharePageByToken(sharePageStore.pageId, linkPermission.value, pageStore.shareToken)
+    loadingStore.stopLoading()
+
+    if (result.success)
+        await navigator.clipboard.writeText(currentTokenUrl.value)
 }
 
 const { $urlHelper } = useNuxtApp()
@@ -166,7 +177,7 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
         <template v-slot:header>
             <h4 class="modal-title">
-                {{ currentMode === 'search'
+                {{ currentMode === CurrentMode.Search
                     ? t('page.sharing.modal.titleManage')
                     : t('page.sharing.modal.titleShareWith', { user: currentUser?.name })
                 }}
@@ -175,7 +186,7 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
         <template v-slot:body>
             <div class="sharing-container">
-                <div v-if="currentMode === 'search'">
+                <div v-if="currentMode === CurrentMode.Search">
                     <!-- User search -->
                     <div class="search-container">
                         <Search
@@ -298,8 +309,11 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
                     <!-- Sharing link section -->
                     <div class="sharing-link-section">
-                        <div class="section-heading">
+                        <div class="section-heading" :class="{ 'has-renew-icon': sharePageStore.shareViaToken() && sharePageStore.currentToken != null }">
                             <h5>{{ t('page.sharing.link.title') }}</h5>
+                            <button class="btn btn-icon btn-renew btn-secondary memo-button" @click="renewToken()" v-if="sharePageStore.shareViaToken() && sharePageStore.currentToken != null" v-tooltip="t('page.sharing.link.renewTooltip')">
+                                <font-awesome-icon :icon="['fas', 'rotate']" />
+                            </button>
                         </div>
 
                         <!-- Sharing link item - styled like user items -->
@@ -316,10 +330,10 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                                 <div class="link-name-container">
                                     <div>
                                         <VDropdown class="share-link-dropdown" :distance="5" :aria-id="'share-link'">
-                                            <div class="permission-dropdown-trigger" :class="{ 'pending-change': sharePageStore.pendingTokenRemoval }">
+                                            <div class="permission-dropdown-trigger share-trigger" :class="{ 'pending-change': sharePageStore.pendingTokenRemoval }">
                                                 <span class="user-permission">
-                                                    <span class="link-name" v-if="sharePageStore.pendingTokenRemoval">{{ t('page.sharing.link.accessType') }}</span>
-                                                    <span class="link-name" v-else>{{ t('page.sharing.link.accessType') }}</span>
+                                                    <span class="link-name" v-if="sharePageStore.shareViaToken()">{{ t('page.sharing.link.shareViaLink') }}</span>
+                                                    <span class="link-name" v-else>{{ t('page.sharing.link.restrict') }}</span>
                                                 </span>
                                                 <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
                                             </div>
@@ -330,20 +344,20 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                                                         @click="sharePageStore.cancelTokenRemoval(); hide()"
                                                         class="permission-dropdown-item"
                                                         :class="{ 'active': sharePageStore.shareViaToken() }">
-                                                        {{ t('page.sharing.link.share') }}
+                                                        {{ t('page.sharing.link.shareViaLink') }}
                                                     </div>
 
                                                     <div @click="sharePageStore.markTokenForRemoval(); hide()"
                                                         class="permission-dropdown-item permission-dropdown-item-danger"
                                                         :class="{ 'active': !sharePageStore.shareViaToken() }">
-                                                        {{ t('page.sharing.link.remove') }}
+                                                        {{ t('page.sharing.link.restrict') }}
                                                     </div>
                                                 </div>
                                             </template>
                                         </VDropdown>
                                     </div>
                                     <span class="link-description">
-                                        {{ sharePageStore.currentToken && !sharePageStore.pendingTokenRemoval
+                                        {{ sharePageStore.shareViaToken()
                                             ? t('page.sharing.link.publicDescription')
                                             : t('page.sharing.link.restrictedDescription') }}
                                     </span>
@@ -355,15 +369,7 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                                 <VDropdown class="share-link-dropdown" :distance="5" :aria-id="'share-link-permission'" v-if="sharePageStore.shareViaToken()">
                                     <div class="permission-dropdown-trigger" :class="{ 'pending-change': sharePageStore.pendingTokenRemoval }">
                                         <span class="user-permission">
-                                            <template v-if="sharePageStore.pendingTokenRemoval">
-                                                {{ t('page.sharing.link.pendingRemoval') }}
-                                            </template>
-                                            <template v-else-if="!sharePageStore.currentToken">
-                                                {{ t('page.sharing.link.restricted') }}
-                                            </template>
-                                            <template v-else>
-                                                {{permissionOptions.find(option => option.value === linkPermission)?.label}}
-                                            </template>
+                                            {{permissionOptions.find(option => option.value === linkPermission)?.label}}
                                         </span>
                                         <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
                                     </div>
@@ -406,11 +412,13 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                 </div>
 
                 <!-- Edit permissions mode -->
-                <div v-else-if="currentMode === 'edit' && currentUser" class="edit-container">
+                <div v-else-if="currentMode === CurrentMode.Edit && currentUser" class="edit-container">
                     <!-- Selected user info -->
                     <div class="selected-user">
                         <img :src="currentUser.avatarUrl" class="user-avatar large" alt="User avatar" />
-                        <span class="user-name">{{ currentUser.name }}</span>
+                        <NuxtLink :to="$urlHelper.getUserUrl(currentUser.name, currentUser.id)">
+                            <span class="user-name link">{{ currentUser.name }}</span>
+                        </NuxtLink>
                     </div>
 
                     <!-- Permission selection -->
@@ -453,13 +461,19 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                                             {{ t('page.sharing.permission.editWithChildren') }}
                                         </div>
 
+                                        <div
+                                            @click="updatePermission(SharePermission.RestrictAccess); hide()"
+                                            class="permission-dropdown-item"
+                                            :class="{ 'active': currentUser.permission === SharePermission.RestrictAccess }">
+                                            {{ t('page.sharing.permission.restrictAccess') }}
+                                        </div>
 
                                     </div>
                                 </template>
                             </VDropdown>
 
                             <!-- Keep the description for selected permission -->
-                            <div class="permission-description">
+                            <div class="alert alert-light">
                                 {{ t(`page.sharing.permission.description.${currentUser.permission}`) }}
                             </div>
                         </div>
@@ -484,30 +498,40 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
         </template>
 
         <template v-slot:footer>
+            <div class="alert alert-info sharing-info">
+                {{ t('page.sharing.modal.info') }}
+            </div>
             <div class="sharemodal-footer">
-                <div class="footer-left">
-                    <div class="link-actions">
-                        <button class="btn btn-copy memo-button" @click="copyShareUrl()">
-                            <font-awesome-icon :icon="['fas', 'link']" /> {{ t('page.sharing.link.copy') }}
+                <div class="sharemodal-footer-actions">
+                    <div class="footer-left">
+                        <div class="link-actions" v-if="currentMode != CurrentMode.Edit">
+                            <button class="btn btn-copy memo-button" @click="copyShareUrl()">
+                                <font-awesome-icon :icon="['fas', 'link']" /> {{ t('page.sharing.link.copy') }}
+                            </button>
+                            <div class="token-toggle selectable-item" @click="includeToken = !includeToken" v-if="sharePageStore.shareViaToken()">
+                                <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active" v-if="includeToken" />
+                                <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
+                                <div class="token-toggle-label">
+                                    {{ t('page.sharing.link.includeToken') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-right">
+                        <div v-if="sharePageStore.hasPendingChanges" class="pending-changes-text">
+                            <em>{{ t('page.sharing.modal.pendingChanges') }}</em>
+                        </div>
+                        <button v-if="currentMode === CurrentMode.Edit"
+                            class="btn btn-link memo-button"
+                            @click="currentMode = CurrentMode.Search">
+                            {{ t('label.back') }}
                         </button>
                         <button
-                            class="btn btn-icon btn-renew btn-secondary memo-button"
-                            @click="renewToken()"
-                            v-if="sharePageStore.shareViaToken()"
-                            v-tooltip="t('page.sharing.link.renewTooltip')">
-                            <font-awesome-icon :icon="['fas', 'rotate']" />
+                            class="btn btn-primary memo-button"
+                            @click="handlePrimaryButtonClick()">
+                            {{ primaryButtonLabel }}
                         </button>
                     </div>
-                </div>
-                <div class="footer-right">
-                    <div v-if="sharePageStore.hasPendingChanges" class="pending-changes-text">
-                        <em>{{ t('page.sharing.modal.pendingChanges') }}</em>
-                    </div>
-                    <button
-                        class="btn btn-primary  memo-button"
-                        @click="handlePrimaryButtonClick()">
-                        {{ primaryButtonLabel }}
-                    </button>
                 </div>
             </div>
         </template>
@@ -529,11 +553,19 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
 .section-heading {
     margin-bottom: 12px;
+    padding-top: 12px;
 
     h5 {
         font-weight: 600;
         margin: 0;
         color: @memo-blue;
+    }
+
+    &.has-renew-icon {
+        padding-top: 2px;
+        margin-bottom: 2px;
+        display: flex;
+        align-items: center;
     }
 }
 
@@ -579,6 +611,10 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 .user-name {
     font-weight: 600;
     color: @memo-grey-darkest;
+
+    &.link {
+        color: @memo-blue-link;
+    }
 }
 
 .user-name-container {
@@ -604,11 +640,6 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
     }
 }
 
-.sharing-link-section {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid @memo-grey-light;
-}
 
 .link-actions {
     display: flex;
@@ -670,14 +701,22 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border: 1px solid @memo-grey-light;
             border-radius: 4px;
             background-color: white;
             cursor: pointer;
 
             &:hover {
-                border-color: @memo-blue;
+                filter: brightness(0.95);
+            }
+
+            &:active {
+                filter: brightness(0.9);
+            }
+
+            &.share-trigger {
+                padding: 4px 16px;
             }
         }
 
@@ -692,14 +731,6 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
             /* Ensure menu takes full width */
             z-index: 200;
         }
-    }
-
-    .permission-description {
-        padding: 12px;
-        border-radius: 4px;
-        background-color: fade(@memo-blue, 5%);
-        color: @memo-grey-dark;
-        font-size: 0.9rem;
     }
 }
 
@@ -726,11 +757,11 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
             width: 100%;
             padding: 8px;
             border: 1px solid @memo-grey-light;
-            border-radius: 4px;
+            border-radius: 0;
 
             &:focus {
                 outline: none;
-                border-color: @memo-blue;
+                border-color: @memo-green;
             }
         }
     }
@@ -756,8 +787,6 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
         .user-permission {
             color: @memo-grey-dark;
             font-size: 1.25rem;
-
-
         }
 
         &:active {
@@ -784,7 +813,6 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
         background: white;
         user-select: none;
         width: 100%;
-        justify-content: space-between;
 
         &:hover {
             filter: brightness(0.925);
@@ -800,6 +828,10 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
         .permission-dropdown-trigger-icon {
             transition: transform 0.2s ease;
+        }
+
+        &.share-trigger {
+            height: 28px;
         }
     }
 
@@ -925,9 +957,56 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
 .sharemodal-footer {
     display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 16px;
+
+    .sharemodal-footer-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+}
+
+.footer-actions {
+    display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+}
+
+.token-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
+    }
+
+    .token-toggle-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin: 0;
+        cursor: pointer;
+        user-select: none;
+        font-size: 1.25rem;
+        color: @memo-grey-dark;
+        line-height: 1.25rem;
+    }
+
+    .token-toggle-text {
+        font-weight: 500;
+    }
+
+    .token-toggle-icon {
+        color: @memo-blue;
+    }
 }
 
 .footer-left {
@@ -971,18 +1050,23 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
     align-items: center;
     margin: 0;
     color: @memo-grey-darker;
-
-    background: @memo-grey-lightest;
+    border-radius: 24px;
+    width: 35px;
+    height: 35px;
+    margin-left: 4px;
+    background: white;
 
     svg {
         margin: 0;
     }
 
     &:hover {
+        color: @memo-blue-link;
         filter: brightness(0.95);
     }
 
     &:active {
+        color: @memo-blue-link;
         filter: brightness(0.9);
     }
 }
@@ -1055,7 +1139,7 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 }
 
 .link-description {
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: @memo-grey-dark;
     padding-left: 8px;
 }
@@ -1064,6 +1148,28 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.session-select {
+    font-size: 18px;
+    color: @memo-grey-dark;
+
+    &.active {
+        color: @memo-blue-link;
+    }
+}
+
+.selectable-item {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        i {
+            color: @memo-blue;
+        }
+    }
 }
 </style>
 
@@ -1099,5 +1205,10 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
     height: 1px;
     background-color: @memo-grey-light;
     margin: 4px 0;
+}
+
+.sharing-info {
+    margin-top: 24px;
+    margin-bottom: 12px;
 }
 </style>

@@ -222,6 +222,8 @@
         "convertToPage": "Convert into page",
         "favourites": "Favourites",
         "lastVisited": "Last visited",
+        "sharedWithMe": "Shared with me",
+        "noSharedPages": "No pages shared with you yet",
         "help": "Help",
         "documentation": "Documentation",
         "createWikiModal": {
@@ -712,7 +714,8 @@
                 "cancel": "Cancel",
                 "shareWithUser": "Share",
                 "pendingChanges": "Pending changes",
-                "saveChanges": "Save"
+                "saveChanges": "Save",
+                "info": "Sharing Pages will include all questions"
             },
             "permission": {
                 "label": "Permission level",
@@ -747,7 +750,13 @@
                 "title": "Share via Link",
                 "copy": "Copy Link",
                 "renew": "Reset Link",
-                "info": "Anyone with the link will be able to access this page with view permissions."
+                "info": "Anyone with the link will be able to access this page with view permissions.",
+                "publicDescription": "Anyone with the secret link can access this page.",
+                "restrictedDescription": "Only people with access can view this page.",
+                "includeToken": "Include access key",
+                "shareViaLink": "Anyone with the link",
+                "restrict": "Restricted",
+                "renewTooltip": "Resetting the link will invalidate the old link."
             }
         }
     },
