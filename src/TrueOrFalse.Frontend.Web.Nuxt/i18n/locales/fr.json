@@ -281,7 +281,8 @@
                 "one": "1 vue",
                 "other": "{count} vues"
             },
-            "authorProfilePicture": "Photo de profil de {name}"
+            "authorProfilePicture": "Photo de profil de {name}",
+            "sharePage": "Partager"
         },
         "tabs": {
             "text": "Texte",

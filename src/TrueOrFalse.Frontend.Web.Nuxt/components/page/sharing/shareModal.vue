@@ -21,6 +21,14 @@ const notifyUser = ref(true)
 const customMessage = ref('')
 const includeToken = ref(true)  // New ref to track if token should be included in URL
 
+// Instead of a local ref, use the store's tokenPermission value
+const linkPermission = computed({
+    get: () => sharePageStore.currentTokenPermission,
+    set: (value: SharePermission) => {
+        sharePageStore.updateTokenPermission(value)
+    }
+})
+
 const permissionOptions = reactive([
     { value: SharePermission.View, label: t('page.sharing.permission.view') },
     { value: SharePermission.Edit, label: t('page.sharing.permission.edit') },
@@ -131,8 +139,6 @@ const handlePrimaryButtonClick = async () => {
     }
 }
 
-const linkPermission = ref<SharePermission>(SharePermission.View)
-
 const copyBaseUrl = async () => {
     const pageUrl = `${config.public.officialBase}${$urlHelper.getPageUrl(sharePageStore.pageName, sharePageStore.pageId, Tab.Text)}`
     await navigator.clipboard.writeText(pageUrl)
@@ -169,6 +175,15 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
         return false
     return sharePageStore.getEffectivePermission(userId) === permission
 }
+
+const currentLinkPermissionLabel = computed(() => {
+    // If there's a pending token permission change, use that value instead
+    const effectivePermission = sharePageStore.pendingTokenPermission !== null
+        ? sharePageStore.pendingTokenPermission
+        : linkPermission.value
+
+    return permissionOptions.find(option => option.value === effectivePermission)?.label
+})
 
 </script>
 
@@ -367,9 +382,11 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
                             <div class="link-detail">
                                 <!-- Permission dropdown -->
                                 <VDropdown class="share-link-dropdown" :distance="5" :aria-id="'share-link-permission'" v-if="sharePageStore.shareViaToken()">
-                                    <div class="permission-dropdown-trigger" :class="{ 'pending-change': sharePageStore.pendingTokenRemoval }">
+                                    <div class="permission-dropdown-trigger" :class="{
+                                        'pending-change': sharePageStore.pendingTokenRemoval || sharePageStore.pendingTokenPermission !== null
+                                    }">
                                         <span class="user-permission">
-                                            {{permissionOptions.find(option => option.value === linkPermission)?.label}}
+                                            {{ currentLinkPermissionLabel }}
                                         </span>
                                         <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
                                     </div>
@@ -699,7 +716,6 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
         .permission-dropdown-trigger {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             padding: 12px 16px;
             border: 1px solid @memo-grey-light;
@@ -717,6 +733,7 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
             &.share-trigger {
                 padding: 4px 16px;
+                justify-content: space-between;
             }
         }
 
@@ -787,6 +804,7 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
         .user-permission {
             color: @memo-grey-dark;
             font-size: 1.25rem;
+            white-space: nowrap;
         }
 
         &:active {
@@ -832,6 +850,11 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 
         &.share-trigger {
             height: 28px;
+        }
+
+        .user-permission {
+            text-align: right;
+            white-space: nowrap;
         }
     }
 
@@ -926,6 +949,7 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
         .user-permission {
             font-weight: 600;
             color: @memo-blue;
+            white-space: nowrap;
         }
     }
 

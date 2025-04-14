@@ -108,7 +108,7 @@
         EntityCache.AddOrUpdatePageShares(pageId, existingShares);
     }
 
-    public static SharePermission? GetClosestParentSharePermissionByUserId(int childId, int? userId, string? token = null)
+    public static SharePermission? GetClosestParentSharePermissionByUserId(int childId, int? userId)
     {
         var child = EntityCache.GetPage(childId);
         if (child == null)
@@ -139,16 +139,85 @@
                         bestPermissionThisLevel = GetHigherPermission(bestPermissionThisLevel, shareInfo.Permission);
                     }
                 }
+            }
 
-                else if (token != null)
+            if (bestPermissionThisLevel.HasValue)
+                return bestPermissionThisLevel;
+
+            var nextGeneration = new List<int>();
+            foreach (var pid in currentGeneration)
+            {
+                var p = EntityCache.GetPage(pid);
+                if (p != null)
+                {
+                    nextGeneration.AddRange(p.ParentRelations.Select(r => r.ParentId));
+                }
+            }
+
+            currentGeneration = nextGeneration;
+        }
+
+        return null;
+    }
+
+    public static SharePermission? GetClosestParentSharePermissionByTokens(int childId, Dictionary<int, string>? pageTokens, string? providedToken = null)
+    {
+        if (pageTokens == null || !pageTokens.Any())
+            return null;
+
+        var child = EntityCache.GetPage(childId);
+        if (child == null)
+            return null;
+
+        if (pageTokens.TryGetValue(childId, out var directToken))
+        {
+            var directShares = child.GetDirectShares();
+            var directShareByToken = directShares.FirstOrDefault(s => s.Token == directToken);
+            if (directShareByToken != null)
+                return directShareByToken.Permission;
+        }
+
+        var visited = new HashSet<int> { childId };
+        var currentGeneration = new List<int>(child.ParentRelations.Select(r => r.ParentId));
+
+        while (currentGeneration.Count > 0)
+        {
+            currentGeneration = currentGeneration.Where(pid => !visited.Contains(pid)).ToList();
+            if (currentGeneration.Count == 0) break;
+
+            foreach (var pid in currentGeneration)
+                visited.Add(pid);
+
+            SharePermission? bestPermissionThisLevel = null;
+
+            foreach (var pid in currentGeneration)
+            {
+                var parent = EntityCache.GetPage(pid);
+                if (parent == null) continue;
+
+                if (!String.IsNullOrEmpty(providedToken))
+                {
+                    var share = parent.GetDirectShares().FirstOrDefault(s => s.Token == providedToken);
+                    if (share != null)
+                    {
+                        bestPermissionThisLevel = GetHigherPermission(bestPermissionThisLevel, share.Permission);
+
+                        if (bestPermissionThisLevel is SharePermission.ViewWithChildren or SharePermission.EditWithChildren)
+                            return bestPermissionThisLevel;
+                    }
+                }
+
+                else if (pageTokens.TryGetValue(pid, out var token))
                 {
                     var shareInfo = parent.GetDirectShares().FirstOrDefault(s => s.Token == token);
                     if (shareInfo != null)
                     {
                         bestPermissionThisLevel = GetHigherPermission(bestPermissionThisLevel, shareInfo.Permission);
+
+                        if (bestPermissionThisLevel is SharePermission.ViewWithChildren or SharePermission.EditWithChildren)
+                            return bestPermissionThisLevel;
                     }
                 }
-
             }
 
             if (bestPermissionThisLevel.HasValue)
@@ -259,6 +328,7 @@
         List<(int UserId, SharePermission Permission)> permissionUpdates,
         List<int> userIdsToRemove,
         bool removeShareToken,
+        SharePermission? tokenPermission,
         int grantedById,
         SharesRepository sharesRepository,
         UserReadingRepo userReadingRepo)
@@ -307,7 +377,32 @@
         EntityCache.AddOrUpdatePageShares(pageId, existingShares);
 
         if (removeShareToken)
+        {
             RemoveShareToken(pageId, sharesRepository);
+        }
+        else if (tokenPermission.HasValue)
+        {
+            var tokenShare = existingShares.FirstOrDefault(s => !string.IsNullOrEmpty(s.Token));
+
+            if (tokenShare == null)
+            {
+                // Create new token with the specified permission
+                GetShareToken(pageId, tokenPermission.Value, grantedById, sharesRepository);
+            }
+            else
+            {
+                // Update existing token permission
+                tokenShare.Permission = tokenPermission.Value;
+                EntityCache.AddOrUpdate(tokenShare);
+
+                var dbItem = sharesRepository.GetById(tokenShare.Id);
+                if (dbItem != null)
+                {
+                    dbItem.Permission = tokenPermission.Value;
+                    sharesRepository.Update(dbItem);
+                }
+            }
+        }
     }
 
     public static List<ShareCacheItem> GetParentShareCacheItem(int childId)
@@ -381,4 +476,11 @@
         return allShares;
     }
 
+    public static void RemoveAllSharesForPage(int pageId, SharesRepository sharesRepository)
+    {
+        var existingShares = EntityCache.GetPageShares(pageId);
+        var shareIdsToRemove = existingShares.Select(share => share.Id).ToList();
+        EntityCache.RemoveShares(pageId, shareIdsToRemove);
+        sharesRepository.Delete(shareIdsToRemove);
+    }
 }

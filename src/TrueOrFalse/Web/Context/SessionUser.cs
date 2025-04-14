@@ -86,6 +86,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         IsInstallationAdmin = false;
         _userId = -1;
         CurrentWikiId = 1;
+        ClearShareTokens();
     }
 
     public List<ActivityPoints> ActivityPoints =>
@@ -111,4 +112,34 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     public void SetWikiId(PageCacheItem page) => CurrentWikiId = page.Id;
 
     public void SetWikiId(int id) => CurrentWikiId = id;
+
+    public Dictionary<int, string> ShareTokens
+    {
+        get => _httpContext.Session.Get<Dictionary<int, string>>("shareTokens") ?? new Dictionary<int, string>();
+        private set => _httpContext.Session.Set("shareTokens", value);
+    }
+    public void AddShareToken(int pageId, string token)
+    {
+        var tokens = ShareTokens;
+        tokens[pageId] = token;
+        ShareTokens = tokens;
+    }
+    public string GetShareToken(int pageId)
+    {
+        return ShareTokens.TryGetValue(pageId, out var token) ? token : string.Empty;
+    }
+    public bool HasShareToken(int pageId)
+    {
+        return ShareTokens.ContainsKey(pageId);
+    }
+    public void RemoveShareToken(int pageId)
+    {
+        var tokens = ShareTokens;
+        tokens.Remove(pageId);
+        ShareTokens = tokens;
+    }
+    public void ClearShareTokens()
+    {
+        ShareTokens = new Dictionary<int, string>();
+    }
 }

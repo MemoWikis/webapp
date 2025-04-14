@@ -94,7 +94,11 @@ public class SharePageStoreController(
         [CanBeNull] string ImageUrl,
         SharePermission Permission,
         [CanBeNull] PageResponse? InheritedFrom = null);
-    public readonly record struct GetShareInfoResponse(CreatorResponse Creator, [CanBeNull] List<UserWithPermission> Users, [CanBeNull] string ShareToken = null);
+    public readonly record struct GetShareInfoResponse(
+        CreatorResponse Creator,
+        [CanBeNull] List<UserWithPermission> Users,
+        [CanBeNull] string ShareToken = null,
+        [CanBeNull] SharePermission? ShareTokenPermission = null);
 
     public readonly record struct PageResponse(int Id, string Name);
 
@@ -145,17 +149,10 @@ public class SharePageStoreController(
             .GetUrl_50px_square(creator)
             .Url);
 
-        var shareToken = existingShares.FirstOrDefault(s => s.Token.Length > 0)?.Token;
-        return new GetShareInfoResponse(creatorResponse, users, shareToken);
+        var shareByToken = existingShares.FirstOrDefault(s => s.Token.Length > 0);
+
+        return new GetShareInfoResponse(creatorResponse, users, shareByToken?.Token, shareByToken?.Permission);
     }
-
-    public readonly record struct BatchUpdatePermissionsRequest(
-        int PageId,
-        List<PermissionUpdate> PermissionUpdates,
-        List<int> RemovedUserIds,
-        bool RemoveShareToken
-    );
-
     public readonly record struct PermissionUpdate(
         int UserId,
         SharePermission Permission
@@ -164,6 +161,14 @@ public class SharePageStoreController(
     public readonly record struct BatchUpdatePermissionsResponse(
         bool Success,
         string MessageKey
+    );
+
+    public readonly record struct BatchUpdatePermissionsRequest(
+        int PageId,
+        List<PermissionUpdate> PermissionUpdates,
+        List<int> RemovedUserIds,
+        bool RemoveShareToken = false,
+        SharePermission? TokenPermission = null
     );
 
     [HttpPost]
@@ -177,15 +182,19 @@ public class SharePageStoreController(
         if (!_permissionCheck.CanEdit(page))
             return new BatchUpdatePermissionsResponse(false, FrontendMessageKeys.Error.Page.NoRights);
 
+        // Process user permission updates and removals
         var permissionUpdates = request.PermissionUpdates
             .Select(p => (p.UserId, p.Permission))
             .ToList();
 
+        // If token permission is specified, update it
+        // The SharesService class will need to be updated to handle token changes along with user permission changes
         SharesService.BatchUpdatePageShares(
             request.PageId,
             permissionUpdates,
             request.RemovedUserIds,
             request.RemoveShareToken,
+            request.TokenPermission,
             _sessionUser.UserId,
             _sharesRepository,
             _userReadingRepo);

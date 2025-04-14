@@ -297,7 +297,8 @@
                 "one": "1 view",
                 "other": "{count} views"
             },
-            "authorProfilePicture": "{name}'s profile picture"
+            "authorProfilePicture": "{name}'s profile picture",
+            "sharePage": "Share"
         },
         "tabs": {
             "text": "Text",

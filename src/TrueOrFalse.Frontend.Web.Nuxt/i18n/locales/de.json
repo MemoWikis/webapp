@@ -283,7 +283,8 @@
                 "one": "1 Aufruf",
                 "other": "{count} Aufrufe"
             },
-            "authorProfilePicture": "{name}s Profilbild"
+            "authorProfilePicture": "{name}s Profilbild",
+            "sharePage": "Teilen"
         },
         "tabs": {
             "text": "Text",

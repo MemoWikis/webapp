@@ -31,6 +31,7 @@ interface GetShareInfoResponse {
     creator: CreatorResponse
     users?: UserWithPermission[]
     shareToken?: string
+    shareTokenPermission?: SharePermission
 }
 
 interface CreatorResponse {
@@ -67,11 +68,23 @@ interface BatchUpdatePermissionsRequest {
         permission: SharePermission
     }[]
     removedUserIds: number[]
+    removeShareToken?: boolean
+    tokenPermission?: SharePermission | null
 }
 
 interface BatchUpdatePermissionsResponse {
     success: boolean
     messageKey: string
+}
+
+interface UpdateTokenPermissionRequest {
+    pageId: number
+    permission: SharePermission
+}
+
+interface UpdateTokenPermissionResponse {
+    success: boolean
+    messageKey?: string
 }
 
 export interface UserWithPermission {
@@ -98,6 +111,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     const existingShares = ref<UserWithPermission[]>([])
     const creator = ref<CreatorResponse | null>(null)
     const markShareViaToken = ref(false)
+    const currentTokenPermission = ref<SharePermission>(SharePermission.View)
+    const pendingTokenPermission = ref<SharePermission | null>(null)
 
     const pendingPermissionChanges = ref<Map<number, SharePermission>>(
         new Map()
@@ -110,7 +125,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         () =>
             pendingPermissionChanges.value.size > 0 ||
             pendingRemovals.value.size > 0 ||
-            pendingTokenRemoval.value
+            pendingTokenRemoval.value ||
+            pendingTokenPermission.value !== null
     )
 
     const openModal = (id: number, name: string) => {
@@ -199,6 +215,15 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         pendingPermissionChanges.value.clear()
         pendingRemovals.value.clear()
         pendingTokenRemoval.value = false
+        pendingTokenPermission.value = null
+    }
+
+    const updateTokenPermission = (permission: SharePermission) => {
+        if (permission !== currentTokenPermission.value) {
+            pendingTokenPermission.value = permission
+        } else {
+            pendingTokenPermission.value = null
+        }
     }
 
     const loadExistingShares = async () => {
@@ -238,6 +263,10 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
                 if (response.shareToken) {
                     currentToken.value = response.shareToken
+                }
+
+                if (response.shareTokenPermission !== undefined) {
+                    currentTokenPermission.value = response.shareTokenPermission
                 }
 
                 return { success: true, users: response.users }
@@ -315,86 +344,81 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     }
 
     const savePermissionChanges = async () => {
+        // Validate user is logged in
         const userStore = useUserStore()
         if (!userStore.isLoggedIn) {
             userStore.openLoginModal()
             return { success: false }
         }
 
+        // Check if there are any changes to save
         if (
             pendingPermissionChanges.value.size === 0 &&
             pendingRemovals.value.size === 0 &&
-            !pendingTokenRemoval.value
+            !pendingTokenRemoval.value &&
+            pendingTokenPermission.value === null
         ) {
             return { success: true }
         }
 
-        // First handle user permission changes
-        if (
-            pendingPermissionChanges.value.size > 0 ||
-            pendingRemovals.value.size > 0
-        ) {
-            const updates = Array.from(
-                pendingPermissionChanges.value.entries()
-            ).map(([userId, permission]) => ({
-                userId,
-                permission,
-            }))
+        // Prepare data for batch update
+        const updates = Array.from(
+            pendingPermissionChanges.value.entries()
+        ).map(([userId, permission]) => ({
+            userId,
+            permission,
+        }))
 
-            const removedUserIds = Array.from(pendingRemovals.value)
+        const removedUserIds = Array.from(pendingRemovals.value)
 
-            const data: BatchUpdatePermissionsRequest = {
-                pageId: pageId.value,
-                permissionUpdates: updates,
-                removedUserIds: removedUserIds,
-            }
-
-            const result = await $api<BatchUpdatePermissionsResponse>(
-                "/apiVue/SharePageStore/BatchUpdatePermissions",
-                {
-                    method: "POST",
-                    body: data,
-                    mode: "cors",
-                    credentials: "include",
-                }
-            )
-
-            const snackbarStore = useSnackbarStore()
-            const nuxtApp = useNuxtApp()
-            const { $i18n } = nuxtApp
-
-            if (!result.success) {
-                snackbarStore.showSnackbar({
-                    type: SnackbarType.Error.toString(),
-                    text: {
-                        message: $i18n.t(result.messageKey || "error.general"),
-                    },
-                    duration: 6000,
-                })
-                return { success: false }
-            }
+        // Create the request with all changes - user permissions, removals, and token changes
+        const data: BatchUpdatePermissionsRequest = {
+            pageId: pageId.value,
+            permissionUpdates: updates,
+            removedUserIds: removedUserIds,
+            removeShareToken: pendingTokenRemoval.value,
+            tokenPermission: pendingTokenPermission.value,
         }
 
-        // Then handle token removal if pending
-        if (pendingTokenRemoval.value) {
-            await removeShareToken()
-            pendingTokenRemoval.value = false
-        }
+        // Send all changes in a single request
+        const result = await $api<BatchUpdatePermissionsResponse>(
+            "/apiVue/SharePageStore/BatchUpdatePermissions",
+            {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            }
+        )
 
-        resetPendingChanges()
-
-        await loadExistingShares()
-
+        // Handle response
         const snackbarStore = useSnackbarStore()
         const nuxtApp = useNuxtApp()
         const { $i18n } = nuxtApp
 
-        snackbarStore.showSnackbar({
-            type: SnackbarType.Success.toString(),
-            text: { message: $i18n.t("success.page.rightsUpdated") },
-            duration: 4000,
-        })
-        return { success: true }
+        if (result.success) {
+            // Reset all pending changes
+            resetPendingChanges()
+
+            // Reload to show updated state
+            await loadExistingShares()
+
+            snackbarStore.showSnackbar({
+                type: SnackbarType.Success.toString(),
+                text: { message: $i18n.t("success.page.rightsUpdated") },
+                duration: 4000,
+            })
+            return { success: true }
+        } else {
+            snackbarStore.showSnackbar({
+                type: SnackbarType.Error.toString(),
+                text: {
+                    message: $i18n.t(result.messageKey || "error.general"),
+                },
+                duration: 6000,
+            })
+            return { success: false }
+        }
     }
 
     const renewShareToken = async (
@@ -541,6 +565,49 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
+    const updateLinkPermission = async (permission: SharePermission) => {
+        const userStore = useUserStore()
+        if (!userStore.isLoggedIn) {
+            userStore.openLoginModal()
+            return { success: false }
+        }
+
+        const data: UpdateTokenPermissionRequest = {
+            pageId: pageId.value,
+            permission: permission,
+        }
+
+        const result = await $api<UpdateTokenPermissionResponse>(
+            "/apiVue/SharePageStore/UpdateTokenPermission",
+            {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            }
+        )
+
+        const snackbarStore = useSnackbarStore()
+        const nuxtApp = useNuxtApp()
+        const { $i18n } = nuxtApp
+
+        if (result.success) {
+            currentTokenPermission.value = permission
+            return { success: true }
+        } else {
+            snackbarStore.showSnackbar({
+                type: SnackbarType.Error.toString(),
+                text: {
+                    message: $i18n.t(
+                        result.messageKey || "error.token.permission"
+                    ),
+                },
+                duration: 6000,
+            })
+            return { success: false }
+        }
+    }
+
     const shareViaToken = () => {
         return (
             (currentToken.value || markShareViaToken.value) &&
@@ -560,6 +627,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         pendingTokenRemoval,
         creator,
         markShareViaToken,
+        currentTokenPermission,
+        pendingTokenPermission,
 
         openModal,
         closeModal,
@@ -580,6 +649,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         removeShareToken,
         markTokenForRemoval,
         cancelTokenRemoval,
+        updateTokenPermission,
+        updateLinkPermission,
 
         shareViaToken,
     }

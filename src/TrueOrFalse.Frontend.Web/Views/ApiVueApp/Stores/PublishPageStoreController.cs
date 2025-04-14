@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp
 {
@@ -10,7 +10,8 @@ namespace VueApp
         PageRepository pageRepository,
         QuestionReadingRepo _questionReadingRepo,
         QuestionWritingRepo _questionWritingRepo,
-        ExtendedUserCache _extendedUserCache) : Controller
+        ExtendedUserCache _extendedUserCache,
+        SharesRepository _sharesRepository) : Controller
     {
         public readonly record struct PublishPageJson(int id);
 
@@ -43,6 +44,9 @@ namespace VueApp
                     page.Visibility = PageVisibility.All;
                     pageRepository.Update(page, _sessionUser.UserId,
                         type: PageChangeType.Published);
+
+                    SharesService.RemoveAllSharesForPage(pageCacheItem.Id, _sharesRepository);
+
                     return new PublishPageResult
                     {
                         Success = true,

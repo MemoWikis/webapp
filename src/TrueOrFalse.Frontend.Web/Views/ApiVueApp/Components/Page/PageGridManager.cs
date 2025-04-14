@@ -45,8 +45,7 @@ public class PageGridManager(
 
     public GridPageItem[] GetChildren(int id)
     {
-        var visibleChildren =
-            GraphService.VisibleChildren(id, permissionCheck, sessionUser.UserId);
+        var visibleChildren = GraphService.VisibleChildren(id, permissionCheck, sessionUser.UserId);
         return visibleChildren.Select(BuildGridPageItem).ToArray();
     }
 

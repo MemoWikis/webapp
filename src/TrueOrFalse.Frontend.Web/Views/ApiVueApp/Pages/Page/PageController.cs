@@ -6,7 +6,7 @@ using System.Linq;
 
 public class PageController(
     SessionUser _sessionUser,
-    PageViewRepo pageViewRepo,
+    PageViewRepo _pageViewRepo,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
@@ -21,7 +21,10 @@ public class PageController(
         var userAgent = Request.Headers["User-Agent"].ToString();
 
         if (!Settings.TrackersToIgnore.Any(item => userAgent.Contains(item)))
-            pageViewRepo.AddView(userAgent, id, _sessionUser.UserId);
+            _pageViewRepo.AddView(userAgent, id, _sessionUser.UserId);
+
+        if (t != null)
+            _sessionUser.AddShareToken(id, t);
 
         var data = new PageDataManager(
                 _sessionUser,

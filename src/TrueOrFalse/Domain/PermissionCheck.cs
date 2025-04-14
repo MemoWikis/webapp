@@ -4,12 +4,14 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
     private readonly bool _isLoggedIn;
+    private readonly Dictionary<int, string> _shareTokens = new Dictionary<int, string>();
 
     public PermissionCheck(SessionUser sessionUser)
     {
         _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
         _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
         _isLoggedIn = sessionUser.SessionIsActive() && sessionUser.IsLoggedIn;
+        _shareTokens = sessionUser.ShareTokens;
     }
 
     public PermissionCheck(UserCacheItem userCacheItem)
@@ -50,13 +52,15 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (shareInfos.Any(s => s.Permission is SharePermission.RestrictAccess))
             return false;
 
-        if (token != null)
+        if (token != null || _shareTokens.Any())
         {
             var shareInfosByToken = EntityCache.GetPageShares(page.Id);
-            if (shareInfosByToken.Any(s => s.Token == token))
+            _shareTokens.TryGetValue(page.Id, out var sessionUserToken);
+            var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
+            if (shareByToken != null && shareByToken.Permission != SharePermission.RestrictAccess)
                 return true;
 
-            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByUserId(page.Id, null, token);
+            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _shareTokens);
             return closestSharePermissionByToken is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
         }
 
@@ -118,7 +122,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             if (shareInfosByToken.Any(s => s.Permission is SharePermission.View or SharePermission.ViewWithChildren))
                 return false;
 
-            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByUserId(page.Id, null, token);
+            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _shareTokens);
             return closestSharePermissionByToken == SharePermission.EditWithChildren;
         }
 
