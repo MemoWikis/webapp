@@ -172,14 +172,15 @@ public class PageCacheItem : IPersistable
         int userId,
         bool onlyVisible = true,
         bool fullList = true,
-        int pageId = 0)
+        int pageId = 0,
+        PermissionCheck? permissionCheck = null)
     {
         IList<QuestionCacheItem> questions;
 
         if (fullList)
         {
-            questions = AggregatedPages(
-                    new PermissionCheck(userId))
+            permissionCheck ??= new PermissionCheck(userId);
+            questions = AggregatedPages(permissionCheck)
                 .SelectMany(c => EntityCache.GetQuestionsForPage(c.Key))
                 .Distinct().ToList();
         }
@@ -191,8 +192,7 @@ public class PageCacheItem : IPersistable
 
         if (onlyVisible)
         {
-            var user = EntityCache.GetUserById(userId);
-            var permissionCheck = new PermissionCheck(user);
+            permissionCheck ??= new PermissionCheck(userId);
             questions = questions.Where(permissionCheck.CanView).ToList();
         }
 
@@ -208,7 +208,8 @@ public class PageCacheItem : IPersistable
     public virtual int GetCountQuestionsAggregated(
         int userId,
         bool inPageOnly = false,
-        int pageId = 0)
+        int pageId = 0,
+        PermissionCheck? permissionCheck = null)
     {
         if (inPageOnly)
         {
@@ -216,11 +217,12 @@ public class PageCacheItem : IPersistable
                 userId,
                 true,
                 false,
-                pageId
+                pageId,
+                permissionCheck
             ).Count;
         }
 
-        return GetAggregatedQuestionsFromMemoryCache(userId)
+        return GetAggregatedQuestionsFromMemoryCache(userId, permissionCheck: permissionCheck)
             .Count;
     }
 

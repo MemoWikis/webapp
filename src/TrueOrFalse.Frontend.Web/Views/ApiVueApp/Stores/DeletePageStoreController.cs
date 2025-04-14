@@ -10,7 +10,8 @@ public class DeletePageStoreController(
     CrumbtrailService _crumbtrailService,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : BaseController(_sessionUser)
+    QuestionReadingRepo _questionReadingRepo,
+    PermissionCheck _permissionCheck) : BaseController(_sessionUser)
 {
     public record struct SuggestedNewParent(
         int Id,
@@ -60,7 +61,7 @@ public class DeletePageStoreController(
 
         var questions = EntityCache
             .GetPage(id)?
-            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, false);
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, false, permissionCheck: _permissionCheck);
 
         var hasQuestion = questions?.Count > 0;
 

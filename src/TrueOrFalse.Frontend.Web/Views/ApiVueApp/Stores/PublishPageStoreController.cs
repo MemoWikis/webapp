@@ -109,7 +109,7 @@ namespace VueApp
                 };
 
             var filteredAggregatedQuestions = pageCacheItem
-                .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
+                .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, permissionCheck: _permissionCheck)
                 .Where(q =>
                     q.Creator != null &&
                     q.Creator.Id == userCacheItem.Id &&

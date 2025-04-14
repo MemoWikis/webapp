@@ -25,8 +25,7 @@ public class PageDataManager(
         if (_permissionCheck.CanView(_sessionUser.UserId, page, token))
         {
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Page);
-            var knowledgeSummary =
-                _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+            var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
             return CreatePageDataObject(id, page, imageMetaData, knowledgeSummary);
         }
@@ -51,7 +50,7 @@ public class PageDataManager(
         {
             Id = page.Id,
             Name = page.Name,
-            QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId),
+            QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId, permissionCheck: _permissionCheck),
             ImageUrl = new PageImageSettings(page.Id,
                     _httpContextAccessor)
                 .GetUrl_128px(true)
@@ -120,9 +119,8 @@ public class PageDataManager(
             IsWiki = page.IsWiki,
             CurrentUserIsCreator = CurrentUserIsCreator(page),
             CanBeDeleted = _permissionCheck.CanDelete(page),
-            QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId),
-            DirectQuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId, true,
-                page.Id),
+            QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId, permissionCheck: _permissionCheck),
+            DirectQuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId, true, page.Id, permissionCheck: _permissionCheck),
             ImageId = imageMetaData != null ? imageMetaData.Id : 0,
             PageItem = FillMiniPageItem(page),
             MetaDescription = SeoUtils.ReplaceDoubleQuotes(page.Content == null

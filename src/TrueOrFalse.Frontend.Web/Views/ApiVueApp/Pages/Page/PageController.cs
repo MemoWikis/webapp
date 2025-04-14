@@ -24,7 +24,10 @@ public class PageController(
             _pageViewRepo.AddView(userAgent, id, _sessionUser.UserId);
 
         if (t != null)
+        {
             _sessionUser.AddShareToken(id, t);
+            _permissionCheck.OverWriteShareTokens(_sessionUser.ShareTokens);
+        }
 
         var data = new PageDataManager(
                 _sessionUser,

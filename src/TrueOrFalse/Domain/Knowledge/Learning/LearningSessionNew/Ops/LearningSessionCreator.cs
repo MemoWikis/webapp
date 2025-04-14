@@ -133,7 +133,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         int questionId)
     {
         var page = EntityCache.GetPage(pageId);
-        var allQuestions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
+        var allQuestions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, permissionCheck: _permissionCheck);
         allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
 
         bool questionNotInPage = allQuestions.All(q => q.Id != questionId);
@@ -216,7 +216,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
         IList<QuestionCacheItem> allQuestions = EntityCache.GetPage(config.PageId)
-            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, permissionCheck: _permissionCheck)
             .Where(q => q.Id > 0)
             .Where(_permissionCheck.CanView).ToList();
 

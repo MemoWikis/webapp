@@ -1,10 +1,9 @@
-﻿
-public class PermissionCheck : IRegisterAsInstancePerLifetime
+﻿public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
     private readonly bool _isLoggedIn;
-    private readonly Dictionary<int, string> _shareTokens = new Dictionary<int, string>();
+    private Dictionary<int, string> _shareTokens = new Dictionary<int, string>();
 
     public PermissionCheck(SessionUser sessionUser)
     {
@@ -27,6 +26,11 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         _userId = userCacheItem.Id;
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
         _isLoggedIn = false;
+    }
+
+    public void OverWriteShareTokens(Dictionary<int, string> shareTokens)
+    {
+        _shareTokens = shareTokens;
     }
 
     //setter is for tests
@@ -195,11 +199,48 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (question == null || question.Id == 0)
             return false;
 
+        // Public questions are visible to everyone
         if (question.Visibility == QuestionVisibility.All)
             return true;
 
+        // Owner can see their own questions
         if (question.Visibility == QuestionVisibility.Owner && question.CreatorId == _userId)
             return true;
+
+        // Check if any page associated with the question grants view permission
+        if (question.Pages?.Any() == true)
+        {
+            foreach (var page in question.Pages)
+            {
+                // Check direct token shares for the page
+                var shareInfosByToken = EntityCache.GetPageShares(page.Id);
+                _shareTokens.TryGetValue(page.Id, out var sessionUserToken);
+                var shareByToken = shareInfosByToken.FirstOrDefault(share =>
+                    share.Token == sessionUserToken &&
+                    share.Permission != SharePermission.RestrictAccess);
+
+                if (shareByToken != null)
+                    return true;
+
+                // Also check parent pages with children access
+                var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(
+                    page.Id, _shareTokens);
+
+                if (closestSharePermissionByToken is SharePermission.EditWithChildren
+                    or SharePermission.ViewWithChildren)
+                    return true;
+
+                // Check user-specific shares
+                var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.SharedWith?.Id == _userId);
+                if (shareInfos.Any(s => s.Permission != SharePermission.RestrictAccess))
+                    return true;
+
+                var closestSharePermission = SharesService.GetClosestParentSharePermissionByUserId(page.Id, _userId);
+                if (closestSharePermission is SharePermission.EditWithChildren
+                    or SharePermission.ViewWithChildren)
+                    return true;
+            }
+        }
 
         return false;
     }
