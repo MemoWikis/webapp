@@ -51,11 +51,18 @@ export class Page {
     language: "de" | "en" | "fr" | "es" = "en"
     canEdit: boolean = false
     isShared: boolean = false
+    sharedWith: SharedWithUser[] | null = null
 }
 
 export interface ViewSummary {
     count: number
     date: string
+}
+
+export interface SharedWithUser {
+    id: number
+    name: string
+    imgUrl: string
 }
 
 export interface KnowledgeSummary {
@@ -145,6 +152,7 @@ export const usePageStore = defineStore("pageStore", {
             canEdit: false,
             shareToken: null as string | null,
             isShared: false,
+            sharedWith: [] as SharedWithUser[],
         }
     },
     actions: {
@@ -198,6 +206,7 @@ export const usePageStore = defineStore("pageStore", {
                 this.contentLanguage = page.language
                 this.canEdit = page.canEdit
                 this.isShared = page.isShared
+                this.sharedWith = page.sharedWith || []
             }
         },
         async saveContent() {

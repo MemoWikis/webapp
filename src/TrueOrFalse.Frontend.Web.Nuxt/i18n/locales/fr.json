@@ -732,16 +732,16 @@
                 "placeholder": "Écris ton message ici..."
             },
             "link": {
-                "title": "Partager via un lien",
+                "title": "Partager via lien secret",
                 "copy": "Copier le lien",
                 "renew": "Réinitialiser le lien",
-                "info": "Toute personne avec le lien pourra accéder à cette page avec des permissions de lecture.",
-                "publicDescription": "N'importe qui avec le lien secret peut accéder à cette page.",
+                "info": "Toute personne disposant du lien pourra accéder à cette page avec des autorisations de consultation.",
+                "publicDescription": "Toute personne ayant le lien secret peut accéder à cette page.",
                 "restrictedDescription": "Seules les personnes autorisées peuvent voir cette page.",
                 "includeToken": "Inclure la clé d'accès",
                 "shareViaLink": "Toute personne avec le lien",
                 "restrict": "Restreint",
-                "renewTooltip": "La réinitialisation du lien invalidera l'ancien lien."
+                "renewTooltip": "Le lien sera réinitialisé et tous les liens précédents ne seront plus valides."
             }
         }
     },

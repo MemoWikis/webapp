@@ -13,13 +13,6 @@
         _shareTokens = sessionUser.ShareTokens;
     }
 
-    public PermissionCheck(UserCacheItem userCacheItem)
-    {
-        _userId = userCacheItem.Id;
-        _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
-        _isLoggedIn = false;
-    }
-
     public PermissionCheck(int userId)
     {
         var userCacheItem = EntityCache.GetUserById(userId);
@@ -117,14 +110,24 @@
         if (page.CreatorId == _userId || _isInstallationAdmin)
             return true;
 
-        if (token != null && (_isLoggedIn || isLoggedIn))
+        if ((token != null || _shareTokens.Any()) && (_isLoggedIn || isLoggedIn))
         {
-            var shareInfosByToken = EntityCache.GetPageShares(page.Id).Where(s => s.Token == token);
-            if (shareInfosByToken.Any(s => s.Permission is SharePermission.Edit or SharePermission.EditWithChildren))
-                return true;
+            var shareInfosByToken = EntityCache.GetPageShares(page.Id);
+            _shareTokens.TryGetValue(page.Id, out var sessionUserToken);
+            var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
+            if (shareByToken != null)
+            {
+                if (shareByToken.Permission == SharePermission.RestrictAccess)
+                    return false;
 
-            if (shareInfosByToken.Any(s => s.Permission is SharePermission.View or SharePermission.ViewWithChildren))
-                return false;
+                if (shareByToken.Permission == SharePermission.View ||
+                    shareByToken.Permission == SharePermission.ViewWithChildren)
+                    return false;
+
+                if (shareByToken.Permission == SharePermission.Edit ||
+                    shareByToken.Permission == SharePermission.EditWithChildren)
+                    return true;
+            }
 
             var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _shareTokens);
             return closestSharePermissionByToken == SharePermission.EditWithChildren;

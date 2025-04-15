@@ -734,7 +734,7 @@
                 "placeholder": "Tippe hier deine Nachricht..."
             },
             "link": {
-                "title": "Per Link teilen",
+                "title": "Per geheimen Link teilen",
                 "copy": "Link kopieren",
                 "renew": "Link zurücksetzen",
                 "info": "Jeder mit dem Link kann auf diese Seite mit Leseberechtigungen zugreifen.",

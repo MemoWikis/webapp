@@ -69,9 +69,24 @@ public class PageController(
             ErrorCode = data.ErrorCode,
             Language = data.Language,
             CanEdit = _permissionCheck.CanEditPage(data.Id, t),
-            IsShared = SharesService.IsShared(data.Id)
+            IsShared = SharesService.IsShared(data.Id),
+            SharedWith = GetSharedWithResponse(data.Id),
         };
     }
+
+    private List<SharedWithResponse> GetSharedWithResponse(int pageId)
+    {
+        return EntityCache.GetPageShares(pageId)
+            .Where(share => share.SharedWith != null)
+            .Select(share => new SharedWithResponse(
+                share.SharedWith.Id,
+                share.SharedWith.Name,
+                new UserImageSettings(share.SharedWith.Id, _httpContextAccessor).GetUrl_20px_square(share.SharedWith).Url)
+            )
+            .ToList();
+    }
+
+    public readonly record struct SharedWithResponse(int Id, string Name, string ImgUrl);
 
     public record struct PageDataResult(
         bool CanAccess,
@@ -107,6 +122,7 @@ public class PageController(
         List<DailyViews> ViewsLast30DaysQuestions,
         string Language,
         bool CanEdit,
-        bool IsShared
+        bool IsShared,
+        [CanBeNull] List<SharedWithResponse> SharedWith = null
     );
 }

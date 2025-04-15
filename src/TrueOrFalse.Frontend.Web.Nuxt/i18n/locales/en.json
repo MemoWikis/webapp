@@ -748,7 +748,7 @@
                 "placeholder": "Type your message here..."
             },
             "link": {
-                "title": "Share via Link",
+                "title": "Share via Secret Link",
                 "copy": "Copy Link",
                 "renew": "Reset Link",
                 "info": "Anyone with the link will be able to access this page with view permissions.",

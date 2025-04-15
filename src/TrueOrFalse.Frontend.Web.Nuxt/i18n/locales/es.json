@@ -732,7 +732,7 @@
                 "placeholder": "Escribe tu mensaje aquí..."
             },
             "link": {
-                "title": "Compartir mediante enlace",
+                "title": "Compartir por enlace secreto",
                 "copy": "Copiar enlace",
                 "renew": "Reiniciar enlace",
                 "info": "Cualquier persona con el enlace podrá acceder a esta página con permisos de visualización.",
