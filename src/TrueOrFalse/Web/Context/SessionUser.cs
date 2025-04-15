@@ -78,6 +78,13 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
         _extendedUserCache.Add(user.Id, _pageViewRepo);
+
+        var userCacheItem = EntityCache.GetUserByIdNullable(user.Id);
+        if (userCacheItem != null)
+        {
+            userCacheItem.SetTempShareTokens(ShareTokens);
+            EntityCache.AddOrUpdate(userCacheItem);
+        }
     }
 
     public void Logout()
@@ -120,26 +127,57 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     }
     public void AddShareToken(int pageId, string token)
     {
-        var tokens = ShareTokens;
-        tokens[pageId] = token;
-        ShareTokens = tokens;
+        var share = EntityCache.GetPageShares(pageId).FirstOrDefault(share => share.Token == token);
+        if (share != null)
+        {
+            var tokens = ShareTokens;
+            tokens[pageId] = token;
+            ShareTokens = tokens;
+
+            if (IsLoggedIn)
+            {
+                var userCacheItem = EntityCache.GetUserByIdNullable(UserId);
+                if (userCacheItem != null)
+                {
+                    userCacheItem.AddTempShareToken(pageId, token);
+                    EntityCache.AddOrUpdate(userCacheItem);
+                }
+            }
+        }
+        else
+        {
+            RemoveShareToken(pageId);
+        }
+
     }
-    public string GetShareToken(int pageId)
-    {
-        return ShareTokens.TryGetValue(pageId, out var token) ? token : string.Empty;
-    }
-    public bool HasShareToken(int pageId)
-    {
-        return ShareTokens.ContainsKey(pageId);
-    }
+
     public void RemoveShareToken(int pageId)
     {
-        var tokens = ShareTokens;
-        tokens.Remove(pageId);
-        ShareTokens = tokens;
+        if (ShareTokens.ContainsKey(pageId))
+            ShareTokens.Remove(pageId);
+
+        if (IsLoggedIn)
+        {
+            var userCacheItem = EntityCache.GetUserByIdNullable(UserId);
+            if (userCacheItem != null)
+            {
+                userCacheItem.RemoveTempShareToken(pageId);
+                EntityCache.AddOrUpdate(userCacheItem);
+            }
+        }
     }
     public void ClearShareTokens()
     {
         ShareTokens = new Dictionary<int, string>();
+        if (IsLoggedIn && _userId > 0)
+        {
+            // Clear TempShareTokens in UserCacheItem
+            var userCacheItem = EntityCache.GetUserByIdNullable(_userId);
+            if (userCacheItem != null)
+            {
+                userCacheItem.ClearTempShareTokens();
+                EntityCache.AddOrUpdate(userCacheItem);
+            }
+        }
     }
 }

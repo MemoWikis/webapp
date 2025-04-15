@@ -19,6 +19,7 @@
         _userId = userCacheItem.Id;
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
         _isLoggedIn = false;
+        _shareTokens = userCacheItem.TempShareTokens;
     }
 
     public void OverWriteShareTokens(Dictionary<int, string> shareTokens)

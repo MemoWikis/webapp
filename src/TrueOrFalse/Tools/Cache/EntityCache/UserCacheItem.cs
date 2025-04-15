@@ -192,4 +192,26 @@ public class UserCacheItem : IUserTinyModel, IPersistable
             .Distinct()
             .ToList();
     }
+
+    public Dictionary<int, string> TempShareTokens { get; set; } = new Dictionary<int, string>();
+
+    public void AddTempShareToken(int pageId, string token)
+    {
+        TempShareTokens[pageId] = token;
+    }
+    public void RemoveTempShareToken(int pageId)
+    {
+        if (TempShareTokens.ContainsKey(pageId))
+            TempShareTokens.Remove(pageId);
+    }
+
+    public void SetTempShareTokens(Dictionary<int, string> shareTokens)
+    {
+        TempShareTokens = new Dictionary<int, string>(shareTokens);
+    }
+
+    public void ClearTempShareTokens()
+    {
+        TempShareTokens = new Dictionary<int, string>();
+    }
 }
