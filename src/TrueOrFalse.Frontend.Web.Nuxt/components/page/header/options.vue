@@ -37,26 +37,25 @@ const { t, localeProperties } = useI18n()
                 </div>
                 <template #popper="{ hide }">
 
-                    <div @click="sharePageStore.openModal(pageStore.id, pageStore.name); hide()" class="dropdown-row">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon icon="fa-solid fa-link" />
+                    <template v-if="pageStore.visibility != Visibility.All">
+                        <div @click="sharePageStore.openModal(pageStore.id, pageStore.name); hide()" class="dropdown-row">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon icon="fa-solid fa-link" />
+                            </div>
+                            <div class="dropdown-label">
+                                {{ t('page.header.sharePage') }}
+                            </div>
                         </div>
-                        <div class="dropdown-label">
-                            {{ t('page.header.sharePage') }}
-                        </div>
-                    </div>
 
-                    <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
+                    </template>
 
-                    <div @click="pageStore.hideOrShowText()" class="dropdown-row hide-text-option"
-                        :class="{ 'page-has-content': pageStore.content?.length > 0 || pageStore.contentHasChanged }">
+                    <div @click="pageStore.hideOrShowText()" class="dropdown-row hide-text-option" :class="{ 'page-has-content': pageStore.content?.length > 0 || pageStore.contentHasChanged }">
                         <div class="dropdown-label">
-                            {{ t('page.header.noTextInput') }} <font-awesome-icon :icon="['fas', 'circle-info']" class="toggle-info"
-                                v-tooltip="t('info.page.toggleHideText')" />
+                            {{ t('page.header.noTextInput') }} <font-awesome-icon :icon="['fas', 'circle-info']" class="toggle-info" v-tooltip="t('info.page.toggleHideText')" />
                         </div>
                         <div class="toggle-icon-container">
-                            <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="pageStore.textIsHidden"
-                                class="toggle-active" />
+                            <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="pageStore.textIsHidden" class="toggle-active" />
                             <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="toggle-inactive" />
                         </div>
                     </div>
@@ -94,14 +93,12 @@ const { t, localeProperties } = useI18n()
                         </div>
                     </div>
 
-                    <div v-if="!pageStore.isChildOfPersonalWiki && pageStore.id != userStore.personalWiki?.id"
-                        class="dropdown-row" @click="editPageRelationStore.addToPersonalWiki(pageStore.id); hide()">
+                    <div v-if="!pageStore.isChildOfPersonalWiki && pageStore.id != userStore.personalWiki?.id" class="dropdown-row" @click="editPageRelationStore.addToPersonalWiki(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-layers>
                                 <font-awesome-icon :icon="['fas', 'house']" />
                                 <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
-                                <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-3 down-1 right-1"
-                                    style="color: white;" />
+                                <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-3 down-1 right-1" style="color: white;" />
                             </font-awesome-layers>
                         </div>
                         <div class="dropdown-label">
@@ -109,8 +106,7 @@ const { t, localeProperties } = useI18n()
                         </div>
                     </div>
 
-                    <div v-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.All"
-                        class="dropdown-row" @click="pageToPrivateStore.openModal(pageStore.id); hide()">
+                    <div v-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.All" class="dropdown-row" @click="pageToPrivateStore.openModal(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-lock" />
                         </div>
@@ -118,8 +114,7 @@ const { t, localeProperties } = useI18n()
                             {{ t('page.header.setToPrivate') }}
                         </div>
                     </div>
-                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Owner"
-                        class="dropdown-row" @click="publishPageStore.openModal(pageStore.id); hide()">
+                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Owner" class="dropdown-row" @click="publishPageStore.openModal(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-unlock" />
                         </div>
@@ -128,8 +123,7 @@ const { t, localeProperties } = useI18n()
                         </div>
                     </div>
 
-                    <div v-if="pageStore.isOwnerOrAdmin() && !pageStore.isWiki"
-                        class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
+                    <div v-if="pageStore.isOwnerOrAdmin() && !pageStore.isWiki" class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon :icon="['fas', 'folder']" />
                         </div>
@@ -137,8 +131,7 @@ const { t, localeProperties } = useI18n()
                             {{ t('page.header.convertToWiki') }}
                         </div>
                     </div>
-                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.isWiki"
-                        class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
+                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.isWiki" class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon :icon="['fas', 'file']" />
                         </div>
@@ -160,6 +153,7 @@ const { t, localeProperties } = useI18n()
                             </div>
                         </div>
                     </template>
+                    <div class="dropdown-divider"></div>
 
                     <div class="dropdown-row no-hover">
                         <div class="dropdown-label content-language-info">

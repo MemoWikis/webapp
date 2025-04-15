@@ -284,7 +284,8 @@
                 "other": "{count} Aufrufe"
             },
             "authorProfilePicture": "{name}s Profilbild",
-            "sharePage": "Teilen"
+            "sharePage": "Teilen",
+            "sharedUserProfilePicture": "{name}s Profilbild"
         },
         "tabs": {
             "text": "Text",

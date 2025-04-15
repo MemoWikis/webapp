@@ -282,7 +282,8 @@
                 "other": "{count} vues"
             },
             "authorProfilePicture": "Photo de profil de {name}",
-            "sharePage": "Partager"
+            "sharePage": "Partager",
+            "sharedUserProfilePicture": "Photo de profil de {name}"
         },
         "tabs": {
             "text": "Texte",

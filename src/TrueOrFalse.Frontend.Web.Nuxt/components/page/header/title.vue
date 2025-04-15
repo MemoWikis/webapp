@@ -296,6 +296,8 @@ const ariaId2 = useId()
     margin: 0 4px;
     max-height: 20px;
     max-width: 20px;
+    cursor: pointer;
+
 }
 
 #PageHeaderContainer {

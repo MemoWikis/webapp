@@ -298,7 +298,8 @@
                 "other": "{count} views"
             },
             "authorProfilePicture": "{name}'s profile picture",
-            "sharePage": "Share"
+            "sharePage": "Share",
+            "sharedUserProfilePicture": "{name}'s profile picture"
         },
         "tabs": {
             "text": "Text",

@@ -162,19 +162,22 @@
 
     public static SharePermission? GetClosestParentSharePermissionByTokens(int childId, Dictionary<int, string>? pageTokens, string? providedToken = null)
     {
-        if (pageTokens == null || !pageTokens.Any())
+        if ((pageTokens == null || !pageTokens.Any()) && providedToken == null)
             return null;
 
         var child = EntityCache.GetPage(childId);
         if (child == null)
             return null;
 
-        if (pageTokens.TryGetValue(childId, out var directToken))
+        if (pageTokens != null && pageTokens.Any())
         {
-            var directShares = child.GetDirectShares();
-            var directShareByToken = directShares.FirstOrDefault(s => s.Token == directToken);
-            if (directShareByToken != null)
-                return directShareByToken.Permission;
+            if (pageTokens.TryGetValue(childId, out var directToken))
+            {
+                var directShares = child.GetDirectShares();
+                var directShareByToken = directShares.FirstOrDefault(s => s.Token == directToken);
+                if (directShareByToken != null)
+                    return directShareByToken.Permission;
+            }
         }
 
         var visited = new HashSet<int> { childId };
@@ -207,7 +210,7 @@
                     }
                 }
 
-                else if (pageTokens.TryGetValue(pid, out var token))
+                else if (pageTokens != null && pageTokens.TryGetValue(pid, out var token))
                 {
                     var shareInfo = parent.GetDirectShares().FirstOrDefault(s => s.Token == token);
                     if (shareInfo != null)
