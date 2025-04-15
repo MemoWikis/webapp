@@ -265,7 +265,10 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
                     currentToken.value = response.shareToken
                 }
 
-                if (response.shareTokenPermission !== undefined) {
+                if (
+                    response.shareTokenPermission !== undefined &&
+                    response.shareTokenPermission !== null
+                ) {
                     currentTokenPermission.value = response.shareTokenPermission
                 }
 

@@ -703,7 +703,8 @@
                 "shareWithUser": "Teilen",
                 "pendingChanges": "Ausstehende Änderungen",
                 "saveChanges": "Speichern",
-                "info": "Beim Teilen von Seiten werden alle Fragen einbezogen"
+                "info": "Beim Teilen von Seiten werden alle Fragen einbezogen",
+                "loginInfo": "Nur angemeldete Benutzer können geteilte Seiten bearbeiten"
             },
             "permission": {
                 "label": "Berechtigungsstufe",

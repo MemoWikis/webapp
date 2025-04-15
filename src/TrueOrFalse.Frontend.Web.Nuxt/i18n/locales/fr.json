@@ -701,7 +701,8 @@
                 "shareWithUser": "Partager",
                 "pendingChanges": "Modifications en attente",
                 "saveChanges": "Enregistrer",
-                "info": "Le partage de pages inclut toutes les questions"
+                "info": "Le partage de pages inclut toutes les questions",
+                "loginInfo": "Seuls les utilisateurs connectés peuvent modifier les pages partagées"
             },
             "permission": {
                 "label": "Niveau de permission",

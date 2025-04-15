@@ -177,7 +177,6 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
 }
 
 const currentLinkPermissionLabel = computed(() => {
-    // If there's a pending token permission change, use that value instead
     const effectivePermission = sharePageStore.pendingTokenPermission !== null
         ? sharePageStore.pendingTokenPermission
         : linkPermission.value
@@ -331,10 +330,8 @@ const currentLinkPermissionLabel = computed(() => {
                             </button>
                         </div>
 
-                        <!-- Sharing link item - styled like user items -->
                         <div class="user-item share-link-item">
                             <div class="link-info">
-                                <!-- Icon: earth for active share link, lock for no link/removed -->
                                 <div class="link-icon">
                                     <font-awesome-icon v-if="sharePageStore.shareViaToken()" :icon="(linkPermission === SharePermission.Edit || linkPermission === SharePermission.EditWithChildren)
                                         ? ['fas', 'pen']
@@ -430,7 +427,7 @@ const currentLinkPermissionLabel = computed(() => {
 
                 <!-- Edit permissions mode -->
                 <div v-else-if="currentMode === CurrentMode.Edit && currentUser" class="edit-container">
-                    <!-- Selected user info -->
+
                     <div class="selected-user">
                         <img :src="currentUser.avatarUrl" class="user-avatar large" alt="User avatar" />
                         <NuxtLink :to="$urlHelper.getUserUrl(currentUser.name, currentUser.id)">
@@ -489,7 +486,6 @@ const currentLinkPermissionLabel = computed(() => {
                                 </template>
                             </VDropdown>
 
-                            <!-- Keep the description for selected permission -->
                             <div class="alert alert-light">
                                 {{ t(`page.sharing.permission.description.${currentUser.permission}`) }}
                             </div>
@@ -516,7 +512,10 @@ const currentLinkPermissionLabel = computed(() => {
 
         <template v-slot:footer>
             <div class="alert alert-info sharing-info">
-                {{ t('page.sharing.modal.info') }}
+                <ul class="modal-info-list">
+                    <li>{{ t('page.sharing.modal.info') }}</li>
+                    <li>{{ t('page.sharing.modal.loginInfo') }}</li>
+                </ul>
             </div>
             <div class="sharemodal-footer">
                 <div class="sharemodal-footer-actions">

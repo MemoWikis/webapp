@@ -701,7 +701,8 @@
                 "shareWithUser": "Compartir",
                 "pendingChanges": "Cambios pendientes",
                 "saveChanges": "Guardar",
-                "info": "Al compartir páginas se incluirán todas las preguntas"
+                "info": "Al compartir páginas se incluirán todas las preguntas",
+                "loginInfo": "Solo los usuarios que hayan iniciado sesión pueden editar páginas compartidas"
             },
             "permission": {
                 "label": "Nivel de permiso",

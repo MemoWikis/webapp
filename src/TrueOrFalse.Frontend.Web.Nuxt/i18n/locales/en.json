@@ -717,7 +717,8 @@
                 "shareWithUser": "Share",
                 "pendingChanges": "Pending changes",
                 "saveChanges": "Save",
-                "info": "Sharing Pages will include all questions"
+                "info": "Sharing Pages will include all questions",
+                "loginInfo": "Only logged-in users can edit shared pages"
             },
             "permission": {
                 "label": "Permission level",
