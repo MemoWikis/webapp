@@ -68,6 +68,10 @@ interface BatchUpdatePermissionsRequest {
         permission: SharePermission
     }[]
     removedUserIds: number[]
+    parentRemovals?: {
+        userId: number
+        parentPageId: number
+    }[]
     removeShareToken?: boolean
     tokenPermission?: SharePermission | null
 }
@@ -114,6 +118,10 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     const currentTokenPermission = ref<SharePermission>(SharePermission.View)
     const pendingTokenPermission = ref<SharePermission | null>(null)
 
+    // New refs for handling inherited shares
+    const showInheritedShareModal = ref(false)
+    const selectedInheritedUser = ref<UserWithPermission | null>(null)
+
     const pendingPermissionChanges = ref<Map<number, SharePermission>>(
         new Map()
     )
@@ -121,10 +129,16 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     const pendingRemovals = ref<Set<number>>(new Set())
     const pendingTokenRemoval = ref(false)
 
+    // Add parentRemovedUserIds to track users who should be removed from parent pages
+    const parentRemovedUserIds = ref<
+        { userId: number; parentPageId: number }[]
+    >([])
+
     const hasPendingChanges = computed(
         () =>
             pendingPermissionChanges.value.size > 0 ||
             pendingRemovals.value.size > 0 ||
+            parentRemovedUserIds.value.length > 0 ||
             pendingTokenRemoval.value ||
             pendingTokenPermission.value !== null
     )
@@ -201,6 +215,20 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         pendingRemovals.value.delete(userId)
     }
 
+    // Mark a user for removal from a parent page
+    const markUserForParentRemoval = (userId: number, parentPageId: number) => {
+        // Check if this specific parent removal is already in the list
+        const existingRemoval = parentRemovedUserIds.value.find(
+            (item) =>
+                item.userId === userId && item.parentPageId === parentPageId
+        )
+
+        // Only add if it doesn't already exist
+        if (!existingRemoval) {
+            parentRemovedUserIds.value.push({ userId, parentPageId })
+        }
+    }
+
     const markTokenForRemoval = () => {
         markShareViaToken.value = false
         pendingTokenRemoval.value = true
@@ -214,6 +242,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     const resetPendingChanges = () => {
         pendingPermissionChanges.value.clear()
         pendingRemovals.value.clear()
+        parentRemovedUserIds.value = []
         pendingTokenRemoval.value = false
         pendingTokenPermission.value = null
     }
@@ -358,6 +387,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         if (
             pendingPermissionChanges.value.size === 0 &&
             pendingRemovals.value.size === 0 &&
+            parentRemovedUserIds.value.length === 0 &&
             !pendingTokenRemoval.value &&
             pendingTokenPermission.value === null
         ) {
@@ -379,6 +409,10 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             pageId: pageId.value,
             permissionUpdates: updates,
             removedUserIds: removedUserIds,
+            parentRemovals:
+                parentRemovedUserIds.value.length > 0
+                    ? parentRemovedUserIds.value
+                    : undefined,
             removeShareToken: pendingTokenRemoval.value,
             tokenPermission: pendingTokenPermission.value,
         }
@@ -618,6 +652,101 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         )
     }
 
+    // Check if a share is inherited from parent
+    const isInheritedShare = (userId: number) => {
+        const user = existingShares.value.find((u) => u.id === userId)
+        return user?.inheritedFrom !== undefined && user.inheritedFrom !== null
+    }
+
+    // Open the inherited share removal modal
+    const openInheritedShareModal = (userId: number) => {
+        const user = existingShares.value.find((u) => u.id === userId)
+        if (user) {
+            selectedInheritedUser.value = user
+            showInheritedShareModal.value = true
+        }
+    }
+
+    // Close the inherited share removal modal
+    const closeInheritedShareModal = () => {
+        showInheritedShareModal.value = false
+        selectedInheritedUser.value = null
+    }
+
+    // Add a restriction for a user (block inherited access)
+    const restrictUserAccess = async (userId: number) => {
+        const userStore = useUserStore()
+        if (!userStore.isLoggedIn) {
+            userStore.openLoginModal()
+            return { success: false }
+        }
+
+        // Create a new share with restriction permission
+        const data: ShareToUserRequest = {
+            pageId: pageId.value,
+            userId: userId,
+            permission: SharePermission.RestrictAccess,
+        }
+
+        const result = await $api<ShareToUserResponse>(
+            "/apiVue/SharePageStore/ShareToUser",
+            {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            }
+        )
+
+        const snackbarStore = useSnackbarStore()
+        const nuxtApp = useNuxtApp()
+        const { $i18n } = nuxtApp
+
+        if (result.success) {
+            // Reload the shares to show the updated state
+            await loadExistingShares()
+
+            snackbarStore.showSnackbar({
+                type: SnackbarType.Success.toString(),
+                text: { message: $i18n.t("success.page.accessRestricted") },
+                duration: 4000,
+            })
+            return { success: true }
+        } else {
+            snackbarStore.showSnackbar({
+                type: SnackbarType.Error.toString(),
+                text: {
+                    message: $i18n.t(result.messageKey || "error.general"),
+                },
+                duration: 6000,
+            })
+            return { success: false }
+        }
+    }
+
+    // Add a restriction for a user to block inherited access - mark for batch update
+    const markUserForRestriction = (userId: number) => {
+        const user = existingShares.value.find((u) => u.id === userId)
+        if (user) {
+            // Add to pending permission changes with RestrictAccess
+            pendingPermissionChanges.value.set(
+                userId,
+                SharePermission.RestrictAccess
+            )
+        }
+    }
+
+    // Special method to handle removing a user's access - determines if it's inherited or not
+    const removeUserAccess = (userId: number) => {
+        // Check if this is an inherited share
+        if (isInheritedShare(userId)) {
+            openInheritedShareModal(userId)
+        } else {
+            // Direct share - mark for normal removal
+            markUserForRemoval(userId)
+        }
+    }
+
     return {
         showModal,
         pageId,
@@ -632,6 +761,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         markShareViaToken,
         currentTokenPermission,
         pendingTokenPermission,
+        showInheritedShareModal,
+        selectedInheritedUser,
 
         openModal,
         closeModal,
@@ -656,5 +787,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         updateLinkPermission,
 
         shareViaToken,
+        isInheritedShare,
+        openInheritedShareModal,
+        closeInheritedShareModal,
+        restrictUserAccess,
+        markUserForRestriction,
+        removeUserAccess,
+        markUserForParentRemoval,
     }
 })

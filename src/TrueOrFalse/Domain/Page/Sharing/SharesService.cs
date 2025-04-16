@@ -327,17 +327,19 @@
     }
 
     public static void BatchUpdatePageShares(
-        int pageId,
-        List<(int UserId, SharePermission Permission)> permissionUpdates,
-        List<int> userIdsToRemove,
-        bool removeShareToken,
-        SharePermission? tokenPermission,
-        int grantedById,
-        SharesRepository sharesRepository,
-        UserReadingRepo userReadingRepo)
+      int pageId,
+      List<(int UserId, SharePermission Permission)> permissionUpdates,
+      List<int> userIdsToRemove,
+      bool removeShareToken,
+      SharePermission? tokenPermission,
+      List<(int UserId, int ParentPageId)> parentRemovals,
+      int grantedById,
+      SharesRepository sharesRepository,
+      UserReadingRepo userReadingRepo)
     {
         var existingShares = EntityCache.GetPageShares(pageId);
 
+        // Handle permission updates for the current page
         foreach (var update in permissionUpdates)
         {
             var share = existingShares.FirstOrDefault(s => s.SharedWith?.Id == update.UserId);
@@ -368,6 +370,7 @@
             }
         }
 
+        // Handle removals from current page
         foreach (var userId in userIdsToRemove)
         {
             var share = existingShares.FirstOrDefault(s => s.SharedWith?.Id == userId);
@@ -379,6 +382,40 @@
         existingShares.RemoveAll(s => s.SharedWith != null && userIdsToRemove.Contains(s.SharedWith.Id));
         EntityCache.AddOrUpdatePageShares(pageId, existingShares);
 
+        // Handle parent page removals
+        if (parentRemovals != null && parentRemovals.Any())
+        {
+            // Group by parent page ID to optimize processing
+            var removalsByParent = parentRemovals
+                .GroupBy(r => r.ParentPageId)
+                .ToDictionary(g => g.Key, g => g.Select(r => r.UserId).ToList());
+
+            foreach (var parentEntry in removalsByParent)
+            {
+                var parentPageId = parentEntry.Key;
+                var userIdsToRemoveFromParent = parentEntry.Value;
+
+                // Get shares for parent page
+                var parentShares = EntityCache.GetPageShares(parentPageId);
+
+                // Find shares to remove
+                var parentShareIdsToRemove = parentShares
+                    .Where(s => s.SharedWith != null && userIdsToRemoveFromParent.Contains(s.SharedWith.Id))
+                    .Select(s => s.Id)
+                    .ToList();
+
+                if (parentShareIdsToRemove.Any())
+                {
+                    // Remove from cache
+                    EntityCache.RemoveShares(parentPageId, parentShareIdsToRemove);
+
+                    // Remove from database
+                    sharesRepository.Delete(parentShareIdsToRemove);
+                }
+            }
+        }
+
+        // Handle token updates
         if (removeShareToken)
         {
             RemoveShareToken(pageId, sharesRepository);

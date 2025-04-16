@@ -151,7 +151,9 @@ public class SharePageStoreController(
 
         var shareByToken = existingShares.FirstOrDefault(s => s.Token.Length > 0);
 
-        return new GetShareInfoResponse(creatorResponse, users, shareByToken?.Token, shareByToken?.Permission);
+        var filteredUsers = users.Where(u => u.Permission != SharePermission.RestrictAccess).ToList();
+
+        return new GetShareInfoResponse(creatorResponse, filteredUsers, shareByToken?.Token, shareByToken?.Permission);
     }
     public readonly record struct PermissionUpdate(
         int UserId,
@@ -162,14 +164,18 @@ public class SharePageStoreController(
         bool Success,
         string MessageKey
     );
+    public readonly record struct ParentRemoval(
+        int UserId,
+        int ParentPageId
+    );
 
     public readonly record struct BatchUpdatePermissionsRequest(
         int PageId,
         List<PermissionUpdate> PermissionUpdates,
         List<int> RemovedUserIds,
         bool RemoveShareToken = false,
-        SharePermission? TokenPermission = null
-    );
+        SharePermission? TokenPermission = null,
+        List<ParentRemoval> ParentRemovals = null);
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
@@ -187,14 +193,17 @@ public class SharePageStoreController(
             .Select(p => (p.UserId, p.Permission))
             .ToList();
 
-        // If token permission is specified, update it
-        // The SharesService class will need to be updated to handle token changes along with user permission changes
+        var parentRemovals = request.ParentRemovals?
+            .Select(p => (p.UserId, p.ParentPageId))
+            .ToList();
+
         SharesService.BatchUpdatePageShares(
             request.PageId,
             permissionUpdates,
             request.RemovedUserIds,
             request.RemoveShareToken,
             request.TokenPermission,
+            parentRemovals,
             _sessionUser.UserId,
             _sharesRepository,
             _userReadingRepo);

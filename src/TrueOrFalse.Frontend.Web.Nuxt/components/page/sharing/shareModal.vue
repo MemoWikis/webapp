@@ -4,10 +4,15 @@ import { SearchType, UserItem } from '~~/components/search/searchHelper'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { Tab } from '../tabs/tabsStore'
 import { usePageStore } from '../pageStore'
+import { useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { useUserStore } from '~/components/user/userStore'
 
 const sharePageStore = useSharePageStore()
 const loadingStore = useLoadingStore()
 const pageStore = usePageStore()
+const snackbarStore = useSnackbarStore()
+const userStore = useUserStore()
+
 const { t } = useI18n()
 
 enum CurrentMode {
@@ -19,7 +24,7 @@ const currentMode = ref<CurrentMode>(CurrentMode.Search)
 const currentUser = ref()
 const notifyUser = ref(true)
 const customMessage = ref('')
-const includeToken = ref(true)  // New ref to track if token should be included in URL
+const includeToken = ref(true)  // Ref to track if token should be included in URL
 
 // Instead of a local ref, use the store's tokenPermission value
 const linkPermission = computed({
@@ -30,13 +35,17 @@ const linkPermission = computed({
 })
 
 const permissionOptions = reactive([
-    { value: SharePermission.View, label: t('page.sharing.permission.view') },
-    { value: SharePermission.Edit, label: t('page.sharing.permission.edit') },
-    { value: SharePermission.ViewWithChildren, label: t('page.sharing.permission.viewWithChildren') },
-    { value: SharePermission.EditWithChildren, label: t('page.sharing.permission.editWithChildren') }
+    { value: SharePermission.View, key: 'page.sharing.permission.view' },
+    { value: SharePermission.Edit, key: 'page.sharing.permission.edit' },
+    { value: SharePermission.ViewWithChildren, key: 'page.sharing.permission.viewWithChildren' },
+    { value: SharePermission.EditWithChildren, key: 'page.sharing.permission.editWithChildren' }
 ])
 
 function selectUserToShare(user: UserItem) {
+
+    if (!user) return
+    if (user.id === userStore.id) return
+
     currentUser.value = {
         id: user.id,
         name: user.name,
@@ -80,7 +89,40 @@ async function shareWithCurrentUser() {
 }
 
 function removeExistingShare(userId: number) {
-    sharePageStore.markUserForRemoval(userId)
+    // Use the new method that handles both direct and inherited shares
+    sharePageStore.removeUserAccess(userId)
+}
+
+async function handleRemoveFromItem() {
+    if (sharePageStore.selectedInheritedUser) {
+        const userId = sharePageStore.selectedInheritedUser.id
+
+        // Close the inherited modal first
+        sharePageStore.closeInheritedShareModal()
+
+        // Mark for restriction in the batch update instead of immediate API call
+        sharePageStore.markUserForRestriction(userId)
+
+        // Show a visual indication that the change is pending
+        snackbarStore.showSnackbar({
+            type: 'info',
+            text: { message: t('page.sharing.permission.pendingRestriction') },
+            duration: 3000,
+        })
+    }
+}
+
+async function handleRemoveFromParent() {
+    if (sharePageStore.selectedInheritedUser && sharePageStore.selectedInheritedUser.inheritedFrom) {
+        const parentId = sharePageStore.selectedInheritedUser.inheritedFrom.id
+        const userId = sharePageStore.selectedInheritedUser.id
+
+        // Close the inherited modal
+        sharePageStore.closeInheritedShareModal()
+
+        // Mark this user for removal from the parent page
+        sharePageStore.markUserForParentRemoval(userId, parentId)
+    }
 }
 
 async function renewToken() {
@@ -180,8 +222,14 @@ const currentLinkPermissionLabel = computed(() => {
         ? sharePageStore.pendingTokenPermission
         : linkPermission.value
 
-    return permissionOptions.find(option => option.value === effectivePermission)?.label
+    return permissionOptions.find(option => option.value === effectivePermission)?.key
 })
+
+const getPermissionLabel = (userId: number, permission: SharePermission) => {
+    const key = permissionOptions.find(option => option.value === (sharePageStore.getEffectivePermission(userId) ?? permission))?.key
+    if (key) return key
+    return ''
+}
 
 </script>
 
@@ -207,7 +255,8 @@ const currentLinkPermissionLabel = computed(() => {
                             :show-search="true"
                             :show-search-icon="true"
                             :placeholder-label="t('page.sharing.search.placeholder')"
-                            @select-item="selectUserToShare" />
+                            @select-item="selectUserToShare"
+                            :hide-current-user="true" />
                     </div>
 
                     <!-- Existing shares list -->
@@ -240,7 +289,10 @@ const currentLinkPermissionLabel = computed(() => {
                                     <div class="user-name-container">
                                         <span class="user-name">{{ user.name }}</span>
                                         <span v-if="user.inheritedFrom" class="inherited-badge">
-                                            {{ t('page.sharing.permission.inherited') }} {{ t('page.sharing.permission.from') }} {{ user.inheritedFrom.name }}
+                                            {{ t('page.sharing.permission.inheritedFrom') }}
+                                            <NuxtLink :to="$urlHelper.getPageUrl(user.inheritedFrom.name, user.inheritedFrom.id)" target="_blank" class="link">
+                                                {{ user.inheritedFrom.name }}
+                                            </NuxtLink>
                                         </span>
                                     </div>
 
@@ -259,8 +311,7 @@ const currentLinkPermissionLabel = computed(() => {
                                                     {{ t('page.sharing.permission.removing') }}
                                                 </template>
                                                 <template v-else>
-                                                    {{permissionOptions.find(option => option.value ===
-                                                        (sharePageStore.getEffectivePermission(user.id) ?? user.permission))?.label}}
+                                                    {{ t(getPermissionLabel(user.id, user.permission)) }}
                                                 </template>
                                             </span>
                                             <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
@@ -375,7 +426,7 @@ const currentLinkPermissionLabel = computed(() => {
                                         'pending-change': sharePageStore.pendingTokenRemoval || sharePageStore.pendingTokenPermission !== null
                                     }">
                                         <span class="user-permission">
-                                            {{ currentLinkPermissionLabel }}
+                                            {{ currentLinkPermissionLabel ? t(currentLinkPermissionLabel) : '' }}
                                         </span>
                                         <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
                                     </div>
@@ -422,8 +473,8 @@ const currentLinkPermissionLabel = computed(() => {
 
                     <div class="selected-user">
                         <img :src="currentUser.avatarUrl" class="user-avatar large" alt="User avatar" />
-                        <NuxtLink :to="$urlHelper.getUserUrl(currentUser.name, currentUser.id)">
-                            <span class="user-name link">{{ currentUser.name }}</span>
+                        <NuxtLink :to="$urlHelper.getUserUrl(currentUser.name, currentUser.id)" target="_blank">
+                            <span class=" user-name link">{{ currentUser.name }}</span>
                         </NuxtLink>
                     </div>
 
@@ -433,7 +484,7 @@ const currentLinkPermissionLabel = computed(() => {
                             <label>{{ t('page.sharing.permission.label') }}</label>
                             <VDropdown class="permission-dropdown" :distance="5" :aria-id="ariaId">
                                 <div class="permission-dropdown-trigger new-user">
-                                    {{permissionOptions.find(option => option.value === currentUser.permission)?.label}}
+                                    {{permissionOptions.find(option => option.value === currentUser.permission) ? t(permissionOptions.find(option => option.value === currentUser.permission)!.key) : ''}}
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
                                 </div>
 
@@ -504,19 +555,20 @@ const currentLinkPermissionLabel = computed(() => {
                 </ul>
             </div>
             <div class="sharemodal-footer">
+                <div class="token-toggle selectable-item" @click="includeToken = !includeToken" v-if="sharePageStore.shareViaToken()">
+                    <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active" v-if="includeToken" />
+                    <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
+                    <div class="token-toggle-label">
+                        {{ t('page.sharing.link.includeToken') }}
+                    </div>
+                </div>
                 <div class="sharemodal-footer-actions">
                     <div class="footer-left">
                         <div class="link-actions" v-if="currentMode != CurrentMode.Edit">
                             <button class="btn btn-copy memo-button" @click="copyShareUrl()">
                                 <font-awesome-icon :icon="['fas', 'link']" /> {{ t('page.sharing.link.copy') }}
                             </button>
-                            <div class="token-toggle selectable-item" @click="includeToken = !includeToken" v-if="sharePageStore.shareViaToken()">
-                                <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active" v-if="includeToken" />
-                                <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
-                                <div class="token-toggle-label">
-                                    {{ t('page.sharing.link.includeToken') }}
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <div class="footer-right">
@@ -538,6 +590,10 @@ const currentLinkPermissionLabel = computed(() => {
             </div>
         </template>
     </LazyModal>
+
+    <!-- Add the RemoveInheritedShareModal -->
+    <PageSharingRemoveInheritedShareModal :show="sharePageStore.showInheritedShareModal" :user="sharePageStore.selectedInheritedUser" :current-page-name="sharePageStore.pageName" @close="sharePageStore.closeInheritedShareModal"
+        @remove-from-item="handleRemoveFromItem" @remove-from-parent="handleRemoveFromParent" />
 </template>
 
 <style lang="less" scoped>
@@ -801,7 +857,7 @@ const currentLinkPermissionLabel = computed(() => {
 
         .user-permission {
             color: @memo-grey-dark;
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             white-space: nowrap;
         }
 
@@ -926,7 +982,7 @@ const currentLinkPermissionLabel = computed(() => {
 }
 
 .inherited-badge {
-    font-size: 0.8rem;
+    font-size: 1.25rem;
     color: @memo-grey-dark;
     border-radius: 4px;
     white-space: nowrap;
@@ -948,6 +1004,7 @@ const currentLinkPermissionLabel = computed(() => {
             font-weight: 600;
             color: @memo-blue;
             white-space: nowrap;
+            font-size: 1.4rem;
         }
     }
 
@@ -1002,6 +1059,7 @@ const currentLinkPermissionLabel = computed(() => {
     display: flex;
     align-items: center;
     gap: 6px;
+    margin-bottom: 8px;
 
     input[type="checkbox"] {
         width: 16px;
@@ -1124,6 +1182,8 @@ const currentLinkPermissionLabel = computed(() => {
     justify-content: center;
     border-radius: 48px;
     background: @memo-grey-lighter;
+    min-width: 32px;
+    min-height: 32px;
 
     .access-icon {
         font-size: 1.25em;

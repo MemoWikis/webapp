@@ -497,6 +497,7 @@ public class SharesService_tests : BaseTest
             userIdsToRemove,
             true, // Remove share token,
             null,
+            null,
             grantedByUser.Id,
             sharesRepository,
             userReadingRepo

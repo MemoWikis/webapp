@@ -721,7 +721,8 @@
                 },
                 "removing": "Entfernen",
                 "remove": "Zugriff entfernen",
-                "creator": "Ersteller"
+                "creator": "Ersteller",
+                "inheritedFrom": "Rechte geerbt von:"
             },
             "search": {
                 "placeholder": "Nach Nutzern zum Teilen suchen..."
@@ -746,6 +747,12 @@
                 "shareViaLink": "Jeder mit dem Link",
                 "restrict": "Eingeschränkt",
                 "renewTooltip": "Der Link wird zurückgesetzt und alle vorherigen Links sind nicht mehr gültig."
+            },
+            "inherited": {
+                "removeTitle": "Von übergeordnetem Ordner entfernen?",
+                "description": "{userName} hat über die übergeordnete Seite '{parentName}' Zugriff auf '{pageName}'. Das Entfernen des Zugriffs von der übergeordneten Seite vereinfacht die Verwaltung der Berechtigungen.",
+                "removeAccess": "Von Seite entfernen",
+                "removeFromParent": "Von übergeordneter Seite entfernen"
             }
         }
     },

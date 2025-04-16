@@ -719,7 +719,8 @@
                 },
                 "removing": "Supprimer",
                 "remove": "Retirer l'accès",
-                "creator": "Créateur"
+                "creator": "Créateur",
+                "inheritedFrom": "Droits hérités de:"
             },
             "search": {
                 "placeholder": "Chercher des utilisateurs à inviter..."
@@ -744,6 +745,12 @@
                 "shareViaLink": "Toute personne avec le lien",
                 "restrict": "Restreint",
                 "renewTooltip": "Le lien sera réinitialisé et tous les liens précédents ne seront plus valides."
+            },
+            "inherited": {
+                "removeTitle": "¿Quitar de la página superior?",
+                "description": "{userName} tiene acceso a '{pageName}' a través de la página superior '{parentName}'. Eliminar el acceso desde la página superior facilitará la gestión de permisos.",
+                "removeAccess": "Quitar de la página",
+                "removeFromParent": "Quitar del superior"
             }
         }
     },

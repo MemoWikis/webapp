@@ -129,7 +129,7 @@ public class SearchController(
     // New section for user-only search
 
     public readonly record struct SearchUsersRequest(string term, string[] languages);
-    public readonly record struct UsersResult(List<SearchUserItem> Users, int TotalCount);
+    public readonly record struct UsersResult(List<SearchUserItem> Users, int UserCount);
 
     [HttpPost]
     public async Task<UsersResult> Users([FromBody] SearchUsersRequest request)
@@ -144,7 +144,7 @@ public class SearchController(
 
         return new UsersResult(
             Users: userItems,
-            TotalCount: elements.UsersResultCount
+            UserCount: elements.UsersResultCount
         );
     }
 }

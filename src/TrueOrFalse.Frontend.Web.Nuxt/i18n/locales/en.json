@@ -735,7 +735,8 @@
                 },
                 "removing": "Remove",
                 "remove": "Remove access",
-                "creator": "Creator"
+                "creator": "Creator",
+                "inheritedFrom": "Inherited rights from:"
             },
             "search": {
                 "placeholder": "Search for users to share with..."
@@ -760,6 +761,12 @@
                 "shareViaLink": "Anyone with the link",
                 "restrict": "Restricted",
                 "renewTooltip": "Resetting the link will invalidate the old link."
+            },
+            "inherited": {
+                "removeTitle": "Remove from parent folder?",
+                "description": "{userName} has access to '{pageName}' via a parent page '{parentName}'. Removing access from the parent page will make permissions easier to manage.",
+                "removeAccess": "Remove from page",
+                "removeFromParent": "Remove from parent"
             }
         }
     },

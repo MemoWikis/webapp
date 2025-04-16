@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { FullSearch, QuestionItem, SearchType, PageItem, UserItem } from './searchHelper'
 import { ImageFormat } from '../image/imageFormatEnum'
+import { useUserStore } from '../user/userStore'
 
 interface Props {
     searchType: SearchType
@@ -14,6 +15,7 @@ interface Props {
     mainSearch?: boolean
     distance?: number
     publicOnly?: boolean
+    hideCurrentUser?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -22,6 +24,8 @@ const props = withDefaults(defineProps<Props>(), {
     pageIdsToFilter: () => [],
     distance: 6
 })
+
+const userStore = useUserStore()
 
 const { t, locale } = useI18n()
 const placeHolderText = ref()
@@ -134,6 +138,15 @@ async function search() {
             questionCount.value = result.questionCount
         }
         if (result.users) {
+            if (props.hideCurrentUser) {
+                const usersBeforeFilter = result.users
+                const usersAfterFilter = usersBeforeFilter.filter((u) => u.id !== userStore.id)
+                result.users = usersAfterFilter
+                if (usersAfterFilter.length < usersBeforeFilter.length) {
+                    result.userCount = result.userCount - 1
+                }
+            }
+
             users.value = result.users
             users.value.forEach((u) => u.type = 'UserItem')
             userCount.value = result.userCount
