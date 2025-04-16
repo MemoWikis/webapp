@@ -17,7 +17,7 @@ const { t } = useI18n()
 
 enum CurrentMode {
     Search = 'search',
-    Edit = 'edit'
+    AddNew = 'edit'
 }
 
 const currentMode = ref<CurrentMode>(CurrentMode.Search)
@@ -52,7 +52,7 @@ function selectUserToShare(user: UserItem) {
         avatarUrl: user.imageUrl,
         permission: SharePermission.View
     }
-    currentMode.value = CurrentMode.Edit
+    currentMode.value = CurrentMode.AddNew
 }
 
 function goBackToSearch() {
@@ -165,7 +165,7 @@ const primaryButtonLabel = computed(() => {
 })
 
 const handlePrimaryButtonClick = async () => {
-    if (currentMode.value === CurrentMode.Edit) {
+    if (currentMode.value === CurrentMode.AddNew) {
         await shareWithCurrentUser()
     } else if (sharePageStore.hasPendingChanges) {
         loadingStore.startLoading()
@@ -468,8 +468,8 @@ const getPermissionLabel = (userId: number, permission: SharePermission) => {
                     </div>
                 </div>
 
-                <!-- Edit permissions mode -->
-                <div v-else-if="currentMode === CurrentMode.Edit && currentUser" class="edit-container">
+                <!-- AddNew permissions mode -->
+                <div v-else-if="currentMode === CurrentMode.AddNew && currentUser" class="edit-container">
 
                     <div class="selected-user">
                         <img :src="currentUser.avatarUrl" class="user-avatar large" alt="User avatar" />
@@ -564,7 +564,7 @@ const getPermissionLabel = (userId: number, permission: SharePermission) => {
                 </div>
                 <div class="sharemodal-footer-actions">
                     <div class="footer-left">
-                        <div class="link-actions" v-if="currentMode != CurrentMode.Edit">
+                        <div class="link-actions" v-if="currentMode != CurrentMode.AddNew">
                             <button class="btn btn-copy memo-button" @click="copyShareUrl()">
                                 <font-awesome-icon :icon="['fas', 'link']" /> {{ t('page.sharing.link.copy') }}
                             </button>
@@ -575,7 +575,7 @@ const getPermissionLabel = (userId: number, permission: SharePermission) => {
                         <div v-if="sharePageStore.hasPendingChanges" class="pending-changes-text">
                             <em>{{ t('page.sharing.modal.pendingChanges') }}</em>
                         </div>
-                        <button v-if="currentMode === CurrentMode.Edit"
+                        <button v-if="currentMode === CurrentMode.AddNew"
                             class="btn btn-link memo-button"
                             @click="currentMode = CurrentMode.Search">
                             {{ t('label.back') }}

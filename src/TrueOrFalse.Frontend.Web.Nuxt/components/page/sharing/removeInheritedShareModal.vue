@@ -115,12 +115,13 @@ const permissionLabel = computed(() => {
     font-size: 1.4rem;
     line-height: 1.5;
     color: @memo-grey-darker;
+    margin-bottom: 0px;
 }
 
 .inheritance-tree {
     display: flex;
     flex-direction: column;
-    margin: 16px 0;
+    margin-bottom: 16px;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -190,20 +191,20 @@ const permissionLabel = computed(() => {
 .dot-indicator {
     position: absolute;
     right: 0px;
-    bottom: -36px;
+    bottom: -42px;
     background: @memo-grey-lighter;
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
     justify-content: center;
     align-items: center;
     display: flex;
     border-radius: 16px;
-    left: 3px;
+    left: 1px;
     z-index: 4;
 
     .icon-dots {
         color: @memo-grey-dark;
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
