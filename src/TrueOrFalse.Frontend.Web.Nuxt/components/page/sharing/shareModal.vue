@@ -33,8 +33,7 @@ const permissionOptions = reactive([
     { value: SharePermission.View, label: t('page.sharing.permission.view') },
     { value: SharePermission.Edit, label: t('page.sharing.permission.edit') },
     { value: SharePermission.ViewWithChildren, label: t('page.sharing.permission.viewWithChildren') },
-    { value: SharePermission.EditWithChildren, label: t('page.sharing.permission.editWithChildren') },
-    { value: SharePermission.RestrictAccess, label: t('page.sharing.permission.restrictAccess') }
+    { value: SharePermission.EditWithChildren, label: t('page.sharing.permission.editWithChildren') }
 ])
 
 function selectUserToShare(user: UserItem) {
@@ -298,13 +297,6 @@ const currentLinkPermissionLabel = computed(() => {
                                                     {{ t('page.sharing.permission.editWithChildren') }}
                                                 </div>
 
-                                                <div
-                                                    @click="updateExistingSharePermission(user.id, SharePermission.RestrictAccess); hide()"
-                                                    class="permission-dropdown-item"
-                                                    :class="{ 'active': permissionIsActive(user.id, SharePermission.RestrictAccess) }">
-                                                    {{ t('page.sharing.permission.restrictAccess') }}
-                                                </div>
-
                                                 <div class="divider"></div>
 
                                                 <div
@@ -440,7 +432,7 @@ const currentLinkPermissionLabel = computed(() => {
                         <div class="form-group">
                             <label>{{ t('page.sharing.permission.label') }}</label>
                             <VDropdown class="permission-dropdown" :distance="5" :aria-id="ariaId">
-                                <div class="permission-dropdown-trigger">
+                                <div class="permission-dropdown-trigger new-user">
                                     {{permissionOptions.find(option => option.value === currentUser.permission)?.label}}
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" class="permission-dropdown-trigger-icon" />
                                 </div>
@@ -474,19 +466,11 @@ const currentLinkPermissionLabel = computed(() => {
                                             :class="{ 'active': currentUser.permission === SharePermission.EditWithChildren }">
                                             {{ t('page.sharing.permission.editWithChildren') }}
                                         </div>
-
-                                        <div
-                                            @click="updatePermission(SharePermission.RestrictAccess); hide()"
-                                            class="permission-dropdown-item"
-                                            :class="{ 'active': currentUser.permission === SharePermission.RestrictAccess }">
-                                            {{ t('page.sharing.permission.restrictAccess') }}
-                                        </div>
-
                                     </div>
                                 </template>
                             </VDropdown>
 
-                            <div class="alert alert-light">
+                            <div class="alert alert-light permission-description">
                                 {{ t(`page.sharing.permission.description.${currentUser.permission}`) }}
                             </div>
                         </div>
@@ -495,13 +479,15 @@ const currentLinkPermissionLabel = computed(() => {
                     <!-- Notification settings -->
                     <div class="notification-settings">
                         <div class="form-group">
-                            <div class="notification-checkbox">
-                                <input type="checkbox" id="notify-user" v-model="notifyUser">
-                                <label for="notify-user">{{ t('page.sharing.notification.send') }}</label>
+                            <div class="notification-checkbox selectable-item" @click="notifyUser = !notifyUser">
+                                <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active" v-if="notifyUser" />
+                                <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
+                                <div class="notification-label">
+                                    {{ t('page.sharing.notification.send') }}
+                                </div>
                             </div>
 
                             <div v-if="notifyUser" class="custom-message">
-                                <label for="custom-message">{{ t('page.sharing.notification.message') }}</label>
                                 <textarea id="custom-message" v-model="customMessage" :placeholder="t('page.sharing.notification.placeholder')" rows="3"></textarea>
                             </div>
                         </div>
@@ -556,6 +542,10 @@ const currentLinkPermissionLabel = computed(() => {
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.permission-description {
+    margin-bottom: 0px;
+}
 
 .sharing-container {
     display: flex;
@@ -700,6 +690,8 @@ const currentLinkPermissionLabel = computed(() => {
 
 .permission-selection {
     .form-group {
+        margin-bottom: 0px;
+
         label {
             display: block;
             margin-bottom: 8px;
@@ -711,7 +703,6 @@ const currentLinkPermissionLabel = computed(() => {
         width: 100%;
         margin-bottom: 12px;
         position: relative;
-        /* Add this for proper positioning context */
 
         .permission-dropdown-trigger {
             display: flex;
@@ -733,6 +724,14 @@ const currentLinkPermissionLabel = computed(() => {
             &.share-trigger {
                 padding: 4px 16px;
                 justify-content: space-between;
+            }
+
+            &.new-user {
+                border-radius: 0px;
+                justify-content: space-between;
+                border-top: none;
+                border-left: none;
+                border-right: none;
             }
         }
 
