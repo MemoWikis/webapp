@@ -108,6 +108,8 @@ public class ExtendedUserCache(
 
             if (sessionUserCacheItem != null)
             {
+                sessionUserCacheItem.PopulateSharedPages();
+
                 if (sessionUserCacheItem.RecentPages == null && _pageViewRepo != null)
                     PopulateRecentPages(sessionUserCacheItem, _pageViewRepo);
 
@@ -115,6 +117,7 @@ public class ExtendedUserCache(
             }
 
             var cacheItem = CreateExtendedUserCacheItem(userId, _pageViewRepo);
+            cacheItem.PopulateSharedPages();
 
             AddToCache(cacheItem);
             return cacheItem;

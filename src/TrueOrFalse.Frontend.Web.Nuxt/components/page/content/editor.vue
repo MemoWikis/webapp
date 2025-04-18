@@ -16,7 +16,6 @@ import UploadImage from '~/components/shared/imageUploadExtension'
 import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isEmpty } from 'underscore'
-'~~/components/alert/alertStore'
 
 import { getRandomColor } from '~/components/shared/utils'
 
@@ -92,10 +91,12 @@ const tryReconnect = () => {
 }
 
 const initProvider = () => {
+
+    const token = pageStore.shareToken ? `${userStore.collaborationToken}|accessToken=${pageStore.shareToken}` : userStore.collaborationToken
     provider.value = new TiptapCollabProvider({
         baseUrl: config.public.hocuspocusWebsocketUrl,
-        name: 'ydoc-' + pageStore.id,
-        token: userStore.collaborationToken,
+        name: `ydoc-${pageStore.id}`,
+        token: token,
         preserveConnection: false,
         document: doc,
         onAuthenticated() {
@@ -108,7 +109,7 @@ const initProvider = () => {
             loadCollab.value = false
             recreate()
         },
-        onSynced() {
+        onSynced(e) {
             if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
                 doc.getMap('config').set('initialContentLoaded', true)
                 editor.value.commands.setContent(pageStore.initialContent)
@@ -288,6 +289,7 @@ const initEditor = () => {
             }
         },
     })
+    editor.value.setEditable(pageStore.canEdit)
 }
 
 watch(locale, () => {

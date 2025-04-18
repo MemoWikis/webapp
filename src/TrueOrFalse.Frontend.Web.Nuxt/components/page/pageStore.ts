@@ -49,11 +49,20 @@ export class Page {
     viewsLast30DaysAggregatedQuestions: ViewSummary[] | null = null
     viewsLast30DaysQuestions: ViewSummary[] | null = null
     language: "de" | "en" | "fr" | "es" = "en"
+    canEdit: boolean = false
+    isShared: boolean = false
+    sharedWith: SharedWithUser[] | null = null
 }
 
 export interface ViewSummary {
     count: number
     date: string
+}
+
+export interface SharedWithUser {
+    id: number
+    name: string
+    imgUrl: string
 }
 
 export interface KnowledgeSummary {
@@ -140,10 +149,16 @@ export const usePageStore = defineStore("pageStore", {
             text: "",
             selectedText: "",
             contentLanguage: "en" as "en" | "de" | "fr" | "es",
+            canEdit: false,
+            shareToken: null as string | null,
+            isShared: false,
+            sharedWith: [] as SharedWithUser[],
         }
     },
     actions: {
         setPage(page: Page) {
+            this.shareToken = null
+
             if (page != null) {
                 this.id = page.id
                 this.name = page.name
@@ -189,6 +204,9 @@ export const usePageStore = defineStore("pageStore", {
                 this.selectedText = ""
 
                 this.contentLanguage = page.language
+                this.canEdit = page.canEdit
+                this.isShared = page.isShared
+                this.sharedWith = page.sharedWith || []
             }
         },
         async saveContent() {
@@ -210,6 +228,7 @@ export const usePageStore = defineStore("pageStore", {
             const data = {
                 id: this.id,
                 content: this.content,
+                shareToken: this.shareToken,
             }
 
             const result = await $api<FetchResult<boolean>>(
@@ -281,6 +300,7 @@ export const usePageStore = defineStore("pageStore", {
             const data = {
                 id: this.id,
                 name: this.name,
+                shareToken: this.shareToken,
             }
 
             const result = await $api<FetchResult<boolean>>(
@@ -596,6 +616,9 @@ export const usePageStore = defineStore("pageStore", {
             )
 
             this.questionCount = result
+        },
+        setToken(token: string) {
+            this.shareToken = token
         },
     },
     getters: {

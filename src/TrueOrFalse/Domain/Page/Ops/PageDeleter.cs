@@ -1,14 +1,15 @@
 ﻿public class PageDeleter(
     SessionUser _sessionUser,
     UserActivityRepo _userActivityRepo,
-    PageChangeRepo pageChangeRepo,
-    PageValuationWritingRepo pageValuationWritingRepo,
+    PageChangeRepo _pageChangeRepo,
+    PageValuationWritingRepo _pageValuationWritingRepo,
     ExtendedUserCache _extendedUserCache,
     CrumbtrailService _crumbtrailService,
-    PageRepository pageRepo,
-    PageRelationRepo pageRelationRepo,
+    PageRepository _pageRepo,
+    PageRelationRepo _pageRelationRepo,
     PermissionCheck _permissionCheck,
-    PageToQuestionRepo pageToQuestionRepo)
+    PageToQuestionRepo _pageToQuestionRepo,
+    SharesRepository _sharesRepository)
     : IRegisterAsInstancePerLifetime
 {
     private HasDeleted Run(Page page, int userId)
@@ -29,22 +30,23 @@
         }
 
         var modifyRelationsForPage =
-            new ModifyRelationsForPage(pageRepo, pageRelationRepo);
+            new ModifyRelationsForPage(_pageRepo, _pageRelationRepo);
 
         ModifyRelationsEntityCache.RemoveRelationsForPageDeleter(pageCacheItem, userId,
             modifyRelationsForPage);
 
         EntityCache.Remove(pageCacheItem, userId);
-        pageToQuestionRepo.DeleteByPageId(page.Id);
+        _pageToQuestionRepo.DeleteByPageId(page.Id);
         _userActivityRepo.DeleteForPage(page.Id);
 
-        var deleteChangeId = pageChangeRepo.AddDeleteEntry(page, userId);
-        _extendedUserCache.RemoveAllForPage(page.Id, pageValuationWritingRepo);
+        var deleteChangeId = _pageChangeRepo.AddDeleteEntry(page, userId);
+        _extendedUserCache.RemoveAllForPage(page.Id, _pageValuationWritingRepo);
 
         var deleteImage = new DeleteImage();
         deleteImage.RemoveAllForPage(page.Id);
 
-        pageRepo.Delete(page.Id);
+        _sharesRepository.DeleteAllForPage(page.Id);
+        _pageRepo.Delete(page.Id);
 
         hasDeleted.DeletedSuccessful = true;
         hasDeleted.ChangeId = deleteChangeId;
@@ -109,7 +111,7 @@
     public DeletePageResult DeletePage(int pageToDeleteId, int? newParentForQuestionsId)
     {
         var redirectParent = GetRedirectPage(pageToDeleteId);
-        var page = pageRepo.GetById(pageToDeleteId);
+        var page = _pageRepo.GetById(pageToDeleteId);
 
         if (page == null)
             throw new Exception(
@@ -133,10 +135,10 @@
 
         if (parentIds != null && parentIds.Any())
         {
-            var parentPages = pageRepo.GetByIds(parentIds);
+            var parentPages = _pageRepo.GetByIds(parentIds);
 
             foreach (var parent in parentPages)
-                pageChangeRepo.AddDeletedChildPageEntry(parent, _sessionUser.UserId, hasDeleted.ChangeId, pageName, pageVisibility);
+                _pageChangeRepo.AddDeletedChildPageEntry(parent, _sessionUser.UserId, hasDeleted.ChangeId, pageName, pageVisibility);
         }
 
         return new DeletePageResult(
@@ -153,12 +155,12 @@
             throw new NullReferenceException("parent is null");
         }
 
-        var parent = pageRepo.GetById(parentId);
+        var parent = _pageRepo.GetById(parentId);
         var questionIdsFromPageToDelete = EntityCache.GetQuestionIdsForPage(pageToDeleteId);
 
         if (questionIdsFromPageToDelete.Any())
-            pageToQuestionRepo.AddQuestionsToPage(parentId, questionIdsFromPageToDelete);
-        pageRepo.Update(parent);
+            _pageToQuestionRepo.AddQuestionsToPage(parentId, questionIdsFromPageToDelete);
+        _pageRepo.Update(parent);
 
         EntityCache.AddQuestionsToPage(parentId, questionIdsFromPageToDelete);
     }

@@ -226,7 +226,7 @@ public class QuestionEditModalController(
 
     [HttpGet]
     public int GetCurrentQuestionCount([FromRoute] int id) => EntityCache.GetPage(id)
-        .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
+        .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, permissionCheck: _permissionCheck).Count;
 
     private QuestionListJson.Question LoadQuestion(int questionId)
     {

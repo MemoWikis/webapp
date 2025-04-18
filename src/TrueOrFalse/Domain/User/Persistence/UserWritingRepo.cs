@@ -175,6 +175,10 @@ public class UserWritingRepo
                 .SetParameter("userId", userId)
                 .ExecuteUpdate();
 
+            _repo.Session.CreateQuery("DELETE FROM shares WHERE UserId = :userId")
+                .SetParameter("userId", userId)
+                .ExecuteUpdate();
+
             _repo.Session.CreateSQLQuery("DELETE FROM user WHERE id = :userId")
                 .SetParameter("userId", userId)
                 .ExecuteUpdate();

@@ -1,6 +1,6 @@
-﻿using System.Collections.Concurrent;
+﻿using Seedworks.Lib.Persistence;
+using System.Collections.Concurrent;
 using System.Security.Cryptography;
-using Seedworks.Lib.Persistence;
 
 public static class ListExtensions
 {
@@ -71,5 +71,18 @@ public static class ListExtensions
         return new ConcurrentDictionary<(int, int), ImageMetaData>(list.Select(imageMetaData =>
             new KeyValuePair<(int, int), ImageMetaData>(
                 (imageMetaData.TypeId, (int)imageMetaData.Type), imageMetaData)));
+    }
+
+    public static ConcurrentDictionary<int, List<ShareCacheItem>> ToConcurrentDictionary(
+        this List<ShareCacheItem> shareInfos)
+    {
+        var grouped = shareInfos
+            .GroupBy(s => s.PageId)
+            .ToDictionary(
+                g => g.Key,
+                g => g.ToList()
+            );
+
+        return new ConcurrentDictionary<int, List<ShareCacheItem>>(grouped);
     }
 }

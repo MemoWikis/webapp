@@ -6,7 +6,7 @@ public class PasswordRecovery(
     UserReadingRepo _userReadingRepo)
     : IRegisterAsInstancePerLifetime
 {
-    public PasswordRecoveryResult RunForNuxt(string email)
+    public PasswordRecoveryResult Run(string email)
     {
         if (IsEmailAddressAvailable.Yes(email, _userReadingRepo))
             return new PasswordRecoveryResult { EmailDoesNotExist = true, Success = false };
@@ -51,10 +51,10 @@ public class PasswordRecovery(
     {
         return language switch
         {
-            Language.German => "Dein neues Passwort für MemoWikis",
-            Language.French => "Votre nouveau mot de passe pour MemoWikis",
-            Language.Spanish => "Tu nueva contraseña para MemoWikis",
-            _ => "Your new password for MemoWikis" // English default
+            Language.German => "Dein neues Passwort für memoWikis",
+            Language.French => "Votre nouveau mot de passe pour memoWikis",
+            Language.Spanish => "Tu nueva contraseña para memoWikis",
+            _ => "Your new password for memoWikis" // English default
         };
     }
 
@@ -87,7 +87,7 @@ public class PasswordRecovery(
         Der Link ist 72 Stunden lang gültig.
         
         Viele Grüße
-        Dein MemoWikis-Team
+        Dein memoWikis-Team
         ";
 
     // English
@@ -97,7 +97,7 @@ public class PasswordRecovery(
         This link is valid for 72 hours.
         
         Best regards,
-        Your MemoWikis Team
+        Your memoWikis Team
         ";
 
     // French
@@ -107,7 +107,7 @@ public class PasswordRecovery(
         Ce lien est valide pendant 72 heures.
         
         Cordialement,
-        L'équipe MemoWikis
+        L'équipe memoWikis
         ";
 
     // Spanish
@@ -117,6 +117,6 @@ public class PasswordRecovery(
         Este enlace es válido durante 72 horas.
         
         Saludos,
-        El equipo de MemoWikis
+        El equipo de memoWikis
         ";
 }
