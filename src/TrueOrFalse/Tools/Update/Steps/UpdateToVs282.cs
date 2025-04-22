@@ -17,7 +17,7 @@ internal class UpdateToVs282
                         `Token` VARCHAR(255) NOT NULL,
                         `Permission` INT NOT NULL,
                         `GrantedBy` INT NOT NULL,
-                        PRIMARY KEY (`Id`)
+                        PRIMARY KEY (`Id`),
                         INDEX `idx_shares_pageid` (`PageId`),
                         INDEX `idx_shares_userid` (`UserId`),
                         INDEX `idx_shares_token` (`Token`)
