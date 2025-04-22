@@ -91,7 +91,9 @@ const tryReconnect = () => {
 }
 
 const initProvider = () => {
-
+    // shareToken is the token from the pageSharing feature, 
+    // collaborationToken is the token used as an identifier for the hocuspocus server, 
+    // a collaboration token will always exist, but the shareToken is optional
     const token = pageStore.shareToken ? `${userStore.collaborationToken}|accessToken=${pageStore.shareToken}` : userStore.collaborationToken
     provider.value = new TiptapCollabProvider({
         baseUrl: config.public.hocuspocusWebsocketUrl,
