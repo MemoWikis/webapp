@@ -1,5 +1,5 @@
 ﻿public enum QuestionVisibility
 {
-    All = 0,
-    Owner = 1,
+    Public = 0,
+    Private = 1,
 }
