@@ -29,7 +29,7 @@ const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
 
 const pageUrl = computed(() => {
     if (route.params.token != null) {
-        return `/apiVue/Page/GetPage/${route.params.id}?t=${route.params.token}`
+        return `/apiVue/Page/GetPage/${route.params.id}?shareToken=${route.params.token}`
     }
     return `/apiVue/Page/GetPage/${route.params.id}`
 })

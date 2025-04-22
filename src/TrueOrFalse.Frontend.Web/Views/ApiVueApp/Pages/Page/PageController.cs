@@ -16,16 +16,16 @@ public class PageController(
 
 {
     [HttpGet]
-    public PageDataResult GetPage([FromRoute] int id, [CanBeNull] string t)
+    public PageDataResult GetPage([FromRoute] int id, [CanBeNull] string shareToken)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
 
         if (!Settings.TrackersToIgnore.Any(item => userAgent.Contains(item)))
             _pageViewRepo.AddView(userAgent, id, _sessionUser.UserId);
 
-        if (t != null)
+        if (shareToken != null)
         {
-            _sessionUser.AddShareToken(id, t);
+            _sessionUser.AddShareToken(id, shareToken);
             _permissionCheck.OverWriteShareTokens(_sessionUser.ShareTokens);
         }
 
@@ -36,7 +36,9 @@ public class PageController(
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
-            .GetPageData(id, t);
+            .GetPageData(id, shareToken);
+
+        var canView = shareToken != null ? _permissionCheck.CanViewPage(data.Id, shareToken) : _permissionCheck.CanViewPage(data.Id);
 
         return new PageDataResult
         {
@@ -68,9 +70,9 @@ public class PageController(
             MessageKey = data.MessageKey,
             ErrorCode = data.ErrorCode,
             Language = data.Language,
-            CanEdit = _permissionCheck.CanEditPage(data.Id, t),
-            IsShared = SharesService.IsShared(data.Id),
-            SharedWith = GetSharedWithResponse(data.Id),
+            CanEdit = _permissionCheck.CanEditPage(data.Id, shareToken),
+            IsShared = canView && SharesService.IsShared(data.Id),
+            SharedWith = canView ? GetSharedWithResponse(data.Id) : null,
         };
     }
 

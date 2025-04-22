@@ -31,6 +31,7 @@
     public bool CanViewPage(int id) => CanView(EntityCache.GetPage(id));
     public bool CanView(Page page) => CanView(EntityCache.GetPage(page.Id));
     public bool CanView(PageCacheItem? page) => CanView(_userId, page);
+    public bool CanViewPage(int id, string shareToken) => CanView(EntityCache.GetPage(id), shareToken);
 
     public bool CanView(PageCacheItem? page, string shareToken) => CanView(_userId, page, shareToken);
 

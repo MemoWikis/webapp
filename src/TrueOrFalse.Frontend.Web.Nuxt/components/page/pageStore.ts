@@ -621,8 +621,33 @@ export const usePageStore = defineStore("pageStore", {
 
             this.questionCount = result
         },
-        setToken(token: string) {
+        setToken(token: string | null) {
             this.shareToken = token
+        },
+        async updateIsShared() {
+            let url = `/apiVue/PageStore/GetIsShared/${this.id}`
+            if (this.shareToken) {
+                url += `?shareToken=${this.shareToken}`
+            }
+
+            const result = await $api<boolean>(url, {
+                method: "GET",
+                mode: "cors",
+                credentials: "include",
+                onResponseError(context) {
+                    const { $logger } = useNuxtApp()
+                    $logger.error(
+                        `fetch Error: ${context.response?.statusText}`,
+                        [
+                            {
+                                response: context.response,
+                                req: context.request,
+                            },
+                        ]
+                    )
+                },
+            })
+            this.isShared = result
         },
     },
     getters: {

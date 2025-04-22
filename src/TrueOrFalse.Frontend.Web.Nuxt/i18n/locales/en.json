@@ -758,9 +758,9 @@
                 "publicDescription": "Anyone with the secret link can access this page.",
                 "restrictedDescription": "Only people with access can view this page.",
                 "includeToken": "Include access key",
-                "shareViaLink": "Anyone with the link",
+                "shareViaLink": "Anyone with the secret link",
                 "restrict": "Restricted",
-                "renewTooltip": "Resetting the link will invalidate the old link."
+                "renewTooltip": "Resetting the secret link will invalidate the old secret link."
             },
             "inherited": {
                 "removeTitle": "Remove from parent page?",

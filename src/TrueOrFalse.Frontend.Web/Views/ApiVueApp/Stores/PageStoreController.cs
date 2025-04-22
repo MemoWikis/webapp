@@ -340,4 +340,12 @@ public class PageStoreController(
             return page.GetCountQuestionsAggregated(_sessionUser.UserId);
         return 0;
     }
+
+
+    [HttpGet]
+    public bool GetIsShared([FromRoute] int id, [CanBeNull] string shareToken)
+    {
+        var canView = shareToken != null ? _permissionCheck.CanViewPage(id, shareToken) : _permissionCheck.CanViewPage(id);
+        return canView && SharesService.IsShared(id);
+    }
 }
