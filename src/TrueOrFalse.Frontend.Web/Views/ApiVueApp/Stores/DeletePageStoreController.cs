@@ -11,7 +11,7 @@ public class DeletePageStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
-    PermissionCheck _permissionCheck) : BaseController(_sessionUser)
+    PermissionCheck _permissionCheck) : Controller
 {
     public record struct SuggestedNewParent(
         int Id,

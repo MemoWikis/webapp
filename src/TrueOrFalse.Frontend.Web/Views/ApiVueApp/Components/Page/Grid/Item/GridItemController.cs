@@ -9,7 +9,7 @@ public class GridItemController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    QuestionReadingRepo _questionReadingRepo) : BaseController(_sessionUser)
+    QuestionReadingRepo _questionReadingRepo) : Controller
 {
     public readonly record struct GetChildrenResult(
         bool Success,

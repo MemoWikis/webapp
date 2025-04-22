@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace VueApp;
 
 public class ImageLicenseStoreController(
-    SessionUser sessionUser,
     ImageMetaDataReadingRepo imageMetaDataReadingRepo,
     IHttpContextAccessor httpContextAccessor,
-    QuestionReadingRepo questionReadingRepo)
-    : BaseController(sessionUser)
+    QuestionReadingRepo questionReadingRepo) : Controller
 {
     public readonly record struct GetLicenseInfoResult(
         bool ImageCanBeDisplayed,

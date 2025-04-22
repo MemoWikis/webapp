@@ -3,9 +3,7 @@ using System.Linq;
 
 namespace VueApp;
 
-public class AppController(
-    FrontEndUserData _frontEndUserData,
-    SessionUser _sessionUser) : BaseController(_sessionUser)
+public class AppController(FrontEndUserData _frontEndUserData) : Controller
 {
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,

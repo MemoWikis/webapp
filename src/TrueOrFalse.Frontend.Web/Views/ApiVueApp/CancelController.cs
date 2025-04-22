@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace VueApp;
 
-public class CancelController(IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor)
-    : Controller
+public class CancelController : Controller
 {
     public readonly record struct TinyPage(string Name, int Id);
     [HttpGet]

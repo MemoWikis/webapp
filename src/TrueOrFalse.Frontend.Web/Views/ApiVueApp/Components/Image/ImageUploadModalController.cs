@@ -5,10 +5,9 @@ using TrueOrFalse;
 namespace VueApp;
 
 public class ImageUploadModalController(
-    SessionUser sessionUser,
-    PermissionCheck permissionCheck,
-    ImageStore imageStore)
-    : BaseController(sessionUser)
+    SessionUser _sessionUser,
+    PermissionCheck _permissionCheck,
+    ImageStore _imageStore) : Controller
 {
     public readonly record struct GetWikimediaPreviewJson(string Url);
 
@@ -30,10 +29,10 @@ public class ImageUploadModalController(
     [HttpPost]
     public bool SaveWikimediaImage([FromBody] SaveWikimediaImageJson json)
     {
-        if (json.Url == null || !permissionCheck.CanEditPage(json.PageId))
+        if (json.Url == null || !_permissionCheck.CanEditPage(json.PageId))
             return false;
 
-        imageStore.RunWikimedia<PageImageSettings>(
+        _imageStore.RunWikimedia<PageImageSettings>(
             json.Url,
             json.PageId,
             ImageType.Page,
@@ -51,10 +50,10 @@ public class ImageUploadModalController(
     [HttpPost]
     public bool SaveCustomImage([FromForm] SaveCustomImageForm form)
     {
-        if (form.File == null || !permissionCheck.CanEditPage(form.PageId))
+        if (form.File == null || !_permissionCheck.CanEditPage(form.PageId))
             return false;
 
-        imageStore.RunUploaded<PageImageSettings>(
+        _imageStore.RunUploaded<PageImageSettings>(
             form.File,
             form.PageId,
             _sessionUser.UserId,

@@ -19,7 +19,7 @@ public class UserStoreController(
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo,
-    UserUiLanguage _userUiLanguage) : BaseController(_sessionUser)
+    UserUiLanguage _userUiLanguage) : Controller
 {
     public readonly record struct LoginResponse(
         FrontEndUserData.CurrentUserData Data,

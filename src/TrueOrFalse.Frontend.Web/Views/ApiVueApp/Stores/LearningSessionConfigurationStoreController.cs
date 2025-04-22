@@ -2,20 +2,9 @@
 
 namespace TrueOrFalse.View.Web.Views.ApiVueApp.Stores;
 
-public class LearningSessionConfigurationStoreController : BaseController
+public class LearningSessionConfigurationStoreController(LearningSessionCreator _learningSessionCreator) : Controller
 {
-    private readonly LearningSessionCreator _learningSessionCreator;
-
-    public LearningSessionConfigurationStoreController(
-        SessionUser sessionUser,
-        LearningSessionCreator learningSessionCreator) : base(sessionUser)
-    {
-        _learningSessionCreator = learningSessionCreator;
-    }
-
     [HttpPost]
-    public QuestionCounter GetCount([FromBody] LearningSessionConfig config)
-    {
-        return _learningSessionCreator.GetQuestionCounterForLearningSession(config);
-    }
+    public QuestionCounter GetCount([FromBody] LearningSessionConfig config) => 
+        _learningSessionCreator.GetQuestionCounterForLearningSession(config);
 }
