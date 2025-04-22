@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import { Site } from '~/components/shared/siteEnum'
+import { SiteType } from '~/components/shared/siteEnum'
 import { useUserStore } from '~/components/user/userStore'
 
 const userStore = useUserStore()
 interface Props {
-    site: Site
+    site: SiteType
 }
 const props = defineProps<Props>()
 const { t } = useI18n()
 
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
-    emit('setPage', Site.ConfirmEmail)
+    emit('setPage', SiteType.ConfirmEmail)
 })
 
 const { $logger } = useNuxtApp()

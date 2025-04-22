@@ -1,4 +1,4 @@
-export enum Site {
+export enum SiteType {
     Welcome,
     Page,
     Question,
@@ -11,5 +11,5 @@ export enum Site {
     Error,
     ResetPassword,
     ConfirmEmail,
-    Metrics
+    Metrics,
 }

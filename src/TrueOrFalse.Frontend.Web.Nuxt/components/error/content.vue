@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Site } from '~/components/shared/siteEnum'
+import { SiteType } from '~/components/shared/siteEnum'
 import { ErrorCode } from '~~/components/error/errorCodeEnum'
 import type { NuxtError } from '#app'
 '../alert/messages'
@@ -10,7 +10,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['setPage', 'clearError'])
-emit('setPage', Site.Error)
+emit('setPage', SiteType.Error)
 
 const { t } = useI18n()
 

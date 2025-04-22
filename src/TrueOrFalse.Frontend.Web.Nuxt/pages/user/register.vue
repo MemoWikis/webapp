@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Site } from '~/components/shared/siteEnum'
+import { SiteType } from '~/components/shared/siteEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Google } from '~~/components/user/Google'
 import { FacebookMemoWikisUser } from '~~/components/user/FacebookMemoWikisUser'
@@ -11,14 +11,14 @@ const userStore = useUserStore()
 const alertStore = useAlertStore()
 const loadingStore = useLoadingStore()
 interface Props {
-    site: Site
+    site: SiteType
 }
 const { t, locale } = useI18n()
 
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
-    emit('setPage', Site.Register)
+    emit('setPage', SiteType.Register)
 
     if (userStore.isLoggedIn)
         navigateTo('/')

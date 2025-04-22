@@ -4,7 +4,7 @@ import { ImageFormat } from '~~/components/image/imageFormatEnum.js'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Content } from '~/components/user/settings/contentEnum'
-import { Site } from '~/components/shared/siteEnum'
+import { SiteType } from '~/components/shared/siteEnum'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 
 const route = useRoute()
@@ -160,7 +160,7 @@ function handleBreadcrumb(tab: Tab) {
 }
 
 onMounted(() => {
-    emit('setPage', Site.User)
+    emit('setPage', SiteType.User)
     handleBreadcrumb(tab.value)
 })
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { CurrentUser, useUserStore } from '~/components/user/userStore'
 import { Page, usePageStore, FooterPages } from '~/components/page/pageStore'
-import { Site } from './components/shared/siteEnum'
+import { SiteType } from './components/shared/siteEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
 import { useLoadingStore } from './components/loading/loadingStore'
@@ -66,14 +66,14 @@ const { data: footerPages } = await useFetch<FooterPages>(`/apiVue/App/GetFooter
 	},
 })
 
-const site = ref(Site.Default)
+const site = ref(SiteType.Default)
 
 const pageStore = usePageStore()
 
-function setPage(type: Site | undefined | null = null) {
+function setPage(type: SiteType | undefined | null = null) {
 	if (type != null && type != undefined) {
 		site.value = type
-		if (type != Site.Page) {
+		if (type != SiteType.Page) {
 			pageStore.setPage(new Page())
 		}
 	}
@@ -107,7 +107,7 @@ userStore.$onAction(({ name, after }) => {
 					await refreshNuxtData()
 				} finally {
 					loadingStore.stopLoading()
-					if (site.value === Site.Page && pageStore.visibility != Visibility.All)
+					if (site.value === SiteType.Page && pageStore.visibility != Visibility.All)
 						await navigateTo('/')
 				}
 			}
@@ -149,9 +149,9 @@ userStore.$onAction(({ name, after }) => {
 })
 
 async function handleLogin() {
-	if (site.value === Site.Error)
+	if (site.value === SiteType.Error)
 		return
-	if ((site.value === Site.Page || site.value === Site.Register) && route.params.id === rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
+	if ((site.value === SiteType.Page || site.value === SiteType.Register) && route.params.id === rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
 		await navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
 	else
 		await refreshNuxtData()
@@ -256,7 +256,7 @@ watch(locale, () => {
 					:error="error" :in-error-boundary="true" @clear-error="clearErr" />
 				<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="Site.Error" />
+					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="SiteType.Error" />
 			</template>
 		</NuxtErrorBoundary>
 	</div>

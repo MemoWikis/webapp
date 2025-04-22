@@ -2,7 +2,7 @@
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { Page, usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
-import { Site } from '~~/components/shared/siteEnum'
+import { SiteType } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useConvertStore } from '~/components/page/convert/convertStore'
@@ -16,7 +16,7 @@ const convertStore = useConvertStore()
 
 interface Props {
     tab?: Tab,
-    site: Site,
+    site: SiteType,
 }
 
 const props = defineProps<Props>()
@@ -116,7 +116,7 @@ setPage()
 const emit = defineEmits(['setPage'])
 
 onBeforeMount(() => {
-    emit('setPage', Site.Page)
+    emit('setPage', SiteType.Page)
 })
 
 function setTab() {
@@ -253,7 +253,7 @@ convertStore.$onAction(({ name, after }) => {
                 </div>
 
                 <ClientOnly>
-                    <Sidebar class="is-page" :show-outline="true" :site="Site.Page" v-if="pageStore?.id != 0" />
+                    <Sidebar class="is-page" :show-outline="true" :site="SiteType.Page" v-if="pageStore?.id != 0" />
 
                     <template #fallback>
                         <SidebarFallback class="is-page" />

@@ -283,13 +283,12 @@ export const usePageStore = defineStore("pageStore", {
         },
         async saveName() {
             const userStore = useUserStore()
-            const snackbarStore = useSnackbarStore()
 
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
                 return
             }
-            if (this.name == this.initialName) return
+            if (this.name === this.initialName) return
 
             await this.waitUntilAllUploadsComplete()
             await this.waitUntilAllSavingsComplete()
@@ -327,19 +326,21 @@ export const usePageStore = defineStore("pageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result.success == true && this.visibility != Visibility.Owner) {
+            if (result.success && this.visibility != Visibility.Owner) {
                 const data: SnackbarData = {
                     type: "success",
                     text: { message: $i18n.t("success.page.saved") },
                 }
+                const snackbarStore = useSnackbarStore()
+
                 snackbarStore.showSnackbar(data)
                 this.initialName = this.name
                 this.nameHasChanged = false
-            } else if (result.success == false && result.messageKey != null) {
+            } else if (result.success === false && result.messageKey != null) {
                 if (
                     !(
                         result.messageKey === "error.page.noChange" &&
-                        this.visibility == Visibility.Owner
+                        this.visibility === Visibility.Owner
                     )
                 ) {
                     const alertStore = useAlertStore()
