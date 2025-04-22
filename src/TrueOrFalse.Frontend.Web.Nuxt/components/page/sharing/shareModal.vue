@@ -217,12 +217,14 @@ const permissionIsActive = (userId: number, permission: SharePermission) => {
     return sharePageStore.getEffectivePermission(userId) === permission
 }
 
-const currentLinkPermissionLabel = computed(() => {
-    const effectivePermission = sharePageStore.pendingTokenPermission !== null
+const currentLinkPermission = computed(() => {
+    return sharePageStore.pendingTokenPermission !== null
         ? sharePageStore.pendingTokenPermission
         : linkPermission.value
+})
 
-    return permissionOptions.find(option => option.value === effectivePermission)?.key
+const currentLinkPermissionLabel = computed(() => {
+    return permissionOptions.find(option => option.value === currentLinkPermission.value)?.key
 })
 
 const getPermissionLabel = (userId: number, permission: SharePermission) => {
@@ -436,28 +438,28 @@ const getPermissionLabel = (userId: number, permission: SharePermission) => {
                                             <div
                                                 @click="linkPermission = SharePermission.View; hide()"
                                                 class="permission-dropdown-item"
-                                                :class="{ 'active': linkPermission === SharePermission.View }">
+                                                :class="{ 'active': currentLinkPermission === SharePermission.View }">
                                                 {{ t('page.sharing.permission.view') }}
                                             </div>
 
                                             <div
                                                 @click="linkPermission = SharePermission.Edit; hide()"
                                                 class="permission-dropdown-item"
-                                                :class="{ 'active': linkPermission === SharePermission.Edit }">
+                                                :class="{ 'active': currentLinkPermission === SharePermission.Edit }">
                                                 {{ t('page.sharing.permission.edit') }}
                                             </div>
 
                                             <div
                                                 @click="linkPermission = SharePermission.ViewWithChildren; hide()"
                                                 class="permission-dropdown-item"
-                                                :class="{ 'active': linkPermission === SharePermission.ViewWithChildren }">
+                                                :class="{ 'active': currentLinkPermission === SharePermission.ViewWithChildren }">
                                                 {{ t('page.sharing.permission.viewWithChildren') }}
                                             </div>
 
                                             <div
                                                 @click="linkPermission = SharePermission.EditWithChildren; hide()"
                                                 class="permission-dropdown-item"
-                                                :class="{ 'active': linkPermission === SharePermission.EditWithChildren }">
+                                                :class="{ 'active': currentLinkPermission === SharePermission.EditWithChildren }">
                                                 {{ t('page.sharing.permission.editWithChildren') }}
                                             </div>
                                         </div>
