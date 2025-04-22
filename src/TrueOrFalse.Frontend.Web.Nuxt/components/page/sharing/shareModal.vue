@@ -522,7 +522,8 @@ const getPermissionLabel = (userId: number, permission: SharePermission) => {
                             </VDropdown>
 
                             <div class="alert alert-light permission-description">
-                                {{ t(`page.sharing.permission.description.${currentUser.permission}`) }}
+                                {{ t(`page.sharing.permission.description.${currentUser.permission}`,
+                                    { count: pageStore.directVisibleChildPageCount }) }}
                             </div>
                         </div>
                     </div>

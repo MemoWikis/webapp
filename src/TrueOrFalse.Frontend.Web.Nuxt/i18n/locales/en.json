@@ -730,8 +730,8 @@
                 "description": {
                     "0": "User can only view this page",
                     "1": "User can edit content on this page",
-                    "2": "User can view this page and all subpages",
-                    "3": "User can edit this page and all subpages"
+                    "2": "User can view this page and all {count} subpages",
+                    "3": "User can edit this page and all {count} subpages"
                 },
                 "removing": "Remove",
                 "remove": "Remove access",
@@ -763,7 +763,7 @@
                 "renewTooltip": "Resetting the link will invalidate the old link."
             },
             "inherited": {
-                "removeTitle": "Remove from parent folder?",
+                "removeTitle": "Remove from parent page?",
                 "description": "{userName} has access to '{pageName}' via a parent page '{parentName}'. Removing access from the parent page will make permissions easier to manage.",
                 "removeAccess": "Remove from page",
                 "removeFromParent": "Remove from parent"

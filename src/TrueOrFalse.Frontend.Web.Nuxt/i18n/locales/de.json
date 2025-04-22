@@ -716,8 +716,8 @@
                 "description": {
                     "0": "Nutzer kann diese Seite nur ansehen",
                     "1": "Nutzer kann Inhalte auf dieser Seite bearbeiten",
-                    "2": "Nutzer kann diese Seite und alle Unterseiten ansehen",
-                    "3": "Nutzer kann diese Seite und alle Unterseiten bearbeiten"
+                    "2": "Nutzer kann diese Seite und alle {count} Unterseiten ansehen",
+                    "3": "Nutzer kann diese Seite und alle {count} Unterseiten bearbeiten"
                 },
                 "removing": "Entfernen",
                 "remove": "Zugriff entfernen",
@@ -749,7 +749,7 @@
                 "renewTooltip": "Der Link wird zurückgesetzt und alle vorherigen Links sind nicht mehr gültig."
             },
             "inherited": {
-                "removeTitle": "Von übergeordnetem Ordner entfernen?",
+                "removeTitle": "Von übergeordneter Seite entfernen?",
                 "description": "{userName} hat über die übergeordnete Seite '{parentName}' Zugriff auf '{pageName}'. Das Entfernen des Zugriffs von der übergeordneten Seite vereinfacht die Verwaltung der Berechtigungen.",
                 "removeAccess": "Von Seite entfernen",
                 "removeFromParent": "Von übergeordneter Seite entfernen"

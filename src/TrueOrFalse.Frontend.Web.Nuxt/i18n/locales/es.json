@@ -714,8 +714,8 @@
                 "description": {
                     "0": "El usuario puede solo ver esta página",
                     "1": "El usuario puede editar contenido en esta página",
-                    "2": "El usuario puede ver esta página y todas las subpáginas",
-                    "3": "El usuario puede editar esta página y todas las subpáginas"
+                    "2": "El usuario puede ver esta página y todas las {count} subpáginas",
+                    "3": "El usuario puede editar esta página y todas las {count} subpáginas"
                 },
                 "removing": "Eliminar",
                 "remove": "Quitar acceso",
@@ -747,10 +747,10 @@
                 "renewTooltip": "Al reiniciar el enlace se invalidará el enlace anterior."
             },
             "inherited": {
-                "removeTitle": "Remove from parent folder?",
-                "description": "{userName} has access to '{pageName}' via a parent page '{parentName}'. Removing access from the parent page will make permissions easier to manage.",
-                "removeAccess": "Remove from page",
-                "removeFromParent": "Remove from parent"
+                "removeTitle": "¿Quitar de la página superior?",
+                "description": "{userName} tiene acceso a '{pageName}' a través de la página superior '{parentName}'. Eliminar el acceso desde la página superior facilitará la gestión de permisos.",
+                "removeAccess": "Quitar de la página",
+                "removeFromParent": "Quitar de la página superior"
             }
         }
     },
