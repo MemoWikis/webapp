@@ -144,6 +144,13 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
     )
 
     const openModal = (id: number, name: string) => {
+        const userStore = useUserStore()
+
+        if (!userStore.isLoggedIn) {
+            userStore.openLoginModal()
+            return
+        }
+
         pageId.value = id
         pageName.value = name
         selectedUsers.value = []
