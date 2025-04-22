@@ -110,7 +110,7 @@ const ariaId2 = useId()
         </div>
 
         <!-- Lock icon button -->
-        <div class="grid-item-option" v-if="props.page.visibility != Visibility.All">
+        <div class="grid-item-option" v-if="props.page.visibility != Visibility.Public">
             <button class="" @click.stop="publishPageStore.openModal(props.page.id)">
                 <font-awesome-icon :icon="['fas', 'lock']" />
             </button>
@@ -204,7 +204,7 @@ const ariaId2 = useId()
                         <div class="divider"></div>
 
                         <!-- Make private -->
-                        <div v-if="props.page.visibility === Visibility.All"
+                        <div v-if="props.page.visibility === Visibility.Public"
                             @click="pageToPrivateStore.openModal(props.page.id); hide()" class="dropdown-row">
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fa-solid', 'lock']" />

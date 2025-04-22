@@ -8,9 +8,9 @@
             return false;
 
         var pages = EntityCache.GetAllPagesList()
-            .Where(p => p.CreatorId == userId && p.Visibility == PageVisibility.All);
+            .Where(p => p.CreatorId == userId && p.Visibility == PageVisibility.Public);
         var questions = EntityCache.GetAllQuestions()
-            .Where(q => q.CreatorId == userId && q.Visibility == QuestionVisibility.All);
+            .Where(q => q.CreatorId == userId && q.Visibility == QuestionVisibility.Public);
 
         var pageViews = pages.Sum(p => p.TotalViews);
         var questionViews = questions.Sum(q => q.TotalViews);

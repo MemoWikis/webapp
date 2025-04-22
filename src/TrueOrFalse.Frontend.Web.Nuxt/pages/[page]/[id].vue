@@ -2,7 +2,7 @@
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { Page, usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
-import { Site } from '~~/components/shared/siteEnum'
+import { SiteType } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useConvertStore } from '~/components/page/convert/convertStore'
@@ -16,7 +16,7 @@ const convertStore = useConvertStore()
 
 interface Props {
     tab?: Tab,
-    site: Site,
+    site: SiteType,
 }
 
 const props = defineProps<Props>()
@@ -27,7 +27,14 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
 
-const { data: page, refresh } = await useFetch<Page>(`/apiVue/Page/GetPage/${route.params.id}`,
+const pageUrl = computed(() => {
+    if (route.params.token != null) {
+        return `/apiVue/Page/GetPage/${route.params.id}?t=${route.params.token}`
+    }
+    return `/apiVue/Page/GetPage/${route.params.id}`
+})
+
+const { data: page, refresh } = await useFetch<Page>(pageUrl.value,
     {
         credentials: 'include',
         mode: 'cors',
@@ -63,6 +70,9 @@ function setPage() {
         } else {
 
             pageStore.setPage(page.value)
+            if (route.params?.token != null) {
+                pageStore.setToken(route.params.token.toString())
+            }
 
             watch(() => pageStore.id, (val) => {
                 if (val != 0)
@@ -106,7 +116,7 @@ setPage()
 const emit = defineEmits(['setPage'])
 
 onBeforeMount(() => {
-    emit('setPage', Site.Page)
+    emit('setPage', SiteType.Page)
 })
 
 function setTab() {
@@ -207,7 +217,7 @@ convertStore.$onAction(({ name, after }) => {
                                 <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
                                     v-if="!pageStore.textIsHidden"
                                     v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)">
-                                    <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
+                                    <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
                                         <div class="ProseMirror content-placeholder" v-html="pageStore.content"
                                             id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                         </div>
@@ -237,12 +247,13 @@ convertStore.$onAction(({ name, after }) => {
                             <PageToPrivateModal />
                             <PageDeleteModal />
                             <PageLearningAiCreateFlashCard />
+                            <PageSharingShareModal />
                         </ClientOnly>
                     </template>
                 </div>
 
                 <ClientOnly>
-                    <Sidebar class="is-page" :show-outline="true" :site="Site.Page" v-if="pageStore?.id != 0" />
+                    <Sidebar class="is-page" :show-outline="true" :site="SiteType.Page" v-if="pageStore?.id != 0" />
 
                     <template #fallback>
                         <SidebarFallback class="is-page" />

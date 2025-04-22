@@ -64,7 +64,7 @@ watch(() => props.show, (val) => {
                             </div>
 
                             <div class="modal-default-footer"
-                                v-if="props.primaryBtnLabel || props.secondaryBtnLabel || props.showCancelBtn || slots['footer-text']">
+                                v-if="props.primaryBtnLabel || props.secondaryBtnLabel || props.showCancelBtn || slots['footer-text'] || slots['footer']">
                                 <slot name="footer"></slot>
                                 <div class="row">
                                     <div class="col-xs-12">

@@ -254,7 +254,7 @@ public class VueUserSettingsController(
     [HttpPost]
     public bool ResetPassword()
     {
-        var passwordRecoveryResult = _passwordRecovery.RunForNuxt(_sessionUser.User.EmailAddress);
+        var passwordRecoveryResult = _passwordRecovery.Run(_sessionUser.User.EmailAddress);
         return passwordRecoveryResult.Success;
     }
 

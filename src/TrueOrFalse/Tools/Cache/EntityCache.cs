@@ -8,6 +8,7 @@ public class EntityCache
     public const string CacheKeyPages = "allPages_EntityCache";
     public const string CacheKeyPageQuestionsList = "pageQuestionsList_EntityCache";
     public const string CacheKeyRelations = "allRelations_EntityCache";
+    public const string CacheKeyPageShares = "pageShares_EntityCache";
 
     public static bool IsFirstStart = true;
 
@@ -22,6 +23,9 @@ public class EntityCache
 
     private static ConcurrentDictionary<int, PageRelationCache> Relations =>
         Cache.Mgr.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
+
+    private static ConcurrentDictionary<int, List<ShareCacheItem>> PageShares =>
+        Cache.Mgr.Get<ConcurrentDictionary<int, List<ShareCacheItem>>>(CacheKeyPageShares);
 
     /// <summary>
     /// Dictionary(key:pageId, value:questions)
@@ -298,6 +302,7 @@ public class EntityCache
 
     public static void RemoveUser(int id)
     {
+        RemoveAllSharesByUserId(id);
         Remove(GetUserById(id));
     }
 
@@ -334,6 +339,36 @@ public class EntityCache
     {
         AddOrUpdate(Pages, pageCacheItem);
     }
+    public static void AddOrUpdate(ShareCacheItem shareCacheItem)
+    {
+        var pageId = shareCacheItem.PageId;
+        var shareCacheItems = GetPageShares(pageId);
+        if (shareCacheItems.Any(c => c.Id == shareCacheItem.Id))
+        {
+            var index = shareCacheItems.IndexOf(shareCacheItems.First(c => c.Id == shareCacheItem.Id));
+            shareCacheItems[index] = shareCacheItem;
+            AddOrUpdate(pageId, shareCacheItems);
+        }
+        else
+        {
+            shareCacheItems.Add(shareCacheItem);
+            AddOrUpdate(pageId, shareCacheItems);
+        }
+
+        if (shareCacheItem.SharedWith != null)
+        {
+            var userCacheItem = GetUserByIdNullable(shareCacheItem.SharedWith.Id);
+            if (userCacheItem != null && !userCacheItem.SharedPageIds.Contains(pageId))
+            {
+                userCacheItem.SharedPageIds.Add(pageId);
+                if (shareCacheItem.Permission != SharePermission.RestrictAccess)
+                    userCacheItem.VisibleSharedPageIds.Add(pageId);
+
+                AddOrUpdate(userCacheItem);
+            }
+        }
+    }
+
     public static void UpdatePageReferencesInQuestions(PageCacheItem pageCacheItem)
     {
         var affectedQuestionsIds = GetQuestionIdsForPage(pageCacheItem.Id);
@@ -350,6 +385,11 @@ public class EntityCache
                 question.Pages[index] = pageCacheItem;
             }
         }
+    }
+
+    public static void AddOrUpdate(int pageId, List<ShareCacheItem> shareCacheItems)
+    {
+        PageShares.AddOrUpdate(pageId, shareCacheItems, (key, existingList) => shareCacheItems);
     }
 
     public static void Remove(int id, int userId) => Remove(GetPage(id), userId);
@@ -401,6 +441,12 @@ public class EntityCache
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
+    private static void AddOrUpdate(
+        ConcurrentDictionary<int, ShareCacheItem> objectToCache,
+        ShareCacheItem obj)
+    {
+        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
+    }
 
     private static void Remove(
         ConcurrentDictionary<int, UserCacheItem> objectToCache,
@@ -430,6 +476,13 @@ public class EntityCache
         objectToCache.TryRemove(obj.Id, out _);
     }
 
+    private static void Remove(
+        ConcurrentDictionary<int, ShareCacheItem> objectToCache,
+        ShareCacheItem obj)
+    {
+        objectToCache.TryRemove(obj.Id, out _);
+    }
+
     public static List<PageCacheItem?> GetPages(IEnumerable<int> getIds) => getIds.Select(GetPage).ToList();
 
     public static PageCacheItem GetPage(Page page) => GetPage(page.Id);
@@ -447,7 +500,7 @@ public class EntityCache
 
     public static IEnumerable<int> GetPrivatePageIdsFromUser(int userId) =>
         GetAllPagesList()
-            .Where(c => c.Creator.Id == userId && c.Visibility == PageVisibility.Owner)
+            .Where(c => c.Creator.Id == userId && c.Visibility == PageVisibility.Private)
             .Select(c => c.Id);
 
     public static List<PageCacheItem> GetByPageName(
@@ -489,5 +542,91 @@ public class EntityCache
     public static void Clear()
     {
         Cache.Mgr.Clear();
+    }
+
+    // Helper methods for updating share info:
+    public static void AddOrUpdatePageShares(int pageId, List<ShareCacheItem> shareCacheItems)
+    {
+        PageShares.AddOrUpdate(pageId, shareCacheItems, (key, existingList) => shareCacheItems);
+    }
+
+    public static List<ShareCacheItem> GetPageShares(int pageId)
+    {
+        PageShares.TryGetValue(pageId, out var list);
+        return list ?? new List<ShareCacheItem>();
+    }
+
+    public static void RemovePageShares(int pageId)
+    {
+        PageShares.TryRemove(pageId, out _);
+    }
+
+    public static void RemoveShares(int pageId, IList<int> shareIdsToRemove)
+    {
+        if (shareIdsToRemove == null || !shareIdsToRemove.Any())
+            return;
+
+        var currentShares = GetPageShares(pageId);
+        if (currentShares == null || !currentShares.Any())
+            return;
+
+        var affectedUsers = currentShares
+            .Where(share => shareIdsToRemove.Contains(share.Id) && share.SharedWith != null)
+            .Select(share => share.SharedWith.Id)
+            .Distinct()
+            .ToList();
+
+        var shareIdsSet = new HashSet<int>(shareIdsToRemove);
+        var updatedShares = currentShares.Where(share => !shareIdsSet.Contains(share.Id)).ToList();
+
+        if (updatedShares.Count != currentShares.Count)
+        {
+            AddOrUpdatePageShares(pageId, updatedShares);
+
+            foreach (var userId in affectedUsers)
+            {
+                var userCacheItem = GetUserByIdNullable(userId);
+                if (userCacheItem != null)
+                {
+                    if (!updatedShares.Any(s => s.SharedWith?.Id == userId))
+                    {
+                        userCacheItem.SharedPageIds.Remove(pageId);
+                        userCacheItem.VisibleSharedPageIds.Remove(pageId);
+                        AddOrUpdate(userCacheItem);
+                    }
+                }
+            }
+        }
+    }
+
+    public static List<ShareCacheItem> GetSharesByUserId(int userId)
+    {
+        return PageShares.Values
+            .SelectMany(shares => shares)
+            .Where(share => share.SharedWith?.Id == userId)
+            .ToList();
+    }
+
+    public static void RemoveAllSharesByUserId(int userId)
+    {
+        var userShares = GetSharesByUserId(userId);
+
+        if (!userShares.Any())
+            return;
+
+        var sharesByPage = userShares.GroupBy(share => share.PageId)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        foreach (var pageEntry in sharesByPage)
+        {
+            var pageId = pageEntry.Key;
+            var allPageShares = GetPageShares(pageId);
+
+            var updatedShares = allPageShares
+                .Where(s => s.SharedWith?.Id != userId)
+                .ToList();
+
+            AddOrUpdatePageShares(pageId, updatedShares);
+        }
     }
 }

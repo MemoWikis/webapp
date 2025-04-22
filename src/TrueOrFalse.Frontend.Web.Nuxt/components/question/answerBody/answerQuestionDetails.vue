@@ -29,7 +29,7 @@ interface Props {
 const props = defineProps<Props>()
 await commentsStore.loadFirst(props.id)
 
-const visibility = ref<Visibility>(Visibility.All)
+const visibility = ref<Visibility>(Visibility.Public)
 const personalProbability = ref(0)
 const personalProbabilityText = ref(t('questionLandingPage.probability.status.notInWishknowledge'))
 const personalColor = ref(color.memoGreyLight)
@@ -467,12 +467,12 @@ function drawCounterArcs() {
     overallCounterSvg.value
         .append('svg:foreignObject')
         .attr('height', '16px')
-        .attr('width', visibility.value === Visibility.Owner ? '14px' : '20px')
-        .attr('x', visibility.value === Visibility.Owner ? -7 : -10)
+        .attr('width', visibility.value === Visibility.Private ? '14px' : '20px')
+        .attr('x', visibility.value === Visibility.Private ? -7 : -10)
         .attr('y', -8)
         .html(() => {
             var fontColor = overallAnswerCount.value > 0 ? color.memoGrey : color.memoGreyLight
-            if (visibility.value === Visibility.Owner)
+            if (visibility.value === Visibility.Private)
                 return "<i class='fa-solid fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>"
             else
                 return "<i class='fa-solid fa-users' style='font-size:16px; color:" + fontColor + "'> </i>"

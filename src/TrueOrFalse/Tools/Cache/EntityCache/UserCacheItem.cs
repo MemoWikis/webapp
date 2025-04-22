@@ -46,6 +46,9 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public List<int> FavoriteIds { get; set; } = new List<int>();
     public List<PageCacheItem?> Favorites => EntityCache.GetPages(FavoriteIds);
     public RecentPages? RecentPages { get; set; }
+    public List<int> SharedPageIds { get; set; } = new List<int>();
+    public List<int> VisibleSharedPageIds { get; set; } = new List<int>();
+    public List<PageCacheItem?> SharedPages => EntityCache.GetPages(VisibleSharedPageIds);
     public MonthlyTokenUsage? MonthlyTokenUsage { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
     public virtual List<Language> ContentLanguages { get; set; } = new List<Language>();
@@ -174,5 +177,41 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         var userCacheItem = EntityCache.GetUserByIdNullable(Id);
         if (userCacheItem != null)
             ContentLanguages = userCacheItem.ContentLanguages;
+    }
+
+    public void PopulateSharedPages()
+    {
+        var shares = EntityCache.GetSharesByUserId(Id);
+        SharedPageIds = shares
+            .Select(share => share.PageId)
+            .Distinct()
+            .ToList();
+
+        VisibleSharedPageIds = shares.Where(share => share.Permission != SharePermission.RestrictAccess)
+            .Select(share => share.PageId)
+            .Distinct()
+            .ToList();
+    }
+
+    public Dictionary<int, string> TempShareTokens { get; set; } = new Dictionary<int, string>();
+
+    public void AddTempShareToken(int pageId, string token)
+    {
+        TempShareTokens[pageId] = token;
+    }
+    public void RemoveTempShareToken(int pageId)
+    {
+        if (TempShareTokens.ContainsKey(pageId))
+            TempShareTokens.Remove(pageId);
+    }
+
+    public void SetTempShareTokens(Dictionary<int, string> shareTokens)
+    {
+        TempShareTokens = new Dictionary<int, string>(shareTokens);
+    }
+
+    public void ClearTempShareTokens()
+    {
+        TempShareTokens = new Dictionary<int, string>();
     }
 }

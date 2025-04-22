@@ -281,7 +281,9 @@
                 "one": "1 vue",
                 "other": "{count} vues"
             },
-            "authorProfilePicture": "Photo de profil de {name}"
+            "authorProfilePicture": "Photo de profil de {name}",
+            "sharePage": "Partager",
+            "sharedUserProfilePicture": "Photo de profil de {name}"
         },
         "tabs": {
             "text": "Texte",
@@ -688,6 +690,67 @@
                     "toPage": "Veux-tu vraiment convertir le wiki « {name} » en page ?"
                 },
                 "keepParents": "Conserver les liens vers les wikis/pages parentes (optionnel)"
+            }
+        },
+        "sharing": {
+            "modal": {
+                "titleManage": "Gérer l'accès à la page",
+                "titleShareWith": "Partager avec {user}",
+                "close": "Terminé",
+                "cancel": "Annuler",
+                "shareWithUser": "Partager",
+                "pendingChanges": "Modifications en attente",
+                "saveChanges": "Enregistrer",
+                "info": "Le partage de pages inclut toutes les questions",
+                "loginInfo": "Seuls les utilisateurs connectés peuvent modifier les pages partagées"
+            },
+            "permission": {
+                "label": "Niveau de permission",
+                "view": "Lecteur",
+                "edit": "Éditeur",
+                "viewWithChildren": "Lecteur (incl. sous-pages)",
+                "editWithChildren": "Éditeur (incl. sous-pages)",
+                "restrictAccess": "Restreindre l'accès",
+                "description": {
+                    "0": "L'utilisateur peut seulement voir cette page",
+                    "1": "L'utilisateur peut modifier le contenu de cette page",
+                    "2": "L'utilisateur peut voir cette page et toutes les {count} sous-pages",
+                    "3": "L'utilisateur peut modifier cette page et toutes les {count} sous-pages"
+                },
+                "removing": "Supprimer",
+                "remove": "Retirer l'accès",
+                "creator": "Créateur",
+                "inheritedFrom": "Droits hérités de:"
+            },
+            "search": {
+                "placeholder": "Chercher des utilisateurs à inviter..."
+            },
+            "existingShares": {
+                "title": "Personnes ayant accès",
+                "none": "Personne n'a encore accès à cette page"
+            },
+            "notification": {
+                "send": "Notifier l'utilisateur de ce partage",
+                "message": "Ajouter un message personnalisé (optionnel)",
+                "placeholder": "Écris ton message ici..."
+            },
+            "link": {
+                "title": "Partager via lien secret",
+                "copy": "Copier le lien",
+                "renew": "Réinitialiser le lien",
+                "info": "Toute personne disposant du lien pourra accéder à cette page avec des autorisations de consultation.",
+                "publicDescription": "Toute personne ayant le lien secret peut accéder à cette page.",
+                "restrictedDescription": "Seules les personnes autorisées peuvent voir cette page.",
+                "includeToken": "Inclure la clé d'accès",
+                "shareViaLink": "Toute personne avec le lien",
+                "restrict": "Restreint",
+                "renewTooltip": "Le lien sera réinitialisé et tous les liens précédents ne seront plus valides."
+            },
+            "inherited": {
+                "removeTitle": "Retirer de la page parente ?",
+                "description": "{userName} a accès à '{pageName}' via la page parente '{parentName}'. Retirer l'accès depuis la page parente facilitera la gestion des autorisations.",
+                "removeAccess": "Retirer de la page",
+                "removeFromParent": "Retirer de la page parente"
             }
         }
     },
@@ -1134,7 +1197,7 @@
             "pages": {
                 "title": "Pages avec Connaissances souhaitées ({count})",
                 "search": "Rechercher",
-                "noResults": "Oups, aucune page pour « {term} ».",
+                "noResults": "Oups, aucune page pour « {term} ». ",
                 "withQuestions": "avec {count} questions"
             },
             "pagination": {

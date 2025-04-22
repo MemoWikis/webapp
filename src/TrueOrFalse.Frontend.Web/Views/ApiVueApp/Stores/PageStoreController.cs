@@ -24,36 +24,37 @@ public class PageStoreController(
 {
     public readonly record struct SaveContentRequest(
         int Id,
-        string Content);
+        string Content,
+        [CanBeNull] string ShareToken);
 
     public readonly record struct SaveResult(bool Success, string MessageKey);
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public SaveResult SaveContent([FromBody] SaveContentRequest req)
+    public SaveResult SaveContent([FromBody] SaveContentRequest request)
     {
-        var pageCacheItem = EntityCache.GetPage(req.Id);
+        var pageCacheItem = EntityCache.GetPage(request.Id);
 
         if (pageCacheItem == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        if (pageCacheItem.Content?.Trim() == req.Content.Trim())
+        if (pageCacheItem.Content?.Trim() == request.Content.Trim())
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.NoChange };
 
-        if (!_permissionCheck.CanEdit(pageCacheItem))
+        if (!_permissionCheck.CanEdit(pageCacheItem, request.ShareToken))
             return new SaveResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var page = _pageRepository.GetByIdEager(req.Id);
+        var page = _pageRepository.GetByIdEager(request.Id);
 
         if (page == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        pageCacheItem.Content = req.Content;
-        page.Content = req.Content;
+        pageCacheItem.Content = request.Content;
+        page.Content = request.Content;
 
         EntityCache.AddOrUpdate(pageCacheItem);
         LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
@@ -67,34 +68,35 @@ public class PageStoreController(
 
     public readonly record struct SaveNameRequest(
         int Id,
-        string Name);
+        string Name,
+        [CanBeNull] string ShareToken);
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public SaveResult SaveName([FromBody] SaveNameRequest req)
+    public SaveResult SaveName([FromBody] SaveNameRequest request)
     {
-        var pageCacheItem = EntityCache.GetPage(req.Id);
+        var pageCacheItem = EntityCache.GetPage(request.Id);
 
         if (pageCacheItem == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        if (pageCacheItem.Name.Trim() == req.Name.Trim())
+        if (pageCacheItem.Name.Trim() == request.Name.Trim())
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.NoChange };
 
-        if (!_permissionCheck.CanEdit(pageCacheItem))
+        if (!_permissionCheck.CanEdit(pageCacheItem, request.ShareToken))
             return new SaveResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var page = _pageRepository.GetByIdEager(req.Id);
+        var page = _pageRepository.GetByIdEager(request.Id);
 
         if (page == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        pageCacheItem.Name = req.Name.Trim();
-        page.Name = req.Name.Trim();
+        pageCacheItem.Name = request.Name.Trim();
+        page.Name = request.Name.Trim();
         EntityCache.AddOrUpdate(pageCacheItem);
         LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
         _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Renamed);
@@ -210,14 +212,14 @@ public class PageStoreController(
     public record struct DeleteContentImagesRequest(int id, string[] imageUrls);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public void DeleteContentImages([FromBody] DeleteContentImagesRequest req)
+    public void DeleteContentImages([FromBody] DeleteContentImagesRequest request)
     {
-        var imageSettings = new PageContentImageSettings(req.id, _httpContextAccessor);
+        var imageSettings = new PageContentImageSettings(request.id, _httpContextAccessor);
         var deleteImage = new DeleteImage();
 
         var filenames = new List<string>();
 
-        foreach (var path in req.imageUrls)
+        foreach (var path in request.imageUrls)
             filenames.Add(Path.GetFileName(path));
 
         deleteImage.Run(imageSettings.BasePath, filenames);
@@ -284,13 +286,13 @@ public class PageStoreController(
 
     private List<DailyViews> GetQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: false, pageId: page.Id);
+        var questions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: false, pageId: page.Id, permissionCheck: _permissionCheck);
         return GetQuestionViews(questions);
     }
 
     private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, pageId: page.Id);
+        var questions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, pageId: page.Id, permissionCheck: _permissionCheck);
         return GetQuestionViews(questions);
     }
 
@@ -298,23 +300,23 @@ public class PageStoreController(
 
     [HttpPost]
     [ItemCanBeNull]
-    public async Task<GenerateFlashCardResponse?> GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
+    public async Task<GenerateFlashCardResponse?> GenerateFlashCard([FromBody] GenerateFlashCardRequest request)
     {
-        if (!_permissionCheck.CanViewPage(req.PageId) || !_sessionUser.IsLoggedIn)
+        if (!_permissionCheck.CanViewPage(request.PageId) || !_sessionUser.IsLoggedIn)
             return null;
 
         var limitCheck = new LimitCheck(_logg, _sessionUser);
 
         string? messageKey = null;
 
-        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(req.PageId).Visibility != PageVisibility.All)
+        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(request.PageId).Visibility != PageVisibility.Public)
         {
             messageKey = FrontendMessageKeys.Error.Ai.NoFlashcardsCreatedCauseLimitAndPageIsPrivate;
             return new GenerateFlashCardResponse(new List<AiFlashCard.FlashCard>(), messageKey);
         }
 
         var aiFlashCard = new AiFlashCard(_aiUsageLogRepo);
-        var flashcards = await aiFlashCard.Generate(req.Text, req.PageId, _sessionUser.UserId, _permissionCheck);
+        var flashcards = await aiFlashCard.Generate(request.Text, request.PageId, _sessionUser.UserId, _permissionCheck);
 
         if (flashcards.Count == 0)
             messageKey = FrontendMessageKeys.Error.Ai.GenerateFlashcards;

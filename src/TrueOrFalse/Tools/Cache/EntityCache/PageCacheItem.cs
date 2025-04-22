@@ -53,7 +53,7 @@ public class PageCacheItem : IPersistable
 
     public virtual string UrlLinkText { get; set; }
     public virtual PageVisibility Visibility { get; set; }
-    public bool IsPublic => Visibility == PageVisibility.All;
+    public bool IsPublic => Visibility == PageVisibility.Public;
     public virtual string WikipediaURL { get; set; }
 
     public virtual int TotalViews { get; set; }
@@ -172,14 +172,15 @@ public class PageCacheItem : IPersistable
         int userId,
         bool onlyVisible = true,
         bool fullList = true,
-        int pageId = 0)
+        int pageId = 0,
+        PermissionCheck? permissionCheck = null)
     {
         IList<QuestionCacheItem> questions;
 
         if (fullList)
         {
-            questions = AggregatedPages(
-                    new PermissionCheck(userId))
+            permissionCheck ??= new PermissionCheck(userId);
+            questions = AggregatedPages(permissionCheck)
                 .SelectMany(c => EntityCache.GetQuestionsForPage(c.Key))
                 .Distinct().ToList();
         }
@@ -191,8 +192,7 @@ public class PageCacheItem : IPersistable
 
         if (onlyVisible)
         {
-            var user = EntityCache.GetUserById(userId);
-            var permissionCheck = new PermissionCheck(user);
+            permissionCheck ??= new PermissionCheck(userId);
             questions = questions.Where(permissionCheck.CanView).ToList();
         }
 
@@ -208,7 +208,8 @@ public class PageCacheItem : IPersistable
     public virtual int GetCountQuestionsAggregated(
         int userId,
         bool inPageOnly = false,
-        int pageId = 0)
+        int pageId = 0,
+        PermissionCheck? permissionCheck = null)
     {
         if (inPageOnly)
         {
@@ -216,17 +217,18 @@ public class PageCacheItem : IPersistable
                 userId,
                 true,
                 false,
-                pageId
+                pageId,
+                permissionCheck
             ).Count;
         }
 
-        return GetAggregatedQuestionsFromMemoryCache(userId)
+        return GetAggregatedQuestionsFromMemoryCache(userId, permissionCheck: permissionCheck)
             .Count;
     }
 
     public virtual bool HasPublicParent()
     {
-        return Parents().Any(c => c.Visibility == PageVisibility.All);
+        return Parents().Any(c => c.Visibility == PageVisibility.Public);
     }
 
     public bool IsWikiType()
@@ -597,10 +599,10 @@ public class PageCacheItem : IPersistable
     private bool IsVisibleForUser(int userId, FeedItem feedItem)
     {
         if (feedItem.PageChangeCacheItem != null)
-            return feedItem.PageChangeCacheItem.Visibility != PageVisibility.Owner || (feedItem.PageChangeCacheItem.AuthorId == userId || feedItem.PageChangeCacheItem.Page.CreatorId == userId);
+            return feedItem.PageChangeCacheItem.Visibility != PageVisibility.Private || (feedItem.PageChangeCacheItem.AuthorId == userId || feedItem.PageChangeCacheItem.Page.CreatorId == userId);
 
         if (feedItem.QuestionChangeCacheItem != null)
-            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || (feedItem.QuestionChangeCacheItem.AuthorId == userId || feedItem.QuestionChangeCacheItem.Question.CreatorId == userId);
+            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Private || (feedItem.QuestionChangeCacheItem.AuthorId == userId || feedItem.QuestionChangeCacheItem.Question.CreatorId == userId);
 
         return false;
     }
@@ -704,6 +706,11 @@ public class PageCacheItem : IPersistable
 
         PageChangeCacheItems.Insert(0, newCacheItem);
         EntityCache.AddOrUpdate(this);
+    }
+
+    public IList<ShareCacheItem> GetDirectShares()
+    {
+        return EntityCache.GetPageShares(Id);
     }
 }
 

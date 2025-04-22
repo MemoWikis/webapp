@@ -208,6 +208,8 @@
         "convertToPage": "In Seite umwandeln",
         "favourites": "Favoriten",
         "lastVisited": "Zuletzt besucht",
+        "sharedWithMe": "Mit mir geteilt",
+        "noSharedPages": "Noch keine Seiten mit dir geteilt",
         "help": "Hilfe",
         "documentation": "Dokumentation",
         "createWikiModal": {
@@ -281,7 +283,9 @@
                 "one": "1 Aufruf",
                 "other": "{count} Aufrufe"
             },
-            "authorProfilePicture": "{name}s Profilbild"
+            "authorProfilePicture": "{name}s Profilbild",
+            "sharePage": "Teilen",
+            "sharedUserProfilePicture": "{name}s Profilbild"
         },
         "tabs": {
             "text": "Text",
@@ -688,6 +692,67 @@
                     "toPage": "Möchtest Du wirklich das Wiki \"{name}\" in eine Seite umwandeln?"
                 },
                 "keepParents": "Verknüpfungen zu Übergeordneten Wikis/Seiten beibehalten (optional)"
+            }
+        },
+        "sharing": {
+            "modal": {
+                "titleManage": "Seitenzugriff verwalten",
+                "titleShareWith": "Teilen mit {user}",
+                "close": "Fertig",
+                "cancel": "Abbrechen",
+                "shareWithUser": "Teilen",
+                "pendingChanges": "Ausstehende Änderungen",
+                "saveChanges": "Speichern",
+                "info": "Beim Teilen von Seiten werden alle Fragen einbezogen",
+                "loginInfo": "Nur angemeldete Benutzer können geteilte Seiten bearbeiten"
+            },
+            "permission": {
+                "label": "Berechtigungsstufe",
+                "view": "Leser",
+                "edit": "Bearbeiter",
+                "viewWithChildren": "Leser (inkl. Unterseiten)",
+                "editWithChildren": "Bearbeiter (inkl. Unterseiten)",
+                "restrictAccess": "Zugriff einschränken",
+                "description": {
+                    "0": "Nutzer kann diese Seite nur ansehen",
+                    "1": "Nutzer kann Inhalte auf dieser Seite bearbeiten",
+                    "2": "Nutzer kann diese Seite und alle {count} Unterseiten ansehen",
+                    "3": "Nutzer kann diese Seite und alle {count} Unterseiten bearbeiten"
+                },
+                "removing": "Entfernen",
+                "remove": "Zugriff entfernen",
+                "creator": "Ersteller",
+                "inheritedFrom": "Rechte geerbt von:"
+            },
+            "search": {
+                "placeholder": "Nach Nutzern zum Teilen suchen..."
+            },
+            "existingShares": {
+                "title": "Personen mit Zugriff",
+                "none": "Noch niemand hat Zugriff auf diese Seite"
+            },
+            "notification": {
+                "send": "Nutzer über diese Freigabe benachrichtigen",
+                "message": "Benutzerdefinierte Nachricht hinzufügen (optional)",
+                "placeholder": "Tippe hier deine Nachricht..."
+            },
+            "link": {
+                "title": "Per geheimen Link teilen",
+                "copy": "Link kopieren",
+                "renew": "Link zurücksetzen",
+                "info": "Jeder mit dem Link kann auf diese Seite mit Leseberechtigungen zugreifen.",
+                "publicDescription": "Jeder mit dem geheimen Link kann auf diese Seite zugreifen.",
+                "restrictedDescription": "Nur Personen mit Zugriff können diese Seite sehen.",
+                "includeToken": "Zugriffsschlüssel einbeziehen",
+                "shareViaLink": "Jeder mit dem Link",
+                "restrict": "Eingeschränkt",
+                "renewTooltip": "Der Link wird zurückgesetzt und alle vorherigen Links sind nicht mehr gültig."
+            },
+            "inherited": {
+                "removeTitle": "Von übergeordneter Seite entfernen?",
+                "description": "{userName} hat über die übergeordnete Seite '{parentName}' Zugriff auf '{pageName}'. Das Entfernen des Zugriffs von der übergeordneten Seite vereinfacht die Verwaltung der Berechtigungen.",
+                "removeAccess": "Von Seite entfernen",
+                "removeFromParent": "Von übergeordneter Seite entfernen"
             }
         }
     },

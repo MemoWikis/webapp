@@ -6,11 +6,16 @@ import { Author } from '~~/components/author/author'
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
+import { useSharePageStore } from '../sharing/sharePageStore'
+import { useUserStore } from '~/components/user/userStore'
+
 const { $urlHelper } = useNuxtApp()
 const { t } = useI18n()
 const pageStore = usePageStore()
 const tabsStore = useTabsStore()
 const outlineStore = useOutlineStore()
+const sharePageStore = useSharePageStore()
+const userStore = useUserStore()
 
 const textArea = ref()
 
@@ -30,6 +35,32 @@ const groupedAuthors = computed(() => {
     else
         return pageStore.authors.length > 4 ? pageStore.authors.slice(4, pageStore.authors.length + 1) : [] as Author[]
 })
+
+// Filter out the current user from sharedWith users
+const sharedWithUsers = computed(() => {
+    if (!pageStore.sharedWith) return []
+    return pageStore.sharedWith.filter(user => user.id !== userStore.id)
+})
+
+// Determine if we should show first few users or group them
+const firstSharedUsers = computed(() => {
+    if (isMobile)
+        return []
+    else
+        return sharedWithUsers.value.length <= 4 ? sharedWithUsers.value : sharedWithUsers.value.slice(0, 4)
+})
+
+// Remaining users to show in the dropdown
+const groupedSharedUsers = computed(() => {
+    if (isMobile)
+        return sharedWithUsers.value
+    else
+        return sharedWithUsers.value.length > 4 ? sharedWithUsers.value.slice(4, sharedWithUsers.value.length) : []
+})
+
+function openShareModal() {
+    sharePageStore.openModal(pageStore.id, pageStore.name)
+}
 
 function resize() {
     outlineStore.titleIsFocused = true
@@ -57,7 +88,7 @@ watch(() => tabsStore.activeTab, (val: any) => {
 
 const autoSaveTimer = ref()
 const autoSave = () => {
-    if (pageStore.visibility != Visibility.Owner)
+    if (pageStore.visibility != Visibility.Private)
         return
 
     if (autoSaveTimer.value) {
@@ -73,7 +104,7 @@ onBeforeMount(() => {
 
     watch(() => pageStore.name, (newName) => {
         if (pageStore.initialName != newName) {
-            if (pageStore.visibility === Visibility.Owner)
+            if (pageStore.visibility === Visibility.Private)
                 autoSave()
             else
                 pageStore.nameHasChanged = true
@@ -215,6 +246,35 @@ const ariaId2 = useId()
                     </template>
                 </template>
             </VDropdown>
+
+            <div v-if="sharedWithUsers.length > 0" class="page-detail-spacer"></div>
+
+            <template v-for="user in firstSharedUsers">
+                <div v-if="user.id > 0" @click="openShareModal()"
+                    v-tooltip="user.name" class="header-author-icon-link">
+                    <Image :src="user.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
+                        :alt="t('page.header.sharedUserProfilePicture', { name: user.name })" />
+                </div>
+            </template>
+
+            <VDropdown :aria-id="ariaId2 + '-shared'" :distance="6">
+                <div v-if="groupedSharedUsers.length > 1" class="additional-authors-btn" :class="{ 'long': groupedSharedUsers.length > 9 }" @click="openShareModal">
+                    <span>
+                        +{{ groupedSharedUsers.length }}
+                    </span>
+                </div>
+                <template #popper>
+                    <template v-for="user in groupedSharedUsers">
+                        <div class="dropdown-row" v-if="user.id > 0"
+                            @click="openShareModal()">
+                            <div class="dropdown-icon">
+                                <Image :src="user.imgUrl" :format="ImageFormat.Author" class="header-author-icon" />
+                            </div>
+                            <div class="dropdown-label">{{ user.name }}</div>
+                        </div>
+                    </template>
+                </template>
+            </VDropdown>
         </div>
     </div>
 </template>
@@ -230,6 +290,8 @@ const ariaId2 = useId()
     margin: 0 4px;
     max-height: 20px;
     max-width: 20px;
+    cursor: pointer;
+
 }
 
 #PageHeaderContainer {
@@ -301,7 +363,11 @@ const ariaId2 = useId()
         min-height: 21px;
 
         .header-author-icon-link {
-            margin-right: 8px;
+            margin-right: 2px;
+
+            &:last-of-type {
+                margin-right: 8px;
+            }
         }
 
         .header-author-icon,

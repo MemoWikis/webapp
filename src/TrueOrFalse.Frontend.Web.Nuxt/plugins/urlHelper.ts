@@ -53,9 +53,12 @@ class UrlHelper {
     public getPageUrl(
         name: string,
         id: number | string,
-        tab: Tab = Tab.Text
+        tab: Tab = Tab.Text,
+        token: string | null | undefined = null
     ): string {
-        const url = `/${this.sanitizeUri(name)}/${id}`
+        const url = token
+            ? `/${this.sanitizeUri(name)}/${id}/${token}`
+            : `/${this.sanitizeUri(name)}/${id}`
 
         switch (tab) {
             case Tab.Learning:

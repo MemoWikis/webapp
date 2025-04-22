@@ -34,7 +34,7 @@ public class QuestionWritingRepo(
             KnowledgeSummaryUpdate.ScheduleForPage(page.Id, _jobQueueRepo);
         }
 
-        if (question.Visibility != QuestionVisibility.Owner)
+        if (question.Visibility != QuestionVisibility.Private)
         {
             UserActivityAdd.CreatedQuestion(question, _userReadingRepo, _userActivityRepo);
             _reputationUpdate.ForUser(question.Creator);

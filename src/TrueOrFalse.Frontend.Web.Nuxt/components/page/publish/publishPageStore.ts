@@ -77,7 +77,7 @@ export const usePublishPageStore = defineStore("publishPageStore", {
 
                 const pageStore = usePageStore()
                 if (pageStore.id == this.id)
-                    pageStore.visibility = Visibility.All
+                    pageStore.visibility = Visibility.Public
 
                 return {
                     success: true,

@@ -16,7 +16,7 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
     public int TotalPublicQuestionCount()
     {
         return _session.QueryOver<Question>()
-            .Where(q => q.Visibility == QuestionVisibility.All)
+            .Where(q => q.Visibility == QuestionVisibility.Public)
             .RowCount();
     }
 
@@ -24,7 +24,7 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
     {
         return _session.QueryOver<Question>()
             .Where(q => q.DateCreated > since)
-            .And(q => q.Visibility == QuestionVisibility.All)
+            .And(q => q.Visibility == QuestionVisibility.Public)
             .RowCount();
     }
 

@@ -19,7 +19,7 @@ public class Convert_tests : BaseTest
         var children = context
             .Add("Sub1", creator: new User { Id = userId })
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
             .All;
 
@@ -110,7 +110,7 @@ public class Convert_tests : BaseTest
         var children = context
             .Add("Sub1")
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
             .All;
 
@@ -150,7 +150,7 @@ public class Convert_tests : BaseTest
         var children = context
             .Add("Sub1", creator: new User { Id = userId })
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
             .All;
 
@@ -243,7 +243,7 @@ public class Convert_tests : BaseTest
         var children = context
             .Add("Sub1")
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
             .All;
 

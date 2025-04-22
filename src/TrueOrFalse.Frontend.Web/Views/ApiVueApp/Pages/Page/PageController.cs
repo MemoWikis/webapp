@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
 public class PageController(
     SessionUser _sessionUser,
-    PageViewRepo pageViewRepo,
+    PageViewRepo _pageViewRepo,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
@@ -15,12 +16,18 @@ public class PageController(
 
 {
     [HttpGet]
-    public PageDataResult GetPage([FromRoute] int id)
+    public PageDataResult GetPage([FromRoute] int id, [CanBeNull] string t)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
 
         if (!Settings.TrackersToIgnore.Any(item => userAgent.Contains(item)))
-            pageViewRepo.AddView(userAgent, id, _sessionUser.UserId);
+            _pageViewRepo.AddView(userAgent, id, _sessionUser.UserId);
+
+        if (t != null)
+        {
+            _sessionUser.AddShareToken(id, t);
+            _permissionCheck.OverWriteShareTokens(_sessionUser.ShareTokens);
+        }
 
         var data = new PageDataManager(
                 _sessionUser,
@@ -29,7 +36,7 @@ public class PageController(
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
-            .GetPageData(id);
+            .GetPageData(id, t);
 
         return new PageDataResult
         {
@@ -60,9 +67,26 @@ public class PageController(
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
             ErrorCode = data.ErrorCode,
-            Language = data.Language
+            Language = data.Language,
+            CanEdit = _permissionCheck.CanEditPage(data.Id, t),
+            IsShared = SharesService.IsShared(data.Id),
+            SharedWith = GetSharedWithResponse(data.Id),
         };
     }
+
+    private List<SharedWithResponse> GetSharedWithResponse(int pageId)
+    {
+        return EntityCache.GetPageShares(pageId)
+            .Where(share => share.SharedWith != null)
+            .Select(share => new SharedWithResponse(
+                share.SharedWith.Id,
+                share.SharedWith.Name,
+                new UserImageSettings(share.SharedWith.Id, _httpContextAccessor).GetUrl_20px_square(share.SharedWith).Url)
+            )
+            .ToList();
+    }
+
+    public readonly record struct SharedWithResponse(int Id, string Name, string ImgUrl);
 
     public record struct PageDataResult(
         bool CanAccess,
@@ -96,6 +120,9 @@ public class PageController(
         List<DailyViews> ViewsLast30DaysPage,
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
         List<DailyViews> ViewsLast30DaysQuestions,
-        string Language
+        string Language,
+        bool CanEdit,
+        bool IsShared,
+        [CanBeNull] List<SharedWithResponse> SharedWith = null
     );
 }

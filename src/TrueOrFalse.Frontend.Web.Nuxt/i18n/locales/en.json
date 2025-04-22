@@ -8,7 +8,13 @@
             "saveImage": "The new image has been saved",
             "saved": "The page has been saved successfully.",
             "convertedToWiki": "The page '{name}' has been successfully converted into a Wiki.",
-            "convertedToPage": "The Wiki '{name}' has been successfully converted into a page."
+            "convertedToPage": "The Wiki '{name}' has been successfully converted into a page.",
+            "shared": "The page has been successfully shared.",
+            "rightsUpdated": "Access rights have been successfully updated.",
+            "token": {
+                "renewed": "The share link has been successfully renewed.",
+                "copied": "The share link has been copied to clipboard."
+            }
         },
         "question": {
             "created": "Your question has been successfully created.",
@@ -37,16 +43,16 @@
         },
         "page": {
             "parentIsPrivate": "Publishing is not possible. The parent page is private.",
-            "publicChildPages": "This page has public child pages.",
+            "publicChildPages": "This page has public subpages.",
             "publicQuestions": "This page has public questions.",
-            "notLastChild": "This page cannot be deleted as there are more sub-pages. Please remove all sub-pages and try again.",
+            "notLastChild": "This page cannot be deleted as there are more subpages. Please remove all subpages and try again.",
             "noRemainingParents": "The link to the page cannot be removed. This page must be assigned to at least one public parent page.",
             "parentIsRoot": "Under 'Global Wiki', you are only allowed to add private pages",
             "loopLink": "Pages cannot be assigned to themselves",
-            "isAlreadyLinkedAsChild": "This page is already linked as a sub-page.",
-            "isNotAChild": "This page is already not a sub-page",
+            "isAlreadyLinkedAsChild": "This page is already linked as a subpage.",
+            "isNotAChild": "This page is already not a subpage",
             "isLinkedInNonWuwi": "You have already linked this page outside of your Wish-Knowledge. Please disable 'Show only your Wish-Knowledge' and add this page to your Wish-Knowledge.",
-            "childIsParent": "Parent pages cannot be assigned as sub-pages.",
+            "childIsParent": "Parent pages cannot be assigned as subpages.",
             "nameIsTaken": " is already taken, please choose another name!",
             "nameIsForbidden": " is forbidden, please choose another name!",
             "rootPageMustBePublic": "The root page cannot be set to private.",
@@ -54,11 +60,13 @@
             "tooPopular": "This page is used in too many other users' Wish-Knowledge",
             "saveImageError": "The image could not be saved.",
             "pinnedQuestions": "",
-            "circularReference": "The parent page cannot be assigned as a sub-page",
+            "circularReference": "The parent page cannot be assigned as a subpage",
             "pageNotSelected": "You have not selected a page",
             "newPageIdIsPageIdToBeDeleted": "The selected page cannot be the page that is to be deleted.",
             "noChange": "No changes were made.",
-            "noChildSelected": "You have not selected a sub-page."
+            "noChildSelected": "You have not selected a subpage.",
+            "noUsersSelected": "Please select at least one user to share with.",
+            "shareFailure": "The page could not be shared. Please try again."
         },
         "question": {
             "missingText": "The question text is missing.",
@@ -114,6 +122,12 @@
         "ai": {
             "generateFlashcards": "Flashcards could not be created.",
             "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit is reached! Since the page is private, no flashcards have been created."
+        },
+        "loading": {
+            "shares": "Could not load sharing information."
+        },
+        "token": {
+            "generation": "Could not generate share link. Please try again."
         }
     },
     "info": {
@@ -208,6 +222,8 @@
         "convertToPage": "Convert into page",
         "favourites": "Favourites",
         "lastVisited": "Last visited",
+        "sharedWithMe": "Shared with me",
+        "noSharedPages": "No pages shared with you yet",
         "help": "Help",
         "documentation": "Documentation",
         "createWikiModal": {
@@ -267,7 +283,7 @@
             "addQuestion": "Add question",
             "createPage": "Create page",
             "addParentPage": "Link parent page",
-            "addChildPage": "Link sub-page",
+            "addChildPage": "Link subpage",
             "addToPersonalWiki": "Add to my Wiki",
             "setToPrivate": "Set page to private",
             "publishPage": "Publish page",
@@ -276,12 +292,14 @@
             "deletePage": "Delete page",
             "contentLanguage": "Content language",
             "titlePlaceholder": "Enter title...",
-            "childPages": "All sub-pages",
+            "childPages": "All subpages",
             "views": {
                 "one": "1 view",
                 "other": "{count} views"
             },
-            "authorProfilePicture": "{name}'s profile picture"
+            "authorProfilePicture": "{name}'s profile picture",
+            "sharePage": "Share",
+            "sharedUserProfilePicture": "{name}'s profile picture"
         },
         "tabs": {
             "text": "Text",
@@ -292,16 +310,16 @@
             "noQuestionAnswered": "You haven't answered any questions on this page yet."
         },
         "grid": {
-            "childPages": "Sub-pages",
-            "childPagesMobile": "Sub-pages",
-            "createChildPage": "Create sub-page",
+            "childPages": "subpages",
+            "childPagesMobile": "subpages",
+            "createChildPage": "Create subpage",
             "createChildPageMobile": "Create page",
-            "linkChildPage": "Link sub-page",
+            "linkChildPage": "Link subpage",
             "linkChildPageMobile": "Link page",
             "item": {
                 "childPage": {
-                    "one": "Sub-page",
-                    "other": "Sub-pages"
+                    "one": "subpage",
+                    "other": "subpages"
                 },
                 "question": {
                     "one": "Question",
@@ -311,10 +329,10 @@
             },
             "options": {
                 "parentPages": "Parent pages",
-                "createSubpage": "Create sub-page",
+                "create": "Create subpage",
                 "editLinks": "Edit links",
                 "linkParentPage": "Link parent page",
-                "linkSubpage": "Link sub-page",
+                "link": "Link subpage",
                 "removeParentPage": "Remove as parent page",
                 "movePage": "Move page",
                 "addToPersonalWiki": "Add to your Wiki",
@@ -344,7 +362,7 @@
                     "visibleToAll": "Changes on the page {parentName} are visible to everyone"
                 },
                 "labels": {
-                    "subordinatePage": "Assign page as sub-page"
+                    "subordinatePage": "Assign page as subpage"
                 }
             }
         },
@@ -472,7 +490,7 @@
             "licenseConfirmation": "You confirm that the texts and, if applicable, images are your own work and have not been copied from copyrighted sources."
         },
         "feed": {
-            "includeSubpages": "Include sub-pages",
+            "includes": "Include subpages",
             "groupItems": "Group",
             "includeQuestions": "Include questions",
             "today": "Today",
@@ -507,8 +525,8 @@
                 "showWithoutChanges": "Text without change",
                 "addedParentPages": "Added parent pages",
                 "removedParentPages": "Removed parent pages",
-                "addedChildPages": "Added sub-pages",
-                "removedChildPages": "Removed sub-pages"
+                "addedChildPages": "Added subpages",
+                "removedChildPages": "Removed subpages"
             },
             "userCard": {
                 "by": "by",
@@ -518,7 +536,7 @@
                 "parentPage": "Parent page:"
             },
             "item": {
-                "childPageDeleted": "Sub-page deleted",
+                "childPageDeleted": "subpage deleted",
                 "questionDeleted": "Question deleted",
                 "private": "Private"
             },
@@ -532,12 +550,12 @@
                     "plural": "Parent pages removed"
                 },
                 "childrenAdded": {
-                    "singular": "Subpage added",
-                    "plural": "Subpages added"
+                    "singular": " added",
+                    "plural": "s added"
                 },
                 "childrenRemoved": {
-                    "singular": "Subpage removed",
-                    "plural": "Subpages removed"
+                    "singular": " removed",
+                    "plural": "s removed"
                 }
             }
         },
@@ -551,15 +569,15 @@
             "directlyLinkedQuestions": "directly linked questions",
             "pagesLabel": "Pages:",
             "includedPages": "included pages",
-            "directlyLinkedChildPages": "directly linked sub-pages",
+            "directlyLinkedChildPages": "directly linked subpages",
             "parentPages": "parent pages",
             "statistics": "Statistics",
             "pageViewsLast90Days": "Page views in the last 90 days",
-            "withoutChildPages": "Without sub-pages",
-            "withChildPages": "Incl. 0 sub-pages | Incl. 1 sub-page | Incl. {count} sub-pages",
+            "withoutChildPages": "Without subpages",
+            "withChildPages": "Incl. 0 subpages | Incl. 1 subpage | Incl. {count} subpages",
             "questionViewsLast90Days": "Question views in the last 90 days",
             "directlyLinkedQuestionsTitle": "Directly linked questions",
-            "includedQuestions90Days": "Included questions (0 sub-pages) | Included questions (1 sub-page) | Included questions ({count} sub-pages)",
+            "includedQuestions90Days": "Included questions (0 subpages) | Included questions (1 subpage) | Included questions ({count} subpages)",
             "solidKnowledge": "@:knowledgeStatus.solid",
             "needsConsolidation": "@:knowledgeStatus.needsConsolidation",
             "needsLearning": "@:knowledgeStatus.needsLearning",
@@ -688,6 +706,67 @@
                     "toPage": "Do you really want to convert the Wiki \"{name}\" into a page?"
                 },
                 "keepParents": "Keep links to parent Wikis/pages (optional)"
+            }
+        },
+        "sharing": {
+            "modal": {
+                "titleManage": "Manage Page Access",
+                "titleShareWith": "Share with {user}",
+                "close": "Done",
+                "cancel": "Cancel",
+                "shareWithUser": "Share",
+                "pendingChanges": "Pending changes",
+                "saveChanges": "Save",
+                "info": "Sharing Pages will include all questions",
+                "loginInfo": "Only logged-in users can edit shared pages"
+            },
+            "permission": {
+                "label": "Permission level",
+                "view": "Viewer",
+                "edit": "Editor",
+                "viewWithChildren": "Viewer (incl. subpages)",
+                "editWithChildren": "Editor (incl. subpages)",
+                "restrictAccess": "Restrict access",
+                "description": {
+                    "0": "User can only view this page",
+                    "1": "User can edit content on this page",
+                    "2": "User can view this page and all {count} subpages",
+                    "3": "User can edit this page and all {count} subpages"
+                },
+                "removing": "Remove",
+                "remove": "Remove access",
+                "creator": "Creator",
+                "inheritedFrom": "Inherited rights from:"
+            },
+            "search": {
+                "placeholder": "Search for users to share with..."
+            },
+            "existingShares": {
+                "title": "People with access",
+                "none": "No one has access to this page yet"
+            },
+            "notification": {
+                "send": "Notify user about this share",
+                "message": "Add a custom message (optional)",
+                "placeholder": "Type your message here..."
+            },
+            "link": {
+                "title": "Share via Secret Link",
+                "copy": "Copy Link",
+                "renew": "Reset Link",
+                "info": "Anyone with the link will be able to access this page with view permissions.",
+                "publicDescription": "Anyone with the secret link can access this page.",
+                "restrictedDescription": "Only people with access can view this page.",
+                "includeToken": "Include access key",
+                "shareViaLink": "Anyone with the link",
+                "restrict": "Restricted",
+                "renewTooltip": "Resetting the link will invalidate the old link."
+            },
+            "inherited": {
+                "removeTitle": "Remove from parent page?",
+                "description": "{userName} has access to '{pageName}' via a parent page '{parentName}'. Removing access from the parent page will make permissions easier to manage.",
+                "removeAccess": "Remove from page",
+                "removeFromParent": "Remove from parent"
             }
         }
     },

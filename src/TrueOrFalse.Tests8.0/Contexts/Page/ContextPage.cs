@@ -37,7 +37,7 @@
         string pageName,
         PageType pageType = PageType.Standard,
         User? creator = null,
-        PageVisibility visibility = PageVisibility.All)
+        PageVisibility visibility = PageVisibility.Public)
     {
         var page = new Page
         {

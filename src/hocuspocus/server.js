@@ -10,6 +10,25 @@ if (process.env.ENVIRONMENT.trim() == 'development') {
   dotenv.config()
 }
 
+function extractTokens(tokenString) {
+  if (!tokenString || typeof tokenString !== 'string') {
+    return { collaborationToken: null, shareToken: null };
+  }
+  
+  if (tokenString.includes('|accessToken=')) {
+    const parts = tokenString.split('|accessToken=');
+    return {
+      collaborationToken: parts[0],
+      shareToken: parts[1]
+    };
+  } else {
+    return {
+      collaborationToken: tokenString,
+      shareToken: null
+    };
+  }
+}
+
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'localhost',
   port: process.env.REDIS_PORT || 6379,
@@ -38,15 +57,23 @@ const server = Server.configure({
   extensions: [
     redisDatabaseExtension,
   ],
-  async onAuthenticate({ documentName, token }) {
+  async onAuthenticate({ documentName, token, connection }) {
+    const tokens = extractTokens(token)
+    console.log(tokens)
     const data = {
-      token: token,
+      token: tokens.collaborationToken,
       hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
-      pageId: documentName.substring(5)
+      pageId: documentName.substring(5),
+      shareToken: tokens.shareToken
     }
-    await axios.post(`${process.env.BACKEND_BASE_URL}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
-      if (response.status === 200 && response.data === true) 
+    await axios.post(`${process.env.BACKEND_BASE_URL}/apiVue/Hocuspocus/Authorize`, data).then(function (response) {
+      if (response.status === 200 && response.data.canView === true) {
+
+        if (response.data.canEdit === false)
+          connection.readOnly = true
+
         return
+      }
       else 
         throw new Error("Not authorized!")
     })

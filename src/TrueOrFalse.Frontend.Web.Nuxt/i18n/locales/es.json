@@ -281,7 +281,9 @@
                 "one": "1 vista",
                 "other": "{count} vistas"
             },
-            "authorProfilePicture": "Foto de perfil de {name}"
+            "authorProfilePicture": "Foto de perfil de {name}",
+            "sharePage": "Compartir",
+            "sharedUserProfilePicture": "Foto de perfil de {name}"
         },
         "tabs": {
             "text": "Texto",
@@ -689,6 +691,67 @@
                 },
                 "keepParents": "Conservar los vínculos con las páginas/Wikis superiores (opcional)"
             }
+        },
+        "sharing": {
+            "modal": {
+                "titleManage": "Gestionar acceso a la página",
+                "titleShareWith": "Compartir con {user}",
+                "close": "Listo",
+                "cancel": "Cancelar",
+                "shareWithUser": "Compartir",
+                "pendingChanges": "Cambios pendientes",
+                "saveChanges": "Guardar",
+                "info": "Al compartir páginas se incluirán todas las preguntas",
+                "loginInfo": "Solo los usuarios que hayan iniciado sesión pueden editar páginas compartidas"
+            },
+            "permission": {
+                "label": "Nivel de permiso",
+                "view": "Lector",
+                "edit": "Editor",
+                "viewWithChildren": "Lector (incl. subpáginas)",
+                "editWithChildren": "Editor (incl. subpáginas)",
+                "restrictAccess": "Restringir acceso",
+                "description": {
+                    "0": "El usuario puede solo ver esta página",
+                    "1": "El usuario puede editar contenido en esta página",
+                    "2": "El usuario puede ver esta página y todas las {count} subpáginas",
+                    "3": "El usuario puede editar esta página y todas las {count} subpáginas"
+                },
+                "removing": "Eliminar",
+                "remove": "Quitar acceso",
+                "creator": "Creador",
+                "inheritedFrom": "Derechos heredados de:"
+            },
+            "search": {
+                "placeholder": "Busca usuarios para compartir..."
+            },
+            "existingShares": {
+                "title": "Personas con acceso",
+                "none": "Nadie tiene acceso a esta página todavía"
+            },
+            "notification": {
+                "send": "Notificar al usuario sobre este acceso",
+                "message": "Añadir un mensaje personalizado (opcional)",
+                "placeholder": "Escribe tu mensaje aquí..."
+            },
+            "link": {
+                "title": "Compartir por enlace secreto",
+                "copy": "Copiar enlace",
+                "renew": "Reiniciar enlace",
+                "info": "Cualquier persona con el enlace podrá acceder a esta página con permisos de visualización.",
+                "publicDescription": "Cualquiera con el enlace secreto puede acceder a esta página.",
+                "restrictedDescription": "Solo las personas con acceso pueden ver esta página.",
+                "includeToken": "Incluir clave de acceso",
+                "shareViaLink": "Cualquiera con el enlace",
+                "restrict": "Restringido",
+                "renewTooltip": "Al reiniciar el enlace se invalidará el enlace anterior."
+            },
+            "inherited": {
+                "removeTitle": "¿Quitar de la página superior?",
+                "description": "{userName} tiene acceso a '{pageName}' a través de la página superior '{parentName}'. Eliminar el acceso desde la página superior facilitará la gestión de permisos.",
+                "removeAccess": "Quitar de la página",
+                "removeFromParent": "Quitar de la página superior"
+            }
         }
     },
     "knowledgeStatus": {
@@ -959,8 +1022,7 @@
             "contactReason": "para que podamos conservar tu valioso contenido y eliminar tu perfil por ti."
         },
         "wuwi": {
-            "showWuwi": "Mostrar Conocimiento deseado",
-            "explanation": "Si está activado, será visible públicamente qué preguntas están en tu Conocimiento deseado (excepto las preguntas privadas). No se muestran estadísticas de respuestas."
+            "showWuwi": "Mostrar Conocimiento deseado"
         },
         "supportLogin": {
             "allow": "Permitir inicio de sesión de soporte",

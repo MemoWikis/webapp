@@ -50,7 +50,7 @@ public class SearchHelper
         int userId,
         int[] pageIdsToFilter = null) => items.AddRange(
         elements.Pages
-            .Where(c => c.Visibility == PageVisibility.All &&
+            .Where(c => c.Visibility == PageVisibility.Public &&
                         (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)))
             .Select(c => FillSearchPageItem(c, userId))
     );
@@ -61,9 +61,9 @@ public class SearchHelper
 
         if (hasPublicQuestion)
         {
-            if (breadcrumb.Items.Any(i => i.Page.Visibility == PageVisibility.All))
+            if (breadcrumb.Items.Any(i => i.Page.Visibility == PageVisibility.Public))
             {
-                breadcrumbItem = breadcrumb.Items.Last(i => i.Page.Visibility == PageVisibility.All);
+                breadcrumbItem = breadcrumb.Items.Last(i => i.Page.Visibility == PageVisibility.Public);
                 return breadcrumbItem.Page.Id;
             }
 

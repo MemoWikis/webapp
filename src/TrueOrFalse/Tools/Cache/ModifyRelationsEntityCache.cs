@@ -28,8 +28,8 @@ public class ModifyRelationsEntityCache
         PageCacheItem childPage)
     {
         var allParentsArePrivate =
-            parentPages.All(c => c.Visibility != PageVisibility.All);
-        var childIsPublic = childPage.Visibility == PageVisibility.All;
+            parentPages.All(c => c.Visibility != PageVisibility.Public);
+        var childIsPublic = childPage.Visibility == PageVisibility.Public;
 
         if (!parentPages.Any() || allParentsArePrivate && childIsPublic)
             return false;

@@ -23,7 +23,7 @@ export class Page {
     directVisibleChildPageCount: number = 0
     views: number = 0
     commentCount: number = 0
-    visibility: Visibility = Visibility.Owner
+    visibility: Visibility = Visibility.Private
     authorIds: number[] = []
     isWiki: boolean = false
     currentUserIsCreator: boolean = false
@@ -49,11 +49,20 @@ export class Page {
     viewsLast30DaysAggregatedQuestions: ViewSummary[] | null = null
     viewsLast30DaysQuestions: ViewSummary[] | null = null
     language: "de" | "en" | "fr" | "es" = "en"
+    canEdit: boolean = false
+    isShared: boolean = false
+    sharedWith: SharedWithUser[] | null = null
 }
 
 export interface ViewSummary {
     count: number
     date: string
+}
+
+export interface SharedWithUser {
+    id: number
+    name: string
+    imgUrl: string
 }
 
 export interface KnowledgeSummary {
@@ -140,10 +149,16 @@ export const usePageStore = defineStore("pageStore", {
             text: "",
             selectedText: "",
             contentLanguage: "en" as "en" | "de" | "fr" | "es",
+            canEdit: false,
+            shareToken: null as string | null,
+            isShared: false,
+            sharedWith: [] as SharedWithUser[],
         }
     },
     actions: {
         setPage(page: Page) {
+            this.shareToken = null
+
             if (page != null) {
                 this.id = page.id
                 this.name = page.name
@@ -189,6 +204,9 @@ export const usePageStore = defineStore("pageStore", {
                 this.selectedText = ""
 
                 this.contentLanguage = page.language
+                this.canEdit = page.canEdit
+                this.isShared = page.isShared
+                this.sharedWith = page.sharedWith || []
             }
         },
         async saveContent() {
@@ -210,6 +228,7 @@ export const usePageStore = defineStore("pageStore", {
             const data = {
                 id: this.id,
                 content: this.content,
+                shareToken: this.shareToken,
             }
 
             const result = await $api<FetchResult<boolean>>(
@@ -236,7 +255,10 @@ export const usePageStore = defineStore("pageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result.success == true && this.visibility != Visibility.Owner) {
+            if (
+                result.success == true &&
+                this.visibility != Visibility.Private
+            ) {
                 const data: SnackbarData = {
                     type: "success",
                     text: { message: $i18n.t("success.page.saved") },
@@ -248,7 +270,7 @@ export const usePageStore = defineStore("pageStore", {
                 if (
                     !(
                         result.messageKey === "error.page.noChange" &&
-                        this.visibility == Visibility.Owner
+                        this.visibility == Visibility.Private
                     )
                 ) {
                     const alertStore = useAlertStore()
@@ -264,13 +286,12 @@ export const usePageStore = defineStore("pageStore", {
         },
         async saveName() {
             const userStore = useUserStore()
-            const snackbarStore = useSnackbarStore()
 
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
                 return
             }
-            if (this.name == this.initialName) return
+            if (this.name === this.initialName) return
 
             await this.waitUntilAllUploadsComplete()
             await this.waitUntilAllSavingsComplete()
@@ -281,6 +302,7 @@ export const usePageStore = defineStore("pageStore", {
             const data = {
                 id: this.id,
                 name: this.name,
+                shareToken: this.shareToken,
             }
 
             const result = await $api<FetchResult<boolean>>(
@@ -307,19 +329,21 @@ export const usePageStore = defineStore("pageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result.success == true && this.visibility != Visibility.Owner) {
+            if (result.success && this.visibility != Visibility.Private) {
                 const data: SnackbarData = {
                     type: "success",
                     text: { message: $i18n.t("success.page.saved") },
                 }
+                const snackbarStore = useSnackbarStore()
+
                 snackbarStore.showSnackbar(data)
                 this.initialName = this.name
                 this.nameHasChanged = false
-            } else if (result.success == false && result.messageKey != null) {
+            } else if (result.success === false && result.messageKey != null) {
                 if (
                     !(
                         result.messageKey === "error.page.noChange" &&
-                        this.visibility == Visibility.Owner
+                        this.visibility === Visibility.Private
                     )
                 ) {
                     const alertStore = useAlertStore()
@@ -596,6 +620,9 @@ export const usePageStore = defineStore("pageStore", {
             )
 
             this.questionCount = result
+        },
+        setToken(token: string) {
+            this.shareToken = token
         },
     },
     getters: {

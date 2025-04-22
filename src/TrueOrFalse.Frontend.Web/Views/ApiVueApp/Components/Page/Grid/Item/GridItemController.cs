@@ -22,7 +22,9 @@ public class GridItemController(
         var page = EntityCache.GetPage(id);
         if (!_permissionCheck.CanView(page))
             return new GetChildrenResult(
-                Success: false, MessageKey: FrontendMessageKeys.Error.Page.MissingRights);
+                Success: false,
+                MessageKey: FrontendMessageKeys.Error.Page.MissingRights);
+
         var children = new PageGridManager(
             _permissionCheck,
             _sessionUser,
@@ -30,6 +32,7 @@ public class GridItemController(
             _httpContextAccessor,
             _knowledgeSummaryLoader,
             _questionReadingRepo).GetChildren(id);
+
         return new GetChildrenResult(Success: true, MessageKey: "", Data: children);
     }
 

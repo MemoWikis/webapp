@@ -119,4 +119,22 @@ public class SideSheetController(
     }
 
     public readonly record struct RecentPageItem(string Name, int Id);
+
+    // Section: Shared Pages
+
+    [HttpGet]
+    public IList<SharedPageItem> GetSharedPages()
+    {
+        if (!_sessionUser.IsLoggedIn)
+            return new List<SharedPageItem>();
+
+        var userCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
+
+        return userCacheItem.SharedPages
+            .Where(p => p != null)
+            .Select(p => new SharedPageItem(p.Name, p.Id))
+            .ToList();
+    }
+
+    public readonly record struct SharedPageItem(string Name, int Id);
 }

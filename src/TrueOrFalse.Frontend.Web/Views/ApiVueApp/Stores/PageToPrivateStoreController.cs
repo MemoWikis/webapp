@@ -43,10 +43,10 @@ public class PageToPrivateStoreController(
             };
 
         var aggregatedPages = pageCacheItem.AggregatedPages(_permissionCheck)
-            .Where(c => c.Value.Visibility == PageVisibility.All);
+            .Where(c => c.Value.Visibility == PageVisibility.Public);
         var publicAggregatedQuestions = pageCacheItem
-            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true)
-            .Where(q => q.Visibility == QuestionVisibility.All).ToList();
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true, permissionCheck: _permissionCheck)
+            .Where(q => q.Visibility == QuestionVisibility.Public).ToList();
         var pinCount = pageCacheItem.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
@@ -61,7 +61,7 @@ public class PageToPrivateStoreController(
             {
                 var parents = c.Value.Parents();
                 bool childHasPublicParent = parents.Any(p =>
-                    p.Visibility == PageVisibility.All && p.Id != id);
+                    p.Visibility == PageVisibility.Public && p.Id != id);
 
                 if (!childHasPublicParent && parents.Any(p => p.Id != id))
                     return new GetResult
@@ -148,13 +148,13 @@ public class PageToPrivateStoreController(
                 };
 
             var aggregatedPages = pageCacheItem.AggregatedPages(_permissionCheck, false)
-                .Where(c => c.Value.Visibility == PageVisibility.All);
+                .Where(c => c.Value.Visibility == PageVisibility.Public);
 
             foreach (var c in aggregatedPages)
             {
                 var parents = c.Value.Parents();
                 bool childHasPublicParent = parents.Any(p =>
-                    p.Visibility == PageVisibility.All && p.Id != id);
+                    p.Visibility == PageVisibility.Public && p.Id != id);
 
                 if (!childHasPublicParent && parents.Any(p => p.Id != id))
                     return new SetResult
@@ -174,8 +174,8 @@ public class PageToPrivateStoreController(
             }
         }
 
-        pageCacheItem.Visibility = PageVisibility.Owner;
-        page.Visibility = PageVisibility.Owner;
+        pageCacheItem.Visibility = PageVisibility.Private;
+        page.Visibility = PageVisibility.Private;
         pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Privatized);
 
         return new SetResult
@@ -203,10 +203,10 @@ public class PageToPrivateStoreController(
                  !otherUsersHaveQuestionInWuwi) ||
                 _sessionUser.IsInstallationAdmin)
             {
-                questionCacheItem.Visibility = QuestionVisibility.Owner;
+                questionCacheItem.Visibility = QuestionVisibility.Private;
                 EntityCache.AddOrUpdate(questionCacheItem);
                 var question = _questionReadingRepo.GetById(questionId);
-                question.Visibility = QuestionVisibility.Owner;
+                question.Visibility = QuestionVisibility.Private;
                 _questionWritingRepo.UpdateOrMerge(question, false);
             }
         }

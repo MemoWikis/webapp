@@ -32,7 +32,7 @@
 
         page.Creator = _userReadingRepo.GetById(sessionUser.UserId);
         page.Type = PageType.Standard;
-        page.Visibility = PageVisibility.Owner;
+        page.Visibility = PageVisibility.Private;
         page.Language = sessionUser.User.UiLanguage;
         _pageRepository.Create(page);
 

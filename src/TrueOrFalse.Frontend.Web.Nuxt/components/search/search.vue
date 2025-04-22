@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { FullSearch, QuestionItem, SearchType, PageItem, UserItem } from './searchHelper'
 import { ImageFormat } from '../image/imageFormatEnum'
+import { useUserStore } from '../user/userStore'
 
 interface Props {
     searchType: SearchType
@@ -14,6 +15,7 @@ interface Props {
     mainSearch?: boolean
     distance?: number
     publicOnly?: boolean
+    hideCurrentUser?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -22,6 +24,8 @@ const props = withDefaults(defineProps<Props>(), {
     pageIdsToFilter: () => [],
     distance: 6
 })
+
+const userStore = useUserStore()
 
 const { t, locale } = useI18n()
 const placeHolderText = ref()
@@ -71,6 +75,9 @@ onBeforeMount(() => {
             break
         case SearchType.pageInWiki:
             searchUrl.value = '/apiVue/Search/PageInPersonalWiki'
+            break
+        case SearchType.users:
+            searchUrl.value = '/apiVue/Search/Users'
             break
         default:
             searchUrl.value = '/apiVue/Search/All'
@@ -131,6 +138,16 @@ async function search() {
             questionCount.value = result.questionCount
         }
         if (result.users) {
+            if (props.hideCurrentUser) {
+                const usersBeforeFilter = result.users
+                const usersAfterFilter = usersBeforeFilter.filter((u) => u.id !== userStore.id)
+                result.users = usersAfterFilter
+                const removedCount = usersBeforeFilter.length - usersAfterFilter.length
+                if (removedCount > 0) {
+                    result.userCount -= removedCount
+                }
+            }
+
             users.value = result.users
             users.value.forEach((u) => u.type = 'UserItem')
             userCount.value = result.userCount

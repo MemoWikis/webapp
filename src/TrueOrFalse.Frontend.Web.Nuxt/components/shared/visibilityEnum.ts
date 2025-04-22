@@ -1,5 +1,4 @@
 export enum Visibility {
-    All = 0,
-    Owner = 1,
-    OwnerAndFriends = 2
-  }
+    Public = 0,
+    Private = 1,
+}

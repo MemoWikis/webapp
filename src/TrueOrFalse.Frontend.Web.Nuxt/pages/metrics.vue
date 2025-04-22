@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Site } from '~/components/shared/siteEnum'
+import { SiteType } from '~/components/shared/siteEnum'
 import { color } from '~/components/shared/colors'
 import { SectionChart } from '~/components/metrics/sectionChart'
 
@@ -304,7 +304,7 @@ const privateCreatedQuestionsCharts = computed(() => {
 })
 
 const emit = defineEmits(['setPage', 'setBreadcrumb'])
-emit('setPage', Site.Metrics)
+emit('setPage', SiteType.Metrics)
 emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
 
 </script>

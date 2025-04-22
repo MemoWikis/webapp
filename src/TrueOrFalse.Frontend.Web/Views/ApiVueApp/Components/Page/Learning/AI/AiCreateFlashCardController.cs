@@ -79,7 +79,7 @@ public class AiCreateFlashCardController(
 
         var limitCheck = new LimitCheck(_logg, _sessionUser);
 
-        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(pageId).Visibility != PageVisibility.All)
+        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(pageId).Visibility != PageVisibility.Public)
             return null;
 
         var question = new Question
@@ -100,7 +100,7 @@ public class AiCreateFlashCardController(
         {
             pageRepository.GetById(pageId)
         };
-        question.Visibility = limitCheck.CanSavePrivateQuestion() ? QuestionVisibility.Owner : QuestionVisibility.All;
+        question.Visibility = limitCheck.CanSavePrivateQuestion() ? QuestionVisibility.Private : QuestionVisibility.Public;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
         _questionWritingRepo.Create(question, pageRepository);

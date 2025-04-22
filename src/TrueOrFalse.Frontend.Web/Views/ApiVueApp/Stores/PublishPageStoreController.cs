@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp
 {
@@ -10,7 +10,8 @@ namespace VueApp
         PageRepository pageRepository,
         QuestionReadingRepo _questionReadingRepo,
         QuestionWritingRepo _questionWritingRepo,
-        ExtendedUserCache _extendedUserCache) : Controller
+        ExtendedUserCache _extendedUserCache,
+        SharesRepository _sharesRepository) : Controller
     {
         public readonly record struct PublishPageJson(int id);
 
@@ -38,11 +39,14 @@ namespace VueApp
                             MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot
                         };
 
-                    pageCacheItem.Visibility = PageVisibility.All;
+                    pageCacheItem.Visibility = PageVisibility.Public;
                     var page = pageRepository.GetById(json.id);
-                    page.Visibility = PageVisibility.All;
+                    page.Visibility = PageVisibility.Public;
                     pageRepository.Update(page, _sessionUser.UserId,
                         type: PageChangeType.Published);
+
+                    SharesService.RemoveAllSharesForPage(pageCacheItem.Id, _sharesRepository);
+
                     return new PublishPageResult
                     {
                         Success = true,
@@ -76,10 +80,10 @@ namespace VueApp
                     EntityCache.GetQuestionById(questionId);
                 if (questionCacheItem.Creator.Id == _sessionUser.User.Id)
                 {
-                    questionCacheItem.Visibility = QuestionVisibility.All;
+                    questionCacheItem.Visibility = QuestionVisibility.Public;
                     EntityCache.AddOrUpdate(questionCacheItem);
                     var question = _questionReadingRepo.GetById(questionId);
-                    question.Visibility = QuestionVisibility.All;
+                    question.Visibility = QuestionVisibility.Public;
                     _questionWritingRepo.UpdateOrMerge(question, false);
                 }
             }
@@ -105,7 +109,7 @@ namespace VueApp
                 };
 
             var filteredAggregatedQuestions = pageCacheItem
-                .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
+                .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, permissionCheck: _permissionCheck)
                 .Where(q =>
                     q.Creator != null &&
                     q.Creator.Id == userCacheItem.Id &&

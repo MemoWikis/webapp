@@ -1,19 +1,16 @@
-﻿
-public class PermissionCheck : IRegisterAsInstancePerLifetime
+﻿public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
+    private readonly bool _isLoggedIn;
+    private Dictionary<int, string> _shareTokens = new Dictionary<int, string>();
 
     public PermissionCheck(SessionUser sessionUser)
     {
         _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
         _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
-    }
-
-    public PermissionCheck(UserCacheItem userCacheItem)
-    {
-        _userId = userCacheItem.Id;
-        _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
+        _isLoggedIn = sessionUser.SessionIsActive() && sessionUser.IsLoggedIn;
+        _shareTokens = sessionUser.ShareTokens;
     }
 
     public PermissionCheck(int userId)
@@ -21,6 +18,13 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         var userCacheItem = EntityCache.GetUserById(userId);
         _userId = userCacheItem.Id;
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
+        _isLoggedIn = false;
+        _shareTokens = userCacheItem.TempShareTokens;
+    }
+
+    public void OverWriteShareTokens(Dictionary<int, string> shareTokens)
+    {
+        _shareTokens = shareTokens;
     }
 
     //setter is for tests
@@ -28,32 +32,58 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
     public bool CanView(Page page) => CanView(EntityCache.GetPage(page.Id));
     public bool CanView(PageCacheItem? page) => CanView(_userId, page);
 
-    public bool CanView(int userId, PageCacheItem? page)
+    public bool CanView(PageCacheItem? page, string shareToken) => CanView(_userId, page, shareToken);
+
+
+    public bool CanView(int userId, PageCacheItem? page, string? token = null)
     {
         if (page == null)
             return false;
 
-        if (page.Visibility == PageVisibility.All)
+        if (page.Visibility == PageVisibility.Public)
             return true;
 
-        if (page.Visibility == PageVisibility.Owner && page.CreatorId == userId)
+        if (page.Visibility == PageVisibility.Private && page.CreatorId == userId)
             return true;
 
-        return false;
+        var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.SharedWith?.Id == _userId);
+        if (shareInfos.Any(s => s.Permission is SharePermission.RestrictAccess))
+            return false;
+
+        if (token != null || _shareTokens.Any())
+        {
+            var shareInfosByToken = EntityCache.GetPageShares(page.Id);
+            _shareTokens.TryGetValue(page.Id, out var sessionUserToken);
+            var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
+            if (shareByToken != null && shareByToken.Permission != SharePermission.RestrictAccess)
+                return true;
+
+            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _shareTokens);
+            return closestSharePermissionByToken is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
+        }
+
+        if (shareInfos.Any(s => s.Permission is SharePermission.Edit
+                or SharePermission.EditWithChildren
+                or SharePermission.View
+                or SharePermission.ViewWithChildren))
+            return true;
+
+        var closestSharePermission = SharesService.GetClosestParentSharePermissionByUserId(page.Id, _userId);
+        return closestSharePermission is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
     }
 
     public bool CanView(int creatorId, PageVisibility visibility)
     {
-        if (visibility == PageVisibility.All)
+        if (visibility == PageVisibility.Public)
             return true;
 
-        if (visibility == PageVisibility.Owner && creatorId == _userId)
+        if (visibility == PageVisibility.Private && creatorId == _userId)
             return true;
 
         return false;
     }
-
-    public bool CanEditPage(int paegId) => CanEdit(EntityCache.GetPage(paegId));
+    public bool CanEditPage(int pageId, string? token, bool isLoggedIn = false) => CanEdit(EntityCache.GetPage(pageId), token, isLoggedIn);
+    public bool CanEditPage(int pageId) => CanEdit(EntityCache.GetPage(pageId));
     public bool CanEdit(Page page) => CanEdit(EntityCache.GetPage(page.Id));
 
     public bool CanView(PageChange change)
@@ -64,7 +94,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
                CanView(change.Page.Creator.Id, change.GetPageChangeData().Visibility);
     }
 
-    public bool CanEdit(PageCacheItem page)
+    public bool CanEdit(PageCacheItem page, string? token = null, bool isLoggedIn = false)
     {
         if (_userId == default)
             return false;
@@ -75,10 +105,44 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (FeaturedPage.Lockedpage(page.Id) && !_isInstallationAdmin)
             return false;
 
-        if (!CanView(page))
+        if (!CanView(page, token))
             return false;
 
-        return true;
+        if (page.CreatorId == _userId || _isInstallationAdmin)
+            return true;
+
+        if ((token != null || _shareTokens.Any()) && (_isLoggedIn || isLoggedIn))
+        {
+            var shareInfosByToken = EntityCache.GetPageShares(page.Id);
+            _shareTokens.TryGetValue(page.Id, out var sessionUserToken);
+            var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
+            if (shareByToken != null)
+            {
+                if (shareByToken.Permission == SharePermission.RestrictAccess)
+                    return false;
+
+                if (shareByToken.Permission == SharePermission.View ||
+                    shareByToken.Permission == SharePermission.ViewWithChildren)
+                    return false;
+
+                if (shareByToken.Permission == SharePermission.Edit ||
+                    shareByToken.Permission == SharePermission.EditWithChildren)
+                    return true;
+            }
+
+            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _shareTokens);
+            return closestSharePermissionByToken == SharePermission.EditWithChildren;
+        }
+
+        var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.SharedWith?.Id == _userId);
+        if (shareInfos.Any(s => s.Permission is SharePermission.Edit or SharePermission.EditWithChildren))
+            return true;
+
+        if (shareInfos.Any(s => s.Permission is SharePermission.View or SharePermission.ViewWithChildren))
+            return false;
+
+        var closestSharePermission = SharesService.GetClosestParentSharePermissionByUserId(page.Id, _userId);
+        return closestSharePermission == SharePermission.EditWithChildren;
     }
 
     public bool CanConvertPage(PageCacheItem page)
@@ -126,7 +190,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             || oldParent.Id == 0)
             return false;
 
-        if (FeaturedPage.RootPageId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.All)
+        if (FeaturedPage.RootPageId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.Public)
             return false;
 
         return _isInstallationAdmin || movingPage.CreatorId == _userId || oldParent.CreatorId == _userId;
@@ -139,11 +203,48 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (question == null || question.Id == 0)
             return false;
 
-        if (question.Visibility == QuestionVisibility.All)
+        // Public questions are visible to everyone
+        if (question.Visibility == QuestionVisibility.Public)
             return true;
 
-        if (question.Visibility == QuestionVisibility.Owner && question.CreatorId == _userId)
+        // Owner can see their own questions
+        if (question.Visibility == QuestionVisibility.Private && question.CreatorId == _userId)
             return true;
+
+        // Check if any page associated with the question grants view permission
+        if (question.Pages?.Any() == true)
+        {
+            foreach (var page in question.Pages)
+            {
+                // Check direct token shares for the page
+                var shareInfosByToken = EntityCache.GetPageShares(page.Id);
+                _shareTokens.TryGetValue(page.Id, out var sessionUserToken);
+                var shareByToken = shareInfosByToken.FirstOrDefault(share =>
+                    share.Token == sessionUserToken &&
+                    share.Permission != SharePermission.RestrictAccess);
+
+                if (shareByToken != null)
+                    return true;
+
+                // Also check parent pages with children access
+                var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(
+                    page.Id, _shareTokens);
+
+                if (closestSharePermissionByToken is SharePermission.EditWithChildren
+                    or SharePermission.ViewWithChildren)
+                    return true;
+
+                // Check user-specific shares
+                var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.SharedWith?.Id == _userId);
+                if (shareInfos.Any(s => s.Permission != SharePermission.RestrictAccess))
+                    return true;
+
+                var closestSharePermission = SharesService.GetClosestParentSharePermissionByUserId(page.Id, _userId);
+                if (closestSharePermission is SharePermission.EditWithChildren
+                    or SharePermission.ViewWithChildren)
+                    return true;
+            }
+        }
 
         return false;
     }

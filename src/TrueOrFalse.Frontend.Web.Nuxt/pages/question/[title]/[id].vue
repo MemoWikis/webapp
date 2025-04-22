@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
-import { Site } from '~/components/shared/siteEnum'
+import { SiteType } from '~/components/shared/siteEnum'
 import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
@@ -12,7 +12,7 @@ const { $logger } = useNuxtApp()
 const userStore = useUserStore()
 
 interface Props {
-	site: Site
+	site: SiteType
 }
 
 const props = defineProps<Props>()
@@ -64,7 +64,7 @@ function highlightCode(id: string) {
 }
 const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
-	emit('setPage', Site.Question)
+	emit('setPage', SiteType.Question)
 
 	if (question.value?.answerBodyModel != null)
 		emit('setQuestionPageData', {

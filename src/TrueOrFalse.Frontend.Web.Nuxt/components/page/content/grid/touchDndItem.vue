@@ -116,7 +116,7 @@ async function prepareDragStart() {
         return
     }
 
-    if (props.parentVisibility === Visibility.All && !userStore.gridInfoShown) {
+    if (props.parentVisibility === Visibility.Public && !userStore.gridInfoShown) {
         snackbar.add({
             type: 'warning',
             title: '',

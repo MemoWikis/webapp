@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { Site } from '../shared/siteEnum'
+import { SiteType } from '../shared/siteEnum'
 import { usePageStore } from '../page/pageStore'
 import { Visibility } from '../shared/visibilityEnum'
 
 interface Props {
     isError?: boolean
-    site: Site,
+    site: SiteType,
     questionPageIsPrivate?: boolean
 }
 
@@ -22,7 +22,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <section id="GlobalLicense" v-if="(props.site === Site.Page && pageStore.visibility === Visibility.All) || (props.site === Site.Question && !props.questionPageIsPrivate)">
+    <section id="GlobalLicense" v-if="(props.site === SiteType.Page && pageStore.visibility === Visibility.Public) || (props.site === SiteType.Question && !props.questionPageIsPrivate)">
         <div class="license-container row">
             <div class="license-text-container container">
                 <div class="row">
