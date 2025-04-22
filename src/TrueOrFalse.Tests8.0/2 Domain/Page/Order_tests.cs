@@ -380,13 +380,16 @@
     {
         //Arrange
         var context = ContextPage.New();
+        var authorId = 1;
 
-        context.Add("root").Persist();
+        var creator = new User { Id = authorId };
+
+        context.Add("root", creator: creator).Persist();
 
         context
-            .Add("sub1")
-            .Add("sub2")
-            .Add("sub1sub1")
+            .Add("sub1", creator: creator)
+            .Add("sub2", creator: creator)
+            .Add("sub1sub1", creator: creator)
             .Persist();
 
         var root = context.All.ByName("root");
@@ -406,12 +409,11 @@
         var cachedSub1 = EntityCache.GetPage(sub1);
         var relationToMove = cachedSub1.ChildRelations[0];
         var pageRelationRepo = R<PageRelationRepo>();
-        var modifyRelationsForPage =
-            new ModifyRelationsForPage(R<PageRepository>(), pageRelationRepo);
+        var modifyRelationsForPage = new ModifyRelationsForPage(R<PageRepository>(), pageRelationRepo);
+        var permissionCheck = new PermissionCheck(authorId);
 
         //Act
-        PageOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForPage,
-            R<PermissionCheck>());
+        PageOrderer.MoveIn(relationToMove, sub2.Id, authorId, modifyRelationsForPage, permissionCheck);
 
         //Assert
         Assert.That(cachedSub1.ChildRelations.Count, Is.EqualTo(0));
