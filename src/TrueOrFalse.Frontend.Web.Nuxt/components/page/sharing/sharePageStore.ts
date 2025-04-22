@@ -152,6 +152,22 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
     const closeModal = () => {
         showModal.value = false
+        // reset all store values when closing modal
+        resetPendingChanges()
+        pageId.value = 0
+        pageName.value = ""
+        selectedUsers.value = []
+        existingShares.value = []
+        creator.value = null
+        markShareViaToken.value = false
+        currentToken.value = null
+        currentTokenPermission.value = SharePermission.View
+        // clear inherited share modal state
+        showInheritedShareModal.value = false
+        selectedInheritedUser.value = null
+
+        const pageStore = usePageStore()
+        pageStore.updateIsShared()
     }
 
     const addUser = (user: UserWithPermission) => {
@@ -324,6 +340,13 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
+    /**
+     * Returns true when a page is shared exclusively via token (no direct user shares)
+     */
+    const isExclusivelyTokenShared = (): boolean => {
+        return existingShares.value?.length === 0 && Boolean(currentToken.value)
+    }
+
     const shareToUser = async (
         userId: number,
         permission: SharePermission = SharePermission.View,
@@ -493,7 +516,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
                 text: { message: $i18n.t("success.token.renewed") },
                 duration: 4000,
             })
-            currentToken.value = result.token
+            updateShareToken(result.token)
 
             return { success: true }
         } else {
@@ -547,7 +570,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
                 text: { message: $i18n.t("success.token.copied") },
                 duration: 4000,
             })
-            currentToken.value = result.token
+            updateShareToken(result.token)
+
             return { success: true, token: result.token }
         } else {
             snackbarStore.showSnackbar({
@@ -557,6 +581,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             })
             return { success: false, token: null }
         }
+    }
+
+    const updateShareToken = (token: string | null) => {
+        currentToken.value = token
+        const pageStore = usePageStore()
+        pageStore.setToken(currentToken.value)
     }
 
     const removeShareToken = async () => {
@@ -724,11 +754,9 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
-    // Add a restriction for a user to block inherited access - mark for batch update
     const markUserForRestriction = (userId: number) => {
         const user = existingShares.value.find((u) => u.id === userId)
         if (user) {
-            // Add to pending permission changes with RestrictAccess
             pendingPermissionChanges.value.set(
                 userId,
                 SharePermission.RestrictAccess
@@ -736,13 +764,10 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
     }
 
-    // Special method to handle removing a user's access - determines if it's inherited or not
     const removeUserAccess = (userId: number) => {
-        // Check if this is an inherited share
         if (isInheritedShare(userId)) {
             openInheritedShareModal(userId)
         } else {
-            // Direct share - mark for normal removal
             markUserForRemoval(userId)
         }
     }
@@ -787,6 +812,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         updateLinkPermission,
 
         shareViaToken,
+        isExclusivelyTokenShared,
         isInheritedShare,
         openInheritedShareModal,
         closeInheritedShareModal,
