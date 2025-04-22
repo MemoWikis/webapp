@@ -708,9 +708,9 @@
             },
             "permission": {
                 "label": "Berechtigungsstufe",
-                "view": "Betrachter",
+                "view": "Leser",
                 "edit": "Bearbeiter",
-                "viewWithChildren": "Betrachter (inkl. Unterseiten)",
+                "viewWithChildren": "Leser (inkl. Unterseiten)",
                 "editWithChildren": "Bearbeiter (inkl. Unterseiten)",
                 "restrictAccess": "Zugriff einschränken",
                 "description": {
