@@ -14,10 +14,10 @@
         context
             .Add("Sub1")
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
-            .Add("SubSub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
+            .Add("SubSub2", visibility: PageVisibility.Private)
             .Add("SubSub1and2")
-            .Add("Sub3", visibility: PageVisibility.Owner)
+            .Add("Sub3", visibility: PageVisibility.Private)
             .Add("SubSub3")
             .Persist();
 
@@ -63,10 +63,10 @@
         context
             .Add("Sub1")
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
-            .Add("SubSub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
+            .Add("SubSub2", visibility: PageVisibility.Private)
             .Add("SubSub1and2")
-            .Add("Sub3", visibility: PageVisibility.Owner)
+            .Add("Sub3", visibility: PageVisibility.Private)
             .Add("SubSub3")
             .Persist();
 
@@ -105,7 +105,7 @@
         var children = context
             .Add("Sub1")
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
             .All;
 
@@ -131,7 +131,7 @@
         var children = context
             .Add("Sub1")
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
             .All;
 
@@ -160,7 +160,7 @@
         var children = context
             .Add("Sub1")
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
             .All;
 
@@ -191,10 +191,10 @@
         context
             .Add("Sub1")
             .Add("SubSub1")
-            .Add("Sub2", visibility: PageVisibility.Owner)
-            .Add("SubSub2", visibility: PageVisibility.Owner)
+            .Add("Sub2", visibility: PageVisibility.Private)
+            .Add("SubSub2", visibility: PageVisibility.Private)
             .Add("SubSub1and2")
-            .Add("Sub3", visibility: PageVisibility.Owner)
+            .Add("Sub3", visibility: PageVisibility.Private)
             .Add("SubSub3")
             .Persist();
 

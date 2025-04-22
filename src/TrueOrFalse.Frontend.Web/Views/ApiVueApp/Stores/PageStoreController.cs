@@ -309,7 +309,7 @@ public class PageStoreController(
 
         string? messageKey = null;
 
-        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(request.PageId).Visibility != PageVisibility.All)
+        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(request.PageId).Visibility != PageVisibility.Public)
         {
             messageKey = FrontendMessageKeys.Error.Ai.NoFlashcardsCreatedCauseLimitAndPageIsPrivate;
             return new GenerateFlashCardResponse(new List<AiFlashCard.FlashCard>(), messageKey);

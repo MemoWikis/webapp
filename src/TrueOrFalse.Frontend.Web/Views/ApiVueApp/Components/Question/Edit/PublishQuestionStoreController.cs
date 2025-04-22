@@ -30,7 +30,7 @@ public class PublishQuestionStoreController(
         if (!_permissionCheck.CanEditQuestion(id))
             return new PublishQuestionResponse(false, FrontendMessageKeys.Error.Question.Rights);
 
-        question.Visibility = QuestionVisibility.All;
+        question.Visibility = QuestionVisibility.Public;
         EntityCache.AddOrUpdate(question);
         _questionWritingRepo.Update(question);
 

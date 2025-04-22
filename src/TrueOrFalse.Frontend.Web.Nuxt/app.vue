@@ -107,7 +107,7 @@ userStore.$onAction(({ name, after }) => {
 					await refreshNuxtData()
 				} finally {
 					loadingStore.stopLoading()
-					if (site.value === SiteType.Page && pageStore.visibility != Visibility.All)
+					if (site.value === SiteType.Page && pageStore.visibility != Visibility.Public)
 						await navigateTo('/')
 				}
 			}

@@ -500,7 +500,7 @@ public class EntityCache
 
     public static IEnumerable<int> GetPrivatePageIdsFromUser(int userId) =>
         GetAllPagesList()
-            .Where(c => c.Creator.Id == userId && c.Visibility == PageVisibility.Owner)
+            .Where(c => c.Creator.Id == userId && c.Visibility == PageVisibility.Private)
             .Select(c => c.Id);
 
     public static List<PageCacheItem> GetByPageName(

@@ -217,7 +217,7 @@ convertStore.$onAction(({ name, after }) => {
                                 <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
                                     v-if="!pageStore.textIsHidden"
                                     v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)">
-                                    <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
+                                    <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
                                         <div class="ProseMirror content-placeholder" v-html="pageStore.content"
                                             id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                         </div>

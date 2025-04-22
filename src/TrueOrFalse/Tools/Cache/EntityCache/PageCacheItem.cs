@@ -53,7 +53,7 @@ public class PageCacheItem : IPersistable
 
     public virtual string UrlLinkText { get; set; }
     public virtual PageVisibility Visibility { get; set; }
-    public bool IsPublic => Visibility == PageVisibility.All;
+    public bool IsPublic => Visibility == PageVisibility.Public;
     public virtual string WikipediaURL { get; set; }
 
     public virtual int TotalViews { get; set; }
@@ -228,7 +228,7 @@ public class PageCacheItem : IPersistable
 
     public virtual bool HasPublicParent()
     {
-        return Parents().Any(c => c.Visibility == PageVisibility.All);
+        return Parents().Any(c => c.Visibility == PageVisibility.Public);
     }
 
     public bool IsWikiType()
@@ -599,10 +599,10 @@ public class PageCacheItem : IPersistable
     private bool IsVisibleForUser(int userId, FeedItem feedItem)
     {
         if (feedItem.PageChangeCacheItem != null)
-            return feedItem.PageChangeCacheItem.Visibility != PageVisibility.Owner || (feedItem.PageChangeCacheItem.AuthorId == userId || feedItem.PageChangeCacheItem.Page.CreatorId == userId);
+            return feedItem.PageChangeCacheItem.Visibility != PageVisibility.Private || (feedItem.PageChangeCacheItem.AuthorId == userId || feedItem.PageChangeCacheItem.Page.CreatorId == userId);
 
         if (feedItem.QuestionChangeCacheItem != null)
-            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || (feedItem.QuestionChangeCacheItem.AuthorId == userId || feedItem.QuestionChangeCacheItem.Question.CreatorId == userId);
+            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Private || (feedItem.QuestionChangeCacheItem.AuthorId == userId || feedItem.QuestionChangeCacheItem.Question.CreatorId == userId);
 
         return false;
     }

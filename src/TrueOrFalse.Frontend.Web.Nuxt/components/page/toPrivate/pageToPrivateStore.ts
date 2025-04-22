@@ -86,7 +86,7 @@ export const usePageToPrivateStore = defineStore("pageToPrivateStore", {
                 })
                 const pageStore = usePageStore()
                 if (pageStore.id == this.id)
-                    pageStore.visibility = Visibility.Owner
+                    pageStore.visibility = Visibility.Private
 
                 return {
                     success: true,

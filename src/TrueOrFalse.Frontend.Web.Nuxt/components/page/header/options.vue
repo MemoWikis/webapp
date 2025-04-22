@@ -37,7 +37,7 @@ const { t, localeProperties } = useI18n()
                 </div>
                 <template #popper="{ hide }">
 
-                    <template v-if="pageStore.visibility != Visibility.All">
+                    <template v-if="pageStore.visibility != Visibility.Public">
                         <div @click="sharePageStore.openModal(pageStore.id, pageStore.name); hide()" class="dropdown-row">
                             <div class="dropdown-icon">
                                 <font-awesome-icon icon="fa-solid fa-link" />
@@ -106,7 +106,7 @@ const { t, localeProperties } = useI18n()
                         </div>
                     </div>
 
-                    <div v-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.All" class="dropdown-row" @click="pageToPrivateStore.openModal(pageStore.id); hide()">
+                    <div v-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Public" class="dropdown-row" @click="pageToPrivateStore.openModal(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-lock" />
                         </div>
@@ -114,7 +114,7 @@ const { t, localeProperties } = useI18n()
                             {{ t('page.header.setToPrivate') }}
                         </div>
                     </div>
-                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Owner" class="dropdown-row" @click="publishPageStore.openModal(pageStore.id); hide()">
+                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Private" class="dropdown-row" @click="publishPageStore.openModal(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-unlock" />
                         </div>
@@ -167,12 +167,12 @@ const { t, localeProperties } = useI18n()
                 </template>
             </VDropdown>
         </div>
-        <div class="lock-btn" v-if="pageStore.visibility === Visibility.Owner" @mouseover="hoverLock = true" @mouseleave="hoverLock = false" @click="publishPageStore.openModal(pageStore.id)">
+        <div class="lock-btn" v-if="pageStore.visibility === Visibility.Private" @mouseover="hoverLock = true" @mouseleave="hoverLock = false" @click="publishPageStore.openModal(pageStore.id)">
             <font-awesome-icon icon="fa-solid fa-lock" v-show="!hoverLock" />
             <font-awesome-icon icon="fa-solid fa-unlock" v-show="hoverLock" />
         </div>
 
-        <div class="share-btn" v-if="pageStore.visibility != Visibility.All" @click="sharePageStore.openModal(pageStore.id, pageStore.name)">
+        <div class="share-btn" v-if="pageStore.visibility != Visibility.Public" @click="sharePageStore.openModal(pageStore.id, pageStore.name)">
             <font-awesome-icon :icon="['fas', 'user-group']" v-if="pageStore.isShared" />
             <font-awesome-icon :icon="['fas', 'user-plus']" v-else />
         </div>

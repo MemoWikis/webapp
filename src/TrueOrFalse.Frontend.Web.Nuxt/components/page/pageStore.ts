@@ -23,7 +23,7 @@ export class Page {
     directVisibleChildPageCount: number = 0
     views: number = 0
     commentCount: number = 0
-    visibility: Visibility = Visibility.Owner
+    visibility: Visibility = Visibility.Private
     authorIds: number[] = []
     isWiki: boolean = false
     currentUserIsCreator: boolean = false
@@ -255,7 +255,10 @@ export const usePageStore = defineStore("pageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result.success == true && this.visibility != Visibility.Owner) {
+            if (
+                result.success == true &&
+                this.visibility != Visibility.Private
+            ) {
                 const data: SnackbarData = {
                     type: "success",
                     text: { message: $i18n.t("success.page.saved") },
@@ -267,7 +270,7 @@ export const usePageStore = defineStore("pageStore", {
                 if (
                     !(
                         result.messageKey === "error.page.noChange" &&
-                        this.visibility == Visibility.Owner
+                        this.visibility == Visibility.Private
                     )
                 ) {
                     const alertStore = useAlertStore()
@@ -326,7 +329,7 @@ export const usePageStore = defineStore("pageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result.success && this.visibility != Visibility.Owner) {
+            if (result.success && this.visibility != Visibility.Private) {
                 const data: SnackbarData = {
                     type: "success",
                     text: { message: $i18n.t("success.page.saved") },
@@ -340,7 +343,7 @@ export const usePageStore = defineStore("pageStore", {
                 if (
                     !(
                         result.messageKey === "error.page.noChange" &&
-                        this.visibility === Visibility.Owner
+                        this.visibility === Visibility.Private
                     )
                 ) {
                     const alertStore = useAlertStore()

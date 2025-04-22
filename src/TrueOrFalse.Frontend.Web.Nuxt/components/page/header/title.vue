@@ -91,7 +91,7 @@ watch(() => tabsStore.activeTab, (val: any) => {
 
 const autoSaveTimer = ref()
 const autoSave = () => {
-    if (pageStore.visibility != Visibility.Owner)
+    if (pageStore.visibility != Visibility.Private)
         return
 
     if (autoSaveTimer.value) {
@@ -107,7 +107,7 @@ onBeforeMount(() => {
 
     watch(() => pageStore.name, (newName) => {
         if (pageStore.initialName != newName) {
-            if (pageStore.visibility === Visibility.Owner)
+            if (pageStore.visibility === Visibility.Private)
                 autoSave()
             else
                 pageStore.nameHasChanged = true

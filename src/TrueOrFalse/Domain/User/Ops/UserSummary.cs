@@ -17,7 +17,7 @@ public class UserSummary : IRegisterAsInstancePerLifetime
             .Where(q => q.Creator != null && q.Creator.Id == creatorId);
 
         if (!includePrivateQuestions)
-            query = query.Where(q => q.Visibility == QuestionVisibility.All);
+            query = query.Where(q => q.Visibility == QuestionVisibility.Public);
 
         return query.FutureValue<int>().Value;
     }
@@ -30,7 +30,7 @@ public class UserSummary : IRegisterAsInstancePerLifetime
             .Where(c => c.Creator != null && c.Creator.Id == creatorId);
 
         if (!includePrivatePages)
-            query = query.Where(q => q.Visibility == PageVisibility.All);
+            query = query.Where(q => q.Visibility == PageVisibility.Public);
 
         return query.FutureValue<int>().Value;
     }

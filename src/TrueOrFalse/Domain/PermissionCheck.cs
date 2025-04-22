@@ -40,10 +40,10 @@
         if (page == null)
             return false;
 
-        if (page.Visibility == PageVisibility.All)
+        if (page.Visibility == PageVisibility.Public)
             return true;
 
-        if (page.Visibility == PageVisibility.Owner && page.CreatorId == userId)
+        if (page.Visibility == PageVisibility.Private && page.CreatorId == userId)
             return true;
 
         var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.SharedWith?.Id == _userId);
@@ -74,10 +74,10 @@
 
     public bool CanView(int creatorId, PageVisibility visibility)
     {
-        if (visibility == PageVisibility.All)
+        if (visibility == PageVisibility.Public)
             return true;
 
-        if (visibility == PageVisibility.Owner && creatorId == _userId)
+        if (visibility == PageVisibility.Private && creatorId == _userId)
             return true;
 
         return false;
@@ -190,7 +190,7 @@
             || oldParent.Id == 0)
             return false;
 
-        if (FeaturedPage.RootPageId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.All)
+        if (FeaturedPage.RootPageId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.Public)
             return false;
 
         return _isInstallationAdmin || movingPage.CreatorId == _userId || oldParent.CreatorId == _userId;
@@ -204,11 +204,11 @@
             return false;
 
         // Public questions are visible to everyone
-        if (question.Visibility == QuestionVisibility.All)
+        if (question.Visibility == QuestionVisibility.Public)
             return true;
 
         // Owner can see their own questions
-        if (question.Visibility == QuestionVisibility.Owner && question.CreatorId == _userId)
+        if (question.Visibility == QuestionVisibility.Private && question.CreatorId == _userId)
             return true;
 
         // Check if any page associated with the question grants view permission

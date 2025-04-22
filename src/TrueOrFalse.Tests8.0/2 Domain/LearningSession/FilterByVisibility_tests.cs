@@ -4,8 +4,8 @@ namespace TrueOrFalse.Tests;
 
 class FilterByVisibility_tests : BaseTest
 {
-    private readonly QuestionCacheItem _publicQuestion = new QuestionCacheItem { Visibility = QuestionVisibility.All };
-    private readonly QuestionCacheItem _privateQuestion = new QuestionCacheItem { Visibility = QuestionVisibility.Owner };
+    private readonly QuestionCacheItem _publicQuestion = new QuestionCacheItem { Visibility = QuestionVisibility.Public };
+    private readonly QuestionCacheItem _privateQuestion = new QuestionCacheItem { Visibility = QuestionVisibility.Private };
 
     [Test]
     public void Should_Add_QuestionIsPublic_ConfigHas_PublicQuestions()

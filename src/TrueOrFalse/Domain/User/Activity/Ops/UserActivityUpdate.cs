@@ -26,7 +26,7 @@ class UserActivityUpdate
         var amount = 10;
         var questions = nhibernateSession.QueryOver<Question>()
             .OrderBy(x => x.DateCreated).Desc
-            .Where(q => q.Creator == userCauser && q.Visibility == QuestionVisibility.All)
+            .Where(q => q.Creator == userCauser && q.Visibility == QuestionVisibility.Public)
             .Take(amount)
             .List<Question>();
 

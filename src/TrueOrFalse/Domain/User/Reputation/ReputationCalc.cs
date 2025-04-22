@@ -38,7 +38,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         var createdQuestions = _session.QueryOver<Question>()
             .Where(q => q.Creator != null && q.Creator.Id == result.User.Id)
-            .And(q => q.Visibility == QuestionVisibility.All)
+            .And(q => q.Visibility == QuestionVisibility.Public)
             .List<Question>();
         result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 
@@ -68,7 +68,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         var createdQuestions = EntityCache.GetAllQuestions()
             .Where(q => q.Creator != null &&
                         q.Creator.Id == result.User.Id &&
-                        q.Visibility == QuestionVisibility.All).ToList();
+                        q.Visibility == QuestionVisibility.Public).ToList();
         result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 
         /*Calculate Reputation for Questions, Sets, Pages in other user's wish knowledge */

@@ -25,7 +25,7 @@
 
         wiki.Creator = _userReadingRepo.GetById(sessionUser.UserId);
         wiki.Type = PageType.Standard;
-        wiki.Visibility = PageVisibility.Owner;
+        wiki.Visibility = PageVisibility.Private;
         wiki.IsWiki = true;
         _pageRepository.Create(wiki);
 

@@ -21,7 +21,7 @@ const userStore = useUserStore()
 const loadingStore = useLoadingStore()
 const editQuestionStore = useEditQuestionStore()
 const pageStore = usePageStore()
-const visibility = ref(Visibility.All)
+const visibility = ref(Visibility.Public)
 const solutionType = ref(SolutionType.Text)
 const addToWuwi = ref(true)
 const alertStore = useAlertStore()
@@ -417,7 +417,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="main-header">
                         <div class="add-inline-question-label main-label">
                             {{ editQuestionStore.edit ? t('question.editModal.title.edit') : t('question.editModal.title.create') }}
-                            <font-awesome-icon v-if="visibility === Visibility.All" icon="fa-solid fa-lock" />
+                            <font-awesome-icon v-if="visibility === Visibility.Public" icon="fa-solid fa-lock" />
                         </div>
 
                         <div class="solutionType-selector">
