@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
 import { TinyPageModel, usePageStore } from '../page/pageStore'
-import { Site } from '../shared/siteEnum'
+import { SiteType } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
 import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
 import { useConvertStore } from '../page/convert/convertStore'
 
 interface Props {
-	site: Site
+	site: SiteType
 	showSearch: boolean
 	questionPageData?: {
 		primaryPageName: string
@@ -139,17 +139,17 @@ onBeforeMount(async () => {
 
 const route = useRoute()
 watch(() => route.params, () => {
-	if (props.site != Site.Page)
+	if (props.site != SiteType.Page)
 		getBreadcrumb()
 })
 watch(() => pageStore.id, (newId, oldId) => {
-	if (newId > 0 && newId != oldId && props.site === Site.Page) {
+	if (newId > 0 && newId != oldId && props.site === SiteType.Page) {
 		getBreadcrumb()
 	}
 }, { immediate: true })
 
 watch(() => props.site, (newPage, oldPage) => {
-	if (oldPage != newPage && (newPage === Site.Page && pageStore.id > 0))
+	if (oldPage != newPage && (newPage === SiteType.Page && pageStore.id > 0))
 		getBreadcrumb()
 })
 
@@ -172,7 +172,7 @@ async function getBreadcrumb() {
 		wikiId: !isNaN(sessionWikiId) ? sessionWikiId : 0,
 		currentPageId: pageStore.id,
 	}
-	if (props.site === Site.Page && pageStore.id > 0) {
+	if (props.site === SiteType.Page && pageStore.id > 0) {
 		const result = await $api<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
 			{
 				method: 'POST',
@@ -204,39 +204,39 @@ async function getBreadcrumb() {
 function setPageTitle() {
 	pageTitle.value = ''
 	switch (props.site) {
-		case Site.Welcome:
+		case SiteType.Welcome:
 			pageTitle.value = t('breadcrumb.titles.welcome')
 			break
-		case Site.Page:
+		case SiteType.Page:
 			pageTitle.value = pageStore.name
 			break
 		// case Page.Question custom breadcrumb item set in the question/[id].vue
 		// case Page.Question custom breadcrumb item set in the user/[id].vue
-		case Site.Imprint:
+		case SiteType.Imprint:
 			pageTitle.value = t('breadcrumb.titles.imprint')
 			break
-		case Site.Terms:
+		case SiteType.Terms:
 			pageTitle.value = t('breadcrumb.titles.terms')
 			break
-		case Site.Register:
+		case SiteType.Register:
 			pageTitle.value = t('breadcrumb.titles.register')
 			break
-		case Site.Messages:
+		case SiteType.Messages:
 			pageTitle.value = t('breadcrumb.titles.messages')
 			break
 		// case Page.Default:
 		// 	pageTitle.value = ''
 		// 	break
-		case Site.Error:
+		case SiteType.Error:
 			pageTitle.value = t('breadcrumb.titles.error')
 			break
-		case Site.ResetPassword:
+		case SiteType.ResetPassword:
 			pageTitle.value = t('breadcrumb.titles.resetPassword')
 			break
-		case Site.ConfirmEmail:
+		case SiteType.ConfirmEmail:
 			pageTitle.value = t('breadcrumb.titles.confirmEmail')
 			break
-		case Site.Metrics:
+		case SiteType.Metrics:
 			pageTitle.value = t('breadcrumb.titles.metrics')
 			break
 	}
@@ -321,7 +321,7 @@ convertStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-	<div v-if="breadcrumb != null && props.site === Site.Page" id="BreadCrumb" ref="breadcrumbEl"
+	<div v-if="breadcrumb != null && props.site === SiteType.Page" id="BreadCrumb" ref="breadcrumbEl"
 		:style="breadcrumbWidth"
 		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': whiteOut }"
 		v-show="!shrinkBreadcrumb">

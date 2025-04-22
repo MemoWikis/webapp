@@ -55,7 +55,7 @@ public class RegisterUser(
         _sessionUser.Login(user, _pageViewRepo);
 
         var page = PersonalPage.GetPersonalPage(user, _pageRepository);
-        page.Visibility = PageVisibility.Owner;
+        page.Visibility = PageVisibility.Private;
         _pageRepository.Create(page);
         user.StartPageId = page.Id;
         user.DateCreated = DateTime.Now;

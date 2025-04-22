@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { FooterPages } from '../page/pageStore'
-import { Site } from '../shared/siteEnum'
+import { SiteType } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
 
 interface Props {
     footerPages: FooterPages,
     isError?: boolean
-    site: Site
+    site: SiteType
     questionPageIsPrivate?: boolean
 }
 const props = defineProps<Props>()

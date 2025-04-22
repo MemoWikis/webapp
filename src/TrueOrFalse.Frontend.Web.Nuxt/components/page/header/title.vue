@@ -58,9 +58,6 @@ const groupedSharedUsers = computed(() => {
         return sharedWithUsers.value.length > 4 ? sharedWithUsers.value.slice(4, sharedWithUsers.value.length) : []
 })
 
-// Mobile shared user (similar to author implementation)
-const mobileFirstSharedUser = ref()
-
 function openShareModal() {
     sharePageStore.openModal(pageStore.id, pageStore.name)
 }
@@ -91,7 +88,7 @@ watch(() => tabsStore.activeTab, (val: any) => {
 
 const autoSaveTimer = ref()
 const autoSave = () => {
-    if (pageStore.visibility != Visibility.Owner)
+    if (pageStore.visibility != Visibility.Private)
         return
 
     if (autoSaveTimer.value) {
@@ -107,7 +104,7 @@ onBeforeMount(() => {
 
     watch(() => pageStore.name, (newName) => {
         if (pageStore.initialName != newName) {
-            if (pageStore.visibility === Visibility.Owner)
+            if (pageStore.visibility === Visibility.Private)
                 autoSave()
             else
                 pageStore.nameHasChanged = true
@@ -261,10 +258,7 @@ const ariaId2 = useId()
             </template>
 
             <VDropdown :aria-id="ariaId2 + '-shared'" :distance="6">
-                <div v-if="isMobile && groupedSharedUsers.length === 1 && mobileFirstSharedUser && mobileFirstSharedUser.id > 0" @click="openShareModal()" class="header-author-icon-link">
-                    <Image :src="mobileFirstSharedUser.imgUrl" :format="ImageFormat.Author" class="header-author-icon" :alt="t('page.header.sharedUserProfilePicture', { name: mobileFirstSharedUser.name })" />
-                </div>
-                <div v-else-if="groupedSharedUsers.length > 1" class="additional-authors-btn" :class="{ 'long': groupedSharedUsers.length > 9 }" @click="openShareModal">
+                <div v-if="groupedSharedUsers.length > 1" class="additional-authors-btn" :class="{ 'long': groupedSharedUsers.length > 9 }" @click="openShareModal">
                     <span>
                         +{{ groupedSharedUsers.length }}
                     </span>

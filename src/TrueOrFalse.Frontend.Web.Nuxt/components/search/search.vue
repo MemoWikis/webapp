@@ -142,8 +142,9 @@ async function search() {
                 const usersBeforeFilter = result.users
                 const usersAfterFilter = usersBeforeFilter.filter((u) => u.id !== userStore.id)
                 result.users = usersAfterFilter
-                if (usersAfterFilter.length < usersBeforeFilter.length) {
-                    result.userCount = result.userCount - 1
+                const removedCount = usersBeforeFilter.length - usersAfterFilter.length
+                if (removedCount > 0) {
+                    result.userCount -= removedCount
                 }
             }
 

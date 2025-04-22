@@ -87,14 +87,14 @@ public class UserController(
                 },
                 PublicQuestionsCount =
                     allQuestionsCreatedByUser.Count(q =>
-                        q.Visibility == QuestionVisibility.All),
+                        q.Visibility == QuestionVisibility.Public),
                 PrivateQuestionsCount =
                     allQuestionsCreatedByUser.Count(q =>
-                        q.Visibility != QuestionVisibility.All),
+                        q.Visibility != QuestionVisibility.Public),
                 PublicPagesCount =
-                    allPagesCreatedByUser.Count(c => c.Visibility == PageVisibility.All),
+                    allPagesCreatedByUser.Count(c => c.Visibility == PageVisibility.Public),
                 PrivatePagesCount =
-                    allPagesCreatedByUser.Count(c => c.Visibility != PageVisibility.All),
+                    allPagesCreatedByUser.Count(c => c.Visibility != PageVisibility.Public),
                 WuwiCount = user.WishCountQuestions
             },
             IsCurrentUser = isCurrentUser

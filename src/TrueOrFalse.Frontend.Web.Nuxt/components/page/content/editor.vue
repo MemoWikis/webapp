@@ -91,7 +91,9 @@ const tryReconnect = () => {
 }
 
 const initProvider = () => {
-
+    // shareToken is the token from the pageSharing feature, 
+    // collaborationToken is the token used as an identifier for the hocuspocus server, 
+    // a collaboration token will always exist, but the shareToken is optional
     const token = pageStore.shareToken ? `${userStore.collaborationToken}|accessToken=${pageStore.shareToken}` : userStore.collaborationToken
     provider.value = new TiptapCollabProvider({
         baseUrl: config.public.hocuspocusWebsocketUrl,
@@ -401,7 +403,7 @@ watch(() => userStore.isLoggedIn, (val) => recreate(val))
 const autoSaveTimer = ref()
 const deletePageContentImageTimer = ref()
 const autoSave = () => {
-    if (pageStore.visibility != Visibility.Owner)
+    if (pageStore.visibility != Visibility.Private)
         return
 
     if (autoSaveTimer.value)
@@ -456,7 +458,7 @@ const createFlashCard = () => {
         <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }" />
     </template>
     <template v-else>
-        <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
+        <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
             <div class="ProseMirror content-placeholder" v-html="pageStore.content"
                 id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
             </div>

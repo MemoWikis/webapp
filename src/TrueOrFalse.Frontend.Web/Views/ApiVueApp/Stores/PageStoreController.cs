@@ -309,7 +309,7 @@ public class PageStoreController(
 
         string? messageKey = null;
 
-        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(request.PageId).Visibility != PageVisibility.All)
+        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(request.PageId).Visibility != PageVisibility.Public)
         {
             messageKey = FrontendMessageKeys.Error.Ai.NoFlashcardsCreatedCauseLimitAndPageIsPrivate;
             return new GenerateFlashCardResponse(new List<AiFlashCard.FlashCard>(), messageKey);
@@ -339,5 +339,13 @@ public class PageStoreController(
         if (page != null)
             return page.GetCountQuestionsAggregated(_sessionUser.UserId);
         return 0;
+    }
+
+
+    [HttpGet]
+    public bool GetIsShared([FromRoute] int id, [CanBeNull] string shareToken)
+    {
+        var canView = shareToken != null ? _permissionCheck.CanViewPage(id, shareToken) : _permissionCheck.CanViewPage(id);
+        return canView && SharesService.IsShared(id);
     }
 }

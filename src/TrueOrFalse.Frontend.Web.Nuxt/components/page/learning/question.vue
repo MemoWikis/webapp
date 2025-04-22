@@ -118,7 +118,7 @@ async function loadQuestionData() {
         wrongAnswers.value = abbreviateNumber(result.data.wrongAnswerCount)
         canBeEdited.value = result.data.canBeEdited
         setTitle(result.data.title)
-        showLock.value = result.data.visibility != Visibility.All
+        showLock.value = result.data.visibility != Visibility.Public
     } else if (result?.success === false) {
         alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) ?? t('error.default') })
     }
@@ -219,7 +219,7 @@ watch(currentKnowledgeStatus, () => {
 })
 const showLock = ref(false)
 onBeforeMount(() => {
-    showLock.value = props.question.visibility != Visibility.All
+    showLock.value = props.question.visibility != Visibility.Public
 
     isInWishknowledge.value = props.question.isInWishknowledge
     hasPersonalAnswer.value = props.question.hasPersonalAnswer

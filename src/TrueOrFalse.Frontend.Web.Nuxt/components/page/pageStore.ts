@@ -23,7 +23,7 @@ export class Page {
     directVisibleChildPageCount: number = 0
     views: number = 0
     commentCount: number = 0
-    visibility: Visibility = Visibility.Owner
+    visibility: Visibility = Visibility.Private
     authorIds: number[] = []
     isWiki: boolean = false
     currentUserIsCreator: boolean = false
@@ -255,7 +255,10 @@ export const usePageStore = defineStore("pageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result.success == true && this.visibility != Visibility.Owner) {
+            if (
+                result.success == true &&
+                this.visibility != Visibility.Private
+            ) {
                 const data: SnackbarData = {
                     type: "success",
                     text: { message: $i18n.t("success.page.saved") },
@@ -267,7 +270,7 @@ export const usePageStore = defineStore("pageStore", {
                 if (
                     !(
                         result.messageKey === "error.page.noChange" &&
-                        this.visibility == Visibility.Owner
+                        this.visibility == Visibility.Private
                     )
                 ) {
                     const alertStore = useAlertStore()
@@ -283,13 +286,12 @@ export const usePageStore = defineStore("pageStore", {
         },
         async saveName() {
             const userStore = useUserStore()
-            const snackbarStore = useSnackbarStore()
 
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
                 return
             }
-            if (this.name == this.initialName) return
+            if (this.name === this.initialName) return
 
             await this.waitUntilAllUploadsComplete()
             await this.waitUntilAllSavingsComplete()
@@ -327,19 +329,21 @@ export const usePageStore = defineStore("pageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result.success == true && this.visibility != Visibility.Owner) {
+            if (result.success && this.visibility != Visibility.Private) {
                 const data: SnackbarData = {
                     type: "success",
                     text: { message: $i18n.t("success.page.saved") },
                 }
+                const snackbarStore = useSnackbarStore()
+
                 snackbarStore.showSnackbar(data)
                 this.initialName = this.name
                 this.nameHasChanged = false
-            } else if (result.success == false && result.messageKey != null) {
+            } else if (result.success === false && result.messageKey != null) {
                 if (
                     !(
                         result.messageKey === "error.page.noChange" &&
-                        this.visibility == Visibility.Owner
+                        this.visibility === Visibility.Private
                     )
                 ) {
                     const alertStore = useAlertStore()
@@ -617,8 +621,33 @@ export const usePageStore = defineStore("pageStore", {
 
             this.questionCount = result
         },
-        setToken(token: string) {
+        setToken(token: string | null) {
             this.shareToken = token
+        },
+        async updateIsShared() {
+            let url = `/apiVue/PageStore/GetIsShared/${this.id}`
+            if (this.shareToken) {
+                url += `?shareToken=${this.shareToken}`
+            }
+
+            const result = await $api<boolean>(url, {
+                method: "GET",
+                mode: "cors",
+                credentials: "include",
+                onResponseError(context) {
+                    const { $logger } = useNuxtApp()
+                    $logger.error(
+                        `fetch Error: ${context.response?.statusText}`,
+                        [
+                            {
+                                response: context.response,
+                                req: context.request,
+                            },
+                        ]
+                    )
+                },
+            })
+            this.isShared = result
         },
     },
     getters: {

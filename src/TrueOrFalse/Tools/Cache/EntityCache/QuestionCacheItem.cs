@@ -71,7 +71,7 @@ public class QuestionCacheItem
     public virtual int TotalViews { get; set; }
     public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
-    public bool IsPublic => Visibility == QuestionVisibility.All;
+    public bool IsPublic => Visibility == QuestionVisibility.Public;
 
     public virtual List<QuestionChangeCacheItem> QuestionChangeCacheItems { get; set; }
 
@@ -143,7 +143,7 @@ public class QuestionCacheItem
 
     public virtual bool IsPrivate()
     {
-        return Visibility != QuestionVisibility.All;
+        return Visibility != QuestionVisibility.Public;
     }
 
     public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null, AnswerRecord? answers = null)
@@ -207,7 +207,7 @@ public class QuestionCacheItem
                 QuestionEditData? previousData = null;
                 QuestionEditData currentData;
                 var questionChangeCacheItems = new List<QuestionChangeCacheItem>();
-                var currentVisibility = QuestionVisibility.Owner;
+                var currentVisibility = QuestionVisibility.Private;
                 var lastVisibilityChange = question.DateCreated;
 
                 foreach (var curr in questionChanges)
@@ -239,7 +239,7 @@ public class QuestionCacheItem
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
 
-                if (question.Visibility == QuestionVisibility.All)
+                if (question.Visibility == QuestionVisibility.Public)
                     questionCacheItem.LastPublishDate = lastVisibilityChange;
             }
 
@@ -444,8 +444,8 @@ public class QuestionCacheItem
 
         var cacheItem = QuestionChangeCacheItem.ToQuestionChangeCacheItem(questionChange, currentData, previousData);
 
-        if (previousData?.Visibility == QuestionVisibility.Owner &&
-            cacheItem.Visibility == QuestionVisibility.All)
+        if (previousData?.Visibility == QuestionVisibility.Private &&
+            cacheItem.Visibility == QuestionVisibility.Public)
             LastPublishDate = cacheItem.DateCreated;
 
         QuestionChangeCacheItems.Insert(0, cacheItem);

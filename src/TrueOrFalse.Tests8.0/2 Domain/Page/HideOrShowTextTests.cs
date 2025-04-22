@@ -19,7 +19,7 @@
         ContextUser.New(R<UserWritingRepo>()).Add(creator1).Persist();
         var privatePageName = "page2";
         var privatePage = contextPage
-            .Add(privatePageName, creator: creator1, visibility: PageVisibility.Owner)
+            .Add(privatePageName, creator: creator1, visibility: PageVisibility.Private)
             .Persist()
             .GetPageByName(privatePageName);
 

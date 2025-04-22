@@ -527,7 +527,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         QuestionCacheItem question,
         QuestionProperties questionProperties)
     {
-        if (question.Visibility == QuestionVisibility.All)
+        if (question.Visibility == QuestionVisibility.Public)
         {
             questionProperties.Public = true;
 

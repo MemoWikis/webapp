@@ -50,7 +50,7 @@ public class ContextQuestion
         IList<Page> pages = null,
         int correctnessProbability = 0,
         bool persistImmediately = false,
-        QuestionVisibility questionVisibility = QuestionVisibility.Owner)
+        QuestionVisibility questionVisibility = QuestionVisibility.Private)
 
     {
         var question = new Question();

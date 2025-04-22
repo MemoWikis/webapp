@@ -69,7 +69,7 @@ public class DeletePageStoreController(
             return new DeleteData(page.Name, HasChildren: false, SuggestedNewParent: null, HasQuestion: false, HasPublicQuestion: false, IsWiki: page.IsWiki);
 
         var hasPublicQuestion = questions?
-            .Any(q => q.Visibility == QuestionVisibility.All) ?? false;
+            .Any(q => q.Visibility == QuestionVisibility.Public) ?? false;
 
         var currentWiki = EntityCache.GetPage(_sessionUser.CurrentWikiId);
 

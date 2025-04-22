@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { AlertType, useAlertStore } from '~/components/alert/alertStore'
-import { Site } from '~/components/shared/siteEnum'
+import { SiteType } from '~/components/shared/siteEnum'
 import { CurrentUser, useUserStore } from '~/components/user/userStore'
 const userStore = useUserStore()
 const alertStore = useAlertStore()
 interface Props {
-    site: Site
+    site: SiteType
 }
 const props = defineProps<Props>()
 const { t } = useI18n()
@@ -13,7 +13,7 @@ const { t } = useI18n()
 const emit = defineEmits(['setPage'])
 
 onBeforeMount(() => {
-    emit('setPage', Site.ResetPassword)
+    emit('setPage', SiteType.ResetPassword)
 
     if (userStore.isLoggedIn)
         return navigateTo('/')

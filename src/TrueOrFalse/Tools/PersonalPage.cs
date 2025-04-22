@@ -6,7 +6,7 @@
         {
             Name = user.Name + "s Wiki",
             Content = GetPersonalPageContentByUiLanguage(user.UiLanguage),
-            Visibility = PageVisibility.Owner,
+            Visibility = PageVisibility.Private,
             Creator = user,
             Type = PageType.Standard,
             IsWiki = true

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { usePageStore } from '../page/pageStore'
 import { useTabsStore, Tab } from '../page/tabs/tabsStore'
-import { Site } from '../shared/siteEnum'
+import { SiteType } from '../shared/siteEnum'
 import { ImageFormat } from '../image/imageFormatEnum'
 
 const pageStore = usePageStore()
@@ -10,7 +10,7 @@ const tabsStore = useTabsStore()
 const { isDesktop } = useDevice()
 interface Props {
     showOutline?: boolean
-    site: Site
+    site: SiteType
 }
 const props = defineProps<Props>()
 
@@ -25,7 +25,7 @@ const { $urlHelper } = useNuxtApp()
             <div id="SidebarSpacer"></div>
             <div id="DefaultSidebar">
 
-                <SidebarCard v-if="props.site === Site.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
+                <SidebarCard v-if="props.site === SiteType.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
                     <template v-slot:body>
                         <Image :src="pageStore.currentWiki.imgUrl" class="page-header-image" :format="ImageFormat.WikiLogo" :show-license="false" :min-height="80" :min-width="80" :alt="`${pageStore.currentWiki.name}'s image'`" />
 
@@ -43,7 +43,7 @@ const { $urlHelper } = useNuxtApp()
             </div>
             <template v-if="props.showOutline && pageStore.id && pageStore.name">
 
-                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab === Tab.Text && props.site === Site.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
+                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab === Tab.Text && props.site === SiteType.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
                     <div class="sidebarcard-divider"></div>
                 </div>
 

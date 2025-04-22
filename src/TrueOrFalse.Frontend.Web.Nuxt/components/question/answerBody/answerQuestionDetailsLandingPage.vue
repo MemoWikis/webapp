@@ -313,12 +313,12 @@ function drawCounterArcs() {
     overallCounterSvg.value
         .append('svg:foreignObject')
         .attr('height', '16px')
-        .attr('width', props.model.visibility === Visibility.Owner ? '14px' : '20px')
-        .attr('x', props.model.visibility === Visibility.Owner ? -7 : -10)
+        .attr('width', props.model.visibility === Visibility.Private ? '14px' : '20px')
+        .attr('x', props.model.visibility === Visibility.Private ? -7 : -10)
         .attr('y', -8)
         .html(() => {
             var fontColor = props.model.overallAnswerCount > 0 ? "#999999" : "#DDDDDD"
-            if (props.model.visibility === Visibility.Owner)
+            if (props.model.visibility === Visibility.Private)
                 return "<i class='fa-solid fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>"
             else
                 return "<i class='fa-solid fa-users' style='font-size:16px; color:" + fontColor + "'> </i>"

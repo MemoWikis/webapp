@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Site } from '~/components/shared/siteEnum'
+import { SiteType } from '~/components/shared/siteEnum'
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { UserResult } from '~~/components/users/userResult'
@@ -87,7 +87,7 @@ watch(status, (s) => {
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
 onMounted(() => {
-    emit('setPage', Site.Default)
+    emit('setPage', SiteType.Default)
     const breadcrumbItem: BreadcrumbItem = {
         name: t('usersOverview.title'),
         url: t('url.users')

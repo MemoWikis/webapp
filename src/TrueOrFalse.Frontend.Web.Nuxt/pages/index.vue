@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Site } from '~/components/shared/siteEnum'
+import { SiteType } from '~/components/shared/siteEnum'
 import { useUserStore } from '~~/components/user/userStore'
 const userStore = useUserStore()
 
@@ -11,7 +11,7 @@ if (userStore.isLoggedIn) {
 
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
-    emit('setPage', Site.Welcome)
+    emit('setPage', SiteType.Welcome)
 })
 </script>
 

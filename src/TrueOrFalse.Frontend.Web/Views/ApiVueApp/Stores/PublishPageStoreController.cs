@@ -39,9 +39,9 @@ namespace VueApp
                             MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot
                         };
 
-                    pageCacheItem.Visibility = PageVisibility.All;
+                    pageCacheItem.Visibility = PageVisibility.Public;
                     var page = pageRepository.GetById(json.id);
-                    page.Visibility = PageVisibility.All;
+                    page.Visibility = PageVisibility.Public;
                     pageRepository.Update(page, _sessionUser.UserId,
                         type: PageChangeType.Published);
 
@@ -80,10 +80,10 @@ namespace VueApp
                     EntityCache.GetQuestionById(questionId);
                 if (questionCacheItem.Creator.Id == _sessionUser.User.Id)
                 {
-                    questionCacheItem.Visibility = QuestionVisibility.All;
+                    questionCacheItem.Visibility = QuestionVisibility.Public;
                     EntityCache.AddOrUpdate(questionCacheItem);
                     var question = _questionReadingRepo.GetById(questionId);
-                    question.Visibility = QuestionVisibility.All;
+                    question.Visibility = QuestionVisibility.Public;
                     _questionWritingRepo.UpdateOrMerge(question, false);
                 }
             }
