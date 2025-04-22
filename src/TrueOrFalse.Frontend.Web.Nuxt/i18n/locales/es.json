@@ -702,7 +702,8 @@
                 "pendingChanges": "Cambios pendientes",
                 "saveChanges": "Guardar",
                 "info": "Al compartir páginas se incluirán todas las preguntas",
-                "loginInfo": "Solo los usuarios que hayan iniciado sesión pueden editar páginas compartidas"
+                "loginInfo": "Solo los usuarios que hayan iniciado sesión pueden editar páginas compartidas",
+                "noManagementRights": "Tu n'as pas les droits pour gérer les rôles d'accès ou modifier les paramètres de partage de cette page."
             },
             "permission": {
                 "label": "Nivel de permiso",

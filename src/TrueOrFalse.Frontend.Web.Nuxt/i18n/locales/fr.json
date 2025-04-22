@@ -702,7 +702,8 @@
                 "pendingChanges": "Modifications en attente",
                 "saveChanges": "Enregistrer",
                 "info": "Le partage de pages inclut toutes les questions",
-                "loginInfo": "Seuls les utilisateurs connectés peuvent modifier les pages partagées"
+                "loginInfo": "Seuls les utilisateurs connectés peuvent modifier les pages partagées",
+                "noManagementRights": "Tu n'as pas les droits pour gérer les rôles d'accès ou modifier les paramètres de partage de cette page."
             },
             "permission": {
                 "label": "Niveau de permission",

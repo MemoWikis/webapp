@@ -95,10 +95,11 @@ public class SharePageStoreController(
         SharePermission Permission,
         [CanBeNull] PageResponse? InheritedFrom = null);
     public readonly record struct GetShareInfoResponse(
-        CreatorResponse Creator,
+        [CanBeNull] CreatorResponse? Creator,
         [CanBeNull] List<UserWithPermission> Users,
         [CanBeNull] string ShareToken = null,
-        [CanBeNull] SharePermission? ShareTokenPermission = null);
+        [CanBeNull] SharePermission? ShareTokenPermission = null,
+        bool CanEdit = false);
 
     public readonly record struct PageResponse(int Id, string Name);
 
@@ -107,8 +108,11 @@ public class SharePageStoreController(
     {
         var page = EntityCache.GetPage(id);
 
-        if (page != null && !_permissionCheck.CanEdit(page, token))
+        if (page == null)
             return new GetShareInfoResponse();
+
+        if (!_permissionCheck.CanEdit(page, token))
+            return new GetShareInfoResponse(null, null, ShareToken: token);
 
         var existingShares = EntityCache.GetPageShares(id);
         var users = existingShares.Where(s => s.SharedWith != null).Select(s =>
@@ -153,7 +157,7 @@ public class SharePageStoreController(
 
         var filteredUsers = users.Where(u => u.Permission != SharePermission.RestrictAccess).ToList();
 
-        return new GetShareInfoResponse(creatorResponse, filteredUsers, shareByToken?.Token, shareByToken?.Permission);
+        return new GetShareInfoResponse(creatorResponse, filteredUsers, shareByToken?.Token, shareByToken?.Permission, _permissionCheck.CanEdit(page, token));
     }
     public readonly record struct PermissionUpdate(
         int UserId,

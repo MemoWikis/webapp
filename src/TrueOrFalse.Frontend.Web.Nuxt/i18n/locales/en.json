@@ -718,7 +718,8 @@
                 "pendingChanges": "Pending changes",
                 "saveChanges": "Save",
                 "info": "Sharing Pages will include all questions",
-                "loginInfo": "Only logged-in users can edit shared pages"
+                "loginInfo": "Only logged-in users can edit shared pages",
+                "noManagementRights": "You don't have permission to manage access roles or change sharing settings for this page."
             },
             "permission": {
                 "label": "Permission level",

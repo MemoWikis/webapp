@@ -704,7 +704,8 @@
                 "pendingChanges": "Ausstehende Änderungen",
                 "saveChanges": "Speichern",
                 "info": "Beim Teilen von Seiten werden alle Fragen einbezogen",
-                "loginInfo": "Nur angemeldete Benutzer können geteilte Seiten bearbeiten"
+                "loginInfo": "Nur angemeldete Benutzer können geteilte Seiten bearbeiten",
+                "noManagementRights": "Du hast keine Berechtigung, Zugriffsrollen zu verwalten oder die Freigabeeinstellungen für diese Seite zu ändern."
             },
             "permission": {
                 "label": "Berechtigungsstufe",

@@ -28,10 +28,11 @@ interface ShareToUserResponse {
 }
 
 interface GetShareInfoResponse {
-    creator: CreatorResponse
+    creator?: CreatorResponse
     users?: UserWithPermission[]
     shareToken?: string
     shareTokenPermission?: SharePermission
+    canEdit: boolean
 }
 
 interface CreatorResponse {
@@ -143,6 +144,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             pendingTokenPermission.value !== null
     )
 
+    const canEdit = ref(false)
+
     const openModal = (id: number, name: string) => {
         const userStore = useUserStore()
 
@@ -172,6 +175,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         // clear inherited share modal state
         showInheritedShareModal.value = false
         selectedInheritedUser.value = null
+        canEdit.value = false
 
         const pageStore = usePageStore()
         pageStore.updateIsShared()
@@ -323,6 +327,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
                 ) {
                     currentTokenPermission.value = response.shareTokenPermission
                 }
+
+                canEdit.value = response.canEdit
 
                 return { success: true, users: response.users }
             } else {
@@ -795,6 +801,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         pendingTokenPermission,
         showInheritedShareModal,
         selectedInheritedUser,
+        canEdit,
 
         openModal,
         closeModal,
