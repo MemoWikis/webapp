@@ -122,9 +122,21 @@ public class SessionUser : IRegisterAsInstancePerLifetime
 
     public Dictionary<int, string> ShareTokens
     {
-        get => _httpContext.Session.Get<Dictionary<int, string>>("shareTokens") ?? new Dictionary<int, string>();
+        get
+        {
+            if (IsLoggedIn)
+            {
+                var tempShareTokens = EntityCache.GetUserByIdNullable(UserId)?.TempShareTokens;
+                if (tempShareTokens != null)
+                    return tempShareTokens;
+            }
+
+            return _httpContext.Session.Get<Dictionary<int, string>>("shareTokens") ?? new Dictionary<int, string>();
+
+        }
         private set => _httpContext.Session.Set("shareTokens", value);
     }
+
     public void AddShareToken(int pageId, string token)
     {
         var share = EntityCache.GetPageShares(pageId).FirstOrDefault(share => share.Token == token);

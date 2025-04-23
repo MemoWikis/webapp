@@ -22,7 +22,7 @@ public class PageDataManager(
                 MessageKey = FrontendMessageKeys.Error.Page.NotFound
             };
 
-        if (_permissionCheck.CanView(_sessionUser.UserId, page, token))
+        if (_permissionCheck.CanView(page, token))
         {
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Page);
             var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);

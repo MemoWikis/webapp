@@ -200,4 +200,11 @@ public class UserStoreController(
         return new UpdateLanguageSettingResponse();
     }
 
+    public readonly record struct AddShareTokenRequest(int PageId, string ShareToken);
+
+    [HttpPost]
+    public void AddShareToken([FromBody] AddShareTokenRequest request)
+    {
+        _sessionUser.AddShareToken(request.PageId, request.ShareToken);
+    }
 }
