@@ -25,12 +25,54 @@ interface Props {
 const props = defineProps<Props>()
 
 const dropIn = ref(false)
-const dragOverTimer = ref()
-const isDroppableItemActive = ref(false)
-function onDragOver(e: any) {
-    e.preventDefault()
+// Add watcher to track when dropIn changes
+watch(dropIn, (newVal) => {
+    console.log('dropIn changed to:', newVal, 'hoverPlaceholder:', hoverPlaceholder.value)
+})
+const dropInProgress = ref(0)  // 0-100% for the progress indicator
+const dropInTimer = ref<number | null>(null)
+const dropInHovering = ref(false)
 
-    isDroppableItemActive.value = true
+// Functions to handle drop-in zone interaction
+function startDropInTimer() {
+    // Clear any existing timer
+    if (dropInTimer.value) {
+        clearInterval(dropInTimer.value)
+    }
+
+    // Reset progress
+    dropInProgress.value = 0
+
+    // Start a new timer that increments progress
+    const startTime = Date.now()
+    const duration = 1000 // 1 second to hold
+
+    dropInTimer.value = window.setInterval(() => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min((elapsed / duration) * 100, 100)
+        dropInProgress.value = progress
+
+        if (progress >= 100) {
+            // Once we reach 100%, activate dropIn
+            dropIn.value = true
+            clearInterval(dropInTimer.value as number)
+            dropInTimer.value = null
+        }
+    }, 20) // Update every 20ms for smooth animation
+}
+
+function stopDropInTimer() {
+    if (dropInTimer.value) {
+        clearInterval(dropInTimer.value)
+        dropInTimer.value = null
+    }
+    dropInProgress.value = 0
+}
+
+function onDropZoneEnter() {
+    console.log('Entering drop zone')
+    dropInHovering.value = true
+    // startDropInTimer()
     if (dragOverTimer.value == null)
         dragOverTimer.value = Date.now()
     else {
@@ -38,11 +80,43 @@ function onDragOver(e: any) {
         if (diff > 700)
             dropIn.value = true
     }
+}
+
+function onDropZoneLeave() {
+    console.log('Leaving drop zone')
+    dropInHovering.value = false
+    // stopDropInTimer()
+    // Don't immediately reset dropIn, let it be handled by other events
+}
+
+const dragOverTimer = ref()
+const isDroppableItemActive = ref(false)
+function onDragOver(e: any) {
+    e.preventDefault()
+
+    isDroppableItemActive.value = true
+    console.log('dragover')
+    // Only start or continue the timer if not hovering over a placeholder
+    if (hoverPlaceholder.value === false) {
+        // if (dragOverTimer.value == null)
+        //     dragOverTimer.value = Date.now()
+        // else {
+        //     const diff = Date.now() - dragOverTimer.value
+        //     if (diff > 700)
+        //         dropIn.value = true
+        // }
+    } else {
+        // Reset timer when hovering over a placeholder
+        dragOverTimer.value = null
+        // Always ensure dropIn is false when over placeholders
+        dropIn.value = false
+    }
 
     handleScroll(e.clientY)
 }
 
 function onDragLeave() {
+    handleDragLeavePlaceholder(hoverTopHalf.value)
     isDroppableItemActive.value = false
     dragOverTimer.value = null
     dropIn.value = false
@@ -221,17 +295,73 @@ watch(() => dragStore.transferData, (t) => {
         placeHolderPageName.value = m.page.name
     }
 }, { deep: true, immediate: true })
+
+const hoverPlaceholder = ref(false)
+
+const handleDragOverPlaceholder = (top: boolean) => {
+    console.log('handleDragOverPlaceholder, isTop:', top)
+
+    hoverPlaceholder.value = true
+    // Ensure dropIn is always false when over placeholders
+    dropIn.value = false
+    // Reset any existing timer
+    dragOverTimer.value = null
+
+    if (top) {
+        hoverTopHalf.value = true
+        hoverBottomHalf.value = false
+    }
+    else {
+        hoverTopHalf.value = false
+        hoverBottomHalf.value = true
+    }
+}
+
+const handleDragLeaveTimer = ref()
+
+const handleDragLeavePlaceholder = (top: boolean) => {
+    console.log('handleDragLeavePlaceholder, isTop:', top)
+
+    if (handleDragLeaveTimer.value) {
+        clearTimeout(handleDragLeaveTimer.value)
+    }
+    handleDragLeaveTimer.value = setTimeout(() => {
+        hoverPlaceholder.value = false
+        if (top) {
+            hoverTopHalf.value = false
+        } else {
+            hoverBottomHalf.value = false
+        }
+    }, 800)
+}
+
+const handleMouseLeavePlaceholder = (top: boolean) => {
+    console.log('handleMouseLeavePlaceholder, isTop:', top)
+    // This is a more reliable way to detect when we've actually left the placeholder
+    hoverPlaceholder.value = false
+    // Reset the relevant half
+    if (top) {
+        hoverTopHalf.value = false
+    } else {
+        hoverBottomHalf.value = false
+    }
+}
+
+watch(hoverPlaceholder, (val) => console.log('hoverPlaceholder', val))
+const gridItem = ref()
 </script>
 
 <template>
     <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true"
         ref="dragComponent" @drag.stop="handleDrag">
-        <div @dragover="onDragOver" @dragleave="onDragLeave" @drop.stop="onDrop">
+        <div @dragover.prevent.stop="onDragOver" @dragleave="onDragLeave" @drop.stop="onDrop">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
-                <div v-if="dragStore.active" @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false"
-                    class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
+                <div v-if="dragStore.active"
+                    class="emptydropzone"
+                    :class="{ 'open': hoverTopHalf && !dragging }"
+                    @dragover.stop.prevent="handleDragOverPlaceholder(true)">
 
                     <div class="inner top">
                         <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData"
@@ -240,8 +370,9 @@ watch(() => dragStore.transferData, (t) => {
 
                 </div>
 
+                <!-- Normal item without a container -->
                 <PageContentGridItem :page="page" :toggle-state="props.toggleState" :parent-id="props.parentId"
-                    :parent-name="props.parentName" :is-dragging="dragging" :drop-expand="dropIn">
+                    :parent-name="props.parentName" :is-dragging="dragging" :drop-expand="dropIn" ref="gridItem">
 
                     <template #topdropzone>
                         <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
@@ -262,10 +393,19 @@ watch(() => dragStore.transferData, (t) => {
                             <div class="dropzone-label">{{ t('page.grid.dnd.labels.subordinatePage') }}</div>
                         </div>
                     </template>
-
                 </PageContentGridItem>
 
-                <div v-if="dragStore.active" @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
+                <!-- Absolute positioned drop indicator that doesn't affect layout -->
+                <div v-if="dragStore.active && !dragging && !props.disabled && props.page.childrenCount > 0" class="drop-in-trigger" @dragover.stop.prevent="onDropZoneEnter" @dragleave.prevent="onDropZoneLeave">
+                    <div class="drop-in-indicator" :class="{ 'active': dropInHovering }">
+                        <div class="drop-in-progress" :style="{ height: dropInProgress + '%' }"></div>
+                        <div class="drop-in-icon" v-if="!dropIn">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }" @dragover.stop.prevent="handleDragOverPlaceholder(false)">
 
                     <div class="inner bottom">
                         <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData" :name="placeHolderPageName" />
@@ -284,7 +424,6 @@ watch(() => dragStore.transferData, (t) => {
     height: 0px;
     transition: all 100ms ease-in;
     opacity: 0;
-    pointer-events: none;
 
     &.open {
         height: 80px;
@@ -308,6 +447,7 @@ watch(() => dragStore.transferData, (t) => {
             z-index: 3;
         }
     }
+
 }
 
 .dropzone {
@@ -358,22 +498,74 @@ watch(() => dragStore.transferData, (t) => {
     }
 }
 
-
 .draggable {
     transition: all 0.5s;
     cursor: grab;
 
     .item {
         opacity: 1;
+        position: relative;
+        /* Needed for absolute positioning of drop-in-trigger */
 
         &.dragging {
             opacity: 0.2;
         }
-
     }
 
     &:active {
         cursor: grabbing;
+    }
+}
+
+/* New drop-in-trigger styles */
+.drop-in-trigger {
+    position: absolute;
+    left: 50%;
+    /* Fix position to top of item instead of center to prevent movement during expansion */
+    top: 0px;
+    /* Fixed distance from top instead of percentage */
+    transform: translateX(-50%);
+    /* Only transform horizontally now */
+    width: 240px;
+    height: 60px;
+    z-index: 10;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drop-in-indicator {
+    width: 230px;
+    height: 50px;
+    border-radius: 4;
+    border: 2px solid transparent;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    &.active {
+        border-color: @memo-green;
+        background-color: fade(@memo-green, 10%);
+    }
+
+    .drop-in-progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: fade(@memo-green, 30%);
+        transition: height 20ms linear;
+    }
+
+    .drop-in-icon {
+        z-index: 1;
+        color: @memo-green;
     }
 }
 </style>
