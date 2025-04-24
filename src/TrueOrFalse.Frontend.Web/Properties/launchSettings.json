@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "TrueOrFalse.Frontend.Web": {
+    "Development": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

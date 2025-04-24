@@ -12,6 +12,7 @@ using Stripe;
 using System;
 using System.IO;
 using System.Text.Json;
+using Scalar.AspNetCore;
 using TrueOrFalse.Environment;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
@@ -22,26 +23,19 @@ using static System.Int32;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((ctx, _, loggerConfiguration) =>
+builder.Host.UseSerilog((ctx, _, log) =>
 {
-    loggerConfiguration
-        .Enrich.FromLogContext()
-        .Enrich.WithExceptionDetails();
+    log.Enrich.FromLogContext()
+        .Enrich.WithExceptionDetails()
+        .WriteTo.Console()
+        .WriteTo.Seq(Settings.SeqUrl);
 
-    if (ctx.HostingEnvironment.IsDevelopment())
-    {
-        loggerConfiguration
-            .MinimumLevel.Debug()          
-            .WriteTo.Console()
-            .WriteTo.Seq(Settings.SeqUrl);
-    }
-    else
-    {
-        loggerConfiguration
-            .MinimumLevel.Error()
-            .WriteTo.Seq(Settings.SeqUrl);
-    }
+    log.MinimumLevel.Is(
+        ctx.HostingEnvironment.IsDevelopment()
+            ? Serilog.Events.LogEventLevel.Information
+            : Serilog.Events.LogEventLevel.Error);
 });
+
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -52,11 +46,12 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     {
         containerBuilder.RegisterModule<AutofacCoreModule>();
     });
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddSwaggerGen();
-builder.Services.AddControllersWithViews()
+builder.Services
+    .AddDistributedMemoryCache()
+    .AddHttpContextAccessor()
+    .AddEndpointsApiExplorer()
+    .AddControllersWithViews()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -64,7 +59,6 @@ builder.Services.AddControllersWithViews()
     });
 
 Settings.Initialize(builder.Configuration);
-
 
 if (Settings.UseRedisSession)
     builder.Services.AddStackExchangeRedisCache(options =>
@@ -98,13 +92,14 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAntiforgery(options => { options.HeaderName = "X-CSRF-TOKEN"; });
-
 builder.Services.AddHealthChecks();
+builder.Services.AddOpenApi();
 
 builder.WebHost.ConfigureServices(services =>
 {
     WebHostEnvironmentProvider.Initialize(services.BuildServiceProvider());
 });
+
 
 var app = builder.Build();
 
@@ -114,8 +109,8 @@ App.Environment = env;
 if (env.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 else
 {
@@ -144,6 +139,7 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseSession();
 app.UseRouting();
+app.MapControllers();
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<AutoLoginMiddleware>();
