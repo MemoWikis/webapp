@@ -8,16 +8,13 @@ const activityPointsStore = useActivityPointsStore()
 const { t } = useI18n()
 
 const { isMobile } = useDevice()
-const ariaId = useId()
 
 const { locale, locales, setLocale, localeProperties } = useI18n()
-
-
 const showLanguages = ref(false)
 </script>
 
 <template>
-    <VDropdown :aria-id="ariaId" :distance="6">
+    <VDropdown aria-id="VD-HeaderUserDropdown" :distance="6">
         <div class="header-btn">
             <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
                 :alt="`${userStore.name}'s profile picture'`" />
