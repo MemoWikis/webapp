@@ -1,4 +1,4 @@
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,17 +13,34 @@ using System;
 using System.IO;
 using System.Text.Json;
 using TrueOrFalse.Environment;
-using TrueOrFalse.Frontend.Web.Middlewares;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using static System.Int32;
 
-Console.WriteLine("Builder: Started");
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog();
+builder.Host.UseSerilog((ctx, _, loggerConfiguration) =>
+{
+    loggerConfiguration
+        .Enrich.FromLogContext()
+        .Enrich.WithExceptionDetails();
+
+    if (ctx.HostingEnvironment.IsDevelopment())
+    {
+        loggerConfiguration
+            .MinimumLevel.Debug()          
+            .WriteTo.Console()
+            .WriteTo.Seq(Settings.SeqUrl);
+    }
+    else
+    {
+        loggerConfiguration
+            .MinimumLevel.Error()
+            .WriteTo.Seq(Settings.SeqUrl);
+    }
+});
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -46,14 +63,7 @@ builder.Services.AddControllersWithViews()
     });
 
 Settings.Initialize(builder.Configuration);
-Console.WriteLine("Builder: Settings Initialized");
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Error()
-    .Enrich.WithExceptionDetails()
-    .WriteTo.Console()
-    .WriteTo.Seq(Settings.SeqUrl)
-    .CreateLogger();
 
 if (Settings.UseRedisSession)
     builder.Services.AddStackExchangeRedisCache(options =>
@@ -96,7 +106,6 @@ builder.WebHost.ConfigureServices(services =>
 });
 
 var app = builder.Build();
-Console.WriteLine("App: Start - builder.Build()");
 
 var env = app.Environment;
 App.Environment = env;
@@ -120,10 +129,8 @@ if (string.IsNullOrEmpty(env.WebRootPath))
     env.WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot");
 }
 
-Console.WriteLine("Update: Start Run");
 var update = app.Services.GetRequiredService<Update>();
 update.Run();
-Console.WriteLine("Update: End Run");
 
 StripeConfiguration.ApiKey = Settings.StripeSecurityKey;
 
@@ -133,14 +140,13 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(imagesPath),
     RequestPath = "/Images"
 });
-app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseSession();
-app.UseMiddleware<AutoLoginMiddleware>();
-
 app.UseRouting();
 
-app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<AutoLoginMiddleware>();
+app.UseMiddleware<RequestTimingMiddleware>();
 
 app.UseEndpoints(endpoints =>
 {
@@ -156,11 +162,6 @@ app.Urls.Add("http://*:5069");
 var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
 entityCacheInitializer.Init();
 
-//var runningJobRepo = app.Services.GetRequiredService<RunningJobRepo>();
-//await JobScheduler.Start(runningJobRepo);
-
 await JobScheduler.InitializeAsync();
-
-Console.WriteLine("App: Run");
 
 app.Run();

@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using TrueOrFalse.Domain.User;
 
-namespace TrueOrFalse.Frontend.Web.Middlewares;
+namespace TrueOrFalse.View.Web.Middlewares;
 
 public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _serviceProvider)
 {
@@ -56,5 +56,4 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
 
         await _next(httpContext);
     }
-
 }

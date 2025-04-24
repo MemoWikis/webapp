@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http.Extensions;
 using System;
 using System.Threading.Tasks;
 
-namespace TrueOrFalse.Frontend.Web.Middlewares;
 
 public class ErrorHandlerMiddleware(RequestDelegate _next)
 {
