@@ -19,7 +19,7 @@ public class VueMaintenanceController(
     ProbabilityUpdate_Question _probabilityUpdateQuestion,
     MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions,
     UpdateQuestionAnswerCounts _updateQuestionAnswerCounts,
-    UpdateWishcount _updateWishcount,
+    UpdateWishcount _updateWishCount,
     MeiliSearchReIndexPages meiliSearchReIndexPages,
     MeiliSearchReIndexUser meiliSearchReIndexUser,
     PageRepository pageRepository,
@@ -28,8 +28,7 @@ public class VueMaintenanceController(
     UserWritingRepo _userWritingRepo,
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment,
-    UpdateQuestionCountForPage updateQuestionCountForPage) : Controller
+    IWebHostEnvironment _webHostEnvironment) : Controller
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -114,7 +113,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult UpdateUserWishCount()
     {
-        _updateWishcount.Run();
+        _updateWishCount.Run();
 
         return new VueMaintenanceResult
         {
