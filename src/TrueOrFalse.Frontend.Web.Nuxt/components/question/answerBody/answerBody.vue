@@ -223,17 +223,31 @@ function highlightCode() {
 
 const answerBodyModel = ref<AnswerBodyModel>()
 
+const currentRequest = ref<AbortController | null>(null)
+
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
+
+    if (currentRequest.value) {
+        currentRequest.value.abort()
+    }
+
+    currentRequest.value = new AbortController()
+
     const result = await $api<AnswerBodyModel>(`/apiVue/AnswerBody/Get/${learningSessionStore.currentIndex}`, {
         mode: 'cors',
         credentials: 'include',
+        signal: currentRequest.value.signal,
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
+    }).catch(() => {
+        return null
     })
+
+    currentRequest.value = null
+
     if (result != null) {
         flashCardAnswered.value = false
         answerIsCorrect.value = false
@@ -256,13 +270,34 @@ async function loadAnswerBodyModel() {
 
 const router = useRouter()
 async function handleUrl() {
-    if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0 && window.location.pathname != $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)) {
-        const newPath = $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)
-        router.push(newPath)
+    // Only update URL if we're still on the same tab and have a valid model
+    if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
+        // Extract pageId from the current URL path
+        const pathSegments = window.location.pathname.split('/').filter(segment => segment.length > 0)
+        
+        // Check if the current URL structure has a valid page ID (second segment should be a number)
+        let currentPageId = null
+        if (pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))) {
+            currentPageId = parseInt(pathSegments[1])
+        }
+        
+        // Only navigate if we're on the correct page (current page ID matches pageStore.id)
+        // This prevents handleUrl from changing page when we've navigated away
+        if (currentPageId === pageStore.id) {
+            const newPath = $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)
+            router.push(newPath)
+        }
     }
 }
 
 const route = useRoute()
+watch(() => pageStore.id, (newId, oldId) => {
+    if (newId !== oldId && currentRequest.value) {
+        currentRequest.value.abort()
+        currentRequest.value = null
+    }
+})
+
 watch(() => tabsStore.activeTab, async (tab) => {
     if (tab === Tab.Learning && isNaN(parseInt(route.params.questionId?.toString()))) {
         handleUrl()
