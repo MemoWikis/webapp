@@ -144,6 +144,7 @@ async function handleTouchStart(e: TouchEvent) {
     e.stopPropagation()
     const x = e.changedTouches[0].clientX
     const y = e.changedTouches[0].clientY
+
     initialHoldPosition.x = e.changedTouches[0].pageX
     initialHoldPosition.y = e.changedTouches[0].pageY
     dragStore.setTouchPositionForDrag(x, y)
@@ -213,6 +214,7 @@ function handleDragEnd() {
 const touchDragComponent = ref<HTMLElement | null>(null)
 
 const isDragStart = ref(true)
+
 const touchDragTime = ref(0)
 async function handleTouchMove(e: TouchEvent) {
 
@@ -333,7 +335,9 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
                     dropIn.value = true
                 }, 1000)
         }
+    }
 
+    if (isDragStart.value) {
         initialHoldPosition.x = x
         initialHoldPosition.y = y
     }

@@ -68,6 +68,7 @@ watch(() => dragStore.transferData, (t) => {
     margin-top: 50px;
     max-width: 260px;
     height: 56px;
+    opacity: 0.75;
 
     .ghost-body {
         display: flex;
