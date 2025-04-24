@@ -1,9 +1,0 @@
-delete from questionview 
-where QuestionId 
-in (
-	select QuestionId from (
-		select QuestionId from questionview 
-		group by QuestionId, date(DateCreated)
-		having count(QuestionId) > 1000
-	) t1
-)
