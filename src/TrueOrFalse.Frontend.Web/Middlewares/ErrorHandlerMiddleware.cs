@@ -3,41 +3,26 @@ using Microsoft.AspNetCore.Http.Extensions;
 using System;
 using System.Threading.Tasks;
 
-namespace TrueOrFalse.Frontend.Web.Middlewares
+namespace TrueOrFalse.Frontend.Web.Middlewares;
+
+public class ErrorHandlerMiddleware(RequestDelegate _next)
 {
-    public class ErrorHandlerMiddleware
+    public async Task InvokeAsync(HttpContext httpContext)
     {
-        private readonly RequestDelegate _next;
+        await _next(httpContext);
 
-        public ErrorHandlerMiddleware(RequestDelegate next)
+        if (httpContext.Response.StatusCode == 404)
         {
-            _next = next;
+            Logg.r.Warning("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(),
+                httpContext.Request.Headers["Referer"]);
         }
-
-        public async Task InvokeAsync(HttpContext httpContext)
+        else if (httpContext.Response.StatusCode == 500)
         {
-            await _next(httpContext);
-
-            if (httpContext.Response.StatusCode == 404)
-            {
-                Logg.r.Warning("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(),
-                    httpContext.Request.Headers["Referer"]);
-            }
-            else if (httpContext.Response.StatusCode == 500)
-            {
-                Logg.Error(new Exception("Internal Error"));
-            }
-            else if (httpContext.Response.StatusCode == 503)
-            {
-                Logg.Error(new Exception("Server unavailable"));
-            }
+            Logg.Error(new Exception("Internal Error"));
         }
-    }
-}
-
-public class NotFoundException : Exception
-{
-    public NotFoundException(string message) : base(message)
-    {
+        else if (httpContext.Response.StatusCode == 503)
+        {
+            Logg.Error(new Exception("Server unavailable"));
+        }
     }
 }
