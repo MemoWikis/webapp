@@ -32,8 +32,6 @@
             Assert.That(childFromDatabase, Is.Not.Null);
             Assert.That(sessionUser, Is.Not.Null);
             Assert.That(childFromDatabase.Creator, Is.Not.Null);
-            Assert.That(childFromDatabase.DateCreated, Is.Not.Null);
-            Assert.That(childFromDatabase.DateModified, Is.Not.Null);
             Assert.That(childFromDatabase.Name, Is.EqualTo(childName));
             Assert.That(childFromDatabase.Creator.Id, Is.EqualTo(sessionUser.User.Id));
             Assert.That(childFromDatabase.Creator.Name, Is.EqualTo(sessionUser.User.Name));
@@ -72,7 +70,6 @@
             Assert.That(childFromEntityCache, Is.Not.Null);
             Assert.That(sessionUser, Is.Not.Null);
             Assert.That(childFromEntityCache.Creator, Is.Not.Null);
-            Assert.That(childFromEntityCache.DateCreated, Is.Not.Null);
             Assert.That(childFromEntityCache.Name, Is.EqualTo(childName));
             Assert.That(childFromEntityCache.Creator.Id, Is.EqualTo(sessionUser.User.Id));
             Assert.That(childFromEntityCache.Creator.Name, Is.EqualTo(sessionUser.User.Name));

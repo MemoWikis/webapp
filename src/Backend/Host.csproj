@@ -112,9 +112,6 @@
 		</Reference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\TrueOrFalse\Core.csproj" />
-	</ItemGroup>
-	<ItemGroup>
 	  <None Update="Log.ignore">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
@@ -134,5 +131,8 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Api\Developer\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Backend.Core\Core.csproj" />
 	</ItemGroup>
 </Project>

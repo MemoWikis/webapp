@@ -65,6 +65,9 @@ public class BaseTest
 
         JobScheduler.Clear();
         EntityCache.Clear();
+
+        _container.Dispose();
+        LifetimeScope.Dispose();
     }
 
     public void RecycleContainerAndEntityCache()

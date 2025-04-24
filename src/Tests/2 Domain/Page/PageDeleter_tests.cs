@@ -33,7 +33,6 @@ public class PageDeleter_tests : BaseTest
         var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
 
         //Assert
-        Assert.That(requestResult, Is.Not.Null);
         Assert.That(requestResult.Success);
         Assert.That(requestResult.HasChildren, Is.False);
         Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
@@ -143,7 +142,6 @@ public class PageDeleter_tests : BaseTest
         var cachedParent = EntityCache.GetPage(parent.Id);
         var cachedChild = EntityCache.GetPage(child.Id);
 
-        Assert.That(requestResult, Is.Not.Null);
         Assert.That(requestResult.Success);
         Assert.That(requestResult.HasChildren, Is.False);
         Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
@@ -212,8 +210,6 @@ public class PageDeleter_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         //Assert
-
-        Assert.That(requestResult, Is.Not.Null);
         Assert.That(requestResult.Success);
     }
 
@@ -256,8 +252,6 @@ public class PageDeleter_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         //Assert
-
-        Assert.That(requestResult, Is.Not.Null);
         Assert.That(requestResult.Success, Is.False);
         Assert.That(requestResult.HasChildren);
         Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
@@ -297,7 +291,6 @@ public class PageDeleter_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         //Assert
-        Assert.That(requestResult, Is.Not.Null);
         Assert.That(requestResult.Success);
         Assert.That(requestResult.IsNotCreatorOrAdmin);
     }
