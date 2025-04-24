@@ -270,22 +270,18 @@ async function loadAnswerBodyModel() {
 
 const router = useRouter()
 async function handleUrl() {
-    // Only update URL if we're still on the same tab and have a valid model
     if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
-        // Extract pageId from the current URL path
+
         const pathSegments = window.location.pathname.split('/').filter(segment => segment.length > 0)
-        
-        // Check if the current URL structure has a valid page ID (second segment should be a number)
+
         let currentPageId = null
-        if (pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))) {
+        if (pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1])))
             currentPageId = parseInt(pathSegments[1])
-        }
-        
-        // Only navigate if we're on the correct page (current page ID matches pageStore.id)
-        // This prevents handleUrl from changing page when we've navigated away
+
         if (currentPageId === pageStore.id) {
             const newPath = $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)
-            router.push(newPath)
+            if (newPath != window.location.pathname)
+                router.push(newPath)
         }
     }
 }
