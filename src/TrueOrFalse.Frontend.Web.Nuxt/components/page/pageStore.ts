@@ -623,6 +623,8 @@ export const usePageStore = defineStore("pageStore", {
         },
         setToken(token: string | null) {
             this.shareToken = token
+            const userStore = useUserStore()
+            if (token !== null) userStore.addShareToken(this.id, token)
         },
         async updateIsShared() {
             let url = `/apiVue/PageStore/GetIsShared/${this.id}`

@@ -290,5 +290,13 @@ export const useUserStore = defineStore("userStore", {
                 }
             )
         },
+        async addShareToken(pageId: number, shareToken: string) {
+            await $api<void>("/apiVue/UserStore/AddShareToken", {
+                method: "POST",
+                body: { pageId, shareToken },
+                mode: "cors",
+                credentials: "include",
+            })
+        },
     },
 })

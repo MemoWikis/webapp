@@ -25,18 +25,38 @@ interface Props {
 const props = defineProps<Props>()
 
 const dropIn = ref(false)
+
+const dropInHovering = ref(false)
+
+function onDropZoneEnter() {
+    dropInHovering.value = true
+    if (dragOverTimer.value == null)
+        dragOverTimer.value = Date.now()
+    else {
+        const diff = Date.now() - dragOverTimer.value
+        if (diff > 700) {
+            dropIn.value = true
+            dropInHovering.value = false
+            dragOverTimer.value = null
+        } else {
+            dropInHovering.value = true
+        }
+    }
+}
+
+function onDropZoneLeave() {
+    dropInHovering.value = false
+}
+
 const dragOverTimer = ref()
 const isDroppableItemActive = ref(false)
 function onDragOver(e: any) {
     e.preventDefault()
 
     isDroppableItemActive.value = true
-    if (dragOverTimer.value == null)
-        dragOverTimer.value = Date.now()
-    else {
-        const diff = Date.now() - dragOverTimer.value
-        if (diff > 700)
-            dropIn.value = true
+    if (hoverPlaceholder.value === true) {
+        dragOverTimer.value = null
+        dropIn.value = false
     }
 
     handleScroll(e.clientY)
@@ -221,17 +241,21 @@ watch(() => dragStore.transferData, (t) => {
         placeHolderPageName.value = m.page.name
     }
 }, { deep: true, immediate: true })
+
+const hoverPlaceholder = ref(false)
+
 </script>
 
 <template>
     <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true"
         ref="dragComponent" @drag.stop="handleDrag">
-        <div @dragover="onDragOver" @dragleave="onDragLeave" @drop.stop="onDrop">
+        <div @dragover.prevent.stop="onDragOver" @dragleave="onDragLeave" @drop.stop="onDrop">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
-                <div v-if="dragStore.active" @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false"
-                    class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
+                <div v-if="dragStore.active"
+                    class="emptydropzone"
+                    :class="{ 'open': hoverTopHalf && !dragging }">
 
                     <div class="inner top">
                         <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData"
@@ -262,10 +286,18 @@ watch(() => dragStore.transferData, (t) => {
                             <div class="dropzone-label">{{ t('page.grid.dnd.labels.subordinatePage') }}</div>
                         </div>
                     </template>
-
                 </PageContentGridItem>
 
-                <div v-if="dragStore.active" @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
+                <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="drop-in-trigger" :class="{ 'hover-top': hoverTopHalf }" @dragover.stop.prevent="onDropZoneEnter" @dragleave.prevent="onDropZoneLeave">
+                    <div class="drop-in-indicator" :class="{ 'hover-main': isDroppableItemActive, 'active': dropInHovering }">
+                        <span class="loader" :class="{ 'loading': dropInHovering }"></span>
+                        <div class="drop-in-icon" v-if="!dropIn">
+                            <font-awesome-icon :icon="['fas', 'right-to-bracket']" rotation="90" />
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
 
                     <div class="inner bottom">
                         <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData" :name="placeHolderPageName" />
@@ -284,7 +316,6 @@ watch(() => dragStore.transferData, (t) => {
     height: 0px;
     transition: all 100ms ease-in;
     opacity: 0;
-    pointer-events: none;
 
     &.open {
         height: 80px;
@@ -308,6 +339,7 @@ watch(() => dragStore.transferData, (t) => {
             z-index: 3;
         }
     }
+
 }
 
 .dropzone {
@@ -358,22 +390,123 @@ watch(() => dragStore.transferData, (t) => {
     }
 }
 
-
 .draggable {
     transition: all 0.5s;
     cursor: grab;
 
     .item {
         opacity: 1;
+        position: relative;
 
         &.dragging {
             opacity: 0.2;
         }
-
     }
 
     &:active {
         cursor: grabbing;
+    }
+}
+
+.drop-in-trigger {
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    z-index: 10;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 100ms ease-in;
+
+    &.hover-top {
+        top: 85px;
+    }
+}
+
+.drop-in-indicator {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    transition: all 0.2s ease;
+
+    .drop-in-icon {
+        z-index: 1;
+        color: @memo-grey-light;
+        font-size: 1.6rem;
+    }
+
+    &.hover-main {
+        .drop-in-icon {
+            color: @memo-grey-dark;
+        }
+    }
+
+    &.active {
+        border-color: @memo-green;
+        background-color: fade(@memo-green, 10%);
+
+        .drop-in-icon {
+            color: @memo-green;
+        }
+    }
+}
+
+.loader {
+    width: 58px;
+    height: 58px;
+    border: 5px solid white;
+    border-radius: 50%;
+    position: absolute;
+    transform: rotate(45deg);
+    box-sizing: border-box;
+    display: none;
+    z-index: -1;
+}
+
+.loader.loading {
+    display: block;
+}
+
+.loader::before {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    inset: -5px;
+    border-radius: 50%;
+    border: 5px solid @memo-green;
+    animation: prixClipFix 700ms 1 linear forwards;
+}
+
+@keyframes prixClipFix {
+    0% {
+        clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0)
+    }
+
+    25% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0)
+    }
+
+    50% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%)
+    }
+
+    75% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%)
+    }
+
+    100% {
+        clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0)
     }
 }
 </style>
