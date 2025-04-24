@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="2 Domain\Search\**" />
+    <EmbeddedResource Remove="2 Domain\Search\**" />
+    <None Remove="2 Domain\Search\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.Test.json" />
   </ItemGroup>
 
@@ -41,10 +47,6 @@
   <ItemGroup>
     <ProjectReference Include="..\TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj" />
     <ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="2 Domain\Search\" />
   </ItemGroup>
 
 </Project>
