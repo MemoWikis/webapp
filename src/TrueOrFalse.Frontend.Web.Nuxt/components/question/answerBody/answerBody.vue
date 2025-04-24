@@ -223,17 +223,31 @@ function highlightCode() {
 
 const answerBodyModel = ref<AnswerBodyModel>()
 
+const currentRequest = ref<AbortController | null>(null)
+
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
+
+    if (currentRequest.value) {
+        currentRequest.value.abort()
+    }
+
+    currentRequest.value = new AbortController()
+
     const result = await $api<AnswerBodyModel>(`/apiVue/AnswerBody/Get/${learningSessionStore.currentIndex}`, {
         mode: 'cors',
         credentials: 'include',
+        signal: currentRequest.value.signal,
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
+    }).catch(() => {
+        return null
     })
+
+    currentRequest.value = null
+
     if (result != null) {
         flashCardAnswered.value = false
         answerIsCorrect.value = false
@@ -256,13 +270,30 @@ async function loadAnswerBodyModel() {
 
 const router = useRouter()
 async function handleUrl() {
-    if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0 && window.location.pathname != $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)) {
-        const newPath = $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)
-        router.push(newPath)
+    if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
+
+        const pathSegments = window.location.pathname.split('/').filter(segment => segment.length > 0)
+
+        let currentPageId = null
+        if (pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1])))
+            currentPageId = parseInt(pathSegments[1])
+
+        if (currentPageId === pageStore.id) {
+            const newPath = $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)
+            if (newPath != window.location.pathname)
+                router.push(newPath)
+        }
     }
 }
 
 const route = useRoute()
+watch(() => pageStore.id, (newId, oldId) => {
+    if (newId !== oldId && currentRequest.value) {
+        currentRequest.value.abort()
+        currentRequest.value = null
+    }
+})
+
 watch(() => tabsStore.activeTab, async (tab) => {
     if (tab === Tab.Learning && isNaN(parseInt(route.params.questionId?.toString()))) {
         handleUrl()
