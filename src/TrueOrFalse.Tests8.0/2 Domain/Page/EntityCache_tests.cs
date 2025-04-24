@@ -18,7 +18,7 @@
 
         var cachedPage = EntityCache.GetPage(page);
 
-        Assert.NotNull(cachedPage);
+        Assert.That(cachedPage, Is.Not.Null);
         Assert.That(page.Id, Is.EqualTo(cachedPage.Id));
         Assert.That(page.Name, Is.EqualTo(cachedPage.Name));
         Assert.That(page.Creator.Name, Is.EqualTo(cachedPage.Creator.Name));

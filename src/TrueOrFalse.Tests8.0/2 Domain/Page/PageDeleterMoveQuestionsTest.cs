@@ -42,21 +42,21 @@ public class PageDeleterMoveQuestionsTest : BaseTest
         var questionChange = R<QuestionChangeRepo>().GetByQuestionId(questionFromDb.Id);
 
         //Assert
-        Assert.IsNotNull(parentFromDb);
-        Assert.AreEqual(PageChangeType.Create, pageChange.First().Type);
-        Assert.AreEqual(PageChangeType.Relations, pageChange[1].Type);
-        Assert.AreEqual(PageChangeType.ChildPageDeleted, pageChange.Last().Type);
-        Assert.NotNull(questionChange);
-        Assert.AreEqual(QuestionChangeType.Create, questionChange.Type);
+        Assert.That(parentFromDb, Is.Not.Null);
+        Assert.That(PageChangeType.Create, Is.EqualTo(pageChange.First().Type));
+        Assert.That(PageChangeType.Relations, Is.EqualTo(pageChange[1].Type));
+        Assert.That(PageChangeType.ChildPageDeleted, Is.EqualTo(pageChange.Last().Type));
+        Assert.That(questionChange, Is.Not.Null);
+        Assert.That(QuestionChangeType.Create, Is.EqualTo(questionChange.Type));
 
-        Assert.AreEqual(parentFromDb.CountQuestionsAggregated, 1);
-        Assert.AreEqual(parentFromDb.Id, questionFromDb.Pages.First().Id);
-        Assert.AreEqual(questionFromDb.Pages.Count(), 1);
+        Assert.That(parentFromDb.CountQuestionsAggregated, Is.EqualTo(1));
+        Assert.That(parentFromDb.Id, Is.EqualTo(questionFromDb.Pages.First().Id));
+        Assert.That(questionFromDb.Pages.Count(), Is.EqualTo(1));
 
-        Assert.IsNotNull(parentFromCache);
-        Assert.AreEqual(parentFromCache.CountQuestionsAggregated, 1);
-        Assert.AreEqual(parentFromCache.Id, questionFromDb.Pages.First().Id);
-        Assert.AreEqual(questionFromCache.Pages.Count(), 1);
+        Assert.That(parentFromCache, Is.Not.Null);
+        Assert.That(parentFromCache.CountQuestionsAggregated, Is.EqualTo(1));
+        Assert.That(parentFromCache.Id, Is.EqualTo(questionFromDb.Pages.First().Id));
+        Assert.That(questionFromCache.Pages.Count(), Is.EqualTo(1));
     }
 
     [Test]
@@ -85,8 +85,8 @@ public class PageDeleterMoveQuestionsTest : BaseTest
 
         var result = R<PageDeleter>().DeletePage(child.Id, parentId);
 
-        Assert.AreEqual(result.Success, false);
-        Assert.AreEqual(result.MessageKey, FrontendMessageKeys.Error.Page.PageNotSelected);
+        Assert.That(result.Success, Is.EqualTo(false));
+        Assert.That(result.MessageKey, Is.EqualTo(FrontendMessageKeys.Error.Page.PageNotSelected));
 
     }
 }

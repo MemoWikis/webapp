@@ -99,7 +99,7 @@ class GenerateFlashCards_tests : BaseTest
 
         var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
 
-        Assert.NotNull(claudeResponse);
+        Assert.That(claudeResponse, Is.Not.Null);
         var hasDuplicate = claudeResponse!.Content[0].Text == "true";
         Warn.If(hasDuplicate, $"ClaudeAssertResult: {claudeResponse.Content[0].Text} " + Environment.NewLine +
                               $"FlashCardsBaseJson: {flashCardsBaseJson}" + Environment.NewLine +
@@ -199,7 +199,7 @@ class GenerateFlashCards_tests : BaseTest
 
         var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
 
-        Assert.NotNull(claudeResponse);
+        Assert.That(claudeResponse, Is.Not.Null);
         var hasDuplicate = claudeResponse!.Content[0].Text == "true";
         Warn.If(hasDuplicate, $"ClaudeAssertResult: {claudeResponse.Content[0].Text} " + Environment.NewLine +
                               $"FlashCardsBaseJson: {flashCardsBaseJson}" + Environment.NewLine +
@@ -232,7 +232,7 @@ class GenerateFlashCards_tests : BaseTest
         var assertPrompt = $@"Überprüfe ob die Sprache dieses Textes: {SourceTexts.LongSourceTextEN} und diese Karteikarten: {flashCardsJson} übereinstimmen. Antworte nur mit true oder false, füge keine Erklärung hinzu.";
         var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
 
-        Assert.NotNull(claudeResponse);
+        Assert.That(claudeResponse, Is.Not.Null);
         var languageDiffers = claudeResponse!.Content[0].Text != "true";
         Warn.If(languageDiffers, $"ClaudeAssertResult: {claudeResponse.Content[0].Text}");
         Assert.Pass();
@@ -263,7 +263,7 @@ class GenerateFlashCards_tests : BaseTest
         var assertPrompt = $@"Überprüfe ob die Sprache dieses Textes: {SourceTexts.LongSourceTextDE} und diese Karteikarten: {flashCardsJson} übereinstimmen. Antworte nur mit true oder false, füge keine Erklärung hinzu.";
         var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
 
-        Assert.NotNull(claudeResponse);
+        Assert.That(claudeResponse, Is.Not.Null);
         var languageDiffers = claudeResponse!.Content[0].Text != "true";
         Warn.If(languageDiffers, $"ClaudeAssertResult: {claudeResponse.Content[0].Text}");
         Assert.Pass();
@@ -280,7 +280,7 @@ class GenerateFlashCards_tests : BaseTest
         var result = await controller.GenerateFlashCard(request);
 
         // Assert
-        Assert.IsNull(result, "Result should be null when request text is null.");
+        Assert.That(result, Is.Null, "Result should be null when request text is null.");
     }
 
     [Test]
@@ -294,7 +294,7 @@ class GenerateFlashCards_tests : BaseTest
         var result = await controller.GenerateFlashCard(request);
 
         // Assert
-        Assert.IsNull(result, "Result should be null when request PageId is invalid.");
+        Assert.That(result, Is.Null, "Result should be null when request PageId is invalid.");
     }
 
     //[Test]

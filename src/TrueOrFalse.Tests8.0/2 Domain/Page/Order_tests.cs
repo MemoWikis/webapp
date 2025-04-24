@@ -18,7 +18,7 @@
         var sortedRelations = PageOrderer.Sort(unsortedRelations, 10);
 
         //Assert
-        Assert.IsNotNull(sortedRelations);
+        Assert.That(sortedRelations, Is.Not.Null);
         Assert.That(sortedRelations.Count, Is.EqualTo(3));
         Assert.That(sortedRelations[0].ChildId, Is.EqualTo(1));
         Assert.That(sortedRelations[1].ChildId, Is.EqualTo(2));
@@ -49,7 +49,7 @@
         //Act
         var sortedRelations = PageOrderer.Sort(unsortedRelations, 10);
 
-        Assert.IsNotNull(sortedRelations);
+        Assert.That(sortedRelations, Is.Not.Null);
         Assert.That(sortedRelations.Count, Is.EqualTo(6));
         Assert.That(sortedRelations[0].ChildId, Is.EqualTo(1));
         Assert.That(sortedRelations[1].ChildId, Is.EqualTo(2));
@@ -88,12 +88,12 @@
         //Assert
         var cachedRoot = EntityCache.GetPage(root);
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(2));
-        Assert.IsNull(cachedRoot.ChildRelations[0].PreviousId);
+        Assert.That(cachedRoot.ChildRelations[0].PreviousId, Is.Null);
 
         Assert.That(cachedRoot.ChildRelations[0].NextId, Is.EqualTo(sub2.Id));
         Assert.That(cachedRoot.ChildRelations[1].PreviousId, Is.EqualTo(sub1.Id));
 
-        Assert.IsNull(cachedRoot.ChildRelations[1].NextId);
+        Assert.That(cachedRoot.ChildRelations[1].NextId, Is.Null);
     }
 
     //Move sub1 after sub3
@@ -138,7 +138,7 @@
         //Assert
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
 
-        Assert.IsNull(cachedRoot.ChildRelations[0].PreviousId);
+        Assert.That(cachedRoot.ChildRelations[0].PreviousId, Is.Null);
         Assert.That(cachedRoot.ChildRelations[0].ChildId, Is.EqualTo(sub2.Id));
         Assert.That(cachedRoot.ChildRelations[0].NextId, Is.EqualTo(sub3.Id));
 
@@ -148,7 +148,7 @@
 
         Assert.That(cachedRoot.ChildRelations[2].ChildId, Is.EqualTo(sub1.Id));
         Assert.That(cachedRoot.ChildRelations[2].PreviousId, Is.EqualTo(sub3.Id));
-        Assert.IsNull(cachedRoot.ChildRelations[2].NextId);
+        Assert.That(cachedRoot.ChildRelations[2].NextId, Is.Null);
 
         var allRelationsInDb = pageRelationRepo.GetAll();
 
@@ -210,7 +210,7 @@
         //Assert
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
 
-        Assert.IsNull(cachedRoot.ChildRelations[0].PreviousId);
+        Assert.That(cachedRoot.ChildRelations[0].PreviousId, Is.Null);
         Assert.That(cachedRoot.ChildRelations[0].ChildId, Is.EqualTo(sub3.Id));
         Assert.That(cachedRoot.ChildRelations[0].NextId, Is.EqualTo(sub1.Id));
 
@@ -220,7 +220,7 @@
 
         Assert.That(cachedRoot.ChildRelations[2].ChildId, Is.EqualTo(sub2.Id));
         Assert.That(cachedRoot.ChildRelations[2].PreviousId, Is.EqualTo(sub1.Id));
-        Assert.IsNull(cachedRoot.ChildRelations[2].NextId);
+        Assert.That(cachedRoot.ChildRelations[2].NextId, Is.Null);
 
         var allRelationsInDb = pageRelationRepo.GetAll();
 
@@ -290,7 +290,7 @@
         //Assert
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(4));
 
-        Assert.IsNull(cachedRoot.ChildRelations[0].PreviousId);
+        Assert.That(cachedRoot.ChildRelations[0].PreviousId, Is.Null);
         Assert.That(cachedRoot.ChildRelations[0].ChildId, Is.EqualTo(sub2.Id));
         Assert.That(cachedRoot.ChildRelations[0].NextId, Is.EqualTo(sub3.Id));
 
@@ -304,7 +304,7 @@
 
         Assert.That(cachedRoot.ChildRelations[3].ChildId, Is.EqualTo(sub4.Id));
         Assert.That(cachedRoot.ChildRelations[3].PreviousId, Is.EqualTo(sub1.Id));
-        Assert.IsNull(cachedRoot.ChildRelations[3].NextId);
+        Assert.That(cachedRoot.ChildRelations[3].NextId, Is.Null);
 
         var allRelationsInDb = pageRelationRepo.GetAll();
 

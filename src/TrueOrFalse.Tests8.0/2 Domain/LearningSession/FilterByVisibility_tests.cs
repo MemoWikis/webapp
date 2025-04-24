@@ -15,8 +15,8 @@ class FilterByVisibility_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByVisibility_Test(config, _publicQuestion, questionProperties);
 
-        Assert.IsTrue(questionProperties.Public);
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.Public, Is.True);
+        Assert.That(questionProperties.AddToLearningSession, Is.True);
     }
 
     [Test]
@@ -27,8 +27,8 @@ class FilterByVisibility_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByVisibility_Test(config, _privateQuestion, questionProperties);
 
-        Assert.IsTrue(questionProperties.Private);
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.Private, Is.True);
+        Assert.That(questionProperties.AddToLearningSession, Is.True);
     }
 
     [Test]
@@ -39,16 +39,16 @@ class FilterByVisibility_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByVisibility_Test(config, _publicQuestion, questionProperties);
 
-        Assert.IsTrue(questionProperties.Public);
-        Assert.IsFalse(questionProperties.Private);
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.Public, Is.True);
+        Assert.That(questionProperties.Private, Is.False);
+        Assert.That(questionProperties.AddToLearningSession, Is.True);
 
         var questionProperties2 = new QuestionProperties();
         questionProperties2 = FilterByVisibility_Test(config, _privateQuestion, questionProperties2);
 
-        Assert.IsTrue(questionProperties2.Private);
-        Assert.IsFalse(questionProperties2.Public);
-        Assert.IsTrue(questionProperties2.AddToLearningSession);
+        Assert.That(questionProperties2.Private, Is.True);
+        Assert.That(questionProperties2.Public, Is.False);
+        Assert.That(questionProperties2.AddToLearningSession, Is.True);
     }
 
     [Test]
@@ -59,16 +59,16 @@ class FilterByVisibility_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByVisibility_Test(config, _publicQuestion, questionProperties);
 
-        Assert.IsTrue(questionProperties.Public);
-        Assert.IsFalse(questionProperties.Private);
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.Public, Is.True);
+        Assert.That(questionProperties.Private, Is.False);
+        Assert.That(questionProperties.AddToLearningSession, Is.True);
 
         var questionProperties2 = new QuestionProperties();
         questionProperties2 = FilterByVisibility_Test(config, _privateQuestion, questionProperties2);
 
-        Assert.IsTrue(questionProperties2.Private);
-        Assert.IsFalse(questionProperties2.Public);
-        Assert.IsTrue(questionProperties2.AddToLearningSession);
+        Assert.That(questionProperties2.Private, Is.True);
+        Assert.That(questionProperties2.Public, Is.False);
+        Assert.That(questionProperties2.AddToLearningSession, Is.True);
     }
 
     [Test]
@@ -79,9 +79,9 @@ class FilterByVisibility_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByVisibility_Test(config, _publicQuestion, questionProperties);
 
-        Assert.IsTrue(questionProperties.Public);
-        Assert.IsFalse(questionProperties.Private);
-        Assert.IsFalse(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.Public, Is.True);
+        Assert.That(questionProperties.Private, Is.False);
+        Assert.That(questionProperties.AddToLearningSession, Is.False);
     }
 
     [Test]
@@ -92,8 +92,8 @@ class FilterByVisibility_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByVisibility_Test(config, _privateQuestion, questionProperties);
 
-        Assert.IsTrue(questionProperties.Private);
-        Assert.IsFalse(questionProperties.Public);
-        Assert.IsFalse(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.Private, Is.True);
+        Assert.That(questionProperties.Public, Is.False);
+        Assert.That(questionProperties.AddToLearningSession, Is.False);
     }
 }

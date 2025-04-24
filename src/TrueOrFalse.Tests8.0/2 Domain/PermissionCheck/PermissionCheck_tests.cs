@@ -31,7 +31,7 @@
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user.Id);
-        Assert.IsTrue(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42));
+        Assert.That(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42));
     }
 
     [Test]

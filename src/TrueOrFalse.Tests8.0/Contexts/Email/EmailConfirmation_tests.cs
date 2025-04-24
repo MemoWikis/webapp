@@ -35,7 +35,7 @@ public class EmailConfirmationServiceTests : BaseTest
 
         var result = _emailConfirmationService.TryConfirmEmailTest(token, user);
 
-        Assert.True(result);
+        Assert.That(result);
     }
 
     [Test]
@@ -47,7 +47,7 @@ public class EmailConfirmationServiceTests : BaseTest
 
         var result = _emailConfirmationService.TryConfirmEmailTest(token, user);
 
-        Assert.False(result);
+        Assert.That(result, Is.False);
     }
 
     [Test]
@@ -74,7 +74,7 @@ public class EmailConfirmationServiceTests : BaseTest
 
         var token = EmailConfirmationService.CreateEmailConfirmationToken(user);
 
-        Assert.NotNull(token);
+        Assert.That(token, Is.Not.Null);
         // You might want more specific assertions here, e.g. length checks or format checks.
     }
 
@@ -90,7 +90,7 @@ public class EmailConfirmationServiceTests : BaseTest
 
         var token = EmailConfirmationService.CreateEmailConfirmationToken(user);
 
-        Assert.NotNull(token);
+        Assert.That(token, Is.Not.Null);
         // Again, you might want more specific assertions here.
     }
 

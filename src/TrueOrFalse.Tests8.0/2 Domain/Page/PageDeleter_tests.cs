@@ -33,10 +33,10 @@ public class PageDeleter_tests : BaseTest
         var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
 
         //Assert
-        Assert.IsNotNull(requestResult);
-        Assert.IsTrue(requestResult.Success);
-        Assert.IsFalse(requestResult.HasChildren);
-        Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
+        Assert.That(requestResult, Is.Not.Null);
+        Assert.That(requestResult.Success);
+        Assert.That(requestResult.HasChildren, Is.False);
+        Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
         Assert.That(parent.Id, Is.EqualTo(requestResult.RedirectParent.Id));
     }
 
@@ -87,18 +87,18 @@ public class PageDeleter_tests : BaseTest
         var childrenOfChild = pageRepo.GetChildren(PageType.Standard,
             PageType.Standard, child.Id);
 
-        Assert.IsNotNull(requestResult);
-        Assert.IsTrue(requestResult.Success);
-        Assert.IsFalse(requestResult.HasChildren);
-        Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
+        Assert.That(requestResult, Is.Not.False);
+        Assert.That(requestResult.Success);
+        Assert.That(requestResult.HasChildren, Is.False);
+        Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
         Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
-        Assert.IsTrue(allAvailablePages.Any());
-        Assert.IsTrue(allAvailablePages.Contains(parent));
-        Assert.IsTrue(allAvailablePages.Contains(child));
-        Assert.IsNotEmpty(parentChildren);
-        Assert.IsTrue(parentChildren.Count == 1);
+        Assert.That(allAvailablePages.Any());
+        Assert.That(allAvailablePages.Contains(parent));
+        Assert.That(allAvailablePages.Contains(child));
+        Assert.That(parentChildren, Is.Not.Empty);
+        Assert.That(parentChildren.Count == 1);
         Assert.That(childName, Is.EqualTo(parentChildren.First().Name));
-        Assert.IsEmpty(childrenOfChild);
+        Assert.That(childrenOfChild, Is.Empty);
     }
 
     [Test]
@@ -143,24 +143,24 @@ public class PageDeleter_tests : BaseTest
         var cachedParent = EntityCache.GetPage(parent.Id);
         var cachedChild = EntityCache.GetPage(child.Id);
 
-        Assert.IsNotNull(requestResult);
-        Assert.IsTrue(requestResult.Success);
-        Assert.IsFalse(requestResult.HasChildren);
-        Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
+        Assert.That(requestResult, Is.Not.Null);
+        Assert.That(requestResult.Success);
+        Assert.That(requestResult.HasChildren, Is.False);
+        Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
         Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
-        Assert.IsTrue(allPagesInEntityCache.Any());
-        Assert.IsTrue(allPagesInEntityCache.Any(c => c.Id == parent.Id));
-        Assert.IsTrue(allPagesInEntityCache.Any(c => c.Id == child.Id));
-        Assert.False(allPagesInEntityCache.Any(c => c.Name.Equals(childOfChildName)));
-        Assert.IsNotEmpty(cachedParent.ChildRelations);
+        Assert.That(allPagesInEntityCache.Any());
+        Assert.That(allPagesInEntityCache.Any(c => c.Id == parent.Id));
+        Assert.That(allPagesInEntityCache.Any(c => c.Id == child.Id));
+        Assert.That(allPagesInEntityCache.Any(c => c.Name.Equals(childOfChildName)), Is.False);
+        Assert.That(cachedParent.ChildRelations, Is.Not.Empty);
         Assert.That(cachedChild.Id,
             Is.EqualTo(cachedParent.ChildRelations.Single().ChildId));
-        Assert.IsEmpty(cachedParent.ParentRelations);
-        Assert.IsEmpty(cachedChild.ChildRelations);
+        Assert.That(cachedParent.ParentRelations, Is.Empty);
+        Assert.That(cachedChild.ChildRelations, Is.Empty);
         Assert.That(cachedParent.Id, Is.EqualTo(cachedChild.ParentRelations.Single().Id));
 
         var allRelationsInEntityCache = EntityCache.GetAllRelations();
-        Assert.False(allRelationsInEntityCache.Any(r => r.ChildId == childOfChild.Id));
+        Assert.That(allRelationsInEntityCache.Any(r => r.ChildId == childOfChild.Id), Is.False);
     }
 
     [Test]
@@ -213,8 +213,8 @@ public class PageDeleter_tests : BaseTest
 
         //Assert
 
-        Assert.IsNotNull(requestResult);
-        Assert.IsTrue(requestResult.Success);
+        Assert.That(requestResult, Is.Not.Null);
+        Assert.That(requestResult.Success);
     }
 
     [Test]
@@ -257,10 +257,10 @@ public class PageDeleter_tests : BaseTest
 
         //Assert
 
-        Assert.IsNotNull(requestResult);
-        Assert.IsFalse(requestResult.Success);
-        Assert.IsTrue(requestResult.HasChildren);
-        Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
+        Assert.That(requestResult, Is.Not.Null);
+        Assert.That(requestResult.Success, Is.False);
+        Assert.That(requestResult.HasChildren);
+        Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
     }
 
     [Test]
@@ -297,9 +297,8 @@ public class PageDeleter_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         //Assert
-
-        Assert.IsNotNull(requestResult);
-        Assert.IsFalse(requestResult.Success);
-        Assert.IsTrue(requestResult.IsNotCreatorOrAdmin);
+        Assert.That(requestResult, Is.Not.Null);
+        Assert.That(requestResult.Success);
+        Assert.That(requestResult.IsNotCreatorOrAdmin);
     }
 }

@@ -25,14 +25,14 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, _questionValuationSolid);
 
-        Assert.IsTrue(questionProperties.Solid);
-        Assert.IsFalse(questionProperties.NeedsConsolidation);
-        Assert.IsFalse(questionProperties.NeedsLearning);
-        Assert.IsFalse(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid);
+        Assert.That(questionProperties.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties.NeedsLearning, Is.False);
+        Assert.That(questionProperties.NotLearned, Is.False);
 
         var expectedProbability = _questionValuationSolid.CorrectnessProbability;
         Assert.That(questionProperties.PersonalCorrectnessProbability, Is.EqualTo(expectedProbability));
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession);
     }
 
     [Test]
@@ -49,14 +49,14 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, _questionValuationNeedsConsolidation);
 
-        Assert.IsFalse(questionProperties.Solid);
-        Assert.IsTrue(questionProperties.NeedsConsolidation);
-        Assert.IsFalse(questionProperties.NeedsLearning);
-        Assert.IsFalse(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid, Is.False);
+        Assert.That(questionProperties.NeedsConsolidation);
+        Assert.That(questionProperties.NeedsLearning, Is.False);
+        Assert.That(questionProperties.NotLearned, Is.False);
 
         var expectedProbability = _questionValuationNeedsConsolidation.CorrectnessProbability;
         Assert.That(questionProperties.PersonalCorrectnessProbability, Is.EqualTo(expectedProbability));
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession);
     }
 
     [Test]
@@ -73,14 +73,14 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, _questionValuationNeedsLearning);
 
-        Assert.IsFalse(questionProperties.Solid);
-        Assert.IsFalse(questionProperties.NeedsConsolidation);
-        Assert.IsTrue(questionProperties.NeedsLearning);
-        Assert.IsFalse(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid, Is.False);
+        Assert.That(questionProperties.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties.NeedsLearning);
+        Assert.That(questionProperties.NotLearned, Is.False);
 
         var expectedProbability = _questionValuationNeedsLearning.CorrectnessProbability;
         Assert.That(questionProperties.PersonalCorrectnessProbability, Is.EqualTo(expectedProbability));
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession);
     }
 
     [Test]
@@ -97,14 +97,14 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, _questionValuationNotLearned);
 
-        Assert.IsFalse(questionProperties.Solid);
-        Assert.IsFalse(questionProperties.NeedsConsolidation);
-        Assert.IsFalse(questionProperties.NeedsLearning);
-        Assert.IsTrue(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid, Is.False);
+        Assert.That(questionProperties.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties.NeedsLearning, Is.False);
+        Assert.That(questionProperties.NotLearned);
 
         var expectedProbability = _questionValuationNotLearned.CorrectnessProbability;
         Assert.That(questionProperties.PersonalCorrectnessProbability, Is.EqualTo(expectedProbability));
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession);
     }
 
     [Test]
@@ -121,14 +121,14 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, null);
 
-        Assert.IsFalse(questionProperties.Solid);
-        Assert.IsFalse(questionProperties.NeedsConsolidation);
-        Assert.IsFalse(questionProperties.NeedsLearning);
-        Assert.IsTrue(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid, Is.False);
+        Assert.That(questionProperties.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties.NeedsLearning, Is.False);
+        Assert.That(questionProperties.NotLearned);
 
         var expectedProbability = _question.CorrectnessProbability;
         Assert.That(questionProperties.PersonalCorrectnessProbability, Is.EqualTo(expectedProbability));
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession);
     }
 
     [Test]
@@ -145,52 +145,52 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, _questionValuationSolid);
 
-        Assert.IsTrue(questionProperties.Solid);
-        Assert.IsFalse(questionProperties.NeedsConsolidation);
-        Assert.IsFalse(questionProperties.NeedsLearning);
-        Assert.IsFalse(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid);
+        Assert.That(questionProperties.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties.NeedsLearning, Is.False);
+        Assert.That(questionProperties.NotLearned, Is.False);
 
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession);
 
         var questionProperties2 = new QuestionProperties();
         questionProperties2 = FilterByKnowledgeSummary_Test(config, _question, questionProperties2, _questionValuationNeedsConsolidation);
 
-        Assert.IsFalse(questionProperties2.Solid);
-        Assert.IsTrue(questionProperties2.NeedsConsolidation);
-        Assert.IsFalse(questionProperties2.NeedsLearning);
-        Assert.IsFalse(questionProperties2.NotLearned);
+        Assert.That(questionProperties2.Solid, Is.False);
+        Assert.That(questionProperties2.NeedsConsolidation);
+        Assert.That(questionProperties2.NeedsLearning, Is.False);
+        Assert.That(questionProperties2.NotLearned, Is.False);
 
-        Assert.IsTrue(questionProperties2.AddToLearningSession);
+        Assert.That(questionProperties2.AddToLearningSession);
 
         var questionProperties3 = new QuestionProperties();
         questionProperties3 = FilterByKnowledgeSummary_Test(config, _question, questionProperties3, _questionValuationNeedsLearning);
 
-        Assert.IsFalse(questionProperties3.Solid);
-        Assert.IsFalse(questionProperties3.NeedsConsolidation);
-        Assert.IsTrue(questionProperties3.NeedsLearning);
-        Assert.IsFalse(questionProperties3.NotLearned);
+        Assert.That(questionProperties3.Solid, Is.False);
+        Assert.That(questionProperties3.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties3.NeedsLearning);
+        Assert.That(questionProperties3.NotLearned, Is.False);
 
-        Assert.IsTrue(questionProperties3.AddToLearningSession);
+        Assert.That(questionProperties3.AddToLearningSession);
 
         var questionProperties4 = new QuestionProperties();
         questionProperties4 = FilterByKnowledgeSummary_Test(config, _question, questionProperties4, _questionValuationNotLearned);
 
-        Assert.IsFalse(questionProperties4.Solid);
-        Assert.IsFalse(questionProperties4.NeedsConsolidation);
-        Assert.IsFalse(questionProperties4.NeedsLearning);
-        Assert.IsTrue(questionProperties4.NotLearned);
+        Assert.That(questionProperties4.Solid, Is.False);
+        Assert.That(questionProperties4.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties4.NeedsLearning, Is.False);
+        Assert.That(questionProperties4.NotLearned);
 
-        Assert.IsTrue(questionProperties4.AddToLearningSession);
+        Assert.That(questionProperties4.AddToLearningSession);
 
         var questionProperties5 = new QuestionProperties();
         questionProperties5 = FilterByKnowledgeSummary_Test(config, _question, questionProperties5, null);
 
-        Assert.IsFalse(questionProperties5.Solid);
-        Assert.IsFalse(questionProperties5.NeedsConsolidation);
-        Assert.IsFalse(questionProperties5.NeedsLearning);
-        Assert.IsTrue(questionProperties5.NotLearned);
+        Assert.That(questionProperties5.Solid, Is.False);
+        Assert.That(questionProperties5.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties5.NeedsLearning, Is.False);
+        Assert.That(questionProperties5.NotLearned);
 
-        Assert.IsTrue(questionProperties5.AddToLearningSession);
+        Assert.That(questionProperties5.AddToLearningSession);
     }
 
     [Test]
@@ -207,52 +207,52 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, _questionValuationSolid);
 
-        Assert.IsTrue(questionProperties.Solid);
-        Assert.IsFalse(questionProperties.NeedsConsolidation);
-        Assert.IsFalse(questionProperties.NeedsLearning);
-        Assert.IsFalse(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid);
+        Assert.That(questionProperties.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties.NeedsLearning, Is.False);
+        Assert.That(questionProperties.NotLearned, Is.False);
 
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession);
 
         var questionProperties2 = new QuestionProperties();
         questionProperties2 = FilterByKnowledgeSummary_Test(config, _question, questionProperties2, _questionValuationNeedsConsolidation);
 
-        Assert.IsFalse(questionProperties2.Solid);
-        Assert.IsTrue(questionProperties2.NeedsConsolidation);
-        Assert.IsFalse(questionProperties2.NeedsLearning);
-        Assert.IsFalse(questionProperties2.NotLearned);
+        Assert.That(questionProperties2.Solid, Is.False);
+        Assert.That(questionProperties2.NeedsConsolidation);
+        Assert.That(questionProperties2.NeedsLearning, Is.False);
+        Assert.That(questionProperties2.NotLearned, Is.False);
 
-        Assert.IsTrue(questionProperties2.AddToLearningSession);
+        Assert.That(questionProperties2.AddToLearningSession);
 
         var questionProperties3 = new QuestionProperties();
         questionProperties3 = FilterByKnowledgeSummary_Test(config, _question, questionProperties3, _questionValuationNeedsLearning);
 
-        Assert.IsFalse(questionProperties3.Solid);
-        Assert.IsFalse(questionProperties3.NeedsConsolidation);
-        Assert.IsTrue(questionProperties3.NeedsLearning);
-        Assert.IsFalse(questionProperties3.NotLearned);
+        Assert.That(questionProperties3.Solid, Is.False);
+        Assert.That(questionProperties3.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties3.NeedsLearning);
+        Assert.That(questionProperties3.NotLearned, Is.False);
 
-        Assert.IsTrue(questionProperties3.AddToLearningSession);
+        Assert.That(questionProperties3.AddToLearningSession);
 
         var questionProperties4 = new QuestionProperties();
         questionProperties4 = FilterByKnowledgeSummary_Test(config, _question, questionProperties4, _questionValuationNotLearned);
 
-        Assert.IsFalse(questionProperties4.Solid);
-        Assert.IsFalse(questionProperties4.NeedsConsolidation);
-        Assert.IsFalse(questionProperties4.NeedsLearning);
-        Assert.IsTrue(questionProperties4.NotLearned);
+        Assert.That(questionProperties4.Solid, Is.False);
+        Assert.That(questionProperties4.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties4.NeedsLearning, Is.False);
+        Assert.That(questionProperties4.NotLearned);
 
-        Assert.IsTrue(questionProperties4.AddToLearningSession);
+        Assert.That(questionProperties4.AddToLearningSession);
 
         var questionProperties5 = new QuestionProperties();
         questionProperties5 = FilterByKnowledgeSummary_Test(config, _question, questionProperties5, null);
 
-        Assert.IsFalse(questionProperties5.Solid);
-        Assert.IsFalse(questionProperties5.NeedsConsolidation);
-        Assert.IsFalse(questionProperties5.NeedsLearning);
-        Assert.IsTrue(questionProperties5.NotLearned);
+        Assert.That(questionProperties5.Solid, Is.False);
+        Assert.That(questionProperties5.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties5.NeedsLearning, Is.False);
+        Assert.That(questionProperties5.NotLearned);
 
-        Assert.IsTrue(questionProperties5.AddToLearningSession);
+        Assert.That(questionProperties5.AddToLearningSession);
     }
 
     [Test]
@@ -269,14 +269,14 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, _questionValuationSolid);
 
-        Assert.IsTrue(questionProperties.Solid);
-        Assert.IsFalse(questionProperties.NeedsConsolidation);
-        Assert.IsFalse(questionProperties.NeedsLearning);
-        Assert.IsFalse(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid);
+        Assert.That(questionProperties.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties.NeedsLearning, Is.False);
+        Assert.That(questionProperties.NotLearned, Is.False);
 
         var expectedProbability = _questionValuationSolid.CorrectnessProbability;
         Assert.That(questionProperties.PersonalCorrectnessProbability, Is.EqualTo(expectedProbability));
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession);
     }
 
     [Test]
@@ -293,14 +293,14 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, _questionValuationSolid);
 
-        Assert.IsTrue(questionProperties.Solid);
-        Assert.IsFalse(questionProperties.NeedsConsolidation);
-        Assert.IsFalse(questionProperties.NeedsLearning);
-        Assert.IsFalse(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid);
+        Assert.That(questionProperties.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties.NeedsLearning, Is.False);
+        Assert.That(questionProperties.NotLearned, Is.False);
 
         var expectedProbability = _questionValuationSolid.CorrectnessProbability;
         Assert.That(questionProperties.PersonalCorrectnessProbability, Is.EqualTo(expectedProbability));
-        Assert.IsFalse(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession, Is.False);
     }
 
     [Test]
@@ -317,25 +317,25 @@ class FilterByKnowledgeSummary_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByKnowledgeSummary_Test(config, _question, questionProperties, _questionValuationNotLearned);
 
-        Assert.IsFalse(questionProperties.Solid);
-        Assert.IsFalse(questionProperties.NeedsConsolidation);
-        Assert.IsFalse(questionProperties.NeedsLearning);
-        Assert.IsTrue(questionProperties.NotLearned);
+        Assert.That(questionProperties.Solid, Is.False);
+        Assert.That(questionProperties.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties.NeedsLearning, Is.False);
+        Assert.That(questionProperties.NotLearned);
 
         var expectedProbability = _questionValuationNotLearned.CorrectnessProbability;
         Assert.That(questionProperties.PersonalCorrectnessProbability, Is.EqualTo(expectedProbability));
-        Assert.IsFalse(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.AddToLearningSession, Is.False);
 
         var questionProperties2 = new QuestionProperties();
         questionProperties2 = FilterByKnowledgeSummary_Test(config, _question, questionProperties2, null);
 
-        Assert.IsFalse(questionProperties2.Solid);
-        Assert.IsFalse(questionProperties2.NeedsConsolidation);
-        Assert.IsFalse(questionProperties2.NeedsLearning);
-        Assert.IsTrue(questionProperties2.NotLearned);
+        Assert.That(questionProperties2.Solid, Is.False);
+        Assert.That(questionProperties2.NeedsConsolidation, Is.False);
+        Assert.That(questionProperties2.NeedsLearning, Is.False);
+        Assert.That(questionProperties2.NotLearned);
 
         var expectedProbability2 = _question.CorrectnessProbability;
         Assert.That(questionProperties2.PersonalCorrectnessProbability, Is.EqualTo(expectedProbability2));
-        Assert.IsFalse(questionProperties2.AddToLearningSession);
+        Assert.That(questionProperties2.AddToLearningSession, Is.False);
     }
 }

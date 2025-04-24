@@ -103,7 +103,14 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
         if (user != null)
         {
             var log = $"{user.Name} with userId: {user.Id}  has deleted the plan.";
-            SetNewSubscriptionDate(user, paymentDeleted.paymentObject.CurrentPeriodEnd, log);
+
+            var currentPeriodEnd = paymentDeleted.paymentObject.Items?
+                .Data?
+                .FirstOrDefault()?
+                .CurrentPeriodEnd;
+
+
+            SetNewSubscriptionDate(user, currentPeriodEnd, log);
             Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
         }
 
@@ -170,10 +177,11 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
         if (user != null)
         {
             var log = $"{user.Name} with userId: {user.Id}  has successfully subscribed to a plan.";
-            DateTime endDate;
+            DateTime? endDate;
             if (subscription.paymentObject.CancelAtPeriodEnd)
             {
-                endDate = subscription.paymentObject.CurrentPeriodEnd;
+                endDate = subscription.paymentObject.Items?.Data?.FirstOrDefault()?.CurrentPeriodEnd;
+                
                 Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
             }
             else
@@ -188,7 +196,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
         LogErrorWhenUserNull(subscription.paymentObject.CustomerId, user);
     }
 
-    private void SetNewSubscriptionDate(User user, DateTime date, string log, bool intentSucceeded = false)
+    private void SetNewSubscriptionDate(User user, DateTime? date, string log, bool intentSucceeded = false)
     {
         if (user.SubscriptionStartDate == null && intentSucceeded)
         {

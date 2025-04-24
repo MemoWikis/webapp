@@ -29,11 +29,11 @@
         var dbPage = R<PageRepository>().GetById(publicPage.Id);
         var cachePage = EntityCache.GetPage(publicPage.Id);
         //Assert
-        Assert.NotNull(dbPage);
-        Assert.NotNull(cachePage);
-        Assert.True(resultVisiblePage);
-        Assert.True(dbPage.TextIsHidden);
-        Assert.True(cachePage.TextIsHidden);
+        Assert.That(dbPage, Is.Not.Null);
+        Assert.That(cachePage, Is.Not.Null);
+        Assert.That(resultVisiblePage);
+        Assert.That(dbPage.TextIsHidden);
+        Assert.That(cachePage.TextIsHidden);
 
         var ex = Assert.Throws<AccessViolationException>(() => R<PageUpdater>().HideOrShowPageText(hideText: true, privatePage.Id));
         Assert.That(ex.Message, Is.EqualTo($"{nameof(PageUpdater.HideOrShowPageText)}: No permission for user"));

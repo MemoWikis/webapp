@@ -21,7 +21,7 @@ class FilterByCreator_tests : BaseTest
         var questionProps = FilterByCreator_Test(config, _questionUserIsCreator);
 
         // CurrentUserId == CreatorId
-        Assert.IsTrue(questionProps.AddToLearningSession);
+        Assert.That(questionProps.AddToLearningSession);
     }
 
     [Test]
@@ -37,7 +37,7 @@ class FilterByCreator_tests : BaseTest
         var questionProps = FilterByCreator_Test(config, _questionUserIsNotCreator);
 
         // CurrentUserId != CreatorId
-        Assert.IsTrue(questionProps.AddToLearningSession);
+        Assert.That(questionProps.AddToLearningSession);
     }
 
     [Test]
@@ -51,10 +51,10 @@ class FilterByCreator_tests : BaseTest
         };
 
         var questionProps = FilterByCreator_Test(config, _questionUserIsCreator);
-        Assert.IsTrue(questionProps.AddToLearningSession);
+        Assert.That(questionProps.AddToLearningSession);
 
         var questionProps2 = FilterByCreator_Test(config, _questionUserIsNotCreator);
-        Assert.IsTrue(questionProps2.AddToLearningSession);
+        Assert.That(questionProps2.AddToLearningSession);
     }
 
     [Test]
@@ -68,10 +68,10 @@ class FilterByCreator_tests : BaseTest
         };
 
         var questionProps = FilterByCreator_Test(config, _questionUserIsCreator);
-        Assert.IsTrue(questionProps.AddToLearningSession);
+        Assert.That(questionProps.AddToLearningSession);
 
         var questionProps2 = FilterByCreator_Test(config, _questionUserIsNotCreator);
-        Assert.IsTrue(questionProps2.AddToLearningSession);
+        Assert.That(questionProps2.AddToLearningSession);
     }
 
     [Test]
@@ -85,7 +85,7 @@ class FilterByCreator_tests : BaseTest
         };
 
         var questionProps = FilterByCreator_Test(config, _questionUserIsCreator);
-        Assert.IsFalse(questionProps.AddToLearningSession);
+        Assert.That(questionProps.AddToLearningSession, Is.False);
     }
 
     [Test]
@@ -99,7 +99,7 @@ class FilterByCreator_tests : BaseTest
         };
 
         var questionProps = FilterByCreator_Test(config, _questionUserIsNotCreator);
-        Assert.IsFalse(questionProps.AddToLearningSession);
+        Assert.That(questionProps.AddToLearningSession, Is.False);
     }
 
 }

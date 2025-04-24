@@ -15,8 +15,8 @@ class FilterByWuwi_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
 
-        Assert.IsTrue(questionProperties.InWuwi);
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.InWuwi);
+        Assert.That(questionProperties.AddToLearningSession);
     }
 
     [Test]
@@ -27,8 +27,8 @@ class FilterByWuwi_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties);
 
-        Assert.IsTrue(questionProperties.NotInWuwi);
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.NotInWuwi);
+        Assert.That(questionProperties.AddToLearningSession);
     }
 
     [Test]
@@ -39,16 +39,16 @@ class FilterByWuwi_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
 
-        Assert.IsTrue(questionProperties.InWuwi);
-        Assert.IsFalse(questionProperties.NotInWuwi);
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.InWuwi);
+        Assert.That(questionProperties.NotInWuwi, Is.False);
+        Assert.That(questionProperties.AddToLearningSession);
 
         var questionProperties2 = new QuestionProperties();
         questionProperties2 = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties2);
 
-        Assert.IsFalse(questionProperties2.InWuwi);
-        Assert.IsTrue(questionProperties2.NotInWuwi);
-        Assert.IsTrue(questionProperties2.AddToLearningSession);
+        Assert.That(questionProperties2.InWuwi, Is.False);
+        Assert.That(questionProperties2.NotInWuwi);
+        Assert.That(questionProperties2.AddToLearningSession);
     }
 
     [Test]
@@ -59,16 +59,16 @@ class FilterByWuwi_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
 
-        Assert.IsTrue(questionProperties.InWuwi);
-        Assert.IsFalse(questionProperties.NotInWuwi);
-        Assert.IsTrue(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.InWuwi);
+        Assert.That(questionProperties.NotInWuwi, Is.False);
+        Assert.That(questionProperties.AddToLearningSession);
 
         var questionProperties2 = new QuestionProperties();
         questionProperties2 = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties2);
 
-        Assert.IsFalse(questionProperties2.InWuwi);
-        Assert.IsTrue(questionProperties2.NotInWuwi);
-        Assert.IsTrue(questionProperties2.AddToLearningSession);
+        Assert.That(questionProperties2.InWuwi, Is.False);
+        Assert.That(questionProperties2.NotInWuwi);
+        Assert.That(questionProperties2.AddToLearningSession);
     }
 
 
@@ -80,8 +80,8 @@ class FilterByWuwi_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
 
-        Assert.IsTrue(questionProperties.InWuwi);
-        Assert.IsFalse(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.InWuwi);
+        Assert.That(questionProperties.AddToLearningSession, Is.False);
     }
 
     [Test]
@@ -92,7 +92,7 @@ class FilterByWuwi_tests : BaseTest
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties);
 
-        Assert.IsTrue(questionProperties.NotInWuwi);
-        Assert.IsFalse(questionProperties.AddToLearningSession);
+        Assert.That(questionProperties.NotInWuwi);
+        Assert.That(questionProperties.AddToLearningSession, Is.False);
     }
 }

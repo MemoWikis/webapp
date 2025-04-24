@@ -1,4 +1,6 @@
-﻿namespace TrueOrFalse.Tests8._0.Pages;
+﻿using NUnit.Framework.Legacy;
+
+namespace TrueOrFalse.Tests8._0.Pages;
 internal class ContextPage_tests : BaseTest
 {
     [Test]
@@ -7,9 +9,9 @@ internal class ContextPage_tests : BaseTest
         var firstPage = ContextPage.New().Add("A").Persist().All.First();
         var pageRepo = R<PageRepository>();
         var pageFromDatabase = pageRepo.GetById(firstPage.Id);
-        Assert.IsNotNull(firstPage);
-        Assert.IsNotNull(pageFromDatabase);
-        Assert.AreEqual(pageFromDatabase?.Name, firstPage.Name);
+        Assert.That(firstPage, Is.Not.Null);
+        Assert.That(pageFromDatabase, Is.Not.Null);
+        Assert.That(pageFromDatabase?.Name, Is.EqualTo(firstPage.Name));
     }
 
     [Test]
@@ -39,8 +41,8 @@ internal class ContextPage_tests : BaseTest
 
         var pageAfterUpdate = pageRepo.GetByName(newPageName).SingleOrDefault();
 
-        Assert.IsNotNull(pageAfterUpdate);
-        Assert.AreEqual(newPageName, pageAfterUpdate.Name);
+        Assert.That(pageAfterUpdate, Is.Not.Null);
+        Assert.That(newPageName, Is.EqualTo(pageAfterUpdate.Name));
     }
 
     [Test]
@@ -68,12 +70,12 @@ internal class ContextPage_tests : BaseTest
         contextPage.UpdateAll();
 
         var pageOneAfterUpdate = pageRepo.GetByName(newPageOneName).SingleOrDefault();
-        Assert.IsNotNull(pageOneAfterUpdate);
-        Assert.AreEqual(newPageOneName, pageOneAfterUpdate.Name);
+        Assert.That(pageOneAfterUpdate, Is.Not.Null);
+        Assert.That(newPageOneName, Is.EqualTo(pageOneAfterUpdate.Name));
 
         var pageTwoAfterUpdate = pageRepo.GetByName(newPageTwoName).SingleOrDefault();
-        Assert.IsNotNull(pageTwoAfterUpdate);
-        Assert.AreEqual(newPageTwoName, pageTwoAfterUpdate.Name);
+        Assert.That(pageTwoAfterUpdate, Is.Not.Null);
+        Assert.That(newPageTwoName, Is.EqualTo(pageTwoAfterUpdate.Name));
     }
 
 
