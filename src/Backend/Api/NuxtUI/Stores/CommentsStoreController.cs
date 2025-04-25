@@ -1,14 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-namespace VueApp;
-
-public class CommentsStoreController(
+﻿public class CommentsStoreController(
     CommentRepository _commentRepository,
     IHttpContextAccessor _httpContextAccessor,
-    PermissionCheck _permissionCheck) : Controller
+    PermissionCheck _permissionCheck) : ApiBaseController
 {
     [HttpGet]
     public Comments GetAllComments([FromRoute] int id)

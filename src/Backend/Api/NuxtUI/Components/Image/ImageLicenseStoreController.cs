@@ -1,14 +1,9 @@
-﻿using System;
-using System.Net;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace VueApp;
+﻿using System.Net;
 
 public class ImageLicenseStoreController(
     ImageMetaDataReadingRepo imageMetaDataReadingRepo,
     IHttpContextAccessor httpContextAccessor,
-    QuestionReadingRepo questionReadingRepo) : Controller
+    QuestionReadingRepo questionReadingRepo) : ApiBaseController
 {
     public readonly record struct GetLicenseInfoResult(
         bool ImageCanBeDisplayed,

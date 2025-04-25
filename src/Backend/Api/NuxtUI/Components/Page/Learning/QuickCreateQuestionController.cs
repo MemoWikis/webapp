@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TrueOrFalse;
-
-namespace VueApp;
 
 public class QuickCreateQuestionController(
     SessionUser _sessionUser,
@@ -21,7 +15,7 @@ public class QuickCreateQuestionController(
     ExtendedUserCache _extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo) : ApiBaseController
 {
     public readonly record struct CreateFlashcardRequest(
         int PageId,

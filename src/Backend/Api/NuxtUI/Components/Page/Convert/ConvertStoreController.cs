@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace VueApp;
-
-public class ConvertStoreController
-(
-    SessionUser _sessionUser, PermissionCheck _permissionCheck, PageConversion _pageConversion) : Controller
+﻿public class ConvertStoreController(
+    SessionUser _sessionUser, 
+    PermissionCheck _permissionCheck, 
+    PageConversion _pageConversion) : ApiBaseController
 {
     [HttpGet]
     public GetConvertDataResult GetConvertData([FromRoute] int id)

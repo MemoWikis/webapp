@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using static LimitCheck;
 
-namespace VueApp;
 
-public class UserMembershipPlansController : Controller
+
+public class UserMembershipPlansController : ApiBaseController
 {
     [HttpGet]
     public BasicLimits GetBasicLimits()

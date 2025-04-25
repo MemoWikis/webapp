@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
-
-namespace VueApp;
 
 public class QuestionEditModalController(
     SessionUser _sessionUser,
@@ -25,7 +18,7 @@ public class QuestionEditModalController(
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
-    Logg _logg) : Controller
+    Logg _logg) : ApiBaseController
 {
     public readonly record struct QuestionDataRequest(
         int[] PageIds,

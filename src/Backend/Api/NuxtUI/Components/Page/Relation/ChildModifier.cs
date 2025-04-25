@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-
-namespace VueApp;
 
 public class ChildModifier(
     PermissionCheck _permissionCheck,

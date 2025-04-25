@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace VueApp;
 
-public class StripeWebhookController(WebhookEventHandler _webhookEventHandler) : Controller
+
+public class StripeWebhookController(WebhookEventHandler _webhookEventHandler) : ApiBaseController
 {
     [HttpPost]
     public async Task<IActionResult> Webhook()

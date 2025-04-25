@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Concurrent;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 
 public class PageLearningQuestionController(
     SessionUser _sessionUser,
     CommentRepository _commentRepository,
     TotalsPerUserLoader totalsPerUserLoader,
     IHttpContextAccessor _httpContextAccessor,
-    ExtendedUserCache _sessionUserCache) : Controller
+    ExtendedUserCache _sessionUserCache) : ApiBaseController
 {
     public readonly record struct LoadQuestionDataResult(bool Success, QuestionData Data);
 

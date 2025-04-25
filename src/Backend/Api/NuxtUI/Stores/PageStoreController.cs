@@ -1,13 +1,7 @@
-﻿using JetBrains.Annotations;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
-namespace VueApp;
 
 public class PageStoreController(
     SessionUser _sessionUser,
@@ -20,7 +14,7 @@ public class PageStoreController(
     PageUpdater _pageUpdater,
     ImageStore _imageStore,
     Logg _logg,
-    AiUsageLogRepo _aiUsageLogRepo) : Controller
+    AiUsageLogRepo _aiUsageLogRepo) : ApiBaseController
 {
     public readonly record struct SaveContentRequest(
         int Id,

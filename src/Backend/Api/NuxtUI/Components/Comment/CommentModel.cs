@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Linq;
-
-public class CommentModel
+﻿public class CommentModel
 {
     /// <summary>Comment.Id</summary>
     public int Id;

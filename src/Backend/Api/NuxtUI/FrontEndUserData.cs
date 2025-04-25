@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-
-namespace VueApp;
-
-public class FrontEndUserData(
+﻿public class FrontEndUserData(
     SessionUser _sessionUser,
     GetUnreadMessageCount _getUnreadMessageCount,
     IHttpContextAccessor _httpContextAccessor,

@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-
-namespace VueApp;
-
-public class AppController(FrontEndUserData _frontEndUserData) : Controller
+﻿public class AppController(FrontEndUserData _frontEndUserData) : ApiBaseController
 {
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,

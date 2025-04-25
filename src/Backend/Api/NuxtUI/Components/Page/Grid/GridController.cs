@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using static PageGridManager;
-
-namespace VueApp;
+﻿using static PageGridManager;
 
 public class GridController(
     PermissionCheck _permissionCheck,
@@ -10,7 +6,7 @@ public class GridController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo) : ApiBaseController
 {
     [HttpGet]
     public GetItemJson GetItem([FromRoute] int id)

@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using TrueOrFalse.Domain.User;
-
-namespace VueApp;
+﻿using TrueOrFalse.Domain.User;
 
 public class GoogleController(
     UserReadingRepo _userReadingRepo,
     FrontEndUserData _frontEndUserData,
-    GoogleLogin _googleLogin) : Controller
+    GoogleLogin _googleLogin) : ApiBaseController
 {
     public readonly record struct LoginRequest(string? credential, string? accessToken, string language);
 

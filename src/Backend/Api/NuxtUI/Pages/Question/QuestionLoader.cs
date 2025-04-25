@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
-
-namespace VueApp;
 
 public class QuestionLoader(
     SessionUser _sessionUser,

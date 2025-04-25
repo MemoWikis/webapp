@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-
-namespace VueApp;
-
-public class CancelController : Controller
+﻿public class CancelController : ApiBaseController
 {
     public readonly record struct TinyPage(string Name, int Id);
     [HttpGet]

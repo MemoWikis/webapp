@@ -1,16 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace VueApp;
-
-public class PageToPrivateStoreController(
+﻿public class PageToPrivateStoreController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     PageRepository pageRepository,
     QuestionReadingRepo _questionReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
-    ExtendedUserCache _extendedUserCache) : Controller
+    ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
     public readonly record struct PersonalPage(
         string Name,

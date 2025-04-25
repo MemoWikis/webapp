@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Linq;
-
-public class PageGridManager(
+﻿public class PageGridManager(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
     ImageMetaDataReadingRepo _imageMetaDataReading,

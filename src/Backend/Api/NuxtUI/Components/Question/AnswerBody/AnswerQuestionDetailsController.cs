@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Linq;
 using TrueOrFalse.Domain.Question.Answer;
 
 public class AnswerQuestionDetailsController(
@@ -14,7 +10,7 @@ public class AnswerQuestionDetailsController(
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
     QuestionReadingRepo _questionReadingRepo,
-    QuestionViewRepository _questionViewRepository) : Controller
+    QuestionViewRepository _questionViewRepository) : ApiBaseController
 {
     [HttpGet]
     public AnswerQuestionDetailsResult? Get([FromRoute] int id)

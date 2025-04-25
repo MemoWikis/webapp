@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using TrueOrFalse.Web;
-
-namespace VueApp;
+﻿using TrueOrFalse.Web;
 
 public class FeedModalPageController(
     PermissionCheck _permissionCheck,
-    PageChangeRepo pageChangeRepo) : Controller
+    PageChangeRepo pageChangeRepo) : ApiBaseController
 {
     public readonly record struct GetContentChangeRequest(int Pageid, int ChangeId, int? OldestChangeId = null);
     public record struct ContentChange(string CurrentContent, string DiffContent);

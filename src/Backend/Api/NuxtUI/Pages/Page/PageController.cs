@@ -1,8 +1,4 @@
 ﻿using JetBrains.Annotations;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 public class PageController(
     SessionUser _sessionUser,
@@ -12,7 +8,7 @@ public class PageController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo)
-    : Controller
+    : ApiBaseController
 
 {
     [HttpGet]

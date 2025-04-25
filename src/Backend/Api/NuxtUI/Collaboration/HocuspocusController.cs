@@ -1,9 +1,6 @@
 ﻿using JetBrains.Annotations;
-using Microsoft.AspNetCore.Mvc;
 
-namespace VueApp;
-
-public class HocuspocusController : Controller
+public class HocuspocusController : ApiBaseController
 {
     public readonly record struct AuthorizeRequest(string Token, string HocuspocusKey, int PageId, [CanBeNull] string ShareToken);
 

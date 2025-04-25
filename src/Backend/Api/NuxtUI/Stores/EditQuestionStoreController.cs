@@ -1,16 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace VueApp;
-
-public class EditQuestionStoreController(
+﻿public class EditQuestionStoreController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     IHttpContextAccessor _httpContextAccessor,
-    ImageStore _imageStore) : Controller
+    ImageStore _imageStore) : ApiBaseController
 {
     public class UploadContentImageRequest
     {
@@ -37,6 +29,7 @@ public class EditQuestionStoreController(
     }
 
     public record struct DeleteContentImagesRequest(int id, string[] imageUrls);
+    
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public void DeleteContentImages([FromBody] DeleteContentImagesRequest req)

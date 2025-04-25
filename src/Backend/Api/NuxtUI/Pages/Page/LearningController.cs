@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace VueApp;
-
-public class LearningController(
+﻿public class LearningController(
     SessionUser _sessionUser,
-    LearningSessionCreator _learningSessionCreator) : Controller
+    LearningSessionCreator _learningSessionCreator) : ApiBaseController
 {
     public record struct GetCountResult(
         int InWuwi,

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using TrueOrFalse.Domain.User;
 

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-public class MiddlewareStartpageController(SessionUser _sessionUser) : Controller
+﻿public class MiddlewareStartpageController(SessionUser _sessionUser) : ApiBaseController
 {
     public readonly record struct TinyPage(int Id, string Name);
 
@@ -10,6 +8,7 @@ public class MiddlewareStartpageController(SessionUser _sessionUser) : Controlle
         var page = _sessionUser.IsLoggedIn
             ? EntityCache.GetPage(_sessionUser.User.StartPageId)
             : FeaturedPage.GetRootPage;
+        
         return new TinyPage { Name = page.Name, Id = page.Id };
     }
 }

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace VueApp;
-
-public class ConfirmEmailController(EmailConfirmationService _emailConfirmationService) : Controller
+﻿public class ConfirmEmailController(EmailConfirmationService _emailConfirmationService) : ApiBaseController
 {
     public readonly record struct ConfirmEmailRunJson(string token);
 

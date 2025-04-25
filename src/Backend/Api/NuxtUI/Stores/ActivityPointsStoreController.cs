@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-
-public class ActivityPointsStoreController(
+﻿public class ActivityPointsStoreController(
     SessionUser _sessionUser,
     ActivityPointsRepo _activityPointsRepo,
-    UserWritingRepo _userWritingRepo) : Controller
+    UserWritingRepo _userWritingRepo) : ApiBaseController
 {
     public readonly record struct AddJson(string ActivityTypeString, int Points);
 

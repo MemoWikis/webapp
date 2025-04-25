@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using TrueOrFalse;
 using TrueOrFalse.Domain.Question.Answer;
 using TrueOrFalse.Web;
-
-namespace VueApp;
 
 public class QuestionLandingPageController(
     TotalsPerUserLoader totalsPerUserLoader,
@@ -19,7 +12,7 @@ public class QuestionLandingPageController(
     ExtendedUserCache _extendedUserCache,
     SaveQuestionView _saveQuestionView,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo) : ApiBaseController
 {
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {

@@ -1,18 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using NHibernate.Util;
-using System;
+﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using TrueOrFalse;
 using TrueOrFalse.Domain.Question.Answer;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
-
-namespace VueApp;
 
 public class QuestionController(
     SessionUser _sessionUser,
@@ -26,7 +18,7 @@ public class QuestionController(
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
     TotalsPerUserLoader totalsPerUserLoader,
-    SaveQuestionView _saveQuestionView) : Controller
+    SaveQuestionView _saveQuestionView) : ApiBaseController
 {
     public readonly record struct QuestionPageResult(
         AnswerBodyModel? AnswerBodyModel,

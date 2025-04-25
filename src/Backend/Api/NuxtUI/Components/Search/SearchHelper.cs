@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Seedworks.Lib;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Seedworks.Lib;
 using TrueOrFalse.Search;
 
 public class SearchHelper
@@ -81,11 +78,12 @@ public class SearchHelper
             Id = page.Id,
             Name = page.Name,
             QuestionCount = EntityCache.GetPage(page.Id).GetCountQuestionsAggregated(userId),
-            ImageUrl = new PageImageSettings(page.Id,
-                    _httpContextAccessor).GetUrl_128px(true)
-                .Url,
-            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo
-                    .GetBy(page.Id, ImageType.Page), _httpContextAccessor, _questionReadingRepo)
+            ImageUrl = new PageImageSettings(page.Id, _httpContextAccessor).GetUrl_128px(true).Url,
+            MiniImageUrl = new ImageFrontendData(
+                    _imageMetaDataReadingRepo.GetBy(page.Id, ImageType.Page), 
+                    _httpContextAccessor, 
+                    _questionReadingRepo
+                )
                 .GetImageUrl(30, true, false, ImageType.Page).Url,
             Visibility = (int)page.Visibility,
             LanguageCode = page.Language

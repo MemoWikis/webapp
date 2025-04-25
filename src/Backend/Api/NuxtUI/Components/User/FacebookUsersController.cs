@@ -1,13 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-
-namespace VueApp;
 
 public class FacebookUsersController(
     FrontEndUserData _frontEndUserData,
@@ -16,7 +11,7 @@ public class FacebookUsersController(
     RegisterUser _registerUser,
     JobQueueRepo _jobQueueRepo,
     UserWritingRepo _userWritingRepo,
-    PageViewRepo _pageViewRepo) : Controller
+    PageViewRepo _pageViewRepo) : ApiBaseController
 {
     public readonly record struct LoginRequest(string facebookUserId, string facebookAccessToken);
 

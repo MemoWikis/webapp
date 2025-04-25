@@ -1,10 +1,6 @@
 ﻿#nullable enable
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
-
-namespace VueApp;
 
 public class VueUserSettingsController(
     SessionUser _sessionUser,
@@ -19,7 +15,7 @@ public class VueUserSettingsController(
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo,
     DeleteUser _deleteUser,
-    PersistentLoginRepo _persistentLoginRepo) : Controller
+    PersistentLoginRepo _persistentLoginRepo) : ApiBaseController
 {
     public record struct ChangeNotificationIntervalPreferencesResult(
         UIMessage Message,

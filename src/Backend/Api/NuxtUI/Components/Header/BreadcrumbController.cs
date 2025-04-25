@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace VueApp;
-public class BreadcrumbController(
+﻿public class BreadcrumbController(
     SessionUser _sessionUser,
     CrumbtrailService _crumbtrailService,
-    IHttpContextAccessor _httpContextAccessor) : Controller
+    IHttpContextAccessor _httpContextAccessor) : ApiBaseController
 {
     public readonly record struct GetBreadcrumbParam(int WikiId, int CurrentPageId);
 

@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TrueOrFalse;
-
-namespace VueApp;
+﻿using TrueOrFalse;
 
 public class ImageUploadModalController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
-    ImageStore _imageStore) : Controller
+    ImageStore _imageStore) : ApiBaseController
 {
     public readonly record struct GetWikimediaPreviewJson(string Url);
 

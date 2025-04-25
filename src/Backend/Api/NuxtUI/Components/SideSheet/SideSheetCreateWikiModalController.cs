@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-
-namespace VueApp;
-
-public class SideSheetCreateWikiModalController
+﻿public class SideSheetCreateWikiModalController
 (
     SessionUser _sessionUser,
     WikiCreator _wikiCreator,
-    UserWritingRepo _userWritingRepo) : Controller
+    UserWritingRepo _userWritingRepo) : ApiBaseController
 {
     [HttpPost]
     public CreateWikiResponse CreateWiki([FromBody] CreateWikiRequest req)

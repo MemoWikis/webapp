@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-public class PublishQuestionStoreController(
+﻿public class PublishQuestionStoreController(
     PermissionCheck _permissionCheck,
-    QuestionWritingRepo _questionWritingRepo) : Controller
+    QuestionWritingRepo _questionWritingRepo) : ApiBaseController
 {
     [HttpGet]
     public GetShortTextResponse GetShortText([FromRoute] int id)

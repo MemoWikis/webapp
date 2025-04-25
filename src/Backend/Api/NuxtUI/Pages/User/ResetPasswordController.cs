@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NHibernate;
-using System;
-
-namespace VueApp;
+﻿using ISession = NHibernate.ISession;
 
 public class ResetPasswordController(
     PasswordRecoveryTokenValidator _passwordRecoveryTokenValidator,
@@ -11,7 +7,7 @@ public class ResetPasswordController(
     UserReadingRepo _userReadingRepo,
     UserWritingRepo _userWritingRepo,
     PageViewRepo _pageViewRepo,
-    ISession _session) : Controller
+    ISession _session) : ApiBaseController
 {
     public record struct ValidateTokenResult(bool Success, string MessageKey);
 

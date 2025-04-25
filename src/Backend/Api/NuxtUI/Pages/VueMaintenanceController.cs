@@ -1,17 +1,10 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 using System.Security;
-using System.Threading.Tasks;
 using TrueOrFalse;
 using TrueOrFalse.Search;
 using TrueOrFalse.Tools;
 using TrueOrFalse.Utilities.ScheduledJobs;
-
-namespace VueApp;
 
 public class VueMaintenanceController(
     SessionUser _sessionUser,
@@ -28,7 +21,7 @@ public class VueMaintenanceController(
     UserWritingRepo _userWritingRepo,
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment) : Controller
+    IWebHostEnvironment _webHostEnvironment) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 

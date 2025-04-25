@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.IO;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,9 +10,6 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Exceptions;
 using Stripe;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text.Json;
 using Scalar.AspNetCore;
 using TrueOrFalse.Environment;

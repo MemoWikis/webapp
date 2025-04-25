@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace ApiVueApp;
-public class MetricsController(
+﻿public class MetricsController(
 QuestionViewRepository _questionViewRepository,
 PageViewRepo pageViewRepo,
-SessionUser _sessionUser) : Controller
+SessionUser _sessionUser) : ApiBaseController
 {
     public readonly record struct GetAllDataResponse(
         int TodaysActiveUserCount,

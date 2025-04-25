@@ -1,12 +1,8 @@
 ﻿using System.Globalization;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-
-namespace VueApp;
 
 public class UserMessagesController(
     SessionUser _sessionUser,
-    MessageRepo _messageRepo) : Controller
+    MessageRepo _messageRepo) : ApiBaseController
 {
     public readonly record struct GetResult(Message[] Messages, int ReadCount, bool? NotLoggedIn);
 

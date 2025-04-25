@@ -1,14 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TrueOrFalse.Search;
-using static VueApp.ChildModifier;
-
-namespace VueApp;
+using static ChildModifier;
 
 public class PageRelationEditController(
     SessionUser _sessionUser,
@@ -22,7 +15,7 @@ public class PageRelationEditController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     IGlobalSearch _search,
-    MeiliSearchReIndexUser _meiliSearchReIndexUser) : Controller
+    MeiliSearchReIndexUser _meiliSearchReIndexUser) : ApiBaseController
 {
     public readonly record struct ValidateNameParam(string Name);
 

@@ -1,11 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TrueOrFalse.Frontend.Web.Code;
-
-namespace VueApp;
 
 public class SearchController(
     IGlobalSearch _search,
@@ -14,7 +8,7 @@ public class SearchController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo
-) : Controller
+) : ApiBaseController
 {
     public readonly record struct SearchAllRequest(string term, string[] languages);
 

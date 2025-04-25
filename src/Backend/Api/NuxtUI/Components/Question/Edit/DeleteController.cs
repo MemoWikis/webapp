@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-namespace VueApp;
-
-public class QuestionEditDeleteController(
+﻿public class QuestionEditDeleteController(
     QuestionReadingRepo _questionReadingRepo,
     QuestionDelete _questionDelete,
     LearningSessionCache _learningSessionCache)
-    : Controller
+    : ApiBaseController
 {
     public record struct DeleteDetailsJson(
         string QuestionTitle,

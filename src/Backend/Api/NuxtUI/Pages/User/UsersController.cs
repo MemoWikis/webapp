@@ -1,13 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Seedworks.Lib.Persistence;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Seedworks.Lib.Persistence;
 using TrueOrFalse.Domain.Question.QuestionValuation;
 using TrueOrFalse.Search;
-
-namespace VueApp;
 
 public class UsersController(
     SessionUser _sessionUser,
@@ -16,7 +9,7 @@ public class UsersController(
     GetTotalUsers _totalUsers,
     UserSummary _userSummary,
     IHttpContextAccessor _httpContextAccessor,
-    ExtendedUserCache _extendedUserCache) : Controller
+    ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
     public record struct UserResult(
         int CreatedQuestionsCount,

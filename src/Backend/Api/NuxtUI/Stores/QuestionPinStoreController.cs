@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-
-public class QuestionPinStoreController(
+﻿public class QuestionPinStoreController(
     SessionUser _sessionUser,
     QuestionInKnowledge _questionInKnowledge,
     Logg _logg,
-    ExtendedUserCache _extendedUserCache) : Controller
+    ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
     public readonly record struct PinResult(bool Success, string MessageKey);
 

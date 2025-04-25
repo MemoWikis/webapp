@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TrueOrFalse.Domain.User;
-
-namespace VueApp;
+﻿using TrueOrFalse.Domain.User;
 
 public class UserStoreController(
     FrontEndUserData _frontEndUserData,
@@ -19,7 +15,7 @@ public class UserStoreController(
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo,
-    UserUiLanguage _userUiLanguage) : Controller
+    UserUiLanguage _userUiLanguage) : ApiBaseController
 {
     public readonly record struct LoginResponse(
         FrontEndUserData.CurrentUserData Data,

@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security;
 using Exception = System.Exception;
 
-namespace VueApp;
 
 public class EditPageRelationStoreController(
     SessionUser _sessionUser,
@@ -18,7 +12,7 @@ public class EditPageRelationStoreController(
     PageRepository pageRepository,
     PageRelationRepo pageRelationRepo,
     UserWritingRepo _userWritingRepo,
-    IWebHostEnvironment _webHostEnvironment) : Controller
+    IWebHostEnvironment _webHostEnvironment) : ApiBaseController
 {
     public record struct PersonalWikiData(
         SearchPageItem PersonalWiki,

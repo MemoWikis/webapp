@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using TrueOrFalse;
-
-namespace VueApp;
 
 public class AiCreateFlashCardController(
     SessionUser _sessionUser,
@@ -15,7 +10,7 @@ public class AiCreateFlashCardController(
     QuestionWritingRepo _questionWritingRepo,
     Logg _logg,
     LearningSessionCreator _learningSessionCreator,
-    LearningSessionCache _learningSessionCache) : Controller
+    LearningSessionCache _learningSessionCache) : ApiBaseController
 {
     public readonly record struct FlashCardJson(string front, string back);
 

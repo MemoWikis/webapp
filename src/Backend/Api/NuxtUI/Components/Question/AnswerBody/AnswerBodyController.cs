@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 
@@ -12,7 +8,7 @@ public class AnswerBodyController(
     ExtendedUserCache _extendedUserCache,
     AnswerQuestion _answerQuestion,
     AnswerLog _answerLog,
-    SaveQuestionView _saveQuestionView) : Controller
+    SaveQuestionView _saveQuestionView) : ApiBaseController
 {
     [HttpGet]
     public LearningBody? Get([FromRoute] int id)

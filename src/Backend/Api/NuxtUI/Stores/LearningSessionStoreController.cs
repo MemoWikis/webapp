@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-
-public class LearningSessionStoreController(
+﻿public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
     LearningSessionCache _learningSessionCache,
     PermissionCheck _permissionCheck,
-    SessionUser _sessionUser) : Controller()
+    SessionUser _sessionUser) : ApiBaseController()
 {
     public record struct LearningSessionResponse()
     {

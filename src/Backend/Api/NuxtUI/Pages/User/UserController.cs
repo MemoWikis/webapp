@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using TrueOrFalse.Domain.Question.QuestionValuation;
+﻿using TrueOrFalse.Domain.Question.QuestionValuation;
 using TrueOrFalse.Web;
-
-namespace VueApp;
 
 public class UserController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ReputationCalc _rpReputationCalc,
     IHttpContextAccessor _httpContextAccessor,
-    ExtendedUserCache _extendedUserCache) : Controller
+    ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
     public readonly record struct GetResult(User User, Overview Overview, bool IsCurrentUser, string? MessageKey, NuxtErrorPageType ErrorCode);
 

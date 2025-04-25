@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using static PageDeleter;
+﻿using static PageDeleter;
 
 public class DeletePageStoreController(
     SessionUser _sessionUser,
@@ -11,7 +7,7 @@ public class DeletePageStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
-    PermissionCheck _permissionCheck) : Controller
+    PermissionCheck _permissionCheck) : ApiBaseController
 {
     public record struct SuggestedNewParent(
         int Id,

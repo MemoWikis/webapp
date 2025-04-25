@@ -1,16 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace VueApp;
-
-public class CommentAddController(
+﻿public class CommentAddController(
     SessionUser _sessionUser,
     CommentRepository _commentRepository,
     UserReadingRepo _userReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionChangeRepo _questionChangeRepo) : Controller
+    QuestionChangeRepo _questionChangeRepo) : ApiBaseController
 {
     [AccessOnlyAsLoggedIn]
     [HttpPost]

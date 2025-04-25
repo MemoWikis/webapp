@@ -1,15 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-
-namespace VueApp;
-
-public class MiddlewareRefreshCookieController(
+﻿public class MiddlewareRefreshCookieController(
     SessionUser _sessionUser,
     PersistentLoginRepo _persistentLoginRepo,
     UserReadingRepo _userReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    PageViewRepo _pageViewRepo) : Controller
+    PageViewRepo _pageViewRepo) : ApiBaseController
 {
     public readonly record struct RunResponse(bool Success, bool? DeleteCookie = null);
 

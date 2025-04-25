@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
-namespace VueApp;
-
-public class StripeAdminstrationController(StripeSubscriptionManger _stripeSubscriptionManger)
-    : Controller
+﻿public class StripeAdminstrationController(StripeSubscriptionManger _stripeSubscriptionManger)
+    : ApiBaseController
 {
     [AccessOnlyAsLoggedIn]
     [HttpGet]

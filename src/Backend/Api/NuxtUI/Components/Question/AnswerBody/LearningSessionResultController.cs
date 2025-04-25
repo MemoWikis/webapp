@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-
-public class VueLearningSessionResultController(LearningSessionCache _learningSessionCache,
+﻿public class VueLearningSessionResultController(LearningSessionCache _learningSessionCache,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo) : ApiBaseController
 {
     public record struct LearningSessionResult(
         int UniqueQuestionCount,

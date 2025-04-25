@@ -1,10 +1,4 @@
 ﻿using JetBrains.Annotations;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace VueApp;
 
 public class SharePageStoreController(
         PermissionCheck _permissionCheck,
@@ -13,7 +7,7 @@ public class SharePageStoreController(
         IHttpContextAccessor _httpContextAccessor,
         UserReadingRepo _userReadingRepo,
         NotifyUserPerEmail _notifyUserPerEmail
-    ) : Controller
+    ) : ApiBaseController
 {
     public readonly record struct ShareToUserRequest(
         int PageId,

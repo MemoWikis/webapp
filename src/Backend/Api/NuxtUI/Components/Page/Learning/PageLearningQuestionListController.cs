@@ -1,10 +1,6 @@
 ﻿using JetBrains.Annotations;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class PageLearningQuestionListController(
@@ -16,7 +12,7 @@ public class PageLearningQuestionListController(
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
-    PermissionCheck _permissionCheck) : Controller
+    PermissionCheck _permissionCheck) : ApiBaseController
 {
     public record struct LoadQuestionsResult(
         int Id,

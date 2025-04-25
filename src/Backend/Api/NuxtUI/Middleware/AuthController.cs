@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace VueApp;
-
-public class MiddlewareAuthController(SessionUser _sessionUser) : Controller
+﻿public class MiddlewareAuthController(SessionUser _sessionUser) : ApiBaseController
 {
     [AccessOnlyAsAdmin]
     [AccessOnlyAsLoggedIn]

@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace TrueOrFalse.View.Web.Views.ApiVueApp.Stores;
 
-namespace TrueOrFalse.View.Web.Views.ApiVueApp.Stores;
-
-public class LearningSessionConfigurationStoreController(LearningSessionCreator _learningSessionCreator) : Controller
+public class LearningSessionConfigurationStoreController(LearningSessionCreator _learningSessionCreator) : ApiBaseController
 {
     [HttpPost]
     public QuestionCounter GetCount([FromBody] LearningSessionConfig config) => 

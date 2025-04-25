@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace VueApp;
-
-public class GridItemController(
+﻿public class GridItemController(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo) : ApiBaseController
 {
     public readonly record struct GetChildrenResult(
         bool Success,

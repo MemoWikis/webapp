@@ -1,18 +1,11 @@
 ﻿using JetBrains.Annotations;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using static PageCacheItem;
-
-namespace VueApp;
 
 public class FeedController(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
     IHttpContextAccessor _httpContextAccessor,
-    CommentRepository _commentRepository) : Controller
+    CommentRepository _commentRepository) : ApiBaseController
 {
     public readonly record struct GetFeedResponse(IList<FeedItem> feedItems, int maxCount);
     public record struct FeedItem(DateTime Date, FeedType Type, PageFeedItem? PageFeedItem, QuestionFeedItem? QuestionFeedItem, Author Author);

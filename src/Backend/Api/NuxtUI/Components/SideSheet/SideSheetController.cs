@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace VueApp;
-
-public class SideSheetController(
+﻿public class SideSheetController(
     SessionUser _sessionUser,
     UserWritingRepo _userWritingRepo,
-    ExtendedUserCache _extendedUserCache) : Controller
+    ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
     // Section: Wikis
 
