@@ -263,30 +263,43 @@ async function loadAnswerBodyModel() {
 
         await nextTick()
         highlightCode()
-        if (tabsStore.activeTab === Tab.Learning)
-            handleUrl()
+        if (tabsStore.isLearning)
+            attachQuestionIdToUrl()
     }
 }
 
 const router = useRouter()
-async function handleUrl() {
-    if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
+async function attachQuestionIdToUrl() {
+    // Only proceed if we're in learning tab and have a valid question id
+    if (!tabsStore.isLearning || !answerBodyModel.value?.id || answerBodyModel.value.id <= 0) {
+        return
+    }
 
-        const pathSegments = window.location.pathname.split('/').filter(segment => segment.length > 0)
+    // Extract page id from the URL path
+    const pathSegments = window.location.pathname.split('/')
+        .filter(segment => segment.length > 0)
 
-        let currentPageId = null
-        if (pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1])))
-            currentPageId = parseInt(pathSegments[1])
+    // Try to get current page id from URL (second segment)
+    const currentPageId = pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))
+        ? parseInt(pathSegments[1])
+        : null
 
-        if (currentPageId === pageStore.id) {
-            const newPath = $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)
-            if (newPath != window.location.pathname)
-                router.push(newPath)
+    // Only update URL if we're on the correct page
+    if (currentPageId === pageStore.id) {
+        // Generate new URL with the question id
+        const newPath = $urlHelper.getPageUrlWithQuestionId(
+            pageStore.name,
+            pageStore.id,
+            answerBodyModel.value.id
+        )
+
+        // Only navigate if the URL has actually changed
+        if (newPath !== window.location.pathname) {
+            router.push(newPath)
         }
     }
 }
 
-const route = useRoute()
 watch(() => pageStore.id, (newId, oldId) => {
     if (newId !== oldId && currentRequest.value) {
         currentRequest.value.abort()
@@ -294,9 +307,10 @@ watch(() => pageStore.id, (newId, oldId) => {
     }
 })
 
-watch(() => tabsStore.activeTab, async (tab) => {
-    if (tab === Tab.Learning && isNaN(parseInt(route.params.questionId?.toString()))) {
-        handleUrl()
+const route = useRoute()
+watch(() => tabsStore.activeTab, () => {
+    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString()))) {
+        attachQuestionIdToUrl()
     }
 })
 
