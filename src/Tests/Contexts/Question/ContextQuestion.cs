@@ -11,7 +11,6 @@ public class ContextQuestion
     public List<Question> All = new();
     public List<Answer> AllAnswers = new();
 
-    private User _learner;
 
     private bool _persistQuestionsImmediately;
     private readonly Random Rand = new();
@@ -28,7 +27,7 @@ public class ContextQuestion
     }
 
     public User Creator => _contextUser.All[0];
-    public User Learner => _learner ?? _contextUser.All[1];
+    public User Learner => _contextUser.All[1];
 
     public ContextQuestion AddAnswer(string answer)
     {

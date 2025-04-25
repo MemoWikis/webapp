@@ -43,7 +43,7 @@
         return new DeleteJson(
             ReloadAnswerBody: updatedLearningSessionResult.reloadAnswerBody,
             SessionIndex: updatedLearningSessionResult.sessionIndex,
-            id = id
+            Id: id
         );
     }
 }

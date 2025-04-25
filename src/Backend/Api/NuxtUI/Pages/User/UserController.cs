@@ -10,7 +10,7 @@ public class UserController(
 {
     public readonly record struct GetResult(User User, Overview Overview, bool IsCurrentUser, string? MessageKey, NuxtErrorPageType ErrorCode);
 
-    public readonly record struct User(
+    public new readonly record struct User(
         int Id,
         string Name,
         string WikiUrl,

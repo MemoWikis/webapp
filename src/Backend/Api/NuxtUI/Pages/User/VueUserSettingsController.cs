@@ -27,9 +27,13 @@ public class VueUserSettingsController(
         [FromBody] UserSettingNotificationInterval notificationInterval)
     {
         var result = new UpdateKnowledgeReportIntervalResult();
-        var updatedResult =
-            UpdateKnowledgeReportInterval.Run(_userReadingRepo.GetById(_sessionUser.UserId),
-                notificationInterval, result, _userWritingRepo);
+        var updatedResult = UpdateKnowledgeReportInterval.Run(
+            _userReadingRepo.GetById(_sessionUser.UserId), 
+            notificationInterval, 
+            result, 
+            _userWritingRepo
+        );
+        
         var message = updatedResult.ResultMessage;
         if (result.Success && _sessionUser.User.Id == result.AffectedUser.Id)
         {
