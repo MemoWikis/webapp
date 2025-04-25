@@ -134,6 +134,7 @@ public class QuestionController(
     }
 
 
+    [HttpGet]
     public AnswerQuestionDetailsResult? GetData(int id)
     {
         var question = EntityCache.GetQuestionById(id);
@@ -222,6 +223,7 @@ public class QuestionController(
         KnowledgeStatus KnowledgeStatus = KnowledgeStatus.NotLearned
     );
 
+    [HttpGet]
     public Question LoadQuestion(int questionId)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn
@@ -268,6 +270,7 @@ public class QuestionController(
     }
 
     [RedirectToErrorPage_IfNotLoggedIn]
+    [HttpGet]
     public ActionResult Restore(int questionId, int questionChangeId)
     {
         _restoreQuestion.Run(questionChangeId, _userReadingRepo.GetById(_sessionUser.UserId));

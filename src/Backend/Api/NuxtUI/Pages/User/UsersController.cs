@@ -59,7 +59,7 @@ public class UsersController(
         return _totalUsers.Run();
     }
 
-    public UserResult GetUserResult(UserCacheItem user)
+    private UserResult GetUserResult(UserCacheItem user)
     {
         var wishQuestionCount = 0;
         var pagesWithWishQuestionCount = 0;

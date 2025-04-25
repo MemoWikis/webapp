@@ -38,6 +38,7 @@ SessionUser _sessionUser) : ApiBaseController
     public readonly record struct ViewsResult(DateTime DateTime, int Views);
 
     [AccessOnlyAsLoggedIn]
+    [HttpGet]
     public GetAllDataResponse GetAllData()
     {
         if (!_sessionUser.IsInstallationAdmin)

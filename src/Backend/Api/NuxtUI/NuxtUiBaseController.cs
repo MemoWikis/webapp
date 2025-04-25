@@ -1,2 +1,3 @@
-﻿[Route("apiVue/[controller]/[action]/{id?}")]
+﻿[ApiController]
+[Route("apiVue/[controller]/[action]/{id?}")]
 public abstract class ApiBaseController : ControllerBase;

@@ -56,6 +56,7 @@ try
         });
 
     builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddHostedService<MissingHttpVerbLogger>();
 
     Settings.Initialize(builder.Configuration);
 
@@ -145,11 +146,6 @@ try
     app.UseMiddleware<AutoLoginMiddleware>();
     app.UseMiddleware<RequestTimingMiddleware>();
 
-    app.MapControllerRoute(
-        name: "default", 
-        pattern: "apiVue/{controller}/{action}/{id?}"
-        ).WithOpenApi();
-    
     app.MapHealthChecks("healthcheck_backend");
 
     app.Urls.Add("http://*:5069");
