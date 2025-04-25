@@ -270,30 +270,24 @@ async function loadAnswerBodyModel() {
 
 const router = useRouter()
 async function attachQuestionIdToUrl() {
-    // Only proceed if we're in learning tab and have a valid question id
     if (!tabsStore.isLearning || !answerBodyModel.value?.id || answerBodyModel.value.id <= 0) {
         return
     }
 
-    // Extract page id from the URL path
     const pathSegments = window.location.pathname.split('/')
         .filter(segment => segment.length > 0)
 
-    // Try to get current page id from URL (second segment)
     const currentPageId = pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))
         ? parseInt(pathSegments[1])
         : null
 
-    // Only update URL if we're on the correct page
     if (currentPageId === pageStore.id) {
-        // Generate new URL with the question id
         const newPath = $urlHelper.getPageUrlWithQuestionId(
             pageStore.name,
             pageStore.id,
             answerBodyModel.value.id
         )
 
-        // Only navigate if the URL has actually changed
         if (newPath !== window.location.pathname) {
             router.push(newPath)
         }
