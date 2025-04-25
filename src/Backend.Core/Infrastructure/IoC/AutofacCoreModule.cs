@@ -90,10 +90,10 @@ namespace TrueOrFalse.Infrastructure
             }
 
             builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
+            builder.RegisterAssemblyTypes(Assembly.Load("MemoWikis.Backend.Host"))
                 .AssignableTo<IRegisterAsInstancePerLifetime>();
 
-            var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
+            var assemblyTrueOrFalse = Assembly.Load("MemoWikis.Backend.Core");
 
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
             builder.RegisterType<EntityCacheInitializer>().AsSelf().InstancePerLifetimeScope();

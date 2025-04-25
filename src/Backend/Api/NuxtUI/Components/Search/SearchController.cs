@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using TrueOrFalse.Frontend.Web.Code;
+﻿using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchController(
     IGlobalSearch _search,

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TrueOrFalse.Domain.User;
 
 namespace TrueOrFalse.View.Web.Middlewares;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Text.Json;
-using VueApp;
 
 class GenerateFlashCards_tests : BaseTest
 {

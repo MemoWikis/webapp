@@ -3,16 +3,13 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<OutputType>Exe</OutputType>
-		<AssemblyTitle>TrueOrFalse.View.Web</AssemblyTitle>
-		<AssemblyCompany>TrueOrFalse.View.Web</AssemblyCompany>
-		<AssemblyProduct>TrueOrFalse.View.Web</AssemblyProduct>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>1.0.0.0</FileVersion>
 		<InformationalVersion>1.0.0</InformationalVersion>
-		<RootNamespace>TrueOrFalse.View.Web</RootNamespace>
-		<AssemblyName>TrueOrFalse.View.Web</AssemblyName>
+		<RootNamespace>MemoWikis.Backend.Host</RootNamespace>
+		<AssemblyName>MemoWikis.Backend.Host</AssemblyName>
 		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
-	  <ImplicitUsings>disable</ImplicitUsings>
+	  <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugSymbols>true</DebugSymbols>
