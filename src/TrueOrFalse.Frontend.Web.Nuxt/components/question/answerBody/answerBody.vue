@@ -270,9 +270,8 @@ async function loadAnswerBodyModel() {
 
 const router = useRouter()
 async function attachQuestionIdToUrl() {
-    if (!tabsStore.isLearning || !answerBodyModel.value?.id || answerBodyModel.value.id <= 0) {
+    if (!tabsStore.isLearning || !answerBodyModel.value?.id || answerBodyModel.value.id <= 0)
         return
-    }
 
     const pathSegments = window.location.pathname.split('/')
         .filter(segment => segment.length > 0)
@@ -288,9 +287,8 @@ async function attachQuestionIdToUrl() {
             answerBodyModel.value.id
         )
 
-        if (newPath !== window.location.pathname) {
+        if (newPath !== window.location.pathname)
             router.push(newPath)
-        }
     }
 }
 
