@@ -125,9 +125,6 @@
 	  </EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Api\Developer\" />
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\Backend.Core\Core.csproj" />
 	</ItemGroup>
 </Project>
