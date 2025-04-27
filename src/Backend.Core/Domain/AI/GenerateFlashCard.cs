@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.RegularExpressions;
-using TrueOrFalse;
+
 public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePerLifetime
 {
     public record struct FlashCard(string Front, string Back);

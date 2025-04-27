@@ -1,21 +1,19 @@
-﻿namespace TrueOrFalse.WikiMarkup
+﻿public class ParseImageMarkupResult
 {
-    public class ParseImageMarkupResult
-    {
-        /// <summary>May contain wiki markup</summary>
-        public string Description_Raw;
-        public string Description;
+    /// <summary>May contain wiki markup</summary>
+    public string Description_Raw;
 
-        public string AuthorName_Raw;
-        public string AuthorName;
+    public string Description;
 
-        //public string Attribution;
+    public string AuthorName_Raw;
+    public string AuthorName;
 
-        public Template Template;
-        public InfoBoxTemplate InfoBoxTemplate;
+    //public string Attribution;
 
-        public string AllRegisteredLicenses;
+    public Template Template;
+    public InfoBoxTemplate InfoBoxTemplate;
 
-        public string Notifications;
-    }
+    public string AllRegisteredLicenses;
+
+    public string Notifications;
 }

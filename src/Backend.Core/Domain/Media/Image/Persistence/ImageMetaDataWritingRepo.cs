@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-using TrueOrFalse;
-using TrueOrFalse.Maintenance;
 using ISession = NHibernate.ISession;
 
 public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime

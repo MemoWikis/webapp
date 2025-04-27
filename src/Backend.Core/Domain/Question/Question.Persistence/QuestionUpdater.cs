@@ -14,7 +14,7 @@ public class QuestionUpdater(
         question.Text = safeText;
         question.DescriptionHtml = questionDataParam.DescriptionHtml;
         question.SolutionType =
-            (SolutionType)Enum.Parse(typeof(TrueOrFalse.SolutionType),
+            (SolutionType)Enum.Parse(typeof(SolutionType),
                 questionDataParam.SolutionType);
 
         var preEditPageIds = question.Pages.Select(c => c.Id);

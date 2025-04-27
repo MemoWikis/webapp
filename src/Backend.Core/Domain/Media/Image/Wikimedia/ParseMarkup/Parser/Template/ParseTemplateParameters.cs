@@ -1,57 +1,54 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace TrueOrFalse.WikiMarkup
+public class ParseTemplateParameters
 {
-    public class ParseTemplateParameters
+    enum States
     {
-        enum States
+        Detault,
+        ParameterStarted
+    }
+
+    public static List<Parameter> Run(string section)
+    {
+        var textTokens = Regex.Split(section, "(\\||{{|}}|\\[\\[|\\]\\]|=)");
+
+        int level = 0;
+
+        var result = new List<Parameter>();
+        var enumerator = textTokens.GetEnumerator();
+        var currentParameterTokens = new List<string>();
+        var state = States.Detault;
+        while (enumerator.MoveNext())
         {
-            Detault,
-            ParameterStarted
-        }
+            var token = (string)enumerator.Current;
 
-        public static List<Parameter> Run(string section)
-        {
-            var textTokens = Regex.Split(section, "(\\||{{|}}|\\[\\[|\\]\\]|=)");
+            //ignore parameters of subtemplates
+            if (new[] { "[[", "{{" }.Any(x => x == token))
+                level++;
 
-            int level = 0;
+            if (new[] { "]]", "}}" }.Any(x => x == token))
+                level--;
 
-            var result = new List<Parameter>();
-            var enumerator = textTokens.GetEnumerator();
-            var currentParameterTokens = new List<string>();
-            var state = States.Detault;
-            while (enumerator.MoveNext())
+            //parameter started
+            if (token == "|" && level == 0)
             {
-                var token = (string)enumerator.Current;
+                if (currentParameterTokens.Any())
+                    result.Add(new Parameter(currentParameterTokens));
 
-                //ignore parameters of subtemplates
-                if (new[] { "[[", "{{" }.Any(x => x == token))
-                    level++;
+                state = States.ParameterStarted;
+                currentParameterTokens = new List<string>();
 
-                if (new[] { "]]", "}}" }.Any(x => x == token))
-                    level--;
-
-                //parameter started
-                if (token == "|" && level == 0)
-                {
-                    if (currentParameterTokens.Any())
-                        result.Add(new Parameter(currentParameterTokens));
-
-                    state = States.ParameterStarted;
-                    currentParameterTokens = new List<string>();
-
-                    continue;
-                }
-
-                //collect parameter data
-                if (state == States.ParameterStarted)
-                    currentParameterTokens.Add(token);
+                continue;
             }
 
-            if (currentParameterTokens.Any())
-                result.Add(new Parameter(currentParameterTokens));
-
-            return result;
+            //collect parameter data
+            if (state == States.ParameterStarted)
+                currentParameterTokens.Add(token);
         }
+
+        if (currentParameterTokens.Any())
+            result.Add(new Parameter(currentParameterTokens));
+
+        return result;
     }
 }

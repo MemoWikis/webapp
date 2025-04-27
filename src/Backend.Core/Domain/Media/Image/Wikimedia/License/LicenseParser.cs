@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using TrueOrFalse.WikiMarkup;
 using static System.String;
 
 public class LicenseParser

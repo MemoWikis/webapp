@@ -80,6 +80,7 @@ public class AutofacCoreModule : Autofac.Module
                         sb.AppendLine(exFileNotFound.FusionLog);
                     }
                 }
+
                 sb.AppendLine();
             }
 
@@ -90,12 +91,12 @@ public class AutofacCoreModule : Autofac.Module
         builder.RegisterAssemblyTypes(Assembly.Load("MemoWikis.Backend.Host"))
             .AssignableTo<IRegisterAsInstancePerLifetime>();
 
-        var assemblyTrueOrFalse = Assembly.Load("MemoWikis.Backend.Core");
+        var assemblyBackendCore = Assembly.Load("MemoWikis.Backend.Core");
 
-        builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
+        builder.RegisterAssemblyTypes(assemblyBackendCore).AssignableTo<IRegisterAsInstancePerLifetime>();
         builder.RegisterType<EntityCacheInitializer>().AsSelf().InstancePerLifetimeScope();
-        builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
-        builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
+        builder.RegisterAssemblyTypes(assemblyBackendCore).AssignableTo<IJob>();
+        builder.RegisterAssemblyTypes(assemblyBackendCore)
             .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"))
             .InstancePerLifetimeScope();
 
