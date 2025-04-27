@@ -2,10 +2,6 @@
 using FakeItEasy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Seedworks.Web.State;
-using TrueOrFalse;
-using TrueOrFalse.Infrastructure;
-using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
 [TestFixture]
