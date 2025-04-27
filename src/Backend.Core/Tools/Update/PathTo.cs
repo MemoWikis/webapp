@@ -14,7 +14,7 @@
         var path = GetPath("Log.ignore");
 
         if (path.Contains("Test"))
-            path = path.Substring(0, path.IndexOf("TrueOrFalse.Tests")) + "TrueOrFalse.Frontend.Web\\Log.ignore";
+            path = path.Substring(0, path.IndexOf("Tests")) + "MemoWikis.Host\\Log.ignore";
 
         return path;
     }

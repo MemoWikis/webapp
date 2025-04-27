@@ -1,7 +1,5 @@
 ﻿using static LearningSessionCreator;
 
-namespace TrueOrFalse.Tests;
-
 class FilterByVisibility_tests : BaseTest
 {
     private readonly QuestionCacheItem _publicQuestion = new QuestionCacheItem { Visibility = QuestionVisibility.Public };

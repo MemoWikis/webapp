@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using TrueOrFalse;
 
 [SetUpFixture]
 public class GlobalTest

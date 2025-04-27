@@ -1,6 +1,4 @@
-﻿namespace TrueOrFalse.Updates;
-
-internal class UpdateToVs266
+﻿internal class UpdateToVs266
 {
     public static void Run(
         PageRepository pageRepository,

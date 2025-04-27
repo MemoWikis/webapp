@@ -1,6 +1,4 @@
-﻿namespace TrueOrFalse.Infrastructure;
-
-public class StandardFetchResult<T>
+﻿public class StandardFetchResult<T>
 {
     public bool success = true;
     public T data;

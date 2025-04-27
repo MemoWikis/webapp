@@ -11,13 +11,10 @@ using Serilog.Exceptions;
 using Stripe;
 using System.Text.Json;
 using Scalar.AspNetCore;
-using TrueOrFalse.Updates;
-using TrueOrFalse.View.Web.Middlewares;
 using static System.Int32;
 
 try
 {
-
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Host.UseSerilog((ctx, _, log) =>

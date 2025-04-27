@@ -1,8 +1,6 @@
 ﻿using NHibernate;
 using NHibernate.Transform;
 
-namespace TrueOrFalse.Updates;
-
 internal class UpdateToVs268
 {
     public class PageRelationInfo

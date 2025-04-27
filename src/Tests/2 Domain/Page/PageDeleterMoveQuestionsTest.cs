@@ -1,6 +1,4 @@
-﻿namespace TrueOrFalse.Tests;
-
-public class PageDeleterMoveQuestionsTest : BaseTest
+﻿public class PageDeleterMoveQuestionsTest : BaseTest
 {
     [Test]
     public void Should_Move_Questions_To_Parent()

@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace TrueOrFalse.View.Web.Middlewares;
-
 /// <summary>
 ///     Middleware that measures the processing time for <b>non‑static</b> HTTP requests (i.e. URLs
 ///     without a file extension) and logs the elapsed duration <b>only in the Development

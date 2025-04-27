@@ -1,7 +1,5 @@
 ﻿using static LearningSessionCreator;
 
-namespace TrueOrFalse.Tests;
-
 class FilterByWuwi_tests : BaseTest
 {
     private readonly QuestionValuationCacheItem _questionValuationIsInWishknowledge = new() { IsInWishKnowledge = true };

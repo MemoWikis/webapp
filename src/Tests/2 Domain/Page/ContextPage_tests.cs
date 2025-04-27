@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework.Legacy;
 
-namespace TrueOrFalse.Tests8._0.Pages;
 internal class ContextPage_tests : BaseTest
 {
     [Test]

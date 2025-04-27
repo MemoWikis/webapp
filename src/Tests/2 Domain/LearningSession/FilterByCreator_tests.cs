@@ -1,7 +1,5 @@
 ﻿using static LearningSessionCreator;
 
-namespace TrueOrFalse.Tests;
-
 class FilterByCreator_tests : BaseTest
 {
     private static readonly int _userId = 1;

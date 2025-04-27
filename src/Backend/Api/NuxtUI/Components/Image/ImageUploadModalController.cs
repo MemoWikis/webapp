@@ -1,6 +1,4 @@
-﻿using TrueOrFalse;
-
-public class ImageUploadModalController(
+﻿public class ImageUploadModalController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ImageStore _imageStore) : ApiBaseController
@@ -21,6 +19,7 @@ public class ImageUploadModalController(
     }
 
     public readonly record struct SaveWikimediaImageJson(int PageId, string Url);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveWikimediaImage([FromBody] SaveWikimediaImageJson json)
@@ -42,6 +41,7 @@ public class ImageUploadModalController(
         public string LicenseGiverName { get; set; }
         public IFormFile File { get; set; }
     }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveCustomImage([FromForm] SaveCustomImageForm form)

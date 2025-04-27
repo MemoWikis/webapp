@@ -1,7 +1,5 @@
 ﻿using NHibernate;
 
-namespace TrueOrFalse.Updates;
-
 internal class UpdateToVs261
 {
     public static void Run(ISession nhibernateSession)

@@ -1,6 +1,4 @@
 ﻿using System.Net.Mail;
-using TrueOrFalse.Utilities.ScheduledJobs;
-
 
 class Mail_persistence : BaseTest
 {

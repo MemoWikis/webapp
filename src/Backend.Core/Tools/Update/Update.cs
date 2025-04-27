@@ -1,7 +1,5 @@
 ﻿using NHibernate;
 
-namespace TrueOrFalse.Updates;
-
 public class Update : IRegisterAsInstancePerLifetime
 {
     private readonly UpdateStepExecuter _updateStepExecuter;

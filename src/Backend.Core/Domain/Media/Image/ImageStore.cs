@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using TrueOrFalse;
 
 public class ImageStore(
     ImageMetaDataWritingRepo _imgMetaDataWritingRepo,

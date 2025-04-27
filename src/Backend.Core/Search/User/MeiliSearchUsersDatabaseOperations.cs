@@ -1,19 +1,18 @@
 ﻿using Meilisearch;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("TrueOrFalse.Tests")]
+[assembly: InternalsVisibleTo("MemoWikis.Tests")]
 
 internal class MeiliSearchUsersDatabaseOperations : MeiliSearchBase
 {
     /// <summary>
-    /// CreateUserAsync in MeilieSearch
+    /// CreateUserAsync in MeiliSearch
     /// </summary>
     /// <param name="user"></param>
     /// <param name="indexConstant"></param>
     /// <returns></returns>
     public async Task CreateAsync(User user, string indexConstant = MeiliSearchConstants.Users)
     {
-
         var userMap = CreateUserMap(user, indexConstant, out var index);
         var taskInfo = await index
             .AddDocumentsAsync(new List<MeiliSearchUserMap> { userMap })

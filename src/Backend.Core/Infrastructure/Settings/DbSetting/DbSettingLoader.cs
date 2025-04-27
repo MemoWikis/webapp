@@ -1,7 +1,5 @@
 ﻿using NHibernate;
 
-namespace TrueOrFalse.Infrastructure;
-
 public class DbSettingsRepo : RepositoryDb<DbSettings>
 {
     public DbSettingsRepo(ISession session)

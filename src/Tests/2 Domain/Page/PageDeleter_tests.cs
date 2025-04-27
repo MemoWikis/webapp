@@ -1,5 +1,4 @@
-﻿namespace TrueOrFalse.Tests;
-public class PageDeleter_tests : BaseTest
+﻿public class PageDeleter_tests : BaseTest
 {
     [Test]
     public void Should_delete_child()

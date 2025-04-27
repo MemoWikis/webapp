@@ -40,7 +40,7 @@ public class SqlDebugOutputInterceptor : EmptyInterceptor
         foreach (var frame in stackFrames)
         {
             var method = frame.GetMethod();
-            if (!method.Module.Name.Contains("TrueOrFalse"))
+            if (!method.Module.Name.Contains("MemoWikis"))
                 continue;
 
             sb.AppendLine(

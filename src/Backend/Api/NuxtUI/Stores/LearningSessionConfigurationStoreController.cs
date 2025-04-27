@@ -1,6 +1,4 @@
-﻿namespace TrueOrFalse.View.Web.Views.ApiVueApp.Stores;
-
-public class LearningSessionConfigurationStoreController(LearningSessionCreator _learningSessionCreator) : ApiBaseController
+﻿public class LearningSessionConfigurationStoreController(LearningSessionCreator _learningSessionCreator) : ApiBaseController
 {
     [HttpPost]
     public QuestionCounter GetCount([FromBody] LearningSessionConfig config) => 

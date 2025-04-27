@@ -1,7 +1,5 @@
 ﻿using static LearningSessionCreator;
 
-namespace TrueOrFalse.Tests;
-
 class FilterByKnowledgeSummary_tests : BaseTest
 {
     private readonly QuestionValuationCacheItem _questionValuationNotLearned = new() { CorrectnessProbabilityAnswerCount = 0, CorrectnessProbability = new Random().Next(101) };

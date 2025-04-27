@@ -1,6 +1,4 @@
-﻿using TrueOrFalse;
-
-public class ContextQuestion
+﻿public class ContextQuestion
 {
     private readonly ContextUser _contextUser;
     private readonly AnswerRepo _answerRepo;

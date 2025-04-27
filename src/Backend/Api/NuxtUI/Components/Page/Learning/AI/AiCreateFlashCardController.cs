@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Text.RegularExpressions;
-using TrueOrFalse;
 
 public class AiCreateFlashCardController(
     SessionUser _sessionUser,
