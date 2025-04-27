@@ -1,7 +1,4 @@
-﻿using Seedworks.Lib;
-using TrueOrFalse.Search;
-
-public class SearchHelper
+﻿public class SearchHelper
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;

@@ -11,10 +11,7 @@ using Serilog.Exceptions;
 using Stripe;
 using System.Text.Json;
 using Scalar.AspNetCore;
-using TrueOrFalse.Environment;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
-using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.View.Web.Middlewares;
 using static System.Int32;
 

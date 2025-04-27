@@ -10,7 +10,7 @@ public class Cache
     }
 
     /// <summary>
-    /// Add an object to the Cache (overwrite if already existent).<br/>
+    /// Add an object to the MemoCache (overwrite if already existent).<br/>
     /// Remove the item from the cache after <paramref name="timeSpan"/> has elapsed.
     /// </summary>
     public static void Add(string key, object obj, TimeSpan timeSpan, bool slidingExpiration = false)

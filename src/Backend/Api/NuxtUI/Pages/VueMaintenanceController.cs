@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Hosting;
 using System.Security;
-using TrueOrFalse;
-using TrueOrFalse.Search;
-using TrueOrFalse.Tools;
-using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class VueMaintenanceController(
     SessionUser _sessionUser,

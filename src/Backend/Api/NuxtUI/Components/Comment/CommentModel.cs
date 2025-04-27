@@ -2,6 +2,7 @@
 {
     /// <summary>Comment.Id</summary>
     public int Id;
+
     public string CreatorName;
     public string CreationDate;
     public string CreationDateNiceText;
@@ -9,7 +10,6 @@
     public string CreatorImgUrl;
     public string Title;
     public string Text;
-
 
     public bool ShouldBeImproved;
     public bool ShouldBeDeleted;
@@ -36,7 +36,7 @@
         Text = comment.Text;
         ShouldBeImproved = comment.ShouldImprove;
         ShouldBeDeleted = comment.ShouldRemove;
-        ShouldReasons = TrueOrFalse.ShouldReasons.ByKeys(comment.ShouldKeys);
+        ShouldReasons = global::ShouldReasons.ByKeys(comment.ShouldKeys);
         IsSettled = comment.IsSettled;
         _httpContextAccessor = httpContextAccessor;
         ShowSettledAnswers = showSettled;

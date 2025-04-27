@@ -1,8 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
-using TrueOrFalse.Domain.Question.QuestionValuation;
-using TrueOrFalse.Search;
-
-public class UsersController(
+﻿public class UsersController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     MeiliSearchUsers _meiliSearchUsers,

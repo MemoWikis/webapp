@@ -13,26 +13,26 @@ public class EntityCache
     public static bool IsFirstStart = true;
 
     private static ConcurrentDictionary<int, UserCacheItem> Users =>
-        Cache.Mgr.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
+        MemoCache.Mgr.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
 
     public static ConcurrentDictionary<int, PageCacheItem> Pages =>
-        Cache.Mgr.Get<ConcurrentDictionary<int, PageCacheItem>>(CacheKeyPages);
+        MemoCache.Mgr.Get<ConcurrentDictionary<int, PageCacheItem>>(CacheKeyPages);
 
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions =>
-        Cache.Mgr.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
+        MemoCache.Mgr.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
     private static ConcurrentDictionary<int, PageRelationCache> Relations =>
-        Cache.Mgr.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
+        MemoCache.Mgr.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
 
     private static ConcurrentDictionary<int, List<ShareCacheItem>> PageShares =>
-        Cache.Mgr.Get<ConcurrentDictionary<int, List<ShareCacheItem>>>(CacheKeyPageShares);
+        MemoCache.Mgr.Get<ConcurrentDictionary<int, List<ShareCacheItem>>>(CacheKeyPageShares);
 
     /// <summary>
     /// Dictionary(key:pageId, value:questions)
     /// </summary>
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>>
         PageQuestionsList =>
-        Cache.Mgr.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(
+        MemoCache.Mgr.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(
             CacheKeyPageQuestionsList);
 
     public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) =>
@@ -541,7 +541,7 @@ public class EntityCache
 
     public static void Clear()
     {
-        Cache.Mgr.Clear();
+        MemoCache.Mgr.Clear();
     }
 
     // Helper methods for updating share info:

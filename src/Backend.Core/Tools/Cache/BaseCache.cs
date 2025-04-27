@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using CacheManager.Core;
 
-public static class Cache
+public static class MemoCache
 {
     internal static ICacheManager<object> Mgr = CacheFactory.Build<object>(settings =>
     {

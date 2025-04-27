@@ -39,7 +39,7 @@ public class EntityCacheInitializer(
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
         Logg.r.Information("EntityCache UsersCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
-        Cache.IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
+        MemoCache.IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
     }
 
     private void InitializePageRelations()
@@ -48,7 +48,7 @@ public class EntityCacheInitializer(
         Logg.r.Information("EntityCache PageRelationsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var relations = PageRelationCache.ToPageRelationCache(allRelations).ToList();
-        Cache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
+        MemoCache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
         Logg.r.Information("EntityCache PageRelationsCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
     }
 
@@ -66,7 +66,7 @@ public class EntityCacheInitializer(
         var pages = PageCacheItem.ToCachePages(allPages, allPageViews, allPageChanges).ToList();
         Logg.r.Information("EntityCache PagesCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
-        Cache.IntoForeverCache(EntityCache.CacheKeyPages, pages.ToConcurrentDictionary());
+        MemoCache.IntoForeverCache(EntityCache.CacheKeyPages, pages.ToConcurrentDictionary());
         EntityCache.AddViewsLast30DaysToPages(pageViewRepo, pages);
         Logg.r.Information("EntityCache PagesPutIntoForeverCache " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
     }
@@ -85,8 +85,8 @@ public class EntityCacheInitializer(
         Logg.r.Information("EntityCache QuestionsCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
         Logg.r.Information("EntityCache LoadAllEntities" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
-        Cache.IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
-        Cache.IntoForeverCache(EntityCache.CacheKeyPageQuestionsList, EntityCache.GetPageQuestionsListForCacheInitializer(questions));
+        MemoCache.IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
+        MemoCache.IntoForeverCache(EntityCache.CacheKeyPageQuestionsList, EntityCache.GetPageQuestionsListForCacheInitializer(questions));
 
         InitializeQuestionReferences(allQuestions);
     }
@@ -106,7 +106,7 @@ public class EntityCacheInitializer(
         Logg.r.Information("EntityCache ShareInfos Loaded " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var shareCacheItems = allShareInfos.Select(ShareCacheItem.ToCacheItem).ToList();
-        Cache.IntoForeverCache(EntityCache.CacheKeyPageShares, shareCacheItems.ToConcurrentDictionary());
+        MemoCache.IntoForeverCache(EntityCache.CacheKeyPageShares, shareCacheItems.ToConcurrentDictionary());
     }
 }
 

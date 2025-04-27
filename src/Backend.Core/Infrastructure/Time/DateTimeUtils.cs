@@ -32,7 +32,7 @@
 
     public static string TimeElapsedAsText(DateTime dateTimeBegin)
     {
-        return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin);
+        return global::TimeElapsedAsText.Run(dateTimeBegin);
     }
 
     public static bool IsToday(PageCacheItem page)

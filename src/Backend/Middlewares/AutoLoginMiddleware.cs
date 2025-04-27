@@ -1,7 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TrueOrFalse.Domain.User;
-
-namespace TrueOrFalse.View.Web.Middlewares;
 
 public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _serviceProvider)
 {

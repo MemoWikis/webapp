@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using K4os.Compression.LZ4.Internal;
 
 public class ImageMetaDataCache
 {
@@ -44,14 +45,13 @@ public class ImageMetaDataCache
     private static IDictionary<(int, int), ImageMetaData> GetRequestItemsCache(string cacheKey,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
-
-        var cache = (ConcurrentDictionary<(int, int), ImageMetaData>)Cache.Mgr.Get(cacheKey);
+        var cache = (ConcurrentDictionary<(int, int), ImageMetaData>)MemoCache.Mgr.Get(cacheKey);
         if (cache == null || cache.Any() == false)
         {
             var metadata = imageMetaDataReadingRepo.GetAll();
-            Cache.IntoForeverCache(cacheKey, metadata.ToConcurrentDictionary());
+            MemoCache.IntoForeverCache(cacheKey, metadata.ToConcurrentDictionary());
         }
 
-        return Cache.Mgr.Get<IDictionary<(int, int), ImageMetaData>>(cacheKey);
+        return MemoCache.Mgr.Get<IDictionary<(int, int), ImageMetaData>>(cacheKey);
     }
 }

@@ -1,6 +1,4 @@
-﻿using TrueOrFalse.Frontend.Web.Code;
-
-public class SearchController(
+﻿public class SearchController(
     IGlobalSearch _search,
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,

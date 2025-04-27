@@ -1,10 +1,9 @@
-﻿using TrueOrFalse.Web;
-
-public class FeedModalPageController(
+﻿public class FeedModalPageController(
     PermissionCheck _permissionCheck,
     PageChangeRepo pageChangeRepo) : ApiBaseController
 {
     public readonly record struct GetContentChangeRequest(int Pageid, int ChangeId, int? OldestChangeId = null);
+
     public record struct ContentChange(string CurrentContent, string DiffContent);
 
     [HttpPost]

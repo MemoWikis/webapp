@@ -1,6 +1,4 @@
-﻿using TrueOrFalse.Domain.User;
-
-public class GoogleController(
+﻿public class GoogleController(
     UserReadingRepo _userReadingRepo,
     FrontEndUserData _frontEndUserData,
     GoogleLogin _googleLogin) : ApiBaseController
@@ -15,7 +13,6 @@ public class GoogleController(
     [HttpPost]
     public async Task<LoginResponse> Login([FromBody] LoginRequest request)
     {
-
         var loginResult = await _googleLogin.Login(request.language, request.credential, request.accessToken);
 
         if (loginResult.Success)

@@ -1,7 +1,4 @@
-﻿using TrueOrFalse.Domain.Question.QuestionValuation;
-using TrueOrFalse.Web;
-
-public class UserController(
+﻿public class UserController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ReputationCalc _rpReputationCalc,

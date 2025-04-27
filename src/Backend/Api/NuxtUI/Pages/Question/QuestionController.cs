@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
-using TrueOrFalse;
-using TrueOrFalse.Domain.Question.Answer;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
 
 public class QuestionController(
     SessionUser _sessionUser,

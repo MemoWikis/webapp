@@ -36,7 +36,7 @@ public class ExtendedUserCache(
 
     public bool ItemExists(int userId)
     {
-        return Seedworks.Web.State.Cache.Contains(GetCacheKey(userId));
+        return Cache.Contains(GetCacheKey(userId));
     }
 
     public bool IsQuestionInWishknowledge(int userId, int questionId)
@@ -68,7 +68,7 @@ public class ExtendedUserCache(
     }
 
     public ExtendedUserCacheItem? GetItem(int userId) =>
-        Seedworks.Web.State.Cache.Get<ExtendedUserCacheItem>(GetCacheKey(userId));
+        Cache.Get<ExtendedUserCacheItem>(GetCacheKey(userId));
 
     public void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
@@ -94,10 +94,10 @@ public class ExtendedUserCache(
     public void Remove(int userId)
     {
         var cacheKey = GetCacheKey(userId);
-        var cacheItem = Seedworks.Web.State.Cache.Get<ExtendedUserCacheItem>(cacheKey);
+        var cacheItem = Cache.Get<ExtendedUserCacheItem>(cacheKey);
 
         if (cacheItem != null)
-            Seedworks.Web.State.Cache.Remove(cacheKey);
+            Cache.Remove(cacheKey);
     }
 
     public ExtendedUserCacheItem Add(int userId, PageViewRepo? _pageViewRepo = null)
@@ -234,7 +234,7 @@ public class ExtendedUserCache(
 
     private void AddToCache(ExtendedUserCacheItem cacheItem)
     {
-        Seedworks.Web.State.Cache.Add(GetCacheKey(cacheItem.Id), cacheItem,
+        Cache.Add(GetCacheKey(cacheItem.Id), cacheItem,
             TimeSpan.FromMinutes(ExpirationSpanInMinutes),
             slidingExpiration: true);
     }

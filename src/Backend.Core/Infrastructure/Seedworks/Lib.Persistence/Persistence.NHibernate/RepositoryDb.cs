@@ -104,7 +104,7 @@ public class RepositoryDb<TDomainObject>
     }
 
     /// <summary>
-    /// Add Object in  Database, set Dates Date(Created, Modified) and deleted Cache
+    /// Add Object in  Database, set Dates Date(Created, Modified) and deleted MemoCache
     /// </summary>
     /// <param name="domainObject"></param>
     public virtual void Create(TDomainObject domainObject)

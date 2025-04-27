@@ -48,7 +48,7 @@
 
             ShouldBeImproved = c.ShouldImprove,
             ShouldBeDeleted = c.ShouldRemove,
-            ShouldReasons = TrueOrFalse.ShouldReasons.ByKeys(c.ShouldKeys),
+            ShouldReasons = ShouldReasons.ByKeys(c.ShouldKeys),
 
             IsSettled = c.IsSettled,
             ShowSettledAnswers = showSettled

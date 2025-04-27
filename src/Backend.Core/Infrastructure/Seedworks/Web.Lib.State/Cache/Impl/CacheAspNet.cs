@@ -18,7 +18,7 @@ internal class CacheAspNet
     }
 
     /// <summary>
-    /// Add an object to the Cache (overwrite if already existent).<br/>
+    /// Add an object to the MemoCache (overwrite if already existent).<br/>
     /// Remove the item from the cache after <paramref name="expiration"/> has elapsed.
     /// </summary>
     /// <param name="key"></param>

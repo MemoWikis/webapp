@@ -1,6 +1,5 @@
 ﻿#nullable enable
 using Microsoft.AspNetCore.Hosting;
-using TrueOrFalse.Web;
 
 public class VueUserSettingsController(
     SessionUser _sessionUser,
