@@ -1,6 +1,4 @@
-﻿namespace TrueOrFalse.Search;
-
-public class GlobalSearchResult
+﻿public class GlobalSearchResult
 {
     public ISearchPagesResult PagesResult;
     private IList<PageCacheItem> _pages;

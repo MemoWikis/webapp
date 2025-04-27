@@ -1,6 +1,4 @@
-﻿
-
-public class LicenseQuestion
+﻿public class LicenseQuestion
 {
     public int Id;
 

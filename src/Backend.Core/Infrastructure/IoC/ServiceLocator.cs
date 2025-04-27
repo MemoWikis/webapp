@@ -3,7 +3,6 @@ using Autofac;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-
 public class ServiceLocator
 {
     private static IContainer _container;

@@ -1,7 +1,6 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
 using System.Data;
-using TrueOrFalse.Search;
 
 public class RegisterUser(
     ISession _session,
@@ -11,8 +10,7 @@ public class RegisterUser(
     UserWritingRepo _userWritingRepo,
     SessionUser _sessionUser,
     PageRepository _pageRepository,
-    PageViewRepo _pageViewRepo,
-    MeiliSearchReIndexUser _meiliSearchReIndexUser)
+    PageViewRepo _pageViewRepo)
     : IRegisterAsInstancePerLifetime
 {
     public readonly record struct RegisterResult(bool Success, string MessageKey);

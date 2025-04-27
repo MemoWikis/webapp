@@ -1,6 +1,4 @@
-﻿namespace TrueOrFalse.Domain.Question.Answer;
-
-public record struct AnswerQuestionDetailsResult(
+﻿public record struct AnswerQuestionDetailsResult(
     KnowledgeStatus KnowledgeStatus,
     int PersonalProbability,
     string PersonalColor,

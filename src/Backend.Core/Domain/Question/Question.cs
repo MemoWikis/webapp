@@ -1,7 +1,6 @@
-﻿using Seedworks.Lib.Persistence;
+﻿
 using System.Diagnostics;
 using System.Text;
-using TrueOrFalse;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]

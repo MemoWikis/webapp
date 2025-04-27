@@ -1,72 +1,69 @@
 ﻿using Quartz;
 using System.Text.Json;
 
-namespace TrueOrFalse.Utilities.ScheduledJobs
+public class AddOrUpdateRelationsInDb : IJob
 {
-    public class AddOrUpdateRelationsInDb : IJob
+    private readonly PageRepository _pageRepository;
+    private readonly PageRelationRepo _pageRelationRepo;
+    private int _authorId;
+
+    public AddOrUpdateRelationsInDb(
+        PageRepository pageRepository,
+        PageRelationRepo pageRelationRepo)
     {
-        private readonly PageRepository _pageRepository;
-        private readonly PageRelationRepo _pageRelationRepo;
-        private int _authorId;
+        _pageRepository = pageRepository;
+        _pageRelationRepo = pageRelationRepo;
+    }
 
-        public AddOrUpdateRelationsInDb(
-            PageRepository pageRepository,
-            PageRelationRepo pageRelationRepo)
+    public async Task Execute(IJobExecutionContext context)
+    {
+        var dataMap = context.JobDetail.JobDataMap;
+        var relationsJson = dataMap.GetString("relations");
+        var relations = JsonSerializer.Deserialize<List<PageRelationCache>>(relationsJson);
+        _authorId = dataMap.GetInt("authorId");
+
+        await Run(relations);
+        Logg.r.Information("Job ended - ModifyRelations");
+    }
+
+    private Task Run(List<PageRelationCache> relations)
+    {
+        foreach (var r in relations)
         {
-            _pageRepository = pageRepository;
-            _pageRelationRepo = pageRelationRepo;
-        }
+            Logg.r.Information(
+                "Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
+                r.Id, r.ChildId, r.ParentId);
 
-        public async Task Execute(IJobExecutionContext context)
-        {
-            var dataMap = context.JobDetail.JobDataMap;
-            var relationsJson = dataMap.GetString("relations");
-            var relations = JsonSerializer.Deserialize<List<PageRelationCache>>(relationsJson);
-            _authorId = dataMap.GetInt("authorId");
+            var relationToUpdate = r.Id > 0 ? _pageRelationRepo.GetById(r.Id) : null;
+            var child = _pageRepository.GetById(r.ChildId);
+            var parent = _pageRepository.GetById(r.ParentId);
 
-            await Run(relations);
-            Logg.r.Information("Job ended - ModifyRelations");
-        }
-
-        private Task Run(List<PageRelationCache> relations)
-        {
-            foreach (var r in relations)
+            if (relationToUpdate != null)
             {
-                Logg.r.Information(
-                    "Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
-                    r.Id, r.ChildId, r.ParentId);
+                relationToUpdate.Child = child;
+                relationToUpdate.Parent = parent;
+                relationToUpdate.PreviousId = r.PreviousId;
+                relationToUpdate.NextId = r.NextId;
 
-                var relationToUpdate = r.Id > 0 ? _pageRelationRepo.GetById(r.Id) : null;
-                var child = _pageRepository.GetById(r.ChildId);
-                var parent = _pageRepository.GetById(r.ParentId);
-
-                if (relationToUpdate != null)
+                _pageRelationRepo.Update(relationToUpdate);
+            }
+            else
+            {
+                var relation = new PageRelation
                 {
-                    relationToUpdate.Child = child;
-                    relationToUpdate.Parent = parent;
-                    relationToUpdate.PreviousId = r.PreviousId;
-                    relationToUpdate.NextId = r.NextId;
+                    Child = child,
+                    Parent = parent,
+                    PreviousId = r.PreviousId,
+                    NextId = r.NextId,
+                };
 
-                    _pageRelationRepo.Update(relationToUpdate);
-                }
-                else
-                {
-                    var relation = new PageRelation
-                    {
-                        Child = child,
-                        Parent = parent,
-                        PreviousId = r.PreviousId,
-                        NextId = r.NextId,
-                    };
-
-                    _pageRelationRepo.Create(relation);
-                }
-
-                _pageRepository.Update(child, _authorId, type: PageChangeType.Relations);
-                _pageRepository.Update(parent, _authorId, type: PageChangeType.Relations);
+                _pageRelationRepo.Create(relation);
             }
 
-            return Task.CompletedTask;
+            _pageRepository.Update(child, _authorId, type: PageChangeType.Relations);
+            _pageRepository.Update(parent, _authorId, type: PageChangeType.Relations);
         }
+
+        return Task.CompletedTask;
     }
 }

@@ -1,8 +1,6 @@
 ﻿using Quartz;
 using ISession = NHibernate.ISession;
 
-namespace TrueOrFalse.Utilities.ScheduledJobs;
-
 public class DeleteQuestion : IJob
 {
     private readonly ReferenceRepo _referenceRepo;

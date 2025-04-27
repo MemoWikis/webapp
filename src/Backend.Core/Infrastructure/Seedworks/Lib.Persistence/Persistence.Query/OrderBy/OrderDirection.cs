@@ -1,9 +1,6 @@
-﻿namespace Seedworks.Lib.Persistence
+﻿[Serializable]
+public enum OrderDirection
 {
-    [Serializable]
-    public enum OrderDirection
-    {
-        Ascending,
-        Descending
-    }
+    Ascending,
+    Descending
 }

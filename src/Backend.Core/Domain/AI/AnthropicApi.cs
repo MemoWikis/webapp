@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+
 /// <summary>
 /// Represents the entire response from the Anthropic /v1/messages endpoint.
 /// </summary>

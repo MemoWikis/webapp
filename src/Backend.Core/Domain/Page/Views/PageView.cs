@@ -1,4 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
+﻿
 
 public class PageView : IPersistable, WithDateCreated
 {

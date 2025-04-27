@@ -1,105 +1,102 @@
 using NHibernate;
 using NHibernate.Criterion;
 
-namespace Seedworks.Lib.Persistence
+[Serializable]
+public abstract class Condition
 {
-    [Serializable]
-    public abstract class Condition
+    public string PropertyName { get; set; }
+    private readonly ConditionContainer _conditions;
+
+    public ConditionContainer Conditions
     {
-        public string PropertyName { get; set; }
-        private readonly ConditionContainer _conditions;
+        get { return _conditions; }
+    }
 
-        public ConditionContainer Conditions
+    public Condition(ConditionContainer conditions)
+    {
+        _conditions = conditions;
+    }
+
+    public Condition(ConditionContainer conditions, string propertyName)
+    {
+        _conditions = conditions;
+        PropertyName = propertyName;
+    }
+
+    /// <summary>
+    /// Entfernt diese <see cref="Condition"/> aus der Liste.
+    /// </summary>
+    public void Remove()
+    {
+        if (_conditions.Contains(PropertyName))
         {
-            get { return _conditions; }
+            _conditions.Remove(this);
+            Reset();
         }
+    }
 
-        public Condition(ConditionContainer conditions)
-        {
-            _conditions = conditions;
-        }
+    public override int GetHashCode()
+    {
+        return PropertyName.GetHashCode();
+    }
 
-        public Condition(ConditionContainer conditions, string propertyName)
-        {
-            _conditions = conditions;
-            PropertyName = propertyName;
-        }
+    public override bool Equals(object obj)
+    {
+        if (obj == null) return false;
 
-        /// <summary>
-        /// Entfernt diese <see cref="Condition"/> aus der Liste.
-        /// </summary>
-        public void Remove()
-        {
-            if (_conditions.Contains(PropertyName))
-            {
-                _conditions.Remove(this);
-                Reset();
-            }
-        }
+        if (this.GetType() != obj.GetType()) return false;
 
-        public override int GetHashCode()
-        {
-            return PropertyName.GetHashCode();
-        }
+        Condition condition = (Condition)obj;
 
-        public override bool Equals(object obj)
-        {
-            if (obj == null) return false;
+        if (!PropertyName.Equals(condition.PropertyName)) return false;
 
-            if (this.GetType() != obj.GetType()) return false;
+        return true;
+    }
 
-            Condition condition = (Condition)obj;
+    private void AddUniqueToContainer(Condition condition)
+    {
+        Conditions.AddUnique(condition);
+    }
 
-            if (!PropertyName.Equals(condition.PropertyName)) return false;
+    public void AddUniqueToContainer()
+    {
+        AddUniqueToContainer(this);
+    }
 
-            return true;
-        }
+    public abstract void AddToCriteria(ICriteria criteria);
 
-        private void AddUniqueToContainer(Condition condition)
-        {
-            Conditions.AddUnique(condition);
-        }
+    public abstract ICriterion GetCriterion();
 
-        public void AddUniqueToContainer()
-        {
-            AddUniqueToContainer(this);
-        }
+    public virtual void Reset()
+    {
+        Conditions.Remove(this);
+    }
 
-        public abstract void AddToCriteria(ICriteria criteria);
+    public virtual bool IsActive()
+    {
+        return _conditions.Contains(this);
+    }
 
-        public abstract ICriterion GetCriterion();
+    public static Condition ForType(
+        Type type,
+        ConditionContainer conditions,
+        string propertyName)
+    {
+        if (type == typeof(bool))
+            return new ConditionBoolean(conditions, propertyName);
 
-        public virtual void Reset()
-        {
-            Conditions.Remove(this);
-        }
+        if (type == typeof(float))
+            return new ConditionSingle(conditions, propertyName);
 
-        public virtual bool IsActive()
-        {
-            return _conditions.Contains(this);
-        }
+        if (type == typeof(int))
+            return new ConditionInteger(conditions, propertyName);
 
-        public static Condition ForType(
-            Type type,
-            ConditionContainer conditions,
-            string propertyName)
-        {
-            if (type == typeof(bool))
-                return new ConditionBoolean(conditions, propertyName);
+        throw new ArgumentException(string.Format("There is no condition for type {0}.", type),
+            "type");
+    }
 
-            if (type == typeof(float))
-                return new ConditionSingle(conditions, propertyName);
-
-            if (type == typeof(int))
-                return new ConditionInteger(conditions, propertyName);
-
-            throw new ArgumentException(string.Format("There is no condition for type {0}.", type),
-                "type");
-        }
-
-        public static List<Type> SupportedTypes()
-        {
-            return new List<Type> { typeof(bool), typeof(string), typeof(int) };
-        }
+    public static List<Type> SupportedTypes()
+    {
+        return new List<Type> { typeof(bool), typeof(string), typeof(int) };
     }
 }

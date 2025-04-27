@@ -1,5 +1,3 @@
-using Seedworks.Web.State;
-
 public class SessionUiData : IRegisterAsInstancePerLifetime
 {
     private readonly SessionData _sessionData;

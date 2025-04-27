@@ -1,6 +1,6 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
-using Seedworks.Lib.Persistence;
+
 
 public class ImageMetaDataReadingRepo : RepositoryDb<ImageMetaData>
 {

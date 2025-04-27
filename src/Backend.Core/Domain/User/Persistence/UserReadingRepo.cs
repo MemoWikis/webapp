@@ -1,4 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
+﻿
 using ISession = NHibernate.ISession;
 
 public class UserReadingRepo : RepositoryDb<User>

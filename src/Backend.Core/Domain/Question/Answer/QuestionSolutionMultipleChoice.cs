@@ -1,5 +1,3 @@
-using TrueOrFalse.MultipleChoice;
-
 public class QuestionSolutionMultipleChoice : QuestionSolution
 {
     private const string AnswerListDelimiter = "</br>";

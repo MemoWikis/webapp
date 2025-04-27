@@ -1,4 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
+﻿
 
 [Serializable]
 public class SpecOrderByBase : OrderByCriteria

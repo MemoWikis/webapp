@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using TrueOrFalse.Web;
-
-namespace TrueOrFalse.Frontend.Web.Code;
 
 public class Links
 {

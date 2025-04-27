@@ -1,5 +1,4 @@
-﻿using TrueOrFalse;
-using ISession = NHibernate.ISession;
+﻿using ISession = NHibernate.ISession;
 
 public class AnswerQuestion(
     QuestionReadingRepo _questionReadingRepo,

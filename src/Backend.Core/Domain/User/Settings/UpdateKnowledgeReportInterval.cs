@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using TrueOrFalse.Web;
 
 public class UpdateKnowledgeReportInterval
 {

@@ -1,6 +1,6 @@
 ﻿using NHibernate;
 using NHibernate.Linq;
-using Seedworks.Lib.Persistence;
+
 
 public class QuestionValuationReadingRepo : RepositoryDb<QuestionValuation>
 {

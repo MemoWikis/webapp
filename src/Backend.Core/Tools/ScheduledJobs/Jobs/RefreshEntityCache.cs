@@ -1,24 +1,21 @@
 ﻿using Quartz;
 
-namespace TrueOrFalse.Utilities.ScheduledJobs
+public class RefreshEntityCache : IJob
 {
-    public class RefreshEntityCache : IJob
+    private readonly EntityCacheInitializer _entityCacheInitializer;
+
+    public RefreshEntityCache(EntityCacheInitializer entityCacheInitializer)
     {
-        private readonly EntityCacheInitializer _entityCacheInitializer;
+        _entityCacheInitializer = entityCacheInitializer;
+    }
 
-        public RefreshEntityCache(EntityCacheInitializer entityCacheInitializer)
+    public Task Execute(IJobExecutionContext context)
+    {
+        JobExecute.Run(scope => 
         {
-            _entityCacheInitializer = entityCacheInitializer;
-        }
-        public Task Execute(IJobExecutionContext context)
-        {
-            JobExecute.Run(scope => 
-            {
-                _entityCacheInitializer.Init(" (in JobScheduler) ");
-            }, "RefreshEntityCache");
+            _entityCacheInitializer.Init(" (in JobScheduler) ");
+        }, "RefreshEntityCache");
 
-            return Task.CompletedTask;
-        }
-
+        return Task.CompletedTask;
     }
 }

@@ -1,9 +1,9 @@
 ﻿public enum UserType
-    {
-        Normal,
-        Google,
-        Facebook,
-        Anonymous
-    }
+{
+    Normal,
+    Google,
+    Facebook,
+    Anonymous
+}
 
 

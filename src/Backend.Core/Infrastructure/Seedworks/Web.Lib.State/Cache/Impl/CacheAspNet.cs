@@ -1,7 +1,5 @@
 ﻿using CacheManager.Core;
 
-namespace Seedworks.Web.State;
-
 internal class CacheAspNet
 {
     private static readonly ICacheManager<object> _cache;

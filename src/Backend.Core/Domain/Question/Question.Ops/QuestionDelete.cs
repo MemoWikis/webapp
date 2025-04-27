@@ -1,6 +1,4 @@
-﻿using TrueOrFalse.Utilities.ScheduledJobs;
-
-public class QuestionDelete(
+﻿public class QuestionDelete(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
     QuestionReadingRepo _questionReadingRepo,

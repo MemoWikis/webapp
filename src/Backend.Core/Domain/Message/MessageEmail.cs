@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Seedworks.Lib.Persistence;
+
 
 [DebuggerDisplay("Id={Id} User={User.Name} MessageType={MessageEmailType}")]
 public class MessageEmail : DomainEntity

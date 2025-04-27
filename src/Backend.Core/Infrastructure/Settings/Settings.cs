@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using TrueOrFalse.Environment;
-
 public class Settings
 {
     private static IConfiguration _configuration;

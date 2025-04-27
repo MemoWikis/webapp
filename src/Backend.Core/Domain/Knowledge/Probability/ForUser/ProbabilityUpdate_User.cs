@@ -1,38 +1,28 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 public class ProbabilityUpdate_User
 {
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
     private readonly AnswerRepo _answerRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private static Lazy<ProbabilityUpdate_User> _instance;
     private ProbabilityUpdate_User(UserReadingRepo userReadingRepo,
         UserWritingRepo userWritingRepo,
-        AnswerRepo answerRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment
+        AnswerRepo answerRepo
         )
     {
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
         _answerRepo = answerRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     public static ProbabilityUpdate_User Instance => _instance.Value;
 
     public static void Initialize(UserReadingRepo userReadingRepo,
         UserWritingRepo userWritingRepo,
-        AnswerRepo answerRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        AnswerRepo answerRepo)
     {
-        _instance = new Lazy<ProbabilityUpdate_User>(() => new ProbabilityUpdate_User(userReadingRepo, userWritingRepo, answerRepo, httpContextAccessor, webHostEnvironment));
+        _instance = new Lazy<ProbabilityUpdate_User>(() => new ProbabilityUpdate_User(userReadingRepo, userWritingRepo, answerRepo));
     }
     public void Run()
     {

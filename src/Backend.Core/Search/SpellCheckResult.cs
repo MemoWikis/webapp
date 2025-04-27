@@ -1,8 +1,5 @@
-﻿namespace TrueOrFalse.Search
+﻿[Serializable]
+public class SpellCheckResult
 {
-    [Serializable]
-    public class SpellCheckResult
-    {
-        public int Count;
-    }
+    public int Count;
 }

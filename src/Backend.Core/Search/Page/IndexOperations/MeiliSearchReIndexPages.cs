@@ -1,7 +1,5 @@
 ﻿using Meilisearch;
 
-namespace TrueOrFalse.Search;
-
 public class MeiliSearchReIndexPages : IRegisterAsInstancePerLifetime
 
 {

@@ -24,6 +24,7 @@ public static class HttpRequestExtensions
         {
             return connection.LocalIpAddress != null && connection.RemoteIpAddress.Equals(connection.LocalIpAddress) || IPAddress.IsLoopback(connection.RemoteIpAddress);
         }
+
         return true;
     }
 }

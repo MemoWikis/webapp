@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using TrueOrFalse.Frontend.Web.Code;
-public class RedirectToErrorPage_IfNotLoggedInAttribute : Attribute{}
+
+public class RedirectToErrorPage_IfNotLoggedInAttribute : Attribute;
+
 public class RedirectToErrorPage_IfNotLoggedInFilter : ActionFilterAttribute
 {
     private readonly SessionUser _sessionUser;
@@ -18,6 +19,7 @@ public class RedirectToErrorPage_IfNotLoggedInFilter : ActionFilterAttribute
         _actionContextAccessor = actionContextAccessor;
         _httpContextAccessor = httpContextAccessor;
     }
+
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
         if (!_sessionUser.IsLoggedIn)

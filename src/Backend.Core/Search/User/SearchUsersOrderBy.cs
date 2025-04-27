@@ -1,9 +1,6 @@
-﻿namespace TrueOrFalse.Search
+﻿public enum SearchUsersOrderBy
 {
-    public enum SearchUsersOrderBy
-    {
-        None = -1,
-        Rank = 0,
-        WishCount = 1
-    }
+    None = -1,
+    Rank = 0,
+    WishCount = 1
 }

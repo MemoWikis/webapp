@@ -1,26 +1,23 @@
 ﻿using NHibernate;
-using Seedworks.Lib.Persistence;
 
-namespace TrueOrFalse.Infrastructure.Persistence
+
+public class SessionManager : ISessionManager
 {
-    public class SessionManager : ISessionManager
+    public SessionManager(ISession session)
     {
-        public SessionManager(ISession session)
+        Session = session;
+    }
+
+    public ISession Session { get; set; }
+
+    public void Dispose()
+    {
+        if (Session.IsOpen)
         {
-            Session = session;
+            Session.Flush();
+            Session.Close();
         }
 
-        public ISession Session { get; set; }
-
-        public void Dispose()
-        {
-            if (Session.IsOpen)
-            {
-                Session.Flush();
-                Session.Close();
-            }
-
-            Session.Dispose();
-        }
+        Session.Dispose();
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using Seedworks.Lib.Persistence;
+
 
 [Serializable]
 public class Reference : DomainEntity

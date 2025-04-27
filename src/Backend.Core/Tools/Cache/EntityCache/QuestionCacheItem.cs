@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
-using TrueOrFalse;
-using TrueOrFalse.Web;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]

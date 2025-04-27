@@ -1,6 +1,4 @@
 ﻿using System.Text;
-using TrueOrFalse;
-using TrueOrFalse.Domain.Question.QuestionValuation;
 using ISession = NHibernate.ISession;
 
 public class QuestionInKnowledge(

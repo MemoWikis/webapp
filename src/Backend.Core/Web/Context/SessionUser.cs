@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-using TrueOrFalse.Web.Context;
-
 public class SessionUser : IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;

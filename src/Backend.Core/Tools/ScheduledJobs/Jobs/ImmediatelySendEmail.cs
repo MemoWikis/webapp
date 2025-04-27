@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using Quartz;
 using System.Net.Mail;
 
-namespace TrueOrFalse.Utilities.ScheduledJobs;
-
 public class ImmediatelySendEmail(IMemoryCache cache)
     : IJob
 {

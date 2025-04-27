@@ -1,6 +1,4 @@
-﻿using TrueOrFalse.Search;
-
-public interface IGlobalSearch
+﻿public interface IGlobalSearch
 {
     Task<GlobalSearchResult> Go(string term, List<Language> languages);
 

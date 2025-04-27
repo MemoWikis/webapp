@@ -1,7 +1,4 @@
-﻿namespace Seedworks.Lib.Persistence
+﻿public interface WithDateCreated
 {
-    public interface WithDateCreated
-    {
-        DateTime DateCreated { get; set; }
-    }
+    DateTime DateCreated { get; set; }
 }

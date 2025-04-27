@@ -1,7 +1,4 @@
-namespace Seedworks.Lib.Persistence
+public interface WithDateModified 
 {
-    public interface WithDateModified 
-    {
-        DateTime DateModified { get; set; }
-    }
+    DateTime DateModified { get; set; }
 }

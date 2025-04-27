@@ -6,8 +6,6 @@ using Quartz.Impl;
 using Rollbar;
 using System.Net.Mail;
 
-namespace TrueOrFalse.Tools.ScheduledJobs.Jobs;
-
 class ScheduledMailSender(IMemoryCache cache) : IJob
 {
     private const string CacheKey = "SuccessfulMailJobs-19B1DFD8-0DA3-4B69-BFC8-08095EEEFB08";

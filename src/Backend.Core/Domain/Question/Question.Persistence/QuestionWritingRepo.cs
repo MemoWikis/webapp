@@ -1,6 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using TrueOrFalse.Search;
-using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
 public class QuestionWritingRepo(

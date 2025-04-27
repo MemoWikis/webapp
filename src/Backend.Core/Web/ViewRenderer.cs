@@ -54,7 +54,6 @@ public class ViewRenderer
     /// <returns>String of the rendered view</returns>
     private string RenderViewToStringInternal(string viewPath, object model, bool partial = false)
     {
-        
         var actionContext = new ActionContext(_httpContextAccessor.HttpContext, new Microsoft.AspNetCore.Routing.RouteData(), new ControllerActionDescriptor());
 
         using var sw = new StringWriter();

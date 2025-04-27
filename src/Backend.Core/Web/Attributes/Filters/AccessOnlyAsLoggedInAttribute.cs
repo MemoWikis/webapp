@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-public class AccessOnlyAsLoggedInAttribute : Attribute { }
-public class AccessOnlyAsLoggedInFilter : ActionFilterAttribute,IRegisterAsInstancePerLifetime
-{
-    private readonly SessionUser _sessionUser;
 
-    public AccessOnlyAsLoggedInFilter(SessionUser sessionUser)
-    {
-        _sessionUser = sessionUser;
-    }
+public class AccessOnlyAsLoggedInAttribute : Attribute;
+
+public class AccessOnlyAsLoggedInFilter(SessionUser _sessionUser)
+    : ActionFilterAttribute, IRegisterAsInstancePerLifetime
+{
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
         if (!_sessionUser.IsLoggedIn)

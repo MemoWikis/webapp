@@ -1,36 +1,21 @@
-﻿namespace Seedworks.Lib.Persistence
+﻿/// <summary>
+/// Base class for specifications
+/// </summary>
+/// <typeparam name="TFilter"></typeparam>
+/// <typeparam name="TOrderBy"></typeparam>
+[Serializable]
+public class SearchSpecificationBase<TFilter, TOrderBy> : Pager, ISearchDesc
+    where TFilter : ConditionContainer, new()
+    where TOrderBy : OrderByCriteria, new()
 {
-    /// <summary>
-    /// Base class for specifications
-    /// </summary>
-    /// <typeparam name="TFilter"></typeparam>
-    /// <typeparam name="TOrderBy"></typeparam>
-    [Serializable]
-    public class SearchSpecificationBase<TFilter, TOrderBy> : Pager, ISearchDesc
-        where TFilter : ConditionContainer, new()
-        where TOrderBy : OrderByCriteria, new()
-    {
-        ConditionContainer ISearchDesc.Filter
-        {
-            get { return Filter; }
-        }
+    ConditionContainer ISearchDesc.Filter => Filter;
 
-        OrderByCriteria ISearchDesc.OrderBy
-        {
-            get { return OrderBy; }
-        }
+    OrderByCriteria ISearchDesc.OrderBy => OrderBy;
 
-        private readonly TFilter _filter = new TFilter();
-        private readonly TOrderBy _orderBy = new TOrderBy();
+    private readonly TFilter _filter = new TFilter();
+    private readonly TOrderBy _orderBy = new TOrderBy();
 
-        public TFilter Filter
-        {
-            get { return _filter; }
-        }
+    public TFilter Filter => _filter;
 
-        public TOrderBy OrderBy
-        {
-            get { return _orderBy; }
-        }
-    }
+    public TOrderBy OrderBy => _orderBy;
 }

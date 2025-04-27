@@ -1,4 +1,4 @@
-using Seedworks.Lib.Persistence;
+
 using ISession = NHibernate.ISession;
 
 public class RunningJobRepo(ISession session) : RepositoryDb<RunningJob>(session)

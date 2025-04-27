@@ -2,7 +2,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using NHibernate.Cfg;
-using Seedworks.Web.State;
 
 //see: http://stackoverflow.com/questions/10766662/optimizing-nhibernate-session-factory-startup-time-of-webapp-really-slow
 public class NHConfigurationFileCache

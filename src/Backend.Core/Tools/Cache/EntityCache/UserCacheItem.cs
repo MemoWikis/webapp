@@ -1,4 +1,3 @@
-using Seedworks.Lib.Persistence;
 using static System.String;
 
 public class UserCacheItem : IUserTinyModel, IPersistable

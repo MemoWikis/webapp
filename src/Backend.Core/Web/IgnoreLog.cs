@@ -1,7 +1,5 @@
 ﻿using static System.String;
 
-namespace TrueOrFalse.Tools;
-
 public class IgnoreLog
 {
     private static IEnumerable<string>? _crawlers;

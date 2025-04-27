@@ -1,5 +1,4 @@
 ﻿using System.Net.Mail;
-using TrueOrFalse.Web;
 
 public class NotifyUserPerEmail(
     JobQueueRepo _jobQueueRepo,

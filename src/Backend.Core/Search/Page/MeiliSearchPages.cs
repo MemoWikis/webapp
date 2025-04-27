@@ -1,6 +1,6 @@
 ﻿using Meilisearch;
 
-namespace TrueOrFalse.Search;
+
 
 public class MeiliSearchPages : MeiliSearchHelper, IRegisterAsInstancePerLifetime
 {

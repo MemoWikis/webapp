@@ -1,8 +1,5 @@
-﻿namespace TrueOrFalse.MultipleChoice
+﻿public class Choice
 {
-    public class Choice
-    {
-        public string Text;
-        public bool IsCorrect;
-    }
+    public string Text;
+    public bool IsCorrect;
 }

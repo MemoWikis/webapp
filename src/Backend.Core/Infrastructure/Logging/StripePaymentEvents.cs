@@ -1,6 +1,4 @@
-﻿namespace TrueOrFalse.Infrastructure.Logging;
-
-public enum StripePaymentEvents
+﻿public enum StripePaymentEvents
 {
     Success,
     Cancelled,

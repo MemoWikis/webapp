@@ -1,6 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
-
-public class ShareCacheItem : IPersistable
+﻿public class ShareCacheItem : IPersistable
 {
     public int Id { get; set; }
     public int PageId { get; set; }

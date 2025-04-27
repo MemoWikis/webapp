@@ -1,7 +1,5 @@
 ﻿using Meilisearch;
 
-namespace TrueOrFalse.Search;
-
 public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;

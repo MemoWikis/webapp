@@ -1,6 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
-
-[Serializable]
+﻿[Serializable]
 public class ActivityPoints : DomainEntity
 {
     public virtual int Amount { get; set; }

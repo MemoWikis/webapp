@@ -1,20 +1,17 @@
-﻿namespace SpeakFriend.Utilities.ValueObjects
+﻿[Serializable]
+public class BinarySize
 {
-    [Serializable]
-    public class BinarySize
+    public long Bytes;
+
+    public BinarySize(){}
+
+    public BinarySize(long length)
     {
-        public long Bytes;
+        Bytes = length;
+    }
 
-        public BinarySize(){}
-
-        public BinarySize(long length)
-        {
-            Bytes = length;
-        }
-
-        public static BinarySize operator +(BinarySize a, BinarySize b)
-        {
-            return new BinarySize(a.Bytes + b.Bytes);
-        }
+    public static BinarySize operator +(BinarySize a, BinarySize b)
+    {
+        return new BinarySize(a.Bytes + b.Bytes);
     }
 }

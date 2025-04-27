@@ -1,6 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
-using System.Diagnostics;
-using TrueOrFalse.Search;
+﻿using System.Diagnostics;
 using ISession = NHibernate.ISession;
 
 public class UserWritingRepo

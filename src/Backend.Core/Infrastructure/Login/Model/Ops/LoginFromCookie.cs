@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using TrueOrFalse.Domain.User;
 
 public class LoginFromCookie
 {

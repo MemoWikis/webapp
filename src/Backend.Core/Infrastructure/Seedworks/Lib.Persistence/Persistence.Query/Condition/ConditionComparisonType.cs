@@ -1,14 +1,9 @@
-namespace Seedworks.Lib.Persistence
+[Serializable]
+public enum ConditionComparisonType
 {
-    [Serializable]
-    public enum ConditionComparisonType
-    {
-        Greater,
-        Less, 
-        Equal,
-        LessOrEqual,
-        NotEqual
-    }
-
-
+    Greater,
+    Less, 
+    Equal,
+    LessOrEqual,
+    NotEqual
 }

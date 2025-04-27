@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using NHibernate;
-using Seedworks.Lib.Persistence;
+
 using ISession = NHibernate.ISession;
 
 public class CommentRepository : RepositoryDb<Comment>

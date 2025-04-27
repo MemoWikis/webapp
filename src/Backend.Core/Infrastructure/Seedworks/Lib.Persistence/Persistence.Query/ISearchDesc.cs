@@ -1,8 +1,5 @@
-﻿namespace Seedworks.Lib.Persistence
+﻿public interface ISearchDesc : IPager
 {
-    public interface ISearchDesc : IPager
-    {
-        ConditionContainer Filter { get; }
-        OrderByCriteria OrderBy { get; }
-    }
+    ConditionContainer Filter { get; }
+    OrderByCriteria OrderBy { get; }
 }

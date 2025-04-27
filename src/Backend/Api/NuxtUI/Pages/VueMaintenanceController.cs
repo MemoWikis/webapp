@@ -61,9 +61,7 @@ public class VueMaintenanceController(
         ProbabilityUpdate_User.Initialize(
             _userReadingRepo,
             _userWritingRepo,
-            _answerRepo,
-            _httpContextAccessor,
-            _webHostEnvironment);
+            _answerRepo);
 
         ProbabilityUpdate_User.Instance.Run();
 

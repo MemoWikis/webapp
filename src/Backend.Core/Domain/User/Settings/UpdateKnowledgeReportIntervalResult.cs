@@ -1,6 +1,4 @@
-﻿using TrueOrFalse.Web;
-
-public class UpdateKnowledgeReportIntervalResult
+﻿public class UpdateKnowledgeReportIntervalResult
 {
     public bool Success;
     public UIMessage ResultMessage;

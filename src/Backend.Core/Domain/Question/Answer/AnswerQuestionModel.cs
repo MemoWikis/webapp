@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using TrueOrFalse;
-using TrueOrFalse.Domain.Question.QuestionValuation;
 
 public class AnswerQuestionModel
 {

@@ -1,6 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
-
-public class UserActivity : DomainEntity
+﻿public class UserActivity : DomainEntity
 {
     public virtual User UserConcerned { get; set; }
     public virtual DateTime At { get; set; }

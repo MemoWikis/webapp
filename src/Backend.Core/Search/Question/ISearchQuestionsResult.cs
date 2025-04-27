@@ -1,6 +1,4 @@
-﻿namespace TrueOrFalse.Search;
-
-public interface ISearchQuestionsResult
+﻿public interface ISearchQuestionsResult
 {
     IList<QuestionCacheItem> GetQuestions();
 

@@ -3,18 +3,15 @@ using FluentNHibernate.Conventions.AcceptanceCriteria;
 using FluentNHibernate.Conventions.Inspections;
 using FluentNHibernate.Conventions.Instances;
 
-namespace TrueOrFalse.Infrastructure.Persistence
+public class EnumConvention : IUserTypeConvention
 {
-    public class EnumConvention : IUserTypeConvention
+    public void Accept(IAcceptanceCriteria<IPropertyInspector> criteria)
     {
-        public void Accept(IAcceptanceCriteria<IPropertyInspector> criteria)
-        {
-            criteria.Expect(x => x.Property.PropertyType.IsEnum);
-        }
+        criteria.Expect(x => x.Property.PropertyType.IsEnum);
+    }
 
-        public void Apply(IPropertyInstance target)
-        {
-            target.CustomType(target.Property.PropertyType);
-        }
+    public void Apply(IPropertyInstance target)
+    {
+        target.CustomType(target.Property.PropertyType);
     }
 }

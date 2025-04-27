@@ -1,21 +1,18 @@
-namespace Seedworks.Lib.Settings
+public interface ISettingRepository
 {
-    public interface ISettingRepository
-    {
-        void Create(Setting setting);
+    void Create(Setting setting);
 
-        void Update(Setting setting);
+    void Update(Setting setting);
 
-        void CreateOrUpdate(Setting setting);
+    void CreateOrUpdate(Setting setting);
 
-        void Delete(Setting setting);
+    void Delete(Setting setting);
 
-        IList<Setting> GetAll();
+    IList<Setting> GetAll();
 
-        Setting GetById(int settingId);
+    Setting GetById(int settingId);
 
-        IList<Setting> GetBy(SettingSearchDesc searchDesc);
+    IList<Setting> GetBy(SettingSearchDesc searchDesc);
 
-        Setting GetUnique(SettingSearchDesc searchDesc);
-    }
+    Setting GetUnique(SettingSearchDesc searchDesc);
 }

@@ -1,8 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
-
-namespace TrueOrFalse.Search;
-
-public interface ISearchPagesResult
+﻿public interface ISearchPagesResult
 {
     int Count { get; set; }
     List<int> PageIds { get; set; }

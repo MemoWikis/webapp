@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using System.Net;
-using TrueOrFalse.Infrastructure.Logging;
 
 public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 {

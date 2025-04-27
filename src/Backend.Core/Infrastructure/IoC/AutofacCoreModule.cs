@@ -7,106 +7,102 @@ using NHibernate;
 using Quartz;
 using System.Reflection;
 using System.Text;
-using TrueOrFalse.Infrastructure.Persistence;
 
-namespace TrueOrFalse.Infrastructure
+public class AutofacCoreModule : Autofac.Module
 {
-    public class AutofacCoreModule : Autofac.Module
+    private readonly bool _externallyProvidedHttpContextAccessor;
+
+    public AutofacCoreModule()
     {
-        private readonly bool _externallyProvidedHttpContextAccessor;
+    }
 
-        public AutofacCoreModule()
+    public AutofacCoreModule(bool externallyProvidedHttpContextAccessor)
+    {
+        _externallyProvidedHttpContextAccessor = externallyProvidedHttpContextAccessor;
+    }
+
+    protected override void Load(ContainerBuilder builder)
+    {
+        if (_externallyProvidedHttpContextAccessor == false)
         {
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
         }
 
-        public AutofacCoreModule(bool externallyProvidedHttpContextAccessor)
+        builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
+
+
+
+        builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
+
+        builder.Register(c => Options.Create(new MemoryCacheOptions()))
+            .As<IOptions<MemoryCacheOptions>>()
+            .SingleInstance();
+
+        // Register MemoryCache
+        builder.RegisterType<MemoryCache>()
+            .As<IMemoryCache>();
+        try
         {
-            _externallyProvidedHttpContextAccessor = externallyProvidedHttpContextAccessor;
-        }
-
-        protected override void Load(ContainerBuilder builder)
-        {
-            if (_externallyProvidedHttpContextAccessor == false)
-            {
-                builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
-            }
-
-            builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
-
-
-
-            builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
-
-            builder.Register(c => Options.Create(new MemoryCacheOptions()))
-                .As<IOptions<MemoryCacheOptions>>()
-                .SingleInstance();
-
-            // Register MemoryCache
-            builder.RegisterType<MemoryCache>()
-                .As<IMemoryCache>();
-            try
-            {
 #if DEBUG
-                var interceptor = new SqlDebugOutputInterceptor();
-                var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().Interceptor(interceptor);
+            var interceptor = new SqlDebugOutputInterceptor();
+            var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().Interceptor(interceptor);
 #else
                 var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().NoInterceptor();
 #endif 
 
-                builder.RegisterInstance(sessionBuilder);
-            }
-            catch (Exception ex)
-            {
-                var sb = new StringBuilder();
-
-                var innerException = ex.InnerException;
-                while (innerException != null)
-                {
-                    if (innerException is ReflectionTypeLoadException)
-                        break;
-
-                    innerException = innerException.InnerException;
-                }
-
-                if (innerException == null)
-                    throw;
-
-                foreach (Exception exSub in ((ReflectionTypeLoadException)innerException).LoaderExceptions)
-                {
-                    sb.AppendLine(exSub.Message);
-                    if (exSub is FileNotFoundException)
-                    {
-                        var exFileNotFound = exSub as FileNotFoundException;
-                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
-                        {
-                            sb.AppendLine("Fusion Log:");
-                            sb.AppendLine(exFileNotFound.FusionLog);
-                        }
-                    }
-                    sb.AppendLine();
-                }
-
-                throw new Exception(sb.ToString());
-            }
-
-            builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(Assembly.Load("MemoWikis.Backend.Host"))
-                .AssignableTo<IRegisterAsInstancePerLifetime>();
-
-            var assemblyTrueOrFalse = Assembly.Load("MemoWikis.Backend.Core");
-
-            builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
-            builder.RegisterType<EntityCacheInitializer>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
-            builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
-                .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"))
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<MemoryCache>()
-                .As<IMemoryCache>()
-                .SingleInstance();
-
-            builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
+            builder.RegisterInstance(sessionBuilder);
         }
+        catch (Exception ex)
+        {
+            var sb = new StringBuilder();
+
+            var innerException = ex.InnerException;
+            while (innerException != null)
+            {
+                if (innerException is ReflectionTypeLoadException)
+                    break;
+
+                innerException = innerException.InnerException;
+            }
+
+            if (innerException == null)
+                throw;
+
+            foreach (Exception exSub in ((ReflectionTypeLoadException)innerException).LoaderExceptions)
+            {
+                sb.AppendLine(exSub.Message);
+                if (exSub is FileNotFoundException)
+                {
+                    var exFileNotFound = exSub as FileNotFoundException;
+                    if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                    {
+                        sb.AppendLine("Fusion Log:");
+                        sb.AppendLine(exFileNotFound.FusionLog);
+                    }
+                }
+                sb.AppendLine();
+            }
+
+            throw new Exception(sb.ToString());
+        }
+
+        builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
+        builder.RegisterAssemblyTypes(Assembly.Load("MemoWikis.Backend.Host"))
+            .AssignableTo<IRegisterAsInstancePerLifetime>();
+
+        var assemblyTrueOrFalse = Assembly.Load("MemoWikis.Backend.Core");
+
+        builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
+        builder.RegisterType<EntityCacheInitializer>().AsSelf().InstancePerLifetimeScope();
+        builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
+        builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
+            .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"))
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<MemoryCache>()
+            .As<IMemoryCache>()
+            .SingleInstance();
+
+        builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
     }
 }

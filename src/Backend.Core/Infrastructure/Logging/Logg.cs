@@ -2,8 +2,6 @@
 using Rollbar;
 using Serilog;
 using System.Net;
-using TrueOrFalse.Infrastructure.Logging;
-using TrueOrFalse.Tools;
 
 public class Logg : IRegisterAsInstancePerLifetime
 {

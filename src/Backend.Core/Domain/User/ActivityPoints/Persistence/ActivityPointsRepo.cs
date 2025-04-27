@@ -1,5 +1,4 @@
 ﻿using NHibernate;
-using Seedworks.Lib.Persistence;
 
 public class ActivityPointsRepo : RepositoryDb<ActivityPoints>
 {

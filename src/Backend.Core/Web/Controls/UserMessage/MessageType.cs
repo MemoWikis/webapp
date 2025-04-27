@@ -1,8 +1,5 @@
-namespace TrueOrFalse.Web
+public enum MessageType
 {
-    public enum MessageType
-    {
-        IsError,
-        IsSuccess
-    }
+    IsError,
+    IsSuccess
 }

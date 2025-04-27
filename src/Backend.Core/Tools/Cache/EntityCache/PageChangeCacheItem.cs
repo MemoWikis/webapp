@@ -1,6 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
-
-[Serializable]
+﻿[Serializable]
 public class PageChangeCacheItem : IPersistable
 {
     public virtual int Id { get; set; }

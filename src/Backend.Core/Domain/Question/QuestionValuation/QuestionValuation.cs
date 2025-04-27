@@ -1,4 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
+﻿
 using System.Diagnostics;
 
 [DebuggerDisplay("QuestionId={Question.Id}, IsInWuwi: {IsInWishKnowledge()}")]

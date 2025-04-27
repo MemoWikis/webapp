@@ -1,72 +1,71 @@
-namespace Seedworks.Lib.Persistence
+namespace Seedworks.Lib.Persistence;
+
+[Serializable]
+public enum Importance
 {
-    [Serializable]
-    public enum Importance
+    None = 0,
+    Prominent = 1
+}
+
+public interface IPageNumeric
+{
+    object Value { get; }
+}
+
+[Serializable]
+public abstract class PageBaseAttribute : Attribute
+{
+}
+
+[Serializable]
+public class PageBooleanAttribute : PageBaseAttribute
+{
+}
+
+[Serializable]
+public class PageIntegerAttribute : PageBaseAttribute, IPageNumeric
+{
+    public int Value { get; private set; }
+
+    object IPageNumeric.Value
     {
-        None = 0,
-        Prominent = 1
+        get { return Value; }
     }
 
-    public interface IPageNumeric
+    public PageIntegerAttribute(int value)
     {
-        object Value { get; }
+        Value = value;
+    }
+}
+
+[Serializable]
+public class PageSingleAttribute : PageBaseAttribute, IPageNumeric
+{
+    public Single Value { get; private set; }
+
+    object IPageNumeric.Value
+    {
+        get { return Value; }
     }
 
-    [Serializable]
-    public abstract class PageBaseAttribute : Attribute
+    public PageSingleAttribute(Single value)
     {
+        Value = value;
+    }
+}
+
+[Serializable]
+public class PageDoubleAttribute : PageBaseAttribute, IPageNumeric
+{
+    public double Value { get; private set; }
+
+    object IPageNumeric.Value
+    {
+        get { return Value; }
     }
 
-    [Serializable]
-    public class PageBooleanAttribute : PageBaseAttribute
+    public PageDoubleAttribute(double value)
     {
-    }
-
-    [Serializable]
-    public class PageIntegerAttribute : PageBaseAttribute, IPageNumeric
-    {
-        public int Value { get; private set; }
-
-        object IPageNumeric.Value
-        {
-            get { return Value; }
-        }
-
-        public PageIntegerAttribute(int value)
-        {
-            Value = value;
-        }
-    }
-
-    [Serializable]
-    public class PageSingleAttribute : PageBaseAttribute, IPageNumeric
-    {
-        public Single Value { get; private set; }
-
-        object IPageNumeric.Value
-        {
-            get { return Value; }
-        }
-
-        public PageSingleAttribute(Single value)
-        {
-            Value = value;
-        }
-    }
-
-    [Serializable]
-    public class PageDoubleAttribute : PageBaseAttribute, IPageNumeric
-    {
-        public double Value { get; private set; }
-
-        object IPageNumeric.Value
-        {
-            get { return Value; }
-        }
-
-        public PageDoubleAttribute(double value)
-        {
-            Value = value;
-        }
+        Value = value;
     }
 }

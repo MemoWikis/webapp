@@ -1,5 +1,5 @@
 ﻿using NHibernate;
-using Seedworks.Lib.Persistence;
+
 
 public class ReferenceRepo : RepositoryDb<Reference>
 {

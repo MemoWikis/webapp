@@ -2,33 +2,31 @@
 using Quartz;
 using Quartz.Spi;
 
-namespace TrueOrFalse.Utilities.ScheduledJobs
+
+public class AutofacJobFactory : IJobFactory
 {
-    public class AutofacJobFactory : IJobFactory
+    private readonly IContainer _container;
+
+    public AutofacJobFactory(IContainer container)
     {
-        private readonly IContainer _container;
+        _container = container;
+        ServiceLocator.Init(container);
+    }
 
-        public AutofacJobFactory(IContainer container)
+    public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
+    {
+        try
         {
-            _container = container;
-            ServiceLocator.Init(container);
+            return (IJob)_container.Resolve(bundle.JobDetail.JobType);
         }
+        catch (Exception e)
+        {
+            Logg.r.Error(e, "Error starting Job");
+            throw;
+        }
+    }
 
-        public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
-        {
-            try
-            {
-                return (IJob)_container.Resolve(bundle.JobDetail.JobType);
-            }
-            catch (Exception e)
-            {
-                Logg.r.Error(e, "Error starting Job");
-                throw;
-            }
-        }
-
-        public void ReturnJob(IJob job)
-        {
-        }
+    public void ReturnJob(IJob job)
+    {
     }
 }

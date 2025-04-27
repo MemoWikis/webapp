@@ -1,65 +1,61 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Quartz;
-
-namespace TrueOrFalse.Utilities.ScheduledJobs
+public class TestJob1 : IJob
 {
-    public class TestJob1 : IJob
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public TestJob1(IHttpContextAccessor httpContextAccessor)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public TestJob1(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
-
-        public Task Execute(IJobExecutionContext context)
-        {
-            JobExecute.Run(scope =>
-            {
-                Thread.Sleep(1);
-                Logg.r.Information("HttpContext {0}", _httpContextAccessor.HttpContext);
-            }, "TestJob1");
-
-            return Task.CompletedTask;
-        }
+        _httpContextAccessor = httpContextAccessor;
     }
 
-    public class TestJobCacheInitializer : IJob
+    public Task Execute(IJobExecutionContext context)
     {
-        private readonly EntityCacheInitializer _entityCacheInitializer;
-
-        public TestJobCacheInitializer(EntityCacheInitializer entityCacheInitializer)
+        JobExecute.Run(scope =>
         {
-            _entityCacheInitializer = entityCacheInitializer;
-        }
+            Thread.Sleep(1);
+            Logg.r.Information("HttpContext {0}", _httpContextAccessor.HttpContext);
+        }, "TestJob1");
 
-        public Task Execute(IJobExecutionContext context)
-        {
-            JobExecute.Run(scope => { _entityCacheInitializer.Init(" (in JobScheduler) "); },
-                "RefreshEntityCache");
+        return Task.CompletedTask;
+    }
+}
 
-            return Task.CompletedTask;
-        }
+public class TestJobCacheInitializer : IJob
+{
+    private readonly EntityCacheInitializer _entityCacheInitializer;
+
+    public TestJobCacheInitializer(EntityCacheInitializer entityCacheInitializer)
+    {
+        _entityCacheInitializer = entityCacheInitializer;
     }
 
-    public class TestJob2 : IJob
+    public Task Execute(IJobExecutionContext context)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        JobExecute.Run(scope => { _entityCacheInitializer.Init(" (in JobScheduler) "); },
+            "RefreshEntityCache");
 
-        public TestJob2(IHttpContextAccessor httpContextAccessor)
+        return Task.CompletedTask;
+    }
+}
+
+public class TestJob2 : IJob
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public TestJob2(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    public Task Execute(IJobExecutionContext context)
+    {
+        JobExecute.Run(scope =>
         {
-            _httpContextAccessor = httpContextAccessor;
-        }
+            Thread.Sleep(1);
+            Logg.r.Information("HttpContext {0}", _httpContextAccessor);
+        }, "TestJob2");
 
-        public Task Execute(IJobExecutionContext context)
-        {
-            JobExecute.Run(scope =>
-            {
-                Thread.Sleep(1);
-                Logg.r.Information("HttpContext {0}", _httpContextAccessor);
-            }, "TestJob2");
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

@@ -1,9 +1,5 @@
 ﻿using Quartz;
 using Quartz.Impl;
-using TrueOrFalse.Infrastructure;
-using TrueOrFalse.Tools.ScheduledJobs.Jobs;
-
-namespace TrueOrFalse.Utilities.ScheduledJobs;
 
 public static class JobScheduler
 {

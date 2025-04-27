@@ -1,6 +1,4 @@
-﻿using TrueOrFalse.Web;
-
-public class QuestionSolutionFlashCard : QuestionSolution
+﻿public class QuestionSolutionFlashCard : QuestionSolution
 {
     public string Text;
 

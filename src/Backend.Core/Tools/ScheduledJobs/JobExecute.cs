@@ -5,12 +5,11 @@ using System.Diagnostics;
 
 public class JobExecute
 {
-    [ThreadStatic]
-    public static bool CodeIsRunningInsideAJob;
+    [ThreadStatic] public static bool CodeIsRunningInsideAJob;
 
     public static async Task RunAsync(Func<ILifetimeScope, Task> func, string jobName, bool writeLog = true)
     {
-        using var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName);
+        await using var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName);
         try
         {
             ServiceLocator.AddScopeForCurrentThread(scope);

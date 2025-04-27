@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Seedworks.Lib.Persistence;
+
 
 [DebuggerDisplay("Id={Id} Title={Text}")]
 public class Message : DomainEntity

@@ -1,7 +1,5 @@
-﻿
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using CacheManager.Core;
-
 
 public static class Cache
 {

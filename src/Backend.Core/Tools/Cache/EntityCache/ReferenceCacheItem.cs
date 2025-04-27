@@ -1,6 +1,4 @@
-﻿using Seedworks.Lib.Persistence;
-
-[Serializable]
+﻿[Serializable]
 public class ReferenceCacheItem : DomainEntity
 {
     public virtual QuestionCacheItem Question { get; set; }

@@ -1,6 +1,4 @@
-﻿using TrueOrFalse.Domain.Question.QuestionValuation;
-
-public class KnowledgeSummaryLoader(
+﻿public class KnowledgeSummaryLoader(
     PageValuationReadingRepository pageValuationReadingRepository,
     ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {

@@ -26,7 +26,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                     try
                     {
-                        scope.Resolve<UserWritingRepo>().ReputationUpdate(scope.Resolve<UserReadingRepo>().GetById(Convert.ToInt32(userJobs.Key)));
+                        scope.Resolve<UserWritingRepo>()
+                            .ReputationUpdate(scope.Resolve<UserReadingRepo>().GetById(Convert.ToInt32(userJobs.Key)));
                         successfulJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
                     }
                     catch (Exception e)
@@ -40,10 +41,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 if (successfulJobIds.Count > 0)
                 {
                     scope.Resolve<JobQueueRepo>().DeleteById(successfulJobIds);
-                    Logg.r.Information("Job RecalcReputation recalculated reputation for " + successfulJobIds.Count + " jobs.");
+                    Logg.r.Information("Job RecalcReputation recalculated reputation for " + successfulJobIds.Count +
+                                       " jobs.");
                     successfulJobIds.Clear();
                 }
-
             }, "RecalcReputation");
 
             return Task.CompletedTask;

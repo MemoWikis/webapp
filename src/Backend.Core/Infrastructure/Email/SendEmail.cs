@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Mail;
-using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class SendEmail
 {

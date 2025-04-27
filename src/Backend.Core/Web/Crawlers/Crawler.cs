@@ -3,7 +3,6 @@
 [JsonObject(MemberSerialization.OptIn)]
 public class Crawler
 {
-    [JsonProperty("pattern")]
-    public string Pattern;
+    [JsonProperty("pattern")] public string Pattern;
 }
 

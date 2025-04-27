@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Seedworks.Lib.Persistence;
+
 
 [Serializable]
 [DebuggerDisplay("User:{User.Name} Follower:{Follower.Name}")]
