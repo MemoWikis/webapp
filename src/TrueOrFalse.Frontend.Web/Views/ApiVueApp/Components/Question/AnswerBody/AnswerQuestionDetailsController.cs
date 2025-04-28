@@ -80,7 +80,7 @@ public class AnswerQuestionDetailsController(
                 Id: question.CreatorId,
                 Name: question.Creator.Name
             ),
-            CreationDate: DateTimeUtils.TimeElapsedAsText(question.DateCreated),
+            CreationDate: question.DateCreated,
             TotalViewCount: _questionViewRepository.GetViewCount(question.Id),
             WishknowledgeCount: question.TotalRelevancePersonalEntries,
             License: new License(

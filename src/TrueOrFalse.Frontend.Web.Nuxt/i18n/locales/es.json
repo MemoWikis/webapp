@@ -250,7 +250,7 @@
     },
     "editor": {
         "placeholderComment": "Describe aquí tu comentario. Sé cortés, amable y objetivo...",
-        "placholderQuestion": "Introduce el texto de la pregunta",
+        "placeholderQuestion": "Introduce el texto de la pregunta",
         "placeholderFlashcardFront": "Anverso de la tarjeta",
         "placeholderFlashcardBack": "Reverso de la tarjeta",
         "placeholderDescription": "Información adicional: imágenes, código, etc.",
@@ -539,7 +539,7 @@
                 },
                 "childrenRemoved": {
                     "singular": "Subpágina eliminada",
-                    "plural": "Subpáginas eliminadas"
+                    "plural": "Páginas eliminadas"
                 }
             }
         },
@@ -1323,7 +1323,9 @@
             "languages": "Idiomas"
         },
         "tabs": {
-            "allUsers": "Todos los usuarios"
+            "overview": "Resumen",
+            "wishknowledge": "Conocimiento deseado",
+            "settings": "Configuración"
         }
     },
     "deletePageStore": {
@@ -1488,5 +1490,18 @@
     },
     "chip": {
         "showSpoiler": "Mostrar spoiler"
+    },
+    "timeElapsed": {
+        "lessThanAMinute": "menos de un minuto",
+        "oneMinute": "un minuto",
+        "minutes": "{count} minutos",
+        "oneHour": "una hora",
+        "hours": "{count} horas",
+        "oneDay": "un día",
+        "days": "{count} días",
+        "oneMonth": "un mes",
+        "months": "{count} meses",
+        "oneYear": "un año",
+        "years": "{count} años"
     }
 }

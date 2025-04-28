@@ -6,10 +6,12 @@ import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
 import { abbreviateNumberToM } from '~~/components/shared/utils'
+import { useTimeElapsed } from '~~/composables/useTimeElapsed'
 
 const userStore = useUserStore()
 const { $urlHelper } = useNuxtApp()
 const { t } = useI18n()
+const { getTimeElapsedAsText } = useTimeElapsed()
 
 interface Props {
     model: AnswerQuestionDetailsResult
@@ -17,7 +19,6 @@ interface Props {
 const props = defineProps<Props>()
 
 onMounted(() => {
-    //dom.watch() is used to display font awesome svgs which are appended by d3
     dom.watch()
     initData(props.model)
 })
@@ -634,7 +635,7 @@ const ariaId2 = useId()
                     <NuxtLink v-if="model.creator.id > 0" :to="$urlHelper.getUserUrl(model.creator.name, model.creator.id)">
                         &nbsp;{{ model.creator.name }}&nbsp;
                     </NuxtLink>
-                    {{ t('questionLandingPage.creation.time') }} {{ model.creationDate }}
+                    {{ getTimeElapsedAsText(model.creationDate) }}
                 </div>
             </div>
 

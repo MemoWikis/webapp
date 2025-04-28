@@ -266,7 +266,7 @@
     },
     "editor": {
         "placeholderComment": "Describe your concern here. Please write politely, kindly and factually...",
-        "placholderQuestion": "Enter the question text",
+        "placeholderQuestion": "Enter the question text",
         "placeholderFlashcardFront": "Front side of the flashcard",
         "placeholderFlashcardBack": "Back side of the flashcard",
         "placeholderDescription": "Additions to the question, e.g. images, code, etc.",
@@ -1505,5 +1505,18 @@
     },
     "chip": {
         "showSpoiler": "Show spoiler"
+    },
+    "timeElapsed": {
+        "lessThanAMinute": "less than a minute ago",
+        "oneMinute": "one minute ago",
+        "minutes": "{count} minutes ago",
+        "oneHour": "one hour ago",
+        "hours": "{count} hours ago",
+        "oneDay": "one day ago",
+        "days": "{count} days ago",
+        "oneMonth": "one month ago",
+        "months": "{count} months ago",
+        "oneYear": "one year ago",
+        "years": "{count} years ago"
     }
 }

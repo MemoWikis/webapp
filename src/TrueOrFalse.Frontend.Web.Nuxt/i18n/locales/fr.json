@@ -250,7 +250,7 @@
     },
     "editor": {
         "placeholderComment": "Décris ta demande ici. Sois sympa et respectueux…",
-        "placholderQuestion": "Saisis le texte de la question",
+        "placeholderQuestion": "Saisis le texte de la question",
         "placeholderFlashcardFront": "Recto de la carte",
         "placeholderFlashcardBack": "Verso de la carte",
         "placeholderDescription": "Infos supplémentaires (images, code, etc.)",
@@ -1489,5 +1489,18 @@
     },
     "chip": {
         "showSpoiler": "Afficher le spoiler"
+    },
+    "timeElapsed": {
+        "lessThanAMinute": "il y a moins d'une minute",
+        "oneMinute": "il y a une minute",
+        "minutes": "il y a {count} minutes",
+        "oneHour": "il y a une heure",
+        "hours": "il y a {count} heures",
+        "oneDay": "il y a un jour",
+        "days": "il y a {count} jours",
+        "oneMonth": "il y a un mois",
+        "months": "il y a {count} mois",
+        "oneYear": "il y a un an",
+        "years": "il y a {count} ans"
     }
 }

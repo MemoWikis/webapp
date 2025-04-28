@@ -1,6 +1,7 @@
-﻿using System.Globalization;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Globalization;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -15,7 +16,7 @@ public class UserMessagesController(
         bool Read,
         string Subject,
         string Body,
-        string TimeElapsed,
+        DateTime DateCreated,
         string Date);
 
     [HttpGet]
@@ -31,7 +32,7 @@ public class UserMessagesController(
                     Read = m.IsRead,
                     Subject = m.Subject,
                     Body = m.Body,
-                    TimeElapsed = DateTimeUtils.TimeElapsedAsText(m.DateCreated),
+                    DateCreated = m.DateCreated,
                     Date = m.DateCreated.ToString("", new CultureInfo("de-DE"))
                 })
                 .ToArray();

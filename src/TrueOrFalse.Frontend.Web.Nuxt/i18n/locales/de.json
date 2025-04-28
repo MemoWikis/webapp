@@ -252,7 +252,7 @@
     },
     "editor": {
         "placeholderComment": "Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...",
-        "placholderQuestion": "Gib den Fragetext ein",
+        "placeholderQuestion": "Gib den Fragetext ein",
         "placeholderFlashcardFront": "Vorderseite der Karteikarte",
         "placeholderFlashcardBack": "Rückseite der Karteikarte",
         "placeholderDescription": "Ergänzungen zur Frage, zB. Bilder, Code usw.",
@@ -1491,5 +1491,18 @@
     },
     "chip": {
         "showSpoiler": "Spoiler anzeigen"
+    },
+    "timeElapsed": {
+        "lessThanAMinute": "vor weniger als einer Minute",
+        "oneMinute": "vor einer Minute",
+        "minutes": "vor {count} Minuten",
+        "oneHour": "vor einer Stunde",
+        "hours": "vor {count} Stunden",
+        "oneDay": "vor einem Tag",
+        "days": "vor {count} Tagen",
+        "oneMonth": "vor einem Monat",
+        "months": "vor {count} Monaten",
+        "oneYear": "vor einem Jahr",
+        "years": "vor {count} Jahren"
     }
 }

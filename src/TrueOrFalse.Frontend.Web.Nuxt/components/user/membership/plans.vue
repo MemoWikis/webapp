@@ -101,7 +101,7 @@ const initStripeCheckout = (type: Subscription.Type) => {
 }
 
 function contact() {
-    window.location.href = "mailto:team@memucho.de"
+    window.location.href = `mailto:${config.public.teamEmail}`
 }
 
 const plans = ref()

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
 import { CommentModel } from '../commentsStore'
+import { useTimeElapsed } from "~~/composables/useTimeElapsed"
+
+const { getTimeElapsedAsText } = useTimeElapsed()
 
 interface Props {
     answer: CommentModel
@@ -28,7 +31,7 @@ const { $urlHelper } = useNuxtApp()
                         <span class="commentUserName">{{ props.answer.creatorName }}</span>
                     </NuxtLink>
 
-                    <span class="commentDate">{{ t('comment.time.ago') }} {{ props.answer.creationDateNiceText }}</span>
+                    <span class="commentDate">{{ getTimeElapsedAsText(props.answer.creationDate) }}</span>
                     <span v-if="props.answer.isSettled">
                         <br />
                         <span class="commentSettledInfo"><i class="fa fa-check">&nbsp;</i>
