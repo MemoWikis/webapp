@@ -47,7 +47,7 @@ const { $urlHelper } = useNuxtApp()
                     <div class="sidebarcard-divider"></div>
                 </div>
 
-                <SidebarCard id="PageOutline" v-show="tabsStore?.activeTab === Tab.Text">
+                <SidebarCard id="PageOutline" v-show="tabsStore?.activeTab === Tab.Text && !pageStore.textIsHidden">
                     <template v-slot:body>
                         <SidebarOutline />
                     </template>
