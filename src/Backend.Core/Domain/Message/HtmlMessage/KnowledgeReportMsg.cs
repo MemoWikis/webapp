@@ -68,7 +68,7 @@ public class KnowledgeReportMsg
         var mailmessage2 =new MailMessage2(
             Settings.EmailFrom,
             user.EmailAddress,
-            "Dein Wissensstand bei memucho",
+            "Dein Wissensstand bei memoWikis",
             template);
         mailmessage2.UserName = user.Name; 
 

@@ -166,10 +166,10 @@
 
         /* Create Links */
 
-        LinkToWishQuestions = "https://memucho.de/Fragen/Wunschwissen";
-        LinkToWishSets = "https://memucho.de/Fragesaetze/Wunschwissen";
-        LinkToLearningSession = "https://memucho.de/Lernen/Wunschwissen";
-        LinkToDates = "https://memucho.de/Termine";
-        LinkToTechInfo = "https://memucho.de/AlgoInsight/Forecast";
+        LinkToWishQuestions = "https://memoWikis.de/Fragen/Wunschwissen";
+        LinkToWishSets = "https://memoWikis.de/Fragesaetze/Wunschwissen";
+        LinkToLearningSession = "https://memoWikis.de/Lernen/Wunschwissen";
+        LinkToDates = "https://memoWikis.de/Termine";
+        LinkToTechInfo = "https://memoWikis.de/AlgoInsight/Forecast";
     }
 }

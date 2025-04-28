@@ -1,6 +1,6 @@
 @echo off
 
-set IMAGE_NAME=nuxt-memucho
+set IMAGE_NAME=nuxt-memoWikis
 
 docker images | findstr /C:"%IMAGE_NAME%" >nul
 if %errorlevel% equ 0 (
