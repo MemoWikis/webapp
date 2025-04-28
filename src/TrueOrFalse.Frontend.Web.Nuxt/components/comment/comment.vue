@@ -2,7 +2,9 @@
 import { Editor } from '@tiptap/vue-3'
 import { useUserStore } from '../user/userStore'
 import { useCommentsStore, CommentModel } from './commentsStore'
+import { useTimeElapsed } from "~~/composables/useTimeElapsed"
 
+const { getTimeElapsedAsText } = useTimeElapsed()
 const userStore = useUserStore()
 const commentsStore = useCommentsStore()
 const { t } = useI18n()
@@ -20,7 +22,8 @@ const readMore = ref(false)
 const foldOut = ref(false)
 const showIsSettled = ref(false)
 const showCommentAnswers = ref(true)
-const { $logger, $urlHelper } = useNuxtApp()
+const { $logger, $urlHelper } = useNuxtApp(
+)
 
 async function markAsSettled() {
     const result = await $api<boolean>(`/apiVue/CommentAdd/MarkCommentAsSettled/`, {
@@ -181,7 +184,7 @@ async function saveAnswer() {
                     <div class="commentUserDetails">
 
                         <span class="greyed commentDate">
-                            {{ t('comment.time.ago') }} <span class="show-tooltip">{{ props.comment.creationDateNiceText }}</span> {{ t('comment.time.by') }}:
+                            {{ t('comment.time.ago') }} <span class="show-tooltip">{{ getTimeElapsedAsText(props.comment.creationDate) }}</span> {{ t('comment.time.by') }}:
                         </span>
                         <NuxtLink class="pointer comment-header" v-if="props.comment.creatorId > 0" :to="$urlHelper.getUserUrl(props.comment.creatorName, props.comment.creatorId)">
                             <img class="commentUserImg" :src="props.comment.creatorImgUrl">

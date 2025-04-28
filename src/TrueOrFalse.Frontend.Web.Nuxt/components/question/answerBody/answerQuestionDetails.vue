@@ -13,6 +13,7 @@ import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
 import { abbreviateNumberToM } from '~~/components/shared/utils'
 import { useActivityPointsStore } from '~/components/activityPoints/activityPointsStore'
 import { color } from '~/components/shared/colors'
+import { useTimeElapsed } from '~~/composables/useTimeElapsed'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
@@ -20,6 +21,7 @@ const commentsStore = useCommentsStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const { $urlHelper } = useNuxtApp()
 const { t } = useI18n()
+const { getTimeElapsedAsText } = useTimeElapsed()
 interface Props {
     id: number,
     landingPage?: boolean
@@ -149,16 +151,16 @@ const pages = ref<PageItem[]>([])
 function setPersonalProbability() {
     switch (knowledgeStatus.value) {
         case KnowledgeStatus.Solid:
-            personalProbabilityText.value = "Sicheres Wissen"
+            personalProbabilityText.value = t('questionLandingPage.probability.status.solid')
             break
         case KnowledgeStatus.NeedsConsolidation:
-            personalProbabilityText.value = "Zu festigen"
+            personalProbabilityText.value = t('questionLandingPage.probability.status.needsConsolidation')
             break
         case KnowledgeStatus.NeedsLearning:
-            personalProbabilityText.value = "Zu lernen"
+            personalProbabilityText.value = t('questionLandingPage.probability.status.needsLearning')
             break
         default:
-            personalProbabilityText.value = "Nicht gelernt"
+            personalProbabilityText.value = t('questionLandingPage.probability.status.notLearned')
     }
 }
 
@@ -843,7 +845,7 @@ const creator = ref({
     name: '',
     id: 0
 })
-const creationDate = ref('')
+const creationDate = ref<Date | string>()
 const wishknowledgeCount = ref(0)
 const totalViewCount = ref(0)
 const license = ref({
@@ -1096,7 +1098,7 @@ const activityPointsStore = useActivityPointsStore()
                     <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
                         &nbsp;{{ creator.name }}&nbsp;
                     </NuxtLink>
-                    {{ t('answerbody.details.ago') }} {{ creationDate }}
+                    {{ getTimeElapsedAsText(creationDate) }}
                 </div>
             </div>
             <div class="questionDetailsFooterPartialRight">

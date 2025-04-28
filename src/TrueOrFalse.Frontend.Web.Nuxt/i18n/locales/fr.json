@@ -8,7 +8,13 @@
             "saveImage": "La nouvelle image est enregistrée !",
             "saved": "Ta page est enregistrée !",
             "convertedToWiki": "La page « {name} » est devenue un wiki !",
-            "convertedToPage": "Le wiki « {name} » a été converti en page !"
+            "convertedToPage": "Le wiki « {name} » a été converti en page !",
+            "shared": "La page a été partagée avec succès.",
+            "rightsUpdated": "Les droits d'accès ont été mis à jour avec succès.",
+            "token": {
+                "renewed": "Le lien de partage a été renouvelé avec succès.",
+                "copied": "Le lien de partage a été copié dans le presse-papiers."
+            }
         },
         "question": {
             "created": "Ta question est créée !",
@@ -58,7 +64,9 @@
             "pageNotSelected": "Tu n’as sélectionné aucune page.",
             "newPageIdIsPageIdToBeDeleted": "La page sélectionnée ne peut pas être la même que celle à supprimer.",
             "noChange": "Aucune modification apportée.",
-            "noChildSelected": "Tu n’as sélectionné aucune sous-page."
+            "noChildSelected": "Tu n’as sélectionné aucune sous-page.",
+            "noUsersSelected": "Sélectionne au moins un utilisateur avec qui partager.",
+            "shareFailure": "La page n'a pas pu être partagée. Veuillez réessayer."
         },
         "question": {
             "missingText": "Il manque le texte de la question.",
@@ -114,6 +122,12 @@
         "ai": {
             "generateFlashcards": "Impossible de créer des cartes.",
             "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oups, tu as atteint la limite ! Comme la page est privée, aucune carte n’a été créée."
+        },
+        "loading": {
+            "shares": "Impossible de charger les informations de partage."
+        },
+        "token": {
+            "generation": "Impossible de générer le lien de partage. Merci d'essayer à nouveau."
         }
     },
     "info": {
@@ -208,13 +222,15 @@
         "convertToPage": "Convertir en page",
         "favourites": "Favoris",
         "lastVisited": "Dernières visites",
+        "sharedWithMe": "Partagé avec moi",
+        "noSharedPages": "Aucune page n'a encore été partagée avec vous",
         "help": "Aide",
         "documentation": "Documentation",
         "createWikiModal": {
             "title": "Créer un wiki",
             "createButton": "Créer le wiki",
             "inputPlaceholder": "Entre le nom du thème",
-            "privateWikiMessage": "Ce wiki est privé. Tu pourras le publier plus tard via le menu à trois points ou avec l’icône de cadenas."
+            "privateWikiMessage": "Ce wiki est privé. Tu pourras le publier plus tard via le menu à trois points ou avec l’icône d’ cadena’."
         }
     },
     "footer": {
@@ -250,7 +266,7 @@
     },
     "editor": {
         "placeholderComment": "Décris ta demande ici. Sois sympa et respectueux…",
-        "placholderQuestion": "Saisis le texte de la question",
+        "placeholderQuestion": "Saisis le texte de la question",
         "placeholderFlashcardFront": "Recto de la carte",
         "placeholderFlashcardBack": "Verso de la carte",
         "placeholderDescription": "Infos supplémentaires (images, code, etc.)",
@@ -1214,6 +1230,12 @@
             "settings": "Paramètres"
         },
         "membership": {
+            "header": {
+                "topLabel": "Devenir membre et soutenir l'éducation libre",
+                "title": "Adhésion",
+                "bottomLabel1": "Les contenus publics sur memoWikis sont librement accessibles. Données libres - logiciel libre (open data open access) !",
+                "bottomLabel2": "Tu souhaites utiliser memoWikis pour des contenus privés ? Voici nos tarifs :"
+            },
             "plans": {
                 "downgrade": "Rétrograder",
                 "yourMembership": "Ton abonnement",
@@ -1275,6 +1297,31 @@
                         "hosting": "Serveur dédié / Hébergement dans votre data center",
                         "customizing": "Personnalisation"
                     }
+                }
+            },
+            "faq": {
+                "title": "Foire aux questions",
+                "notFound": "Tu n'as pas trouvé ta question ?",
+                "contact": "Contacter memoWikis",
+                "billing": {
+                    "question": "Que se passe-t-il quand mon abonnement expire ?",
+                    "answer": "Quand ton abonnement expire, tu ne peux plus créer de contenu privé au-delà des limites de base. Cependant, tes contenus existants ne sont pas supprimés."
+                },
+                "privateContent": {
+                    "question": "Les contenus privés sont-ils supprimés quand mon abonnement expire ?",
+                    "answer": "Non, tes contenus privés ne sont pas supprimés, sauf si tu le souhaites. Tu peux toujours y accéder même après l'expiration de ton abonnement."
+                },
+                "unlimitedContent": {
+                    "question": "Que signifie « contenu illimité », n'y a-t-il vraiment aucune limite ?",
+                    "answer": "Jusqu'à présent, nous n'avons pas fixé de limites. Toutefois, si des limites techniques sont atteintes, nous t'en informerons. Avec une utilisation normale, tu ne devrais pas atteindre ces limites techniques. Les limites pour les images et vidéos sont encore en cours de définition."
+                },
+                "payment": {
+                    "question": "Comment fonctionne le paiement ?",
+                    "answer": "Le paiement est traité par le prestataire de services de paiement Stripe. Stripe est conforme au RGPD ({insert}). Nous recevons uniquement de Stripe une confirmation du succès du paiement. Tous les autres processus, comme la facturation et la gestion des données de carte bancaire, sont effectués par Stripe."
+                },
+                "cardDeclined": {
+                    "question": "Ma carte bancaire a été refusée et je veux accéder à mon contenu privé. Que dois-je faire ?",
+                    "answer": "Même si ton abonnement a expiré ou si ta carte a été refusée lors du renouvellement, tu peux toujours accéder à ton contenu privé."
                 }
             }
         },
@@ -1489,5 +1536,18 @@
     },
     "chip": {
         "showSpoiler": "Afficher le spoiler"
+    },
+    "timeElapsed": {
+        "lessThanAMinute": "il y a moins d'une minute",
+        "oneMinute": "il y a une minute",
+        "minutes": "il y a {count} minutes",
+        "oneHour": "il y a une heure",
+        "hours": "il y a {count} heures",
+        "oneDay": "il y a un jour",
+        "days": "il y a {count} jours",
+        "oneMonth": "il y a un mois",
+        "months": "il y a {count} mois",
+        "oneYear": "il y a un an",
+        "years": "il y a {count} ans"
     }
 }

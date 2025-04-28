@@ -391,6 +391,8 @@ async function requestVerificationMail() {
 }
 const ariaId = useId()
 const ariaId2 = useId()
+
+
 </script>
 
 <template>
@@ -642,7 +644,7 @@ const ariaId2 = useId()
                             <div v-else class="alert alert-warning">
                                 <p>
                                     {{ t('settings.deleteProfile.notPossible') }}
-                                    <NuxtLink to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>,
+                                    <NuxtLink :to="`mailto:${config.public.teamEmail}`" :external="true">{{ config.public.teamEmail }}</NuxtLink>,
                                     {{ t('settings.deleteProfile.contactReason') }}
                                 </p>
                             </div>

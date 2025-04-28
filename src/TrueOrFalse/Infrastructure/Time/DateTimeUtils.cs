@@ -30,11 +30,6 @@
         return new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(-1);
     }
 
-    public static string TimeElapsedAsText(DateTime dateTimeBegin)
-    {
-        return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin);
-    }
-
     public static bool IsToday(PageCacheItem page)
     {
         return IsToday(page.DateCreated);
@@ -66,7 +61,7 @@
 
         pageViews.AddRange(missingDates);
 
-    
+
         pageViews = pageViews.OrderBy(tv => tv.Date).ToList();
 
         return pageViews;

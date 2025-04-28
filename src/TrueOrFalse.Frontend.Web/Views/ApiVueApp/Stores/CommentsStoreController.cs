@@ -50,8 +50,7 @@ public class CommentsStoreController(
                 .GetUrl_128px_square(c.Creator)
                 .Url,
 
-            CreationDate = c.DateCreated.ToString("U"),
-            CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(c.DateCreated),
+            CreationDate = c.DateCreated,
 
             ShouldBeImproved = c.ShouldImprove,
             ShouldBeDeleted = c.ShouldRemove,
@@ -90,8 +89,7 @@ public class CommentsStoreController(
         string CreatorName,
         int CreatorId,
         string CreatorImgUrl,
-        string CreationDate,
-        string CreationDateNiceText,
+        DateTime CreationDate,
         bool ShouldBeImproved,
         bool ShouldBeDeleted,
         bool IsSettled,

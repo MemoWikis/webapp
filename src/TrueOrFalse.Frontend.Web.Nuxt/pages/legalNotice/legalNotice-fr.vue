@@ -10,7 +10,7 @@ const emit = defineEmits(['setPage'])
 emit('setPage', SiteType.Imprint)
 
 function openEmail() {
-	window.location.href = "mailto:team@memucho.de"
+	window.location.href = `mailto:${config.public.teamEmail}`
 }
 
 onBeforeMount(() => {
@@ -92,7 +92,7 @@ useHead(() => ({
 				<h3 id="Kontakt">Contact :</h3>
 				Téléphone :<br />
 				+49-178 186 68 48<br />
-				<span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
+				<span class="mailme btn-link" @click="openEmail">{{ config.public.teamMail }}</span>
 
 				<h3>Responsable du contenu selon le § 55 Abs. 2 RStV :</h3>
 				<p>Robert Mischke</p>
@@ -162,7 +162,7 @@ useHead(() => ({
 				<p>
 					Ce consentement peut nous être transmis par e-mail ou par téléphone.
 					Tes parents peuvent nous joindre ici :
-					<span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
+					<span class="mailme btn-link" @click="openEmail">{{ config.public.teamMail }}</span>
 				</p>
 				<p>
 					Tu peux bien entendu utiliser le site de façon anonyme, c’est-à-dire

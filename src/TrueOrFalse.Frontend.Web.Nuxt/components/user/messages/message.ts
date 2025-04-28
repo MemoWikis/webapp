@@ -3,6 +3,6 @@ export interface Message {
     read: boolean
     subject: string
     body: string
-    timeElapsed: string
+    dateCreated: string
     date: string
 }

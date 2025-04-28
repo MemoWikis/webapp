@@ -27,9 +27,16 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <textarea id="txtAnswer" class="form-control " rows="1" :placeholder="t('answerBody.textPlaceholderAddAnswer')" @input="resize"
-        v-model="answer" ref="textArea" :disabled="props.showAnswer">
-            </textarea>
+    <textarea
+        id="txtAnswer"
+        class="form-control "
+        rows="1"
+        :placeholder="t('answerBody.textPlaceholderAddAnswer')"
+        @input="resize"
+        v-model="answer"
+        ref="textArea"
+        :disabled="props.showAnswer">
+    </textarea>
 </template>
 
 <style lang="less" scoped>
