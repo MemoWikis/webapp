@@ -87,7 +87,7 @@
             "samePassword": "The new password is the same as the old one. Please enter a new password.",
             "passwordNotCorrectlyRepeated": "The repeated password does not match your new password entry.",
             "inputError": "Please check your entries.",
-            "passwordResetTokenIsInvalid": "The link is unfortunately invalid. If you are having problems, just send us an email at team(at)memucho.de.",
+            "passwordResetTokenIsInvalid": "The link is unfortunately invalid. If you are having problems, just send us an email at team(at)memoWikis.de.",
             "passwordResetTokenIsExpired": "The link has expired.",
             "doesNotExist": "The specified user was not found. Please check if your login details are correct.",
             "invalidFBToken": "Hey! It looks like the Facebook token you entered isn't correct. Please try again with a new login via Facebook. If it still doesn't work, just contact us and we'll help you out!",

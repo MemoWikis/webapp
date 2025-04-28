@@ -10,7 +10,7 @@ const emit = defineEmits(['setPage'])
 emit('setPage', SiteType.Imprint)
 
 function openEmail() {
-	window.location.href = "mailto:team@memucho.de"
+	window.location.href = "mailto:team@memoWikis.de"
 }
 
 onBeforeMount(() => {
@@ -96,7 +96,7 @@ useHead(() => ({
 				<h3 id="Kontakt">Contact:</h3>
 				Telephone:<br />
 				+49-178 186 68 48<br />
-				<span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
+				<span class="mailme btn-link" @click="openEmail">team@memoWikis.de</span>
 
 				<h3>Responsible for content pursuant to § 55 (2) RStV:</h3>
 				<p>Robert Mischke</p>
@@ -159,7 +159,7 @@ useHead(() => ({
 				<p>
 					Your parents can provide consent by email or phone. They can contact
 					us here:
-					<span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
+					<span class="mailme btn-link" @click="openEmail">team@memoWikis.de</span>
 				</p>
 				<p>
 					You can of course use the site anonymously—that is, without registration.

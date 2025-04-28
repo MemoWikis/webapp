@@ -79,7 +79,7 @@
             "samePassword": "La nueva contraseña coincide con la anterior. Por favor, introduce otra diferente.",
             "passwordNotCorrectlyRepeated": "La contraseña repetida no coincide con la nueva.",
             "inputError": "Por favor, revisa tus datos.",
-            "passwordResetTokenIsInvalid": "El enlace es inválido. Si tienes problemas, escríbenos a team(at)memucho.de.",
+            "passwordResetTokenIsInvalid": "El enlace es inválido. Si tienes problemas, escríbenos a team(at)memoWikis.de.",
             "passwordResetTokenIsExpired": "El enlace ha caducado.",
             "doesNotExist": "No se encontró el usuario especificado. Verifica tus datos de acceso.",
             "invalidFBToken": "¡Hola! Parece que el token de Facebook proporcionado no es correcto. Prueba de nuevo con un nuevo inicio de sesión en Facebook. Si aún falla, contáctanos. ¡Con gusto te ayudamos!",

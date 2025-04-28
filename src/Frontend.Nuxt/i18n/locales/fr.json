@@ -79,7 +79,7 @@
             "samePassword": "Le nouveau mot de passe est identique à l’ancien. Choisis-en un autre.",
             "passwordNotCorrectlyRepeated": "La répétition du mot de passe ne correspond pas.",
             "inputError": "Vérifie tes infos.",
-            "passwordResetTokenIsInvalid": "Lien invalide. Si tu as un souci, envoie-nous un e-mail à team(at)memucho.de.",
+            "passwordResetTokenIsInvalid": "Lien invalide. Si tu as un souci, envoie-nous un e-mail à team(at)memoWikis.de.",
             "passwordResetTokenIsExpired": "Le lien a expiré.",
             "doesNotExist": "Utilisateur non trouvé. Vérifie tes identifiants.",
             "invalidFBToken": "Oups ! Le jeton Facebook fourni est incorrect. Réessaie en te reconnectant via Facebook. Sinon, contacte-nous !",

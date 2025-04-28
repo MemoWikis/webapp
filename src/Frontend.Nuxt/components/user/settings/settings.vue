@@ -642,7 +642,7 @@ const ariaId2 = useId()
                             <div v-else class="alert alert-warning">
                                 <p>
                                     {{ t('settings.deleteProfile.notPossible') }}
-                                    <NuxtLink to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>,
+                                    <NuxtLink to="mailto:team@memoWikis.de" :external="true">team@memoWikis.de</NuxtLink>,
                                     {{ t('settings.deleteProfile.contactReason') }}
                                 </p>
                             </div>
