@@ -1317,7 +1317,7 @@
                 },
                 "payment": {
                     "question": "Wie erfolgt die Bezahlung?",
-                    "answer": "Die Zahlung erfolgt über den Zahlungsdienstleister Stripe. Stripe arbeitet GDRP/DSGVO-konform ({insert}). Wir erhalten von Stripe nur eine Rückmeldung über den Zahlungserfolg. Alle weiteren Vorgänge, wie Rechnungslegung und Verwaltung der Kreditkartendaten, werden von Stripe durchgeführt."
+                    "answer": "Die Zahlung erfolgt über den Zahlungsdienstleister Stripe. Stripe arbeitet GDRP/DSGVO-konform ({stripePrivacyUrl}). Wir erhalten von Stripe nur eine Rückmeldung über den Zahlungserfolg. Alle weiteren Vorgänge, wie Rechnungslegung und Verwaltung der Kreditkartendaten, werden von Stripe durchgeführt."
                 },
                 "cardDeclined": {
                     "question": "Meine Kreditkarte wurde abgelehnt und ich möchte auf meine privaten Inhalte zugreifen. Wie gehe ich vor?",

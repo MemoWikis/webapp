@@ -1317,7 +1317,7 @@
                 },
                 "payment": {
                     "question": "Comment fonctionne le paiement ?",
-                    "answer": "Le paiement est traité par le prestataire de services de paiement Stripe. Stripe est conforme au RGPD ({insert}). Nous recevons uniquement de Stripe une confirmation du succès du paiement. Tous les autres processus, comme la facturation et la gestion des données de carte bancaire, sont effectués par Stripe."
+                    "answer": "Le paiement est traité par le prestataire de services de paiement Stripe. Stripe est conforme au RGPD ({stripePrivacyUrl}). Nous recevons uniquement de Stripe une confirmation du succès du paiement. Tous les autres processus, comme la facturation et la gestion des données de carte bancaire, sont effectués par Stripe."
                 },
                 "cardDeclined": {
                     "question": "Ma carte bancaire a été refusée et je veux accéder à mon contenu privé. Que dois-je faire ?",
