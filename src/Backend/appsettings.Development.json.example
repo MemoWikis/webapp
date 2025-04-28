@@ -1,6 +1,6 @@
 {
   "Paths": {
-    "AbsoluteImagePath": "D:\\repo\\memucho\\webapp\\src\\Backend.Api\\Images"
+    "AbsoluteImagePath": "D:\\repo\\memoWikis\\src\\Backend.Api\\Images"
   },
   "General": {
     "ConnectionString": "Server=localhost;Port=3306;Database=memoWikis_dev;uid=admin;pwd=admin",

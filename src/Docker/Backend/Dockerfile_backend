@@ -6,20 +6,20 @@ WORKDIR /source
 RUN dotnet --info
 
 # Copy csproj and restore as distinct layers
-COPY TrueOrFalse/*.csproj TrueOrFalse/
-COPY TrueOrFalse.Frontend.Web/*.csproj TrueOrFalse.Frontend.Web/
-RUN dotnet restore TrueOrFalse/TrueOrFalse.csproj
-RUN dotnet restore TrueOrFalse.Frontend.Web/TrueOrFalse.Frontend.Web.csproj
+COPY Backend.Core/*.csproj Backend.Core/
+COPY Backend.Api/*.csproj Backend.Api/
+RUN dotnet restore Backend.Core/Backend.Core.csproj
+RUN dotnet restore Backend.Api/Backend.Api.csproj
 
 # Copy and build app and libraries
-COPY TrueOrFalse/ TrueOrFalse/
-COPY TrueOrFalse.Frontend.Web/ TrueOrFalse.Frontend.Web
-WORKDIR /source/TrueOrFalse.Frontend.Web
-RUN dotnet publish TrueOrFalse.Frontend.Web.csproj --no-restore -c Release -o /app -p:LangVersion=12.0
+COPY Backend.Core/ Backend.Core/
+COPY Backend.Api/ Backend.Api
+WORKDIR /source/Backend.Api
+RUN dotnet publish Backend.Api.csproj --no-restore -c Release -o /app -p:LangVersion=13.0
 
 # Second stage: build the runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app .
 
-ENTRYPOINT ["dotnet", "TrueOrFalse.View.Web.dll"]
+ENTRYPOINT ["dotnet", "Backend.Api.dll"]

@@ -72,7 +72,7 @@ networks:
 
 # To override variables locally create .env file next to this and specify values (or comment out lines under environment that should not override appsettings):
 # LOM_EXPORT_PATH=<value>
-# HOST_IMAGE_PATH=C:/Projects/memucho/src/TrueOrFalse.Frontend.Web/Images
+# HOST_IMAGE_PATH=C:/Projects/memucho/src/Backend.Api/Images
 # ABSOLUTE_IMAGE_PATH=/app/Images
 # SEQ_URL=http://host.docker.internal:5341
 # CANONICAL_HOST=<value>
