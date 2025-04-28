@@ -45,8 +45,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Backend.Core\Core.csproj" />
-    <ProjectReference Include="..\Backend\Host.csproj" />
+    <ProjectReference Include="..\Backend.Api\Backend.Api.csproj" />
+    <ProjectReference Include="..\Backend.Core\Backend.Core.csproj" />
   </ItemGroup>
 
 </Project>

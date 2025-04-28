@@ -6,8 +6,8 @@
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>1.0.0.0</FileVersion>
 		<InformationalVersion>1.0.0</InformationalVersion>
-		<RootNamespace>MemoWikis.Backend.Host</RootNamespace>
-		<AssemblyName>MemoWikis.Backend.Host</AssemblyName>
+		<RootNamespace>MemoWikis.Backend.Api</RootNamespace>
+		<AssemblyName>MemoWikis.Backend.Api</AssemblyName>
 		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 	  <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -27,7 +27,6 @@
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<DebugType>pdbonly</DebugType>
 		<Optimize>true</Optimize>
-		<OutputPath>bin\Release\net7.0</OutputPath>
 		<DefineConstants>TRACE;RELEASE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
@@ -107,24 +106,11 @@
 		<PackageReference Include="System.ValueTuple" Version="4.6.1" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\Backend.Core\Backend.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
 	  <None Update="Log.ignore">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-	<ItemGroup>
-	  <Compile Update="Properties\Resources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Resources.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-	<ItemGroup>
-	  <EmbeddedResource Update="Properties\Resources.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\Backend.Core\Core.csproj" />
 	</ItemGroup>
 </Project>

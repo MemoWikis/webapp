@@ -1,0 +1,117 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<OutputType>Exe</OutputType>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<InformationalVersion>1.0.0</InformationalVersion>
+		<RootNamespace>MemoWikis.Backend.Api</RootNamespace>
+		<AssemblyName>MemoWikis.Backend.Api</AssemblyName>
+		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+	  <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>portable</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug</OutputPath>
+		<DefineConstants>TRACE;DEBUG</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\net7.0</OutputPath>
+		<DefineConstants>TRACE;RELEASE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<Prefer32Bit>false</Prefer32Bit>
+		<LangVersion>10</LangVersion>
+	</PropertyGroup>
+	<ItemGroup>
+  		<None Remove="appsettings.*.json" />
+  		<None Remove="appsettings.Development.json.example" />
+  		<None Remove="appsettings.json" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
+  		<Content Include="appsettings.json" CopyToOutputDirectory="Always" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AngleSharp" Version="1.3.0" />
+		<PackageReference Include="Antlr3.Runtime" Version="3.5.1" />
+		<PackageReference Include="Autofac" Version="8.2.1" />
+		<PackageReference Include="Common.Logging" Version="3.4.1" />
+		<PackageReference Include="Common.Logging.Core" Version="3.4.1" />
+		<PackageReference Include="FluentNHibernate" Version="3.4.1" />
+		<PackageReference Include="Google.Apis" Version="1.69.0" />
+		<PackageReference Include="Google.Apis.Auth" Version="1.69.0" />
+		<PackageReference Include="Google.Apis.Core" Version="1.69.0" />
+		<PackageReference Include="Google.Apis.Oauth2.v2" Version="1.68.0.1869" />
+		<PackageReference Include="Google.Protobuf" Version="3.30.2" />
+		<PackageReference Include="htmldiff.net" Version="1.5.0" />
+		<PackageReference Include="Iesi.Collections" Version="4.1.1" />
+		<PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
+		<PackageReference Include="K4os.Compression.LZ4" Version="1.3.8" />
+		<PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.3.8" />
+		<PackageReference Include="K4os.Hash.xxHash" Version="1.0.8" />
+		<PackageReference Include="Meilisearch" Version="0.16.0" />
+		<PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.2" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
+		<PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="8.8.0" />
+		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.8.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Logging" Version="8.8.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.8.0" />
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.8.3">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="MySql.Data" Version="9.3.0" />
+		<PackageReference Include="NHibernate" Version="5.5.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="OpenAI" Version="2.1.0" />
+		<PackageReference Include="Quartz" Version="3.14.0" />
+		<PackageReference Include="Remotion.Linq" Version="2.2.0" />
+		<PackageReference Include="Remotion.Linq.EagerFetching" Version="2.2.0" />
+		<PackageReference Include="Scalar.AspNetCore" Version="2.2.1" />
+		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+		<PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+		<PackageReference Include="Stripe.net" Version="48.0.2" />
+		<PackageReference Include="System.Buffers" Version="4.6.1" />
+		<PackageReference Include="System.ComponentModel" Version="4.3.0" />
+		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="9.0.4" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.8.0" />
+		<PackageReference Include="System.Management" Version="9.0.4" />
+		<PackageReference Include="System.Memory" Version="4.6.3" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="System.Net.Http.Json" Version="9.0.4" />
+		<PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
+		<PackageReference Include="System.Runtime.Caching" Version="9.0.4" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+		<PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.4" />
+		<PackageReference Include="System.Text.Encodings.Web" Version="9.0.4" />
+		<PackageReference Include="System.Text.Json" Version="9.0.4" />
+		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
+		<PackageReference Include="System.ValueTuple" Version="4.6.1" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Backend.Core\Backend.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Log.ignore">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>
