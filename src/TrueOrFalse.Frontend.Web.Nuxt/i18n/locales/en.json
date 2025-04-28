@@ -1317,7 +1317,7 @@
                 },
                 "payment": {
                     "question": "How does payment work?",
-                    "answer": "Payment is processed through the payment service provider Stripe. Stripe operates in compliance with GDPR ({insert}). We only receive feedback from Stripe about the payment success. All other processes, such as invoicing and credit card data management, are carried out by Stripe."
+                    "answer": "Payment is processed through the payment service provider Stripe. Stripe operates in compliance with GDPR ({stripePrivacyUrl}). We only receive feedback from Stripe about the payment success. All other processes, such as invoicing and credit card data management, are carried out by Stripe."
                 },
                 "cardDeclined": {
                     "question": "My credit card was declined and I want to access my private content. What do I do?",

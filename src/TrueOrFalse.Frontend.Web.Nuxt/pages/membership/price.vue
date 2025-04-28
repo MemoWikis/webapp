@@ -4,7 +4,7 @@ interface FaqItem {
     answer: string
     answerParams?: Record<string, string>
 }
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const faqItems = ref<FaqItem[]>([
     {
@@ -33,7 +33,11 @@ const faqItems = ref<FaqItem[]>([
 const emit = defineEmits(['setBreadcrumb'])
 
 onBeforeMount(() => {
-    emit('setBreadcrumb', [{ name: t('user.membership.breadcrumb'), url: '/Preise' }])
+    if (locale.value === 'de') {
+        emit('setBreadcrumb', [{ name: t('user.membership.breadcrumb'), url: '/Preise' }])
+    } else {
+        emit('setBreadcrumb', [{ name: t('user.membership.breadcrumb'), url: '/Prices' }])
+    }
 })
 
 const config = useRuntimeConfig()

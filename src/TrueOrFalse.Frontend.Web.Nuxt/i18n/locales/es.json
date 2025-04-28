@@ -1317,7 +1317,7 @@
                 },
                 "payment": {
                     "question": "¿Cómo funciona el pago?",
-                    "answer": "El pago se procesa a través del proveedor de servicios de pago Stripe. Stripe opera en conformidad con el RGPD ({insert}). Solo recibimos de Stripe una confirmación sobre el éxito del pago. Todos los demás procesos, como la facturación y la gestión de datos de tarjetas de crédito, son realizados por Stripe."
+                    "answer": "El pago se procesa a través del proveedor de servicios de pago Stripe. Stripe opera en conformidad con el RGPD ({stripePrivacyUrl}). Solo recibimos de Stripe una confirmación sobre el éxito del pago. Todos los demás procesos, como la facturación y la gestión de datos de tarjetas de crédito, son realizados por Stripe."
                 },
                 "cardDeclined": {
                     "question": "Mi tarjeta de crédito fue rechazada y quiero acceder a mi contenido privado. ¿Qué debo hacer?",
