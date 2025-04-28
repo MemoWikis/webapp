@@ -93,14 +93,9 @@ const { t, setLocale, locale, locales } = useI18n()
                         </div>
                         <div class="footer-group">
                             <div class="overline-m no-line">{{ t('footer.software') }}</div>
-                            <NuxtLink @click="handleError()" to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
+                            <NuxtLink @click="handleError()" to="https://github.com/MemoWikis/webapp" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'github']" /> {{ t('footer.github') }}
                             </NuxtLink>
-                            <br />
-                            <NuxtLink @click="handleError()" to="http://teamcity.memowikis.net:8080/project.html?projectId=TrueOrFalse&guest=1" target="_blank" :external="true">
-                                <font-awesome-icon :icon="['fa-solid', 'gears']" /> {{ t('footer.teamcity') }}
-                            </NuxtLink>
-                            <br />
                         </div>
                     </div>
                     <div class="visible-xs visible-sm" style="clear: both"></div>
