@@ -2,29 +2,31 @@
 interface FaqItem {
     question: string
     answer: string
+    answerParams?: Record<string, string>
 }
 const { t } = useI18n()
 
 const faqItems = ref<FaqItem[]>([
     {
-        "question": t('user.membership.faq.billing.question'),
-        "answer": t('user.membership.faq.billing.answer')
+        "question": 'user.membership.faq.billing.question',
+        "answer": 'user.membership.faq.billing.answer'
     },
     {
-        "question": t('user.membership.faq.privateContent.question'),
-        "answer": t('user.membership.faq.privateContent.answer')
+        "question": 'user.membership.faq.privateContent.question',
+        "answer": 'user.membership.faq.privateContent.answer'
     },
     {
-        "question": t('user.membership.faq.unlimitedContent.question'),
-        "answer": t('user.membership.faq.unlimitedContent.answer')
+        "question": 'user.membership.faq.unlimitedContent.question',
+        "answer": 'user.membership.faq.unlimitedContent.answer'
     },
     {
-        "question": t('user.membership.faq.payment.question'),
-        "answer": t('user.membership.faq.payment.answer')
+        "question": 'user.membership.faq.payment.question',
+        "answer": 'user.membership.faq.payment.answer',
+        "answerParams": { stripePrivacyUrl: `https://stripe.com/at/privacy` }
     },
     {
-        "question": t('user.membership.faq.cardDeclined.question'),
-        "answer": t('user.membership.faq.cardDeclined.answer')
+        "question": 'user.membership.faq.cardDeclined.question',
+        "answer": 'user.membership.faq.cardDeclined.answer'
     },
 ])
 
@@ -67,7 +69,7 @@ const contact = () => {
 
         <div id="QuestionsOuter">
 
-            <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" />
+            <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" :answer-params="item.answerParams" />
 
             <div id="NotFound">
                 <div class="not-found-header">{{ t('user.membership.faq.notFound') }}</div>
