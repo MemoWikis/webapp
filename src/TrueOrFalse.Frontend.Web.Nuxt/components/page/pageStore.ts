@@ -275,7 +275,7 @@ export const usePageStore = defineStore("pageStore", {
                 ) {
                     const alertStore = useAlertStore()
                     alertStore.openAlert(AlertType.Error, {
-                        text: $i18n.t("result.messageKey"),
+                        text: $i18n.t(result.messageKey),
                     })
                 }
             }
@@ -348,7 +348,7 @@ export const usePageStore = defineStore("pageStore", {
                 ) {
                     const alertStore = useAlertStore()
                     alertStore.openAlert(AlertType.Error, {
-                        text: $i18n.t("result.messageKey"),
+                        text: $i18n.t(result.messageKey),
                     })
                 }
             }
