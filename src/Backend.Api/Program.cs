@@ -140,7 +140,6 @@ try
 
     app.UseMiddleware<ErrorHandlerMiddleware>();
     app.UseMiddleware<AutoLoginMiddleware>();
-    app.UseMiddleware<RequestTimingMiddleware>();
 
     app.MapHealthChecks("healthcheck_backend");
 
