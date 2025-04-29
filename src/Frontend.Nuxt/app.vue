@@ -185,10 +185,10 @@ function clearErr() {
 	clearError()
 }
 
-function logError(e: any) {
+function logError(error: any) {
 
 	const errorObject = {
-		error: e,
+		error: error,
 		userId: userStore.isLoggedIn ? userStore.id : null,
 		location: window.location.href,
 		userAgent: navigator.userAgent,
@@ -196,17 +196,17 @@ function logError(e: any) {
 
 	$logger.error('Nuxt non Fatal Error', [errorObject])
 
-	const r = e as NuxtError
+	const nuxtError = error as NuxtError
 
-	if (r.statusCode)
-		statusCode.value = r.statusCode
+	if (nuxtError.statusCode)
+		statusCode.value = nuxtError.statusCode
 
 	if (statusCode.value === ErrorCode.NotFound || statusCode.value === ErrorCode.Unauthorized)
 		return
 
 	if (import.meta.client) {
 		const alertStore = useAlertStore()
-		alertStore.openAlert(AlertType.Error, { text: null, customDetails: e, texts: [t('error.api.body.title'), t('error.api.body.suggestion')] }, t('label.reloadPage'), true, t('error.api.title'), 'reloadPage', t('label.back'))
+		alertStore.openAlert(AlertType.Error, { text: null, customDetails: error, texts: [t('error.api.body.title'), t('error.api.body.suggestion')] }, t('label.reloadPage'), true, t('error.api.title'), 'reloadPage', t('label.back'))
 
 		alertStore.$onAction(({ name, after }) => {
 			if (name === 'closeAlert') {
@@ -253,7 +253,7 @@ watch(locale, () => {
 
 			<template #error="{ error }">
 				<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
-					:error="error" :in-error-boundary="true" @clear-error="clearErr" />
+					:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
 				<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
 					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="SiteType.Error" />
