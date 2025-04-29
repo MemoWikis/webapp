@@ -35,8 +35,9 @@ public class LearningSessionCache(IHttpContextAccessor httpContextAccessor, Sess
         if (learningSession == null && log)
         {
             var stackException = new Exception($"learningSession is null. Call stack: {Environment.StackTrace}");
-            Logg.Error(stackException, _httpContext);
+            ErrorLogging.Log(stackException, _httpContext);
         }
+
         return null;
     }
 

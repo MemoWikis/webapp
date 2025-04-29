@@ -19,7 +19,7 @@ public class EntityCacheInitializer(
         _stopWatch = Stopwatch.StartNew();
         _customMessage = customMessage;
 
-        Logg.r.Information("EntityCache Start" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache Start" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         InitializeUsers();
         InitializePageRelations();
@@ -27,17 +27,17 @@ public class EntityCacheInitializer(
         InitializeQuestions();
         InitializeShareInfos();
 
-        Logg.r.Information("EntityCache PutIntoCache" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache PutIntoCache" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
         EntityCache.IsFirstStart = false;
     }
 
     private void InitializeUsers()
     {
         var allUsers = _userReadingRepo.GetAll();
-        Logg.r.Information("EntityCache UsersLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache UsersLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
-        Logg.r.Information("EntityCache UsersCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache UsersCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         MemoCache.IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
     }
@@ -45,30 +45,30 @@ public class EntityCacheInitializer(
     private void InitializePageRelations()
     {
         var allRelations = pageRelationRepo.GetAll();
-        Logg.r.Information("EntityCache PageRelationsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache PageRelationsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var relations = PageRelationCache.ToPageRelationCache(allRelations).ToList();
         MemoCache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
-        Logg.r.Information("EntityCache PageRelationsCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache PageRelationsCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
     }
 
     private void InitializePages()
     {
         var allPages = pageRepository.GetAllEager();
-        Logg.r.Information("EntityCache PagesLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache PagesLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var allPageViews = pageViewRepo.GetAllEager();
-        Logg.r.Information("EntityCache PageViewsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache PageViewsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var allPageChanges = pageChangeRepo.GetAll();
-        Logg.r.Information("EntityCache PageChangesLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache PageChangesLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var pages = PageCacheItem.ToCachePages(allPages, allPageViews, allPageChanges).ToList();
-        Logg.r.Information("EntityCache PagesCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache PagesCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         MemoCache.IntoForeverCache(EntityCache.CacheKeyPages, pages.ToConcurrentDictionary());
         EntityCache.AddViewsLast30DaysToPages(pageViewRepo, pages);
-        Logg.r.Information("EntityCache PagesPutIntoForeverCache " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache PagesPutIntoForeverCache " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
     }
 
     private void InitializeQuestions()
@@ -76,14 +76,14 @@ public class EntityCacheInitializer(
         var allQuestionChanges = _questionChangeRepo.GetAll();
 
         var allQuestions = _questionReadingRepo.GetAllEager();
-        Logg.r.Information("EntityCache QuestionsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache QuestionsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var allQuestionViews = _questionViewRepository.GetAllEager();
-        Logg.r.Information("EntityCache QuestionViewsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache QuestionViewsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews, allQuestionChanges).ToList();
-        Logg.r.Information("EntityCache QuestionsCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
-        Logg.r.Information("EntityCache LoadAllEntities" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache QuestionsCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache LoadAllEntities" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         MemoCache.IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
         MemoCache.IntoForeverCache(EntityCache.CacheKeyPageQuestionsList, EntityCache.GetPageQuestionsListForCacheInitializer(questions));
@@ -103,7 +103,7 @@ public class EntityCacheInitializer(
     private void InitializeShareInfos()
     {
         var allShareInfos = _sharesRepository.GetAllEager();
-        Logg.r.Information("EntityCache ShareInfos Loaded " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("EntityCache ShareInfos Loaded " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         var shareCacheItems = allShareInfos.Select(ShareCacheItem.ToCacheItem).ToList();
         MemoCache.IntoForeverCache(EntityCache.CacheKeyPageShares, shareCacheItems.ToConcurrentDictionary());

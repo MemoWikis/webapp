@@ -28,7 +28,7 @@ public class ExtendedUserCacheItem : UserCacheItem
                 .TryAdd(questionValuationCacheItem.Question.Id, questionValuationCacheItem);
 
             if (result == false)
-                Logg.r.Error(
+                Log.Error(
                     $"QuestionValuationCacheItem with Id {questionValuationCacheItem.Question.Id}" +
                     $" could not be added in {nameof(AddOrUpdateQuestionValuations)}");
         }
@@ -40,7 +40,7 @@ public class ExtendedUserCacheItem : UserCacheItem
                 valuation);
 
             if (result == false)
-                Logg.r.Error(
+                Log.Error(
                     $"QuestionValuationCacheItem with Id {questionValuationCacheItem.Question.Id} " +
                     $"could not be updated in {nameof(AddOrUpdateQuestionValuations)}");
         }

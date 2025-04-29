@@ -120,7 +120,7 @@ public class MeiliSearchUsers(
             }
             else
             {
-                Logg.r.Error("fail cast from ISearchable to SearchResult");
+                Log.Error("fail cast from ISearchable to SearchResult");
             }
             userMaps = searchResult.Hits.ToList();
         }

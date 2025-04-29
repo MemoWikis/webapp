@@ -20,9 +20,9 @@ public class AddParentPageInDb : IJob
         var parentPageId = dataMap.GetInt("parentPageId");
         _authorId = dataMap.GetInt("authorId");
 
-        Logg.r.Information("Job started - ModifyRelation Child: {childId}, Parent: {parentId}", childPageId, parentPageId);
+        Log.Information("Job started - ModifyRelation Child: {childId}, Parent: {parentId}", childPageId, parentPageId);
         await Run(childPageId, parentPageId);
-        Logg.r.Information("Job ended - ModifyRelation Child: {childId}, Parent: {parentId}", childPageId, parentPageId);
+        Log.Information("Job ended - ModifyRelation Child: {childId}, Parent: {parentId}", childPageId, parentPageId);
     }
 
     private Task Run(int childPageId, int parentPageId)

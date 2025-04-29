@@ -1,16 +1,8 @@
-﻿public class LimitCheck
+﻿public class LimitCheck(SessionUser _sessionUser)
 {
-    private readonly Logg _logg;
-    private readonly SessionUser _sessionUser;
     private static readonly int _privateQuestionsQuantity = 20;
     private static readonly int _privatePagesQuantity = 10;
     private static readonly int _wishCountKnowledge = 50;
-
-    public LimitCheck(Logg logg, SessionUser sessionUser)
-    {
-        _logg = logg;
-        _sessionUser = sessionUser;
-    }
 
     public readonly record struct BasicLimits(
         int MaxPrivatePageCount,
@@ -38,7 +30,7 @@
 
         if (!withinLimit && logExceedance)
         {
-            LogExceededLimit("question in wishknowledge", _logg);
+            LogExceededLimit("question in wishknowledge");
         }
 
         return withinLimit;
@@ -54,7 +46,7 @@
 
         if (!withinLimit && logExceedance)
         {
-            LogExceededLimit("private questions", _logg);
+            LogExceededLimit("private questions");
         }
 
         return withinLimit;
@@ -69,7 +61,7 @@
 
         if (!withinLimit && logExceedance)
         {
-            LogExceededLimit("private pages", _logg);
+            LogExceededLimit("private pages");
         }
 
         return withinLimit;
@@ -90,8 +82,8 @@
         return _sessionUser.User.EndDate != null && _sessionUser.User.EndDate > DateTime.Now;
     }
 
-    public static void LogExceededLimit(string type, Logg logg)
+    public static void LogExceededLimit(string type)
     {
-        Logg.r.Information("LimitCheck: max. number of type '{type}' exceeded", type);
+        Log.Information("LimitCheck: max. number of type '{type}' exceeded", type);
     }
 }

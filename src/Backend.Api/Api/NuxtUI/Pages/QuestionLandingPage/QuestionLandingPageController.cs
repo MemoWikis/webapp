@@ -68,7 +68,7 @@ public class QuestionLandingPageController(
         var question = EntityCache.GetQuestion(id);
         if (question == null)
         {
-            Logg.r.Warning($"questions: Not found the question in function {nameof(GetQuestionPage)}");
+            Log.Warning($"questions: Not found the question in function {nameof(GetQuestionPage)}");
             return new QuestionPageResult
             {
                 MessageKey = FrontendMessageKeys.Error.Question.NotFound
@@ -78,7 +78,7 @@ public class QuestionLandingPageController(
         var canView = _permissionCheck.CanView(question);
         if (_sessionUser.IsLoggedIn == false && canView == false)
         {
-            Logg.r.Warning($"questions: Not allowed to view question in function {nameof(GetQuestionPage)}");
+            Log.Warning($"questions: Not allowed to view question in function {nameof(GetQuestionPage)}");
             return new QuestionPageResult
             {
                 MessageKey = FrontendMessageKeys.Error.Question.Unauthorized
@@ -87,7 +87,7 @@ public class QuestionLandingPageController(
 
         if (canView == false)
         {
-            Logg.r.Warning($"questions: Not allowed to view question in function {nameof(GetQuestionPage)}");
+            Log.Warning($"questions: Not allowed to view question in function {nameof(GetQuestionPage)}");
             return new QuestionPageResult
             {
                 MessageKey = FrontendMessageKeys.Error.Question.NoRights
@@ -165,7 +165,7 @@ public class QuestionLandingPageController(
 
         if (parentLangs.Count > 1)
         {
-            Logg.r.Error($"DistinctParentLanguage: QuestionId = {questionId} has multiple parents with different languages: {string.Join(", ", parentLangs)}");
+            Log.Error($"DistinctParentLanguage: QuestionId = {questionId} has multiple parents with different languages: {string.Join(", ", parentLangs)}");
         }
     }
 

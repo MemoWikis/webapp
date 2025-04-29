@@ -296,35 +296,6 @@ class GenerateFlashCards_tests : BaseTest
         Assert.That(result, Is.Null, "Result should be null when request PageId is invalid.");
     }
 
-    //[Test]
-    //public async Task Should_Return_Message_When_PrivateQuestion_Limit_Exceeded()
-    //{
-    //    // Arrange
-    //    var context = ContextPage.New();
-    //    context.Add("TestPage").Persist();
-    //    var page = context.All.ByName("TestPage");
-    //    context.AddToEntityCache(page);
-    //    var sessionUser = R<SessionUser>();
-    //    var logg = R<Logg>();
-
-    //    // Simulate user hitting the private question limit
-    //    var limitCheckMock = new Mock<LimitCheck>(logg, sessionUser)
-    //    {
-    //        CallBase = true
-    //    };
-    //    limitCheckMock.Setup(lc => lc.CanSavePrivateQuestion()).Returns(false);
-
-    //    var controller = CreatePageStoreController(limitCheckMock.Object);
-    //    var request = new PageStoreController.GenerateFlashCardRequest(page.Id, "Sample Text");
-
-    //    // Act
-    //    var result = await controller.GenerateFlashCard(request);
-
-    //    // Assert
-    //    Assert.IsNotNull(result, "Result should not be null when limit is exceeded.");
-    //    Assert.AreEqual(FrontendMessageKeys.Info.Ai.FlashcardsCreatedWillBePublicCauseLimit, result?.MessageKey, "Incorrect message key when private question limit is exceeded.");
-    //}
-
     // Helper method to create the controller with necessary dependencies
     private PageStoreController CreatePageStoreController(LimitCheck limitCheck = null)
     {
@@ -338,7 +309,6 @@ class GenerateFlashCards_tests : BaseTest
         var questionReadingRepo = R<QuestionReadingRepo>();
         var pageUpdater = R<PageUpdater>();
         var imageStore = R<ImageStore>();
-        var logg = R<Logg>();
         var aiUsageLogRepo = R<AiUsageLogRepo>();
 
         return new PageStoreController(
@@ -351,7 +321,6 @@ class GenerateFlashCards_tests : BaseTest
             questionReadingRepo,
             pageUpdater,
             imageStore,
-            logg,
             aiUsageLogRepo);
     }
 }

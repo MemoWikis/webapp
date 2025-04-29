@@ -88,7 +88,7 @@ public class StripeSubscriptionManger(
         }
         catch (StripeException e)
         {
-            Logg.Error(e);
+            ErrorLogging.Log(e);
             return "-1";
         }
     }

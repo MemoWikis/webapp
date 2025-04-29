@@ -79,7 +79,7 @@ public class KnowledgeReportMsg
            UtmSource);
 
         messageEmailRepo.Create(new MessageEmail(user, MessageEmailTypes.KnowledgeReport));
-        Logg.r.Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
+        Log.Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
     }
 
 
@@ -125,7 +125,7 @@ public class KnowledgeReportMsg
                 break;
         }
 
-        Logg.r.Information("KnowledgeReportMsg.ShouldSendToUser: " + user.Name + " - " + lastSentOrRegistered + " <? " + shouldHaveSent);
+        Log.Information("KnowledgeReportMsg.ShouldSendToUser: " + user.Name + " - " + lastSentOrRegistered + " <? " + shouldHaveSent);
 
         return lastSentOrRegistered <= shouldHaveSent;
     }

@@ -12,14 +12,14 @@
         {
             if (user.StartPageId <= 0)
             {
-                Logg.r.Information("PersonalPageMigration - Start Migration for User: {userId}",
+                Log.Information("PersonalPageMigration - Start Migration for User: {userId}",
                     user.Id);
                 var firstPage = allPages.FirstOrDefault(c => c.Creator == user);
 
                 if (firstPage != null && firstPage.Name.Contains("Wiki"))
                 {
                     user.StartPageId = firstPage.Id;
-                    Logg.r.Information(
+                    Log.Information(
                         "PersonalPageMigration - User: {userId}, PageAdded: {pageId}", user.Id,
                         firstPage.Id);
                 }
@@ -28,13 +28,13 @@
                     var newPage = PersonalPage.GetPersonalPage(user, pageRepository);
                     pageRepository.CreateOnlyDb(newPage);
                     user.StartPageId = newPage.Id;
-                    Logg.r.Information(
+                    Log.Information(
                         "PersonalPageMigration - User: {userId}, PageCreated: {pageId}", user.Id,
                         newPage.Id);
                 }
 
                 userWritingRepo.UpdateOnlyDb(user);
-                Logg.r.Information("PersonalPageMigration - End Migration for User: {userId}",
+                Log.Information("PersonalPageMigration - End Migration for User: {userId}",
                     user.Id);
             }
         }

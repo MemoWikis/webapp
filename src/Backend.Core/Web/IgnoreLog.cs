@@ -35,7 +35,7 @@ public class IgnoreLog
         {
             if (!File.Exists(logIgnorePath))
             {
-                Logg.r.Warning($"Ignore.log is not available- {logIgnorePath}");
+                Log.Warning($"Ignore.log is not available- {logIgnorePath}");
                 _crawlers = new List<string>();
             }
 

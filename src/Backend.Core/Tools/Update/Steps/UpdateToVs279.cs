@@ -20,7 +20,7 @@ internal class UpdateToVs279
             transaction.Rollback();
             Console.Error.WriteLine($"An error occurred during the update: {ex.Message}");
             Console.Error.WriteLine(ex.StackTrace);
-            Logg.r.Error($"An error occurred during the update: {ex.Message}", ex);
+            Log.Error($"An error occurred during the update: {ex.Message}", ex);
 
             throw;
         }

@@ -42,7 +42,7 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
                         RemovePersistentLoginFromCookie.RunForGoogle(httpContext);
                         RemovePersistentLoginFromCookie.Run(persistentLoginRepo, httpContext);
 
-                        Logg.Error(ex);
+                        ErrorLogging.Log(ex);
                     }
                 }
             }

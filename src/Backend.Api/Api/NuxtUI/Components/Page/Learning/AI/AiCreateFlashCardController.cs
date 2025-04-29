@@ -7,7 +7,6 @@ public class AiCreateFlashCardController(
     PageRepository pageRepository,
     UserReadingRepo _userReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
-    Logg _logg,
     LearningSessionCreator _learningSessionCreator,
     LearningSessionCache _learningSessionCache) : ApiBaseController
 {
@@ -71,7 +70,7 @@ public class AiCreateFlashCardController(
         if (string.IsNullOrEmpty(safeText) || string.IsNullOrEmpty(json.back))
             return null;
 
-        var limitCheck = new LimitCheck(_logg, _sessionUser);
+        var limitCheck = new LimitCheck(_sessionUser);
 
         if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(pageId).Visibility != PageVisibility.Public)
             return null;

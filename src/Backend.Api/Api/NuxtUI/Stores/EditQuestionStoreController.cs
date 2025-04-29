@@ -17,7 +17,7 @@
         if (form.QuestionId > 0 && !_permissionCheck.CanEditQuestion(form.QuestionId))
             throw new Exception("No Upload rights");
 
-        Logg.r.Information("UploadContentImage {id}, {file}", form.QuestionId, form.File);
+        Log.Information("UploadContentImage {id}, {file}", form.QuestionId, form.File);
 
         var url = _imageStore.RunQuestionContentUploadAndGetPath(
             form.File,

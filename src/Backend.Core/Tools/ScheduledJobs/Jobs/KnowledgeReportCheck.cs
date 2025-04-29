@@ -47,7 +47,7 @@ public class KnowledgeReportCheck : IJob
             {
                 if (KnowledgeReportMsg.ShouldSendToUser(user, _messageEmailRepo))
                 {
-                    Logg.r.Information("Sending Knowledge-Report to user " + user.Name + " (" + user.Id + ")...");
+                    Log.Information("Sending Knowledge-Report to user " + user.Name + " (" + user.Id + ")...");
                     KnowledgeReportMsg.SendHtmlMail(user,
                         _jobQueueRepo, 
                         _messageEmailRepo, 

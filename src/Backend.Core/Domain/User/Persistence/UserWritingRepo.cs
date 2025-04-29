@@ -39,7 +39,7 @@ public class UserWritingRepo
 
     public void Create(User user)
     {
-        Logg.r.Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
+        Log.Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
             new StackTrace());
 
         _repo.Create(user);
@@ -69,7 +69,7 @@ public class UserWritingRepo
         var user = _repo.GetById(userId);
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
 
-        Logg.r.Information($"Starting deletion of user {userId} and related data.");
+        Log.Information($"Starting deletion of user {userId} and related data.");
 
         using var transaction = _repo.Session.BeginTransaction();
 
@@ -182,19 +182,19 @@ public class UserWritingRepo
                 .ExecuteUpdate();
 
             transaction.Commit();
-            Logg.r.Information($"Successfully deleted user {userId} and related data.");
+            Log.Information($"Successfully deleted user {userId} and related data.");
         }
         catch (Exception ex)
         {
             transaction.Rollback();
-            Logg.r.Error($"Error deleting user {userId}: {ex.Message}", ex);
+            Log.Error($"Error deleting user {userId}: {ex.Message}", ex);
             throw;
         }
     }
 
     public void Update(User user)
     {
-        Logg.r.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
+        Log.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
             new StackTrace());
 
         _repo.Update(user);
@@ -293,7 +293,7 @@ public class UserWritingRepo
 
     public void UpdateOnlyDb(User user)
     {
-        Logg.r.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
+        Log.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
             new StackTrace());
         Update(user);
     }

@@ -46,7 +46,7 @@ public class PageToQuestionRepo(ISession _session)
             catch (Exception ex)
             {
                 transaction.Rollback();
-                Logg.r.Error("AddQuestionsToPage is failing - {msg}", ex.Message);
+                Log.Error("AddQuestionsToPage is failing - {msg}", ex.Message);
                 throw new Exception("An error occurred while adding questions to the page.", ex);
             }
         }

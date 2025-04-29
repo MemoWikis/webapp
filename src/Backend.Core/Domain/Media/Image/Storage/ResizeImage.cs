@@ -54,11 +54,12 @@ public class ResizeImage
                     data.SaveTo(stream);
                 }
             }
+
             return imagePath; // Return the path to the saved image
         }
         catch (Exception ex)
         {
-            Logg.Error(ex);
+            ErrorLogging.Log(ex);
             return null;
         }
     }

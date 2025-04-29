@@ -20,7 +20,7 @@ public class AnswerQuestionDetailsController(
             return null;
         var stopWatch = new Stopwatch();
         stopWatch.Start();
-        Logg.r.Information("AnswerQuestionDetailsTimer a - {0}", stopWatch.Elapsed.TotalMilliseconds);
+        Log.Information("AnswerQuestionDetailsTimer a - {0}", stopWatch.Elapsed.TotalMilliseconds);
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser,
@@ -33,7 +33,7 @@ public class AnswerQuestionDetailsController(
         var userQuestionValuation = _sessionUser.IsLoggedIn
             ? sessionUser.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-        Logg.r.Information("AnswerQuestionDetailsTimer b - {0}", stopWatch.Elapsed.TotalMilliseconds);
+        Log.Information("AnswerQuestionDetailsTimer b - {0}", stopWatch.Elapsed.TotalMilliseconds);
         var hasUserValuation =
             userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
         stopWatch.Stop();

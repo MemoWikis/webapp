@@ -21,7 +21,7 @@ public class ImageLicenseStoreController(
         }
         catch (Exception e)
         {
-            Logg.Error(e);
+            ErrorLogging.Log(e);
             return new GetLicenseInfoResult
             (
                 ImageCanBeDisplayed: false,
@@ -42,10 +42,10 @@ public class ImageLicenseStoreController(
 
         var imageUrl = imageFrontendData
             .GetImageUrl(
-            1000, 
-            false, 
-            false,
-            imageFrontendData.ImageMetaData.Type);
+                1000, 
+                false, 
+                false,
+                imageFrontendData.ImageMetaData.Type);
 
         if (imageFrontendData.ImageMetaDataExists && imageUrl.HasUploadedImage ||
             imageFrontendData.ImageMetaData != null &&

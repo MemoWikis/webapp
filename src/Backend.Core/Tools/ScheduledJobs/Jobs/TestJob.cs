@@ -14,7 +14,7 @@ public class TestJob1 : IJob
         JobExecute.Run(scope =>
         {
             Thread.Sleep(1);
-            Logg.r.Information("HttpContext {0}", _httpContextAccessor.HttpContext);
+            Log.Information("HttpContext {0}", _httpContextAccessor.HttpContext);
         }, "TestJob1");
 
         return Task.CompletedTask;
@@ -53,7 +53,7 @@ public class TestJob2 : IJob
         JobExecute.Run(scope =>
         {
             Thread.Sleep(1);
-            Logg.r.Information("HttpContext {0}", _httpContextAccessor);
+            Log.Information("HttpContext {0}", _httpContextAccessor);
         }, "TestJob2");
 
         return Task.CompletedTask;

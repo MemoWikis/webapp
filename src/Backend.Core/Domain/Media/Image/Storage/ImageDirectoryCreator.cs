@@ -29,7 +29,7 @@ public static class ImageDirectoryCreator
         }
         catch (Exception ex)
         {
-            Logg.r.Error($"Failed to create directory {imagePath}: {ex.Message}");
+            Log.Error($"Failed to create directory {imagePath}: {ex.Message}");
             throw;
         }
     }

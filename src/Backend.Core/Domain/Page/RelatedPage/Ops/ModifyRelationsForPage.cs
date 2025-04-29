@@ -86,7 +86,7 @@
     {
         foreach (var r in cachedRelations)
         {
-            Logg.r.Information(
+            Log.Information(
                 "ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
                 r.Id, r.ChildId, r.ParentId);
 
@@ -113,7 +113,7 @@
     public void DeleteRelationInDb(int relationId, int authorId)
     {
         var relationToDelete = relationId > 0 ? pageRelationRepo.GetById(relationId) : null;
-        Logg.r.Information("DeleteRelation RelationId: {relationId}, Child: {childId}, Parent: {parentId}", relationToDelete.Id, relationToDelete.Child.Id, relationToDelete.Parent.Id);
+        Log.Information("DeleteRelation RelationId: {relationId}, Child: {childId}, Parent: {parentId}", relationToDelete.Id, relationToDelete.Child.Id, relationToDelete.Parent.Id);
 
         if (relationToDelete != null)
         {

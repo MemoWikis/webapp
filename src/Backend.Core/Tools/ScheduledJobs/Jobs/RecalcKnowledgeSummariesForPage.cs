@@ -37,7 +37,7 @@ public class RecalcKnowledgeSummariesForPage : IJob
                 }
                 catch (Exception e)
                 {
-                    Logg.r.Error(e, "Error in job RecalcKnowledgeSummariesForPage.");
+                    Log.Error(e, "Error in job RecalcKnowledgeSummariesForPage.");
                     RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                 }
             }
@@ -46,7 +46,7 @@ public class RecalcKnowledgeSummariesForPage : IJob
             if (successfullJobIds.Count > 0)
             {
                 scope.Resolve<JobQueueRepo>().DeleteById(successfullJobIds);
-                Logg.r.Information("Job RecalcKnowledgeSummariesForPage recalculated knowledge summary for " + successfullJobIds.Count + " jobs.");
+                Log.Information("Job RecalcKnowledgeSummariesForPage recalculated knowledge summary for " + successfullJobIds.Count + " jobs.");
                 successfullJobIds.Clear();
             }
         }, "RecalcKnowledgeSummariesForPage");

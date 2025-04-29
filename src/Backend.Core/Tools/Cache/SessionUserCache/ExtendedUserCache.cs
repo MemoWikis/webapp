@@ -23,7 +23,7 @@ public class ExtendedUserCache(
     {
         if (userId < 1)
         {
-            Logg.r.Error($"userid < 1, {Environment.StackTrace} ");
+            Log.Error($"userid < 1, {Environment.StackTrace} ");
             throw new Exception("userId does not exist");
         }
 
@@ -62,7 +62,7 @@ public class ExtendedUserCache(
         if (item != null)
             return item.PageValuations.Values.ToList();
 
-        Logg.r.Error("sessionUserItem is null {userId}", userId);
+        Log.Error("sessionUserItem is null {userId}", userId);
 
         return new List<PageValuation>();
     }
@@ -86,7 +86,7 @@ public class ExtendedUserCache(
             cacheItem.Populate(user);
 
         if (cacheItem == null)
-            Logg.r.Error($"should not be null {user.Id}");
+            Log.Error($"should not be null {user.Id}");
     }
 
     public void Remove(User user) => Remove(user.Id);

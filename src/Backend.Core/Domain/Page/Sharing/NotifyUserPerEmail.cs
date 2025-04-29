@@ -26,7 +26,7 @@ public class NotifyUserPerEmail(
         }
         catch (Exception e)
         {
-            Logg.r.Error(e, $"Error while sending sharing notification to userId: {userId} for pageId: {pageId}");
+            Log.Error(e, $"Error while sending sharing notification to userId: {userId} for pageId: {pageId}");
         }
 
         return this;

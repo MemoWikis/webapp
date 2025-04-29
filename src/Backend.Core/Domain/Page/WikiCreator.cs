@@ -1,9 +1,7 @@
 ﻿public class WikiCreator(
-    Logg _logg,
     PageRepository _pageRepository,
     UserReadingRepo _userReadingRepo) : IRegisterAsInstancePerLifetime
 {
-
     public readonly record struct CreateResult(
         bool Success,
         string? MessageKey,
@@ -13,7 +11,7 @@
 
     public CreateResult Create(string name, SessionUser sessionUser)
     {
-        if (!new LimitCheck(_logg, sessionUser).CanSavePrivatePage(true))
+        if (!new LimitCheck(sessionUser).CanSavePrivatePage(true))
         {
             return new CreateResult(
                 Success: false,

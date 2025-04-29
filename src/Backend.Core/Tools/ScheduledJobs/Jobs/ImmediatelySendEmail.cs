@@ -13,7 +13,7 @@ public class ImmediatelySendEmail(IMemoryCache cache)
         var dataMap = context.JobDetail.JobDataMap;
         var currentMailMessageJson = JsonConvert.DeserializeObject<MailMessageJson>(dataMap.GetString("mailJsonString"));
 
-        Logg.r.Information("Job Started - SendMail");
+        Log.Information("Job Started - SendMail");
 
         var currentMailMessage = new MailMessage(
             currentMailMessageJson.From,
@@ -29,10 +29,10 @@ public class ImmediatelySendEmail(IMemoryCache cache)
         }
         catch (Exception e)
         {
-            Logg.r.Information("Job failed - SendMail, {e}", e);
+            Log.Information("Job failed - SendMail, {e}", e);
         }
 
-        Logg.r.Information("Job Ended - SendMail");
+        Log.Information("Job Ended - SendMail");
 
         return Task.CompletedTask;
     }

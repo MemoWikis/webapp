@@ -117,7 +117,7 @@ public class EntityCache
         }
 
         var elapsedTime = watch.ElapsedMilliseconds;
-        Logg.r.Information(nameof(AddViewsLast30DaysToQuestion) + elapsedTime);
+        Log.Information(nameof(AddViewsLast30DaysToQuestion) + elapsedTime);
     }
     public static UserCacheItem? GetUserByIdNullable(int userId)
     {
@@ -204,7 +204,7 @@ public class EntityCache
         if (Questions.TryGetValue(questionId, out var question))
             return question;
 
-        Logg.r.Warning("QuestionId is not available");
+        Log.Warning("QuestionId is not available");
         return new QuestionCacheItem();
     }
 

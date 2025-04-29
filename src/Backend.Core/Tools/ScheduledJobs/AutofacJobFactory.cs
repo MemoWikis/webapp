@@ -21,7 +21,7 @@ public class AutofacJobFactory : IJobFactory
         }
         catch (Exception e)
         {
-            Logg.r.Error(e, "Error starting Job");
+            Log.Error(e, "Error starting Job");
             throw;
         }
     }

@@ -15,8 +15,7 @@ public class QuestionEditModalController(
     QuestionReadingRepo _questionReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
-    IActionContextAccessor _actionContextAccessor,
-    Logg _logg) : ApiBaseController
+    IActionContextAccessor _actionContextAccessor) : ApiBaseController
 {
     public readonly record struct QuestionDataRequest(
         int[] PageIds,
@@ -47,7 +46,7 @@ public class QuestionEditModalController(
     [HttpPost]
     public CreateResult Create([FromBody] QuestionDataRequest request)
     {
-        if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion(logExceedance: true))
+        if (!new LimitCheck(_sessionUser).CanSavePrivateQuestion(logExceedance: true))
         {
             return new CreateResult
             {
@@ -60,7 +59,10 @@ public class QuestionEditModalController(
         if (safeText.Length <= 0)
         {
             return new CreateResult
-            { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
+            {
+                Success = false, 
+                MessageKey = FrontendMessageKeys.Error.Question.MissingText
+            };
         }
 
         var question = new Question();

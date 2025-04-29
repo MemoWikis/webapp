@@ -72,7 +72,7 @@ public class SharesRepository(ISession session) : RepositoryDbBase<Share>(sessio
         {
             transaction.Rollback();
 
-            Logg.r.Error($"Error deleting shares for page {pageId}: {ex.Message}");
+            Log.Error($"Error deleting shares for page {pageId}: {ex.Message}");
             throw;
         }
     }
@@ -93,7 +93,7 @@ public class SharesRepository(ISession session) : RepositoryDbBase<Share>(sessio
         {
             transaction.Rollback();
 
-            Logg.r.Error($"Error deleting shares for user {userId}: {ex.Message}");
+            Log.Error($"Error deleting shares for user {userId}: {ex.Message}");
             throw;
         }
     }

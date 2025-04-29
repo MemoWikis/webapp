@@ -28,7 +28,7 @@ internal class UpdateToVs282
         {
             transaction.Rollback();
             Console.Error.WriteLine($"An error occurred during the update: {ex.Message}");
-            Logg.r.Error($"An error occurred during the update: {ex.Message}", ex);
+            Log.Error($"An error occurred during the update: {ex.Message}", ex);
             throw;
         }
     }

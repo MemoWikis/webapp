@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 public class UpdateUserImage
 {
-    public static void Run(IFormFile imageFile, int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment, Logg logg)
+    public static void Run(IFormFile imageFile, int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
         if (imageFile == null || imageFile.Length == 0)
             return;

@@ -1,7 +1,6 @@
 ﻿public class QuestionPinStoreController(
     SessionUser _sessionUser,
     QuestionInKnowledge _questionInKnowledge,
-    Logg _logg,
     ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
     public readonly record struct PinResult(bool Success, string MessageKey);
@@ -15,8 +14,8 @@
                 { Success = false, MessageKey = FrontendMessageKeys.Error.User.NotLoggedIn };
         }
 
-        var limitcheck = new LimitCheck(_logg, _sessionUser);
-        if (!limitcheck.CanAddNewKnowledge(logExceedance: true))
+        var limitCheck = new LimitCheck(_sessionUser);
+        if (!limitCheck.CanAddNewKnowledge(logExceedance: true))
         {
             return new PinResult
             {
@@ -31,7 +30,7 @@
         }
         catch (Exception e)
         {
-            Logg.r.Error(e,
+            Log.Error(e,
                 $"Error while pinning question Id={id} for userId={_sessionUser.UserId}");
             return new PinResult
                 { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
@@ -58,7 +57,7 @@
         }
         catch (Exception e)
         {
-            Logg.r.Error(e,
+            Log.Error(e,
                 $"Error while unpinning question Id={id} for userId={_sessionUser.UserId}");
             return new PinResult
                 { Success = false, MessageKey = FrontendMessageKeys.Error.Default };

@@ -60,7 +60,7 @@ public static class LanguageExtensions
             EntityCache.AddOrUpdate(user);
         }
         else
-            Logg.r.Error($"Could not set content language {code} on author {user.Id}");
+            Log.Error($"Could not set content language {code} on author {user.Id}");
     }
 
     public static void RemoveContentLanguageFromUser(UserCacheItem user, string code)
@@ -70,7 +70,7 @@ public static class LanguageExtensions
         if (pageLanguage != null && user.ContentLanguages.Any(language => language == pageLanguage))
             user.ContentLanguages.Remove((Language)pageLanguage);
         else
-            Logg.r.Error($"Could not set content language {code} on author {user.Id}");
+            Log.Error($"Could not set content language {code} on author {user.Id}");
     }
 
     public static List<Language> GetLanguages()

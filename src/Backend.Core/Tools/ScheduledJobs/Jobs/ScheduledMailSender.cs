@@ -12,11 +12,11 @@ class ScheduledMailSender(IMemoryCache cache) : IJob
 
     public async Task Execute(IJobExecutionContext context)
     {
-        Logg.r.Information("Mail Log - before async start");
+        Log.Information("Mail Log - before async start");
 
         await JobExecute.RunAsync(async scope =>
         {
-            Logg.r.Information("Mail Log");
+            Log.Information("Mail Log");
 
             var job = scope.Resolve<JobQueueRepo>().GetTopPriorityMailMessage();
 
@@ -61,13 +61,13 @@ class ScheduledMailSender(IMemoryCache cache) : IJob
                 else
                 {
                     var e = new Exception(job.JobContent + job.Id);
-                    Logg.r.Error(e, "Error in job ScheduledMailSender.");
+                    Log.Error(e, "Error in job ScheduledMailSender.");
                     RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                 }
             }
             catch (Exception e)
             {
-                Logg.r.Error(e, "Error in job ScheduledMailSender.");
+                Log.Error(e, "Error in job ScheduledMailSender.");
                 RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
             }
 

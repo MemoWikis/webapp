@@ -20,7 +20,7 @@ internal class MeiliSearchBase
         var taskresult = await _client.WaitForTaskAsync(taskInfo.TaskUid);
         if (taskresult.Status != TaskInfoStatus.Succeeded)
         {
-            Logg.r.Error("Cannot create question in MeiliSearch", taskresult);
+            Log.Error("Cannot create question in MeiliSearch", taskresult);
         }
     }
 }

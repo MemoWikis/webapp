@@ -88,7 +88,7 @@ public class AutofacCoreModule : Autofac.Module
         }
 
         builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
-        builder.RegisterAssemblyTypes(Assembly.Load("MemoWikis.Backend.Host"))
+        builder.RegisterAssemblyTypes(Assembly.Load("MemoWikis.Backend.Api"))
             .AssignableTo<IRegisterAsInstancePerLifetime>();
 
         var assemblyBackendCore = Assembly.Load("MemoWikis.Backend.Core");

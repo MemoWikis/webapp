@@ -1,92 +1,42 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Rollbar;
-using Serilog;
-using System.Net;
 
-public class Logg : IRegisterAsInstancePerLifetime
+public static class ErrorLogging
 {
-    private static readonly string _seqUrl = Settings.SeqUrl;
-    private static readonly Serilog.ILogger _logger;
-    private static readonly Serilog.ILogger _loggerIsCrawler;
-    private static readonly Serilog.ILogger _subscriptionLogger;
-
-    static Logg()
+    public static void Log(Exception ex)
     {
-        _logger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
-            .Enrich.WithProperty("IsCrawler", false)
-            .WriteTo.Seq(_seqUrl, apiKey: Settings.SeqApiKey)
-            .CreateLogger();
-
-        _loggerIsCrawler = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
-            .Enrich.WithProperty("IsCrawler", true)
-            .WriteTo.Seq(_seqUrl)
-            .CreateLogger();
-
-        _subscriptionLogger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
-            .Enrich.WithProperty("isSubscription", true)
-            .WriteTo.Seq(_seqUrl)
-            .CreateLogger();
-
-        //configure globally shared logger
-        Log.Logger = _logger;
+        Serilog.Log.Error(ex, "Exception; {exceptionMessage}", ex.Message);
     }
 
-    public static void Error(Exception exception) => r.Error(exception, "Error");
-
-    public static void Error(Exception exception, HttpContext httpContext)
+    public static void Log(Exception ex, HttpContext ctx)
     {
-        try
-        {
-            var request = httpContext.Request;
-            var header = request.Headers.ToString();
-            var rawUrl = $"{request.Path}{request.QueryString}";
+        var req = ctx.Request;
+        var url = $"{req.Path}{req.QueryString}";
+        var headers = req.Headers.ToString();
 
-            r.Error(exception, "PageError {Url} {Headers}", rawUrl, header);
-
-            if (IgnoreLog.ContainsCrawlerInHeader(header) == false)
-            {
-                var connection = httpContext.Connection;
-                if (connection.RemoteIpAddress.Equals(connection.LocalIpAddress) || IPAddress.IsLoopback(connection.RemoteIpAddress))
-                {
-                    RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(exception));
-                }
-            }
-        }
-        catch
-        {
-        }
+        Serilog.Log.Error(ex, "PageError {Url} {Headers}", url, headers);
     }
+}
 
-    // ReSharper disable once InconsistentNaming
-    public static Serilog.ILogger r => _logger;
-
-    /// <summary>
-    /// Log subscription events
-    /// </summary>
-    /// <param name="stripePaymentEvents"></param>
-    /// <param name="userId"></param>
-    public static void SubscriptionLogger(StripePaymentEvents stripePaymentEvents, int userId)
+public static class SubscriptionLogging
+{
+    public static void Info(StripePaymentEvents evt, int userId)
     {
-        if (userId == -1)
-        {
-            _subscriptionLogger.Error(new NullReferenceException("SessionUser null"), "SessionUser null");
-            return;
-        }
+        // Add a permanent property for Seq filtering
+        var subLog = Log.ForContext("IsSubscription", true);
 
-        if (stripePaymentEvents == StripePaymentEvents.Success)
+        switch (evt)
         {
-            _subscriptionLogger.Information($"Plan added from User{userId}");
-        }
-        else if (stripePaymentEvents == StripePaymentEvents.Cancelled)
-        {
-            _subscriptionLogger.Information($"Plan cancelled from User{userId}");
-        }
-        else if (stripePaymentEvents == StripePaymentEvents.Failed)
-        {
-            _subscriptionLogger.Information($"PaymentFailed from User{userId}");
+            case StripePaymentEvents.Success:
+                subLog.Information("Plan added by user {UserId}", userId);
+                break;
+
+            case StripePaymentEvents.Cancelled:
+                subLog.Information("Plan cancelled by user {UserId}", userId);
+                break;
+
+            case StripePaymentEvents.Failed:
+                subLog.Warning("Payment failed for user {UserId}", userId);
+                break;
         }
     }
 }

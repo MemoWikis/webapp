@@ -13,7 +13,7 @@ public class UpdateAggregatedPagesForQuestion : IJob
 
     public Task Execute(IJobExecutionContext context)
     {
-        Logg.r.Information("Job started - Update Aggregated Pages from Update Question");
+        Log.Information("Job started - Update Aggregated Pages from Update Question");
 
         var dataMap = context.JobDetail.JobDataMap;
         var pageIds = (List<int>)dataMap["pageIds"];
@@ -27,7 +27,7 @@ public class UpdateAggregatedPagesForQuestion : IJob
             pages.UpdateCountQuestionsAggregated(userId);
             _pageRepository.Update(pages);
             KnowledgeSummaryUpdate.ScheduleForPage(pages.Id, _jobQueueRepo);
-            Logg.r.Information("Update Page from Update Question - {id}", pages.Id);
+            Log.Information("Update Page from Update Question - {id}", pages.Id);
         }
 
         return Task.CompletedTask;

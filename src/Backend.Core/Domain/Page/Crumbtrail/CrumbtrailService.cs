@@ -31,7 +31,7 @@
             return;
 
         if (page.Parents().All(c => c.Id != crumbtrailItems[0].Page.Id))
-            Logg.r.Error(
+            Log.Error(
                 "Breadcrumb - {currentPageId}: next item is not a direct parent, currentItemId: {pageId}, nextItemId: {nextItemId}",
                 page.Id, page.Id, crumbtrailItems[0].Page.Id);
 
@@ -41,10 +41,10 @@
             var nextItemId = crumbtrailItems[i + 1].Page.Id;
 
             if (!_permissionCheck.CanView(pageCacheItem))
-                Logg.r.Error("Breadcrumb - {currentPageId}: visibility/permission", page.Id);
+                Log.Error("Breadcrumb - {currentPageId}: visibility/permission", page.Id);
 
             if (pageCacheItem.Parents().All(c => c.Id != nextItemId))
-                Logg.r.Error(
+                Log.Error(
                     "Breadcrumb - {currentPageId}: next item is not a direct parent, currentItemId: {pageid}, nextItemId: {nextItemId}",
                     page.Id, pageCacheItem.Id, nextItemId);
         }

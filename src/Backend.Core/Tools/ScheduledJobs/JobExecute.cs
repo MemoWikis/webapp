@@ -28,7 +28,7 @@ public class JobExecute
                 var appDomainName = AppDomain.CurrentDomain.FriendlyName;
 
                 if (writeLog)
-                    Logg.r.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
+                    Log.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
                         jobName,
                         appDomainName.GetHashCode().ToString("x"),
                         threadId
@@ -37,7 +37,7 @@ public class JobExecute
                 await func(scope);
 
                 if (writeLog)
-                    Logg.r.Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}",
+                    Log.Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}",
                         jobName,
                         appDomainName.GetHashCode().ToString("x"),
                         threadId,
@@ -53,7 +53,7 @@ public class JobExecute
         }
         catch (Exception e)
         {
-            Logg.r.Error(e, "Job error on {JobName}", jobName);
+            Log.Error(e, "Job error on {JobName}", jobName);
         }
         finally
         {
@@ -85,7 +85,7 @@ public class JobExecute
                     var appDomainName = AppDomain.CurrentDomain.FriendlyName;
 
                     if (writeLog)
-                        Logg.r.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
+                        Log.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
                             jobName,
                             appDomainName.GetHashCode().ToString("x"),
                             threadId
@@ -94,7 +94,7 @@ public class JobExecute
                     action(scope);
 
                     if (writeLog)
-                        Logg.r.Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}",
+                        Log.Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}",
                             jobName,
                             appDomainName.GetHashCode().ToString("x"),
                             threadId,
@@ -117,7 +117,7 @@ public class JobExecute
         }
         catch (Exception e)
         {
-            Logg.r.Error(e, "Job error on {JobName}", jobName);
+            Log.Error(e, "Job error on {JobName}", jobName);
         }
     }
 
@@ -132,7 +132,7 @@ public class JobExecute
                 var runningJobRepo = new RunningJobRepo(session);
                 if (runningJobRepo.IsJobRunning(jobName))
                 {
-                    Logg.r.Information("Job is already running: {jobName}, {Environment}",
+                    Log.Information("Job is already running: {jobName}, {Environment}",
                         jobName,
                         Settings.Environment);
 

@@ -31,7 +31,7 @@ public class ProbabilityUpdate_User
         foreach (var user in _userReadingRepo.GetAll())
             Run(user);
 
-        Logg.r.Information("Calculated all user probabilities in {elapsed} ", sp.Elapsed);
+        Log.Information("Calculated all user probabilities in {elapsed} ", sp.Elapsed);
     }
 
     public void Run(User user)
@@ -45,6 +45,6 @@ public class ProbabilityUpdate_User
 
         _userWritingRepo.Update(user);
 
-        Logg.r.Information("Calculated probability in {elapsed} for user {user}", sp.Elapsed, user.Id);
+        Log.Information("Calculated probability in {elapsed} for user {user}", sp.Elapsed, user.Id);
     }
 }

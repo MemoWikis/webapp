@@ -43,7 +43,7 @@ public class UpdateKnowledgeReportInterval
 
             if (expirationDate.Date < DateTime.Now.Date)
             {
-                Logg.r.Information("UpdateKnowledgeReportInterval could not change settings because link already expired.");
+                Log.Information("UpdateKnowledgeReportInterval could not change settings because link already expired.");
                 result.ResultMessage = new ErrorMessage("Die Einstellung konnte NICHT übernommen werden, da die Gültigkeit des Links abgelaufen ist. <br>" +
                                                         "Du kannst die Einstellung jederzeit hier ändern, wenn du eingeloggt bist.");
                 return result;
@@ -53,7 +53,7 @@ public class UpdateKnowledgeReportInterval
         }
         catch (Exception exception)
         {
-            Logg.r.Error("UpdateKnowledgeReportInterval could not change settings. The exception is: " + exception.Message);
+            Log.Error("UpdateKnowledgeReportInterval could not change settings. The exception is: " + exception.Message);
             result.ResultMessage = new ErrorMessage("Die Einstellung konnte nicht verändert werden, da der übermittelte Link fehlerhaft war.");
             return result;
         }

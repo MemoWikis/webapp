@@ -137,7 +137,7 @@ public class EditPageRelationStoreController(
 
         if (relationToMove == null)
         {
-            Logg.r.Error(
+            Log.Error(
                 "PageRelations - MovePage: no relation found to move - movingPageId:{0}, parentId:{1}",
                 json.MovingPageId, json.OldParentId);
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);

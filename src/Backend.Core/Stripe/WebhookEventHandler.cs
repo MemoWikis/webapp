@@ -31,7 +31,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
             return status;
         }
 
-        Logg.r.Information($"StripeEvent: {stripeEvent.Type}, {stripeEvent.Data.Object}, liveMode: {stripeEvent.Livemode}");
+        Log.Information($"StripeEvent: {stripeEvent.Type}, {stripeEvent.Data.Object}, liveMode: {stripeEvent.Livemode}");
 
         switch (stripeEvent.Type)
         {
@@ -53,11 +53,11 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 
             case "payment_method.attached":
                 var paymentMethod = stripeEvent.Data.Object as PaymentMethod;
-                Logg.r.Error($"The user paid with an incorrect payment method, the CustomerId is {paymentMethod.CustomerId}.");
+                Log.Error($"The user paid with an incorrect payment method, the CustomerId is {paymentMethod.CustomerId}.");
                 break;
 
             default:
-                Logg.r.Warning($"Unhandled Stripe event type: {stripeEvent.Type}");
+                Log.Warning($"Unhandled Stripe event type: {stripeEvent.Type}");
                 break;
         }
 
@@ -84,13 +84,13 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
         }
         catch (StripeException e)
         {
-            Logg.r.Error($"Stripe - StripeException: {e.Message}", e);
+            Log.Error($"Stripe - StripeException: {e.Message}", e);
 
             return (null, new StatusCodeResult((int)HttpStatusCode.BadRequest));
         }
         catch (Exception ex)
         {
-            Logg.r.Error($"Stripe - Exception: {ex.Message}", ex);
+            Log.Error($"Stripe - Exception: {ex.Message}", ex);
             return (null, new StatusCodeResult((int)HttpStatusCode.InternalServerError));
         }
     }
@@ -110,7 +110,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 
 
             SetNewSubscriptionDate(user, currentPeriodEnd, log);
-            Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
+            SubscriptionLogging.Info(StripePaymentEvents.Cancelled, user.Id);
         }
 
         LogErrorWhenUserNull(paymentDeleted.paymentObject.CustomerId, user);
@@ -152,7 +152,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
     {
         if (user == null)
         {
-            Logg.r.Error($"The user with the CustomerId:{customerId}  was not found");
+            Log.Error($"The user with the CustomerId:{customerId}  was not found");
         }
     }
 
@@ -180,13 +180,13 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
             if (subscription.paymentObject.CancelAtPeriodEnd)
             {
                 endDate = subscription.paymentObject.Items?.Data?.FirstOrDefault()?.CurrentPeriodEnd;
-                
-                Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
+
+                SubscriptionLogging.Info(StripePaymentEvents.Cancelled, user.Id);
             }
             else
             {
                 endDate = MaxValueMysql;
-                Logg.SubscriptionLogger(StripePaymentEvents.Success, user.Id);
+                SubscriptionLogging.Info(StripePaymentEvents.Success, user.Id);
             }
 
             SetNewSubscriptionDate(user, endDate, log, true);
@@ -204,6 +204,6 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 
         user.EndDate = date;
         _userWritingRepo.Update(user);
-        Logg.r.Information(log);
+        Log.Information(log);
     }
 }

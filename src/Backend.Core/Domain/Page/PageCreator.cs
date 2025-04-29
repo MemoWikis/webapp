@@ -1,5 +1,4 @@
 ﻿public class PageCreator(
-    Logg _logg,
     PageRepository _pageRepository,
     UserReadingRepo _userReadingRepo,
     PageRelationRepo _pageRelationRepo,
@@ -15,7 +14,7 @@
 
     public CreateResult Create(string name, int parentPageId, SessionUser sessionUser)
     {
-        if (!new LimitCheck(_logg, sessionUser).CanSavePrivatePage(true))
+        if (!new LimitCheck(sessionUser).CanSavePrivatePage(true))
         {
             return new CreateResult
             {

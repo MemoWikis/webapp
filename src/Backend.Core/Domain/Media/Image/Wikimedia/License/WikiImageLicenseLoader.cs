@@ -28,7 +28,7 @@ public class WikiImageLicenseLoader : IRegisterAsInstancePerLifetime
         }
         catch (Exception e)
         {
-            Logg.r.Error(e, "Could not load markup: {url}", url);
+            Log.Error(e, "Could not load markup: {url}", url);
         }
 
         return markup;

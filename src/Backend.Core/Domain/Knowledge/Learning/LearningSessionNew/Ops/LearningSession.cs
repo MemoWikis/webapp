@@ -27,7 +27,7 @@ public class LearningSession
     {
         if (CurrentStep == null)
         {
-            Logg.r.Error("CurrentStep in LearningSession is null");
+            Log.Error("CurrentStep in LearningSession is null");
             throw new NullReferenceException();
         }
 

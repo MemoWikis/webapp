@@ -26,6 +26,6 @@ public class ProbabilityUpdate_Page(
 
         pageRepository.Update(page);
 
-        Logg.r.Information("Calculated probability in {elapsed} for page {pageid}", sp.Elapsed, page.Id);
+        Log.Information("Calculated probability in {elapsed} for page {pageid}", sp.Elapsed, page.Id);
     }
 }

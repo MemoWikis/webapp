@@ -29,7 +29,7 @@ public class RecalcReputation : IJob
                 }
                 catch (Exception e)
                 {
-                    Logg.r.Error(e, "Error in job RecalcReputation.");
+                    Log.Error(e, "Error in job RecalcReputation.");
                 }
             }
 
@@ -37,7 +37,7 @@ public class RecalcReputation : IJob
             if (successfulJobIds.Count > 0)
             {
                 scope.Resolve<JobQueueRepo>().DeleteById(successfulJobIds);
-                Logg.r.Information("Job RecalcReputation recalculated reputation for " + successfulJobIds.Count +
+                Log.Information("Job RecalcReputation recalculated reputation for " + successfulJobIds.Count +
                                    " jobs.");
                 successfulJobIds.Clear();
             }

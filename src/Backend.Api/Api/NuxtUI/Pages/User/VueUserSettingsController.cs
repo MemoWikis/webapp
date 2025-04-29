@@ -10,7 +10,6 @@ public class VueUserSettingsController(
     UserWritingRepo _userWritingRepo,
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
-    Logg _logg,
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo,
     DeleteUser _deleteUser,
@@ -159,8 +158,7 @@ public class VueUserSettingsController(
             UpdateUserImage.Run(form.File,
                 _sessionUser.UserId,
                 _httpContextAccessor,
-                _webHostEnvironment,
-                _logg);
+                _webHostEnvironment);
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
@@ -268,7 +266,7 @@ public class VueUserSettingsController(
     [HttpPost]
     public bool DeleteProfile()
     {
-        Logg.r.Information("Delete User - Try: {0}", _sessionUser.UserId);
+        Log.Information("Delete User - Try: {0}", _sessionUser.UserId);
 
         if (_sessionUser.IsLoggedIn && _deleteUser.CanDelete(_sessionUser.UserId) && _sessionUser.UserId > 0)
         {
@@ -277,12 +275,12 @@ public class VueUserSettingsController(
             RemovePersistentLoginFromCookie.RunForGoogle(_httpContextAccessor.HttpContext);
             _deleteUser.Run(userId);
             _sessionUser.Logout();
-            Logg.r.Information("Delete User - Done: {0}", userId);
+            Log.Information("Delete User - Done: {0}", userId);
 
             return true;
         }
 
-        Logg.r.Warning("Delete User - Fail: {0}", _sessionUser.UserId);
+        Log.Warning("Delete User - Fail: {0}", _sessionUser.UserId);
         return false;
     }
 }

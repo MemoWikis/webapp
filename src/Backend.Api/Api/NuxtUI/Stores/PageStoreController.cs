@@ -11,7 +11,6 @@ public class PageStoreController(
     QuestionReadingRepo _questionReadingRepo,
     PageUpdater _pageUpdater,
     ImageStore _imageStore,
-    Logg _logg,
     AiUsageLogRepo _aiUsageLogRepo) : ApiBaseController
 {
     public readonly record struct SaveContentRequest(
@@ -190,7 +189,7 @@ public class PageStoreController(
         if (!_permissionCheck.CanEditPage(form.PageId))
             throw new Exception("No Upload rights");
 
-        Logg.r.Information("UploadContentImage {id}, {file}", form.PageId, form.File);
+        Log.Information("UploadContentImage {id}, {file}", form.PageId, form.File);
 
         var url = _imageStore.RunPageContentUploadAndGetPath(
             form.File,
@@ -297,7 +296,7 @@ public class PageStoreController(
         if (!_permissionCheck.CanViewPage(request.PageId) || !_sessionUser.IsLoggedIn)
             return null;
 
-        var limitCheck = new LimitCheck(_logg, _sessionUser);
+        var limitCheck = new LimitCheck(_sessionUser);
 
         string? messageKey = null;
 

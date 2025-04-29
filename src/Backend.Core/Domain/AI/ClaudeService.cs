@@ -32,12 +32,12 @@ public static class ClaudeService
         }
         catch (HttpRequestException ex)
         {
-            Logg.r.Error(ex, "Error while calling Claude API");
+            Log.Error(ex, "Error while calling Claude API");
             return null;
         }
         catch (JsonException)
         {
-            Logg.r.Error("Error while deserializing Claude API response");
+            Log.Error("Error while deserializing Claude API response");
             return null;
         }
     }

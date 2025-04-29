@@ -6,7 +6,7 @@ public class AutofacRegistrationWriter
 {
     public static string Run()
     {
-        var assemblyWeb = Assembly.Load("MemoWikis.Backend.Host");
+        var assemblyWeb = Assembly.Load("MemoWikis.Backend.Api");
         var assemblyDomain = Assembly.Load("MemoWikis.Backend.Core");
 
         var type = typeof(IRegisterAsInstancePerLifetime);

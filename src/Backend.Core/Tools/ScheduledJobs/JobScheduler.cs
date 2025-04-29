@@ -9,7 +9,7 @@ public static class JobScheduler
 
     public static async Task InitializeAsync()
     {
-        Logg.r.Information("JobScheduler.InitializeAsync");
+        Log.Information("JobScheduler.InitializeAsync");
 
         var container = AutofacWebInitializer.Run();
         _scheduler = await StdSchedulerFactory.GetDefaultScheduler();

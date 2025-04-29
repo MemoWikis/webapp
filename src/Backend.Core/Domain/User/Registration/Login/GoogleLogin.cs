@@ -110,7 +110,7 @@ public class GoogleLogin(
         }
         catch (InvalidJwtException e)
         {
-            Logg.r.Error(e.ToString());
+            Log.Error(e.ToString());
             return null;
         }
     }
@@ -132,7 +132,7 @@ public class GoogleLogin(
         }
         catch (InvalidAccessException e)
         {
-            Logg.r.Error(e.ToString());
+            Log.Error(e.ToString());
             return null;
         }
     }

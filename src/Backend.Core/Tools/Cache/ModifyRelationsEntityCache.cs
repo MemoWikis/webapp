@@ -67,7 +67,7 @@ public class ModifyRelationsEntityCache
         if (!childPage.IsWikiType() &&
             !CheckParentAvailability(parentPages, childPage))
         {
-            Logg.r.Error(
+            Log.Error(
                 "PageRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}",
                 childPage.Id, parentId);
             throw new Exception("No parents remaining");
@@ -75,7 +75,7 @@ public class ModifyRelationsEntityCache
 
         if (!permissionCheck.CanEdit(childPage) && !permissionCheck.CanEdit(parent))
         {
-            Logg.r.Error(
+            Log.Error(
                 "PageRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}",
                 childPage.Id, parentId);
             throw new SecurityException("Not allowed to edit page");

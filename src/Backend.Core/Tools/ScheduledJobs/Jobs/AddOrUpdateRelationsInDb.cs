@@ -23,14 +23,14 @@ public class AddOrUpdateRelationsInDb : IJob
         _authorId = dataMap.GetInt("authorId");
 
         await Run(relations);
-        Logg.r.Information("Job ended - ModifyRelations");
+        Log.Information("Job ended - ModifyRelations");
     }
 
     private Task Run(List<PageRelationCache> relations)
     {
         foreach (var r in relations)
         {
-            Logg.r.Information(
+            Log.Information(
                 "Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
                 r.Id, r.ChildId, r.ParentId);
 

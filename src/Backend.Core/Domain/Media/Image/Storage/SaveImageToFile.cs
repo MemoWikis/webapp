@@ -39,7 +39,7 @@ public class SaveImageToFile
 
         if (image.Width < 300)
         {
-            Logg.r.Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
+            Log.Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
         }
     }
 

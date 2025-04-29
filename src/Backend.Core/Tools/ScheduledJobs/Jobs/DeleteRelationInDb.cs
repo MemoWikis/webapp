@@ -20,14 +20,14 @@ public class DeleteRelationInDb : IJob
         var authorId = dataMap.GetInt("authorId");
 
         await Run(relationId, authorId);
-        Logg.r.Information("Job ended - DeleteRelation");
+        Log.Information("Job ended - DeleteRelation");
     }
 
     private Task Run(int relationId, int authorId)
     {
         var relationToDelete =
             relationId > 0 ? _pageRelationRepo.GetById(relationId) : null;
-        Logg.r.Information(
+        Log.Information(
             "Job started - DeleteRelation RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
             relationToDelete.Id, relationToDelete.Child.Id, relationToDelete.Parent.Id);
 

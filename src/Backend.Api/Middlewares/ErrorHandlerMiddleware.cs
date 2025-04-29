@@ -9,16 +9,16 @@ public class ErrorHandlerMiddleware(RequestDelegate _next)
 
         if (httpContext.Response.StatusCode == 404)
         {
-            Logg.r.Warning("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(),
+            Log.Warning("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(),
                 httpContext.Request.Headers["Referer"]);
         }
         else if (httpContext.Response.StatusCode == 500)
         {
-            Logg.Error(new Exception("Internal Error"));
+            ErrorLogging.Log(new Exception("Internal Error"));
         }
         else if (httpContext.Response.StatusCode == 503)
         {
-            Logg.Error(new Exception("Server unavailable"));
+            ErrorLogging.Log(new Exception("Server unavailable"));
         }
     }
 }

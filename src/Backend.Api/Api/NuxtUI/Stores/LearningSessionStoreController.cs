@@ -143,9 +143,10 @@
         if (_learningSessionCreator == null)
         {
             var ex = new Exception($"_learningSessionCreator is null. Call stack: {Environment.StackTrace}");
-            Logg.Error(ex);
+            ErrorLogging.Log(ex);
             throw ex;
         }
+
         var data = _learningSessionCreator.GetStep(index);
         return new LearningSessionResponse
         {

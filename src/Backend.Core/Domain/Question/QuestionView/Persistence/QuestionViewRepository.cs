@@ -33,7 +33,7 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .List<QuestionViewSummary>();
         watch.Stop();
         var elapsed = watch.ElapsedMilliseconds;
-        Logg.r.Information("GetViewsForLastNDays took " + elapsed + "ms");
+        Log.Information("GetViewsForLastNDays took " + elapsed + "ms");
 
         var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
         foreach (var item in result)
@@ -68,7 +68,7 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .List<QuestionViewSummaryWithId>();
         watch.Stop();
         var elapsed = watch.ElapsedMilliseconds;
-        Logg.r.Information("GetViewsForLastNDaysGroupByQuestionId " + elapsed);
+        Log.Information("GetViewsForLastNDaysGroupByQuestionId " + elapsed);
 
         return result;
     }

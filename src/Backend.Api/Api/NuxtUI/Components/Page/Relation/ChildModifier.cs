@@ -47,7 +47,7 @@ public class ChildModifier(
 
         if (selectedPageIsParent)
         {
-            Logg.r.Error("Child is Parent ");
+            Log.Error("Child is Parent ");
             return new AddChildResult
             {
                 Success = false,

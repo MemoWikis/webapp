@@ -38,7 +38,7 @@ public class DeleteQuestion : IJob
         var userId = dataMap.GetInt("userId");
         var parentIdsString = dataMap.GetString("parentIdString");
         var parentIds = parentIdsString?.Split(',').Select(int.Parse).ToList();
-        Logg.r.Information("Job started - DeleteQuestion {id}", questionId);
+        Log.Information("Job started - DeleteQuestion {id}", questionId);
 
         //delete connected db-entries
         _referenceRepo.DeleteForQuestion(questionId);
@@ -55,7 +55,7 @@ public class DeleteQuestion : IJob
         var pagesToUpdateIds = _questionWritingRepo.Delete(questionId, userId, parentIds);
 
         JobScheduler.StartImmediately_UpdateAggregatedPagesForQuestion(pagesToUpdateIds, userId);
-        Logg.r.Information("Question {id} deleted", questionId);
+        Log.Information("Question {id} deleted", questionId);
 
         return Task.CompletedTask;
     }

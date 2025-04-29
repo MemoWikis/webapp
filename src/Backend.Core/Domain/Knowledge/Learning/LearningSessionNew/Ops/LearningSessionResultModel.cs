@@ -45,7 +45,7 @@
             NumberWrongAnswers = NumberUniqueQuestions - NumberNotAnswered - NumberCorrectAnswers - NumberCorrectAfterRepetitionAnswers;
             
             if (NumberWrongAnswers < 0)
-                Logg.r.Error("Answered questions (wrong+skipped+...) don't add up at LearningSessionResult for LearningSession");
+                Log.Error("Answered questions (wrong+skipped+...) don't add up at LearningSessionResult for LearningSession");
 
             PercentageShares.FromAbsoluteShares(
                 new List<ValueWithResultAction>

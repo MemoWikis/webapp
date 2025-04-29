@@ -11,7 +11,7 @@ public class HocuspocusController : ApiBaseController
     {
         if (request.HocuspocusKey != Settings.CollaborationHocuspocusSecretKey)
         {
-            Logg.r.Error("Collaboration - Authorize: Incorrect Hocuspocuskey:{0}", request.HocuspocusKey);
+            Log.Error("Collaboration - Authorize: Incorrect Hocuspocuskey:{0}", request.HocuspocusKey);
             return new AuthorizeResponse();
         }
 
@@ -19,14 +19,14 @@ public class HocuspocusController : ApiBaseController
 
         if (isValid == false)
         {
-            Logg.r.Error("Collaboration - Authorize: Invalid Token {0}", request.Token);
+            Log.Error("Collaboration - Authorize: Invalid Token {0}", request.Token);
             return new AuthorizeResponse();
         }
 
         var permissionCheck = new PermissionCheck(userId);
         if (permissionCheck.CanEditPage(request.PageId, request.ShareToken, isLoggedIn: isValid))
         {
-            Logg.r.Error("Collaboration - Authorize: No Permission - userId:{0}, pageId:{1}", userId, request.PageId);
+            Log.Error("Collaboration - Authorize: No Permission - userId:{0}, pageId:{1}", userId, request.PageId);
             return new AuthorizeResponse(CanView: true, CanEdit: true);
         }
 

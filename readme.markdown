@@ -116,7 +116,7 @@ The backend solution file is located at the root of the `src` folder as `memoWik
 
 1. Open memoWikis.sln in Visual Studio.
 2. Select your preferred debug configuration.
-3. Start the Backend.Host debug session.
+3. Start the Backend.Api debug session.
 
 #### Additional Tips
 - Anthropic API Key for AI Functions: Ensure your valid Anthropc API key is inserted in the appsettings.Development.json file. Without this key, the AI features will not work.

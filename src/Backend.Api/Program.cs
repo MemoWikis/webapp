@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 using Serilog.Exceptions;
 using Stripe;
 using System.Text.Json;
 using Scalar.AspNetCore;
+using Serilog.Events;
 using static System.Int32;
 
 try
@@ -21,13 +21,15 @@ try
     {
         log.Enrich.FromLogContext()
             .Enrich.WithExceptionDetails()
+            .Enrich.WithProperty("Environment", builder.Environment.EnvironmentName)
+            .Enrich.WithExceptionDetails()
             .WriteTo.Console()
             .WriteTo.Seq(Settings.SeqUrl);
 
         log.MinimumLevel.Is(
             ctx.HostingEnvironment.IsDevelopment()
-                ? Serilog.Events.LogEventLevel.Information
-                : Serilog.Events.LogEventLevel.Error);
+                ? LogEventLevel.Information
+                : LogEventLevel.Error);
     });
 
 
@@ -154,6 +156,6 @@ try
 }
 catch (Exception e)
 {
-    Logg.r.Fatal(e, "Fatal error");
+    Log.Fatal(e, "Fatal error");
     throw;
 }

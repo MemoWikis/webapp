@@ -21,7 +21,7 @@ public class PasswordRecovery(
         }
         catch (Exception e)
         {
-            Logg.r.Error(e, $"Error while trying to reset password for email: {email}");
+            Log.Error(e, $"Error while trying to reset password for email: {email}");
             return new PasswordRecoveryResult { Success = false };
         }
 
