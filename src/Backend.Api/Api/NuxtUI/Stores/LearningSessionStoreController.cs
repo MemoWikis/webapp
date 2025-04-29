@@ -17,9 +17,36 @@
         public bool Success { get; set; } = false;
     }
 
-    [HttpPost]
-    public LearningSessionResponse NewSession([FromBody] LearningSessionConfig config)
+    public sealed record LearningSessionConfigRequest
     {
+        public int PageId { get; init; }
+        public int MaxQuestionCount { get; init; } = 0;
+        public int CurrentUserId { get; init; } = 0;
+        public bool IsInTestMode { get; init; }
+
+        public QuestionOrder QuestionOrder { get; init; } = QuestionOrder.SortByEasiest;
+        public bool AnswerHelp { get; init; }
+        public RepetitionType Repetition { get; init; } = RepetitionType.None;
+
+        // Filter-Flags (alle default true)
+        public bool InWuwi { get; init; } = true;
+        public bool NotInWuwi { get; init; } = true;
+        public bool CreatedByCurrentUser { get; init; } = true;
+        public bool NotCreatedByCurrentUser { get; init; } = true;
+        public bool PrivateQuestions { get; init; } = true;
+        public bool PublicQuestions { get; init; } = true;
+        public bool NotLearned { get; init; } = true;
+        public bool NeedsLearning { get; init; } = true;
+        public bool NeedsConsolidation { get; init; } = true;
+        public bool Solid { get; init; } = true;
+    }
+
+
+    [HttpPost]
+    public LearningSessionResponse NewSession([FromBody] LearningSessionConfigRequest learningSessionConfigRequest)
+    {
+        var config = learningSessionConfigRequest.ToEntity();
+        
         if (config == null || config.PageId < 1 || !_permissionCheck.CanViewPage(config.PageId))
             return new LearningSessionResponse
             {
@@ -194,5 +221,33 @@
 
         return result;
     }
+}
 
+public static class LearningSessionConfigMapping
+{
+    public static LearningSessionConfig ToEntity(this LearningSessionStoreController.LearningSessionConfigRequest _request)
+    {
+        if (_request is null) throw new ArgumentNullException(nameof(_request));
+
+        return new LearningSessionConfig
+        {
+            PageId = _request.PageId,
+            MaxQuestionCount = _request.MaxQuestionCount,
+            CurrentUserId = _request.CurrentUserId,
+            IsInTestMode = _request.IsInTestMode,
+            QuestionOrder = _request.QuestionOrder,
+            AnswerHelp = _request.AnswerHelp,
+            Repetition = _request.Repetition,
+            InWuwi = _request.InWuwi,
+            NotInWuwi = _request.NotInWuwi,
+            CreatedByCurrentUser = _request.CreatedByCurrentUser,
+            NotCreatedByCurrentUser = _request.NotCreatedByCurrentUser,
+            PrivateQuestions = _request.PrivateQuestions,
+            PublicQuestions = _request.PublicQuestions,
+            NotLearned = _request.NotLearned,
+            NeedsLearning = _request.NeedsLearning,
+            NeedsConsolidation = _request.NeedsConsolidation,
+            Solid = _request.Solid
+        };
+    }
 }

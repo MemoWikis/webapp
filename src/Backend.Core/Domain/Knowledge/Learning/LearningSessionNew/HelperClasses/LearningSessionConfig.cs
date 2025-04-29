@@ -1,6 +1,4 @@
-﻿using static Org.BouncyCastle.Math.EC.ECCurve;
-
-public class LearningSessionConfig
+﻿public class LearningSessionConfig
 {
     public int PageId { get; set; }
     public int MaxQuestionCount { get; set; } = 0;
