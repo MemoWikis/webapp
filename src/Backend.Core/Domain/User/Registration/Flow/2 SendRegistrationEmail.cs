@@ -37,19 +37,19 @@ public class SendRegistrationEmail
         switch (language)
         {
             case Language.German:
-                return string.Format(RegistrationEmailBodyDe, userName, confirmationLink);
+                return string.Format(_registrationEmailBodyDe, userName, confirmationLink);
             case Language.French:
-                return string.Format(RegistrationEmailBodyFr, userName, confirmationLink);
+                return string.Format(_registrationEmailBodyFr, userName, confirmationLink);
             case Language.Spanish:
-                return string.Format(RegistrationEmailBodyEs, userName, confirmationLink);
+                return string.Format(_registrationEmailBodyEs, userName, confirmationLink);
             // Default: English
             default:
-                return string.Format(RegistrationEmailBodyEn, userName, confirmationLink);
+                return string.Format(_registrationEmailBodyEn, userName, confirmationLink);
         }
     }
 
 
-    private static string RegistrationEmailBodyDe = @"
+    private static readonly string _registrationEmailBodyDe = @"
         Hallo {0},
         
         du hast dich gerade bei MemoWikis registriert, wir freuen uns, dass du dabei bist!
@@ -61,7 +61,7 @@ public class SendRegistrationEmail
         Dein MemoWikis-Team
         ";
 
-    private static string RegistrationEmailBodyEn = @"
+    private static readonly string _registrationEmailBodyEn = @"
         Hello {0},
         
         You’ve just registered at MemoWikis, and we’re excited to have you onboard!
@@ -73,7 +73,7 @@ public class SendRegistrationEmail
         The MemoWikis Team
         ";
 
-    private static string RegistrationEmailBodyFr = @"
+    private static readonly string _registrationEmailBodyFr = @"
         Bonjour {0},
         
         Vous venez de vous inscrire sur MemoWikis et nous sommes ravis de vous accueillir !
@@ -85,7 +85,7 @@ public class SendRegistrationEmail
         L'équipe MemoWikis
         ";
 
-    private static string RegistrationEmailBodyEs = @"
+    private static readonly string _registrationEmailBodyEs = @"
         Hola {0},
         
         Te acabas de registrar en MemoWikis y estamos muy contentos de tenerte con nosotros.
