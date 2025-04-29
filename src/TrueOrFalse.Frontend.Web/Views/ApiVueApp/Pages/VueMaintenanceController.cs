@@ -20,16 +20,16 @@ public class VueMaintenanceController(
     MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions,
     UpdateQuestionAnswerCounts _updateQuestionAnswerCounts,
     UpdateWishcount _updateWishcount,
-    MeiliSearchReIndexPages meiliSearchReIndexPages,
-    MeiliSearchReIndexUser meiliSearchReIndexUser,
-    PageRepository pageRepository,
+    MeiliSearchReIndexPages _meiliSearchReIndexPages,
+    MeiliSearchReIndexUser _meiliSearchReIndexUser,
+    PageRepository _pageRepository,
     AnswerRepo _answerRepo,
     UserReadingRepo _userReadingRepo,
     UserWritingRepo _userWritingRepo,
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
-    UpdateQuestionCountForPage updateQuestionCountForPage) : Controller
+    PageRelationRepo _pageRelationRepo) : Controller
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -62,7 +62,7 @@ public class VueMaintenanceController(
         _probabilityUpdateQuestion.Run();
 
         new ProbabilityUpdate_Page(
-                pageRepository,
+                _pageRepository,
                 _answerRepo)
             .Run();
 
@@ -123,6 +123,7 @@ public class VueMaintenanceController(
         };
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public VueMaintenanceResult DeleteUser(int userId)
@@ -170,7 +171,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllPages()
     {
-        await meiliSearchReIndexPages.Run();
+        await _meiliSearchReIndexPages.Run();
 
         return new VueMaintenanceResult
         {
@@ -184,7 +185,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllPagesCache()
     {
-        await meiliSearchReIndexPages.RunCache();
+        await _meiliSearchReIndexPages.RunCache();
 
         return new VueMaintenanceResult
         {
@@ -198,7 +199,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllUsers()
     {
-        await meiliSearchReIndexUser.RunAll();
+        await _meiliSearchReIndexUser.RunAll();
 
         return new VueMaintenanceResult
         {
@@ -212,7 +213,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllUsersCache()
     {
-        await meiliSearchReIndexUser.RunAllCache();
+        await _meiliSearchReIndexUser.RunAllCache();
 
         return new VueMaintenanceResult
         {
@@ -311,6 +312,22 @@ public class VueMaintenanceController(
         {
             Success = true,
             Data = ""
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult FixRelationsForPageId(int pageId)
+    {
+        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo);
+
+        PageOrderer.RepairRelationOrder(pageId, _sessionUser.UserId, modifyRelationsForPage);
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Ordered PageId:" + pageId
         };
     }
 }

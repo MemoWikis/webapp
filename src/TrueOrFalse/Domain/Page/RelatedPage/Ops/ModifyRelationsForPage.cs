@@ -123,4 +123,13 @@
         }
 
     }
+
+    public List<PageRelationCache> GetRelationsByParentId(int parentId)
+    {
+        // Get PageRelations from database
+        var relations = pageRelationRepo.GetByRelationId(parentId);
+
+        // Convert to PageRelationCache objects
+        return relations.Select(PageRelationCache.ToPageCacheRelation).ToList();
+    }
 }

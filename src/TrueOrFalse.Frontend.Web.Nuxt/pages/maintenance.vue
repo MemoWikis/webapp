@@ -40,7 +40,7 @@ const cacheMethods = ref<MethodData[]>([
     { url: 'ClearCache', label: 'Cache leeren' },
 ])
 const pageMethods = ref<MethodData[]>([
-    { url: 'UpdateCategoryAuthors', label: 'Seitenautoren aktualisieren' }
+    { url: 'UpdateCategoryAuthors', label: 'Seitenautoren aktualisieren' },
 ])
 const meiliSearchMethods = ref<MethodData[]>([
     { url: 'MeiliReIndexAllQuestions', label: 'Fragen' },
@@ -113,6 +113,29 @@ async function deleteUser() {
         resultMsg.value = result.data
 }
 
+const pageIdToSort = ref(0)
+async function sortPageRelations() {
+    if (pageIdToSort.value == undefined || pageIdToSort.value <= 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('pageId', pageIdToSort.value.toString())
+
+    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/FixRelationsForPageId`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result.success)
+        resultMsg.value = result.data
+}
+
 async function removeAdminRights() {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
@@ -160,7 +183,17 @@ async function removeAdminRights() {
                         <MaintenanceSection title="Cache" :methods="cacheMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Seiten" :methods="pageMethods" @method-clicked="handleClick"
-                            :icon="['fas', 'retweet']" />
+                            :icon="['fas', 'retweet']">
+                            <div class="delete-user-container">
+                                <h4>Direkte Unterseiten automatisch sortieren (ID)</h4>
+                                <div class="delete-user-input">
+                                    <input v-model="pageIdToSort" />
+                                    <button @click="sortPageRelations" class="memo-button btn btn-primary">
+                                        Unterseiten sortieren
+                                    </button>
+                                </div>
+                            </div>
+                        </MaintenanceSection>
                         <MaintenanceSection title="Suche MeiliSearch" :methods="meiliSearchMethods"
                             description="Alle für Suche neu indizieren:" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />

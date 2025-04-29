@@ -375,4 +375,276 @@
 
         Logg.r.Error("PageRelations - Sort: Broken Link End - PageId:{0}", pageId);
     }
+
+    public static List<PageRelationCache> RepairRelationOrder(
+        int parentId,
+        int authorId,
+        ModifyRelationsForPage modifyRelationsForPage)
+    {
+        var parent = EntityCache.GetPage(parentId);
+        if (parent == null)
+        {
+            Logg.r.Error("PageRelations - RepairRelationOrder: Parent not found - parentId:{0}", parentId);
+            throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
+        }
+
+        var childRelations = parent.ChildRelations.ToList();
+        var dbRelations = modifyRelationsForPage.GetRelationsByParentId(parentId);
+
+        Logg.r.Information("PageRelations - RepairRelationOrder: Starting repair for parentId:{0} with {1} cache relations and {2} db relations",
+            parentId, childRelations.Count, dbRelations.Count);
+
+        if (childRelations.Count == 0 && dbRelations.Count == 0)
+            return childRelations;
+
+        var deduplicatedRelations = RemoveDuplicateRelations(childRelations, parentId, authorId, modifyRelationsForPage);
+        var repairedRelations = RepairBrokenLinks(deduplicatedRelations, parentId);
+        var syncedRelations = SyncDatabaseWithCache(repairedRelations, dbRelations, parentId, authorId, modifyRelationsForPage);
+
+        parent.ChildRelations = syncedRelations;
+        EntityCache.AddOrUpdate(parent);
+
+        return syncedRelations;
+    }
+
+    private static List<PageRelationCache> RemoveDuplicateRelations(
+        List<PageRelationCache> childRelations,
+        int parentId,
+        int authorId,
+        ModifyRelationsForPage modifyRelationsForPage)
+    {
+        var usedChildIds = new HashSet<int>();
+        var relationsToDelete = new List<PageRelationCache>();
+        var uniqueRelations = new List<PageRelationCache>();
+
+        foreach (var relation in childRelations)
+        {
+            if (usedChildIds.Contains(relation.ChildId))
+            {
+                Logg.r.Warning("PageRelations - RemoveDuplicateRelations: Found duplicate relation - RelationId:{0}, ChildId:{1}",
+                    relation.Id, relation.ChildId);
+                relationsToDelete.Add(relation);
+            }
+            else
+            {
+                usedChildIds.Add(relation.ChildId);
+                uniqueRelations.Add(relation);
+            }
+        }
+
+        foreach (var relationToDelete in relationsToDelete)
+        {
+            RemoveRelationFromParentRelations(relationToDelete);
+            EntityCache.Remove(relationToDelete);
+
+            modifyRelationsForPage.DeleteRelationInDb(relationToDelete.Id, authorId);
+            Logg.r.Information("PageRelations - RemoveDuplicateRelations: Deleted duplicate relation - RelationId:{0}, ChildId:{1}",
+                relationToDelete.Id, relationToDelete.ChildId);
+        }
+
+        return uniqueRelations;
+    }
+
+    private static List<PageRelationCache> RepairBrokenLinks(
+        List<PageRelationCache> relations,
+        int parentId)
+    {
+        var changedRelations = new List<PageRelationCache>();
+        var processedRelationIds = new HashSet<int>();
+        var orderedRelations = new List<PageRelationCache>();
+
+        var currentRelation = FindStartingRelation(relations);
+        PageRelationCache? previousRelation = null;
+
+        while (currentRelation != null && !processedRelationIds.Contains(currentRelation.Id))
+        {
+            processedRelationIds.Add(currentRelation.Id);
+            orderedRelations.Add(currentRelation);
+
+            if (previousRelation != null && currentRelation.PreviousId != previousRelation.ChildId)
+            {
+                currentRelation.PreviousId = previousRelation.ChildId;
+                changedRelations.Add(currentRelation);
+            }
+
+            previousRelation = currentRelation;
+            currentRelation = FindNextRelation(relations, currentRelation);
+        }
+
+        HandleOrphanedRelations(
+            relations,
+            orderedRelations,
+            processedRelationIds,
+            changedRelations,
+            parentId);
+
+        if (orderedRelations.Any() && orderedRelations.First().PreviousId != null)
+        {
+            orderedRelations.First().PreviousId = null;
+            changedRelations.Add(orderedRelations.First());
+        }
+
+        if (orderedRelations.Any() && orderedRelations.Last().NextId != null)
+        {
+            orderedRelations.Last().NextId = null;
+            changedRelations.Add(orderedRelations.Last());
+        }
+
+        foreach (var relation in changedRelations.Distinct())
+        {
+            EntityCache.AddOrUpdate(relation);
+        }
+
+        return orderedRelations;
+    }
+
+    private static void HandleOrphanedRelations(
+        List<PageRelationCache> allRelations,
+        List<PageRelationCache> orderedRelations,
+        HashSet<int> processedRelationIds,
+        List<PageRelationCache> changedRelations,
+        int parentId)
+    {
+        var orphanedRelations = allRelations
+            .Where(r => !processedRelationIds.Contains(r.Id))
+            .OrderBy(r => r.ChildId)
+            .ToList();
+
+        if (!orphanedRelations.Any())
+            return;
+
+        Logg.r.Warning("PageRelations - HandleOrphanedRelations: Found {0} orphaned relations for parentId:{1}",
+            orphanedRelations.Count, parentId);
+
+        if (orderedRelations.Any())
+        {
+            AppendOrphansToExistingChain(orphanedRelations, orderedRelations, changedRelations);
+        }
+        else
+        {
+            BuildChainFromOrphans(orphanedRelations, orderedRelations, changedRelations);
+        }
+    }
+
+    private static void AppendOrphansToExistingChain(
+        List<PageRelationCache> orphanedRelations,
+        List<PageRelationCache> orderedRelations,
+        List<PageRelationCache> changedRelations)
+    {
+        var lastRelation = orderedRelations.Last();
+
+        var firstOrphan = orphanedRelations.First();
+        firstOrphan.PreviousId = lastRelation.ChildId;
+        lastRelation.NextId = firstOrphan.ChildId;
+
+        changedRelations.Add(lastRelation);
+        changedRelations.Add(firstOrphan);
+
+        orderedRelations.Add(firstOrphan);
+        var previousRelation = firstOrphan;
+
+        foreach (var orphan in orphanedRelations.Skip(1))
+        {
+            orphan.PreviousId = previousRelation.ChildId;
+            previousRelation.NextId = orphan.ChildId;
+
+            changedRelations.Add(previousRelation);
+            changedRelations.Add(orphan);
+
+            orderedRelations.Add(orphan);
+            previousRelation = orphan;
+        }
+    }
+
+    private static void BuildChainFromOrphans(
+        List<PageRelationCache> orphanedRelations,
+        List<PageRelationCache> orderedRelations,
+        List<PageRelationCache> changedRelations)
+    {
+        PageRelationCache? prev = null;
+
+        foreach (var orphan in orphanedRelations)
+        {
+            orphan.PreviousId = prev?.ChildId;
+            if (prev != null)
+            {
+                prev.NextId = orphan.ChildId;
+                changedRelations.Add(prev);
+            }
+
+            changedRelations.Add(orphan);
+            orderedRelations.Add(orphan);
+            prev = orphan;
+        }
+    }
+
+    private static PageRelationCache? FindStartingRelation(List<PageRelationCache> relations)
+    {
+        return relations.FirstOrDefault(r => r.PreviousId == null);
+    }
+
+    private static PageRelationCache? FindNextRelation(List<PageRelationCache> relations, PageRelationCache currentRelation)
+    {
+        return relations.FirstOrDefault(r => r.ChildId == currentRelation.NextId);
+    }
+
+    private static List<PageRelationCache> SyncDatabaseWithCache(
+        List<PageRelationCache> cacheRelations,
+        List<PageRelationCache> dbRelations,
+        int parentId,
+        int authorId,
+        ModifyRelationsForPage modifyRelationsForPage)
+    {
+        var changedRelations = new List<PageRelationCache>();
+
+        DeleteOrphanedDatabaseRelations(cacheRelations, dbRelations, authorId, modifyRelationsForPage);
+        CreateMissingDatabaseRelations(cacheRelations, dbRelations, authorId, modifyRelationsForPage);
+        modifyRelationsForPage.UpdateRelationsInDb(changedRelations.Distinct().ToList(), authorId);
+
+        return cacheRelations;
+    }
+
+    private static void DeleteOrphanedDatabaseRelations(
+        List<PageRelationCache> cacheRelations,
+        List<PageRelationCache> dbRelations,
+        int authorId,
+        ModifyRelationsForPage modifyRelationsForPage)
+    {
+        var cacheRelationIds = cacheRelations.Select(r => r.Id).ToHashSet();
+        var orphanedDbRelations = dbRelations.Where(r => !cacheRelationIds.Contains(r.Id)).ToList();
+
+        foreach (var orphanedDbRelation in orphanedDbRelations)
+        {
+            modifyRelationsForPage.DeleteRelationInDb(orphanedDbRelation.Id, authorId);
+            Logg.r.Warning("PageRelations - DeleteOrphanedDatabaseRelations: Deleted orphaned database relation - RelationId:{0}, ChildId:{1}",
+                orphanedDbRelation.Id, orphanedDbRelation.ChildId);
+        }
+    }
+
+    private static void CreateMissingDatabaseRelations(
+        List<PageRelationCache> cacheRelations,
+        List<PageRelationCache> dbRelations,
+        int authorId,
+        ModifyRelationsForPage modifyRelationsForPage)
+    {
+        var dbRelationIds = dbRelations.Select(r => r.Id).ToHashSet();
+        var missingDbRelations = cacheRelations.Where(r => !dbRelationIds.Contains(r.Id)).ToList();
+
+        foreach (var missingDbRelation in missingDbRelations)
+        {
+            var newRelationId = modifyRelationsForPage.CreateNewRelationAndGetId(
+                missingDbRelation.ParentId,
+                missingDbRelation.ChildId,
+                missingDbRelation.NextId,
+                missingDbRelation.PreviousId);
+
+            missingDbRelation.Id = newRelationId;
+            EntityCache.AddOrUpdate(missingDbRelation);
+
+            Logg.r.Warning("PageRelations - CreateMissingDatabaseRelations: Created missing database relation - RelationId:{0}, ChildId:{1}",
+                newRelationId, missingDbRelation.ChildId);
+        }
+    }
+
+
 }
