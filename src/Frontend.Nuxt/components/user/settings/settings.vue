@@ -629,11 +629,11 @@ const ariaId2 = useId()
                             <div class="alert alert-info">
                                 <p>
                                     <b>{{ t('settings.deleteProfile.warning') }}</b> {{ t('settings.deleteProfile.onlyIf') }}
+                                </p>
                                 <ul>
                                     <li>{{ t('settings.deleteProfile.condition1') }}</li>
                                     <li>{{ t('settings.deleteProfile.condition2') }}</li>
                                 </ul>
-                                </p>
                             </div>
 
                             <button @click.prevent="deleteProfile()" class="memo-button btn btn-danger" v-if="canDeleteProfile">

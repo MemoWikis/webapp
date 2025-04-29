@@ -71,11 +71,13 @@ useHead(() => ({
                 <h2 class="PageHeader">Condiciones de Uso</h2>
 
                 <p style="font-style: italic; font-size: 120%;">
-                    Nuestro objetivo es hacer que el aprendizaje sea más sencillo y divertido. Una base importante para ello
+                    Nuestro objetivo es hacer que el aprendizaje sea más sencillo y divertido. Una base importante para
+                    ello
                     es promover contenidos educativos abiertos,
                     de modo que el conocimiento de este mundo sea accesible para todos. <strong>Nos alegra que
                         participes en memoWikis</strong> y esperamos
-                    que descubras muchos contenidos interesantes y compartas tus propios conocimientos con los demás. Los
+                    que descubras muchos contenidos interesantes y compartas tus propios conocimientos con los demás.
+                    Los
                     pocos aspectos que debes tener en cuenta
                     se recopilan en estas Condiciones de Uso. Debes aceptarlas para registrarte en memoWikis.
                 </p>
@@ -84,7 +86,8 @@ useHead(() => ({
                     <h4>Lo más importante de un vistazo:</h4>
                     <ul>
                         <li>¡Sé amable con otros usuarios de memoWikis!</li>
-                        <li>Si publicas contenidos (por ejemplo, preguntas), asegúrate de no infringir derechos de autor.</li>
+                        <li>Si publicas contenidos (por ejemplo, preguntas), asegúrate de no infringir derechos de
+                            autor.</li>
                         <li>Si publicas contenidos, presta atención a la exactitud y ortografía. No publiques contenidos
                             que sean falsos, ofensivos, ilegales o publicitarios.</li>
                         <li>Solo pueden registrarse personas particulares, por ejemplo, no empresas.</li>
@@ -97,14 +100,16 @@ useHead(() => ({
 
                 <h3>1) Normas de conducta</h3>
                 <p>
-                    memoWikis es una plataforma social de conocimiento. Se nutre del hecho de que muchas personas se unan,
+                    memoWikis es una plataforma social de conocimiento. Se nutre del hecho de que muchas personas se
+                    unan,
                     aporten sus conocimientos,
                     aprendan juntas y se apoyen mutuamente. Donde se encuentran muchas personas, también pueden surgir
                     conflictos,
                     por eso es importante respetar ciertas reglas. Solo tenemos una regla:<br />
                     <strong>¡Sé amable!</strong> Independientemente de lo que te moleste, asume siempre que los demás
                     tienen buenas intenciones.
-                    Ten en cuenta que al otro lado de la línea de Internet hay una persona. Expresa tus críticas de forma
+                    Ten en cuenta que al otro lado de la línea de Internet hay una persona. Expresa tus críticas de
+                    forma
                     objetiva y respetuosa, y ofrece tu ayuda
                     cuando puedas.
                 </p>
@@ -149,9 +154,11 @@ useHead(() => ({
                     la fecha de cumpleaños de tu tía, el número de teléfono de tu amigo o cuál es tu pastel favorito).
                 </p>
                 <p>
-                    Ten en cuenta que todos tus demás contenidos pueden ser vistos y utilizados por todos los usuarios de
+                    Ten en cuenta que todos tus demás contenidos pueden ser vistos y utilizados por todos los usuarios
+                    de
                     memoWikis.
                     <strong>Por eso, presta atención a</strong>
+                </p>
                 <ul>
                     <li>la exactitud y claridad de tus preguntas y respuestas,</li>
                     <li>la ortografía, y</li>
@@ -159,19 +166,20 @@ useHead(() => ({
                         informarse más
                     </li>
                 </ul>
-                </p>
+
                 <p>
                     memoWikis es una plataforma abierta de conocimiento. ¡Aquí debería tener cabida todo el conocimiento
                     del mundo! Sin embargo,
                     la plataforma no debe utilizarse indebidamente con otros fines. Por lo tanto, <strong>no debes
                         publicar contenidos que</strong>
+                </p>
                 <ul>
                     <li>sean claramente falsos,</li>
                     <li>sirvan de manera evidente y principal a la publicidad (comercial, religiosa, etc.),</li>
                     <li>tengan por objeto insultar deliberadamente a otros, o</li>
                     <li>infrinjan la legislación vigente (contenido obsceno, pornografía infantil, etc.).</li>
                 </ul>
-                </p>
+
 
                 <h3>4) Usuarios y membresía</h3>
                 <p>

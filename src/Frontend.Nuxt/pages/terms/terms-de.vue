@@ -98,7 +98,8 @@ useHead(() => ({
 
                 <h3>1) Verhaltensregeln</h3>
                 <p>
-                    memoWikis ist eine soziale Wissensplattform. Sie lebt davon, dass viele Menschen sich zusammentun, ihr
+                    memoWikis ist eine soziale Wissensplattform. Sie lebt davon, dass viele Menschen sich zusammentun,
+                    ihr
                     Wissen bereitstellen,
                     zusammen lernen und sich gegenseitig unterstützen. Wo viele Menschen aufeinandertreffen, kann es
                     aber auch zu Konflikten kommen,
@@ -154,27 +155,31 @@ useHead(() => ({
                     Lieblingskuchen ist).
                 </p>
                 <p>
-                    Denke daran, dass alle anderen Inhalte von dir von allen memoWikis-Nutzern gesehen und genutzt werden
+                    Denke daran, dass alle anderen Inhalte von dir von allen memoWikis-Nutzern gesehen und genutzt
+                    werden
                     können! <strong>Achte deshalb auf</strong>
+                </p>
                 <ul>
                     <li>Richtigkeit und Eindeutigkeit deiner Fragen und Antworten,</li>
                     <li>Rechtschreibung, und</li>
                     <li>Gib, wo dies möglich ist, Quellen an, damit andere im Zweifel die Antwort nachprüfen oder sich
                         weiter informieren können</li>
                 </ul>
-                </p>
+
                 <p>
                     memoWikis ist eine offene Wissensplattform. Alles Wissen der Welt soll hier Platz haben! Allerdings
                     darf die Plattform
                     nicht für andere Zwecke missbraucht werden. Daher darfst du <strong>keine Inhalte einstellen,
                         die</strong>
+
+                </p>
                 <ul>
                     <li>offensichtlich falsch sind,</li>
                     <li>offensichtlich und primär der (kommerziellen, religiösen etc.) Werbung dienen,</li>
                     <li>absichtlich andere beleidigen oder</li>
                     <li>gegen geltendes Recht verstoßen (öbszöne Inhalte, Kinderpornografie u.ä.).</li>
                 </ul>
-                </p>
+
 
                 <h3>4) Nutzer & Mitgliedschaft</h3>
                 <p>
