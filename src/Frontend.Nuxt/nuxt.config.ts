@@ -1,5 +1,3 @@
-import eslint from "vite-plugin-eslint2";
-
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     nitro: {
@@ -38,7 +36,9 @@ export default defineNuxtConfig({
         "nuxt-snackbar",
         "@nuxtjs/i18n",
     ],
-    eslint: { checker: true }, 
+    eslint: {
+        // options here
+    },
     css: [
         "@fortawesome/fontawesome-svg-core/styles.css",
         "~/assets/bootstrap/bootstrap.less",
