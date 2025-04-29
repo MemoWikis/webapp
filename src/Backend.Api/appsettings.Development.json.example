@@ -26,10 +26,9 @@
     "MeiliSearchUrl": "http://localhost:7700/",
     "MeiliSearchMasterKey": "your_meili_master_key"
   },
-
   "Email": {
-    "EmailFrom": "",
-    "EmailToMemucho": ""
+    "EmailFrom": "team@lokal-dev.de",
+    "EmailToMemucho": "team@lokal-dev.de"
   },
   "Redis": {
     "Use": true,
