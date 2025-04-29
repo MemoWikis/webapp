@@ -2,7 +2,6 @@ import { defineStore } from "pinia"
 import { useUserStore } from "~~/components/user/userStore"
 import {
     useSnackbarStore,
-    SnackbarType,
 } from "~~/components/snackBar/snackBarStore"
 import { useLoadingStore } from "~/components/loading/loadingStore"
 import { usePageStore, TinyPageModel } from "../pageStore"
@@ -342,7 +341,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             const { $i18n } = nuxtApp
 
             snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
+                type: "error",
                 text: { message: $i18n.t("error.loading.shares") },
                 duration: 4000,
             })
@@ -394,14 +393,14 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         if (result.success) {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Success.toString(),
+                type: "success",
                 text: { message: $i18n.t("success.page.shared") },
                 duration: 4000,
             })
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
+                type: "error",
                 text: {
                     message: $i18n.t(result.messageKey || "error.general"),
                 },
@@ -477,14 +476,14 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             await loadExistingShares()
 
             snackbarStore.showSnackbar({
-                type: SnackbarType.Success.toString(),
+                type: "success",
                 text: { message: $i18n.t("success.page.rightsUpdated") },
                 duration: 4000,
             })
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
+                type: "error",
                 text: {
                     message: $i18n.t(result.messageKey || "error.general"),
                 },
@@ -525,7 +524,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         if (result.success && result.token) {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Success.toString(),
+                type: "success",
                 text: { message: $i18n.t("success.token.renewed") },
                 duration: 4000,
             })
@@ -534,7 +533,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
+                type: "error",
                 text: {
                     message: $i18n.t("error.general"),
                 },
@@ -579,7 +578,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         if (result.success && result.token) {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Success.toString(),
+                type: "success",
                 text: { message: $i18n.t("success.token.copied") },
                 duration: 4000,
             })
@@ -588,7 +587,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             return { success: true, token: result.token }
         } else {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
+                type: "error",
                 text: { message: $i18n.t("error.token.generation") },
                 duration: 6000,
             })
@@ -629,7 +628,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         if (result.success) {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Success.toString(),
+                type: "success",
                 text: { message: $i18n.t("success.token.removed") },
                 duration: 4000,
             })
@@ -637,7 +636,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
+                type: "error",
                 text: { message: $i18n.t("error.token.removal") },
                 duration: 6000,
             })
@@ -676,7 +675,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
+                type: "error",
                 text: {
                     message: $i18n.t(
                         result.messageKey || "error.token.permission"
@@ -750,14 +749,14 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             await loadExistingShares()
 
             snackbarStore.showSnackbar({
-                type: SnackbarType.Success.toString(),
+                type: "success",
                 text: { message: $i18n.t("success.page.accessRestricted") },
                 duration: 4000,
             })
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: SnackbarType.Error.toString(),
+                type: "error",
                 text: {
                     message: $i18n.t(result.messageKey || "error.general"),
                 },

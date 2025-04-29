@@ -6,6 +6,7 @@ import { useSideSheetStore } from './sideSheetStore'
 import { useUserStore } from '../user/userStore'
 import { useDeletePageStore } from '../page/delete/deletePageStore'
 import { useConvertStore } from '../page/convert/convertStore'
+import { useSnackbar } from 'vue3-snackbar' 
 '../alert/messages'
 
 interface Props {
@@ -185,7 +186,7 @@ const addToFavorites = async (name: string, id: number) => {
         sideSheetStore.addToFavoritePages(name, id)
     } else if (result.messageKey) {
         snackbar.add({
-            message: t(result.messageKey),
+            text: t(result.messageKey),
             type: 'error'
         })
     }
@@ -206,12 +207,12 @@ const removeFromFavorites = async (id: number) => {
         const name = sideSheetStore.favorites.find(f => f.id === id)?.name
         sideSheetStore.removeFromFavoritePages(id)
         snackbar.add({
-            message: `'${name}' wurde aus den Favoriten entfernt`,
+            text: `'${name}' wurde aus den Favoriten entfernt`,
             type: 'success'
         })
     } else if (result.messageKey) {
         snackbar.add({
-            message: t(result.messageKey),
+            text: t(result.messageKey),
             type: 'error'
         })
     }

@@ -27,7 +27,7 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 	mode: 'no-cors',
 	onRequest({ options }) {
 		if (import.meta.server) {
-			options.headers = headers
+			options.headers = new Headers(headers)
 			options.baseURL = config.public.serverBase
 		}
 	},

@@ -88,7 +88,7 @@ const addAnswer = () => {
 const { t, localeProperties } = useI18n()
 
 const niceDate = (date: string) => {
-    const iso = localeProperties.value.iso
+    const iso = localeProperties.value.iso as string;
     return new Date(date).toLocaleDateString(iso, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
 }
 const { $urlHelper } = useNuxtApp()

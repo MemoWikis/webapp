@@ -32,7 +32,7 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
     mode: 'cors',
     onRequest({ options }) {
         if (import.meta.server) {
-            options.headers = headers
+            options.headers = new Headers(headers)
             options.baseURL = config.public.serverBase
         }
     },
@@ -58,7 +58,7 @@ const { data: pageData, status, refresh } = await useFetch<GetResponse>('/apiVue
     mode: 'cors',
     onRequest({ options }) {
         if (import.meta.server) {
-            options.headers = headers
+            options.headers = new Headers(headers)
             options.baseURL = config.public.serverBase
         }
     },
@@ -167,8 +167,10 @@ const toggleLanguage = (code: string) => {
                     <div class="col-xs-12 col-sm-12 users-options">
                         <div class="search-section">
                             <div class="search-container">
-                                <input type="text" v-model="searchTerm" class="search-input" :placeholder="t('usersOverview.search.placeholder')" />
-                                <div class="search-icon reset-icon" v-if="searchTerm.length > 0" @click="searchTerm = ''">
+                                <input type="text" v-model="searchTerm" class="search-input"
+                                    :placeholder="t('usersOverview.search.placeholder')" />
+                                <div class="search-icon reset-icon" v-if="searchTerm.length > 0"
+                                    @click="searchTerm = ''">
                                     <font-awesome-icon icon="fa-solid fa-xmark" />
                                 </div>
                                 <div class="search-icon" v-else>
@@ -184,7 +186,8 @@ const toggleLanguage = (code: string) => {
                                         <div class="language-select">
                                             <div class="select-label">
                                                 <font-awesome-icon icon="fa-solid fa-language" />
-                                                <div class="language-label">{{ t('usersOverview.contentLanguageLabel') }}</div>
+                                                <div class="language-label">{{ t('usersOverview.contentLanguageLabel')
+                                                    }}</div>
                                             </div>
 
                                             <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
@@ -192,16 +195,18 @@ const toggleLanguage = (code: string) => {
                                         </div>
 
                                         <template #popper>
-                                            <div class="dropdown-row select-row" v-for="locale in locales" :key="locale.code">
-                                                <div class="language-checkbox"
-                                                    @click="toggleLanguage(locale.code)"
+                                            <div class="dropdown-row select-row" v-for="locale in locales"
+                                                :key="locale.code">
+                                                <div class="language-checkbox" @click="toggleLanguage(locale.code)"
                                                     @keydown.space.prevent="toggleLanguage(locale.code)"
                                                     @keydown.enter.prevent="toggleLanguage(locale.code)"
                                                     :class="{ 'active': selectedLanguages.includes(locale.code) }"
                                                     role="checkbox"
                                                     :aria-checked="selectedLanguages.includes(locale.code)"
                                                     tabindex="0">
-                                                    <font-awesome-icon :icon="selectedLanguages.includes(locale.code) ? 'fa-solid fa-square-check' : 'fa-regular fa-square'" class="checkbox-icon" />
+                                                    <font-awesome-icon
+                                                        :icon="selectedLanguages.includes(locale.code) ? 'fa-solid fa-square-check' : 'fa-regular fa-square'"
+                                                        class="checkbox-icon" />
                                                     <span class="checkbox-text">{{ locale.name }}</span>
                                                 </div>
                                             </div>
@@ -249,7 +254,8 @@ const toggleLanguage = (code: string) => {
                         </TransitionGroup>
                     </div>
 
-                    <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
+                    <div class="col-xs-12 empty-page-container"
+                        v-if="pageData.users.length <= 0 && searchTerm.length > 0">
                         <div class="empty-page">
                             {{ t('usersOverview.search.noUserWithName', { term: searchTerm }) }}
                         </div>
@@ -257,7 +263,9 @@ const toggleLanguage = (code: string) => {
 
                     <div class="col-xs-12" v-if="searchTerm.length === 0">
                         <div class="pagination hidden-xs">
-                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="totalUserCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="totalUserCount"
+                                :items-per-page="20" :max-pages-shown="5" v-model="currentPage"
+                                :show-ending-buttons="true" :show-breakpoint-buttons="false">
                                 <template #first-page-button>
                                     <font-awesome-layers>
                                         <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
@@ -279,7 +287,9 @@ const toggleLanguage = (code: string) => {
                             </vue-awesome-paginate>
                         </div>
                         <div class="pagination hidden-sm hidden-md hidden-lg">
-                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20"
+                                :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true"
+                                :show-breakpoint-buttons="false">
                                 <template #first-page-button>
                                     <font-awesome-layers>
                                         <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />

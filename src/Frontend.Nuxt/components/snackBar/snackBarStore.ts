@@ -1,14 +1,7 @@
 import { defineStore } from "pinia"
 
-export enum SnackbarType {
-    Success,
-    Error,
-    Warning,
-    Info,
-}
-
 export interface SnackbarData {
-    type?: string
+    type?: "warning" | "error" | "info" | "success"
     title?: string
     text?: SnackbarMessage
     snackbarCustomAction?: SnackbarCustomAction

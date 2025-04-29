@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { SnackbarData, useSnackbarStore } from './snackBarStore'
+import { useSnackbar } from 'vue3-snackbar' 
+
 const snackbarStore = useSnackbarStore()
 
 async function customFunction(id: number, dismiss?: any) {
@@ -19,7 +21,7 @@ snackbarStore.$onAction(({ name, after }) => {
 			snackbar.add({
 				type: data.type,
 				title: data.title ? data.title : '',
-				text: { html: data.text?.message ? data.text.message : '' },
+				text: data.text?.message ? data.text.message : '',
 				duration: data.duration ? data.duration : 4000,
 				dismissible: data.dismissible != null ? data.dismissible : true,
 			})

@@ -4,6 +4,7 @@ import { GridPageItem } from './item/gridPageItem'
 import { useEditPageRelationStore } from '~/components/page/relation/editPageRelationStore'
 import { useDragStore, TargetPosition, MovePageTransferData } from '~~/components/shared/dragStore'
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { useSnackbar } from 'vue3-snackbar'
 import { useUserStore } from '~/components/user/userStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
 
@@ -102,9 +103,10 @@ async function onDrop() {
 
         snackbar.add({
             type: 'info',
-            title: { text: transferData.page.name, url: `/${transferData.page.name}/${transferData.page.id}` },
-            text: {
-                html: t('page.grid.dnd.messages.moved'),
+            title:  transferData.page.name,
+            text: t('page.grid.dnd.messages.moved'),
+            action: {
+                to: `/${transferData.page.name}/${transferData.page.id}`,
                 buttonLabel: snackbarCustomAction.label,
                 buttonId: snackbarStore.addCustomAction(snackbarCustomAction),
                 buttonIcon: snackbarCustomAction.icon
@@ -132,10 +134,7 @@ function handleDragStart(e: DragEvent) {
         if (userStore.isLoggedIn)
             snackbar.add({
                 type: 'error',
-                title: '',
-                text: {
-                    html: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` })
-                },
+                text: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` }),
                 dismissible: true
             })
         else {
@@ -149,9 +148,8 @@ function handleDragStart(e: DragEvent) {
 
             snackbar.add({
                 type: 'error',
-                title: '',
-                text: {
-                    html: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` }),
+                text: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` }),
+                action: {
                     buttonLabel: snackbarCustomAction.label,
                     buttonId: snackbarStore.addCustomAction(snackbarCustomAction),
                     buttonIcon: snackbarCustomAction.icon
@@ -165,10 +163,7 @@ function handleDragStart(e: DragEvent) {
     if (props.parentVisibility === Visibility.Public && !userStore.gridInfoShown) {
         snackbar.add({
             type: 'warning',
-            title: '',
-            text: {
-                html: t('page.grid.dnd.messages.visibleToAll', { parentName: `<b>${props.parentName}</b>` })
-            },
+            text: t('page.grid.dnd.messages.visibleToAll', { parentName: `<b>${props.parentName}</b>` }),
             dismissible: true
         })
 
@@ -253,9 +248,7 @@ const hoverPlaceholder = ref(false)
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
-                <div v-if="dragStore.active"
-                    class="emptydropzone"
-                    :class="{ 'open': hoverTopHalf && !dragging }">
+                <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
 
                     <div class="inner top">
                         <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData"
@@ -288,8 +281,11 @@ const hoverPlaceholder = ref(false)
                     </template>
                 </PageContentGridItem>
 
-                <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="drop-in-trigger" :class="{ 'hover-top': hoverTopHalf }" @dragover.stop.prevent="onDropZoneEnter" @dragleave.prevent="onDropZoneLeave">
-                    <div class="drop-in-indicator" :class="{ 'hover-main': isDroppableItemActive, 'active': dropInHovering }">
+                <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="drop-in-trigger"
+                    :class="{ 'hover-top': hoverTopHalf }" @dragover.stop.prevent="onDropZoneEnter"
+                    @dragleave.prevent="onDropZoneLeave">
+                    <div class="drop-in-indicator"
+                        :class="{ 'hover-main': isDroppableItemActive, 'active': dropInHovering }">
                         <span class="loader" :class="{ 'loading': dropInHovering }"></span>
                         <div class="drop-in-icon" v-if="!dropIn">
                             <font-awesome-icon :icon="['fas', 'right-to-bracket']" rotation="90" />
@@ -297,10 +293,12 @@ const hoverPlaceholder = ref(false)
                     </div>
                 </div>
 
-                <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
+                <div v-if="dragStore.active" class="emptydropzone"
+                    :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
 
                     <div class="inner bottom">
-                        <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData" :name="placeHolderPageName" />
+                        <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData"
+                            :name="placeHolderPageName" />
                     </div>
 
                 </div>

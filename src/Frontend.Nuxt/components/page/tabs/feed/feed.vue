@@ -46,7 +46,7 @@ function getDateLabel(dateString: string) {
     }
 
     const options = { year: 'numeric', month: 'long', day: 'numeric' } as Intl.DateTimeFormatOptions
-    const iso = localeProperties.value.iso
+    const iso = localeProperties.value.iso as string;
     return date.toLocaleDateString(iso, options)
 }
 

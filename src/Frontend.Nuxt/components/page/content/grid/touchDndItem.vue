@@ -5,6 +5,7 @@ import { useEditPageRelationStore } from '~/components/page/relation/editPageRel
 import { useDragStore, TargetPosition, DragAndDropType, DropZoneData, MovePageTransferData } from '~~/components/shared/dragStore'
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { useUserStore } from '~/components/user/userStore'
+import { useSnackbar } from 'vue3-snackbar' 
 import { Visibility } from '~/components/shared/visibilityEnum'
 
 const editPageRelationStore = useEditPageRelationStore()
@@ -67,9 +68,10 @@ async function onDrop() {
 
         snackbar.add({
             type: 'info',
-            title: { text: transferData.page.name, url: `/${transferData.page.name}/${transferData.page.id}` },
-            text: {
-                html: t('page.grid.dnd.messages.moved'),
+            title: transferData.page.name,
+            text: t('page.grid.dnd.messages.moved'),
+            action: {
+                to: `/${transferData.page.name}/${transferData.page.id}`,
                 buttonLabel: snackbarCustomAction?.label,
                 buttonId: snackbarStore.addCustomAction(snackbarCustomAction),
                 buttonIcon: ['fas', 'rotate-left']
@@ -87,9 +89,7 @@ async function prepareDragStart() {
             snackbar.add({
                 type: 'error',
                 title: '',
-                text: {
-                    html: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` })
-                },
+                text: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` }),
                 dismissible: true
             })
         else {
@@ -104,11 +104,11 @@ async function prepareDragStart() {
             snackbar.add({
                 type: 'error',
                 title: '',
-                text: {
-                    html: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` }),
+                text: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` }),
+                action: {
+                    buttonIcon: snackbarCustomAction.icon,
                     buttonLabel: snackbarCustomAction.label,
-                    buttonId: snackbarStore.addCustomAction(snackbarCustomAction),
-                    buttonIcon: snackbarCustomAction.icon
+                    buttonId: snackbarStore.addCustomAction(snackbarCustomAction)
                 },
                 dismissible: false
             })
@@ -120,9 +120,7 @@ async function prepareDragStart() {
         snackbar.add({
             type: 'warning',
             title: '',
-            text: {
-                html: t('page.grid.dnd.messages.visibleToAll', { parentName: `<b>${props.parentName}</b>` })
-            },
+            text: t('page.grid.dnd.messages.visibleToAll', { parentName: `<b>${props.parentName}</b>` }),
             dismissible: true
         })
 
@@ -386,10 +384,13 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 
             </PageContentGridItem>
 
-            <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }" :data-dropzonedata="getDropZoneData(TargetPosition.After)">
+            <div v-if="dragStore.active" class="emptydropzone"
+                :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }"
+                :data-dropzonedata="getDropZoneData(TargetPosition.After)">
 
                 <div class="inner bottom">
-                    <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData" :name="placeHolderPageName" />
+                    <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData"
+                        :name="placeHolderPageName" />
                 </div>
 
             </div>

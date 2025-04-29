@@ -30,7 +30,7 @@ import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 
 import * as Y from 'yjs'
-import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { HocuspocusProvider } from '@hocuspocus/provider'
 import { FontSize, useUserStore } from '~/components/user/userStore'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
@@ -47,7 +47,7 @@ const config = useRuntimeConfig()
 
 const providerContentLoaded = ref(false)
 
-const provider = shallowRef<TiptapCollabProvider>()
+const provider = shallowRef<HocuspocusProvider>()
 const editor = shallowRef<Editor>()
 const loadCollab = ref(true)
 const providerLoaded = ref(false)
@@ -95,11 +95,10 @@ const initProvider = () => {
     // collaborationToken is the token used as an identifier for the hocuspocus server, 
     // a collaboration token will always exist, but the shareToken is optional
     const token = pageStore.shareToken ? `${userStore.collaborationToken}|accessToken=${pageStore.shareToken}` : userStore.collaborationToken
-    provider.value = new TiptapCollabProvider({
-        baseUrl: config.public.hocuspocusWebsocketUrl,
+    provider.value = new HocuspocusProvider ({
+        url: config.public.hocuspocusWebsocketUrl,
         name: `ydoc-${pageStore.id}`,
         token: token,
-        preserveConnection: false,
         document: doc,
         onAuthenticated() {
             new IndexeddbPersistence(`${userStore.id}|document-${pageStore.id}`, doc)
@@ -149,7 +148,7 @@ const { t, locale } = useI18n()
 
 const initEditor = () => {
     editor.value = new Editor({
-        content: provider.value?.isConnected ? null : pageStore.initialContent,
+        content: provider.value?.isSynced ? null : pageStore.initialContent,
         extensions: [
             StarterKit.configure({
                 heading: false,

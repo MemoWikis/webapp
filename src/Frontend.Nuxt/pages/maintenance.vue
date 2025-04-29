@@ -14,7 +14,7 @@ const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/ap
         mode: 'cors',
         onRequest({ options }) {
             if (import.meta.server) {
-                options.headers = headers
+                options.headers = new Headers(headers)
                 options.baseURL = config.public.serverBase
             }
         },
