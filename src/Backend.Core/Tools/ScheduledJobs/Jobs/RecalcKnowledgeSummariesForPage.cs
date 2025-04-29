@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Quartz;
-using Rollbar;
 
 public class RecalcKnowledgeSummariesForPage : IJob
 {
@@ -38,7 +37,6 @@ public class RecalcKnowledgeSummariesForPage : IJob
                 catch (Exception e)
                 {
                     Log.Error(e, "Error in job RecalcKnowledgeSummariesForPage.");
-                    RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                 }
             }
 

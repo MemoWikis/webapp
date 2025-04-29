@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
-using Rollbar;
 using System.Net.Mail;
 
 class ScheduledMailSender(IMemoryCache cache) : IJob
@@ -62,13 +61,11 @@ class ScheduledMailSender(IMemoryCache cache) : IJob
                 {
                     var e = new Exception(job.JobContent + job.Id);
                     Log.Error(e, "Error in job ScheduledMailSender.");
-                    RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                 }
             }
             catch (Exception e)
             {
                 Log.Error(e, "Error in job ScheduledMailSender.");
-                RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
             }
 
             //Delete job that has been executed
