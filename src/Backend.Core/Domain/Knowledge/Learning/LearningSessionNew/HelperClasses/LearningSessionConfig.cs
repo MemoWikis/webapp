@@ -1,17 +1,20 @@
-﻿public class LearningSessionConfig
+﻿using static Org.BouncyCastle.Math.EC.ECCurve;
+
+public class LearningSessionConfig
 {
     public int PageId { get; set; }
-    public PageCacheItem Page { get; set; }
     public int MaxQuestionCount { get; set; } = 0;
 
     /// <summary>
     /// Currently logged in user
     /// </summary>
     public int CurrentUserId { get; set; } = 0;
+
     public bool IsInTestMode { get; set; }
     public QuestionOrder QuestionOrder { get; set; } = QuestionOrder.SortByEasiest;
     public bool AnswerHelp { get; set; }
     public RepetitionType Repetition { get; set; } = RepetitionType.None;
+
     /// <summary>
     /// User is not logged in
     /// </summary>
@@ -28,6 +31,12 @@
     public bool NeedsLearning { get; set; } = true;
     public bool NeedsConsolidation { get; set; } = true;
     public bool Solid { get; set; } = true;
+
+
+    private PageCacheItem? _page;
+
+    public PageCacheItem GetPage() => 
+        _page ??= EntityCache.GetPage(this.PageId) ?? throw new InvalidOperationException();
 }
 
 public enum QuestionOrder

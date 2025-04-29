@@ -1,21 +1,12 @@
 ﻿[Serializable]
-public class LearningSession
+public class LearningSession(
+    List<LearningSessionStep> _learningSessionSteps,
+    LearningSessionConfig _config)
 {
-    public IList<LearningSessionStep> Steps { get; set; }
-    public LearningSessionConfig Config { get; set; }
+    public IList<LearningSessionStep> Steps { get; set; } = _learningSessionSteps;
+    public LearningSessionConfig Config { get; set; } = _config;
 
     public QuestionCounter QuestionCounter;
-
-    public LearningSession(
-        List<LearningSessionStep> learningSessionSteps,
-        LearningSessionConfig config)
-    {
-
-        Steps = learningSessionSteps;
-        Config = config;
-        Config.Page = EntityCache.GetPage(Config.PageId) ??
-                          throw new InvalidOperationException();
-    }
 
     public LearningSessionStep? CurrentStep =>
         CurrentIndex <= 0 ? Steps.Any() ? Steps[0] : null : Steps[CurrentIndex];

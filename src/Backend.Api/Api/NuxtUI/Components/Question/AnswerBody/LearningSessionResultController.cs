@@ -1,4 +1,6 @@
-﻿public class VueLearningSessionResultController(LearningSessionCache _learningSessionCache,
+﻿using static Org.BouncyCastle.Math.EC.ECCurve;
+
+public class VueLearningSessionResultController(LearningSessionCache _learningSessionCache,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : ApiBaseController
@@ -13,7 +15,9 @@
         int PageId,
         bool InWuwi,
         TinyQuestion[] Questions);
+
     public record struct CorrectWrongOrNotAnswered(int Percentage, int Count);
+
     public record struct TinyQuestion(
         string CorrectAnswerHtml,
         int Id,
@@ -33,6 +37,7 @@
         {
             throw new Exception(FrontendMessageKeys.Error.Default);
         }
+        
         var model = new LearningSessionResultModel(learningSession);
         var tinyQuestions = model.AnsweredStepsGrouped
             .Where(g => g.First().Question.Id != 0)
@@ -50,7 +55,6 @@
                         .GetImageUrl(128, true).Url,
                     Title: question.GetShortTitle(),
                     Steps: g.Select(s => new Step(
-
                         AnswerState: s.AnswerState,
                         AnswerAsHtml: Question.AnswersAsHtml(s.Answer, question.SolutionType)
                     )).ToArray()
@@ -60,27 +64,23 @@
         return new LearningSessionResult(
             UniqueQuestionCount: model.NumberUniqueQuestions,
             Correct: new CorrectWrongOrNotAnswered(
-
                 Percentage: model.NumberCorrectPercentage,
                 Count: model.NumberCorrectAnswers
             ),
             CorrectAfterRepetition: new CorrectWrongOrNotAnswered(
-
                 Percentage: model.NumberCorrectAfterRepetitionPercentage,
                 Count: model.NumberCorrectAfterRepetitionAnswers
             ),
             Wrong: new CorrectWrongOrNotAnswered(
-
                 Percentage: model.NumberWrongAnswersPercentage,
                 Count: model.NumberWrongAnswers
             ),
             NotAnswered: new CorrectWrongOrNotAnswered(
-
                 Percentage: model.NumberNotAnsweredPercentage,
                 Count: model.NumberNotAnswered
             ),
-            PageName: learningSession.Config.Page.Name,
-            PageId: learningSession.Config.Page.Id,
+            PageName: learningSession.Config.GetPage().Name,
+            PageId: learningSession.Config.GetPage().Id,
             InWuwi: learningSession.Config.InWuwi,
             Questions: tinyQuestions
         );

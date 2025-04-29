@@ -1,15 +1,13 @@
 ﻿public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
     LearningSessionCache _learningSessionCache,
-    PermissionCheck _permissionCheck,
-    SessionUser _sessionUser) : ApiBaseController()
+    PermissionCheck _permissionCheck) : ApiBaseController
 {
     public record struct LearningSessionResponse()
     {
         public int Index { get; set; } = 0;
 
-        public LearningSessionCreator.Step[] Steps { get; set; } =
-            Array.Empty<LearningSessionCreator.Step>();
+        public LearningSessionCreator.Step[] Steps { get; set; } = [];
 
         public LearningSessionCreator.Step? CurrentStep { get; set; } = null;
         public int ActiveQuestionCount { get; set; } = 0;
