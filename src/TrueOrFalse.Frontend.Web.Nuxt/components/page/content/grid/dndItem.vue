@@ -75,7 +75,6 @@ async function onDrop() {
 
     hoverTopHalf.value = false
     hoverBottomHalf.value = false
-    dropIn.value = false
 
     if (dragStore.transferData == null || !dragStore.isMovePageTransferData)
         return
@@ -86,10 +85,11 @@ async function onDrop() {
         return
 
     const position = currentPosition.value
-    currentPosition.value = TargetPosition.None
-    dragOverTimer.value = null
 
     const result = await editPageRelationStore.movePage(transferData.page, targetId, position, props.parentId, transferData.oldParentId)
+
+    currentPosition.value = TargetPosition.None
+    dragOverTimer.value = null
 
     if (result) {
         const snackbarCustomAction: SnackbarCustomAction = {
@@ -247,7 +247,7 @@ const hoverPlaceholder = ref(false)
 </script>
 
 <template>
-    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true"
+    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="dragStore.isDraggable"
         ref="dragComponent" @drag.stop="handleDrag">
         <div @dragover.prevent.stop="onDragOver" @dragleave="onDragLeave" @drop.stop="onDrop">
 

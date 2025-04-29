@@ -145,15 +145,21 @@ editPageRelationStore.$onAction(({ name, after }) => {
 
         after(async (result) => {
             if (result) {
-                if (result?.oldParentId === pageStore.id || result?.newParentId === pageStore.id)
+                if (result?.oldParentId === pageStore.id || result?.newParentId === pageStore.id) {
                     await pageStore.reloadGridItems()
+                    dragStore.enableDrag()
+                }
 
                 const parentHasChanged = result.oldParentId != result.newParentId
 
-                if (props.children.find(c => c.id === result.oldParentId))
+                if (props.children.find(c => c.id === result.oldParentId)) {
                     await reloadGridItem(result.oldParentId)
-                if (props.children.find(c => c.id === result.newParentId) && parentHasChanged)
+                    dragStore.enableDrag()
+                }
+                if (props.children.find(c => c.id === result.newParentId) && parentHasChanged) {
                     await reloadGridItem(result.newParentId)
+                    dragStore.enableDrag()
+                }
             }
         })
     }

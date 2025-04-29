@@ -11,6 +11,7 @@ import {
     SnackbarData,
     useSnackbarStore,
 } from "~/components/snackBar/snackBarStore"
+import { useDragStore } from "~/components/shared/dragStore"
 
 export enum EditPageRelationType {
     Create,
@@ -278,6 +279,13 @@ export const useEditPageRelationStore = defineStore("editPageRelationStore", {
                 userStore.openLoginModal()
                 return
             }
+
+            const dragStore = useDragStore()
+            dragStore.disableDrag()
+
+            console.log(
+                `Moving page ${movingPage.id} to targetId ${targetId} with position ${position}, newId: ${newParentId}, oldId: ${oldParentId}`
+            )
 
             this.tempInsert(
                 movingPage,

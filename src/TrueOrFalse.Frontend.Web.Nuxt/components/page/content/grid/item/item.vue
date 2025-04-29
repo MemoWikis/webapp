@@ -9,7 +9,7 @@ import { useLoadingStore } from '~/components/loading/loadingStore'
 import { usePublishPageStore } from '~/components/page/publish/publishPageStore'
 import { usePageToPrivateStore } from '~/components/page/toPrivate/pageToPrivateStore'
 import { useDeletePageStore } from '~/components/page/delete/deletePageStore'
-import { TargetPosition } from '~/components/shared/dragStore'
+import { TargetPosition, useDragStore } from '~/components/shared/dragStore'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
@@ -18,6 +18,7 @@ const loadingStore = useLoadingStore()
 const publishPageStore = usePublishPageStore()
 const pageToPrivateStore = usePageToPrivateStore()
 const deletePageStore = useDeletePageStore()
+const dragStore = useDragStore()
 
 interface Props {
     page: GridPageItem
@@ -235,15 +236,21 @@ editPageRelationStore.$onAction(({ name, after }) => {
 
         after(async (result) => {
             if (result) {
-                if (result.oldParentId === props.page.id || result.newParentId === props.page.id)
+                if (result.oldParentId === props.page.id || result.newParentId === props.page.id) {
                     await loadChildren(true)
+                    dragStore.enableDrag()
+                }
 
                 const parentHasChanged = result.oldParentId != result.newParentId
 
-                if (children.value.find(c => c.id === result.oldParentId))
+                if (children.value.find(c => c.id === result.oldParentId)) {
                     await reloadGridItem(result.oldParentId)
-                if (children.value.find(c => c.id === result.newParentId) && parentHasChanged)
+                    dragStore.enableDrag()
+                }
+                if (children.value.find(c => c.id === result.newParentId) && parentHasChanged) {
                     await reloadGridItem(result.newParentId)
+                    dragStore.enableDrag()
+                }
             }
         })
     }

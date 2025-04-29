@@ -109,7 +109,7 @@ public class EditPageRelationStoreController(
         None
     }
 
-    public readonly record struct MovePageJson(
+    public readonly record struct MovePageResponse(
         int MovingPageId,
         int TargetId,
         TargetPosition Position,
@@ -119,54 +119,52 @@ public class EditPageRelationStoreController(
     public readonly record struct TryMovePageResult(
         int OldParentId,
         int NewParentId,
-        MovePageJson UndoMove);
+        MovePageResponse UndoMove);
 
-    private TryMovePageResult TryMovePage(MovePageJson json)
+    private TryMovePageResult TryMovePage(MovePageResponse response)
     {
         if (!_sessionUser.IsLoggedIn)
             throw new SecurityException(FrontendMessageKeys.Error.User.NotLoggedIn);
 
-        if (!_permissionCheck.CanMovePage(json.MovingPageId, json.OldParentId, json.NewParentId))
+        if (!_permissionCheck.CanMovePage(response.MovingPageId, response.OldParentId, response.NewParentId))
         {
-            if (json.NewParentId == FeaturedPage.RootPageId && EntityCache.GetPage(json.MovingPageId)?.Visibility == PageVisibility.Public)
+            if (response.NewParentId == FeaturedPage.RootPageId && EntityCache.GetPage(response.MovingPageId)?.Visibility == PageVisibility.Public)
                 throw new SecurityException(FrontendMessageKeys.Error.Page.ParentIsRoot);
 
             throw new SecurityException(FrontendMessageKeys.Error.Page.MissingRights);
         }
 
-        if (json.MovingPageId == json.NewParentId)
-            throw new InvalidOperationException(
-                FrontendMessageKeys.Error.Page.CircularReference);
+        if (response.MovingPageId == response.NewParentId)
+            throw new InvalidOperationException(FrontendMessageKeys.Error.Page.CircularReference);
 
-        var relationToMove = EntityCache.GetPage(json.OldParentId)?.ChildRelations
-            .FirstOrDefault(r => r.ChildId == json.MovingPageId);
+        var relationToMove = EntityCache.GetPage(response.OldParentId)?.ChildRelations
+            .FirstOrDefault(r => r.ChildId == response.MovingPageId);
 
         if (relationToMove == null)
         {
             Logg.r.Error(
                 "PageRelations - MovePage: no relation found to move - movingPageId:{0}, parentId:{1}",
-                json.MovingPageId, json.OldParentId);
+                response.MovingPageId, response.OldParentId);
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
 
-        var undoMovePageData =
-            GetUndoMovePageData(relationToMove, json.NewParentId, json.TargetId);
+        var undoMovePageData = GetUndoMovePageData(relationToMove, response.NewParentId, response.TargetId);
 
         var modifyRelationsForPage = new ModifyRelationsForPage(pageRepository, pageRelationRepo);
 
-        if (json.Position == TargetPosition.Before)
-            PageOrderer.MoveBefore(relationToMove, json.TargetId, json.NewParentId,
+        if (response.Position == TargetPosition.Before)
+            PageOrderer.MoveBefore(relationToMove, response.TargetId, response.NewParentId,
                 _sessionUser.UserId, modifyRelationsForPage);
-        else if (json.Position == TargetPosition.After)
-            PageOrderer.MoveAfter(relationToMove, json.TargetId, json.NewParentId,
+        else if (response.Position == TargetPosition.After)
+            PageOrderer.MoveAfter(relationToMove, response.TargetId, response.NewParentId,
                 _sessionUser.UserId, modifyRelationsForPage);
-        else if (json.Position == TargetPosition.Inner)
-            PageOrderer.MoveIn(relationToMove, json.TargetId, _sessionUser.UserId,
+        else if (response.Position == TargetPosition.Inner)
+            PageOrderer.MoveIn(relationToMove, response.TargetId, _sessionUser.UserId,
                 modifyRelationsForPage, _permissionCheck);
-        else if (json.Position == TargetPosition.None)
+        else if (response.Position == TargetPosition.None)
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
 
-        return new TryMovePageResult(json.OldParentId, json.NewParentId, undoMovePageData);
+        return new TryMovePageResult(response.OldParentId, response.NewParentId, undoMovePageData);
     }
 
     public readonly record struct MovePageResult(
@@ -176,11 +174,11 @@ public class EditPageRelationStoreController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public MovePageResult MovePage([FromBody] MovePageJson json)
+    public MovePageResult MovePage([FromBody] MovePageResponse response)
     {
         try
         {
-            var result = TryMovePage(json);
+            var result = TryMovePage(response);
             return new MovePageResult(true, result, "");
         }
         catch (Exception ex)
@@ -189,23 +187,23 @@ public class EditPageRelationStoreController(
         }
     }
 
-    private MovePageJson GetUndoMovePageData(
+    private MovePageResponse GetUndoMovePageData(
         PageRelationCache relation,
         int newParentId,
         int targetId)
     {
         if (relation.PreviousId != null &&
             _permissionCheck.CanViewPage((int)relation.PreviousId))
-            return new MovePageJson(relation.ChildId, (int)relation.PreviousId,
+            return new MovePageResponse(relation.ChildId, (int)relation.PreviousId,
                 TargetPosition.After, relation.ParentId,
                 newParentId);
 
         if (relation.NextId != null && _permissionCheck.CanViewPage((int)relation.NextId))
-            return new MovePageJson(relation.ChildId, (int)relation.NextId, TargetPosition.Before,
+            return new MovePageResponse(relation.ChildId, (int)relation.NextId, TargetPosition.Before,
                 relation.ParentId,
                 newParentId);
 
-        return new MovePageJson(relation.ChildId, relation.ParentId, TargetPosition.Inner,
+        return new MovePageResponse(relation.ChildId, relation.ParentId, TargetPosition.Inner,
             targetId, targetId);
     }
 
