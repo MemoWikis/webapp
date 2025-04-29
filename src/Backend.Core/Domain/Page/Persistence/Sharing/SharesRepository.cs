@@ -3,7 +3,6 @@ using NHibernate;
 
 public class SharesRepository(ISession session) : RepositoryDbBase<Share>(session)
 {
-
     public IList<Share> GetAllEager()
     {
         var shares = _session.QueryOver<Share>().Future().ToList();
@@ -22,23 +21,24 @@ public class SharesRepository(ISession session) : RepositoryDbBase<Share>(sessio
         return result.ToList();
     }
 
-    public void Create(Share share)
+    public override void Create(Share share)
     {
         base.Create(share);
         Flush();
     }
 
-    public void Update(Share share)
+    public override void Update(Share share)
     {
         base.Update(share);
         Flush();
     }
 
-    public void Delete(Share share)
+    public override void Delete(Share share)
     {
         base.Delete(share);
         Flush();
     }
+
     public void Delete(IList<int> shareIds)
     {
         if (shareIds == null || !shareIds.Any())

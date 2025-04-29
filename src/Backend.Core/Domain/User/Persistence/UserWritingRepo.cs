@@ -1,34 +1,16 @@
 ﻿using System.Diagnostics;
 using ISession = NHibernate.ISession;
 
-public class UserWritingRepo
+public class UserWritingRepo(
+    ISession _session,
+    SessionUser _sessionUser,
+    ActivityPointsRepo _activityPointsRepo,
+    UserReadingRepo _userReadingRepo,
+    ReputationCalc _reputationCalc,
+    GetWishQuestionCount _getWishQuestionCount,
+    ExtendedUserCache _extendedUserCache)
 {
-    private readonly SessionUser _sessionUser;
-
-    private readonly ActivityPointsRepo _activityPointsRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly ReputationCalc _reputationCalc;
-    private readonly GetWishQuestionCount _getWishQuestionCount;
-    private readonly ExtendedUserCache _extendedUserCache;
-    private readonly RepositoryDb<User> _repo;
-
-    public UserWritingRepo(
-        ISession session,
-        SessionUser sessionUser,
-        ActivityPointsRepo activityPointsRepo,
-        UserReadingRepo userReadingRepo,
-        ReputationCalc reputationCalc,
-        GetWishQuestionCount getWishQuestionCount,
-        ExtendedUserCache extendedUserCache)
-    {
-        _repo = new RepositoryDb<User>(session);
-        _sessionUser = sessionUser;
-        _activityPointsRepo = activityPointsRepo;
-        _userReadingRepo = userReadingRepo;
-        _reputationCalc = reputationCalc;
-        _getWishQuestionCount = getWishQuestionCount;
-        _extendedUserCache = extendedUserCache;
-    }
+    private readonly RepositoryDb<User> _repo = new(_session);
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
     {
@@ -150,7 +132,7 @@ public class UserWritingRepo
                 .ExecuteUpdate();
 
             _repo.Session.CreateSQLQuery(
-                    "Delete ua.* From Useractivity ua  Join question q ON ua.question_id = q.id where q.creator_id = :userid and (visibility = 1 Or visibility = 2)")
+                    "Delete ua.* From Useractivity ua Join question q ON ua.question_id = q.id where q.creator_id = :userid and (visibility = 1 Or visibility = 2)")
                 .SetParameter("userid", userId)
                 .ExecuteUpdate();
 
@@ -160,7 +142,7 @@ public class UserWritingRepo
                 .ExecuteUpdate();
 
             _repo.Session
-                .CreateSQLQuery("Update question  Set Creator_Id = null Where Creator_Id = :userId")
+                .CreateSQLQuery("Update question set Creator_Id = null Where Creator_Id = :userId")
                 .SetParameter("userId", userId)
                 .ExecuteUpdate();
 
@@ -173,7 +155,7 @@ public class UserWritingRepo
                 .SetParameter("userId", userId)
                 .ExecuteUpdate();
 
-            _repo.Session.CreateQuery("DELETE FROM shares WHERE UserId = :userId")
+            _repo.Session.CreateSQLQuery("DELETE FROM shares WHERE UserId = :userId")
                 .SetParameter("userId", userId)
                 .ExecuteUpdate();
 
