@@ -34,7 +34,6 @@ public class CommentModel
         Id = comment.Id;
         CreatorName = comment.Creator.Name;
         CreationDate = comment.DateCreated.ToString("U");
-        CreatorUrl = "/Nutzer/" + comment.Creator.Name + "/" + comment.Creator.Id;
         Title = comment.Title ?? "";
         Text = comment.Text;
         ShouldBeImproved = comment.ShouldImprove;
@@ -46,7 +45,6 @@ public class CommentModel
         CreatorImgUrl = new UserImageSettings(comment.Creator.Id, _httpContextAccessor)
             .GetUrl_128px_square(comment.Creator)
             .Url;
-
 
         if (comment.Answers != null)
         {
