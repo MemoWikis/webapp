@@ -16,17 +16,28 @@ interface Props {
 const { t, locale } = useI18n()
 
 const props = defineProps<Props>()
+
 const emit = defineEmits(['setPage'])
-onBeforeMount(() => {
+
+const redirectToPersonalWiki = () => {
+    if (userStore.isLoggedIn) {
+        if (userStore.personalWiki) {
+            const personalWikiUrl = $urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id)
+            return navigateTo(personalWikiUrl)
+        }
+        return navigateTo('/')
+    }
+}
+
+onBeforeMount(async () => {
     emit('setPage', SiteType.Register)
 
-    if (userStore.isLoggedIn)
-        navigateTo('/')
+    redirectToPersonalWiki()
 })
 
-watch(() => userStore.isLoggedIn, (isLoggedIn) => {
+watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
     if (isLoggedIn)
-        return navigateTo('/')
+        redirectToPersonalWiki()
 })
 
 
@@ -35,7 +46,8 @@ const awaitingConsent = ref(null as null | string)
 const allowGooglePlugin = ref(false)
 
 const renderLoginText = (text: string) => {
-    const privacyPolicyLink = `<a href="/Impressum">${t('label.privacyPolicy')}</a>`
+    const legalNoticePath = t('url.legalNotice')
+    const privacyPolicyLink = `<a href="/${legalNoticePath}">${t('label.privacyPolicy')}</a>`
     return `<p>${text}${privacyPolicyLink}</p>`
 }
 
