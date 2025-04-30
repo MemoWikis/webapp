@@ -150,9 +150,9 @@ async function answer() {
 
     const repeatedAnswer = answersSoFar.value.indexOf(solutionComponent.getAnswerText()) >= 0
     answersSoFar.value.push(solutionComponent.getAnswerText())
-
+    const answer = await solutionComponent.getAnswerDataString()
     const data = {
-        answer: await solutionComponent.getAnswerDataString(),
+        answer: answer.toString(),
         id: answerBodyModel.value?.id,
         questionViewGuid: answerBodyModel.value?.questionViewGuid,
         inTestMode: learningSessionStore.isInTestMode,

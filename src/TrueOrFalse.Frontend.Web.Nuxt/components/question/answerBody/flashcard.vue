@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { handleNewLine } from '~~/components/shared/utils'
+import { FlashCardAnswerTypeEnum } from '../flashCardAnswerTypeEnum'
 
 interface Props {
     frontContent: string
@@ -27,9 +28,9 @@ function flip() {
 
 watch(flipped, () => emit('flipped'))
 
-async function getAnswerDataString(): Promise<string> {
+async function getAnswerDataString(): Promise<FlashCardAnswerTypeEnum> {
     await nextTick()
-    return props.markedAsCorrect ? t('answerbody.answerKnown') : t('answerbody.answerNotKnown')
+    return props.markedAsCorrect ? FlashCardAnswerTypeEnum.Known : FlashCardAnswerTypeEnum.Unknown
 }
 
 function getAnswerText(): string {
