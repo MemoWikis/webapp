@@ -17,7 +17,7 @@
     "@typescript-eslint/parser": "^6.9.0",
     "eslint": "^8.52.0",
     "eslint-plugin-vue": "^9.18.1",
-    "nuxt": "^3.7.0"
+    "nuxt": "^3.16.0"
   },
   "dependencies": {
     "@datalust/winston-seq": "^2.0.0",
