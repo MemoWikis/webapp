@@ -28,9 +28,10 @@ function flip() {
 
 watch(flipped, () => emit('flipped'))
 
-async function getAnswerDataString(): Promise<FlashCardAnswerTypeEnum> {
+async function getAnswerDataString(): Promise<string> {
     await nextTick()
-    return props.markedAsCorrect ? FlashCardAnswerTypeEnum.Known : FlashCardAnswerTypeEnum.Unknown
+    const result = props.markedAsCorrect ? FlashCardAnswerTypeEnum.Known : FlashCardAnswerTypeEnum.Unknown
+    return result.toString()
 }
 
 function getAnswerText(): string {
