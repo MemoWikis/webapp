@@ -17,16 +17,28 @@ const { t, locale } = useI18n()
 
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
-onBeforeMount(() => {
+onBeforeMount(async () => {
     emit('setPage', SiteType.Register)
 
-    if (userStore.isLoggedIn)
-        navigateTo('/')
+    if (userStore.isLoggedIn) {
+        await nextTick()
+        if (userStore.personalWiki) {
+            const personalWikiUrl = $urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id)
+            return await navigateTo(personalWikiUrl)
+        }
+        return await navigateTo('/')
+    }
 })
 
-watch(() => userStore.isLoggedIn, (isLoggedIn) => {
-    if (isLoggedIn)
-        return navigateTo('/')
+watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
+    if (isLoggedIn) {
+        await nextTick()
+        if (userStore.personalWiki) {
+            const personalWikiUrl = $urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id)
+            return await navigateTo(personalWikiUrl)
+        }
+        return await navigateTo('/')
+    }
 })
 
 
@@ -35,7 +47,8 @@ const awaitingConsent = ref(null as null | string)
 const allowGooglePlugin = ref(false)
 
 const renderLoginText = (text: string) => {
-    const privacyPolicyLink = `<a href="/Impressum">${t('label.privacyPolicy')}</a>`
+    const legalNoticePath = t('url.legalNotice')
+    const privacyPolicyLink = `<a href="/${legalNoticePath}">${t('label.privacyPolicy')}</a>`
     return `<p>${text}${privacyPolicyLink}</p>`
 }
 
