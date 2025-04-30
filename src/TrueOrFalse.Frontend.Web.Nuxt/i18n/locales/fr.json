@@ -1,5 +1,9 @@
 {
     "success": {
+        "membership": {
+            "thankYou": "Merci pour ta confiance !",
+            "congratulations": "Félicitations, ton abonnement a été validé avec succès. \nNous sommes ravis que tu aies choisi memoWikis. \nTu peux maintenant accéder sans restriction à tous nos cours et supports d'apprentissage pour accélérer tes progrès."
+        },
         "page": {
             "publish": "Ta page est en ligne !",
             "setToPrivate": "Ta page est maintenant privée !",
@@ -203,7 +207,8 @@
         "user": "User",
         "users": "Users",
         "prices": "Prices",
-        "settings": "Settings"
+        "settings": "Settings",
+        "register": "Register"
     },
     "search": {
         "results": "{count} résultats",
@@ -1551,5 +1556,11 @@
         "months": "il y a {count} mois",
         "oneYear": "il y a un an",
         "years": "il y a {count} ans"
+    },
+    "membership": {
+        "cancel": {
+            "title": "Paiement annulé",
+            "message": "Dommage que tu aies annulé ton paiement.\nSi tu as rencontré des problèmes ou si tu as des questions,\nn'hésite pas à nous contacter !\nNotre équipe se fera un plaisir de t'aider."
+        }
     }
 }

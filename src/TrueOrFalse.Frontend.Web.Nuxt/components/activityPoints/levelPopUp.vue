@@ -14,7 +14,7 @@ function close() {
     <Modal :show="activityPointsStore.showLevelPopUp" :show-close-button="true"
         :primary-btn-label="userStore.isLoggedIn ? undefined : t('levelPopUp.buttons.register')"
         :secondary-btn="t('levelPopUp.buttons.continueLearning')"
-        @secondary-btn="close()" @primary-btn="navigateTo('/Registrieren')" @close="close()" @keydown.esc="close()">
+        @secondary-btn="close()" @primary-btn="navigateTo(t('url.register'))" @close="close()" @keydown.esc="close()">
         <template v-slot:header>
             <div class="levelpopup-header">
                 <img class="happy-memo-svg" width="120" src="/Images/memoWikis_MEMO_happy_blau.svg">
@@ -43,7 +43,7 @@ function close() {
                 <b>
                     <i18n-t keypath="levelPopUp.body.registerCta">
                         <template #register>
-                            <NuxtLink to="/Registrieren">{{ t('levelPopUp.buttons.register') }}</NuxtLink>
+                            <NuxtLink :to="`/${t('url.register')}`">{{ t('levelPopUp.buttons.register') }}</NuxtLink>
                         </template>
                     </i18n-t>
                 </b>

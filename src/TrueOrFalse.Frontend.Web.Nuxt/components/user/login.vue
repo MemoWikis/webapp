@@ -283,7 +283,7 @@ onMounted(() => {
                 <div class="footerText" v-else-if="!showGooglePluginInfo && !showFacebookPluginInfo">
                     <p>
                         <strong style="font-weight: 700;">{{ t('login.message.notRegistered') }}</strong> <br />
-                        <NuxtLink to="/Registrieren" @click="userStore.showLoginModal = false">
+                        <NuxtLink :to="`/${t('url.register')}`" @click="userStore.showLoginModal = false">
                             {{ t('login.button.registerNow') }}
                         </NuxtLink>
                     </p>

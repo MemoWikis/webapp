@@ -17,30 +17,31 @@ const { data: helperPages } = await useFetch<FetchResult<HelperPages[]>>('/apiVu
     },
 })
 const { $urlHelper } = useNuxtApp()
-
+const { t } = useI18n()
 </script>
 
 <template>
     <div class="container">
         <div class="row page-container main-page">
-            <h1>Abbruch</h1>
-            <p>
-                Es tut uns leid zu sehen, dass Sie Ihre Zahlung abgebrochen haben.
-                Wenn Sie auf Probleme gestoßen sind oder Fragen haben,
-                zögern Sie bitte nicht, uns zu kontaktieren.
-                Unser freundliches Support-Team steht Ihnen gerne zur Verfügung.
-            </p>
-            <div class="helper-links">
+            <div class="col-xs-12">
+                <div class="row">
+                    <h1>{{ t('membership.cancel.title') }}</h1>
+                    <p>
+                        {{ t('membership.cancel.message') }}
+                    </p>
+                    <div class="helper-links">
 
-                <NuxtLink to="https://discord.com/invite/nXKwGrN" external>
-                    <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
-                </NuxtLink>
+                        <NuxtLink to="https://discord.com/invite/nXKwGrN" external>
+                            <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
+                        </NuxtLink>
 
-                <template v-if="helperPages?.success === true">
-                    <NuxtLink v-for="helperPage in helperPages.data" :to="$urlHelper.getPageUrl(helperPage.name, helperPage.id)" :key="helperPage.id">
-                        {{ helperPage.name }}
-                    </NuxtLink>
-                </template>
+                        <template v-if="helperPages?.success === true">
+                            <NuxtLink v-for="helperPage in helperPages.data" :to="$urlHelper.getPageUrl(helperPage.name, helperPage.id)" :key="helperPage.id">
+                                {{ helperPage.name }}
+                            </NuxtLink>
+                        </template>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -54,7 +55,8 @@ const { $urlHelper } = useNuxtApp()
 }
 
 p {
+    padding-top: 24px;
     font-size: 16px;
-    font-weight: 600;
+    white-space: pre-wrap;
 }
 </style>

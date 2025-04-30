@@ -90,7 +90,7 @@ const rootPageChipStore = useRootPageChipStore()
                             </button>
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                 <button navigate class="btn memo-button register-btn">
-                                    <NuxtLink to="/Registrieren" class="" @click="handleError">
+                                    <NuxtLink :to="`/${t('url.register')}`" class="" @click="handleError">
                                         {{ t('label.register') }}
                                     </NuxtLink>
                                 </button>

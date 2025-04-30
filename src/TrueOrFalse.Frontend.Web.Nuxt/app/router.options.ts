@@ -73,18 +73,33 @@ export default <RouterConfig>{
             component: () => import("~/pages/membership/price.vue"),
         },
         {
-            name: "cancel",
+            name: "cancelDE",
             path: "/Abbruch",
             component: () => import("~/pages/membership/cancel.vue"),
         },
         {
-            name: "success",
+            name: "successDE",
             path: "/Erfolgreich",
             component: () => import("~/pages/membership/success.vue"),
         },
         {
-            name: "registerPage",
+            name: "cancel",
+            path: "/SubscriptionCancel",
+            component: () => import("~/pages/membership/cancel.vue"),
+        },
+        {
+            name: "success",
+            path: "/SubscriptionSuccess",
+            component: () => import("~/pages/membership/success.vue"),
+        },
+        {
+            name: "registerPageDE",
             path: "/Registrieren",
+            component: () => import("~/pages/user/register.vue"),
+        },
+        {
+            name: "registerPage",
+            path: "/Register",
             component: () => import("~/pages/user/register.vue"),
         },
         {
