@@ -19,13 +19,14 @@ const props = defineProps<Props>()
 
 const emit = defineEmits(['setPage'])
 
-const redirectToPersonalWiki = () => {
+const redirectToPersonalWiki = async () => {
     if (userStore.isLoggedIn) {
-        if (userStore.personalWiki) {
+
+        if (userStore.personalWiki && userStore.personalWiki.id > 0) {
             const personalWikiUrl = $urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id)
-            return navigateTo(personalWikiUrl)
+            return await navigateTo(personalWikiUrl)
         }
-        return navigateTo('/')
+        return await navigateTo('/')
     }
 }
 
@@ -164,12 +165,16 @@ async function register() {
     }
     const result = await userStore.register(registerData)
     loadingStore.stopLoading()
-    if (result === 'success' && userStore.personalWiki)
-        return navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
+    if (result === 'success') {
+        await refreshNuxtData()
+        if (userStore.personalWiki && userStore.personalWiki.id > 0) {
+            return await navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
+        }
+        return await navigateTo('/')
+    }
     else if (result)
         errorMessage.value = t(result)
 }
-
 </script>
 
 <template>
@@ -178,11 +183,6 @@ async function register() {
             <div class="col-xs-12 container main-content">
                 <div class="row login-register">
                     <div class="form-horizontal col-md-12">
-
-                        <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
-
-
-                        </div>
 
                         <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                             <h1 class="col-sm-offset-2 col-sm-8 register-title">
