@@ -901,9 +901,7 @@
             "rrrright": "Rrrrright!"
         },
         "emptyAnswerMessage": "You could at least try ... (This won’t count as an attempt.)",
-        "noCorrectAnswers": "None of the answers is correct!",
-        "answerKnown": "(Answer known)",
-        "answerNotKnown": "(Answer not known)"
+        "noCorrectAnswers": "None of the answers is correct!"
     },
     "question": {
         "editModal": {

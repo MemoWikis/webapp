@@ -901,9 +901,7 @@
             "rrrright": "¡Exactoo!"
         },
         "emptyAnswerMessage": "Al menos podrías intentarlo... (Esto no cuenta como intento).",
-        "noCorrectAnswers": "¡Ninguna de las respuestas es correcta!",
-        "answerKnown": "(Respuesta conocida)",
-        "answerNotKnown": "(Respuesta desconocida)"
+        "noCorrectAnswers": "¡Ninguna de las respuestas es correcta!"
     },
     "question": {
         "editModal": {

@@ -901,9 +901,7 @@
             "rrrright": "Rrrrrrichtig!"
         },
         "emptyAnswerMessage": "Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
-        "noCorrectAnswers": "Keine der Antworten ist richtig!",
-        "answerKnown": "(Antwort gewusst)",
-        "answerNotKnown": "(Antwort nicht gewusst)"
+        "noCorrectAnswers": "Keine der Antworten ist richtig!"
     },
     "question": {
         "editModal": {

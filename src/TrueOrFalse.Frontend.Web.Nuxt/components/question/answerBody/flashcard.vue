@@ -15,7 +15,6 @@ function init() {
     solutionHtml.value = JSON.parse(props.solution).Text
 }
 
-
 watch(() => props.solution, () => init())
 
 function flip() {

@@ -901,9 +901,7 @@
             "rrrright": "Exacteeeement !"
         },
         "emptyAnswerMessage": "Tu pourrais au moins essayer… (Ça ne compte pas comme une tentative.)",
-        "noCorrectAnswers": "Aucune réponse n’est correcte !",
-        "answerKnown": "(Réponse connue)",
-        "answerNotKnown": "(Réponse inconnue)"
+        "noCorrectAnswers": "Aucune réponse n’est correcte !"
     },
     "question": {
         "editModal": {
