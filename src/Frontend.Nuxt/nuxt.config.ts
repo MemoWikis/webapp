@@ -156,6 +156,9 @@ export default defineNuxtConfig({
             strictMessage: false,
             escapeHtml: false,
         },
+        bundle: {
+            optimizeTranslationDirective: false,
+        },
     },
     // uncomment if you need sourcemaps in prod builds:
     // sourcemap: {
