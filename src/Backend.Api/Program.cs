@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Filters;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Serilog.Exceptions;
@@ -44,7 +45,7 @@ try
     builder.Services
         .AddDistributedMemoryCache()
         .AddHttpContextAccessor()
-        .AddControllers()
+        .AddControllersWithViews() //with views, since we need "ValidateAntiforgeryTokenAuthorizationFilter"
         .AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;

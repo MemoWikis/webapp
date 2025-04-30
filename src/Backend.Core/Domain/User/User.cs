@@ -1,19 +1,10 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using static System.String;
 
 [Serializable]
 [DebuggerDisplay("Id={Id} Name={Name}")]
 public class User : DomainEntity, IUserTinyModel
 {
-    private bool _isFacebookUser;
-    private bool _isGoogleUser;
-
-    public User()
-    {
-        Followers = new List<FollowerInfo>();
-        Following = new List<FollowerInfo>();
-    }
     public virtual int ActivityLevel { get; set; }
 
     public virtual int ActivityPoints { get; set; }
@@ -29,10 +20,10 @@ public class User : DomainEntity, IUserTinyModel
     /// </summary>
     public virtual DateTime? EndDate { get; set; }
 
-    public virtual IList<FollowerInfo> Followers { get; set; }
+    public virtual IList<FollowerInfo> Followers { get; set; } = new List<FollowerInfo>();
 
     /// <summary>Users I follow</summary>
-    public virtual IList<FollowerInfo> Following { get; set; }
+    public virtual IList<FollowerInfo> Following { get; set; } = new List<FollowerInfo>();
 
     public virtual bool IsEmailConfirmed { get; set; }
     public virtual bool IsInstallationAdmin { get; set; }
