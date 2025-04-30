@@ -1,7 +1,7 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     nitro: {
-        compatibilityDate: "2025-04-29",
+        compatibilityDate: "2025-04-30",
         preset: "node-cluster",
     },
     //vite: { plugins: [eslint({ cache: false })] },
