@@ -32,7 +32,7 @@ export default defineNuxtConfig({
       chokidar: {
         usePolling: false,
         interval: 1000,
-        ignored: ['**/node_modules/**', '**/.git/**', '**/.nuxt/**', '**/logs/**']
+        ignored: ['**/node_modules/**', '**/.git/**', '**/.nuxt/**', '**/.output/**']
       }
     },
     ssr: true,
