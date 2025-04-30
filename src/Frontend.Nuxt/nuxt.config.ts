@@ -28,6 +28,13 @@ export default defineNuxtConfig({
             hocuspocusWebsocketUrl: "",
         },
     },
+    watchers: {
+      chokidar: {
+        usePolling: false,
+        interval: 1000,
+        ignored: ['**/node_modules/**', '**/.git/**', '**/.nuxt/**', '**/logs/**']
+      }
+    },
     ssr: true,
     modules: [
         "@pinia/nuxt",
