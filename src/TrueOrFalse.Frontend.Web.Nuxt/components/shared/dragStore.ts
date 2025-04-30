@@ -82,9 +82,11 @@ export const useDragStore = defineStore("dragStore", {
         },
         disableDrag() {
             this.isDraggable = false
+            console.log("disableDrag")
         },
         enableDrag() {
             this.isDraggable = true
+            console.log("enableDrag")
         },
     },
     getters: {
