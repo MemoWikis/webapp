@@ -29,7 +29,8 @@
             "passwordReset": "Your password has been reset.",
             "passwordVerificationMailSent": "Verification email sent! Please check your inbox.",
             "supportLoginUpdated": "Your support login data has been successfully updated.",
-            "wuwiVisibilityUpdated": "Your Wish-Knowledge settings have been successfully updated."
+            "wuwiVisibilityUpdated": "Your Wish-Knowledge settings have been successfully updated.",
+            "deleted": "Your account has been successfully deleted."
         },
         "collaboration": {
             "connected": "You are viewing the live version of this page"
@@ -231,7 +232,8 @@
             "createButton": "Create Wiki",
             "inputPlaceholder": "Please enter the name of the topic",
             "privateWikiMessage": "This Wiki is private. You can publish it later in the three-dot menu or directly via the lock icon."
-        }
+        },
+        "removedFromFavorites": "'{name}' was removed from favorites"
     },
     "footer": {
         "subLabelOne": "Everything in one place -",

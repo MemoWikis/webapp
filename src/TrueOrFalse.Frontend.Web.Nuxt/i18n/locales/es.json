@@ -29,7 +29,8 @@
             "passwordReset": "Tu contraseña se ha restablecido.",
             "passwordVerificationMailSent": "¡Correo de verificación enviado! Por favor, revisa tu bandeja de entrada.",
             "supportLoginUpdated": "Los datos de tu inicio de sesión de soporte se han actualizado correctamente.",
-            "wuwiVisibilityUpdated": "Tu configuración de Conocimiento deseado se ha actualizado correctamente."
+            "wuwiVisibilityUpdated": "Tu configuración de Conocimiento deseado se ha actualizado correctamente.",
+            "deleted": "Tu cuenta ha sido eliminada con éxito."
         },
         "collaboration": {
             "connected": "Estás viendo la versión en vivo de esta página"
@@ -231,7 +232,8 @@
             "createButton": "Crear Wiki",
             "inputPlaceholder": "Introduce el nombre del tema",
             "privateWikiMessage": "Este Wiki es privado. Puedes publicarlo más tarde en el menú de tres puntos o directamente con el ícono de candado."
-        }
+        },
+        "removedFromFavorites": "'{name}' ha sido eliminado de favoritos"
     },
     "footer": {
         "subLabelOne": "Todo en un solo lugar -",
