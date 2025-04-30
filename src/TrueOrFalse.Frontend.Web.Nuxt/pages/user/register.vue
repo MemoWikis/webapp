@@ -16,29 +16,28 @@ interface Props {
 const { t, locale } = useI18n()
 
 const props = defineProps<Props>()
+
 const emit = defineEmits(['setPage'])
+
+const redirectToPersonalWiki = () => {
+    if (userStore.isLoggedIn) {
+        if (userStore.personalWiki) {
+            const personalWikiUrl = $urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id)
+            return navigateTo(personalWikiUrl)
+        }
+        return navigateTo('/')
+    }
+}
+
 onBeforeMount(async () => {
     emit('setPage', SiteType.Register)
 
-    if (userStore.isLoggedIn) {
-        await nextTick()
-        if (userStore.personalWiki) {
-            const personalWikiUrl = $urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id)
-            return await navigateTo(personalWikiUrl)
-        }
-        return await navigateTo('/')
-    }
+    redirectToPersonalWiki()
 })
 
 watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
-    if (isLoggedIn) {
-        await nextTick()
-        if (userStore.personalWiki) {
-            const personalWikiUrl = $urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id)
-            return await navigateTo(personalWikiUrl)
-        }
-        return await navigateTo('/')
-    }
+    if (isLoggedIn)
+        redirectToPersonalWiki()
 })
 
 
