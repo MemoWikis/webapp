@@ -3,24 +3,27 @@
 interface Props {
     question: string
     answer: string
+    answerParams?: Record<string, string>
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+    answerParams: () => ({})
+})
+
 const show = ref<boolean>(false)
+const { t } = useI18n()
 </script>
 
 <template>
     <div class="question" @click="show = !show">
         <div class="question-inner">
-            <div class="text">{{ props.question }}</div>
+            <div class="text">{{ t(props.question) }}</div>
             <div class="icon">
                 <font-awesome-icon :icon="['fa-solid', 'fa-chevron-down']" :class="{ 'open': show }" />
             </div>
         </div>
     </div>
-    <div v-show="show" class="answer">
-        {{ props.answer }}
-    </div>
+    <div v-show="show" class="answer" v-html="t(props.answer, props.answerParams)"></div>
 </template>
 
 <style lang="less" scoped>

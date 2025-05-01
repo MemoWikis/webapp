@@ -49,7 +49,9 @@ const description = ref<string>(t('errorContent.route.notFound'))
 
 function handleError() {
     clearError({ redirect: '/' })
-} 
+}
+
+const config = useRuntimeConfig()
 </script>
 
 <template>
@@ -62,11 +64,11 @@ function handleError() {
                         {{ t('errorContent.backToHome') }}
                     </button>
                     <h2 class="error-message">{{ description }}</h2>
-                    <p class="email">{{ t('errorContent.emailContact', { email: 'team@memoWikis.de' }) }}</p>
+                    <p class="email">{{ t('errorContent.emailContact', { email: config.public.teamEmail }) }}</p>
                     <ul>
                         <li>{{ t('errorContent.notifications.emailSent') }}</li>
                         <li>{{ t('errorContent.notifications.urgentContact') }}</li>
-                        <li>{{ t('errorContent.notifications.emailOption', { email: 'team@memoWikis.de' }) }}</li>
+                        <li>{{ t('errorContent.notifications.emailOption', { email: config.public.teamEmail }) }}</li>
                     </ul>
                 </div>
             </div>

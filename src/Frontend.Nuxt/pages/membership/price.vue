@@ -2,36 +2,49 @@
 interface FaqItem {
     question: string
     answer: string
+    answerParams?: Record<string, string>
 }
+const { t, locale } = useI18n()
+
 const faqItems = ref<FaqItem[]>([
     {
-        "question": "Was passiert, wenn mein Abo ausläuft?",
-        "answer": "Wenn dein Abo ausläuft, kannst du keine weiteren privaten Inhalte über die Basislimits hinaus mehr anlegen. Allerdings werden deine bestehenden Inhalte nicht gelöscht."
+        "question": 'user.membership.faq.billing.question',
+        "answer": 'user.membership.faq.billing.answer'
     },
     {
-        "question": "Werden private Inhalte gelöscht, wenn mein Abo ausläuft?",
-        "answer": "Nein, deine privaten Inhalte werden nicht gelöscht, es sei denn, du möchtest das. Du kannst weiterhin auf sie zugreifen, auch wenn dein Abo ausgelaufen ist."
+        "question": 'user.membership.faq.privateContent.question',
+        "answer": 'user.membership.faq.privateContent.answer'
     },
     {
-        "question": "Was bedeutet “uneingeschränkte Inhalte”, gibt es keine Limits?",
-        "answer": "Bislang haben wir keine Limits vorgesehen. Wenn jedoch technische Grenzen erreicht werden, informieren wir dich. Bei normaler Nutzung solltest du keine technischen Limits erreichen. Limits für Bilder und Videos werden noch festgelegt."
+        "question": 'user.membership.faq.unlimitedContent.question',
+        "answer": 'user.membership.faq.unlimitedContent.answer'
     },
     {
-        "question": "Wie erfolgt die Bezahlung?",
-        "answer": "Die Zahlung erfolgt über den Zahlungsdienstleister Stripe. Stripe arbeitet GDRP/DSGVO-konform (https://stripe.com/at/privacy). Wir erhalten von Stripe nur eine Rückmeldung über den Zahlungserfolg. Alle weiteren Vorgänge, wie Rechnungslegung und Verwaltung der Kreditkartendaten, werden von Stripe durchgeführt."
+        "question": 'user.membership.faq.payment.question',
+        "answer": 'user.membership.faq.payment.answer',
+        "answerParams": { stripePrivacyUrl: `https://stripe.com/at/privacy` }
     },
     {
-        "question": "Meine Kreditkarte wurde abgelehnt und ich möchte auf meine privaten Inhalte zugreifen. Wie gehe ich vor?",
-        "answer": "Auch wenn dein Abo abgelaufen ist oder deine Kreditkarte bei der Verlängerung abgelehnt wurde, kannst du weiterhin auf deine privaten Inhalte zugreifen."
+        "question": 'user.membership.faq.cardDeclined.question',
+        "answer": 'user.membership.faq.cardDeclined.answer'
     },
 ])
 
 const emit = defineEmits(['setBreadcrumb'])
 
 onBeforeMount(() => {
-    emit('setBreadcrumb', [{ name: 'Preise', url: '/Preise' }])
+    if (locale.value === 'de') {
+        emit('setBreadcrumb', [{ name: t('user.membership.breadcrumb'), url: '/Preise' }])
+    } else {
+        emit('setBreadcrumb', [{ name: t('user.membership.breadcrumb'), url: '/Prices' }])
+    }
 })
 
+const config = useRuntimeConfig()
+
+const contact = () => {
+    window.location.href = `mailto:${config.public.teamEmail}`
+}
 </script>
 
 <template>
@@ -39,14 +52,11 @@ onBeforeMount(() => {
         <div class="row main-page">
             <div class="main-content">
                 <div class="col-md-12 header">
-                    <div class="top-label">MITGLIED WERDEN UND FREIE BILDUNG UNTERSTÜTZEN!</div>
-                    <!-- <div class="top-label"></div> -->
-                    <div class="title">Mitgliedschaft</div>
-                    <!-- <div class="title">Öffentlich ist kostenlos – für immer und alle!</div> -->
+                    <div class="top-label">{{ t('user.membership.header.topLabel') }}</div>
+                    <div class="title">{{ t('user.membership.header.title') }}</div>
                     <div class="bottom-label">
-                        Öffentliche Inhalte sind auf memoWikis uneingeschränkt nutzbar. Freie Daten –
-                        freie Software (open data open access)! <br /><br />
-                        Du möchtest memoWikis für private Inhalte nutzen? Hier findest unsere Preise:
+                        {{ t('user.membership.header.bottomLabel1') }} <br /><br />
+                        {{ t('user.membership.header.bottomLabel2') }}
                     </div>
                 </div>
                 <div class="col-xs-12">
@@ -58,18 +68,17 @@ onBeforeMount(() => {
     </div>
     <div class="full-width-row">
         <div id="FaqHeaderOuter">
-            <div class="faq-top-label">Häufig gestellte Fragen</div>
-            <!-- <div>Fragen</div> -->
+            <div class="faq-top-label">{{ t('user.membership.faq.title') }}</div>
         </div>
 
         <div id="QuestionsOuter">
 
-            <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" />
+            <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" :answer-params="item.answerParams" />
 
             <div id="NotFound">
-                <div class="not-found-header">Deine Frage nicht gefunden?</div>
-                <a class="memoWikis-contact" href="mailto:abc@example.com">memoWikis kontaktieren</a>
-                <div class="email">team@memoWikis.de</div>
+                <div class="not-found-header">{{ t('user.membership.faq.notFound') }}</div>
+                <div class="memoWikis-contact" @click="contact()">{{ t('user.membership.faq.contact') }}</div>
+                <div class="email">{{ config.public.teamMail }}</div>
             </div>
         </div>
     </div>

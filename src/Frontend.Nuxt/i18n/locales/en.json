@@ -266,7 +266,7 @@
     },
     "editor": {
         "placeholderComment": "Describe your concern here. Please write politely, kindly and factually...",
-        "placholderQuestion": "Enter the question text",
+        "placeholderQuestion": "Enter the question text",
         "placeholderFlashcardFront": "Front side of the flashcard",
         "placeholderFlashcardBack": "Back side of the flashcard",
         "placeholderDescription": "Additions to the question, e.g. images, code, etc.",
@@ -1230,6 +1230,12 @@
             "settings": "Settings"
         },
         "membership": {
+            "header": {
+                "topLabel": "Become a member and support free education",
+                "title": "Membership",
+                "bottomLabel1": "Public content on memoWikis is freely accessible. Free data - free software (open data open access)!",
+                "bottomLabel2": "Do you want to use memoWikis for private content? Here are our prices:"
+            },
             "plans": {
                 "downgrade": "Downgrade",
                 "yourMembership": "Your membership",
@@ -1291,6 +1297,31 @@
                         "hosting": "Dedicated server / hosting in your data centre",
                         "customizing": "Customisation"
                     }
+                }
+            },
+            "faq": {
+                "title": "Frequently Asked Questions",
+                "notFound": "Can't find your question?",
+                "contact": "Contact memoWikis",
+                "billing": {
+                    "question": "What happens when my subscription expires?",
+                    "answer": "When your subscription expires, you can no longer create additional private content beyond the basic limits. However, your existing content will not be deleted."
+                },
+                "privateContent": {
+                    "question": "Will private content be deleted when my subscription expires?",
+                    "answer": "No, your private content will not be deleted unless you want it to be. You can still access it even after your subscription has expired."
+                },
+                "unlimitedContent": {
+                    "question": "What does 'unlimited content' mean, are there no limits?",
+                    "answer": "So far, we haven't set any limits. However, if technical boundaries are reached, we will inform you. With normal use, you shouldn't reach any technical limits. Limits for images and videos are still being determined."
+                },
+                "payment": {
+                    "question": "How does payment work?",
+                    "answer": "Payment is processed through the payment service provider Stripe. Stripe operates in compliance with GDPR ({stripePrivacyUrl}). We only receive feedback from Stripe about the payment success. All other processes, such as invoicing and credit card data management, are carried out by Stripe."
+                },
+                "cardDeclined": {
+                    "question": "My credit card was declined and I want to access my private content. What do I do?",
+                    "answer": "Even if your subscription has expired or your credit card was declined during renewal, you can still access your private content."
                 }
             }
         },
@@ -1505,5 +1536,18 @@
     },
     "chip": {
         "showSpoiler": "Show spoiler"
+    },
+    "timeElapsed": {
+        "lessThanAMinute": "less than a minute ago",
+        "oneMinute": "one minute ago",
+        "minutes": "{count} minutes ago",
+        "oneHour": "one hour ago",
+        "hours": "{count} hours ago",
+        "oneDay": "one day ago",
+        "days": "{count} days ago",
+        "oneMonth": "one month ago",
+        "months": "{count} months ago",
+        "oneYear": "one year ago",
+        "years": "{count} years ago"
     }
 }

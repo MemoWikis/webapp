@@ -2,9 +2,11 @@
 import { handleNewLine } from '~~/components/shared/utils'
 import { useUserStore } from '../userStore'
 import { Message } from './message'
+import { useTimeElapsed } from '~~/composables/useTimeElapsed'
 
 const userStore = useUserStore()
 const { t } = useI18n()
+const { getTimeElapsedAsText } = useTimeElapsed()
 
 interface Props {
     message: Message,
@@ -52,9 +54,9 @@ watch(() => props.forceShow, (val) => showMessage.value = val)
             </div>
 
             <div class="col-sm-5 footer">
-                <span class="show-tooltip" :title="props.message.date">{{ t('user.messages.row.ago') }} {{
-                    props.message.timeElapsed
-                }}</span>
+                <span class="show-tooltip" :title="props.message.date">
+                    {{ getTimeElapsedAsText(props.message.date) }}
+                </span>
             </div>
             <div class="col-sm-7 footer" v-if="props.message.id != 0">
                 <span class="pull-right" v-if="read">

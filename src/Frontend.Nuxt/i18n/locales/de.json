@@ -8,7 +8,13 @@
             "saveImage": "Das neue Bild wurde gespeichert",
             "saved": "Die Seite wurde erfolgreich gespeichert.",
             "convertedToWiki": "Die Seite '{name}' wurde erfolgreich in ein Wiki umgewandelt.",
-            "convertedToPage": "Das Wiki '{name}' wurde erfolgreich in eine Seite umgewandelt."
+            "convertedToPage": "Das Wiki '{name}' wurde erfolgreich in eine Seite umgewandelt.",
+            "shared": "Die Seite wurde erfolgreich geteilt.",
+            "rightsUpdated": "Die Zugriffsrechte wurden erfolgreich aktualisiert.",
+            "token": {
+                "renewed": "Der Teilungslink wurde erfolgreich erneuert.",
+                "copied": "Der Teilungslink wurde in die Zwischenablage kopiert."
+            }
         },
         "question": {
             "created": "Deine Frage wurde erfolgreich erstellt.",
@@ -58,7 +64,9 @@
             "pageNotSelected": "Du hast keine Seite ausgewählt",
             "newPageIdIsPageIdToBeDeleted": "Die ausgewählte Seite kann nicht die Seite sein, die gelöscht werden soll.",
             "noChange": "Es wurden keine Änderungen vorgenommen.",
-            "noChildSelected": "Du hast keine Unterseite ausgewählt."
+            "noChildSelected": "Du hast keine Unterseite ausgewählt.",
+            "noUsersSelected": "Bitte wähle mindestens einen Benutzer aus, mit dem du teilen möchtest.",
+            "shareFailure": "Die Seite konnte nicht geteilt werden. Bitte versuche es erneut."
         },
         "question": {
             "missingText": "Der Fragetext fehlt.",
@@ -114,6 +122,12 @@
         "ai": {
             "generateFlashcards": "Es konnten keine Karteikarten erstellt werden.",
             "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt."
+        },
+        "loading": {
+            "shares": "Die Freigabeinformationen konnten nicht geladen werden."
+        },
+        "token": {
+            "generation": "Der Freigabelink konnte nicht erstellt werden. Bitte versuche es erneut."
         }
     },
     "info": {
@@ -252,7 +266,7 @@
     },
     "editor": {
         "placeholderComment": "Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...",
-        "placholderQuestion": "Gib den Fragetext ein",
+        "placeholderQuestion": "Gib den Fragetext ein",
         "placeholderFlashcardFront": "Vorderseite der Karteikarte",
         "placeholderFlashcardBack": "Rückseite der Karteikarte",
         "placeholderDescription": "Ergänzungen zur Frage, zB. Bilder, Code usw.",
@@ -1216,6 +1230,12 @@
             "settings": "Einstellungen"
         },
         "membership": {
+            "header": {
+                "topLabel": "Mitglied werden und freie Bildung fördern",
+                "title": "Mitgliedschaft",
+                "bottomLabel1": "Öffentliche Inhalte sind auf memoWikis uneingeschränkt nutzbar. Freie Daten – freie Software (open data open access)!",
+                "bottomLabel2": "Du möchtest memoWikis für private Inhalte nutzen? Hier findest unsere Preise:"
+            },
             "plans": {
                 "downgrade": "Downgrade",
                 "yourMembership": "Deine Mitgliedschaft",
@@ -1277,6 +1297,31 @@
                         "hosting": "Eigener Server / Hosting in Eurem Rechenzentrium",
                         "customizing": "Customizing"
                     }
+                }
+            },
+            "faq": {
+                "title": "Häufig gestellte Fragen",
+                "notFound": "Deine Frage nicht gefunden?",
+                "contact": "memoWikis kontaktieren",
+                "billing": {
+                    "question": "Was passiert, wenn mein Abo ausläuft?",
+                    "answer": "Wenn dein Abo ausläuft, kannst du keine weiteren privaten Inhalte über die Basislimits hinaus mehr anlegen. Allerdings werden deine bestehenden Inhalte nicht gelöscht."
+                },
+                "privateContent": {
+                    "question": "Werden private Inhalte gelöscht, wenn mein Abo ausläuft?",
+                    "answer": "Nein, deine privaten Inhalte werden nicht gelöscht, es sei denn, du möchtest das. Du kannst weiterhin auf sie zugreifen, auch wenn dein Abo ausgelaufen ist."
+                },
+                "unlimitedContent": {
+                    "question": "Was bedeutet “uneingeschränkte Inhalte”, gibt es keine Limits?",
+                    "answer": "Bislang haben wir keine Limits vorgesehen. Wenn jedoch technische Grenzen erreicht werden, informieren wir dich. Bei normaler Nutzung solltest du keine technischen Limits erreichen. Limits für Bilder und Videos werden noch festgelegt."
+                },
+                "payment": {
+                    "question": "Wie erfolgt die Bezahlung?",
+                    "answer": "Die Zahlung erfolgt über den Zahlungsdienstleister Stripe. Stripe arbeitet GDRP/DSGVO-konform ({stripePrivacyUrl}). Wir erhalten von Stripe nur eine Rückmeldung über den Zahlungserfolg. Alle weiteren Vorgänge, wie Rechnungslegung und Verwaltung der Kreditkartendaten, werden von Stripe durchgeführt."
+                },
+                "cardDeclined": {
+                    "question": "Meine Kreditkarte wurde abgelehnt und ich möchte auf meine privaten Inhalte zugreifen. Wie gehe ich vor?",
+                    "answer": "Auch wenn dein Abo abgelaufen ist oder deine Kreditkarte bei der Verlängerung abgelehnt wurde, kannst du weiterhin auf deine privaten Inhalte zugreifen."
                 }
             }
         },
@@ -1491,5 +1536,18 @@
     },
     "chip": {
         "showSpoiler": "Spoiler anzeigen"
+    },
+    "timeElapsed": {
+        "lessThanAMinute": "vor weniger als einer Minute",
+        "oneMinute": "vor einer Minute",
+        "minutes": "vor {count} Minuten",
+        "oneHour": "vor einer Stunde",
+        "hours": "vor {count} Stunden",
+        "oneDay": "vor einem Tag",
+        "days": "vor {count} Tagen",
+        "oneMonth": "vor einem Monat",
+        "months": "vor {count} Monaten",
+        "oneYear": "vor einem Jahr",
+        "years": "vor {count} Jahren"
     }
 }

@@ -4,8 +4,7 @@ export interface CommentModel {
     id: number
     creatorName: string
     creatorEncodedName: string
-    creationDate: string
-    creationDateNiceText: string
+    creationDate: Date
     creatorImgUrl: string
     creatorId: number
     title: string
@@ -19,8 +18,7 @@ export interface CommentModel {
     showSettledAnswers: boolean
 }
 
-export const useCommentsStore = defineStore('commentsStore', () => {
-
+export const useCommentsStore = defineStore("commentsStore", () => {
     const show = ref<boolean>(false)
 
     const questionId = ref<number>(0)
@@ -34,7 +32,7 @@ export const useCommentsStore = defineStore('commentsStore', () => {
         }
     }
 
-    async function loadFirst(id: number) { 
+    async function loadFirst(id: number) {
         questionId.value = id
         await loadComments()
     }
@@ -44,10 +42,13 @@ export const useCommentsStore = defineStore('commentsStore', () => {
             settledComments: CommentModel[]
             unsettledComments: CommentModel[]
         }
-        const result = await $api<Result>(`/apiVue/CommentsStore/GetAllComments/${questionId.value}`, {
-            mode: 'cors',
-            credentials: 'include'
-        })
+        const result = await $api<Result>(
+            `/apiVue/CommentsStore/GetAllComments/${questionId.value}`,
+            {
+                mode: "cors",
+                credentials: "include",
+            }
+        )
         if (result) {
             settledComments.value = result.settledComments
             unsettledComments.value = result.unsettledComments
@@ -57,12 +58,24 @@ export const useCommentsStore = defineStore('commentsStore', () => {
     }
 
     async function loadComment(id: number) {
-        const result = await $api<CommentModel>(`/apiVue/CommentsStore/GetComment/${id}`, {
-            mode: 'cors',
-            credentials: 'include'
-        })
+        const result = await $api<CommentModel>(
+            `/apiVue/CommentsStore/GetComment/${id}`,
+            {
+                mode: "cors",
+                credentials: "include",
+            }
+        )
         return result
     }
 
-    return { show, questionId, unsettledComments, settledComments, openModal, loadComments, loadFirst, loadComment }
+    return {
+        show,
+        questionId,
+        unsettledComments,
+        settledComments,
+        openModal,
+        loadComments,
+        loadFirst,
+        loadComment,
+    }
 })

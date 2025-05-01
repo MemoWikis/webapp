@@ -8,7 +8,13 @@
             "saveImage": "La nueva imagen se ha guardado.",
             "saved": "La página se ha guardado correctamente.",
             "convertedToWiki": "La página '{name}' se ha convertido correctamente en un Wiki.",
-            "convertedToPage": "El Wiki '{name}' se ha convertido correctamente en una página."
+            "convertedToPage": "El Wiki '{name}' se ha convertido correctamente en una página.",
+            "shared": "La página ha sido compartida con éxito.",
+            "rightsUpdated": "Los derechos de acceso se han actualizado correctamente.",
+            "token": {
+                "renewed": "El enlace de compartir ha sido renovado con éxito.",
+                "copied": "El enlace de compartir ha sido copiado al portapapeles."
+            }
         },
         "question": {
             "created": "Tu pregunta se ha creado con éxito.",
@@ -58,7 +64,9 @@
             "pageNotSelected": "No has seleccionado ninguna página.",
             "newPageIdIsPageIdToBeDeleted": "La página seleccionada no puede ser la misma que se va a eliminar.",
             "noChange": "No se han realizado cambios.",
-            "noChildSelected": "No has seleccionado ninguna subpágina."
+            "noChildSelected": "No has seleccionado ninguna subpágina.",
+            "noUsersSelected": "Por favor, selecciona al menos un usuario con quien compartir.",
+            "shareFailure": "No se pudo compartir la página. Por favor, inténtalo de nuevo."
         },
         "question": {
             "missingText": "Falta el texto de la pregunta.",
@@ -114,6 +122,12 @@
         "ai": {
             "generateFlashcards": "No se pudieron generar las tarjetas.",
             "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Vaya, ¡has alcanzado tu límite! Como la página es privada, no se crearon tarjetas."
+        },
+        "loading": {
+            "shares": "No se pudo cargar la información de compartición."
+        },
+        "token": {
+            "generation": "No se pudo generar el enlace para compartir. Por favor, inténtalo de nuevo."
         }
     },
     "info": {
@@ -208,6 +222,8 @@
         "convertToPage": "Convertir en página",
         "favourites": "Favoritos",
         "lastVisited": "Últimos visitados",
+        "sharedWithMe": "Compartido conmigo",
+        "noSharedPages": "Aún no hay páginas compartidas contigo",
         "help": "Ayuda",
         "documentation": "Documentación",
         "createWikiModal": {
@@ -250,7 +266,7 @@
     },
     "editor": {
         "placeholderComment": "Describe aquí tu comentario. Sé cortés, amable y objetivo...",
-        "placholderQuestion": "Introduce el texto de la pregunta",
+        "placeholderQuestion": "Introduce el texto de la pregunta",
         "placeholderFlashcardFront": "Anverso de la tarjeta",
         "placeholderFlashcardBack": "Reverso de la tarjeta",
         "placeholderDescription": "Información adicional: imágenes, código, etc.",
@@ -539,7 +555,7 @@
                 },
                 "childrenRemoved": {
                     "singular": "Subpágina eliminada",
-                    "plural": "Subpáginas eliminadas"
+                    "plural": "Páginas eliminadas"
                 }
             }
         },
@@ -1023,7 +1039,8 @@
             "contactReason": "para que podamos conservar tu valioso contenido y eliminar tu perfil por ti."
         },
         "wuwi": {
-            "showWuwi": "Mostrar Conocimiento deseado"
+            "showWuwi": "Mostrar Conocimiento deseado",
+            "explanation": "Si seleccionas esto, será visible públicamente qué preguntas están en tu Conocimiento deseado (excepto preguntas privadas). No se muestran estadísticas de respuestas."
         },
         "supportLogin": {
             "allow": "Permitir inicio de sesión de soporte",
@@ -1213,6 +1230,12 @@
             "settings": "Configuración"
         },
         "membership": {
+            "header": {
+                "topLabel": "Hazte miembro y apoya la educación libre",
+                "title": "Membresía",
+                "bottomLabel1": "El contenido público en memoWikis es accesible sin restricciones. ¡Datos libres - software libre (open data open access)!",
+                "bottomLabel2": "¿Quieres usar memoWikis para contenido privado? Aquí están nuestros precios:"
+            },
             "plans": {
                 "downgrade": "Degradar",
                 "yourMembership": "Tu membresía",
@@ -1275,6 +1298,31 @@
                         "customizing": "Personalización"
                     }
                 }
+            },
+            "faq": {
+                "title": "Preguntas frecuentes",
+                "notFound": "¿No encuentras tu pregunta?",
+                "contact": "Contactar a memoWikis",
+                "billing": {
+                    "question": "¿Qué ocurre cuando expira mi suscripción?",
+                    "answer": "Cuando tu suscripción expira, no puedes crear más contenido privado por encima de los límites básicos. Sin embargo, tu contenido existente no se elimina."
+                },
+                "privateContent": {
+                    "question": "¿Se elimina el contenido privado cuando expira mi suscripción?",
+                    "answer": "No, tu contenido privado no se elimina, a menos que tú lo desees. Puedes seguir accediendo a él incluso después de que tu suscripción haya expirado."
+                },
+                "unlimitedContent": {
+                    "question": "¿Qué significa 'contenido ilimitado', no hay límites?",
+                    "answer": "Hasta ahora no hemos establecido límites. Sin embargo, si se alcanzan límites técnicos, te informaremos. Con un uso normal, no deberías alcanzar ningún límite técnico. Los límites para imágenes y videos aún están siendo determinados."
+                },
+                "payment": {
+                    "question": "¿Cómo funciona el pago?",
+                    "answer": "El pago se procesa a través del proveedor de servicios de pago Stripe. Stripe opera en conformidad con el RGPD ({stripePrivacyUrl}). Solo recibimos de Stripe una confirmación sobre el éxito del pago. Todos los demás procesos, como la facturación y la gestión de datos de tarjetas de crédito, son realizados por Stripe."
+                },
+                "cardDeclined": {
+                    "question": "Mi tarjeta de crédito fue rechazada y quiero acceder a mi contenido privado. ¿Qué debo hacer?",
+                    "answer": "Incluso si tu suscripción ha expirado o tu tarjeta fue rechazada durante la renovación, aún puedes acceder a tu contenido privado."
+                }
             }
         },
         "messages": {
@@ -1323,7 +1371,7 @@
             "languages": "Idiomas"
         },
         "tabs": {
-            "allUsers": "Todos los usuarios"
+            "overview": "Resumen"
         }
     },
     "deletePageStore": {
@@ -1488,5 +1536,18 @@
     },
     "chip": {
         "showSpoiler": "Mostrar spoiler"
+    },
+    "timeElapsed": {
+        "lessThanAMinute": "menos de un minuto",
+        "oneMinute": "un minuto",
+        "minutes": "{count} minutos",
+        "oneHour": "una hora",
+        "hours": "{count} horas",
+        "oneDay": "un día",
+        "days": "{count} días",
+        "oneMonth": "un mes",
+        "months": "{count} meses",
+        "oneYear": "un año",
+        "years": "{count} años"
     }
 }

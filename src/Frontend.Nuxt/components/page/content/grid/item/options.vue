@@ -128,7 +128,7 @@ const ariaId2 = useId()
                         <div class="dropdown-icon">
                             <font-awesome-icon :icon="['fas', 'plus']" />
                         </div>
-                        <div class="dropdown-label">{{ t('page.grid.options.createSubpage') }}</div>
+                        <div class="dropdown-label">{{ t('page.grid.options.create') }}</div>
                     </div>
                     <div class="divider"></div>
 
@@ -164,7 +164,7 @@ const ariaId2 = useId()
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fas', 'link']" />
                             </div>
-                            <div class="dropdown-label">{{ t('page.grid.options.linkSubpage') }}</div>
+                            <div class="dropdown-label">{{ t('page.grid.options.linkChildPage') }}</div>
                         </div>
 
                         <!-- Remove parent page -->

@@ -79,39 +79,39 @@ function flip() {
 }
 
 const _errMsgs = [
-    t('answerbody.errorMessages.churchill'),
-    t('answerbody.errorMessages.keepGoing'),
-    t('answerbody.errorMessages.practice')
+    'answerbody.errorMessages.churchill',
+    'answerbody.errorMessages.keepGoing',
+    'answerbody.errorMessages.practice'
 ]
 
 const _repeatedErrMsgs = [
-    t('answerbody.repeatedErrorMessages.confucius'),
-    t('answerbody.repeatedErrorMessages.balanced')
+    'answerbody.repeatedErrorMessages.confucius',
+    'answerbody.repeatedErrorMessages.balanced'
 ]
 
 const _successMsgs = [
-    t('answerbody.successMessages.yeah'),
-    t('answerbody.successMessages.goodWay'),
-    t('answerbody.successMessages.clean'),
-    t('answerbody.successMessages.wellDone'),
-    t('answerbody.successMessages.great'),
-    t('answerbody.successMessages.keepItUp'),
-    t('answerbody.successMessages.exactly'),
-    t('answerbody.successMessages.absolutely'),
-    t('answerbody.successMessages.cantBeMoreCorrect'),
-    t('answerbody.successMessages.flawless'),
-    t('answerbody.successMessages.correct'),
-    t('answerbody.successMessages.perfect'),
-    t('answerbody.successMessages.more'),
-    t('answerbody.successMessages.awesome'),
-    t('answerbody.successMessages.schubidu'),
-    t('answerbody.successMessages.thereYouGo'),
-    t('answerbody.successMessages.exact'),
-    t('answerbody.successMessages.thatsIt'),
-    t('answerbody.successMessages.nothingToComplain'),
-    t('answerbody.successMessages.looksGood'),
-    t('answerbody.successMessages.oha'),
-    t('answerbody.successMessages.rrrright')
+    'answerbody.successMessages.yeah',
+    'answerbody.successMessages.goodWay',
+    'answerbody.successMessages.clean',
+    'answerbody.successMessages.wellDone',
+    'answerbody.successMessages.great',
+    'answerbody.successMessages.keepItUp',
+    'answerbody.successMessages.exactly',
+    'answerbody.successMessages.absolutely',
+    'answerbody.successMessages.cantBeMoreCorrect',
+    'answerbody.successMessages.flawless',
+    'answerbody.successMessages.correct',
+    'answerbody.successMessages.perfect',
+    'answerbody.successMessages.more',
+    'answerbody.successMessages.awesome',
+    'answerbody.successMessages.schubidu',
+    'answerbody.successMessages.thereYouGo',
+    'answerbody.successMessages.exact',
+    'answerbody.successMessages.thatsIt',
+    'answerbody.successMessages.nothingToComplain',
+    'answerbody.successMessages.looksGood',
+    'answerbody.successMessages.oha',
+    'answerbody.successMessages.rrrright'
 ]
 
 const wellDoneMsg = ref('')
@@ -178,14 +178,14 @@ async function answer() {
             learningSessionStore.markCurrentStepAsCorrect()
             answerIsWrong.value = false
             answerIsCorrect.value = true
-            wellDoneMsg.value = _successMsgs[random(0, _successMsgs.length - 1)]
+            wellDoneMsg.value = t(_successMsgs[random(0, _successMsgs.length - 1)])
         }
         else {
             activityPointsStore.addPoints(Activity.WrongAnswer)
             learningSessionStore.markCurrentStepAsWrong()
             answerIsCorrect.value = false
             answerIsWrong.value = true
-            wrongAnswerMsg.value = repeatedAnswer ? _repeatedErrMsgs[random(0, _repeatedErrMsgs.length - 1)] : _errMsgs[random(0, _errMsgs.length - 1)]
+            wrongAnswerMsg.value = repeatedAnswer ? t(_repeatedErrMsgs[random(0, _repeatedErrMsgs.length - 1)]) : t(_errMsgs[random(0, _errMsgs.length - 1)])
         }
 
         showAnswerButtons.value = false
@@ -223,17 +223,31 @@ function highlightCode() {
 
 const answerBodyModel = ref<AnswerBodyModel>()
 
+const currentRequest = ref<AbortController | null>(null)
+
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
+
+    if (currentRequest.value) {
+        currentRequest.value.abort()
+    }
+
+    currentRequest.value = new AbortController()
+
     const result = await $api<AnswerBodyModel>(`/apiVue/AnswerBody/Get/${learningSessionStore.currentIndex}`, {
         mode: 'cors',
         credentials: 'include',
+        signal: currentRequest.value.signal,
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
+    }).catch(() => {
+        return null
     })
+
+    currentRequest.value = null
+
     if (result != null) {
         flashCardAnswered.value = false
         answerIsCorrect.value = false
@@ -249,23 +263,46 @@ async function loadAnswerBodyModel() {
 
         await nextTick()
         highlightCode()
-        if (tabsStore.activeTab === Tab.Learning)
-            handleUrl()
+        if (tabsStore.isLearning)
+            attachQuestionIdToUrl()
     }
 }
 
 const router = useRouter()
-async function handleUrl() {
-    if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0 && window.location.pathname != $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)) {
-        const newPath = $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)
-        router.push(newPath)
+async function attachQuestionIdToUrl() {
+    if (!tabsStore.isLearning || !answerBodyModel.value?.id || answerBodyModel.value.id <= 0)
+        return
+
+    const pathSegments = window.location.pathname.split('/')
+        .filter(segment => segment.length > 0)
+
+    const currentPageId = pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))
+        ? parseInt(pathSegments[1])
+        : null
+
+    if (currentPageId === pageStore.id) {
+        const newPath = $urlHelper.getPageUrlWithQuestionId(
+            pageStore.name,
+            pageStore.id,
+            answerBodyModel.value.id
+        )
+
+        if (newPath !== window.location.pathname)
+            router.push(newPath)
     }
 }
 
+watch(() => pageStore.id, (newId, oldId) => {
+    if (newId !== oldId && currentRequest.value) {
+        currentRequest.value.abort()
+        currentRequest.value = null
+    }
+})
+
 const route = useRoute()
-watch(() => tabsStore.activeTab, async (tab) => {
-    if (tab === Tab.Learning && isNaN(parseInt(route.params.questionId?.toString()))) {
-        handleUrl()
+watch(() => tabsStore.activeTab, () => {
+    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString()))) {
+        attachQuestionIdToUrl()
     }
 })
 
@@ -291,7 +328,7 @@ async function markAsCorrect() {
         learningSessionStore.markCurrentStepAsCorrect()
         answerIsWrong.value = false
         answerIsCorrect.value = true
-        wellDoneMsg.value = _successMsgs[random(0, _successMsgs.length - 1)]
+        wellDoneMsg.value = t(_successMsgs[random(0, _successMsgs.length - 1)])
     }
 }
 const solutionData = ref<SolutionData | null>(null)

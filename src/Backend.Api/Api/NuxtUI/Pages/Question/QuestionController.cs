@@ -190,7 +190,7 @@ public class QuestionController(
                 Id: question.CreatorId,
                 Name: question.Creator.Name
             ),
-            CreationDate: DateTimeUtils.TimeElapsedAsText(question.DateCreated),
+            CreationDate: question.DateCreated,
             TotalViewCount: question.TotalViews,
             WishknowledgeCount: question.TotalRelevancePersonalEntries,
             License: new License(

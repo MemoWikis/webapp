@@ -15,7 +15,7 @@
     long DateNow,
     long EndTimer,
     MacroCreator Creator,
-    string CreationDate,
+    DateTime CreationDate,
     int TotalViewCount,
     int WishknowledgeCount,
     License License);

@@ -26,6 +26,7 @@ export default defineNuxtConfig({
             facebookAppId: "",
             environment: "",
             hocuspocusWebsocketUrl: "",
+            teamEmail: "",
         },
     },
     watchers: {

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { usePageStore } from '~/components/page/pageStore'
 import { useUserStore } from '~~/components/user/userStore'

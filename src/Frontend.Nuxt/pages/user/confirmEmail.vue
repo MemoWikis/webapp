@@ -39,6 +39,7 @@ onMounted(async () => {
         return navigateTo('/Fehler')// Redirect the user to an error page if the code isn't present.
     }
 })
+
 const newVerificationMailSent = ref(false)
 const msg = ref('')
 async function requestVerificationMail() {
@@ -49,6 +50,12 @@ async function requestVerificationMail() {
     const result = await userStore.requestVerificationMail()
     newVerificationMailSent.value = true
     msg.value = t(result.messageKey)
+}
+
+const config = useRuntimeConfig()
+
+const contact = () => {
+    window.location.href = `mailto:${config.public.teamEmail}`
 }
 </script>
 
@@ -63,12 +70,11 @@ async function requestVerificationMail() {
                         <template v-if="status === 'pending'">
                             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                                 <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                    Bestätigung läuft
+                                    {{ t('user.confirmEmail.pending.title') }}
                                 </h1>
                             </div>
                             <div class="alert alert-info col-sm-offset-2 col-sm-8 ">
-                                Wir sind gerade dabei, deine E-Mail-Adresse zu bestätigen. Einen
-                                Augenblick Geduld bitte.
+                                {{ t('user.confirmEmail.pending.message') }}
                             </div>
                         </template>
                         <template v-else>
@@ -76,11 +82,11 @@ async function requestVerificationMail() {
 
                                 <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                                     <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                        Bestätigung erfolgreich
+                                        {{ t('user.confirmEmail.success.title') }}
                                     </h1>
                                 </div>
                                 <div class="alert alert-success col-sm-offset-2 col-sm-8 ">
-                                    Deine E-Mail-Adresse wurde erfolgreich bestätigt.
+                                    {{ t('user.confirmEmail.success.message') }}
                                 </div>
                                 <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
                                     <div class="confirmEmail-divider">
@@ -89,7 +95,7 @@ async function requestVerificationMail() {
                                 </div>
                                 <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
                                     <NuxtLink to="/" class="memo-button btn-primary">
-                                        Weiter {{ userStore.isLoggedIn ? "zu deinem Wiki" : "zur Startseite" }}
+                                        {{ t('user.confirmEmail.success.continue', { destination: userStore.isLoggedIn ? t('user.confirmEmail.success.yourWiki') : t('user.confirmEmail.success.homepage') }) }}
                                     </NuxtLink>
                                 </div>
                             </div>
@@ -98,7 +104,7 @@ async function requestVerificationMail() {
                                 <template v-if="newVerificationMailSent">
                                     <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                                         <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                            Neue Verifizierungs-E-Mail angefordert!
+                                            {{ t('user.confirmEmail.newMail.title') }}
                                         </h1>
                                     </div>
 
@@ -109,22 +115,22 @@ async function requestVerificationMail() {
                                 <template v-else>
                                     <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                                         <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                            Bestätigung fehlgeschlagen
+                                            {{ t('user.confirmEmail.failed.title') }}
                                         </h1>
                                     </div>
 
                                     <div class="alert alert-danger col-sm-offset-2 col-sm-8 ">
-                                        Es tut uns leid, die Bestätigung deiner E-Mail-Adresse ist fehlgeschlagen.
+                                        {{ t('user.confirmEmail.failed.message1') }}
                                         <br />
 
-                                        Es könnte sein, dass der Bestätigungslink nicht korrekt oder abgelaufen ist.
+                                        {{ t('user.confirmEmail.failed.message2') }}
                                         <br />
 
-                                        Versuche es bitte noch einmal oder wende dich an <b>team@memoWikis.de</b>,
-                                        falls das Problem weiterhin besteht.
+                                        {{ t('user.confirmEmail.failed.message3') }} <b>{{ config.public.teamMail }}</b>,
+                                        {{ t('user.confirmEmail.failed.message4') }}
 
                                         <br />
-                                        Wir helfen dir gerne weiter!
+                                        {{ t('user.confirmEmail.failed.message5') }}
                                     </div>
 
                                     <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
@@ -134,7 +140,7 @@ async function requestVerificationMail() {
                                     </div>
                                     <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
                                         <button class="memo-button btn-primary" @click="requestVerificationMail()">
-                                            neue Verifizierungs-Email senden
+                                            {{ t('user.confirmEmail.failed.resendButton') }}
                                         </button>
                                     </div>
                                 </template>
