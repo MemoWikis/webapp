@@ -24,10 +24,10 @@ const emit = defineEmits(['methodClicked'])
             {{ props.description }}
         </div>
         <div class="maintenance-method-container">
-            <div v-for="m in props.methods">
-                <button class="btn btn-link" @click="emit('methodClicked', m.url)">
+            <div v-for="method in props.methods">
+                <button class="btn btn-link" @click="emit('methodClicked', method.url)">
                     <font-awesome-icon :icon="props.icon" v-if="props.icon" />
-                    {{ m.label }}
+                    {{ method.label }}
                 </button>
             </div>
             <slot></slot>
