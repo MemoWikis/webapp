@@ -97,14 +97,15 @@
 
     private TinyPageModel[] GetParents(PageCacheItem page)
     {
-        return page.Parents().Where(_permissionCheck.CanView).Select(p => new TinyPageModel
-        {
-            Id = p.Id,
-            Name = p.Name,
-            ImgUrl =
-                    new PageImageSettings(p.Id, _httpContextAccessor)
-                        .GetUrl(50, true).Url
-        })
+        return page
+            .Parents()
+            .Where(_permissionCheck.CanView)
+            .Select(p => new TinyPageModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                ImgUrl = new PageImageSettings(p.Id, _httpContextAccessor).GetUrl(50, true).Url
+            })
             .ToArray();
     }
 }

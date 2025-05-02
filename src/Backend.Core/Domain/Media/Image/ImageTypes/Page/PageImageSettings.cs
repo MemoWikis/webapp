@@ -30,8 +30,7 @@ public class PageImageSettings : ImageSettings, IImageSettings
 
     public ImageUrl GetUrl(int width, bool isSquare = false)
     {
-        return new ImageUrl(_contextAccessor)
-            .Get(this, width, isSquare, GetFallbackImage);
+        return new ImageUrl(_contextAccessor).Get(this, width, isSquare, GetFallbackImage);
     }
 
     private string GetFallbackImage(int width)

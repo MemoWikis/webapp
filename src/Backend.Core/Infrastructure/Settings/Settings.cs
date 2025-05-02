@@ -49,6 +49,12 @@ public class Settings
                 "Images")
             : _configuration["Paths:AbsoluteImagePath"];
 
+    public static string FrontendImagePath =>
+        string.IsNullOrEmpty(_configuration["Paths:AbsoluteFrontendImagePath"])
+            ? Path.Combine(WebHostEnvironmentProvider.GetWebHostEnvironment().ContentRootPath,
+                "Images")
+            : _configuration["Paths:AbsoluteFrontendImagePath"];
+
     public static string PageContentImageBasePath => _configuration["Paths:PageContentImages"];
     public static string PageImageBasePath => _configuration["Paths:PageImages"];
     public static string QuestionContentImageBasePath => _configuration["Paths:QuestionContentImages"];

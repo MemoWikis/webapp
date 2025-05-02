@@ -38,14 +38,14 @@ public class ImageUrl
     public string UrlWithoutTime()
     {
         return Url.Split('?').First();
-    } 
+    }
 
     public ImageUrl Get(
         IImageSettings imageSettings,
         int originallyRequestedWidth,
         bool isSquare,
         Func<int, string> getFallBackImage)
-    { 
+    {
         var requestedWidth = originallyRequestedWidth;
         var imagePathBuilder = new ImagePathBuilder(imageSettings.BasePath, imageSettings.Id, isSquare);
         var requestedImagePath = imagePathBuilder.GetImagePath(requestedWidth);
@@ -85,7 +85,7 @@ public class ImageUrl
             }
 
             var searchPattern = $"{imageSettings.Id}_*.jpg";
-            
+
             var basePath = Path.Combine(ImagePath, imageSettings.BasePath).NormalizePathSeparators();
             if (Directory.Exists(basePath) == false)
             {
@@ -93,15 +93,17 @@ public class ImageUrl
             }
             var maxFileWidth = GetMaxFileWidth(basePath, searchPattern);
 
-            if (maxFileWidth > 0){
+            if (maxFileWidth > 0)
+            {
                 var imagePath = $"{imageSettings.ServerPathAndId()}_{maxFileWidth}.jpg";
                 if (!File.Exists(imagePath)) return null;
                 using var input = File.OpenRead(imagePath);
                 using var inputStream = new SKManagedStream(input);
                 var biggestAvailableImage = SKBitmap.Decode(inputStream);
 
-                if(biggestAvailableImage != null){
-                    
+                if (biggestAvailableImage != null)
+                {
+
                     if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
                     {
                         var absoluteUri = $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}{_httpContext.Request.Path}{_httpContext.Request.QueryString}";
@@ -131,11 +133,11 @@ public class ImageUrl
                     }
 
                 }
-                if(File.Exists(imagePathBuilder.GetImagePath(requestedWidth)))
+                if (File.Exists(imagePathBuilder.GetImagePath(requestedWidth)))
                 {
                     return GetResult(imageSettings, requestedWidth, isSquare);
                 }
-                if(File.Exists(imagePathBuilder.GetImagePath(maxFileWidth)))
+                if (File.Exists(imagePathBuilder.GetImagePath(maxFileWidth)))
                 {
                     return GetResult(imageSettings, maxFileWidth, isSquare);
                 }
@@ -143,7 +145,7 @@ public class ImageUrl
         }
 
         var url = Path.Combine(_imageFolder, getFallBackImage(originallyRequestedWidth));
-        Url =  url.NormalizePathSeparators();
+        Url = url.NormalizePathSeparators();
         HasUploadedImage = false;
         return this;
     }
@@ -170,27 +172,27 @@ public class ImageUrl
 
     private ImageUrl GetResult(IImageSettings imageSettings, int width, bool isSquare)
     {
-        var basePath = $"/Images/{imageSettings.BasePath}/{imageSettings.Id}"; 
-        var url = width ==  -1 ?
-                             basePath + ".jpg" :
-                            basePath + "_" + width + SquareSuffix(isSquare) + ".jpg";
+        var basePath = $"/Images/{imageSettings.BasePath}/{imageSettings.Id}";
+        var url = (width == -1)
+            ? basePath + ".jpg"
+            : basePath + "_" + width + SquareSuffix(isSquare) + ".jpg";
         Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(Settings.ImagePath, url))
             .ToString("yyyyMMddhhmmss");
-        Console.WriteLine($"GetResult, {Url}");
+
         HasUploadedImage = true;
-        
+
         return this;
     }
 
-    public static string SquareSuffix(bool isSquare){
-        return isSquare ?  "s" : "";
+    public static string SquareSuffix(bool isSquare)
+    {
+        return isSquare ? "s" : "";
     }
 
     public string GetFallbackImageUrl(IImageSettings imageSettings, int width)
     {
-        var filePath =
-            Path.Combine(Settings.ImagePath, imageSettings.BaseDummyUrl);
-        
+        var filePath = Path.Combine(Settings.FrontendImagePath, imageSettings.BaseDummyUrl);
+
         if (File.Exists(filePath + width + ".png"))
             return imageSettings.BaseDummyUrl + width + ".png";
 
