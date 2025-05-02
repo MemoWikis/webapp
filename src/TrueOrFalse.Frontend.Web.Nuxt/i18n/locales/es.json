@@ -1,5 +1,9 @@
 {
     "success": {
+        "membership": {
+            "thankYou": "¡Gracias por tu confianza!",
+            "congratulations": "¡Felicidades! Tu suscripción se ha completado con éxito. \nNos alegra que hayas elegido memoWikis. \nAhora puedes acceder sin restricciones a todos nuestros cursos y materiales de aprendizaje y acelerar tu progreso."
+        },
         "page": {
             "publish": "Tu página se ha publicado correctamente.",
             "setToPrivate": "La página se ha establecido como 'Privada' correctamente.",
@@ -29,7 +33,8 @@
             "passwordReset": "Tu contraseña se ha restablecido.",
             "passwordVerificationMailSent": "¡Correo de verificación enviado! Por favor, revisa tu bandeja de entrada.",
             "supportLoginUpdated": "Los datos de tu inicio de sesión de soporte se han actualizado correctamente.",
-            "wuwiVisibilityUpdated": "Tu configuración de Conocimiento deseado se ha actualizado correctamente."
+            "wuwiVisibilityUpdated": "Tu configuración de Conocimiento deseado se ha actualizado correctamente.",
+            "deleted": "Tu cuenta ha sido eliminada con éxito."
         },
         "collaboration": {
             "connected": "Estás viendo la versión en vivo de esta página"
@@ -202,7 +207,8 @@
         "user": "User",
         "users": "Users",
         "prices": "Prices",
-        "settings": "Settings"
+        "settings": "Settings",
+        "register": "Register"
     },
     "search": {
         "results": "{count} resultados",
@@ -231,7 +237,8 @@
             "createButton": "Crear Wiki",
             "inputPlaceholder": "Introduce el nombre del tema",
             "privateWikiMessage": "Este Wiki es privado. Puedes publicarlo más tarde en el menú de tres puntos o directamente con el ícono de candado."
-        }
+        },
+        "removedFromFavorites": "'{name}' ha sido eliminado de favoritos"
     },
     "footer": {
         "subLabelOne": "Todo en un solo lugar -",
@@ -1549,5 +1556,11 @@
         "months": "{count} meses",
         "oneYear": "un año",
         "years": "{count} años"
+    },
+    "membership": {
+        "cancel": {
+            "title": "Pago cancelado",
+            "message": "Lamentamos que hayas cancelado tu pago.\nSi has encontrado algún problema o tienes preguntas,\n¡no dudes en contactarnos!\nNuestro equipo estará encantado de ayudarte."
+        }
     }
 }

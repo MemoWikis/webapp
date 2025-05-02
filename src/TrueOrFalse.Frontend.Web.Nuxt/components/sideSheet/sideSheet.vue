@@ -206,7 +206,7 @@ const removeFromFavorites = async (id: number) => {
         const name = sideSheetStore.favorites.find(f => f.id === id)?.name
         sideSheetStore.removeFromFavoritePages(id)
         snackbar.add({
-            message: `'${name}' wurde aus den Favoriten entfernt`,
+            message: t('sideSheet.removedFromFavorites', { name: name }),
             type: 'success'
         })
     } else if (result.messageKey) {
