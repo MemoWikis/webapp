@@ -150,7 +150,6 @@ async function answer() {
 
     const repeatedAnswer = answersSoFar.value.indexOf(solutionComponent.getAnswerText()) >= 0
     answersSoFar.value.push(solutionComponent.getAnswerText())
-
     const data = {
         answer: await solutionComponent.getAnswerDataString(),
         id: answerBodyModel.value?.id,
@@ -172,7 +171,7 @@ async function answer() {
 
     if (result) {
         learningSessionStore.knowledgeStatusChanged(answerBodyModel.value!.id)
-        pageStore.reloadKnowledgeSummary()
+        await pageStore.reloadKnowledgeSummary()
         if (result.correct) {
             activityPointsStore.addPoints(Activity.CorrectAnswer)
             learningSessionStore.markCurrentStepAsCorrect()
@@ -194,8 +193,9 @@ async function answer() {
             || answerIsCorrect.value
             || (answerBodyModel.value?.solutionType != SolutionType.MultipleChoice && amountOfTries.value > 1)
             || (answerBodyModel.value?.solutionType === SolutionType.MultipleChoice && allMultipleChoiceCombinationTried.value))
-            loadSolution()
+            await loadSolution()
 
+        await nextTick()
         if (result.newStepAdded)
             await learningSessionStore.loadSteps()
 
