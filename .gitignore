@@ -17,7 +17,7 @@ _Re[Ss]harper.*
 
 appsettings.*.json
 
-/src/Backend/Images/*
+/src/Backend.Api/Images/*
 /src/hocuspocus/.env
 /src/hocuspocus/node_modules/*
 /src/Docker/Dev/.env
