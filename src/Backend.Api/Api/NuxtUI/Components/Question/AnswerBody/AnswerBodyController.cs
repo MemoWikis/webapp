@@ -15,20 +15,20 @@ public class AnswerBodyController(
         return answerBody;
     }
 
-    public readonly record struct SendAnswerToLearningSessionParam(
+    public readonly record struct SendAnswerToLearningSessionRequest(
         int Id,
         Guid QuestionViewGuid,
         string Answer,
         bool InTestMode);
 
     [HttpPost]
-    public LearningResult SendAnswerToLearningSession([FromBody] SendAnswerToLearningSessionParam param)
+    public LearningResult SendAnswerToLearningSession([FromBody] SendAnswerToLearningSessionRequest request)
     {
         return GetLearningResult(
-            param.Id,
-            param.QuestionViewGuid,
-            param.Answer,
-            param.InTestMode);
+            request.Id,
+            request.QuestionViewGuid,
+            request.Answer,
+            request.InTestMode);
     }
 
     public readonly record struct MarkAsCorrectParam(

@@ -160,7 +160,7 @@ onMounted(() => {
                                     </div>
                                     <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                         <div navigate class="btn memo-button register-btn">
-                                            <NuxtLink to="/Registrieren">
+                                            <NuxtLink :to="`/${t('url.register')}`">
                                                 {{ t('label.register') }}
                                             </NuxtLink>
                                         </div>
@@ -206,7 +206,7 @@ onMounted(() => {
                                         </div>
                                         <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                             <div navigate class="btn memo-button register-btn">
-                                                <NuxtLink to="/Registrieren">
+                                                <NuxtLink :to="`/${t('url.register')}`">
                                                     {{ t('label.register') }}
                                                 </NuxtLink>
                                             </div>

@@ -102,7 +102,7 @@ async function saveComment() {
         <div v-else class="row commentLoginContainer">
             <div class="col-xs-12 commentLoginText">
                 {{ t('comment.login.required') }} &nbsp;
-                <NuxtLink href="/Registrieren" @click="commentsStore.show = false" class="pointer">
+                <NuxtLink :to="`/${t('url.register')}`" @click="commentsStore.show = false" class="pointer">
                     {{ t('comment.login.register') }}
                 </NuxtLink>
             </div>

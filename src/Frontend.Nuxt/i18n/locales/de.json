@@ -1,5 +1,9 @@
 {
     "success": {
+        "membership": {
+            "thankYou": "Vielen Dank für dein Vertrauen!",
+            "congratulations": "Super, dein Abo wurde erfolgreich abgeschlossen. \nWir freuen uns, dass du dich für memoWikis entschieden hast. \nJetzt kannst du uneingeschränkt auf alle unsere Kurse und Lernmaterialien zugreifen und deinen Lernfortschritt beschleunigen."
+        },
         "page": {
             "publish": "Deine Seite wurde erfolgreich veröffentlicht.",
             "setToPrivate": "Die Seite wurde erfolgreich auf 'Privat' gesetzt.",
@@ -29,7 +33,8 @@
             "passwordReset": "Dein Passwort wurde zurückgesetzt.",
             "passwordVerificationMailSent": "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang.",
             "supportLoginUpdated": "Deine Support-Login-Daten wurden erfolgreich aktualisiert.",
-            "wuwiVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert."
+            "wuwiVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert.",
+            "deleted": "Dein Account wurde erfolgreich gelöscht."
         },
         "collaboration": {
             "connected": "Du siehst die Live Version von dieser Seite"
@@ -202,7 +207,8 @@
         "user": "Nutzer",
         "users": "Nutzer",
         "prices": "Preise",
-        "settings": "Einstellungen"
+        "settings": "Einstellungen",
+        "register": "Registrieren"
     },
     "search": {
         "results": "{count} Treffer",
@@ -231,7 +237,8 @@
             "createButton": "Wiki erstellen",
             "inputPlaceholder": "Bitte gib den Namen des Themas ein",
             "privateWikiMessage": "Dieses Wiki ist privat. Du kannst sie später im Dreipunkt-Menü oder direkt über das Schloss-Icon veröffentlichen."
-        }
+        },
+        "removedFromFavorites": "'{name}' wurde aus den Favoriten entfernt"
     },
     "footer": {
         "subLabelOne": "Alles an einem Ort -",
@@ -901,9 +908,7 @@
             "rrrright": "Rrrrrrichtig!"
         },
         "emptyAnswerMessage": "Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
-        "noCorrectAnswers": "Keine der Antworten ist richtig!",
-        "answerKnown": "(Antwort gewusst)",
-        "answerNotKnown": "(Antwort nicht gewusst)"
+        "noCorrectAnswers": "Keine der Antworten ist richtig!"
     },
     "question": {
         "editModal": {
@@ -1549,5 +1554,11 @@
         "months": "vor {count} Monaten",
         "oneYear": "vor einem Jahr",
         "years": "vor {count} Jahren"
+    },
+    "membership": {
+        "cancel": {
+            "title": "Zahlungsabbruch",
+            "message": "Schade, dass du die Zahlung abgebrochen hast. \nFalls du auf Probleme gestoßen bist oder Fragen hast, \nmelde dich einfach bei uns! \nUnser Team hilft dir gerne weiter."
+        }
     }
 }

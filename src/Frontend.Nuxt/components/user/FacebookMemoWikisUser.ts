@@ -142,7 +142,10 @@ export class FacebookMemoWikisUser {
                     if (response.status !== "connected") return
 
                     if (disallowRegistration) {
-                        navigateTo("/Registrieren")
+                        const nuxtApp = useNuxtApp()
+                        const { $i18n } = nuxtApp
+
+                        navigateTo(`/${$i18n.t("url.register")}`)
                         return
                     }
 

@@ -165,7 +165,7 @@ const ariaId2 = useId()
 										<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
 									<template #popper>
-										<b>{{ t('knowledgeStatus.tabs.yourKnowledgeStatus') }}:</b>
+										<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
 										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
 											class="knowledgesummary-info">
 											<div class="color-container" :class="`color-${d.class}`"></div>

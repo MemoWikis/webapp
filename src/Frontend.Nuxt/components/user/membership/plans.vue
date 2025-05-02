@@ -145,7 +145,7 @@ onBeforeMount(() => {
                         </NuxtLink>
                     </button>
                     <button class="memo-button btn-primary btn" v-else>
-                        <NuxtLink to="/Registrieren">
+                        <NuxtLink :to="`/${t('url.register')}`">
                             {{ t('user.membership.plans.registerFree') }}
                         </NuxtLink>
                     </button>
@@ -157,7 +157,7 @@ onBeforeMount(() => {
             <UserMembershipPriceCard :plan="plans.plus" :selected="false" :class="{ 'recommended': !userStore.isLoggedIn, 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Plus }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn" v-if="userStore.isLoggedIn === false">
-                        <NuxtLink to="/Registrieren">
+                        <NuxtLink :to="`/${t('url.register')}`">
                             {{ t('user.membership.plans.registerFree') }}
                         </NuxtLink>
                     </button>

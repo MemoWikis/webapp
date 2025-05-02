@@ -4,7 +4,11 @@
 
     public override bool IsCorrect(string answer)
     {
-        return answer == "(Antwort gewusst)";
+        if (Enum.TryParse<FlashCardAnswerType>(answer, out var answerType))
+        {
+            return answerType == FlashCardAnswerType.Known;
+        }
+        return false;
     }
 
     public override string CorrectAnswer()
