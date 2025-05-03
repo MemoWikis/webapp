@@ -51,8 +51,7 @@ public class StripeSubscriptionManger(
             customerId = user.StripeId;
         }
 
-        var stripeReturnUrlGenerator =
-            new StripeReturnUrlGenerator(httpContextAccessor, webHostEnvironment);
+        var stripeReturnUrlGenerator = new StripeReturnUrlGenerator();
         var options = new SessionCreateOptions
         {
             PaymentMethodTypes = new List<string>
@@ -70,8 +69,8 @@ public class StripeSubscriptionManger(
                     Quantity = 1
                 }
             },
-            SuccessUrl = stripeReturnUrlGenerator.Create("Preise"),
-            CancelUrl = stripeReturnUrlGenerator.Create("Preise"),
+            SuccessUrl = StripeReturnUrlGenerator.Create("Preise"),
+            CancelUrl = StripeReturnUrlGenerator.Create("Preise"),
             Customer = customerId,
             AutomaticTax = new SessionAutomaticTaxOptions
             {
@@ -99,8 +98,7 @@ public class StripeSubscriptionManger(
         var options = new Stripe.BillingPortal.SessionCreateOptions
         {
             Customer = stripeId,
-            ReturnUrl = new StripeReturnUrlGenerator(httpContextAccessor, webHostEnvironment)
-                .Create("")
+            ReturnUrl = StripeReturnUrlGenerator.Create("")
         };
         var service = new Stripe.BillingPortal.SessionService();
         var session = await service.CreateAsync(options);
