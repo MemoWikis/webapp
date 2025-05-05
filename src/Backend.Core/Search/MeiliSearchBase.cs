@@ -1,0 +1,26 @@
+﻿using Meilisearch;
+
+internal class MeiliSearchBase
+{
+    private readonly MeilisearchClient _client;
+
+    internal MeiliSearchBase()
+    {
+        _client = new MeilisearchClient(MeiliSearchConstants.Url,
+            MeiliSearchConstants.MasterKey);
+    }
+
+    /// <summary>
+    /// Check MeiliSearchStatus
+    /// </summary>
+    /// <param name="taskInfo"></param>
+    /// <returns></returns>
+    protected async Task CheckStatus(TaskInfo taskInfo)
+    {
+        var taskresult = await _client.WaitForTaskAsync(taskInfo.TaskUid);
+        if (taskresult.Status != TaskInfoStatus.Succeeded)
+        {
+            Log.Error("Cannot create question in MeiliSearch", taskresult);
+        }
+    }
+}

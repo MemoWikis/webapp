@@ -62,7 +62,7 @@ The project uses example configuration files that need to be copied to their cor
 
 #### On Linux / macOS (Bash):
 ```bash
-cp ./TrueOrFalse.Frontend.Web/appsettings.Development.json.example ./TrueOrFalse.Frontend.Web/appsettings.Development.json
+cp ./Backend/appsettings.Development.json.example ./Backend/appsettings.Development.json
 cp ./Docker/Dev/.env.example ./Docker/Dev/.env
 cd ./Docker/Dev
 docker-compose up -d
@@ -81,14 +81,14 @@ docker-compose up -d
 
 #### On Windows (PowerShell):
 ```ppwershell
-cp ./TrueOrFalse.Frontend.Web/appsettings.Development.json.example ./TrueOrFalse.Frontend.Web/appsettings.Development.json -Force; `
+cp ./Backend/appsettings.Development.json.example ./Backend/appsettings.Development.json -Force; `
 cp ./Docker/Dev/.env.example ./Docker/Dev/.env -Force; `
 cd ./Docker/Dev; `
 docker-compose up -d
 ```
 
 ### 3. Set Up Your Anthropc API Key
-To enable the AI functions within the application, you must supply a valid Anthropc API key. Open the file `TrueOrFalse.Frontend.Web/appsettings.Development.json` and update the **Anthropic** section with your API key as follows:
+To enable the AI functions within the application, you must supply a valid Anthropc API key. Open the file `Backend/appsettings.Development.json` and update the **Anthropic** section with your API key as follows:
 
 ```json
 {
@@ -101,10 +101,10 @@ To enable the AI functions within the application, you must supply a valid Anthr
 > **Without a valid API key, the AI functions in the application will not work.**
 
 ### 4. Run the Nuxt Frontend (Nuxt 3)
-The Nuxt frontend project is located in the `TrueOrFalse.Frontend.Web.Nuxt` folder (inside the `src` folder). To start the Nuxt 3 development server, run:
+The Nuxt frontend project is located in the `Frontend.Nuxt` folder (inside the `src` folder). To start the Nuxt 3 development server, run:
 
 ```bash
-cd ./TrueOrFalse.Frontend.Web.Nuxt
+cd ./Frontend.Nuxt
 npm install  # Run this if dependencies are not yet installed
 npm run dev
 ```
@@ -116,7 +116,7 @@ The backend solution file is located at the root of the `src` folder as `memoWik
 
 1. Open memoWikis.sln in Visual Studio.
 2. Select your preferred debug configuration.
-3. Start the TrueOrFalse.Frontend.Web debug session.
+3. Start the Backend.Api debug session.
 
 #### Additional Tips
 - Anthropic API Key for AI Functions: Ensure your valid Anthropc API key is inserted in the appsettings.Development.json file. Without this key, the AI features will not work.
@@ -129,7 +129,7 @@ docker-compose ps
   - To view logs for any service:
      `bash
 docker-compose logs [service-name]`
-- Nuxt Configuration: For frontend customizations, review the `nuxt.config.ts` file in the `TrueOrFalse.Frontend.Web.Nuxt` folder.
+- Nuxt Configuration: For frontend customizations, review the `nuxt.config.ts` file in the `Frontend.Nuxt` folder.
   
 
 # ⚖️ License

@@ -1,0 +1,284 @@
+﻿@model HtmlMessageModel
+
+@*
+    File only included for better handling when improving. Actual template for emails is "...StylesInlined.(cs)html".
+    If you change this file, go to http://foundation.zurb.com/emails/inliner-v2.html and use this file and the
+    css file "../HtmlMessage/foundation-emails.css" to inline all styles and write result to "...StylesInlined.(cs)html".
+    See if "@" are correct (style-@ needs to be doubled to escape Razor) and check for all html-special chars in the inlined version
+    (all "&" are "corrected" to "&amp;", so "&amp;" becomes "&amp;amp;". Also: "&" in URI must not be changed to html-char).
+    And: remove this comment and the stylesheet-link above, also remove, when necessary, html- and body-tags (in .cshtml-files).
+*@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>memoWikis E-Mail</title>
+    <link href="foundation-emails.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- <style> -->
+    <table class="body" data-made-with-foundation="">
+        <tr>
+            <td class="float-center" align="center" valign="top">
+                <center data-parsed="">
+                    <!-- move the above styles into your custom stylesheet -->
+
+                    <table align="center" class="container float-center">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <table class="spacer wrapper secondary">
+                                        <tbody>
+                                            <tr>
+                                                <td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <table class="wrapper secondary">
+                                        <tbody>
+                                            <tr>
+                                                <th class="small-12 large-8 columns first">
+                                                    <table>
+                                                        <tr>
+                                                            <th>
+                                                                <a href="https://memowikis.de?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=headerLogo">
+                                                                    <img src="https://memowikis.de/Images/Logo/LogoComplete_S.png" width="300" height="75" alt="memowikis" />
+                                                                </a>
+                                                            </th>
+                                                        </tr>
+                                                    </table>
+                                                </th>
+
+                                                <th class="small-12 large-4 columns last" valign="bottom">
+                                                    <table>
+                                                        <tr>
+                                                            <th>
+                                                                <p class="text-right">
+                                                                    <small>@Model.MessageTitle
+                                                                    </small>
+                                                                </p>
+                                                            </th>
+                                                        </tr>
+                                                    </table>
+                                                </th>
+
+                                                <th class="expander"></th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <table class="spacer">
+                                        <tbody>
+                                            <tr>
+                                                <td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="row">
+                                        <tbody>
+                                            <tr>
+                                                <th class="small-12 large-12 columns first last">
+                                                    <table>
+                                                        <tbody><!-- tbody inserted... -->
+                                                            <tr>
+                                                                <th>
+                                                                    <h2>Hallo @Model.UserName,</h2>
+
+                                                                    @Raw(@Model.Content)
+
+
+                                                                </th>
+                                                                <th class="expander"></th>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <table class="wrapper secondary" align="center">
+                                        <tr>
+                                            <td class="wrapper-inner">
+                                                <table class="spacer">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td height="32px" style="font-size:32px;line-height:32px;">&#xA0;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+                                    <table class="wrapper" align="center">
+                                        <tr>
+                                            <td class="wrapper-inner">
+                                                <table class="spacer">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table class="row">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="small-12 large-12 columns first last">
+                                                                <table>
+                                                                    <tr>
+                                                                        <th>
+                                                                            <table class="callout">
+                                                                                <tr>
+                                                                                    <th class="callout-inner primary">
+                                                                                        <p>
+                                                                                            memowikis ist in der <a href="https://memowikis.de/Beta-Phase?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=calloutBetaPhase">Beta-Phase</a>.
+                                                                                            Noch gibt es viel zu tun. Du kannst uns untersützen, indem du Fehler und Verbesserungsvorschläge
+                                                                                            an uns weiterleitest und deinen Freunden von uns erzählst. <br/>
+                                                                                            <a href="https://memowikis.de/Nutzer/Mitgliedschaft?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=calloutBetaPhase">Unterstützer werden »</a>
+                                                                                        </p>
+                                                                                    </th>
+                                                                                    <th class="expander"></th>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </th>
+                                                                    </tr>
+                                                                </table>
+                                                            </th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <table class="wrapper" align="center">
+                                        <tr>
+                                            <td class="wrapper-inner">
+                                                <table class="row">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="small-12 large-5 columns first">
+                                                                <table>
+                                                                    <tr>
+                                                                        <th>
+                                                                            <h5>Verbinde dich mit uns:</h5>
+                                                                            <table class="button expand facebook">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <table>
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    <a href="https://www.facebook.com/MemuchoWissen/?ref=aymt_homepage_panel">Facebook</a>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <table class="button expand twitter">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <table>
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    <a href="https://twitter.com/memuchoWissen">Twitter</a>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </th>
+                                                                    </tr>
+                                                                </table>
+                                                            </th>
+                                                            <th class="small-12 large-6 large-offset-1 columns last">
+                                                                <table>
+                                                                    <tr>
+                                                                        <th>
+                                                                            <h5>Kontakt:</h5>
+                                                                            <p>Telefon: +49-178 186 68 48 (Robert)</p>
+                                                                            <p>
+                                                                                E-Mail: <a href="mailto:team@memucho.de">team@memucho.de</a>
+                                                                            </p>
+                                                                        </th>
+                                                                    </tr>
+                                                                </table>
+                                                            </th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <center data-parsed="">
+                                                    <table class="row">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th class="small-12 large-12 columns first last">
+                                                                    <table>
+                                                                        <tr>
+                                                                            <th class="text-center">
+                                                                                <a href="https://memucho.de?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=footerLogo">
+                                                                                    <img align="center" class="float-center" src="https://memucho.de/Images/Logo/LogoXSmall.png" width="60" height="60" alt="memucho" />
+                                                                                </a>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </table>
+                                                                </th>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+                                    <table class="wrapper secondary" align="center">
+                                        <tr>
+                                            <td class="wrapper-inner">
+                                                <table class="spacer">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <p class="text-center">
+                                                    <small>
+                                                        @Raw(@Model.SignOutMessage)
+                                                    </small>
+                                                </p>
+                                                <table class="spacer">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td height="32px" style="font-size:32px;line-height:32px;">&#xA0;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </center>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

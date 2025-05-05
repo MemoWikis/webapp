@@ -1,0 +1,1564 @@
+{
+    "success": {
+        "membership": {
+            "thankYou": "Thank you for your trust!",
+            "congratulations": "Congratulations, your subscription has been successfully completed. \nWe're delighted that you've chosen memoWikis. \nNow you can access all our courses and learning materials without restrictions and accelerate your learning progress."
+        },
+        "page": {
+            "publish": "Your page has been successfully published.",
+            "setToPrivate": "The page has been successfully set to 'Private'.",
+            "unlinked": "The link has been successfully removed.",
+            "addedToPersonalWiki": "The page has been successfully added to your Wiki.",
+            "saveImage": "The new image has been saved",
+            "saved": "The page has been saved successfully.",
+            "convertedToWiki": "The page '{name}' has been successfully converted into a Wiki.",
+            "convertedToPage": "The Wiki '{name}' has been successfully converted into a page.",
+            "shared": "The page has been successfully shared.",
+            "rightsUpdated": "Access rights have been successfully updated.",
+            "token": {
+                "renewed": "The share link has been successfully renewed.",
+                "copied": "The share link has been copied to clipboard."
+            }
+        },
+        "question": {
+            "created": "Your question has been successfully created.",
+            "saved": "Your question has been saved successfully.",
+            "delete": "Your question has been successfully deleted.",
+            "published": "The question '{name}' has been successfully published.",
+            "flashcardsAdded": "One flashcard was added | {count} flashcards were added."
+        },
+        "user": {
+            "profileUpdate": "Your new profile data has been saved successfully",
+            "passwordChanged": "Your password has been changed successfully.",
+            "passwordReset": "Your password has been reset.",
+            "passwordVerificationMailSent": "Verification email sent! Please check your inbox.",
+            "supportLoginUpdated": "Your support login data has been successfully updated.",
+            "wuwiVisibilityUpdated": "Your Wish-Knowledge settings have been successfully updated.",
+            "deleted": "Your account has been successfully deleted."
+        },
+        "collaboration": {
+            "connected": "You are viewing the live version of this page"
+        }
+    },
+    "error": {
+        "subscription": {
+            "cantAddKnowledge": "You cannot add any more Wish-Knowledge in the free version. Upgrade to a Plus Membership for unlimited Wish-Knowledge.",
+            "cantSavePrivateQuestion": "You cannot add any more private questions in the free version. Upgrade to a Plus Membership to create unlimited private questions.",
+            "cantSavePrivatePage": "You cannot add any more private pages in the free version. Upgrade to a Plus Membership to create unlimited private pages."
+        },
+        "page": {
+            "parentIsPrivate": "Publishing is not possible. The parent page is private.",
+            "publicChildPages": "This page has public subpages.",
+            "publicQuestions": "This page has public questions.",
+            "notLastChild": "This page cannot be deleted as there are more subpages. Please remove all subpages and try again.",
+            "noRemainingParents": "The link to the page cannot be removed. This page must be assigned to at least one public parent page.",
+            "parentIsRoot": "Under 'Global Wiki', you are only allowed to add private pages",
+            "loopLink": "Pages cannot be assigned to themselves",
+            "isAlreadyLinkedAsChild": "This page is already linked as a subpage.",
+            "isNotAChild": "This page is already not a subpage",
+            "isLinkedInNonWuwi": "You have already linked this page outside of your Wish-Knowledge. Please disable 'Show only your Wish-Knowledge' and add this page to your Wish-Knowledge.",
+            "childIsParent": "Parent pages cannot be assigned as subpages.",
+            "nameIsTaken": " is already taken, please choose another name!",
+            "nameIsForbidden": " is forbidden, please choose another name!",
+            "rootPageMustBePublic": "The root page cannot be set to private.",
+            "missingRights": "You do not have the necessary rights.",
+            "tooPopular": "This page is used in too many other users' Wish-Knowledge",
+            "saveImageError": "The image could not be saved.",
+            "pinnedQuestions": "",
+            "circularReference": "The parent page cannot be assigned as a subpage",
+            "pageNotSelected": "You have not selected a page",
+            "newPageIdIsPageIdToBeDeleted": "The selected page cannot be the page that is to be deleted.",
+            "noChange": "No changes were made.",
+            "noChildSelected": "You have not selected a subpage.",
+            "noUsersSelected": "Please select at least one user to share with.",
+            "shareFailure": "The page could not be shared. Please try again."
+        },
+        "question": {
+            "missingText": "The question text is missing.",
+            "missingAnswer": "The answer to the question is missing.",
+            "save": "Your question could not be saved.",
+            "creation": "Your question could not be created.",
+            "isInWuwi": "The question cannot be deleted, it is {count}x part of other users' Wish-Knowledge. Please contact us if you believe this question should still be deleted.",
+            "rights": "You do not have permission to do that.",
+            "errorOnDelete": "An error occurred! References to the question (study sessions, appointments, Wish-Knowledge entries...) may have been partially deleted.",
+            "couldNotAddFlashcards": "The flashcards could not be added."
+        },
+        "user": {
+            "notLoggedIn": "Please log in.",
+            "emailInUse": "This email address is already in use.",
+            "falseEmailFormat": "The email address format is invalid",
+            "userNameInUse": "This username is already taken.",
+            "passwordIsWrong": "Wrong password. Please enter the password again.",
+            "samePassword": "The new password is the same as the old one. Please enter a new password.",
+            "passwordNotCorrectlyRepeated": "The repeated password does not match your new password entry.",
+            "inputError": "Please check your entries.",
+            "passwordResetTokenIsInvalid": "The link is unfortunately invalid. If you are having problems, just send us an email at team(at)memoWikis.de.",
+            "passwordResetTokenIsExpired": "The link has expired.",
+            "doesNotExist": "The specified user was not found. Please check if your login details are correct.",
+            "invalidFBToken": "Hey! It looks like the Facebook token you entered isn't correct. Please try again with a new login via Facebook. If it still doesn't work, just contact us and we'll help you out!",
+            "emailIsInvalid": "{email} is not a valid email address.",
+            "passwordTooShort": "The password should be at least 5 characters long.",
+            "loginFailed": "We couldn't log you in. Please check your email address and the password."
+        },
+        "default": "Unfortunately, an unexpected error has occurred. Please try again later.",
+        "route": {
+            "notFound": "Oh no! This page does not exist.",
+            "noRights": "This page is private. You do not have permission to view it.",
+            "unauthorized": "You are not logged in. You may not have access to this page."
+        },
+        "image": {
+            "tooBig": "The image is too large. The file size must not exceed 1MB."
+        },
+        "learningSession": {
+            "noQuestionsAvailableWithCurrentConfig": "No questions are available for these settings. Please change the knowledge status or select all questions."
+        },
+        "api": {
+            "title": "Oops!",
+            "body": {
+                "title": "An unexpected error has occurred.",
+                "suggestion": "Reloading the website may fix the problem."
+            }
+        },
+        "collaboration": {
+            "couldNotConnect": "The connection to the live version could not be established.",
+            "authenticationFailed": "Authentication failed.",
+            "connectionLost": "The connection to the live version was interrupted."
+        },
+        "ai": {
+            "generateFlashcards": "Flashcards could not be created.",
+            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit is reached! Since the page is private, no flashcards have been created."
+        },
+        "loading": {
+            "shares": "Could not load sharing information."
+        },
+        "token": {
+            "generation": "Could not generate share link. Please try again."
+        }
+    },
+    "info": {
+        "page": {
+            "toggleHideText": "Disable text input for a pure navigation page without text content. Only available for pages without text content."
+        },
+        "question": {
+            "newQuestionNotInFilter": "Attention: The question will not be displayed after creation, as the chosen options do not match the filter settings. Adjust the learning filter to display the question.",
+            "notInFilter": "The question cannot be displayed with your question filter.",
+            "isPrivate": "The question is private. Please log in.",
+            "notInPage": "The question is not included on the page."
+        },
+        "googleLogin": "When logging in with Google, data is exchanged with Google's servers. This also happens on subsequent visits after a successful login / registration. More in our ",
+        "facebookLogin": "When logging in with Facebook, data is exchanged with Facebook's servers. This also happens on subsequent visits after a successful login / registration. More in our ",
+        "passwordResetRequested": "If the account is in our system, we have sent an email with a link to reset the password to {email}.",
+        "joinNow": "Ready for unlimited access? - Become a Plus member!",
+        "feed": {
+            "private": "Only you can see this entry"
+        },
+        "ai": {
+            "flashcardsCreatedWillBePublicCauseLimit": "Limit for private flashcards reached. New cards will be created publicly.",
+            "someFlashcardsCreatedWillBePublicCauseLimit": "Limit for private flashcards reached. Some new cards will be created publicly."
+        }
+    },
+    "label": {
+        "privacyPolicy": "Privacy Policy",
+        "termsOfUse": "Terms of Use",
+        "search": "Search",
+        "register": "Register",
+        "login": "Log in",
+        "continueWithGoogle": "Continue with Google",
+        "continueWithFacebook": "Continue with Facebook",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "legalNotice": "Imprint & Privacy",
+        "discord": "Discord",
+        "twitter": "Twitter",
+        "createWiki": "Create Wiki",
+        "addToFavorites": "Add to favourites",
+        "addedAsFavorite": "Added as favourite",
+        "logout": "Log out",
+        "fontSize": "Font size",
+        "language": "Language",
+        "fontSizeSample": "Aa",
+        "yourProfilePage": "Your profile page",
+        "accountSettings": "Account settings",
+        "administrative": "Administrative",
+        "questionCount": "0 questions | 1 question | {count} questions",
+        "questionCountText": "No question | One question | {count} questions",
+        "reloadPage": "Reload page",
+        "back": "Back",
+        "continueLearning": "Continue learning",
+        "accept": "Agree",
+        "registerWithGoogle": "Register with Google",
+        "registerWithFacebook": "Register with Facebook",
+        "attention": "Attention",
+        "toUpload": "to upload and embed in this way.",
+        "cancel": "Cancel"
+    },
+    "register": {
+        "title": "Register",
+        "description": "Your Wiki is just one click away.",
+        "alreadyRegistered": "Are you already a user?",
+        "orDivider": "or",
+        "registerNote": "By registering with Google or Facebook, you agree to our {termsOfUse} and our {privacyPolicy}. You must be at least 16 years old, {hereMoreInfos}",
+        "hereMoreInfos": "here more info!"
+    },
+    "url": {
+        "termsOfUse": "TermsOfUse",
+        "legalNotice": "LegalNotice",
+        "user": "User",
+        "users": "Users",
+        "prices": "Prices",
+        "settings": "Settings",
+        "register": "Register"
+    },
+    "search": {
+        "results": "{count} results",
+        "pages": "Pages",
+        "pagesInOtherLanguages": "Pages in other languages",
+        "questions": "Questions",
+        "users": "Users",
+        "resultsInCurrentLanguage": "({count})",
+        "countedQuestions": "{count} questions",
+        "showUserResults": "Show all ({count})",
+        "noResults": "No results found",
+        "inYourLanguage": "in your language"
+    },
+    "sideSheet": {
+        "myWikis": "My Wikis",
+        "deleteWiki": "Delete Wiki",
+        "convertToPage": "Convert into page",
+        "favourites": "Favourites",
+        "lastVisited": "Last visited",
+        "sharedWithMe": "Shared with me",
+        "noSharedPages": "No pages shared with you yet",
+        "help": "Help",
+        "documentation": "Documentation",
+        "createWikiModal": {
+            "title": "Create Wiki",
+            "createButton": "Create Wiki",
+            "inputPlaceholder": "Please enter the name of the topic",
+            "privateWikiMessage": "This Wiki is private. You can publish it later in the three-dot menu or directly via the lock icon."
+        },
+        "removedFromFavorites": "'{name}' was removed from favorites"
+    },
+    "footer": {
+        "subLabelOne": "Everything in one place -",
+        "subLabelTwo": "Wiki and learning tool combined!",
+        "allUsers": "All users",
+        "software": "Software",
+        "github": "GitHub",
+        "teamcity": "TeamCity",
+        "helpAndContact": "Help & Contact",
+        "membership": "Membership",
+        "popularPages": "Popular pages"
+    },
+    "alert": {
+        "showDetails": "Show details",
+        "copySourceCode": "Copy source code"
+    },
+    "globalLicense": {
+        "text": {
+            "partOne": "All content on this page is, unless otherwise stated, licensed under",
+            "partTwo": "Individual elements (questions, images, videos, text sections, etc. taken from other sources) may be subject to other licences and are marked accordingly."
+        },
+        "creativeCommonsLabel": "Creative Commons Attribution 4.0 (CC-BY-4.0)"
+    },
+    "userDropdown": {
+        "activitySection": {
+            "title": "Your learning points",
+            "text": "With {learningPoints},{breakpoint} you are in {level}.",
+            "learningPoints": "{count} learning points",
+            "level": "Level {count}",
+            "nextLevelText": "Just {pointsToNextLevel} points{breakpoint} until Level {nextLevel}"
+        }
+    },
+    "editor": {
+        "placeholderComment": "Describe your concern here. Please write politely, kindly and factually...",
+        "placeholderQuestion": "Enter the question text",
+        "placeholderFlashcardFront": "Front side of the flashcard",
+        "placeholderFlashcardBack": "Back side of the flashcard",
+        "placeholderDescription": "Additions to the question, e.g. images, code, etc.",
+        "placeholder": "Click here to type...",
+        "placeholderAdditions": "Add details",
+        "questionDescriptionTitle": "Additional details about the question",
+        "answerInputError": "Please enter an answer.",
+        "questionInputError": "Please enter a question."
+    },
+    "page": {
+        "header": {
+            "changeImage": "Change image",
+            "noTextInput": "No text input",
+            "addQuestion": "Add question",
+            "createPage": "Create page",
+            "addParentPage": "Link parent page",
+            "addChildPage": "Link subpage",
+            "addToPersonalWiki": "Add to my Wiki",
+            "setToPrivate": "Set page to private",
+            "publishPage": "Publish page",
+            "convertToWiki": "Convert page into Wiki",
+            "convertToPage": "Convert Wiki into page",
+            "deletePage": "Delete page",
+            "contentLanguage": "Content language",
+            "titlePlaceholder": "Enter title...",
+            "childPages": "All subpages",
+            "views": {
+                "one": "1 view",
+                "other": "{count} views"
+            },
+            "authorProfilePicture": "{name}'s profile picture",
+            "sharePage": "Share",
+            "sharedUserProfilePicture": "{name}'s profile picture"
+        },
+        "tabs": {
+            "text": "Text",
+            "questions": "Questions",
+            "feed": "Feed",
+            "analytics": "Analytics",
+            "yourKnowledgeStatus": "Your knowledge status",
+            "noQuestionAnswered": "You haven't answered any questions on this page yet."
+        },
+        "grid": {
+            "childPages": "subpages",
+            "childPagesMobile": "subpages",
+            "createChildPage": "Create subpage",
+            "createChildPageMobile": "Create page",
+            "linkChildPage": "Link subpage",
+            "linkChildPageMobile": "Link page",
+            "item": {
+                "childPage": {
+                    "one": "subpage",
+                    "other": "subpages"
+                },
+                "question": {
+                    "one": "Question",
+                    "other": "Questions"
+                },
+                "and": "and"
+            },
+            "options": {
+                "parentPages": "Parent pages",
+                "create": "Create subpage",
+                "editLinks": "Edit links",
+                "linkParentPage": "Link parent page",
+                "link": "Link subpage",
+                "removeParentPage": "Remove as parent page",
+                "movePage": "Move page",
+                "addToPersonalWiki": "Add to your Wiki",
+                "makePrivate": "Set page to private",
+                "publish": "Publish page",
+                "convertToWiki": "Convert page into Wiki",
+                "delete": "Delete page"
+            },
+            "knowledgeStatus": {
+                "title": "Your knowledge status:",
+                "noQuestions": "You have no questions on this page yet",
+                "solidCount": "{count} solid knowledge",
+                "needsConsolidationCount": "{count} to consolidate",
+                "needsLearningCount": "{count} to learn",
+                "notLearnedCount": "{count} unanswered"
+            },
+            "dnd": {
+                "errors": {
+                    "noPermission": "Unfortunately you do not have permission to move {pageName}"
+                },
+                "buttons": {
+                    "login": "Log in",
+                    "reset": "Reset"
+                },
+                "messages": {
+                    "moved": "has been moved",
+                    "visibleToAll": "Changes on the page {parentName} are visible to everyone"
+                },
+                "labels": {
+                    "subordinatePage": "Assign page as subpage"
+                }
+            }
+        },
+        "learningSessionConfiguration": {
+            "filter": "Filter",
+            "questions": "Questions",
+            "allQuestions": "All questions",
+            "chooseYourQuestions": "Choose your questions",
+            "maxQuestionsLabel": "Max. questions",
+            "chooseAtLeastOne": "Choose at least one question",
+            "knowledgeStatus": "Knowledge status",
+            "chooseKnowledgeStatus": "Choose a knowledge status",
+            "chooseAll": "Select all",
+            "test": "Test",
+            "learn": "Learn",
+            "learnDescription": "Study harder questions first and have incorrectly or unanswered questions repeated.",
+            "sortByEasy": "Easiest questions first",
+            "sortByHard": "Hardest questions first",
+            "sortByNotKnown": "Unknown questions first",
+            "sortByRandom": "Random order",
+            "noRepeat": "No repetition",
+            "repeatWrong": "Repeat incorrectly answered ones",
+            "repeatByLeitner": "Repeat using the Leitner system",
+            "comingSoon": "Coming soon",
+            "testDescription": "Test your knowledge realistically: random questions without answer hints or repetition.",
+            "goodLuck": "Good luck!",
+            "resetAllFilters": "Reset all filters",
+            "noQuestionsFoundChangeFilters": "No questions are available for these settings. Please change the knowledge status or select all questions."
+        },
+        "questionsSection": {
+            "youAreLearning": "You are learning",
+            "all": "all",
+            "question": "question",
+            "questions": "questions",
+            "onThisPage": "on this page",
+            "addQuestion": "Add question",
+            "collapseAllQuestions": "Collapse all questions",
+            "expandAllQuestions": "Expand all questions",
+            "learnQuestionsNow": "Learn questions now",
+            "noQuestionsYet": "Unfortunately, this page has no questions yet. Create or add a question.",
+            "list": {
+                "pagination": {
+                    "previous": "Previous",
+                    "next": "Next",
+                    "first": "First",
+                    "last": "Last"
+                },
+                "question": {
+                    "error": {
+                        "noAnswer": "Error: No answer!"
+                    },
+                    "answer": {
+                        "correct": "Correct answer:",
+                        "additionalInfo": "Additions to the answer:"
+                    },
+                    "stats": {
+                        "answered": "answered times",
+                        "correct": "{count} correct",
+                        "wrong": "{count} wrong"
+                    },
+                    "knowledgeStatus": {
+                        "solid": "Solid knowledge",
+                        "needsConsolidation": "Needs consolidation",
+                        "needsLearning": "Needs learning",
+                        "notLearned": "Not learned"
+                    },
+                    "actions": {
+                        "edit": "Edit question",
+                        "viewPage": "Show question page",
+                        "history": "Question edit history",
+                        "comment": "Comment on question",
+                        "delete": "Delete question"
+                    }
+                }
+            },
+            "quickCreateQuestion": {
+                "title": "Add question",
+                "flashcard": "Flashcard",
+                "wishKnowledge": {
+                    "added": "Added",
+                    "add": "Add"
+                },
+                "form": {
+                    "question": "Question",
+                    "visibility": "Visibility"
+                },
+                "validation": {
+                    "questionRequired": "Please formulate a question."
+                },
+                "visibility": {
+                    "private": "Private question",
+                    "privateTooltip": {
+                        "onlyYou": "The question can only be used by you.",
+                        "noOneElse": "No one else can see or use the question."
+                    }
+                },
+                "license": {
+                    "short": "This entry will be published under CC BY 4.0.",
+                    "more": "more",
+                    "full": "I release this entry under the \"Creative Commons - Attribution 4.0 International\" licence (CC BY 4.0, licence text, German summary). The entry may be reused without restriction with appropriate attribution. The texts and any images are my own work and not copied from copyrighted sources."
+                },
+                "buttons": {
+                    "advancedOptions": "advanced options",
+                    "add": "Add"
+                },
+                "placeholders": {
+                    "question": "Formulate a question..."
+                },
+                "filterAlert": {
+                    "active": "The question filter is active.",
+                    "notShown": "The question is not displayed to you.",
+                    "resetToShow": "Reset the filter to display all questions.",
+                    "resetButton": "Reset filter"
+                }
+            }
+        },
+        "publishQuestionModal": {
+            "confirmButton": "Confirm",
+            "title": "Confirm publication",
+            "confirmMessage": "Do you really want to publish the question \"{text}\"?",
+            "warning": "Attention!",
+            "licenseInfo": "You release this entry under the \"Creative Commons - Attribution 4.0 International\" licence (CC BY 4.0,",
+            "licenseLink": "Licence text, German summary",
+            "licenseUsage": "The entry may be reused without restriction with appropriate attribution.",
+            "licenseConfirmation": "You confirm that the texts and, if applicable, images are your own work and have not been copied from copyrighted sources."
+        },
+        "feed": {
+            "includes": "Include subpages",
+            "groupItems": "Group",
+            "includeQuestions": "Include questions",
+            "today": "Today",
+            "yesterday": "Yesterday",
+            "helper": {
+                "pageChangeType": {
+                    "created": "Created",
+                    "updated": "Updated",
+                    "deleted": "Deleted",
+                    "published": "Published",
+                    "privatized": "Privatized",
+                    "renamed": "Renamed",
+                    "text": "Text content",
+                    "relations": "Links",
+                    "image": "Image",
+                    "restored": "Restored",
+                    "moved": "Moved",
+                    "childPageDeleted": "Deleted",
+                    "questionDeleted": "Deleted"
+                },
+                "questionChangeType": {
+                    "created": "Created",
+                    "updated": "Updated",
+                    "deleted": "Deleted",
+                    "comment": "Comment"
+                }
+            },
+            "modal": {
+                "newComment": "New comment",
+                "by": "by",
+                "showChanges": "Show changes",
+                "showWithoutChanges": "Text without change",
+                "addedParentPages": "Added parent pages",
+                "removedParentPages": "Removed parent pages",
+                "addedChildPages": "Added subpages",
+                "removedChildPages": "Removed subpages"
+            },
+            "userCard": {
+                "by": "by",
+                "collapseExpand": "Collapse/expand"
+            },
+            "create": {
+                "parentPage": "Parent page:"
+            },
+            "item": {
+                "childPageDeleted": "subpage deleted",
+                "questionDeleted": "Question deleted",
+                "private": "Private"
+            },
+            "relations": {
+                "parentsAdded": {
+                    "singular": "Parent page added",
+                    "plural": "Parent pages added"
+                },
+                "parentsRemoved": {
+                    "singular": "Parent page removed",
+                    "plural": "Parent pages removed"
+                },
+                "childrenAdded": {
+                    "singular": " added",
+                    "plural": "s added"
+                },
+                "childrenRemoved": {
+                    "singular": " removed",
+                    "plural": "s removed"
+                }
+            }
+        },
+        "analytics": {
+            "yourKnowledgeStatus": "Your knowledge status",
+            "questionsGroupedByStatus": "Questions grouped by status",
+            "noQuestionsAnswered": "You have not answered any questions on this page yet.",
+            "pageData": "Data about this page",
+            "questionsLabel": "Questions:",
+            "includedQuestions": "included questions",
+            "directlyLinkedQuestions": "directly linked questions",
+            "pagesLabel": "Pages:",
+            "includedPages": "included pages",
+            "directlyLinkedChildPages": "directly linked subpages",
+            "parentPages": "parent pages",
+            "statistics": "Statistics",
+            "pageViewsLast90Days": "Page views in the last 90 days",
+            "withoutChildPages": "Without subpages",
+            "withChildPages": "Incl. 0 subpages | Incl. 1 subpage | Incl. {count} subpages",
+            "questionViewsLast90Days": "Question views in the last 90 days",
+            "directlyLinkedQuestionsTitle": "Directly linked questions",
+            "includedQuestions90Days": "Included questions (0 subpages) | Included questions (1 subpage) | Included questions ({count} subpages)",
+            "solidKnowledge": "@:knowledgeStatus.solid",
+            "needsConsolidation": "@:knowledgeStatus.needsConsolidation",
+            "needsLearning": "@:knowledgeStatus.needsLearning",
+            "notLearned": "@:knowledgeStatus.notLearned"
+        },
+        "publishModal": {
+            "title": "Publish {name}",
+            "button": {
+                "publish": "Publish"
+            },
+            "intro": {
+                "public": "Public content is discoverable by anyone and may be freely reused.",
+                "license": "You publish under the Creative Commons licence."
+            },
+            "questions": {
+                "publish": "Would you like to publish {count} private questions as well?"
+            },
+            "license": {
+                "confirmation": "I release this entry under the \"Creative Commons - Attribution 4.0 International\" licence (CC BY 4.0, {0}).",
+                "linkText": "Licence text, German summary",
+                "usage": "The entry may be reused without restriction with appropriate attribution. The texts and any images are my own work and not copied from copyrighted sources."
+            }
+        },
+        "toPrivateModal": {
+            "title": "Set {name} to private",
+            "button": "Set page to private",
+            "description": "The content can only be used by you. No one else can see or use it.",
+            "questions": {
+                "personal": "Would you like to also set {count} of {totalCount} public {question} to private? (You can only set your own questions to private.)",
+                "admin": "Would you like to also set {count} public {question} to private? (Admin)",
+                "question": "question | questions"
+            }
+        },
+        "deleteModal": {
+            "title": {
+                "deleted": {
+                    "wiki": "Wiki deleted",
+                    "page": "Page deleted"
+                },
+                "delete": {
+                    "wiki": "Delete Wiki '{name}'",
+                    "page": "Delete page '{name}'"
+                }
+            },
+            "button": {
+                "continue": "Continue",
+                "deletePage": "Delete page",
+                "deleteWiki": "Delete Wiki"
+            },
+            "message": {
+                "redirect": {
+                    "wiki": "When you close this window, you will be redirected to the main page.",
+                    "page": "When you close this window, you will be redirected to the next parent page."
+                },
+                "deleted": {
+                    "wiki": "The Wiki '{name}' was successfully deleted.",
+                    "page": "The page '{name}' was successfully deleted."
+                },
+                "confirm": "Would you like to permanently delete '{name}'?",
+                "questions": {
+                    "notDeleted": "Questions will not be deleted.",
+                    "moveToAnotherPage": "Move the questions to another page.",
+                    "publicQuestions": "There are public questions on this page. You can only select public pages.",
+                    "suggestion": "How about {name}?",
+                    "searchOther": "Or search for another page or Wiki."
+                }
+            },
+            "question": "question | questions"
+        },
+        "ai": {
+            "flashcard": {
+                "button": {
+                    "create": "Create flashcard"
+                },
+                "message": {
+                    "noFlashcards": "Oops! You have no flashcards."
+                }
+            }
+        },
+        "relationEdit": {
+            "modal": {
+                "createPage": "Create new page",
+                "movePage": "Move page to",
+                "linkExistingPage": "Link existing page",
+                "linkParentPage": "Link new parent page"
+            },
+            "button": {
+                "createPage": "Create page",
+                "movePage": "Move page",
+                "linkPage": "Link page"
+            },
+            "form": {
+                "namePlaceholder": "Please enter the name of the topic"
+            },
+            "text": {
+                "pageIsPrivate": "This page is private. You can publish it later in the three-dot menu or directly via the lock icon.",
+                "whereToAdd": "Where should the page be added?",
+                "recentlySelectedPages": "Recently selected pages",
+                "selectOtherPage": "Select another page",
+                "selected": "Selected",
+                "searchOnlyInWiki": "Search only in your own Wiki",
+                "question": "Question",
+                "questions": "Questions"
+            }
+        },
+        "editBar": {
+            "loginRequired": {
+                "desktop": "To save, you must be {login}.",
+                "mobile": "You must be logged in to save."
+            },
+            "loginLink": "logged in",
+            "buttons": {
+                "publish": "Publish",
+                "discard": "Discard"
+            }
+        },
+        "convert": {
+            "modal": {
+                "confirm": "Confirm",
+                "title": {
+                    "toWiki": "Confirm conversion to Wiki",
+                    "toPage": "Confirm conversion to page"
+                },
+                "body": {
+                    "toWiki": "Do you really want to convert the page \"{name}\" into a Wiki?",
+                    "toPage": "Do you really want to convert the Wiki \"{name}\" into a page?"
+                },
+                "keepParents": "Keep links to parent Wikis/pages (optional)"
+            }
+        },
+        "sharing": {
+            "modal": {
+                "titleManage": "Manage Page Access",
+                "titleShareWith": "Share with {user}",
+                "close": "Done",
+                "cancel": "Cancel",
+                "shareWithUser": "Share",
+                "pendingChanges": "Pending changes",
+                "saveChanges": "Save",
+                "info": "Sharing Pages will include all questions",
+                "loginInfo": "Only logged-in users can edit shared pages",
+                "noManagementRights": "You don't have permission to manage access roles or change sharing settings for this page."
+            },
+            "permission": {
+                "label": "Permission level",
+                "view": "Viewer",
+                "edit": "Editor",
+                "viewWithChildren": "Viewer (incl. subpages)",
+                "editWithChildren": "Editor (incl. subpages)",
+                "restrictAccess": "Restrict access",
+                "description": {
+                    "0": "User can only view this page",
+                    "1": "User can edit content on this page",
+                    "2": "User can view this page and all {count} subpages",
+                    "3": "User can edit this page and all {count} subpages"
+                },
+                "removing": "Remove",
+                "remove": "Remove access",
+                "creator": "Creator",
+                "inheritedFrom": "Inherited rights from:"
+            },
+            "search": {
+                "placeholder": "Search for users to share with..."
+            },
+            "existingShares": {
+                "title": "People with access",
+                "none": "No one has access to this page yet"
+            },
+            "notification": {
+                "send": "Notify user about this share",
+                "message": "Add a custom message (optional)",
+                "placeholder": "Type your message here..."
+            },
+            "link": {
+                "title": "Share via Secret Link",
+                "copy": "Copy Link",
+                "renew": "Reset Link",
+                "info": "Anyone with the link will be able to access this page with view permissions.",
+                "publicDescription": "Anyone with the secret link can access this page.",
+                "restrictedDescription": "Only people with access can view this page.",
+                "includeToken": "Include access key",
+                "shareViaLink": "Anyone with the secret link",
+                "restrict": "Restricted",
+                "renewTooltip": "Resetting the secret link will invalidate the old secret link."
+            },
+            "inherited": {
+                "removeTitle": "Remove from parent page?",
+                "description": "{userName} has access to '{pageName}' via a parent page '{parentName}'. Removing access from the parent page will make permissions easier to manage.",
+                "removeAccess": "Remove from page",
+                "removeFromParent": "Remove from parent"
+            }
+        }
+    },
+    "knowledgeStatus": {
+        "solid": "Solid knowledge",
+        "solidCount": "@:knowledgeStatus.solid : @:label.questionCount",
+        "needsConsolidation": "Should be consolidated",
+        "needsConsolidationCount": "@:knowledgeStatus.needsConsolidation : @:label.questionCount",
+        "needsLearning": "Should be learned",
+        "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
+        "notLearned": "Not learned yet",
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+    },
+    "questionFilterOptions": {
+        "inWuwi": "In Wish-Knowledge",
+        "notInWuwi": "Not in Wish-Knowledge",
+        "createdByCurrentUser": "Created by me",
+        "notCreatedByCurrentUser": "Not created by me",
+        "private": "Private questions",
+        "public": "Public questions"
+    },
+    "answerbody": {
+        "feedbackCorrectPopUp": "Correct!",
+        "feedbackWrongPopUp": "Unfortunately wrong",
+        "flashcardFlip": "Flip",
+        "flashcardKnew": "I knew it!",
+        "flashcardDidNotKnow": "I didn't know it!",
+        "flashcardDontCount": "Don't count!",
+        "answer": "Answer",
+        "showSolution": "Show solution",
+        "skipQuestion": "Skip question",
+        "nextQuestion": "Next question",
+        "markAsKnown": "I knew it!",
+        "toResult": "Show result",
+        "answerAgain": "Answer again",
+        "correctAnswerLabel": "Correct! ",
+        "wrongAnswerLabel": "Wrongly answered ",
+        "yourAnswersHeadingSingular": "Your answer:",
+        "yourAnswersHeadingPlural": "Your answers:",
+        "rightAnswerHeading": "Correct answer:",
+        "answerAdditionsHeading": "Additions to the answer:",
+        "options": {
+            "editQuestion": "Edit question",
+            "showQuestionPage": "Show question page",
+            "showEditHistory": "Show edit history",
+            "comment": "Comment on question",
+            "delete": "Delete question"
+        },
+        "flipFlashcard": "Click to flip",
+        "multipleChoiceInfo": "None or several answers can be correct!",
+        "textPlaceholderAddAnswer": "Please enter your answer here...",
+        "details": {
+            "answerProbability": "Answer probability",
+            "answeredXTimes": "answered times",
+            "correct": "correct",
+            "wrong": "wrong",
+            "showDetails": "Show details",
+            "hideDetails": "Hide details",
+            "yourScore": "Your score",
+            "tooltipLearningPoints": "You earn learning points for answering questions",
+            "pages": "Pages",
+            "loggedInProbabilityText": "This is the probability that you'll answer the question correctly. Average of all memoWikis users:",
+            "notLoggedInProbabilityText": "This is the probability that you'll answer the question correctly. Please log in so we can calculate your personal probability.",
+            "answers": "Answers",
+            "fromYou": "From you:",
+            "fromUnregistered": "From unregistered users:",
+            "neverAnswered": "You have never answered this question.",
+            "youAreNotLoggedInNoData": "You are not logged in. We have no data.",
+            "login": "Log in",
+            "fromAllUsers": "From all users:",
+            "privateQuestionForYou": "This question is private and visible only to you",
+            "neverAnsweredAll": "This question has never been answered.",
+            "licenseInfoHeader": "Information about the licence",
+            "author": "Author",
+            "createdBy": "Created by:",
+            "ago": "ago"
+        },
+        "learningSessionResult": {
+            "heading": "Result",
+            "correctAnswers": "Questions answered correctly:",
+            "correctAfterRepetition": "Questions answered correctly during repetition:",
+            "wrongAnswers": "Questions answered incorrectly:",
+            "skippedQuestions": "Questions skipped:",
+            "continueStudying": "Continue studying",
+            "toPage": "To the page",
+            "newSession": "New study session",
+            "maxQuestionsShown": "No more than 300 questions are displayed in the evaluation"
+        },
+        "tries": {
+            "0": "0 tries",
+            "1": "one try",
+            "2": "two tries",
+            "3": "three tries",
+            "4": "four tries",
+            "5": "five tries",
+            "6": "very persistent",
+            "7": "Respect!",
+            "many": "Respect!"
+        },
+        "errorMessages": {
+            "churchill": "It is a great advantage in life to make mistakes from which you can learn, as early as possible. (Churchill)",
+            "keepGoing": "Keep going, don’t give up.",
+            "practice": "Practice makes perfect. You are on the right track."
+        },
+        "repeatedErrorMessages": {
+            "confucius": "He who makes a mistake and does not correct it commits a second one. (Confucius)",
+            "balanced": "A balanced person is someone who can make the same mistake twice without getting nervous."
+        },
+        "successMessages": {
+            "yeah": "Yeah!",
+            "goodWay": "You’re on the right track.",
+            "clean": "Clean!",
+            "wellDone": "Well done!",
+            "great": "Great!",
+            "keepItUp": "Keep it up!",
+            "exactly": "Exactly.",
+            "absolutely": "Absolutely.",
+            "cantBeMoreCorrect": "It couldn’t be more correct.",
+            "flawless": "Flawless!",
+            "correct": "Corrrrrect!",
+            "perfect": "Perfect.",
+            "more": "More of that!",
+            "awesome": "Awesome.",
+            "schubidu": "Schubidu!",
+            "thereYouGo": "There you go!",
+            "exact": "Exact.",
+            "thatsIt": "That’s it.",
+            "nothingToComplain": "No complaints there.",
+            "looksGood": "Looks good.",
+            "oha": "Oha!",
+            "rrrright": "Rrrrright!"
+        },
+        "emptyAnswerMessage": "You could at least try ... (This won’t count as an attempt.)",
+        "noCorrectAnswers": "None of the answers is correct!"
+    },
+    "question": {
+        "editModal": {
+            "title": {
+                "edit": "Edit question",
+                "create": "Create question"
+            },
+            "solutionType": {
+                "text": "Text",
+                "multipleChoice": "MultipleChoice",
+                "matchList": "Assignment (List)",
+                "flashCard": "Flashcard"
+            },
+            "button": {
+                "save": "Save",
+                "add": "Add",
+                "cancel": "Cancel",
+                "more": "more"
+            },
+            "label": {
+                "question": "Question",
+                "description": "Additions to the answer",
+                "pageAssignment": "Page assignment",
+                "visibility": "Visibility"
+            },
+            "placeholder": {
+                "pageSearch": "Please enter the page name"
+            },
+            "visibility": {
+                "private": "Private question",
+                "privateTooltip": "<ul class='show-tooltip-ul'><li>The question can only be used by you.</li><li>No one else can see or use it.</li></ul>"
+            },
+            "license": {
+                "ccBy": "This entry will be published under CC BY 4.0.",
+                "fullText": "I release this entry under the \"Creative Commons - Attribution 4.0 International\" (CC BY 4.0, licence text, German summary). The entry may be reused without restriction with appropriate attribution. The texts and any images are my own work and not copied from copyrighted sources.",
+                "none": "No licence",
+                "ccBy40": "CC BY 4.0",
+                "bamf": "Official work BAMF",
+                "elwis": "ELWIS",
+                "blac": "BLAC"
+            },
+            "count": {
+                "question": "Question",
+                "questions": "Questions"
+            },
+            "filterAlert": {
+                "active": "The question filter is active.",
+                "notShown": "The question is not displayed to you.",
+                "resetToShow": "Reset the filter to display all questions.",
+                "resetButton": "Reset filter"
+            }
+        },
+        "deleteModal": {
+            "title": "Delete question",
+            "button": {
+                "delete": "Delete question"
+            },
+            "confirmation": "Would you like to irretrievably delete \"{name}\"? All associated data will be removed!",
+            "progress": "The question is being deleted... Please be patient."
+        },
+        "edit": {
+            "matchList": {
+                "answers": "Answers",
+                "leftElement": "Left element",
+                "rightElement": "Right element",
+                "addPair": "Add pair",
+                "createRightElement": "Create right element",
+                "randomizePairs": "Randomize pairs",
+                "errors": {
+                    "leftElementRequired": "Please provide a left element.",
+                    "rightElementRequired": "Please select a right element.",
+                    "createRightElement": "Please create a right element."
+                }
+            },
+            "multipleChoice": {
+                "answers": "Answers",
+                "addAnswer": "Add answer",
+                "randomizeAnswers": "Randomize answers",
+                "errors": {
+                    "answerRequired": "Please enter an answer."
+                }
+            },
+            "text": {
+                "answer": "Answer",
+                "enterAnswer": "Type your answer here",
+                "errors": {
+                    "answerRequired": "Please enter an answer."
+                }
+            }
+        }
+    },
+    "settings": {
+        "navigation": {
+            "profileInfo": "Profile information",
+            "editProfile": "Edit profile",
+            "password": "Password",
+            "deleteProfile": "Delete profile",
+            "settings": "Settings",
+            "showWuwi": "Show Wish-Knowledge",
+            "supportLogin": "Support login",
+            "membership": "Membership",
+            "notifications": "Notifications",
+            "general": "General",
+            "knowledgeReport": "Knowledge report"
+        },
+        "profile": {
+            "profilePicture": "Profile picture",
+            "uploadImage": "Upload image",
+            "removeProfilePicture": "Remove profile picture",
+            "username": "Username",
+            "email": "Email",
+            "verified": "Verified",
+            "notVerified": "Not verified",
+            "sendVerificationEmail": "Send verification email"
+        },
+        "button": {
+            "save": "Save"
+        },
+        "password": {
+            "currentPassword": "Old password",
+            "newPassword": "New password",
+            "repeatNewPassword": "Repeat new password",
+            "changePassword": "Change password",
+            "forgotPassword": "Forgot password"
+        },
+        "deleteProfile": {
+            "warning": "Attention:",
+            "onlyIf": "You can only delete your profile if:",
+            "condition1": "the total of all public views is below 2000,",
+            "condition2": "and after that there are no pages or questions left that are not properly assigned somehow.",
+            "deleteButton": "Delete profile",
+            "notPossible": "Unfortunately, it is not possible to delete your profile on your own. Therefore, please write us a short email at",
+            "contactReason": "so that we can secure your valuable knowledge and remove your profile for you."
+        },
+        "wuwi": {
+            "showWuwi": "Show Wish-Knowledge",
+            "explanation": "If selected, it is publicly visible which questions are in your Wish-Knowledge (except private questions). No answer statistics are displayed."
+        },
+        "supportLogin": {
+            "allow": "Allow support login",
+            "explanation": "Caution: This is only necessary after consultation with the memoWikis team! If you activate support login, memoWikis staff can log into your user account to fix errors or assist you, without needing or seeing your password."
+        },
+        "membership": {
+            "manageOrCancel": "Manage or cancel subscription",
+            "resume": "Resume subscription"
+        },
+        "knowledgeReport": {
+            "emailReport": "Knowledge report via email:",
+            "interval": {
+                "quarterly": "Quarterly",
+                "monthly": "Monthly",
+                "weekly": "Weekly",
+                "daily": "Daily",
+                "never": "Never"
+            },
+            "description": "The knowledge report informs you about your current knowledge status of your",
+            "additionalInfo": "Wish-Knowledge and about new content on memoWikis. It is only sent if you have Wish-Knowledge."
+        }
+    },
+    "questionLandingPage": {
+        "title": "Question page for '{title}'",
+        "rightAnswer": "Correct answer:",
+        "answerAdditions": "Additions to the answer:",
+        "continueLearning": "Continue learning",
+        "tooltip": {
+            "learnAllQuestions": "Learn all questions on this page",
+            "learnRandomQuestions": "Learn 5 randomly selected questions from {pageName}"
+        },
+        "pages": "Pages",
+        "probability": {
+            "title": "Answer probability",
+            "description": {
+                "loggedIn": "This is the probability that you will answer the question correctly. The average of all memoWikis users:",
+                "notLoggedIn": "This is the probability that you will answer the question correctly. Log in so we can calculate your personal probability."
+            },
+            "status": {
+                "notInWishknowledge": "Not in Wish-Knowledge",
+                "solid": "Solid knowledge",
+                "needsConsolidation": "Needs consolidation",
+                "needsLearning": "Needs learning",
+                "notLearned": "Not learned"
+            }
+        },
+        "answers": {
+            "title": "Answers",
+            "personal": {
+                "title": "From you:",
+                "answered": "answered times",
+                "correct": "correct",
+                "wrong": "wrong",
+                "noAnswers": "You have never answered this question.",
+                "notLoggedIn": "You are not logged in. We have no data.",
+                "login": "Log in"
+            },
+            "overall": {
+                "title": "From all users:",
+                "answered": "answered times",
+                "correct": "correct",
+                "wrong": "wrong",
+                "privateQuestion": "This question is private and only visible to you",
+                "noAnswers": "This question has never been answered."
+            }
+        },
+        "license": {
+            "info": "Information about the licence:",
+            "author": "Author:"
+        },
+        "creation": {
+            "by": "Created by:",
+            "time": "ago"
+        }
+    },
+    "comment": {
+        "modal": {
+            "title": "Discussion",
+            "settledDiscussions": "The question has {count} closed @:comment.modal.discussion",
+            "discussion": "Discussions | Discussion | Discussions",
+            "show": "show",
+            "hide": "hide"
+        },
+        "status": {
+            "closed": "closed",
+            "settled": "This comment was marked as resolved."
+        },
+        "posts": "No posts | One post | {count} posts",
+        "readMore": {
+            "more": "More",
+            "less": "Less"
+        },
+        "answer": {
+            "yourAnswer": "Your answer",
+            "minCharsError": "Please formulate a comment with at least 10 characters."
+        },
+        "editor": {
+            "placeholderComment": "Write your answer here..."
+        },
+        "answers": {
+            "singular": "Answer",
+            "plural": "Answers",
+            "show": "show",
+            "hide": "hide"
+        },
+        "time": {
+            "ago": "ago",
+            "by": "by"
+        },
+        "buttons": {
+            "reply": "Reply",
+            "closeDiscussion": "Close discussion",
+            "reopenDiscussion": "Reopen discussion",
+            "cancel": "Cancel"
+        },
+        "messages": {
+            "discussionClosed": "Unfortunately, the discussion was closed in the meantime"
+        },
+        "form": {
+            "title": "Title of the discussion",
+            "titleError": "Please formulate a title with at least 10 characters.",
+            "text": "Your discussion contribution",
+            "textError": "Please formulate a comment with at least 10 characters."
+        },
+        "login": {
+            "required": "You must be logged in to comment.",
+            "register": "Register now"
+        }
+    },
+    "user": {
+        "profile": {
+            "reputationPoints": "Reputation points",
+            "rank": "Rank",
+            "viewAllUsers": "Go to the overview of all users",
+            "toMyWiki": "Go to my Wiki",
+            "toUserWiki": "Go to {name}'s Wiki"
+        },
+        "overview": {
+            "reputation": {
+                "title": "Reputation points",
+                "total": "total",
+                "questionsInOtherWishknowledges": "Own questions in others' Wish-Knowledge",
+                "questionsCreated": "Created questions",
+                "publicWishknowledges": "Publication of your own Wish-Knowledge",
+                "learnMore": "Learn more about reputation points"
+            },
+            "content": {
+                "title": "Created content",
+                "publicQuestions": "Public questions",
+                "publicPages": "Public pages",
+                "privateQuestions": "Private questions",
+                "privatePages": "Private pages"
+            },
+            "wishknowledge": {
+                "title": "In Wish-Knowledge",
+                "questions": "Questions"
+            }
+        },
+        "wishknowledge": {
+            "private": {
+                "own": "Your Wish-Knowledge is not public.",
+                "change": "Change",
+                "notPublic": "Not public",
+                "userNotPublished": "{name} has not published her / his Wish-Knowledge."
+            },
+            "questions": {
+                "title": "Questions in Wunschwissen ({count})",
+                "search": "Search",
+                "noResults": "Hmm..., unfortunately there is no question with \"{term}\""
+            },
+            "pages": {
+                "title": "Pages with Wunschwissen ({count})",
+                "search": "Search",
+                "noResults": "Oops! We couldn't find a page \"{term}\".",
+                "withQuestions": "with {count} questions"
+            },
+            "pagination": {
+                "previous": "Previous",
+                "next": "Next",
+                "first": "First",
+                "last": "Last"
+            }
+        },
+        "tabs": {
+            "overview": "Overview",
+            "wishknowledge": "Wish-Knowledge",
+            "settings": "Settings"
+        },
+        "membership": {
+            "header": {
+                "topLabel": "Become a member and support free education",
+                "title": "Membership",
+                "bottomLabel1": "Public content on memoWikis is freely accessible. Free data - free software (open data open access)!",
+                "bottomLabel2": "Do you want to use memoWikis for private content? Here are our prices:"
+            },
+            "plans": {
+                "downgrade": "Downgrade",
+                "yourMembership": "Your membership",
+                "registerFree": "Register for free",
+                "select": "Select",
+                "inPlanning": "In planning",
+                "contact": "Contact",
+                "stripe": {
+                    "redirectDialog": {
+                        "title": "Redirecting to Stripe",
+                        "message": "You will now be redirected to our payment service provider Stripe, who will also store your email address.",
+                        "confirm": "OK"
+                    },
+                    "error": "Unfortunately, a connection to the Stripe payment service provider could not be established."
+                },
+                "basic": {
+                    "name": "Free",
+                    "priceLabel": "Free forever!",
+                    "description": "You can do everything. Only the number of private contents is limited.",
+                    "list": {
+                        "publicContent": "Unlimited public content (view, create and learn)",
+                        "privatePages": "{count} private pages",
+                        "privateQuestions": "{count} private questions",
+                        "wishknowledge": "max. {count} questions in Wish-Knowledge"
+                    }
+                },
+                "plus": {
+                    "name": "Plus",
+                    "priceLabel": "per month",
+                    "description": "You support further development! Unlimited private content!",
+                    "list": {
+                        "support": "You support us :-)",
+                        "unlimitedPages": "Unlimited private pages",
+                        "unlimitedQuestions": "Unlimited private questions",
+                        "unlimitedWishknowledge": "Unlimited Wish-Knowledge"
+                    }
+                },
+                "team": {
+                    "name": "Team",
+                    "priceLabel": "per month & user",
+                    "description": "For teams that need central administration and private content.",
+                    "listLabel": "Everything from Plus, and additionally:",
+                    "list": {
+                        "teamPrivateContent": "Edit private content as a team",
+                        "manageTeams": "Manage teams"
+                    }
+                },
+                "organisation": {
+                    "name": "Organisation",
+                    "price": "On request",
+                    "priceLabel": "Individual prices. Please contact us for more information.",
+                    "description": {
+                        "support": "For companies and institutions that need additional support.",
+                        "team": "Keep your team up to date."
+                    },
+                    "listLabel": "Everything from Team, plus:",
+                    "list": {
+                        "sso": "SSO / AD integration",
+                        "hosting": "Dedicated server / hosting in your data centre",
+                        "customizing": "Customisation"
+                    }
+                }
+            },
+            "faq": {
+                "title": "Frequently Asked Questions",
+                "notFound": "Can't find your question?",
+                "contact": "Contact memoWikis",
+                "billing": {
+                    "question": "What happens when my subscription expires?",
+                    "answer": "When your subscription expires, you can no longer create additional private content beyond the basic limits. However, your existing content will not be deleted."
+                },
+                "privateContent": {
+                    "question": "Will private content be deleted when my subscription expires?",
+                    "answer": "No, your private content will not be deleted unless you want it to be. You can still access it even after your subscription has expired."
+                },
+                "unlimitedContent": {
+                    "question": "What does 'unlimited content' mean, are there no limits?",
+                    "answer": "So far, we haven't set any limits. However, if technical boundaries are reached, we will inform you. With normal use, you shouldn't reach any technical limits. Limits for images and videos are still being determined."
+                },
+                "payment": {
+                    "question": "How does payment work?",
+                    "answer": "Payment is processed through the payment service provider Stripe. Stripe operates in compliance with GDPR ({stripePrivacyUrl}). We only receive feedback from Stripe about the payment success. All other processes, such as invoicing and credit card data management, are carried out by Stripe."
+                },
+                "cardDeclined": {
+                    "question": "My credit card was declined and I want to access my private content. What do I do?",
+                    "answer": "Even if your subscription has expired or your credit card was declined during renewal, you can still access your private content."
+                }
+            }
+        },
+        "messages": {
+            "row": {
+                "markAsRead": "Mark as read",
+                "markAsUnread": "Mark as unread",
+                "tooltip": {
+                    "isRead": "The message is read",
+                    "isUnread": "The message is unread"
+                },
+                "ago": "ago"
+            }
+        }
+    },
+    "usersOverview": {
+        "title": "All users",
+        "search": {
+            "noResults": "No user named \"{term}\"",
+            "results": "Results for \"{term}\" ({count})",
+            "allUsers": "All users",
+            "placeholder": "Search",
+            "noUserWithName": "Unfortunately, there is no user with \"{term}\"",
+            "limitedResults": "We only show the first 100. For more/other results, please refine your search"
+        },
+        "contentLanguageLabel": "Content language",
+        "sort": {
+            "label": "Sort by:",
+            "options": {
+                "rank": "Rank",
+                "wishknowledge": "Wish-Knowledge",
+                "notSelected": "Not selected"
+            }
+        },
+        "meta": {
+            "description": "List of all users",
+            "title": "Users"
+        },
+        "card": {
+            "reputation": "Reputation: {points} (Rank {rank})",
+            "created": "Created: {questions} questions / {pages} pages",
+            "wishknowledge": "Wish-Knowledge: {questions} questions / {pages} pages",
+            "privateWishknowledge": "{name}'s Wish-Knowledge is private",
+            "toWiki": "Go to {name}'s Wiki",
+            "rank": "Rank",
+            "createdTitle": "Created",
+            "languages": "Languages"
+        },
+        "tabs": {
+            "allUsers": "All users"
+        }
+    },
+    "deletePageStore": {
+        "confirm": "Understood",
+        "cantDeleteInfo": "The page: \"{name}\" cannot be deleted"
+    },
+    "login": {
+        "title": {
+            "default": "Log in",
+            "google": "Log in with Google",
+            "facebook": "Log in with Facebook",
+            "resetPassword": "Reset password"
+        },
+        "button": {
+            "signIn": "Log in",
+            "requestLink": "Request link",
+            "continueWithGoogle": "Continue with Google",
+            "continueWithFacebook": "Continue with Facebook",
+            "agree": "OK",
+            "cancel": "Cancel",
+            "back": "Back",
+            "registerNow": "Register now!",
+            "forgotPassword": "Forgot password?"
+        },
+        "form": {
+            "email": "Email",
+            "password": "Password",
+            "stayLoggedIn": "Stay logged in"
+        },
+        "message": {
+            "loginInProgress": "Login / registration is continuing in a new window.",
+            "googlePrivacy": "When logging in with Google, data is exchanged with Google's servers. This also happens during subsequent visits after a successful login / registration. More in our privacy policy.",
+            "facebookPrivacy": "When logging in with Facebook, data is exchanged with Facebook's servers. This also happens during subsequent visits after a successful login / registration. More in our privacy policy.",
+            "resetPasswordInfo": "Enter the email address you registered with. We will send you a link to set a new password.",
+            "or": "or",
+            "notRegistered": "Not a user yet?",
+            "rememberedPassword": "Remembered your password?",
+            "clickToLogin": "Click here to log in."
+        }
+    },
+    "levelPopUp": {
+        "buttons": {
+            "register": "Register",
+            "continueLearning": "Continue learning"
+        },
+        "header": {
+            "progress": "Progress:",
+            "currentLevel": "You are now level",
+            "congratulation": "Great! You're getting smarter every day."
+        },
+        "body": {
+            "nextLevel": "You will reach the next level at {points} points.",
+            "registerKeepProgress": "If you register now, you will retain your points and current level.",
+            "registerCta": "{register} now and keep getting smarter with memoWikis!"
+        }
+    },
+    "banner": {
+        "info": {
+            "subText": "Everything in one place",
+            "mainText": "Wiki and learning tools combined!",
+            "toDocumentation": "To the documentation"
+        }
+    },
+    "errorContent": {
+        "route": {
+            "notFound": "This page could not be found."
+        },
+        "backToHome": "Back to the homepage",
+        "emailContact": "Or send an email to {email}.",
+        "notifications": {
+            "emailSent": "We were notified by email.",
+            "urgentContact": "If urgent, you can reach Robert at 0178-1866848.",
+            "emailOption": "Or send an email to {email}."
+        }
+    },
+    "image": {
+        "license": {
+            "info": "Licence info"
+        },
+        "modal": {
+            "title": "Image details",
+            "description": "Description:"
+        },
+        "upload": {
+            "header": "Upload page image",
+            "buttons": {
+                "loadPreview": "Load preview",
+                "useImage": "Use image",
+                "chooseFile": "Choose file"
+            },
+            "warnings": {
+                "attention": "Attention: image rights are a sensitive topic. Please only upload images that are in the public domain, that are under an appropriate licence or that you created yourself.",
+                "allowedFormats": "Only the following formats are allowed: {formats}"
+            },
+            "options": {
+                "wikimedia": "Use images from Wikimedia.",
+                "custom": "Own images"
+            },
+            "wikimedia": {
+                "info": "Wikipedia/Wikimedia hosts millions of images that can be freely used. On Wikimedia Commons, you can specifically search for content.",
+                "tip": "Tip: When you click on the desired image on Wikipedia or Wikimedia Commons, you get to the detail view. (For some maps, you must click on the \"i\" logo in the bottom right corner.) Just copy the URL of that page.",
+                "urlLabel": "Wikimedia URL",
+                "urlTooltip": "For images from Wikipedia/Wikimedia, you can provide the detail page URL, the media viewer's image display URL, the image file URL, or the filename (including extension)."
+            },
+            "dropzone": {
+                "title": "Upload image",
+                "dragHere": "Drag an image here",
+                "or": "or.."
+            },
+            "preview": "Image preview:",
+            "license": {
+                "title": "Copyright information:",
+                "info": "We need copyright information for this image to ensure that content on memoWikis can be freely reused. memoWikis follows the Wikipedia principle.",
+                "isOwnWork": "This image is my own work.",
+                "notOwnWork": "This image is not my own work.",
+                "declaration": "I, {name}, the copyright holder of this work, hereby irrevocably grant anyone the right to use it under the “Creative Commons” licence \"Attribution 4.0 International\" (CC BY 4.0) {licenseLink}.",
+                "licenseText": "(Text of the licence)",
+                "namePlaceholder": "Name",
+                "useWikimedia": "We kindly ask you to upload the image to Wikimedia and embed it that way."
+            }
+        }
+    },
+    "breadcrumb": {
+        "titles": {
+            "welcome": "Welcome",
+            "imprint": "Legal Notice & Privacy Policy",
+            "terms": "Terms and Conditions",
+            "register": "Register",
+            "messages": "Messages",
+            "error": "Error",
+            "resetPassword": "Reset password",
+            "confirmEmail": "Email confirmation",
+            "metrics": "Metrics"
+        },
+        "aria": {
+            "rootPageButton": "Go to homepage",
+            "pageLink": "Go to {pageName}"
+        }
+    },
+    "pin": {
+        "tooltips": {
+            "removeFromWishknowledge": "Remove from your Wunschwissen",
+            "addToWishknowledge": "Add to your Wunschwissen"
+        },
+        "labels": {
+            "add": "Add"
+        }
+    },
+    "questionDetail": {
+        "tooltips": {
+            "correctFirstTry": "Answered correctly on the first attempt",
+            "correctLaterTry": "Answered correctly on the second or third attempt",
+            "unanswered": "Unanswered",
+            "wrong": "Answered incorrectly"
+        },
+        "labels": {
+            "correctAnswer": "Correct answer:",
+            "yourTry": "Your {number}. attempt:",
+            "skipped": "(skipped)",
+            "notSeen": "(not yet viewed)"
+        }
+    },
+    "chip": {
+        "showSpoiler": "Show spoiler"
+    },
+    "timeElapsed": {
+        "lessThanAMinute": "less than a minute ago",
+        "oneMinute": "one minute ago",
+        "minutes": "{count} minutes ago",
+        "oneHour": "one hour ago",
+        "hours": "{count} hours ago",
+        "oneDay": "one day ago",
+        "days": "{count} days ago",
+        "oneMonth": "one month ago",
+        "months": "{count} months ago",
+        "oneYear": "one year ago",
+        "years": "{count} years ago"
+    },
+    "membership": {
+        "cancel": {
+            "title": "Payment Cancelled",
+            "message": "Sorry to see that you've cancelled your payment.\nIf you've encountered any problems or have questions,\nfeel free to contact us!\nOur team is happy to help you."
+        }
+    }
+}
