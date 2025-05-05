@@ -7,7 +7,6 @@ import { useUserStore } from '../user/userStore'
 import { useDeletePageStore } from '../page/delete/deletePageStore'
 import { useConvertStore } from '../page/convert/convertStore'
 import { useSnackbar } from 'vue3-snackbar' 
-'../alert/messages'
 
 interface Props {
     footerPages: FooterPages

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-'../alert/messages'
 import { useLoadingStore } from '../loading/loadingStore'
 import { useUserStore } from '../user/userStore'
 const userStore = useUserStore()
