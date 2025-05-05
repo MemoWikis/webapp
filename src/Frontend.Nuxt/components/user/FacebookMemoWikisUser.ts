@@ -1,7 +1,7 @@
-﻿import { useLoadingStore } from "../loading/loadingStore"
-import { useAlertStore, AlertType } from "../alert/alertStore"
-import { Facebook, FacebookUserFields } from "./Facebook"
-import { useUserStore, CurrentUser } from "../user/userStore"
+﻿import { useLoadingStore } from "../loading/loadingStore";
+import { useAlertStore, AlertType } from "../alert/alertStore";
+import { Facebook, FacebookUserFields } from "./Facebook";
+import { useUserStore, CurrentUser } from "../user/userStore";
 
 export class FacebookMemoWikisUser {
     static async Exists(facebookId: string): Promise<boolean> {
@@ -13,30 +13,34 @@ export class FacebookMemoWikisUser {
                 credentials: "include",
                 cache: "no-cache",
             }
-        ).catch((error) => console.log(error.data))
+        ).catch((error) => {
+            const nuxtApp = useNuxtApp();
+            const { $logger } = nuxtApp;
+            $logger.error("Nuxt non Fatal Error", [error.data]);
+        });
 
-        return !!doesExist
+        return !!doesExist;
     }
 
     static Throw_if_not_exists(facebookId: string): boolean {
         if (!this.Exists(facebookId)) {
             throw new Error(
                 "user with facebookId '" + facebookId + "' does not exist"
-            )
+            );
         }
-        return false
+        return false;
     }
 
     static async CreateAndLogin(
         user: FacebookUserFields,
         facebookAccessToken: string
     ) {
-        const loadingStore = useLoadingStore()
+        const loadingStore = useLoadingStore();
 
-        loadingStore.startLoading()
+        loadingStore.startLoading();
 
-        const nuxtApp = useNuxtApp()
-        const { $i18n } = nuxtApp
+        const nuxtApp = useNuxtApp();
+        const { $i18n } = nuxtApp;
 
         const result = await $api<FetchResult<CurrentUser>>(
             "/apiVue/FacebookUsers/CreateAndLogin",
@@ -51,23 +55,25 @@ export class FacebookMemoWikisUser {
                 cache: "no-cache",
             }
         ).catch((error) => {
-            loadingStore.stopLoading()
-            // Rollbar.error("Something went wrong", error.data)
-        })
+            loadingStore.stopLoading();
+            const nuxtApp = useNuxtApp();
+            const { $logger } = nuxtApp;
+            $logger.error("Nuxt non Fatal Error", [error.data]);
+        });
 
-        loadingStore.stopLoading()
+        loadingStore.stopLoading();
 
         if (result && "success" in result && result?.success == true) {
-            const userStore = useUserStore()
-            userStore.initUser(result.data)
-            userStore.apiLogin(userStore.isLoggedIn)
+            const userStore = useUserStore();
+            userStore.initUser(result.data);
+            userStore.apiLogin(userStore.isLoggedIn);
         } else if (result && "success" in result && result?.success == false) {
-            Facebook.RevokeUserAuthorization(user.id, facebookAccessToken)
-            const alertStore = useAlertStore()
-            const { t } = useI18n()
+            Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
+            const alertStore = useAlertStore();
+            const { t } = useI18n();
             alertStore.openAlert(AlertType.Error, {
                 text: t(result.messageKey),
-            })
+            });
         }
     }
 
@@ -76,10 +82,10 @@ export class FacebookMemoWikisUser {
         facebookAccessToken: string,
         stayOnPage: boolean = true
     ) {
-        const loadingStore = useLoadingStore()
+        const loadingStore = useLoadingStore();
 
-        FacebookMemoWikisUser.Throw_if_not_exists(facebookId)
-        loadingStore.startLoading()
+        FacebookMemoWikisUser.Throw_if_not_exists(facebookId);
+        loadingStore.startLoading();
 
         const result = await $api<FetchResult<CurrentUser>>(
             "/apiVue/FacebookUsers/Login",
@@ -93,29 +99,29 @@ export class FacebookMemoWikisUser {
                 cache: "no-cache",
             }
         ).catch((error) => {
-            loadingStore.stopLoading()
+            loadingStore.stopLoading();
             // Rollbar.error("Something went wrong", error.data)
-        })
+        });
 
-        loadingStore.stopLoading()
+        loadingStore.stopLoading();
         if (result && "success" in result && result?.success == true) {
-            const userStore = useUserStore()
-            userStore.initUser(result.data)
-            userStore.apiLogin(userStore.isLoggedIn)
+            const userStore = useUserStore();
+            userStore.initUser(result.data);
+            userStore.apiLogin(userStore.isLoggedIn);
         } else if (result && "success" in result && result?.success == false) {
-            const alertStore = useAlertStore()
-            const nuxtApp = useNuxtApp()
-            const { $i18n } = nuxtApp
+            const alertStore = useAlertStore();
+            const nuxtApp = useNuxtApp();
+            const { $i18n } = nuxtApp;
             alertStore.openAlert(AlertType.Error, {
                 text: $i18n.t(result.messageKey),
-            })
+            });
         }
     }
 
     static LoginOrRegister(stayOnPage = false, disallowRegistration = false) {
         FB.getLoginStatus((response) => {
-            this._LoginOrRegister(response, stayOnPage, disallowRegistration)
-        })
+            this._LoginOrRegister(response, stayOnPage, disallowRegistration);
+        });
     }
 
     private static _LoginOrRegister(
@@ -128,35 +134,35 @@ export class FacebookMemoWikisUser {
                 response.authResponse!.userID,
                 response.authResponse!.accessToken,
                 stayOnPage
-            )
+            );
         } else if (
             response.status === "not_authorized" ||
             response.status === "unknown"
         ) {
             FB.login(
                 (response) => {
-                    const facebookId = response.authResponse!.userID
+                    const facebookId = response.authResponse!.userID;
                     const facebookAccessToken =
-                        response.authResponse!.accessToken
+                        response.authResponse!.accessToken;
 
-                    if (response.status !== "connected") return
+                    if (response.status !== "connected") return;
 
                     if (disallowRegistration) {
-                        const nuxtApp = useNuxtApp()
-                        const { $i18n } = nuxtApp
+                        const nuxtApp = useNuxtApp();
+                        const { $i18n } = nuxtApp;
 
-                        navigateTo(`/${$i18n.t("url.register")}`)
-                        return
+                        navigateTo(`/${$i18n.t("url.register")}`);
+                        return;
                     }
 
                     this.handleResponse(
                         facebookId,
                         facebookAccessToken,
                         stayOnPage
-                    )
+                    );
                 },
                 { scope: "email" }
-            )
+            );
         }
     }
 
@@ -170,8 +176,8 @@ export class FacebookMemoWikisUser {
                 facebookId,
                 facebookAccessToken,
                 stayOnPage
-            )
-            return
+            );
+            return;
         } else {
             Facebook.GetUser(
                 facebookId,
@@ -180,9 +186,9 @@ export class FacebookMemoWikisUser {
                     FacebookMemoWikisUser.CreateAndLogin(
                         user,
                         facebookAccessToken
-                    )
+                    );
                 }
-            )
+            );
         }
     }
 
@@ -190,13 +196,13 @@ export class FacebookMemoWikisUser {
         FB.getLoginStatus((response) => {
             if (response.status === "connected") {
                 FB.logout((responseLogout) => {
-                    onLogout()
-                })
+                    onLogout();
+                });
             } else {
-                onLogout()
+                onLogout();
             }
-            const userStore = useUserStore()
-            userStore.reset()
-        })
+            const userStore = useUserStore();
+            userStore.reset();
+        });
     }
 }

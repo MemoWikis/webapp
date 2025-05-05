@@ -521,6 +521,7 @@ const { isMobile } = useDevice()
 
                         .icon {
                             font-size: 25px;
+                            height: 36px;
                         }
 
                         .btn-label {

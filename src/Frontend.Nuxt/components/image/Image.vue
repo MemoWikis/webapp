@@ -28,7 +28,6 @@ function openImage() {
 
 const imgSrc = ref('')
 function setImgSrc() {
-	console.log('setImgSrc', props.src)
 	if (props.src.startsWith('/Images/Page/') || props.src.startsWith('/Images/Questions/') || props.src.startsWith('/Images/Users/') || props.src.startsWith('/Images/Placeholders/'))
 		imgSrc.value = props.src
 	else if (props.src.startsWith('/Images'))
