@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { CommentModel, useCommentsStore } from '~/components/comment/commentsStore'
-import { ContentChange, FeedItem, FeedType, getPageChangeTypeKey, QuestionChangeType, PageChangeType } from '../feedHelper'
+import { ContentChange, FeedItem, FeedType, getPageChangeTypeKey, QuestionChangeType, PageChangeType } from './feedHelper'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 
 interface Props {
@@ -88,7 +88,7 @@ const addAnswer = () => {
 const { t, localeProperties } = useI18n()
 
 const niceDate = (date: string) => {
-    const iso = localeProperties.value.iso as string;
+    const iso = localeProperties.value.iso as string
     return new Date(date).toLocaleDateString(iso, { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
 }
 const { $urlHelper } = useNuxtApp()
@@ -109,8 +109,8 @@ const { $urlHelper } = useNuxtApp()
             </div>
         </template>
         <template #body>
-            <PageTabsFeedModalPage v-if="isPage && feedItem.pageFeedItem" :pageFeedItem="feedItem.pageFeedItem" :content-change="contentChange" />
-            <PageTabsFeedModalQuestion v-else-if="isQuestion && feedItem.questionFeedItem" :question-feed-item="feedItem.questionFeedItem" :comment="comment" :highlight-id="feedItem.questionFeedItem.comment?.id" @add-answer="addAnswer" />
+            <PageTabsFeedPageModal v-if="isPage && feedItem.pageFeedItem" :pageFeedItem="feedItem.pageFeedItem" :content-change="contentChange" />
+            <PageTabsFeedQuestionModal v-else-if="isQuestion && feedItem.questionFeedItem" :question-feed-item="feedItem.questionFeedItem" :comment="comment" :highlight-id="feedItem.questionFeedItem.comment?.id" @add-answer="addAnswer" />
         </template>
     </Modal>
 </template>

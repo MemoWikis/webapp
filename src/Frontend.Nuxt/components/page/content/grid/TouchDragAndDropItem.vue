@@ -5,7 +5,7 @@ import { useEditPageRelationStore } from '~/components/page/relation/editPageRel
 import { useDragStore, TargetPosition, DragAndDropType, DropZoneData, MovePageTransferData } from '~~/components/shared/dragStore'
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { useUserStore } from '~/components/user/userStore'
-import { useSnackbar } from 'vue3-snackbar' 
+import { useSnackbar } from 'vue3-snackbar'
 import { Visibility } from '~/components/shared/visibilityEnum'
 
 const editPageRelationStore = useEditPageRelationStore()
@@ -353,7 +353,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
                 :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
 
                 <div class="inner top">
-                    <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData"
+                    <LazyPageContentGridDragAndDropPlaceholder v-if="dragStore.isMovePageTransferData"
                         :name="placeHolderPageName" />
                 </div>
 
@@ -384,13 +384,10 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 
             </PageContentGridItem>
 
-            <div v-if="dragStore.active" class="emptydropzone"
-                :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }"
-                :data-dropzonedata="getDropZoneData(TargetPosition.After)">
+            <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }" :data-dropzonedata="getDropZoneData(TargetPosition.After)">
 
                 <div class="inner bottom">
-                    <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData"
-                        :name="placeHolderPageName" />
+                    <LazyPageContentGridDragAndDropPlaceholder v-if="dragStore.isMovePageTransferData" :name="placeHolderPageName" />
                 </div>
 
             </div>

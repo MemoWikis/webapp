@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { CommentModel } from '~/components/comment/commentsStore'
-import { QuestionFeedItem, QuestionChangeType } from '../feedHelper'
+import { QuestionFeedItem, QuestionChangeType } from './feedHelper'
 
 interface Props {
     questionFeedItem: QuestionFeedItem

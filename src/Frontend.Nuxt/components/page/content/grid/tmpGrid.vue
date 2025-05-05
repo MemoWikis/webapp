@@ -208,13 +208,13 @@ editPageRelationStore.$onAction(({ name, after }) => {
 
                 <div class="grid-items">
                     <template v-if="isDesktop">
-                        <PageContentGridDndItem v-for="c in props.children" :page="c" :toggle-state="toggleState"
+                        <PageContentGridDragAndDropItem v-for="c in props.children" :page="c" :toggle-state="toggleState"
                             :parent-id="pageStore.id" :parent-name="pageStore.name"
                             :user-is-creator-of-parent="pageStore.currentUserIsCreator"
                             :parent-visibility="pageStore.visibility!" />
                     </template>
                     <template v-else>
-                        <PageContentGridTouchDndItem v-for="c in props.children" :page="c" :toggle-state="toggleState"
+                        <PageContentGridTouchDragAndDropItem v-for="c in props.children" :page="c" :toggle-state="toggleState"
                             :parent-id="pageStore.id" :parent-name="pageStore.name"
                             :user-is-creator-of-parent="pageStore.currentUserIsCreator"
                             :parent-visibility="pageStore.visibility!" />

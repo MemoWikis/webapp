@@ -103,7 +103,7 @@ async function onDrop() {
 
         snackbar.add({
             type: 'info',
-            title:  transferData.page.name,
+            title: transferData.page.name,
             text: t('page.grid.dnd.messages.moved'),
             action: {
                 to: `/${transferData.page.name}/${transferData.page.id}`,
@@ -251,7 +251,7 @@ const hoverPlaceholder = ref(false)
                 <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
 
                     <div class="inner top">
-                        <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData"
+                        <LazyPageContentGridDragAndDropPlaceholder v-if="dragStore.isMovePageTransferData"
                             :name="placeHolderPageName" />
                     </div>
 
@@ -281,11 +281,8 @@ const hoverPlaceholder = ref(false)
                     </template>
                 </PageContentGridItem>
 
-                <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="drop-in-trigger"
-                    :class="{ 'hover-top': hoverTopHalf }" @dragover.stop.prevent="onDropZoneEnter"
-                    @dragleave.prevent="onDropZoneLeave">
-                    <div class="drop-in-indicator"
-                        :class="{ 'hover-main': isDroppableItemActive, 'active': dropInHovering }">
+                <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="drop-in-trigger" :class="{ 'hover-top': hoverTopHalf }" @dragover.stop.prevent="onDropZoneEnter" @dragleave.prevent="onDropZoneLeave">
+                    <div class="drop-in-indicator" :class="{ 'hover-main': isDroppableItemActive, 'active': dropInHovering }">
                         <span class="loader" :class="{ 'loading': dropInHovering }"></span>
                         <div class="drop-in-icon" v-if="!dropIn">
                             <font-awesome-icon :icon="['fas', 'right-to-bracket']" rotation="90" />
@@ -293,12 +290,10 @@ const hoverPlaceholder = ref(false)
                     </div>
                 </div>
 
-                <div v-if="dragStore.active" class="emptydropzone"
-                    :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
+                <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
 
                     <div class="inner bottom">
-                        <LazyPageContentGridDndPlaceholder v-if="dragStore.isMovePageTransferData"
-                            :name="placeHolderPageName" />
+                        <LazyPageContentGridDragAndDropPlaceholder v-if="dragStore.isMovePageTransferData" :name="placeHolderPageName" />
                     </div>
 
                 </div>

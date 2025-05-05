@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ContentChange, PageChangeType, PageFeedItem } from '../feedHelper'
+import { ContentChange, PageChangeType, PageFeedItem } from './feedHelper'
 
 interface Props {
     pageFeedItem: PageFeedItem,

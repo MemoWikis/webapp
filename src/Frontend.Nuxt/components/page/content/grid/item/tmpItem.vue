@@ -317,13 +317,13 @@ const { isDesktop } = useDevice()
 
     <div v-if="props.page.childrenCount > 0 && expanded && !dragActive" class="grid-item-children">
         <template v-if="isDesktop">
-            <PageContentGridDndItem v-for="child in children" :page="child" :toggle-state="props.toggleState"
+            <PageContentGridDragAndDropItem v-for="child in children" :page="child" :toggle-state="props.toggleState"
                 :parent-id="props.page.id" :parent-name="props.page.name"
                 :user-is-creator-of-parent="props.page.creatorId === userStore.id"
                 :parent-visibility="props.page.visibility" />
         </template>
         <template v-else>
-            <PageContentGridTouchDndItem v-for="child in children" :page="child" :toggle-state="props.toggleState"
+            <PageContentGridTouchDragAndDropItem v-for="child in children" :page="child" :toggle-state="props.toggleState"
                 :parent-id="props.page.id" :parent-name="props.page.name"
                 :user-is-creator-of-parent="props.page.creatorId === userStore.id"
                 :parent-visibility="props.page.visibility" />
