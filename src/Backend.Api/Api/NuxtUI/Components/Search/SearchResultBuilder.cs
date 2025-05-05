@@ -1,4 +1,4 @@
-﻿public class SearchHelper(
+﻿public class SearchResultBuilder(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
