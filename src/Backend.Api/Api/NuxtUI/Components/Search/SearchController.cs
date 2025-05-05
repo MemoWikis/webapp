@@ -5,7 +5,7 @@
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo, 
-    SearchHelper _searchHelper
+    SearchResultBuilder _searchResultBuilder
 ) : ApiBaseController
 {
     public readonly record struct SearchAllRequest(string term, string[] languages);
@@ -30,7 +30,7 @@
         var elements = await _search.Go(request.term, languages);
 
         if (elements.Pages.Any())
-            _searchHelper.AddPageItems(
+            _searchResultBuilder.AddPageItems(
                 pageItems,
                 elements,
                 _permissionCheck,
@@ -38,11 +38,11 @@
                 languages);
 
         if (elements.Questions.Any())
-            _searchHelper.AddQuestionItems(questionItems, elements, _permissionCheck,
+            _searchResultBuilder.AddQuestionItems(questionItems, elements, _permissionCheck,
                 _questionReadingRepo);
 
         if (elements.Users.Any())
-            _searchHelper.AddUserItems(userItems, elements);
+            _searchResultBuilder.AddUserItems(userItems, elements);
 
         var result = new AllResult(
             Pages: pageItems,
@@ -76,9 +76,9 @@
             bool includePrivatePages = json.includePrivatePages ?? true;
 
             if (includePrivatePages)
-                _searchHelper.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, json.pageIdsToFilter);
+                _searchResultBuilder.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, json.pageIdsToFilter);
             else
-                _searchHelper.AddPublicPageItems(items, elements, _sessionUser.UserId, json.pageIdsToFilter);
+                _searchResultBuilder.AddPublicPageItems(items, elements, _sessionUser.UserId, json.pageIdsToFilter);
         }
 
         return new PageResult(
@@ -94,7 +94,7 @@
         var elements = await _search.GoAllPagesAsync(json.term);
 
         if (elements.Pages.Any())
-            _searchHelper
+            _searchResultBuilder
                 .AddPageItems(
                     resultPage,
                     elements,
@@ -125,7 +125,7 @@
         var elements = await _search.Go(request.term, languages);
 
         if (elements.Users.Any())
-            _searchHelper.AddUserItems(userItems, elements);
+            _searchResultBuilder.AddUserItems(userItems, elements);
 
         return new UsersResult(
             Users: userItems,

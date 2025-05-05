@@ -7,8 +7,7 @@ public class DeletePageStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
-    PermissionCheck _permissionCheck, 
-    SearchHelper _searchHelper) : ApiBaseController
+    PermissionCheck _permissionCheck) : ApiBaseController
 {
     public record struct SuggestedNewParent(
         int Id,
@@ -58,7 +57,11 @@ public class DeletePageStoreController(
 
         var questions = EntityCache
             .GetPage(id)?
-            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, false, permissionCheck: _permissionCheck);
+            .GetAggregatedQuestionsFromMemoryCache(
+                _sessionUser.UserId,
+                onlyVisible: false, 
+                permissionCheck: _permissionCheck
+            );
 
         var hasQuestion = questions?.Count > 0;
 
@@ -72,7 +75,7 @@ public class DeletePageStoreController(
 
         var parents = _crumbtrailService.BuildCrumbtrail(page, currentWiki);
 
-        var newParentId = _searchHelper.SuggestNewParent(parents, hasPublicQuestion);
+        var newParentId = _crumbtrailService.SuggestNewParent(parents, hasPublicQuestion);
 
         if (newParentId == null)
             return new DeleteData(page.Name, hasChildren, SuggestedNewParent: null, hasQuestion, hasPublicQuestion, IsWiki: page.IsWiki);
@@ -97,7 +100,6 @@ public class DeletePageStoreController(
     {
         if (EntityCache.PageHasQuestion(deleteRequest.PageToDeleteId))
         {
-
             if (deleteRequest.ParentForQuestionsId == 0)
                 return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected);
 

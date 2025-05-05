@@ -14,7 +14,7 @@ public class PageRelationEditController(
     QuestionReadingRepo _questionReadingRepo,
     IGlobalSearch _search,
     MeiliSearchReIndexUser _meiliSearchReIndexUser, 
-    SearchHelper _searchHelper) : ApiBaseController
+    SearchResultBuilder _searchResultBuilder) : ApiBaseController
 {
     public readonly record struct ValidateNameParam(string Name);
 
@@ -198,7 +198,7 @@ public class PageRelationEditController(
             .ConfigureAwait(false);
 
         if (elements.Pages.Any())
-            _searchHelper.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId);
+            _searchResultBuilder.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
         return new SearchPageResult
         {
@@ -221,7 +221,7 @@ public class PageRelationEditController(
             .ConfigureAwait(false);
 
         if (elements.Pages.Any())
-            _searchHelper.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, pageIdsToFilter);
+            _searchResultBuilder.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, pageIdsToFilter);
 
         var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.StartPageId,
             _permissionCheck, _sessionUser.UserId);

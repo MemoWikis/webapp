@@ -40,27 +40,7 @@
             .Select(c => FillSearchPageItem(c, userId))
     );
 
-    public int? SuggestNewParent(Crumbtrail breadcrumb, bool hasPublicQuestion)
-    {
-        CrumbtrailItem breadcrumbItem;
 
-        if (hasPublicQuestion)
-        {
-            if (breadcrumb.Items.Any(i => i.Page.Visibility == PageVisibility.Public))
-            {
-                breadcrumbItem = breadcrumb.Items.Last(i => i.Page.Visibility == PageVisibility.Public);
-                return breadcrumbItem.Page.Id;
-            }
-
-            return null;
-        }
-
-        var parent = breadcrumb.Items.LastOrDefault();
-        if (parent == null)
-            return _sessionUser.User.StartPageId;
-        
-        return parent.Page.Id;
-    }
 
     public SearchPageItem FillSearchPageItem(PageCacheItem page, int userId)
     {
