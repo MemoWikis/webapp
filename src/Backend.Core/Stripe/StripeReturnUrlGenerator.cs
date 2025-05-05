@@ -1,18 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-
-public class StripeReturnUrlGenerator
+﻿public class StripeReturnUrlGenerator
 {
-    protected readonly IHttpContextAccessor _httpContextAccessor;
-    protected readonly IWebHostEnvironment _webHostEnvironment;
-
-    public StripeReturnUrlGenerator(IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
-    {
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-    }
-    public string Create(string targetPath)
+    public static string Create(string targetPath)
     {
         var environment = Settings.Environment;
         var url = "";
