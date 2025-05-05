@@ -74,8 +74,7 @@ public class DeletePageStoreController(
         var currentWiki = EntityCache.GetPage(_sessionUser.CurrentWikiId);
 
         var parents = _crumbtrailService.BuildCrumbtrail(page, currentWiki);
-
-        var newParentId = _crumbtrailService.SuggestNewParent(parents, hasPublicQuestion);
+        var newParentId = _crumbtrailService.SuggestNewParent(parents, _sessionUser, hasPublicQuestion);
 
         if (newParentId == null)
             return new DeleteData(page.Name, hasChildren, SuggestedNewParent: null, hasQuestion, hasPublicQuestion, IsWiki: page.IsWiki);

@@ -1,7 +1,6 @@
 ﻿public class CrumbtrailService(
     PermissionCheck _permissionCheck,
-    ExtendedUserCache _extendedUserCache,
-    SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
+    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
     public Crumbtrail BuildCrumbtrail(PageCacheItem page, PageCacheItem root)
     {
@@ -147,7 +146,10 @@
         return null;
     }
 
-    public int? SuggestNewParent(Crumbtrail breadcrumb, bool hasPublicQuestion)
+    public int? SuggestNewParent(
+        Crumbtrail breadcrumb, 
+        SessionUser sessionUser,
+        bool hasPublicQuestion)
     {
         CrumbtrailItem breadcrumbItem;
 
@@ -164,7 +166,7 @@
 
         var parent = breadcrumb.Items.LastOrDefault();
         if (parent == null)
-            return _sessionUser.User.StartPageId;
+            return sessionUser.User.StartPageId;
 
         return parent.Page.Id;
     }
