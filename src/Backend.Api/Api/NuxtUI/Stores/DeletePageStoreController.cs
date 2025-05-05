@@ -7,7 +7,8 @@ public class DeletePageStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
-    PermissionCheck _permissionCheck) : ApiBaseController
+    PermissionCheck _permissionCheck, 
+    SearchHelper _searchHelper) : ApiBaseController
 {
     public record struct SuggestedNewParent(
         int Id,
@@ -71,9 +72,7 @@ public class DeletePageStoreController(
 
         var parents = _crumbtrailService.BuildCrumbtrail(page, currentWiki);
 
-        var newParentId =
-            new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
-                .SuggestNewParent(parents, hasPublicQuestion);
+        var newParentId = _searchHelper.SuggestNewParent(parents, hasPublicQuestion);
 
         if (newParentId == null)
             return new DeleteData(page.Name, hasChildren, SuggestedNewParent: null, hasQuestion, hasPublicQuestion, IsWiki: page.IsWiki);

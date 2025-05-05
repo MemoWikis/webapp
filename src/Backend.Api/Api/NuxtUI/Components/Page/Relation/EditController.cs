@@ -13,7 +13,8 @@ public class PageRelationEditController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     IGlobalSearch _search,
-    MeiliSearchReIndexUser _meiliSearchReIndexUser) : ApiBaseController
+    MeiliSearchReIndexUser _meiliSearchReIndexUser, 
+    SearchHelper _searchHelper) : ApiBaseController
 {
     public readonly record struct ValidateNameParam(string Name);
 
@@ -65,9 +66,7 @@ public class PageRelationEditController(
     [HttpPost]
     public async Task<SearchPageResult> SearchPageAsync([FromBody] SearchParam param)
     {
-        var data = await SearchPageAsync(param.term, param.pageIdsToFilter)
-            .ConfigureAwait(false);
-        return data;
+        return await SearchPageAsync(param.term).ConfigureAwait(false);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -192,19 +191,14 @@ public class PageRelationEditController(
         int TotalCount,
         List<SearchPageItem> Pages);
 
-    private async Task<SearchPageResult> SearchPageAsync(
-        string term,
-        int[] pageIdsToFilter = null)
+    private async Task<SearchPageResult> SearchPageAsync(string term)
     {
         var items = new List<SearchPageItem>();
         var elements = await _search.GoAllPagesAsync(term)
             .ConfigureAwait(false);
 
         if (elements.Pages.Any())
-            new SearchHelper(_imageMetaDataReadingRepo,
-                    _httpContextAccessor,
-                    _questionReadingRepo)
-                .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId);
+            _searchHelper.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
         return new SearchPageResult
         {
@@ -227,10 +221,7 @@ public class PageRelationEditController(
             .ConfigureAwait(false);
 
         if (elements.Pages.Any())
-            new SearchHelper(_imageMetaDataReadingRepo,
-                    _httpContextAccessor,
-                    _questionReadingRepo)
-                .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, pageIdsToFilter);
+            _searchHelper.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, pageIdsToFilter);
 
         var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.StartPageId,
             _permissionCheck, _sessionUser.UserId);
