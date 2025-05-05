@@ -8,7 +8,7 @@ public class PageImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesFixedWidth => new[] { 500 };
 
     public override string BasePath => Settings.PageImageBasePath;
-    public string BaseDummyUrl => "no-category-picture-";
+    public string BaseDummyUrl => "Placeholders/placeholder-page-";
 
     public PageImageSettings(
         int pageId,

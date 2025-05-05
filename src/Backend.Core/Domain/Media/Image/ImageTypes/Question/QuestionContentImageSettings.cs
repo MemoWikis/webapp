@@ -8,7 +8,7 @@ public class QuestionContentImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesFixedWidth => [800];
 
     public override string BasePath => Settings.QuestionContentImageBasePath;
-    public string BaseDummyUrl => "no-question-128.png";
+    public string BaseDummyUrl => "Placeholders/placeholder-question-128.png";
 
     public QuestionContentImageSettings(
         int questionId,
