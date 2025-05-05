@@ -1,4 +1,4 @@
-export enum FlashCardAnswerTypeEnum {
+export enum FlashcardAnswerTypeEnum {
     Known,
     Unknown,
 }

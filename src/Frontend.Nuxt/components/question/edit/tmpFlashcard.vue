@@ -19,7 +19,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const emit = defineEmits(['setFlashCardContent'])
+const emit = defineEmits(['setFlashcardContent'])
 const editQuestionStore = useEditQuestionStore()
 
 const content = ref(null)
@@ -78,7 +78,7 @@ const editor = useEditor({
             deleteImageSrc.value = null
     },
     onUpdate: ({ editor }) => {
-        setFlashCardContent()
+        setFlashcardContent()
         checkContentImages()
     },
     editorProps: {
@@ -99,28 +99,28 @@ const editor = useEditor({
 function initSolution() {
     if (props.solution && props.solution.trim() != editor.value?.getHTML().trim() && props.isInit) {
         editor.value?.commands.setContent(props.solution)
-        setFlashCardContent()
+        setFlashcardContent()
     }
 }
 onMounted(() => initSolution())
 watch(() => props.solution, () => initSolution())
 
-function setFlashCardContent() {
+function setFlashcardContent() {
     if (editor.value) {
         const content = {
             solution: editor.value.getHTML(),
             solutionIsValid: editor.value.state.doc.textContent.length > 0
         }
-        emit('setFlashCardContent', content)
+        emit('setFlashcardContent', content)
     }
 
 }
 
-function clearFlashCard() {
+function clearFlashcard() {
     editor.value?.commands.setContent('')
 }
 
-defineExpose({ clearFlashCard })
+defineExpose({ clearFlashcard })
 
 const checkContentImages = () => {
     if (editor.value == null)

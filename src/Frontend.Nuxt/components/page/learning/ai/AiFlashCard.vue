@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { useEditor, EditorContent, JSONContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
-import { GeneratedFlashCard, usePageStore } from '../../pageStore'
+import { GeneratedFlashcard, usePageStore } from '../../pageStore'
 import { isEmpty } from 'underscore'
 
 interface Props {
-    flashCard: GeneratedFlashCard,
+    flashCard: GeneratedFlashcard,
     index: number
 }
 
@@ -13,18 +13,18 @@ const props = defineProps<Props>()
 
 watch(() => props.flashCard, (flashCard) => {
     if (flashCard) {
-        setFlashCardData()
+        setFlashcardData()
     }
 }, { deep: true })
 
 onMounted(async () => {
     await nextTick()
     if (props.flashCard) {
-        setFlashCardData()
+        setFlashcardData()
     }
 })
 
-const setFlashCardData = () => {
+const setFlashcardData = () => {
     frontEditor.value?.commands.setContent(props.flashCard.front)
     backEditor.value?.commands.setContent(props.flashCard.back)
 
@@ -93,14 +93,14 @@ const answerHtml = ref('')
 
 const emit = defineEmits(['delete-flashcard'])
 const hover = ref(false)
-const deleteFlashCard = () => {
+const deleteFlashcard = () => {
     emit('delete-flashcard', props.index)
 }
 </script>
 
 <template>
     <div class="flashcard-section" :class="{ 'hover': hover }" @mouseenter="hover = true" @mouseleave="hover = false">
-        <div class="delete-flashcard-container" @click="deleteFlashCard">
+        <div class="delete-flashcard-container" @click="deleteFlashcard">
             <div class="delete-flashcard">
                 <font-awesome-icon :icon="['fas', 'trash']" />
             </div>
@@ -191,7 +191,7 @@ const deleteFlashCard = () => {
 </style>
 
 <style lang="less">
-#AiFlashCard {
+#AiFlashcard {
     .flashcard-content {
         .ProseMirror {
             background-color: white;

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-import { GeneratedFlashCard, usePageStore } from '../../pageStore'
+import { GeneratedFlashcard, usePageStore } from '../../pageStore'
 import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
 import { useLearningSessionConfigurationStore } from '~/components/page/learning/learningSessionConfigurationStore'
 import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
@@ -12,7 +12,7 @@ const snackbarStore = useSnackbarStore()
 const { t } = useI18n()
 
 const show = ref(false)
-const acceptFlashCards = async () => {
+const acceptFlashcards = async () => {
     interface Result {
         success: boolean
         ids?: number[]
@@ -22,7 +22,7 @@ const acceptFlashCards = async () => {
 
     var sessionConfig = learningSessionConfigurationStore.buildSessionConfigJson(pageStore.id)
 
-    const result = await $api<Result>(`/apiVue/AiCreateFlashCard/Create/`, {
+    const result = await $api<Result>(`/apiVue/AiCreateFlashcard/Create/`, {
         method: 'POST',
         body: {
             pageId: pageStore.id,
@@ -69,11 +69,11 @@ const handleLearningSession = (startIndex: number, lastIndex: number) => {
     snackbarStore.showSnackbar(data)
 }
 
-const flashcards = ref<GeneratedFlashCard[]>([])
+const flashcards = ref<GeneratedFlashcard[]>([])
 const message = ref('')
 
 pageStore.$onAction(({ name, after }) => {
-    if (name === 'generateFlashCard') {
+    if (name === 'generateFlashcard') {
         after((result) => {
             if (result.flashcards.length > 0) {
                 show.value = true
@@ -91,7 +91,7 @@ pageStore.$onAction(({ name, after }) => {
             }
         })
     }
-    if (name === 'reGenerateFlashCard') {
+    if (name === 'reGenerateFlashcard') {
         after((result) => {
             if (result.flashcards.length > 0) {
                 flashcards.value = result.flashcards
@@ -116,14 +116,14 @@ const deleteFlashcard = (index: number) => {
 </script>
 
 <template>
-    <Modal :show="show" @close="show = false" @primary-btn="acceptFlashCards" :show-cancel-btn="true"
+    <Modal :show="show" @close="show = false" @primary-btn="acceptFlashcards" :show-cancel-btn="true"
         :primary-btn-label="t('page.ai.flashcard.button.create')" content-class="wide-modal"
         :fullscreen="false" container-class="wide-modal"
         :show-close-button="true" :disabled="flashcards.length === 0">
         <template #body>
             <div v-if="message" class="alert alert-info">{{ message }}</div>
-            <div id="AiFlashCard">
-                <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i"
+            <div id="AiFlashcard">
+                <PageLearningAiFlashcard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i"
                     @delete-flashcard="deleteFlashcard" />
                 <div v-if="flashcards.length === 0" class="no-flashcards">
                     <p>{{ t('page.ai.flashcard.message.noFlashcards') }}</p>
@@ -136,12 +136,12 @@ const deleteFlashcard = (index: number) => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-#AiFlashCard {}
+#AiFlashcard {}
 </style>
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-#AiFlashCard {
+#AiFlashcard {
     margin-top: 36px;
     padding: 0 24px;
 

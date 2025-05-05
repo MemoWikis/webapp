@@ -141,7 +141,7 @@ async function answer() {
         case SolutionType.MatchList:
             solutionComponent = matchList.value
             break
-        case SolutionType.FlashCard:
+        case SolutionType.Flashcard:
             solutionComponent = flashcard.value
             break
     }
@@ -204,10 +204,10 @@ async function answer() {
 }
 
 const flashCardAnswered = ref(false)
-const markFlashCardAsCorrect = ref(false)
+const markFlashcardAsCorrect = ref(false)
 
 function answerFlashcard(isCorrect: boolean) {
-    markFlashCardAsCorrect.value = isCorrect
+    markFlashcardAsCorrect.value = isCorrect
     flashCardAnswered.value = true
     answer()
 }
@@ -439,7 +439,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
         <div class="answerbody-header">
 
             <div class="answerbody-text">
-                <h3 v-if="answerBodyModel.solutionType != SolutionType.FlashCard" class="QuestionText">
+                <h3 v-if="answerBodyModel.solutionType != SolutionType.Flashcard" class="QuestionText">
                     {{ answerBodyModel.text }}
                 </h3>
             </div>
@@ -471,7 +471,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
 
             <div
                 id="MarkdownCol"
-                v-if="answerBodyModel.solutionType != SolutionType.FlashCard && !!answerBodyModel.renderedQuestionTextExtended.length">
+                v-if="answerBodyModel.solutionType != SolutionType.Flashcard && !!answerBodyModel.renderedQuestionTextExtended.length">
                 <SharedRawHtml
                     class="RenderedMarkdown"
                     :html="answerBodyModel.renderedQuestionTextExtended"
@@ -482,9 +482,9 @@ publishQuestionStore.$onAction(({ name, after }) => {
                 <div id="AnswerAndSolution">
                     <div
                         class="row"
-                        :class="{ 'hasFlashCard': answerBodyModel.solutionType === SolutionType.FlashCard }">
+                        :class="{ 'hasFlashcard': answerBodyModel.solutionType === SolutionType.Flashcard }">
                         <div id="AnswerInputSection">
-                            <template v-if="answerBodyModel.solutionType === SolutionType.FlashCard">
+                            <template v-if="answerBodyModel.solutionType === SolutionType.Flashcard">
                                 <Transition name="fade">
                                     <div class="answerFeedback answerFeedbackCorrect" v-show="answerIsCorrectPopUp">
                                         <font-awesome-icon icon="fa-solid fa-circle-check" />
@@ -499,9 +499,9 @@ publishQuestionStore.$onAction(({ name, after }) => {
                                 </Transition>
                             </template>
 
-                            <QuestionAnswerBodyFlashcard :key="answerBodyModel.id + 'flashcard'" v-if="answerBodyModel.solutionType === SolutionType.FlashCard" ref="flashcard" :solution="answerBodyModel.solution"
+                            <QuestionAnswerBodyFlashcard :key="answerBodyModel.id + 'flashcard'" v-if="answerBodyModel.solutionType === SolutionType.Flashcard" ref="flashcard" :solution="answerBodyModel.solution"
                                 :front-content="answerBodyModel.textHtml"
-                                :marked-as-correct="markFlashCardAsCorrect" @flipped="amountOfTries++" />
+                                :marked-as-correct="markFlashcardAsCorrect" @flipped="amountOfTries++" />
                             <QuestionAnswerBodyMatchlist :key="answerBodyModel.id + 'matchlist'" v-else-if="answerBodyModel.solutionType === SolutionType.MatchList" ref="matchList" :solution="answerBodyModel.solution"
                                 :show-answer="showAnswer"
                                 @flipped="amountOfTries++" />
@@ -513,7 +513,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
                         <div id="ButtonsAndSolutionCol">
                             <div id="ButtonsAndSolution" class="Clearfix">
                                 <div id="Buttons">
-                                    <template v-if="answerBodyModel.solutionType === SolutionType.FlashCard && !flashCardAnswered">
+                                    <template v-if="answerBodyModel.solutionType === SolutionType.Flashcard && !flashCardAnswered">
                                         <button
                                             class="btn btn-warning memo-button"
                                             @click="flip()"
@@ -543,7 +543,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </template>
 
-                                    <template v-else-if="showAnswerButtons && answerBodyModel.solutionType != SolutionType.FlashCard">
+                                    <template v-else-if="showAnswerButtons && answerBodyModel.solutionType != SolutionType.Flashcard">
                                         <div id="buttons-first-try" class="ButtonGroup">
                                             <button class="btn btn-primary memo-button" @click="answer()">
                                                 {{ t('answerbody.answer') }}
@@ -593,7 +593,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
                                         </div>
                                     </Transition>
 
-                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard" id="buttons-answer-again" class="ButtonGroup">
+                                    <div v-if="answerBodyModel.solutionType != SolutionType.Flashcard" id="buttons-answer-again" class="ButtonGroup">
                                         <button v-if="!allMultipleChoiceCombinationTried
                                             && !learningSessionStore.isInTestMode
                                             && answerIsWrong
@@ -613,7 +613,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
                                 </div>
 
                                 <div id="AnswerFeedbackAndSolutionDetails">
-                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard" id="AnswerFeedback">
+                                    <div v-if="answerBodyModel.solutionType != SolutionType.Flashcard" id="AnswerFeedback">
                                         <div id="divAnsweredCorrect" v-if="answerIsCorrect">
                                             <b class="correct-answer-label">
                                                 {{ t('answerbody.correctAnswerLabel') }}

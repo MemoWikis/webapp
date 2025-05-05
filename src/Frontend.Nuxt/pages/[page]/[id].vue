@@ -242,11 +242,11 @@ convertStore.$onAction(({ name, after }) => {
                         <ClientOnly>
                             <PageRelationEditModal />
                             <QuestionEditModal />
-                            <QuestionEditDelete />
+                            <QuestionEditDeleteModal />
                             <PagePublishModal />
                             <PageToPrivateModal />
                             <PageDeleteModal />
-                            <PageLearningAiCreateFlashCard />
+                            <PageLearningAiCreateFlashcard />
                             <PageSharingModal />
                         </ClientOnly>
                     </template>

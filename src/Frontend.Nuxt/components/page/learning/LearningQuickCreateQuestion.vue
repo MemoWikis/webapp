@@ -145,7 +145,7 @@ function createQuestion() {
     }
     editQuestionStore.createQuestion(question)
     editor.value?.commands.setContent('')
-    flashCardEditor.value?.clearFlashCard()
+    flashCardEditor.value?.clearFlashcard()
 }
 
 const { $logger } = useNuxtApp()
@@ -215,13 +215,13 @@ async function addFlashcard() {
     editor.value?.commands.setContent('')
     questionHtml.value = ''
     flashCardAnswer.value = ''
-    flashCardEditor.value?.clearFlashCard()
+    flashCardEditor.value?.clearFlashcard()
     pageStore.reloadKnowledgeSummary()
     editQuestionStore.uploadedImagesMarkedForDeletion = []
     editQuestionStore.uploadedImagesInContent = []
 }
 
-function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) {
+function setFlashcardContent(e: { solution: string, solutionIsValid: boolean }) {
     flashCardAnswer.value = e.solution
     solutionIsValid.value = e.solutionIsValid
 }
@@ -275,8 +275,8 @@ const ariaId = useId()
                     </div>
                 </div>
                 <div>
-                    <QuestionEditFlashCard :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields"
-                        ref="flashCardEditor" @set-flash-card-content="setFlashCardContent" :is-init="false" />
+                    <QuestionEditFlashcard :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields"
+                        ref="flashCardEditor" @set-flash-card-content="setFlashcardContent" :is-init="false" />
                 </div>
                 <div class="input-container">
                     <div class="overline-s no-line">

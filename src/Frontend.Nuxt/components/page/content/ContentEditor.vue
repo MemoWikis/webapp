@@ -95,7 +95,7 @@ const initProvider = () => {
     // collaborationToken is the token used as an identifier for the hocuspocus server, 
     // a collaboration token will always exist, but the shareToken is optional
     const token = pageStore.shareToken ? `${userStore.collaborationToken}|accessToken=${pageStore.shareToken}` : userStore.collaborationToken
-    provider.value = new HocuspocusProvider ({
+    provider.value = new HocuspocusProvider({
         url: config.public.hocuspocusWebsocketUrl,
         name: `ydoc-${pageStore.id}`,
         token: token,
@@ -423,18 +423,18 @@ const autoSave = () => {
 }
 
 const { isMobile } = useDevice()
-const createFlashCard = () => {
+const createFlashcard = () => {
     if (editor.value == null)
         return
 
     const { state, view } = editor.value
     const { selection } = state
     if (selection.empty)
-        pageStore.generateFlashCard()
+        pageStore.generateFlashcard()
     else {
         const { from, to } = selection
         const text = state.doc.textBetween(from, to)
-        pageStore.generateFlashCard(text)
+        pageStore.generateFlashcard(text)
     }
 
 }
@@ -448,7 +448,7 @@ const createFlashCard = () => {
                     <div class="menubar__divider"></div>
                 </div>
 
-                <button class="menubar__button last-btn" @mousedown="createFlashCard">
+                <button class="menubar__button last-btn" @mousedown="createFlashcard">
                     <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
                 </button>
             </template>

@@ -154,7 +154,7 @@ function getSolution() {
             return multipleChoiceJson.value
         case SolutionType.MatchList:
             return matchListJson.value
-        case SolutionType.FlashCard:
+        case SolutionType.Flashcard:
             return flashCardAnswer.value
         default: return null
     }
@@ -322,7 +322,7 @@ function initiateSolution(solution: string) {
         case SolutionType.MatchList:
             matchListJson.value = solution
             break
-        case SolutionType.FlashCard:
+        case SolutionType.Flashcard:
             flashCardAnswer.value = solution
     }
 
@@ -377,7 +377,7 @@ watch(() => editQuestionStore.showModal, (showModal) => {
 
             pageIds.value = [editQuestionStore.pageId]
             questionHtml.value = editQuestionStore.questionHtml
-            solutionType.value = SolutionType.FlashCard
+            solutionType.value = SolutionType.Flashcard
             initiateSolution(editQuestionStore.flashCardAnswerHtml)
         }
     }
@@ -385,7 +385,7 @@ watch(() => editQuestionStore.showModal, (showModal) => {
 
 const solutionIsValid = ref(true)
 
-function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) {
+function setFlashcardContent(e: { solution: string, solutionIsValid: boolean }) {
     flashCardAnswer.value = e.solution
     solutionIsValid.value = e.solutionIsValid
 }
@@ -425,7 +425,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                 <option :value="SolutionType.Text">{{ t('question.editModal.solutionType.text') }}</option>
                                 <option :value="SolutionType.MultipleChoice">{{ t('question.editModal.solutionType.multipleChoice') }}</option>
                                 <option :value="SolutionType.MatchList">{{ t('question.editModal.solutionType.matchList') }}</option>
-                                <option :value="SolutionType.FlashCard">{{ t('question.editModal.solutionType.flashCard') }}</option>
+                                <option :value="SolutionType.Flashcard">{{ t('question.editModal.solutionType.flashCard') }}</option>
                             </select>
                         </div>
                     </div>
@@ -442,14 +442,14 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
 
                     <div class="input-container">
                         <div class="overline-s no-line">{{ t('question.editModal.label.question') }}</div>
-                        <QuestionEditFlashcardFront v-if="solutionType === SolutionType.FlashCard"
+                        <QuestionEditFlashcardFront v-if="solutionType === SolutionType.Flashcard"
                             :highlight-empty-fields="highlightEmptyFields" @set-question-data="setQuestionData"
                             ref="questionEditor" :content="questionHtml" :is-init="isInit" />
                         <QuestionEditEditor v-else :highlight-empty-fields="highlightEmptyFields"
                             @set-question-data="setQuestionData" ref="questionEditor" :content="questionHtml" :is-init="isInit" />
                     </div>
 
-                    <div class="input-container" v-if="solutionType != SolutionType.FlashCard">
+                    <div class="input-container" v-if="solutionType != SolutionType.Flashcard">
                         <QuestionEditExtensionEditor :highlightEmptyFields="highlightEmptyFields"
                             @setQuestionExtensionData="setQuestionExtensionData" ref="questionExtensionEditor"
                             :content="questionExtensionHtml" :is-init="isInit" />
@@ -461,8 +461,8 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         @set-multiple-choice-json="setMultipleChoiceContent" />
                     <QuestionEditMatchList v-if="solutionType === SolutionType.MatchList" :solution="matchListJson"
                         :highlightEmptyFields="highlightEmptyFields" @set-matchlist-json="setMatchlistContent" />
-                    <QuestionEditFlashCard v-if="solutionType === SolutionType.FlashCard" :solution="flashCardAnswer"
-                        :highlightEmptyFields="highlightEmptyFields" @set-flash-card-content="setFlashCardContent"
+                    <QuestionEditFlashcard v-if="solutionType === SolutionType.Flashcard" :solution="flashCardAnswer"
+                        :highlightEmptyFields="highlightEmptyFields" @set-flash-card-content="setFlashcardContent"
                         ref="flashCardComponent" :is-init="isInit" />
 
                     <div class="input-container description-container">
