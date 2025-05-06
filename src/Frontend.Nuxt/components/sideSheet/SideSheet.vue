@@ -284,18 +284,20 @@ onMounted(() => {
         <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
-                <SideSheetSection :class="{ 'no-b-padding': !showOverview }">
+                <!-- Overview section - not expandable -->
+                <SideSheetSection class="no-b-padding">
                     <template #header>
-                        <div class="header-container" @click="showOverview = !showOverview">
-                            <template v-if="!collapsed">
-                                <font-awesome-icon v-if="showOverview" :icon="['fas', 'angle-down']" class="angle-icon" />
-                                <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
-                            </template>
-                            <font-awesome-icon :icon="['fas', 'rocket']" />
-                            <div v-show="!hidden" class="header-title">
-                                {{ t('sideSheet.missionControl') }}
+                        <NuxtLink to="/overview" class="mission-control-link">
+                            <div class="header-container no-hover">
+                                <template v-if="!collapsed">
+                                    <div class="angle-icon-space"></div>
+                                </template>
+                                <font-awesome-icon :icon="['fas', 'rocket']" />
+                                <div v-show="!hidden" class="header-title">
+                                    {{ t('sideSheet.missionControl') }}
+                                </div>
                             </div>
-                        </div>
+                        </NuxtLink>
                     </template>
                 </SideSheetSection>
 
@@ -591,7 +593,10 @@ onMounted(() => {
     }
 }
 
-
+.angle-icon-space {
+    width: 20px;
+    display: inline-block;
+}
 
 .help-links {
     color: @memo-grey-dark;
