@@ -1,5 +1,8 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+    devtools: {
+        enabled: import.meta.env.NUXT_PUBLIC_ENVIRONMEN === "development",
+    },
     nitro: {
         compatibilityDate: "2025-05-05",
         preset: "node-cluster",
@@ -30,11 +33,16 @@ export default defineNuxtConfig({
         },
     },
     watchers: {
-      chokidar: {
-        usePolling: false,
-        interval: 1000,
-        ignored: ['**/node_modules/**', '**/.git/**', '**/.nuxt/**', '**/.output/**']
-      }
+        chokidar: {
+            usePolling: false,
+            interval: 1000,
+            ignored: [
+                "**/node_modules/**",
+                "**/.git/**",
+                "**/.nuxt/**",
+                "**/.output/**",
+            ],
+        },
     },
     ssr: true,
     modules: [
