@@ -7,6 +7,7 @@ import { useUserStore } from '../user/userStore'
 import { useDeletePageStore } from '../page/delete/deletePageStore'
 import { useConvertStore } from '../page/convert/convertStore'
 import { useSnackbar } from 'vue3-snackbar' 
+'../alert/messages'
 
 interface Props {
     footerPages: FooterPages
@@ -133,6 +134,7 @@ const showWikis = ref(true)
 const showFavorites = ref(true)
 const showRecents = ref(true)
 const showShared = ref(true)
+const showOverview = ref(true)
 const { $urlHelper } = useNuxtApp()
 
 watch(() => sideSheetStore.showSideSheet, (show) => {
@@ -282,6 +284,21 @@ onMounted(() => {
         <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
+                <SideSheetSection :class="{ 'no-b-padding': !showOverview }">
+                    <template #header>
+                        <div class="header-container" @click="showOverview = !showOverview">
+                            <template v-if="!collapsed">
+                                <font-awesome-icon v-if="showOverview" :icon="['fas', 'angle-down']" class="angle-icon" />
+                                <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
+                            </template>
+                            <font-awesome-icon :icon="['fas', 'rocket']" />
+                            <div v-show="!hidden" class="header-title">
+                                {{ t('sideSheet.missionControl') }}
+                            </div>
+                        </div>
+                    </template>
+                </SideSheetSection>
+
                 <SideSheetSection :class="{ 'no-b-padding': !showWikis }">
                     <template #header>
                         <div class="header-container" @click="showWikis = !showWikis">

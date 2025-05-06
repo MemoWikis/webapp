@@ -223,6 +223,7 @@
         "inYourLanguage": "in your language"
     },
     "sideSheet": {
+        "missionControl": "Mission Control",
         "myWikis": "My Wikis",
         "deleteWiki": "Delete Wiki",
         "convertToPage": "Convert into page",

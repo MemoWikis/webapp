@@ -191,7 +191,10 @@
         "registerWithFacebook": "Registrierung mit Facebook",
         "attention": "Achtung",
         "toUpload": "hochzuladen und so einzubinden.",
-        "cancel": "Abbrechen"
+        "cancel": "Abbrechen",
+        "documentation": "Dokumentation",
+        "overview": "Übersicht",
+        "missionControl": "Mission Control"
     },
     "register": {
         "title": "Registrieren",
@@ -223,6 +226,7 @@
         "inYourLanguage": "in deiner Sprache"
     },
     "sideSheet": {
+        "missionControl": "Mission Control",        
         "myWikis": "Meine Wikis",
         "deleteWiki": "Wiki löschen",
         "convertToPage": "In Seite umwandeln",
