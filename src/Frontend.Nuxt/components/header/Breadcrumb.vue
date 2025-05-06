@@ -224,6 +224,9 @@ function setPageTitle() {
 		case SiteType.Messages:
 			pageTitle.value = t('breadcrumb.titles.messages')
 			break
+		case SiteType.MissionControl:
+			pageTitle.value = t('breadcrumb.titles.missionControl')
+			break
 		// case Page.Default:
 		// 	pageTitle.value = ''
 		// 	break
@@ -329,7 +332,8 @@ convertStore.$onAction(({ name, after }) => {
 		<template v-if="breadcrumb.currentWiki">
 			<template v-if="pageStore.id != breadcrumb.currentWiki.id && !rootWikiIsStacked">
 				<NuxtLink :to="$urlHelper.getPageUrl(breadcrumb.currentWiki.name, breadcrumb.currentWiki.id)"
-					class="breadcrumb-item current-wiki" v-tooltip="breadcrumb.currentWiki.name" :aria-label="t('breadcrumb.aria.rootPageButton')">
+					class="breadcrumb-item current-wiki" v-tooltip="breadcrumb.currentWiki.name"
+					:aria-label="t('breadcrumb.aria.rootPageButton')">
 					{{ breadcrumb.currentWiki.name }}
 				</NuxtLink>
 				<div>
@@ -367,7 +371,8 @@ convertStore.$onAction(({ name, after }) => {
 		<div ref="lastBreadcrumbItem"></div>
 
 		<VDropdown :aria-id="ariaId2" :distance="0">
-			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`" :class="{ 'current-wiki': pageStore.id === pageStore.currentWiki?.id }">
+			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`"
+				:class="{ 'current-wiki': pageStore.id === pageStore.currentWiki?.id }">
 				{{ pageStore.name }}
 			</div>
 			<template #popper>

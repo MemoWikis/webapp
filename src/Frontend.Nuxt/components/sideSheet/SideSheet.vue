@@ -21,6 +21,7 @@ const deletePageStore = useDeletePageStore()
 const convertStore = useConvertStore()
 const { t } = useI18n()
 
+const localePath = useLocalePath()
 const snackbar = useSnackbar()
 
 const windowWidth = ref(0)
@@ -287,7 +288,7 @@ onMounted(() => {
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
                 <SideSheetSection class="no-b-padding">
                     <template #header>
-                        <NuxtLink to="/overview" class="mission-control-link">
+                        <NuxtLink :to="localePath({ name: 'missionControlPageEN' })" class="mission-control-link">
                             <div class="header-container no-hover">
                                 <template v-if="!collapsed">
                                     <div class="angle-icon-space"></div>

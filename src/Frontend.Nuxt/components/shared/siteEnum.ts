@@ -12,4 +12,5 @@ export enum SiteType {
     ResetPassword,
     ConfirmEmail,
     Metrics,
+    MissionControl,
 }

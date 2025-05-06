@@ -1,8 +1,8 @@
-import type { RouterConfig } from "@nuxt/schema"
-import { Content } from "~/components/user/settings/contentEnum"
-import { Tab as PageTab } from "~/components/page/tabs/tabsStore"
-import { Tab as UsersTab } from "~~/components/users/tabsEnum"
-import { Tab as UserTab } from "~~/components/user/tabs/tabsEnum"
+import type { RouterConfig } from "@nuxt/schema";
+import { Content } from "~/components/user/settings/contentEnum";
+import { Tab as PageTab } from "~/components/page/tabs/tabsStore";
+import { Tab as UsersTab } from "~~/components/users/tabsEnum";
+import { Tab as UserTab } from "~~/components/user/tabs/tabsEnum";
 
 // https://router.vuejs.org/api/interfaces/routeroptions.html
 export default <RouterConfig>{
@@ -15,6 +15,30 @@ export default <RouterConfig>{
             meta: {
                 middleware: ["startpage"],
             },
+        },
+        {
+            name: "missionControlPageDE",
+            path: "/Mission-Control",
+            component: () =>
+                import("~/pages/mission-control/mission-control.vue"),
+        },
+        {
+            name: "missionControlPageEN",
+            path: "/overview",
+            component: () =>
+                import("~/pages/mission-control/mission-control.vue"),
+        },
+        {
+            name: "missionControlPageFR",
+            path: "/Tableau-de-Bord",
+            component: () =>
+                import("~/pages/mission-control/mission-control.vue"),
+        },
+        {
+            name: "missionControlPageES",
+            path: "/Panel-de-Control",
+            component: () =>
+                import("~/pages/mission-control/mission-control.vue"),
         },
         {
             name: "termsPageDE",
@@ -284,4 +308,4 @@ export default <RouterConfig>{
             },
         },
     ],
-}
+};
