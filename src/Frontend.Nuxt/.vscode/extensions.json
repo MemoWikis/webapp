@@ -1,4 +1,7 @@
 {
     "recommendations": [
+        "vue.volar",
+        "esbenp.prettier-vscode",
+        "cweijan.vscode-redis-client",
     ]
 }
