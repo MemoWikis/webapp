@@ -22,4 +22,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app .
 
-ENTRYPOINT ["dotnet", "Backend.Api.dll"]
+ENTRYPOINT ["dotnet", "MemoWikis.Backend.Api.dll"]
