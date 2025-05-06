@@ -505,7 +505,7 @@ onMounted(() => {
                             <NuxtLink :to="config.public.discord" class="sidebar-link" @mouseover="discordBounce = true"
                                 @mouseleave="discordBounce = false">
                                 <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> {{
-                                t('label.discord') }}
+                                    t('label.discord') }}
                             </NuxtLink>
                         </div>
                     </template>

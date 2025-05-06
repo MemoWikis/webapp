@@ -1,10 +1,15 @@
 {
     "editor.formatOnSave": true,
     "[json]": {
+        "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescript]": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[vue]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "Vue.volar"
     }
 }
