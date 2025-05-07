@@ -5,18 +5,29 @@ export default defineNuxtConfig({
         enabled: import.meta.env.NUXT_PUBLIC_ENVIRONMENT === "development",
     },
     vite: {
-        resolve: {
-            alias:
-                import.meta.env.NUXT_PUBLIC_ENVIRONMENT === "development"
-                    ? {}
-                    : { "@vue/devtools-api": "/dev/null" },
-        },
+        plugins:
+            import.meta.env.NUXT_PUBLIC_ENVIRONMENT === "development"
+                ? []
+                : [
+                      {
+                          name: "vite-plugin-stub-vue-devtools",
+                          resolveId(id) {
+                              if (id === "@vue/devtools-api") {
+                                  return id; // mark this as a virtual module
+                              }
+                          },
+                          load(id) {
+                              if (id === "@vue/devtools-api") {
+                                  return `export function setupDevtoolsPlugin() { /* no-op */ }`;
+                              }
+                          },
+                      },
+                  ],
     },
     nitro: {
         compatibilityDate: "2025-05-05",
         preset: "node-cluster",
     },
-    //vite: { plugins: [eslint({ cache: false })] },
     runtimeConfig: {
         seqServerApiKey: "",
         seqRawUrl: "http://localhost:5341/api/events/raw",
