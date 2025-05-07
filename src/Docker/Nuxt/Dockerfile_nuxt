@@ -6,7 +6,7 @@ RUN mkdir -p /usr/src/nuxt-output
 
 # copy the app, note .dockerignore
 COPY Frontend.Nuxt/.output /usr/src/nuxt-output/
-
+COPY Frontend.Nuxt/.output/node_modules/@vue/devtools-api /usr/src/node_modules/@vue/devtools-api
 EXPOSE 3000
 
 ENV NUXT_HOST=0.0.0.0
