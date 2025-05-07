@@ -608,7 +608,7 @@ onMounted(() => {
 }
 
 .angle-icon-space {
-    width: 20px;
+    width: 16px;
     display: inline-block;
 }
 

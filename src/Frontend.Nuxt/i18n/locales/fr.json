@@ -223,7 +223,7 @@
         "inYourLanguage": "dans ta langue"
     },
     "sideSheet": {
-        "missionControl": "Mission Control",        
+        "missionControl": "Mission Control",
         "myWikis": "Mes wikis",
         "deleteWiki": "Supprimer le wiki",
         "convertToPage": "Convertir en page",
@@ -1507,6 +1507,7 @@
             "terms": "Conditions générales",
             "register": "Inscription",
             "messages": "Messages",
+            "missionControl": "Mission Control",
             "error": "Erreur",
             "resetPassword": "Réinitialiser le mot de passe",
             "confirmEmail": "Confirmation de l’e-mail",
