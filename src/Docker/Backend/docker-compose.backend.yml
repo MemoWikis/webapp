@@ -14,8 +14,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-stage}
       #Override appsettings:
       - Paths__AbsoluteImagePath=${ABSOLUTE_IMAGE_PATH:-/app/Images}
-      - Paths__PageContentImages=${TOPIC_CONTENT_IMAGE_FOLDER:-TopicContent}
-      - Paths__PageImages=${TOPIC_IMAGE_FOLDER:-Categories}
+      - Paths__PageContentImages=${PAGE_CONTENT_IMAGE_FOLDER:-PageContent}
+      - Paths__PageImages=${PAGE_IMAGE_FOLDER:-Page}
       - Paths__QuestionContentImages=${QUESTION_CONTENT_IMAGE_FOLDER:-QuestionContentImages}
       - Paths__QuestionImages=${QUESTION_IMAGE_FOLDER:-Questions}
       - Paths__UserImages=${USER_IMAGE_FOLDER:-Users}
