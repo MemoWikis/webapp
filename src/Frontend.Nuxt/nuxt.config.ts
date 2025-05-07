@@ -24,6 +24,15 @@ export default defineNuxtConfig({
                       },
                   ],
     },
+    hooks: {
+        "nitro:config"(nitroConfig) {
+            if (process.env.NODE_ENV !== "development") {
+                nitroConfig.alias = nitroConfig.alias || {};
+                // Tell Nitro to treat this import as /dev/null at build time
+                nitroConfig.alias["@vue/devtools-api"] = "/dev/null";
+            }
+        },
+    },
     nitro: {
         compatibilityDate: "2025-05-05",
         preset: "node-cluster",
