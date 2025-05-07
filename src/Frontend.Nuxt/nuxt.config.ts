@@ -28,8 +28,10 @@ export default defineNuxtConfig({
         "nitro:config"(nitroConfig) {
             if (process.env.NODE_ENV !== "development") {
                 nitroConfig.alias = nitroConfig.alias || {};
-                // Tell Nitro to treat this import as /dev/null at build time
-                nitroConfig.alias["@vue/devtools-api"] = "/dev/null";
+                // Use NUL on Windows, /dev/null on *nix
+                const nullDevice =
+                    process.platform === "win32" ? "NUL" : "/dev/null";
+                nitroConfig.alias["@vue/devtools-api"] = nullDevice;
             }
         },
     },
