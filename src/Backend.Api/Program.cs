@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Filters;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Serilog.Exceptions;
@@ -164,10 +163,12 @@ try
     await JobScheduler.InitializeAsync();
 
     app.Run();
-
 }
 catch (Exception e)
 {
     Log.Fatal(e, "Fatal error");
     throw;
 }
+
+// make Program discoverable for integration tests 
+public partial class Program;

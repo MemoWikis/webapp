@@ -20,12 +20,14 @@ public class SessionFactory
         return sessionFactory;
     }
 
-    public static Configuration BuildTestConfiguration()
+    public static Configuration BuildTestConfiguration() => BuildTestConfiguration(Settings.ConnectionString);
+
+    public static Configuration BuildTestConfiguration(string connectionString)
     {
         var configuration = Fluently.Configure()
             .Database(
                 MySQLConfiguration.Standard
-                    .ConnectionString(Settings.ConnectionString)
+                    .ConnectionString(connectionString)
                     .Dialect<MySQL5FlexibleDialect>()
             )
             .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
