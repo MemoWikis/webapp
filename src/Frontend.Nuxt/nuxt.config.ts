@@ -1,40 +1,6 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 
 export default defineNuxtConfig({
-    devtools: {
-        enabled: import.meta.env.NUXT_PUBLIC_ENVIRONMENT === "development",
-    },
-    vite: {
-        plugins:
-            import.meta.env.NUXT_PUBLIC_ENVIRONMENT === "development"
-                ? []
-                : [
-                      {
-                          name: "vite-plugin-stub-vue-devtools",
-                          resolveId(id) {
-                              if (id === "@vue/devtools-api") {
-                                  return id; // mark this as a virtual module
-                              }
-                          },
-                          load(id) {
-                              if (id === "@vue/devtools-api") {
-                                  return `export function setupDevtoolsPlugin() { /* no-op */ }`;
-                              }
-                          },
-                      },
-                  ],
-    },
-    hooks: {
-        "nitro:config"(nitroConfig) {
-            if (process.env.NODE_ENV !== "development") {
-                nitroConfig.alias = nitroConfig.alias || {};
-                // Use NUL on Windows, /dev/null on *nix
-                const nullDevice =
-                    process.platform === "win32" ? "NUL" : "/dev/null";
-                nitroConfig.alias["@vue/devtools-api"] = nullDevice;
-            }
-        },
-    },
     nitro: {
         compatibilityDate: "2025-05-05",
         preset: "node-cluster",
