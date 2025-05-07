@@ -4,6 +4,10 @@ export default defineNuxtConfig({
     nitro: {
         compatibilityDate: "2025-05-05",
         preset: "node-cluster",
+        externals: {
+            // Force Nitro to copy (inline) this package into .output
+            inline: ["@vue/devtools-api"],
+        },
     },
     runtimeConfig: {
         seqServerApiKey: "",
