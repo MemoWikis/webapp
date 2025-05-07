@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   mem-nuxt:
     image: ghcr.io/memowikis/mem-nuxt:${BUILD_NUMBER:-error}

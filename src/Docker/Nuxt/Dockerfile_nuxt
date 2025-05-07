@@ -7,6 +7,15 @@ RUN mkdir -p /usr/src/nuxt-output
 # copy the app, note .dockerignore
 COPY Frontend.Nuxt/.output /usr/src/nuxt-output/
 COPY Frontend.Nuxt/node_modules/@vue/devtools-api /usr/src/node_modules/@vue/devtools-api
+COPY Frontend.Nuxt/node_modules/@vue/devtools-kit /usr/src/node_modules/@vue/devtools-kit
+COPY Frontend.Nuxt/node_modules/@vue/devtools-shared /usr/src/node_modules/@vue/devtools-shared
+COPY Frontend.Nuxt/node_modules/perfect-debounce /usr/src/node_modules/perfect-debounce
+COPY Frontend.Nuxt/node_modules/birpc /usr/src/node_modules/birpc
+COPY Frontend.Nuxt/node_modules/hookable /usr/src/node_modules/hookable
+COPY Frontend.Nuxt/node_modules/mitt /usr/src/node_modules/mitt
+COPY Frontend.Nuxt/node_modules/speakingurl /usr/src/node_modules/speakingurl
+COPY Frontend.Nuxt/node_modules/superjson /usr/src/node_modules/superjson
+
 EXPOSE 3000
 
 ENV NUXT_HOST=0.0.0.0
