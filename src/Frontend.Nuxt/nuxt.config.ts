@@ -1,7 +1,16 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
+
 export default defineNuxtConfig({
     devtools: {
-        enabled: import.meta.env.NUXT_PUBLIC_ENVIRONMEN === "development",
+        enabled: import.meta.env.NUXT_PUBLIC_ENVIRONMENT === "development",
+    },
+    vite: {
+        resolve: {
+            alias:
+                import.meta.env.NUXT_PUBLIC_ENVIRONMENT === "development"
+                    ? {}
+                    : { "@vue/devtools-api": "/dev/null" },
+        },
     },
     nitro: {
         compatibilityDate: "2025-05-05",
