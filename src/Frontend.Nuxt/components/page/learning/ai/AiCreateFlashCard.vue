@@ -133,11 +133,6 @@ const deleteFlashcard = (index: number) => {
     </Modal>
 </template>
 
-<style lang="less" scoped>
-@import (reference) '~~/assets/includes/imports.less';
-
-#AiFlashcard {}
-</style>
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
