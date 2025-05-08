@@ -16,9 +16,12 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         .WithImage("mysql:8.3.0")
         .WithUsername("test")
         .WithPassword("P@ssw0rd_#123")
-        .WithDatabase("appdb")
         .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
-        .WithWaitStrategy(Wait.ForUnixContainer().UntilMessageIsLogged("ready for connections"))
+        .WithWaitStrategy(
+            Wait.ForUnixContainer()
+                .UntilMessageIsLogged("ready for connections")
+                .UntilPortIsAvailable(3306)
+        )
         .Build();
     
     private IHost? _host;
@@ -105,7 +108,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .ConfigureWebHostDefaults(web =>
             {
                 web.UseTestServer();
-                web.UseStartup<Program>(); // your real Startup/Program
+                web.UseStartup<Program>(); 
             })
             .ConfigureAppConfiguration((ctx, cfg) =>
             {
