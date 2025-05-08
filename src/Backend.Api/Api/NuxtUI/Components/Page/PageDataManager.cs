@@ -19,7 +19,10 @@ public class PageDataManager(
                 MessageKey = FrontendMessageKeys.Error.Page.NotFound
             };
 
-        var canView = userId != null ? _permissionCheck.CanView((int)userId, page, token) : _permissionCheck.CanView(page, token);
+        var canView = userId != null 
+            ? _permissionCheck.CanView((int)userId, page, token) 
+            : _permissionCheck.CanView(page, token);
+
         if (canView)
         {
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Page);

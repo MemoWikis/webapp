@@ -1,6 +1,7 @@
 ﻿public class KnowledgeSummaryLoader(
     PageValuationReadingRepository pageValuationReadingRepository,
-    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
+    ExtendedUserCache _extendedUserCache,
+    SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
     public KnowledgeSummary RunFromDbCache(Page page, int userId)
     {
@@ -32,7 +33,7 @@
     {
         var aggregatedQuestions = new List<QuestionCacheItem>();
 
-        var aggregatedPages = pageCacheItem.AggregatedPages(new PermissionCheck(userId), includingSelf: true);
+        var aggregatedPages = pageCacheItem.AggregatedPages(new PermissionCheck(_sessionUser), includingSelf: true);
 
         foreach (var currentPage in aggregatedPages)
         {
