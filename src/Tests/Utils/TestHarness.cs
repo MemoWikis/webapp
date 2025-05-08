@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DotNet.Testcontainers.Builders;
 using FakeItEasy;
@@ -16,7 +12,6 @@ using ContainerBuilder = Autofac.ContainerBuilder;
 
 public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
-    // -------- Docker‑based MySQL test database --------
     private readonly MySqlContainer _db = new MySqlBuilder()
         .WithImage("mysql:8.3.0")
         .WithUsername("test")
@@ -25,8 +20,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
         .WithWaitStrategy(
             Wait.ForUnixContainer()
-                .UntilMessageIsLogged("ready for connections")
                 .UntilPortIsAvailable(3306))
+        .WithReuse(true)
         .Build();
 
 
@@ -69,6 +64,17 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         Settings.Initialize(new ConfigurationManager());
         Settings.ConnectionString = ConnectionString;
+        var configuration = SessionFactory.BuildTestConfiguration(ConnectionString);
+        SessionFactory.BuildSchema();
+
+        using var session = configuration.BuildSessionFactory().OpenSession();
+        var repositoryDb = new RepositoryDb<DbSettings>(session);
+        repositoryDb.Create(new DbSettings
+        {
+            Id = 1, 
+            AppVersion = Int32.MaxValue,
+        });
+        
 
         _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
         _client = _factory.CreateClient();
@@ -94,9 +100,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     private async Task RunLegacyInitializersAsync()
     {
-        SessionFactory.BuildTestConfiguration(ConnectionString);
-        SessionFactory.TruncateAllTables();
-
         ImageDirectoryCreator.CreateImageDirectories(_webHostEnv.ContentRootPath);
 
         Resolve<EntityCacheInitializer>().Init(" (started in unit test) ");

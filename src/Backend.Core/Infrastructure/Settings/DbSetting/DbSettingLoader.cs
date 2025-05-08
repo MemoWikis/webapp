@@ -1,12 +1,7 @@
 ﻿using NHibernate;
 
-public class DbSettingsRepo : RepositoryDb<DbSettings>
+public class DbSettingsRepo(ISession _session) : RepositoryDb<DbSettings>(_session)
 {
-    public DbSettingsRepo(ISession session)
-        : base(session)
-    {
-    }
-
     public DbSettings Get()
     {
         return base.GetById(1);

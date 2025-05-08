@@ -6,7 +6,7 @@ using NHibernate.Tool.hbm2ddl;
 
 public class SessionFactory
 {
-    private static Configuration _configuration;
+    private static Configuration _configuration = null!;
 
     public static ISessionFactory CreateSessionFactory()
     {
@@ -49,7 +49,7 @@ public class SessionFactory
         return mappingsContainer;
     }
 
-    public static void SetConfig(Configuration config)
+    public static void SetConfig(Configuration? config)
     {
         _configuration = config;
     }
@@ -70,18 +70,15 @@ public class SessionFactory
                 FROM INFORMATION_SCHEMA.TABLES 
                 WHERE table_schema = DATABASE();
 
-                SET FOREIGN_KEY_CHECKS = 1;
-";
+                SET FOREIGN_KEY_CHECKS = 1;";
 
-        using (var session = _configuration.BuildSessionFactory().OpenSession())
-        {
-            var statements = session.CreateSQLQuery(sqlString).List<string>();
-            session.CreateSQLQuery(disableForeignKeyCheck).ExecuteUpdate();
+        using var session = _configuration!.BuildSessionFactory().OpenSession();
+        var statements = session.CreateSQLQuery(sqlString).List<string>();
+        session.CreateSQLQuery(disableForeignKeyCheck).ExecuteUpdate();
 
-            foreach (var statement in statements)
-                session.CreateSQLQuery(statement).ExecuteUpdate();
+        foreach (var statement in statements)
+            session.CreateSQLQuery(statement).ExecuteUpdate();
 
-            session.CreateSQLQuery(enableForeignKeyCheck).ExecuteUpdate();
-        }
+        session.CreateSQLQuery(enableForeignKeyCheck).ExecuteUpdate();
     }
 }
