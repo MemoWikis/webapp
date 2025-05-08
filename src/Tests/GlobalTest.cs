@@ -8,7 +8,7 @@ public class GlobalTest
     {
         Settings.Initialize(GetConfiguration());
         SessionFactory.BuildTestConfiguration();
-        BaseTest.InitializeContainer();
+        //BaseTest.InitializeContainer();
         SessionFactory.BuildSchema();
     }
 

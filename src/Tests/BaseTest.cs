@@ -4,160 +4,148 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using ISession = NHibernate.ISession;
 
-[TestFixture]
-public class BaseTest
-{
-    private static IContainer _container;
-    protected ILifetimeScope LifetimeScope;
 
-    protected static User _sessionUser => new User
+[TestFixture]
+public abstract class BaseTest
+{
+    private IContainer _container;
+    protected ILifetimeScope LifetimeScope { get; private set; }
+
+    /// <summary>
+    /// The “session user” we seed into the fake HTTP session & DB.
+    /// </summary>
+    protected static User SessionUser { get; } = new User
     {
         Name = "SessionUser",
         Id = 1
     };
 
-    static BaseTest()
-    {
-#if DEBUG
-        //            NHibernateProfiler.Initialize();
-#endif
-    }
+    protected static User _sessionUser = SessionUser;
 
     [SetUp]
     public async Task SetUp()
     {
-        SessionFactory.BuildTestConfiguration();
-        // CleanEmailsFromPickupDirectory.Run();
-        InitializeContainer();
-        LifetimeScope = _container.BeginLifetimeScope();
-        foreach (var registration in _container.ComponentRegistry.Registrations)
-        {
-            foreach (var service in registration.Services)
-            {
-                Console.WriteLine(service);
-            }
-        }
+        // 1) Build + wire up a fresh container for *this* test:
+        BuildContainer();
 
-        ImageDirectoryCreator.CreateImageDirectories(App.Environment.ContentRootPath);
+        // 2) Reset NHibernate + DB, then open one scope:
+        InitializeScope();
 
-        var initializer = Resolve<EntityCacheInitializer>();
-        initializer.Init(" (started in unit test) ");
-        DateTimeX.ResetOffset();
-        SetSessionUserInDatabase();
-
+        // 3) Start any background jobs
         await JobScheduler.InitializeAsync();
     }
 
     [TearDown]
-    public void RecycleContainer()
+    public void TearDown()
     {
-        App.Environment = null;
-        R<ISession>().Flush();
-        AutofacWebInitializer.Dispose();
+        // 1) Flush NHibernate work
+        LifetimeScope.Resolve<ISession>().Flush();
 
-        MySQL5FlexibleDialect.Engine = "MEMORY";
-        BuildContainer();
-        ServiceLocator.Init(_container);
+        // 2) Dispose in reverse order:
+        LifetimeScope.Dispose();
+        _container.Dispose();
 
+        // 3) Clear any static/singleton state
         JobScheduler.Clear();
         EntityCache.Clear();
+        DateTimeX.ResetOffset();
+    }
 
-        _container.Dispose();
+    /// <summary>
+    /// Exactly like your old method—tear down & rebuild everything mid-test,
+    /// so you can hit your DB + EntityCache initialization logic again.
+    /// </summary>
+    public async Task RecycleContainerAndEntityCache()
+    {
+        // flush & dispose
+        LifetimeScope.Resolve<ISession>().Flush();
         LifetimeScope.Dispose();
-    }
+        _container.Dispose();
 
-    public void RecycleContainerAndEntityCache()
-    {
+        // rebuild
+        BuildContainer();
+        InitializeScope();
+        await JobScheduler.InitializeAsync();
+
+        // re-clear any static bits
+        JobScheduler.Clear();
         EntityCache.Clear();
-        Resolve<SessionData>().Clear();
-
-        App.Environment = null;
-        R<ISession>().Flush();
-        AutofacWebInitializer.Dispose();
-
-        MySQL5FlexibleDialect.Engine = "MEMORY";
-        BuildContainer();
-        ServiceLocator.Init(_container);
-
-        var initializer = Resolve<EntityCacheInitializer>();
-        initializer.Init(" (started in unit test) ");
+        DateTimeX.ResetOffset();
     }
 
-    public static void InitializeContainer()
+    /// <summary>
+    /// Helper alias so your existing tests can still call R<T>().
+    /// </summary>
+    protected T R<T>() where T : notnull
+        => LifetimeScope.Resolve<T>();
+
+    #region —–– Private Helpers –––—
+
+    private void BuildContainer()
     {
-        MySQL5FlexibleDialect.Engine = "MEMORY";
-        BuildContainer();
+        _container = AutofacWebInitializer.GetTestContainer(
+            CreateWebHostEnvironment(),
+            CreateHttpContextAccessor());
         ServiceLocator.Init(_container);
+    }
+
+    private void InitializeScope()
+    {
+        // rebuild NHibernate config & clear all tables
+        SessionFactory.BuildTestConfiguration();
         SessionFactory.TruncateAllTables();
-    }
 
-    private static void BuildContainer()
-    {
-        _container =
-            AutofacWebInitializer.GetTestContainer(SetWebHostEnvironment(),
-                SetHttpContextAccessor());
-        Console.WriteLine(_container.GetHashCode());
-    }
+        // open a fresh scope
+        LifetimeScope = _container.BeginLifetimeScope();
 
-    private static IWebHostEnvironment SetWebHostEnvironment()
-    {
-        var fakeWebHostEnvironment = A.Fake<IWebHostEnvironment>();
-        App.Environment = fakeWebHostEnvironment;
-        A.CallTo(() => fakeWebHostEnvironment.EnvironmentName).Returns("TestEnvironment");
-        return fakeWebHostEnvironment;
-    }
+        // re-create any on-disk directories your tests expect
+        ImageDirectoryCreator.CreateImageDirectories(App.Environment.ContentRootPath);
 
-    private static IHttpContextAccessor SetHttpContextAccessor()
-    {
-        var httpContextAccessor = A.Fake<IHttpContextAccessor>();
-        var httpContext = A.Fake<HttpContext>();
-        var session = A.Fake<Microsoft.AspNetCore.Http.ISession>();
-        A.CallTo(() => httpContextAccessor.HttpContext).Returns(httpContext);
-        A.CallTo(() => httpContext.Session).Returns(session);
+        // seed EntityCache, session-user, etc.
+        var initializer = LifetimeScope.Resolve<EntityCacheInitializer>();
+        initializer.Init(" (started in unit test)");
 
-        SetSessionValues(session);
+        // reset any date-offset overrides
+        DateTimeX.ResetOffset();
 
-        return httpContextAccessor;
-    }
-
-    private static void SetSessionValues(Microsoft.AspNetCore.Http.ISession session)
-    {
-        byte[] userIdBytes = BitConverter.GetBytes(1);
-        if (BitConverter.IsLittleEndian)
-        {
-            Array.Reverse(userIdBytes); //// hier
-        }
-
-        A.CallTo(() => session.TryGetValue("userId", out userIdBytes)).Returns(true);
-    }
-
-    private static void SetSessionUserInDatabase()
-    {
-        ContextUser.New(R<UserWritingRepo>())
-            .Add(_sessionUser)
+        // persist our fake SessionUser into the DB
+        ContextUser
+            .New(LifetimeScope.Resolve<UserWritingRepo>())
+            .Add(SessionUser)
             .Persist();
     }
 
-    public static T Resolve<T>() where T : notnull => _container.Resolve<T>();
-
-    public static T R<T>() where T : notnull => _container.Resolve<T>();
-
-    public void ClearNHibernateCaches()
+    private IWebHostEnvironment CreateWebHostEnvironment()
     {
-        var session = R<ISession>();
-        session.Clear(); // Clear the first-level cache (session cache)
-
-        var sessionFactory = session.SessionFactory;
-        foreach (var collectionMetadata in sessionFactory.GetAllCollectionMetadata())
-        {
-            sessionFactory.EvictCollection(collectionMetadata.Key);
-        }
-
-        foreach (var classMetadata in sessionFactory.GetAllClassMetadata())
-        {
-            sessionFactory.EvictEntity(classMetadata.Key);
-        }
-
-        sessionFactory.EvictQueries();
+        var fakeEnv = A.Fake<IWebHostEnvironment>();
+        App.Environment = fakeEnv;
+        A.CallTo(() => fakeEnv.EnvironmentName)
+         .Returns("TestEnvironment");
+        return fakeEnv;
     }
+
+    private IHttpContextAccessor CreateHttpContextAccessor()
+    {
+        // fake the accessor and HttpContext
+        var accessor = A.Fake<IHttpContextAccessor>();
+        var context = A.Fake<HttpContext>();
+        // IMPORTANT: fully qualify the Core session, not NHibernate.ISession
+        var session = A.Fake<Microsoft.AspNetCore.Http.ISession>();
+
+        A.CallTo(() => accessor.HttpContext).Returns(context);
+        A.CallTo(() => context.Session).Returns(session);
+
+        // prepare the bytes we want TryGetValue to output
+        byte[] userIdBytes = BitConverter.GetBytes(SessionUser.Id);
+        if (BitConverter.IsLittleEndian)
+            Array.Reverse(userIdBytes);
+
+        // set up the fake so TryGetValue returns true *and* writes out our bytes
+        A.CallTo(() => session.TryGetValue("userId", out userIdBytes)).Returns(true);
+
+        return accessor;
+    }
+
+
+    #endregion
 }
