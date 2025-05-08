@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using DotNet.Testcontainers.Builders;
 using FakeItEasy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,10 +8,19 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Testcontainers.MySql;
+using ContainerBuilder = Autofac.ContainerBuilder;
 
 public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
-    private readonly MySqlContainer _db;
+    private readonly MySqlContainer _db = new MySqlBuilder()
+        .WithImage("mysql:8.3.0")
+        .WithUsername("test")
+        .WithPassword("P@ssw0rd_#123")
+        .WithDatabase("appdb")
+        .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
+        .WithWaitStrategy(Wait.ForUnixContainer().UntilMessageIsLogged("ready for connections"))
+        .Build();
+    
     private IHost? _host;
     private IContainer? _container;
     private ILifetimeScope? _scope;
@@ -20,29 +30,21 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     private IWebHostEnvironment _webHostEnv = null!;
     private IHttpContextAccessor _httpCtxAcc = null!;
 
-    public TestHarness()
-    {
-        _db = new MySqlBuilder()
-            .WithImage("mysql:8.4")
-            .WithUsername("test")
-            .WithPassword("P@ssw0rd_#123")
-            .WithDatabase("appdb")
-            .Build();
-    }
-
 
     public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();
     public T R<T>() where T : notnull => Resolve<T>();   // alias
 
-
     public async Task InitAsync()
     {
         await _db.StartAsync();
+        
+        Settings.Initialize(new ConfigurationManager());
+        Settings.ConnectionString = ConnectionString;
+        
         BuildAutofacContainer();
         await StartWebHostAsync();
         await RunLegacyInitializersAsync();
     }
-
 
     public async ValueTask DisposeAsync()
     {
@@ -81,6 +83,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         byte[]? userIdBytes = BitConverter.GetBytes(1);
         if (BitConverter.IsLittleEndian)
             Array.Reverse(userIdBytes);
+        
         A.CallTo(() => fakeSession.TryGetValue("userId", out userIdBytes)).Returns(true);
 
         // Build container exactly like before

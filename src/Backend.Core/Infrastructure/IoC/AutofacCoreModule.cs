@@ -30,8 +30,6 @@ public class AutofacCoreModule : Autofac.Module
 
         builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
-
-
         builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
 
         builder.Register(c => Options.Create(new MemoryCacheOptions()))

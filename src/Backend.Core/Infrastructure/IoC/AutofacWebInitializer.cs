@@ -16,6 +16,7 @@ public static class AutofacWebInitializer
         {
             _container = InitializeTest(fakeEnvironment, httpContextAccessor);
         }
+
         return _container;
     }
 
@@ -34,10 +35,13 @@ public static class AutofacWebInitializer
         builder.RegisterInstance(fakeEnvironment)
             .As<IWebHostEnvironment>()
             .SingleInstance();
+        
         builder.RegisterInstance(httpContextAccessor)
             .As<IHttpContextAccessor>()
             .SingleInstance();
+        
         builder.RegisterModule(new AutofacCoreModule(externallyProvidedHttpContextAccessor: true));
+
         return builder.Build();
     }
 

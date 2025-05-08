@@ -57,7 +57,11 @@ public class Settings
     public static string UserImageBasePath => _configuration["Paths:UserImages"];
 
     // Connection properties
-    public static string ConnectionString => _configuration["General:ConnectionString"];
+    public static string ConnectionString
+    {
+        get => _configuration["General:ConnectionString"];
+        set => _configuration["General:ConnectionString"] = value;
+    }
 
     //Seq
     public static string SeqUrl => _configuration["General:SeqUrl"];

@@ -198,6 +198,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     {
         TempShareTokens[pageId] = token;
     }
+
     public void RemoveTempShareToken(int pageId)
     {
         if (TempShareTokens.ContainsKey(pageId))

@@ -130,7 +130,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
             }
 
             return _httpContext.Session.Get<Dictionary<int, string>>("shareTokens") ?? new Dictionary<int, string>();
-
         }
         private set => _httpContext.Session.Set("shareTokens", value);
     }
