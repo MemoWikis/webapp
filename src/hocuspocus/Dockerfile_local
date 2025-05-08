@@ -1,7 +1,7 @@
 # Use the official Node.js image as the base image
 FROM node
 
-ENV ENVIRONMENT=docker-dev
+ENV ENVIRONMENT=dev
 ENV REDIS_HOST=host.docker.internal
 ENV REDIS_PORT=6379
 ENV HOCUSPOCUS_SECRET_KEY=abrakadabrakey
