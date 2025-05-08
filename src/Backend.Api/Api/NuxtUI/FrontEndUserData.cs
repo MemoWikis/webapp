@@ -56,6 +56,13 @@
             var activityLevel = user.ActivityLevel;
             var subscriptionDate = user.EndDate;
 
+            var personalWiki = new PageDataManager(_sessionUser,
+                _permissionCheck,
+                _knowledgeSummaryLoader,
+                _imageMetaDataReadingRepo,
+                _httpContextAccessor,
+                _questionReadingRepo).GetPageData(user.StartPageId, userId: _sessionUser.UserId);
+
             return new CurrentUserData
             {
                 IsLoggedIn = _sessionUser.IsLoggedIn,
@@ -70,12 +77,7 @@
                     .Url,
                 Reputation = user.Reputation,
                 ReputationPos = user.ReputationPos,
-                PersonalWiki = new PageDataManager(_sessionUser,
-                    _permissionCheck,
-                    _knowledgeSummaryLoader,
-                    _imageMetaDataReadingRepo,
-                    _httpContextAccessor,
-                    _questionReadingRepo).GetPageData(user.StartPageId),
+                PersonalWiki = personalWiki,
                 ActivityPoints = new ActivityPoints
                 {
                     Points = activityPoints,

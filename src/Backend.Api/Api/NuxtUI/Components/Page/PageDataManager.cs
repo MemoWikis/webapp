@@ -9,7 +9,7 @@ public class PageDataManager(
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo)
 {
-    public PageDataResult GetPageData(int id, [CanBeNull] string token = null)
+    public PageDataResult GetPageData(int id, [CanBeNull] string token = null, [CanBeNull] int? userId = null)
     {
         var page = EntityCache.GetPage(id);
         if (page == null)
@@ -19,7 +19,8 @@ public class PageDataManager(
                 MessageKey = FrontendMessageKeys.Error.Page.NotFound
             };
 
-        if (_permissionCheck.CanView(page, token))
+        var canView = userId != null ? _permissionCheck.CanView((int)userId, page, token) : _permissionCheck.CanView(page, token);
+        if (canView)
         {
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Page);
             var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
