@@ -1,10 +1,14 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DotNet.Testcontainers.Builders;
 using FakeItEasy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Testcontainers.MySql;
@@ -12,40 +16,64 @@ using ContainerBuilder = Autofac.ContainerBuilder;
 
 public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
+    // -------- Docker‑based MySQL test database --------
     private readonly MySqlContainer _db = new MySqlBuilder()
         .WithImage("mysql:8.3.0")
         .WithUsername("test")
         .WithPassword("P@ssw0rd_#123")
+        .WithDatabase("memoWikisTest")
         .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
         .WithWaitStrategy(
             Wait.ForUnixContainer()
                 .UntilMessageIsLogged("ready for connections")
-                .UntilPortIsAvailable(3306)
-        )
+                .UntilPortIsAvailable(3306))
         .Build();
-    
-    private IHost? _host;
-    private IContainer? _container;
+
+
+    private ProgramWebApplicationFactory? _factory;
+    private HttpClient? _client;
+
+    // Autofac scope coming from the running host (for Resolve<T> convenience)
     private ILifetimeScope? _scope;
 
-    public HttpClient Client => _host!.GetTestClient();
+    public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
     public string ConnectionString => _db.GetConnectionString();
-    private IWebHostEnvironment _webHostEnv = null!;
-    private IHttpContextAccessor _httpCtxAcc = null!;
+
+    private readonly IWebHostEnvironment _webHostEnv;
+    private readonly IHttpContextAccessor _httpCtxAcc;
+
+    public TestHarness()
+    {
+        // Prepare environment fake
+        _webHostEnv = A.Fake<IWebHostEnvironment>();
+        A.CallTo(() => _webHostEnv.EnvironmentName).Returns("TestEnvironment");
+
+        // Prepare HttpContext/session fake with legacy userId=1
+        _httpCtxAcc = A.Fake<IHttpContextAccessor>();
+        var fakeHttpContext = A.Fake<HttpContext>();
+        var fakeSession = A.Fake<ISession>();
+        A.CallTo(() => _httpCtxAcc.HttpContext).Returns(fakeHttpContext);
+        A.CallTo(() => fakeHttpContext.Session).Returns(fakeSession);
+        byte[]? userIdBytes = BitConverter.GetBytes(1);
+        if (BitConverter.IsLittleEndian) Array.Reverse(userIdBytes);
+        A.CallTo(() => fakeSession.TryGetValue("userId", out userIdBytes)).Returns(true);
+    }
 
 
     public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();
-    public T R<T>() where T : notnull => Resolve<T>();   // alias
+    public T R<T>() where T : notnull => Resolve<T>();
 
     public async Task InitAsync()
     {
         await _db.StartAsync();
-        
+
         Settings.Initialize(new ConfigurationManager());
         Settings.ConnectionString = ConnectionString;
-        
-        BuildAutofacContainer();
-        await StartWebHostAsync();
+
+        _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
+        _client = _factory.CreateClient();
+        _scope = ((ILifetimeScope)_factory.Services).BeginLifetimeScope();
+
         await RunLegacyInitializersAsync();
     }
 
@@ -55,14 +83,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         EntityCache.Clear();
 
         _scope?.Dispose();
-        _container?.Dispose();
-
-        if (_host is not null)
-        {
-            await _host.StopAsync();
-            _host.Dispose();
-        }
-
+        _factory?.Dispose();
         await _db.DisposeAsync();
 
         GC.SuppressFinalize(this);
@@ -71,73 +92,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public void Dispose() => DisposeAsync().AsTask().GetAwaiter().GetResult();
 
 
-    private void BuildAutofacContainer()
-    {
-        _webHostEnv = A.Fake<IWebHostEnvironment>();
-        A.CallTo(() => _webHostEnv.EnvironmentName).Returns("TestEnvironment");
-
-        _httpCtxAcc = A.Fake<IHttpContextAccessor>();
-        var fakeHttpContext = A.Fake<HttpContext>();
-        var fakeSession = A.Fake<ISession>();
-        A.CallTo(() => _httpCtxAcc.HttpContext).Returns(fakeHttpContext);
-        A.CallTo(() => fakeHttpContext.Session).Returns(fakeSession);
-
-        // Provide 'userId' in session (old logic)
-        byte[]? userIdBytes = BitConverter.GetBytes(1);
-        if (BitConverter.IsLittleEndian)
-            Array.Reverse(userIdBytes);
-        
-        A.CallTo(() => fakeSession.TryGetValue("userId", out userIdBytes)).Returns(true);
-
-        // Build container exactly like before
-        _container = AutofacWebInitializer.GetTestContainer(_webHostEnv, _httpCtxAcc);
-        ServiceLocator.Init(_container);
-        _scope = _container.BeginLifetimeScope();
-    }
-
-    private async Task StartWebHostAsync()
-    {
-        _host = await Task.Run(() => Host.CreateDefaultBuilder()
-            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-            .ConfigureContainer<ContainerBuilder>(builder =>
-            {
-                // hand over existing registrations
-                foreach (var reg in _container!.ComponentRegistry.Registrations)
-                    builder.RegisterComponent(reg);
-            })
-            .ConfigureWebHostDefaults(web =>
-            {
-                web.UseTestServer();
-                web.UseStartup<Program>(); 
-            })
-            .ConfigureAppConfiguration((ctx, cfg) =>
-            {
-                cfg.AddInMemoryCollection(new Dictionary<string, string?>
-                {
-                    ["ConnectionStrings:Default"] = ConnectionString
-                });
-            })
-            .Start());
-
-
-        var hostRootScope = (ILifetimeScope)_host!.Services;
-
-        // Dispose the old _scope that was created directly from _container,
-        // as it might not see all services registered by the host (e.g., from Program.cs or TestServer).
-        _scope?.Dispose();
-
-        // Create the new _scope for test resolutions as a child of the host's root scope.
-        // This ensures it can resolve all services available to the running application.
-        _scope = hostRootScope.BeginLifetimeScope(builder =>
-        {
-            // Test-specific overrides or registrations for this scope can be added to the builder here if needed.
-            // For example: builder.RegisterInstance(A.Fake<IMyService>()).As<IMyService>();
-        });
-    }
-
     private async Task RunLegacyInitializersAsync()
     {
-        // NHibernate now knows container connection string
         SessionFactory.BuildTestConfiguration(ConnectionString);
         SessionFactory.TruncateAllTables();
 
@@ -157,5 +113,35 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .New(R<UserWritingRepo>())
             .Add(new User { Id = 1, Name = "SessionUser" })
             .Persist();
+    }
+
+    private sealed class ProgramWebApplicationFactory(
+        IWebHostEnvironment _fakeEnv,
+        IHttpContextAccessor _fakeHttpCtx,
+        string _connectionString)
+        : WebApplicationFactory<Program>
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.UseEnvironment("TestEnvironment");
+            builder.ConfigureAppConfiguration((_, cfg) =>
+            {
+                cfg.AddInMemoryCollection(new Dictionary<string, string?>
+                {
+                    ["General:ConnectionString"] = _connectionString
+                });
+            });
+        }
+
+        protected override IHost CreateHost(IHostBuilder builder)
+        {
+            builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.ConfigureContainer<ContainerBuilder>(b =>
+            {
+                b.RegisterInstance(_fakeEnv).As<IWebHostEnvironment>().SingleInstance();
+                b.RegisterInstance(_fakeHttpCtx).As<IHttpContextAccessor>().SingleInstance();
+            });
+            return base.CreateHost(builder);
+        }
     }
 }

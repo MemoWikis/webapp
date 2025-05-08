@@ -6,7 +6,5 @@ internal class TestHarnessTests
     {
         var testHarness = new TestHarness();
         await testHarness.InitAsync();
-        
-        
     }
 }

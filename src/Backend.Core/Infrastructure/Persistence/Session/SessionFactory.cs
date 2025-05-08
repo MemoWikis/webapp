@@ -17,6 +17,7 @@ public class SessionFactory
             )
             .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>())
             .BuildSessionFactory();
+        
         return sessionFactory;
     }
 
