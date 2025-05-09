@@ -76,13 +76,6 @@ public class SessionFactory
         using var cmd = new MySqlCommand(sqlBatch, conn) { CommandTimeout = 0 };
         cmd.ExecuteNonQuery();
     }
-
-    public static void DropAndCreateDatabase(string dbName)
-    {
-        using var session = _configuration!.BuildSessionFactory().OpenSession();
-        session.CreateSQLQuery($@"DROP database {dbName}").ExecuteUpdate();
-        session.CreateSQLQuery($@"CREATE database {dbName}").ExecuteUpdate();
-    }
     
     public static void TruncateAllTables()
     {

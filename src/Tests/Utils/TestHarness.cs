@@ -3,11 +3,14 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DotNet.Testcontainers.Builders;
 using FakeItEasy;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using MySql.Data.MySqlClient;
+using NHibernate.Cfg;
 using Testcontainers.MySql;
 using ContainerBuilder = Autofac.ContainerBuilder;
 
@@ -89,21 +92,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         PerfLog("MySql container started");
 
         Settings.Initialize(new ConfigurationManager());
-        Settings.ConnectionString = ConnectionString;
-        var configuration = SessionFactory.BuildTestConfiguration(ConnectionString);
-        PerfLog("NHibernate bootstrap 1");
-        SessionFactory.BuildSchema();
-        PerfLog("NHibernate bootstrap 2");
-
-        using var session = configuration.BuildSessionFactory().OpenSession();
-        var repositoryDb = new RepositoryDb<DbSettings>(session);
-        repositoryDb.Create(new DbSettings
-        {
-            Id = 1,
-            AppVersion = int.MaxValue,
-        });
-
-        PerfLog("Seed initial DB data");
+        
+        await InitDbSchema();
 
         _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
         _client = _factory.CreateClient();
@@ -113,6 +103,39 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         await RunLegacyInitializersAsync();
         PerfLog("Legacy initializers");
+    }
+
+    private async Task InitDbSchema()
+    {
+        Settings.ConnectionString = ConnectionString;
+        var configuration = SessionFactory.BuildTestConfiguration(ConnectionString);
+        PerfLog("NHibernate bootstrap: Init");
+        
+        if (!await SchemaExistsAsync())
+        {
+            SessionFactory.BuildSchema();
+            PerfLog("NHibernate bootstrap: Build schema");
+        }
+        else
+        {
+            SessionFactory.TruncateAllTables();
+            PerfLog("NHibernate bootstrap: Truncate All Tables");
+        }
+
+        CreateAppVersionSetting(configuration);
+    }
+
+    private void CreateAppVersionSetting(Configuration configuration)
+    {
+        using var session = configuration.BuildSessionFactory().OpenSession();
+        var repositoryDb = new RepositoryDb<DbSettings>(session);
+        repositoryDb.Create(new DbSettings
+        {
+            Id = 1,
+            AppVersion = int.MaxValue,
+        });
+
+        PerfLog("Seed initial DB data");
     }
 
     public async ValueTask DisposeAsync()
@@ -153,6 +176,24 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .New(R<UserWritingRepo>())
             .Add(new User { Id = 1, Name = "SessionUser" })
             .Persist();
+    }
+
+    private static async Task<bool> SchemaExistsAsync()
+    {
+        await using var conn = new MySqlConnection(Settings.ConnectionString);
+        await conn.OpenAsync();
+
+        const string sql = 
+            """
+               SELECT COUNT(*)
+               FROM information_schema.tables
+               WHERE table_schema = DATABASE()
+                 AND table_name   = 'User'
+            """;
+
+        await using var cmd = new MySqlCommand(sql, conn);
+        var count = (long)(await cmd.ExecuteScalarAsync())!;
+        return count > 0;
     }
 
     private sealed class ProgramWebApplicationFactory(

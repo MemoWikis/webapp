@@ -6,5 +6,15 @@ internal class TestHarnessTests
     {
         var testHarness = new TestHarness(enablePerfLogging: true);
         await testHarness.InitAsync();
+
+        var userWritRepo = testHarness.R<UserWritingRepo>();
+
+        var user = new User
+        {
+            Name = "TestUser",
+            EmailAddress = "test@test.de"
+        };
+        
+        userWritRepo.Create(user);
     }
 }
