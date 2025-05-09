@@ -57,23 +57,21 @@ const server = Server.configure({
     quiet: false,
     extensions: [redisDatabaseExtension],
     async onAuthenticate({ documentName, token, connection, requestHeaders }) {
-        const tokens = extractTokens(token)
-
         const raw = requestHeaders.cookie || ""
         const cookies = cookie.parse(raw)
-        console.log("Request Headers:", requestHeaders)
-        console.log("Cookies:", cookies)
         const sessionId = cookies[".AspNetCore.Session"]
         if (!sessionId) {
             throw new Error("No ASP.NET session cookie")
         }
 
+        const tokens = extractTokens(token)
         const data = {
             token: tokens.collaborationToken,
             hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
             pageId: documentName.substring(5),
             shareToken: tokens.shareToken,
         }
+
         await axios
             .post(
                 `${process.env.BACKEND_BASE_URL}/apiVue/Hocuspocus/Authorize`,
