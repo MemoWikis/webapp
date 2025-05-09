@@ -10,7 +10,7 @@ public class DbSettingsRepo(ISession _session) : RepositoryDb<DbSettings>(_sessi
     public int GetAppVersion()
     {
         return Session
-            .CreateSQLQuery("SELECT AppVersion FROM setting WHERE Id = 1")
+            .CreateSQLQuery("SELECT AppVersion FROM Setting WHERE Id = 1")
             .UniqueResult<int>();
     }
 

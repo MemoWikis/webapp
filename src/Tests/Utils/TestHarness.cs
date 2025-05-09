@@ -12,11 +12,13 @@ using ContainerBuilder = Autofac.ContainerBuilder;
 
 public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
+    private const string TestDbName = "memoWikisTest";
+
     private readonly MySqlContainer _db = new MySqlBuilder()
         .WithImage("mysql:8.3.0")
         .WithUsername("test")
         .WithPassword("P@ssw0rd_#123")
-        .WithDatabase("memoWikisTest")
+        .WithDatabase(TestDbName)
         .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
         .WithWaitStrategy(
             Wait.ForUnixContainer()
@@ -65,6 +67,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         Settings.Initialize(new ConfigurationManager());
         Settings.ConnectionString = ConnectionString;
         var configuration = SessionFactory.BuildTestConfiguration(ConnectionString);
+        //SessionFactory.TruncateAllTables();
+        //SessionFactory.DropAndCreateDatabase(TestDbName);
         SessionFactory.BuildSchema();
 
         using var session = configuration.BuildSessionFactory().OpenSession();
@@ -78,7 +82,9 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
         _client = _factory.CreateClient();
-        _scope = ((ILifetimeScope)_factory.Services).BeginLifetimeScope();
+
+        var rootScope = _factory.Services.GetAutofacRoot();
+        _scope = rootScope.BeginLifetimeScope();
 
         await RunLegacyInitializersAsync();
     }

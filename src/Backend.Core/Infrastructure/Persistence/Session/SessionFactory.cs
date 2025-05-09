@@ -60,6 +60,13 @@ public class SessionFactory
             .Create(useStdOut: false, execute: true);
     }
 
+    public static void DropAndCreateDatabase(string dbName)
+    {
+        using var session = _configuration!.BuildSessionFactory().OpenSession();
+        session.CreateSQLQuery($@"DROP database {dbName}").ExecuteUpdate();
+        session.CreateSQLQuery($@"CREATE database {dbName}").ExecuteUpdate();
+    }
+    
     public static void TruncateAllTables()
     {
         const string disableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS = 0;";
