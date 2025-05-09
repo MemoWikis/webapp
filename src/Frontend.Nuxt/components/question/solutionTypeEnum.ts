@@ -1,5 +1,4 @@
-export enum SolutionType
-{
+export enum SolutionType {
     Text = 1,
     MultipleChoice_SingleSolution = 3,
     Numeric = 4,
@@ -7,5 +6,5 @@ export enum SolutionType
     Date = 6,
     MultipleChoice = 7,
     MatchList = 8,
-    FlashCard = 9
+    Flashcard = 9,
 }

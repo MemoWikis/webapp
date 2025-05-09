@@ -1,31 +1,8 @@
-﻿public class PermissionCheck : IRegisterAsInstancePerLifetime
+﻿public class PermissionCheck(ISessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
-    private readonly int _userId;
-    private readonly bool _isInstallationAdmin;
-    private readonly bool _isLoggedIn;
-    private Dictionary<int, string> _shareTokens = new Dictionary<int, string>();
-
-    public PermissionCheck(SessionUser sessionUser)
-    {
-        _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
-        _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
-        _isLoggedIn = sessionUser.SessionIsActive() && sessionUser.IsLoggedIn;
-        _shareTokens = sessionUser.ShareTokens;
-    }
-
-    public PermissionCheck(int userId)
-    {
-        var userCacheItem = EntityCache.GetUserById(userId);
-        _userId = userCacheItem.Id;
-        _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
-        _isLoggedIn = false;
-        _shareTokens = userCacheItem.TempShareTokens;
-    }
-
-    public void OverWriteShareTokens(Dictionary<int, string> shareTokens)
-    {
-        _shareTokens = shareTokens;
-    }
+    private int _userId => _sessionUser.SessionIsActive() ? _sessionUser.UserId : default;
+    private bool _isInstallationAdmin => _sessionUser.SessionIsActive() && _sessionUser.IsInstallationAdmin;
+    private bool _isLoggedIn => _sessionUser.SessionIsActive() && _sessionUser.IsLoggedIn;
 
     //setter is for tests
     public bool CanViewPage(int id) => CanView(EntityCache.GetPage(id));
@@ -51,15 +28,15 @@
         if (shareInfos.Any(s => s.Permission is SharePermission.RestrictAccess))
             return false;
 
-        if (token != null || _shareTokens.Any())
+        if (token != null || _sessionUser.ShareTokens.Any())
         {
             var shareInfosByToken = EntityCache.GetPageShares(page.Id);
-            _shareTokens.TryGetValue(page.Id, out var sessionUserToken);
+            _sessionUser.ShareTokens.TryGetValue(page.Id, out var sessionUserToken);
             var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
             if (shareByToken != null && shareByToken.Permission != SharePermission.RestrictAccess)
                 return true;
 
-            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _shareTokens);
+            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _sessionUser.ShareTokens);
             return closestSharePermissionByToken is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
         }
 
@@ -112,10 +89,11 @@
         if (page.CreatorId == _userId || _isInstallationAdmin)
             return true;
 
-        if ((token != null || _shareTokens.Any()) && (_isLoggedIn || isLoggedIn))
+        if ((token != null || _sessionUser.ShareTokens.Any()) && (_isLoggedIn || isLoggedIn))
         {
             var shareInfosByToken = EntityCache.GetPageShares(page.Id);
-            _shareTokens.TryGetValue(page.Id, out var sessionUserToken);
+            _sessionUser.ShareTokens.TryGetValue(page.Id, out var sessionUserToken);
+
             var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
             if (shareByToken != null)
             {
@@ -131,7 +109,7 @@
                     return true;
             }
 
-            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _shareTokens);
+            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _sessionUser.ShareTokens);
             return closestSharePermissionByToken == SharePermission.EditWithChildren;
         }
 
@@ -219,7 +197,7 @@
             {
                 // Check direct token shares for the page
                 var shareInfosByToken = EntityCache.GetPageShares(page.Id);
-                _shareTokens.TryGetValue(page.Id, out var sessionUserToken);
+                _sessionUser.ShareTokens.TryGetValue(page.Id, out var sessionUserToken);
                 var shareByToken = shareInfosByToken.FirstOrDefault(share =>
                     share.Token == sessionUserToken &&
                     share.Permission != SharePermission.RestrictAccess);
@@ -229,7 +207,7 @@
 
                 // Also check parent pages with children access
                 var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(
-                    page.Id, _shareTokens);
+                    page.Id, _sessionUser.ShareTokens);
 
                 if (closestSharePermissionByToken is SharePermission.EditWithChildren
                     or SharePermission.ViewWithChildren)

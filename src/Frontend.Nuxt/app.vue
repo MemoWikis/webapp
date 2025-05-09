@@ -265,7 +265,7 @@ watch(locale, () => {
 	<Footer :footer-pages="footerPages" v-if="footerPages" :site="site" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 
 	<ClientOnly>
-		<LazyUserLogin v-if="!userStore.isLoggedIn" />
+		<LazyUserLoginModal v-if="!userStore.isLoggedIn" />
 		<LazyLoading />
 		<LazyAlert />
 		<LazyActivityPointsLevelPopUp />

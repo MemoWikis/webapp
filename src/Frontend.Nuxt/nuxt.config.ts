@@ -1,40 +1,47 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
+
 export default defineNuxtConfig({
     nitro: {
-        compatibilityDate: "2025-04-30",
+        compatibilityDate: "2025-05-08",
         preset: "node-cluster",
+        devProxy: {
+            "/localCollab": {
+                target: `http://localhost:3010`,
+                ws: true,
+            },
+        },
     },
-    //vite: { plugins: [eslint({ cache: false })] },
     runtimeConfig: {
         seqServerApiKey: "",
         seqRawUrl: "http://localhost:5341/api/events/raw",
         sessionStartGuid: "",
         public: {
             clientBase: "http://localhost:3000",
-            serverBase: "http://localhost",
+            serverBase: "http://localhost:5069",
             officialBase: "https://memowikis.net",
-            gsiClientKey:
-                "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
-            discord: "https://discord.com/invite/nXKwGrN",
-            stripePlusPriceId: "price_1NI9weCrH8zPItlldHVfhAKI",
+            gsiClientKey: "",
+            discord: "",
+            stripePlusPriceId: "",
             stripeTeamPriceId: "",
-            stripeKey:
-                "pk_test_51NFyR9CrH8zPItllWP8mWb9Atsp0NfnFsthj0JPzFWsbfj7VXKKj2kcPoTQLnacJv6ODEVAWf7g0OS6spaGuZYz400m7JmdUZW",
-            seqServerPort: undefined,
-            seqServerUrl: undefined,
+            stripeKey: "",
             seqClientApiKey: "",
             facebookAppId: "",
             environment: "",
-            hocuspocusWebsocketUrl: "",
+            hocuspocusWebsocketUrl: "ws://localhost:3000/localCollab",
             teamEmail: "",
         },
     },
     watchers: {
-      chokidar: {
-        usePolling: false,
-        interval: 1000,
-        ignored: ['**/node_modules/**', '**/.git/**', '**/.nuxt/**', '**/.output/**']
-      }
+        chokidar: {
+            usePolling: false,
+            interval: 1000,
+            ignored: [
+                "**/node_modules/**",
+                "**/.git/**",
+                "**/.nuxt/**",
+                "**/.output/**",
+            ],
+        },
     },
     ssr: true,
     modules: [
@@ -43,6 +50,7 @@ export default defineNuxtConfig({
         "@nuxt/eslint",
         "nuxt-snackbar",
         "@nuxtjs/i18n",
+        "~/server/modules/ws-proxy",
     ],
     eslint: {
         // options here

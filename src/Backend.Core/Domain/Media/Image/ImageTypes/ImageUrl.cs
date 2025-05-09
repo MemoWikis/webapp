@@ -191,7 +191,7 @@ public class ImageUrl
 
     public string GetFallbackImageUrl(IImageSettings imageSettings, int width)
     {
-        var filePath = Path.Combine(Settings.FrontendImagePath, imageSettings.BaseDummyUrl);
+        var filePath = Path.Combine(Settings.ImagePath, imageSettings.BaseDummyUrl);
 
         if (File.Exists(filePath + width + ".png"))
             return imageSettings.BaseDummyUrl + width + ".png";

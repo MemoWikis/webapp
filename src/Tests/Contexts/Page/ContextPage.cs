@@ -1,40 +1,25 @@
-﻿public class ContextPage : BaseTest
+﻿public class ContextPage
 {
     private readonly PageRepository _pageRepository;
-    private readonly ContextUser _contextUser = ContextUser.New(R<UserWritingRepo>());
+    private readonly ContextUser _contextUser;
     private int NamesCounter = 0;
 
     public List<Page> All = new();
 
-    public static ContextPage New(bool addContextUser = true)
+    private ContextPage(bool addContextUser)
     {
-        return new ContextPage(addContextUser);
-    }
-
-    private ContextPage(bool addContextUser = true)
-    {
-        _pageRepository = R<PageRepository>();
+        // grab from the same container that BaseTest.Init() set up
+        //_pageRepository = ServiceLocator.Resolve<PageRepository>();
+        //_contextUser = ContextUser.New(ServiceLocator.Resolve<UserWritingRepo>());
 
         if (addContextUser)
             _contextUser.Add("User" + NamesCounter).Persist();
     }
 
-    public ContextPage Add(int amount)
-    {
-        for (var i = 0; i < amount; i++)
-            Add($"page name {i + 1}");
+    public static ContextPage New(bool addContextUser = true)
+        => new ContextPage(addContextUser);
 
-        return this;
-    }
-
-    public ContextPage Add(Page page)
-    {
-        All.Add(page);
-        return this;
-    }
-
-    public ContextPage Add(
-        string pageName,
+    public ContextPage Add(string pageName,
         PageType pageType = PageType.Standard,
         User? creator = null,
         PageVisibility visibility = PageVisibility.Public)
@@ -46,16 +31,36 @@
             Type = pageType,
             Visibility = visibility
         };
-
         All.Add(page);
+        return this;
+    }
 
+    public ContextPage Add(Page page)
+    {
+        All.Add(page);
         return this;
     }
 
     public ContextPage AddChild(Page parent, Page child)
     {
-        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, R<PageRelationRepo>());
-        modifyRelationsForPage.AddChild(parent.Id, child.Id, 1);
+        //var modifier = new ModifyRelationsForPage(
+        //    _pageRepository,
+        //    ServiceLocator.Resolve<PageRelationRepo>()
+        //);
+        //modifier.AddChild(parent.Id, child.Id, 1);
+        return this;
+    }
+
+    public ContextPage Persist()
+    {
+        foreach (var p in All)
+        {
+            if (p.Id <= 0)
+                _pageRepository.Create(p);
+            else
+                _pageRepository.Update(p, authorId: p.AuthorIds.First(),
+                    type: PageChangeType.Relations);
+        }
 
         return this;
     }
@@ -73,19 +78,19 @@
         return this;
     }
 
-    public ContextPage Persist()
-    {
-        foreach (var cat in All)
-            if (cat.Id <= 0) //if not already created
-                _pageRepository.Create(cat);
-            else
-            {
-                _pageRepository.Update(cat, authorId: cat.AuthorIds.First(),
-                    type: PageChangeType.Relations);
-            }
+    //public ContextPage Persist()
+    //{
+    //    foreach (var cat in All)
+    //        if (cat.Id <= 0) //if not already created
+    //            _pageRepository.Create(cat);
+    //        else
+    //        {
+    //            _pageRepository.Update(cat, authorId: cat.AuthorIds.First(),
+    //                type: PageChangeType.Relations);
+    //        }
 
-        return this;
-    }
+    //    return this;
+    //}
 
     public ContextPage Update(Page page)
     {
@@ -152,17 +157,17 @@
     //    return user;
     //}
 
-    public static bool HasCorrectChild(PageCacheItem pageCachedItem, int childId)
-    {
-        var permissionCheck = R<PermissionCheck>();
+    //public static bool HasCorrectChild(PageCacheItem pageCachedItem, int childId)
+    //{
+    //    var permissionCheck = new PermissionCheck(_sessionUser.Id);
 
-        var aggregatedPages = pageCachedItem.AggregatedPages(permissionCheck);
+    //    var aggregatedPages = pageCachedItem.AggregatedPages(permissionCheck);
 
-        if (aggregatedPages.Any() == false)
-            return false;
+    //    if (aggregatedPages.Any() == false)
+    //        return false;
 
-        return aggregatedPages.TryGetValue(childId, out _);
-    }
+    //    return aggregatedPages.TryGetValue(childId, out _);
+    //}
 
     public static bool isIdAvailableInRelations(PageCacheItem pageCacheItem, int deletedId)
     {

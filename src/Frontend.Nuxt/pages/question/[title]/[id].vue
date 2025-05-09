@@ -80,7 +80,7 @@ onBeforeMount(() => {
 	highlightCode('SolutionContent')
 
 	if (question.value?.answerBodyModel != null && question.value?.solutionData != null) {
-		if (question.value.answerBodyModel.solutionType != SolutionType.FlashCard && question.value.answerBodyModel.renderedQuestionTextExtended.length > 0)
+		if (question.value.answerBodyModel.solutionType != SolutionType.Flashcard && question.value.answerBodyModel.renderedQuestionTextExtended.length > 0)
 			highlightCode('ExtendedQuestionContainer')
 		if (question.value.solutionData.answerDescription?.trim().length > 0)
 			highlightCode('ExtendedSolutionContent')
@@ -136,7 +136,7 @@ useHead(() => ({
 						<div class="answerbody-header">
 
 							<div class="answerbody-text">
-								<h3 v-if="question.answerBodyModel.solutionType != SolutionType.FlashCard"
+								<h3 v-if="question.answerBodyModel.solutionType != SolutionType.Flashcard"
 									class="QuestionText">
 									{{ question.answerBodyModel.text }}
 								</h3>
@@ -146,7 +146,7 @@ useHead(() => ({
 						<div class="row">
 
 							<div id="MarkdownCol"
-								v-if="question.answerBodyModel.solutionType != SolutionType.FlashCard && question.answerBodyModel.renderedQuestionTextExtended.length > 0">
+								v-if="question.answerBodyModel.solutionType != SolutionType.Flashcard && question.answerBodyModel.renderedQuestionTextExtended.length > 0">
 
 								<div id="ExtendedQuestionContainer" class="RenderedMarkdown"
 									v-html="handleNewLine(question.answerBodyModel.renderedQuestionTextExtended)">
@@ -157,12 +157,12 @@ useHead(() => ({
 							<div id="AnswerAndSolutionCol">
 								<div id="AnswerAndSolution">
 									<div class="row"
-										:class="{ 'hasFlashCard': question.answerBodyModel.solutionType === SolutionType.FlashCard }">
+										:class="{ 'hasFlashcard': question.answerBodyModel.solutionType === SolutionType.Flashcard }">
 										<div id="AnswerInputSection">
 
 											<QuestionAnswerBodyFlashcard
 												:key="question.answerBodyModel.id + 'flashcard'"
-												v-if="question.answerBodyModel.solutionType === SolutionType.FlashCard"
+												v-if="question.answerBodyModel.solutionType === SolutionType.Flashcard"
 												ref="flashcard" :solution="question.answerBodyModel.solution"
 												:front-content="question.answerBodyModel.textHtml"
 												:marked-as-correct="true" />
@@ -197,7 +197,7 @@ useHead(() => ({
 												</div>
 
 												<div id="AnswerFeedbackAndSolutionDetails">
-													<div v-if="question.answerBodyModel.solutionType != SolutionType.FlashCard"
+													<div v-if="question.answerBodyModel.solutionType != SolutionType.Flashcard"
 														id="AnswerFeedback">
 
 														<div id="Solution">

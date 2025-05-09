@@ -9,7 +9,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesFixedWidth => new[] { 500, 435, 100 };
 
     public override string BasePath => Settings.QuestionImageBasePath;
-    public string BaseDummyUrl => "no-question-";
+    public string BaseDummyUrl => "Placeholders/placeholder-question-";
 
     private Question? __question;
     private Question _question => __question ??= _questionReadingRepo.GetById(Id);
