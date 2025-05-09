@@ -138,6 +138,8 @@ const slots = useSlots()
         <perfect-scrollbar :options="{ scrollYMarginOffset: 30 }" :class="{ 'ps--scrolling-x': showScrollbar }">
             <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
 
+                <slot name="start"></slot>
+
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
                     @mousedown="command('bold', $event)" @mouseup="props.editor.commands.focus()">
                     <font-awesome-icon icon="fa-solid fa-bold" />
@@ -451,6 +453,14 @@ const slots = useSlots()
     &.last-btn {
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
+    }
+
+    &.ai-create {
+        padding-left: 24px;
+
+        &:hover {
+            filter: brightness(0.85);
+        }
     }
 }
 </style>

@@ -443,14 +443,16 @@ const createFlashcard = () => {
 <template>
     <template v-if="editor && providerLoaded">
         <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages">
-            <template v-slot:end v-if="userStore.isAdmin">
+            <template v-slot:start v-if="userStore.isAdmin">
+
+
+                <button class="menubar__button ai-create" @mousedown="createFlashcard">
+                    <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
+                </button>
+
                 <div class="menubar__divider__container">
                     <div class="menubar__divider"></div>
                 </div>
-
-                <button class="menubar__button last-btn" @mousedown="createFlashcard">
-                    <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
-                </button>
             </template>
         </LazyEditorMenuBar>
         <LazyEditorMenuBar v-else :editor="editor" :heading="true" :is-page-content="true" />
