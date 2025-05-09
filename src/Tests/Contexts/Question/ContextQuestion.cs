@@ -1,4 +1,4 @@
-﻿public class ContextQuestion
+﻿public class ContextQuestion : BaseTest
 {
     private readonly ContextUser _contextUser;
     private readonly AnswerRepo _answerRepo;
@@ -15,13 +15,13 @@
 
     private ContextQuestion()
     {
-        _contextUser = ContextUser.New(BaseTest.R<UserWritingRepo>());
+        _contextUser = ContextUser.New(R<UserWritingRepo>());
         _contextUser.Add("Creator").Persist();
         _contextUser.Add("Learner").Persist();
-        _answerRepo = BaseTest.R<AnswerRepo>();
-        _answerQuestion = BaseTest.R<AnswerQuestion>();
-        _pageRepository = BaseTest.R<PageRepository>();
-        _questionWritingRepo = BaseTest.R<QuestionWritingRepo>();
+        _answerRepo = R<AnswerRepo>();
+        _answerQuestion = R<AnswerQuestion>();
+        _pageRepository = R<PageRepository>();
+        _questionWritingRepo = R<QuestionWritingRepo>();
     }
 
     public User Creator => _contextUser.All[0];

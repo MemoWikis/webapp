@@ -30,7 +30,7 @@
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var permissionCheck = new PermissionCheck(user.Id);
+        var permissionCheck = new PermissionCheck(new SessionlessUser(user.Id));
         Assert.That(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42));
     }
 
@@ -64,7 +64,7 @@
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var permissionCheck = new PermissionCheck(user.Id);
+        var permissionCheck = new PermissionCheck(new SessionlessUser(user.Id));
         Assert.That(true, Is.EqualTo(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42)));
     }
 
@@ -98,7 +98,7 @@
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var permissionCheck = new PermissionCheck(user2.Id);
+        var permissionCheck = new PermissionCheck(new SessionlessUser(user2.Id));
         Assert.That(true, Is.EqualTo(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42)));
     }
 
@@ -134,7 +134,7 @@
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var permissionCheck = new PermissionCheck(user3.Id);
+        var permissionCheck = new PermissionCheck(new SessionlessUser(user3.Id));
         Assert.That(false, Is.EqualTo(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42)));
         Assert.That(false, Is.EqualTo(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, root.Id)));
     }

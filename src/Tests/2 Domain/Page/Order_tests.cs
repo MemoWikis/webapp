@@ -410,7 +410,7 @@
         var relationToMove = cachedSub1.ChildRelations[0];
         var pageRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForPage = new ModifyRelationsForPage(R<PageRepository>(), pageRelationRepo);
-        var permissionCheck = new PermissionCheck(authorId);
+        var permissionCheck = new PermissionCheck(new SessionlessUser(authorId));
 
         //Act
         PageOrderer.MoveIn(relationToMove, sub2.Id, authorId, modifyRelationsForPage, permissionCheck);

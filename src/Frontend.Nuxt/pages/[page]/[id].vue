@@ -246,7 +246,7 @@ convertStore.$onAction(({ name, after }) => {
                             <PagePublishModal />
                             <PageToPrivateModal />
                             <PageDeleteModal />
-                            <PageLearningAiCreateFlashcard />
+                            <PageLearningAiCreateFlashCard />
                             <PageSharingModal />
                         </ClientOnly>
                     </template>

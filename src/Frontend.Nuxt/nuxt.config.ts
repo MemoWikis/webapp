@@ -2,8 +2,14 @@
 
 export default defineNuxtConfig({
     nitro: {
-        compatibilityDate: "2025-05-05",
+        compatibilityDate: "2025-05-08",
         preset: "node-cluster",
+        devProxy: {
+            "/localCollab": {
+                target: `http://localhost:3010`,
+                ws: true,
+            },
+        },
     },
     runtimeConfig: {
         seqServerApiKey: "",
@@ -21,7 +27,7 @@ export default defineNuxtConfig({
             seqClientApiKey: "",
             facebookAppId: "",
             environment: "",
-            hocuspocusWebsocketUrl: "ws://localhost:3010/",
+            hocuspocusWebsocketUrl: "ws://localhost:3000/localCollab",
             teamEmail: "",
         },
     },
@@ -44,6 +50,7 @@ export default defineNuxtConfig({
         "@nuxt/eslint",
         "nuxt-snackbar",
         "@nuxtjs/i18n",
+        "~/server/modules/ws-proxy",
     ],
     eslint: {
         // options here

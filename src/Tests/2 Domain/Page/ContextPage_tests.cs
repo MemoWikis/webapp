@@ -16,7 +16,7 @@ internal class ContextPage_tests : BaseTest
     [Test]
     public void PagesShouldInDatabase()
     {
-        var pageIds = ContextPage.New().Add(5).Persist().All.Select(c => c.Id).ToList();
+        var pageIds = ContextPage.New().Add("5").Persist().All.Select(c => c.Id).ToList();
         var pageRepo = R<PageRepository>();
         var idsFromDatabase = pageRepo.GetAllIds().ToList();
 

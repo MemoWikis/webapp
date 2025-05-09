@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-public class HocuspocusController : ApiBaseController
+public class HocuspocusController(SessionUser _sessionUser) : ApiBaseController
 {
     public readonly record struct AuthorizeRequest(string Token, string HocuspocusKey, int PageId, [CanBeNull] string ShareToken);
 
@@ -17,13 +17,16 @@ public class HocuspocusController : ApiBaseController
 
         var (isValid, userId) = new CollaborationToken().ValidateAndGetUserId(request.Token);
 
-        if (isValid == false)
+        if (!isValid)
         {
             Log.Error("Collaboration - Authorize: Invalid Token {0}", request.Token);
             return new AuthorizeResponse();
         }
 
-        var permissionCheck = new PermissionCheck(userId);
+        if (request.ShareToken != null)
+            _sessionUser.AddShareToken(request.PageId, request.ShareToken);
+
+        var permissionCheck = new PermissionCheck(_sessionUser);
         if (permissionCheck.CanEditPage(request.PageId, request.ShareToken, isLoggedIn: isValid))
         {
             Log.Error("Collaboration - Authorize: No Permission - userId:{0}, pageId:{1}", userId, request.PageId);

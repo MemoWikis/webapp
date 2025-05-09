@@ -30,8 +30,6 @@ public class AutofacCoreModule : Autofac.Module
 
         builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
-
-
         builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
 
         builder.Register(c => Options.Create(new MemoryCacheOptions()))
@@ -87,8 +85,15 @@ public class AutofacCoreModule : Autofac.Module
             throw new Exception(sb.ToString());
         }
 
-        builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
-        builder.RegisterAssemblyTypes(Assembly.Load("MemoWikis.Backend.Api"))
+        builder
+            .Register(context => new SessionManager(context
+                .Resolve<ISessionBuilder>()
+                .OpenSession()))
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<SessionUser>().As<ISessionUser>().InstancePerLifetimeScope();
+        builder
+            .RegisterAssemblyTypes(Assembly.Load("MemoWikis.Backend.Api"))
             .AssignableTo<IRegisterAsInstancePerLifetime>();
 
         var assemblyBackendCore = Assembly.Load("MemoWikis.Backend.Core");
