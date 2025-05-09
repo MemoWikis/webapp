@@ -40,19 +40,25 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     private readonly IHttpContextAccessor _httpCtxAcc;
 
     private readonly bool _enablePerfLogging;
+    private Stopwatch? _stopwatch;
 
-    private void PerfLog(string msg)
+    private void PerfLog(string message)
     {
+        if (_stopwatch == null)
+            return;
+
         if (_enablePerfLogging)
         {
-            Console.WriteLine($"[PERF {DateTime.Now:HH:mm:ss.fff}] {msg}");
+            Console.WriteLine($"[PERF {DateTime.Now:HH:mm:ss.fff}] {message} ({_stopwatch.ElapsedMilliseconds:N0} ms)");
         }
+
+        _stopwatch.Restart();
     }
 
     public TestHarness(bool enablePerfLogging = false)
     {
         _enablePerfLogging = enablePerfLogging;
-        var sw = Stopwatch.StartNew();
+        _stopwatch = Stopwatch.StartNew();
 
         // Prepare environment fake
         _webHostEnv = A.Fake<IWebHostEnvironment>();
@@ -68,7 +74,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         if (BitConverter.IsLittleEndian) Array.Reverse(userIdBytes);
         A.CallTo(() => fakeSession.TryGetValue("userId", out userIdBytes)).Returns(true);
 
-        PerfLog($"ctor finished in {sw.ElapsedMilliseconds:N0} ms");
+        PerfLog($"ctor finished in {_stopwatch.ElapsedMilliseconds:N0} ms");
     }
 
     public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();
@@ -77,18 +83,17 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     public async Task InitAsync()
     {
-        var sw = Stopwatch.StartNew();
+        _stopwatch = Stopwatch.StartNew();
 
         await _db.StartAsync();
-        PerfLog($"MySql container started ({sw.ElapsedMilliseconds:N0} ms)");
-        sw.Restart();
+        PerfLog("MySql container started");
 
         Settings.Initialize(new ConfigurationManager());
         Settings.ConnectionString = ConnectionString;
         var configuration = SessionFactory.BuildTestConfiguration(ConnectionString);
+        PerfLog("NHibernate bootstrap 1");
         SessionFactory.BuildSchema();
-        PerfLog($"NHibernate bootstrap ({sw.ElapsedMilliseconds:N0} ms)");
-        sw.Restart();
+        PerfLog("NHibernate bootstrap 2");
 
         using var session = configuration.BuildSessionFactory().OpenSession();
         var repositoryDb = new RepositoryDb<DbSettings>(session);
@@ -98,18 +103,16 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             AppVersion = int.MaxValue,
         });
 
-        PerfLog($"Seed initial DB data ({sw.ElapsedMilliseconds:N0} ms)");
-        sw.Restart();
+        PerfLog("Seed initial DB data");
 
         _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
         _client = _factory.CreateClient();
         var rootScope = _factory.Services.GetAutofacRoot();
         _scope = rootScope.BeginLifetimeScope();
-        PerfLog($"WebApplicationFactory + Autofac root ({sw.ElapsedMilliseconds:N0} ms)");
-        sw.Restart();
+        PerfLog("WebApplicationFactory + Autofac root");
 
         await RunLegacyInitializersAsync();
-        PerfLog($"Legacy initializers ({sw.ElapsedMilliseconds:N0} ms)");
+        PerfLog("Legacy initializers");
     }
 
     public async ValueTask DisposeAsync()
@@ -128,23 +131,20 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     private async Task RunLegacyInitializersAsync()
     {
-        var sw = Stopwatch.StartNew();
+        _stopwatch = Stopwatch.StartNew();
 
         ImageDirectoryCreator.CreateImageDirectories(_webHostEnv.ContentRootPath);
-        PerfLog($"Created image directories ({sw.ElapsedMilliseconds:N0} ms)");
-        sw.Restart();
+        PerfLog("Created image directories");
 
         Resolve<EntityCacheInitializer>().Init(" (started in unit test) ");
-        PerfLog($"EntityCache init ({sw.ElapsedMilliseconds:N0} ms)");
-        sw.Restart();
+        PerfLog("EntityCache init");
 
         DateTimeX.ResetOffset();
         SetSessionUserInDatabase();
-        PerfLog($"DateTime+SessionUser ({sw.ElapsedMilliseconds:N0} ms)");
-        sw.Restart();
+        PerfLog("DateTime+SessionUser");
 
         await JobScheduler.InitializeAsync();
-        PerfLog($"JobScheduler init ({sw.ElapsedMilliseconds:N0} ms)");
+        PerfLog("JobScheduler init");
     }
 
     private void SetSessionUserInDatabase()
