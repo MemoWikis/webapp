@@ -1,20 +1,30 @@
 ﻿[TestFixture]
 internal class TestHarnessTests
 {
+    private readonly TestHarness _testHarness = new(enablePerfLogging: true);
+
+    [OneTimeSetUp]
+    public async Task OneTimeSetUp() => await _testHarness.InitAsync();
+
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
+    
     [Test]
     public async Task Should_create_testHarness_and_with_host_and_db_access() 
     {
-        var testHarness = new TestHarness(enablePerfLogging: true);
-        await testHarness.InitAsync();
-
-        var userWritRepo = testHarness.R<UserWritingRepo>();
+        var userWritRepo = _testHarness.R<UserWritingRepo>();
 
         var user = new User
         {
             Name = "TestUser",
             EmailAddress = "test@test.de"
         };
-        
+
         userWritRepo.Create(user);
+
+        await Verify(new
+        {
+            allUsers = await _testHarness.DbData.AllUsersAsync()
+        });
     }
 }

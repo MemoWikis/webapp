@@ -37,6 +37,9 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     private ILifetimeScope? _scope;
 
     public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
+
+    public RawDbDataLoader DbData;
+
     public string ConnectionString => _db.GetConnectionString();
 
     private readonly IWebHostEnvironment _webHostEnv;
@@ -103,6 +106,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         await RunLegacyInitializersAsync();
         PerfLog("Legacy initializers");
+
+        DbData = new RawDbDataLoader(ConnectionString);
     }
 
     private async Task InitDbSchema()

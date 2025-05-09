@@ -44,6 +44,7 @@
     </PackageReference>
     <PackageReference Include="OpenAI" Version="2.1.0" />
     <PackageReference Include="Testcontainers.MySql" Version="4.4.0" />
+    <PackageReference Include="Verify.NUnit" Version="30.0.0" />
   </ItemGroup>
 
   <ItemGroup>
