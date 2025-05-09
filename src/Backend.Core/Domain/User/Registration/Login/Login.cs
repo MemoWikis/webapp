@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-
 public class Login(
     CredentialsAreValid _credentialsAreValid,
     UserWritingRepo _userWritingRepo,
@@ -19,8 +18,10 @@ public class Login(
             {
                 WritePersistentLoginToCookie.Run(_credentialsAreValid.User.Id,
                     _persistentLoginRepo,
-                    _httpContextAccessor.HttpContext);
+                    _httpContextAccessor.HttpContext
+                );
             }
+
             var user = _credentialsAreValid.User;
             _sessionUser.Login(user, _pageViewRepo);
 

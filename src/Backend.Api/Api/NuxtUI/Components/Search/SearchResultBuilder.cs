@@ -1,18 +1,9 @@
-﻿public class SearchHelper
+﻿public class SearchResultBuilder(
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionReadingRepo _questionReadingRepo,
+    SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-
-    public SearchHelper(ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        QuestionReadingRepo questionReadingRepo)
-    {
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _questionReadingRepo = questionReadingRepo;
-    }
-
     public void AddPageItems(
         List<SearchPageItem> items,
         GlobalSearchResult elements,
@@ -49,24 +40,7 @@
             .Select(c => FillSearchPageItem(c, userId))
     );
 
-    public int? SuggestNewParent(Crumbtrail breadcrumb, bool hasPublicQuestion)
-    {
-        CrumbtrailItem breadcrumbItem;
 
-        if (hasPublicQuestion)
-        {
-            if (breadcrumb.Items.Any(i => i.Page.Visibility == PageVisibility.Public))
-            {
-                breadcrumbItem = breadcrumb.Items.Last(i => i.Page.Visibility == PageVisibility.Public);
-                return breadcrumbItem.Page.Id;
-            }
-
-            return null;
-        }
-
-        breadcrumbItem = breadcrumb.Items.Last();
-        return breadcrumbItem.Page.Id;
-    }
 
     public SearchPageItem FillSearchPageItem(PageCacheItem page, int userId)
     {
@@ -95,7 +69,7 @@
         items.AddRange(
             elements.Questions
                 .Where(q => permissionCheck.CanView(q) && q.PagesVisibleToCurrentUser(permissionCheck).Any())
-                .Select((q, index) => new SearchQuestionItem
+                .Select((q, _) => new SearchQuestionItem
                 {
                     Id = q.Id,
                     Name = q.Text.Wrap(200),

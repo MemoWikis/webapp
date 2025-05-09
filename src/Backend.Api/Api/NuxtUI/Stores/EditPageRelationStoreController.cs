@@ -12,7 +12,8 @@ public class EditPageRelationStoreController(
     PageRepository pageRepository,
     PageRelationRepo pageRelationRepo,
     UserWritingRepo _userWritingRepo,
-    IWebHostEnvironment _webHostEnvironment) : ApiBaseController
+    IWebHostEnvironment _webHostEnvironment, 
+    SearchResultBuilder _searchResultBuilder) : ApiBaseController
 {
     public record struct PersonalWikiData(
         SearchPageItem PersonalWiki,
@@ -35,10 +36,7 @@ public class EditPageRelationStoreController(
             };
 
         var personalWiki = EntityCache.GetPage(_sessionUser.User.StartPageId);
-        var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo,
-                _httpContextAccessor,
-                _questionReadingRepo)
-            .FillSearchPageItem(personalWiki, _sessionUser.UserId);
+        var personalWikiItem = _searchResultBuilder.FillSearchPageItem(personalWiki, _sessionUser.UserId);
         var recentlyUsedRelationTargetPages = new List<SearchPageItem>();
 
         if (_sessionUser.User.RecentlyUsedRelationTargetPageIds.Count > 0)
@@ -46,10 +44,9 @@ public class EditPageRelationStoreController(
             foreach (var pageId in _sessionUser.User.RecentlyUsedRelationTargetPageIds)
             {
                 var pageCacheItem = EntityCache.GetPage(pageId);
-                recentlyUsedRelationTargetPages.Add(new SearchHelper(_imageMetaDataReadingRepo,
-                        _httpContextAccessor,
-                        _questionReadingRepo)
-                    .FillSearchPageItem(pageCacheItem, _sessionUser.UserId));
+                recentlyUsedRelationTargetPages.Add(
+                    _searchResultBuilder.FillSearchPageItem(pageCacheItem, _sessionUser.UserId)
+                );
             }
         }
 
