@@ -1,5 +1,7 @@
-﻿using FluentNHibernate.Cfg;
+﻿using System.Text;
+using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
+using MySql.Data.MySqlClient;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
@@ -56,8 +58,23 @@ public class SessionFactory
 
     public static void BuildSchema()
     {
-        new SchemaExport(_configuration)
-            .Create(useStdOut: false, execute: true);
+        var schemaExport = new SchemaExport(_configuration);
+        schemaExport.SetDelimiter(";");
+
+        var sb = new StringBuilder();
+        schemaExport.Create(sql => sb.AppendLine(sql), execute: false);
+
+        var sqlBatch = 
+            $"""
+            SET foreign_key_checks = 0;
+            {sb}
+            SET foreign_key_checks = 1;
+            """;
+
+        using var conn = new MySqlConnection(Settings.ConnectionString);
+        conn.Open();
+        using var cmd = new MySqlCommand(sqlBatch, conn) { CommandTimeout = 0 };
+        cmd.ExecuteNonQuery();
     }
 
     public static void DropAndCreateDatabase(string dbName)
