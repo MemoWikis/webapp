@@ -4,7 +4,7 @@
     public bool IsLoggedIn { get; }
     public bool IsInstallationAdmin { get; set; }
     public int UserId { get; }
-    public Dictionary<int, string> ShareTokens { get; }
+    public Dictionary<int, string> ShareTokens { get; set; }
 
     public SessionlessUser(int userId)
     {
@@ -18,5 +18,7 @@
         {
             UserId = -1;
         }
+
+        ShareTokens = new Dictionary<int, string>();
     }
 }

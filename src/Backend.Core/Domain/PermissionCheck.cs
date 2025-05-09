@@ -28,7 +28,7 @@
         if (shareInfos.Any(s => s.Permission is SharePermission.RestrictAccess))
             return false;
 
-        if (token != null || _sessionUser.ShareTokens.Any())
+        if (token != null || (_sessionUser.ShareTokens.Any()))
         {
             var shareInfosByToken = EntityCache.GetPageShares(page.Id);
             _sessionUser.ShareTokens.TryGetValue(page.Id, out var sessionUserToken);
@@ -37,7 +37,8 @@
                 return true;
 
             var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _sessionUser.ShareTokens);
-            return closestSharePermissionByToken is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
+            if (closestSharePermissionByToken != null)
+                return closestSharePermissionByToken is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
         }
 
         if (shareInfos.Any(s => s.Permission is SharePermission.Edit
@@ -89,29 +90,13 @@
         if (page.CreatorId == _userId || _isInstallationAdmin)
             return true;
 
-        if ((token != null || _sessionUser.ShareTokens.Any()) && (_isLoggedIn || isLoggedIn))
+        if (!(token != null || _sessionUser.ShareTokens.Any()) || !(_isLoggedIn || isLoggedIn))
         {
-            var shareInfosByToken = EntityCache.GetPageShares(page.Id);
-            _sessionUser.ShareTokens.TryGetValue(page.Id, out var sessionUserToken);
-
-            var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
-            if (shareByToken != null)
-            {
-                if (shareByToken.Permission == SharePermission.RestrictAccess)
-                    return false;
-
-                if (shareByToken.Permission == SharePermission.View ||
-                    shareByToken.Permission == SharePermission.ViewWithChildren)
-                    return false;
-
-                if (shareByToken.Permission == SharePermission.Edit ||
-                    shareByToken.Permission == SharePermission.EditWithChildren)
-                    return true;
-            }
-
-            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _sessionUser.ShareTokens);
-            return closestSharePermissionByToken == SharePermission.EditWithChildren;
+            var tokenPermission = TryGetEditPermissionByToken(page.Id, token);
+            if (tokenPermission.HasValue)
+                return tokenPermission.Value;
         }
+
 
         var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.SharedWith?.Id == _userId);
         if (shareInfos.Any(s => s.Permission is SharePermission.Edit or SharePermission.EditWithChildren))
@@ -122,6 +107,36 @@
 
         var closestSharePermission = SharesService.GetClosestParentSharePermissionByUserId(page.Id, _userId);
         return closestSharePermission == SharePermission.EditWithChildren;
+    }
+
+    public bool? TryGetEditPermissionByToken(int pageId, string? token)
+    {
+        if (!(token != null || _sessionUser.ShareTokens.Any()))
+            return null;
+
+        var shareInfosByToken = EntityCache.GetPageShares(pageId);
+        _sessionUser.ShareTokens.TryGetValue(pageId, out var sessionUserToken);
+
+        var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
+        if (shareByToken != null)
+        {
+            if (shareByToken.Permission == SharePermission.RestrictAccess)
+                return false;
+
+            if (shareByToken.Permission == SharePermission.View ||
+                shareByToken.Permission == SharePermission.ViewWithChildren)
+                return false;
+
+            if (shareByToken.Permission == SharePermission.Edit ||
+                shareByToken.Permission == SharePermission.EditWithChildren)
+                return true;
+        }
+
+        var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(pageId, _sessionUser.ShareTokens);
+        if (closestSharePermissionByToken != null)
+            return closestSharePermissionByToken == SharePermission.EditWithChildren;
+
+        return null;
     }
 
     public bool CanConvertPage(PageCacheItem page)

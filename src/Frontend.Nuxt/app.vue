@@ -66,13 +66,13 @@ const { data: footerPages } = await useFetch<FooterPages>(`/apiVue/App/GetFooter
 	},
 })
 
-const site = ref(SiteType.Default)
+const siteType = ref(SiteType.Default)
 
 const pageStore = usePageStore()
 
 function setPage(type: SiteType | undefined | null = null) {
 	if (type != null && type != undefined) {
-		site.value = type
+		siteType.value = type
 		if (type != SiteType.Page) {
 			pageStore.setPage(new Page())
 		}
@@ -107,7 +107,7 @@ userStore.$onAction(({ name, after }) => {
 					await refreshNuxtData()
 				} finally {
 					loadingStore.stopLoading()
-					if (site.value === SiteType.Page && pageStore.visibility != Visibility.Public)
+					if (siteType.value === SiteType.Page && pageStore.visibility != Visibility.Public)
 						await navigateTo('/')
 				}
 			}
@@ -149,9 +149,9 @@ userStore.$onAction(({ name, after }) => {
 })
 
 async function handleLogin() {
-	if (site.value === SiteType.Error)
+	if (siteType.value === SiteType.Error)
 		return
-	if ((site.value === SiteType.Page || site.value === SiteType.Register) && route.params.id === rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
+	if ((siteType.value === SiteType.Page || siteType.value === SiteType.Register) && route.params.id === rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
 		await navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
 	else
 		await refreshNuxtData()
@@ -242,14 +242,16 @@ watch(locale, () => {
 
 <template>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
-	<HeaderMain :site="site" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
+	<HeaderMain :site="siteType" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 
 	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
 	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen }">
 
 		<NuxtErrorBoundary @error="logError">
+			<BannerLoginReminder v-if="siteType === SiteType.Page && userStore.showLoginReminderBanner" />
+
 			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-				:site="site" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
+				:site="siteType" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
 
 			<template #error="{ error }">
 				<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
@@ -261,8 +263,8 @@ watch(locale, () => {
 		</NuxtErrorBoundary>
 	</div>
 
-	<FooterGlobalLicense :site="site" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
-	<Footer :footer-pages="footerPages" v-if="footerPages" :site="site" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
+	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
+	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 
 	<ClientOnly>
 		<LazyUserLoginModal v-if="!userStore.isLoggedIn" />
