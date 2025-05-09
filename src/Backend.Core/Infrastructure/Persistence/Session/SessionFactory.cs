@@ -76,26 +76,34 @@ public class SessionFactory
         using var cmd = new MySqlCommand(sqlBatch, conn) { CommandTimeout = 0 };
         cmd.ExecuteNonQuery();
     }
-    
+
     public static void TruncateAllTables()
     {
-        const string disableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS = 0;";
-        const string enableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS = 1;";
+        const string getTables =
+            """
+            SELECT table_name
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+              AND table_type   = 'BASE TABLE';
+            """;
 
-        const string sqlString = @"
-                SELECT Concat('TRUNCATE TABLE ', TABLE_NAME, ';') 
-                FROM INFORMATION_SCHEMA.TABLES 
-                WHERE table_schema = DATABASE();
+        using var conn = new MySqlConnection(Settings.ConnectionString);
+        conn.Open();
 
-                SET FOREIGN_KEY_CHECKS = 1;";
+        var tables = new List<string>();
+        using (var cmd = new MySqlCommand(getTables, conn))
+        using (var rdr = cmd.ExecuteReader())
+            while (rdr.Read())
+                tables.Add($"`{rdr.GetString(0)}`");
 
-        using var session = _configuration!.BuildSessionFactory().OpenSession();
-        var statements = session.CreateSQLQuery(sqlString).List<string>();
-        session.CreateSQLQuery(disableForeignKeyCheck).ExecuteUpdate();
+        if (tables.Count == 0)
+            return;
 
-        foreach (var statement in statements)
-            session.CreateSQLQuery(statement).ExecuteUpdate();
+        var sb = new StringBuilder("SET FOREIGN_KEY_CHECKS = 0;\n");
+        foreach (var t in tables) sb.Append("TRUNCATE TABLE ").Append(t).Append(";\n");
+        sb.Append("SET FOREIGN_KEY_CHECKS = 1;");
 
-        session.CreateSQLQuery(enableForeignKeyCheck).ExecuteUpdate();
+        using var truncateCmd = new MySqlCommand(sb.ToString(), conn) { CommandTimeout = 0 };
+        truncateCmd.ExecuteNonQuery();
     }
 }
