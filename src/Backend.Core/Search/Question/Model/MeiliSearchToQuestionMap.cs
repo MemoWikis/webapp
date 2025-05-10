@@ -1,10 +1,10 @@
-﻿public class MeiliSearchToQuestionMap
+﻿public class MeilisearchToQuestionMap
 {
-    public static MeiliSearchQuestionMap Run(
+    public static MeilisearchQuestionMap Run(
         Question question,
         IList<QuestionValuationCacheItem> questionValuations)
     {
-        return new MeiliSearchQuestionMap
+        return new MeilisearchQuestionMap
         {
             Id = question.Id,
             Pages = question.Pages.Select(c => c.Name).ToList(),
@@ -17,11 +17,11 @@
         };
     }
 
-    public static MeiliSearchQuestionMap Run(
+    public static MeilisearchQuestionMap Run(
         QuestionCacheItem question,
         IList<QuestionValuationCacheItem> questionValuations)
     {
-        return new MeiliSearchQuestionMap
+        return new MeilisearchQuestionMap
         {
             Id = question.Id,
             Pages = question.Pages.Select(c => c.Name).ToList(),

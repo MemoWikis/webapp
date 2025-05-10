@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-public class MeiliSearchQuestionMap : IRegisterAsInstancePerLifetime
+public class MeilisearchQuestionMap
 {
     public int Id { get; set; }
     public string Text { get; set; }

@@ -1,7 +1,7 @@
 ﻿public class UsersController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
-    MeiliSearchUsers _meiliSearchUsers,
+    MeilisearchUsers _meilisearchUsers,
     GetTotalUsers _totalUsers,
     UserSummary _userSummary,
     IHttpContextAccessor _httpContextAccessor,
@@ -33,7 +33,7 @@
     {
         var pager = new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page };
 
-        var result = await _meiliSearchUsers.GetUsersByPagerAsync(
+        var result = await _meilisearchUsers.GetUsersByPagerAsync(
             searchTerm,
             pager,
             orderBy,

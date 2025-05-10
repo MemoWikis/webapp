@@ -41,7 +41,7 @@ public class QuestionWritingRepo(
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
         _questionChangeRepo.AddCreateEntry(question);
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
+        Task.Run(async () => await new MeilisearchQuestionsIndexer()
             .CreateAsync(question));
     }
 
@@ -65,7 +65,7 @@ public class QuestionWritingRepo(
     {
         base.Delete(question);
         var changeId = _questionChangeRepo.AddDeleteEntry(question, userId);
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
+        Task.Run(async () => await new MeilisearchQuestionsIndexer()
             .DeleteAsync(question));
         return changeId;
     }
@@ -111,7 +111,7 @@ public class QuestionWritingRepo(
             _sessionUser.UserId);
         _questionChangeRepo.AddUpdateEntry(question);
 
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
+        Task.Run(async () => await new MeilisearchQuestionsIndexer()
             .UpdateAsync(question));
     }
 

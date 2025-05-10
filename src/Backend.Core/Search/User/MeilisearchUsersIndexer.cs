@@ -3,15 +3,9 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("MemoWikis.Tests")]
 
-internal class MeiliSearchUsersDatabaseOperations : MeiliSearchBase
+internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
 {
-    /// <summary>
-    /// CreateUserAsync in MeiliSearch
-    /// </summary>
-    /// <param name="user"></param>
-    /// <param name="indexConstant"></param>
-    /// <returns></returns>
-    public async Task CreateAsync(User user, string indexConstant = MeiliSearchConstants.Users)
+    public async Task CreateAsync(User user, string indexConstant = MeilisearchIndices.Users)
     {
         var userMap = CreateUserMap(user, indexConstant, out var index);
         var taskInfo = await index
@@ -21,15 +15,8 @@ internal class MeiliSearchUsersDatabaseOperations : MeiliSearchBase
         await CheckStatus(taskInfo).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// UpdateUserAsync in MeiliSearch
-    /// </summary>
-    /// <param name="user"></param>
-    /// <param name="indexConstant"></param>
-    /// <returns></returns>
-    public async Task UpdateAsync(User user, string indexConstant = MeiliSearchConstants.Users)
+    public async Task UpdateAsync(User user, string indexConstant = MeilisearchIndices.Users)
     {
-
         var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
         var taskInfo = await index
             .UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
@@ -38,13 +25,7 @@ internal class MeiliSearchUsersDatabaseOperations : MeiliSearchBase
         await CheckStatus(taskInfo).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// DeleteUserAsync in Meiliesearch
-    /// </summary>
-    /// <param name="user"></param>
-    /// <param name="indexConstant"></param>
-    /// <returns></returns>
-    public async Task DeleteAsync(User user, string indexConstant = MeiliSearchConstants.Users)
+    public async Task DeleteAsync(User user, string indexConstant = MeilisearchIndices.Users)
     {
         var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
         var taskInfo = await index
@@ -56,7 +37,7 @@ internal class MeiliSearchUsersDatabaseOperations : MeiliSearchBase
 
     private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant, out Meilisearch.Index index)
     {
-        var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
+        var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
         index = client.Index(indexConstant);
 
         var userMap = new MeiliSearchUserMap

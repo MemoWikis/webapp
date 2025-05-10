@@ -25,7 +25,7 @@ public class PageRepository(
 
         pageChangeRepo.AddCreateEntry(this, page, page.Creator?.Id ?? -1);
 
-        Task.Run(async () => await new MeiliSearchPagesDatabaseOperations()
+        Task.Run(async () => await new MeilisearchPageIndexer()
             .CreateAsync(page)
             .ConfigureAwait(false));
     }
@@ -188,7 +188,7 @@ public class PageRepository(
         updateQuestionCountForPage.RunForJob(page, authorId);
         Task.Run(async () =>
         {
-            await new MeiliSearchPagesDatabaseOperations()
+            await new MeilisearchPageIndexer()
                 .UpdateAsync(page)
                 .ConfigureAwait(false);
         });
@@ -219,11 +219,11 @@ public class PageRepository(
 
         Task.Run(async () =>
         {
-            await new MeiliSearchPagesDatabaseOperations()
+            await new MeilisearchPageIndexer()
                 .UpdateAsync(child)
                 .ConfigureAwait(false);
 
-            await new MeiliSearchPagesDatabaseOperations()
+            await new MeilisearchPageIndexer()
                 .UpdateAsync(parent)
                 .ConfigureAwait(false);
         });
@@ -255,7 +255,7 @@ public class PageRepository(
         Flush();
         Task.Run(async () =>
         {
-            await new MeiliSearchPagesDatabaseOperations()
+            await new MeilisearchPageIndexer()
                 .UpdateAsync(page)
                 .ConfigureAwait(false);
         });

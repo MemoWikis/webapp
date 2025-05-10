@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-public class MeiliSearchPageMap
+public class MeilisearchPageMap
 {
     public int Id { get; set; }
     public string CreatorName { get; set; }

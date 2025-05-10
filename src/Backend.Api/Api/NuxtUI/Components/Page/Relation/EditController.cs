@@ -13,7 +13,7 @@ public class PageRelationEditController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     IGlobalSearch _search,
-    MeiliSearchReIndexUser _meiliSearchReIndexUser) : ApiBaseController
+    MeilisearchReIndexUser _meilisearchReIndexUser) : ApiBaseController
 {
     public readonly record struct ValidateNameParam(string Name);
 
@@ -54,7 +54,7 @@ public class PageRelationEditController(
         };
 
         if (result.Success)
-            _meiliSearchReIndexUser.Run(EntityCache.GetUserById(_sessionUser.UserId));
+            _meilisearchReIndexUser.Run(EntityCache.GetUserById(_sessionUser.UserId));
 
         return result;
     }

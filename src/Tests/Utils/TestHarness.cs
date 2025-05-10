@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Containers;
 using FakeItEasy;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,7 @@ using MySql.Data.MySqlClient;
 using NHibernate.Cfg;
 using Testcontainers.MySql;
 using ContainerBuilder = Autofac.ContainerBuilder;
+using IContainer = DotNet.Testcontainers.Containers.IContainer;
 
 public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
@@ -30,6 +32,18 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         .WithReuse(true)
         .Build();
 
+    private readonly IContainer _meiliSearch = new DotNet.Testcontainers.Builders.ContainerBuilder()
+        .WithImage("getmeili/meilisearch:v1.5")
+        .WithPortBinding(7778, 7700)
+        .WithEnvironment("MEILI_MASTER_KEY", "meilisearch-test-key")
+        .WithEnvironment("MEILI_NO_ANALYTICS", "true")
+        .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
+        .WithWaitStrategy(
+            Wait.ForUnixContainer()
+                .UntilHttpRequestIsSucceeded(r => r.ForPath("/health").ForPort(7700)))
+        .WithReuse(true)
+        .Build();
+
     private ProgramWebApplicationFactory? _factory;
     private HttpClient? _client;
 
@@ -39,8 +53,11 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
 
     public RawDbDataLoader DbData;
+    public RawSearchDataLoader SearchData;
 
     public string ConnectionString => _db.GetConnectionString();
+    public string MeiliSearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
+    public string MeiliSearchMasterKey => "meilisearch-test-key";
 
     private readonly IWebHostEnvironment _webHostEnv;
     private readonly IHttpContextAccessor _httpCtxAcc;
@@ -94,8 +111,15 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         await _db.StartAsync();
         PerfLog("MySql container started");
 
-        Settings.Initialize(new ConfigurationManager());
-        
+        await _meiliSearch.StartAsync();
+        PerfLog("MeiliSearch container started");
+
+        // Configure settings with container information
+        var configuration = new ConfigurationManager();
+        configuration["Meilisearch:MeiliSearchUrl"] = MeiliSearchUrl;
+        configuration["Meilisearch:MeiliSearchMasterKey"] = MeiliSearchMasterKey;
+        Settings.Initialize(configuration);
+
         await InitDbSchema();
 
         _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
@@ -108,6 +132,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         PerfLog("Legacy initializers");
 
         DbData = new RawDbDataLoader(ConnectionString);
+        SearchData = new RawSearchDataLoader(MeiliSearchUrl, MeiliSearchMasterKey);
     }
 
     private async Task InitDbSchema()
@@ -115,7 +140,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         Settings.ConnectionString = ConnectionString;
         var configuration = SessionFactory.BuildTestConfiguration(ConnectionString);
         PerfLog("NHibernate bootstrap: Init");
-        
+
         if (!await SchemaExistsAsync())
         {
             SessionFactory.BuildSchema();
@@ -151,6 +176,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         _scope?.Dispose();
         _factory?.Dispose();
         await _db.DisposeAsync();
+        await _meiliSearch.DisposeAsync();
 
         GC.SuppressFinalize(this);
     }
@@ -188,7 +214,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         await using var conn = new MySqlConnection(Settings.ConnectionString);
         await conn.OpenAsync();
 
-        const string sql = 
+        const string sql =
             """
                SELECT COUNT(*)
                FROM information_schema.tables

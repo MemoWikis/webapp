@@ -4,5 +4,5 @@
     List<int> PageIds { get; set; }
     IPager Pager { get; set; }
 
-    IList<PageCacheItem> GetPages();
+    List<PageCacheItem> GetPages();
 }

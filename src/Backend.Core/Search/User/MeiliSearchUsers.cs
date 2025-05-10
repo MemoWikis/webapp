@@ -1,22 +1,16 @@
 ﻿using Meilisearch;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
-public class MeiliSearchUsers(
-    IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment)
-    : MeiliSearchHelper, IRegisterAsInstancePerLifetime
+public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
 {
     private List<UserCacheItem> _users = new();
 
-    private MeiliSearchUsersResult _result;
+    private MeilisearchUsersResult _result = new();
 
     public async Task<ISearchUsersResult> RunAsync(string searchTerm, List<Language>? languages = null)
     {
-        var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
-        var index = client.Index(MeiliSearchConstants.Users);
-        _result = new MeiliSearchUsersResult(_httpContextAccessor, _webHostEnvironment);
-
+        var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+        var index = client.Index(MeilisearchIndices.Users);
+        
         _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index, languages));
 
         return _result;
@@ -87,8 +81,8 @@ public class MeiliSearchUsers(
         }
         else
         {
-            var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
-            var index = client.Index(MeiliSearchConstants.Users);
+            var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+            var index = client.Index(MeilisearchIndices.Users);
 
             string filterString = null;
 

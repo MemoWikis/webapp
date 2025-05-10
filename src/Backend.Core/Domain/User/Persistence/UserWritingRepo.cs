@@ -26,7 +26,7 @@ public class UserWritingRepo(
 
         _repo.Create(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
+        Task.Run(async () => await new MeilisearchUsersIndexer().CreateAsync(user));
     }
 
     public void Delete(int id)
@@ -42,14 +42,14 @@ public class UserWritingRepo(
         _extendedUserCache.Remove(user);
         EntityCache.RemoveUser(id);
         Task.Run(async () =>
-            await new MeiliSearchUsersDatabaseOperations()
+            await new MeilisearchUsersIndexer()
                 .DeleteAsync(user));
     }
 
     public void DeleteFromAllTables(int userId)
     {
         var user = _repo.GetById(userId);
-        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
+        Task.Run(async () => await new MeilisearchUsersIndexer().DeleteAsync(user));
 
         Log.Information($"Starting deletion of user {userId} and related data.");
 
@@ -183,7 +183,7 @@ public class UserWritingRepo(
         _extendedUserCache.Update(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () =>
-            await new MeiliSearchUsersDatabaseOperations()
+            await new MeilisearchUsersIndexer()
                 .UpdateAsync(user));
     }
 

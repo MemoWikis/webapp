@@ -1,28 +1,22 @@
 ﻿using Meilisearch;
 
-public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLifetime
+public class MeilisearchQuestions(PermissionCheck _permissionCheck) : MeilisearchBase, IRegisterAsInstancePerLifetime
 {
-    private readonly PermissionCheck _permissionCheck;
     private List<QuestionCacheItem> _questions = new();
-    private MeiliSearchQuestionsResult _result;
-
-    public MeiliSearchQuestions(PermissionCheck permissionCheck)
-    {
-        _permissionCheck = permissionCheck;
-    }
 
     public async Task<ISearchQuestionsResult> RunAsync(string searchTerm, List<Language>? languages = null)
     {
-        var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
-        var index = client.Index(MeiliSearchConstants.Questions);
-        _result = new MeiliSearchQuestionsResult();
+        var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+        var index = client.Index(MeilisearchIndices.Questions);
 
-        _result.QuestionIds.AddRange(await LoadSearchResults(searchTerm, index, languages));
-
-        return _result;
+        return await LoadSearchResults(searchTerm, index, languages);
     }
 
-    private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index, List<Language>? languages = null)
+    private async Task<MeilisearchQuestionsResult> LoadSearchResults(
+        string searchTerm, 
+        Meilisearch.Index index, 
+        List<Language>? languages = null
+    )
     {
         var sq = new SearchQuery
         {
@@ -40,14 +34,14 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
         }
 
         var questionMaps =
-            (await index.SearchAsync<MeiliSearchQuestionMap>(searchTerm, sq))
+            (await index.SearchAsync<MeilisearchQuestionMap>(searchTerm, sq))
             .Hits;
 
         var questionMapsSkip = questionMaps
             .Skip(_count - 20)
             .ToList();
 
-        FilterCacheItems(questionMapsSkip);
+        AddDistinctQuestionsToResult(questionMapsSkip);
 
         if (IsReloadRequired(questionMaps.Count, _questions.Count()))
         {
@@ -55,20 +49,25 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
             await LoadSearchResults(searchTerm, index, languages);
         }
 
-        ;
-        _result.Count = _questions.Count;
-        return _questions
-            .Select(c => c.Id)
-            .Take(5)
-            .ToList();
+        var result = new MeilisearchQuestionsResult
+        {
+            Count = _questions.Count,
+            QuestionIds = _questions
+                .Select(c => c.Id)
+                .Take(5)
+                .ToList()
+        };
+
+        return result;
     }
 
-    private void FilterCacheItems(List<MeiliSearchQuestionMap> questionMaps)
+    private void AddDistinctQuestionsToResult(List<MeilisearchQuestionMap> questionMaps)
     {
         var questionsTemp = EntityCache.GetQuestionsByIds(
                 questionMaps.Select(c => c.Id))
             .Where(_permissionCheck.CanView)
             .ToList();
+        
         _questions.AddRange(questionsTemp);
         _questions = _questions
             .Distinct()

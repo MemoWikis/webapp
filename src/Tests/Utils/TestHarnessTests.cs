@@ -21,6 +21,8 @@ internal class TestHarnessTests
         };
 
         userWritRepo.Create(user);
+        
+        //_testHarness.SearchData.GetAllDocumentsAsync<>()
 
         await Verify(new
         {
