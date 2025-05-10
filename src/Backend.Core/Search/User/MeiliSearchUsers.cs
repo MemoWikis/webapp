@@ -8,7 +8,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
 
     public async Task<ISearchUsersResult> RunAsync(string searchTerm, List<Language>? languages = null)
     {
-        var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
         var index = client.Index(MeilisearchIndices.Users);
         
         _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index, languages));
@@ -81,7 +81,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
         }
         else
         {
-            var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+            var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
             var index = client.Index(MeilisearchIndices.Users);
 
             string filterString = null;

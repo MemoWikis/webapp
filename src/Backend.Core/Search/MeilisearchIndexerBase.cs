@@ -6,7 +6,7 @@ internal class MeilisearchIndexerBase
 
     internal MeilisearchIndexerBase()
     {
-        _client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+        _client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
     }
 
     /// <summary>

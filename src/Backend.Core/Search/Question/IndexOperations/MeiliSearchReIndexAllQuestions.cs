@@ -5,7 +5,7 @@ public class MeilisearchReIndexAllQuestions(
     QuestionReadingRepo _questionReadingRepo)
     : IRegisterAsInstancePerLifetime
 {
-    private readonly MeilisearchClient _client = new(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+    private readonly MeilisearchClient _client = new(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
 
     public async Task Run()
     {

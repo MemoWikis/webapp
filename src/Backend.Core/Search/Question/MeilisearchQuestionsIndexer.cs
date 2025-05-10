@@ -34,7 +34,7 @@ internal class MeilisearchQuestionsIndexer : MeilisearchIndexerBase
 
     private MeilisearchQuestionMap CreateQuestionMap(Question question, out Meilisearch.Index index)
     {
-        var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
 
         index = client.Index(MeilisearchIndices.Questions);
         var questionMap = new MeilisearchQuestionMap

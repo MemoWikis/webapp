@@ -47,8 +47,8 @@
       BouncedMail: false,
       CorrectnessProbability: 0,
       CorrectnessProbabilityAnswerCount: 0,
-      DateCreated: DateTime_2,
-      DateModified: DateTime_2,
+      DateCreated: DateTime_1,
+      DateModified: DateTime_1,
       EmailAddress: test@test.de,
       EndDate: null,
       FacebookId: null,
@@ -77,6 +77,16 @@
       WikiIds: null,
       WishCountQuestions: 0,
       WishCountSets: 0
+    }
+  ],
+  allSearchIndexUsers: [
+    {
+      Id: 2,
+      Name: TestUser
+    },
+    {
+      Id: 1,
+      Name: SessionUser
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 public class MeilisearchReIndexPages(PageRepository _pageRepository) : IRegisterAsInstancePerLifetime
 {
-    public MeilisearchClient _client { get; } = new(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+    public MeilisearchClient _client { get; } = new(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
 
     public async Task Run()
     {

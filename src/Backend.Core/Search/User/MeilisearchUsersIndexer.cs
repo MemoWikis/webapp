@@ -37,7 +37,7 @@ internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
 
     private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant, out Meilisearch.Index index)
     {
-        var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
         index = client.Index(indexConstant);
 
         var userMap = new MeiliSearchUserMap

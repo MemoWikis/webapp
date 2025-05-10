@@ -2,7 +2,7 @@
 
 public class MeilisearchReIndexUser(UserReadingRepo _userReadingRepo) : IRegisterAsInstancePerLifetime
 {
-    private readonly MeilisearchClient _client = new(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+    private readonly MeilisearchClient _client = new(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
 
     public async Task RunAll()
     {

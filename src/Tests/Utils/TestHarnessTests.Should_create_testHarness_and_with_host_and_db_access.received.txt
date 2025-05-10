@@ -1,5 +1,5 @@
 ﻿{
-  allUsers: [
+  allDbUsers: [
     {
       ActivityLevel: 0,
       ActivityPoints: 0,
@@ -77,6 +77,16 @@
       WikiIds: null,
       WishCountQuestions: 0,
       WishCountSets: 0
+    }
+  ],
+  allSearchIndexUsers: [
+    {
+      Id: 2,
+      Name: TestUser
+    },
+    {
+      Id: 1,
+      Name: SessionUser
     }
   ]
 }

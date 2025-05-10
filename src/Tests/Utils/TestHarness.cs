@@ -2,9 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Containers;
 using FakeItEasy;
-using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -53,11 +51,11 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
 
     public RawDbDataLoader DbData;
-    public RawSearchDataLoader SearchData;
+    public RawMeilisearchDataLoader SearchData;
 
     public string ConnectionString => _db.GetConnectionString();
-    public string MeiliSearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
-    public string MeiliSearchMasterKey => "meilisearch-test-key";
+    public string MeilisearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
+    public string MeilisearchMasterKey => "meilisearch-test-key";
 
     private readonly IWebHostEnvironment _webHostEnv;
     private readonly IHttpContextAccessor _httpCtxAcc;
@@ -114,16 +112,16 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         await _meiliSearch.StartAsync();
         PerfLog("MeiliSearch container started");
 
-        // Configure settings with container information
-        var configuration = new ConfigurationManager();
-        configuration["Meilisearch:MeiliSearchUrl"] = MeiliSearchUrl;
-        configuration["Meilisearch:MeiliSearchMasterKey"] = MeiliSearchMasterKey;
-        Settings.Initialize(configuration);
+        Settings.Initialize(new ConfigurationManager());
 
         await InitDbSchema();
 
         _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
         _client = _factory.CreateClient();
+
+        Settings.MeilisearchUrl = MeilisearchUrl;
+        Settings.MeilisearchMasterKey = MeilisearchMasterKey;
+
         var rootScope = _factory.Services.GetAutofacRoot();
         _scope = rootScope.BeginLifetimeScope();
         PerfLog("WebApplicationFactory + Autofac root");
@@ -132,7 +130,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         PerfLog("Legacy initializers");
 
         DbData = new RawDbDataLoader(ConnectionString);
-        SearchData = new RawSearchDataLoader(MeiliSearchUrl, MeiliSearchMasterKey);
+        SearchData = new RawMeilisearchDataLoader(MeilisearchUrl, MeilisearchMasterKey);
     }
 
     private async Task InitDbSchema()

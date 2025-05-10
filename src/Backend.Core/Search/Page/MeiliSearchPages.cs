@@ -7,7 +7,7 @@ public class MeilisearchPages(PermissionCheck _permissionCheck, int _size = 5)
 
     public async Task<ISearchPagesResult> RunAsync(string searchTerm, List<Language>? languages = null)
     {
-        var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
         var index = client.Index(MeilisearchIndices.Pages);
 
         return await LoadSearchResults(searchTerm, index, languages);

@@ -6,7 +6,7 @@ public class MeilisearchQuestions(PermissionCheck _permissionCheck) : Meilisearc
 
     public async Task<ISearchQuestionsResult> RunAsync(string searchTerm, List<Language>? languages = null)
     {
-        var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
         var index = client.Index(MeilisearchIndices.Questions);
 
         return await LoadSearchResults(searchTerm, index, languages);

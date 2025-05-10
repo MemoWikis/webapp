@@ -37,7 +37,7 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
 
     private static MeilisearchPageMap CreatePageMap(Page page, out Meilisearch.Index index)
     {
-        var client = new MeilisearchClient(Settings.MeiliSearchUrl, Settings.MeiliSearchMasterKey);
+        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
         index = client.Index(MeilisearchIndices.Pages);
         var pageMap = new MeilisearchPageMap
         {

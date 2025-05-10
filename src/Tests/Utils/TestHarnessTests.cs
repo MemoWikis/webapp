@@ -12,21 +12,21 @@ internal class TestHarnessTests
     [Test]
     public async Task Should_create_testHarness_and_with_host_and_db_access() 
     {
+        // arrange 
         var userWritRepo = _testHarness.R<UserWritingRepo>();
-
         var user = new User
         {
             Name = "TestUser",
             EmailAddress = "test@test.de"
         };
 
+        // act
         userWritRepo.Create(user);
-        
-        //_testHarness.SearchData.GetAllDocumentsAsync<>()
 
         await Verify(new
         {
-            allUsers = await _testHarness.DbData.AllUsersAsync()
+            allDbUsers = await _testHarness.DbData.AllUsersAsync(),
+            allSearchIndexUsers = await _testHarness.SearchData.GetAllUsers()
         });
     }
 }
