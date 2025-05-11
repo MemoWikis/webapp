@@ -1,10 +1,10 @@
-﻿public class PageDeleter_tests : BaseTest
+﻿internal class PageDeleter_tests : BaseTestHarness
 {
     [Test]
     public void Should_delete_child()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
         var sessionUser = R<SessionUser>();
@@ -42,7 +42,7 @@
     public void Should_delete_child_of_child_and_remove_relation()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
         var childOfChildName = "child of child name";
@@ -103,7 +103,7 @@
     public void Should_delete_child_of_child_and_remove_relations_in_EntityCache()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
         var childOfChildName = "child of child name";
@@ -166,7 +166,7 @@
         Should_delete_child_and_remove_relations_in_EntityCache_child_of_child_has_extra_parent()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var firstChildName = "first child name";
         var secondChildName = "second child name";
@@ -217,7 +217,7 @@
     public void Should_fail_delete_child_and_remove_relations_in_EntityCache_child_has_child()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
         var childOfChildName = "child of child name";
@@ -261,7 +261,7 @@
     public void Should_fail_delete_child_and_remove_relations_in_EntityCache_no_rights()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
 

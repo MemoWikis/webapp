@@ -1,10 +1,18 @@
-﻿internal class CreatePage_tests : BaseTest
+﻿internal class CreatePage_tests : BaseTestLegacy
 {
+    private readonly TestHarness _testHarness = new();
+
+    [OneTimeSetUp]
+    public async Task OneTimeSetUp() => await _testHarness.InitAsync();
+
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
+
     [Test]
     public void Should_create_Page_in_Db()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = _testHarness.NewPageContext();
         var parentName = "Parent";
 
         var sessionUser = R<SessionUser>();
@@ -44,7 +52,7 @@
     public void Should_create_Page_in_EntityCache()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = _testHarness.NewPageContext();
         var parentname = "Parent";
         var parent = context
             .Add(parentname)

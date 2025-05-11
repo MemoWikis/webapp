@@ -101,6 +101,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();
     public T R<T>() where T : notnull => Resolve<T>();
 
+    public ContextPage NewPageContext(bool addContextUser = true) => new(this, addContextUser);
 
     public async Task InitAsync()
     {

@@ -1,6 +1,14 @@
 ﻿[TestFixture]
-public class Convert_tests : BaseTest
+public class Convert_tests : BaseTestLegacy
 {
+    private readonly TestHarness _testHarness = new();
+
+    [OneTimeSetUp]
+    public async Task OneTimeSetUp() => await _testHarness.InitAsync();
+
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
+
     [Test]
     public void ConvertPageToWiki_Should_Succeed_With_ValidInputs()
     {
@@ -12,20 +20,20 @@ public class Convert_tests : BaseTest
 
         var userId = 1;
 
-        var context = ContextPage.New();
+        var pageContext = _testHarness.NewPageContext();
 
-        var root = context.Add("RootElement").Persist().All.First();
+        var root = pageContext.Add("RootElement").Persist().All.First();
 
-        var children = context
+        var children = pageContext
             .Add("Sub1", creator: new User { Id = userId })
             .Add("SubSub1")
             .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
             .All;
 
-        context.AddChild(root, children.ByName("Sub1"));
-        context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
-        context.AddChild(root, children.ByName("Sub2"));
+        pageContext.AddChild(root, children.ByName("Sub1"));
+        pageContext.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
+        pageContext.AddChild(root, children.ByName("Sub2"));
 
         var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
@@ -103,7 +111,7 @@ public class Convert_tests : BaseTest
 
         var userId = 1;
 
-        var context = ContextPage.New();
+        var context = _testHarness.NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
@@ -143,7 +151,7 @@ public class Convert_tests : BaseTest
 
         var userId = 1;
 
-        var context = ContextPage.New();
+        var context = _testHarness.NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
@@ -236,7 +244,7 @@ public class Convert_tests : BaseTest
         var userWritingRepo = R<UserWritingRepo>();
         var userId = 1;
 
-        var context = ContextPage.New();
+        var context = _testHarness.NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 

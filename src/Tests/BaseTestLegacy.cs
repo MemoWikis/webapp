@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using ISession = NHibernate.ISession;
 
 [TestFixture]
-public class BaseTest
+public class BaseTestLegacy
 {
     private static IContainer _container;
     protected ILifetimeScope LifetimeScope;
@@ -16,7 +16,7 @@ public class BaseTest
         Id = 1
     };
 
-    static BaseTest()
+    static BaseTestLegacy()
     {
 #if DEBUG
         //            NHibernateProfiler.Initialize();

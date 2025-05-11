@@ -15,13 +15,13 @@
 
     private ContextQuestion()
     {
-        _contextUser = ContextUser.New(BaseTest.R<UserWritingRepo>());
+        _contextUser = ContextUser.New(BaseTestLegacy.R<UserWritingRepo>());
         _contextUser.Add("Creator").Persist();
         _contextUser.Add("Learner").Persist();
-        _answerRepo = BaseTest.R<AnswerRepo>();
-        _answerQuestion = BaseTest.R<AnswerQuestion>();
-        _pageRepository = BaseTest.R<PageRepository>();
-        _questionWritingRepo = BaseTest.R<QuestionWritingRepo>();
+        _answerRepo = BaseTestLegacy.R<AnswerRepo>();
+        _answerQuestion = BaseTestLegacy.R<AnswerQuestion>();
+        _pageRepository = BaseTestLegacy.R<PageRepository>();
+        _questionWritingRepo = BaseTestLegacy.R<QuestionWritingRepo>();
     }
 
     public User Creator => _contextUser.All[0];
@@ -36,7 +36,6 @@
 
         return this;
     }
-
 
     public ContextQuestion AddQuestion(
         string questionText = "defaultText",

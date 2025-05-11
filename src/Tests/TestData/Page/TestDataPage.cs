@@ -1,22 +1,21 @@
-﻿public class ContextPage : BaseTest
+﻿public class ContextPage
 {
     private readonly PageRepository _pageRepository;
-    private readonly ContextUser _contextUser = ContextUser.New(R<UserWritingRepo>());
-    private int NamesCounter = 0;
+    private readonly ContextUser _contextUser;
 
     public List<Page> All = new();
+    private readonly TestHarness _testHarness;
 
-    public static ContextPage New(bool addContextUser = true)
+    public ContextPage(TestHarness testHarness, bool addContextUser)
     {
-        return new ContextPage(addContextUser);
-    }
+        _testHarness = testHarness;
+        _pageRepository = testHarness.R<PageRepository>();
+        _contextUser = ContextUser.New(_testHarness.R<UserWritingRepo>());
 
-    private ContextPage(bool addContextUser = true)
-    {
-        _pageRepository = R<PageRepository>();
-
-        if (addContextUser)
-            _contextUser.Add("User" + NamesCounter).Persist();
+        if (!addContextUser) 
+            return;
+        
+        _contextUser.Add("User").Persist();
     }
 
     public ContextPage Add(int amount)
@@ -54,7 +53,7 @@
 
     public ContextPage AddChild(Page parent, Page child)
     {
-        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, R<PageRelationRepo>());
+        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _testHarness.R<PageRelationRepo>());
         modifyRelationsForPage.AddChild(parent.Id, child.Id, 1);
 
         return this;
@@ -152,9 +151,9 @@
     //    return user;
     //}
 
-    public static bool HasCorrectChild(PageCacheItem pageCachedItem, int childId)
+    public bool HasCorrectChild(PageCacheItem pageCachedItem, int childId)
     {
-        var permissionCheck = R<PermissionCheck>();
+        var permissionCheck = _testHarness.R<PermissionCheck>();
 
         var aggregatedPages = pageCachedItem.AggregatedPages(permissionCheck);
 

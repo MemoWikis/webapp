@@ -1,11 +1,11 @@
-﻿class PermissionCheck_tests : BaseTest
+﻿class PermissionCheck_tests : BaseTestHarness
 {
     [Test]
-    public void CanMovePage_MovePageCreator_And_ParentPageCreator_IsUser()
+    public async Task CanMovePage_MovePageCreator_And_ParentPageCreator_IsUser()
     {
-        RecycleContainerAndEntityCache();
+        await RecycleContainerAndEntityCache();
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var user = new User { Id = 1 };
 
         context.Add("root", creator: user).Persist();
@@ -25,7 +25,7 @@
         context.AddChild(sub1, subsub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await RecycleContainerAndEntityCache();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -35,11 +35,11 @@
     }
 
     [Test]
-    public void CanMovePage_MovePageCreator_IsUser()
+    public async Task CanMovePage_MovePageCreator_IsUser()
     {
-        RecycleContainerAndEntityCache();
+        await RecycleContainerAndEntityCache();
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         context.Add("root", creator: user2).Persist();
@@ -73,7 +73,7 @@
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         context.Add("root", creator: user2).Persist();
@@ -107,7 +107,7 @@
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         var user3 = new User { Id = 3 };

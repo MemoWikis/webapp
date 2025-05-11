@@ -1,4 +1,4 @@
-﻿class Order_tests : BaseTest
+﻿class Order_tests : BaseTestHarness
 {
     [Test]
     public void Should_Sort_Pages()
@@ -62,7 +62,7 @@
     public void Should_init_children_in_EntityCache()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -101,7 +101,7 @@
     public void Should_move_relation_after_sub3()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -176,7 +176,7 @@
     public void Should_move_relation_before_sub1()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -250,7 +250,7 @@
     public void Should_move_relation_after_sub3_and_before_sub4()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -333,7 +333,7 @@
     public void Should_fail_move_relation_caused_by_circularReference()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -379,7 +379,7 @@
     public void Should_remove_old_parent_and_add_new_parent_on_MoveIn()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var authorId = 1;
 
         var creator = new User { Id = authorId };

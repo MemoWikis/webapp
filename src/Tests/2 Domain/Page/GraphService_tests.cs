@@ -1,10 +1,10 @@
-﻿class GraphService_tests : BaseTest
+﻿class GraphService_tests : BaseTestHarness
 {
     [Test]
-    public void Should_get_all_ascendants()
+    public async Task Should_get_all_ascendants()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("RootElement").Add("RootElement2").Persist();
 
@@ -34,7 +34,7 @@
         context.AddChild(context.All.ByName("Sub3"), context.All.ByName("SubSub3"));
         context.AddChild(root2, context.All.ByName("SubSub3"));
 
-        RecycleContainerAndEntityCache();
+        await RecycleContainerAndEntityCache();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -53,7 +53,7 @@
     public void Should_get_all_descendants()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("RootElement").Add("RootElement2").Persist();
 
@@ -98,7 +98,7 @@
     [Test]
     public void Should_get_direct_children()
     {
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
@@ -124,7 +124,7 @@
     [Test]
     public void Should_get_direct_visible_children()
     {
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
@@ -153,7 +153,7 @@
     [Test]
     public void Should_get_all_children()
     {
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
@@ -181,7 +181,7 @@
     [Test]
     public void Should_get_all_visible_children()
     {
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("RootElement").Add("RootElement2").Persist();
 

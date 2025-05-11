@@ -1,6 +1,6 @@
 ﻿using static LearningSessionCreator;
 
-class FilterByCreator_tests : BaseTest
+class FilterByCreator_tests : BaseTestLegacy
 {
     private static readonly int _userId = 1;
     private readonly QuestionCacheItem _questionUserIsCreator = new() { CreatorId = _userId };

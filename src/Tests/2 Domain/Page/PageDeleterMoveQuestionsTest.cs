@@ -1,10 +1,10 @@
-﻿public class PageDeleterMoveQuestionsTest : BaseTest
+﻿internal class PageDeleterMoveQuestionsTest : BaseTestHarness
 {
     [Test]
     public void Should_Move_Questions_To_Parent()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
         var sessionUser = R<SessionUser>();
@@ -60,7 +60,7 @@
     [Test]
     public void MoveQuestionNoParent()
     {
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
 
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };

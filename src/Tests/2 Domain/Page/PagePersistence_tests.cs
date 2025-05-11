@@ -1,22 +1,23 @@
 ﻿using NUnit.Framework.Legacy;
 
-internal class ContextPage_tests : BaseTest
+internal class PagePersistenceTests : BaseTestHarness
 {
     [Test]
     public void Page_should_be_persisted()
     {
-        var firstPage = ContextPage.New().Add("A").Persist().All.First();
+        var firstPage = NewPageContext().Add("A").Persist().All.First();
         var pageRepo = R<PageRepository>();
         var pageFromDatabase = pageRepo.GetById(firstPage.Id);
+
         Assert.That(firstPage, Is.Not.Null);
         Assert.That(pageFromDatabase, Is.Not.Null);
         Assert.That(pageFromDatabase?.Name, Is.EqualTo(firstPage.Name));
     }
 
     [Test]
-    public void PagesShouldInDatabase()
+    public void Pages_should_be_in_database()
     {
-        var pageIds = ContextPage.New().Add(5).Persist().All.Select(c => c.Id).ToList();
+        var pageIds = NewPageContext().Add(5).Persist().All.Select(c => c.Id).ToList();
         var pageRepo = R<PageRepository>();
         var idsFromDatabase = pageRepo.GetAllIds().ToList();
 
@@ -24,19 +25,19 @@ internal class ContextPage_tests : BaseTest
     }
 
     [Test]
-    public void PageShouldUpdated()
+    public void Page_should_be_updated()
     {
         var pageName = "C1";
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var pageRepo = R<PageRepository>();
 
         contextPage.Add(pageName).Persist();
-        var pageBeforUpdated = pageRepo
+        var pageBeforeUpdate = pageRepo
             .GetByName(pageName)
             .Single();
         var newPageName = "newC2";
-        pageBeforUpdated.Name = newPageName;
-        contextPage.Update(pageBeforUpdated);
+        pageBeforeUpdate.Name = newPageName;
+        contextPage.Update(pageBeforeUpdate);
 
         var pageAfterUpdate = pageRepo.GetByName(newPageName).SingleOrDefault();
 
@@ -45,26 +46,26 @@ internal class ContextPage_tests : BaseTest
     }
 
     [Test]
-    public void PagesShouldUpdated()
+    public void Pages_should_be_updated()
     {
         var pageNameOne = "C1";
         var pageNameTwo = "C2";
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var pageRepo = R<PageRepository>();
 
         contextPage.Add(pageNameOne).Persist();
         contextPage.Add(pageNameTwo).Persist();
-        var pageOneBeforUpdated = contextPage
+        var pageOneBeforeUpdate = contextPage
             .All
             .Single(c => c.Name.Equals(pageNameOne));
-        var pageTwoBeforUpdated = contextPage
+        var pageTwoBeforeUpdate = contextPage
             .All
             .Single(c => c.Name.Equals(pageNameTwo));
 
         var newPageOneName = "newC1";
         var newPageTwoName = "newC2";
-        pageOneBeforUpdated.Name = newPageOneName;
-        pageTwoBeforUpdated.Name = newPageTwoName;
+        pageOneBeforeUpdate.Name = newPageOneName;
+        pageTwoBeforeUpdate.Name = newPageTwoName;
 
         contextPage.UpdateAll();
 
@@ -76,6 +77,4 @@ internal class ContextPage_tests : BaseTest
         Assert.That(pageTwoAfterUpdate, Is.Not.Null);
         Assert.That(newPageTwoName, Is.EqualTo(pageTwoAfterUpdate.Name));
     }
-
-
 }

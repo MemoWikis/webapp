@@ -1,4 +1,4 @@
-﻿public class HideOrShowTextTests : BaseTest
+﻿internal class HideOrShowTextTests : BaseTestHarness
 {
     [Test]
     public void Ensure_TextIsHidden_consistency_between_cache_and_db()
@@ -7,7 +7,7 @@
         //visiblePage
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
-        var contextPage = ContextPage.New(false);
+        var contextPage = NewPageContext();
         var publicPageName = "page1";
         var publicPage = contextPage
             .Add(publicPageName, creator: creator)

@@ -1,7 +1,7 @@
 ﻿[TestFixture]
 internal class TestHarnessTests
 {
-    private readonly TestHarness _testHarness = new(enablePerfLogging: true);
+    private readonly TestHarness _testHarness = new(enablePerfLogging: false);
 
     [OneTimeSetUp]
     public async Task OneTimeSetUp() => await _testHarness.InitAsync();
