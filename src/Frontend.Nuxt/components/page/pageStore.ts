@@ -662,7 +662,6 @@ export const usePageStore = defineStore('pageStore', {
             userStore.showLoginReminder = false
 
             if (this.isShared && this.canEditByToken) {
-                console.log('handleLoginReminder')
                 if (!userStore.isLoggedIn) {
                     userStore.showLoginReminder = true
                 }

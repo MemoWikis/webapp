@@ -62,9 +62,6 @@ const slots = useSlots()
                 </div>
                 <div class="banner-action col-xs-12 col-sm-5 memoWikis-info-partial">
                     <slot name="action">
-                        <button class="memo-button btn btn-primary">
-                            {{ t('banner.info.toDocumentation') }}
-                        </button>
                     </slot>
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
                         class="hidden-xs close-banner" />

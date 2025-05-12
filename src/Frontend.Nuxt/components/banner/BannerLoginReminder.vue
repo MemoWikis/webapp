@@ -27,8 +27,4 @@ const cookieName = ref('loginReminderBanner')
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
-
-#LoginReminderBanner {
-    background: @memo-green;
-}
 </style>
