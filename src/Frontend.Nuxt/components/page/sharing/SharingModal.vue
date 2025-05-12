@@ -179,13 +179,11 @@ const copyBaseUrl = async () => {
 
 const copyShareUrl = async () => {
 
-    // If token is disabled or sharing via token isn't active, use base URL
     if (!includeToken.value || !sharePageStore.shareViaToken()) {
         await copyBaseUrl()
         return
     }
 
-    // If sharing via token is enabled, generate token URL
     loadingStore.startLoading()
     const result = await sharePageStore.sharePageByToken(sharePageStore.pageId, linkPermission.value, pageStore.shareToken)
     loadingStore.stopLoading()
