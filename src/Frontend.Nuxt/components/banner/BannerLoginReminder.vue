@@ -12,7 +12,7 @@ const cookieName = ref('loginReminderBanner')
 <template>
     <Banner :cookieName="cookieName" id="LoginReminderBanner">
         <template #subText>
-            {{ t('banner.login.subText', 'Login is required to edit this page') }}
+            {{ t('banner.login.subText', `'You've been invited to collab on 'name' `) }}
         </template>
         <template #mainText>
             {{ t('banner.login.mainText', 'Login is required to edit this page') }}
