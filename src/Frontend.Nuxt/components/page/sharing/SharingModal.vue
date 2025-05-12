@@ -80,16 +80,13 @@ async function shareWithCurrentUser() {
     loadingStore.stopLoading()
 
     if (result.success) {
-        // Reload existing shares to show updated list
         await sharePageStore.loadExistingShares()
 
-        // Reset to search mode
         goBackToSearch()
     }
 }
 
 function removeExistingShare(userId: number) {
-    // Use the new method that handles both direct and inherited shares
     sharePageStore.removeUserAccess(userId)
 }
 
@@ -97,13 +94,10 @@ async function handleRemoveFromItem() {
     if (sharePageStore.selectedInheritedUser) {
         const userId = sharePageStore.selectedInheritedUser.id
 
-        // Close the inherited modal first
         sharePageStore.closeInheritedShareModal()
 
-        // Mark for restriction in the batch update instead of immediate API call
         sharePageStore.markUserForRestriction(userId)
 
-        // Show a visual indication that the change is pending
         snackbarStore.showSnackbar({
             type: 'info',
             text: { message: t('page.sharing.permission.pendingRestriction') },
@@ -117,10 +111,8 @@ async function handleRemoveFromParent() {
         const parentId = sharePageStore.selectedInheritedUser.inheritedFrom.id
         const userId = sharePageStore.selectedInheritedUser.id
 
-        // Close the inherited modal
         sharePageStore.closeInheritedShareModal()
 
-        // Mark this user for removal from the parent page
         sharePageStore.markUserForParentRemoval(userId, parentId)
     }
 }
