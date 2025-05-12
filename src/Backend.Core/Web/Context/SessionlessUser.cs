@@ -18,5 +18,7 @@
         {
             UserId = -1;
         }
+
+        ShareTokens = new Dictionary<int, string>();
     }
 }
