@@ -1,7 +1,7 @@
 ﻿internal class PageDeleter_tests : BaseTestHarness
 {
     [Test]
-    public void Should_delete_child()
+    public async Task Should_delete_child()
     {
         //Arrange
         var contextPage = NewPageContext();
@@ -24,7 +24,7 @@
         contextPage.Persist();
         contextPage.AddChild(parent, child);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
@@ -39,7 +39,7 @@
     }
 
     [Test]
-    public void Should_delete_child_of_child_and_remove_relation()
+    public async Task Should_delete_child_of_child_and_remove_relation()
     {
         //Arrange
         var contextPage = NewPageContext();
@@ -69,14 +69,14 @@
         contextPage.AddChild(parent, child);
         contextPage.AddChild(child, childOfChild);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(childOfChild.Id, parent.Id);
 
         //Assert
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageRepo = R<PageRepository>();
         var allAvailablePages = pageRepo.GetAll();
@@ -100,7 +100,7 @@
     }
 
     [Test]
-    public void Should_delete_child_of_child_and_remove_relations_in_EntityCache()
+    public async Task Should_delete_child_of_child_and_remove_relations_in_EntityCache()
     {
         //Arrange
         var contextPage = NewPageContext();
@@ -128,13 +128,13 @@
         contextPage.Persist();
         contextPage.AddChild(parent, child);
         contextPage.AddChild(child, childOfChild);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(childOfChild.Id, parent.Id);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         //Assert
         var allPagesInEntityCache = EntityCache.GetAllPagesList();
@@ -162,8 +162,7 @@
 
     [Test]
     [Description("child of child has extra parent")]
-    public void
-        Should_delete_child_and_remove_relations_in_EntityCache_child_of_child_has_extra_parent()
+    public async Task Should_delete_child_and_remove_relations_in_EntityCache_child_of_child_has_extra_parent()
     {
         //Arrange
         var contextPage = NewPageContext();
@@ -200,13 +199,13 @@
         contextPage.AddChild(parent, secondChild);
         contextPage.AddChild(firstChild, childOfChild);
         contextPage.AddChild(secondChild, childOfChild);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(firstChild.Id, parent.Id);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         //Assert
         Assert.That(requestResult.Success);
@@ -214,7 +213,7 @@
 
     [Test]
     [Description("child has a child, so it can't be deleted or removed")]
-    public void Should_fail_delete_child_and_remove_relations_in_EntityCache_child_has_child()
+    public async Task Should_fail_delete_child_and_remove_relations_in_EntityCache_child_has_child()
     {
         //Arrange
         var contextPage = NewPageContext();
@@ -242,13 +241,13 @@
         contextPage.Persist();
         contextPage.AddChild(parent, child);
         contextPage.AddChild(child, childOfChild);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         //Assert
         Assert.That(requestResult.Success, Is.False);
@@ -258,7 +257,7 @@
 
     [Test]
     [Description("no rights")]
-    public void Should_fail_delete_child_and_remove_relations_in_EntityCache_no_rights()
+    public async Task Should_fail_delete_child_and_remove_relations_in_EntityCache_no_rights()
     {
         //Arrange
         var contextPage = NewPageContext();
@@ -281,13 +280,13 @@
 
         contextPage.Persist();
         contextPage.AddChild(parent, child);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         //Assert
         Assert.That(requestResult.Success);

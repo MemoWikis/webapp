@@ -172,7 +172,9 @@
         var page = EntityCache.GetPage(id);
         var currentWiki = EntityCache.GetPage(_sessionUser.CurrentWikiId);
 
-        var lastBreadcrumbItem = _crumbtrailService.BuildCrumbtrail(page, currentWiki).Items
+        var lastBreadcrumbItem = _crumbtrailService
+            .BuildCrumbtrail(page, currentWiki)
+            .Items
             .LastOrDefault();
 
         if (lastBreadcrumbItem != null)

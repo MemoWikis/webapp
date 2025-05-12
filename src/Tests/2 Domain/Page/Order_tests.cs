@@ -59,7 +59,7 @@
     }
 
     [Test]
-    public void Should_init_children_in_EntityCache()
+    public async Task Should_init_children_in_EntityCache()
     {
         //Arrange
         var context = NewPageContext();
@@ -78,7 +78,7 @@
         context.AddChild(root, sub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
 
@@ -98,7 +98,7 @@
 
     //Move sub1 after sub3
     [Test]
-    public void Should_move_relation_after_sub3()
+    public async Task Should_move_relation_after_sub3()
     {
         //Arrange
         var context = NewPageContext();
@@ -120,7 +120,7 @@
         context.AddChild(root, sub2);
         context.AddChild(root, sub3);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -173,7 +173,7 @@
 
     //Move sub3 before sub1
     [Test]
-    public void Should_move_relation_before_sub1()
+    public async Task Should_move_relation_before_sub1()
     {
         //Arrange
         var context = NewPageContext();
@@ -195,7 +195,7 @@
         context.AddChild(root, sub2);
         context.AddChild(root, sub3);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[2];
@@ -247,7 +247,7 @@
 
     //Move sub1 after sub3 and before sub4
     [Test]
-    public void Should_move_relation_after_sub3_and_before_sub4()
+    public async Task Should_move_relation_after_sub3_and_before_sub4()
     {
         //Arrange
         var context = NewPageContext();
@@ -272,7 +272,7 @@
         context.AddChild(root, sub3);
         context.AddChild(root, sub4);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -330,7 +330,7 @@
     }
 
     [Test]
-    public void Should_fail_move_relation_caused_by_circularReference()
+    public async Task Should_fail_move_relation_caused_by_circularReference()
     {
         //Arrange
         var context = NewPageContext();
@@ -352,7 +352,7 @@
         context.AddChild(sub1, sub1sub1);
         context.AddChild(sub1sub1, sub1sub1sub1);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -376,7 +376,7 @@
     }
 
     [Test]
-    public void Should_remove_old_parent_and_add_new_parent_on_MoveIn()
+    public async Task Should_remove_old_parent_and_add_new_parent_on_MoveIn()
     {
         //Arrange
         var context = NewPageContext();
@@ -401,7 +401,7 @@
         context.AddChild(sub1, sub1sub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();

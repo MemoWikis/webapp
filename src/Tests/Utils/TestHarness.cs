@@ -103,20 +103,23 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     public ContextPage NewPageContext(bool addContextUser = true) => new(this, addContextUser);
 
-    public async Task InitAsync()
+    public async Task InitAsync(bool keepData = false)
     {
         _stopwatch = Stopwatch.StartNew();
 
-        await _db.StartAsync();
-        PerfLog("MySql container started");
+        if (!keepData)
+        {
+            Settings.Initialize(new ConfigurationManager());
 
-        await _meiliSearch.StartAsync();
-        PerfLog("MeiliSearch container started");
+            await _db.StartAsync();
+            PerfLog("MySql container started");
 
-        Settings.Initialize(new ConfigurationManager());
+            await InitDbSchema();
 
-        await InitDbSchema();
-
+            await _meiliSearch.StartAsync();
+            PerfLog("MeiliSearch container started");
+        }
+        
         _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
         _client = _factory.CreateClient();
 

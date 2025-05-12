@@ -1,7 +1,7 @@
 ﻿internal class PageDeleterMoveQuestionsTest : BaseTestHarness
 {
     [Test]
-    public void Should_Move_Questions_To_Parent()
+    public async Task Should_Move_Questions_To_Parent()
     {
         //Arrange
         var contextPage = NewPageContext();
@@ -24,13 +24,13 @@
         contextPage.Persist();
         contextPage.AddChild(parent, child);
 
-        var questionContext = ContextQuestion.New(persistImmediately: true);
+        var questionContext = NewQuestionContext(persistImmediately: true);
 
         questionContext.AddQuestion("question1", creator: creator, pages: new List<Page> { child });
         var pageDeleter = R<PageDeleter>();
         //Act
         pageDeleter.DeletePage(child.Id, parent.Id);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
         var parentFromDb = R<PageRepository>().GetByIdEager(parent.Id);
         var questionFromDb = R<QuestionReadingRepo>().GetById(questionContext.All.First().Id);
         var parentFromCache = EntityCache.GetPage(parentFromDb.Id);
@@ -58,13 +58,12 @@
     }
 
     [Test]
-    public void MoveQuestionNoParent()
+    public async Task MoveQuestionNoParent()
     {
         var contextPage = NewPageContext();
 
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
-
 
         var child = contextPage.Add("child",
                 PageType.Standard,
@@ -73,19 +72,15 @@
 
         contextPage.Persist();
 
-        var pageRepo = R<PageRepository>();
-
-        var questionContext = ContextQuestion.New();
-
+        var questionContext = NewQuestionContext();
         questionContext.AddQuestion("question1", creator: creator, pages: new List<Page> { child });
         var parentId = 0;
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var result = R<PageDeleter>().DeletePage(child.Id, parentId);
 
         Assert.That(result.Success, Is.EqualTo(false));
         Assert.That(result.MessageKey, Is.EqualTo(FrontendMessageKeys.Error.Page.PageNotSelected));
-
     }
 }
 

@@ -11,17 +11,19 @@
 
 
     private bool _persistQuestionsImmediately;
-    private readonly Random Rand = new();
+    private readonly Random _rand = new();
 
-    private ContextQuestion()
+    public ContextQuestion(TestHarness testHarness, bool persistImmediately = false)
     {
-        _contextUser = ContextUser.New(BaseTestLegacy.R<UserWritingRepo>());
+        _persistQuestionsImmediately = persistImmediately;
+
+        _contextUser = ContextUser.New(testHarness.R<UserWritingRepo>());
         _contextUser.Add("Creator").Persist();
         _contextUser.Add("Learner").Persist();
-        _answerRepo = BaseTestLegacy.R<AnswerRepo>();
-        _answerQuestion = BaseTestLegacy.R<AnswerQuestion>();
-        _pageRepository = BaseTestLegacy.R<PageRepository>();
-        _questionWritingRepo = BaseTestLegacy.R<QuestionWritingRepo>();
+        _answerRepo = testHarness.R<AnswerRepo>();
+        _answerQuestion = testHarness.R<AnswerQuestion>();
+        _pageRepository = testHarness.R<PageRepository>();
+        _questionWritingRepo = testHarness.R<QuestionWritingRepo>();
     }
 
     public User Creator => _contextUser.All[0];
@@ -60,7 +62,7 @@
         question.SolutionType = SolutionType.Text;
         question.SolutionMetadataJson = new SolutionMetadataText { IsCaseSensitive = true, IsExactInput = false }.Json;
         question.Creator = creator ?? _contextUser.All.First();
-        question.CorrectnessProbability = correctnessProbability == 0 ? Rand.Next(1, 101) : correctnessProbability;
+        question.CorrectnessProbability = correctnessProbability == 0 ? _rand.Next(1, 101) : correctnessProbability;
         question.Visibility = questionVisibility;
         if (pages != null)
         {
@@ -101,24 +103,6 @@
         return this;
     }
 
-    public static Question GetQuestion()
-    {
-        return New().AddQuestion()
-            .Persist().All[0];
-    }
-
-    public static ContextQuestion New(bool persistImmediately = false)
-    {
-        var result = new ContextQuestion();
-
-        if (persistImmediately)
-        {
-            result.PersistImmediately();
-        }
-
-        return result;
-    }
-
     public ContextQuestion Persist()
     {
         foreach (var question in All)
@@ -128,12 +112,6 @@
 
         _questionWritingRepo.Flush();
 
-        return this;
-    }
-
-    public ContextQuestion PersistImmediately()
-    {
-        _persistQuestionsImmediately = true;
         return this;
     }
 }

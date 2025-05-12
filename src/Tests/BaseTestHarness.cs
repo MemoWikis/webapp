@@ -7,7 +7,11 @@ internal class BaseTestHarness
 
     protected T R<T>() where T : notnull => _testHarness.Resolve<T>();
 
-    protected ContextPage NewPageContext(bool addContextUser = true) => new(_testHarness, addContextUser);
+    protected ContextPage NewPageContext(bool addContextUser = true) 
+        => new(_testHarness, addContextUser);
+
+    protected ContextQuestion NewQuestionContext(bool persistImmediately = false) 
+        => new(_testHarness, persistImmediately);
 
     [OneTimeSetUp]
     public async Task OneTimeSetUp() => await _testHarness.InitAsync();
@@ -15,9 +19,9 @@ internal class BaseTestHarness
     [OneTimeTearDown]
     public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
 
-    public async Task RecycleContainerAndEntityCache()
+    public async Task ReloadCaches()
     {
         _testHarness = new();
-        await _testHarness.InitAsync();
+        await _testHarness.InitAsync(keepData: true);
     }
 }

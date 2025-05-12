@@ -19,7 +19,7 @@ internal class SharesService_tests : BaseTestHarness
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        await RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
 
@@ -65,7 +65,7 @@ internal class SharesService_tests : BaseTestHarness
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        await RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
         var initialToken = SharesService.GetShareToken(testPage.Id, SharePermission.View, grantedByUser.Id, sharesRepository);
@@ -109,7 +109,7 @@ internal class SharesService_tests : BaseTestHarness
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        await RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
         var initialToken = SharesService.GetShareToken(testPage.Id, SharePermission.View, grantedByUser.Id, sharesRepository);
@@ -156,7 +156,7 @@ internal class SharesService_tests : BaseTestHarness
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        await RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
 
@@ -185,7 +185,7 @@ internal class SharesService_tests : BaseTestHarness
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        await RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
         SharesService.GetShareToken(testPage.Id, SharePermission.View, grantedByUser.Id, sharesRepository);
@@ -359,7 +359,7 @@ internal class SharesService_tests : BaseTestHarness
     }
 
     [Test]
-    public void Should_get_closest_parent_share_permission_by_token()
+    public async Task Should_get_closest_parent_share_permission_by_token()
     {
         // Arrange
         var userWritingRepo = R<UserWritingRepo>();
@@ -391,8 +391,7 @@ internal class SharesService_tests : BaseTestHarness
         var token = SharesService.GetShareToken(parentPage.Id, SharePermission.EditWithChildren,
             grantedByUser.Id, sharesRepository);
 
-        RecycleContainerAndEntityCache();
-
+        await ReloadCaches();
 
         // Act
         var permission = SharesService.GetClosestParentSharePermissionByTokens(childPage.Id, null, token);
@@ -442,9 +441,10 @@ internal class SharesService_tests : BaseTestHarness
     }
 
     [Test]
-    public void Should_batch_update_page_shares()
+    public async Task Should_batch_update_page_shares()
     {
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
+        
         // Arrange
         var userWritingRepo = R<UserWritingRepo>();
         var userReadingRepo = R<UserReadingRepo>();

@@ -34,7 +34,7 @@
         context.AddChild(context.All.ByName("Sub3"), context.All.ByName("SubSub3"));
         context.AddChild(root2, context.All.ByName("SubSub3"));
 
-        await RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -50,7 +50,7 @@
     }
 
     [Test]
-    public void Should_get_all_descendants()
+    public async Task Should_get_all_descendants()
     {
         //Arrange
         var context = NewPageContext();
@@ -83,7 +83,7 @@
         context.AddChild(context.All.ByName("Sub3"), context.All.ByName("SubSub3"));
         context.AddChild(root2, context.All.ByName("SubSub3"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -96,7 +96,7 @@
     }
 
     [Test]
-    public void Should_get_direct_children()
+    public async Task Should_get_direct_children()
     {
         var context = NewPageContext();
 
@@ -113,7 +113,7 @@
         context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
         context.AddChild(root, children.ByName("Sub2"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var directChildren = GraphService.Children(root.Id);
         Assert.That(directChildren.Count, Is.EqualTo(2));
@@ -122,7 +122,7 @@
     }
 
     [Test]
-    public void Should_get_direct_visible_children()
+    public async Task Should_get_direct_visible_children()
     {
         var context = NewPageContext();
 
@@ -140,7 +140,7 @@
 
         context.AddChild(root, children.ByName("Sub2"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var defaultUserId = -1;
         var permissionCheck = new PermissionCheck(defaultUserId);
@@ -151,7 +151,7 @@
     }
 
     [Test]
-    public void Should_get_all_children()
+    public async Task Should_get_all_children()
     {
         var context = NewPageContext();
 
@@ -168,7 +168,7 @@
         context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
         context.AddChild(root, children.ByName("Sub2"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var directChildren = GraphService.Descendants(root.Id);
 
@@ -179,7 +179,7 @@
     }
 
     [Test]
-    public void Should_get_all_visible_children()
+    public async Task Should_get_all_visible_children()
     {
         var context = NewPageContext();
 
@@ -211,7 +211,7 @@
         context.AddChild(context.All.ByName("Sub3"), context.All.ByName("SubSub3"));
         context.AddChild(root2, context.All.ByName("SubSub3"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();

@@ -3,7 +3,7 @@
     [Test]
     public async Task CanMovePage_MovePageCreator_And_ParentPageCreator_IsUser()
     {
-        await RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var context = NewPageContext();
         var user = new User { Id = 1 };
@@ -25,7 +25,7 @@
         context.AddChild(sub1, subsub1);
         context.AddChild(root, sub2);
 
-        await RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -37,7 +37,7 @@
     [Test]
     public async Task CanMovePage_MovePageCreator_IsUser()
     {
-        await RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var context = NewPageContext();
         var user = new User { Id = 1 };
@@ -59,7 +59,7 @@
         context.AddChild(sub1, subsub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -69,9 +69,9 @@
     }
 
     [Test]
-    public void CanMovePage_ParentPageCreator_IsUser()
+    public async Task CanMovePage_ParentPageCreator_IsUser()
     {
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var context = NewPageContext();
         var user = new User { Id = 1 };
@@ -93,7 +93,7 @@
         context.AddChild(sub1, subsub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -103,9 +103,9 @@
     }
 
     [Test]
-    public void CanMovePage_Disallowed()
+    public async Task CanMovePage_Disallowed()
     {
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var context = NewPageContext();
         var user = new User { Id = 1 };
@@ -129,7 +129,7 @@
         context.AddChild(sub1, subsub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
