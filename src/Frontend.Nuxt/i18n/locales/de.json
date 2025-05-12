@@ -1442,6 +1442,10 @@
             "subText": "Alles an einem Ort",
             "mainText": "Wiki und Lernwerkzeuge vereint!",
             "toDocumentation": "Zur Dokumentation"
+        },
+        "login": {
+            "invitedTo": "Du wurdest eingeladen, an {pageName} mitzuarbeiten",
+            "loginToEdit": "Melde dich jetzt an, um mit der Bearbeitung zu beginnen"
         }
     },
     "errorContent": {
