@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 
 export interface SideSheetWiki {
     id: number
@@ -11,7 +11,7 @@ export interface SideSheetPage {
     name: string
 }
 
-export const useSideSheetStore = defineStore("sideSheetStore", () => {
+export const useSideSheetStore = defineStore('sideSheetStore', () => {
     const showSideSheet = ref(false)
 
     const wikis = ref<SideSheetWiki[]>([])
