@@ -66,6 +66,7 @@ public class PageController(
             CanEdit = _permissionCheck.CanEditPage(data.Id, shareToken),
             IsShared = canView && SharesService.IsShared(data.Id),
             SharedWith = canView ? GetSharedWithResponse(data.Id) : null,
+            CanEditByToken = _permissionCheck.TryGetEditPermissionByToken(data.Id, shareToken)
         };
     }
 
@@ -118,6 +119,7 @@ public class PageController(
         string Language,
         bool CanEdit,
         bool IsShared,
-        [CanBeNull] List<SharedWithResponse> SharedWith = null
+        [CanBeNull] List<SharedWithResponse> SharedWith = null,
+        [CanBeNull] bool? CanEditByToken = null
     );
 }

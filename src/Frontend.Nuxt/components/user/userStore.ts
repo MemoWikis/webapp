@@ -1,10 +1,10 @@
-import { defineStore } from "pinia"
-import { UserType } from "./userTypeEnum"
-import { useLoadingStore } from "../loading/loadingStore"
-import { Page } from "../page/pageStore"
-import { useActivityPointsStore } from "../activityPoints/activityPointsStore"
-import * as Subscription from "~~/components/user/membership/subscription"
-import { AlertType, useAlertStore } from "../alert/alertStore"
+import { defineStore } from 'pinia'
+import { UserType } from './userTypeEnum'
+import { useLoadingStore } from '../loading/loadingStore'
+import { Page } from '../page/pageStore'
+import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
+import * as Subscription from '~~/components/user/membership/subscription'
+import { AlertType, useAlertStore } from '../alert/alertStore'
 
 export interface CurrentUser {
     isLoggedIn: boolean
@@ -33,7 +33,7 @@ export interface CurrentUser {
     isSubscriptionCanceled: boolean
     isEmailConfirmed: boolean
     collaborationToken?: string
-    uiLanguage: "de" | "en" | "fr" | "es"
+    uiLanguage: 'de' | 'en' | 'fr' | 'es'
 }
 
 export enum FontSize {
@@ -42,7 +42,7 @@ export enum FontSize {
     Large = 2,
 }
 
-export const useUserStore = defineStore("userStore", {
+export const useUserStore = defineStore('userStore', {
     state: () => {
         return {
             isLoggedIn: false,
@@ -50,12 +50,12 @@ export const useUserStore = defineStore("userStore", {
             type: UserType.Anonymous,
             showLoginModal: false,
             isAdmin: false,
-            name: "",
+            name: '',
             personalWiki: null as Page | null,
-            imgUrl: "",
+            imgUrl: '',
             reputation: 0,
             reputationPos: 0,
-            email: "",
+            email: '',
             unreadMessagesCount: 0,
             subscriptionType: null as Subscription.Type | null,
             hasStripeCustomerId: false,
@@ -67,7 +67,8 @@ export const useUserStore = defineStore("userStore", {
             gridInfoShown: false,
             collaborationToken: undefined as string | undefined,
             fontSize: FontSize.Medium,
-            uiLanguage: "en" as "de" | "en" | "fr" | "es",
+            uiLanguage: 'en' as 'de' | 'en' | 'fr' | 'es',
+            showLoginReminder: false,
         }
     },
     actions: {
@@ -81,7 +82,7 @@ export const useUserStore = defineStore("userStore", {
             this.reputation = currentUser.reputation
             this.reputationPos = currentUser.reputationPos
             this.personalWiki = currentUser.personalWiki
-            this.email = currentUser.email ? currentUser.email : ""
+            this.email = currentUser.email ? currentUser.email : ''
             this.unreadMessagesCount = currentUser.unreadMessagesCount
                 ? currentUser.unreadMessagesCount
                 : 0
@@ -104,6 +105,9 @@ export const useUserStore = defineStore("userStore", {
             this.isEmailConfirmed = currentUser.isEmailConfirmed
             this.collaborationToken = currentUser.collaborationToken
             this.uiLanguage = currentUser.uiLanguage
+
+            if (currentUser.isLoggedIn) this.showLoginReminder = false
+
             return
         },
         async login(loginData: {
@@ -112,12 +116,12 @@ export const useUserStore = defineStore("userStore", {
             PersistentLogin: boolean
         }) {
             const result = await $api<FetchResult<CurrentUser>>(
-                "/apiVue/UserStore/Login",
+                '/apiVue/UserStore/Login',
                 {
-                    method: "POST",
+                    method: 'POST',
                     body: loginData,
-                    mode: "cors",
-                    credentials: "include",
+                    mode: 'cors',
+                    credentials: 'include',
                 }
             )
             if (!!result && result.success) {
@@ -138,19 +142,19 @@ export const useUserStore = defineStore("userStore", {
             Language: string
         }) {
             const result = await $api<FetchResult<CurrentUser>>(
-                "/apiVue/UserStore/Register",
+                '/apiVue/UserStore/Register',
                 {
-                    method: "POST",
+                    method: 'POST',
                     body: registerData,
-                    mode: "cors",
-                    credentials: "include",
+                    mode: 'cors',
+                    credentials: 'include',
                 }
             )
 
             if (!!result && result.success) {
                 this.isLoggedIn = true
                 this.initUser(result.data)
-                return "success"
+                return 'success'
             } else if (!!result && !result.success) {
                 return result.messageKey
             }
@@ -164,11 +168,11 @@ export const useUserStore = defineStore("userStore", {
             loadingStore.startLoading()
 
             const result = await $api<FetchResult<any>>(
-                "/apiVue/UserStore/Logout",
+                '/apiVue/UserStore/Logout',
                 {
-                    method: "POST",
-                    mode: "cors",
-                    credentials: "include",
+                    method: 'POST',
+                    mode: 'cors',
+                    credentials: 'include',
                 }
             )
             loadingStore.stopLoading()
@@ -191,12 +195,12 @@ export const useUserStore = defineStore("userStore", {
             const { $logger } = useNuxtApp()
             const alertStore = useAlertStore()
             const result = await $api<FetchResult<void>>(
-                "/apiVue/UserStore/ResetPassword",
+                '/apiVue/UserStore/ResetPassword',
                 {
-                    mode: "cors",
-                    method: "POST",
+                    mode: 'cors',
+                    method: 'POST',
                     body: { email: email },
-                    credentials: "include",
+                    credentials: 'include',
                     onResponseError(context) {
                         $logger.error(
                             `resetpassword: ${context.response?.statusText}`,
@@ -211,7 +215,7 @@ export const useUserStore = defineStore("userStore", {
                         const { $i18n } = nuxtApp
 
                         alertStore.openAlert(AlertType.Error, {
-                            text: $i18n.t("error.default"),
+                            text: $i18n.t('error.default'),
                         })
                     },
                 }
@@ -220,11 +224,11 @@ export const useUserStore = defineStore("userStore", {
         },
         async getUnreadMessagesCount() {
             this.unreadMessagesCount = await $api<number>(
-                "/apiVue/UserStore/GetUnreadMessagesCount",
+                '/apiVue/UserStore/GetUnreadMessagesCount',
                 {
-                    method: "GET",
-                    mode: "cors",
-                    credentials: "include",
+                    method: 'GET',
+                    mode: 'cors',
+                    credentials: 'include',
                 }
             )
         },
@@ -232,11 +236,11 @@ export const useUserStore = defineStore("userStore", {
             const { $logger } = useNuxtApp()
             const alertStore = useAlertStore()
             const result = await $api<FetchResult<void>>(
-                "/apiVue/UserStore/RequestVerificationMail",
+                '/apiVue/UserStore/RequestVerificationMail',
                 {
-                    method: "POST",
-                    mode: "cors",
-                    credentials: "include",
+                    method: 'POST',
+                    mode: 'cors',
+                    credentials: 'include',
                     onResponseError(context) {
                         $logger.error(
                             `requestVerificationMail: ${context.response?.statusText}`,
@@ -251,7 +255,7 @@ export const useUserStore = defineStore("userStore", {
                         const { $i18n } = nuxtApp
 
                         alertStore.openAlert(AlertType.Error, {
-                            text: $i18n.t("error.default"),
+                            text: $i18n.t('error.default'),
                         })
                     },
                 }
@@ -272,7 +276,7 @@ export const useUserStore = defineStore("userStore", {
         deleteUser() {
             this.$reset()
         },
-        async updateLanguageSetting(language: "de" | "en" | "fr" | "es") {
+        async updateLanguageSetting(language: 'de' | 'en' | 'fr' | 'es') {
             if (this.uiLanguage === language) return
 
             this.uiLanguage = language
@@ -280,22 +284,27 @@ export const useUserStore = defineStore("userStore", {
             if (!this.isLoggedIn) return
 
             const result = await $api<FetchResult<void>>(
-                "/apiVue/UserStore/UpdateLanguageSetting",
+                '/apiVue/UserStore/UpdateLanguageSetting',
                 {
-                    method: "POST",
+                    method: 'POST',
                     body: { language },
-                    mode: "cors",
-                    credentials: "include",
+                    mode: 'cors',
+                    credentials: 'include',
                 }
             )
         },
         async addShareToken(pageId: number, shareToken: string) {
-            await $api<void>("/apiVue/UserStore/AddShareToken", {
-                method: "POST",
+            await $api<void>('/apiVue/UserStore/AddShareToken', {
+                method: 'POST',
                 body: { pageId, shareToken },
-                mode: "cors",
-                credentials: "include",
+                mode: 'cors',
+                credentials: 'include',
             })
+        },
+    },
+    getters: {
+        showLoginReminderBanner(): boolean {
+            return !this.isLoggedIn && this.showLoginReminder
         },
     },
 })

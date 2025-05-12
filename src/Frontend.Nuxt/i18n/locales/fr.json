@@ -1436,8 +1436,12 @@
     "banner": {
         "info": {
             "subText": "Tout au même endroit",
-            "mainText": "Wiki et outils d’apprentissage réunis !",
+            "mainText": "Wiki et outils d'apprentissage réunis !",
             "toDocumentation": "Voir la doc"
+        },
+        "login": {
+            "invitedTo": "Tu as été invité(e) à collaborer sur {pageName}",
+            "loginToEdit": "Connecte-toi maintenant pour commencer à éditer"
         }
     },
     "errorContent": {
