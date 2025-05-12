@@ -34,7 +34,7 @@ function setErrorImage(statusCode: number) {
             errorImgSrc.value = '/Images/Error/memo-404_german_600.png'
             break
         case ErrorCode.Unauthorized:
-            errorImgSrc.value = '/Images/Error/memo-401_german_600.png'
+            errorImgSrc.value = '/Images/Error/memo-404_german_600.png'
             break
         case ErrorCode.Error:
         default:
