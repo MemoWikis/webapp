@@ -1,21 +1,23 @@
 <script lang="ts" setup>
+import { usePageStore } from '../page/pageStore'
 import { useUserStore } from '../user/userStore'
 
 const userStore = useUserStore()
+const pageStore = usePageStore()
 const { t } = useI18n()
 
 const cookieName = ref('loginReminderBanner')
-
+const shortPageName = ref(pageStore.name.length > 20 ? pageStore.name.substring(0, 20) + '...' : pageStore.name)
 
 </script>
 
 <template>
     <Banner :cookieName="cookieName" id="LoginReminderBanner">
         <template #subText>
-            {{ t('banner.login.subText', `'You've been invited to collab on 'name' `) }}
+            {{ t('banner.login.invitedTo', { pageName: shortPageName }) }}
         </template>
         <template #mainText>
-            {{ t('banner.login.mainText', 'Login is required to edit this page') }}
+            {{ t('banner.login.loginToEdit') }}
         </template>
         <template #action>
             <button class="memo-button btn btn-primary" @click="userStore.openLoginModal()">

@@ -1438,6 +1438,10 @@
             "subText": "Todo en un solo lugar",
             "mainText": "¡Wiki y herramientas de aprendizaje unidos!",
             "toDocumentation": "Ir a la documentación"
+        },
+        "login": {
+            "invitedTo": "Has sido invitado(a) a colaborar en {pageName}",
+            "loginToEdit": "Inicia sesión ahora para comenzar a editar"
         }
     },
     "errorContent": {

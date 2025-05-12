@@ -1438,6 +1438,10 @@
             "subText": "Everything in one place",
             "mainText": "Wiki and learning tools combined!",
             "toDocumentation": "To the documentation"
+        },
+        "login": {
+            "invitedTo": "You've been invited to collaborate on {pageName}",
+            "loginToEdit": "Log in now to start editing"
         }
     },
     "errorContent": {
