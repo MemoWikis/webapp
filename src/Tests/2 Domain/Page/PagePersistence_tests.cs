@@ -15,8 +15,10 @@ internal class PagePersistenceTests : BaseTestHarness
     }
 
     [Test]
-    public void Pages_should_be_in_database()
+    public async Task Pages_should_be_in_database()
     {
+        await ClearData();
+        
         var pageIds = NewPageContext().Add(5).Persist().All.Select(c => c.Id).ToList();
         var pageRepo = R<PageRepository>();
         var idsFromDatabase = pageRepo.GetAllIds().ToList();
@@ -46,8 +48,10 @@ internal class PagePersistenceTests : BaseTestHarness
     }
 
     [Test]
-    public void Pages_should_be_updated()
+    public async Task Pages_should_be_updated()
     {
+        await ClearData();
+
         var pageNameOne = "C1";
         var pageNameTwo = "C2";
         var contextPage = NewPageContext();

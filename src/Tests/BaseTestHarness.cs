@@ -23,4 +23,9 @@ internal class BaseTestHarness
     {
         await _testHarness.InitAsync(keepData: true);
     }
+
+    public async Task ClearData()
+    {
+        await _testHarness.InitAsync(keepData: false);
+    }
 }
