@@ -4,26 +4,58 @@
     IHttpContextAccessor _httpContextAccessor)
     : ApiBaseController
 {
-    public readonly record struct WikiItem(int Id, string Name, string ImgUrl, int? QuestionCount, KnowledgeSummary KnowledgebarData);
+    public readonly record struct WikiItem(int Id, string Name, string ImgUrl, int? QuestionCount, KnowledgeSummaryResponse KnowledgebarData);
 
     public readonly record struct Activity(DateTime Day, int Count);
 
     public readonly record struct ActivityCalendar(IList<Activity> Activity);
 
-    public readonly record struct GetAllResponse(IList<WikiItem> Wikis, KnowledgeSummary KnowledgeStatus, ActivityCalendar ActivityCalendar);
+    public readonly record struct GetAllResponse(IList<WikiItem> Wikis, KnowledgeSummaryResponse KnowledgeStatus, ActivityCalendar ActivityCalendar);
+
+    public readonly record struct KnowledgeSummaryResponse(
+        int NotLearned,
+        int NotLearnedPercentage,
+        int NeedsLearning,
+        int NeedsLearningPercentage,
+        int NeedsConsolidation,
+        int NeedsConsolidationPercentage,
+        int Solid,
+        int SolidPercentage,
+        int NotInWishknowledge,
+        int NotInWishknowledgePercentage,
+        int Total);
 
     [HttpGet]
     public GetAllResponse GetAll()
     {
         if (_sessionUser == null || !_sessionUser.IsLoggedIn)
         {
-            return new GetAllResponse(new List<WikiItem>(), new KnowledgeSummary(), new ActivityCalendar(new List<Activity>()));
+            return new GetAllResponse(new List<WikiItem>(), new KnowledgeSummaryResponse(), new ActivityCalendar(new List<Activity>()));
         }
+
+        var knowledgeSummary = FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId));
 
         return new GetAllResponse(
             GetWikis(),
-            _knowledgeSummaryLoader.Run(_sessionUser.UserId),
+            knowledgeSummary,
             GetActivityCalendar());
+    }
+
+    // wip because KnowledgeSummary is incomplete as response
+    private KnowledgeSummaryResponse FillKnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary)
+    {
+        return new KnowledgeSummaryResponse(
+            knowledgeSummary.NotLearned,
+            knowledgeSummary.NotLearnedPercentage,
+            knowledgeSummary.NeedsLearning,
+            knowledgeSummary.NeedsLearningPercentage,
+            knowledgeSummary.NeedsConsolidation,
+            knowledgeSummary.NeedsConsolidationPercentage,
+            knowledgeSummary.Solid,
+            knowledgeSummary.SolidPercentage,
+            knowledgeSummary.NotInWishknowledge,
+            knowledgeSummary.NotInWishknowledgePercentage,
+            knowledgeSummary.Total);
     }
 
     // wip needs to be moved to a service
@@ -39,7 +71,7 @@
                 wiki.Name,
                 new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
                 wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                _knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id)))
+                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id))))
             .ToList();
 
         var userStartPage = EntityCache.GetPage(userCacheItem.StartPageId);
@@ -48,7 +80,7 @@
             userStartPage.Name,
             new PageImageSettings(userStartPage.Id, _httpContextAccessor).GetUrl_128px(true).Url,
             userStartPage.GetCountQuestionsAggregated(_sessionUser.UserId),
-            _knowledgeSummaryLoader.Run(_sessionUser.UserId, userStartPage.Id)
+            FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, userStartPage.Id))
         );
 
         wikis.Insert(0, userStartPageAsWikiItem);

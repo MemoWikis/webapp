@@ -31,8 +31,14 @@ const dashboardData = ref<UserDashboardData>()
 
 const getAllData = async () => {
     try {
-        const { data } = await useFetch('/apiVue/MissionControl/GetAll')
+        const { data } = await useFetch<UserDashboardData>('/apiVue/MissionControl/GetAll')
+        if (data.value === null) {
+            console.error('No data received from API')
+            return
+        }
         dashboardData.value = data.value
+
+        console.log("response", data.value)
     } catch (error) {
         console.error('Failed to fetch dashboard data:', error)
     }
@@ -51,13 +57,18 @@ onMounted(() => {
                 <div class="mission-control-content" v-if="dashboardData">
                     <!-- Wikis Section -->
                     <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
-
                         <MissionControlWikisGrid :wikis="dashboardData.wikis" />
                     </MissionControlSection>
 
-                    <!-- Knowledge Status Section (placeholder) -->
+                    <!-- Knowledge Status Section -->
                     <MissionControlSection :title="t('missionControl.sections.knowledgeStatus')">
-                        <p>{{ t('missionControl.knowledgeStatus.comingSoon') }}</p>
+                        <template #actions>
+                            <button class="btn btn-sm btn-outline-primary">
+                                {{ t('missionControl.knowledgeStatus.viewDetails') }}
+                            </button>
+                        </template>
+                        <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus" :knowledgeStatus="dashboardData.knowledgeStatus" />
+                        <p v-else>{{ t('missionControl.knowledgeStatus.noData') }}</p>
                     </MissionControlSection>
 
                     <!-- ActivityCalendar Section (placeholder) -->
