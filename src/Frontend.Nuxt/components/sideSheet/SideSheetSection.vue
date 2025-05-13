@@ -27,7 +27,7 @@
     .header,
     .content,
     .footer {
-        padding: 0 24px;
+        padding: 0 20px;
     }
 
     .header {
