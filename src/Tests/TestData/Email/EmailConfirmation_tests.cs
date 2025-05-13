@@ -2,15 +2,6 @@
 
 internal class EmailConfirmationServiceTests : BaseTestHarness
 {
-    private readonly EmailConfirmationService _emailConfirmationService;
-
-    public EmailConfirmationServiceTests()
-
-    {
-        _emailConfirmationService =
-            new EmailConfirmationService(R<UserReadingRepo>(), R<UserWritingRepo>());
-    }
-
     [Test]
     public void CreateEmailConfirmationToken_ReturnsExpectedFormat()
     {
@@ -24,7 +15,7 @@ internal class EmailConfirmationServiceTests : BaseTestHarness
 
         // Split the token and make sure there are two parts
         var parts = token.Split('-');
-        Assert.That(2, Is.EqualTo(parts.Length));
+        Assert.That(parts.Length, Is.EqualTo(2));
 
         // Make sure the second part of the token matches the user's ID
         Assert.That(user.Id.ToString(), Is.EqualTo(parts[1]));
@@ -40,8 +31,7 @@ internal class EmailConfirmationServiceTests : BaseTestHarness
             PasswordHashedAndSalted = "1231adhb24"
         };
         var token = EmailConfirmationService.CreateEmailConfirmationToken(user);
-
-        var result = _emailConfirmationService.TryConfirmEmailTest(token, user);
+        var result = R<EmailConfirmationService>().TryConfirmEmailTest(token, user);
 
         Assert.That(result);
     }
@@ -57,7 +47,7 @@ internal class EmailConfirmationServiceTests : BaseTestHarness
         };
         var token = "invalid-token";
 
-        var result = _emailConfirmationService.TryConfirmEmailTest(token, user);
+        var result = R<EmailConfirmationService>().TryConfirmEmailTest(token, user);
 
         Assert.That(result, Is.False);
     }
@@ -146,16 +136,17 @@ internal class EmailConfirmationServiceTests : BaseTestHarness
 
         var userDayFirstFormat = new User
         {
-            DateCreated = DateTime.ParseExact("23/09/2023 00:36:27", "dd/MM/yyyy HH:mm:ss",
-                CultureInfo.InvariantCulture),
+            DateCreated = DateTime.ParseExact(
+                "23/09/2023 00:36:27", "dd/MM/yyyy HH:mm:ss", 
+                CultureInfo.InvariantCulture
+            ),
             PasswordHashedAndSalted = "abcdef",
             Id = 1
         };
 
         var tokenIso = EmailConfirmationService.CreateEmailConfirmationToken(userIsoFormat);
         var tokenSimple = EmailConfirmationService.CreateEmailConfirmationToken(userSimpleFormat);
-        var tokenDayFirst =
-            EmailConfirmationService.CreateEmailConfirmationToken(userDayFirstFormat);
+        var tokenDayFirst = EmailConfirmationService.CreateEmailConfirmationToken(userDayFirstFormat);
 
         Assert.That(tokenIso, Is.EqualTo(tokenSimple));
         Assert.That(tokenSimple, Is.EqualTo(tokenDayFirst));
