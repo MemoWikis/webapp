@@ -83,10 +83,6 @@
     {
       Id: 1,
       Name: SessionUser
-    },
-    {
-      Id: 2,
-      Name: TestUser
     }
   ]
 }

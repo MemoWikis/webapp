@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DotNet.Testcontainers.Builders;
 using FakeItEasy;
+using Meilisearch;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -122,8 +123,10 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
             await _meiliSearch.StartAsync();
             PerfLog("MeiliSearch container started");
+
+            await ClearMeilisearchIndices();
         }
-        
+
         _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
         _client = _factory.CreateClient();
 
@@ -159,6 +162,35 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         }
 
         CreateAppVersionSetting(configuration);
+    }
+
+    private async Task ClearMeilisearchIndices()
+    {
+        var client = new MeilisearchClient(MeilisearchUrl, MeilisearchMasterKey);
+
+        // Delete all indices used in the application
+        var deletePageTaskId = (await client.DeleteIndexAsync(MeilisearchIndices.Pages)).TaskUid;
+        var deleteQuestionTaskId = (await client.DeleteIndexAsync(MeilisearchIndices.Questions)).TaskUid;
+        var deleteUserTaskId = (await client.DeleteIndexAsync(MeilisearchIndices.Users)).TaskUid;
+
+        // Wait for all deletion tasks to complete
+        await client.WaitForTaskAsync(deletePageTaskId);
+        await client.WaitForTaskAsync(deleteQuestionTaskId);
+        await client.WaitForTaskAsync(deleteUserTaskId);
+
+        // Recreate the indices
+        await client.CreateIndexAsync(MeilisearchIndices.Pages);
+        await client.CreateIndexAsync(MeilisearchIndices.Questions);
+        await client.CreateIndexAsync(MeilisearchIndices.Users);
+
+        // Initialize filterable attributes for indices
+        var pagesIndex = client.Index(MeilisearchIndices.Pages);
+        var questionsIndex = client.Index(MeilisearchIndices.Questions);
+        var usersIndex = client.Index(MeilisearchIndices.Users);
+
+        await pagesIndex.UpdateFilterableAttributesAsync(["Language"]);
+        await questionsIndex.UpdateFilterableAttributesAsync(["Language"]);
+        await usersIndex.UpdateFilterableAttributesAsync(["ContentLanguages"]);
     }
 
     private void CreateAppVersionSetting(Configuration configuration)

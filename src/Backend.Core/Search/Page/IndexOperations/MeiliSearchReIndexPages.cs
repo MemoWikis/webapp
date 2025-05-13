@@ -2,7 +2,7 @@
 
 public class MeilisearchReIndexPages(PageRepository _pageRepository) : IRegisterAsInstancePerLifetime
 {
-    public MeilisearchClient _client { get; } = new(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
+    private MeilisearchClient _client { get; } = new(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
 
     public async Task Run()
     {
@@ -13,7 +13,7 @@ public class MeilisearchReIndexPages(PageRepository _pageRepository) : IRegister
         {
             Id = c.Id,
             Name = c.Name,
-            CreatorName = c.Creator == null ? "Unbekannt" : c.Creator.Name,
+            CreatorName = c.Creator == null ? "-" : c.Creator.Name,
             DateCreated = c.DateCreated,
             Description = c.Description,
             Content = c.Content,
@@ -36,7 +36,7 @@ public class MeilisearchReIndexPages(PageRepository _pageRepository) : IRegister
         {
             Id = c.Id,
             Name = c.Name,
-            CreatorName = c.Creator == null ? "Unbekannt" : c.Creator.Name,
+            CreatorName = c.Creator == null ? "-" : c.Creator.Name,
             DateCreated = c.DateCreated,
             Description = c.Description,
             Content = c.Content,
