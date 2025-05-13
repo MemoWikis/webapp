@@ -28,8 +28,12 @@
 
         questionContext.AddQuestion("question1", creator: creator, pages: new List<Page> { child });
         var pageDeleter = R<PageDeleter>();
+        
         //Act
         pageDeleter.DeletePage(child.Id, parent.Id);
+        
+        
+        // Assert
         await ReloadCaches();
         var parentFromDb = R<PageRepository>().GetByIdEager(parent.Id);
         var questionFromDb = R<QuestionReadingRepo>().GetById(questionContext.All.First().Id);
@@ -39,7 +43,6 @@
         var pageChange = R<PageChangeRepo>().GetForPage(parent.Id);
         var questionChange = R<QuestionChangeRepo>().GetByQuestionId(questionFromDb.Id);
 
-        //Assert
         Assert.That(parentFromDb, Is.Not.Null);
         Assert.That(PageChangeType.Create, Is.EqualTo(pageChange.First().Type));
         Assert.That(PageChangeType.Relations, Is.EqualTo(pageChange[1].Type));
@@ -49,12 +52,12 @@
 
         Assert.That(parentFromDb.CountQuestionsAggregated, Is.EqualTo(1));
         Assert.That(parentFromDb.Id, Is.EqualTo(questionFromDb.Pages.First().Id));
-        Assert.That(questionFromDb.Pages.Count(), Is.EqualTo(1));
+        Assert.That(questionFromDb.Pages.Count, Is.EqualTo(1));
 
         Assert.That(parentFromCache, Is.Not.Null);
         Assert.That(parentFromCache.CountQuestionsAggregated, Is.EqualTo(1));
         Assert.That(parentFromCache.Id, Is.EqualTo(questionFromDb.Pages.First().Id));
-        Assert.That(questionFromCache.Pages.Count(), Is.EqualTo(1));
+        Assert.That(questionFromCache.Pages.Count, Is.EqualTo(1));
     }
 
     [Test]

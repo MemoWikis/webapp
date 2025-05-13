@@ -23,6 +23,10 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         .WithUsername("test")
         .WithPassword("P@ssw0rd_#123")
         .WithDatabase(TestDbName)
+        .WithCommand(
+            "mysqld",
+            "--lower_case_table_names=1"
+        )
         .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
         .WithWaitStrategy(
             Wait.ForUnixContainer()
@@ -130,7 +134,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         _scope = rootScope.BeginLifetimeScope();
         PerfLog("WebApplicationFactory + Autofac root");
 
-        await RunLegacyInitializersAsync();
+        await InitializersMoreAsync();
         PerfLog("Legacy initializers");
 
         DbData = new RawDbDataLoader(ConnectionString);
@@ -185,7 +189,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     public void Dispose() => DisposeAsync().AsTask().GetAwaiter().GetResult();
 
-    private async Task RunLegacyInitializersAsync()
+    private async Task InitializersMoreAsync()
     {
         _stopwatch = Stopwatch.StartNew();
 
