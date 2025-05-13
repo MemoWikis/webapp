@@ -69,22 +69,22 @@ export default <RouterConfig>{
         {
             name: "legalNoticePageDE",
             path: "/Impressum",
-            component: () => import("~/pages/legalNotice/legalNotice-de.vue"),
+            component: () => import("~/pages/legal-notice/legal-notice-de.vue"),
         },
         {
             name: "legalNoticePageEN",
             path: "/LegalNotice",
-            component: () => import("~/pages/legalNotice/legalNotice-en.vue"),
+            component: () => import("~/pages/legal-notice/legal-notice-en.vue"),
         },
         {
             name: "legalNoticePageFR",
             path: "/MentionsLegales",
-            component: () => import("~/pages/legalNotice/legalNotice-fr.vue"),
+            component: () => import("~/pages/legal-notice/legal-notice-fr.vue"),
         },
         {
             name: "legalNoticePageES",
             path: "/AvisoLegal",
-            component: () => import("~/pages/legalNotice/legalNotice-es.vue"),
+            component: () => import("~/pages/legal-notice/legal-notice-es.vue"),
         },
         {
             name: "pricePageDE",
