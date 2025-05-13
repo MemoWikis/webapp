@@ -10,6 +10,7 @@ using Serilog.Exceptions;
 using Stripe;
 using System.Text.Json;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Configuration;
 using Scalar.AspNetCore;
 using Serilog.Events;
 using static System.Int32;
@@ -32,6 +33,14 @@ try
                 ? LogEventLevel.Information
                 : LogEventLevel.Error);
     });
+
+    builder.Configuration
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile(
+            $"appsettings.{builder.Environment.EnvironmentName}.json",
+            optional: true,
+            reloadOnChange: true
+        );
 
 
     builder.WebHost.ConfigureKestrel(serverOptions => { serverOptions.Limits.MaxRequestBodySize = 1073741824; });

@@ -16,6 +16,7 @@ _Re[Ss]harper.*
 .vs/
 
 appsettings.*.json
+*.received.txt
 
 /src/Backend.Api/Images/*
 /src/hocuspocus/.env

@@ -75,6 +75,7 @@
         var questionContext = NewQuestionContext();
         questionContext.AddQuestion("question1", creator: creator, pages: new List<Page> { child });
         var parentId = 0;
+        
         await ReloadCaches();
 
         var result = R<PageDeleter>().DeletePage(child.Id, parentId);

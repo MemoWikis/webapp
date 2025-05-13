@@ -83,7 +83,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         // Prepare environment fake
         _webHostEnv = A.Fake<IWebHostEnvironment>();
-        A.CallTo(() => _webHostEnv.EnvironmentName).Returns("TestEnvironment");
+        A.CallTo(() => _webHostEnv.EnvironmentName).Returns("Test");
 
         // Prepare HttpContext/session fake with legacy userId=1
         _httpCtxAcc = A.Fake<IHttpContextAccessor>();
@@ -237,7 +237,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseEnvironment("TestEnvironment");
+            builder.UseEnvironment("Test");
             builder.ConfigureAppConfiguration((_, cfg) =>
             {
                 cfg.AddInMemoryCollection(new Dictionary<string, string?>

@@ -21,7 +21,6 @@ internal class BaseTestHarness
 
     public async Task ReloadCaches()
     {
-        _testHarness = new();
         await _testHarness.InitAsync(keepData: true);
     }
 }

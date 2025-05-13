@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using MySql.Data.MySqlClient;
@@ -64,16 +65,31 @@ public class SessionFactory
         var sb = new StringBuilder();
         schemaExport.Create(sql => sb.AppendLine(sql), execute: false);
 
-        var sqlBatch = 
-            $"""
-            SET foreign_key_checks = 0;
-            {sb}
-            SET foreign_key_checks = 1;
-            """;
+        // Remove all lines that start with "alter table" and split by ";"
+        // to avoid errors when dropping not existing indices.
+        var cleanedLines = sb
+            .ToString()
+            .Split(';', StringSplitOptions.RemoveEmptyEntries)
+            .Where(l => !Regex.IsMatch(
+                l,
+                @"^\s*alter\s+table.+drop\s+foreign\s+key",   // **nur** FK-Drops
+                RegexOptions.IgnoreCase | RegexOptions.Singleline));
 
-        using var conn = new MySqlConnection(Settings.ConnectionString);
+        var sqlBatch =
+            $"""
+             SET foreign_key_checks = 0;
+             {string.Join(";\n", cleanedLines)};
+             SET foreign_key_checks = 1;
+             """;
+
+        var connectionString = Settings.ConnectionString;
+        if (!connectionString.Contains("AllowBatch", StringComparison.OrdinalIgnoreCase))
+            connectionString += ";AllowBatch=True";
+
+        using var conn = new MySqlConnection(connectionString);
         conn.Open();
-        using var cmd = new MySqlCommand(sqlBatch, conn) { CommandTimeout = 0 };
+        using var cmd = new MySqlCommand(sqlBatch, conn);
+        cmd.CommandTimeout = 0;
         cmd.ExecuteNonQuery();
     }
 

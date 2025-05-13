@@ -21,12 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.Test.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="8.3.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
