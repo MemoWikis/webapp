@@ -1,14 +1,6 @@
 ﻿[TestFixture]
-public class Convert_tests : BaseTestLegacy
+internal class Convert_tests : BaseTestHarness
 {
-    private readonly TestHarness _testHarness = new();
-
-    [OneTimeSetUp]
-    public async Task OneTimeSetUp() => await _testHarness.InitAsync();
-
-    [OneTimeTearDown]
-    public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
-
     [Test]
     public void ConvertPageToWiki_Should_Succeed_With_ValidInputs()
     {
@@ -20,7 +12,7 @@ public class Convert_tests : BaseTestLegacy
 
         var userId = 1;
 
-        var pageContext = _testHarness.NewPageContext();
+        var pageContext = NewPageContext();
 
         var root = pageContext.Add("RootElement").Persist().All.First();
 
@@ -111,7 +103,7 @@ public class Convert_tests : BaseTestLegacy
 
         var userId = 1;
 
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
@@ -151,7 +143,7 @@ public class Convert_tests : BaseTestLegacy
 
         var userId = 1;
 
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
@@ -244,7 +236,7 @@ public class Convert_tests : BaseTestLegacy
         var userWritingRepo = R<UserWritingRepo>();
         var userId = 1;
 
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 

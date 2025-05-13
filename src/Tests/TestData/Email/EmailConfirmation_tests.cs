@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-public class EmailConfirmationServiceTests : BaseTestLegacy
+internal class EmailConfirmationServiceTests : BaseTestHarness
 {
     private readonly EmailConfirmationService _emailConfirmationService;
 

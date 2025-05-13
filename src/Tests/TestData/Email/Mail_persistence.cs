@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-class Mail_persistence : BaseTestLegacy
+class Mail_persistence : BaseTestHarness
 {
     [Test]
     [Ignore("Doesnt work")]

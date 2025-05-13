@@ -1,6 +1,6 @@
 ﻿using static LearningSessionCreator;
 
-class FilterByWuwi_tests : BaseTestLegacy
+class FilterByWuwi_tests : BaseTestHarness
 {
     private readonly QuestionValuationCacheItem _questionValuationIsInWishknowledge = new() { IsInWishKnowledge = true };
     private readonly QuestionValuationCacheItem _questionValuationIsNotInWishknowledge = new() { IsInWishKnowledge = false };

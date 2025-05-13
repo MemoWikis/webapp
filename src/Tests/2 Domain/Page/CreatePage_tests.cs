@@ -1,25 +1,20 @@
-﻿internal class CreatePage_tests : BaseTestLegacy
+﻿internal class CreatePage_tests : BaseTestHarness
 {
-    private readonly TestHarness _testHarness = new();
-
-    [OneTimeSetUp]
-    public async Task OneTimeSetUp() => await _testHarness.InitAsync();
-
-    [OneTimeTearDown]
-    public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
-
     [Test]
-    public void Should_create_Page_in_Db()
+    public async Task Should_create_Page_in_Db()
     {
         //Arrange
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
         var parentName = "Parent";
 
         var sessionUser = R<SessionUser>();
         var pageViewRepo = R<PageViewRepo>();
-        sessionUser.Login(_sessionUser, pageViewRepo);
+        
+        var sessionUserDbUser = R<UserReadingRepo>().GetById(sessionUser.UserId)!;
+
+        sessionUser.Login(sessionUserDbUser, pageViewRepo);
         var parent = context
-            .Add(parentName, creator: _sessionUser)
+            .Add(parentName, creator: sessionUserDbUser)
             .Persist().All
             .Single(c => c.Name.Equals(parentName));
 
@@ -29,7 +24,7 @@
         R<PageCreator>().Create(childName, parent.Id, sessionUser);
 
         //Assert
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var childFromDatabase = R<PageRepository>().GetByName(childName).Single();
         DateTime referenceDate = DateTime.Now;
@@ -49,20 +44,23 @@
     }
 
     [Test]
-    public void Should_create_Page_in_EntityCache()
+    public async Task Should_create_Page_in_EntityCache()
     {
+        await ClearData();
+        
         //Arrange
-        var context = _testHarness.NewPageContext();
-        var parentname = "Parent";
+        var context = NewPageContext();
+        var parentName = "Parent";
         var parent = context
-            .Add(parentname)
+            .Add(parentName)
             .Persist()
             .All
-            .Single(c => c.Name.Equals(parentname));
+            .Single(c => c.Name.Equals(parentName));
         var pageViewRepo = R<PageViewRepo>();
 
         var sessionUser = R<SessionUser>();
-        sessionUser.Login(_sessionUser, pageViewRepo);
+        var sessionDbUser = R<UserReadingRepo>().GetById(sessionUser.UserId)!;
+        sessionUser.Login(sessionDbUser, pageViewRepo);
 
         var childName = "child";
 
@@ -81,7 +79,7 @@
         Assert.That(childFromEntityCache.Creator.Name, Is.EqualTo(sessionUser.User.Name));
         Assert.That(childFromEntityCache.DateCreated,
             Is.InRange(referenceDate.AddHours(-1), referenceDate.AddHours(1)));
-        Assert.That(1, Is.EqualTo(childFromEntityCache.ParentRelations.Count));
+        Assert.That(childFromEntityCache.ParentRelations.Count, Is.EqualTo(1));
         Assert.That(
             parent.Name, Is.EqualTo(GraphService
                 .VisibleAscendants(childFromEntityCache.Id, R<PermissionCheck>())

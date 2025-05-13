@@ -1,18 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
-class GenerateFlashCards_tests : BaseTestLegacy
+class GenerateFlashCards_tests : BaseTestHarness
 {
     private const int PageId = 1;
     private const int DefaultUserId = 1;
 
     private readonly TestHarness _testHarness = new(enablePerfLogging: false);
-
-    [OneTimeSetUp]
-    public async Task OneTimeSetUp() => await _testHarness.InitAsync();
-
-    [OneTimeTearDown]
-    public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
 
     [Test]
     public async Task Should_generate_flashcards_for_shortSourceText()
@@ -25,7 +19,7 @@ class GenerateFlashCards_tests : BaseTestLegacy
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
@@ -56,7 +50,7 @@ class GenerateFlashCards_tests : BaseTestLegacy
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
@@ -82,7 +76,7 @@ class GenerateFlashCards_tests : BaseTestLegacy
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
@@ -125,7 +119,7 @@ class GenerateFlashCards_tests : BaseTestLegacy
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
@@ -157,7 +151,7 @@ class GenerateFlashCards_tests : BaseTestLegacy
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
@@ -184,7 +178,7 @@ class GenerateFlashCards_tests : BaseTestLegacy
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
@@ -225,7 +219,7 @@ class GenerateFlashCards_tests : BaseTestLegacy
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
@@ -256,7 +250,7 @@ class GenerateFlashCards_tests : BaseTestLegacy
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
