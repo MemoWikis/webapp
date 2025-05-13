@@ -6,12 +6,9 @@
         //Arrange
         var unsortedRelations = new List<PageRelationCache>
         {
-            new PageRelationCache
-                { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new PageRelationCache
-                { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new PageRelationCache
-                { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
+            new() { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
+            new() { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+            new() { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
         };
 
         //Act
@@ -31,19 +28,13 @@
         //Arrange
         var unsortedRelations = new List<PageRelationCache>
         {
-            new PageRelationCache
-                { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new PageRelationCache
-                { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new PageRelationCache
-                { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
+            new() { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
+            new() { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+            new() { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
 
-            new PageRelationCache
-                { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
-            new PageRelationCache
-                { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
-            new PageRelationCache
-                { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
+            new() { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
+            new() { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
+            new() { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
         };
 
         //Act
@@ -61,6 +52,8 @@
     [Test]
     public async Task Should_init_children_in_EntityCache()
     {
+        await ReloadCaches();
+        
         //Arrange
         var context = NewPageContext();
 
@@ -78,11 +71,8 @@
         context.AddChild(root, sub1);
         context.AddChild(root, sub2);
 
-        await ReloadCaches();
-
-        var entityCacheInitializer = R<EntityCacheInitializer>();
-
         //Act
+        var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
         //Assert
@@ -100,6 +90,8 @@
     [Test]
     public async Task Should_move_relation_after_sub3()
     {
+        await ReloadCaches();
+
         //Arrange
         var context = NewPageContext();
 
@@ -175,6 +167,8 @@
     [Test]
     public async Task Should_move_relation_before_sub1()
     {
+        await ReloadCaches();
+
         //Arrange
         var context = NewPageContext();
 
@@ -249,6 +243,8 @@
     [Test]
     public async Task Should_move_relation_after_sub3_and_before_sub4()
     {
+        await ReloadCaches();
+
         //Arrange
         var context = NewPageContext();
 
