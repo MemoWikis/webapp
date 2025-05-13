@@ -483,6 +483,8 @@ onMounted(() => {
             position: absolute;
             left: 100px;
             z-index: 2000;
+            width: 80px;
+            border-right: none;
         }
 
         .angle-bg {
