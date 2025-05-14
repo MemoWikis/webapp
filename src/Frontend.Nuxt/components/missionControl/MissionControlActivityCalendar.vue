@@ -98,7 +98,7 @@ function getColorClass(count: number) {
                             :key="wIdx"
                             class="day"
                             :class="getColorClass(week[d]?.count || 0)"
-                            v-tooltip="`${week[d]?.date}: ${week[d]?.count} contribution(s)`"></td>
+                            v-tooltip="{ content: `${week[d]?.date}: ${week[d]?.count} contribution(s)`, disabled: week[d]?.date === undefined }"></td>
                     </tr>
                 </tbody>
             </table>
