@@ -6,13 +6,11 @@ class GenerateFlashCards_tests : BaseTestHarness
     private const int PageId = 1;
     private const int DefaultUserId = 1;
 
-    private readonly TestHarness _testHarness = new(enablePerfLogging: false);
-
     [Test]
     public async Task Should_generate_flashcards_for_shortSourceText()
     {
         // Arrange
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         // Assuming the test page needs to exist
         context.Add("TestPage").Persist();
@@ -43,7 +41,7 @@ class GenerateFlashCards_tests : BaseTestHarness
     public async Task Should_generate_sensible_amount_of_flashcards_for_shortSourceText()
     {
         // Arrange
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         // Assuming the test page needs to exist
         context.Add("TestPage").Persist();
@@ -69,7 +67,7 @@ class GenerateFlashCards_tests : BaseTestHarness
     public async Task Should_not_generate_duplicates_for_shortSourceText()
     {
         // Arrange
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         // Assuming the test page needs to exist
         context.Add("TestPage").Persist();
@@ -112,7 +110,7 @@ class GenerateFlashCards_tests : BaseTestHarness
     public async Task Should_generate_flashcards_for_longSourceText()
     {
         // Arrange
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         // Assuming the test page needs to exist
         context.Add("TestPage").Persist();
@@ -144,7 +142,7 @@ class GenerateFlashCards_tests : BaseTestHarness
     public async Task Should_generate_sensible_amount_of_flashcards_for_longSourceText()
     {
         // Arrange
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         // Assuming the test page needs to exist
         context.Add("TestPage").Persist();
@@ -171,7 +169,7 @@ class GenerateFlashCards_tests : BaseTestHarness
     public async Task Should_not_generate_duplicates_for_longSourceText()
     {
         // Arrange
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         // Assuming the test page needs to exist
         context.Add("TestPage").Persist();
@@ -212,7 +210,7 @@ class GenerateFlashCards_tests : BaseTestHarness
     public async Task Should_generate_flashcards_in_same_language_Long_EN()
     {
         // Arrange
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         // Assuming the test page needs to exist
         context.Add("TestPage").Persist();
@@ -243,7 +241,7 @@ class GenerateFlashCards_tests : BaseTestHarness
     public async Task Should_generate_flashcards_in_same_language_Long_DE()
     {
         // Arrange
-        var context = _testHarness.NewPageContext();
+        var context = NewPageContext();
 
         // Assuming the test page needs to exist
         context.Add("TestPage").Persist();
