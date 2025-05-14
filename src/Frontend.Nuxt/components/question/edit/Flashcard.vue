@@ -113,7 +113,6 @@ function setFlashcardContent() {
         }
         emit('setFlashcardContent', content)
     }
-
 }
 
 function clearFlashcard() {

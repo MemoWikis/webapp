@@ -121,14 +121,18 @@ const editor = useEditor({
             deleteImageSrc.value = null
     },
 })
+
 function validateForm() {
     licenseIsValid.value = licenseConfirmation.value || isPrivate.value
 
-    var questionIsValid = editor.value ? editor.value.state.doc.textContent.length > 0 : false
+    var questionIsValid = editor.value
+        ? editor.value.state.doc.textContent.length > 0
+        : false
+
     disabled.value = !questionIsValid || !solutionIsValid.value || !licenseIsValid.value
 }
 
-watch([isPrivate, licenseConfirmation, flashCardAnswer], (isPrivate,) => {
+watch([isPrivate, licenseConfirmation, flashCardAnswer], () => {
     validateForm()
 })
 
@@ -257,8 +261,10 @@ const ariaId = useId()
                     <font-awesome-icon icon="fa-regular fa-heart" v-else />
                 </div>
                 <div class="Text">
-                    <span v-if="addToWishknowledge">{{ t('page.questionsSection.quickCreateQuestion.wishKnowledge.added') }}</span>
-                    <span v-else class="wuwi-grey">{{ t('page.questionsSection.quickCreateQuestion.wishKnowledge.add') }}</span>
+                    <span v-if="addToWishknowledge">{{
+                        t('page.questionsSection.quickCreateQuestion.wishKnowledge.added') }}</span>
+                    <span v-else class="wuwi-grey">{{ t('page.questionsSection.quickCreateQuestion.wishKnowledge.add')
+                    }}</span>
                 </div>
             </div>
         </div>
@@ -266,7 +272,8 @@ const ariaId = useId()
         <div id="AddQuestionBody">
             <div id="AddQuestionFormContainer" class="inline-question-editor">
                 <div v-if="editor">
-                    <div class="overline-s no-line">{{ t('page.questionsSection.quickCreateQuestion.form.question') }}</div>
+                    <div class="overline-s no-line">{{ t('page.questionsSection.quickCreateQuestion.form.question') }}
+                    </div>
                     <EditorMenuBar :editor="editor" @handle-undo-redo="checkContentImages" />
                     <editor-content :editor="editor"
                         :class="{ 'is-empty': highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
@@ -276,7 +283,7 @@ const ariaId = useId()
                 </div>
                 <div>
                     <QuestionEditFlashcard :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields"
-                        ref="flashCardEditor" @set-flash-card-content="setFlashcardContent" :is-init="false" />
+                        ref="flashCardEditor" @set-flashcard-content="setFlashcardContent" :is-init="false" />
                 </div>
                 <div class="input-container">
                     <div class="overline-s no-line">
@@ -292,8 +299,12 @@ const ariaId = useId()
                                         <font-awesome-icon icon="fa-solid fa-lock" />
                                         <template #popper>
                                             <ul>
-                                                <li>{{ t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.onlyYou') }}</li>
-                                                <li>{{ t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.noOneElse') }}</li>
+                                                <li>{{
+                                                    t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.onlyYou')
+                                                }}</li>
+                                                <li>{{
+                                                    t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.noOneElse')
+                                                }}</li>
                                             </ul>
                                         </template>
                                     </VTooltip>
