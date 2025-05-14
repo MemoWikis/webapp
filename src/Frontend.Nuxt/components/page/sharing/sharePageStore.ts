@@ -1,10 +1,8 @@
-import { defineStore } from "pinia"
-import { useUserStore } from "~~/components/user/userStore"
-import {
-    useSnackbarStore,
-} from "~~/components/snackBar/snackBarStore"
-import { useLoadingStore } from "~/components/loading/loadingStore"
-import { usePageStore, TinyPageModel } from "../pageStore"
+import { defineStore } from 'pinia'
+import { useUserStore } from '~~/components/user/userStore'
+import { useSnackbarStore } from '~~/components/snackBar/snackBarStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
+import { usePageStore, TinyPageModel } from '../pageStore'
 
 export enum SharePermission {
     View = 0,
@@ -107,10 +105,10 @@ interface RemoveShareTokenResponse {
     success: boolean
 }
 
-export const useSharePageStore = defineStore("sharePageStore", () => {
+export const useSharePageStore = defineStore('sharePageStore', () => {
     const showModal = ref(false)
     const pageId = ref(0)
-    const pageName = ref("")
+    const pageName = ref('')
     const selectedUsers = ref<UserWithPermission[]>([])
     const existingShares = ref<UserWithPermission[]>([])
     const creator = ref<CreatorResponse | null>(null)
@@ -164,7 +162,7 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         // reset all store values when closing modal
         resetPendingChanges()
         pageId.value = 0
-        pageName.value = ""
+        pageName.value = ''
         selectedUsers.value = []
         existingShares.value = []
         creator.value = null
@@ -296,14 +294,14 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             const pageStore = usePageStore()
             const tokenString = pageStore.shareToken
                 ? `?token=${pageStore.shareToken}`
-                : ""
+                : ''
 
             const response = await $api<GetShareInfoResponse>(
                 `/apiVue/SharePageStore/GetShareInfo/${pageId.value}${tokenString}`,
                 {
-                    method: "GET",
-                    mode: "cors",
-                    credentials: "include",
+                    method: 'GET',
+                    mode: 'cors',
+                    credentials: 'include',
                 }
             )
 
@@ -334,15 +332,15 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
                 return { success: false }
             }
         } catch (error) {
-            console.error("Failed to load existing shares:", error)
+            console.error('Failed to load existing shares:', error)
 
             const snackbarStore = useSnackbarStore()
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
             snackbarStore.showSnackbar({
-                type: "error",
-                text: { message: $i18n.t("error.loading.shares") },
+                type: 'error',
+                text: { message: $i18n.t('error.loading.shares') },
                 duration: 4000,
             })
 
@@ -378,12 +376,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
 
         const result = await $api<ShareToUserResponse>(
-            "/apiVue/SharePageStore/ShareToUser",
+            '/apiVue/SharePageStore/ShareToUser',
             {
-                method: "POST",
+                method: 'POST',
                 body: data,
-                mode: "cors",
-                credentials: "include",
+                mode: 'cors',
+                credentials: 'include',
             }
         )
 
@@ -393,16 +391,16 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         if (result.success) {
             snackbarStore.showSnackbar({
-                type: "success",
-                text: { message: $i18n.t("success.page.shared") },
+                type: 'success',
+                text: { message: $i18n.t('success.page.shared') },
                 duration: 4000,
             })
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: "error",
+                type: 'error',
                 text: {
-                    message: $i18n.t(result.messageKey || "error.general"),
+                    message: $i18n.t(result.messageKey || 'error.general'),
                 },
                 duration: 6000,
             })
@@ -454,12 +452,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         // Send all changes in a single request
         const result = await $api<BatchUpdatePermissionsResponse>(
-            "/apiVue/SharePageStore/BatchUpdatePermissions",
+            '/apiVue/SharePageStore/BatchUpdatePermissions',
             {
-                method: "POST",
+                method: 'POST',
                 body: data,
-                mode: "cors",
-                credentials: "include",
+                mode: 'cors',
+                credentials: 'include',
             }
         )
 
@@ -476,16 +474,16 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             await loadExistingShares()
 
             snackbarStore.showSnackbar({
-                type: "success",
-                text: { message: $i18n.t("success.page.rightsUpdated") },
+                type: 'success',
+                text: { message: $i18n.t('success.page.rightsUpdated') },
                 duration: 4000,
             })
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: "error",
+                type: 'error',
                 text: {
-                    message: $i18n.t(result.messageKey || "error.general"),
+                    message: $i18n.t(result.messageKey || 'error.general'),
                 },
                 duration: 6000,
             })
@@ -509,12 +507,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
 
         const result = await $api<RenewShareTokenResponse>(
-            "/apiVue/SharePageStore/RenewShareToken",
+            '/apiVue/SharePageStore/RenewShareToken',
             {
-                method: "POST",
+                method: 'POST',
                 body: data,
-                mode: "cors",
-                credentials: "include",
+                mode: 'cors',
+                credentials: 'include',
             }
         )
 
@@ -524,8 +522,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         if (result.success && result.token) {
             snackbarStore.showSnackbar({
-                type: "success",
-                text: { message: $i18n.t("success.token.renewed") },
+                type: 'success',
+                text: { message: $i18n.t('success.token.renewed') },
                 duration: 4000,
             })
             updateShareToken(result.token)
@@ -533,9 +531,9 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: "error",
+                type: 'error',
                 text: {
-                    message: $i18n.t("error.general"),
+                    message: $i18n.t('error.general'),
                 },
                 duration: 6000,
             })
@@ -563,12 +561,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
 
         const result = await $api<SharePageByTokenResponse>(
-            "/apiVue/SharePageStore/SharePageByToken",
+            '/apiVue/SharePageStore/SharePageByToken',
             {
-                method: "POST",
+                method: 'POST',
                 body: data,
-                mode: "cors",
-                credentials: "include",
+                mode: 'cors',
+                credentials: 'include',
             }
         )
 
@@ -578,8 +576,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         if (result.success && result.token) {
             snackbarStore.showSnackbar({
-                type: "success",
-                text: { message: $i18n.t("success.token.copied") },
+                type: 'success',
+                text: { message: $i18n.t('success.page.token.copied') },
                 duration: 4000,
             })
             updateShareToken(result.token)
@@ -587,8 +585,8 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             return { success: true, token: result.token }
         } else {
             snackbarStore.showSnackbar({
-                type: "error",
-                text: { message: $i18n.t("error.token.generation") },
+                type: 'error',
+                text: { message: $i18n.t('error.page.token.generation') },
                 duration: 6000,
             })
             return { success: false, token: null }
@@ -613,12 +611,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
 
         const result = await $api<RemoveShareTokenResponse>(
-            "/apiVue/SharePageStore/RemoveShareToken",
+            '/apiVue/SharePageStore/RemoveShareToken',
             {
-                method: "POST",
+                method: 'POST',
                 body: data,
-                mode: "cors",
-                credentials: "include",
+                mode: 'cors',
+                credentials: 'include',
             }
         )
 
@@ -628,16 +626,16 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
 
         if (result.success) {
             snackbarStore.showSnackbar({
-                type: "success",
-                text: { message: $i18n.t("success.token.removed") },
+                type: 'success',
+                text: { message: $i18n.t('success.page.token.removed') },
                 duration: 4000,
             })
             currentToken.value = null
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: "error",
-                text: { message: $i18n.t("error.token.removal") },
+                type: 'error',
+                text: { message: $i18n.t('error.page.token.removal') },
                 duration: 6000,
             })
             return { success: false }
@@ -657,12 +655,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
 
         const result = await $api<UpdateTokenPermissionResponse>(
-            "/apiVue/SharePageStore/UpdateTokenPermission",
+            '/apiVue/SharePageStore/UpdateTokenPermission',
             {
-                method: "POST",
+                method: 'POST',
                 body: data,
-                mode: "cors",
-                credentials: "include",
+                mode: 'cors',
+                credentials: 'include',
             }
         )
 
@@ -675,10 +673,10 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: "error",
+                type: 'error',
                 text: {
                     message: $i18n.t(
-                        result.messageKey || "error.token.permission"
+                        result.messageKey || 'error.token.permission'
                     ),
                 },
                 duration: 6000,
@@ -731,12 +729,12 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
         }
 
         const result = await $api<ShareToUserResponse>(
-            "/apiVue/SharePageStore/ShareToUser",
+            '/apiVue/SharePageStore/ShareToUser',
             {
-                method: "POST",
+                method: 'POST',
                 body: data,
-                mode: "cors",
-                credentials: "include",
+                mode: 'cors',
+                credentials: 'include',
             }
         )
 
@@ -749,16 +747,16 @@ export const useSharePageStore = defineStore("sharePageStore", () => {
             await loadExistingShares()
 
             snackbarStore.showSnackbar({
-                type: "success",
-                text: { message: $i18n.t("success.page.accessRestricted") },
+                type: 'success',
+                text: { message: $i18n.t('success.page.accessRestricted') },
                 duration: 4000,
             })
             return { success: true }
         } else {
             snackbarStore.showSnackbar({
-                type: "error",
+                type: 'error',
                 text: {
-                    message: $i18n.t(result.messageKey || "error.general"),
+                    message: $i18n.t(result.messageKey || 'error.general'),
                 },
                 duration: 6000,
             })

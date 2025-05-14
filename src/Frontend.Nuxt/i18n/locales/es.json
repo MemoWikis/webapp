@@ -17,7 +17,8 @@
             "rightsUpdated": "Los derechos de acceso se han actualizado correctamente.",
             "token": {
                 "renewed": "El enlace de compartir ha sido renovado con éxito.",
-                "copied": "El enlace de compartir ha sido copiado al portapapeles."
+                "copied": "El enlace de compartir ha sido copiado al portapapeles.",
+                "removed": "El enlace de compartir ha sido eliminado con éxito."
             }
         },
         "question": {
@@ -71,7 +72,10 @@
             "noChange": "No se han realizado cambios.",
             "noChildSelected": "No has seleccionado ninguna subpágina.",
             "noUsersSelected": "Por favor, selecciona al menos un usuario con quien compartir.",
-            "shareFailure": "No se pudo compartir la página. Por favor, inténtalo de nuevo."
+            "shareFailure": "No se pudo compartir la página. Por favor, inténtalo de nuevo.",
+            "token": {
+                "removal": "No se pudo eliminar el enlace de compartir. Por favor, inténtalo de nuevo."
+            }
         },
         "question": {
             "missingText": "Falta el texto de la pregunta.",

@@ -17,7 +17,8 @@
             "rightsUpdated": "Les droits d'accès ont été mis à jour avec succès.",
             "token": {
                 "renewed": "Le lien de partage a été renouvelé avec succès.",
-                "copied": "Le lien de partage a été copié dans le presse-papiers."
+                "copied": "Le lien de partage a été copié dans le presse-papiers.",
+                "removed": "Le lien de partage a été supprimé avec succès."
             }
         },
         "question": {
@@ -71,7 +72,10 @@
             "noChange": "Aucune modification apportée.",
             "noChildSelected": "Tu n’as sélectionné aucune sous-page.",
             "noUsersSelected": "Sélectionne au moins un utilisateur avec qui partager.",
-            "shareFailure": "La page n'a pas pu être partagée. Veuillez réessayer."
+            "shareFailure": "La page n'a pas pu être partagée. Veuillez réessayer.",
+            "token": {
+                "removal": "Le lien de partage a été supprimé."
+            }
         },
         "question": {
             "missingText": "Il manque le texte de la question.",

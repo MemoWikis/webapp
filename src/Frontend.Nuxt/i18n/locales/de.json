@@ -16,8 +16,9 @@
             "shared": "Die Seite wurde erfolgreich geteilt.",
             "rightsUpdated": "Die Zugriffsrechte wurden erfolgreich aktualisiert.",
             "token": {
-                "renewed": "Der Teilungslink wurde erfolgreich erneuert.",
-                "copied": "Der Teilungslink wurde in die Zwischenablage kopiert."
+                "renewed": "Der Freigabelink wurde erfolgreich erneuert.",
+                "copied": "Der Freigabelink wurde in die Zwischenablage kopiert.",
+                "removed": "Der Freigabelink wurde erfolgreich entfernt."
             }
         },
         "question": {
@@ -71,7 +72,10 @@
             "noChange": "Es wurden keine Änderungen vorgenommen.",
             "noChildSelected": "Du hast keine Unterseite ausgewählt.",
             "noUsersSelected": "Bitte wähle mindestens einen Benutzer aus, mit dem du teilen möchtest.",
-            "shareFailure": "Die Seite konnte nicht geteilt werden. Bitte versuche es erneut."
+            "shareFailure": "Die Seite konnte nicht geteilt werden. Bitte versuche es erneut.",
+            "token": {
+                "removal": "Der Freigabelink konnte nicht entfernt werden. Bitte versuche es erneut."
+            }
         },
         "question": {
             "missingText": "Der Fragetext fehlt.",

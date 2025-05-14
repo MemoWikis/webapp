@@ -256,9 +256,12 @@ watch(locale, () => {
 			<template #error="{ error }">
 				<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
 					:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
-				<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+				<NuxtPage v-else
+					@set-page="setPage"
+					@set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="SiteType.Error" />
+					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }"
+					:site="SiteType.Error" />
 			</template>
 		</NuxtErrorBoundary>
 	</div>
