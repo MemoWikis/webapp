@@ -27,10 +27,7 @@ try
             .WriteTo.Console()
             .WriteTo.Seq(Settings.SeqUrl);
 
-        log.MinimumLevel.Is(
-            ctx.HostingEnvironment.IsDevelopment()
-                ? LogEventLevel.Information
-                : LogEventLevel.Error);
+        log.MinimumLevel.Is(LogEventLevel.Information);
     });
 
 
@@ -120,11 +117,6 @@ try
             options.DefaultHttpClient =
                 new KeyValuePair<ScalarTarget, ScalarClient>(ScalarTarget.CSharp, ScalarClient.Curl);
         });
-    }
-    else
-    {
-        app.UseExceptionHandler("/Home/Error");
-        app.UseHsts();
     }
 
     ImageDirectoryCreator.CreateImageDirectories(env.ContentRootPath);

@@ -1,13 +1,22 @@
 {
-  "profiles": {
-    "Development": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "applicationUrl": "http://localhost:5069",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+    "profiles": {
+        "Development": {
+            "commandName": "Project",
+            "dotnetRunMessages": true,
+            "launchBrowser": false,
+            "applicationUrl": "http://localhost:5069",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        "Release": {
+            "commandName": "Project",
+            "dotnetRunMessages": true,
+            "launchBrowser": false,
+            "applicationUrl": "http://localhost:5069",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Release"
+            }
+        }
     }
-  }
 }
