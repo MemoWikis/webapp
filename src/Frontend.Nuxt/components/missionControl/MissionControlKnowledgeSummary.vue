@@ -90,7 +90,7 @@ const knowledgeStatusItems = computed(() => [
             </div>
             <div class="total-questions">
                 <span class="count">{{ totalQuestions }}</span>
-                <span class="label">{{ t('missionControl.knowledgeStatus.totalQuestions') }}</span>
+                <span class="total-questions-label">{{ t('missionControl.knowledgeStatus.totalQuestions') }}</span>
             </div>
         </div>
         <div class="summary-details">
@@ -153,7 +153,7 @@ const knowledgeStatusItems = computed(() => [
                 line-height: 1.2;
             }
 
-            .label {
+            .total-questions-label {
                 display: block;
                 font-size: 12px;
                 color: #666;

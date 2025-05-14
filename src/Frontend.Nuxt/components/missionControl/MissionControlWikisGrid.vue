@@ -34,10 +34,8 @@ const { t } = useI18n()
 
 <style lang="less" scoped>
 .wikis-grid {
-    padding: 20px;
 
     .no-wikis {
-        padding: 20px;
         text-align: center;
         color: #666;
         font-style: italic;

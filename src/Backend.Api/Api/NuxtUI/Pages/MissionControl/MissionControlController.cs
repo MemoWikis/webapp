@@ -91,9 +91,8 @@
     // wip mockup data
     private ActivityCalendar GetActivityCalendar()
     {
-        var currentYear = DateTime.Now.Year;
-        var startDate = new DateTime(currentYear, 1, 1);
-        var endDate = new DateTime(currentYear, 12, 31);
+        var endDate = DateTime.Today;
+        var startDate = endDate.AddDays(-364); // 365 days including today
         var random = new Random();
         var activity = new List<Activity>();
 
@@ -101,15 +100,18 @@
         {
             int count;
 
+            // Less activity on weekends
             if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
             {
                 count = random.Next(0, 5);
             }
+            // More activity on weekdays
             else
             {
                 count = random.Next(1, 15);
             }
 
+            // Occasional spikes of high activity
             if (random.NextDouble() < 0.05)
             {
                 count = random.Next(15, 30);

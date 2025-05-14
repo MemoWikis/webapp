@@ -40,7 +40,7 @@ const navigateToWiki = async () => {
         </div>
         <div class="wiki-content">
             <h3 class="wiki-title">{{ wiki.name }}</h3>
-            <div class="wiki-details">
+            <div class="wiki-details" v-if="wiki.questionCount > 0">
                 <div class="question-count">
                     <span class="count">{{ t('missionControl.wiki.questionCount', wiki.questionCount) }}</span>
                 </div>

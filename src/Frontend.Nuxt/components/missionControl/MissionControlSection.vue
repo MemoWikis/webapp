@@ -22,19 +22,20 @@ defineProps({
 </template>
 
 <style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
 .mission-control-section {
-    background-color: white;
+    background-color: @memo-grey-lightest;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     margin-bottom: 24px;
     overflow: hidden;
+    // border: solid 1px @memo-grey-lightest;
 
     .section-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 16px 20px;
-        border-bottom: 1px solid #eaeaea;
 
         .section-title {
             font-size: 18px;
@@ -48,6 +49,10 @@ defineProps({
             align-items: center;
             gap: 8px;
         }
+    }
+
+    .section-content {
+        padding: 16px 20px;
     }
 }
 </style>

@@ -1,7 +1,7 @@
 export interface Activity {
-    Day: Date;
-    Count: number;
+    day: Date
+    count: number
 }
 export interface ActivityCalendarData {
-    Activity: Activity[];
+    activity: Activity[]
 }

@@ -68,7 +68,6 @@ onMounted(() => {
                             </button>
                         </template>
                         <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus" :knowledgeStatus="dashboardData.knowledgeStatus" />
-                        <p v-else>{{ t('missionControl.knowledgeStatus.noData') }}</p>
                     </MissionControlSection>
 
                     <!-- ActivityCalendar Section (placeholder) -->
@@ -78,7 +77,8 @@ onMounted(() => {
                                 {{ t('missionControl.actvityCalendar.startLearning') }}
                             </button>
                         </template>
-                        <p>{{ t('missionControl.actvityCalendar.comingSoon') }}</p>
+                        <MissionControlActivityCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
+
                     </MissionControlSection>
                 </div>
             </div>
