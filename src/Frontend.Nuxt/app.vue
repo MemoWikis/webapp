@@ -162,10 +162,12 @@ async function handleLogin() {
 
 const { openedModals } = $vfm
 const modalIsOpen = ref(false)
-watch(() => openedModals, (val) => {
+
+watch(openedModals, (val) => {
 	if (val.length > 0)
 		modalIsOpen.value = true
-	else modalIsOpen.value = false
+	else
+		modalIsOpen.value = false
 }, { deep: true })
 
 useHead(() => ({
@@ -250,24 +252,24 @@ watch(locale, () => {
 		<NuxtErrorBoundary @error="logError">
 			<BannerLoginReminder v-if="siteType === SiteType.Page && userStore.showLoginReminderBanner" />
 
-			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-				:site="siteType" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
+			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+				@set-breadcrumb="setBreadcrumb" :site="siteType"
+				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
 
 			<template #error="{ error }">
 				<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
 					:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
-				<NuxtPage v-else
-					@set-page="setPage"
-					@set-question-page-data="setQuestionpageBreadcrumb"
+				<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }"
-					:site="SiteType.Error" />
+					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="SiteType.Error" />
 			</template>
 		</NuxtErrorBoundary>
 	</div>
 
-	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
-	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
+	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate"
+		v-show="!modalIsOpen" />
+	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType"
+		:question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 
 	<ClientOnly>
 		<LazyUserLoginModal v-if="!userStore.isLoggedIn" />
