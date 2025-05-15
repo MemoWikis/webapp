@@ -25,7 +25,7 @@ try
             .Enrich.WithProperty("Environment", builder.Environment.EnvironmentName)
             .Enrich.WithExceptionDetails()
             .WriteTo.Console()
-            .WriteTo.Seq(Settings.SeqUrl);
+            .WriteTo.Seq(Settings.SeqUrl, apiKey: Settings.SeqApiKey);
 
         log.MinimumLevel.Is(LogEventLevel.Information);
     });
