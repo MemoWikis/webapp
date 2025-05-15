@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
+import { Tab } from '../page/tabs/tabsStore'
 
 interface WikiData {
     id: number
@@ -18,14 +19,10 @@ const props = defineProps<Props>()
 const { t } = useI18n()
 const { $urlHelper } = useNuxtApp()
 
-const navigateToWiki = async () => {
-    const wikiUrl = $urlHelper.getPageUrl(props.wiki.name, props.wiki.id)
-    await navigateTo(wikiUrl)
-}
 </script>
 
 <template>
-    <div class="wiki-card" @click="navigateToWiki()">
+    <div class="wiki-card">
         <div class="wiki-image" v-if="wiki.imgUrl">
             <Image
                 :src="wiki.imgUrl"
@@ -39,7 +36,9 @@ const navigateToWiki = async () => {
                 :customStyle="'object-fit: cover; height: 100%; width: 100%;'" />
         </div>
         <div class="wiki-content">
-            <h3 class="wiki-title">{{ wiki.name }}</h3>
+            <NuxtLink :navigateTo="$urlHelper.getPageUrl(props.wiki.name, props.wiki.id)">
+                <h3 class="wiki-title">{{ wiki.name }}</h3>
+            </NuxtLink>
             <div class="wiki-details" v-if="wiki.questionCount > 0">
                 <div class="question-count">
                     <span class="count">{{ t('missionControl.wiki.questionCount', wiki.questionCount) }}</span>
@@ -47,6 +46,13 @@ const navigateToWiki = async () => {
                 <div class="knowledge-status">
                     <PageContentGridKnowledgebar v-if="wiki.knowledgebarData" :knowledgebarData="wiki.knowledgebarData" />
                 </div>
+                <div class="wiki-details-action" v-if="wiki.questionCount > 0">
+                    <NuxtLink :navigateTo="$urlHelper.getPageUrl(props.wiki.name, props.wiki.id, Tab.Learning)">
+                        <div class="memo-button btn-default btn-primary btn" type="button">Jetzt lernen</div>
+                    </NuxtLink>
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -67,11 +73,6 @@ const navigateToWiki = async () => {
 
     @media (min-width: 576px) {
         flex-direction: row;
-    }
-
-    &:hover {
-        // transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     }
 
     .wiki-image {
@@ -137,6 +138,21 @@ const navigateToWiki = async () => {
                 @media (min-width: 576px) {
                     max-width: 180px;
                 }
+            }
+
+            .wiki-details-action {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+
+                .btn-primary {
+                    color: white;
+                }
+
+                .memo-button {
+                    border-radius: 24px;
+                }
+
             }
         }
     }
