@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ActivityCalendarData } from '~/composables/missionControl/activityCalendar'
+import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar'
 import { formatDate, getDaysBetween } from '../shared/utils'
 
 const props = defineProps<{ calendarData?: ActivityCalendarData }>()
@@ -75,7 +75,7 @@ function getColorClass(count: number) {
 </script>
 
 <template>
-    <div class="activity-calendar">
+    <div class="learn-calendar">
         <div class="stats">
             <div>Current Streak: {{ currentStreak }} days</div>
             <div>Longest Streak: {{ longestStreak }} days</div>
@@ -98,7 +98,7 @@ function getColorClass(count: number) {
                             :key="wIdx"
                             class="day"
                             :class="getColorClass(week[d]?.count || 0)"
-                            v-tooltip="{ content: `${week[d]?.date}: ${week[d]?.count} contribution(s)`, disabled: week[d]?.date === undefined }"></td>
+                            v-tooltip="{ content: `${week[d]?.date}: ${week[d]?.count} questions learned`, disabled: week[d]?.date === undefined }"></td>
                     </tr>
                 </tbody>
             </table>
@@ -109,7 +109,11 @@ function getColorClass(count: number) {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.activity-calendar {
+.learn-calendar {
+    background: white;
+    border-radius: 8px;
+    padding: 16px 20px;
+
     .stats {
         display: flex;
         gap: 1rem;

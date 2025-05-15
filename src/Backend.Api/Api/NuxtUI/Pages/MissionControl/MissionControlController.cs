@@ -4,13 +4,13 @@
     IHttpContextAccessor _httpContextAccessor)
     : ApiBaseController
 {
-    public readonly record struct WikiItem(int Id, string Name, string ImgUrl, int? QuestionCount, KnowledgeSummaryResponse KnowledgebarData);
+    public readonly record struct PageItem(int Id, string Name, string ImgUrl, int? QuestionCount, KnowledgeSummaryResponse KnowledgebarData);
 
     public readonly record struct Activity(DateTime Day, int Count);
 
     public readonly record struct ActivityCalendar(IList<Activity> Activity);
 
-    public readonly record struct GetAllResponse(IList<WikiItem> Wikis, KnowledgeSummaryResponse KnowledgeStatus, ActivityCalendar ActivityCalendar);
+    public readonly record struct GetAllResponse(IList<PageItem> Wikis, IList<PageItem> Favorites, KnowledgeSummaryResponse KnowledgeStatus, ActivityCalendar ActivityCalendar);
 
     public readonly record struct KnowledgeSummaryResponse(
         int NotLearned,
@@ -30,13 +30,14 @@
     {
         if (_sessionUser == null || !_sessionUser.IsLoggedIn)
         {
-            return new GetAllResponse(new List<WikiItem>(), new KnowledgeSummaryResponse(), new ActivityCalendar(new List<Activity>()));
+            return new GetAllResponse(new List<PageItem>(), new List<PageItem>(), new KnowledgeSummaryResponse(), new ActivityCalendar(new List<Activity>()));
         }
 
         var knowledgeSummary = FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId));
 
         return new GetAllResponse(
             GetWikis(),
+            GetFavorites(),
             knowledgeSummary,
             GetActivityCalendar());
     }
@@ -59,14 +60,14 @@
     }
 
     // wip needs to be moved to a service
-    private IList<WikiItem> GetWikis()
+    private IList<PageItem> GetWikis()
     {
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
         userCacheItem.CleanupWikiIdsAndFavoriteIds();
 
         var wikis = userCacheItem.Wikis
             .Where(page => page != null && page.IsWiki)
-            .Select(wiki => new WikiItem(
+            .Select(wiki => new PageItem(
                 wiki.Id,
                 wiki.Name,
                 new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
@@ -75,7 +76,7 @@
             .ToList();
 
         var userStartPage = EntityCache.GetPage(userCacheItem.StartPageId);
-        var userStartPageAsWikiItem = new WikiItem(
+        var userStartPageAsWikiItem = new PageItem(
             userStartPage.Id,
             userStartPage.Name,
             new PageImageSettings(userStartPage.Id, _httpContextAccessor).GetUrl_128px(true).Url,
@@ -86,6 +87,25 @@
         wikis.Insert(0, userStartPageAsWikiItem);
 
         return wikis;
+    }
+
+    // wip needs to be moved to a service
+    private IList<PageItem> GetFavorites()
+    {
+        var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
+        userCacheItem.CleanupWikiIdsAndFavoriteIds();
+
+        var favorites = userCacheItem.Favorites
+            .Where(page => page != null)
+            .Select(wiki => new PageItem(
+                wiki.Id,
+                wiki.Name,
+                new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
+                wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
+                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id))))
+            .ToList();
+
+        return favorites;
     }
 
     // wip mockup data

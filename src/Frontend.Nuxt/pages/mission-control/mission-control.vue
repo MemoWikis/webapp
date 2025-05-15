@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { SiteType } from '~/components/shared/siteEnum'
 import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
-import { ActivityCalendarData } from '~/composables/missionControl/activityCalendar'
+import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar'
+import { PageData } from '~/composables/missionControl/pageData'
 
 const emit = defineEmits(['setPage'])
 emit('setPage', SiteType.MissionControl) // Geändert von SiteType.Overview zu SiteType.MissionControl
@@ -12,16 +13,9 @@ useHead({
     title: t('missionControl.title')
 })
 
-interface WikiData {
-    id: number
-    name: string
-    imgUrl?: string
-    questionCount: number
-    knowledgebarData: KnowledgebarData
-}
-
 interface UserDashboardData {
-    wikis: WikiData[],
+    wikis: PageData[],
+    favorites: PageData[],
     knowledgeStatus: KnowledgebarData,
     activityCalendar: ActivityCalendarData
 }
@@ -55,31 +49,25 @@ onMounted(() => {
             <div class="mission-control-container">
                 <h1>{{ t('missionControl.heading') }}</h1>
                 <div class="mission-control-content" v-if="dashboardData">
-                    <!-- Wikis Section -->
-                    <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
-                        <MissionControlWikisGrid :wikis="dashboardData.wikis" />
-                    </MissionControlSection>
 
                     <!-- Knowledge Status Section -->
                     <MissionControlSection :title="t('missionControl.sections.knowledgeStatus')">
-                        <template #actions>
-                            <button class="btn btn-sm btn-outline-primary">
-                                {{ t('missionControl.knowledgeStatus.viewDetails') }}
-                            </button>
-                        </template>
                         <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus" :knowledgeStatus="dashboardData.knowledgeStatus" />
                     </MissionControlSection>
 
                     <!-- ActivityCalendar Section (placeholder) -->
-                    <MissionControlSection :title="t('missionControl.sections.actvityCalendar')">
-                        <template #actions>
-                            <button class="btn btn-sm btn-outline-primary">
-                                {{ t('missionControl.actvityCalendar.startLearning') }}
-                            </button>
-                        </template>
-                        <MissionControlActivityCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
-
+                    <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
+                        <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
                     </MissionControlSection>
+                    <!-- Favorites Section -->
+                    <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                        <MissionControlTable :pages="dashboardData.favorites" />
+                    </MissionControlSection>
+                    <!-- Wikis Section -->
+                    <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
+                        <MissionControlTable :pages="dashboardData.wikis" />
+                    </MissionControlSection>
+
                 </div>
             </div>
         </div>

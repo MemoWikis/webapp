@@ -183,6 +183,7 @@
         "administrative": "Administrative",
         "questionCount": "0 questions | 1 question | {count} questions",
         "questionCountText": "No question | One question | {count} questions",
+        "questionCountAsText": "question | questions",
         "reloadPage": "Reload page",
         "back": "Back",
         "continueLearning": "Continue learning",

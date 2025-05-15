@@ -56,25 +56,25 @@ const totalQuestions = computed(() => {
 
 const knowledgeStatusItems = computed(() => [
     {
-        label: t('knowledgeStatus.solidLabel'),
+        label: t('knowledgeStatus.solid'),
         value: props.knowledgeStatus.solid,
         percentage: Math.round((props.knowledgeStatus.solid / totalQuestions.value) * 100) || 0,
         class: 'solid'
     },
     {
-        label: t('knowledgeStatus.needsConsolidationLabel'),
+        label: t('knowledgeStatus.needsConsolidation'),
         value: props.knowledgeStatus.needsConsolidation,
         percentage: Math.round((props.knowledgeStatus.needsConsolidation / totalQuestions.value) * 100) || 0,
         class: 'needsConsolidation'
     },
     {
-        label: t('knowledgeStatus.needsLearningLabel'),
+        label: t('knowledgeStatus.needsLearning'),
         value: props.knowledgeStatus.needsLearning,
         percentage: Math.round((props.knowledgeStatus.needsLearning / totalQuestions.value) * 100) || 0,
         class: 'needsLearning'
     },
     {
-        label: t('knowledgeStatus.notLearnedLabel'),
+        label: t('knowledgeStatus.notLearned'),
         value: props.knowledgeStatus.notLearned,
         percentage: Math.round((props.knowledgeStatus.notLearned / totalQuestions.value) * 100) || 0,
         class: 'notLearned'
@@ -90,7 +90,7 @@ const knowledgeStatusItems = computed(() => [
             </div>
             <div class="total-questions">
                 <span class="count">{{ totalQuestions }}</span>
-                <span class="total-questions-label">{{ t('missionControl.knowledgeStatus.totalQuestions') }}</span>
+                <span class="total-questions-label">{{ t('label.questionCountAsText', totalQuestions) }}</span>
             </div>
         </div>
         <div class="summary-details">
@@ -119,9 +119,14 @@ const knowledgeStatusItems = computed(() => [
     flex-direction: column;
     width: 100%;
 
+    background: white;
+    border-radius: 8px;
+    padding: 16px 20px;
+
     @media (min-width: 768px) {
         flex-direction: row;
         align-items: center;
+        width: 50%;
     }
 
     .summary-visualization {
@@ -144,20 +149,31 @@ const knowledgeStatusItems = computed(() => [
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
+            max-width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: white;
+            border-radius: 50px;
+            width: 100px;
 
             .count {
                 display: block;
                 font-size: 24px;
                 font-weight: 600;
-                color: #333;
+                color: @memo-grey-darker;
                 line-height: 1.2;
             }
 
             .total-questions-label {
                 display: block;
                 font-size: 12px;
-                color: #666;
+                color: @memo-grey-darker;
             }
+
+
         }
     }
 

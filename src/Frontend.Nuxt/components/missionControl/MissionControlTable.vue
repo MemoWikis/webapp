@@ -1,46 +1,34 @@
 <script setup lang="ts">
-import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
 import { Tab } from '../page/tabs/tabsStore'
-
-interface WikiData {
-    id: number
-    name: string
-    imgUrl?: string
-    questionCount: number
-    knowledgebarData: KnowledgebarData
-}
+import { PageData } from '~/composables/missionControl/pageData'
 
 interface Props {
-    wikis: WikiData[]
+    pages: PageData[]
 }
 
 const props = defineProps<Props>()
 const { t } = useI18n()
 const { $urlHelper } = useNuxtApp()
 
-// Sorting functionality
-const sortKey = ref<keyof WikiData>('name')
+const sortKey = ref<keyof PageData>('name')
 const sortDirection = ref<'asc' | 'desc'>('asc')
 
-const sortedWikis = computed(() => {
-    return [...props.wikis].sort((a, b) => {
+const sortedpages = computed(() => {
+    return [...props.pages].sort((a, b) => {
         if (sortKey.value === 'knowledgebarData') {
-            // When sorting by knowledge status, sort by solid percentage
             const aValue = a.knowledgebarData?.solidPercentage || 0
             const bValue = b.knowledgebarData?.solidPercentage || 0
             return sortDirection.value === 'asc' ? aValue - bValue : bValue - aValue
         } else {
-            const aValue = a[sortKey.value as keyof WikiData]
-            const bValue = b[sortKey.value as keyof WikiData]
+            const aValue = a[sortKey.value as keyof PageData]
+            const bValue = b[sortKey.value as keyof PageData]
 
-            // Handle string comparison
             if (typeof aValue === 'string' && typeof bValue === 'string') {
                 return sortDirection.value === 'asc'
                     ? aValue.localeCompare(bValue)
                     : bValue.localeCompare(aValue)
             }
 
-            // Handle number comparison
             if (typeof aValue === 'number' && typeof bValue === 'number') {
                 return sortDirection.value === 'asc' ? aValue - bValue : bValue - aValue
             }
@@ -50,7 +38,7 @@ const sortedWikis = computed(() => {
     })
 })
 
-function toggleSort(key: keyof WikiData) {
+function toggleSort(key: keyof PageData) {
     if (sortKey.value === key) {
         sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
     } else {
@@ -59,79 +47,79 @@ function toggleSort(key: keyof WikiData) {
     }
 }
 
-function getSortIconClass(key: keyof WikiData) {
+function getSortIconClass(key: keyof PageData) {
     if (sortKey.value !== key) return 'sort-icon'
     return sortDirection.value === 'asc' ? 'sort-icon sort-asc' : 'sort-icon sort-desc'
 }
 </script>
 
 <template>
-    <div class="wikis-table-container">
-        <table v-if="wikis.length" class="wikis-table">
+    <div class="pages-table-container">
+        <table v-if="pages.length" class="pages-table">
             <thead>
                 <tr>
-                    <th class="sortable" @click="toggleSort('name')">
-                        {{ t('missionControl.wiki.tableName') }}
+                    <th class="sortable name-header" @click="toggleSort('name')">
+                        {{ t('missionControl.page.tableName') }}
                         <span :class="getSortIconClass('name')"></span>
                     </th>
-                    <th class="sortable" @click="toggleSort('questionCount')">
-                        {{ t('missionControl.wiki.tableQuestionCount') }}
+                    <th class="sortable questioncount-header" @click="toggleSort('questionCount')">
+                        {{ t('missionControl.page.tableQuestionCount') }}
                         <span :class="getSortIconClass('questionCount')"></span>
                     </th>
-                    <th class="sortable" @click="toggleSort('knowledgebarData')">
-                        {{ t('missionControl.wiki.tableKnowledgeStatus') }}
+                    <th class="sortable knowledgestatus-header" @click="toggleSort('knowledgebarData')">
+                        {{ t('missionControl.page.tableKnowledgeStatus') }}
                         <span :class="getSortIconClass('knowledgebarData')"></span>
                     </th>
-                    <th class="actions-column">{{ t('missionControl.wiki.tableActions') }}</th>
+                    <th class="actions-column">{{ t('missionControl.page.tableActions') }}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="wiki in sortedWikis" :key="wiki.id" class="wiki-row">
-                    <td class="wiki-name-cell">
-                        <div class="wiki-name">
-                            <div class="wiki-image" v-if="wiki.imgUrl">
+                <tr v-for="(page, index) in sortedpages" :key="page.id" class="page-row" :class="{ last: index === sortedpages.length - 1 }">
+                    <td class="page-name-cell">
+                        <div class="page-name">
+                            <div class="page-image" v-if="page.imgUrl">
                                 <Image
-                                    :src="wiki.imgUrl"
-                                    :alt="wiki.name"
+                                    :src="page.imgUrl"
+                                    :alt="page.name"
                                     :width="40"
                                     :height="40"
                                     :customStyle="'object-fit: cover; border-radius: 6px;'" />
                             </div>
-                            <div class="wiki-image" v-else>
+                            <div class="page-image" v-else>
                                 <Image
                                     src="/Images/Placeholders/placeholder-page-206.png"
-                                    :alt="wiki.name"
+                                    :alt="page.name"
                                     :width="40"
                                     :height="40"
                                     :customStyle="'object-fit: cover; border-radius: 6px;'" />
                             </div>
-                            <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)" class="wiki-link">
-                                {{ wiki.name }}
+                            <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)" class="page-link">
+                                {{ page.name }}
                             </NuxtLink>
                         </div>
                     </td>
                     <td class="question-count-cell">
-                        {{ wiki.questionCount }}
+                        {{ page.questionCount }}
                     </td>
                     <td class="knowledge-status-cell">
                         <PageContentGridKnowledgebar
-                            v-if="wiki.knowledgebarData"
-                            :knowledgebarData="wiki.knowledgebarData" />
+                            v-if="page.knowledgebarData"
+                            :knowledgebarData="page.knowledgebarData" />
                     </td>
                     <td class="actions-cell">
                         <NuxtLink
-                            v-if="wiki.questionCount > 0"
-                            :to="$urlHelper.getPageUrl(wiki.name, wiki.id, Tab.Learning)"
+                            v-if="page.questionCount > 0"
+                            :to="$urlHelper.getPageUrl(page.name, page.id, Tab.Learning)"
                             class="action-button"
-                            :title="t('missionControl.wiki.learnNow')">
-                            <i class="fas fa-play"></i>
+                            :title="t('missionControl.page.learnNow')">
+                            <font-awesome-icon :icon="['fas', 'play']" />
                         </NuxtLink>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div v-else class="no-wikis">
-            <p>{{ t('missionControl.wiki.noWikis') }}</p>
+        <div v-else class="no-pages">
+            <p>{{ t('missionControl.page.nopages') }}</p>
         </div>
     </div>
 </template>
@@ -139,12 +127,15 @@ function getSortIconClass(key: keyof WikiData) {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.wikis-table-container {
+.pages-table-container {
     width: 100%;
-    overflow-x: auto;
     margin-top: 1rem;
 
-    .no-wikis {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+
+    .no-pages {
         text-align: center;
         color: #666;
         font-style: italic;
@@ -152,7 +143,7 @@ function getSortIconClass(key: keyof WikiData) {
     }
 }
 
-.wikis-table {
+.pages-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
@@ -163,16 +154,17 @@ function getSortIconClass(key: keyof WikiData) {
         padding: 12px 16px;
         text-align: left;
         vertical-align: middle;
-        border-bottom: 1px solid #eaeaea;
+        border-bottom: 1px solid @memo-grey-light;
     }
 
     th {
         font-weight: 600;
         color: #444;
-        background-color: #f9f9f9;
         position: sticky;
         top: 0;
         z-index: 1;
+        text-overflow: none;
+        white-space: nowrap;
 
         &.sortable {
             cursor: pointer;
@@ -181,6 +173,30 @@ function getSortIconClass(key: keyof WikiData) {
             &:hover {
                 background-color: #eef1f6;
             }
+        }
+
+        &.name-header {
+            min-width: 50%;
+            max-width: 50%;
+        }
+
+        &.questioncount-header {
+            width: 150px;
+            max-width: 150px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        &.knowledgestatus-header {
+            width: 180px;
+            min-width: 180px;
+            padding-right: 24px;
+        }
+
+        &.actions-column {
+            width: 60px;
+            text-align: center;
+            max-width: 60px;
         }
     }
 
@@ -208,29 +224,36 @@ function getSortIconClass(key: keyof WikiData) {
         }
     }
 
-    .wiki-row {
+    .page-row {
         transition: background-color 0.15s ease;
 
         &:hover {
-            background-color: #f5f8ff;
+            background-color: @memo-grey-lightest;
+        }
+
+        &.last {
+
+            td {
+                border-bottom: none;
+            }
         }
     }
 
-    .wiki-name-cell {
-        min-width: 200px;
-        max-width: 300px;
+    .page-name-cell {
+        min-width: 50%;
+        max-width: 50%;
     }
 
-    .wiki-name {
+    .page-name {
         display: flex;
         align-items: center;
         gap: 12px;
 
-        .wiki-image {
+        .page-image {
             flex-shrink: 0;
         }
 
-        .wiki-link {
+        .page-link {
             color: @memo-blue;
             font-weight: 500;
             text-decoration: none;
@@ -248,7 +271,8 @@ function getSortIconClass(key: keyof WikiData) {
     }
 
     .question-count-cell {
-        width: 100px;
+        width: 150px;
+        max-width: 150px;
         text-align: center;
         font-weight: 600;
     }
@@ -288,14 +312,14 @@ function getSortIconClass(key: keyof WikiData) {
 }
 
 @media (max-width: 767px) {
-    .wikis-table {
+    .pages-table {
 
         th,
         td {
             padding: 10px 8px;
         }
 
-        .wiki-name {
+        .page-name {
             gap: 8px;
         }
     }
