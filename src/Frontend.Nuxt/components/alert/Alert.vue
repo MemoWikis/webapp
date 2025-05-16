@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { useAlertStore, AlertType } from './alertStore'
 
-import successImage1 from '~/assets/images/illustrations/hummingbird_flipped 500 x 500.png'
-import successImage2 from '~/assets/images/illustrations/parrot_flipped 500 x 500.png'
-import successImage3 from '~/assets/images/illustrations/girl_success2.png'
-import successImage4 from '~/assets/images/illustrations/bird_success 500 x 500.png'
-import neutralImage from '~/assets/images/illustrations/butterfly 500 x 500.png'
-import errorImage from '~/assets/images/illustrations/owl_error3 500 x 500.png'
+import successImage1 from '~/assets/images/Illustrations/hummingbird_flipped 500 x 500.png'
+import successImage2 from '~/assets/images/Illustrations/parrot_flipped 500 x 500.png'
+import successImage3 from '~/assets/images/Illustrations/girl_success2.png'
+import successImage4 from '~/assets/images/Illustrations/bird_success 500 x 500.png'
+import neutralImage from '~/assets/images/Illustrations/butterfly 500 x 500.png'
+import errorImage from '~/assets/images/Illustrations/owl_error3 500 x 500.png'
 
 const alertStore = useAlertStore()
 
