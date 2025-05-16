@@ -1624,6 +1624,9 @@
             "questions": "Questions",
             "knowledgeStatus": "Knowledge Status",
             "learnNow": "Learn Now"
+        },
+        "pageGrid": {
+            "questions": "No questions | One question | {count} questions"
         }
     }
 }

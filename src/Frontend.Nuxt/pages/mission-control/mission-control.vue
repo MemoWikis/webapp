@@ -42,6 +42,8 @@ onMounted(() => {
     getAllData()
 })
 
+const { isMobile } = useDevice()
+
 </script>
 
 <template>
@@ -63,15 +65,28 @@ onMounted(() => {
                         </MissionControlSection>
                     </DevOnly>
 
+                    <template v-if="isMobile">
+                        <!-- Wikis Section -->
+                        <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
+                            <MissionControlGrid :pages="dashboardData.wikis" />
+                        </MissionControlSection>
 
-                    <!-- Wikis Section -->
-                    <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
-                        <MissionControlTable :pages="dashboardData.wikis" />
-                    </MissionControlSection>
-                    <!-- Favorites Section -->
-                    <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
-                        <MissionControlTable :pages="dashboardData.favorites" />
-                    </MissionControlSection>
+                        <!-- Favorites Section -->
+                        <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                            <MissionControlGrid :pages="dashboardData.favorites" />
+                        </MissionControlSection>
+                    </template>
+                    <template v-else>
+                        <!-- Wikis Section -->
+                        <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
+                            <MissionControlTable :pages="dashboardData.wikis" />
+                        </MissionControlSection>
+
+                        <!-- Favorites Section -->
+                        <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                            <MissionControlTable :pages="dashboardData.favorites" />
+                        </MissionControlSection>
+                    </template>
 
                     <!-- LearnCalendar Section with Coming Soon overlay -->
                     <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
