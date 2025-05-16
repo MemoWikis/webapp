@@ -39,20 +39,20 @@ internal class Convert_tests : BaseTestHarness
         pageConversion.ConvertPageToWiki(page, userId, keepParents: false);
 
         // Assert
-        Assert.That(page.IsWiki, Is.True, "Page should be marked as Wiki.");
+        Assert.That(page.IsWiki, Is.True);
 
         // Verify that the page entity is updated in the repository
         var updatedPageEntity = pageRepository.GetByIdEager(page.Id);
-        Assert.That(updatedPageEntity, Is.Not.Null, "Page entity should exist in repository.");
-        Assert.That(updatedPageEntity.IsWiki, Is.True, "Page entity should be marked as Wiki.");
+        Assert.That(updatedPageEntity, Is.Not.Null);
+        Assert.That(updatedPageEntity.IsWiki, Is.True);
 
         // Verify that the EntityCache was updated
         var cachedPage = EntityCache.GetPage(page.Id);
-        Assert.That(cachedPage, Is.Not.Null, "Updated page should exist in EntityCache.");
-        Assert.That(cachedPage.IsWiki, Is.True, "Cached page should be marked as Wiki.");
+        Assert.That(cachedPage, Is.Not.Null);
+        Assert.That(cachedPage.IsWiki, Is.True);
 
         // Verify that the user was updated
-        Assert.That(userCacheItem.WikiIds, Is.Not.Empty, "User's WikiIds should have been cleaned up.");
+        Assert.That(userCacheItem.GetWikis(), Is.Not.Empty);
     }
 
     [Test]
@@ -133,7 +133,7 @@ internal class Convert_tests : BaseTestHarness
     }
 
     [Test]
-    public void ConvertWikiToPage_Should_Succeed_With_ValidInputs()
+    public async Task ConvertWikiToPage_Should_Succeed_With_ValidInputs()
     {
         // Arrange
         var permissionCheck = R<PermissionCheck>();
@@ -148,7 +148,7 @@ internal class Convert_tests : BaseTestHarness
         var root = context.Add("RootElement").Persist().All.First();
 
         var children = context
-            .Add("Sub1", creator: new User { Id = userId })
+            .Add("Sub1", creator: new User { Id = userId }, isWiki: true)
             .Add("SubSub1")
             .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
@@ -162,12 +162,9 @@ internal class Convert_tests : BaseTestHarness
 
         var page = EntityCache.GetPage(children.ByName("Sub1").Id);
         page.IsWiki = true;
+
         // Add page and user to EntityCache
         EntityCache.AddOrUpdate(page);
-        var userCacheItem = new UserCacheItem { Id = userId };
-        userCacheItem.WikiIds = new List<int> { page.Id };
-        EntityCache.AddOrUpdate(userCacheItem);
-
 
         // Act
         pageConversion.ConvertWikiToPage(page, userId);
@@ -182,12 +179,15 @@ internal class Convert_tests : BaseTestHarness
 
         // Verify that the EntityCache was updated
         var cachedPage = EntityCache.GetPage(page.Id);
-        Assert.That(cachedPage, Is.Not.Null, "Updated page should exist in EntityCache.");
-        Assert.That(cachedPage.IsWiki, Is.False, "Cached page should no longer be a Wiki.");
+        var userCacheItem = EntityCache.GetUserById(userId);
+        var userWikis = userCacheItem.GetWikis();
 
-        // Verify that the user was updated
-        Assert.That(userCacheItem.FavoriteIds, Is.Null.Or.Empty, "User's FavoriteIds should have been cleaned up.");
-        Assert.That(userCacheItem.WikiIds, Is.Null.Or.Empty, "User's WikiIds should have been cleaned up.");
+        await Verify(new
+        {
+            allDbPages = await _testHarness.DbData.AllPagesAsync(),
+            cachedPage,
+            userWikis = userCacheItem.GetWikis().ToList()
+        });
     }
 
     [Test]

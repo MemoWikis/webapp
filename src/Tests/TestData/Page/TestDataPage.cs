@@ -12,9 +12,9 @@
         _pageRepository = testHarness.R<PageRepository>();
         _contextUser = ContextUser.New(_testHarness.R<UserWritingRepo>());
 
-        if (!addContextUser) 
+        if (!addContextUser)
             return;
-        
+
         _contextUser.Add("User").Persist();
     }
 
@@ -36,14 +36,16 @@
         string pageName,
         PageType pageType = PageType.Standard,
         User? creator = null,
-        PageVisibility visibility = PageVisibility.Public)
+        PageVisibility visibility = PageVisibility.Public,
+        bool isWiki = false)
     {
         var page = new Page
         {
             Name = pageName,
             Creator = creator ?? _contextUser.All.First(),
             Type = pageType,
-            Visibility = visibility
+            Visibility = visibility,
+            IsWiki = isWiki,
         };
 
         All.Add(page);

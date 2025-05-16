@@ -20,6 +20,9 @@ public class RawDbDataLoader : IDisposable
     public Task<List<Dictionary<string, object?>>> AllQuestionsAsync()
         => LoadFromMysqlAsync("SELECT * FROM Question ORDER BY Id");
 
+    public Task<List<Dictionary<string, object?>>> AllPagesAsync()
+        => LoadFromMysqlAsync("SELECT * FROM Page ORDER BY Id");
+
     private async Task<List<Dictionary<string, object?>>> LoadFromMysqlAsync(string query)
     {
         var results = new List<Dictionary<string, object?>>();
@@ -56,7 +59,7 @@ public class RawDbDataLoader : IDisposable
 
         if (disposing)
         {
-            if (_connection.State == ConnectionState.Open) 
+            if (_connection.State == ConnectionState.Open)
                 _connection.Close();
 
             _connection.Dispose();
