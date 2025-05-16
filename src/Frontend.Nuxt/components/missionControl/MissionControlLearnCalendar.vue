@@ -97,7 +97,7 @@ function getColorClass(count: number) {
                             v-for="(week, wIdx) in weeks"
                             :key="wIdx"
                             class="day"
-                            :class="getColorClass(week[d]?.count || 0)"
+                            :class="getColorClass(week[d]?.count || 0), { 'disabled': week[d]?.date === undefined }"
                             v-tooltip="{ content: `${week[d]?.date}: ${week[d]?.count} questions learned`, disabled: week[d]?.date === undefined }"></td>
                     </tr>
                 </tbody>
@@ -179,6 +179,14 @@ function getColorClass(count: number) {
 
                         &.level-4 {
                             background: #196127;
+                        }
+
+                        &.disabled {
+                            background: none;
+
+                            &:hover {
+                                transform: none;
+                            }
                         }
                     }
                 }

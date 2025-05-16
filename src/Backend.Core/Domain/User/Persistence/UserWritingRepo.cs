@@ -200,7 +200,6 @@ public class UserWritingRepo(
             user.ReputationPos = userCacheItem.ReputationPos;
             user.FollowerCount = userCacheItem.FollowerCount;
             user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
-            user.WikiIds = string.Join(",", userCacheItem.WikiIds.Distinct());
             user.FavoriteIds = string.Join(",", userCacheItem.FavoriteIds.Distinct());
             user.UiLanguage = userCacheItem.UiLanguage;
 

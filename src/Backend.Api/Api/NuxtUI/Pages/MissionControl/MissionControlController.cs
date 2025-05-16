@@ -63,9 +63,8 @@
     private IList<PageItem> GetWikis()
     {
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
-        userCacheItem.CleanupWikiIdsAndFavoriteIds();
 
-        var wikis = userCacheItem.Wikis
+        var wikis = userCacheItem.GetWikis()
             .Where(page => page != null && page.IsWiki)
             .Select(wiki => new PageItem(
                 wiki.Id,
@@ -75,17 +74,6 @@
                 FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id))))
             .ToList();
 
-        var userStartPage = EntityCache.GetPage(userCacheItem.StartPageId);
-        var userStartPageAsWikiItem = new PageItem(
-            userStartPage.Id,
-            userStartPage.Name,
-            new PageImageSettings(userStartPage.Id, _httpContextAccessor).GetUrl_128px(true).Url,
-            userStartPage.GetCountQuestionsAggregated(_sessionUser.UserId),
-            FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, userStartPage.Id))
-        );
-
-        wikis.Insert(0, userStartPageAsWikiItem);
-
         return wikis;
     }
 
@@ -93,9 +81,8 @@
     private IList<PageItem> GetFavorites()
     {
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
-        userCacheItem.CleanupWikiIdsAndFavoriteIds();
 
-        var favorites = userCacheItem.Favorites
+        var favorites = userCacheItem.GetFavorites()
             .Where(page => page != null)
             .Select(wiki => new PageItem(
                 wiki.Id,

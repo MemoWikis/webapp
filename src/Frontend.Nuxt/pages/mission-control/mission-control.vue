@@ -41,6 +41,7 @@ const getAllData = async () => {
 onMounted(() => {
     getAllData()
 })
+
 </script>
 
 <template>
@@ -59,14 +60,15 @@ onMounted(() => {
                     <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
                         <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
                     </MissionControlSection>
-                    <!-- Favorites Section -->
-                    <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
-                        <MissionControlTable :pages="dashboardData.favorites" />
-                    </MissionControlSection>
                     <!-- Wikis Section -->
                     <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
                         <MissionControlTable :pages="dashboardData.wikis" />
                     </MissionControlSection>
+                    <!-- Favorites Section -->
+                    <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                        <MissionControlTable :pages="dashboardData.favorites" />
+                    </MissionControlSection>
+
 
                 </div>
             </div>

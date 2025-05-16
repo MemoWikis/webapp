@@ -290,7 +290,6 @@ public class EntityCache
 
     public static void AddOrUpdate(UserCacheItem user)
     {
-        user.CleanupWikiIdsAndFavoriteIds();
         user.PreserveContentLanguages();
         AddOrUpdate(Users, user);
     }
@@ -510,6 +509,9 @@ public class EntityCache
         var allPages = GetAllPagesList();
         return allPages.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
+
+    public static List<PageCacheItem> GetWikisByUserId(int userId)
+        => Pages.Values.Where(page => page.IsWiki && page.CreatorId == userId).ToList();
 
     public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId) => GetAllQuestions()
         .Where(q => q.Creator.Id == userId && q.IsPrivate())

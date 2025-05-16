@@ -40,8 +40,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public bool IsEmailConfirmed { get; set; }
     public int Rank { get; set; }
 
-    public List<int> WikiIds { get; set; } = new List<int>();
-    public List<PageCacheItem?> Wikis => EntityCache.GetPages(WikiIds);
     public List<int> FavoriteIds { get; set; } = new List<int>();
     public List<PageCacheItem?> Favorites => EntityCache.GetPages(FavoriteIds);
     public RecentPages? RecentPages { get; set; }
@@ -83,8 +81,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         DateCreated = user.DateCreated;
         UiLanguage = user.UiLanguage;
 
-        if (!String.IsNullOrEmpty(user.WikiIds))
-            WikiIds = user.WikiIds.Split(',').Select(int.Parse).ToList();
         if (!String.IsNullOrEmpty(user.FavoriteIds))
             FavoriteIds = user.FavoriteIds.Split(',').Select(int.Parse).ToList();
     }
@@ -120,7 +116,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
         Rank = user.ReputationPos;
 
-        WikiIds = user.WikiIds;
         FavoriteIds = user.FavoriteIds;
 
         UiLanguage = user.UiLanguage;
@@ -143,33 +138,35 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         return users.Select(ToCacheUser);
     }
 
-    public void AddWiki(int id)
-    {
-        if (!WikiIds.Contains(id))
-            WikiIds.Add(id);
-    }
-    public void RemoveWiki(int id)
-    {
-        if (WikiIds.Contains(id))
-            WikiIds.Remove(id);
-    }
-
     public void AddFavorite(int id)
     {
         if (!FavoriteIds.Contains(id))
             FavoriteIds.Add(id);
     }
+
     public void RemoveFavorite(int id)
     {
         if (FavoriteIds.Contains(id))
             FavoriteIds.Remove(id);
     }
 
-    public void CleanupWikiIdsAndFavoriteIds()
+
+    private void RemoveDeletedFavoriteIds()
     {
-        WikiIds = WikiIds.Where(id => EntityCache.GetPage(id) != null).ToList();
         FavoriteIds = FavoriteIds.Where(id => EntityCache.GetPage(id) != null).ToList();
     }
+
+    public List<PageCacheItem> GetWikis() => EntityCache.GetWikisByUserId(userId: Id);
+
+    public List<PageCacheItem> GetFavorites()
+    {
+        RemoveDeletedFavoriteIds();
+        if (Favorites.Any())
+            return Favorites;
+
+        return new List<PageCacheItem>();
+    }
+
 
     public void PreserveContentLanguages()
     {

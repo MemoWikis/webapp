@@ -98,7 +98,6 @@ public class DeletePageStoreController(
     {
         if (EntityCache.PageHasQuestion(deleteRequest.PageToDeleteId))
         {
-
             if (deleteRequest.ParentForQuestionsId == 0)
                 return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected);
 
@@ -107,7 +106,6 @@ public class DeletePageStoreController(
         }
 
         var deleteResult = _pageDeleter.DeletePage(deleteRequest.PageToDeleteId, deleteRequest.ParentForQuestionsId);
-        _sessionUser.User.CleanupWikiIdsAndFavoriteIds();
 
         return new DeleteResponse(
             Success: deleteResult.Success,

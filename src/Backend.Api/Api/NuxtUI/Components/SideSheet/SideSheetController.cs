@@ -14,14 +14,14 @@
         }
 
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
-        userCacheItem.CleanupWikiIdsAndFavoriteIds();
-
-        var wikis = userCacheItem.Wikis
+        var wikis = userCacheItem.GetWikis()
             .Where(w => w != null && w.IsWiki)
             .Select(w => new WikiItem(w.Id, w.Name, w.Parents().Any()))
             .ToList();
+
         var userStartPage = EntityCache.GetPage(userCacheItem.StartPageId);
         wikis.Insert(0, new WikiItem(userStartPage.Id, userStartPage.Name, userStartPage.Parents().Any()));
+
         return wikis;
     }
 
@@ -38,9 +38,8 @@
         }
 
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
-        userCacheItem.CleanupWikiIdsAndFavoriteIds();
 
-        var favorites = userCacheItem.Favorites
+        var favorites = userCacheItem.GetFavorites()
             .Where(f => f != null)
             .Select(f => new FavoriteItem(f.Id, f.Name))
             .ToList();
@@ -56,6 +55,7 @@
         {
             return new AddToFavoriteResponse(false, FrontendMessageKeys.Error.User.NotLoggedIn);
         }
+
         if (id <= 0)
         {
             return new AddToFavoriteResponse(false, FrontendMessageKeys.Error.Default);
@@ -64,11 +64,12 @@
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
         userCacheItem.AddFavorite(id);
 
-        EntityCache.AddOrUpdate(userCacheItem);
         _userWritingRepo.Update(userCacheItem);
+        EntityCache.AddOrUpdate(userCacheItem);
 
         return new AddToFavoriteResponse(true);
     }
+
     public readonly record struct AddToFavoriteResponse(bool Success, string? MessageKey = null);
 
     [HttpPost]

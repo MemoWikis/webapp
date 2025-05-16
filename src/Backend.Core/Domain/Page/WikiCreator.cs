@@ -5,7 +5,7 @@
     public readonly record struct CreateResult(
         bool Success,
         string? MessageKey,
-        TinyWikiItem? TinyWikiItem = null);
+        TinyWikiItem TinyWikiItem);
 
     public readonly record struct TinyWikiItem(string Name, int Id);
 
@@ -15,7 +15,8 @@
         {
             return new CreateResult(
                 Success: false,
-                MessageKey: FrontendMessageKeys.Error.Subscription.CantSavePrivatePage
+                MessageKey: FrontendMessageKeys.Error.Subscription.CantSavePrivatePage,
+                TinyWikiItem: new TinyWikiItem()
             );
         }
 

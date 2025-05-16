@@ -137,7 +137,7 @@ function getSortIconClass(key: keyof PageData) {
 
     .no-pages {
         text-align: center;
-        color: #666;
+        color: @memo-grey-dark;
         font-style: italic;
         padding: 20px 0;
     }
@@ -154,12 +154,12 @@ function getSortIconClass(key: keyof PageData) {
         padding: 12px 16px;
         text-align: left;
         vertical-align: middle;
-        border-bottom: 1px solid @memo-grey-light;
+        border-bottom: 1px solid @memo-grey-lighter;
     }
 
     th {
         font-weight: 600;
-        color: #444;
+        color: @memo-grey-dark;
         position: sticky;
         top: 0;
         z-index: 1;
@@ -295,18 +295,22 @@ function getSortIconClass(key: keyof PageData) {
         width: 36px;
         height: 36px;
         border-radius: 50%;
-        background-color: @memo-blue;
+        background-color: @memo-green;
         color: white;
         cursor: pointer;
         transition: all 0.2s ease;
 
         &:hover {
-            background-color: darken(@memo-blue, 10%);
-            transform: scale(1.05);
+            background-color: darken(@memo-green, 10%);
         }
 
-        i {
+        &:active {
+            background-color: darken(@memo-green, 20%);
+        }
+
+        .fa-play {
             font-size: 14px;
+            padding-left: 2px;
         }
     }
 }
