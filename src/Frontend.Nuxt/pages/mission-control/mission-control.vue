@@ -49,56 +49,58 @@ const { isMobile } = useDevice()
 <template>
     <div class="container">
         <div class="row main-page">
-            <div class="mission-control-container">
-                <h1>{{ t('missionControl.heading') }}</h1>
-                <div class="mission-control-content" v-if="dashboardData">
+            <div class="col-xs-12">
+                <div class="mission-control-container">
+                    <h1 class="col-sm-offset-2 col-sm-8">{{ t('missionControl.heading') }}</h1>
+                    <div class="mission-control-content" v-if="dashboardData">
 
-                    <!-- Knowledge Status Section -->
-                    <MissionControlSection :title="t('missionControl.sections.knowledgeStatus')">
-                        <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus" :knowledgeStatus="dashboardData.knowledgeStatus" />
-                    </MissionControlSection>
+                        <!-- Knowledge Status Section -->
+                        <MissionControlSection :title="t('missionControl.sections.knowledgeStatus')">
+                            <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus" :knowledgeStatus="dashboardData.knowledgeStatus" />
+                        </MissionControlSection>
 
-                    <DevOnly>
-                        <!-- LearnCalendar Section -->
+                        <DevOnly>
+                            <!-- LearnCalendar Section -->
+                            <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
+                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
+                            </MissionControlSection>
+                        </DevOnly>
+
+                        <template v-if="isMobile">
+                            <!-- Wikis Section -->
+                            <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
+                                <MissionControlGrid :pages="dashboardData.wikis" />
+                            </MissionControlSection>
+
+                            <!-- Favorites Section -->
+                            <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                                <MissionControlGrid :pages="dashboardData.favorites" />
+                            </MissionControlSection>
+                        </template>
+                        <template v-else>
+                            <!-- Wikis Section -->
+                            <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
+                                <MissionControlTable :pages="dashboardData.wikis" />
+                            </MissionControlSection>
+
+                            <!-- Favorites Section -->
+                            <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                                <MissionControlTable :pages="dashboardData.favorites" />
+                            </MissionControlSection>
+                        </template>
+
+                        <!-- LearnCalendar Section with Coming Soon overlay -->
                         <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
-                            <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
-                        </MissionControlSection>
-                    </DevOnly>
-
-                    <template v-if="isMobile">
-                        <!-- Wikis Section -->
-                        <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
-                            <MissionControlGrid :pages="dashboardData.wikis" />
-                        </MissionControlSection>
-
-                        <!-- Favorites Section -->
-                        <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
-                            <MissionControlGrid :pages="dashboardData.favorites" />
-                        </MissionControlSection>
-                    </template>
-                    <template v-else>
-                        <!-- Wikis Section -->
-                        <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
-                            <MissionControlTable :pages="dashboardData.wikis" />
-                        </MissionControlSection>
-
-                        <!-- Favorites Section -->
-                        <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
-                            <MissionControlTable :pages="dashboardData.favorites" />
-                        </MissionControlSection>
-                    </template>
-
-                    <!-- LearnCalendar Section with Coming Soon overlay -->
-                    <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
-                        <div class="coming-soon-container">
-                            <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
-                            <div class="coming-soon-overlay">
-                                <div class="coming-soon-content">
-                                    <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>
+                            <div class="coming-soon-container">
+                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
+                                <div class="coming-soon-overlay">
+                                    <div class="coming-soon-content">
+                                        <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </MissionControlSection>
+                        </MissionControlSection>
+                    </div>
                 </div>
             </div>
         </div>
