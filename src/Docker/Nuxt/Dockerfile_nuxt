@@ -1,25 +1,32 @@
-# Dockerfile
-FROM node
+# syntax=docker/dockerfile:1
 
-# create destination directory
-RUN mkdir -p /usr/src/nuxt-output
+### build stage ###
+FROM node:24-slim AS build
+WORKDIR /app
+COPY Frontend.Nuxt/package*.json ./
+RUN npm ci          # installs all deps incl. Nuxt CLI
+COPY Frontend.Nuxt/ .
+RUN npm run build   # generates .output/
 
-# copy the app, note .dockerignore
-COPY Frontend.Nuxt/.output /usr/src/nuxt-output/
-COPY Frontend.Nuxt/node_modules/@vue/devtools-api /usr/src/node_modules/@vue/devtools-api
-COPY Frontend.Nuxt/node_modules/@vue/devtools-kit /usr/src/node_modules/@vue/devtools-kit
-COPY Frontend.Nuxt/node_modules/@vue/devtools-shared /usr/src/node_modules/@vue/devtools-shared
-COPY Frontend.Nuxt/node_modules/perfect-debounce /usr/src/node_modules/perfect-debounce
-COPY Frontend.Nuxt/node_modules/birpc /usr/src/node_modules/birpc
-COPY Frontend.Nuxt/node_modules/hookable /usr/src/node_modules/hookable
-COPY Frontend.Nuxt/node_modules/mitt /usr/src/node_modules/mitt
-COPY Frontend.Nuxt/node_modules/speakingurl /usr/src/node_modules/speakingurl
-COPY Frontend.Nuxt/node_modules/superjson /usr/src/node_modules/superjson
-
-EXPOSE 3000
-
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
+### runtime stage ###
+FROM node:24-slim
+ENV NODE_ENV=production \
+    NUXT_HOST=0.0.0.0 \
+    NUXT_PORT=3000
 
 WORKDIR /usr/src/nuxt-output
-CMD [ "node", "server/index.mjs"]
+COPY --from=build /app/.output .
+
+RUN mkdir -p /usr/src/node_modules
+COPY --from=build /app/node_modules/@vue/devtools-api      /usr/src/node_modules/@vue/devtools-api
+COPY --from=build /app/node_modules/@vue/devtools-kit      /usr/src/node_modules/@vue/devtools-kit
+COPY --from=build /app/node_modules/@vue/devtools-shared   /usr/src/node_modules/@vue/devtools-shared
+COPY --from=build /app/node_modules/perfect-debounce       /usr/src/node_modules/perfect-debounce
+COPY --from=build /app/node_modules/birpc                  /usr/src/node_modules/birpc
+COPY --from=build /app/node_modules/hookable               /usr/src/node_modules/hookable
+COPY --from=build /app/node_modules/mitt                   /usr/src/node_modules/mitt
+COPY --from=build /app/node_modules/speakingurl            /usr/src/node_modules/speakingurl
+COPY --from=build /app/node_modules/superjson              /usr/src/node_modules/superjson
+
+EXPOSE 3000
+CMD ["node", "server/index.mjs"]
