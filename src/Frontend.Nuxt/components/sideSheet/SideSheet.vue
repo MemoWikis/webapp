@@ -370,7 +370,7 @@ onMounted(() => {
                             </template>
                             <font-awesome-icon :icon="['fas', 'star']" />
                             <div v-show="!hidden" class="header-title">
-                                {{ t('sideSheet.favourites') }}
+                                {{ t('sideSheet.favorites') }}
                             </div>
                         </div>
                     </template>
@@ -516,8 +516,7 @@ onMounted(() => {
         </div>
 
         <ClientOnly>
-            <SideSheetCreateWikiModal :show-modal="showCreateWikiModal" @close-wiki-modal="showCreateWikiModal = false"
-                @wiki-created="handleWikiCreated" />
+            <SideSheetCreateWikiModal :show-modal="showCreateWikiModal" @close-wiki-modal="showCreateWikiModal = false" @wiki-created="handleWikiCreated" />
         </ClientOnly>
     </div>
 </template>

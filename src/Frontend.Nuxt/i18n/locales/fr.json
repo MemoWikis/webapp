@@ -227,7 +227,7 @@
         "myWikis": "Mes wikis",
         "deleteWiki": "Supprimer le wiki",
         "convertToPage": "Convertir en page",
-        "favourites": "Favoris",
+        "favorites": "Favoris",
         "lastVisited": "Dernières visites",
         "sharedWithMe": "Partagé avec moi",
         "noSharedPages": "Aucune page n'a encore été partagée avec vous",
@@ -1561,6 +1561,68 @@
         "cancel": {
             "title": "Paiement annulé",
             "message": "Dommage que tu aies annulé ton paiement.\nSi tu as rencontré des problèmes ou si tu as des questions,\nn'hésite pas à nous contacter !\nNotre équipe se fera un plaisir de t'aider."
+        }
+    },
+    "general": {
+        "comingSoon": "Bientôt disponible"
+    },
+    "missionControl": {
+        "heading": "Mission Control",
+        "sections": {
+            "wikis": "Mes wikis",
+            "recentActivity": "Activité récente",
+            "knowledgeStatus": "Niveau de connaissance",
+            "favorites": "Favoris",
+            "comingSoon": "Bientôt disponible",
+            "learnCalendar": "Activité d'apprentissage"
+        },
+        "wikis": {
+            "tableHeaders": {
+                "name": "Nom",
+                "questionCount": "Questions",
+                "knowledgeStatus": "Niveau de connaissance",
+                "actions": "Actions"
+            },
+            "questions": "{count} questions",
+            "noQuestions": "Pas de questions",
+            "sortBy": "Trier par",
+            "searchPlaceholder": "Rechercher des wikis...",
+            "learn": "Apprendre"
+        },
+        "learnCalendar": {
+            "title": "Ton activité d'apprentissage",
+            "dayTooltip": "Aucune activité le {date} | Une question répondue le {date} | {count} questions répondues le {date}",
+            "days": {
+                "0": "Dim",
+                "1": "Lun",
+                "2": "Mar",
+                "3": "Mer",
+                "4": "Jeu",
+                "5": "Ven",
+                "6": "Sam"
+            },
+            "months": {
+                "0": "Jan",
+                "1": "Fév",
+                "2": "Mar",
+                "3": "Avr",
+                "4": "Mai",
+                "5": "Juin",
+                "6": "Juil",
+                "7": "Août",
+                "8": "Sep",
+                "9": "Oct",
+                "10": "Nov",
+                "11": "Déc"
+            },
+            "currentStreak": "Série actuelle : 0 jours | Série actuelle : un jour | Série actuelle : {count} jours",
+            "longestStreak": "Plus longue série : {count} jours"
+        },
+        "pageTable": {
+            "name": "Nom",
+            "questions": "Questions",
+            "knowledgeStatus": "Niveau de connaissance",
+            "learnNow": "Apprendre maintenant"
         }
     }
 }

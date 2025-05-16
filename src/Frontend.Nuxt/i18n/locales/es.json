@@ -227,7 +227,7 @@
         "myWikis": "Mis Wikis",
         "deleteWiki": "Eliminar Wiki",
         "convertToPage": "Convertir en página",
-        "favourites": "Favoritos",
+        "favorites": "Favoritos",
         "lastVisited": "Últimos visitados",
         "sharedWithMe": "Compartido conmigo",
         "noSharedPages": "Aún no hay páginas compartidas contigo",
@@ -1561,6 +1561,68 @@
         "cancel": {
             "title": "Pago cancelado",
             "message": "Lamentamos que hayas cancelado tu pago.\nSi has encontrado algún problema o tienes preguntas,\n¡no dudes en contactarnos!\nNuestro equipo estará encantado de ayudarte."
+        }
+    },
+    "general": {
+        "comingSoon": "Próximamente"
+    },
+    "missionControl": {
+        "heading": "Mission Control",
+        "sections": {
+            "wikis": "Mis Wikis",
+            "recentActivity": "Actividad reciente",
+            "knowledgeStatus": "Estado de conocimiento",
+            "favorites": "Favoritos",
+            "comingSoon": "Próximamente",
+            "learnCalendar": "Actividad de aprendizaje"
+        },
+        "wikis": {
+            "tableHeaders": {
+                "name": "Nombre",
+                "questionCount": "Preguntas",
+                "knowledgeStatus": "Estado de conocimiento",
+                "actions": "Acciones"
+            },
+            "questions": "{count} preguntas",
+            "noQuestions": "Sin preguntas",
+            "sortBy": "Ordenar por",
+            "searchPlaceholder": "Buscar wikis...",
+            "learn": "Aprender"
+        },
+        "learnCalendar": {
+            "title": "Tu actividad de aprendizaje",
+            "dayTooltip": "Sin actividad el {date} | Una pregunta respondida el {date} | {count} preguntas respondidas el {date}",
+            "days": {
+                "0": "Dom",
+                "1": "Lun",
+                "2": "Mar",
+                "3": "Mié",
+                "4": "Jue",
+                "5": "Vie",
+                "6": "Sáb"
+            },
+            "months": {
+                "0": "Ene",
+                "1": "Feb",
+                "2": "Mar",
+                "3": "Abr",
+                "4": "May",
+                "5": "Jun",
+                "6": "Jul",
+                "7": "Ago",
+                "8": "Sep",
+                "9": "Oct",
+                "10": "Nov",
+                "11": "Dic"
+            },
+            "currentStreak": "Racha actual: 0 días | Racha actual: un día | Racha actual: {count} días",
+            "longestStreak": "Racha más larga: {count} días"
+        },
+        "pageTable": {
+            "name": "Nombre",
+            "questions": "Preguntas",
+            "knowledgeStatus": "Estado de conocimiento",
+            "learnNow": "Aprender ahora"
         }
     }
 }

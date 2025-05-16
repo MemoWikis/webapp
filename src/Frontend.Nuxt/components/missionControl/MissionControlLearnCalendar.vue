@@ -3,6 +3,7 @@ import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar
 import { formatDate, getDaysBetween } from '../shared/utils'
 
 const props = defineProps<{ calendarData?: ActivityCalendarData }>()
+const { t } = useI18n()
 
 const today = new Date()
 today.setHours(0, 0, 0, 0)
@@ -49,7 +50,7 @@ const currentStreak = computed(() => {
 })
 
 // Labels
-const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const dayLabels = [0, 1, 2, 3, 4, 5, 6] // Day indices corresponding to Sunday(0) through Saturday(6)
 const months = computed(() => {
     const monthLabels: string[] = []
     let lastMonth = ''
@@ -77,31 +78,35 @@ function getColorClass(count: number) {
 <template>
     <div class="learn-calendar">
         <div class="stats">
-            <div>Current Streak: {{ currentStreak }} days</div>
-            <div>Longest Streak: {{ longestStreak }} days</div>
+            <div>{{ t('missionControl.learnCalendar.currentStreak', { count: currentStreak }) }}</div>
+            <div>{{ t('missionControl.learnCalendar.longestStreak', { count: longestStreak }) }}</div>
         </div>
-        <div class="grid">
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th v-for="(month, idx) in months" :key="idx" class="month-label">{{ month }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(label, d) in dayLabels" :key="d">
-                        <th class="day-label">
-                            <span v-if="[1, 3, 5].includes(d)">{{ label }}</span>
-                        </th>
-                        <td
-                            v-for="(week, wIdx) in weeks"
-                            :key="wIdx"
-                            class="day"
-                            :class="getColorClass(week[d]?.count || 0), { 'disabled': week[d]?.date === undefined }"
-                            v-tooltip="{ content: `${week[d]?.date}: ${week[d]?.count} questions learned`, disabled: week[d]?.date === undefined }"></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="grid-container">
+            <perfect-scrollbar :options="{ suppressScrollY: true, wheelPropagation: true, useBothWheelAxes: true }">
+                <div class="grid">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th v-for="(month, idx) in months" :key="idx" class="month-label">{{ month }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(label, d) in dayLabels" :key="d">
+                                <th class="day-label">
+                                    <span v-if="[1, 3, 5].includes(d)">{{ t(`missionControl.learnCalendar.days.${d}`) }}</span>
+                                </th>
+                                <td
+                                    v-for="(week, wIdx) in weeks"
+                                    :key="wIdx"
+                                    class="day"
+                                    :class="getColorClass(week[d]?.count || 0), { 'disabled': week[d]?.date === undefined }"
+                                    v-tooltip="{ content: week[d]?.date ? t('missionControl.learnCalendar.dayTooltip', { date: week[d]?.date, count: week[d]?.count }) : '', disabled: week[d]?.date === undefined }"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </perfect-scrollbar>
         </div>
     </div>
 </template>
@@ -117,10 +122,21 @@ function getColorClass(count: number) {
     .stats {
         display: flex;
         gap: 1rem;
-        margin-bottom: .5rem;
+        margin-bottom: 1rem;
+        padding-left: 34px;
+        color: @memo-grey-darker;
+    }
+
+    .grid-container {
+        position: relative;
+        width: 100%;
     }
 
     .grid {
+        padding-bottom: 12px;
+        width: 900px;
+        position: relative;
+
         table {
             border-collapse: separate;
             border-spacing: 2px;
@@ -192,6 +208,50 @@ function getColorClass(count: number) {
                 }
             }
         }
+    }
+}
+
+/* Perfect Scrollbar styles */
+::v-deep(.ps) {
+    position: relative;
+
+    &.ps--active-x {
+        overflow: hidden !important;
+    }
+
+    .ps__rail-x {
+        height: 10px;
+        bottom: 0;
+        opacity: 0.6;
+        transition: background-color 0.2s linear, opacity 0.2s linear;
+        -webkit-transition: background-color 0.2s linear, opacity 0.2s linear;
+
+        &:hover,
+        &.ps--clicking {
+            background-color: #eee;
+            opacity: 0.9;
+
+            .ps__thumb-x {
+                height: 8px;
+            }
+        }
+
+        .ps__thumb-x {
+            background-color: #aaa;
+            height: 6px;
+            border-radius: 6px;
+            bottom: 2px;
+
+            &:hover {
+                background-color: #999;
+            }
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .learn-calendar {
+        padding: 12px 10px;
     }
 }
 </style>

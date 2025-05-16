@@ -59,18 +59,27 @@ function getSortIconClass(key: keyof PageData) {
             <thead>
                 <tr>
                     <th class="sortable name-header" @click="toggleSort('name')">
-                        {{ t('missionControl.page.tableName') }}
-                        <span :class="getSortIconClass('name')"></span>
+                        {{ t('missionControl.pageTable.name') }}
+                        <span :class="getSortIconClass('name')">
+                            <font-awesome-icon v-if="sortKey === 'name'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
+                            <font-awesome-icon v-else :icon="['fas', 'sort']" />
+                        </span>
                     </th>
                     <th class="sortable questioncount-header" @click="toggleSort('questionCount')">
-                        {{ t('missionControl.page.tableQuestionCount') }}
-                        <span :class="getSortIconClass('questionCount')"></span>
+                        {{ t('missionControl.pageTable.questions') }}
+                        <span :class="getSortIconClass('questionCount')">
+                            <font-awesome-icon v-if="sortKey === 'questionCount'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
+                            <font-awesome-icon v-else :icon="['fas', 'sort']" />
+                        </span>
                     </th>
                     <th class="sortable knowledgestatus-header" @click="toggleSort('knowledgebarData')">
-                        {{ t('missionControl.page.tableKnowledgeStatus') }}
-                        <span :class="getSortIconClass('knowledgebarData')"></span>
+                        {{ t('missionControl.pageTable.knowledgeStatus') }}
+                        <span :class="getSortIconClass('knowledgebarData')">
+                            <font-awesome-icon v-if="sortKey === 'knowledgebarData'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
+                            <font-awesome-icon v-else :icon="['fas', 'sort']" />
+                        </span>
                     </th>
-                    <th class="actions-column">{{ t('missionControl.page.tableActions') }}</th>
+                    <th class="actions-column"></th>
                 </tr>
             </thead>
             <tbody>
@@ -109,9 +118,10 @@ function getSortIconClass(key: keyof PageData) {
                     <td class="actions-cell">
                         <NuxtLink
                             v-if="page.questionCount > 0"
-                            :to="$urlHelper.getPageUrl(page.name, page.id, Tab.Learning)"
+                            :to="{ path: $urlHelper.getPageUrl(page.name, page.id, Tab.Learning), query: { inWuWi: (page.knowledgebarData != null).toString() } }"
                             class="action-button"
-                            :title="t('missionControl.page.learnNow')">
+                            :title="t('missionControl.pageTable.learnNow')"
+                            v-tooltip="t('missionControl.pageTable.learnNow')">
                             <font-awesome-icon :icon="['fas', 'play']" />
                         </NuxtLink>
                     </td>
@@ -159,19 +169,24 @@ function getSortIconClass(key: keyof PageData) {
 
     th {
         font-weight: 600;
-        color: @memo-grey-dark;
+        color: @memo-grey-darker;
         position: sticky;
         top: 0;
         z-index: 1;
         text-overflow: none;
         white-space: nowrap;
+        background: white;
 
         &.sortable {
             cursor: pointer;
             user-select: none;
 
             &:hover {
-                background-color: #eef1f6;
+                filter: brightness(0.95);
+            }
+
+            &:active {
+                filter: brightness(0.9);
             }
         }
 
@@ -184,7 +199,6 @@ function getSortIconClass(key: keyof PageData) {
             width: 150px;
             max-width: 150px;
             text-align: center;
-            font-weight: 600;
         }
 
         &.knowledgestatus-header {
@@ -202,26 +216,14 @@ function getSortIconClass(key: keyof PageData) {
 
     .sort-icon {
         display: inline-block;
-        width: 10px;
-        height: 10px;
         margin-left: 4px;
         position: relative;
+        opacity: 0.3;
+    }
 
-        &::after {
-            content: '⇅';
-            opacity: 0.3;
-            font-size: 14px;
-        }
-
-        &.sort-asc::after {
-            content: '↑';
-            opacity: 1;
-        }
-
-        &.sort-desc::after {
-            content: '↓';
-            opacity: 1;
-        }
+    .sort-asc,
+    .sort-desc {
+        opacity: 1;
     }
 
     .page-row {

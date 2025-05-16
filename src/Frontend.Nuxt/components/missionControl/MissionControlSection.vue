@@ -53,6 +53,7 @@ defineProps({
 
     .section-content {
         padding: 16px 20px;
+        padding-top: 0;
     }
 }
 </style>

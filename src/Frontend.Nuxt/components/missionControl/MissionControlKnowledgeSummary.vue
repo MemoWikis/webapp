@@ -118,7 +118,7 @@ const knowledgeStatusItems = computed(() => [
     display: flex;
     flex-direction: column;
     width: 100%;
-
+    min-width: 500px;
     background: white;
     border-radius: 8px;
     padding: 16px 20px;

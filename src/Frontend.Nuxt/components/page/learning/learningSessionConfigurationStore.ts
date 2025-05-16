@@ -1,8 +1,8 @@
-import { defineStore } from "pinia"
-import { useUserStore } from "../../user/userStore"
-import { usePageStore } from "../pageStore"
-import { useLearningSessionStore } from "./learningSessionStore"
-import _ from "underscore"
+import { defineStore } from 'pinia'
+import { useUserStore } from '../../user/userStore'
+import { usePageStore } from '../pageStore'
+import { useLearningSessionStore } from './learningSessionStore'
+import _ from 'underscore'
 
 export interface QustionCounter {
     createdByCurrentUser: number
@@ -22,43 +22,43 @@ export class SessionConfig {
     questionFilterOptions: { [key: string]: any } = {
         inWuwi: {
             count: 0,
-            label: "questionFilterOptions.inWuwi",
-            icon: "fa-solid fa-heart",
+            label: 'questionFilterOptions.inWuwi',
+            icon: 'fa-solid fa-heart',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
         notInWuwi: {
             count: 0,
-            label: "questionFilterOptions.notInWuwi",
-            icon: "fa-regular fa-heart",
+            label: 'questionFilterOptions.notInWuwi',
+            icon: 'fa-regular fa-heart',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
         createdByCurrentUser: {
             count: 0,
-            label: "questionFilterOptions.createdByCurrentUser",
-            icon: "fa-solid fa-user-check",
+            label: 'questionFilterOptions.createdByCurrentUser',
+            icon: 'fa-solid fa-user-check',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
         notCreatedByCurrentUser: {
             count: 0,
-            label: "questionFilterOptions.notCreatedByCurrentUser",
-            icon: "fa-solid fa-user-slash",
+            label: 'questionFilterOptions.notCreatedByCurrentUser',
+            icon: 'fa-solid fa-user-slash',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
         privateQuestions: {
             count: 0,
-            label: "questionFilterOptions.private",
-            icon: "fa-solid fa-lock",
+            label: 'questionFilterOptions.private',
+            icon: 'fa-solid fa-lock',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
         publicQuestions: {
             count: 0,
-            label: "questionFilterOptions.public",
-            icon: "fa-solid fa-globe",
+            label: 'questionFilterOptions.public',
+            icon: 'fa-solid fa-globe',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
@@ -66,29 +66,29 @@ export class SessionConfig {
     knowledgeSummary: { [key: string]: any } = {
         notLearned: {
             count: 0,
-            label: "knowledgeStatus.notLearned",
-            colorClass: "not-learned",
+            label: 'knowledgeStatus.notLearned',
+            colorClass: 'not-learned',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
         needsLearning: {
             count: 0,
-            label: "knowledgeStatus.needsLearning",
-            colorClass: "needs-learning",
+            label: 'knowledgeStatus.needsLearning',
+            colorClass: 'needs-learning',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
         needsConsolidation: {
             count: 0,
-            label: "knowledgeStatus.needsConsolidation",
-            colorClass: "needs-consolidation",
+            label: 'knowledgeStatus.needsConsolidation',
+            colorClass: 'needs-consolidation',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
         solid: {
             count: 0,
-            label: "knowledgeStatus.solid",
-            colorClass: "solid",
+            label: 'knowledgeStatus.solid',
+            colorClass: 'solid',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
@@ -113,7 +113,7 @@ export interface StoredSessionConfig {
 }
 
 export const useLearningSessionConfigurationStore = defineStore(
-    "learningSessionConfigurationStore",
+    'learningSessionConfigurationStore',
     {
         state: () => {
             const sessionConfig = new SessionConfig()
@@ -138,7 +138,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                 maxSelectableQuestionCount: 0,
                 selectedQuestionCount: 0,
 
-                pageName: "",
+                pageName: '',
                 selectedQuestionFilterOptionsDisplay: new SessionConfig()
                     .questionFilterOptions,
                 selectedQuestionFilterOptionsExtraCount: 0,
@@ -165,10 +165,10 @@ export const useLearningSessionConfigurationStore = defineStore(
                 questionCountInputFocused: false,
                 timeLimit: 0,
                 questionCountIsInvalid: false,
-                userIdString: "",
+                userIdString: '',
                 defaultMode: null,
                 showSelectionError: false,
-                sessionConfigKey: "sessionConfig",
+                sessionConfigKey: 'sessionConfig',
                 showFilter: false,
             }
         },
@@ -247,9 +247,9 @@ export const useLearningSessionConfigurationStore = defineStore(
                     `/apiVue/LearningSessionConfigurationStore/GetCount/`,
                     {
                         body: sessionJson,
-                        method: "POST",
-                        mode: "cors",
-                        credentials: "include",
+                        method: 'POST',
+                        mode: 'cors',
+                        credentials: 'include',
                     }
                 )
                 if (count) this.setCounter(count)
@@ -559,7 +559,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                 if (
                     !userStore.isLoggedIn &&
                     val === 2 &&
-                    key === "questionOrder"
+                    key === 'questionOrder'
                 ) {
                     userStore.openLoginModal()
                     return

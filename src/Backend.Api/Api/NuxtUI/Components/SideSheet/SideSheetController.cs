@@ -65,7 +65,6 @@
         userCacheItem.AddFavorite(id);
 
         _userWritingRepo.Update(userCacheItem);
-        EntityCache.AddOrUpdate(userCacheItem);
 
         return new AddToFavoriteResponse(true);
     }
