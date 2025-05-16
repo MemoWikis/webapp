@@ -1,1 +1,326 @@
-﻿
+﻿{
+  wikiCount: 0,
+  allDbPages: [
+    {
+      AuthorIds: 2,
+      Content: null,
+      CorrectnessProbability: 0,
+      CorrectnessProbabilityAnswerCount: 0,
+      CountQuestionsAggregated: 0,
+      Creator_id: 2,
+      CustomSegments: null,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Description: null,
+      DisableLearningFunctions: false,
+      Id: 1,
+      IsWiki: false,
+      Language: en,
+      Name: RootElement,
+      SkipMigration: false,
+      TextIsHidden: false,
+      TopicMarkdown: null,
+      TotalRelevancePersonalEntries: 0,
+      Type: 1,
+      TypeJson: null,
+      Url: null,
+      UrlLinkText: null,
+      Visibility: 0,
+      WikipediaURL: null
+    },
+    {
+      AuthorIds: 1,
+      Content: null,
+      CorrectnessProbability: 0,
+      CorrectnessProbabilityAnswerCount: 0,
+      CountQuestionsAggregated: 0,
+      Creator_id: 1,
+      CustomSegments: null,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Description: null,
+      DisableLearningFunctions: false,
+      Id: 2,
+      IsWiki: false,
+      Language: en,
+      Name: Sub1,
+      SkipMigration: false,
+      TextIsHidden: false,
+      TopicMarkdown: null,
+      TotalRelevancePersonalEntries: 0,
+      Type: 1,
+      TypeJson: null,
+      Url: null,
+      UrlLinkText: null,
+      Visibility: 0,
+      WikipediaURL: null
+    },
+    {
+      AuthorIds: 2,
+      Content: null,
+      CorrectnessProbability: 0,
+      CorrectnessProbabilityAnswerCount: 0,
+      CountQuestionsAggregated: 0,
+      Creator_id: 2,
+      CustomSegments: null,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Description: null,
+      DisableLearningFunctions: false,
+      Id: 3,
+      IsWiki: false,
+      Language: en,
+      Name: SubSub1,
+      SkipMigration: false,
+      TextIsHidden: false,
+      TopicMarkdown: null,
+      TotalRelevancePersonalEntries: 0,
+      Type: 1,
+      TypeJson: null,
+      Url: null,
+      UrlLinkText: null,
+      Visibility: 0,
+      WikipediaURL: null
+    },
+    {
+      AuthorIds: 2,
+      Content: null,
+      CorrectnessProbability: 0,
+      CorrectnessProbabilityAnswerCount: 0,
+      CountQuestionsAggregated: 0,
+      Creator_id: 2,
+      CustomSegments: null,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Description: null,
+      DisableLearningFunctions: false,
+      Id: 4,
+      IsWiki: false,
+      Language: en,
+      Name: Sub2,
+      SkipMigration: false,
+      TextIsHidden: false,
+      TopicMarkdown: null,
+      TotalRelevancePersonalEntries: 0,
+      Type: 1,
+      TypeJson: null,
+      Url: null,
+      UrlLinkText: null,
+      Visibility: 1,
+      WikipediaURL: null
+    }
+  ],
+  cachedPage: {
+    CreatorId: 1,
+    Creator: {
+      IsMemoWikisUser: false,
+      AllowsSupportiveLogin: false,
+      DateCreated: {Scrubbed},
+      IsMember: false,
+      Id: 1,
+      Name: SessionUser,
+      IsFacebookUser: false,
+      IsGoogleUser: false,
+      ShowWishKnowledge: false,
+      IsInstallationAdmin: false,
+      IsEmailConfirmed: false,
+      UiLanguage: en
+    },
+    AuthorIds: [
+      1
+    ],
+    ParentRelations: [
+      {
+        Id: 1,
+        ChildId: 2,
+        ParentId: 1
+      }
+    ],
+    ChildRelations: [
+      {
+        Id: 2,
+        ChildId: 3,
+        ParentId: 2
+      }
+    ],
+    DateCreated: {Scrubbed},
+    DisableLearningFunctions: false,
+    TextIsHidden: false,
+    Id: 2,
+    IsHistoric: false,
+    Name: Sub1,
+    SkipMigration: false,
+    Type: Standard,
+    IsPublic: true,
+    IsWiki: false,
+    Language: en,
+    PageChangeCacheItems: [
+      {
+        Id: 9,
+        PageId: 2,
+        DataVersion: 2,
+        Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[1],"ChildIds":[3],"DeleteChangeId":null,"DeletedName":null},
+        AuthorId: 1,
+        DateCreated: {Scrubbed},
+        PageChangeData: {
+          NameChange: {
+            OldName: Sub1,
+            NewName: Sub1
+          },
+          RelationChange: {
+            AddedParentIds: [
+              1
+            ],
+            AddedChildIds: [
+              3
+            ]
+          },
+          PreviousId: 3,
+          VisibilityChange: {
+            OldVisibility: Public
+          }
+        },
+        GroupedPageChangeCacheItems: [
+          {
+            Id: 3,
+            PageId: 2,
+            DataVersion: 2,
+            Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":null,"ChildIds":null,"DeleteChangeId":null,"DeletedName":null},
+            AuthorId: 1,
+            DateCreated: {Scrubbed},
+            PageChangeData: {
+              NameChange: {
+                NewName: Sub1
+              },
+              RelationChange: {}
+            },
+            IsGroup: false,
+            IsPartOfGroup: true
+          },
+          {
+            Id: 6,
+            PageId: 2,
+            DataVersion: 2,
+            Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[1],"ChildIds":null,"DeleteChangeId":null,"DeletedName":null},
+            AuthorId: 1,
+            Type: Relations,
+            DateCreated: {Scrubbed},
+            PageChangeData: {
+              NameChange: {
+                OldName: Sub1,
+                NewName: Sub1
+              },
+              RelationChange: {
+                AddedParentIds: [
+                  1
+                ]
+              },
+              PreviousId: 3,
+              VisibilityChange: {
+                OldVisibility: Public
+              }
+            },
+            IsGroup: false,
+            IsPartOfGroup: true
+          },
+          {
+            Id: 9,
+            PageId: 2,
+            DataVersion: 2,
+            Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[1],"ChildIds":[3],"DeleteChangeId":null,"DeletedName":null},
+            AuthorId: 1,
+            Type: Relations,
+            DateCreated: {Scrubbed},
+            PageChangeData: {
+              NameChange: {
+                OldName: Sub1,
+                NewName: Sub1
+              },
+              RelationChange: {
+                AddedChildIds: [
+                  3
+                ]
+              },
+              PreviousId: 6,
+              VisibilityChange: {
+                OldVisibility: Public
+              }
+            },
+            IsGroup: false,
+            IsPartOfGroup: true
+          }
+        ],
+        IsGroup: true,
+        IsPartOfGroup: false
+      },
+      {
+        Id: 9,
+        PageId: 2,
+        DataVersion: 2,
+        Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[1],"ChildIds":[3],"DeleteChangeId":null,"DeletedName":null},
+        AuthorId: 1,
+        Type: Relations,
+        DateCreated: {Scrubbed},
+        PageChangeData: {
+          NameChange: {
+            OldName: Sub1,
+            NewName: Sub1
+          },
+          RelationChange: {
+            AddedChildIds: [
+              3
+            ]
+          },
+          PreviousId: 6,
+          VisibilityChange: {
+            OldVisibility: Public
+          }
+        },
+        IsGroup: false,
+        IsPartOfGroup: true
+      },
+      {
+        Id: 6,
+        PageId: 2,
+        DataVersion: 2,
+        Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[1],"ChildIds":null,"DeleteChangeId":null,"DeletedName":null},
+        AuthorId: 1,
+        Type: Relations,
+        DateCreated: {Scrubbed},
+        PageChangeData: {
+          NameChange: {
+            OldName: Sub1,
+            NewName: Sub1
+          },
+          RelationChange: {
+            AddedParentIds: [
+              1
+            ]
+          },
+          PreviousId: 3,
+          VisibilityChange: {
+            OldVisibility: Public
+          }
+        },
+        IsGroup: false,
+        IsPartOfGroup: true
+      },
+      {
+        Id: 3,
+        PageId: 2,
+        DataVersion: 2,
+        Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":null,"ChildIds":null,"DeleteChangeId":null,"DeletedName":null},
+        AuthorId: 1,
+        DateCreated: {Scrubbed},
+        PageChangeData: {
+          NameChange: {
+            NewName: Sub1
+          },
+          RelationChange: {}
+        },
+        IsGroup: false,
+        IsPartOfGroup: true
+      }
+    ]
+  }
+}

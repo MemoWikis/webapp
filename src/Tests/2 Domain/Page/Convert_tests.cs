@@ -180,13 +180,13 @@ internal class Convert_tests : BaseTestHarness
         // Verify that the EntityCache was updated
         var cachedPage = EntityCache.GetPage(page.Id);
         var userCacheItem = EntityCache.GetUserById(userId);
-        var userWikis = userCacheItem.GetWikis();
+        var wikiCount = userCacheItem.GetWikis().Count.ToString();
 
         await Verify(new
         {
+            wikiCount,
             allDbPages = await _testHarness.DbData.AllPagesAsync(),
             cachedPage,
-            userWikis = userCacheItem.GetWikis().ToList()
         });
     }
 
