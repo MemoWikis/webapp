@@ -10,15 +10,12 @@
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
 
         contextPage.Persist();
@@ -37,7 +34,7 @@
         await ReloadCaches();
         var parentFromDb = R<PageRepository>().GetByIdEager(parent.Id);
         var questionFromDb = R<QuestionReadingRepo>().GetById(questionContext.All.First().Id);
-        var parentFromCache = EntityCache.GetPage(parentFromDb.Id);
+        var parentFromCache = EntityCache.GetPage(parentFromDb!.Id);
         var questionFromCache = EntityCache.GetQuestionById(questionFromDb.Id);
 
         var pageChange = R<PageChangeRepo>().GetForPage(parent.Id);
@@ -68,9 +65,8 @@
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var child = contextPage.Add("child",
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add("child", creator)
             .GetPageByName("child");
 
         contextPage.Persist();

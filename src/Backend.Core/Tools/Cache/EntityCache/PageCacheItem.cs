@@ -45,8 +45,6 @@ public class PageCacheItem : IPersistable
 
     public virtual int TotalRelevancePersonalEntries { get; set; }
 
-    public virtual PageType Type { get; set; }
-
     public virtual string TypeJson { get; set; }
 
     public virtual string Url { get; set; }
@@ -297,7 +295,6 @@ public class PageCacheItem : IPersistable
             Visibility = page.Visibility,
             PageMarkdown = page.Markdown,
             TotalRelevancePersonalEntries = page.TotalRelevancePersonalEntries,
-            Type = page.Type,
             TypeJson = page.TypeJson,
             Url = page.Url,
             UrlLinkText = page.UrlLinkText,
@@ -311,7 +308,6 @@ public class PageCacheItem : IPersistable
 
         if (EntityCache.IsFirstStart)
         {
-
             if (views != null)
             {
                 pageCacheItem.TotalViews = views.Count();

@@ -502,9 +502,7 @@ public class EntityCache
             .Where(c => c.Creator.Id == userId && c.Visibility == PageVisibility.Private)
             .Select(c => c.Id);
 
-    public static List<PageCacheItem> GetByPageName(
-        string name,
-        PageType type = PageType.Standard)
+    public static List<PageCacheItem> GetByPageName(string name)
     {
         var allPages = GetAllPagesList();
         return allPages.Where(c => c.Name.ToLower() == name.ToLower()).ToList();

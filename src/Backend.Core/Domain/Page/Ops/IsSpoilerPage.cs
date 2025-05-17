@@ -1,5 +1,4 @@
-﻿
-public class IsSpoilerPage
+﻿public class IsSpoilerPage
 {
     public static bool Yes(string pageText, QuestionCacheItem question)
     {

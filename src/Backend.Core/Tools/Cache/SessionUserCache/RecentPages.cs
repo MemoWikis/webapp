@@ -1,5 +1,4 @@
-﻿
-public class RecentPages()
+﻿public class RecentPages()
 {
     public readonly Queue<int> PagesQueue = new Queue<int>();
     private readonly int maxSize = 5;

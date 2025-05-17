@@ -34,7 +34,6 @@
 
     public ContextPage Add(
         string pageName,
-        PageType pageType = PageType.Standard,
         User? creator = null,
         PageVisibility visibility = PageVisibility.Public,
         bool isWiki = false)
@@ -43,7 +42,6 @@
         {
             Name = pageName,
             Creator = creator ?? _contextUser.All.First(),
-            Type = pageType,
             Visibility = visibility,
             IsWiki = isWiki,
         };

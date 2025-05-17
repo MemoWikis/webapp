@@ -8,7 +8,6 @@
             Content = GetContentByUiLanguage(user.UiLanguage),
             Visibility = PageVisibility.Private,
             Creator = user,
-            Type = PageType.Standard,
             IsWiki = true
         };
     }

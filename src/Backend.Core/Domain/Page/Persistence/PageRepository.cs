@@ -117,8 +117,6 @@ public class PageRepository(
     }
 
     public IList<Page> GetChildren(
-        PageType parentType,
-        PageType childrenType,
         int parentId,
         string searchTerm = "")
     {
@@ -127,11 +125,9 @@ public class PageRepository(
 
         var query = Session
             .QueryOver<PageRelation>()
-            .JoinAlias(c => c.Parent, () => relatedPageAlias)
-            .JoinAlias(c => c.Child, () => pageAlias)
-            .Where(r => relatedPageAlias.Type == parentType
-                        && relatedPageAlias.Id == parentId
-                        && pageAlias.Type == childrenType);
+            .JoinAlias(relation => relation.Parent, () => relatedPageAlias)
+            .JoinAlias(relation => relation.Child, () => pageAlias)
+            .Where(relation => relatedPageAlias.Id == parentId);
 
         if (!string.IsNullOrEmpty(searchTerm))
         {

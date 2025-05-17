@@ -161,7 +161,7 @@ internal class Convert_tests : BaseTestHarness
         var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         var page = EntityCache.GetPage(children.ByName("Sub1").Id);
-        page.IsWiki = true;
+        page!.IsWiki = true;
 
         // Add page and user to EntityCache
         EntityCache.AddOrUpdate(page);
@@ -253,7 +253,7 @@ internal class Convert_tests : BaseTestHarness
 
         var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
-        var page = EntityCache.GetPage(children.ByName("Sub1").Id);
+        var page = EntityCache.GetPage(children.ByName("Sub1").Id)!;
         page.IsWiki = true;
         // Add page and user to EntityCache
         EntityCache.AddOrUpdate(page);

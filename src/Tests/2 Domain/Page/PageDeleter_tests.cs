@@ -10,15 +10,12 @@
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
 
         contextPage.Persist();
@@ -49,20 +46,16 @@
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
 
-        var childOfChild = contextPage.Add(childOfChildName,
-                PageType.Standard,
-                creator)
+        var childOfChild = contextPage
+            .Add(childOfChildName, creator)
             .GetPageByName(childOfChildName);
 
         contextPage.Persist();
@@ -80,10 +73,8 @@
 
         var pageRepo = R<PageRepository>();
         var allAvailablePages = pageRepo.GetAll();
-        var parentChildren =
-            pageRepo.GetChildren(PageType.Standard, PageType.Standard, parent.Id);
-        var childrenOfChild = pageRepo.GetChildren(PageType.Standard,
-            PageType.Standard, child.Id);
+        var parentChildren = pageRepo.GetChildren(parent.Id);
+        var childrenOfChild = pageRepo.GetChildren(child.Id);
 
         Assert.That(requestResult, Is.Not.False);
         Assert.That(requestResult.Success);
@@ -110,19 +101,15 @@
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
-        var childOfChild = contextPage.Add(childOfChildName,
-                PageType.Standard,
-                creator)
+        var childOfChild = contextPage
+            .Add(childOfChildName, creator)
             .GetPageByName(childOfChildName);
 
         contextPage.Persist();
@@ -173,25 +160,20 @@
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var firstChild = contextPage.Add(firstChildName,
-                PageType.Standard,
-                creator)
+        var firstChild = contextPage
+            .Add(firstChildName, creator)
             .GetPageByName(firstChildName);
 
-        var secondChild = contextPage.Add(secondChildName,
-                PageType.Standard,
-                creator)
+        var secondChild = contextPage
+            .Add(secondChildName, creator)
             .GetPageByName(secondChildName);
 
-        var childOfChild = contextPage.Add(childOfChildName,
-                PageType.Standard,
-                creator)
+        var childOfChild = contextPage
+            .Add(childOfChildName, creator)
             .GetPageByName(childOfChildName);
 
         contextPage.Persist();
@@ -223,19 +205,16 @@
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
-        var childOfChild = contextPage.Add(childOfChildName,
-                PageType.Standard,
-                creator)
+        
+        var childOfChild = contextPage
+            .Add(childOfChildName, creator)
             .GetPageByName(childOfChildName);
 
         contextPage.Persist();
@@ -266,16 +245,12 @@
 
         var creator = new User { Id = 2, IsInstallationAdmin = false, Name = "Creator" };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(
-                childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
 
         contextPage.Persist();

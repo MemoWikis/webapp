@@ -32,7 +32,6 @@ public class Page : DomainEntity, ICreator
     public virtual string Markdown { get; set; }
     public virtual string Content { get; set; }
     public virtual string CustomSegments { get; set; }
-    public virtual PageType Type { get; set; }
     public virtual string TypeJson { get; set; }
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
@@ -44,7 +43,6 @@ public class Page : DomainEntity, ICreator
 
     public Page()
     {
-        Type = PageType.Standard;
     }
 
     public Page(string name, int userId) : this()

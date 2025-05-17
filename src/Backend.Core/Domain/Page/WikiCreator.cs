@@ -23,7 +23,6 @@
         var wiki = new Page(name, sessionUser.UserId);
 
         wiki.Creator = _userReadingRepo.GetById(sessionUser.UserId);
-        wiki.Type = PageType.Standard;
         wiki.Visibility = PageVisibility.Private;
         wiki.IsWiki = true;
         _pageRepository.Create(wiki);
