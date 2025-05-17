@@ -53,7 +53,6 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string FacebookId { get; set; }
     public virtual string GoogleId { get; set; }
 
-    public virtual string? WikiIds { get; set; }
     public virtual string? FavoriteIds { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
 
