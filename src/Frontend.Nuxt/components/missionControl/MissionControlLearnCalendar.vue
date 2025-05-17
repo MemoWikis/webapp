@@ -35,16 +35,36 @@ const weeks = computed(() => {
     return weeksArray
 })
 
-const pastMap = computed(() => fullDays.value.map(d => ({ date: formatDate(d), count: activityMap.value[formatDate(d)] || 0 })))
+const pastActivities = computed(() =>
+    fullDays.value.map(fullDay => ({
+        date: formatDate(fullDay), // e.g. '2025-05-17'
+        count: activityMap.value[formatDate(fullDay)] ?? 0
+    }))
+);
+
 const longestStreak = computed(() => {
-    let max = 0, curr = 0
-    pastMap.value.forEach(d => { if (d.count > 0) { curr++; max = Math.max(max, curr) } else curr = 0 })
-    return max
-})
+    let maxStreak = 0;
+    let currentStreak = 0;
+
+    pastActivities.value.forEach(activity => {
+        if (activity.count > 0) {
+            currentStreak++;
+            maxStreak = Math.max(maxStreak, currentStreak);
+        } else {
+            currentStreak = 0; // reset when an inactive day is encountered
+        }
+    });
+
+    return maxStreak;
+});
+
 const currentStreak = computed(() => {
     let streak = 0
-    for (let i = pastMap.value.length - 1; i >= 0; i--) {
-        if (pastMap.value[i].count > 0) streak++; else break
+    for (let i = pastActivities.value.length - 1; i >= 0; i--) {
+        if (pastActivities.value[i].count > 0)
+            streak++;
+        else
+            break
     }
     return streak
 })
