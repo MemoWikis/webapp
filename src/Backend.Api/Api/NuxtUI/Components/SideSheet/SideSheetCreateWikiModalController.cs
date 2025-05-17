@@ -1,5 +1,4 @@
-﻿public class SideSheetCreateWikiModalController
-(
+﻿public class SideSheetCreateWikiModalController(
     SessionUser _sessionUser,
     WikiCreator _wikiCreator,
     UserWritingRepo _userWritingRepo) : ApiBaseController

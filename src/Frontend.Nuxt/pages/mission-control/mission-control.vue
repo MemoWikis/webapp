@@ -5,7 +5,7 @@ import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar
 import { PageData } from '~/composables/missionControl/pageData'
 
 const emit = defineEmits(['setPage'])
-emit('setPage', SiteType.MissionControl) // Geändert von SiteType.Overview zu SiteType.MissionControl
+emit('setPage', SiteType.MissionControl)
 
 const { t } = useI18n()
 
@@ -31,8 +31,6 @@ const getAllData = async () => {
             return
         }
         dashboardData.value = data.value
-
-        console.log("response", data.value)
     } catch (error) {
         console.error('Failed to fetch dashboard data:', error)
     }
@@ -56,35 +54,41 @@ const { isMobile } = useDevice()
 
                         <!-- Knowledge Status Section -->
                         <MissionControlSection :title="t('missionControl.sections.knowledgeStatus')">
-                            <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus" :knowledgeStatus="dashboardData.knowledgeStatus" />
+                            <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus"
+                                :knowledgeStatus="dashboardData.knowledgeStatus" />
                         </MissionControlSection>
 
                         <DevOnly>
                             <!-- LearnCalendar Section -->
                             <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
-                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
+                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
+                                    :calendarData="dashboardData.activityCalendar" />
                             </MissionControlSection>
                         </DevOnly>
 
                         <template v-if="isMobile">
                             <!-- Wikis Section -->
-                            <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
+                            <MissionControlSection v-if="dashboardData.wikis"
+                                :title="t('missionControl.sections.wikis')">
                                 <MissionControlGrid :pages="dashboardData.wikis" />
                             </MissionControlSection>
 
                             <!-- Favorites Section -->
-                            <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                            <MissionControlSection v-if="dashboardData.favorites"
+                                :title="t('missionControl.sections.favorites')">
                                 <MissionControlGrid :pages="dashboardData.favorites" />
                             </MissionControlSection>
                         </template>
                         <template v-else>
                             <!-- Wikis Section -->
-                            <MissionControlSection v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
+                            <MissionControlSection v-if="dashboardData.wikis"
+                                :title="t('missionControl.sections.wikis')">
                                 <MissionControlTable :pages="dashboardData.wikis" />
                             </MissionControlSection>
 
                             <!-- Favorites Section -->
-                            <MissionControlSection v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                            <MissionControlSection v-if="dashboardData.favorites"
+                                :title="t('missionControl.sections.favorites')">
                                 <MissionControlTable :pages="dashboardData.favorites" />
                             </MissionControlSection>
                         </template>
@@ -92,7 +96,8 @@ const { isMobile } = useDevice()
                         <!-- LearnCalendar Section with Coming Soon overlay -->
                         <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
                             <div class="coming-soon-container">
-                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
+                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
+                                    :calendarData="dashboardData.activityCalendar" />
                                 <div class="coming-soon-overlay">
                                     <div class="coming-soon-content">
                                         <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>

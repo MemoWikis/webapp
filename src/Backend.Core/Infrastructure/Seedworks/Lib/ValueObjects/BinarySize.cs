@@ -3,7 +3,9 @@ public class BinarySize
 {
     public long Bytes;
 
-    public BinarySize(){}
+    public BinarySize()
+    {
+    }
 
     public BinarySize(long length)
     {

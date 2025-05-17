@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 [DebuggerDisplay("QuestionId={Question.Id}, IsInWuwi: {IsInWishKnowledge()}")]
 public class QuestionValuation : IPersistable, WithDateCreated

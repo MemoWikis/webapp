@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 [DebuggerDisplay("PageId={PageId} IsInWuwi: {IsInWishKnowledge()}")]
 public class PageValuation : DomainEntity

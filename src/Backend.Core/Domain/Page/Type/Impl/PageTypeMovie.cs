@@ -4,5 +4,5 @@
 public class PageTypeMovie : PageTypeBase<PageTypeMovie>
 {
     [JsonIgnore]
-    public override PageType Type { get { return PageType.Movie; } }
+    public override PageType Type => PageType.Movie;
 }

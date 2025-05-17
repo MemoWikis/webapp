@@ -5,12 +5,14 @@ public class KnowledgeSummary
 {
     public string Options= "standard";
 
-    [JsonProperty("NotLearned")]
+    [JsonProperty("NotLearned")] 
     public readonly int NotLearned = 0;
+    
     public int NotLearnedPercentage { get; private set; }
 
     [JsonProperty("NeedsLearning")]
     public readonly int NeedsLearning = 0;
+  
     public int NeedsLearningPercentage { get; private set; }
 
     [JsonProperty("NeedsConsolidation")]

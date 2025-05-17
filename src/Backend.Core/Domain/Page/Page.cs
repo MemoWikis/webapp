@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -15,6 +14,7 @@ public class Page : DomainEntity, ICreator
     public virtual bool IsWiki { get; set; }
     public virtual bool TextIsHidden { get; set; }
     public virtual string AuthorIds { get; set; } = "";
+
     public virtual int[] AuthorIdsInts => AuthorIds?
         .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
         .Select(x => Convert.ToInt32(x)).Distinct()

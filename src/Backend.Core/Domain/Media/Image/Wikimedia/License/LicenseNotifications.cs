@@ -1,5 +1,4 @@
-﻿
-public class LicenseNotifications
+﻿public class LicenseNotifications
 {
     public bool AllRequirementsMet = true;
     public bool AuthorIsMissing;

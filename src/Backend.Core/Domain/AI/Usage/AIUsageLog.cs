@@ -1,5 +1,4 @@
-﻿
-public class AiUsageLog : Entity, WithDateCreated
+﻿public class AiUsageLog : Entity, WithDateCreated
 {
     public virtual int UserId { get; set; }
     public virtual int PageId { get; set; }

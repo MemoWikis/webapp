@@ -1,6 +1,5 @@
-﻿using static Org.BouncyCastle.Math.EC.ECCurve;
-
-public class VueLearningSessionResultController(LearningSessionCache _learningSessionCache,
+﻿public class VueLearningSessionResultController(
+    LearningSessionCache _learningSessionCache,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : ApiBaseController

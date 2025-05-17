@@ -1,6 +1,4 @@
-﻿
-
-using NHibernate;
+﻿using NHibernate;
 using System.Text;
 
 public class PageToQuestionRepo(ISession _session)

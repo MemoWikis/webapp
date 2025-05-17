@@ -3,7 +3,6 @@
 [Serializable]
 public class PageTypeTvShow : PageTypeBase<PageTypeTvShow>
 {
-
     [JsonIgnore]
-    public override PageType Type { get { return PageType.TvShow; } }
+    public override PageType Type => PageType.TvShow;
 }

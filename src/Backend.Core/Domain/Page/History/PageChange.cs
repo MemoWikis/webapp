@@ -1,6 +1,4 @@
-﻿
-
-public class PageChange : Entity, WithDateCreated
+﻿public class PageChange : Entity, WithDateCreated
 {
     public virtual Page? Page { get; set; }
     public virtual int DataVersion { get; set; }

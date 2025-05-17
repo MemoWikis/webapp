@@ -1,4 +1,3 @@
-
 public static class ImageDirectoryCreator
 {
     public static void CreateImageDirectories(string contentRootPath)

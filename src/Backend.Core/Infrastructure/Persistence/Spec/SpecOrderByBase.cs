@@ -1,6 +1,4 @@
-﻿
-
-[Serializable]
+﻿[Serializable]
 public class SpecOrderByBase : OrderByCriteria
 {
     public OrderBy Created;

@@ -4,5 +4,5 @@
     public int TotalTrue;
     public int TotalFalse;
 
-    public int Total(){ return TotalTrue + TotalFalse;}
+    public int Total() => TotalTrue + TotalFalse;
 }

@@ -1,5 +1,4 @@
-﻿
-using NHibernate;
+﻿using NHibernate;
 
 public class QuestionValuationWritingRepo(
     ISession _session,
