@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   mem-backend:
     image: ghcr.io/memowikis/mem-backend:${BUILD_NUMBER:-error}
@@ -56,10 +55,10 @@ services:
       - FeaturedPage__MemoWikisHelpIds=${FEATUREDPAGE_MEMOWIKIS_HELP_IDS:-error}
     restart: always
     
+# create networks with ../docker-network.sh
 networks:
   environment-specific-network:
     name: mem-${MEM_ENVIRONMENT:-stage}
-    # Was already set up with nginx: 
     external: true
 
 # Run in bash like this:

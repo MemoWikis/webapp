@@ -25,10 +25,10 @@ services:
       - NUXT_PUBLIC_HOCUSPOCUS_WEBSOCKET_URL=${NUXT_PUBLIC_HOCUSPOCUS_WEBSOCKET_URL}
     restart: always
 
+# create networks with ../docker-network.sh
 networks:
   environment-specific-network:
     name: mem-${MEM_ENVIRONMENT:-stage}
-    # Was already set up with nginx: 
     external: true
 
 # Start nginx in network with name mem-stage first (see seperate docker-compose), run command with -p mem-${MEM_ENVIRONMENT}

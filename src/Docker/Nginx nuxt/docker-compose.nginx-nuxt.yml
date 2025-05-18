@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   mem-nginx-reverse:
     build: .
@@ -16,10 +14,11 @@ services:
       - environment-specific-network
     restart: always
 
+# create network with ../docker-network.sh
 networks:
   environment-specific-network:
-    name: mem-${MEM_ENVIRONMENT:-test}
-    driver: bridge
+    name: mem-${MEM_ENVIRONMENT:-stage}
+    external: true 
 
 # Start like this:
 # docker-compose -f docker-compose.nginx-nuxt.yml -p mem-[environment] up -d
