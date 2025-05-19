@@ -2,16 +2,8 @@
 using NHibernate.Criterion;
 
 
-public class ImageMetaDataReadingRepo : RepositoryDb<ImageMetaData>
+public class ImageMetaDataReadingRepo(ISession _session) : RepositoryDb<ImageMetaData>(_session)
 {
-    private readonly ISession _session;
-
-
-    public ImageMetaDataReadingRepo(ISession session) : base(session)
-    {
-        _session = session;
-    }
-
     public ImageMetaData GetBy(int typeId, ImageType imageType)
     {
         if (ImageMetaDataCache.IsInCache(typeId, imageType, this))
@@ -50,6 +42,7 @@ public class ImageMetaDataReadingRepo : RepositoryDb<ImageMetaData>
             .Where(x => x.Type == imageType)
             .List<ImageMetaData>();
     }
+
     public IList<ImageMetaData> GetBy(ImageMetaDataSearchSpec searchSpec)
     {
         var query = _session.QueryOver<ImageMetaData>()
