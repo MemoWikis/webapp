@@ -1,0 +1,32 @@
+services:
+  mem-nuxt:
+    build:
+      context: ../..
+      dockerfile: Docker/Nuxt/Dockerfile_nuxt
+      args:
+        BUILD_NUMBER: "${BUILD_NUMBER:-local}"
+    image: memowikis/mem-nuxt:dev
+    env_file:
+      - .env
+    # If you still want HMR in dev, swap command & volumes:
+    # command: npm run dev
+    # volumes:
+    #   - ../../Frontend.Nuxt/:/usr/src/nuxt-output
+    ports:
+      - "${NUXT_PORT}:3000"
+      - "${NUXT_HMR_PORT}:24678"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - environment-specific-network
+    restart: unless-stopped
+
+networks:
+  environment-specific-network:
+    name: mem-${MEM_ENVIRONMENT:-dev}
+    external: false
+    driver: bridge
+
+
+# run with:
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build

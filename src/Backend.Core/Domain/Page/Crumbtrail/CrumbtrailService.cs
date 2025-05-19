@@ -63,9 +63,9 @@
     }
 
     private bool IsLinkedToRoot(PageCacheItem page, PageCacheItem root) =>
-      GraphService
-          .VisibleAscendants(page.Id, _permissionCheck)
-          .Any(c => c == root);
+        GraphService
+            .VisibleAscendants(page.Id, _permissionCheck)
+            .Any(c => c == root);
 
 
     private void AddBreadcrumbParent(Crumbtrail crumbtrail, PageCacheItem pageCacheItem, PageCacheItem root)
@@ -114,9 +114,9 @@
     }
 
     private bool IsCurrentWikiValid(int currentWikiId, IList<PageCacheItem> parents) =>
-        parents.Any(c => c.Id == currentWikiId)
-        && currentWikiId > 0
-        && _permissionCheck.CanView(EntityCache.GetPage(currentWikiId));
+        parents.Any(c => c.Id == currentWikiId) && 
+        currentWikiId > 0 && 
+        _permissionCheck.CanView(EntityCache.GetPage(currentWikiId));
 
 
     private PageCacheItem GetAlternativeWiki(PageCacheItem pageCacheItem, SessionUser sessionUser, IList<PageCacheItem> parents)
@@ -146,4 +146,28 @@
         return null;
     }
 
+    public int? SuggestNewParent(
+        Crumbtrail breadcrumb, 
+        SessionUser sessionUser,
+        bool hasPublicQuestion)
+    {
+        CrumbtrailItem breadcrumbItem;
+
+        if (hasPublicQuestion)
+        {
+            if (breadcrumb.Items.Any(i => i.Page.Visibility == PageVisibility.Public))
+            {
+                breadcrumbItem = breadcrumb.Items.Last(i => i.Page.Visibility == PageVisibility.Public);
+                return breadcrumbItem.Page.Id;
+            }
+
+            return null;
+        }
+
+        var parent = breadcrumb.Items.LastOrDefault();
+        if (parent == null)
+            return sessionUser.User.StartPageId;
+
+        return parent.Page.Id;
+    }
 }

@@ -245,7 +245,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
         </div>
 
         <LazyClientOnly>
-            <PageContentGridGhost v-show="dragStore.active" />
+            <PageContentGridDragAndDropGhost v-show="dragStore.active" />
             <PageContentGridDragStartIndicator v-if="dragStore.showTouchSpinner" />
         </LazyClientOnly>
     </div>

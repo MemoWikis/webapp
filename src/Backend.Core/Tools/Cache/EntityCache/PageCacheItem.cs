@@ -110,6 +110,7 @@ public class PageCacheItem : IPersistable
 
         return visibleVisited;
     }
+
     /// <summary>
     /// Get Aggregated Pages
     /// </summary>
@@ -174,10 +175,11 @@ public class PageCacheItem : IPersistable
         PermissionCheck? permissionCheck = null)
     {
         IList<QuestionCacheItem> questions;
+        var sessionlessUser = new SessionlessUser(userId);
 
         if (fullList)
         {
-            permissionCheck ??= new PermissionCheck(userId);
+            permissionCheck ??= new PermissionCheck(sessionlessUser);
             questions = AggregatedPages(permissionCheck)
                 .SelectMany(c => EntityCache.GetQuestionsForPage(c.Key))
                 .Distinct().ToList();
@@ -190,7 +192,7 @@ public class PageCacheItem : IPersistable
 
         if (onlyVisible)
         {
-            permissionCheck ??= new PermissionCheck(userId);
+            permissionCheck ??= new PermissionCheck(sessionlessUser);
             questions = questions.Where(permissionCheck.CanView).ToList();
         }
 

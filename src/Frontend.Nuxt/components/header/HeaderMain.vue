@@ -77,10 +77,12 @@ const navOptions = ref()
 const { $vfm } = useNuxtApp()
 const { openedModals } = $vfm
 const modalIsOpen = ref(false)
-watch(() => openedModals, (val) => {
+
+watch(openedModals, (val) => {
     if (val.length > 0)
         modalIsOpen.value = true
-    else modalIsOpen.value = false
+    else
+        modalIsOpen.value = false
 }, { deep: true, immediate: true })
 
 const hidePartial = computed(() => {
@@ -105,8 +107,10 @@ onMounted(() => {
         <div class="sidesheet-button" @click="sideSheetStore.showSideSheet = !sideSheetStore.showSideSheet">
             <font-awesome-layers>
                 <font-awesome-icon :icon="['fas', 'bars']" />
-                <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'caret-left']" transform="right-2" class="angle-bg" />
-                <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'angle-left']" transform="right-5" class="animate-grow" />
+                <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'caret-left']" transform="right-2"
+                    class="angle-bg" />
+                <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'angle-left']" transform="right-5"
+                    class="animate-grow" />
             </font-awesome-layers>
         </div>
         <div class="nav-container">
@@ -114,13 +118,11 @@ onMounted(() => {
                 <div class="row">
                     <div class="header-container col-xs-12" ref="headerContainer">
 
-                        <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }" ref="partialLeft">
-                            <HeaderBreadcrumb
-                                :site="props.site"
-                                :show-search="showSearch"
+                        <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
+                            ref="partialLeft">
+                            <HeaderBreadcrumb :site="props.site" :show-search="showSearch"
                                 :question-page-data="props.questionPageData"
-                                :custom-breadcrumb-items="props.breadcrumbItems"
-                                :partial-left="partialLeft" />
+                                :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
                         </div>
                         <ClientOnly>
                             <div class="partial end" ref="headerExtras" :class="{ 'hide-partial': hidePartial }">
@@ -138,7 +140,8 @@ onMounted(() => {
                                     </div>
                                 </div>
 
-                                <HeaderUserDropdown v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
+                                <HeaderUserDropdown
+                                    v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
 
                                 <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
                                     :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
@@ -184,7 +187,8 @@ onMounted(() => {
                                         </div>
                                     </div>
 
-                                    <HeaderUserDropdown v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
+                                    <HeaderUserDropdown
+                                        v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
 
                                     <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
                                         :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
@@ -204,7 +208,8 @@ onMounted(() => {
                                         <div class="login-btn" @click="userStore.openLoginModal()">
                                             <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                                         </div>
-                                        <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
+                                        <div class="register-btn-container hidden-xs hidden-sm"
+                                            v-if="isDesktopOrTablet">
                                             <div navigate class="btn memo-button register-btn">
                                                 <NuxtLink :to="`/${t('url.register')}`">
                                                     {{ t('label.register') }}
@@ -480,7 +485,11 @@ onMounted(() => {
         margin-right: 2px;
 
         @media (min-width: 900px) {
-            display: none;
+            position: absolute;
+            left: 100px;
+            z-index: 2000;
+            width: 80px;
+            border-right: none;
         }
 
         .angle-bg {

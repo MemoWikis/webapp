@@ -143,7 +143,7 @@
         await ReloadCaches();
 
         var defaultUserId = -1;
-        var permissionCheck = new PermissionCheck(defaultUserId);
+        var permissionCheck = new PermissionCheck(new SessionlessUser(defaultUserId));
 
         var directChildren = GraphService.VisibleChildren(root.Id, permissionCheck, defaultUserId)
             .First();
@@ -217,7 +217,7 @@
         entityCacheInitializer.Init();
 
         var defaultUserId = -1;
-        var permissionCheck = new PermissionCheck(defaultUserId);
+        var permissionCheck = new PermissionCheck(new SessionlessUser(defaultUserId));
 
         var allChildren = GraphService.VisibleDescendants(root.Id, permissionCheck, defaultUserId);
         Assert.That(allChildren.Count, Is.EqualTo(3));

@@ -1,18 +1,18 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Scalar.AspNetCore;
+using Serilog.Events;
 using Serilog.Exceptions;
 using Stripe;
 using System.Text.Json;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
-using Scalar.AspNetCore;
-using Serilog.Events;
 using static System.Int32;
 
 try
@@ -26,12 +26,9 @@ try
             .Enrich.WithProperty("Environment", builder.Environment.EnvironmentName)
             .Enrich.WithExceptionDetails()
             .WriteTo.Console()
-            .WriteTo.Seq(Settings.SeqUrl);
+            .WriteTo.Seq(Settings.SeqUrl, apiKey: Settings.SeqApiKey);
 
-        log.MinimumLevel.Is(
-            ctx.HostingEnvironment.IsDevelopment()
-                ? LogEventLevel.Information
-                : LogEventLevel.Error);
+        log.MinimumLevel.Is(LogEventLevel.Information);
     });
 
     builder.Configuration
@@ -99,15 +96,15 @@ try
     var relativeKeysDir = Path.Combine(
         Directory.GetCurrentDirectory(),
         "DataProtectionKeys");
-    
+
     builder.Services.AddDataProtection()
         .PersistKeysToFileSystem(new DirectoryInfo(relativeKeysDir))
         .SetApplicationName("MemoWikis.Api")
         .SetDefaultKeyLifetime(TimeSpan.FromDays(180));
-    
+
     builder.Services.AddHealthChecks();
     builder.Services.AddOpenApi();
-    
+
 
     builder.WebHost.ConfigureServices(services =>
     {
@@ -129,11 +126,6 @@ try
             options.DefaultHttpClient =
                 new KeyValuePair<ScalarTarget, ScalarClient>(ScalarTarget.CSharp, ScalarClient.Curl);
         });
-    }
-    else
-    {
-        app.UseExceptionHandler("/Home/Error");
-        app.UseHsts();
     }
 
     ImageDirectoryCreator.CreateImageDirectories(env.ContentRootPath);

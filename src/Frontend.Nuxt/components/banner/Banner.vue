@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import { Page } from '../page/pageStore'
-import { useUserStore } from '../user/userStore'
 
-const userStore = useUserStore()
 const { t } = useI18n()
 
 interface Props {
-    documentation: Page
+    cookieName?: string
+    mainText?: string
+    subText?: string
 }
 
 const props = defineProps<Props>()
@@ -20,12 +19,12 @@ function loadInfoBanner() {
         skipAnimation.value = true
     if (cookie.value != 'hide') {
         showBanner.value = true
-        document.cookie = "memoWikisInfoBanner=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/"
+        document.cookie = `${props.cookieName}=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/`
     }
 }
 
 onBeforeMount(() => {
-    cookie.value = document.cookie.match('(^|;)\\s*' + "memoWikisInfoBanner" + '\\s*=\\s*([^;]+)')?.pop() || ''
+    cookie.value = document.cookie.match('(^|;)\\s*' + props.cookieName + '\\s*=\\s*([^;]+)')?.pop() || ''
 })
 
 onMounted(() => {
@@ -33,40 +32,37 @@ onMounted(() => {
 })
 
 function hideInfoBanner() {
-    document.cookie = "memoWikisInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/"
+    document.cookie = `${props.cookieName}=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/`
     skipAnimation.value = false
     showBanner.value = false
 }
 
-const { $urlHelper } = useNuxtApp()
+const slots = useSlots()
 
-watch(showBanner, (val) => {
-    userStore.showBanner = val
-})
 </script>
 
 <template>
-    <div id="MemoWikisInfoBanner" :class="{ 'skip-animation': skipAnimation, 'show-banner': showBanner }"
-        v-if="props.documentation">
-        <div id="InfoBannerContainer" class="container">
-            <div id="BannerContainer" class="row">
-                <div id="BannerText" class="col-xs-12 col-sm-7 memoWikis-info-partial">
+    <div class="banner" :class="{ 'skip-animation': skipAnimation, 'show-banner': showBanner }" v-if="showBanner">
+        <div class="banner-container container">
+            <div class="banner-row row">
+                <div class="banner-text col-xs-12 col-sm-7 memoWikis-info-partial">
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
                         class="visible-xs close-banner mobile-close" />
                     <div class="row fullWidth">
                         <div class="col-xs-12">
-                            <div class="sub-text">
-                                {{ t('banner.info.subText') }}
+                            <div class="sub-text" v-if="slots.subText">
+                                <slot name="subText"></slot>
                             </div>
-                            <div class="main-text">{{ t('banner.info.mainText') }}</div>
+
+                            <div class="main-text">
+                                <slot name="mainText"></slot>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memoWikis-info-partial">
-                    <NuxtLink class="memo-button btn btn-primary"
-                        :to="$urlHelper.getPageUrl(props.documentation.name, props.documentation.id)">
-                        {{ t('banner.info.toDocumentation') }}
-                    </NuxtLink>
+                <div class="banner-action col-xs-12 col-sm-5 memoWikis-info-partial">
+                    <slot name="action">
+                    </slot>
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
                         class="hidden-xs close-banner" />
                 </div>
@@ -78,7 +74,7 @@ watch(showBanner, (val) => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-#MemoWikisInfoBanner {
+.banner {
     height: 0px;
     min-height: 0px;
     width: 100%;
@@ -105,7 +101,7 @@ watch(showBanner, (val) => {
     .container {
         height: 100%;
 
-        #BannerContainer {
+        .banner-row {
             display: flex;
             align-items: center;
             height: 100%;
@@ -118,7 +114,7 @@ watch(showBanner, (val) => {
                 padding: 10px;
             }
 
-            #BannerText {
+            .banner-text {
                 flex-direction: column;
                 align-items: flex-start;
                 color: @memo-blue;
@@ -159,7 +155,7 @@ watch(showBanner, (val) => {
                 }
             }
 
-            #BannerRedirectBtn {
+            .banner-action {
                 justify-content: flex-end;
 
                 @media (max-width: 767px) {
@@ -204,7 +200,7 @@ watch(showBanner, (val) => {
         .container {
             min-height: 96px;
 
-            #BannerContainer {
+            .banner-row {
                 min-height: 95px;
             }
         }

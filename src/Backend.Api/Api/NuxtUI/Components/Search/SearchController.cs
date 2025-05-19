@@ -4,7 +4,8 @@
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo
+    QuestionReadingRepo _questionReadingRepo, 
+    SearchResultBuilder _searchResultBuilder
 ) : ApiBaseController
 {
     public readonly record struct SearchAllRequest(string term, string[] languages);
@@ -28,12 +29,8 @@
         var languages = request.languages?.Length > 0 ? LanguageExtensions.GetLanguages(request.languages) : LanguageExtensions.GetLanguages();
         var elements = await _search.Go(request.term, languages);
 
-        var searchHelper = new SearchHelper(_imageMetaDataReadingRepo,
-            _httpContextAccessor,
-            _questionReadingRepo);
-
         if (elements.Pages.Any())
-            searchHelper.AddPageItems(
+            _searchResultBuilder.AddPageItems(
                 pageItems,
                 elements,
                 _permissionCheck,
@@ -41,11 +38,11 @@
                 languages);
 
         if (elements.Questions.Any())
-            searchHelper.AddQuestionItems(questionItems, elements, _permissionCheck,
+            _searchResultBuilder.AddQuestionItems(questionItems, elements, _permissionCheck,
                 _questionReadingRepo);
 
         if (elements.Users.Any())
-            searchHelper.AddUserItems(userItems, elements);
+            _searchResultBuilder.AddUserItems(userItems, elements);
 
         var result = new AllResult(
             Pages: pageItems,
@@ -79,11 +76,9 @@
             bool includePrivatePages = json.includePrivatePages ?? true;
 
             if (includePrivatePages)
-                new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
-                    .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, json.pageIdsToFilter);
+                _searchResultBuilder.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, json.pageIdsToFilter);
             else
-                new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
-                    .AddPublicPageItems(items, elements, _sessionUser.UserId, json.pageIdsToFilter);
+                _searchResultBuilder.AddPublicPageItems(items, elements, _sessionUser.UserId, json.pageIdsToFilter);
         }
 
         return new PageResult(
@@ -95,31 +90,31 @@
     [HttpPost]
     public async Task<PageResult> PageInPersonalWiki([FromBody] SearchPageJson json)
     {
-        var items = new List<SearchPageItem>();
+        var resultPage = new List<SearchPageItem>();
         var elements = await _search.GoAllPagesAsync(json.term);
 
         if (elements.Pages.Any())
-            new SearchHelper(_imageMetaDataReadingRepo,
-                    _httpContextAccessor,
-                    _questionReadingRepo)
-                .AddPageItems(items,
+            _searchResultBuilder
+                .AddPageItems(
+                    resultPage,
                     elements,
                     _permissionCheck,
                     _sessionUser.UserId,
                     json.pageIdsToFilter);
 
         var wikiChildren = GraphService.Descendants(_sessionUser.User.StartPageId);
-        items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
+        resultPage = resultPage.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new PageResult(
             TotalCount: elements.PageCount,
-            Pages: items
+            Pages: resultPage
         );
     }
 
     // New section for user-only search
 
     public readonly record struct SearchUsersRequest(string term, string[] languages);
+
     public readonly record struct UsersResult(List<SearchUserItem> Users, int UserCount);
 
     [HttpPost]
@@ -128,10 +123,9 @@
         var userItems = new List<SearchUserItem>();
         var languages = request.languages?.Length > 0 ? LanguageExtensions.GetLanguages(request.languages) : LanguageExtensions.GetLanguages();
         var elements = await _search.Go(request.term, languages);
-        var searchHelper = new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo);
 
         if (elements.Users.Any())
-            searchHelper.AddUserItems(userItems, elements);
+            _searchResultBuilder.AddUserItems(userItems, elements);
 
         return new UsersResult(
             Users: userItems,

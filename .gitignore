@@ -22,5 +22,4 @@ appsettings.*.json
 /src/hocuspocus/.env
 /src/hocuspocus/node_modules/*
 /src/Docker/Dev/.env
-
 /src/Docker/Nuxt/.env

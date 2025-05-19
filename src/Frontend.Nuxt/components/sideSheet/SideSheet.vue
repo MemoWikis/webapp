@@ -30,28 +30,21 @@ const resize = () => {
     if (window) {
         windowWidth.value = window.innerWidth
         windowHeight.value = window.innerHeight
+        handleWidth(window.innerWidth)
     }
 }
 
 const handleWidth = (newWidth: number) => {
     if (newWidth < 901) {
-        hidden.value = true
-        collapsed.value = true
+        if (!sideSheetStore.showSideSheet) {
+            hidden.value = true
+        }
         previouslyCollapsed.value = true
-        sideSheetStore.showSideSheet = false
         return
     }
 
-    if (newWidth < 1651 && newWidth > 900) {
-        hidden.value = false
-        collapsed.value = true
-        previouslyCollapsed.value = true
-    } else {
-        hidden.value = false
-        collapsed.value = false
-        previouslyCollapsed.value = false
-    }
-    sideSheetStore.showSideSheet = true
+    hidden.value = false
+    previouslyCollapsed.value = true
 }
 
 onMounted(() => {
@@ -63,7 +56,10 @@ onMounted(() => {
     }
 })
 
-const collapsed = ref(false)
+const collapsed = computed(() => {
+    return !hover.value && !sideSheetStore.showSideSheet && windowWidth.value > 900
+})
+
 const hidden = ref(false)
 watch(windowWidth, (oldWidth, newWidth) => {
     if (newWidth) {
@@ -141,22 +137,30 @@ const { $urlHelper } = useNuxtApp()
 watch(() => sideSheetStore.showSideSheet, (show) => {
     if (show) {
         hidden.value = false
-        collapsed.value = false
     } else {
-        handleWidth(windowWidth.value)
+        if (windowWidth.value < 901 || isMobile) {
+            hidden.value = true
+        } else {
+            hidden.value = false
+        }
     }
 }, { immediate: true })
 
+const hover = ref(false)
+const delayedMouseLeaveTimeOut = ref()
+
 const handleMouseOver = () => {
-    collapsed.value = false
+    if (windowWidth.value > 900) {
+        clearTimeout(delayedMouseLeaveTimeOut.value)
+        hover.value = true
+    }
 }
 
-const delayedMouseLeaveTimeOut = ref()
 const handleMouseLeave = () => {
-    if (sideSheetStore.showSideSheet && windowWidth.value > 900) {
+    if (windowWidth.value > 900) {
         clearTimeout(delayedMouseLeaveTimeOut.value)
         delayedMouseLeaveTimeOut.value = setTimeout(() => {
-            collapsed.value = previouslyCollapsed.value
+            hover.value = false
         }, 500)
     }
 }
@@ -274,7 +278,12 @@ onMounted(() => {
     if (isMobile) {
         watch(() => route.path, () => {
             sideSheetStore.showSideSheet = false
+            hidden.value = true
         })
+
+        if (!sideSheetStore.showSideSheet) {
+            hidden.value = true
+        }
     }
 })
 
@@ -581,6 +590,8 @@ onMounted(() => {
 
     &.hide {
         width: 0px;
+        overflow: hidden;
+        visibility: hidden;
     }
 
     &:hover {
@@ -589,6 +600,11 @@ onMounted(() => {
 
     @media (max-width: 900px) {
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+
+        &.hide {
+            transform: translateX(-100%);
+            box-shadow: none;
+        }
     }
 
     .no-b-padding {

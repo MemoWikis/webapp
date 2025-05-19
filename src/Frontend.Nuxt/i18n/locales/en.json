@@ -17,7 +17,8 @@
             "rightsUpdated": "Access rights have been successfully updated.",
             "token": {
                 "renewed": "The share link has been successfully renewed.",
-                "copied": "The share link has been copied to clipboard."
+                "copied": "The share link has been copied to clipboard.",
+                "removed": "The share link has been successfully removed."
             }
         },
         "question": {
@@ -71,7 +72,10 @@
             "noChange": "No changes were made.",
             "noChildSelected": "You have not selected a subpage.",
             "noUsersSelected": "Please select at least one user to share with.",
-            "shareFailure": "The page could not be shared. Please try again."
+            "shareFailure": "The page could not be shared. Please try again.",
+            "token": {
+                "removal": "The share link could not be removed. Please try again."
+            }
         },
         "question": {
             "missingText": "The question text is missing.",
@@ -1440,6 +1444,10 @@
             "subText": "Everything in one place",
             "mainText": "Wiki and learning tools combined!",
             "toDocumentation": "To the documentation"
+        },
+        "login": {
+            "invitedTo": "You've been invited to collaborate on {pageName}",
+            "loginToEdit": "Log in now to start editing"
         }
     },
     "errorContent": {

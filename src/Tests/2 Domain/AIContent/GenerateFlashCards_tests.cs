@@ -19,7 +19,7 @@ class GenerateFlashCards_tests : BaseTestHarness
 
         await ReloadCaches();
 
-        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
@@ -50,7 +50,7 @@ class GenerateFlashCards_tests : BaseTestHarness
 
         await ReloadCaches();
 
-        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
@@ -76,7 +76,7 @@ class GenerateFlashCards_tests : BaseTestHarness
 
         await ReloadCaches();
 
-        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
@@ -119,7 +119,7 @@ class GenerateFlashCards_tests : BaseTestHarness
 
         await ReloadCaches();
 
-        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
@@ -151,7 +151,7 @@ class GenerateFlashCards_tests : BaseTestHarness
 
         await ReloadCaches();
 
-        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
@@ -178,7 +178,7 @@ class GenerateFlashCards_tests : BaseTestHarness
 
         await ReloadCaches();
 
-        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
@@ -219,7 +219,7 @@ class GenerateFlashCards_tests : BaseTestHarness
 
         await ReloadCaches();
 
-        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
@@ -250,7 +250,7 @@ class GenerateFlashCards_tests : BaseTestHarness
 
         await ReloadCaches();
 
-        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
@@ -301,7 +301,7 @@ class GenerateFlashCards_tests : BaseTestHarness
     {
         var sessionUser = R<SessionUser>();
 
-        var permissionCheck = new PermissionCheck(sessionUser.UserId);
+        var permissionCheck = new PermissionCheck(new SessionlessUser(sessionUser.UserId));
         var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
         var pageRepository = R<PageRepository>();
         var httpContextAccessor = R<IHttpContextAccessor>();
