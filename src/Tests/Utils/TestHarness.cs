@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using MySql.Data.MySqlClient;
-using NHibernate.Cfg;
 using Testcontainers.MySql;
 using ContainerBuilder = Autofac.ContainerBuilder;
 using IContainer = DotNet.Testcontainers.Containers.IContainer;
@@ -52,15 +50,14 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     // Autofac scope coming from the running host (for Resolve<T> convenience)
     private ILifetimeScope? _scope;
-
     public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
 
-    public RawDbDataLoader DbData;
-    public RawMeilisearchDataLoader SearchData;
+    public RawDbDataLoader? DbData;
+    public RawMeilisearchDataLoader? SearchData;
 
     public string ConnectionString => _db.GetConnectionString();
     public string MeilisearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
-    public string MeilisearchMasterKey => "meilisearch-test-key";
+    public static string MeilisearchMasterKey => "meilisearch-test-key";
 
     private readonly IWebHostEnvironment _webHostEnv;
     private readonly IHttpContextAccessor _httpCtxAcc;
@@ -119,7 +116,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             await _db.StartAsync();
             PerfLog("MySql container started");
 
-            await InitDbSchema();
+            await new SchemaBuilder(PerfLog).Init(ConnectionString);
 
             await _meiliSearch.StartAsync();
             PerfLog("MeiliSearch container started");
@@ -142,26 +139,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         DbData = new RawDbDataLoader(ConnectionString);
         SearchData = new RawMeilisearchDataLoader(MeilisearchUrl, MeilisearchMasterKey);
-    }
-
-    private async Task InitDbSchema()
-    {
-        Settings.ConnectionString = ConnectionString;
-        var configuration = SessionFactory.BuildTestConfiguration(ConnectionString);
-        PerfLog("NHibernate bootstrap: Init");
-
-        if (!await SchemaExistsAsync())
-        {
-            SessionFactory.BuildSchema();
-            PerfLog("NHibernate bootstrap: Build schema");
-        }
-        else
-        {
-            SessionFactory.TruncateAllTables();
-            PerfLog("NHibernate bootstrap: Truncate All Tables");
-        }
-
-        CreateAppVersionSetting(configuration);
     }
 
     private async Task ClearMeilisearchIndices()
@@ -191,19 +168,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         await pagesIndex.UpdateFilterableAttributesAsync(["Language"]);
         await questionsIndex.UpdateFilterableAttributesAsync(["Language"]);
         await usersIndex.UpdateFilterableAttributesAsync(["ContentLanguages"]);
-    }
-
-    private void CreateAppVersionSetting(Configuration configuration)
-    {
-        using var session = configuration.BuildSessionFactory().OpenSession();
-        var repositoryDb = new RepositoryDb<DbSettings>(session);
-        repositoryDb.Create(new DbSettings
-        {
-            Id = 1,
-            AppVersion = int.MaxValue,
-        });
-
-        PerfLog("Seed initial DB data");
     }
 
     public async ValueTask DisposeAsync()
@@ -245,24 +209,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .New(R<UserWritingRepo>())
             .Add(new User { Id = 1, Name = "SessionUser" })
             .Persist();
-    }
-
-    private static async Task<bool> SchemaExistsAsync()
-    {
-        await using var conn = new MySqlConnection(Settings.ConnectionString);
-        await conn.OpenAsync();
-
-        const string sql =
-            """
-               SELECT COUNT(*)
-               FROM information_schema.tables
-               WHERE table_schema = DATABASE()
-                 AND table_name   = 'User'
-            """;
-
-        await using var cmd = new MySqlCommand(sql, conn);
-        var count = (long)(await cmd.ExecuteScalarAsync())!;
-        return count > 0;
     }
 
     private sealed class ProgramWebApplicationFactory(

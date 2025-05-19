@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
@@ -10,6 +11,56 @@ using NHibernate.Tool.hbm2ddl;
 public class SessionFactory
 {
     private static Configuration _configuration = null!;
+    private static readonly HashSet<string> SchemaVersionTables = new() { "SchemaVersion" };
+
+    // Calculate a hash of the schema definition for detecting schema changes
+    public static string CalculateSchemaHash()
+    {
+        var schemaScript = new StringBuilder();
+        var schemaExport = new SchemaExport(_configuration);
+
+        schemaExport.SetDelimiter(".");
+        schemaExport.Create(sql => schemaScript.AppendLine(sql), execute: false);
+
+        // Use SHA256 to create a hash of the schema script
+        using var sha256 = SHA256.Create();
+        var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(schemaScript.ToString()));
+
+        // Convert to hexadecimal string representation
+        return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+    }
+
+    // Method to store or update the schema version
+    public static void SaveSchemaVersion(string hash)
+    {
+        using var session = _configuration.BuildSessionFactory().OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        var schemaVersion = session.QueryOver<SchemaVersion>().Take(1).SingleOrDefault()
+                          ?? new SchemaVersion();
+
+        schemaVersion.SchemaHash = hash;
+        schemaVersion.LastUpdated = DateTime.UtcNow;
+
+        session.SaveOrUpdate(schemaVersion);
+        transaction.Commit();
+    }
+
+    // Get the current schema version hash from database
+    public static string? GetCurrentSchemaHash()
+    {
+        try
+        {
+            using var session = _configuration.BuildSessionFactory().OpenSession();
+            var schemaVersion = session.QueryOver<SchemaVersion>().Take(1).SingleOrDefault();
+            return schemaVersion?.SchemaHash;
+        }
+        catch
+        {
+            // If we can't query the table, it doesn't exist yet
+            return null;
+        }
+    }
 
     public static ISessionFactory CreateSessionFactory()
     {
@@ -20,7 +71,7 @@ public class SessionFactory
             )
             .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>())
             .BuildSessionFactory();
-        
+
         return sessionFactory;
     }
 
@@ -54,7 +105,7 @@ public class SessionFactory
 
     public static void SetConfig(Configuration? config)
     {
-        _configuration = config;
+        _configuration = config ?? throw new ArgumentNullException(nameof(config));
     }
 
     public static void BuildSchema()
@@ -104,13 +155,17 @@ public class SessionFactory
             """;
 
         using var conn = new MySqlConnection(Settings.ConnectionString);
-        conn.Open();
-
-        var tables = new List<string>();
+        conn.Open(); var tables = new List<string>();
         using (var cmd = new MySqlCommand(getTables, conn))
         using (var rdr = cmd.ExecuteReader())
             while (rdr.Read())
-                tables.Add($"`{rdr.GetString(0)}`");
+            {
+                var tableName = rdr.GetString(0);
+                if (!SchemaVersionTables.Contains(tableName))
+                {
+                    tables.Add($"`{tableName}`");
+                }
+            }
 
         if (tables.Count == 0)
             return;
