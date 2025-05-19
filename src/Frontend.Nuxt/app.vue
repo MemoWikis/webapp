@@ -250,7 +250,7 @@ watch(locale, () => {
 	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen }">
 
 		<NuxtErrorBoundary @error="logError">
-			<BannerLoginReminder v-if="siteType === SiteType.Page && userStore.showLoginReminderBanner" />
+			<BannerLoginToEditReminder v-if="siteType === SiteType.Page && userStore.showLoginToEditReminderBanner" />
 
 			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 				@set-breadcrumb="setBreadcrumb" :site="siteType"
@@ -266,10 +266,8 @@ watch(locale, () => {
 		</NuxtErrorBoundary>
 	</div>
 
-	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate"
-		v-show="!modalIsOpen" />
-	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType"
-		:question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
+	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
+	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 
 	<ClientOnly>
 		<LazyUserLoginModal v-if="!userStore.isLoggedIn" />

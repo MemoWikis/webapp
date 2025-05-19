@@ -215,7 +215,8 @@
         "users": "Nutzer",
         "prices": "Preise",
         "settings": "Einstellungen",
-        "register": "Registrieren"
+        "register": "Registrieren",
+        "missionControl": "Mission-Control"
     },
     "search": {
         "results": "{count} Treffer",
@@ -1449,7 +1450,8 @@
         },
         "login": {
             "invitedTo": "Du wurdest eingeladen, an {pageName} mitzuarbeiten",
-            "loginToEdit": "Melde dich jetzt an, um mit der Bearbeitung zu beginnen"
+            "loginToEdit": "Melde dich jetzt an, um mit der Bearbeitung zu beginnen",
+            "loginToSeeMissionControl": "Melde dich jetzt an, um die Mission Control zu sehen"
         }
     },
     "errorContent": {
@@ -1633,7 +1635,10 @@
             "name": "Name",
             "questions": "Fragen",
             "knowledgeStatus": "Wissensstand",
-            "learnNow": "Jetzt lernen"
+            "learnNow": "Jetzt lernen",
+            "noPages": "Keine Seiten",
+            "noWikis": "Keine Wikis erstellt",
+            "noFavorites": "Keine Favoriten hinzugefügt"
         },
         "pageGrid": {
             "questions": "No questions | One question | {count} questions"

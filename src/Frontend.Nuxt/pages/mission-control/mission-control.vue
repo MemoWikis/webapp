@@ -3,6 +3,9 @@ import { SiteType } from '~/components/shared/siteEnum'
 import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
 import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar'
 import { PageData } from '~/composables/missionControl/pageData'
+import { useUserStore } from '~/components/user/userStore'
+
+const userStore = useUserStore()
 
 const emit = defineEmits(['setPage'])
 emit('setPage', SiteType.MissionControl)
@@ -45,11 +48,13 @@ const { isMobile } = useDevice()
 </script>
 
 <template>
+    <BannerMissionControlLoginReminder v-if="!userStore.isLoggedIn" />
+
     <div class="container">
         <div class="row main-page">
             <div class="col-xs-12">
                 <div class="mission-control-container">
-                    <h1 class="col-sm-offset-2 col-sm-8">{{ t('missionControl.heading') }}</h1>
+                    <h1>{{ t('missionControl.heading') }}</h1>
                     <div class="mission-control-content" v-if="dashboardData">
 
                         <!-- Knowledge Status Section -->
@@ -70,34 +75,33 @@ const { isMobile } = useDevice()
                             <!-- Wikis Section -->
                             <MissionControlSection v-if="dashboardData.wikis"
                                 :title="t('missionControl.sections.wikis')">
-                                <MissionControlGrid :pages="dashboardData.wikis" />
+                                <MissionControlGrid :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
                             </MissionControlSection>
 
                             <!-- Favorites Section -->
                             <MissionControlSection v-if="dashboardData.favorites"
                                 :title="t('missionControl.sections.favorites')">
-                                <MissionControlGrid :pages="dashboardData.favorites" />
+                                <MissionControlGrid :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
                             </MissionControlSection>
                         </template>
                         <template v-else>
                             <!-- Wikis Section -->
                             <MissionControlSection v-if="dashboardData.wikis"
                                 :title="t('missionControl.sections.wikis')">
-                                <MissionControlTable :pages="dashboardData.wikis" />
+                                <MissionControlTable :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
                             </MissionControlSection>
 
                             <!-- Favorites Section -->
                             <MissionControlSection v-if="dashboardData.favorites"
                                 :title="t('missionControl.sections.favorites')">
-                                <MissionControlTable :pages="dashboardData.favorites" />
+                                <MissionControlTable :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
                             </MissionControlSection>
                         </template>
 
                         <!-- LearnCalendar Section with Coming Soon overlay -->
                         <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
                             <div class="coming-soon-container">
-                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
-                                    :calendarData="dashboardData.activityCalendar" />
+                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
                                 <div class="coming-soon-overlay">
                                     <div class="coming-soon-content">
                                         <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>

@@ -7,7 +7,6 @@ import { useUserStore } from '../user/userStore'
 import { useDeletePageStore } from '../page/delete/deletePageStore'
 import { useConvertStore } from '../page/convert/convertStore'
 import { useSnackbar } from 'vue3-snackbar'
-'../alert/messages'
 
 interface Props {
     footerPages: FooterPages
@@ -131,7 +130,6 @@ const showWikis = ref(true)
 const showFavorites = ref(true)
 const showRecents = ref(true)
 const showShared = ref(true)
-const showOverview = ref(true)
 const { $urlHelper } = useNuxtApp()
 
 watch(() => sideSheetStore.showSideSheet, (show) => {
@@ -297,7 +295,7 @@ onMounted(() => {
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
                 <SideSheetSection class="no-b-padding">
                     <template #header>
-                        <NuxtLink :to="localePath({ name: 'missionControlPageEN' })" class="mission-control-link">
+                        <NuxtLink :to="localePath({ name: t('url.missionControl') })" class="mission-control-link">
                             <div class="header-container no-hover">
                                 <template v-if="!collapsed">
                                     <div class="angle-icon-space"></div>

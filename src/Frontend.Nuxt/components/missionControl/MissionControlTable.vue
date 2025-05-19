@@ -4,6 +4,7 @@ import { PageData } from '~/composables/missionControl/pageData'
 
 interface Props {
     pages: PageData[]
+    noPagesText?: string
 }
 
 const props = defineProps<Props>()
@@ -129,7 +130,7 @@ function getSortIconClass(key: keyof PageData) {
             </tbody>
         </table>
         <div v-else class="no-pages">
-            <p>{{ t('missionControl.page.nopages') }}</p>
+            <p>{{ noPagesText ? noPagesText : t('missionControl.pageTable.noPages') }}</p>
         </div>
     </div>
 </template>

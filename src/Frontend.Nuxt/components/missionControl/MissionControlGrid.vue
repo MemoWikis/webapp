@@ -3,6 +3,7 @@ import { PageData } from '~/composables/missionControl/pageData'
 
 interface Props {
     pages: PageData[]
+    noPagesText?: string
 }
 
 const props = defineProps<Props>()
@@ -20,7 +21,7 @@ const { t } = useI18n()
             </div>
         </div>
         <div v-else class="no-pages">
-            <p>{{ t('missionControl.page.nopages') }}</p>
+            <p>{{ noPagesText ? noPagesText : t('missionControl.pageTable.noPages') }}</p>
         </div>
     </div>
 </template>

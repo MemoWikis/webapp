@@ -212,7 +212,8 @@
         "users": "Users",
         "prices": "Prices",
         "settings": "Settings",
-        "register": "Register"
+        "register": "Register",
+        "missionControl": "TableauDeBord"
     },
     "search": {
         "results": "{count} résultats",
@@ -1446,7 +1447,8 @@
         },
         "login": {
             "invitedTo": "Tu as été invité(e) à collaborer sur {pageName}",
-            "loginToEdit": "Connecte-toi maintenant pour commencer à éditer"
+            "loginToEdit": "Connecte-toi maintenant pour commencer à éditer",
+            "loginToSeeMissionControl": "Connecte-toi pour voir le tableau de bord de la page"
         }
     },
     "errorContent": {
@@ -1630,7 +1632,10 @@
             "name": "Nom",
             "questions": "Questions",
             "knowledgeStatus": "Niveau de connaissance",
-            "learnNow": "Apprendre maintenant"
+            "learnNow": "Apprendre maintenant",
+            "noPages": "Pas de pages",
+            "noWikis": "Pas encore de Wiki créé",
+            "noFavorites": "Pas encore de favoris"
         },
         "pageGrid": {
             "questions": "Aucune question | Une question | {count} questions"

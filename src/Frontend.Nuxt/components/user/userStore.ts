@@ -303,7 +303,7 @@ export const useUserStore = defineStore('userStore', {
         },
     },
     getters: {
-        showLoginReminderBanner(): boolean {
+        showLoginToEditReminderBanner(): boolean {
             return !this.isLoggedIn && this.showLoginReminder
         },
     },

@@ -6,13 +6,13 @@ const userStore = useUserStore()
 const pageStore = usePageStore()
 const { t } = useI18n()
 
-const cookieName = ref('loginReminderBanner')
+const cookieName = ref('loginToEditReminderBanner')
 const shortPageName = ref(pageStore.name.length > 20 ? pageStore.name.substring(0, 20) + '...' : pageStore.name)
 
 </script>
 
 <template>
-    <Banner :cookieName="cookieName" id="LoginReminderBanner">
+    <Banner :cookieName="cookieName" id="LoginToEditReminderBanner">
         <template #subText>
             {{ t('banner.login.invitedTo', { pageName: shortPageName }) }}
         </template>
@@ -26,7 +26,3 @@ const shortPageName = ref(pageStore.name.length > 20 ? pageStore.name.substring(
         </template>
     </Banner>
 </template>
-
-<style lang="less" scoped>
-@import (reference) '~~/assets/includes/imports.less';
-</style>
