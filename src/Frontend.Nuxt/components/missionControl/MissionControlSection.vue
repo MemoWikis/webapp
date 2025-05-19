@@ -29,6 +29,7 @@ defineProps({
     border-radius: 8px;
     margin-bottom: 24px;
     overflow: hidden;
+    width: 100%;
     // border: solid 1px @memo-grey-lightest;
 
     .section-header {
