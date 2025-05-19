@@ -261,7 +261,13 @@ watch(locale, () => {
 				<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :site="siteType"
 					class="main-page-container"
-					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded, 'sidesheet-open': sideSheetStore.showSideSheet && !isMobile }" />
+					:class="{
+						'open-modal': modalIsOpen,
+						'mobile-headings': isMobile,
+						'window-loading': !windowLoaded,
+						'sidesheet-open': sideSheetStore.showSideSheet && !isMobile,
+						'is-not-mobile': !isMobile
+					}" />
 			</div>
 
 			<template #error="{ error }">
@@ -294,14 +300,6 @@ watch(locale, () => {
 	height: 100%;
 	transition: all 0.3s ease-in-out;
 
-	// @media (min-width: 900px) and (max-width: 1650px) {
-	// 	padding-left: clamp(100px, 10vw, 320px);
-	// }
-
-	// @media (min-width: 1651px) {
-	// 	padding-left: clamp(100px, 20vw, 320px);
-	// }
-
 	&.window-loading {
 		padding-left: 0px;
 	}
@@ -313,12 +311,30 @@ watch(locale, () => {
 	}
 
 	.main-page-container {
+		&.is-not-mobile {
+			@media (min-width: 1091px) and (max-width: 1129px) {
+				.main-page>.container:first-of-type {
+					margin-left: 30px;
+				}
+			}
+
+			@media (min-width: 1300px) and (max-width: 1340px) {
+				padding-left: 30px;
+			}
+		}
+
 		&.sidesheet-open {
 			margin-right: 20px;
 			width: 100%;
 
-			.main-page>.container {
+			.main-page>.container:first-of-type {
 				padding-left: clamp(10px, calc((1660px - 100vw) * 1.5556), 420px);
+			}
+
+			@media (min-width: 1091px) and (max-width: 1129px) {
+				.main-page>.container:first-of-type {
+					margin-left: 0px;
+				}
 			}
 		}
 	}
