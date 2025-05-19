@@ -349,14 +349,6 @@ onMounted(() => {
         @media (max-width: 900px) {
             width: calc(100% - 50px);
         }
-
-        @media (min-width: 900px) and (max-width: 1650px) {
-            padding-left: clamp(100px, 10vw, 320px);
-        }
-
-        @media (min-width: 1651px) {
-            padding-left: clamp(100px, 20vw, 320px);
-        }
     }
 
     .container {

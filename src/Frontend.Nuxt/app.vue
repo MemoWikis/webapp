@@ -9,6 +9,7 @@ import { useRootPageChipStore } from '~/components/header/rootPageChipStore'
 import { AlertType, useAlertStore } from './components/alert/alertStore'
 import { ErrorCode } from './components/error/errorCodeEnum'
 import { NuxtError } from '#app'
+import { useSideSheetStore } from './components/sideSheet/sideSheetStore'
 
 const { t, locale, setLocale } = useI18n()
 
@@ -16,6 +17,7 @@ const userStore = useUserStore()
 const config = useRuntimeConfig()
 const loadingStore = useLoadingStore()
 const rootPageChipStore = useRootPageChipStore()
+const sideSheetStore = useSideSheetStore()
 
 const { $urlHelper, $vfm, $logger } = useNuxtApp()
 
@@ -245,18 +247,21 @@ watch(locale, () => {
 <template>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :site="siteType" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
-
 	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
+
 	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen }">
 
 		<NuxtErrorBoundary @error="logError">
+
 			<BannerLoginToEditReminder v-if="siteType === SiteType.Page && userStore.showLoginToEditReminderBanner" />
 			<LazyBannerMissionControlLoginReminder v-if="siteType === SiteType.MissionControl && !userStore.isLoggedIn" />
 
 			<div class="nuxt-page-container">
+
 				<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :site="siteType"
-					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
+					class="main-page-container"
+					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded, 'sidesheet-open': sideSheetStore.showSideSheet && !isMobile }" />
 			</div>
 
 			<template #error="{ error }">
@@ -273,7 +278,6 @@ watch(locale, () => {
 
 	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
-
 	<ClientOnly>
 		<LazyUserLoginModal v-if="!userStore.isLoggedIn" />
 		<LazyLoading />
@@ -287,15 +291,16 @@ watch(locale, () => {
 
 <style lang="less">
 .nuxt-page-container {
+	height: 100%;
 	transition: all 0.3s ease-in-out;
 
-	@media (min-width: 900px) and (max-width: 1650px) {
-		padding-left: clamp(100px, 10vw, 320px);
-	}
+	// @media (min-width: 900px) and (max-width: 1650px) {
+	// 	padding-left: clamp(100px, 10vw, 320px);
+	// }
 
-	@media (min-width: 1651px) {
-		padding-left: clamp(100px, 20vw, 320px);
-	}
+	// @media (min-width: 1651px) {
+	// 	padding-left: clamp(100px, 20vw, 320px);
+	// }
 
 	&.window-loading {
 		padding-left: 0px;
@@ -305,6 +310,17 @@ watch(locale, () => {
 
 	&.modal-is-open {
 		min-height: unset;
+	}
+
+	.main-page-container {
+		&.sidesheet-open {
+			margin-right: 20px;
+			width: 100%;
+
+			.main-page>.container {
+				padding-left: clamp(10px, calc((1660px - 100vw) * 1.5556), 420px);
+			}
+		}
 	}
 }
 
