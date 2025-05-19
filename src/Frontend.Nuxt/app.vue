@@ -251,17 +251,22 @@ watch(locale, () => {
 
 		<NuxtErrorBoundary @error="logError">
 			<BannerLoginToEditReminder v-if="siteType === SiteType.Page && userStore.showLoginToEditReminderBanner" />
+			<LazyBannerMissionControlLoginReminder v-if="siteType === SiteType.MissionControl && !userStore.isLoggedIn" />
 
-			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-				@set-breadcrumb="setBreadcrumb" :site="siteType"
-				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
+			<div class="nuxt-page-container">
+				<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+					@set-breadcrumb="setBreadcrumb" :site="siteType"
+					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
+			</div>
 
 			<template #error="{ error }">
-				<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
-					:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
-				<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-					@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="SiteType.Error" />
+				<div class="nuxt-page-container">
+					<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
+						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
+					<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
+						:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="SiteType.Error" />
+				</div>
 			</template>
 		</NuxtErrorBoundary>
 	</div>
@@ -281,7 +286,7 @@ watch(locale, () => {
 </template>
 
 <style lang="less">
-.nuxt-page {
+.nuxt-page-container {
 	transition: all 0.3s ease-in-out;
 
 	@media (min-width: 900px) and (max-width: 1650px) {

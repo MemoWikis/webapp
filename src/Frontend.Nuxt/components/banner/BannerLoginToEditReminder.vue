@@ -26,3 +26,17 @@ const shortPageName = ref(pageStore.name.length > 20 ? pageStore.name.substring(
         </template>
     </Banner>
 </template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+#LoginToEditReminderBanner {
+    @media (min-width: 900px) and (max-width: 1650px) {
+        padding-left: clamp(100px, 10vw, 320px);
+    }
+
+    @media (min-width: 1651px) {
+        padding-left: clamp(100px, 20vw, 320px);
+    }
+}
+</style>

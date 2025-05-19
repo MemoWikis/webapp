@@ -3,9 +3,6 @@ import { SiteType } from '~/components/shared/siteEnum'
 import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
 import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar'
 import { PageData } from '~/composables/missionControl/pageData'
-import { useUserStore } from '~/components/user/userStore'
-
-const userStore = useUserStore()
 
 const emit = defineEmits(['setPage'])
 emit('setPage', SiteType.MissionControl)
@@ -48,8 +45,6 @@ const { isMobile } = useDevice()
 </script>
 
 <template>
-    <BannerMissionControlLoginReminder v-if="!userStore.isLoggedIn" />
-
     <div class="container">
         <div class="row main-page">
             <div class="col-xs-12">
