@@ -4,6 +4,7 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5B29DAA-5C76-451D-B53E-90E0CF1F4351}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		..\licence.txt = ..\licence.txt
 		..\readme.markdown = ..\readme.markdown
 	EndProjectSection
@@ -37,7 +38,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2B260D44-0E30-4A6F-ADCA-05D837A591D4}
 		LessCompiler = c936ea17-2c3f-4c2b-ac7b-66e991542ec8
+		SolutionGuid = {2B260D44-0E30-4A6F-ADCA-05D837A591D4}
 	EndGlobalSection
 EndGlobal
