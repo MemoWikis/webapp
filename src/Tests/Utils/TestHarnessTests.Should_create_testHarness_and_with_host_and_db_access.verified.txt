@@ -35,7 +35,6 @@
       TotalInOthersWishknowledge: 0,
       UiLanguage: en,
       WidgetHostsSpaceSeparated: null,
-      WikiIds: null,
       WishCountQuestions: 0,
       WishCountSets: 0
     },
@@ -74,7 +73,6 @@
       TotalInOthersWishknowledge: 0,
       UiLanguage: en,
       WidgetHostsSpaceSeparated: null,
-      WikiIds: null,
       WishCountQuestions: 0,
       WishCountSets: 0
     }
