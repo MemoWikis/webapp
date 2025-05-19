@@ -107,7 +107,6 @@ public class DeletePageStoreController(
         }
 
         var deleteResult = _pageDeleter.DeletePage(deleteRequest.PageToDeleteId, deleteRequest.ParentForQuestionsId);
-        _sessionUser.User.CleanupWikiIdsAndFavoriteIds();
 
         return new DeleteResponse(
             Success: deleteResult.Success,

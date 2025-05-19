@@ -1,12 +1,4 @@
-﻿
-
-[Serializable]
-public class UserSearchSpec : SearchSpecificationBase<UserFilter, UserOrderBy>
-{
-    public string SearchTerm;
-}
-
-[Serializable]
+﻿[Serializable]
 public class UserFilter : ConditionContainer
 {
     public readonly ConditionString EmailAddress;

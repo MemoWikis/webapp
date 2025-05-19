@@ -62,13 +62,16 @@
         dbItem.Token = token;
         sharesRepository.Update(dbItem);
         return currentShareByToken.Token;
-
     }
 
     public static void RemoveShareToken(int pageId, SharesRepository sharesRepository)
     {
         var existingShares = EntityCache.GetPageShares(pageId);
-        var shareIdsToRemove = existingShares.Where(share => share.Token.Length > 0).Select(share => share.Id).ToList();
+        var shareIdsToRemove = existingShares
+            .Where(share => share.Token.Length > 0)
+            .Select(share => share.Id)
+            .ToList();
+
         EntityCache.RemoveShares(pageId, shareIdsToRemove);
         sharesRepository.Delete(shareIdsToRemove);
     }

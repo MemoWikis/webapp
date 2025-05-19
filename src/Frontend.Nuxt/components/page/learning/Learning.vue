@@ -25,6 +25,12 @@ onBeforeMount(async () => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
     await learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
+    if (route.query.inWuWi === 'true') {
+        learningSessionConfigurationStore.questionFilterOptions.inWuwi.isSelected = true
+        learningSessionConfigurationStore.questionFilterOptions.notInWuwi.isSelected = false
+        learningSessionConfigurationStore.checkQuestionFilterSelection()
+    }
+
     if (route.params.questionId != null)
         mountNewQuestion()
     else

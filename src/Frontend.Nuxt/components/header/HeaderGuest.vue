@@ -116,14 +116,6 @@ const rootPageChipStore = useRootPageChipStore()
     min-height: 60px;
     border-bottom: 1px solid @memo-grey-light;
 
-    @media (min-width: 900px) and (max-width: 1650px) {
-        padding-left: clamp(100px, 10vw, 320px);
-    }
-
-    @media (min-width: 1651px) {
-        padding-left: clamp(100px, 20vw, 320px);
-    }
-
     .HeaderMainRow {
         min-height: 60px;
         height: 100%;

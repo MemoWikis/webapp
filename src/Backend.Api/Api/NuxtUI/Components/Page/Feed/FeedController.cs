@@ -8,7 +8,9 @@ public class FeedController(
     CommentRepository _commentRepository) : ApiBaseController
 {
     public readonly record struct GetFeedResponse(IList<FeedItem> feedItems, int maxCount);
+
     public record struct FeedItem(DateTime Date, FeedType Type, PageFeedItem? PageFeedItem, QuestionFeedItem? QuestionFeedItem, Author Author);
+
     public readonly record struct GetFeedRequest(int PageId, int Page, int PageSize, bool GetDescendants = true, bool GetQuestions = true, bool GetItemsInGroups = false);
 
     [HttpPost]
@@ -35,9 +37,11 @@ public class FeedController(
         DeleteData? DeleteData = null,
         bool IsGroup = false,
         int? OldestChangeIdInGroup = null);
+
     public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author, Comment? Comment);
 
     public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
+
     private FeedItem ToFeedItem(PageCacheItem.FeedItem feedItem)
     {
         if (feedItem.PageChangeCacheItem != null)
@@ -96,8 +100,11 @@ public class FeedController(
     }
 
     public record struct Comment(string Title, int Id);
+
     public record struct RelatedPage(int Id, string Name);
+
     public record struct RelationChanges(List<RelatedPage> AddedParents, List<RelatedPage> RemovedParents, List<RelatedPage> AddedChildren, List<RelatedPage> RemovedChildren);
+
     public record struct DeleteData(int? DeleteChangeId, string DeletedName);
 
     private List<RelatedPage> GetRelatedPages(IEnumerable<int> ids)
@@ -111,8 +118,10 @@ public class FeedController(
                 if (relatedPage != null) relatedPages.Add(new RelatedPage(id, relatedPage.Name));
             }
         }
+
         return relatedPages;
     }
+
     private RelationChanges? GetRelationChanges(PageChangeCacheItem change)
     {
         if (change.Type != PageChangeType.Relations && !(change.Type == PageChangeType.Create && change.IsGroup))
@@ -130,6 +139,7 @@ public class FeedController(
 
         return new RelationChanges(addedParents, removedParents, addedChildren, removedChildren);
     }
+
     private Author SetAuthor([CanBeNull] UserCacheItem user)
     {
         var author = new Author();

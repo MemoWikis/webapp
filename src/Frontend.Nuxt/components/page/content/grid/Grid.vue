@@ -332,11 +332,11 @@ editPageRelationStore.$onAction(({ name, after }) => {
     .grid-footer {
         border-top: solid 1px @memo-grey-light;
         padding-top: 4px;
+        overflow: hidden;
 
         .grid-divider {
             &.is-mobile {
                 margin: 0 4px;
-
             }
         }
     }

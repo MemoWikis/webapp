@@ -1,6 +1,7 @@
 {
     "editor.formatOnSave": true,
     "[json]": {
+        "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescript]": {
@@ -14,5 +15,9 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "prettier.semi": false,
         "prettier.singleQuote": true
+    },
+    "[vue]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "Vue.volar"
     }
 }

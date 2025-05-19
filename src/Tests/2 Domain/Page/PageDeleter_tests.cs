@@ -1,30 +1,27 @@
-﻿public class PageDeleter_tests : BaseTest
+﻿internal class PageDeleter_tests : BaseTestHarness
 {
     [Test]
-    public void Should_delete_child()
+    public async Task Should_delete_child()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
 
         contextPage.Persist();
         contextPage.AddChild(parent, child);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
@@ -39,51 +36,45 @@
     }
 
     [Test]
-    public void Should_delete_child_of_child_and_remove_relation()
+    public async Task Should_delete_child_of_child_and_remove_relation()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
         var childOfChildName = "child of child name";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
 
-        var childOfChild = contextPage.Add(childOfChildName,
-                PageType.Standard,
-                creator)
+        var childOfChild = contextPage
+            .Add(childOfChildName, creator)
             .GetPageByName(childOfChildName);
 
         contextPage.Persist();
         contextPage.AddChild(parent, child);
         contextPage.AddChild(child, childOfChild);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(childOfChild.Id, parent.Id);
 
         //Assert
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageRepo = R<PageRepository>();
         var allAvailablePages = pageRepo.GetAll();
-        var parentChildren =
-            pageRepo.GetChildren(PageType.Standard, PageType.Standard, parent.Id);
-        var childrenOfChild = pageRepo.GetChildren(PageType.Standard,
-            PageType.Standard, child.Id);
+        var parentChildren = pageRepo.GetChildren(parent.Id);
+        var childrenOfChild = pageRepo.GetChildren(child.Id);
 
         Assert.That(requestResult, Is.Not.False);
         Assert.That(requestResult.Success);
@@ -100,41 +91,37 @@
     }
 
     [Test]
-    public void Should_delete_child_of_child_and_remove_relations_in_EntityCache()
+    public async Task Should_delete_child_of_child_and_remove_relations_in_EntityCache()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
         var childOfChildName = "child of child name";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
-        var childOfChild = contextPage.Add(childOfChildName,
-                PageType.Standard,
-                creator)
+        var childOfChild = contextPage
+            .Add(childOfChildName, creator)
             .GetPageByName(childOfChildName);
 
         contextPage.Persist();
         contextPage.AddChild(parent, child);
         contextPage.AddChild(child, childOfChild);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(childOfChild.Id, parent.Id);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         //Assert
         var allPagesInEntityCache = EntityCache.GetAllPagesList();
@@ -162,11 +149,10 @@
 
     [Test]
     [Description("child of child has extra parent")]
-    public void
-        Should_delete_child_and_remove_relations_in_EntityCache_child_of_child_has_extra_parent()
+    public async Task Should_delete_child_and_remove_relations_in_EntityCache_child_of_child_has_extra_parent()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var firstChildName = "first child name";
         var secondChildName = "second child name";
@@ -174,25 +160,20 @@
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var firstChild = contextPage.Add(firstChildName,
-                PageType.Standard,
-                creator)
+        var firstChild = contextPage
+            .Add(firstChildName, creator)
             .GetPageByName(firstChildName);
 
-        var secondChild = contextPage.Add(secondChildName,
-                PageType.Standard,
-                creator)
+        var secondChild = contextPage
+            .Add(secondChildName, creator)
             .GetPageByName(secondChildName);
 
-        var childOfChild = contextPage.Add(childOfChildName,
-                PageType.Standard,
-                creator)
+        var childOfChild = contextPage
+            .Add(childOfChildName, creator)
             .GetPageByName(childOfChildName);
 
         contextPage.Persist();
@@ -200,13 +181,13 @@
         contextPage.AddChild(parent, secondChild);
         contextPage.AddChild(firstChild, childOfChild);
         contextPage.AddChild(secondChild, childOfChild);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(firstChild.Id, parent.Id);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         //Assert
         Assert.That(requestResult.Success);
@@ -214,41 +195,38 @@
 
     [Test]
     [Description("child has a child, so it can't be deleted or removed")]
-    public void Should_fail_delete_child_and_remove_relations_in_EntityCache_child_has_child()
+    public async Task Should_fail_delete_child_and_remove_relations_in_EntityCache_child_has_child()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
         var childOfChildName = "child of child name";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
-        var childOfChild = contextPage.Add(childOfChildName,
-                PageType.Standard,
-                creator)
+        
+        var childOfChild = contextPage
+            .Add(childOfChildName, creator)
             .GetPageByName(childOfChildName);
 
         contextPage.Persist();
         contextPage.AddChild(parent, child);
         contextPage.AddChild(child, childOfChild);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         //Assert
         Assert.That(requestResult.Success, Is.False);
@@ -258,36 +236,32 @@
 
     [Test]
     [Description("no rights")]
-    public void Should_fail_delete_child_and_remove_relations_in_EntityCache_no_rights()
+    public async Task Should_fail_delete_child_and_remove_relations_in_EntityCache_no_rights()
     {
         //Arrange
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
 
         var creator = new User { Id = 2, IsInstallationAdmin = false, Name = "Creator" };
 
-        var parent = contextPage.Add(
-                parentName,
-                PageType.Standard,
-                creator)
+        var parent = contextPage
+            .Add(parentName, creator)
             .GetPageByName(parentName);
 
-        var child = contextPage.Add(
-                childName,
-                PageType.Standard,
-                creator)
+        var child = contextPage
+            .Add(childName, creator)
             .GetPageByName(childName);
 
         contextPage.Persist();
         contextPage.AddChild(parent, child);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         //Assert
         Assert.That(requestResult.Success);

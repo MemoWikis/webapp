@@ -3,13 +3,11 @@
     public int Hours;
     public int Minutes;
 
-    public static Time New(int hours, int minutes){
-        return new Time(hours, minutes);
-    }
+    public static Time New(int hours, int minutes) 
+        => new(hours, minutes);
 
-    public static Time New(DateTime dateTime){
-        return new Time(dateTime);
-    }
+    public static Time New(DateTime dateTime) 
+        => new(dateTime);
 
     public Time(int hours, int minutes)
     {
@@ -25,7 +23,7 @@
 
     public override string ToString()
     {
-        return String.Format("{0:00}:{1:00}", Hours, Minutes);
+        return $"{Hours:00}:{Minutes:00}";
     }
 
     public static Time Parse(string time)

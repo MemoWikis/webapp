@@ -191,14 +191,6 @@ const { t, setLocale, locale, locales } = useI18n()
 #MasterFooter {
     transition: all 0.3s ease-in-out;
 
-    @media (min-width: 900px) and (max-width: 1650px) {
-        padding-left: clamp(100px, 10vw, 320px);
-    }
-
-    @media (min-width: 1651px) {
-        padding-left: clamp(100px, 20vw, 320px);
-    }
-
     .footer-container {
 
         &.window-loading {

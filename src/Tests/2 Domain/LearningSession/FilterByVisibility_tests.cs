@@ -1,6 +1,6 @@
 ﻿using static LearningSessionCreator;
 
-class FilterByVisibility_tests : BaseTest
+class FilterByVisibility_tests : BaseTestHarness
 {
     private readonly QuestionCacheItem _publicQuestion = new QuestionCacheItem { Visibility = QuestionVisibility.Public };
     private readonly QuestionCacheItem _privateQuestion = new QuestionCacheItem { Visibility = QuestionVisibility.Private };

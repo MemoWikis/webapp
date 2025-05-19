@@ -1,5 +1,5 @@
 ﻿[TestFixture]
-public class Convert_tests : BaseTest
+internal class Convert_tests : BaseTestHarness
 {
     [Test]
     public void ConvertPageToWiki_Should_Succeed_With_ValidInputs()
@@ -12,20 +12,20 @@ public class Convert_tests : BaseTest
 
         var userId = 1;
 
-        var context = ContextPage.New();
+        var pageContext = NewPageContext();
 
-        var root = context.Add("RootElement").Persist().All.First();
+        var root = pageContext.Add("RootElement").Persist().All.First();
 
-        var children = context
+        var children = pageContext
             .Add("Sub1", creator: new User { Id = userId })
             .Add("SubSub1")
             .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
             .All;
 
-        context.AddChild(root, children.ByName("Sub1"));
-        context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
-        context.AddChild(root, children.ByName("Sub2"));
+        pageContext.AddChild(root, children.ByName("Sub1"));
+        pageContext.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
+        pageContext.AddChild(root, children.ByName("Sub2"));
 
         var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
@@ -39,20 +39,20 @@ public class Convert_tests : BaseTest
         pageConversion.ConvertPageToWiki(page, userId, keepParents: false);
 
         // Assert
-        Assert.That(page.IsWiki, Is.True, "Page should be marked as Wiki.");
+        Assert.That(page.IsWiki, Is.True);
 
         // Verify that the page entity is updated in the repository
         var updatedPageEntity = pageRepository.GetByIdEager(page.Id);
-        Assert.That(updatedPageEntity, Is.Not.Null, "Page entity should exist in repository.");
-        Assert.That(updatedPageEntity.IsWiki, Is.True, "Page entity should be marked as Wiki.");
+        Assert.That(updatedPageEntity, Is.Not.Null);
+        Assert.That(updatedPageEntity.IsWiki, Is.True);
 
         // Verify that the EntityCache was updated
         var cachedPage = EntityCache.GetPage(page.Id);
-        Assert.That(cachedPage, Is.Not.Null, "Updated page should exist in EntityCache.");
-        Assert.That(cachedPage.IsWiki, Is.True, "Cached page should be marked as Wiki.");
+        Assert.That(cachedPage, Is.Not.Null);
+        Assert.That(cachedPage.IsWiki, Is.True);
 
         // Verify that the user was updated
-        Assert.That(userCacheItem.WikiIds, Is.Not.Empty, "User's WikiIds should have been cleaned up.");
+        Assert.That(userCacheItem.GetWikis(), Is.Not.Empty);
     }
 
     [Test]
@@ -103,7 +103,7 @@ public class Convert_tests : BaseTest
 
         var userId = 1;
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
@@ -133,8 +133,10 @@ public class Convert_tests : BaseTest
     }
 
     [Test]
-    public void ConvertWikiToPage_Should_Succeed_With_ValidInputs()
+    public async Task ConvertWikiToPage_Should_Succeed_With_ValidInputs()
     {
+        await ReloadCaches();
+        
         // Arrange
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
@@ -143,12 +145,12 @@ public class Convert_tests : BaseTest
 
         var userId = 1;
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
         var children = context
-            .Add("Sub1", creator: new User { Id = userId })
+            .Add("Sub1", creator: new User { Id = userId }, isWiki: true)
             .Add("SubSub1")
             .Add("Sub2", visibility: PageVisibility.Private)
             .Persist()
@@ -161,13 +163,10 @@ public class Convert_tests : BaseTest
         var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         var page = EntityCache.GetPage(children.ByName("Sub1").Id);
-        page.IsWiki = true;
+        page!.IsWiki = true;
+
         // Add page and user to EntityCache
         EntityCache.AddOrUpdate(page);
-        var userCacheItem = new UserCacheItem { Id = userId };
-        userCacheItem.WikiIds = new List<int> { page.Id };
-        EntityCache.AddOrUpdate(userCacheItem);
-
 
         // Act
         pageConversion.ConvertWikiToPage(page, userId);
@@ -182,12 +181,16 @@ public class Convert_tests : BaseTest
 
         // Verify that the EntityCache was updated
         var cachedPage = EntityCache.GetPage(page.Id);
-        Assert.That(cachedPage, Is.Not.Null, "Updated page should exist in EntityCache.");
-        Assert.That(cachedPage.IsWiki, Is.False, "Cached page should no longer be a Wiki.");
+        var userCacheItem = EntityCache.GetUserById(userId);
+        var wikiCount = userCacheItem.GetWikis().Count.ToString();
+        
 
-        // Verify that the user was updated
-        Assert.That(userCacheItem.FavoriteIds, Is.Null.Or.Empty, "User's FavoriteIds should have been cleaned up.");
-        Assert.That(userCacheItem.WikiIds, Is.Null.Or.Empty, "User's WikiIds should have been cleaned up.");
+        await Verify(new
+        {
+            wikiCount,
+            allDbPages = await _testHarness.DbData!.AllPagesAsync(),
+            cachedPage,
+        });
     }
 
     [Test]
@@ -236,7 +239,7 @@ public class Convert_tests : BaseTest
         var userWritingRepo = R<UserWritingRepo>();
         var userId = 1;
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         var root = context.Add("RootElement").Persist().All.First();
 
@@ -253,7 +256,7 @@ public class Convert_tests : BaseTest
 
         var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
-        var page = EntityCache.GetPage(children.ByName("Sub1").Id);
+        var page = EntityCache.GetPage(children.ByName("Sub1").Id)!;
         page.IsWiki = true;
         // Add page and user to EntityCache
         EntityCache.AddOrUpdate(page);

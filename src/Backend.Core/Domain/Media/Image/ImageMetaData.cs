@@ -1,6 +1,4 @@
-﻿
-
-public class ImageMetaData : DomainEntity
+﻿public class ImageMetaData : DomainEntity
 {
     public virtual ImageType Type { get; set; }
     public virtual int TypeId { get; set; }
@@ -23,5 +21,4 @@ public class ImageMetaData : DomainEntity
         ManualImageData.FromJson(ManualEntries);
 
     public virtual bool IsYoutubePreviewImage { get; set; }
-    public virtual string YoutubeKey { get; set; }
 }

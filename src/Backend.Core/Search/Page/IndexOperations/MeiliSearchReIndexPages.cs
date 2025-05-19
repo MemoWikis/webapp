@@ -1,35 +1,26 @@
 ﻿using Meilisearch;
 
-public class MeiliSearchReIndexPages : IRegisterAsInstancePerLifetime
-
+public class MeilisearchReIndexPages(PageRepository _pageRepository) : IRegisterAsInstancePerLifetime
 {
-    private readonly PageRepository _pageRepository;
-
-    public MeiliSearchReIndexPages(PageRepository pageRepository)
-    {
-        _pageRepository = pageRepository;
-        _client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
-    }
-
-    public MeilisearchClient _client { get; }
+    private MeilisearchClient _client { get; } = new(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
 
     public async Task Run()
     {
-        await _client.DeleteIndexAsync(MeiliSearchConstants.Pages);
+        await _client.DeleteIndexAsync(MeilisearchIndices.Pages);
         var allPagesFromDb = _pageRepository.GetAll();
 
-        var meiliSearchPageMaps = allPagesFromDb.Select(c => new MeiliSearchPageMap
+        var meiliSearchPageMaps = allPagesFromDb.Select(c => new MeilisearchPageMap
         {
             Id = c.Id,
             Name = c.Name,
-            CreatorName = c.Creator == null ? "Unbekannt" : c.Creator.Name,
+            CreatorName = c.Creator == null ? "-" : c.Creator.Name,
             DateCreated = c.DateCreated,
             Description = c.Description,
             Content = c.Content,
             Language = c.Language
         });
 
-        var index = _client.Index(MeiliSearchConstants.Pages);
+        var index = _client.Index(MeilisearchIndices.Pages);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
 
         await index.AddDocumentsAsync(meiliSearchPageMaps);
@@ -37,22 +28,22 @@ public class MeiliSearchReIndexPages : IRegisterAsInstancePerLifetime
 
     public async Task RunCache()
     {
-        await _client.DeleteIndexAsync(MeiliSearchConstants.Pages);
+        await _client.DeleteIndexAsync(MeilisearchIndices.Pages);
 
         var pages = EntityCache.GetAllPagesList();
 
-        var meiliSearchPageMaps = pages.Select(c => new MeiliSearchPageMap
+        var meiliSearchPageMaps = pages.Select(c => new MeilisearchPageMap
         {
             Id = c.Id,
             Name = c.Name,
-            CreatorName = c.Creator == null ? "Unbekannt" : c.Creator.Name,
+            CreatorName = c.Creator == null ? "-" : c.Creator.Name,
             DateCreated = c.DateCreated,
             Description = c.Description,
             Content = c.Content,
             Language = c.Language
         });
 
-        var index = _client.Index(MeiliSearchConstants.Pages);
+        var index = _client.Index(MeilisearchIndices.Pages);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
 
         await index.AddDocumentsAsync(meiliSearchPageMaps);

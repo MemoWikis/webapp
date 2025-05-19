@@ -1,4 +1,4 @@
-﻿public class MeiliSearchQuestionsResult : ISearchQuestionsResult
+﻿public class MeilisearchQuestionsResult : ISearchQuestionsResult
 {
     public int Count { get; set; }
     public List<int> QuestionIds { get; set; } = new();

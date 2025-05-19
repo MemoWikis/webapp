@@ -6,6 +6,7 @@ import { SiteType } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useConvertStore } from '~/components/page/convert/convertStore'
+import { useSideSheetStore } from '~/components/sideSheet/sideSheetStore'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -13,6 +14,7 @@ const tabsStore = useTabsStore()
 const pageStore = usePageStore()
 const loadingStore = useLoadingStore()
 const convertStore = useConvertStore()
+const sideSheetStore = useSideSheetStore()
 
 interface Props {
     tab?: Tab,

@@ -6,10 +6,10 @@ public class GlobalTest
     [OneTimeSetUp]
     public void InitializeDb()
     {
-        Settings.Initialize(GetConfiguration());
-        SessionFactory.BuildTestConfiguration();
+        //Settings.Initialize(GetConfiguration());
+        //SessionFactory.BuildTestConfiguration();
         //BaseTest.InitializeContainer();
-        SessionFactory.BuildSchema();
+        //SessionFactory.BuildSchema();
     }
 
     private IConfiguration GetConfiguration()

@@ -187,6 +187,7 @@
         "administrative": "Administrativ",
         "questionCount": "0 Fragen | 1 Frage | {count} Fragen",
         "questionCountText": "Keine Frage | Eine Frage | {count} Fragen",
+        "questionCountAsText": "Frage | Fragen",
         "reloadPage": "Seite neu laden",
         "back": "Zurück",
         "continueLearning": "Weiterlernen",
@@ -195,7 +196,10 @@
         "registerWithFacebook": "Registrierung mit Facebook",
         "attention": "Achtung",
         "toUpload": "hochzuladen und so einzubinden.",
-        "cancel": "Abbrechen"
+        "cancel": "Abbrechen",
+        "documentation": "Dokumentation",
+        "overview": "Übersicht",
+        "missionControl": "Mission Control"
     },
     "register": {
         "title": "Registrieren",
@@ -212,7 +216,8 @@
         "users": "Nutzer",
         "prices": "Preise",
         "settings": "Einstellungen",
-        "register": "Registrieren"
+        "register": "Registrieren",
+        "missionControl": "Mission-Control"
     },
     "search": {
         "results": "{count} Treffer",
@@ -227,10 +232,11 @@
         "inYourLanguage": "in deiner Sprache"
     },
     "sideSheet": {
+        "missionControl": "Mission Control",
         "myWikis": "Meine Wikis",
         "deleteWiki": "Wiki löschen",
         "convertToPage": "In Seite umwandeln",
-        "favourites": "Favoriten",
+        "favorites": "Favoriten",
         "lastVisited": "Zuletzt besucht",
         "sharedWithMe": "Mit mir geteilt",
         "noSharedPages": "Noch keine Seiten mit dir geteilt",
@@ -1445,7 +1451,8 @@
         },
         "login": {
             "invitedTo": "Du wurdest eingeladen, an {pageName} mitzuarbeiten",
-            "loginToEdit": "Melde dich jetzt an, um mit der Bearbeitung zu beginnen"
+            "loginToEdit": "Melde dich jetzt an, um mit der Bearbeitung zu beginnen",
+            "loginToSeeMissionControl": "Melde dich jetzt an, um die Mission Control zu sehen"
         }
     },
     "errorContent": {
@@ -1514,6 +1521,7 @@
             "terms": "Nutzungsbedingungen",
             "register": "Registrieren",
             "messages": "Nachrichten",
+            "missionControl": "Mission Control",
             "error": "Fehler",
             "resetPassword": "Passwort zurücksetzen",
             "confirmEmail": "E-Mail Bestätigung",
@@ -1567,6 +1575,74 @@
         "cancel": {
             "title": "Zahlungsabbruch",
             "message": "Schade, dass du die Zahlung abgebrochen hast. \nFalls du auf Probleme gestoßen bist oder Fragen hast, \nmelde dich einfach bei uns! \nUnser Team hilft dir gerne weiter."
+        }
+    },
+    "general": {
+        "comingSoon": "Demnächst verfügbar"
+    },
+    "missionControl": {
+        "heading": "Mission Control",
+        "sections": {
+            "wikis": "Meine Wikis",
+            "recentActivity": "Neueste Aktivitäten",
+            "knowledgeStatus": "Wissensstand",
+            "favorites": "Favoriten",
+            "comingSoon": "Demnächst verfügbar",
+            "learnCalendar": "Lernaktivität"
+        },
+        "wikis": {
+            "tableHeaders": {
+                "name": "Name",
+                "questionCount": "Fragen",
+                "knowledgeStatus": "Wissensstand",
+                "actions": "Aktionen"
+            },
+            "questions": "{count} Fragen",
+            "noQuestions": "Keine Fragen",
+            "sortBy": "Sortieren nach",
+            "searchPlaceholder": "Wikis durchsuchen...",
+            "learn": "Lernen"
+        },
+        "learnCalendar": {
+            "title": "Deine Lernaktivität",
+            "dayTooltip": "Keine Lernaktivität am {date} | Eine Frage beantwortet am {date} | {count} Fragen beantwortet am {date}",
+            "days": {
+                "0": "So",
+                "1": "Mo",
+                "2": "Di",
+                "3": "Mi",
+                "4": "Do",
+                "5": "Fr",
+                "6": "Sa"
+            },
+            "months": {
+                "0": "Jan",
+                "1": "Feb",
+                "2": "Mär",
+                "3": "Apr",
+                "4": "Mai",
+                "5": "Jun",
+                "6": "Jul",
+                "7": "Aug",
+                "8": "Sep",
+                "9": "Okt",
+                "10": "Nov",
+                "11": "Dez"
+            },
+            "currentStreak": "Aktuelle Serie: 0 Tage | Aktuelle Serie: ein Tag | Aktuelle Serie: {count} Tage",
+            "longestStreak": "Längste Serie: {count} Tage"
+        },
+        "pageTable": {
+            "name": "Name",
+            "questions": "Fragen",
+            "knowledgeStatus": "Wissensstand",
+            "learnNow": "Jetzt lernen",
+            "noPages": "Keine Seiten",
+            "noWikis": "Keine Wikis erstellt",
+            "noFavorites": "Keine Favoriten hinzugefügt"
+        },
+        "pageGrid": {
+            "questions": "No questions | One question | {count} questions"
         }
     }
 }

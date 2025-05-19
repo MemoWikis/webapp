@@ -19,7 +19,6 @@ public class GoogleLogin(
         if (googleUser != null)
         {
             var user = _userReadingRepo.UserGetByGoogleId(googleUser.GoogleId);
-            var messageKey = "";
 
             if (user == null)
             {

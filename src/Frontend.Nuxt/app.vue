@@ -9,6 +9,7 @@ import { useRootPageChipStore } from '~/components/header/rootPageChipStore'
 import { AlertType, useAlertStore } from './components/alert/alertStore'
 import { ErrorCode } from './components/error/errorCodeEnum'
 import { NuxtError } from '#app'
+import { useSideSheetStore } from './components/sideSheet/sideSheetStore'
 
 const { t, locale, setLocale } = useI18n()
 
@@ -16,6 +17,7 @@ const userStore = useUserStore()
 const config = useRuntimeConfig()
 const loadingStore = useLoadingStore()
 const rootPageChipStore = useRootPageChipStore()
+const sideSheetStore = useSideSheetStore()
 
 const { $urlHelper, $vfm, $logger } = useNuxtApp()
 
@@ -245,32 +247,42 @@ watch(locale, () => {
 <template>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :site="siteType" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
-
 	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
+
 	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen }">
 
 		<NuxtErrorBoundary @error="logError">
-			<BannerLoginReminder v-if="siteType === SiteType.Page && userStore.showLoginReminderBanner" />
 
-			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-				@set-breadcrumb="setBreadcrumb" :site="siteType"
-				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
+			<BannerLoginToEditReminder v-if="siteType === SiteType.Page && userStore.showLoginToEditReminderBanner" />
+			<LazyBannerMissionControlLoginReminder v-if="siteType === SiteType.MissionControl && !userStore.isLoggedIn" />
+
+			<div class="nuxt-page-container">
+
+				<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+					@set-breadcrumb="setBreadcrumb" :site="siteType"
+					class="main-page-container"
+					:class="{
+						'open-modal': modalIsOpen,
+						'mobile-headings': isMobile,
+						'window-loading': !windowLoaded,
+						'sidesheet-open': sideSheetStore.showSideSheet && !isMobile
+					}" />
+			</div>
 
 			<template #error="{ error }">
-				<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
-					:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
-				<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-					@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="SiteType.Error" />
+				<div class="nuxt-page-container">
+					<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
+						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
+					<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
+						:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="SiteType.Error" />
+				</div>
 			</template>
 		</NuxtErrorBoundary>
 	</div>
 
-	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate"
-		v-show="!modalIsOpen" />
-	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType"
-		:question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
-
+	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
+	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 	<ClientOnly>
 		<LazyUserLoginModal v-if="!userStore.isLoggedIn" />
 		<LazyLoading />
@@ -283,16 +295,11 @@ watch(locale, () => {
 </template>
 
 <style lang="less">
-.nuxt-page {
+.nuxt-page-container {
+	height: 100%;
 	transition: all 0.3s ease-in-out;
-
-	@media (min-width: 900px) and (max-width: 1650px) {
-		padding-left: clamp(100px, 10vw, 320px);
-	}
-
-	@media (min-width: 1651px) {
-		padding-left: clamp(100px, 20vw, 320px);
-	}
+	display: flex;
+	justify-content: center;
 
 	&.window-loading {
 		padding-left: 0px;
@@ -302,6 +309,51 @@ watch(locale, () => {
 
 	&.modal-is-open {
 		min-height: unset;
+	}
+
+	.main-page-container {
+
+		&.sidesheet-open {
+
+			@media (max-width: 1500px) {
+				width: calc(100vw - 40px);
+
+				.main-page:first-of-type {
+					padding-left: 420px;
+					margin-right: 10px;
+					width: 100%;
+				}
+
+				#Sidebar {
+					display: none;
+				}
+
+				.page {
+					&.col-lg-9 {
+						width: 100%;
+					}
+				}
+			}
+
+			@media (min-width: 1501px) and (max-width: 1980px) {
+
+				.main-page:first-of-type {
+					padding-left: clamp(260px, 20vw, 0px);
+					margin-right: 10px;
+					width: 100%;
+				}
+
+				#Sidebar {
+					display: none;
+				}
+
+				.page {
+					&.col-lg-9 {
+						width: 100%;
+					}
+				}
+			}
+		}
 	}
 }
 

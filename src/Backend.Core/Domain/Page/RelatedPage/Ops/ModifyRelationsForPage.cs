@@ -8,7 +8,6 @@
     /// <param name="pageCacheItem"></param>
     /// <param name="relatedPageIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
     /// <param name="relationType">If specified only relations of this type will be updated</param>
-
     public void AddParentPage(Page page, int parentId)
     {
         var relatedPage = pageRepository.GetByIdEager(parentId);

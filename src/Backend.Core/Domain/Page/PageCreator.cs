@@ -30,7 +30,6 @@
         var page = new Page(name, sessionUser.UserId);
 
         page.Creator = _userReadingRepo.GetById(sessionUser.UserId);
-        page.Type = PageType.Standard;
         page.Visibility = PageVisibility.Private;
         page.Language = sessionUser.User.UiLanguage;
         _pageRepository.Create(page);

@@ -1,11 +1,11 @@
-﻿class PermissionCheck_tests : BaseTest
+﻿class PermissionCheck_tests : BaseTestHarness
 {
     [Test]
-    public void CanMovePage_MovePageCreator_And_ParentPageCreator_IsUser()
+    public async Task CanMovePage_MovePageCreator_And_ParentPageCreator_IsUser()
     {
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var user = new User { Id = 1 };
 
         context.Add("root", creator: user).Persist();
@@ -25,7 +25,7 @@
         context.AddChild(sub1, subsub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -35,11 +35,11 @@
     }
 
     [Test]
-    public void CanMovePage_MovePageCreator_IsUser()
+    public async Task CanMovePage_MovePageCreator_IsUser()
     {
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         context.Add("root", creator: user2).Persist();
@@ -59,7 +59,7 @@
         context.AddChild(sub1, subsub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -69,11 +69,11 @@
     }
 
     [Test]
-    public void CanMovePage_ParentPageCreator_IsUser()
+    public async Task CanMovePage_ParentPageCreator_IsUser()
     {
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         context.Add("root", creator: user2).Persist();
@@ -93,7 +93,7 @@
         context.AddChild(sub1, subsub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -103,11 +103,11 @@
     }
 
     [Test]
-    public void CanMovePage_Disallowed()
+    public async Task CanMovePage_Disallowed()
     {
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         var user3 = new User { Id = 3 };
@@ -129,7 +129,7 @@
         context.AddChild(sub1, subsub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();

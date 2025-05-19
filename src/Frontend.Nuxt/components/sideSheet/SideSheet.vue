@@ -20,6 +20,7 @@ const deletePageStore = useDeletePageStore()
 const convertStore = useConvertStore()
 const { t } = useI18n()
 
+const localePath = useLocalePath()
 const snackbar = useSnackbar()
 
 const windowWidth = ref(0)
@@ -286,11 +287,28 @@ onMounted(() => {
 
 </script>
 <template>
-    <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
-        :style="`height: ${windowHeight}px`">
+    <div v-if="windowWidth > 0" id="SideSheet"
+        :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }"
+        @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :style="`height: ${windowHeight}px`">
         <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
+                <SideSheetSection class="no-b-padding">
+                    <template #header>
+                        <NuxtLink :to="`/${t('url.missionControl')}`" class="mission-control-link">
+                            <div class="header-container no-hover">
+                                <template v-if="!collapsed">
+                                    <div class="angle-icon-space"></div>
+                                </template>
+                                <font-awesome-icon :icon="['fas', 'rocket']" />
+                                <div v-show="!hidden" class="header-title">
+                                    {{ t('sideSheet.missionControl') }}
+                                </div>
+                            </div>
+                        </NuxtLink>
+                    </template>
+                </SideSheetSection>
+
                 <SideSheetSection :class="{ 'no-b-padding': !showWikis }">
                     <template #header>
                         <div class="header-container" @click="showWikis = !showWikis">
@@ -309,7 +327,8 @@ onMounted(() => {
                         <Transition name="collapse">
                             <div v-if="showWikis">
                                 <div v-for="wiki in sideSheetStore.wikis" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)" :class="{ 'is-here': wiki.id === pageStore.id }">
+                                    <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)"
+                                        :class="{ 'is-here': wiki.id === pageStore.id }">
                                         <div class="link">
                                             {{ wiki.name }}
                                         </div>
@@ -321,10 +340,12 @@ onMounted(() => {
                                         </div>
                                         <template #popper="{ hide }">
                                             <div class="sidesheet-wikioptions" @mouseenter="cancelMouseLeave">
-                                                <p class="breadcrumb-dropdown dropdown-row" @click="deletePageStore.openModal(wiki.id, false); hide()">
+                                                <p class="breadcrumb-dropdown dropdown-row"
+                                                    @click="deletePageStore.openModal(wiki.id, false); hide()">
                                                     {{ t('sideSheet.deleteWiki') }}
                                                 </p>
-                                                <p v-if="wiki.hasParents" class="breadcrumb-dropdown dropdown-row" @click="convertStore.openModal(wiki.id)">
+                                                <p v-if="wiki.hasParents" class="breadcrumb-dropdown dropdown-row"
+                                                    @click="convertStore.openModal(wiki.id)">
                                                     {{ t('sideSheet.convertToPage') }}
                                                 </p>
                                             </div>
@@ -350,12 +371,13 @@ onMounted(() => {
                     <template #header>
                         <div class="header-container" @click="showFavorites = !showFavorites">
                             <template v-if="!collapsed">
-                                <font-awesome-icon v-if="showFavorites" :icon="['fas', 'angle-down']" class="angle-icon" />
+                                <font-awesome-icon v-if="showFavorites" :icon="['fas', 'angle-down']"
+                                    class="angle-icon" />
                                 <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
                             </template>
                             <font-awesome-icon :icon="['fas', 'star']" />
                             <div v-show="!hidden" class="header-title">
-                                {{ t('sideSheet.favourites') }}
+                                {{ t('sideSheet.favorites') }}
                             </div>
                         </div>
                     </template>
@@ -364,7 +386,8 @@ onMounted(() => {
                         <Transition name="collapse">
                             <div v-if="showFavorites">
                                 <div v-for="favorite in sideSheetStore.favorites" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(favorite.name, favorite.id)" :class="{ 'is-here': favorite.id === pageStore.id }">
+                                    <NuxtLink :to="$urlHelper.getPageUrl(favorite.name, favorite.id)"
+                                        :class="{ 'is-here': favorite.id === pageStore.id }">
                                         <div class="link">
                                             {{ favorite.name }}
                                         </div>
@@ -372,7 +395,8 @@ onMounted(() => {
                                     <div class="content-item-options" @click="removeFromFavorites(favorite.id)">
                                         <font-awesome-layers>
                                             <font-awesome-icon :icon="['far', 'star']" transform="left-1" />
-                                            <font-awesome-icon :icon="['fas', 'slash']" transform="down-2 left-2" class="slash-bg" />
+                                            <font-awesome-icon :icon="['fas', 'slash']" transform="down-2 left-2"
+                                                class="slash-bg" />
                                             <font-awesome-icon :icon="['fas', 'slash']" transform="left-2 shrink-2" />
                                         </font-awesome-layers>
                                     </div>
@@ -384,7 +408,9 @@ onMounted(() => {
 
                     <template #footer v-if="!collapsed">
                         <Transition name="collapse">
-                            <div v-if="showFavorites" class="sidesheet-button" @click="addToFavorites(pageStore.name, pageStore.id)" :class="{ 'disabled': isFavorite }">
+                            <div v-if="showFavorites" class="sidesheet-button"
+                                @click="addToFavorites(pageStore.name, pageStore.id)"
+                                :class="{ 'disabled': isFavorite }">
                                 <font-awesome-icon :icon="['fas', 'plus']" />
                                 {{ isFavorite ? t('label.addedAsFavorite') : t('label.addToFavorites') }}
                             </div>
@@ -411,7 +437,8 @@ onMounted(() => {
                         <Transition name="collapse">
                             <div v-if="showShared">
                                 <div v-for="page in sideSheetStore.sharedPages" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)" :class="{ 'is-here': page.id === pageStore.id }">
+                                    <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)"
+                                        :class="{ 'is-here': page.id === pageStore.id }">
                                         <div class="link">
                                             {{ page.name }}
                                         </div>
@@ -429,7 +456,8 @@ onMounted(() => {
                     <template #header>
                         <div class="header-container" @click="showRecents = !showRecents">
                             <template v-if="!collapsed">
-                                <font-awesome-icon v-if="showRecents" :icon="['fas', 'angle-down']" class="angle-icon" />
+                                <font-awesome-icon v-if="showRecents" :icon="['fas', 'angle-down']"
+                                    class="angle-icon" />
                                 <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
                             </template>
                             <font-awesome-icon :icon="['fas', 'clock-rotate-left']" />
@@ -443,7 +471,8 @@ onMounted(() => {
                         <Transition name="collapse">
                             <div v-if="showRecents">
                                 <div v-for="recent in sideSheetStore.recentPages" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(recent.name, recent.id)" :class="{ 'is-here': recent.id === pageStore.id }">
+                                    <NuxtLink :to="$urlHelper.getPageUrl(recent.name, recent.id)"
+                                        :class="{ 'is-here': recent.id === pageStore.id }">
                                         <div class="link">
                                             {{ recent.name }}
                                         </div>
@@ -483,7 +512,8 @@ onMounted(() => {
                             </div>
                             <NuxtLink :to="config.public.discord" class="sidebar-link" @mouseover="discordBounce = true"
                                 @mouseleave="discordBounce = false">
-                                <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> {{ t('label.discord') }}
+                                <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> {{
+                                    t('label.discord') }}
                             </NuxtLink>
                         </div>
                     </template>
@@ -590,7 +620,10 @@ onMounted(() => {
     }
 }
 
-
+.angle-icon-space {
+    width: 16px;
+    display: inline-block;
+}
 
 .help-links {
     color: @memo-grey-dark;

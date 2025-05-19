@@ -12,6 +12,7 @@ using Serilog.Events;
 using Serilog.Exceptions;
 using Stripe;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 using static System.Int32;
 
 try
@@ -29,6 +30,14 @@ try
 
         log.MinimumLevel.Is(LogEventLevel.Information);
     });
+
+    builder.Configuration
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile(
+            $"appsettings.{builder.Environment.EnvironmentName}.json",
+            optional: true,
+            reloadOnChange: true
+        );
 
 
     builder.WebHost.ConfigureKestrel(serverOptions => { serverOptions.Limits.MaxRequestBodySize = 1073741824; });
@@ -155,10 +164,12 @@ try
     await JobScheduler.InitializeAsync();
 
     app.Run();
-
 }
 catch (Exception e)
 {
     Log.Fatal(e, "Fatal error");
     throw;
 }
+
+// make Program discoverable for integration tests 
+public partial class Program;

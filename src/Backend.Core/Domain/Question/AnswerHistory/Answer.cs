@@ -1,6 +1,4 @@
-﻿
-
-public class Answer : IPersistable, WithDateCreated, IAnswered
+﻿public class Answer : IPersistable, WithDateCreated, IAnswered
 {
     public virtual AnswerCorrectness AnswerredCorrectly { get; set; }
     public virtual string AnswerText { get; set; }

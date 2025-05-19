@@ -80,16 +80,15 @@ const ariaId = useId()
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-
 .knowledgebar {
     display: inline-flex;
     height: 6px;
     min-width: 0px;
     width: 100%;
     max-width: 180px;
+    border-radius: 6px;
+    overflow: hidden;
 
-    // border-radius: 6px;
-    // overflow: hidden;
     cursor: help;
 
     .solid-knowledge,

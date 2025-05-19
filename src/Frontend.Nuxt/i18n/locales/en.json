@@ -176,7 +176,7 @@
         "discord": "Discord",
         "twitter": "Twitter",
         "createWiki": "Create Wiki",
-        "addToFavorites": "Add to favourites",
+        "addToFavorites": "Add to favorites",
         "addedAsFavorite": "Added as favourite",
         "logout": "Log out",
         "fontSize": "Font size",
@@ -187,6 +187,7 @@
         "administrative": "Administrative",
         "questionCount": "0 questions | 1 question | {count} questions",
         "questionCountText": "No question | One question | {count} questions",
+        "questionCountAsText": "question | questions",
         "reloadPage": "Reload page",
         "back": "Back",
         "continueLearning": "Continue learning",
@@ -212,7 +213,8 @@
         "users": "Users",
         "prices": "Prices",
         "settings": "Settings",
-        "register": "Register"
+        "register": "Register",
+        "missionControl": "MissionControl"
     },
     "search": {
         "results": "{count} results",
@@ -227,10 +229,11 @@
         "inYourLanguage": "in your language"
     },
     "sideSheet": {
+        "missionControl": "Mission Control",
         "myWikis": "My Wikis",
         "deleteWiki": "Delete Wiki",
         "convertToPage": "Convert into page",
-        "favourites": "Favourites",
+        "favorites": "Favorites",
         "lastVisited": "Last visited",
         "sharedWithMe": "Shared with me",
         "noSharedPages": "No pages shared with you yet",
@@ -1445,7 +1448,8 @@
         },
         "login": {
             "invitedTo": "You've been invited to collaborate on {pageName}",
-            "loginToEdit": "Log in now to start editing"
+            "loginToEdit": "Log in now to start editing",
+            "loginToSeeMissionControl": "Log in to see your Mission Control"
         }
     },
     "errorContent": {
@@ -1514,6 +1518,7 @@
             "terms": "Terms and Conditions",
             "register": "Register",
             "messages": "Messages",
+            "missionControl": "Mission Control",
             "error": "Error",
             "resetPassword": "Reset password",
             "confirmEmail": "Email confirmation",
@@ -1567,6 +1572,74 @@
         "cancel": {
             "title": "Payment Cancelled",
             "message": "Sorry to see that you've cancelled your payment.\nIf you've encountered any problems or have questions,\nfeel free to contact us!\nOur team is happy to help you."
+        }
+    },
+    "general": {
+        "comingSoon": "Coming soon"
+    },
+    "missionControl": {
+        "heading": "Mission Control",
+        "sections": {
+            "wikis": "My Wikis",
+            "recentActivity": "Recent Activity",
+            "knowledgeStatus": "Knowledge Status",
+            "favorites": "Favorites",
+            "comingSoon": "Coming Soon",
+            "learnCalendar": "Learning Activity"
+        },
+        "wikis": {
+            "tableHeaders": {
+                "name": "Name",
+                "questionCount": "Questions",
+                "knowledgeStatus": "Knowledge Status",
+                "actions": "Actions"
+            },
+            "questions": "{count} Questions",
+            "noQuestions": "No Questions",
+            "sortBy": "Sort by",
+            "searchPlaceholder": "Search wikis...",
+            "learn": "Learn"
+        },
+        "learnCalendar": {
+            "title": "Your Learning Activity",
+            "dayTooltip": "No learning activity on {date} | one question answered on {date} | {count} questions answered on {date}",
+            "days": {
+                "0": "Sun",
+                "1": "Mon",
+                "2": "Tue",
+                "3": "Wed",
+                "4": "Thu",
+                "5": "Fri",
+                "6": "Sat"
+            },
+            "months": {
+                "0": "Jan",
+                "1": "Feb",
+                "2": "Mar",
+                "3": "Apr",
+                "4": "May",
+                "5": "Jun",
+                "6": "Jul",
+                "7": "Aug",
+                "8": "Sep",
+                "9": "Oct",
+                "10": "Nov",
+                "11": "Dec"
+            },
+            "currentStreak": "Current streak: 0 days | Current streak: one day | Current streak: {count} days",
+            "longestStreak": "Longest streak: {count} days"
+        },
+        "pageTable": {
+            "name": "Name",
+            "questions": "Questions",
+            "knowledgeStatus": "Knowledge Status",
+            "learnNow": "Learn Now",
+            "noPages": "No pages available",
+            "noWikis": "No Wikis created",
+            "noFavorites": "No favorites added"
+        },
+        "pageGrid": {
+            "questions": "No questions | One question | {count} questions"
         }
     }
 }

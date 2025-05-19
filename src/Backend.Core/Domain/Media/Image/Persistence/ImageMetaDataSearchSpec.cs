@@ -1,6 +1,4 @@
-﻿
-
-[Serializable]
+﻿[Serializable]
 public class ImageMetaDataSearchSpec : Pager
 {
     public List<ImageLicenseState> LicenseStates = new();

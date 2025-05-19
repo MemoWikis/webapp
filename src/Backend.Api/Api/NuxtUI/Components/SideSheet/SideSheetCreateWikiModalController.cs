@@ -1,33 +1,22 @@
-﻿public class SideSheetCreateWikiModalController
-(
+﻿public class SideSheetCreateWikiModalController(
     SessionUser _sessionUser,
     WikiCreator _wikiCreator,
     UserWritingRepo _userWritingRepo) : ApiBaseController
 {
     [HttpPost]
-    public CreateWikiResponse CreateWiki([FromBody] CreateWikiRequest req)
+    public CreateWikiResponse CreateWiki([FromBody] CreateWikiRequest createWikiRequest)
     {
-        if (req == null || string.IsNullOrEmpty(req.Name))
-        {
-            throw new ArgumentNullException(nameof(req), "Invalid request");
-        }
+        if (string.IsNullOrEmpty(createWikiRequest.Name))
+            throw new ArgumentNullException(nameof(createWikiRequest), "Invalid request");
 
-        var createWikiResult = _wikiCreator.Create(req.Name, _sessionUser);
+        var createWikiResult = _wikiCreator.Create(createWikiRequest.Name, _sessionUser);
 
         if (!createWikiResult.Success)
-        {
-            return new CreateWikiResponse(false, createWikiResult.MessageKey);
-        }
+            return new CreateWikiResponse(Success: false, createWikiResult.MessageKey);
 
-        if (createWikiResult.TinyWikiItem == null)
-        {
-            return new CreateWikiResponse(false, createWikiResult.MessageKey);
-        }
-
-        var newWiki = createWikiResult.TinyWikiItem ?? throw new Exception("Failed to create wiki.");
+        var newWiki = createWikiResult.TinyWikiItem;
 
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
-        userCacheItem.AddWiki(newWiki.Id);
 
         _userWritingRepo.Update(userCacheItem);
 
@@ -35,6 +24,8 @@
     }
 
     public readonly record struct CreateWikiRequest(string Name);
+
     public readonly record struct CreateWikiResponse(bool Success, string? MessageKey = null, CreateWikiData? Data = null);
+
     public readonly record struct CreateWikiData(int Id, string Name);
 }

@@ -6,7 +6,7 @@
     QuestionWritingRepo _questionWritingRepo,
     ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
-    public readonly record struct PersonalPage(
+    public readonly record struct Page(
         string Name,
         List<int> PersonalQuestionIds,
         int PersonalQuestionCount,
@@ -41,7 +41,9 @@
         var publicAggregatedQuestions = pageCacheItem
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true, permissionCheck: _permissionCheck)
             .Where(q => q.Visibility == QuestionVisibility.Public).ToList();
+
         var pinCount = pageCacheItem.TotalRelevancePersonalEntries;
+
         if (!_sessionUser.IsInstallationAdmin)
         {
             if (id == FeaturedPage.RootPageId)
@@ -98,7 +100,7 @@
         return new GetResult
         {
             Success = true,
-            Data = new PersonalPage
+            Data = new Page
             {
                 Name = pageCacheItem.Name,
                 PersonalQuestionIds = filteredAggregatedQuestions,

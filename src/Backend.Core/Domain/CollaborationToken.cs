@@ -1,5 +1,4 @@
-﻿
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 public class CollaborationToken : IRegisterAsInstancePerLifetime

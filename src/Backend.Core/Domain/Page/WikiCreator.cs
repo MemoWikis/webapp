@@ -5,7 +5,7 @@
     public readonly record struct CreateResult(
         bool Success,
         string? MessageKey,
-        TinyWikiItem? TinyWikiItem = null);
+        TinyWikiItem TinyWikiItem);
 
     public readonly record struct TinyWikiItem(string Name, int Id);
 
@@ -15,14 +15,14 @@
         {
             return new CreateResult(
                 Success: false,
-                MessageKey: FrontendMessageKeys.Error.Subscription.CantSavePrivatePage
+                MessageKey: FrontendMessageKeys.Error.Subscription.CantSavePrivatePage,
+                TinyWikiItem: new TinyWikiItem()
             );
         }
 
         var wiki = new Page(name, sessionUser.UserId);
 
         wiki.Creator = _userReadingRepo.GetById(sessionUser.UserId);
-        wiki.Type = PageType.Standard;
         wiki.Visibility = PageVisibility.Private;
         wiki.IsWiki = true;
         _pageRepository.Create(wiki);

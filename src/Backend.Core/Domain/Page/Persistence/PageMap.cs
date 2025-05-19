@@ -18,8 +18,6 @@ public class PageMap : ClassMap<Page>
         Map(x => x.Content);
         Map(x => x.CustomSegments);
         Map(x => x.CountQuestionsAggregated);
-        Map(x => x.Type).CustomType<PageType>();
-        Map(x => x.TypeJson);
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
         Map(x => x.TotalRelevancePersonalEntries);

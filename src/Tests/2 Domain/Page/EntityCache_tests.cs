@@ -1,9 +1,9 @@
-﻿class EntityCache_tests : BaseTest
+﻿class EntityCache_tests : BaseTestHarness
 {
     [Test]
     public void Should_be_added_to_EntityCache()
     {
-        var context = ContextPage.New(false);
+        var context = NewPageContext();
         var page = new Page
         {
             Id = 15,

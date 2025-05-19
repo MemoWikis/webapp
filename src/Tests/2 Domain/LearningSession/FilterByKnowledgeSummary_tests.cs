@@ -1,6 +1,6 @@
 ﻿using static LearningSessionCreator;
 
-class FilterByKnowledgeSummary_tests : BaseTest
+class FilterByKnowledgeSummary_tests : BaseTestHarness
 {
     private readonly QuestionValuationCacheItem _questionValuationNotLearned = new() { CorrectnessProbabilityAnswerCount = 0, CorrectnessProbability = new Random().Next(101) };
     private readonly QuestionValuationCacheItem _questionValuationNeedsLearning = new() { CorrectnessProbabilityAnswerCount = 42, CorrectnessProbability = new Random().Next(51) };

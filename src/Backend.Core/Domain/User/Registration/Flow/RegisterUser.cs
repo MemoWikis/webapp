@@ -52,12 +52,13 @@ public class RegisterUser(
         WelcomeMsg.Send(user, _messageRepo);
         _sessionUser.Login(user, _pageViewRepo);
 
-        var page = PersonalPage.GetPersonalPage(user, _pageRepository);
+        var page = StartPage.Get(user);
         page.Visibility = PageVisibility.Private;
         _pageRepository.Create(page);
         user.StartPageId = page.Id;
         user.DateCreated = DateTime.Now;
         var userCacheItem = EntityCache.GetUserById(user.Id);
+
         LanguageExtensions.AddContentLanguageToUser(userCacheItem, user.UiLanguage);
         _userWritingRepo.Update(user);
 

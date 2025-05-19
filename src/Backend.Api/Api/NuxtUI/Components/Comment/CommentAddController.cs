@@ -30,7 +30,8 @@
         _questionChangeRepo.AddCommentEntry(request.id, userId, commentIds);
     }
 
-    public record struct SaveAnswerResult(int Id,
+    public record struct SaveAnswerResult(
+        int Id,
         string CreatorName,
         string CreationDate,
         string CreationDateNiceText,

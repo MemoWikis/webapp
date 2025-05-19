@@ -1,17 +1,11 @@
-﻿public class MeiliSearchPagesResult : ISearchPagesResult
+﻿public class MeilisearchPagesResult : ISearchPagesResult
 {
     /// <summary>Amount of items found</summary>
     public int Count { get; set; }
 
-    public List<int> PageIds { get; set; }
+    public List<int> PageIds { get; set; } = new();
 
-    public IPager Pager { get; set; }
+    public IPager Pager { get; set; } = new Pager();
 
-    public IList<PageCacheItem> GetPages() =>
-        EntityCache.GetPages(PageIds).ToList();
-
-    public MeiliSearchPagesResult()
-    {
-        PageIds = new List<int>();
-    }
+    public List<PageCacheItem> GetPages() => EntityCache.GetPages(PageIds).ToList();
 }

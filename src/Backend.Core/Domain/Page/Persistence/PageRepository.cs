@@ -25,7 +25,7 @@ public class PageRepository(
 
         pageChangeRepo.AddCreateEntry(this, page, page.Creator?.Id ?? -1);
 
-        Task.Run(async () => await new MeiliSearchPagesDatabaseOperations()
+        Task.Run(async () => await new MeilisearchPageIndexer()
             .CreateAsync(page)
             .ConfigureAwait(false));
     }
@@ -117,8 +117,6 @@ public class PageRepository(
     }
 
     public IList<Page> GetChildren(
-        PageType parentType,
-        PageType childrenType,
         int parentId,
         string searchTerm = "")
     {
@@ -127,11 +125,9 @@ public class PageRepository(
 
         var query = Session
             .QueryOver<PageRelation>()
-            .JoinAlias(c => c.Parent, () => relatedPageAlias)
-            .JoinAlias(c => c.Child, () => pageAlias)
-            .Where(r => relatedPageAlias.Type == parentType
-                        && relatedPageAlias.Id == parentId
-                        && pageAlias.Type == childrenType);
+            .JoinAlias(relation => relation.Parent, () => relatedPageAlias)
+            .JoinAlias(relation => relation.Child, () => pageAlias)
+            .Where(relation => relatedPageAlias.Id == parentId);
 
         if (!string.IsNullOrEmpty(searchTerm))
         {
@@ -188,7 +184,7 @@ public class PageRepository(
         updateQuestionCountForPage.RunForJob(page, authorId);
         Task.Run(async () =>
         {
-            await new MeiliSearchPagesDatabaseOperations()
+            await new MeilisearchPageIndexer()
                 .UpdateAsync(page)
                 .ConfigureAwait(false);
         });
@@ -219,11 +215,11 @@ public class PageRepository(
 
         Task.Run(async () =>
         {
-            await new MeiliSearchPagesDatabaseOperations()
+            await new MeilisearchPageIndexer()
                 .UpdateAsync(child)
                 .ConfigureAwait(false);
 
-            await new MeiliSearchPagesDatabaseOperations()
+            await new MeilisearchPageIndexer()
                 .UpdateAsync(parent)
                 .ConfigureAwait(false);
         });
@@ -255,7 +251,7 @@ public class PageRepository(
         Flush();
         Task.Run(async () =>
         {
-            await new MeiliSearchPagesDatabaseOperations()
+            await new MeilisearchPageIndexer()
                 .UpdateAsync(page)
                 .ConfigureAwait(false);
         });

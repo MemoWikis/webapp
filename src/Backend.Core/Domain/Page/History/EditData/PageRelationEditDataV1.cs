@@ -1,6 +1,8 @@
 public class PageRelationEditDataV1 : PageRelation_EditData
 {
-    public PageRelationEditDataV1() { }
+    public PageRelationEditDataV1()
+    {
+    }
 
     public PageRelationEditDataV1(PageRelation? pageRelation)
     {

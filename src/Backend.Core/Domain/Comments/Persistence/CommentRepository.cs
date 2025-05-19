@@ -49,22 +49,23 @@ public class CommentRepository : RepositoryDb<Comment>
 
     public int GetCommentsCount(int questionId)
     {
-       var count =  _session.QueryOver<Comment>()
+        var count = _session.QueryOver<Comment>()
             .Where(x => x.TypeId == questionId &&
                         x.Type == CommentType.AnswerQuestion &&
                         x.AnswerTo == null && x.IsSettled == false)
             .List<Comment>()
             .Count(); 
-       return count;
+        return count;
     }
 
 
     public void DeleteForQuestion(int questionId)
     {
-        Session.CreateSQLQuery("DELETE FROM comment WHERE TYPE = :commentType AND TypeId = :questionId")
-                .SetParameter("commentType", CommentType.AnswerQuestion)
-                .SetParameter("questionId", questionId)
-                .ExecuteUpdate();
+        Session
+            .CreateSQLQuery("DELETE FROM comment WHERE TYPE = :commentType AND TypeId = :questionId")
+            .SetParameter("commentType", CommentType.AnswerQuestion)
+            .SetParameter("questionId", questionId)
+            .ExecuteUpdate();
     }
 
     

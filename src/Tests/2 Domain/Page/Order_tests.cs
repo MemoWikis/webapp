@@ -1,4 +1,4 @@
-﻿class Order_tests : BaseTest
+﻿class Order_tests : BaseTestHarness
 {
     [Test]
     public void Should_Sort_Pages()
@@ -6,12 +6,9 @@
         //Arrange
         var unsortedRelations = new List<PageRelationCache>
         {
-            new PageRelationCache
-                { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new PageRelationCache
-                { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new PageRelationCache
-                { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
+            new() { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
+            new() { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+            new() { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
         };
 
         //Act
@@ -31,19 +28,13 @@
         //Arrange
         var unsortedRelations = new List<PageRelationCache>
         {
-            new PageRelationCache
-                { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new PageRelationCache
-                { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new PageRelationCache
-                { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
+            new() { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
+            new() { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+            new() { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
 
-            new PageRelationCache
-                { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
-            new PageRelationCache
-                { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
-            new PageRelationCache
-                { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
+            new() { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
+            new() { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
+            new() { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
         };
 
         //Act
@@ -59,10 +50,12 @@
     }
 
     [Test]
-    public void Should_init_children_in_EntityCache()
+    public async Task Should_init_children_in_EntityCache()
     {
+        await ReloadCaches();
+        
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -78,11 +71,8 @@
         context.AddChild(root, sub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
-
-        var entityCacheInitializer = R<EntityCacheInitializer>();
-
         //Act
+        var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
         //Assert
@@ -98,10 +88,12 @@
 
     //Move sub1 after sub3
     [Test]
-    public void Should_move_relation_after_sub3()
+    public async Task Should_move_relation_after_sub3()
     {
+        await ReloadCaches();
+
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -120,7 +112,7 @@
         context.AddChild(root, sub2);
         context.AddChild(root, sub3);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -173,10 +165,12 @@
 
     //Move sub3 before sub1
     [Test]
-    public void Should_move_relation_before_sub1()
+    public async Task Should_move_relation_before_sub1()
     {
+        await ReloadCaches();
+
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -195,7 +189,7 @@
         context.AddChild(root, sub2);
         context.AddChild(root, sub3);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[2];
@@ -247,10 +241,12 @@
 
     //Move sub1 after sub3 and before sub4
     [Test]
-    public void Should_move_relation_after_sub3_and_before_sub4()
+    public async Task Should_move_relation_after_sub3_and_before_sub4()
     {
+        await ReloadCaches();
+
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -272,7 +268,7 @@
         context.AddChild(root, sub3);
         context.AddChild(root, sub4);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -330,10 +326,10 @@
     }
 
     [Test]
-    public void Should_fail_move_relation_caused_by_circularReference()
+    public async Task Should_fail_move_relation_caused_by_circularReference()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
 
         context.Add("root").Persist();
 
@@ -352,7 +348,7 @@
         context.AddChild(sub1, sub1sub1);
         context.AddChild(sub1sub1, sub1sub1sub1);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
@@ -376,10 +372,10 @@
     }
 
     [Test]
-    public void Should_remove_old_parent_and_add_new_parent_on_MoveIn()
+    public async Task Should_remove_old_parent_and_add_new_parent_on_MoveIn()
     {
         //Arrange
-        var context = ContextPage.New();
+        var context = NewPageContext();
         var authorId = 1;
 
         var creator = new User { Id = authorId };
@@ -401,7 +397,7 @@
         context.AddChild(sub1, sub1sub1);
         context.AddChild(root, sub2);
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();

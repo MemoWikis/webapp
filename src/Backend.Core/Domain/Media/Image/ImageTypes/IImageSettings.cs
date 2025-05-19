@@ -1,5 +1,4 @@
-﻿
-public interface IImageSettings
+﻿public interface IImageSettings
 {
     int Id { get; }
     ImageType ImageType { get; }

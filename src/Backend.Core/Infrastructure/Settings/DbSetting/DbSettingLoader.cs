@@ -1,12 +1,7 @@
 ﻿using NHibernate;
 
-public class DbSettingsRepo : RepositoryDb<DbSettings>
+public class DbSettingsRepo(ISession _session) : RepositoryDb<DbSettings>(_session)
 {
-    public DbSettingsRepo(ISession session)
-        : base(session)
-    {
-    }
-
     public DbSettings Get()
     {
         return base.GetById(1);
@@ -15,7 +10,7 @@ public class DbSettingsRepo : RepositoryDb<DbSettings>
     public int GetAppVersion()
     {
         return Session
-            .CreateSQLQuery("SELECT AppVersion FROM setting WHERE Id = 1")
+            .CreateSQLQuery("SELECT AppVersion FROM Setting WHERE Id = 1")
             .UniqueResult<int>();
     }
 

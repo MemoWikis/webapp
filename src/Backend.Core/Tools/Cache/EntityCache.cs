@@ -290,7 +290,6 @@ public class EntityCache
 
     public static void AddOrUpdate(UserCacheItem user)
     {
-        user.CleanupWikiIdsAndFavoriteIds();
         user.PreserveContentLanguages();
         AddOrUpdate(Users, user);
     }
@@ -441,6 +440,7 @@ public class EntityCache
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
+
     private static void AddOrUpdate(
         ConcurrentDictionary<int, ShareCacheItem> objectToCache,
         ShareCacheItem obj)
@@ -483,15 +483,16 @@ public class EntityCache
         objectToCache.TryRemove(obj.Id, out _);
     }
 
-    public static List<PageCacheItem?> GetPages(IEnumerable<int> getIds) => getIds.Select(GetPage).ToList();
+    public static List<PageCacheItem> GetPages(IEnumerable<int> getIds) =>
+        getIds
+            .Select(GetPage)
+            .Where(page => page != null)
+            .ToList()!;
 
-    public static PageCacheItem GetPage(Page page) => GetPage(page.Id);
+    public static PageCacheItem? GetPage(Page page) => GetPage(page.Id);
 
-    //There is an infinite loop when the user is logged in to complaints and when the server is restarted
-    //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
     public static PageCacheItem? GetPage(int pageId)
     {
-        if (Pages == null) return null;
         Pages.TryGetValue(pageId, out var page);
         return page;
     }
@@ -503,13 +504,14 @@ public class EntityCache
             .Where(c => c.Creator.Id == userId && c.Visibility == PageVisibility.Private)
             .Select(c => c.Id);
 
-    public static List<PageCacheItem> GetByPageName(
-        string name,
-        PageType type = PageType.Standard)
+    public static List<PageCacheItem> GetByPageName(string name)
     {
         var allPages = GetAllPagesList();
         return allPages.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
+
+    public static List<PageCacheItem> GetWikisByUserId(int userId)
+        => Pages.Values.Where(page => page.IsWiki && page.CreatorId == userId).ToList();
 
     public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId) => GetAllQuestions()
         .Where(q => q.Creator.Id == userId && q.IsPrivate())
@@ -563,11 +565,11 @@ public class EntityCache
 
     public static void RemoveShares(int pageId, IList<int> shareIdsToRemove)
     {
-        if (shareIdsToRemove == null || !shareIdsToRemove.Any())
+        if (!shareIdsToRemove.Any())
             return;
 
         var currentShares = GetPageShares(pageId);
-        if (currentShares == null || !currentShares.Any())
+        if (!currentShares.Any())
             return;
 
         var affectedUsers = currentShares

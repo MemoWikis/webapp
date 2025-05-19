@@ -1,6 +1,4 @@
-﻿
-using System.Diagnostics;
-
+﻿using System.Diagnostics;
 
 [DebuggerDisplay("{Child.Name}({Child.Id}) {Parent.Name}({Parent.Id})")]
 [Serializable]

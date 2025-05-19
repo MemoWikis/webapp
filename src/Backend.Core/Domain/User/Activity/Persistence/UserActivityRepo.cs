@@ -1,12 +1,7 @@
 ﻿using NHibernate;
 
-
-public class UserActivityRepo : RepositoryDb<UserActivity>
+public class UserActivityRepo(ISession _session) : RepositoryDb<UserActivity>(_session)
 {
-    public UserActivityRepo(ISession session) : base(session)
-    {
-    }
-
     public void DeleteForPage(int pageId)
     {
         Session.CreateSQLQuery("DELETE FROM useractivity WHERE Page_id = :pageId")

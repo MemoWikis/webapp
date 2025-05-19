@@ -700,6 +700,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
 
 #AnswerBody {
     transition: all 1s ease-in-out;
+    overflow: hidden;
 }
 
 .answerbody-header {

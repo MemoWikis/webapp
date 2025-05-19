@@ -1,26 +1,9 @@
-﻿using Meilisearch;
-
-internal class MeiliSearchBase
+﻿public class MeilisearchBase
 {
-    private readonly MeilisearchClient _client;
+    protected int _count = 20;
 
-    internal MeiliSearchBase()
+    public bool IsReloadRequired(int searchResultCount, int resultCount)
     {
-        _client = new MeilisearchClient(MeiliSearchConstants.Url,
-            MeiliSearchConstants.MasterKey);
-    }
-
-    /// <summary>
-    /// Check MeiliSearchStatus
-    /// </summary>
-    /// <param name="taskInfo"></param>
-    /// <returns></returns>
-    protected async Task CheckStatus(TaskInfo taskInfo)
-    {
-        var taskresult = await _client.WaitForTaskAsync(taskInfo.TaskUid);
-        if (taskresult.Status != TaskInfoStatus.Succeeded)
-        {
-            Log.Error("Cannot create question in MeiliSearch", taskresult);
-        }
+        return searchResultCount == _count && resultCount < 5;
     }
 }

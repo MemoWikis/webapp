@@ -6,11 +6,11 @@ public class VueMaintenanceController(
     SessionUser _sessionUser,
     ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll,
     ProbabilityUpdate_Question _probabilityUpdateQuestion,
-    MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions,
+    MeilisearchReIndexAllQuestions _meilisearchReIndexAllQuestions,
     UpdateQuestionAnswerCounts _updateQuestionAnswerCounts,
     UpdateWishcount _updateWishCount,
-    MeiliSearchReIndexPages meiliSearchReIndexPages,
-    MeiliSearchReIndexUser meiliSearchReIndexUser,
+    MeilisearchReIndexPages _meilisearchReIndexPages,
+    MeilisearchReIndexUser _meilisearchReIndexUser,
     PageRepository pageRepository,
     AnswerRepo _answerRepo,
     UserReadingRepo _userReadingRepo,
@@ -127,7 +127,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllQuestions()
     {
-        await _meiliSearchReIndexAllQuestions.Run();
+        await _meilisearchReIndexAllQuestions.Run();
 
         return new VueMaintenanceResult
         {
@@ -142,7 +142,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllQuestionsCache()
     {
-        await _meiliSearchReIndexAllQuestions.RunCache();
+        await _meilisearchReIndexAllQuestions.RunCache();
 
         return new VueMaintenanceResult
         {
@@ -156,7 +156,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllPages()
     {
-        await meiliSearchReIndexPages.Run();
+        await _meilisearchReIndexPages.Run();
 
         return new VueMaintenanceResult
         {
@@ -170,7 +170,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllPagesCache()
     {
-        await meiliSearchReIndexPages.RunCache();
+        await _meilisearchReIndexPages.RunCache();
 
         return new VueMaintenanceResult
         {
@@ -184,7 +184,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllUsers()
     {
-        await meiliSearchReIndexUser.RunAll();
+        await _meilisearchReIndexUser.RunAll();
 
         return new VueMaintenanceResult
         {
@@ -198,7 +198,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllUsersCache()
     {
-        await meiliSearchReIndexUser.RunAllCache();
+        await _meilisearchReIndexUser.RunAllCache();
 
         return new VueMaintenanceResult
         {

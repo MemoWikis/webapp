@@ -1,5 +1,4 @@
-﻿
-using ISession = NHibernate.ISession;
+﻿using ISession = NHibernate.ISession;
 
 public class UserReadingRepo : RepositoryDb<User>
 {

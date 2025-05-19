@@ -1,8 +1,8 @@
 ﻿[TestFixture]
-public class SharesService_tests : BaseTest
+internal class SharesService_tests : BaseTestHarness
 {
     [Test]
-    public void Should_create_token_for_page()
+    public async Task Should_create_token_for_page()
     {
         // Arrange
         var userWritingRepo = R<UserWritingRepo>();
@@ -12,14 +12,14 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("GrantingUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var testPage = contextPage
             .Add("TestSharePage", creator: grantedByUser)
             .Persist()
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
 
@@ -48,7 +48,7 @@ public class SharesService_tests : BaseTest
     }
 
     [Test]
-    public void Should_update_existing_token_for_page()
+    public async Task Should_update_existing_token_for_page()
     {
         // Arrange
         var userWritingRepo = R<UserWritingRepo>();
@@ -58,14 +58,14 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("GrantingUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var testPage = contextPage
             .Add("TestSharePage", creator: grantedByUser)
             .Persist()
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
         var initialToken = SharesService.GetShareToken(testPage.Id, SharePermission.View, grantedByUser.Id, sharesRepository);
@@ -92,7 +92,7 @@ public class SharesService_tests : BaseTest
     }
 
     [Test]
-    public void Should_renew_share_token()
+    public async Task Should_renew_share_token()
     {
         // Arrange
         var userWritingRepo = R<UserWritingRepo>();
@@ -102,14 +102,14 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("GrantingUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var testPage = contextPage
             .Add("TestSharePage", creator: grantedByUser)
             .Persist()
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
         var initialToken = SharesService.GetShareToken(testPage.Id, SharePermission.View, grantedByUser.Id, sharesRepository);
@@ -139,7 +139,7 @@ public class SharesService_tests : BaseTest
     }
 
     [Test]
-    public void Should_throw_exception_when_renewing_nonexistent_token()
+    public async Task Should_throw_exception_when_renewing_nonexistent_token()
     {
         // Arrange
         var userWritingRepo = R<UserWritingRepo>();
@@ -149,14 +149,14 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("GrantingUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var testPage = contextPage
             .Add("TestSharePage", creator: grantedByUser)
             .Persist()
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
 
@@ -168,7 +168,7 @@ public class SharesService_tests : BaseTest
     }
 
     [Test]
-    public void Should_remove_share_token()
+    public async Task Should_remove_share_token()
     {
         // Arrange
         var userWritingRepo = R<UserWritingRepo>();
@@ -178,14 +178,14 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("GrantingUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var testPage = contextPage
             .Add("TestSharePage", creator: grantedByUser)
             .Persist()
             .All
             .Single(p => p.Name.Equals("TestSharePage"));
 
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
 
         var sharesRepository = R<SharesRepository>();
         SharesService.GetShareToken(testPage.Id, SharePermission.View, grantedByUser.Id, sharesRepository);
@@ -224,7 +224,7 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("TestShareUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var testPage = contextPage
             .Add("TestSharePage", creator: grantedByUser)
             .Persist()
@@ -279,7 +279,7 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("TestShareUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var testPage = contextPage
             .Add("TestSharePage", creator: grantedByUser)
             .Persist()
@@ -329,7 +329,7 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("TestShareUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentPage = contextPage
             .Add("ParentPage", creator: grantedByUser)
             .Persist()
@@ -359,7 +359,7 @@ public class SharesService_tests : BaseTest
     }
 
     [Test]
-    public void Should_get_closest_parent_share_permission_by_token()
+    public async Task Should_get_closest_parent_share_permission_by_token()
     {
         // Arrange
         var userWritingRepo = R<UserWritingRepo>();
@@ -370,7 +370,7 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("GrantingUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var parentPage = contextPage
             .Add("ParentPage", creator: grantedByUser)
             .Persist()
@@ -391,8 +391,7 @@ public class SharesService_tests : BaseTest
         var token = SharesService.GetShareToken(parentPage.Id, SharePermission.EditWithChildren,
             grantedByUser.Id, sharesRepository);
 
-        RecycleContainerAndEntityCache();
-
+        await ReloadCaches();
 
         // Act
         var permission = SharesService.GetClosestParentSharePermissionByTokens(childPage.Id, null, token);
@@ -420,7 +419,7 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("TestShareUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var testPage = contextPage
             .Add("TestSharePage", creator: grantedByUser)
             .Persist()
@@ -442,9 +441,10 @@ public class SharesService_tests : BaseTest
     }
 
     [Test]
-    public void Should_batch_update_page_shares()
+    public async Task Should_batch_update_page_shares()
     {
-        RecycleContainerAndEntityCache();
+        await ReloadCaches();
+        
         // Arrange
         var userWritingRepo = R<UserWritingRepo>();
         var userReadingRepo = R<UserReadingRepo>();
@@ -465,7 +465,7 @@ public class SharesService_tests : BaseTest
             .Persist()
             .GetUser("SecondUser");
 
-        var contextPage = ContextPage.New();
+        var contextPage = NewPageContext();
         var testPage = contextPage
             .Add("TestSharePage", creator: grantedByUser)
             .Persist()

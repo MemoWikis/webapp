@@ -1,6 +1,4 @@
-﻿
-
-public class Share : DomainEntity
+﻿public class Share : DomainEntity
 {
     public virtual int PageId { get; set; }
     public virtual User? User { get; set; } // null for token-based sharing

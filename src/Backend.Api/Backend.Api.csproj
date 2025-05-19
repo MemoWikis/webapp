@@ -35,12 +35,16 @@
 	</PropertyGroup>
 	<ItemGroup>
   		<None Remove="appsettings.*.json" />
+  		<None Remove="appsettings - Copy.Development.json" />
   		<None Remove="appsettings.Development.json.example" />
   		<None Remove="appsettings.json" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   		<Content Include="appsettings.json" CopyToOutputDirectory="Always" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="appsettings.Test.json" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AngleSharp" Version="1.3.0" />
