@@ -11,11 +11,15 @@ using NHibernate.Tool.hbm2ddl;
 public class SessionFactory
 {
     private static Configuration _configuration = null!;
-    private static readonly HashSet<string> _schemaVersionTables = ["SchemaVersion"];
+    private static readonly HashSet<string> _schemaVersionTables = ["SchemaVersion".ToLower()];
+    private static string? _cachedSchemaHash;
 
     // Calculate a hash of the schema definition for detecting schema changes
     public static string CalculateSchemaHash()
     {
+        if (_cachedSchemaHash != null)
+            return _cachedSchemaHash;
+
         var schemaScript = new StringBuilder();
         var schemaExport = new SchemaExport(_configuration);
 
@@ -26,8 +30,9 @@ public class SessionFactory
         using var sha256 = SHA256.Create();
         var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(schemaScript.ToString()));
 
-        // Convert to hexadecimal string representation
-        return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+        // Convert to hexadecimal string representation and cache
+        _cachedSchemaHash = BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+        return _cachedSchemaHash;
     }
 
     // Method to store or update the schema version
@@ -159,24 +164,27 @@ public class SessionFactory
         using var conn = new MySqlConnection(Settings.ConnectionString);
         conn.Open(); var tables = new List<string>();
         using (var cmd = new MySqlCommand(getTables, conn))
-        using (var rdr = cmd.ExecuteReader())
-            while (rdr.Read())
+        using (var dataReader = cmd.ExecuteReader())
+            while (dataReader.Read())
             {
-                var tableName = rdr.GetString(0);
+                var tableName = dataReader.GetString(0).ToLower();
                 if (!_schemaVersionTables.Contains(tableName))
-                {
                     tables.Add($"`{tableName}`");
-                }
             }
 
         if (tables.Count == 0)
             return;
 
-        var sb = new StringBuilder("SET FOREIGN_KEY_CHECKS = 0;\n");
-        foreach (var t in tables) sb.Append("TRUNCATE TABLE ").Append(t).Append(";\n");
-        sb.Append("SET FOREIGN_KEY_CHECKS = 1;");
+        var stringBuilder = new StringBuilder("SET FOREIGN_KEY_CHECKS = 0;\n");
+        foreach (var table in tables)
+            stringBuilder
+                .Append("TRUNCATE TABLE ")
+                .Append(table)
+                .Append(";\n");
 
-        using var truncateCmd = new MySqlCommand(sb.ToString(), conn) { CommandTimeout = 0 };
+        stringBuilder.Append("SET FOREIGN_KEY_CHECKS = 1;");
+
+        using var truncateCmd = new MySqlCommand(stringBuilder.ToString(), conn) { CommandTimeout = 0 };
         truncateCmd.ExecuteNonQuery();
     }
 }

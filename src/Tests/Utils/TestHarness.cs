@@ -113,14 +113,20 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         {
             Settings.Initialize(new ConfigurationManager());
 
-            await _db.StartAsync();
-            PerfLog("MySql container started");
+            var dbTask = Task.Run(async () =>
+            {
+                await _db.StartAsync();
+                PerfLog("MySql container started");
+                await new SchemaBuilder(PerfLog).Init(ConnectionString);
+            });
 
-            await new SchemaBuilder(PerfLog).Init(ConnectionString);
+            var searchTask = Task.Run(async () =>
+            {
+                await _meiliSearch.StartAsync();
+                PerfLog("MeiliSearch container started");
+            });
 
-            await _meiliSearch.StartAsync();
-            PerfLog("MeiliSearch container started");
-
+            await Task.WhenAll(dbTask, searchTask);
             await ClearMeilisearchIndices();
         }
 
