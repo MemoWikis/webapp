@@ -10,10 +10,8 @@ public class PageRelationEditController(
     PageRelationRepo pageRelationRepo,
     UserWritingRepo _userWritingRepo,
     IWebHostEnvironment _webHostEnvironment,
-    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    QuestionReadingRepo _questionReadingRepo,
     IGlobalSearch _search,
-    MeilisearchReIndexUser _meilisearchReIndexUser) : ApiBaseController
+    MeilisearchReIndexUser _meilisearchReIndexUser,
     SearchResultBuilder _searchResultBuilder) : ApiBaseController
 {
     public readonly record struct ValidateNameParam(string Name);
