@@ -41,7 +41,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public int Rank { get; set; }
 
     public List<int> FavoriteIds { get; set; } = new List<int>();
-    public List<PageCacheItem?> Favorites => EntityCache.GetPages(FavoriteIds);
+    public List<PageCacheItem> Favorites => EntityCache.GetPages(FavoriteIds);
     public RecentPages? RecentPages { get; set; }
     public List<int> SharedPageIds { get; set; } = new List<int>();
     public List<int> VisibleSharedPageIds { get; set; } = new List<int>();
@@ -161,10 +161,10 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public List<PageCacheItem> GetFavorites()
     {
         RemoveDeletedFavoriteIds();
-        if (Favorites.Any())
-            return Favorites;
-
-        return new List<PageCacheItem>();
+        
+        return Favorites.Any() 
+            ? Favorites 
+            : [];
     }
 
 
@@ -198,8 +198,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
     public void RemoveTempShareToken(int pageId)
     {
-        if (TempShareTokens.ContainsKey(pageId))
-            TempShareTokens.Remove(pageId);
+        TempShareTokens.Remove(pageId);
     }
 
     public void SetTempShareTokens(Dictionary<int, string> shareTokens)

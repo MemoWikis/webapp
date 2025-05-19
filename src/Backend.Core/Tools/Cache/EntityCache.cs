@@ -482,15 +482,16 @@ public class EntityCache
         objectToCache.TryRemove(obj.Id, out _);
     }
 
-    public static List<PageCacheItem?> GetPages(IEnumerable<int> getIds) => getIds.Select(GetPage).ToList();
+    public static List<PageCacheItem> GetPages(IEnumerable<int> getIds) => 
+        getIds
+            .Select(GetPage)
+            .Where(page => page != null)
+            .ToList()!;
 
-    public static PageCacheItem GetPage(Page page) => GetPage(page.Id);
+    public static PageCacheItem? GetPage(Page page) => GetPage(page.Id);
 
-    //There is an infinite loop when the user is logged in to complaints and when the server is restarted
-    //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
     public static PageCacheItem? GetPage(int pageId)
     {
-        if (Pages == null) return null;
         Pages.TryGetValue(pageId, out var page);
         return page;
     }
@@ -563,11 +564,11 @@ public class EntityCache
 
     public static void RemoveShares(int pageId, IList<int> shareIdsToRemove)
     {
-        if (shareIdsToRemove == null || !shareIdsToRemove.Any())
+        if (!shareIdsToRemove.Any())
             return;
 
         var currentShares = GetPageShares(pageId);
-        if (currentShares == null || !currentShares.Any())
+        if (!currentShares.Any())
             return;
 
         var affectedUsers = currentShares

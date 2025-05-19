@@ -30,7 +30,12 @@
     {
         if (_sessionUser == null || !_sessionUser.IsLoggedIn)
         {
-            return new GetAllResponse(new List<PageItem>(), new List<PageItem>(), new KnowledgeSummaryResponse(), new ActivityCalendar(new List<Activity>()));
+            return new GetAllResponse(
+                new List<PageItem>(), 
+                new List<PageItem>(), 
+                new KnowledgeSummaryResponse(), 
+                new ActivityCalendar(new List<Activity>())
+            );
         }
 
         var knowledgeSummary = FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId));
@@ -65,7 +70,6 @@
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
 
         var wikis = userCacheItem.GetWikis()
-            .Where(page => page != null && page.IsWiki)
             .Select(wiki => new PageItem(
                 wiki.Id,
                 wiki.Name,
@@ -83,7 +87,6 @@
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
 
         var favorites = userCacheItem.GetFavorites()
-            .Where(page => page != null)
             .Select(wiki => new PageItem(
                 wiki.Id,
                 wiki.Name,
@@ -96,7 +99,7 @@
     }
 
     // wip mockup data
-    private ActivityCalendar GetActivityCalendar()
+    private static ActivityCalendar GetActivityCalendar()
     {
         var endDate = DateTime.Today;
         var startDate = endDate.AddDays(-364); // 365 days including today
