@@ -86,9 +86,9 @@ const ariaId = useId()
     min-width: 0px;
     width: 100%;
     max-width: 180px;
+    border-radius: 6px;
+    overflow: hidden;
 
-    // border-radius: 6px;
-    // overflow: hidden;
     cursor: help;
 
     .solid-knowledge,
