@@ -135,6 +135,8 @@ internal class Convert_tests : BaseTestHarness
     [Test]
     public async Task ConvertWikiToPage_Should_Succeed_With_ValidInputs()
     {
+        await ReloadCaches();
+        
         // Arrange
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
@@ -181,11 +183,12 @@ internal class Convert_tests : BaseTestHarness
         var cachedPage = EntityCache.GetPage(page.Id);
         var userCacheItem = EntityCache.GetUserById(userId);
         var wikiCount = userCacheItem.GetWikis().Count.ToString();
+        
 
         await Verify(new
         {
             wikiCount,
-            allDbPages = await _testHarness.DbData.AllPagesAsync(),
+            allDbPages = await _testHarness.DbData!.AllPagesAsync(),
             cachedPage,
         });
     }
