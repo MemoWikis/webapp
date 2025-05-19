@@ -295,7 +295,7 @@ onMounted(() => {
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
                 <SideSheetSection class="no-b-padding">
                     <template #header>
-                        <NuxtLink :to="localePath({ name: t('url.missionControl') })" class="mission-control-link">
+                        <NuxtLink :to="`/${t('url.missionControl')}`" class="mission-control-link">
                             <div class="header-container no-hover">
                                 <template v-if="!collapsed">
                                     <div class="angle-icon-space"></div>

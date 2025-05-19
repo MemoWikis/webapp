@@ -58,25 +58,25 @@ const knowledgeStatusItems = computed(() => [
     {
         label: t('knowledgeStatus.solid'),
         value: props.knowledgeStatus.solid,
-        percentage: Math.round((props.knowledgeStatus.solid / totalQuestions.value) * 100) || 0,
+        percentage: props.knowledgeStatus.solidPercentage,
         class: 'solid'
     },
     {
         label: t('knowledgeStatus.needsConsolidation'),
         value: props.knowledgeStatus.needsConsolidation,
-        percentage: Math.round((props.knowledgeStatus.needsConsolidation / totalQuestions.value) * 100) || 0,
+        percentage: props.knowledgeStatus.needsConsolidationPercentage,
         class: 'needsConsolidation'
     },
     {
         label: t('knowledgeStatus.needsLearning'),
         value: props.knowledgeStatus.needsLearning,
-        percentage: Math.round((props.knowledgeStatus.needsLearning / totalQuestions.value) * 100) || 0,
+        percentage: props.knowledgeStatus.needsLearningPercentage,
         class: 'needsLearning'
     },
     {
         label: t('knowledgeStatus.notLearned'),
         value: props.knowledgeStatus.notLearned,
-        percentage: Math.round((props.knowledgeStatus.notLearned / totalQuestions.value) * 100) || 0,
+        percentage: props.knowledgeStatus.notLearnedPercentage,
         class: 'notLearned'
     }
 ])
@@ -218,7 +218,7 @@ const knowledgeStatusItems = computed(() => [
 
                 .status-label {
                     font-size: 14px;
-                    color: #555;
+                    color: @memo-grey-dark;
                 }
             }
 
@@ -227,12 +227,12 @@ const knowledgeStatusItems = computed(() => [
 
                 .value {
                     font-weight: 600;
-                    color: #333;
+                    color: @memo-grey-darker;
                 }
 
                 .percentage {
                     margin-left: 4px;
-                    color: #666;
+                    color: @memo-grey-dark;
                 }
             }
         }
