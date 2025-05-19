@@ -11,7 +11,7 @@ using NHibernate.Tool.hbm2ddl;
 public class SessionFactory
 {
     private static Configuration _configuration = null!;
-    private static readonly HashSet<string> SchemaVersionTables = new() { "SchemaVersion" };
+    private static readonly HashSet<string> _schemaVersionTables = ["SchemaVersion"];
 
     // Calculate a hash of the schema definition for detecting schema changes
     public static string CalculateSchemaHash()
@@ -36,8 +36,9 @@ public class SessionFactory
         using var session = _configuration.BuildSessionFactory().OpenSession();
         using var transaction = session.BeginTransaction();
 
-        var schemaVersion = session.QueryOver<SchemaVersion>().Take(1).SingleOrDefault()
-                          ?? new SchemaVersion();
+        var schemaVersion = session
+            .QueryOver<SchemaVersion>()
+            .Take(1).SingleOrDefault() ?? new SchemaVersion();
 
         schemaVersion.SchemaHash = hash;
         schemaVersion.LastUpdated = DateTime.UtcNow;
@@ -110,39 +111,40 @@ public class SessionFactory
 
     public static void BuildSchema()
     {
-        var schemaExport = new SchemaExport(_configuration);
-        schemaExport.SetDelimiter(";");
+        var schemaExport = new SchemaExport(_configuration)
+            .SetDelimiter(";");
 
-        var sb = new StringBuilder();
-        schemaExport.Create(sql => sb.AppendLine(sql), execute: false);
+        var raw = new StringBuilder();
+        schemaExport.Create(sql => raw.AppendLine(sql), execute: false);
 
-        // Remove all lines that start with "alter table" and split by ";"
-        // to avoid errors when dropping not existing indices.
-        var cleanedLines = sb
-            .ToString()
+        // 1. split, 2. trim, 3. drop FK-drops, 4. ignore blanks
+        var statements = raw.ToString()
             .Split(';', StringSplitOptions.RemoveEmptyEntries)
-            .Where(l => !Regex.IsMatch(
-                l,
-                @"^\s*alter\s+table.+drop\s+foreign\s+key",   // **nur** FK-Drops
+            .Select(s => s.Trim())
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Where(s => !Regex.IsMatch(
+                s,
+                @"^\s*alter\s+table.+drop\s+foreign\s+key",
                 RegexOptions.IgnoreCase | RegexOptions.Singleline));
 
-        var sqlBatch =
-            $"""
-             SET foreign_key_checks = 0;
-             {string.Join(";\n", cleanedLines)};
-             SET foreign_key_checks = 1;
-             """;
+        // re-assemble without producing empty statements
+        var sqlBatch = $"""
+                        SET FOREIGN_KEY_CHECKS = 0;
+                        {string.Join(";\n", statements)};
+                        SET FOREIGN_KEY_CHECKS = 1;
+                        """;
 
+        // make sure the connection string allows multi-queries
         var connectionString = Settings.ConnectionString;
         if (!connectionString.Contains("AllowBatch", StringComparison.OrdinalIgnoreCase))
-            connectionString += ";AllowBatch=True";
+            connectionString += ";AllowBatch=true";
 
         using var conn = new MySqlConnection(connectionString);
         conn.Open();
-        using var cmd = new MySqlCommand(sqlBatch, conn);
-        cmd.CommandTimeout = 0;
+        using var cmd = new MySqlCommand(sqlBatch, conn) { CommandTimeout = 0 };
         cmd.ExecuteNonQuery();
     }
+
 
     public static void TruncateAllTables()
     {
@@ -161,7 +163,7 @@ public class SessionFactory
             while (rdr.Read())
             {
                 var tableName = rdr.GetString(0);
-                if (!SchemaVersionTables.Contains(tableName))
+                if (!_schemaVersionTables.Contains(tableName))
                 {
                     tables.Add($"`{tableName}`");
                 }
