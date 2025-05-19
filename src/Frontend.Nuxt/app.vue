@@ -312,7 +312,7 @@ watch(locale, () => {
 
 	.main-page-container {
 		&.is-not-mobile {
-			@media (min-width: 1091px) and (max-width: 1129px) {
+			@media (min-width: 1092px) and (max-width: 1129px) {
 				.main-page>.container:first-of-type {
 					margin-left: 30px;
 				}
@@ -329,6 +329,11 @@ watch(locale, () => {
 
 			.main-page>.container:first-of-type {
 				padding-left: clamp(10px, calc((1660px - 100vw) * 1.5556), 420px);
+
+				@media (max-width: 1300px) {
+					margin-right: 10px;
+					width: 100%;
+				}
 			}
 
 			@media (min-width: 1091px) and (max-width: 1129px) {
@@ -336,6 +341,8 @@ watch(locale, () => {
 					margin-left: 0px;
 				}
 			}
+
+
 		}
 	}
 }
