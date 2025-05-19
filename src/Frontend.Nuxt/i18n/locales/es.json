@@ -187,6 +187,7 @@
         "administrative": "Administrativo",
         "questionCount": "0 preguntas | 1 pregunta | {count} preguntas",
         "questionCountText": "Ninguna pregunta | Una pregunta | {count} preguntas",
+        "questionCountAsText": "Pregunta | Preguntas",
         "reloadPage": "Recargar página",
         "back": "Atrás",
         "continueLearning": "Seguir aprendiendo",
@@ -1577,7 +1578,7 @@
         "comingSoon": "Próximamente"
     },
     "missionControl": {
-        "heading": "Mission Control",
+        "heading": "Panel de control",
         "sections": {
             "wikis": "Mis Wikis",
             "recentActivity": "Actividad reciente",

@@ -187,6 +187,7 @@
         "administrative": "Administrativ",
         "questionCount": "0 Fragen | 1 Frage | {count} Fragen",
         "questionCountText": "Keine Frage | Eine Frage | {count} Fragen",
+        "questionCountAsText": "Frage | Fragen",
         "reloadPage": "Seite neu laden",
         "back": "Zurück",
         "continueLearning": "Weiterlernen",

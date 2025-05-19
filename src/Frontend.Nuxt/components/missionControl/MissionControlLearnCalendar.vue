@@ -40,29 +40,29 @@ const pastActivities = computed(() =>
         date: formatDate(fullDay), // e.g. '2025-05-17'
         count: activityMap.value[formatDate(fullDay)] ?? 0
     }))
-);
+)
 
 const longestStreak = computed(() => {
-    let maxStreak = 0;
-    let currentStreak = 0;
+    let maxStreak = 0
+    let currentStreak = 0
 
     pastActivities.value.forEach(activity => {
         if (activity.count > 0) {
-            currentStreak++;
-            maxStreak = Math.max(maxStreak, currentStreak);
+            currentStreak++
+            maxStreak = Math.max(maxStreak, currentStreak)
         } else {
-            currentStreak = 0; // reset when an inactive day is encountered
+            currentStreak = 0 // reset when an inactive day is encountered
         }
-    });
+    })
 
-    return maxStreak;
-});
+    return maxStreak
+})
 
 const currentStreak = computed(() => {
     let streak = 0
     for (let i = pastActivities.value.length - 1; i >= 0; i--) {
         if (pastActivities.value[i].count > 0)
-            streak++;
+            streak++
         else
             break
     }
@@ -86,12 +86,17 @@ const months = computed(() => {
     return monthLabels
 })
 
-function getColorClass(count: number) {
+const getColorClass = (count: number) => {
     if (count === 0) return 'level-0'
     if (count < 3) return 'level-1'
     if (count < 5) return 'level-2'
     if (count < 8) return 'level-3'
     return 'level-4'
+}
+
+const isDateBeforeRange = (dateStr: string) => {
+    const date = new Date(dateStr)
+    return date < rawStart
 }
 </script>
 
@@ -120,8 +125,17 @@ function getColorClass(count: number) {
                                     v-for="(week, wIdx) in weeks"
                                     :key="wIdx"
                                     class="day"
-                                    :class="getColorClass(week[d]?.count || 0), { 'disabled': week[d]?.date === undefined }"
-                                    v-tooltip="{ content: week[d]?.date ? t('missionControl.learnCalendar.dayTooltip', { date: week[d]?.date, count: week[d]?.count }) : '', disabled: week[d]?.date === undefined }"></td>
+                                    :class="[
+                                        getColorClass(week[d]?.count || 0),
+                                        {
+                                            'disabled': week[d]?.date === undefined || week[d]?.date && isDateBeforeRange(week[d]?.date),
+                                        }
+                                    ]"
+                                    v-tooltip="{
+                                        content: week[d]?.date ? t('missionControl.learnCalendar.dayTooltip', { date: week[d]?.date, count: week[d]?.count }) : '',
+                                        disabled: week[d]?.date === undefined || isDateBeforeRange(week[d]?.date)
+                                    }">
+                                </td>
                             </tr>
                         </tbody>
                     </table>
