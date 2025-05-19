@@ -71,7 +71,7 @@
             .Where(share => share.Token.Length > 0)
             .Select(share => share.Id)
             .ToList();
-        
+
         EntityCache.RemoveShares(pageId, shareIdsToRemove);
         sharesRepository.Delete(shareIdsToRemove);
     }

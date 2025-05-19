@@ -157,7 +157,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         {
             RemoveShareToken(pageId);
         }
-
     }
 
     public void RemoveShareToken(int pageId)
@@ -175,6 +174,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
             }
         }
     }
+
     public void ClearShareTokens()
     {
         ShareTokens = new Dictionary<int, string>();

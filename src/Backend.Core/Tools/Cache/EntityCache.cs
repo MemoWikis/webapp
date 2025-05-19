@@ -440,6 +440,7 @@ public class EntityCache
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
+
     private static void AddOrUpdate(
         ConcurrentDictionary<int, ShareCacheItem> objectToCache,
         ShareCacheItem obj)
@@ -482,7 +483,7 @@ public class EntityCache
         objectToCache.TryRemove(obj.Id, out _);
     }
 
-    public static List<PageCacheItem> GetPages(IEnumerable<int> getIds) => 
+    public static List<PageCacheItem> GetPages(IEnumerable<int> getIds) =>
         getIds
             .Select(GetPage)
             .Where(page => page != null)
