@@ -3,6 +3,9 @@ import { SiteType } from '~/components/shared/siteEnum'
 import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
 import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar'
 import { PageData } from '~/composables/missionControl/pageData'
+import { useUserStore } from '~/components/user/userStore'
+
+const userStore = useUserStore()
 
 const emit = defineEmits(['setPage'])
 emit('setPage', SiteType.MissionControl)
@@ -41,6 +44,41 @@ onMounted(() => {
 })
 
 const { isMobile } = useDevice()
+
+const { locale, setLocale } = useI18n()
+const route = useRoute()
+onBeforeMount(async () => {
+    if (userStore.isLoggedIn) {
+        await navigateToLocaleMissionControl()
+    } else {
+        switch (route.name) {
+            case 'missionControlPageDE':
+                setLocale('de')
+                break
+            case 'missionControlPageFR':
+                setLocale('fr')
+                break
+            case 'missionControlPageES':
+                setLocale('es')
+                break
+            default:
+                setLocale('en')
+                break
+        }
+    }
+})
+
+const navigateToLocaleMissionControl = async () => {
+    const localeUrl = `/${t('url.missionControl')}`
+    await navigateTo(localeUrl)
+}
+
+watch(() => locale.value, async () => {
+    const localeUrl = `/${t('url.missionControl')}`
+
+    if (route.path !== localeUrl)
+        await navigateToLocaleMissionControl()
+})
 
 </script>
 

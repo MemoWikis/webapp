@@ -15,22 +15,14 @@ onBeforeMount(() => {
     }
 })
 
-watch(() => locale.value, async (newLocale) => {
-    switch (newLocale) {
-        case 'de':
-            await navigateTo('/AGB')
-            break
-        case 'en':
-            await navigateTo('/TermsOfUse')
-            break
-        case 'fr':
-            await navigateTo('/ConditionsGenerales')
-            break
-        case 'es':
-            await navigateTo('/CondicionesDeUso')
-            break
+const { t } = useI18n()
+watch(
+    () => locale.value,
+    async () => {
+        const localeUrl = `/${t('url.termsOfUse')}`
+        await navigateTo(localeUrl)
     }
-})
+)
 
 useHead(() => ({
     htmlAttrs: {

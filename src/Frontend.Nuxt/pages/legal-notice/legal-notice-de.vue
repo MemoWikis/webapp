@@ -19,22 +19,15 @@ onBeforeMount(() => {
 	}
 })
 
-watch(() => locale.value, async (newLocale) => {
-	switch (newLocale) {
-		case 'de':
-			await navigateTo('/Impressum')
-			break
-		case 'en':
-			await navigateTo('/LegalNotice')
-			break
-		case 'fr':
-			await navigateTo('/MentionsLegales')
-			break
-		case 'es':
-			await navigateTo('/AvisoLegal')
-			break
+const { t } = useI18n()
+watch(
+	() => locale.value,
+	async () => {
+		const localeUrl = `/${t('url.missionControl')}`
+		await navigateTo(localeUrl)
 	}
-})
+)
+
 
 useHead(() => ({
 	htmlAttrs: {

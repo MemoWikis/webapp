@@ -12,10 +12,6 @@ const { t } = useI18n()
 const pieData = computed<ChartData[]>(() => {
     const data: ChartData[] = []
 
-    console.log('Knowledge Status:', props.knowledgeStatus)
-
-    console.log(props.knowledgeStatus.solid)
-
     if (props.knowledgeStatus.solid > 0) {
         data.push({
             value: props.knowledgeStatus.solid,
