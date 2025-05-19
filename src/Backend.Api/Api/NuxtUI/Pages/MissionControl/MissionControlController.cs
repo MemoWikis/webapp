@@ -64,7 +64,6 @@
             knowledgeSummary.Total);
     }
 
-    // wip needs to be moved to a service
     private IList<PageItem> GetWikis()
     {
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
@@ -81,7 +80,6 @@
         return wikis;
     }
 
-    // wip needs to be moved to a service
     private IList<PageItem> GetFavorites()
     {
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);

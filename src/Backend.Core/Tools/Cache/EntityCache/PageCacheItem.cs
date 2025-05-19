@@ -297,7 +297,6 @@ public class PageCacheItem : IPersistable
             Visibility = page.Visibility,
             PageMarkdown = page.Markdown,
             TotalRelevancePersonalEntries = page.TotalRelevancePersonalEntries,
-            TypeJson = page.TypeJson,
             Url = page.Url,
             UrlLinkText = page.UrlLinkText,
             WikipediaURL = page.WikipediaURL,
