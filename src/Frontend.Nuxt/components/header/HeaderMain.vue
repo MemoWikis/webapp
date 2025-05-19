@@ -113,7 +113,7 @@ onMounted(() => {
                     class="animate-grow" />
             </font-awesome-layers>
         </div>
-        <div class="nav-container">
+        <div class="nav-container" :class="{ 'sidesheet-open': sideSheetStore.showSideSheet }">
             <div class="container">
                 <div class="row">
                     <div class="header-container col-xs-12" ref="headerContainer">
@@ -348,6 +348,13 @@ onMounted(() => {
 
         @media (max-width: 900px) {
             width: calc(100% - 50px);
+        }
+
+        @media (min-width: 1501px) and (max-width: 1980px) {
+            &.sidesheet-open {
+                padding-left: clamp(260px, 20vw, 0px);
+                margin-left: 260px;
+            }
         }
     }
 

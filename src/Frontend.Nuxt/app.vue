@@ -265,8 +265,7 @@ watch(locale, () => {
 						'open-modal': modalIsOpen,
 						'mobile-headings': isMobile,
 						'window-loading': !windowLoaded,
-						'sidesheet-open': sideSheetStore.showSideSheet && !isMobile,
-						'is-not-mobile': !isMobile
+						'sidesheet-open': sideSheetStore.showSideSheet && !isMobile
 					}" />
 			</div>
 
@@ -299,6 +298,8 @@ watch(locale, () => {
 .nuxt-page-container {
 	height: 100%;
 	transition: all 0.3s ease-in-out;
+	display: flex;
+	justify-content: center;
 
 	&.window-loading {
 		padding-left: 0px;
@@ -311,38 +312,47 @@ watch(locale, () => {
 	}
 
 	.main-page-container {
-		&.is-not-mobile {
-			@media (min-width: 1092px) and (max-width: 1129px) {
-				.main-page>.container:first-of-type {
-					margin-left: 30px;
-				}
-			}
-
-			@media (min-width: 1300px) and (max-width: 1340px) {
-				padding-left: 30px;
-			}
-		}
 
 		&.sidesheet-open {
-			margin-right: 20px;
-			width: 100%;
 
-			.main-page>.container:first-of-type {
-				padding-left: clamp(10px, calc((1660px - 100vw) * 1.5556), 420px);
+			@media (max-width: 1500px) {
+				width: calc(100vw - 40px);
 
-				@media (max-width: 1300px) {
+				.main-page:first-of-type {
+					padding-left: 420px;
 					margin-right: 10px;
 					width: 100%;
 				}
-			}
 
-			@media (min-width: 1091px) and (max-width: 1129px) {
-				.main-page>.container:first-of-type {
-					margin-left: 0px;
+				#Sidebar {
+					display: none;
+				}
+
+				.page {
+					&.col-lg-9 {
+						width: 100%;
+					}
 				}
 			}
 
+			@media (min-width: 1501px) and (max-width: 1980px) {
 
+				.main-page:first-of-type {
+					padding-left: clamp(260px, 20vw, 0px);
+					margin-right: 10px;
+					width: 100%;
+				}
+
+				#Sidebar {
+					display: none;
+				}
+
+				.page {
+					&.col-lg-9 {
+						width: 100%;
+					}
+				}
+			}
 		}
 	}
 }
