@@ -20,7 +20,7 @@ public class VueMaintenanceController(
     IWebHostEnvironment _webHostEnvironment) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
-    public readonly record struct ActiveUserCountResponse(int ActiveUserCount);
+    public readonly record struct ActiveSessionsResponse(int ActiveUserCount, List<string> Sessions);
 
     [AccessOnlyAsAdmin]
     [HttpGet]
@@ -289,9 +289,11 @@ public class VueMaintenanceController(
 
     [AccessOnlyAsAdmin]
     [HttpGet]
-    public ActiveUserCountResponse GetActiveUserCount()
+    public ActiveSessionsResponse GetActiveSessions()
     {
-        return new ActiveUserCountResponse(LoggedInSessionStore.Count);
+        var sessions = LoggedInSessionStore.GetSessionsActiveWithin(TimeSpan.FromMinutes(5)).ToList();
+        var count = sessions.Count;
+        return new ActiveSessionsResponse(count, sessions);
     }
 
     [AccessOnlyAsAdmin]

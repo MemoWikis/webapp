@@ -138,6 +138,7 @@ try
     });
 
     app.UseSession();
+    app.UseMiddleware<SessionActivityMiddleware>();
     app.UseRouting();
     app.MapControllers();
 

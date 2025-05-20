@@ -28,9 +28,40 @@ if (maintenanceDataResult.value?.success) {
     antiForgeryToken.value = maintenanceDataResult.value.data
 }
 
+const { data: activeSessionsResult } = await useFetch<ActiveSessionsResponse>('/apiVue/VueMaintenance/GetActiveSessions', {
+    credentials: 'include',
+    mode: 'cors',
+    onRequest({ options }) {
+        if (import.meta.server) {
+            options.headers = new Headers(headers)
+            options.baseURL = config.public.serverBase
+        }
+    },
+    onResponseError(context) {
+        $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+    },
+})
+
+const activeUserCount = ref(0)
+watchEffect(() => {
+    if (activeSessionsResult.value)
+        activeUserCount.value = activeSessionsResult.value.activeUserCount
+})
+
+const activeSessions = ref<string[]>([])
+watchEffect(() => {
+    if (activeSessionsResult.value)
+        activeSessions.value = activeSessionsResult.value.sessions
+})
+
 interface MethodData {
     url: string
     label: string
+}
+
+interface ActiveSessionsResponse {
+    activeUserCount: number
+    sessions: string[]
 }
 const questionMethods = ref<MethodData[]>([
     { url: 'RecalculateAllKnowledgeItems', label: 'Alle Antwortwahrscheinlichkeiten neu berechnen' },
@@ -166,6 +197,13 @@ async function removeAdminRights() {
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Nutzer" :methods="userMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']">
+                            <div class="active-users-info">
+                                <h4>Aktive Sitzungen (5 Minuten)</h4>
+                                <p>Gesamt: {{ activeUserCount }}</p>
+                                <ul>
+                                    <li v-for="session in activeSessions" :key="session">{{ session }}</li>
+                                </ul>
+                            </div>
                             <div class="delete-user-container">
                                 <h4>Nutzer löschen (ID)</h4>
                                 <div class="delete-user-input">
@@ -227,6 +265,10 @@ async function removeAdminRights() {
             margin-right: 8px;
         }
     }
+}
+
+.active-users-info {
+    padding: 15px;
 }
 
 .remove-admin-rights-section {
