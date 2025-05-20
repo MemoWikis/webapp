@@ -68,6 +68,8 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
 
     public void Login(User user, PageViewRepo _pageViewRepo)
     {
+        _httpContext.Session.ForceInit();
+        LoggedInSessionStore.Add(_httpContext.Session.Id);
         HasBetaAccess = true;
         IsLoggedIn = true;
         _userId = user.Id;
@@ -80,6 +82,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
 
     public void Logout()
     {
+        LoggedInSessionStore.Remove(_httpContext.Session.Id);
         IsLoggedIn = false;
         IsInstallationAdmin = false;
         _userId = -1;

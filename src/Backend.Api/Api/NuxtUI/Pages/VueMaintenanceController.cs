@@ -20,6 +20,7 @@ public class VueMaintenanceController(
     IWebHostEnvironment _webHostEnvironment) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
+    public readonly record struct ActiveUserCountResponse(int ActiveUserCount);
 
     [AccessOnlyAsAdmin]
     [HttpGet]
@@ -284,6 +285,13 @@ public class VueMaintenanceController(
             Success = true,
             Data = "Started 100 test jobs."
         };
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpGet]
+    public ActiveUserCountResponse GetActiveUserCount()
+    {
+        return new ActiveUserCountResponse(LoggedInSessionStore.Count);
     }
 
     [AccessOnlyAsAdmin]

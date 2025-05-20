@@ -36,7 +36,6 @@ SessionUser _sessionUser) : ApiBaseController
         List<ViewsResult> MonthlyPrivateCreatedQuestionsOfPastYear);
 
     public readonly record struct ViewsResult(DateTime DateTime, int Views);
-
     [AccessOnlyAsLoggedIn]
     [HttpGet]
     public GetAllDataResponse GetAllData()
