@@ -74,14 +74,18 @@
 
     public ContextPage Persist()
     {
-        foreach (var cat in All)
-            if (cat.Id <= 0) //if not already created
-                _pageRepository.Create(cat);
+        foreach (var page in All)
+        {
+            if (page.Id <= 0) //if not already created
+                _pageRepository.Create(page);
             else
-            {
-                _pageRepository.Update(cat, authorId: cat.AuthorIds.First(),
-                    type: PageChangeType.Relations);
-            }
+                _pageRepository.Update(
+                    page,
+                    authorId: page.AuthorIds.First(),
+                    type: PageChangeType.Relations
+                );
+        }
+
 
         return this;
     }

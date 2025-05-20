@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-[TestFixture]
+﻿[TestFixture]
 internal class TestHarnessTests
 {
     private readonly TestHarness _testHarness = new(enablePerfLogging: true);
@@ -35,11 +33,8 @@ internal class TestHarnessTests
     [Test]
     public async Task Should_create_testHarness_and_make_api_call()
     {
-        string result = await _testHarness.ApiCall("apiVue/App/GetCurrentUser");
+        var foo = await _testHarness.Client.GetAsync($"App/apiVue/App/GetCurrentUser");
 
-        await Verify(new
-        {
-            formattedJson = result
-        });
+        await Verify(foo);
     }
 }
