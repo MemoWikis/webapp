@@ -37,8 +37,11 @@ internal class TestHarnessTests
     [Test]
     public async Task Should_create_testHarness_and_make_api_call()
     {
-        var foo = await _testHarness.Client.GetAsync($"App/apiVue/App/GetCurrentUser");
+        string result = await _testHarness.ApiCall("apiVue/App/GetCurrentUser");
 
-        await Verify(foo);
+        await Verify(new
+        {
+            formattedJson = result
+        });
     }
 }
