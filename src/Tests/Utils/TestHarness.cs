@@ -18,21 +18,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
     private const string TestDbName = "memoWikisTest";
 
-    private readonly MySqlContainer _db = new MySqlBuilder()
-        .WithImage("mysql:8.3.0")
-        .WithUsername("test")
-        .WithPassword("P@ssw0rd_#123")
-        .WithDatabase(TestDbName)
-        .WithCommand(
-            "mysqld",
-            "--lower_case_table_names=1"
-        )
-        .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
-        .WithWaitStrategy(
-            Wait.ForUnixContainer()
-                .UntilPortIsAvailable(3306))
-        .WithReuse(true)
-        .Build();
+    private readonly MySqlContainer _db;
 
     private readonly IContainer _meiliSearch = new DotNet.Testcontainers.Builders.ContainerBuilder()
         .WithImage("getmeili/meilisearch:v1.5")
@@ -54,7 +40,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
 
     public RawDbDataLoader DbData = null!;
-    public RawMeilisearchDataLoader SearchData;
+    public RawMeilisearchDataLoader SearchData = null!;
 
     public string ConnectionString => _db.GetConnectionString();
     public string MeilisearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
@@ -79,10 +65,43 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         _stopwatch.Restart();
     }
 
-    public TestHarness(bool enablePerfLogging = false)
+    public static async Task<TestHarness> CreateAsync(bool enablePerfLogging = false, string? prebuiltDbImage = null)
+    {
+        if (!string.IsNullOrEmpty(prebuiltDbImage))
+        {
+            await DockerUtilities.LoadDockerImageAsync(prebuiltDbImage);
+        }
+
+        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage);
+        await harness.InitAsync();
+        return harness;
+    }
+
+    // Modified constructor (now private and synchronous)
+    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage)
     {
         _enablePerfLogging = enablePerfLogging;
         _stopwatch = Stopwatch.StartNew();
+
+        _db = new MySqlBuilder()
+            .WithImage(prebuiltDbImage ?? "mysql:8.3.0")
+            .WithName(ScenarioContainer.Name)
+            .WithLabel(ScenarioContainer.Label, ScenarioContainer.Label)
+            .WithUsername("test")
+            .WithPassword("P@ssw0rd_#123")
+            .WithDatabase(TestDbName)
+            .WithCommand(
+                "mysqld",
+                "--lower_case_table_names=1"
+            )
+            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
+            .WithWaitStrategy(
+                Wait.ForUnixContainer()
+                    .UntilPortIsAvailable(3306))
+            .WithReuse(true)
+            .Build();
+
+        PerfLog($"Container Startup");
 
         // Prepare environment fake
         _webHostEnv = A.Fake<IWebHostEnvironment>();
@@ -95,10 +114,14 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         A.CallTo(() => _httpCtxAcc.HttpContext).Returns(fakeHttpContext);
         A.CallTo(() => fakeHttpContext.Session).Returns(fakeSession);
         var userIdBytes = BitConverter.GetBytes(1);
-        if (BitConverter.IsLittleEndian) Array.Reverse(userIdBytes);
+        if (BitConverter.IsLittleEndian)
+        {
+            Array.Reverse(userIdBytes);
+        }
+
         A.CallTo(() => fakeSession.TryGetValue("userId", out userIdBytes)).Returns(true);
 
-        PerfLog($"ctor finished in {_stopwatch.ElapsedMilliseconds:N0} ms");
+        PerfLog($"ctor end");
     }
 
     public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();

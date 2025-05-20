@@ -1,4 +1,4 @@
-/// <summary>
+﻿/// <summary>
 /// Immutable settings for the test scenario.
 /// </summary>
 public sealed record ScenarioConfiguration
