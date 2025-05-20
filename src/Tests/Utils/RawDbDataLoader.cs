@@ -51,11 +51,17 @@ public class RawDbDataLoader : IDisposable
     public async Task<Summary<Dictionary<string, object?>>> AllQuestionsSummaryAsync()
         => Summary(await AllQuestionsAsync());
 
+    public Task<List<Dictionary<string, object?>>> AllPageQuestionsRelationsAsync()
+        => LoadFromMysqlAsync("SELECT * FROM pages_to_questions ORDER BY Page_id, Question_id");
+
     public Task<List<Dictionary<string, object?>>> AllPagesAsync()
         => LoadFromMysqlAsync("SELECT * FROM Page ORDER BY Id");
 
     public async Task<Summary<Dictionary<string, object?>>> AllPagesSummaryAsync()
         => Summary(await AllPagesAsync());
+
+    public Task<List<Dictionary<string, object?>>> AllPageRelationsAsync()
+        => LoadFromMysqlAsync("SELECT * FROM pagerelation ORDER BY Id");
 
     private static Summary<Dictionary<string, object?>> Summary(List<Dictionary<string, object?>> items)
     {

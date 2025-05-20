@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
 
 public class StripeSubscriptionManger(
     SessionUser sessionUser,
     UserReadingRepo userReadingRepo,
-    UserWritingRepo userWritingRepo,
-    IHttpContextAccessor httpContextAccessor,
-    IWebHostEnvironment webHostEnvironment)
+    UserWritingRepo userWritingRepo)
     : IRegisterAsInstancePerLifetime
 {
     private async Task<string> CreateStripeCustomer(string username, string email, int userId)

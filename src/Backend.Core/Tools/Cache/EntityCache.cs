@@ -82,7 +82,7 @@ public class EntityCache
         var questionViewsLast90Days = questionViewRepo.GetViewsForLastNDaysGroupByQuestionId(90);
         foreach (var pageCacheItem in pageCacheItems)
         {
-            var aggregatedQuestionsFromAllAggregatedPages = pageCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, true, pageCacheItem.Id)
+            var aggregatedQuestionsFromAllAggregatedPages = pageCacheItem.GetAggregatedQuestions(2, false, true, pageCacheItem.Id)
                 .Select(t => t.Id);
 
             var aggregatedQuestionsViews90Days = questionViewsLast90Days
@@ -97,7 +97,7 @@ public class EntityCache
                 .Select(v => new DailyViews() { Date = v.Date, Count = v.TotalCount })
                 .ToList();
 
-            var selfQuestionsFromPage = pageCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, false, pageCacheItem.Id)
+            var selfQuestionsFromPage = pageCacheItem.GetAggregatedQuestions(2, false, false, pageCacheItem.Id)
                 .Select(t => t.Id);
 
             var pageQuestions90Days = questionViewsLast90Days
@@ -396,7 +396,7 @@ public class EntityCache
     public static void Remove(PageCacheItem page, int userId)
     {
         Remove(Pages, page);
-        var connectedQuestions = page.GetAggregatedQuestionsFromMemoryCache(userId);
+        var connectedQuestions = page.GetAggregatedQuestions(userId);
 
         foreach (var connectedQuestion in connectedQuestions)
         {

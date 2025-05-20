@@ -56,7 +56,7 @@
         {
             Id = page.Id,
             Name = page.Name,
-            QuestionCount = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, permissionCheck: _permissionCheck).Count,
+            QuestionCount = page.GetAggregatedQuestions(_sessionUser.UserId, permissionCheck: _permissionCheck).Count,
             ChildrenCount = GraphService
                 .VisibleDescendants(page.Id, _permissionCheck, _sessionUser.UserId)
                 .Count,

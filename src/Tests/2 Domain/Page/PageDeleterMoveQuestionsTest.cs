@@ -3,6 +3,8 @@
     [Test]
     public async Task Should_Move_Questions_To_Parent()
     {
+        await ClearData();
+        
         //Arrange
         var contextPage = NewPageContext();
         var parentName = "parent name";
@@ -28,33 +30,23 @@
         
         //Act
         pageDeleter.DeletePage(child.Id, parent.Id);
-        
-        
+
+
         // Assert
         await ReloadCaches();
-        var parentFromDb = R<PageRepository>().GetByIdEager(parent.Id);
-        var questionFromDb = R<QuestionReadingRepo>().GetById(questionContext.All.First().Id);
-        var parentFromCache = EntityCache.GetPage(parentFromDb!.Id);
-        var questionFromCache = EntityCache.GetQuestionById(questionFromDb.Id);
 
-        var pageChange = R<PageChangeRepo>().GetForPage(parent.Id);
-        var questionChange = R<QuestionChangeRepo>().GetByQuestionId(questionFromDb.Id);
-
-        Assert.That(parentFromDb, Is.Not.Null);
-        Assert.That(PageChangeType.Create, Is.EqualTo(pageChange.First().Type));
-        Assert.That(PageChangeType.Relations, Is.EqualTo(pageChange[1].Type));
-        Assert.That(PageChangeType.ChildPageDeleted, Is.EqualTo(pageChange.Last().Type));
-        Assert.That(questionChange, Is.Not.Null);
-        Assert.That(QuestionChangeType.Create, Is.EqualTo(questionChange.Type));
-
-        Assert.That(parentFromDb.CountQuestionsAggregated, Is.EqualTo(1));
-        Assert.That(parentFromDb.Id, Is.EqualTo(questionFromDb.Pages.First().Id));
-        Assert.That(questionFromDb.Pages.Count, Is.EqualTo(1));
-
-        Assert.That(parentFromCache, Is.Not.Null);
-        Assert.That(parentFromCache.CountQuestionsAggregated, Is.EqualTo(1));
-        Assert.That(parentFromCache.Id, Is.EqualTo(questionFromDb.Pages.First().Id));
-        Assert.That(questionFromCache.Pages.Count, Is.EqualTo(1));
+        await Verify(new
+        {
+            allPages = await _testHarness.DbData.AllPagesAsync(),
+            allPagrelations = await _testHarness.DbData.AllPageRelationsAsync(),
+            allQuestions = await _testHarness.DbData.AllQuestionsAsync(),
+            allPagesToQuestions = await _testHarness.DbData.AllPageQuestionsRelationsAsync(),
+            allPagesInCache = EntityCache.GetAllPagesList(),
+            allQuestionsInCache = EntityCache.GetAllQuestions(),
+            childQuestions = EntityCache.GetQuestionsForPage(parent.Id),
+            pageChanges = R<PageChangeRepo>().GetForPage(parent.Id).Select(_pageChange => _pageChange.Type),
+            questionChanges = R<QuestionChangeRepo>().GetByQuestionId(questionContext.All.First().Id)
+        });
     }
 
     [Test]

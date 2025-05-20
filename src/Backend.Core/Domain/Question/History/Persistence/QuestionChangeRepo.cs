@@ -4,6 +4,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 {
     private readonly SessionUser _sessionUser;
     private readonly QuestionReadingRepo _questionReadingRepo;
+
     public QuestionChangeRepo(ISession session, SessionUser sessionUser, QuestionReadingRepo questionReadingRepo) : base(session)
     {
         _sessionUser = sessionUser;
@@ -64,6 +65,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 
     public void AddCommentEntry(int questionId, int authorId, int[] commentIds) =>
         AddUpdateEntryForComment(questionId, QuestionChangeType.AddComment, authorId, commentIds);
+
     private void AddUpdateEntryForComment(int questionId,
         QuestionChangeType questionChangeType,
         int authorId,
@@ -87,7 +89,6 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             if (questionCacheItem != null)
                 questionCacheItem.AddQuestionChangeToPageChangeCacheItems(questionChange);
         }
-
     }
 
     public QuestionChange GetByIdEager(int questionChangeId)
