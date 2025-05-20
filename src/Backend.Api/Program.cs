@@ -12,7 +12,6 @@ using Serilog.Events;
 using Serilog.Exceptions;
 using Stripe;
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
 using static System.Int32;
 
 try
@@ -30,15 +29,6 @@ try
 
         log.MinimumLevel.Is(LogEventLevel.Information);
     });
-
-    builder.Configuration
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-        .AddJsonFile(
-            $"appsettings.{builder.Environment.EnvironmentName}.json",
-            optional: true,
-            reloadOnChange: true
-        );
-
 
     builder.WebHost.ConfigureKestrel(serverOptions => { serverOptions.Limits.MaxRequestBodySize = 1073741824; });
     builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
