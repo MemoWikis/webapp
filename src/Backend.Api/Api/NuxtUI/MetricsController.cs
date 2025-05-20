@@ -37,6 +37,8 @@ SessionUser _sessionUser) : ApiBaseController
 
     public readonly record struct ViewsResult(DateTime DateTime, int Views);
 
+    public readonly record struct ActiveUserCountResponse(int ActiveUserCount);
+
     [AccessOnlyAsLoggedIn]
     [HttpGet]
     public GetAllDataResponse GetAllData()
@@ -96,6 +98,16 @@ SessionUser _sessionUser) : ApiBaseController
             TodaysPrivateQuestionCreatedCount = todaysPrivateQuestionCreatedCount,
             MonthlyPrivateCreatedQuestionsOfPastYear = monthlyPrivateCreatedQuestionsOfPastYear
         };
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpGet]
+    public ActiveUserCountResponse GetActiveUserCount()
+    {
+        if (!_sessionUser.IsInstallationAdmin)
+            return new ActiveUserCountResponse(0);
+
+        return new ActiveUserCountResponse(LoggedInSessionStore.Count);
     }
 
     private (int todaysActiveUserCount, List<ViewsResult> dailyActiveUsersOfPastYear, List<ViewsResult> monthlyActiveUsersOfPastYear) GetActiveUserCounts()

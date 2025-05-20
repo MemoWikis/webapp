@@ -76,10 +76,12 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
         _extendedUserCache.Add(user.Id, _pageViewRepo);
+        LoggedInSessionStore.Add(_httpContext.Session.Id, user.Id);
     }
 
     public void Logout()
     {
+        LoggedInSessionStore.Remove(_httpContext.Session.Id);
         IsLoggedIn = false;
         IsInstallationAdmin = false;
         _userId = -1;
