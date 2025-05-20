@@ -7,31 +7,23 @@ SessionUser _sessionUser) : ApiBaseController
         int TodaysActiveUserCount,
         List<ViewsResult> MonthlyActiveUsersOfPastYear,
         List<ViewsResult> DailyActiveUsersOfPastYear,
-
         int TodaysRegistrationCount,
         List<ViewsResult> MonthlyRegistrationsOfPastYear,
         List<ViewsResult> DailyRegistrationsOfPastYear,
-
         int TodaysPublicPageCreatedCount,
         List<ViewsResult> MonthlyPublicCreatedPagesOfPastYear,
-
         int CreatedPrivatePageCount,
         List<ViewsResult> MonthlyPrivateCreatedPagesOfPastYear,
         List<ViewsResult> DailyPrivateCreatedPagesOfPastYear,
-
         int TodaysPageViewCount,
         List<ViewsResult> PageViewsOfPastYear,
-
         int TodaysQuestionViewCount,
         List<ViewsResult> QuestionViewsOfPastYear,
-
         int TodaysPublishedQuestionCount,
         List<ViewsResult> MonthlyPublishedQuestionsOfPastYear,
         List<ViewsResult> DailyPublishedQuestionsOfPastYear,
-
         int TodaysPublicQuestionCreatedCount,
         List<ViewsResult> MonthlyPublicCreatedQuestionsOfPastYear,
-
         int TodaysPrivateQuestionCreatedCount,
         List<ViewsResult> MonthlyPrivateCreatedQuestionsOfPastYear);
 

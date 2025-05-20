@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DotNet.Testcontainers.Builders;
 using FakeItEasy;
@@ -9,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Testcontainers.MySql;
 using ContainerBuilder = Autofac.ContainerBuilder;
 using IContainer = DotNet.Testcontainers.Containers.IContainer;
@@ -52,8 +53,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     private ILifetimeScope? _scope;
     public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
 
-    public RawDbDataLoader? DbData;
-    public RawMeilisearchDataLoader? SearchData;
+    public RawDbDataLoader DbData = null!;
+    public RawMeilisearchDataLoader SearchData;
 
     public string ConnectionString => _db.GetConnectionString();
     public string MeilisearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
@@ -102,8 +103,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();
     public T R<T>() where T : notnull => Resolve<T>();
-
-    public ContextPage NewPageContext(bool addContextUser = true) => new(this, addContextUser);
 
     public async Task InitAsync(bool keepData = false)
     {
@@ -215,6 +214,16 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .New(R<UserWritingRepo>())
             .Add(new User { Id = 1, Name = "SessionUser" })
             .Persist();
+    }
+
+    public async Task<string> ApiCall([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
+    {
+        var httpResponse = await this.Client.GetAsync(uri);
+        var jsonContent = await httpResponse.Content.ReadAsStringAsync();
+
+        var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
+        var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
+        return formattedJson;
     }
 
     private sealed class ProgramWebApplicationFactory(

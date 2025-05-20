@@ -1,4 +1,6 @@
-﻿[TestFixture]
+﻿using System.Diagnostics.CodeAnalysis;
+
+[TestFixture]
 internal class TestHarnessTests
 {
     private readonly TestHarness _testHarness = new(enablePerfLogging: true);
@@ -8,9 +10,9 @@ internal class TestHarnessTests
 
     [OneTimeTearDown]
     public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
-    
+
     [Test]
-    public async Task Should_create_testHarness_and_with_host_and_db_access() 
+    public async Task Should_create_testHarness_and_with_host_and_db_access()
     {
         // arrange 
         var userWritRepo = _testHarness.R<UserWritingRepo>();
@@ -27,6 +29,17 @@ internal class TestHarnessTests
         {
             allDbUsers = await _testHarness.DbData.AllUsersAsync(),
             allSearchIndexUsers = await _testHarness.SearchData.GetAllUsers()
+        });
+    }
+
+    [Test]
+    public async Task Should_create_testHarness_and_make_api_call()
+    {
+        string result = await _testHarness.ApiCall("apiVue/App/GetCurrentUser");
+
+        await Verify(new
+        {
+            formattedJson = result
         });
     }
 }
