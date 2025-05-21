@@ -257,14 +257,14 @@
         contextPage.AddChild(parent, child);
         await ReloadCaches();
 
-        var pageDeleter = R<PageDeleter>();
-
         //Act
+        var pageDeleter = R<PageDeleter>();
         var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
-        await ReloadCaches();
+
 
         //Assert
-        Assert.That(requestResult.Success);
-        Assert.That(requestResult.IsNotCreatorOrAdmin);
+        await ReloadCaches();
+
+        await Verify(requestResult);
     }
 }
