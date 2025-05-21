@@ -12,5 +12,7 @@ internal static class VerifyGlobalInit
         VerifierSettings.ScrubMember("QuestionChangeCacheItems");
         VerifierSettings.ScrubMember("PageChangeCacheItems");
 
+        VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Child);
+        VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Parent);
     }
 }
