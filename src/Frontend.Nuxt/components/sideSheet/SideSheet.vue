@@ -285,6 +285,9 @@ onMounted(() => {
     }
 })
 
+const hoverWikiButton = ref(false)
+const hoverFavoritesButton = ref(false)
+
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet"
@@ -311,7 +314,7 @@ onMounted(() => {
 
                 <SideSheetSection :class="{ 'no-b-padding': !showWikis }">
                     <template #header>
-                        <div class="header-container" @click="showWikis = !showWikis">
+                        <div class="header-container" @click="showWikis = !showWikis" :class="{ 'no-hover': hoverWikiButton }">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showWikis" :icon="['fas', 'angle-down']" class="angle-icon" />
                                 <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
@@ -319,6 +322,9 @@ onMounted(() => {
                             <font-awesome-icon :icon="['fas', 'folder']" />
                             <div v-show="!hidden" class="header-title">
                                 {{ t('sideSheet.myWikis') }}
+                            </div>
+                            <div class="header-btn" v-show="!hidden && !collapsed" @click.stop="openCreateWikiModal" v-tooltip="t('label.createWiki')" @mouseenter="hoverWikiButton = true" @mouseleave="hoverWikiButton = false">
+                                <font-awesome-icon :icon="['fas', 'plus']" />
                             </div>
                         </div>
                     </template>
@@ -356,20 +362,11 @@ onMounted(() => {
                         </Transition>
                     </template>
 
-                    <template #footer v-if="!collapsed">
-                        <Transition name="collapse">
-                            <div v-if="showWikis" class="sidesheet-button" @click="openCreateWikiModal">
-                                <font-awesome-icon :icon="['fas', 'folder-plus']" />
-                                {{ collapsed ? '' : t('label.createWiki') }}
-                            </div>
-                        </Transition>
-                    </template>
-
                 </SideSheetSection>
 
                 <SideSheetSection :class="{ 'no-b-padding': !showFavorites }">
                     <template #header>
-                        <div class="header-container" @click="showFavorites = !showFavorites">
+                        <div class="header-container" @click="showFavorites = !showFavorites" :class="{ 'no-hover': hoverFavoritesButton }">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showFavorites" :icon="['fas', 'angle-down']"
                                     class="angle-icon" />
@@ -378,6 +375,11 @@ onMounted(() => {
                             <font-awesome-icon :icon="['fas', 'star']" />
                             <div v-show="!hidden" class="header-title">
                                 {{ t('sideSheet.favorites') }}
+                            </div>
+                            <div v-show="!hidden && !collapsed" @click.stop="addToFavorites(pageStore.name, pageStore.id)" class="header-btn" :class="{ 'disabled': isFavorite }"
+                                v-tooltip="isFavorite ? t('label.addedAsFavorite') : t('label.addToFavorites')"
+                                @mouseenter="hoverFavoritesButton = true" @mouseleave="hoverFavoritesButton = false">
+                                <font-awesome-icon :icon="['fas', 'plus']" />
                             </div>
                         </div>
                     </template>
@@ -402,17 +404,6 @@ onMounted(() => {
                                     </div>
                                 </div>
 
-                            </div>
-                        </Transition>
-                    </template>
-
-                    <template #footer v-if="!collapsed">
-                        <Transition name="collapse">
-                            <div v-if="showFavorites" class="sidesheet-button"
-                                @click="addToFavorites(pageStore.name, pageStore.id)"
-                                :class="{ 'disabled': isFavorite }">
-                                <font-awesome-icon :icon="['fas', 'plus']" />
-                                {{ isFavorite ? t('label.addedAsFavorite') : t('label.addToFavorites') }}
                             </div>
                         </Transition>
                     </template>
