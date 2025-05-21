@@ -7,46 +7,9 @@ public class PageRelationCache : IPersistable
     public virtual int? PreviousId { get; set; }
     public virtual int? NextId { get; set; }
 
-    public IList<PageRelationCache> ToParentRelations(IList<PageRelation> parentRelations)
-    {
-        var result = new List<PageRelationCache>();
-
-        if (parentRelations == null)
-            Log.Error("PageRelations cannot be null");
-
-        if (parentRelations.Count <= 0 || parentRelations == null)
-        {
-            return result;
-        }
-
-        foreach (var parentRelation in parentRelations) 
-            result.Add(ToPageCacheRelation(parentRelation));
-
-        return result;
-    }
-
-    public IList<PageRelationCache> ToChildRelations(IList<PageRelation> childRelations)
-    {
-        var sortedList = new List<PageRelationCache>();
-
-        if (childRelations == null)
-            Log.Error("PageRelations cannot be null");
-
-        if (childRelations.Count <= 0 || childRelations == null)
-        {
-            return sortedList;
-        }
-
-        var current = childRelations.FirstOrDefault(x => x.PreviousId == null);
-
-        while (current != null)
-        {
-            sortedList.Add(ToPageCacheRelation(current));
-            current = childRelations.FirstOrDefault(x => x.Child.Id == current.NextId);
-        }
-
-        return sortedList;
-    }
+    
+    public PageCacheItem? Child => EntityCache.GetPage(ChildId);
+    public PageCacheItem? Parent => EntityCache.GetPage(ParentId);
 
     public static IEnumerable<PageRelationCache> ToPageRelationCache(IEnumerable<PageRelation> allRelations)
     {

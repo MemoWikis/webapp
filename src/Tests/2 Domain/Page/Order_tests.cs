@@ -1,4 +1,7 @@
-﻿class Order_tests : BaseTestHarness
+﻿using Antlr.Runtime.Tree;
+using NHibernate.Driver;
+
+class Order_tests : BaseTestHarness
 {
     [Test]
     public void Should_Sort_Pages()
@@ -72,18 +75,15 @@
         context.AddChild(root, sub2);
 
         //Act
+        await base.ReloadCaches();
+        
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
         //Assert
         var cachedRoot = EntityCache.GetPage(root);
-        Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(2));
-        Assert.That(cachedRoot.ChildRelations[0].PreviousId, Is.Null);
 
-        Assert.That(cachedRoot.ChildRelations[0].NextId, Is.EqualTo(sub2.Id));
-        Assert.That(cachedRoot.ChildRelations[1].PreviousId, Is.EqualTo(sub1.Id));
-
-        Assert.That(cachedRoot.ChildRelations[1].NextId, Is.Null);
+        await Verify(cachedRoot!.ChildRelations);
     }
 
     //Move sub1 after sub3
@@ -118,49 +118,26 @@
         entityCacheInitializer.Init();
 
         var cachedRoot = EntityCache.GetPage(root);
-        var relationToMove = cachedRoot.ChildRelations[0];
-        var pageRelationRepo = R<PageRelationRepo>();
-        var modifyRelationsForPage =
-            new ModifyRelationsForPage(R<PageRepository>(), pageRelationRepo);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
+        
+        var relationToMove = cachedRoot.ChildRelations[0]; //sub1
+        var modifyRelationsForPage = R<ModifyRelationsForPage>();
 
         //Act
-        PageOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
-            modifyRelationsForPage);
+        PageOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1, modifyRelationsForPage);
+
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
 
         //Assert
-        Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
-
-        Assert.That(cachedRoot.ChildRelations[0].PreviousId, Is.Null);
-        Assert.That(cachedRoot.ChildRelations[0].ChildId, Is.EqualTo(sub2.Id));
-        Assert.That(cachedRoot.ChildRelations[0].NextId, Is.EqualTo(sub3.Id));
-
-        Assert.That(cachedRoot.ChildRelations[1].ChildId, Is.EqualTo(sub3.Id));
-        Assert.That(cachedRoot.ChildRelations[1].PreviousId, Is.EqualTo(sub2.Id));
-        Assert.That(cachedRoot.ChildRelations[1].NextId, Is.EqualTo(sub1.Id));
-
-        Assert.That(cachedRoot.ChildRelations[2].ChildId, Is.EqualTo(sub1.Id));
-        Assert.That(cachedRoot.ChildRelations[2].PreviousId, Is.EqualTo(sub3.Id));
-        Assert.That(cachedRoot.ChildRelations[2].NextId, Is.Null);
-
-        var allRelationsInDb = pageRelationRepo.GetAll();
-
-        Assert.That(allRelationsInDb.Count, Is.EqualTo(3));
-
-        var firstCachedId = cachedRoot.ChildRelations[0].Id;
-        var firstRelation = allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId);
-        pageRelationRepo.Refresh(firstRelation);
-
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.Child.Id,
-            Is.EqualTo(cachedRoot.ChildRelations[0].ChildId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.PreviousId,
-            Is.EqualTo(cachedRoot.ChildRelations[0].PreviousId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.NextId,
-            Is.EqualTo(cachedRoot.ChildRelations[0].NextId));
-
-        Assert.That(allRelationsInDb[2].Child.Id, Is.EqualTo(cachedRoot.ChildRelations[2].ChildId));
-        Assert.That(allRelationsInDb[2].PreviousId,
-            Is.EqualTo(cachedRoot.ChildRelations[2].PreviousId));
-        Assert.That(allRelationsInDb[2].NextId, Is.EqualTo(cachedRoot.ChildRelations[2].NextId));
+        var allRelationsInDb = R<PageRelationRepo>().GetAll();
+        await Verify(new
+            {
+                cachedRootChildren = cachedRoot.ChildRelations,
+                allRelationsInDb = allRelationsInDb,
+                originalTree, 
+                newTree
+            }
+        );
     }
 
     //Move sub3 before sub1
