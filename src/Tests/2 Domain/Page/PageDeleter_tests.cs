@@ -38,6 +38,8 @@
     [Test]
     public async Task Should_delete_child_of_child_and_remove_relation()
     {
+        await ClearData();
+        
         //Arrange
         var contextPage = NewPageContext();
         var parentName = "parent name";
@@ -93,6 +95,8 @@
     [Test]
     public async Task Should_delete_child_of_child_and_remove_relations_in_EntityCache()
     {
+        await ClearData();
+
         //Arrange
         var contextPage = NewPageContext();
         var parentName = "parent name";
