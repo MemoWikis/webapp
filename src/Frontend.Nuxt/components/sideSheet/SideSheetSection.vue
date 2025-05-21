@@ -62,11 +62,11 @@
 
             &.no-hover {
                 &:hover {
-                    filter: brightness(1);
+                    filter: none;
                 }
 
                 &:active {
-                    filter: brightness(1);
+                    filter: none;
                 }
             }
 
@@ -99,11 +99,11 @@
                     opacity: 0.5;
 
                     &:hover {
-                        filter: brightness(1);
+                        filter: none;
                     }
 
                     &:active {
-                        filter: brightness(1);
+                        filter: none;
                     }
                 }
             }
@@ -131,7 +131,7 @@
             overflow: hidden;
             white-space: nowrap;
             user-select: none;
-            padding-right: 2px;
+            padding-right: 8px;
             height: 26px;
 
             &:hover {
