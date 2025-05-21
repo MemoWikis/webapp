@@ -30,6 +30,7 @@ defineProps({
     margin-bottom: 24px;
     overflow: hidden;
     width: 100%;
+    max-width: calc(100vw - 40px);
     // border: solid 1px @memo-grey-lightest;
 
     .section-header {

@@ -253,8 +253,10 @@ watch(locale, () => {
 
 		<NuxtErrorBoundary @error="logError">
 
-			<BannerLoginToEditReminder v-if="siteType === SiteType.Page && userStore.showLoginToEditReminderBanner" />
-			<LazyBannerMissionControlLoginReminder v-if="siteType === SiteType.MissionControl && !userStore.isLoggedIn" />
+			<BannerLoginToEditReminder v-if="siteType === SiteType.Page && userStore.showLoginToEditReminderBanner"
+				:class="{ 'sidesheet-open': sideSheetStore.showSideSheet && !isMobile }" />
+			<LazyBannerMissionControlLoginReminder v-if="siteType === SiteType.MissionControl && !userStore.isLoggedIn"
+				:class="{ 'sidesheet-open': sideSheetStore.showSideSheet && !isMobile }" />
 
 			<div class="nuxt-page-container">
 
