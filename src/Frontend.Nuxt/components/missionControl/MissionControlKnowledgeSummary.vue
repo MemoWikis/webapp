@@ -119,10 +119,16 @@ const knowledgeStatusItems = computed(() => [
     border-radius: 8px;
     padding: 16px 20px;
 
+    @media (max-width:576px) {
+        min-width: unset;
+    }
+
     @media (min-width: 768px) {
         flex-direction: row;
         align-items: center;
         width: 50%;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .summary-visualization {
@@ -230,6 +236,26 @@ const knowledgeStatusItems = computed(() => [
                     margin-left: 4px;
                     color: @memo-grey-dark;
                 }
+            }
+        }
+    }
+}
+</style>
+
+<style lang="less">
+.sidesheet-open {
+    .knowledge-summary {
+        @media (max-width:976px) {
+            flex-direction: row;
+            align-items: center;
+            min-width: unset;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            .summary-visualization {
+                position: relative;
+                margin: 0 auto 20px;
             }
         }
     }
