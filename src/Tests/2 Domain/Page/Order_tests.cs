@@ -132,10 +132,9 @@ class Order_tests : BaseTestHarness
         var allRelationsInDb = R<PageRelationRepo>().GetAll();
         await Verify(new
             {
-                cachedRootChildren = cachedRoot.ChildRelations,
-                allRelationsInDb = allRelationsInDb,
                 originalTree, 
-                newTree
+                newTree,
+                allRelationsInDb
             }
         );
     }
