@@ -178,10 +178,44 @@
             .LastOrDefault();
 
         if (lastBreadcrumbItem != null)
-            return new RedirectParent(lastBreadcrumbItem.Page.Name,
-                lastBreadcrumbItem.Page.Id);
+            return new RedirectParent(lastBreadcrumbItem.Page.Name, lastBreadcrumbItem.Page.Id);
+
+        if (id == currentWiki.Id)
+            return FindAlternativePageWhenDeletingCurrentWiki(id);
 
         return new RedirectParent(currentWiki.Name, currentWiki.Id);
+    }
+
+    private RedirectParent FindAlternativePageWhenDeletingCurrentWiki(int id)
+    {
+        var startPage = EntityCache.GetPage(_sessionUser.User.StartPageId);
+        if (startPage != null && id != startPage.Id && startPage.IsWiki)
+            return new RedirectParent(startPage.Name, startPage.Id);
+
+        var wikis = _sessionUser.User.GetWikis();
+        if (wikis.Any())
+            return new RedirectParent(wikis.First().Name, wikis.First().Id);
+
+        var favorites = _sessionUser.User.GetFavorites();
+        if (favorites.Any())
+        {
+            var firstPossibleFavorite = favorites.FirstOrDefault(page => page.Id != id);
+            if (firstPossibleFavorite != null)
+                return new RedirectParent(firstPossibleFavorite.Name, firstPossibleFavorite.Id);
+        }
+
+        var userCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
+        var recentPages = userCacheItem.RecentPages?.GetRecentPages();
+
+        if (recentPages != null && recentPages.Any())
+        {
+            var firstPossiblePage = recentPages.FirstOrDefault(page => page.Id != id);
+            if (firstPossiblePage != null)
+                return new RedirectParent(firstPossiblePage.Name, firstPossiblePage.Id);
+        }
+
+        var featuredRootPage = FeaturedPage.GetRootPage;
+        return new RedirectParent(featuredRootPage.Name, featuredRootPage.Id);
     }
 
     private class HasDeleted
