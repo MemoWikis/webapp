@@ -20,8 +20,18 @@ const deletePageStore = useDeletePageStore()
 const convertStore = useConvertStore()
 const { t } = useI18n()
 
-const localePath = useLocalePath()
 const snackbar = useSnackbar()
+
+const showSideSheetCookie = useCookie<boolean>('showSideSheet')
+
+onBeforeMount(() => {
+    if (showSideSheetCookie.value)
+        sideSheetStore.showSideSheet = showSideSheetCookie.value
+})
+
+watch(() => sideSheetStore.showSideSheet, (show) => {
+    showSideSheetCookie.value = show
+})
 
 const windowWidth = ref(0)
 const windowHeight = ref(0)
