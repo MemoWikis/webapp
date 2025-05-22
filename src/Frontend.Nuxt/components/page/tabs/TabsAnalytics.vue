@@ -35,9 +35,12 @@ onMounted(() => {
 
             </LayoutPanel>
 
-            <LayoutPanel :title="t('page.analytics.statistics')">
+            <!-- <LayoutPanel :title="t('page.analytics.statistics')" v-if="pageStore.analyticsLoaded">
                 <PageAnalyticsStatisticsSection />
-            </LayoutPanel>
+            </LayoutPanel> -->
+
+            <PageAnalyticsStatisticsSection v-if="pageStore.analyticsLoaded" />
+
         </div>
     </div>
 </template>

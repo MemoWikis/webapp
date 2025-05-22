@@ -6,25 +6,25 @@ const pageStore = usePageStore()
 
 const past90DaysLabelsAggregatedPages = computed(() => pageStore.viewsPast90DaysAggregatedPages?.map(v => {
     const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${year}-${month}-${day}`
+    return `${month}-${day}`
 }) as string[])
 const past90DaysCountsAggregatedPages = computed(() => pageStore.viewsPast90DaysAggregatedPages?.map(v => v.count) as number[])
 
 const past90DaysLabelsPages = computed(() => pageStore.viewsPast90DaysPage?.map(v => {
     const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${year}-${month}-${day}`
+    return `${month}-${day}`
 }) as string[])
 const past90DaysCountsPages = computed(() => pageStore.viewsPast90DaysPage?.map(v => v.count) as number[])
 
 const past90DaysLabelsAggregatedQuestions = computed(() => pageStore.viewsPast90DaysAggregatedQuestions?.map(v => {
     const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${year}-${month}-${day}`
+    return `${month}-${day}`
 }) as string[])
 const past90DaysCountsAggregatedQuestions = computed(() => pageStore.viewsPast90DaysAggregatedQuestions?.map(v => v.count) as number[])
 
 const past90DaysLabelsQuestions = computed(() => pageStore.viewsPast90DaysDirectQuestions?.map(v => {
     const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${year}-${month}-${day}`
+    return `${month}-${day}`
 }) as string[])
 const past90DaysCountsQuestions = computed(() => pageStore.viewsPast90DaysDirectQuestions?.map(v => v.count) as number[])
 
@@ -42,43 +42,55 @@ const { t } = useI18n()
 <template>
     <div class="statistics-section" v-if="pageStore.analyticsLoaded">
 
-        <LayoutCard>
-            <div class="statistics-sub-label">
-                {{ pageViewsPast90Days }} {{ t('page.analytics.pageViewsLast90Days') }}
-            </div>
+        <!-- <div class="statistics-sub-label">
+            {{ pageViewsPast90Days }} {{ t('page.analytics.pageViewsLast90Days') }}
+        </div> -->
+        <LayoutPanel :title="t('page.analytics.pageViewsLast90Days')">
             <div class="statistics-container">
                 <div class="statistics-content">
-                    <div class="statistics-chart-section" :class="{ 'no-subpages': pageStore.childPageCount === 0 }">
-                        <LazySharedChartsBar :labels="past90DaysLabelsPages" :datasets="past90DaysCountsPages" :color="color.middleBlue"
-                            :title="t('page.analytics.withoutChildPages')" />
-                    </div>
+                    <LayoutCard :full-width="false">
+                        <div class="statistics-chart-section" :class="{ 'no-subpages': pageStore.childPageCount === 0 }">
 
-                    <div class="statistics-chart-section" v-if="pageStore.childPageCount > 0">
-                        <LazySharedChartsBar :labels="past90DaysLabelsAggregatedPages" :datasets="past90DaysCountsAggregatedPages" :color="color.darkBlue"
-                            :title="t('page.analytics.withChildPages', { count: pageStore.childPageCount })" />
-                    </div>
+                            <LazySharedChartsBar :labels="past90DaysLabelsPages" :datasets="past90DaysCountsPages" :color="color.middleBlue"
+                                :title="t('page.analytics.withoutChildPages')" />
+
+                        </div>
+                    </LayoutCard>
+                    <LayoutCard :full-width="false">
+
+                        <div class="statistics-chart-section" v-if="pageStore.childPageCount > 0">
+                            <LazySharedChartsBar :labels="past90DaysLabelsAggregatedPages" :datasets="past90DaysCountsAggregatedPages" :color="color.darkBlue"
+                                :title="t('page.analytics.withChildPages', { count: pageStore.childPageCount })" />
+                        </div>
+                    </LayoutCard>
+
                 </div>
             </div>
-        </LayoutCard>
+        </LayoutPanel>
 
-        <LayoutCard v-if="pageStore.questionCount > 0">
-            <div class="statistics-sub-label">
+
+        <LayoutPanel v-if="pageStore.questionCount > 0" :title="t('page.analytics.questionViewsLast90Days')">
+            <!-- <div class="statistics-sub-label">
                 {{ questionViewsPast90Days }} {{ t('page.analytics.questionViewsLast90Days') }}
-            </div>
+            </div> -->
             <div class="statistics-container">
                 <div class="statistics-content">
-                    <div class="statistics-chart-section" :class="{ 'no-subpages': pageStore.childPageCount === 0 }">
-                        <LazySharedChartsBar :labels="past90DaysLabelsQuestions" :datasets="past90DaysCountsQuestions" :color="color.memoGreen"
-                            :title="t('page.analytics.directlyLinkedQuestionsTitle')" />
-                    </div>
+                    <LayoutCard :full-width="false">
+                        <div class="statistics-chart-section" :class="{ 'no-subpages': pageStore.childPageCount === 0 }">
+                            <LazySharedChartsBar :labels="past90DaysLabelsQuestions" :datasets="past90DaysCountsQuestions" :color="color.memoGreen"
+                                :title="t('page.analytics.directlyLinkedQuestionsTitle')" />
+                        </div>
+                    </LayoutCard>
+                    <LayoutCard :full-width="false">
+                        <div class="statistics-chart-section" v-if="pageStore.childPageCount > 0">
+                            <LazySharedChartsBar :labels="past90DaysLabelsAggregatedQuestions" :datasets="past90DaysCountsAggregatedQuestions" :color="color.darkGreen"
+                                :title="t('page.analytics.includedQuestions90Days', { count: pageStore.childPageCount })" />
+                        </div>
+                    </LayoutCard>
 
-                    <div class="statistics-chart-section" v-if="pageStore.childPageCount > 0">
-                        <LazySharedChartsBar :labels="past90DaysLabelsAggregatedQuestions" :datasets="past90DaysCountsAggregatedQuestions" :color="color.darkGreen"
-                            :title="t('page.analytics.includedQuestions90Days', { count: pageStore.childPageCount })" />
-                    </div>
                 </div>
             </div>
-        </LayoutCard>
+        </LayoutPanel>
     </div>
 </template>
 
@@ -90,24 +102,18 @@ const { t } = useI18n()
     width: 100%;
 
     .statistics-container {
+        width: 100%;
+
         .statistics-content {
             display: flex;
             flex-wrap: wrap;
-            margin-bottom: 60px;
+            gap: 1rem;
 
             .statistics-chart-section {
-                width: 50%;
+                width: 100%;
                 position: relative;
                 height: 100%;
                 min-height: 300px;
-
-                @media screen and (max-width: 991px) {
-                    width: 100%;
-                }
-
-                &.no-subpages {
-                    width: 100%;
-                }
             }
         }
     }
