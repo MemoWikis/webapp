@@ -28,7 +28,6 @@ public class PageCacheItem : IPersistable
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
     public virtual int CountQuestions { get; set; }
 
-    public int CountQuestionsAggregated { get; set; }
     public virtual string CustomSegments { get; set; }
 
     public virtual DateTime DateCreated { get; set; }
@@ -167,7 +166,7 @@ public class PageCacheItem : IPersistable
         return visibleVisited;
     }
 
-    public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
+    public virtual IList<QuestionCacheItem> GetAggregatedQuestions(
         int userId,
         bool onlyVisible = true,
         bool fullList = true,
@@ -213,7 +212,7 @@ public class PageCacheItem : IPersistable
     {
         if (inPageOnly)
         {
-            return GetAggregatedQuestionsFromMemoryCache(
+            return GetAggregatedQuestions(
                 userId,
                 true,
                 false,
@@ -222,7 +221,7 @@ public class PageCacheItem : IPersistable
             ).Count;
         }
 
-        return GetAggregatedQuestionsFromMemoryCache(userId, permissionCheck: permissionCheck)
+        return GetAggregatedQuestions(userId, permissionCheck: permissionCheck)
             .Count;
     }
 
@@ -286,7 +285,6 @@ public class PageCacheItem : IPersistable
             Content = page.Content,
             CorrectnessProbability = page.CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = page.CorrectnessProbabilityAnswerCount,
-            CountQuestionsAggregated = page.CountQuestionsAggregated,
             CreatorId = creatorId,
             CustomSegments = page.CustomSegments,
             Description = page.Description,
@@ -489,7 +487,7 @@ public class PageCacheItem : IPersistable
 
             if (getQuestions)
             {
-                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: true, pageId: Id);
+                var allQuestions = GetAggregatedQuestions(userId, onlyVisible: true, fullList: true, pageId: Id);
                 var unsortedQuestionChanges = allQuestions
                     .Where(q => q != null && q.QuestionChangeCacheItems != null)
                     .SelectMany(q => q.QuestionChangeCacheItems)
@@ -509,7 +507,7 @@ public class PageCacheItem : IPersistable
 
             if (getQuestions)
             {
-                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: false, pageId: Id);
+                var allQuestions = GetAggregatedQuestions(userId, onlyVisible: true, fullList: false, pageId: Id);
                 var unsortedQuestionChanges = allQuestions
                     .Where(q => q != null && q.QuestionChangeCacheItems != null)
                     .SelectMany(q => q.QuestionChangeCacheItems)

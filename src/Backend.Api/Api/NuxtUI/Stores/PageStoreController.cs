@@ -277,13 +277,13 @@ public class PageStoreController(
 
     private List<DailyViews> GetQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: false, pageId: page.Id, permissionCheck: _permissionCheck);
+        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, fullList: false, pageId: page.Id, permissionCheck: _permissionCheck);
         return GetQuestionViews(questions);
     }
 
     private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, pageId: page.Id, permissionCheck: _permissionCheck);
+        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, fullList: true, pageId: page.Id, permissionCheck: _permissionCheck);
         return GetQuestionViews(questions);
     }
 

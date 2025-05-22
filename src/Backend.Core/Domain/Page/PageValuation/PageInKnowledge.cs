@@ -1,8 +1,6 @@
 ﻿using FluentNHibernate.Conventions;
 
 public class PageInKnowledge(
-    QuestionInKnowledge _questionInKnowledge,
-    UserReadingRepo _userReadingRepo,
     ExtendedUserCache _extendedUserCache)
     : IRegisterAsInstancePerLifetime
 {
@@ -28,7 +26,7 @@ public class PageInKnowledge(
 
                 return page == null
                     ? new List<QuestionCacheItem>()
-                    : page.GetAggregatedQuestionsFromMemoryCache(userId);
+                    : page.GetAggregatedQuestions(userId);
             })
             .GetIds()
             .Distinct()

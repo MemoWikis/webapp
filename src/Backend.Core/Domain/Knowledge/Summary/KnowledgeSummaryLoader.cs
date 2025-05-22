@@ -78,7 +78,7 @@
 
     public KnowledgeSummary Run(int userId, int pageId, bool onlyValuated = true)
         => Run(userId,
-            EntityCache.GetPage(pageId).GetAggregatedQuestionsFromMemoryCache(userId)
+            EntityCache.GetPage(pageId).GetAggregatedQuestions(userId)
                 .GetIds(),
             onlyValuated);
 

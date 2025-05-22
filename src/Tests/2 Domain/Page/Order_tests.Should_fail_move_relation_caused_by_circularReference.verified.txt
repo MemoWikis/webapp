@@ -1,0 +1,13 @@
+﻿{
+  originalTree:
+root
+└── sub1
+    └── sub1sub1
+        └── sub1sub1sub1
+        [sub1sub1sub1]
+    [sub1sub1]
+[sub1]
+,
+  errorMessage1: error.page.circularReference,
+  errorMessage2: error.page.circularReference
+}

@@ -1,0 +1,189 @@
+﻿{
+  allPages: [
+    {
+      AuthorIds: 1,
+      Content: null,
+      CorrectnessProbability: {Scrubbed},
+      CorrectnessProbabilityAnswerCount: 0,
+      CountQuestionsAggregated: 1,
+      Creator_id: 1,
+      CustomSegments: null,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Description: null,
+      DisableLearningFunctions: false,
+      Id: 1,
+      IsWiki: false,
+      Language: en,
+      Name: parent name,
+      SkipMigration: false,
+      TextIsHidden: false,
+      TopicMarkdown: null,
+      TotalRelevancePersonalEntries: 0,
+      Url: null,
+      UrlLinkText: null,
+      Visibility: 0,
+      WikipediaURL: null
+    }
+  ],
+  allQuestions: [
+    {
+      CorrectnessProbability: {Scrubbed},
+      CorrectnessProbabilityAnswerCount: 0,
+      Creator_id: 1,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Description: null,
+      DescriptionHtml: null,
+      Id: 1,
+      License: 0,
+      SkipMigration: false,
+      Solution: defaultSolution,
+      SolutionMetadataJson: {"IsCaseSensitive":true,"IsExtracInput":false,"IsDate":false,"IsNumber":false,"IsText":true},
+      SolutionType: 1,
+      Text: question1,
+      TextExtended: null,
+      TextExtendedHtml: null,
+      TextHtml: null,
+      TotalFalseAnswers: 0,
+      TotalQualityAvg: 0,
+      TotalQualityEntries: 0,
+      TotalRelevanceForAllAvg: 0,
+      TotalRelevanceForAllEntries: 0,
+      TotalRelevancePersonalAvg: 0,
+      TotalRelevancePersonalEntries: 0,
+      TotalTrueAnswers: 0,
+      Visibility: 1
+    }
+  ],
+  allPagesToQuestions: [
+    {
+      Page_id: 1,
+      Question_id: 1
+    }
+  ],
+  allPagesInCache: [
+    {
+      CreatorId: 1,
+      Creator: {
+        IsMemoWikisUser: false,
+        AllowsSupportiveLogin: false,
+        CorrectnessProbability: {Scrubbed},
+        DateCreated: {Scrubbed},
+        IsMember: false,
+        Id: 1,
+        Name: SessionUser,
+        IsFacebookUser: false,
+        IsGoogleUser: false,
+        ShowWishKnowledge: false,
+        IsInstallationAdmin: false,
+        IsEmailConfirmed: false,
+        UiLanguage: en,
+        ContentLanguages: [
+          English
+        ]
+      },
+      AuthorIds: [
+        1
+      ],
+      CorrectnessProbability: {Scrubbed},
+      DateCreated: {Scrubbed},
+      DisableLearningFunctions: false,
+      TextIsHidden: false,
+      Id: 1,
+      IsHistoric: false,
+      Name: parent name,
+      SkipMigration: false,
+      IsPublic: true,
+      IsWiki: false,
+      Language: en,
+      PageChangeCacheItems: {Scrubbed}
+    }
+  ],
+  allQuestionsInCache: [
+    {
+      Creator: {
+        IsMemoWikisUser: false,
+        AllowsSupportiveLogin: false,
+        CorrectnessProbability: {Scrubbed},
+        DateCreated: {Scrubbed},
+        IsMember: false,
+        Id: 1,
+        Name: SessionUser,
+        IsFacebookUser: false,
+        IsGoogleUser: false,
+        ShowWishKnowledge: false,
+        IsInstallationAdmin: false,
+        IsEmailConfirmed: false,
+        UiLanguage: en,
+        ContentLanguages: [
+          English
+        ]
+      },
+      CorrectnessProbability: {Scrubbed},
+      CreatorId: 1,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Id: 1,
+      SkipMigration: false,
+      Solution: defaultSolution,
+      SolutionMetadataJson: {"IsCaseSensitive":true,"IsExtracInput":false,"IsDate":false,"IsNumber":false,"IsText":true},
+      SolutionType: Text,
+      Text: question1,
+      Visibility: Private,
+      IsPublic: false,
+      QuestionChangeCacheItems: {Scrubbed},
+      Language: de
+    }
+  ],
+  childQuestions: [
+    {
+      Creator: {
+        IsMemoWikisUser: false,
+        AllowsSupportiveLogin: false,
+        CorrectnessProbability: {Scrubbed},
+        DateCreated: {Scrubbed},
+        IsMember: false,
+        Id: 1,
+        Name: SessionUser,
+        IsFacebookUser: false,
+        IsGoogleUser: false,
+        ShowWishKnowledge: false,
+        IsInstallationAdmin: false,
+        IsEmailConfirmed: false,
+        UiLanguage: en,
+        ContentLanguages: [
+          English
+        ]
+      },
+      CorrectnessProbability: {Scrubbed},
+      CreatorId: 1,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Id: 1,
+      SkipMigration: false,
+      Solution: defaultSolution,
+      SolutionMetadataJson: {"IsCaseSensitive":true,"IsExtracInput":false,"IsDate":false,"IsNumber":false,"IsText":true},
+      SolutionType: Text,
+      Text: question1,
+      Visibility: Private,
+      IsPublic: false,
+      QuestionChangeCacheItems: {Scrubbed},
+      Language: de
+    }
+  ],
+  pageChanges: [
+    Create,
+    Relations,
+    Relations,
+    ChildPageDeleted
+  ],
+  questionChanges: {
+    Data: {"QuestionText":"question1","TextHtml":null,"QuestionTextExtended":null,"TextExtendedHtml":null,"Description":null,"DescriptionHtml":null,"ImageWasChanged":true,"License":null,"Visibility":1,"Solution":"defaultSolution","SolutionDescription":null,"SolutionMetadataJson":"{\"IsCaseSensitive\":true,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}","CommentIds":null},
+    ShowInSidebar: true,
+    DataVersion: 1,
+    AuthorId: 1,
+    DateCreated: {Scrubbed},
+    Id: 1
+  }
+}

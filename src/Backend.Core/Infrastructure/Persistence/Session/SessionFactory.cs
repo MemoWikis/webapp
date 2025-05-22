@@ -81,8 +81,6 @@ public class SessionFactory
         return sessionFactory;
     }
 
-    public static Configuration BuildTestConfiguration() => BuildTestConfiguration(Settings.ConnectionString);
-
     public static Configuration BuildTestConfiguration(string connectionString)
     {
         var configuration = Fluently.Configure()
@@ -93,8 +91,8 @@ public class SessionFactory
             )
             .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
             .ExposeConfiguration(SetConfig)
-            .BuildConfiguration()
-            .SetProperty("generate_statistics", "true");
+            .BuildConfiguration();
+            //.SetProperty("generate_statistics", "true");
 
         return configuration;
     }
