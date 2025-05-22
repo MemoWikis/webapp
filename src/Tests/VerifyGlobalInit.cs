@@ -8,5 +8,11 @@ internal static class VerifyGlobalInit
         // Replace the values with «scrubbed» placeholders
         VerifierSettings.ScrubMember("DateCreated");
         VerifierSettings.ScrubMember("DateModified");
+        VerifierSettings.ScrubMember("CorrectnessProbability");
+        VerifierSettings.ScrubMember("QuestionChangeCacheItems");
+        VerifierSettings.ScrubMember("PageChangeCacheItems");
+
+        VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Child);
+        VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Parent);
     }
 }

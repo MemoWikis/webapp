@@ -41,11 +41,14 @@ public class AutofacCoreModule : Autofac.Module
             .As<IMemoryCache>();
         try
         {
-#if DEBUG
+#if FALSE
+            // floods the log with SQL queries
+            // enable in debug if needed only
+
             var interceptor = new SqlDebugOutputInterceptor();
             var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().Interceptor(interceptor);
 #else
-                var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().NoInterceptor();
+            var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().NoInterceptor();
 #endif 
 
             builder.RegisterInstance(sessionBuilder);

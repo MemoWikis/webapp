@@ -1,0 +1,20 @@
+﻿{
+  originalSub1Tree:
+sub1
+└── sub1sub1
+[sub1sub1]
+,
+  originalSub2Tree:
+sub2
+,
+  newSub1Tree:
+sub1
+,
+  newSub2Tree:
+sub2
+└── sub1sub1
+[sub1sub1]
+,
+  sub2ChildRelationsCount: 1,
+  movedSubParentRelationsCount: 1
+}

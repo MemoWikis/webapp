@@ -23,7 +23,7 @@
             if (hasOrphan)
                 break;
 
-            hasOrphan = page.GetAggregatedQuestionsFromMemoryCache(userId, false, true).Any(q => q.CreatorId != userId);
+            hasOrphan = page.GetAggregatedQuestions(userId, false, true).Any(q => q.CreatorId != userId);
             if (hasOrphan)
                 break;
         }

@@ -4,7 +4,6 @@ using System.Text;
 using NHibernate;
 using NHibernate.Impl;
 using NHibernate.SqlCommand;
-using Serilog;
 
 public class SqlDebugOutputInterceptor : EmptyInterceptor
 {

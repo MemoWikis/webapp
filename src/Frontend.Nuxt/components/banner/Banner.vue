@@ -205,5 +205,37 @@ const slots = useSlots()
             }
         }
     }
+
+    &.sidesheet-open {
+
+        @media (max-width: 1500px) {
+            .banner-container {
+                width: calc(100vw - 40px);
+            }
+
+            .banner-row {
+                padding-left: 420px;
+                margin-right: 10px;
+                width: 100%;
+            }
+
+            .page {
+                &.col-lg-9 {
+                    width: 100%;
+                }
+            }
+        }
+
+        @media (min-width: 1501px) and (max-width: 1980px) {
+
+            .banner-row {
+                padding-left: clamp(260px, 20vw, 0px);
+                margin-right: 10px;
+                width: 100%;
+            }
+
+        }
+    }
+
 }
 </style>

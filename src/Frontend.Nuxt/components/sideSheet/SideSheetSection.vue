@@ -13,7 +13,6 @@
         <div class="footer">
             <slot name="footer"></slot>
         </div>
-
     </div>
 </template>
 
@@ -63,11 +62,49 @@
 
             &.no-hover {
                 &:hover {
-                    filter: brightness(1);
+                    filter: none;
                 }
 
                 &:active {
-                    filter: brightness(1);
+                    filter: none;
+                }
+            }
+
+            .header-btn {
+                justify-self: flex-end;
+                margin-left: auto;
+                padding: 6px;
+                background: @memo-grey-lightest;
+                margin-top: -4px;
+                margin-bottom: -4px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 4px;
+
+                .svg-inline--fa {
+                    margin-right: 0px;
+                }
+
+                &:hover {
+                    filter: brightness(0.925);
+                }
+
+                &:active {
+                    filter: brightness(0.85);
+                }
+
+                &.disabled {
+                    cursor: not-allowed;
+                    opacity: 0.5;
+
+                    &:hover {
+                        filter: none;
+                    }
+
+                    &:active {
+                        filter: none;
+                    }
                 }
             }
 
@@ -94,7 +131,7 @@
             overflow: hidden;
             white-space: nowrap;
             user-select: none;
-            padding-right: 2px;
+            padding-right: 8px;
             height: 26px;
 
             &:hover {

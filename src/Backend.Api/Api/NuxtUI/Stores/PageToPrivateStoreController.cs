@@ -39,7 +39,7 @@
         var aggregatedPages = pageCacheItem.AggregatedPages(_permissionCheck)
             .Where(c => c.Value.Visibility == PageVisibility.Public);
         var publicAggregatedQuestions = pageCacheItem
-            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true, permissionCheck: _permissionCheck)
+            .GetAggregatedQuestions(_sessionUser.UserId, true, permissionCheck: _permissionCheck)
             .Where(q => q.Visibility == QuestionVisibility.Public).ToList();
 
         var pinCount = pageCacheItem.TotalRelevancePersonalEntries;

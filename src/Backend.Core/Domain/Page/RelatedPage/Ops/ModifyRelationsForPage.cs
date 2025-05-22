@@ -1,6 +1,6 @@
 ﻿public class ModifyRelationsForPage(
     PageRepository pageRepository,
-    PageRelationRepo pageRelationRepo)
+    PageRelationRepo pageRelationRepo) : IRegisterAsInstancePerLifetime
 {
     /// <summary>
     /// Updates relations with related pages (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of page (Standard, Book etc.)

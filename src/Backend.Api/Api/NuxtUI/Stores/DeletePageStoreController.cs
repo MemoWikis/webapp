@@ -57,7 +57,7 @@ public class DeletePageStoreController(
 
         var questions = EntityCache
             .GetPage(id)?
-            .GetAggregatedQuestionsFromMemoryCache(
+            .GetAggregatedQuestions(
                 _sessionUser.UserId,
                 onlyVisible: false, 
                 permissionCheck: _permissionCheck
