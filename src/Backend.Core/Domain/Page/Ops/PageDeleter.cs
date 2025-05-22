@@ -105,12 +105,12 @@
         bool HasChildren = false,
         bool IsNotCreatorOrAdmin = false,
         bool Success = false,
-        RedirectParent? RedirectParent = null,
+        RedirectPage? RedirectParent = null,
         string? MessageKey = null);
 
     public DeletePageResult DeletePage(int pageToDeleteId, int? newParentForQuestionsId)
     {
-        var redirectParent = GetRedirectPage(pageToDeleteId);
+        var redirectPage = GetRedirectPage(pageToDeleteId);
         var page = _pageRepo.GetById(pageToDeleteId);
 
         if (page == null)
@@ -145,7 +145,7 @@
             HasChildren: hasDeleted.HasChildren,
             IsNotCreatorOrAdmin: hasDeleted.IsNotCreatorOrAdmin,
             Success: hasDeleted.DeletedSuccessful,
-            RedirectParent: redirectParent);
+            RedirectParent: redirectPage);
     }
 
     private void MoveQuestionsToParent(int pageToDeleteId, int parentId)
@@ -165,9 +165,9 @@
         EntityCache.AddQuestionsToPage(parentId, questionIdsFromPageToDelete);
     }
 
-    public record RedirectParent(string Name, int Id);
+    public record RedirectPage(string Name, int Id);
 
-    private RedirectParent GetRedirectPage(int id)
+    private RedirectPage GetRedirectPage(int id)
     {
         var page = EntityCache.GetPage(id);
         var currentWiki = EntityCache.GetPage(_sessionUser.CurrentWikiId);
@@ -178,30 +178,30 @@
             .LastOrDefault();
 
         if (lastBreadcrumbItem != null)
-            return new RedirectParent(lastBreadcrumbItem.Page.Name, lastBreadcrumbItem.Page.Id);
+            return new RedirectPage(lastBreadcrumbItem.Page.Name, lastBreadcrumbItem.Page.Id);
 
         if (id == currentWiki.Id)
             return FindAlternativePageWhenDeletingCurrentWiki(id);
 
-        return new RedirectParent(currentWiki.Name, currentWiki.Id);
+        return new RedirectPage(currentWiki.Name, currentWiki.Id);
     }
 
-    private RedirectParent FindAlternativePageWhenDeletingCurrentWiki(int id)
+    private RedirectPage FindAlternativePageWhenDeletingCurrentWiki(int id)
     {
         var startPage = EntityCache.GetPage(_sessionUser.User.StartPageId);
         if (startPage != null && id != startPage.Id && startPage.IsWiki)
-            return new RedirectParent(startPage.Name, startPage.Id);
+            return new RedirectPage(startPage.Name, startPage.Id);
 
         var wikis = _sessionUser.User.GetWikis();
         if (wikis.Any())
-            return new RedirectParent(wikis.First().Name, wikis.First().Id);
+            return new RedirectPage(wikis.First().Name, wikis.First().Id);
 
         var favorites = _sessionUser.User.GetFavorites();
         if (favorites.Any())
         {
             var firstPossibleFavorite = favorites.FirstOrDefault(page => page.Id != id);
             if (firstPossibleFavorite != null)
-                return new RedirectParent(firstPossibleFavorite.Name, firstPossibleFavorite.Id);
+                return new RedirectPage(firstPossibleFavorite.Name, firstPossibleFavorite.Id);
         }
 
         var userCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
@@ -211,11 +211,11 @@
         {
             var firstPossiblePage = recentPages.FirstOrDefault(page => page.Id != id);
             if (firstPossiblePage != null)
-                return new RedirectParent(firstPossiblePage.Name, firstPossiblePage.Id);
+                return new RedirectPage(firstPossiblePage.Name, firstPossiblePage.Id);
         }
 
         var featuredRootPage = FeaturedPage.GetRootPage;
-        return new RedirectParent(featuredRootPage.Name, featuredRootPage.Id);
+        return new RedirectPage(featuredRootPage.Name, featuredRootPage.Id);
     }
 
     private class HasDeleted

@@ -90,7 +90,7 @@ public class DeletePageStoreController(
         bool Success,
         bool? HasChildren = null,
         bool? IsNotCreatorOrAdmin = null,
-        RedirectParent? RedirectParent = null,
+        RedirectPage? RedirectParent = null,
         string? MessageKey = null);
 
     [AccessOnlyAsLoggedIn]
