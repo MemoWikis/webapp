@@ -33,7 +33,6 @@ const { t } = useI18n()
 
 <template>
     <div class="statistics-section" v-if="pageStore.analyticsLoaded">
-        <h3>{{ t('page.analytics.statistics') }}</h3>
         <div class="statistics-sub-label">
             {{ t('page.analytics.pageViewsLast90Days') }}
         </div>

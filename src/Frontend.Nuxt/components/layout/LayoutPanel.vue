@@ -8,14 +8,14 @@ defineProps({
 </script>
 
 <template>
-    <div class="mission-control-section">
-        <div class="section-header" v-if="title">
-            <h2 class="section-title">{{ title }}</h2>
-            <div class="section-actions" v-if="$slots.actions">
+    <div class="layout-panel">
+        <div class="panel-header" v-if="title">
+            <h2 class="panel-title">{{ title }}</h2>
+            <div class="panel-actions" v-if="$slots.actions">
                 <slot name="actions"></slot>
             </div>
         </div>
-        <div class="section-content">
+        <div class="panel-content">
             <slot></slot>
         </div>
     </div>
@@ -24,38 +24,41 @@ defineProps({
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.mission-control-section {
+.layout-panel {
     background-color: @memo-grey-lightest;
     border-radius: 8px;
     margin-bottom: 24px;
     overflow: hidden;
     width: 100%;
     max-width: calc(100vw - 40px);
-    // border: solid 1px @memo-grey-lightest;
 
-    .section-header {
+    .panel-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 16px 20px;
 
-        .section-title {
-            font-size: 18px;
+        .panel-title {
+            font-size: 1.8rem;
             font-weight: 600;
-            color: #333;
+            color: @memo-grey-darker;
             margin: 0;
         }
 
-        .section-actions {
+        .panel-actions {
             display: flex;
             align-items: center;
             gap: 8px;
         }
     }
 
-    .section-content {
+    .panel-content {
         padding: 16px 20px;
         padding-top: 0;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
     }
 }
 </style>

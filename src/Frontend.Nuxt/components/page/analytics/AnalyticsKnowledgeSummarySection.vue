@@ -7,7 +7,7 @@ const knowledgeSummaryData = ref<ChartData[]>([])
 
 function setKnowledgeSummaryData() {
     knowledgeSummaryData.value = []
-    for (const [key, value] of Object.entries(pageStore.knowledgeSummary)) {
+    for (const [key, value] of Object.entries(pageStore.knowledgeSummarySlim)) {
         knowledgeSummaryData.value.push({
             value: value,
             class: key,
@@ -18,35 +18,18 @@ function setKnowledgeSummaryData() {
 
 const { t } = useI18n()
 
-function getLabel(key: string) {
-    switch (key) {
-        case 'solid':
-            return t('knowledgeStatus.solid')
-        case 'needsConsolidation':
-            return t('knowledgeStatus.needsConsolidation')
-        case 'needsLearning':
-            return t('knowledgeStatus.needsLearning')
-        case 'notLearned':
-            return t('knowledgeStatus.notLearned')
-    }
-}
-
 onBeforeMount(() => setKnowledgeSummaryData())
 </script>
 
 <template>
     <div class="knowledgesummary-section">
-        <h3>{{ t('page.analytics.yourKnowledgeStatus') }}</h3>
         <div class="knowledgesummary-container">
             <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
                 <div class="knowledgesummary-sub-label">
                     {{ t('page.analytics.questionsGroupedByStatus') }}
                 </div>
                 <div class="knowledgesummary-content">
-                    <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info" :key="d.value">
-                        <div class="color-container" :class="`color-${d.class}`"></div>
-                        <div class="knowledgesummary-label"><b>{{ d.value }}</b> {{ getLabel(d.class!) }}</div>
-                    </div>
+                    <SharedKnowledgeSummary :knowledgeStatus="pageStore.knowledgeSummarySlim" />
                 </div>
             </div>
 
@@ -63,7 +46,20 @@ onBeforeMount(() => setKnowledgeSummaryData())
 .knowledgesummary-section {
     margin-bottom: 40px;
     font-size: 18px;
-    width: 50%;
+
+    .knowledgesummary-section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+
+        .knowledgesummary-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: @memo-grey-dark;
+            margin: 0;
+        }
+    }
 
     .knowledgesummary-container {
         .knowledgesummary-content {
@@ -72,6 +68,9 @@ onBeforeMount(() => setKnowledgeSummaryData())
 
         .knowledgesummary-sub-label {
             margin-bottom: 16px;
+            font-size: 1em;
+            color: @memo-grey-dark;
+            font-weight: 600;
         }
 
         .knowledgesummary-info {

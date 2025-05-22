@@ -149,9 +149,6 @@ const isDateBeforeRange = (dateStr: string) => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .learn-calendar {
-    background: white;
-    border-radius: 8px;
-    padding: 16px 20px;
 
     .stats {
         display: flex;

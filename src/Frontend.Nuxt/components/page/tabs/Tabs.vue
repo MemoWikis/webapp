@@ -37,7 +37,7 @@ const chartData = ref<ChartData[]>([])
 function setChartData() {
 
 	chartData.value = []
-	for (const [key, value] of Object.entries(pageStore.knowledgeSummary)) {
+	for (const [key, value] of Object.entries(pageStore.knowledgeSummarySlim)) {
 		chartData.value.push({
 			value: value,
 			class: key,
@@ -64,7 +64,7 @@ function getTooltipLabel(key: string, count: number) {
 }
 
 onBeforeMount(() => setChartData())
-watch(() => pageStore.knowledgeSummary, () => setChartData(), { deep: true })
+watch(() => pageStore.knowledgeSummarySlim, () => setChartData(), { deep: true })
 const ariaId = useId()
 const ariaId2 = useId()
 

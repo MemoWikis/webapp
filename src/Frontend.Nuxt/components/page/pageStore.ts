@@ -33,7 +33,7 @@ export class Page {
     authors: Author[] = []
     pageItem: PageItem | null = null
     metaDescription: string = ''
-    knowledgeSummary: KnowledgeSummary = {
+    knowledgeSummary: KnowledgeSummarySlim = {
         solid: 0,
         needsConsolidation: 0,
         needsLearning: 0,
@@ -66,7 +66,7 @@ export interface SharedWithUser {
     imgUrl: string
 }
 
-export interface KnowledgeSummary {
+export interface KnowledgeSummarySlim {
     solid: number
     needsConsolidation: number
     needsLearning: number
@@ -133,7 +133,7 @@ export const usePageStore = defineStore('pageStore', {
             canBeDeleted: false,
             authors: [] as Author[],
             searchPageItem: null as null | PageItem,
-            knowledgeSummary: {} as KnowledgeSummary,
+            knowledgeSummarySlim: {} as KnowledgeSummarySlim,
             gridItems: [] as GridPageItem[],
             isChildOfPersonalWiki: false,
             textIsHidden: false,
@@ -190,7 +190,7 @@ export const usePageStore = defineStore('pageStore', {
 
                 this.authors = page.authors
                 this.searchPageItem = page.pageItem
-                this.knowledgeSummary = page.knowledgeSummary
+                this.knowledgeSummarySlim = page.knowledgeSummary
                 this.gridItems = page.gridItems
                 this.isChildOfPersonalWiki = page.isChildOfPersonalWiki
                 this.textIsHidden = page.textIsHidden
@@ -403,7 +403,7 @@ export const usePageStore = defineStore('pageStore', {
             )
         },
         async reloadKnowledgeSummary() {
-            this.knowledgeSummary = await $api<KnowledgeSummary>(
+            this.knowledgeSummarySlim = await $api<KnowledgeSummarySlim>(
                 `/apiVue/PageStore/GetUpdatedKnowledgeSummary/${this.id}`,
                 {
                     method: 'GET',

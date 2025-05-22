@@ -1,9 +1,9 @@
-import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
+import { KnowledgeSummary } from '~/composables/knowledgeSummary'
 
 export interface PageData {
     id: number
     name: string
     imgUrl?: string
     questionCount: number
-    knowledgebarData: KnowledgebarData
+    knowledgebarData: KnowledgeSummary
 }

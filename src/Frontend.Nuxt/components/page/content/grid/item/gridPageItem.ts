@@ -1,6 +1,6 @@
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { TinyPageModel } from '~/components/page/pageStore'
-import { KnowledgebarData } from '../knowledgebar/knowledgebarData'
+import { KnowledgeSummary } from '../knowledgebar/knowledgeSummary'
 
 export interface GridPageItem {
     id: number
@@ -10,7 +10,7 @@ export interface GridPageItem {
     imageUrl: string
     visibility: Visibility
     parents: TinyPageModel[]
-    knowledgebarData: KnowledgebarData
+    knowledgebarData: KnowledgeSummary
     isChildOfPersonalWiki: boolean
     creatorId: number
     canDelete: boolean

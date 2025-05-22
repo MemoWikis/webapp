@@ -22,19 +22,32 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="row">
+    <div class="row anaytlics">
         <div class="col-xs-12">
-            <div class="data-section">
-                <PageAnalyticsKnowledgeSummarySection />
-                <PageAnalyticsPageData />
-            </div>
-            <PageAnalyticsStatisticsSection />
+            <LayoutPanel>
+                <LayoutCard :full-width="false" :title="t('page.analytics.yourKnowledgeStatus')">
+                    <PageAnalyticsKnowledgeSummarySection />
+                </LayoutCard>
+
+                <LayoutCard :full-width="false" :title="t('page.analytics.pageData')">
+                    <PageAnalyticsPageData />
+                </LayoutCard>
+
+            </LayoutPanel>
+
+            <LayoutPanel :title="t('page.analytics.statistics')">
+                <PageAnalyticsStatisticsSection />
+            </LayoutPanel>
         </div>
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.analytics {
+    margin-top: 20px;
+}
 
 .col-xs-12 {
     width: 100%;

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
+import { KnowledgeSummary } from '~/composables/knowledgeSummary'
 import { ChartData } from '~/components/chart/chartData'
+import SharedKnowledgeSummary from '~/components/shared/SharedKnowledgeSummary.vue'
 
 interface Props {
-    knowledgeStatus: KnowledgebarData
+    knowledgeStatus: KnowledgeSummary
 }
 
 const props = defineProps<Props>()
@@ -49,33 +50,6 @@ const totalQuestions = computed(() => {
         props.knowledgeStatus.needsLearning +
         props.knowledgeStatus.notLearned
 })
-
-const knowledgeStatusItems = computed(() => [
-    {
-        label: t('knowledgeStatus.solid'),
-        value: props.knowledgeStatus.solid,
-        percentage: props.knowledgeStatus.solidPercentage,
-        class: 'solid'
-    },
-    {
-        label: t('knowledgeStatus.needsConsolidation'),
-        value: props.knowledgeStatus.needsConsolidation,
-        percentage: props.knowledgeStatus.needsConsolidationPercentage,
-        class: 'needsConsolidation'
-    },
-    {
-        label: t('knowledgeStatus.needsLearning'),
-        value: props.knowledgeStatus.needsLearning,
-        percentage: props.knowledgeStatus.needsLearningPercentage,
-        class: 'needsLearning'
-    },
-    {
-        label: t('knowledgeStatus.notLearned'),
-        value: props.knowledgeStatus.notLearned,
-        percentage: props.knowledgeStatus.notLearnedPercentage,
-        class: 'notLearned'
-    }
-])
 </script>
 
 <template>
@@ -89,21 +63,7 @@ const knowledgeStatusItems = computed(() => [
                 <span class="total-questions-label">{{ t('label.questionCountAsText', totalQuestions) }}</span>
             </div>
         </div>
-        <div class="summary-details">
-            <div
-                v-for="(item, index) in knowledgeStatusItems"
-                :key="index"
-                class="status-item">
-                <div class="status-info">
-                    <span class="status-dot" :class="`dot-${item.class}`"></span>
-                    <span class="status-label">{{ item.label }}</span>
-                </div>
-                <div class="status-value">
-                    <span class="value">{{ item.value }}</span>
-                    <span class="percentage">({{ item.percentage }}%)</span>
-                </div>
-            </div>
-        </div>
+        <SharedKnowledgeSummary :knowledge-status="knowledgeStatus" />
     </div>
 </template>
 
@@ -113,11 +73,9 @@ const knowledgeStatusItems = computed(() => [
 .knowledge-summary {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    min-width: 500px;
-    background: white;
     border-radius: 8px;
     padding: 16px 20px;
+    gap: 2rem;
 
     @media (max-width:576px) {
         min-width: unset;
@@ -126,7 +84,6 @@ const knowledgeStatusItems = computed(() => [
     @media (min-width: 768px) {
         flex-direction: row;
         align-items: center;
-        width: 50%;
         flex-wrap: wrap;
         justify-content: center;
     }
@@ -134,9 +91,12 @@ const knowledgeStatusItems = computed(() => [
     .summary-visualization {
         position: relative;
         margin: 0 auto 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         @media (min-width: 768px) {
-            margin: 0 40px 0 0;
+            margin: 0 10px 0 10px;
             flex: 0 0 150px;
         }
 
@@ -174,69 +134,6 @@ const knowledgeStatusItems = computed(() => [
                 font-size: 12px;
                 color: @memo-grey-darker;
             }
-
-
-        }
-    }
-
-    .summary-details {
-        flex: 1;
-
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-
-            .status-info {
-                display: flex;
-                align-items: center;
-
-                .status-dot {
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 50%;
-                    margin-right: 8px;
-
-                    &.dot-solid {
-                        background-color: @memo-green;
-                    }
-
-                    &.dot-needsConsolidation {
-                        background-color: @memo-yellow;
-                    }
-
-                    &.dot-needsLearning {
-                        background-color: @memo-salmon;
-                    }
-
-                    &.dot-notLearned {
-                        background-color: @memo-grey-light;
-                    }
-                }
-
-                .status-label {
-                    font-size: 14px;
-                    color: @memo-grey-dark;
-                }
-            }
-
-            .status-value {
-                font-size: 14px;
-
-                .value {
-                    font-weight: 600;
-                    color: @memo-grey-darker;
-                }
-
-                .percentage {
-                    margin-left: 4px;
-                    color: @memo-grey-dark;
-                }
-            }
         }
     }
 }
@@ -249,7 +146,6 @@ const knowledgeStatusItems = computed(() => [
             flex-direction: row;
             align-items: center;
             min-width: unset;
-            width: 100%;
             flex-wrap: wrap;
             justify-content: center;
 

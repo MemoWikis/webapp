@@ -7,8 +7,6 @@ const { t } = useI18n()
 
 <template>
     <div class="pagedata-section">
-        <h3>{{ t('page.analytics.pageData') }}</h3>
-
         <div class="pagedata-container">
             <div class="pagedata-sub-label">
                 {{ t('page.analytics.questionsLabel') }}
@@ -50,8 +48,7 @@ const { t } = useI18n()
 @import (reference) '~~/assets/includes/imports.less';
 
 .pagedata-section {
-    margin-bottom: 40px;
-    font-size: 18px;
+    font-size: 1.6rem;
     width: 100%;
 
     .pagedata-container {
@@ -62,14 +59,6 @@ const { t } = useI18n()
         .pagedata-sub-label {
             margin-bottom: 16px;
         }
-    }
-}
-
-.pagedata-section {
-    width: 50%;
-
-    @media screen and (max-width: 991px) {
-        width: 100%;
     }
 }
 

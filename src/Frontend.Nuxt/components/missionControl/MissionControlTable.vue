@@ -139,13 +139,6 @@ function getSortIconClass(key: keyof PageData) {
 @import (reference) '~~/assets/includes/imports.less';
 
 .pages-table-container {
-    width: 100%;
-    margin-top: 1rem;
-
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-
     .no-pages {
         text-align: center;
         color: @memo-grey-dark;
