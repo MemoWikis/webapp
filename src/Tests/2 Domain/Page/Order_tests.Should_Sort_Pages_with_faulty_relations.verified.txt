@@ -1,0 +1,38 @@
+﻿[
+  {
+    Id: 2,
+    ChildId: 1,
+    ParentId: 10,
+    NextId: 2
+  },
+  {
+    Id: 3,
+    ChildId: 2,
+    ParentId: 10,
+    PreviousId: 1,
+    NextId: 3
+  },
+  {
+    Id: 1,
+    ChildId: 3,
+    ParentId: 10,
+    PreviousId: 2
+  },
+  {
+    Id: 4,
+    ChildId: 4,
+    ParentId: 10,
+    PreviousId: 2
+  },
+  {
+    Id: 5,
+    ChildId: 5,
+    ParentId: 10
+  },
+  {
+    Id: 6,
+    ChildId: 6,
+    ParentId: 10,
+    NextId: 3
+  }
+]

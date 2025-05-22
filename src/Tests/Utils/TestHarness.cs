@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DotNet.Testcontainers.Builders;
 using FakeItEasy;
@@ -9,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Testcontainers.MySql;
 using ContainerBuilder = Autofac.ContainerBuilder;
 using IContainer = DotNet.Testcontainers.Containers.IContainer;
@@ -17,21 +18,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
     private const string TestDbName = "memoWikisTest";
 
-    private readonly MySqlContainer _db = new MySqlBuilder()
-        .WithImage("mysql:8.3.0")
-        .WithUsername("test")
-        .WithPassword("P@ssw0rd_#123")
-        .WithDatabase(TestDbName)
-        .WithCommand(
-            "mysqld",
-            "--lower_case_table_names=1"
-        )
-        .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
-        .WithWaitStrategy(
-            Wait.ForUnixContainer()
-                .UntilPortIsAvailable(3306))
-        .WithReuse(true)
-        .Build();
+    private readonly MySqlContainer _db;
 
     private readonly IContainer _meiliSearch = new DotNet.Testcontainers.Builders.ContainerBuilder()
         .WithImage("getmeili/meilisearch:v1.5")
@@ -52,8 +39,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     private ILifetimeScope? _scope;
     public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
 
-    public RawDbDataLoader? DbData;
-    public RawMeilisearchDataLoader? SearchData;
+    public RawDbDataLoader DbData = null!;
+    public RawMeilisearchDataLoader SearchData = null!;
 
     public string ConnectionString => _db.GetConnectionString();
     public string MeilisearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
@@ -78,10 +65,43 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         _stopwatch.Restart();
     }
 
-    public TestHarness(bool enablePerfLogging = false)
+    public static async Task<TestHarness> CreateAsync(bool enablePerfLogging = false, string? prebuiltDbImage = null)
+    {
+        if (!string.IsNullOrEmpty(prebuiltDbImage))
+        {
+            await DockerUtilities.LoadDockerImageAsync(prebuiltDbImage);
+        }
+
+        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage);
+        await harness.InitAsync();
+        return harness;
+    }
+
+    // Modified constructor (now private and synchronous)
+    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage)
     {
         _enablePerfLogging = enablePerfLogging;
         _stopwatch = Stopwatch.StartNew();
+
+        _db = new MySqlBuilder()
+            .WithImage(prebuiltDbImage ?? "mysql:8.3.0")
+            .WithName(ScenarioContainer.Name)
+            .WithLabel(ScenarioContainer.Label, ScenarioContainer.Label)
+            .WithUsername("test")
+            .WithPassword("P@ssw0rd_#123")
+            .WithDatabase(TestDbName)
+            .WithCommand(
+                "mysqld",
+                "--lower_case_table_names=1"
+            )
+            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
+            .WithWaitStrategy(
+                Wait.ForUnixContainer()
+                    .UntilPortIsAvailable(3306))
+            .WithReuse(true)
+            .Build();
+
+        PerfLog($"Container Startup");
 
         // Prepare environment fake
         _webHostEnv = A.Fake<IWebHostEnvironment>();
@@ -94,16 +114,18 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         A.CallTo(() => _httpCtxAcc.HttpContext).Returns(fakeHttpContext);
         A.CallTo(() => fakeHttpContext.Session).Returns(fakeSession);
         var userIdBytes = BitConverter.GetBytes(1);
-        if (BitConverter.IsLittleEndian) Array.Reverse(userIdBytes);
+        if (BitConverter.IsLittleEndian)
+        {
+            Array.Reverse(userIdBytes);
+        }
+
         A.CallTo(() => fakeSession.TryGetValue("userId", out userIdBytes)).Returns(true);
 
-        PerfLog($"ctor finished in {_stopwatch.ElapsedMilliseconds:N0} ms");
+        PerfLog($"ctor end");
     }
 
     public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();
     public T R<T>() where T : notnull => Resolve<T>();
-
-    public ContextPage NewPageContext(bool addContextUser = true) => new(this, addContextUser);
 
     public async Task InitAsync(bool keepData = false)
     {
@@ -215,6 +237,16 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .New(R<UserWritingRepo>())
             .Add(new User { Id = 1, Name = "SessionUser" })
             .Persist();
+    }
+
+    public async Task<string> ApiCall([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
+    {
+        var httpResponse = await this.Client.GetAsync(uri);
+        var jsonContent = await httpResponse.Content.ReadAsStringAsync();
+
+        var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
+        var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
+        return formattedJson;
     }
 
     private sealed class ProgramWebApplicationFactory(

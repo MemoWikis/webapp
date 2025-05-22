@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System.CodeDom;
 using ISession = NHibernate.ISession;
 
 public class UserWritingRepo(
@@ -12,17 +12,17 @@ public class UserWritingRepo(
 {
     private readonly RepositoryDb<User> _repo = new(_session);
 
-    public void ApplyChangeAndUpdate(int userId, Action<User> change)
+    public void ApplyChangeAndUpdate(int userId, Action<User> changeAction)
     {
-        var user = _repo.GetById(userId);
-        change(user);
+        var user = _repo.GetById(userId) ?? throw new Exception("user not found");
+
+        changeAction(user);
         Update(user);
     }
 
     public void Create(User user)
     {
-        Log.Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
-            new StackTrace());
+        Log.Information("user create {Id} {Email}", user.Id, user.EmailAddress);
 
         _repo.Create(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
@@ -31,12 +31,10 @@ public class UserWritingRepo(
 
     public void Delete(int id)
     {
-        var user = _repo.GetById(id);
+        var user = _repo.GetById(id) ?? throw new Exception("user not found");
 
         if (_sessionUser.IsLoggedInUserOrAdmin())
-        {
             throw new InvalidAccessException();
-        }
 
         _repo.Delete(id);
         _extendedUserCache.Remove(user);
@@ -48,7 +46,8 @@ public class UserWritingRepo(
 
     public void DeleteFromAllTables(int userId)
     {
-        var user = _repo.GetById(userId);
+        var user = _repo.GetById(userId) ?? throw new Exception("user not found");
+        
         Task.Run(async () => await new MeilisearchUsersIndexer().DeleteAsync(user));
 
         Log.Information($"Starting deletion of user {userId} and related data.");
@@ -176,8 +175,7 @@ public class UserWritingRepo(
 
     public void Update(User user)
     {
-        Log.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
-            new StackTrace());
+        Log.Information("user update {Id} {Email}", user.Id, user.EmailAddress);
 
         _repo.Update(user);
         _extendedUserCache.Update(user);
@@ -270,12 +268,5 @@ public class UserWritingRepo(
 
             Update(result.User.User);
         }
-    }
-
-    public void UpdateOnlyDb(User user)
-    {
-        Log.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
-            new StackTrace());
-        Update(user);
     }
 }

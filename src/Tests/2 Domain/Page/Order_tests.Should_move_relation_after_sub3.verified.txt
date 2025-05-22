@@ -1,0 +1,183 @@
+﻿{
+  originalTree:
+root
+├── sub1
+├── sub2
+└── sub3
+[sub1] → [sub2] → [sub3]
+,
+  newTree:
+root
+├── sub2
+├── sub3
+└── sub1
+[sub2] → [sub3] → [sub1]
+,
+  allRelationsInDb: [
+    {
+      Child: {
+        Name: sub2,
+        DisableLearningFunctions: false,
+        IsWiki: false,
+        TextIsHidden: false,
+        AuthorIds: 2,
+        AuthorIdsInts: [
+          2
+        ],
+        CorrectnessProbability: {Scrubbed},
+        IsHistoric: false,
+        SkipMigration: false,
+        Language: en,
+        DateCreated: {Scrubbed},
+        DateModified: {Scrubbed},
+        Id: 3
+      },
+      Parent: {
+        Name: root,
+        DisableLearningFunctions: false,
+        IsWiki: false,
+        TextIsHidden: false,
+        AuthorIds: 2,
+        AuthorIdsInts: [
+          2
+        ],
+        CorrectnessProbability: {Scrubbed},
+        IsHistoric: false,
+        SkipMigration: false,
+        Language: en,
+        DateCreated: {Scrubbed},
+        DateModified: {Scrubbed},
+        Id: 1
+      },
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Id: 2
+    },
+    {
+      Child: {
+        Name: sub3,
+        DisableLearningFunctions: false,
+        Creator: {
+          AllowsSupportiveLogin: false,
+          BouncedMail: false,
+          CorrectnessProbability: {Scrubbed},
+          IsEmailConfirmed: false,
+          IsInstallationAdmin: false,
+          Name: User,
+          ShowWishKnowledge: false,
+          IsFacebookUser: false,
+          IsGoogleUser: false,
+          UiLanguage: en,
+          DateCreated: {Scrubbed},
+          DateModified: {Scrubbed},
+          Id: 2
+        },
+        IsWiki: false,
+        TextIsHidden: false,
+        AuthorIds: 2,
+        AuthorIdsInts: [
+          2
+        ],
+        CorrectnessProbability: {Scrubbed},
+        IsHistoric: false,
+        SkipMigration: false,
+        Language: en,
+        DateCreated: {Scrubbed},
+        DateModified: {Scrubbed},
+        Id: 4
+      },
+      Parent: {
+        Name: root,
+        DisableLearningFunctions: false,
+        Creator: {
+          AllowsSupportiveLogin: false,
+          BouncedMail: false,
+          CorrectnessProbability: {Scrubbed},
+          IsEmailConfirmed: false,
+          IsInstallationAdmin: false,
+          Name: User,
+          ShowWishKnowledge: false,
+          IsFacebookUser: false,
+          IsGoogleUser: false,
+          UiLanguage: en,
+          DateCreated: {Scrubbed},
+          DateModified: {Scrubbed},
+          Id: 2
+        },
+        IsWiki: false,
+        TextIsHidden: false,
+        AuthorIds: 2,
+        AuthorIdsInts: [
+          2
+        ],
+        CorrectnessProbability: {Scrubbed},
+        IsHistoric: false,
+        SkipMigration: false,
+        Language: en,
+        DateCreated: {Scrubbed},
+        DateModified: {Scrubbed},
+        Id: 1
+      },
+      PreviousId: 3,
+      NextId: 2,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Id: 3
+    },
+    {
+      Child: {
+        Name: sub1,
+        DisableLearningFunctions: false,
+        IsWiki: false,
+        TextIsHidden: false,
+        AuthorIds: 2,
+        AuthorIdsInts: [
+          2
+        ],
+        CorrectnessProbability: {Scrubbed},
+        IsHistoric: false,
+        SkipMigration: false,
+        Language: en,
+        DateCreated: {Scrubbed},
+        DateModified: {Scrubbed},
+        Id: 2
+      },
+      Parent: {
+        Name: root,
+        DisableLearningFunctions: false,
+        Creator: {
+          AllowsSupportiveLogin: false,
+          BouncedMail: false,
+          CorrectnessProbability: {Scrubbed},
+          IsEmailConfirmed: false,
+          IsInstallationAdmin: false,
+          Name: User,
+          ShowWishKnowledge: false,
+          IsFacebookUser: false,
+          IsGoogleUser: false,
+          UiLanguage: en,
+          DateCreated: {Scrubbed},
+          DateModified: {Scrubbed},
+          Id: 2
+        },
+        IsWiki: false,
+        TextIsHidden: false,
+        AuthorIds: 2,
+        AuthorIdsInts: [
+          2
+        ],
+        CorrectnessProbability: {Scrubbed},
+        IsHistoric: false,
+        SkipMigration: false,
+        Language: en,
+        DateCreated: {Scrubbed},
+        DateModified: {Scrubbed},
+        Id: 1
+      },
+      PreviousId: 4,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      Id: 4
+    }
+  ]
+}
