@@ -28,30 +28,42 @@ const past90DaysLabelsQuestions = computed(() => pageStore.viewsPast90DaysDirect
 }) as string[])
 const past90DaysCountsQuestions = computed(() => pageStore.viewsPast90DaysDirectQuestions?.map(v => v.count) as number[])
 
+const pageViewsPast90Days = computed(() => {
+    return pageStore.viewsPast90DaysPage?.reduce((acc, v) => acc + v.count, 0) || 0
+})
+
+const questionViewsPast90Days = computed(() => {
+    return pageStore.viewsPast90DaysDirectQuestions?.reduce((acc, v) => acc + v.count, 0) || 0
+})
+
 const { t } = useI18n()
 </script>
 
 <template>
     <div class="statistics-section" v-if="pageStore.analyticsLoaded">
-        <div class="statistics-sub-label">
-            {{ t('page.analytics.pageViewsLast90Days') }}
-        </div>
-        <div class="statistics-container">
-            <div class="statistics-content">
-                <div class="statistics-chart-section" :class="{ 'no-subpages': pageStore.childPageCount === 0 }">
-                    <LazySharedChartsBar :labels="past90DaysLabelsPages" :datasets="past90DaysCountsPages" :color="color.middleBlue"
-                        :title="t('page.analytics.withoutChildPages')" />
-                </div>
 
-                <div class="statistics-chart-section" v-if="pageStore.childPageCount > 0">
-                    <LazySharedChartsBar :labels="past90DaysLabelsAggregatedPages" :datasets="past90DaysCountsAggregatedPages" :color="color.darkBlue"
-                        :title="t('page.analytics.withChildPages', { count: pageStore.childPageCount })" />
+        <LayoutCard>
+            <div class="statistics-sub-label">
+                {{ pageViewsPast90Days }} {{ t('page.analytics.pageViewsLast90Days') }}
+            </div>
+            <div class="statistics-container">
+                <div class="statistics-content">
+                    <div class="statistics-chart-section" :class="{ 'no-subpages': pageStore.childPageCount === 0 }">
+                        <LazySharedChartsBar :labels="past90DaysLabelsPages" :datasets="past90DaysCountsPages" :color="color.middleBlue"
+                            :title="t('page.analytics.withoutChildPages')" />
+                    </div>
+
+                    <div class="statistics-chart-section" v-if="pageStore.childPageCount > 0">
+                        <LazySharedChartsBar :labels="past90DaysLabelsAggregatedPages" :datasets="past90DaysCountsAggregatedPages" :color="color.darkBlue"
+                            :title="t('page.analytics.withChildPages', { count: pageStore.childPageCount })" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <template v-if="pageStore.questionCount > 0">
+        </LayoutCard>
+
+        <LayoutCard v-if="pageStore.questionCount > 0">
             <div class="statistics-sub-label">
-                {{ t('page.analytics.questionViewsLast90Days') }}
+                {{ questionViewsPast90Days }} {{ t('page.analytics.questionViewsLast90Days') }}
             </div>
             <div class="statistics-container">
                 <div class="statistics-content">
@@ -66,7 +78,7 @@ const { t } = useI18n()
                     </div>
                 </div>
             </div>
-        </template>
+        </LayoutCard>
     </div>
 </template>
 
@@ -74,8 +86,7 @@ const { t } = useI18n()
 @import (reference) '~~/assets/includes/imports.less';
 
 .statistics-section {
-    margin-bottom: 40px;
-    font-size: 18px;
+    font-size: 1.8rem;
     width: 100%;
 
     .statistics-container {

@@ -44,8 +44,6 @@ onBeforeMount(() => setKnowledgeSummaryData())
 @import (reference) '~~/assets/includes/imports.less';
 
 .knowledgesummary-section {
-    margin-bottom: 40px;
-    font-size: 18px;
 
     .knowledgesummary-section-header {
         display: flex;
@@ -62,14 +60,10 @@ onBeforeMount(() => setKnowledgeSummaryData())
     }
 
     .knowledgesummary-container {
-        .knowledgesummary-content {
-            margin-bottom: 24px;
-        }
 
         .knowledgesummary-sub-label {
-            margin-bottom: 16px;
-            font-size: 1em;
-            color: @memo-grey-dark;
+            font-size: 1.6rem;
+            color: @memo-grey-darker;
             font-weight: 600;
         }
 

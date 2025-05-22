@@ -1,6 +1,6 @@
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { TinyPageModel } from '~/components/page/pageStore'
-import { KnowledgeSummary } from '../knowledgebar/knowledgeSummary'
+import { KnowledgeSummary } from '~/composables/knowledgeSummary'
 
 export interface GridPageItem {
     id: number

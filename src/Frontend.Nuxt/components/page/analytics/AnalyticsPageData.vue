@@ -19,6 +19,9 @@ const { t } = useI18n()
                     <li>
                         <b>{{ pageStore.directQuestionCount }}</b> {{ t('page.analytics.directlyLinkedQuestions') }}
                     </li>
+                    <li>
+                        <b>{{ pageStore.totalQuestionViews }}</b> {{ t('page.analytics.totalQuestionViews') }}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -38,6 +41,9 @@ const { t } = useI18n()
                     <li>
                         <b> {{ pageStore.parentPageCount }} </b> {{ t('page.analytics.parentPages') }}
                     </li>
+                    <li>
+                        <b>{{ pageStore.views }}</b> {{ t('page.analytics.totalPageViews') }}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -52,17 +58,46 @@ const { t } = useI18n()
     width: 100%;
 
     .pagedata-container {
-        .pagedata-content {
-            margin-bottom: 24px;
+        .pagedata-sub-label {
+            font-size: 1.6rem;
+            color: @memo-grey-darker;
+            font-weight: 600;
         }
 
-        .pagedata-sub-label {
-            margin-bottom: 16px;
+        .pagedata-content {
+            padding: 20px 0;
+            font-size: 1.4rem;
+            color: @memo-grey-dark;
+
+            ul {
+                list-style-type: none;
+                padding-left: 0;
+
+                li {
+                    color: @memo-grey-dark;
+                    margin-bottom: 12px;
+                    position: relative;
+                    padding-left: 15px;
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        left: 0;
+                        top: 8px;
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                        background-color: @memo-blue;
+                    }
+                }
+            }
+
+
         }
     }
-}
 
-h3 {
-    margin-top: 36px;
+    h3 {
+        margin-top: 36px;
+    }
 }
 </style>

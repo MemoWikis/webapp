@@ -22,7 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="row anaytlics">
+    <div class="row analytics">
         <div class="col-xs-12">
             <LayoutPanel>
                 <LayoutCard :full-width="false" :title="t('page.analytics.yourKnowledgeStatus')">

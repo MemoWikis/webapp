@@ -53,6 +53,7 @@ export class Page {
     isShared: boolean = false
     sharedWith: SharedWithUser[] | null = null
     canEditByToken: boolean | null = null
+    totalQuestionViews: number = 0
 }
 
 export interface ViewSummary {
@@ -155,6 +156,7 @@ export const usePageStore = defineStore('pageStore', {
             isShared: false,
             sharedWith: [] as SharedWithUser[],
             canEditByToken: null as boolean | null,
+            totalQuestionViews: 0,
         }
     },
     actions: {
@@ -210,6 +212,8 @@ export const usePageStore = defineStore('pageStore', {
                 this.isShared = page.isShared
                 this.sharedWith = page.sharedWith || []
                 this.canEditByToken = page.canEditByToken
+
+                this.totalQuestionViews = page.totalQuestionViews
 
                 this.handleLoginReminder()
             }

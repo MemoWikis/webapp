@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { KnowledgeSummary } from '~/components/page/content/grid/knowledgebar/knowledgeSummary'
 import { Tab } from '../page/tabs/tabsStore'
 import { PageData } from '~/composables/missionControl/pageData'
 
