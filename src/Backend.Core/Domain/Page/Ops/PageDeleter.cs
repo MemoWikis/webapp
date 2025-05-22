@@ -17,7 +17,7 @@
         var pageCacheItem = EntityCache.GetPage(page.Id);
         var hasDeleted = new HasDeleted();
 
-        if (!_permissionCheck.CanDelete(page))
+        if (!_permissionCheck.CanDelete(pageCacheItem))
         {
             hasDeleted.IsNotCreatorOrAdmin = true;
             return hasDeleted;

@@ -143,32 +143,27 @@
         return _isInstallationAdmin || _userId == page.CreatorId;
     }
 
-    public bool CanDelete(PageCacheItem page)
+    public (bool Allowed, string? Reason) CanDelete(PageCacheItem page)
     {
         if (_userId == default || page == null || page.Id == 0)
-            return false;
+            return (false, FrontendMessageKeys.Error.Default);
+
+        if (page.Creator.Id != _userId)
+            return (false, FrontendMessageKeys.Error.Page.NoRights);
 
         if (page.IsWikiType())
-            return false;
+        {
+            var wouldHaveRemainingWiki = page.Creator.GetWikis().Count >= 2;
+            if (wouldHaveRemainingWiki)
+                return (true, "");
 
-        if (page.Creator.Id == _userId || _isInstallationAdmin)
-            return true;
+            return (false, FrontendMessageKeys.Error.User.NoRemainingWikis);
+        }
 
-        return false;
-    }
+        if (page.Creator.Id == _userId)
+            return (true, "");
 
-    public bool CanDelete(Page page)
-    {
-        if (_userId == default || page == null || page.Id == 0)
-            return false;
-
-        if (page.Id == FeaturedPage.RootPageId || page.Id == page.Creator.StartPageId)
-            return false;
-
-        if (page.Creator.Id == _userId || _isInstallationAdmin)
-            return true;
-
-        return false;
+        return (false, FrontendMessageKeys.Error.Default);
     }
 
     public bool CanMovePage(int pageId, int oldParentId, int newParentId) => CanMovePage(
