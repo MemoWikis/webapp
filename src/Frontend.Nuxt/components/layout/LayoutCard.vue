@@ -24,7 +24,7 @@ defineProps({
                 <slot name="actions"></slot>
             </div>
         </div>
-        <div class="card-content" :class="{ 'has-title': title, 'no-padding': noPadding }">
+        <div class="card-content" :class="{ 'no-padding': noPadding }">
             <slot></slot>
         </div>
     </div>
@@ -71,10 +71,6 @@ defineProps({
         border-radius: 8px;
         overflow: hidden;
         background: white;
-
-        &.has-title {
-            border-radius: 0 0 8px 8px;
-        }
 
         &.no-padding {
             padding: 0;

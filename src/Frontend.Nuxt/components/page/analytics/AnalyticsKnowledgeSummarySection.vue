@@ -33,7 +33,7 @@ onBeforeMount(() => setKnowledgeSummaryData())
                 </div>
             </div>
 
-            <div v-else>
+            <div v-else class="knowledgesummary-no-questions-answered">
                 {{ t('page.analytics.noQuestionsAnswered') }}
             </div>
         </div>
@@ -99,6 +99,12 @@ onBeforeMount(() => setKnowledgeSummaryData())
             .knowledgesummary-label {
                 padding-left: 20px;
             }
+        }
+
+        .knowledgesummary-no-questions-answered {
+            font-size: 1.4rem;
+            color: @memo-grey-dark;
+            padding: 20px 0;
         }
     }
 

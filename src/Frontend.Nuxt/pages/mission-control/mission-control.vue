@@ -88,14 +88,17 @@ watch(() => locale.value, async () => {
             <div class="col-xs-12">
                 <div class="mission-control-container">
                     <h1>{{ t('missionControl.heading') }}</h1>
-                    <div class="mission-control-content" v-if="dashboardData"> <!-- Knowledge Status Section -->
+                    <div class="mission-control-content" v-if="dashboardData">
+                        <!-- Knowledge Status Section -->
                         <LayoutPanel :title="t('missionControl.sections.knowledgeStatus')">
                             <LayoutCard :full-width="false">
                                 <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus"
                                     :knowledgeStatus="dashboardData.knowledgeStatus" />
                             </LayoutCard>
                         </LayoutPanel>
-                        <DevOnly> <!-- LearnCalendar Section -->
+
+                        <DevOnly>
+                            <!-- LearnCalendar Section -->
                             <LayoutPanel :title="t('missionControl.sections.learnCalendar')">
                                 <LayoutCard>
                                     <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
@@ -103,28 +106,36 @@ watch(() => locale.value, async () => {
                                 </LayoutCard>
                             </LayoutPanel>
                         </DevOnly>
-                        <template v-if="isMobile"> <!-- Wikis Section -->
+
+                        <template v-if="isMobile">
+                            <!-- Wikis Section -->
                             <LayoutPanel v-if="dashboardData.wikis"
                                 :title="t('missionControl.sections.wikis')">
                                 <MissionControlGrid :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
-                            </LayoutPanel> <!-- Favorites Section -->
+                            </LayoutPanel>
+                            <!-- Favorites Section -->
                             <LayoutPanel v-if="dashboardData.favorites"
                                 :title="t('missionControl.sections.favorites')">
                                 <MissionControlGrid :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
                             </LayoutPanel>
                         </template>
-                        <template v-else> <!-- Wikis Section -->
+
+                        <template v-else>
+                            <!-- Wikis Section -->
                             <LayoutPanel v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
                                 <LayoutCard :no-padding="true">
                                     <MissionControlTable :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
                                 </LayoutCard>
-                            </LayoutPanel> <!-- Favorites Section -->
+                            </LayoutPanel>
+                            <!-- Favorites Section -->
                             <LayoutPanel v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
                                 <LayoutCard :no-padding="true">
                                     <MissionControlTable :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
                                 </LayoutCard>
                             </LayoutPanel>
-                        </template> <!-- LearnCalendar Section with Coming Soon overlay -->
+                        </template>
+
+                        <!-- LearnCalendar Section with Coming Soon overlay -->
                         <LayoutPanel :title="t('missionControl.sections.learnCalendar')">
                             <div class="coming-soon-container">
                                 <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />

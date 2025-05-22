@@ -14,13 +14,25 @@ const { t } = useI18n()
             <div class="pagedata-content">
                 <ul>
                     <li>
-                        <b>{{ pageStore.questionCount }}</b> {{ t('page.analytics.includedQuestions') }}
+                        <i18n-t keypath="page.analytics.includedQuestions" tag="span" :plural="pageStore.questionCount">
+                            <template #count>
+                                <b>{{ pageStore.questionCount }}</b>
+                            </template>
+                        </i18n-t>
                     </li>
                     <li>
-                        <b>{{ pageStore.directQuestionCount }}</b> {{ t('page.analytics.directlyLinkedQuestions') }}
+                        <i18n-t keypath="page.analytics.directlyLinkedQuestions" tag="span" :plural="pageStore.directQuestionCount">
+                            <template #count>
+                                <b>{{ pageStore.directQuestionCount }}</b>
+                            </template>
+                        </i18n-t>
                     </li>
                     <li>
-                        <b>{{ pageStore.totalQuestionViews }}</b> {{ t('page.analytics.totalQuestionViews') }}
+                        <i18n-t keypath="page.analytics.totalQuestionViews" tag="span" :plural="pageStore.totalQuestionViews">
+                            <template #count>
+                                <b>{{ pageStore.totalQuestionViews }}</b>
+                            </template>
+                        </i18n-t>
                     </li>
                 </ul>
             </div>
@@ -33,16 +45,32 @@ const { t } = useI18n()
             <div class="pagedata-content">
                 <ul>
                     <li>
-                        <b>{{ pageStore.childPageCount }} </b> {{ t('page.analytics.includedPages') }}
+                        <i18n-t keypath="page.analytics.includedPages" tag="span" :plural="pageStore.childPageCount">
+                            <template #count>
+                                <b>{{ pageStore.childPageCount }}</b>
+                            </template>
+                        </i18n-t>
                     </li>
                     <li>
-                        <b>{{ pageStore.directVisibleChildPageCount }}</b> {{ t('page.analytics.directlyLinkedChildPages') }}
+                        <i18n-t keypath="page.analytics.directlyLinkedChildPages" tag="span" :plural="pageStore.directVisibleChildPageCount">
+                            <template #count>
+                                <b>{{ pageStore.directVisibleChildPageCount }}</b>
+                            </template>
+                        </i18n-t>
                     </li>
                     <li>
-                        <b> {{ pageStore.parentPageCount }} </b> {{ t('page.analytics.parentPages') }}
+                        <i18n-t keypath="page.analytics.parentPages" tag="span" :plural="pageStore.parentPageCount">
+                            <template #count>
+                                <b>{{ pageStore.parentPageCount }}</b>
+                            </template>
+                        </i18n-t>
                     </li>
                     <li>
-                        <b>{{ pageStore.views }}</b> {{ t('page.analytics.totalPageViews') }}
+                        <i18n-t keypath="page.analytics.totalPageViews" tag="span" :plural="pageStore.views">
+                            <template #count>
+                                <b>{{ pageStore.views }}</b>
+                            </template>
+                        </i18n-t>
                     </li>
                 </ul>
             </div>
@@ -62,12 +90,15 @@ const { t } = useI18n()
             font-size: 1.6rem;
             color: @memo-grey-darker;
             font-weight: 600;
+            margin-bottom: 1.2rem;
         }
 
         .pagedata-content {
-            padding: 20px 0;
             font-size: 1.4rem;
             color: @memo-grey-dark;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
 
             ul {
                 list-style-type: none;

@@ -19,8 +19,8 @@ public class PageDataManager(
                 MessageKey = FrontendMessageKeys.Error.Page.NotFound
             };
 
-        var canView = userId != null 
-            ? _permissionCheck.CanView((int)userId, page, token) 
+        var canView = userId != null
+            ? _permissionCheck.CanView((int)userId, page, token)
             : _permissionCheck.CanView(page, token);
 
         if (canView)
@@ -148,6 +148,7 @@ public class PageDataManager(
             TextIsHidden = page.TextIsHidden,
             MessageKey = "",
             Language = page.Language,
+            TotalQuestionViews = page.GetQuestionViewCount(_sessionUser.UserId, permissionCheck: _permissionCheck)
         };
     }
 
@@ -207,6 +208,7 @@ public class PageDataManager(
         List<DailyViews> ViewsLast30DaysPage,
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
         List<DailyViews> viewsLast30DaysQuestions,
-        string Language
+        string Language,
+        int TotalQuestionViews
     );
 }

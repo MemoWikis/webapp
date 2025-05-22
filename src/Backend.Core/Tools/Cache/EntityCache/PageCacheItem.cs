@@ -225,6 +225,14 @@ public class PageCacheItem : IPersistable
             .Count;
     }
 
+    public virtual int GetQuestionViewCount(int userId,
+        bool onlyVisible = true,
+        bool fullList = true,
+        int pageId = 0,
+        PermissionCheck? permissionCheck = null) =>
+        GetAggregatedQuestions(userId, onlyVisible, fullList, pageId, permissionCheck)
+            .Sum(question => question.TotalViews);
+
     public virtual bool HasPublicParent()
     {
         return Parents().Any(c => c.Visibility == PageVisibility.Public);
@@ -365,6 +373,7 @@ public class PageCacheItem : IPersistable
                                 previousCacheItem.IsPartOfGroup = true;
                                 currentGroupedCacheItem.Add(previousCacheItem);
                             }
+
                             currentCacheItem.IsPartOfGroup = true;
                             currentGroupedCacheItem.Add(currentCacheItem);
                         }
@@ -418,6 +427,7 @@ public class PageCacheItem : IPersistable
                 Count = 1
             });
         }
+
         TotalViews++;
     }
 
@@ -442,7 +452,6 @@ public class PageCacheItem : IPersistable
 
                     visibleVisited.Add(r.ChildId, child);
                     AllChildPages(child, visibleVisited);
-
                 }
             }
         }
@@ -471,6 +480,7 @@ public class PageCacheItem : IPersistable
     }
 
     public record struct FeedItem(DateTime DateCreated, PageChangeCacheItem? PageChangeCacheItem, QuestionChangeCacheItem? QuestionChangeCacheItem);
+
     public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false, bool getItemsInGroup = false)
     {
         IEnumerable<FeedItem> changes;
@@ -532,7 +542,6 @@ public class PageCacheItem : IPersistable
 
         foreach (var c in changes)
         {
-
             if (!IsVisibleForUser(userId, c))
             {
                 continue;
@@ -571,6 +580,7 @@ public class PageCacheItem : IPersistable
 
         return (pagedChanges, visibleChanges.Count());
     }
+
     private FeedItem ToFeedItem(PageChangeCacheItem? pageChangeCacheItem = null, QuestionChangeCacheItem? questionChangeCacheItem = null)
     {
         if (pageChangeCacheItem != null)
@@ -620,7 +630,6 @@ public class PageCacheItem : IPersistable
 
     private bool IsDuplicateOfDelete(PageChangeCacheItem change, HashSet<int> pageChangeIds, HashSet<int> questionChangeIds)
     {
-
         var deleteChangeId = change.PageChangeData.DeleteData?.DeleteChangeId;
         if (deleteChangeId == null)
             return true;

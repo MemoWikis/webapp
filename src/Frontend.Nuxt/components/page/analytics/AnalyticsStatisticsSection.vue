@@ -117,6 +117,9 @@ const { t } = useI18n()
     margin-bottom: 16px;
     text-align: center;
     margin-top: 24px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: @memo-grey-dark;
 }
 
 h3 {
