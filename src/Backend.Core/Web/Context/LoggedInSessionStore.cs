@@ -10,13 +10,22 @@ public static class LoggedInSessionStore
 
     static LoggedInSessionStore()
     {
-        _cleanupTimer = new System.Timers.Timer(CleanupIntervalMinutes * 60 * 1000); // 10 minutes in milliseconds
-        _cleanupTimer.Elapsed += CleanupOldSessions;
-        _cleanupTimer.AutoReset = true;
+        _cleanupTimer = new System.Timers.Timer(CleanupIntervalMinutes * 60 * 1000)
+        {
+            AutoReset = false
+        };
+        _cleanupTimer.Elapsed += (s, e) =>
+        {
+            try { CleanupOldSessions(); }
+            finally
+            {
+                _cleanupTimer.Start();
+            }
+        };
         _cleanupTimer.Start();
     }
 
-    private static void CleanupOldSessions(object? sender, ElapsedEventArgs e)
+    private static void CleanupOldSessions()
     {
         var cutoffTime = DateTime.UtcNow.AddMinutes(-CleanupIntervalMinutes);
 
