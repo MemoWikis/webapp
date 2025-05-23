@@ -47,13 +47,13 @@ withDefaults(defineProps<Props>(), {
 
     &.size-small {
         @media (min-width: 768px) {
-            width: calc(33.3333% - 0.5rem);
+            width: calc(33.3333% - 0.666rem);
         }
     }
 
     &.size-tiny {
         @media (min-width: 768px) {
-            width: calc(25% - 0.5rem);
+            width: calc(25% - 0.75rem);
         }
     }
 
@@ -101,13 +101,13 @@ withDefaults(defineProps<Props>(), {
 
         &.size-small {
             @media (max-width:1300px) {
-                width: 50%;
+                width: calc(50% - 0.5rem);
             }
         }
 
         &.size-tiny {
             @media (max-width:1300px) {
-                width: 50%;
+                width: calc(50% - 0.5rem);
             }
         }
     }

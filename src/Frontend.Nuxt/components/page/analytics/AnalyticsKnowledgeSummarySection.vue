@@ -1,33 +1,16 @@
 <script setup lang="ts">
-import { ChartData } from '~~/components/chart/chartData'
 import { usePageStore } from '../../page/pageStore'
 
 const pageStore = usePageStore()
-const knowledgeSummaryData = ref<ChartData[]>([])
-
-function setKnowledgeSummaryData() {
-    knowledgeSummaryData.value = []
-    for (const [key, value] of Object.entries(pageStore.knowledgeSummarySlim)) {
-        knowledgeSummaryData.value.push({
-            value: value,
-            class: key,
-        })
-    }
-    knowledgeSummaryData.value = knowledgeSummaryData.value.slice().reverse()
-}
 
 const { t } = useI18n()
 
-onBeforeMount(() => setKnowledgeSummaryData())
 </script>
 
 <template>
     <div class="knowledgesummary-section">
         <div class="knowledgesummary-container">
-            <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
-                <div class="knowledgesummary-sub-label">
-                    {{ t('page.analytics.questionsGroupedByStatus') }}
-                </div>
+            <div v-if="pageStore.knowledgeSummary.total > 0">
                 <div class="knowledgesummary-content">
                     <SharedKnowledgeSummaryPie :knowledge-summary="pageStore.knowledgeSummary" />
                     <SharedKnowledgeSummary :knowledge-summary="pageStore.knowledgeSummary" />

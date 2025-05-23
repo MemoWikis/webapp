@@ -1643,5 +1643,9 @@
         "pageGrid": {
             "questions": "Ninguna pregunta | Una pregunta | {count} preguntas"
         }
+    },
+    "counter": {
+        "thousands": "{value} mil",
+        "millions": "{value}M"
     }
 }

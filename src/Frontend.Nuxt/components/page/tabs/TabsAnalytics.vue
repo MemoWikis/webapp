@@ -29,22 +29,29 @@ onMounted(() => {
                     <PageAnalyticsKnowledgeSummarySection />
                 </LayoutCard>
             </LayoutPanel>
-
             <LayoutPanel :title="t('page.analytics.pageData')">
                 <LayoutCard :size="LayoutCardSize.Tiny">
-                    <i18n-t keypath="page.analytics.includedQuestions" tag="span" :plural="pageStore.questionCount">
-                        <template #count>
-                            <b>{{ pageStore.questionCount }}</b>
-                        </template>
-                    </i18n-t>
+                    <LayoutCounter
+                        :value="pageStore.questionCount"
+                        :label="t('page.analytics.includedQuestionsLabel')" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Tiny">
-                    <i18n-t keypath="page.analytics.directlyLinkedQuestions" tag="span" :plural="pageStore.directQuestionCount">
-                        <template #count>
-                            <b>{{ pageStore.directQuestionCount }}</b>
-                        </template>
-                    </i18n-t>
+                    <LayoutCounter
+                        :value="pageStore.directQuestionCount"
+                        :label="t('page.analytics.directlyLinkedQuestionsLabel')" />
+                </LayoutCard>
+
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.views">
+                    <LayoutCounter
+                        :value="pageStore.views"
+                        :label="t('page.analytics.pageViewsLabel')" />
+                </LayoutCard>
+
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.views">
+                    <LayoutCounter
+                        :value="213481912"
+                        :label="t('page.analytics.pageViewsLabel')" />
                 </LayoutCard>
             </LayoutPanel>
 
