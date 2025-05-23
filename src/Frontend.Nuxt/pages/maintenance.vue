@@ -42,16 +42,14 @@ const { data: activeSessionsResult } = await useFetch<ActiveSessionsResponse>('/
     },
 })
 
-const activeUserCount = ref(0)
+const loggedInUserCount = ref(0)
+const anonymousUserCount = ref(0)
 watchEffect(() => {
-    if (activeSessionsResult.value)
-        activeUserCount.value = activeSessionsResult.value.activeUserCount
-})
+    if (activeSessionsResult.value) {
+        loggedInUserCount.value = activeSessionsResult.value.loggedInUserCount;
+        anonymousUserCount.value = activeSessionsResult.value.anonymousUserCount;
+    }
 
-const activeSessions = ref<string[]>([])
-watchEffect(() => {
-    if (activeSessionsResult.value)
-        activeSessions.value = activeSessionsResult.value.sessions
 })
 
 interface MethodData {
@@ -60,9 +58,10 @@ interface MethodData {
 }
 
 interface ActiveSessionsResponse {
-    activeUserCount: number
-    sessions: string[]
+    loggedInUserCount: number,
+    anonymousUserCount: number
 }
+
 const questionMethods = ref<MethodData[]>([
     { url: 'RecalculateAllKnowledgeItems', label: 'Alle Antwortwahrscheinlichkeiten neu berechnen' },
     { url: 'CalcAggregatedValuesQuestions', label: 'Aggregierte Zahlen aktualisieren' }
@@ -198,10 +197,10 @@ async function removeAdminRights() {
                         <MaintenanceSection title="Nutzer" :methods="userMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']">
                             <div class="active-users-info">
-                                <h4>Aktive Sitzungen (5 Minuten)</h4>
-                                <p>Gesamt: {{ activeUserCount }}</p>
+                                <h4>Aktive Sitzungen</h4>
                                 <ul>
-                                    <li v-for="session in activeSessions" :key="session">{{ session }}</li>
+                                    <li>Angemeldet: {{ loggedInUserCount }} (letzte 5 Minuten)</li>
+                                    <li>Anonym: {{ anonymousUserCount }} (letzte Minute)</li>
                                 </ul>
                             </div>
                             <div class="delete-user-container">

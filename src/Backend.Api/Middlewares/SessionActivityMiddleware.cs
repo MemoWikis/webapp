@@ -6,7 +6,11 @@ public class SessionActivityMiddleware(RequestDelegate _next)
     {
         if (httpContext.Session?.GetInt32("userId") > 0)
         {
-            LoggedInSessionStore.Touch(httpContext.Session.Id);
+            LoggedInSessionStore.TouchLoggedInUsers(httpContext.Session.Id);
+        }
+        else
+        {
+            LoggedInSessionStore.TouchOrAddAnonymousUsers(httpContext.Session.Id);
         }
 
         await _next(httpContext);
