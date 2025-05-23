@@ -6,7 +6,6 @@ import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
 import { abbreviateNumberToM } from '~~/components/shared/utils'
-import { useTimeElapsed } from '~~/composables/useTimeElapsed'
 
 const userStore = useUserStore()
 const { $urlHelper } = useNuxtApp()

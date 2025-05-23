@@ -1,0 +1,14 @@
+﻿{
+  input: [
+    1,
+    2,
+    4
+  ],
+  output: [
+    14,
+    29,
+    57
+  ],
+  sum: 100,
+  isProportional: true
+}

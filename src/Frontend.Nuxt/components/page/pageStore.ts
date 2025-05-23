@@ -33,11 +33,18 @@ export class Page {
     authors: Author[] = []
     pageItem: PageItem | null = null
     metaDescription: string = ''
-    knowledgeSummary: KnowledgeSummarySlim = {
+    knowledgeSummary: KnowledgeSummary = {
         solid: 0,
         needsConsolidation: 0,
         needsLearning: 0,
         notLearned: 0,
+
+        total: 0,
+
+        solidPercentage: 0,
+        needsConsolidationPercentage: 0,
+        needsLearningPercentage: 0,
+        notLearnedPercentage: 0,
     }
     gridItems: GridPageItem[] = []
     isChildOfPersonalWiki: boolean = false
@@ -134,6 +141,7 @@ export const usePageStore = defineStore('pageStore', {
             canBeDeleted: false,
             authors: [] as Author[],
             searchPageItem: null as null | PageItem,
+            knowledgeSummary: {} as KnowledgeSummary,
             knowledgeSummarySlim: {} as KnowledgeSummarySlim,
             gridItems: [] as GridPageItem[],
             isChildOfPersonalWiki: false,
@@ -192,7 +200,9 @@ export const usePageStore = defineStore('pageStore', {
 
                 this.authors = page.authors
                 this.searchPageItem = page.pageItem
-                this.knowledgeSummarySlim = page.knowledgeSummary
+
+                this.knowledgeSummary = page.knowledgeSummary
+                this.setKnowledgeSummarySlim(page.knowledgeSummary)
                 this.gridItems = page.gridItems
                 this.isChildOfPersonalWiki = page.isChildOfPersonalWiki
                 this.textIsHidden = page.textIsHidden
@@ -216,6 +226,14 @@ export const usePageStore = defineStore('pageStore', {
                 this.totalQuestionViews = page.totalQuestionViews
 
                 this.handleLoginReminder()
+            }
+        },
+        setKnowledgeSummarySlim(knowledgeSummary: KnowledgeSummary) {
+            this.knowledgeSummarySlim = {
+                solid: knowledgeSummary.solid,
+                needsConsolidation: knowledgeSummary.needsConsolidation,
+                needsLearning: knowledgeSummary.needsLearning,
+                notLearned: knowledgeSummary.notLearned,
             }
         },
         async saveContent() {

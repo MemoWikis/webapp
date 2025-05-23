@@ -13,7 +13,6 @@ import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
 import { abbreviateNumberToM } from '~~/components/shared/utils'
 import { useActivityPointsStore } from '~/components/activityPoints/activityPointsStore'
 import { color } from '~/components/shared/colors'
-import { useTimeElapsed } from '~~/composables/useTimeElapsed'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()

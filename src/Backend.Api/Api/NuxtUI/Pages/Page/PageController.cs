@@ -107,7 +107,7 @@ public class PageController(
         int ImageId,
         SearchPageItem PageItem,
         string MetaDescription,
-        PageDataManager.KnowledgeSummarySlim KnowledgeSummary,
+        PageDataManager.KnowledgeSummaryResponse KnowledgeSummary,
         PageGridManager.GridPageItem[] GridItems,
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,

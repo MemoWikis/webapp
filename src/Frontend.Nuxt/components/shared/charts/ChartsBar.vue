@@ -69,7 +69,6 @@ onBeforeMount(() => {
         x: {}
     }
 
-    // Apply stepSize if provided
     if (props.stepSize) {
         chartOptions.value.scales.y.stepSize = props.stepSize
     }

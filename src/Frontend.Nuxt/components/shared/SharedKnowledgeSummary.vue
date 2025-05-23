@@ -1,42 +1,35 @@
 <script lang="ts" setup>
-import { KnowledgeSummary } from '~/composables/knowledgeSummary'
-import type { KnowledgeSummarySlim } from '~/components/page/pageStore'
 
 interface Props {
-    knowledgeStatus: KnowledgeSummary | KnowledgeSummarySlim
+    knowledgeSummary: KnowledgeSummary
 }
 
 const props = defineProps<Props>()
 const { t } = useI18n()
 
-// Check if we're using KnowledgeSummarySlim (no percentage properties)
-const isSlimSummary = computed(() =>
-    !('solidPercentage' in props.knowledgeStatus)
-)
-
 const knowledgeStatusItems = computed(() => [
     {
         label: t('knowledgeStatus.solid'),
-        value: props.knowledgeStatus.solid,
-        percentage: isSlimSummary.value ? null : (props.knowledgeStatus as KnowledgeSummary).solidPercentage,
+        value: props.knowledgeSummary.solid,
+        percentage: props.knowledgeSummary.solidPercentage,
         class: 'solid'
     },
     {
         label: t('knowledgeStatus.needsConsolidation'),
-        value: props.knowledgeStatus.needsConsolidation,
-        percentage: isSlimSummary.value ? null : (props.knowledgeStatus as KnowledgeSummary).needsConsolidationPercentage,
+        value: props.knowledgeSummary.needsConsolidation,
+        percentage: props.knowledgeSummary.needsConsolidationPercentage,
         class: 'needsConsolidation'
     },
     {
         label: t('knowledgeStatus.needsLearning'),
-        value: props.knowledgeStatus.needsLearning,
-        percentage: isSlimSummary.value ? null : (props.knowledgeStatus as KnowledgeSummary).needsLearningPercentage,
+        value: props.knowledgeSummary.needsLearning,
+        percentage: props.knowledgeSummary.needsLearningPercentage,
         class: 'needsLearning'
     },
     {
         label: t('knowledgeStatus.notLearned'),
-        value: props.knowledgeStatus.notLearned,
-        percentage: isSlimSummary.value ? null : (props.knowledgeStatus as KnowledgeSummary).notLearnedPercentage,
+        value: props.knowledgeSummary.notLearned,
+        percentage: props.knowledgeSummary.notLearnedPercentage,
         class: 'notLearned'
     }
 ])

@@ -29,7 +29,8 @@ onBeforeMount(() => setKnowledgeSummaryData())
                     {{ t('page.analytics.questionsGroupedByStatus') }}
                 </div>
                 <div class="knowledgesummary-content">
-                    <SharedKnowledgeSummary :knowledgeStatus="pageStore.knowledgeSummarySlim" />
+                    <SharedKnowledgeSummaryPie :knowledge-summary="pageStore.knowledgeSummary" />
+                    <SharedKnowledgeSummary :knowledge-summary="pageStore.knowledgeSummary" />
                 </div>
             </div>
 
@@ -105,6 +106,25 @@ onBeforeMount(() => setKnowledgeSummaryData())
             font-size: 1.4rem;
             color: @memo-grey-dark;
             padding: 20px 0;
+        }
+
+        .knowledgesummary-content {
+            display: flex;
+            flex-direction: row;
+            border-radius: 8px;
+            padding: 16px 20px;
+            gap: 2rem;
+
+            // @media (max-width:576px) {
+            //     min-width: unset;
+            // }
+
+            // @media (min-width: 768px) {
+            //     flex-direction: row;
+            //     align-items: center;
+            //     flex-wrap: wrap;
+            //     justify-content: center;
+            // }
         }
     }
 

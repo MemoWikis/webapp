@@ -2,7 +2,6 @@
 import { handleNewLine } from '~~/components/shared/utils'
 import { useUserStore } from '../userStore'
 import { Message } from './message'
-import { useTimeElapsed } from '~~/composables/useTimeElapsed'
 
 const userStore = useUserStore()
 const { t } = useI18n()

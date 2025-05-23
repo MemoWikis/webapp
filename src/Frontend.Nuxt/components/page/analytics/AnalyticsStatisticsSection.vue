@@ -1,77 +1,24 @@
 <script setup lang="ts">
 import { usePageStore } from '../../page/pageStore'
 import { color } from '~~/components/shared/colors'
-import { LayoutCardSize } from '~~/composables/layoutCardSize'
 
 const pageStore = usePageStore()
 
-const past90DaysLabelsAggregatedPages = computed(() => pageStore.viewsPast90DaysAggregatedPages?.map(v => {
-    const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${month}.${day}.`
-}) as string[])
 const past90DaysCountsAggregatedPages = computed(() => pageStore.viewsPast90DaysAggregatedPages?.map(v => v.count) as number[])
-const aggregatedPagesDatasets = computed(() => {
-    return [
-        {
-            label: t('page.analytics.withChildPages', { count: pageStore.childPageCount }),
-            data: past90DaysCountsAggregatedPages.value,
-            backgroundColor: color.darkBlue,
-        },
-    ]
-})
 
 const past90DaysLabelsPage = computed(() => pageStore.viewsPast90DaysPage?.map(v => {
     const [year, month, day] = v.date.split("T")[0].split("-")
     return `${month}.${day}.`
 }) as string[])
 const past90DaysCountsPage = computed(() => pageStore.viewsPast90DaysPage?.map(v => v.count) as number[])
-const pagesDatasets = computed(() => {
-    return [
-        {
-            label: t('page.analytics.withoutChildPages'),
-            data: past90DaysCountsPage.value,
-            backgroundColor: color.middleBlue,
-        },
-    ]
-})
 
-const past90DaysLabelsAggregatedQuestions = computed(() => pageStore.viewsPast90DaysAggregatedQuestions?.map(v => {
-    const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${month}.${day}.`
-}) as string[])
 const past90DaysCountsAggregatedQuestions = computed(() => pageStore.viewsPast90DaysAggregatedQuestions?.map(v => v.count) as number[])
-const aggregatedQuestionsDatasets = computed(() => {
-    return [
-        {
-            label: t('page.analytics.includedQuestions90Days', { count: pageStore.childPageCount }),
-            data: past90DaysCountsAggregatedQuestions.value,
-            backgroundColor: color.darkGreen,
-        },
-    ]
-})
 
 const past90DaysLabelsQuestions = computed(() => pageStore.viewsPast90DaysDirectQuestions?.map(v => {
     const [year, month, day] = v.date.split("T")[0].split("-")
     return `${month}.${day}.`
 }) as string[])
 const past90DaysCountsQuestions = computed(() => pageStore.viewsPast90DaysDirectQuestions?.map(v => v.count) as number[])
-const questionsDatasets = computed(() => {
-    return [
-        {
-            label: t('page.analytics.directlyLinkedQuestionsTitle'),
-            data: past90DaysCountsQuestions.value,
-            backgroundColor: color.memoGreen,
-        },
-    ]
-})
-
-const pageViewsPast90Days = computed(() => {
-    return pageStore.viewsPast90DaysPage?.reduce((acc, v) => acc + v.count, 0) || 0
-})
-
-const questionViewsPast90Days = computed(() => {
-    return pageStore.viewsPast90DaysDirectQuestions?.reduce((acc, v) => acc + v.count, 0) || 0
-})
 
 const combinedPast90DaysDatasetsForPage = computed(() => {
     // Calculate views for child pages only by subtracting current page views from aggregated views
@@ -132,6 +79,7 @@ const { t } = useI18n()
                 <div class="statistics-content">
                     <LayoutCard :size="LayoutCardSize.Large">
                         <div class="statistics-chart-section" :class="{ 'no-subpages': pageStore.childPageCount === 0 }">
+                            <div class="float-right">203123 views</div>
                             <LazySharedChartsBar
                                 :datasets="combinedPast90DaysDatasetsForPage"
                                 :max-ticks-limit="5"
@@ -170,6 +118,13 @@ const { t } = useI18n()
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.float-right {
+    float: right;
+    position: absolute;
+    right: 0px;
+    top: 12px;
+}
 
 .statistics-section {
     font-size: 1.8rem;

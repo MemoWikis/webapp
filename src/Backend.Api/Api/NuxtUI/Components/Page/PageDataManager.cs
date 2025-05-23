@@ -128,12 +128,18 @@ public class PageDataManager(
                     ? null
                     : Regex.Replace(page.Content, "<.*?>", ""))
                 .Truncate(250, true),
-            KnowledgeSummary = new KnowledgeSummarySlim(
-                NotLearned: knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
+            KnowledgeSummary = new KnowledgeSummaryResponse(
+                NotLearned: knowledgeSummary.NotLearned,
+                NotLearnedPercentage: knowledgeSummary.NotLearnedPercentage,
                 NeedsLearning: knowledgeSummary.NeedsLearning,
+                NeedsLearningPercentage: knowledgeSummary.NeedsLearningPercentage,
                 NeedsConsolidation: knowledgeSummary.NeedsConsolidation,
-                Solid: knowledgeSummary.Solid
-            ),
+                NeedsConsolidationPercentage: knowledgeSummary.NeedsConsolidationPercentage,
+                Solid: knowledgeSummary.Solid,
+                SolidPercentage: knowledgeSummary.SolidPercentage,
+                NotInWishknowledge: knowledgeSummary.NotInWishknowledge,
+                NotInWishknowledgePercentage: knowledgeSummary.NotInWishknowledgePercentage,
+                Total: knowledgeSummary.Total),
             GridItems = new PageGridManager(
                 _permissionCheck,
                 _sessionUser,
@@ -169,11 +175,18 @@ public class PageDataManager(
         public string ImgUrl { get; set; }
     }
 
-    public record struct KnowledgeSummarySlim(
+    public record struct KnowledgeSummaryResponse(
         int NotLearned,
+        int NotLearnedPercentage,
         int NeedsLearning,
+        int NeedsLearningPercentage,
         int NeedsConsolidation,
-        int Solid);
+        int NeedsConsolidationPercentage,
+        int Solid,
+        int SolidPercentage,
+        int NotInWishknowledge,
+        int NotInWishknowledgePercentage,
+        int Total);
 
     public record struct PageDataResult(
         bool CanAccess,
@@ -197,7 +210,7 @@ public class PageDataManager(
         int ImageId,
         SearchPageItem PageItem,
         string MetaDescription,
-        KnowledgeSummarySlim KnowledgeSummary,
+        KnowledgeSummaryResponse KnowledgeSummary,
         PageGridManager.GridPageItem[] GridItems,
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
