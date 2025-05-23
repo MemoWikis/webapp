@@ -25,11 +25,11 @@ onMounted(() => {
     <div class="row analytics">
         <div class="col-xs-12">
             <LayoutPanel>
-                <LayoutCard :full-width="false" :title="t('page.analytics.yourKnowledgeStatus')">
+                <LayoutCard :size="LayoutCardSize.Medium" :title="t('page.analytics.yourKnowledgeStatus')">
                     <PageAnalyticsKnowledgeSummarySection />
                 </LayoutCard>
 
-                <LayoutCard :full-width="false" :title="t('page.analytics.pageData')">
+                <LayoutCard :size="LayoutCardSize.Medium" :title="t('page.analytics.pageData')">
                     <PageAnalyticsPageData />
                 </LayoutCard>
 

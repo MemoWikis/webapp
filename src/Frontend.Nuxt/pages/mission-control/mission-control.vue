@@ -91,7 +91,7 @@ watch(() => locale.value, async () => {
                     <div class="mission-control-content" v-if="dashboardData">
                         <!-- Knowledge Status Section -->
                         <LayoutPanel :title="t('missionControl.sections.knowledgeStatus')">
-                            <LayoutCard :full-width="false">
+                            <LayoutCard :size="LayoutCardSize.Medium">
                                 <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus"
                                     :knowledgeStatus="dashboardData.knowledgeStatus" />
                             </LayoutCard>

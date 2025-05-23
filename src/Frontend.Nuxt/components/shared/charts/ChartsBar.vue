@@ -3,26 +3,33 @@ import { Bar } from 'vue-chartjs'
 import { memoBlue } from '../colors'
 
 interface Props {
-    title: string
+    title?: string
     labels: string[]
-    datasets: number[]
     color?: string
     stepSize?: number
+    maxTicksLimit?: number
+    datasets: {
+        label: string
+        data: number[]
+        backgroundColor: string
+    }[] | number[],
+    stacked?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
     color: memoBlue
 })
 
-const chartData = ref({
+const chartData = ref<{
+    labels: string[],
+    datasets: {
+        label: string
+        data: number[]
+        backgroundColor: string
+    }[]
+}>({
     labels: props.labels,
-    datasets: [
-        {
-            label: props.title,
-            data: props.datasets,
-            backgroundColor: props.color ? props.color : memoBlue,
-        }
-    ]
+    datasets: []
 })
 
 const chartOptions = ref<any>({
@@ -31,16 +38,56 @@ const chartOptions = ref<any>({
 })
 
 onBeforeMount(() => {
-    if (props.stepSize) {
-        chartOptions.value = {
-            ...chartOptions.value,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    stepSize: props.stepSize
-                }
-            }
+    const isNumberArray = Array.isArray(props.datasets) &&
+        props.datasets.length > 0 &&
+        typeof props.datasets[0] === 'number'
+
+    if (isNumberArray) {
+        chartData.value = {
+            labels: props.labels,
+            datasets: [{
+                label: props.title || 'Data',
+                data: props.datasets as number[],
+                backgroundColor: props.color
+            }]
         }
+    } else {
+        chartData.value = {
+            labels: props.labels,
+            datasets: props.datasets as {
+                label: string
+                data: number[]
+                backgroundColor: string
+            }[]
+        }
+    }
+
+    chartOptions.value.scales = {
+        y: {
+            beginAtZero: true
+        },
+        x: {}
+    }
+
+    // Apply stepSize if provided
+    if (props.stepSize) {
+        chartOptions.value.scales.y.stepSize = props.stepSize
+    }
+
+    if (props.maxTicksLimit) {
+        if (!chartOptions.value.scales.y.ticks) {
+            chartOptions.value.scales.y.ticks = {}
+        }
+        if (!chartOptions.value.scales.x.ticks) {
+            chartOptions.value.scales.x.ticks = {}
+        }
+        chartOptions.value.scales.y.ticks.maxTicksLimit = props.maxTicksLimit
+        chartOptions.value.scales.x.ticks.maxTicksLimit = props.maxTicksLimit
+    }
+
+    if (props.stacked) {
+        chartOptions.value.scales.y.stacked = true
+        chartOptions.value.scales.x.stacked = true
     }
 })
 

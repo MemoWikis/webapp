@@ -1,23 +1,22 @@
 <script setup lang="ts">
-defineProps({
-    title: {
-        type: String,
-        default: '',
-    },
-    fullWidth: {
-        type: Boolean,
-        default: true,
-    },
-    noPadding: {
-        type: Boolean,
-        default: false,
-    },
+
+interface Props {
+    title?: string
+    noPadding?: boolean
+    size?: LayoutCardSize
+}
+
+withDefaults(defineProps<Props>(), {
+    title: '',
+    noPadding: false,
+    size: LayoutCardSize.Large
 })
+
 
 </script>
 
 <template>
-    <div class="layout-card" :class="{ 'half-width': !fullWidth }">
+    <div class="layout-card" :class="`size-${size}`">
         <div class="card-header" v-if="title">
             <h2 class="card-title">{{ title }}</h2>
             <div class="card-actions" v-if="$slots.actions">
@@ -40,9 +39,21 @@ defineProps({
     overflow: hidden;
     width: 100%;
 
-    &.half-width {
+    &.size-medium {
         @media (min-width: 768px) {
             width: calc(50% - 0.5rem);
+        }
+    }
+
+    &.size-small {
+        @media (min-width: 768px) {
+            width: calc(33.3333% - 0.5rem);
+        }
+    }
+
+    &.size-tiny {
+        @media (min-width: 768px) {
+            width: calc(25% - 0.5rem);
         }
     }
 
@@ -82,9 +93,21 @@ defineProps({
 <style lang="less">
 .sidesheet-open {
     .layout-card {
-        &.half-width {
+        &.size-medium {
             @media (max-width:1300px) {
                 width: 100%;
+            }
+        }
+
+        &.size-small {
+            @media (max-width:1300px) {
+                width: 50%;
+            }
+        }
+
+        &.size-tiny {
+            @media (max-width:1300px) {
+                width: 50%;
             }
         }
     }
