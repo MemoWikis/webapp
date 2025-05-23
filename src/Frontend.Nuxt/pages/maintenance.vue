@@ -63,33 +63,33 @@ interface ActiveSessionsResponse {
 }
 
 const questionMethods = ref<MethodData[]>([
-    { url: 'RecalculateAllKnowledgeItems', label: 'Alle Antwortwahrscheinlichkeiten neu berechnen' },
-    { url: 'CalcAggregatedValuesQuestions', label: 'Aggregierte Zahlen aktualisieren' }
+    { url: 'RecalculateAllKnowledgeItems', label: 'Recalculate all answer probabilities' },
+    { url: 'CalcAggregatedValuesQuestions', label: 'Update aggregated numbers' }
 ])
 const cacheMethods = ref<MethodData[]>([
-    { url: 'ClearCache', label: 'Cache leeren' },
+    { url: 'ClearCache', label: 'Clear cache' },
 ])
 const pageMethods = ref<MethodData[]>([
-    { url: 'UpdateCategoryAuthors', label: 'Seitenautoren aktualisieren' }
+    { url: 'UpdateCategoryAuthors', label: 'Update page authors' }
 ])
 const meiliSearchMethods = ref<MethodData[]>([
-    { url: 'MeiliReIndexAllQuestions', label: 'Fragen' },
-    { url: 'MeiliReIndexAllQuestionsCache', label: 'Fragen (Cache)' },
-    { url: 'MeiliReIndexAllPages', label: 'Seiten' },
-    { url: 'MeiliReIndexAllPagesCache', label: 'Seiten (Cache)' },
-    { url: 'MeiliReIndexAllUsers', label: 'Nutzer' },
-    { url: 'MeiliReIndexAllUsersCache', label: 'Nutzer (Cache)' }
+    { url: 'MeiliReIndexAllQuestions', label: 'Questions' },
+    { url: 'MeiliReIndexAllQuestionsCache', label: 'Questions (Cache)' },
+    { url: 'MeiliReIndexAllPages', label: 'Pages' },
+    { url: 'MeiliReIndexAllPagesCache', label: 'Pages (Cache)' },
+    { url: 'MeiliReIndexAllUsers', label: 'Users' },
+    { url: 'MeiliReIndexAllUsersCache', label: 'Users (Cache)' }
 ])
 const userMethods = ref<MethodData[]>([
-    { url: 'UpdateUserReputationAndRankings', label: 'Rankings und Reputation + Aggregates' },
-    { url: 'UpdateUserWishCount', label: 'Wunschwissenzähler aktualisieren' }
+    { url: 'UpdateUserReputationAndRankings', label: 'Rankings and Reputation + Aggregates' },
+    { url: 'UpdateUserWishCount', label: 'Update desired knowledge counter' }
 ])
 const miscMethods = ref<MethodData[]>([
-    { url: 'CheckForDuplicateInteractionNumbers', label: 'Auf Antworten mit selber Guid und InteractionNr checken' }
+    { url: 'CheckForDuplicateInteractionNumbers', label: 'Check for answers with the same Guid and InteractionNr' }
 ])
 const toolsMethods = ref<MethodData[]>([
-    { url: 'Throw500', label: 'Exception werfen' },
-    { url: 'ReloadListFromIgnoreCrawlers', label: 'List von den igniorierten Crawlers neu lade' },
+    { url: 'Throw500', label: 'Throw exception' },
+    { url: 'ReloadListFromIgnoreCrawlers', label: 'Reload list of ignored crawlers' },
     { url: 'CleanUpWorkInProgressQuestions', label: 'Clean up work in progress questions' },
     { url: 'Start100TestJobs', label: 'Start 100 test jobs' },
 
@@ -171,57 +171,57 @@ async function removeAdminRights() {
             <div class="main-content">
                 <div class="col-xs-12"
                     v-if="isAdmin && userStore.isAdmin && antiForgeryToken != null && antiForgeryToken?.length > 0">
-                    <h1>Adminseite</h1>
+                    <h1>Admin Page</h1>
                     <div class="row">
                         <div class="alert alert-warning alert-dismissible" role="alert" v-if="resultMsg.length > 0">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"
                                 @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
                             {{ resultMsg }}
                         </div>
-                        <MaintenanceSection title="Metriken" :methods="[]">
+                        <MaintenanceSection title="Metrics" :methods="[]">
                             <div class="custom-container">
                                 <NuxtLink to="/Metriken" class="memo-button btn btn-primary">
-                                    Übersicht aufrufen
+                                    View Overview
                                 </NuxtLink>
                             </div>
                         </MaintenanceSection>
-                        <MaintenanceSection title="Fragen" :methods="questionMethods" @method-clicked="handleClick"
+                        <MaintenanceSection title="Questions" :methods="questionMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Cache" :methods="cacheMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Seiten" :methods="pageMethods" @method-clicked="handleClick"
+                        <MaintenanceSection title="Pages" :methods="pageMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Suche MeiliSearch" :methods="meiliSearchMethods"
-                            description="Alle für Suche neu indizieren:" @method-clicked="handleClick"
+                        <MaintenanceSection title="Search MeiliSearch" :methods="meiliSearchMethods"
+                            description="Re-index all for search:" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Nutzer" :methods="userMethods" @method-clicked="handleClick"
+                        <MaintenanceSection title="Users" :methods="userMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']">
                             <div class="active-users-info">
-                                <h4>Aktive Sitzungen</h4>
+                                <h4>Active Sessions</h4>
                                 <ul>
-                                    <li>Angemeldet: {{ loggedInUserCount }} (letzte 5 Minuten)</li>
-                                    <li>Anonym: {{ anonymousUserCount }} (letzte Minute)</li>
+                                    <li>Logged in: {{ loggedInUserCount }} (last 5 minutes)</li>
+                                    <li>Anonymous: {{ anonymousUserCount }} (last minute)</li>
                                 </ul>
                             </div>
                             <div class="delete-user-container">
-                                <h4>Nutzer löschen (ID)</h4>
+                                <h4>Delete User (ID)</h4>
                                 <div class="delete-user-input">
                                     <input v-model="userIdToDelete" />
                                     <button @click="deleteUser" class="memo-button btn btn-primary">
-                                        Nutzer Löschen
+                                        Delete User
                                     </button>
                                 </div>
                             </div>
                         </MaintenanceSection>
-                        <MaintenanceSection title="Sonstige" :methods="miscMethods" @method-clicked="handleClick"
+                        <MaintenanceSection title="Miscellaneous" :methods="miscMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Tools" :methods="toolsMethods" @method-clicked="handleClick"
                             :icon="['fas', 'hammer']" />
                         <div class="remove-admin-rights-section col-xs-12 col-lg-6">
-                            <h3>Adminrechte abgeben</h3>
+                            <h3>Remove Admin Rights for current user</h3>
                             <div>
                                 <button @click="removeAdminRights" class="memo-button btn btn-primary">
-                                    Adminrechte abgeben
+                                    Remove Admin Rights for current user
                                 </button>
                             </div>
                         </div>
