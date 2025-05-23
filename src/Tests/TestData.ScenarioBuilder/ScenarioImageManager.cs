@@ -1,6 +1,6 @@
 public static class ScenarioImageManager
 {
-    /// <summary>Creates a new scenation docker Image and pushes it to registry.</summary>
+    /// <summary>Creates a new scenario docker Image and pushes it to registry.</summary>
     public static async Task<string> BuildAndPushAsync(
         ScenarioConfiguration cfg,
         string? tag = null,
