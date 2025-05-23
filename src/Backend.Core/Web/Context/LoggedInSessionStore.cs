@@ -29,26 +29,14 @@ public static class LoggedInSessionStore
                 _anonymousSessions.TryRemove(session.Key, out _);
     }
 
-    public static void TouchLoggedInUsers(string sessionId)
-    {
-        if (_loggedInSessions.ContainsKey(sessionId))
-            _loggedInSessions[sessionId] = DateTime.UtcNow;
-        else
-            _loggedInSessions.TryAdd(sessionId, DateTime.UtcNow);
-    }
+    public static void TouchLoggedInUsers(string sessionId) => 
+        _loggedInSessions.AddOrUpdate(sessionId, DateTime.UtcNow, (_, _) => DateTime.UtcNow);
 
-    public static void TouchOrAddAnonymousUsers(string sessionId)
-    {
-        if (_anonymousSessions.ContainsKey(sessionId))
-            _anonymousSessions[sessionId] = DateTime.UtcNow;
-        else
-            _anonymousSessions.TryAdd(sessionId, DateTime.UtcNow);
-    }
+    public static void TouchOrAddAnonymousUsers(string sessionId) => 
+        _anonymousSessions.AddOrUpdate(sessionId, DateTime.UtcNow, (_, _) => DateTime.UtcNow);
 
-    public static void Remove(string sessionId)
-    {
+    public static void Remove(string sessionId) => 
         _loggedInSessions.TryRemove(sessionId, out _);
-    }
 
     public static int GetLoggedInUsersActiveWithin(TimeSpan timeSpan)
     {
