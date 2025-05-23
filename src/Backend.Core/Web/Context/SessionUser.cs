@@ -69,7 +69,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
     public void Login(User user, PageViewRepo _pageViewRepo)
     {
         _httpContext.Session.ForceInit();
-        LoggedInSessionStore.Add(_httpContext.Session.Id);
         HasBetaAccess = true;
         IsLoggedIn = true;
         _userId = user.Id;
