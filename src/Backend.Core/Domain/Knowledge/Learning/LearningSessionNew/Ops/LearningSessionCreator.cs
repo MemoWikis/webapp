@@ -57,9 +57,9 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         public bool isLastStep { get; set; }
     }
 
-    private LearningSessionResult FillLearningSessionResult(
+    public static LearningSessionResultStep FillLearningSessionResult(
         LearningSession learningSession,
-        LearningSessionResult result)
+        LearningSessionResultStep _resultStep)
     {
         var currentStep = new Step
         {
@@ -69,7 +69,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             isLastStep = learningSession.TestIsLastStep()
         };
 
-        result.Steps = learningSession.Steps.Select((s, index) => new Step
+        _resultStep.Steps = learningSession.Steps.Select((s, index) => new Step
         {
             id = s.Question.Id,
             state = s.AnswerState,
@@ -77,33 +77,18 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             isLastStep = learningSession.Steps.Last() == s
         }).ToArray();
 
-        result.ActiveQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count();
-        result.CurrentStep = currentStep;
-        result.AnswerHelp = learningSession.Config.AnswerHelp;
-        result.IsInTestMode = learningSession.Config.IsInTestMode;
+        _resultStep.ActiveQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count();
+        _resultStep.CurrentStep = currentStep;
+        _resultStep.AnswerHelp = learningSession.Config.AnswerHelp;
+        _resultStep.IsInTestMode = learningSession.Config.IsInTestMode;
 
-        return result;
+        return _resultStep;
     }
 
-    public LearningSessionResult GetLearningSessionResult()
-    {
-        var learningSession = _learningSessionCache.GetLearningSession();
-        var result = new LearningSessionResult();
-
-        if (learningSession.Steps.Any())
-        {
-            var index = learningSession.Steps.IndexOf(s => s.AnswerState == AnswerState.Unanswered);
-            learningSession.LoadSpecificQuestion(index);
-            result = FillLearningSessionResult(learningSession, result);
-        }
-
-        return result;
-    }
-
-    public LearningSessionResult GetLearningSessionResult(LearningSessionConfig config)
+    public LearningSessionResultStep GetLearningSessionResult(LearningSessionConfig config)
     {
         var learningSession = GetLearningSession(config);
-        var result = new LearningSessionResult();
+        var result = new LearningSessionResultStep();
 
         if (learningSession.Steps.Any())
 
@@ -125,11 +110,11 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return (allQuestions, questionNotInPage);
     }
 
-    public LearningSessionResult GetLearningSessionResult(
+    public LearningSessionResultStep GetLearningSessionResult(
         LearningSessionConfig config,
         int questionId)
     {
-        var result = new LearningSessionResult();
+        var result = new LearningSessionResultStep();
 
         if (!_permissionCheck.CanViewQuestion(questionId))
             result.MessageKey = FrontendMessageKeys.Info.Question.IsPrivate;
@@ -154,9 +139,9 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return result;
     }
 
-    public LearningSessionResult GetStep(int index)
+    public LearningSessionResultStep GetStep(int index)
     {
-        var result = new LearningSessionResult();
+        var result = new LearningSessionResultStep();
         var learningSession = _learningSessionCache.GetLearningSession();
         learningSession?.LoadSpecificQuestion(index);
 

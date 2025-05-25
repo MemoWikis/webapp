@@ -148,7 +148,7 @@
     [HttpGet]
     public LearningSessionResponse GetCurrentSession()
     {
-        var data = _learningSessionCreator.GetLearningSessionResult();
+        var data = _learningSessionCreator.GetCurrentSession();
         return new LearningSessionResponse
         {
             MessageKey = data.MessageKey,
