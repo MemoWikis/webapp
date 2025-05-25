@@ -7,14 +7,14 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly ExtendedUserCache _extendedUserCache;
 
-    public record struct QuestionProperties
+    public record struct QuestionProperties()
     {
         public bool NotLearned;
         public bool NeedsLearning;
         public bool NeedsConsolidation;
         public bool Solid;
-        public bool InWuwi;
-        public bool NotInWuwi;
+        public bool InWishKnowledge;
+        public bool NotInWishKnowledge;
         public bool CreatedByCurrentUser;
         public bool NotCreatedByCurrentUser;
         public bool Private;
@@ -23,12 +23,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
         // Flags: If all Flags are true, 
         // question will be added to learning session
-        public bool AddToLearningSession;
-
-        public QuestionProperties()
-        {
-            AddToLearningSession = true;
-        }
+        public bool AddToLearningSession = true;
     }
 
     struct KnowledgeSummaryDetail
@@ -41,12 +36,12 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         PermissionCheck permissionCheck,
-        ExtendedUserCache _extendedUserCache)
+        ExtendedUserCache extendedUserCache)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
-        this._extendedUserCache = _extendedUserCache;
+        _extendedUserCache = extendedUserCache;
     }
 
     // For Tests
@@ -179,7 +174,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return FillLearningSessionResult(learningSession, result);
     }
 
-    public LearningSession LoadDefaultSessionIntoCache(int pageId, int userId = default)
+    public LearningSession LoadDefaultSessionIntoCache(int pageId, int userId = 0)
     {
         var config = new LearningSessionConfig
         {
@@ -208,10 +203,8 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return _learningSessionCache.GetLearningSession()!;
     }
 
-    public QuestionCounter GetQuestionCounterForLearningSession(LearningSessionConfig config)
-    {
-        return BuildLearningSession(config).QuestionCounter;
-    }
+    public QuestionCounter GetQuestionCounterForLearningSession(LearningSessionConfig config) 
+        => BuildLearningSession(config).QuestionCounter;
 
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
@@ -336,7 +329,6 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
         if (_sessionUser.IsLoggedIn)
         {
-
             if (userQuestionValuations != null && userQuestionValuations.TryGetValue(question.Id, out QuestionValuationCacheItem? userValuation))
             {
                 questionProperties = FilterByWuwi(userValuation, config, questionProperties);
@@ -422,6 +414,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             var orderedKnowledgeSummaryDetails = knowledgeSummaryDetails
                 .OrderBy(k => k.PersonalCorrectnessProbability)
                 .ToList();
+            
             return questions
                 .OrderBy(q => orderedKnowledgeSummaryDetails.IndexOf(o => q.Id == o.QuestionId))
                 .ToList();
@@ -446,10 +439,10 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         if (questionProperties.Solid)
             counter.Solid++;
 
-        if (questionProperties.InWuwi)
+        if (questionProperties.InWishKnowledge)
             counter.InWuwi++;
 
-        if (questionProperties.NotInWuwi)
+        if (questionProperties.NotInWishKnowledge)
             counter.NotInWuwi++;
 
         if (questionProperties.CreatedByCurrentUser)
@@ -572,8 +565,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             if (!config.NeedsLearning)
                 questionProperties.AddToLearningSession = false;
         }
-        else if (questionValuation.CorrectnessProbability > 50 &&
-                 questionValuation.CorrectnessProbability < 80)
+        else if (questionValuation.CorrectnessProbability is > 50 and < 80)
         {
             questionProperties.NeedsConsolidation = true;
 
@@ -593,10 +585,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
         // if user deselected all input
         // default settings should take place (add all)
-        if (!config.NotLearned &&
-            !config.NeedsConsolidation &&
-            !config.NeedsLearning &&
-            !config.Solid)
+        if (config is { NotLearned: false, NeedsConsolidation: false, NeedsLearning: false, Solid: false })
             questionProperties.AddToLearningSession = true;
 
         return questionProperties;
@@ -608,7 +597,6 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         QuestionProperties questionProperties,
         QuestionValuationCacheItem? questionValuation)
     {
-
         if (questionValuation.CorrectnessProbabilityAnswerCount <= 0)
         {
             questionProperties.NotLearned = true;
@@ -665,14 +653,14 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     {
         if (questionValuation != null && questionValuation.IsInWishKnowledge)
         {
-            questionProperties.InWuwi = true;
+            questionProperties.InWishKnowledge = true;
 
             if (!config.InWuwi && config.NotInWuwi)
                 questionProperties.AddToLearningSession = false;
         }
         else
         {
-            questionProperties.NotInWuwi = true;
+            questionProperties.NotInWishKnowledge = true;
 
             if (!config.NotInWuwi && config.InWuwi)
                 questionProperties.AddToLearningSession = false;

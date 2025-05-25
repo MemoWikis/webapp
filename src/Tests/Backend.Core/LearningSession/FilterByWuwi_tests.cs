@@ -13,7 +13,7 @@ class FilterByWuwi_tests : BaseTestHarness
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
 
-        Assert.That(questionProperties.InWuwi);
+        Assert.That(questionProperties.InWishKnowledge);
         Assert.That(questionProperties.AddToLearningSession);
     }
 
@@ -25,7 +25,7 @@ class FilterByWuwi_tests : BaseTestHarness
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties);
 
-        Assert.That(questionProperties.NotInWuwi);
+        Assert.That(questionProperties.NotInWishKnowledge);
         Assert.That(questionProperties.AddToLearningSession);
     }
 
@@ -37,15 +37,15 @@ class FilterByWuwi_tests : BaseTestHarness
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
 
-        Assert.That(questionProperties.InWuwi);
-        Assert.That(questionProperties.NotInWuwi, Is.False);
+        Assert.That(questionProperties.InWishKnowledge);
+        Assert.That(questionProperties.NotInWishKnowledge, Is.False);
         Assert.That(questionProperties.AddToLearningSession);
 
         var questionProperties2 = new QuestionProperties();
         questionProperties2 = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties2);
 
-        Assert.That(questionProperties2.InWuwi, Is.False);
-        Assert.That(questionProperties2.NotInWuwi);
+        Assert.That(questionProperties2.InWishKnowledge, Is.False);
+        Assert.That(questionProperties2.NotInWishKnowledge);
         Assert.That(questionProperties2.AddToLearningSession);
     }
 
@@ -57,15 +57,15 @@ class FilterByWuwi_tests : BaseTestHarness
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
 
-        Assert.That(questionProperties.InWuwi);
-        Assert.That(questionProperties.NotInWuwi, Is.False);
+        Assert.That(questionProperties.InWishKnowledge);
+        Assert.That(questionProperties.NotInWishKnowledge, Is.False);
         Assert.That(questionProperties.AddToLearningSession);
 
         var questionProperties2 = new QuestionProperties();
         questionProperties2 = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties2);
 
-        Assert.That(questionProperties2.InWuwi, Is.False);
-        Assert.That(questionProperties2.NotInWuwi);
+        Assert.That(questionProperties2.InWishKnowledge, Is.False);
+        Assert.That(questionProperties2.NotInWishKnowledge);
         Assert.That(questionProperties2.AddToLearningSession);
     }
 
@@ -78,7 +78,7 @@ class FilterByWuwi_tests : BaseTestHarness
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
 
-        Assert.That(questionProperties.InWuwi);
+        Assert.That(questionProperties.InWishKnowledge);
         Assert.That(questionProperties.AddToLearningSession, Is.False);
     }
 
@@ -90,7 +90,7 @@ class FilterByWuwi_tests : BaseTestHarness
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties);
 
-        Assert.That(questionProperties.NotInWuwi);
+        Assert.That(questionProperties.NotInWishKnowledge);
         Assert.That(questionProperties.AddToLearningSession, Is.False);
     }
 }
