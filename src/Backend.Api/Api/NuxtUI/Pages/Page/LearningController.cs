@@ -24,8 +24,8 @@
         var questionCounter = _learningSessionCreator.GetQuestionCounterForLearningSession(config);
 
         return new GetCountResult(
-            questionCounter.InWuwi,
-            questionCounter.NotInWuwi,
+            questionCounter.InWishKnowledge,
+            questionCounter.NotInWishKnowledge,
             questionCounter.CreatedByCurrentUser,
             questionCounter.NotCreatedByCurrentUser,
             questionCounter.Private,

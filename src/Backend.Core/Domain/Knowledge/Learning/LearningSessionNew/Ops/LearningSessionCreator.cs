@@ -229,7 +229,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         {
             filteredQuestions = allQuestions;
             questionCounter.Max = filteredQuestions.Count;
-            questionCounter.NotInWuwi = filteredQuestions.Count;
+            questionCounter.NotInWishKnowledge = filteredQuestions.Count;
             questionCounter.NotCreatedByCurrentUser = filteredQuestions.Count;
             questionCounter.NotLearned = filteredQuestions.Count;
             questionCounter.Public = filteredQuestions.Count;
@@ -414,10 +414,10 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             counter.Solid++;
 
         if (questionProperties.InWishKnowledge)
-            counter.InWuwi++;
+            counter.InWishKnowledge++;
 
         if (questionProperties.NotInWishKnowledge)
-            counter.NotInWuwi++;
+            counter.NotInWishKnowledge++;
 
         if (questionProperties.CreatedByCurrentUser)
             counter.CreatedByCurrentUser++;

@@ -1,6 +1,6 @@
 ﻿public record struct QuestionCounter(
-    int InWuwi,
-    int NotInWuwi,
+    int InWishKnowledge,
+    int NotInWishKnowledge,
     int CreatedByCurrentUser,
     int NotCreatedByCurrentUser,
     int Private,
