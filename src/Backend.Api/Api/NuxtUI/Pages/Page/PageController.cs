@@ -58,6 +58,7 @@ public class PageController(
             QuestionCount = data.QuestionCount,
             PageItem = data.PageItem,
             Views = data.Views,
+            SubpageViews = data.SubpageViews,
             Visibility = data.Visibility,
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
@@ -67,6 +68,7 @@ public class PageController(
             IsShared = canView && SharesService.IsShared(data.Id),
             SharedWith = canView ? GetSharedWithResponse(data.Id) : null,
             CanEditByToken = _permissionCheck.TryGetEditPermissionByToken(data.Id, shareToken),
+            DirectQuestionViews = data.DirectQuestionViews,
             TotalQuestionViews = data.TotalQuestionViews,
         };
     }
@@ -96,6 +98,7 @@ public class PageController(
         int ChildPageCount,
         int DirectVisibleChildPageCount,
         int Views,
+        int SubpageViews,
         PageVisibility Visibility,
         int[] AuthorIds,
         PageDataManager.Author[] Authors,
@@ -122,6 +125,7 @@ public class PageController(
         bool IsShared,
         [CanBeNull] List<SharedWithResponse> SharedWith = null,
         [CanBeNull] bool? CanEditByToken = null,
-        int TotalQuestionViews = 0
+        int TotalQuestionViews = 0,
+        int DirectQuestionViews = 0
     );
 }

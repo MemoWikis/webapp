@@ -86,19 +86,19 @@ onBeforeMount(() => {
 
                 <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
                     <LayoutCounter
-                        :value="pageStore.views"
+                        :value="pageStore.subpageViews"
                         :label="t('page.analytics.subpageViewsLabel')" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">
                     <LayoutCounter
-                        :value="pageStore.views"
+                        :value="pageStore.directQuestionViews"
                         :label="t('page.analytics.directQuestionViewsLabel')" />
                 </LayoutCard>
 
-                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.views">
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.totalQuestionViews">
                     <LayoutCounter
-                        :value="pageStore.views"
+                        :value="pageStore.totalQuestionViews"
                         :label="t('page.analytics.aggregatedQuestionViewsLabel')" />
                 </LayoutCard>
             </LayoutPanel>

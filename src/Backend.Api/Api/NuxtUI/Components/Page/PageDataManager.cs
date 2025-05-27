@@ -75,6 +75,7 @@ public class PageDataManager(
         KnowledgeSummary knowledgeSummary)
     {
         var authorIds = page.AuthorIds.Distinct();
+
         return new PageDataResult
         {
             CanAccess = true,
@@ -103,6 +104,9 @@ public class PageDataManager(
             DirectVisibleChildPageCount = GraphService
                 .VisibleChildren(page.Id, _permissionCheck, _sessionUser.UserId).Count,
             Views = page.TotalViews,
+            SubpageViews = GraphService
+                .VisibleDescendants(id, _permissionCheck, _sessionUser.UserId)
+                .Sum(p => p.TotalViews),
             Visibility = page.Visibility,
             AuthorIds = authorIds.ToArray(),
             Authors = authorIds.Select(authorId =>
@@ -154,6 +158,7 @@ public class PageDataManager(
             TextIsHidden = page.TextIsHidden,
             MessageKey = "",
             Language = page.Language,
+            DirectQuestionViews = page.GetQuestionViewCount(_sessionUser.UserId, fullList: false, permissionCheck: _permissionCheck),
             TotalQuestionViews = page.GetQuestionViewCount(_sessionUser.UserId, permissionCheck: _permissionCheck)
         };
     }
@@ -199,6 +204,7 @@ public class PageDataManager(
         int ChildPageCount,
         int DirectVisibleChildPageCount,
         int Views,
+        int SubpageViews,
         PageVisibility Visibility,
         int[] AuthorIds,
         Author[] Authors,
@@ -222,6 +228,7 @@ public class PageDataManager(
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
         List<DailyViews> viewsLast30DaysQuestions,
         string Language,
+        int DirectQuestionViews,
         int TotalQuestionViews
     );
 }

@@ -22,6 +22,7 @@ export class Page {
     childPageCount: number = 0
     directVisibleChildPageCount: number = 0
     views: number = 0
+    subpageViews: number = 0
     commentCount: number = 0
     visibility: Visibility = Visibility.Private
     authorIds: number[] = []
@@ -61,6 +62,7 @@ export class Page {
     sharedWith: SharedWithUser[] | null = null
     canEditByToken: boolean | null = null
     totalQuestionViews: number = 0
+    directQuestionViews: number = 0
 }
 
 export interface ViewSummary {
@@ -133,6 +135,7 @@ export const usePageStore = defineStore('pageStore', {
             childPageCount: 0,
             directVisibleChildPageCount: 0,
             views: 0,
+            subpageViews: 0,
             commentCount: 0,
             visibility: null as Visibility | null,
             authorIds: [] as number[],
@@ -165,6 +168,7 @@ export const usePageStore = defineStore('pageStore', {
             sharedWith: [] as SharedWithUser[],
             canEditByToken: null as boolean | null,
             totalQuestionViews: 0,
+            directQuestionViews: 0,
         }
     },
     actions: {
@@ -187,6 +191,7 @@ export const usePageStore = defineStore('pageStore', {
                     page.directVisibleChildPageCount
 
                 this.views = page.views
+                this.subpageViews = page.subpageViews
                 this.commentCount = page.commentCount
                 this.visibility = page.visibility
 
@@ -224,6 +229,7 @@ export const usePageStore = defineStore('pageStore', {
                 this.canEditByToken = page.canEditByToken
 
                 this.totalQuestionViews = page.totalQuestionViews
+                this.directQuestionViews = page.directQuestionViews
 
                 this.handleLoginReminder()
             }
