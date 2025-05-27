@@ -137,22 +137,6 @@ const headingClass = (index: number) => {
             }
         }
 
-        &.level-2 {
-            font-weight: 400;
-
-            .current-heading {
-                font-weight: 600;
-            }
-        }
-
-        &.level-3 {
-            font-weight: 300;
-
-            .current-heading {
-                font-weight: 600;
-            }
-        }
-
         &.first-outline {
             margin-top: 0px;
         }

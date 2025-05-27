@@ -590,7 +590,7 @@
             "statistics": "Estadísticas",
             "pageViewsLast90Days": "Vistas de la página (últimos 90 días)",
             "withoutChildPages": "Sin subpáginas",
-            "withChildPages": "Incl. 0 subpáginas | Incl. 1 subpágina | Incl. {count} subpáginas",
+            "withChildPages": "0 subpáginas | 1 subpágina | {count} subpáginas",
             "questionViewsLast90Days": "Vistas de preguntas (últimos 90 días)",
             "directlyLinkedQuestionsTitle": "Preguntas vinculadas directamente",
             "includedQuestions90Days": "Preguntas incluidas (0 subpáginas) | Preguntas incluidas (1 subpágina) | Preguntas incluidas ({count} subpáginas)",

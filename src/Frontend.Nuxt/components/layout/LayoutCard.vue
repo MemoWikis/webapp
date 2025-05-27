@@ -17,11 +17,18 @@ withDefaults(defineProps<Props>(), {
 
 <template>
     <div class="layout-card" :class="`size-${size}`">
-        <div class="card-header" v-if="title">
-            <h2 class="card-title">{{ title }}</h2>
-            <div class="card-actions" v-if="$slots.actions">
-                <slot name="actions"></slot>
-            </div>
+        <div class="card-header" v-if="title || $slots.actions || $slots.header">
+
+            <slot name="header"></slot>
+
+            <template v-if="!$slots.header">
+                <h2 class="card-title">{{ title }}</h2>
+                <div class="card-actions" v-if="$slots.actions">
+                    <slot name="actions"></slot>
+                </div>
+
+            </template>
+
         </div>
         <div class="card-content" :class="{ 'no-padding': noPadding }">
             <slot></slot>

@@ -56,13 +56,13 @@ onBeforeMount(() => {
                 <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directVisibleChildPageCount > 0">
                     <LayoutCounter
                         :value="pageStore.directVisibleChildPageCount"
-                        :label="t('page.analytics.includedQuestionsLabel')" />
+                        :label="t('page.analytics.directVisibleChildPageLabel')" />
                 </LayoutCard>
 
-                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directVisibleChildPageCount > 0">
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.parentPageCount > 0">
                     <LayoutCounter
-                        :value="pageStore.directVisibleChildPageCount"
-                        :label="t('page.analytics.directlyLinkedQuestionsLabel')" />
+                        :value="pageStore.parentPageCount"
+                        :label="t('page.analytics.parentPageLabel')" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">

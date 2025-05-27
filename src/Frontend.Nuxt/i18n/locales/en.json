@@ -590,7 +590,7 @@
             "statistics": "Statistics",
             "pageViewsLast90Days": "Page views in the last 90 days",
             "withoutChildPages": "Without subpages",
-            "withChildPages": "Incl. 0 subpages | Incl. 1 subpage | Incl. {count} subpages",
+            "withChildPages": "0 subpages | 1 subpage | {count} subpages",
             "questionViewsLast90Days": "Question views in the last 90 days",
             "directlyLinkedQuestionsTitle": "Directly linked questions",
             "includedQuestions90Days": "Included questions (0 subpages) | Included questions (1 subpage) | Included questions ({count} subpages)",

@@ -593,7 +593,7 @@
             "statistics": "Statistiken",
             "pageViewsLast90Days": "Seitenaufrufe der letzten 90 Tage",
             "withoutChildPages": "Ohne Unterseiten",
-            "withChildPages": "Inkl. 0 Unterseiten | Inkl. 1 Unterseiten | Inkl. {count} Unterseiten",
+            "withChildPages": "0 Unterseiten | 1 Unterseiten | {count} Unterseiten",
             "questionViewsLast90Days": "Fragenaufrufe der letzten 90 Tage",
             "directlyLinkedQuestionsTitle": "Direkt verknüpfte Fragen",
             "includedQuestions90Days": "Eingeschlossene Fragen (0 Unterseiten) | Eingeschlossene Fragen (1 Unterseite) | Eingeschlossene Fragen ({count} Unterseiten)",

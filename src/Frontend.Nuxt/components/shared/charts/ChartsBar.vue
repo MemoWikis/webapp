@@ -35,6 +35,10 @@ const chartData = ref<{
 const chartOptions = ref<any>({
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+        intersect: false,
+        mode: 'index',
+    },
 })
 
 onBeforeMount(() => {
