@@ -7,31 +7,6 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly ExtendedUserCache _extendedUserCache;
 
-    public record struct QuestionProperties()
-    {
-        public bool NotLearned;
-        public bool NeedsLearning;
-        public bool NeedsConsolidation;
-        public bool Solid;
-        public bool InWishKnowledge;
-        public bool NotInWishKnowledge;
-        public bool CreatedByCurrentUser;
-        public bool NotCreatedByCurrentUser;
-        public bool Private;
-        public bool Public;
-        public int PersonalCorrectnessProbability;
-
-        // Flags: If all Flags are true, 
-        // question will be added to learning session
-        public bool AddToLearningSession = true;
-    }
-
-    struct KnowledgeSummaryDetail
-    {
-        public int QuestionId;
-        public int PersonalCorrectnessProbability;
-    }
-
     public LearningSessionCreator(
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
@@ -47,14 +22,6 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     // For Tests
     public LearningSessionCreator()
     {
-    }
-
-    public record struct Step
-    {
-        public int id { get; set; }
-        public AnswerState state { get; set; }
-        public int index { get; set; }
-        public bool isLastStep { get; set; }
     }
 
     public static LearningSessionResultStep FillLearningSessionResult(
@@ -642,4 +609,29 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
         return questionProperties;
     }
+}
+
+struct KnowledgeSummaryDetail
+{
+    public int QuestionId;
+    public int PersonalCorrectnessProbability;
+}
+
+public record struct QuestionProperties()
+{
+    public bool NotLearned;
+    public bool NeedsLearning;
+    public bool NeedsConsolidation;
+    public bool Solid;
+    public bool InWishKnowledge;
+    public bool NotInWishKnowledge;
+    public bool CreatedByCurrentUser;
+    public bool NotCreatedByCurrentUser;
+    public bool Private;
+    public bool Public;
+    public int PersonalCorrectnessProbability;
+
+    // Flags: If all Flags are true, 
+    // question will be added to learning session
+    public bool AddToLearningSession = true;
 }

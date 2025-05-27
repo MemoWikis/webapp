@@ -8,9 +8,9 @@
     {
         public int Index { get; set; } = 0;
 
-        public LearningSessionCreator.Step[] Steps { get; set; } = [];
+        public global::Step[] Steps { get; set; } = [];
 
-        public LearningSessionCreator.Step? CurrentStep { get; set; } = null;
+        public global::Step? CurrentStep { get; set; } = null;
         public int ActiveQuestionCount { get; set; } = 0;
         public bool AnswerHelp { get; set; } = true;
         public bool IsInTestMode { get; set; } = false;
