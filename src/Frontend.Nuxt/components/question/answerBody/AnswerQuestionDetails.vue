@@ -10,9 +10,9 @@ import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { useCommentsStore } from '~~/components/comment/commentsStore'
 import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
-import { abbreviateNumberToM } from '~~/components/shared/utils'
+import { abbreviateNumberToM } from '~/utils/utils'
 import { useActivityPointsStore } from '~/components/activityPoints/activityPointsStore'
-import { color } from '~/components/shared/colors'
+import { color } from '~/constants/colors'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()

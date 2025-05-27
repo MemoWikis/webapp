@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar'
-import { formatDate, getDaysBetween } from '../shared/utils'
+import { formatDate, getDaysBetween } from '~/utils/utils'
 
 const props = defineProps<{ calendarData?: ActivityCalendarData }>()
 const { t } = useI18n()

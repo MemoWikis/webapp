@@ -5,7 +5,7 @@ import { Visibility } from '~~/components/shared/visibilityEnum'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
-import { abbreviateNumberToM } from '~~/components/shared/utils'
+import { abbreviateNumberToM } from '~/utils/utils'
 
 const userStore = useUserStore()
 const { $urlHelper } = useNuxtApp()

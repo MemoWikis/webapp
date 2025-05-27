@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePageStore } from '../../page/pageStore'
+import { usePageStore } from '~/components/page/pageStore'
 
 const pageStore = usePageStore()
 

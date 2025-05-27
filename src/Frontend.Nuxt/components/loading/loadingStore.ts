@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { delay } from '../shared/utils'
+import { delay } from '../../utils/utils'
 
 export const useLoadingStore = defineStore('loadingStore', () => {
   const isLoading = ref(false)

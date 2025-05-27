@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { QuestionListItem } from './questionListItem'
 import { useUserStore } from '~~/components/user/userStore'
-import { getHighlightedCode } from '~~/components/shared/utils'
+import { getHighlightedCode } from '~/utils/utils'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useEditQuestionStore } from '~~/components/question/edit/editQuestionStore'
 import { PinState } from '~~/components/question/pin/pinStore'

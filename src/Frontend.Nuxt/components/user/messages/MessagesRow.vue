@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { handleNewLine } from '~~/components/shared/utils'
+import { handleNewLine } from '~/utils/utils'
 import { useUserStore } from '../userStore'
 import { Message } from './message'
 

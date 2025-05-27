@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getHighlightedCode, handleNewLine } from './utils'
+import { getHighlightedCode, handleNewLine } from '~/utils/utils'
 
 interface Props {
     html: string,

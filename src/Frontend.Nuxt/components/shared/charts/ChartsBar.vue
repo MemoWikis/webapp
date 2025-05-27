@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Bar } from 'vue-chartjs'
-import { memoBlue } from '../colors'
+import { memoBlue } from '~/constants/colors'
 
 interface Props {
     title?: string
