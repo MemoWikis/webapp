@@ -1,18 +1,13 @@
 <script lang="ts" setup>
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
-import { usePageStore } from '../page/pageStore'
 import { throttle } from 'underscore'
 
 const outlineStore = useOutlineStore()
-const pageStore = usePageStore()
-
-const { $urlHelper } = useNuxtApp()
 
 const currentHeadingId = ref<string | null>()
 const previousIndex = ref()
 
-
-function getCurrentHeadingId() {
+const getCurrentHeadingId = () => {
     if (outlineStore.headings.length === 0) return
 
     const headings = outlineStore.headings
@@ -40,7 +35,6 @@ function getCurrentHeadingId() {
         const topPosition = rect.top + window.scrollY
 
         if (window.scrollY >= topPosition - offset) {
-
             headingId = heading.id
         } else {
             break
@@ -50,11 +44,11 @@ function getCurrentHeadingId() {
     return
 }
 
-function sleep(ms: number): Promise<void> {
+const sleep = (ms: number): Promise<void> => {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 const cancelToken = ref<number>(0)
-async function traverseIds(startIndex: number, endId: string | null) {
+const traverseIds = async (startIndex: number, endId: string | null) => {
     const token = ++cancelToken.value
     const headings = outlineStore.headings
     const initialEndIndex = headings.findIndex(h => h.id === endId)
@@ -79,7 +73,7 @@ async function traverseIds(startIndex: number, endId: string | null) {
     if (initialEndIndex === -1 || initialEndIndex == null) currentHeadingId.value = null
 }
 
-function findCurrentSectionId(): string | null {
+const findCurrentSectionId = (): string | null => {
     if (!outlineStore.nodeIndex)
         return null
 
@@ -117,7 +111,7 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', throttledGetCurrentHeadingId)
 })
 
-function headingClass(level: number, index: number) {
+const headingClass = (level: number, index: number) => {
     const previousLevel = index > 0 ? outlineStore.headings[index - 1].level : null
     if (previousLevel != null) {
         if (previousLevel > level)
@@ -137,7 +131,7 @@ function headingClass(level: number, index: number) {
             <div class="outline-container">
                 <div v-for="(heading, index) in outlineStore.headings" :key="heading.id" class="outline-heading"
                     :class="headingClass(heading.level, index)">
-                    <NuxtLink :to="`${$urlHelper.getPageUrl(pageStore.name, pageStore.id)}#${heading.id}`"
+                    <NuxtLink :to="`#${heading.id}`"
                         class="outline-link" :class="{ 'current-heading': heading.id === currentHeadingId }">
                         <div v-for="text in heading.text">
                             {{ text }}
