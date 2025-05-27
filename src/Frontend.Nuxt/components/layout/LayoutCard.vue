@@ -44,7 +44,6 @@ withDefaults(defineProps<Props>(), {
     margin-top: 1rem;
     border-radius: 8px;
     overflow: hidden;
-    width: 100%;
 
     &.size-medium {
         @media (min-width: 768px) {
@@ -109,6 +108,7 @@ withDefaults(defineProps<Props>(), {
         border-radius: 8px;
         overflow: hidden;
         background: white;
+        height: 100%;
 
         &.no-padding {
             padding: 0;

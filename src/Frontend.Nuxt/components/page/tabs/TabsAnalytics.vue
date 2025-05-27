@@ -3,7 +3,6 @@ import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar
 import { usePageStore } from '../pageStore'
 import { useTabsStore, Tab } from './tabsStore'
 import PageAnalytics from '~/constants/pageAnalyticsSections'
-import { P } from 'pino'
 
 const pageStore = usePageStore()
 const tabsStore = useTabsStore()
@@ -82,25 +81,25 @@ onBeforeMount(() => {
                 <LayoutCard :size="LayoutCardSize.Tiny">
                     <LayoutCounter
                         :value="pageStore.views"
-                        :label="t('page.analytics.pageViewsLabel')" />
+                        :label="pageStore.name" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
                     <LayoutCounter
                         :value="pageStore.views"
-                        :label="t('page.analytics.pageViewsLabel')" />
+                        :label="t('page.analytics.subpageViewsLabel')" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">
                     <LayoutCounter
                         :value="pageStore.views"
-                        :label="t('page.analytics.directlyLinkedQuestionsLabel')" />
+                        :label="t('page.analytics.directQuestionViewsLabel')" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.views">
                     <LayoutCounter
                         :value="pageStore.views"
-                        :label="t('page.analytics.pageViewsLabel')" />
+                        :label="t('page.analytics.aggregatedQuestionViewsLabel')" />
                 </LayoutCard>
             </LayoutPanel>
 

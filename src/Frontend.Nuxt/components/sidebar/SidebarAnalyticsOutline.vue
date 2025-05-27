@@ -126,7 +126,7 @@ const headingClass = (index: number) => {
         &.level-1 {
             font-size: 16px;
             font-weight: 600;
-            margin-top: 24px;
+            margin-top: 8px;
 
             .current-heading {
                 font-weight: 700;

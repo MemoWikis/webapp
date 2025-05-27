@@ -40,10 +40,12 @@ const formattedValue = computed(() => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .layout-counter {
+    height: 100%;
     width: 100%;
     padding: 8px 0;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
     .counter-header {
         display: flex;
@@ -60,9 +62,7 @@ const formattedValue = computed(() => {
             font-size: 14px;
             font-weight: 500;
             color: @memo-grey-dark;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            overflow-wrap: break-word;
         }
     }
 

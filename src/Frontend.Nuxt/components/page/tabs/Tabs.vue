@@ -43,7 +43,6 @@ function setChartData() {
 			class: key,
 		})
 	}
-	console.log('chartData', chartData.value)
 	chartData.value = chartData.value.slice().reverse()
 }
 
