@@ -96,7 +96,7 @@ const { t } = useI18n()
             flex-direction: row;
             border-radius: 8px;
             padding: 16px 20px;
-            gap: 2rem;
+            gap: 2rem 6rem;
 
             // @media (max-width:576px) {
             //     min-width: unset;

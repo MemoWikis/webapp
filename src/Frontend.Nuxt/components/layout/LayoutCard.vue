@@ -49,11 +49,31 @@ withDefaults(defineProps<Props>(), {
         @media (min-width: 768px) {
             width: calc(33.3333% - 0.666rem);
         }
+
+        @media (min-width: 360px) and (max-width: 767px) {
+            width: calc(50% - 0.5rem);
+        }
+
+        @media (min-width: 500px) and (max-width: 767px) {
+            width: calc(50% - 0.5rem);
+        }
+
+        @media (max-width: 499px) {
+            width: calc(100%);
+        }
     }
 
     &.size-tiny {
         @media (min-width: 768px) {
             width: calc(25% - 0.75rem);
+        }
+
+        @media (min-width: 500px) and (max-width: 767px) {
+            width: calc(50% - 0.5rem);
+        }
+
+        @media (max-width: 499px) {
+            width: calc(100%);
         }
     }
 
@@ -103,11 +123,19 @@ withDefaults(defineProps<Props>(), {
             @media (max-width:1300px) {
                 width: calc(50% - 0.5rem);
             }
+
+            @media (max-width: 900px) {
+                width: 100%;
+            }
         }
 
         &.size-tiny {
             @media (max-width:1300px) {
                 width: calc(50% - 0.5rem);
+            }
+
+            @media (max-width: 900px) {
+                width: 100%;
             }
         }
     }

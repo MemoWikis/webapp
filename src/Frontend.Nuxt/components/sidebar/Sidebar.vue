@@ -54,7 +54,7 @@ const { $urlHelper } = useNuxtApp()
                 </SidebarCard>
                 <SidebarCard id="PageOutline" v-show="tabsStore?.activeTab === Tab.Analytics">
                     <template v-slot:body>
-                        <SidebarOutline />
+                        <SidebarAnalyticsOutline />
                     </template>
                 </SidebarCard>
             </template>

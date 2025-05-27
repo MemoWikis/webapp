@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 interface Props {
     value: string | number
     label: string
@@ -8,30 +9,18 @@ interface Props {
     formatNumber?: boolean
 }
 
+const { formattedNumber } = useFormatNumber()
+
 const props = withDefaults(defineProps<Props>(), {
     formatNumber: true
 })
 
-const { t } = useI18n()
-
 const formattedValue = computed(() => {
-    if (!props.formatNumber || typeof props.value !== 'number') {
+    if (!props.formatNumber) {
         return props.value
     }
 
-    const value = props.value
-
-    if (value >= 1000000) {
-        // Format as millions
-        const millions = (value / 1000000).toFixed(1).replace(/\.0$/, '')
-        return t('counter.millions', { value: millions })
-    } else if (value >= 1000) {
-        // Format as thousands 
-        const thousands = (value / 1000).toFixed(1).replace(/\.0$/, '')
-        return t('counter.thousands', { value: thousands })
-    }
-
-    return value.toString()
+    return formattedNumber(props.value)
 })
 </script>
 

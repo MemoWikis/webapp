@@ -5,19 +5,27 @@ defineProps({
         default: '',
     }
 })
+
+const showContent = ref(true)
 </script>
 
 <template>
     <div class="layout-panel">
-        <div class="panel-header" v-if="title">
+        <div class="panel-header" v-if="title" @click="showContent = !showContent">
             <h2 class="panel-title">{{ title }}</h2>
             <div class="panel-actions" v-if="$slots.actions">
                 <slot name="actions"></slot>
             </div>
         </div>
-        <div class="panel-content">
+
+        <Transition name="fade" mode="out-in">
+            <div class="panel-content" v-if="showContent">
+                <slot></slot>
+            </div>
+        </Transition>
+        <!-- <div class="panel-content">
             <slot></slot>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -37,6 +45,12 @@ defineProps({
         align-items: center;
         justify-content: space-between;
         padding: 16px 20px;
+
+        cursor: pointer;
+
+        &:hover {
+            background-color: @memo-grey-lighter;
+        }
 
         .panel-title {
             font-size: 1.8rem;
