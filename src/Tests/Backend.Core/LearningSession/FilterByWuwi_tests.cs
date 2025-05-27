@@ -8,7 +8,7 @@ class FilterByWuwi_tests : BaseTestHarness
     [Test]
     public void Should_Add_IsInWuwi_ConfigHas_InWuwi()
     {
-        var config = new LearningSessionConfig { InWuwi = true, NotInWuwi = false };
+        var config = new LearningSessionConfig { InWishKnowledge = true, NotWishKnowledge = false };
 
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
@@ -20,7 +20,7 @@ class FilterByWuwi_tests : BaseTestHarness
     [Test]
     public void Should_Add_IsNotInWuwi_ConfigHas_NotInWuwi()
     {
-        var config = new LearningSessionConfig { InWuwi = false, NotInWuwi = true };
+        var config = new LearningSessionConfig { InWishKnowledge = false, NotWishKnowledge = true };
 
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties);
@@ -32,7 +32,7 @@ class FilterByWuwi_tests : BaseTestHarness
     [Test]
     public void Should_Add_ConfigHas_AllSelected()
     {
-        var config = new LearningSessionConfig { InWuwi = true, NotInWuwi = true };
+        var config = new LearningSessionConfig { InWishKnowledge = true, NotWishKnowledge = true };
 
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
@@ -52,7 +52,7 @@ class FilterByWuwi_tests : BaseTestHarness
     [Test]
     public void Should_Add_ConfigHas_NoneSelected()
     {
-        var config = new LearningSessionConfig { InWuwi = false, NotInWuwi = false };
+        var config = new LearningSessionConfig { InWishKnowledge = false, NotWishKnowledge = false };
 
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
@@ -73,7 +73,7 @@ class FilterByWuwi_tests : BaseTestHarness
     [Test]
     public void ShouldNot_Add_IsInWuwi_ConfigHas_NotInWuwi()
     {
-        var config = new LearningSessionConfig { InWuwi = false, NotInWuwi = true };
+        var config = new LearningSessionConfig { InWishKnowledge = false, NotWishKnowledge = true };
 
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsInWishknowledge, config, questionProperties);
@@ -85,7 +85,7 @@ class FilterByWuwi_tests : BaseTestHarness
     [Test]
     public void ShouldNot_Add_IsNotInWuwi_ConfigHas_InWuwi()
     {
-        var config = new LearningSessionConfig { InWuwi = true, NotInWuwi = false };
+        var config = new LearningSessionConfig { InWishKnowledge = true, NotWishKnowledge = false };
 
         var questionProperties = new QuestionProperties();
         questionProperties = FilterByWuwi_Test(_questionValuationIsNotInWishknowledge, config, questionProperties);

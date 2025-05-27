@@ -629,14 +629,14 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         {
             questionProperties.InWishKnowledge = true;
 
-            if (!config.InWuwi && config.NotInWuwi)
+            if (!config.InWishKnowledge && config.NotWishKnowledge)
                 questionProperties.AddToLearningSession = false;
         }
         else
         {
             questionProperties.NotInWishKnowledge = true;
 
-            if (!config.NotInWuwi && config.InWuwi)
+            if (!config.NotWishKnowledge && config.InWishKnowledge)
                 questionProperties.AddToLearningSession = false;
         }
 

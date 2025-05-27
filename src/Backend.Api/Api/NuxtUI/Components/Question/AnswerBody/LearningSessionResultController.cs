@@ -80,7 +80,7 @@
             ),
             PageName: learningSession.Config.GetPage().Name,
             PageId: learningSession.Config.GetPage().Id,
-            InWuwi: learningSession.Config.InWuwi,
+            InWuwi: learningSession.Config.InWishKnowledge,
             Questions: tinyQuestions
         );
     }
