@@ -3,7 +3,7 @@ public class LearningSession(
     List<LearningSessionStep> _learningSessionSteps,
     LearningSessionConfig _config)
 {
-    public IList<LearningSessionStep> Steps { get; set; } = _learningSessionSteps;
+    public List<LearningSessionStep> Steps { get; set; } = _learningSessionSteps;
     public LearningSessionConfig Config { get; set; } = _config;
 
     public QuestionCounter QuestionCounter;

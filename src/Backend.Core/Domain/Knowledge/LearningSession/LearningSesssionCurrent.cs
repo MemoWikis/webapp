@@ -1,4 +1,7 @@
-﻿public class LearningSessionCurrent(LearningSessionCache _learningSessionCache)
+﻿public class LearningSessionCurrent(
+    LearningSessionCache _learningSessionCache,
+    LearningSessionResultService _resultService
+)
 {
     public LearningSessionResultStep GetCurrentSession()
     {
@@ -12,7 +15,7 @@
                 .IndexOf(step => step.AnswerState == AnswerState.Unanswered);
 
             learningSessionCached.LoadSpecificQuestion(index);
-            result = LearningSessionCreator.FillLearningSessionResult(learningSessionCached, result);
+            result = _resultService.FillLearningSessionResult(learningSessionCached, result);
         }
 
         return result;
