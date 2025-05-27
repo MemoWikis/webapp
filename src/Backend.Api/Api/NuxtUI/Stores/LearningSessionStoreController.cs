@@ -1,5 +1,6 @@
 ﻿public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
+    LearningSessionCurrent _learningSessionCurrent,
     LearningSessionCache _learningSessionCache,
     PermissionCheck _permissionCheck) : ApiBaseController
 {
@@ -148,7 +149,7 @@
     [HttpGet]
     public LearningSessionResponse GetCurrentSession()
     {
-        var data = _learningSessionCreator.GetCurrentSession();
+        var data = _learningSessionCurrent.GetCurrentSession();
         return new LearningSessionResponse
         {
             MessageKey = data.MessageKey,

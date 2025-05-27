@@ -1,4 +1,4 @@
-﻿internal class LearningSessionCurrent(LearningSessionCache _learningSessionCache)
+﻿public class LearningSessionCurrent(LearningSessionCache _learningSessionCache)
 {
     public LearningSessionResultStep GetCurrentSession()
     {
