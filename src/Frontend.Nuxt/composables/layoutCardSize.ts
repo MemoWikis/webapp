@@ -3,4 +3,5 @@ export enum LayoutCardSize {
     Small = 'small',
     Medium = 'medium',
     Large = 'large',
+    Flex = 'flex',
 }

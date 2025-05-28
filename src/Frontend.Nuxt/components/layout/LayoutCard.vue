@@ -45,6 +45,14 @@ withDefaults(defineProps<Props>(), {
     border-radius: 8px;
     overflow: hidden;
 
+    &.size-flex {
+        width: unset;
+    }
+
+    &.size-large {
+        width: 100%;
+    }
+
     &.size-medium {
         @media (min-width: 768px) {
             width: calc(50% - 0.5rem);

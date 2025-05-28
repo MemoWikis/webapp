@@ -40,7 +40,7 @@ onBeforeMount(() => {
     <div class="row analytics">
         <div class="col-xs-12">
             <LayoutPanel :title="t(PageAnalytics.KNOWLEDGE_SECTION.translationKey)" :id="PageAnalytics.KNOWLEDGE_SECTION.id">
-                <LayoutCard class="analytics-knowledgesummary-section">
+                <LayoutCard class="analytics-knowledgesummary-section" :size="LayoutCardSize.Flex">
                     <PageAnalyticsKnowledgeSummarySection />
                 </LayoutCard>
             </LayoutPanel>

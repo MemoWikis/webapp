@@ -4,8 +4,7 @@ interface Props {
     knowledgeStatus: KnowledgeSummary
 }
 
-const props = defineProps<Props>()
-const { t } = useI18n()
+defineProps<Props>()
 </script>
 
 <template>
@@ -23,7 +22,7 @@ const { t } = useI18n()
     flex-direction: column;
     border-radius: 8px;
     padding: 16px 20px;
-    gap: 2rem;
+    gap: 2rem 4rem;
 
     @media (max-width:576px) {
         min-width: unset;

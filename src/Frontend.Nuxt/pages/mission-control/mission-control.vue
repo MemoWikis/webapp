@@ -13,7 +13,7 @@ emit('setPage', SiteType.MissionControl)
 const { t } = useI18n()
 
 useHead({
-    title: t('missionControl.title')
+    title: t('missionControl.heading')
 })
 
 interface UserDashboardData {
@@ -91,7 +91,7 @@ watch(() => locale.value, async () => {
                     <div class="mission-control-content" v-if="dashboardData">
                         <!-- Knowledge Status Section -->
                         <LayoutPanel :title="t('missionControl.sections.knowledgeStatus')">
-                            <LayoutCard :size="LayoutCardSize.Medium">
+                            <LayoutCard :size="LayoutCardSize.Flex">
                                 <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus"
                                     :knowledgeStatus="dashboardData.knowledgeStatus" />
                             </LayoutCard>
