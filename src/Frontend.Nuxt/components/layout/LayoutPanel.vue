@@ -7,13 +7,18 @@ defineProps({
 })
 
 const showContent = ref(true)
+const { isMobile } = useDevice()
 </script>
 
 <template>
     <div class="layout-panel">
         <div class="panel-header" v-if="title" @click="showContent = !showContent">
             <h2 class="panel-title">{{ title }}</h2>
-            <div class="panel-actions" v-if="$slots.actions">
+            <div class="panel-actions">
+                <div class="collapse-toggle" :class="{ 'is-mobile': isMobile }">
+                    <font-awesome-icon :icon="['fas', 'chevron-up']" v-if="showContent" />
+                    <font-awesome-icon :icon="['fas', 'chevron-down']" v-else />
+                </div>
                 <slot name="actions"></slot>
             </div>
         </div>
@@ -23,9 +28,6 @@ const showContent = ref(true)
                 <slot></slot>
             </div>
         </Transition>
-        <!-- <div class="panel-content">
-            <slot></slot>
-        </div> -->
     </div>
 </template>
 
@@ -45,7 +47,7 @@ const showContent = ref(true)
         align-items: center;
         justify-content: space-between;
         padding: 16px 20px;
-
+        user-select: none;
         cursor: pointer;
 
         &:hover {
@@ -63,6 +65,27 @@ const showContent = ref(true)
             display: flex;
             align-items: center;
             gap: 8px;
+
+            .collapse-toggle {
+                cursor: pointer;
+                color: @memo-grey-dark;
+                opacity: 0;
+                font-size: 2rem;
+                transition: opacity 0.2s ease-in-out;
+
+                &.is-mobile {
+                    opacity: 1;
+                }
+            }
+        }
+
+        &:hover {
+            .panel-actions {
+                .collapse-toggle {
+                    opacity: 1;
+
+                }
+            }
         }
     }
 

@@ -57,13 +57,13 @@ const knowledgeStatusItems = computed(() => [
 @import (reference) '~~/assets/includes/imports.less';
 
 .summary-details {
-    flex-grow: 1;
     padding: 20px 0;
 
     .status-item {
         display: flex;
         justify-content: space-between;
         margin-bottom: 12px;
+        gap: 6rem;
 
         &:last-child {
             margin-bottom: 0;
