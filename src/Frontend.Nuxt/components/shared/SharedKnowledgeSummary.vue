@@ -63,7 +63,8 @@ const knowledgeStatusItems = computed(() => [
         display: flex;
         justify-content: space-between;
         margin-bottom: 12px;
-        gap: 6rem;
+        gap: 4rem;
+        align-items: center;
 
         &:last-child {
             margin-bottom: 0;
@@ -72,6 +73,7 @@ const knowledgeStatusItems = computed(() => [
         .status-info {
             display: flex;
             align-items: center;
+            min-width: 140px;
 
             .status-dot {
                 width: 12px;

@@ -98,16 +98,9 @@ const { t } = useI18n()
             padding: 16px 20px;
             gap: 2rem 6rem;
 
-            // @media (max-width:576px) {
-            //     min-width: unset;
-            // }
-
-            // @media (min-width: 768px) {
-            //     flex-direction: row;
-            //     align-items: center;
-            //     flex-wrap: wrap;
-            //     justify-content: center;
-            // }
+            @media (max-width:576px) {
+                flex-direction: column;
+            }
         }
     }
 
