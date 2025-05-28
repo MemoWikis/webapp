@@ -107,7 +107,7 @@
     {
         foreach (var question in All)
         {
-            _questionWritingRepo.Create(question);
+            _questionWritingRepo.Create(question, _pageRepository);
         }
 
         _questionWritingRepo.Flush();
