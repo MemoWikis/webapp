@@ -76,7 +76,7 @@ public class QuestionCounterService(
                 questionCounter.Max++;
             }
 
-            questionCounter = Count(questionProperties, questionCounter);
+            Count(questionProperties, questionCounter);
         }
 
         return questionCounter;

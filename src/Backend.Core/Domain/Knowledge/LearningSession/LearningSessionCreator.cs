@@ -264,7 +264,7 @@ public class LearningSessionCreator(
     {
         return EntityCache.GetPage(pageId)
             .GetAggregatedQuestions(_sessionUser.UserId, permissionCheck: _permissionCheck)
-            .Where(q => q.Id > 0)
+            .Where(questionId => questionId.Id > 0)
             .Where(_permissionCheck.CanView)
             .ToList();
     }

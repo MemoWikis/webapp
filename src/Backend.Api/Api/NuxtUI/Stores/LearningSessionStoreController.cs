@@ -228,7 +228,8 @@ public static class LearningSessionConfigMapping
 {
     public static LearningSessionConfig ToEntity(this LearningSessionStoreController.LearningSessionConfigRequest _request)
     {
-        if (_request is null) throw new ArgumentNullException(nameof(_request));
+        if (_request is null) 
+            throw new ArgumentNullException(nameof(_request));
 
         return new LearningSessionConfig
         {
