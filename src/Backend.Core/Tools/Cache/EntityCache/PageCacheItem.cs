@@ -185,8 +185,13 @@ public class PageCacheItem : IPersistable
         }
         else
         {
-            questions = EntityCache.GetQuestionsForPage(pageId)
-                .Distinct().ToList();
+            if (pageId == 0)
+                pageId = Id; // use current page if no pageId is given
+
+            questions = EntityCache
+                .GetQuestionsForPage(pageId)
+                .Distinct()
+                .ToList();
         }
 
         if (onlyVisible)
