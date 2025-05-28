@@ -3,19 +3,17 @@ using CacheManager.Core;
 
 public static class MemoCache
 {
-    internal static ICacheManager<object> Mgr = CacheFactory.Build<object>(settings =>
-    {
-        settings.WithDictionaryHandle();
-    });
+    private static readonly ICacheManager<object> _mgr = CacheFactory.Build<object>(settings 
+        => settings.WithDictionaryHandle());
+    
+    public static T Get<T>(string key) => _mgr.Get<T>(key);
 
-    public static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
-    {
-        Mgr.Add(key, objectToCache);
-    }
+    public static void Add<T>(string key, ConcurrentDictionary<int, T> objectToCache) => 
+        _mgr.Add(key, objectToCache);
 
-    public static void IntoForeverCache<T>(string key, ConcurrentDictionary<(int, int), T> objectToCache)
-    {
-        Mgr.Add(key, objectToCache);
-    }
+    public static void Add<T>(string key, ConcurrentDictionary<(int, int), T> objectToCache) => 
+        _mgr.Add(key, objectToCache);
+
+    public static void Clear() => _mgr.Clear();
 }
 

@@ -13,26 +13,26 @@ public class EntityCache
     public static bool IsFirstStart = true;
 
     private static ConcurrentDictionary<int, UserCacheItem> Users =>
-        MemoCache.Mgr.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
+        MemoCache.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
 
     public static ConcurrentDictionary<int, PageCacheItem> Pages =>
-        MemoCache.Mgr.Get<ConcurrentDictionary<int, PageCacheItem>>(CacheKeyPages);
+        MemoCache.Get<ConcurrentDictionary<int, PageCacheItem>>(CacheKeyPages);
 
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions =>
-        MemoCache.Mgr.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
+        MemoCache.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
     private static ConcurrentDictionary<int, PageRelationCache> Relations =>
-        MemoCache.Mgr.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
+        MemoCache.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
 
     private static ConcurrentDictionary<int, List<ShareCacheItem>> PageShares =>
-        MemoCache.Mgr.Get<ConcurrentDictionary<int, List<ShareCacheItem>>>(CacheKeyPageShares);
+        MemoCache.Get<ConcurrentDictionary<int, List<ShareCacheItem>>>(CacheKeyPageShares);
 
     /// <summary>
     /// Dictionary(key:pageId, value:questions)
     /// </summary>
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>>
         PageQuestionsList =>
-        MemoCache.Mgr.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(
+        MemoCache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(
             CacheKeyPageQuestionsList);
 
     public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) =>
@@ -102,16 +102,11 @@ public class EntityCache
         return pageQuestionList;
     }
 
-    public static bool PageHasQuestion(int pageId)
-    {
-        return EntityCache.GetQuestionIdsForPage(pageId)?
-            .Any() ?? false;
-    }
+    public static bool PageHasQuestion(int pageId) =>
+        GetQuestionIdsForPage(pageId)?.Any() ?? false;
 
-    public static IList<QuestionCacheItem> GetQuestionsForPage(int pageId)
-    {
-        return GetQuestionsByIds(GetQuestionIdsForPage(pageId));
-    }
+    public static IList<QuestionCacheItem> GetQuestionsForPage(int pageId) => 
+        GetQuestionsByIds(GetQuestionIdsForPage(pageId));
 
     public static List<int> GetQuestionIdsForPage(int pageId)
     {
@@ -498,10 +493,7 @@ public class EntityCache
     public static IEnumerable<PageRelationCache> GetCacheRelationsByPageId(int pageId) =>
         GetAllRelations().Where(r => r.ParentId == pageId || r.ChildId == pageId);
 
-    public static void Clear()
-    {
-        MemoCache.Mgr.Clear();
-    }
+    public static void Clear() => MemoCache.Clear();
 
     // Helper methods for updating share info:
     public static void AddOrUpdatePageShares(int pageId, List<ShareCacheItem> shareCacheItems)

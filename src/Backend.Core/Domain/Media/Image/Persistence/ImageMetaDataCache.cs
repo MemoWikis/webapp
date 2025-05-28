@@ -3,12 +3,12 @@ using K4os.Compression.LZ4.Internal;
 
 public class ImageMetaDataCache
 {
-
     private static readonly string _imageMetaDataQuestionsKey = "imageMetaDatasQuestion";
     private static readonly string _imageMetaDataPagesKey = "imageMetaDatasCategories";
 
     public static IDictionary<(int, int), ImageMetaData> RequestCache_Questions(ImageMetaDataReadingRepo imageMetaDataReadingRepo) =>
         GetRequestItemsCache(_imageMetaDataQuestionsKey, imageMetaDataReadingRepo);
+
     public static IDictionary<(int, int), ImageMetaData> RequestCache_Pages(ImageMetaDataReadingRepo imageMetaDataReadingRepo) =>
         GetRequestItemsCache(_imageMetaDataPagesKey, imageMetaDataReadingRepo);
 
@@ -45,13 +45,14 @@ public class ImageMetaDataCache
     private static IDictionary<(int, int), ImageMetaData> GetRequestItemsCache(string cacheKey,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
-        var cache = (ConcurrentDictionary<(int, int), ImageMetaData>)MemoCache.Mgr.Get(cacheKey);
+        var cache = MemoCache.Get<ConcurrentDictionary<(int, int), ImageMetaData>>(cacheKey);
+        
         if (cache == null || cache.Any() == false)
         {
             var metadata = imageMetaDataReadingRepo.GetAll();
-            MemoCache.IntoForeverCache(cacheKey, metadata.ToConcurrentDictionary());
+            MemoCache.Add(cacheKey, metadata.ToConcurrentDictionary());
         }
 
-        return MemoCache.Mgr.Get<IDictionary<(int, int), ImageMetaData>>(cacheKey);
+        return MemoCache.Get<IDictionary<(int, int), ImageMetaData>>(cacheKey);
     }
 }
