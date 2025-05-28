@@ -45,23 +45,35 @@ onBeforeMount(() => {
                 </LayoutCard>
             </LayoutPanel>
 
-            <LayoutPanel :title="t(PageAnalytics.CONTENT_SECTION.translationKey)" :id="PageAnalytics.CONTENT_SECTION.id">
-                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
-                    <LayoutCounter
-                        :value="pageStore.childPageCount"
-                        :label="t('page.analytics.childPageCount')" />
-                </LayoutCard>
+            <!-- LearnCalendar Section with Coming Soon overlay -->
+            <LayoutPanel :title="t(PageAnalytics.LEARN_CALENDAR_SECTION.translationKey)" :id="PageAnalytics.LEARN_CALENDAR_SECTION.id">
+                <div class="coming-soon-container">
+                    <MissionControlLearnCalendar v-if="mockActivity" :calendarData="mockActivity" />
+                    <div class="coming-soon-overlay">
+                        <div class="coming-soon-content">
+                            <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </LayoutPanel>
 
+            <LayoutPanel :title="t(PageAnalytics.CONTENT_SECTION.translationKey)" :id="PageAnalytics.CONTENT_SECTION.id">
                 <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directVisibleChildPageCount > 0">
                     <LayoutCounter
                         :value="pageStore.directVisibleChildPageCount"
                         :label="t('page.analytics.directVisibleChildPageLabel')" />
                 </LayoutCard>
 
-                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.parentPageCount > 0">
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
                     <LayoutCounter
-                        :value="pageStore.parentPageCount"
-                        :label="t('page.analytics.parentPageLabel')" />
+                        :value="pageStore.childPageCount"
+                        :label="t('page.analytics.childPageCount')" />
+                </LayoutCard>
+
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directQuestionCount > 0">
+                    <LayoutCounter
+                        :value="pageStore.directQuestionCount"
+                        :label="t('page.analytics.directlyLinkedQuestionsLabel')" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">
@@ -70,11 +82,13 @@ onBeforeMount(() => {
                         :label="t('page.analytics.includedQuestionsLabel')" />
                 </LayoutCard>
 
-                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directQuestionCount > 0">
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.parentPageCount > 0">
                     <LayoutCounter
-                        :value="pageStore.directQuestionCount"
-                        :label="t('page.analytics.directlyLinkedQuestionsLabel')" />
+                        :value="pageStore.parentPageCount"
+                        :label="t('page.analytics.parentPageLabel')" />
                 </LayoutCard>
+
+
             </LayoutPanel>
 
             <LayoutPanel :title="t(PageAnalytics.VIEWS_SECTION.translationKey)" :id="PageAnalytics.VIEWS_SECTION.id">
@@ -113,17 +127,7 @@ onBeforeMount(() => {
                 </LayoutPanel>
             </template>
 
-            <!-- LearnCalendar Section with Coming Soon overlay -->
-            <LayoutPanel :title="t(PageAnalytics.LEARN_CALENDAR_SECTION.translationKey)" :id="PageAnalytics.LEARN_CALENDAR_SECTION.id">
-                <div class="coming-soon-container">
-                    <MissionControlLearnCalendar v-if="mockActivity" :calendarData="mockActivity" />
-                    <div class="coming-soon-overlay">
-                        <div class="coming-soon-content">
-                            <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>
-                        </div>
-                    </div>
-                </div>
-            </LayoutPanel>
+
 
         </div>
     </div>

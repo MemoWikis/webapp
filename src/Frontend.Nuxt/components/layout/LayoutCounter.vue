@@ -9,8 +9,6 @@ interface Props {
     formatNumber?: boolean
 }
 
-const { formattedNumber } = useFormatNumber()
-
 const props = withDefaults(defineProps<Props>(), {
     formatNumber: true
 })
@@ -20,7 +18,7 @@ const formattedValue = computed(() => {
         return props.value
     }
 
-    return formattedNumber(props.value)
+    return getFormattedNumber(props.value)
 })
 </script>
 

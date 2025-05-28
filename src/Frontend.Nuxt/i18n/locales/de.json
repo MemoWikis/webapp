@@ -603,7 +603,7 @@
             "notLearned": "@:knowledgeStatus.notLearned",
             "contentTitle": "Inhalte",
             "viewsTitle": "Aufrufe",
-            "learnCalendar": "Lernkalender",
+            "learnActivity": "Lernaktivität",
             "childPageCount": "Gesamte Unterseiten",
             "directVisibleChildPageLabel": "Direkte Unterseiten",
             "parentPageLabel": "Übergeordnete Seiten",

@@ -111,23 +111,6 @@ export function isValidEmail(email: string): boolean {
     return regex.test(email)
 }
 
-export function abbreviateNumberToM(
-    number: number,
-    localeString: string = 'de-DE',
-    mString: string = 'Mio'
-): string {
-    let newNumber
-    if (number < 1000000) {
-        return number.toLocaleString(localeString)
-    } else if (number >= 1000000 && number < 1000000000) {
-        newNumber = number / 1000000
-        return `${parseInt(newNumber.toFixed(2)).toLocaleString(
-            localeString
-        )} ${mString}.`
-    }
-    return ''
-}
-
 export function getLastElement<T>(arr: T[]): T | undefined {
     if (arr.length === 0) {
         return undefined
@@ -235,50 +218,3 @@ export function getDaysBetween(start: Date, end: Date) {
     }
     return dates
 }
-
-// /**
-//  * Formats a number to a readable format with K for thousands and M for millions
-//  * @param value The number to format
-//  * @param translate A translation function that receives a key and params
-//  * @returns Formatted number string
-//  */
-// export function formatNumber(
-//     value: number,
-//     translate: (key: string, params: { value: string }) => string = (
-//         key,
-//         params
-//     ) => {
-//         if (key === 'counter.millions') return `${params.value}M`
-//         if (key === 'counter.thousands') return `${params.value}K`
-//         return params.value
-//     }
-// ): string {
-//     if (value >= 1000000) {
-//         // Format as millions
-//         const millions = (value / 1000000).toFixed(1).replace(/\.0$/, '')
-//         return translate('counter.millions', { value: millions })
-//     } else if (value >= 1000) {
-//         // Format as thousands
-//         const thousands = (value / 1000).toFixed(1).replace(/\.0$/, '')
-//         return translate('counter.thousands', { value: thousands })
-//     }
-
-//     return value.toString()
-// }
-
-// /**
-//  * Formats a number or string value using the formatNumber function
-//  * @param value The value to format, can be a number or string
-//  * @param translate Translation function
-//  * @returns Formatted string
-//  */
-// export function formattedNumber(
-//     value: string | number,
-//     translate?: (key: string, params: { value: string }) => string
-// ): string | number {
-//     if (typeof value !== 'number') {
-//         return value
-//     }
-
-//     return formatNumber(value, translate)
-// }

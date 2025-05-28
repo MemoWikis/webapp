@@ -600,7 +600,7 @@
             "notLearned": "@:knowledgeStatus.notLearned",
             "contentTitle": "Contenido",
             "viewsTitle": "Vistas",
-            "learnCalendar": "Calendario de Aprendizaje",
+            "learnActivity": "Actividad de Aprendizaje",
             "childPageCount": "Total de Subpáginas",
             "directVisibleChildPageLabel": "Subpáginas Directas",
             "parentPageLabel": "Páginas Superiores",
