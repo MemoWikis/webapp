@@ -92,6 +92,7 @@ public class PageViewRepo(
     }
 
     public record struct PageViewSummaryWithId(Int64 Count, DateTime DateOnly, int PageId);
+
     public record struct PageViewSummary(Int64 Count, DateTime DateOnly);
 
     public ConcurrentDictionary<DateTime, int> GetActiveUserCountForPastNDays(int days)

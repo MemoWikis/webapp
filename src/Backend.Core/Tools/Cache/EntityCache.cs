@@ -119,6 +119,7 @@ public class EntityCache
         var elapsedTime = watch.ElapsedMilliseconds;
         Log.Information(nameof(AddViewsLast30DaysToQuestion) + elapsedTime);
     }
+
     public static UserCacheItem? GetUserByIdNullable(int userId)
     {
         Users.TryGetValue(userId, out var user);

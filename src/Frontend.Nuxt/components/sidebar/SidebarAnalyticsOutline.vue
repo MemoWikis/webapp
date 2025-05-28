@@ -10,7 +10,7 @@ const getCurrentHeadingId = () => {
     if (PAGE_ANALYTICS_SECTIONS.length === 0) return
 
     const headings = PAGE_ANALYTICS_SECTIONS
-    const offset = 240
+    const offset = 120
     let headingId: string | null = null
 
     const startIndex = headings.findIndex(h => h.id === currentHeadingId.value)

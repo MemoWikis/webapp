@@ -315,25 +315,7 @@ public class PageCacheItem : IPersistable
 
         if (EntityCache.IsFirstStart)
         {
-            if (views != null)
-            {
-                pageCacheItem.TotalViews = views.Count();
-
-                var startDate = DateTime.Now.Date.AddDays(-90);
-                var endDate = DateTime.Now.Date;
-
-                var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
-                    .Select(d => startDate.AddDays(d));
-
-                pageCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
-                    .Select(qv => new DailyViews
-                    {
-                        Date = qv.DateOnly,
-                        Count = qv.Count
-                    })
-                    .OrderBy(v => v.Date)
-                    .ToList();
-            }
+            SetPageViews(pageCacheItem, views);
 
             if (pageChanges != null)
             {
@@ -407,6 +389,29 @@ public class PageCacheItem : IPersistable
         LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem);
 
         return pageCacheItem;
+    }
+
+    public static void SetPageViews(PageCacheItem pageCacheItem, List<PageViewRepo.PageViewSummaryWithId>? views = null)
+    {
+        if (views == null || views.Count == 0)
+            return;
+
+        pageCacheItem.TotalViews = (int)views.Sum(view => view.Count);
+
+        var startDate = DateTime.Now.Date.AddDays(-90);
+        var endDate = DateTime.Now.Date;
+
+        var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+            .Select(d => startDate.AddDays(d));
+
+        pageCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
+            .Select(qv => new DailyViews
+            {
+                Date = qv.DateOnly,
+                Count = qv.Count
+            })
+            .OrderBy(v => v.Date)
+            .ToList();
     }
 
     public void AddPageView(DateTime date)

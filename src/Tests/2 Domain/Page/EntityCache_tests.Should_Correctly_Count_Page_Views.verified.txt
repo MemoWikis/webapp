@@ -1,0 +1,12 @@
+﻿{
+  TotalViews: 15,
+  ExpectedSum: 15,
+  ViewsCount: 2,
+  DailyViewsCount: 2,
+  ViewsOfPast90Days: 15,
+  ExpectedViewsOfPast90Days: 15,
+  HasYesterday: true,
+  YesterdayCount: 10,
+  HasTwoDaysAgo: true,
+  TwoDaysAgoCount: 5
+}
