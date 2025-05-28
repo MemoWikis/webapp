@@ -155,18 +155,22 @@ watch(() => sideSheetStore.showSideSheet, (show) => {
 }, { immediate: true })
 
 const hover = ref(false)
+const mouseOverTimer = ref()
 const delayedMouseLeaveTimeOut = ref()
 
 const handleMouseOver = () => {
     if (windowWidth.value > 900) {
         clearTimeout(delayedMouseLeaveTimeOut.value)
-        hover.value = true
+        mouseOverTimer.value = setTimeout(() => {
+            hover.value = true
+        }, 500)
     }
 }
 
 const handleMouseLeave = () => {
     if (windowWidth.value > 900) {
         clearTimeout(delayedMouseLeaveTimeOut.value)
+        clearTimeout(mouseOverTimer.value)
         delayedMouseLeaveTimeOut.value = setTimeout(() => {
             hover.value = false
         }, 500)
@@ -302,11 +306,11 @@ const hoverFavoritesButton = ref(false)
 <template>
     <div v-if="windowWidth > 0" id="SideSheet"
         :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }"
-        @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :style="`height: ${windowHeight}px`">
+        :style="`height: ${windowHeight}px`" @mouseleave="handleMouseLeave">
         <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
-                <SideSheetSection class="no-b-padding">
+                <SideSheetSection class="no-b-padding" @mouseover="handleMouseOver">
                     <template #header>
                         <NuxtLink :to="`/${t('url.missionControl')}`" class="mission-control-link">
                             <div class="header-container no-hover">
@@ -322,7 +326,7 @@ const hoverFavoritesButton = ref(false)
                     </template>
                 </SideSheetSection>
 
-                <SideSheetSection :class="{ 'no-b-padding': !showWikis }">
+                <SideSheetSection :class="{ 'no-b-padding': !showWikis }" @mouseover="handleMouseOver">
                     <template #header>
                         <div class="header-container" @click="showWikis = !showWikis" :class="{ 'no-hover': hoverWikiButton }">
                             <template v-if="!collapsed">
@@ -374,7 +378,7 @@ const hoverFavoritesButton = ref(false)
 
                 </SideSheetSection>
 
-                <SideSheetSection :class="{ 'no-b-padding': !showFavorites }">
+                <SideSheetSection :class="{ 'no-b-padding': !showFavorites }" @mouseover="handleMouseOver">
                     <template #header>
                         <div class="header-container" @click="showFavorites = !showFavorites" :class="{ 'no-hover': hoverFavoritesButton }">
                             <template v-if="!collapsed">
@@ -420,7 +424,7 @@ const hoverFavoritesButton = ref(false)
 
                 </SideSheetSection>
 
-                <SideSheetSection :class="{ 'no-b-padding': !showShared }">
+                <SideSheetSection :class="{ 'no-b-padding': !showShared }" @mouseover="handleMouseOver">
                     <template #header>
                         <div class="header-container" @click="showShared = !showShared">
                             <template v-if="!collapsed">
@@ -453,7 +457,7 @@ const hoverFavoritesButton = ref(false)
                     </template>
                 </SideSheetSection>
 
-                <SideSheetSection :class="{ 'no-b-padding': !showRecents }">
+                <SideSheetSection :class="{ 'no-b-padding': !showRecents }" @mouseover="handleMouseOver">
                     <template #header>
                         <div class="header-container" @click="showRecents = !showRecents">
                             <template v-if="!collapsed">
@@ -490,7 +494,7 @@ const hoverFavoritesButton = ref(false)
         <div id="SideSheetFooter">
             <div class="bg-fade"></div>
             <div class="sidesheet-content footer">
-                <SideSheetSection class="no-b-padding help-section">
+                <SideSheetSection class="no-b-padding help-section" @mouseover="handleMouseOver">
                     <template #header>
                         <div class="header-container no-hover help-header" @click="showWikis = !showWikis">
 
@@ -572,6 +576,14 @@ const hoverFavoritesButton = ref(false)
 
     &.collapsed {
         width: 80px;
+
+        :deep(.header) {
+            padding: 0px 12px;
+
+            .header-title {
+                padding: 0px 8px;
+            }
+        }
 
         #SideSheetFooter {
             width: 80px;
