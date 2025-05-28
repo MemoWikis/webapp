@@ -12,7 +12,5 @@
     public bool Public;
     public int PersonalCorrectnessProbability;
 
-    // Flags: If all Flags are true, 
-    // question will be added to learning session
     public bool AddToLearningSession = true;
 }

@@ -129,9 +129,7 @@ public class LearningSessionCreator(
             allQuestionValuations,
             userQuestionValuations);
 
-        learningSession.QuestionCounter = _questionCounterService.CountQuestionsForSessionConfig(
-            questionProperties,
-            learningSession.QuestionCounter);
+        _questionCounterService.Count(questionProperties, learningSession.QuestionCounter);
 
         if (questionProperties.AddToLearningSession)
         {
@@ -172,7 +170,7 @@ public class LearningSessionCreator(
         var filteredQuestions = _questionFilterService.FilterQuestions(allQuestions, config, _sessionUser.UserId);
 
         // Build question counter
-        var questionCounter = _questionCounterService.BuildCounterForQuestions(
+        var questionCounter = _questionCounterService.BuildCounter(
             allQuestions,
             config,
             _questionFilterService);
