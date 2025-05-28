@@ -601,15 +601,15 @@
             "contentTitle": "Contenido",
             "viewsTitle": "Vistas",
             "learnActivity": "Actividad de Aprendizaje",
-            "childPageCount": "Total de Subpáginas",
-            "directVisibleChildPageLabel": "Subpáginas Directas",
+            "childPageCount": "Páginas Incluidas",
+            "directVisibleChildPageLabel": "Subpáginas Directamente Vinculadas",
             "parentPageLabel": "Páginas Superiores",
-            "includedQuestionsLabel": "Total de Preguntas",
+            "includedQuestionsLabel": "Preguntas Incluidas",
             "directlyLinkedQuestionsLabel": "Preguntas Directamente Vinculadas",
             "pageViewsLabel": "Vistas de Página",
             "subpageViewsLabel": "Subpáginas",
-            "directQuestionViewsLabel": "Preguntas directas",
-            "aggregatedQuestionViewsLabel": "Todas las preguntas (incl. subpáginas)"
+            "directQuestionViewsLabel": "Preguntas Directamente Vinculadas",
+            "aggregatedQuestionViewsLabel": "Todas las Preguntas (directamente vinculadas e incluidas)"
         },
         "publishModal": {
             "title": "Publicar {name}",

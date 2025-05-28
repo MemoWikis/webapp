@@ -601,15 +601,15 @@
             "contentTitle": "Contenu",
             "viewsTitle": "Vues",
             "learnActivity": "Activité d'Apprentissage",
-            "childPageCount": "Pages Enfants Totales",
-            "directVisibleChildPageLabel": "Pages Enfants Directes",
+            "childPageCount": "Pages Incluses",
+            "directVisibleChildPageLabel": "Sous-pages Directement Liées",
             "parentPageLabel": "Pages Parents",
-            "includedQuestionsLabel": "Questions Totales",
+            "includedQuestionsLabel": "Questions Incluses",
             "directlyLinkedQuestionsLabel": "Questions Directement Liées",
             "pageViewsLabel": "Vues de Page",
             "subpageViewsLabel": "Sous-pages",
-            "directQuestionViewsLabel": "Questions directes",
-            "aggregatedQuestionViewsLabel": "Toutes les questions (avec sous-pages)"
+            "directQuestionViewsLabel": "Questions Directement Liées",
+            "aggregatedQuestionViewsLabel": "Toutes les Questions (directement liées et incluses)"
         },
         "publishModal": {
             "title": "Publier {name}",

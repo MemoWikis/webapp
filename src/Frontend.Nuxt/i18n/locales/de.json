@@ -196,10 +196,7 @@
         "registerWithFacebook": "Registrierung mit Facebook",
         "attention": "Achtung",
         "toUpload": "hochzuladen und so einzubinden.",
-        "cancel": "Abbrechen",
-        "documentation": "Dokumentation",
-        "overview": "Übersicht",
-        "missionControl": "Mission Control"
+        "cancel": "Abbrechen"
     },
     "register": {
         "title": "Registrieren",
@@ -224,7 +221,7 @@
         "pages": "Seiten",
         "pagesInOtherLanguages": "Seiten in anderen Sprachen",
         "questions": "Fragen",
-        "users": "Benutzer",
+        "users": "Nutzer",
         "resultsInCurrentLanguage": "({count})",
         "countedQuestions": "{count} Fragen",
         "showUserResults": "Alle anzeigen ({count})",
@@ -604,15 +601,15 @@
             "contentTitle": "Inhalte",
             "viewsTitle": "Aufrufe",
             "learnActivity": "Lernaktivität",
-            "childPageCount": "Gesamte Unterseiten",
-            "directVisibleChildPageLabel": "Direkte Unterseiten",
+            "childPageCount": "Eingeschlossene Seiten",
+            "directVisibleChildPageLabel": "Direkt verknüpfte Unterseiten",
             "parentPageLabel": "Übergeordnete Seiten",
-            "includedQuestionsLabel": "Gesamte Fragen",
+            "includedQuestionsLabel": "Eingeschlossene Fragen",
             "directlyLinkedQuestionsLabel": "Direkt verknüpfte Fragen",
             "pageViewsLabel": "Seitenaufrufe",
             "subpageViewsLabel": "Unterseiten",
-            "directQuestionViewsLabel": "Direkte Fragen",
-            "aggregatedQuestionViewsLabel": "Alle Fragen (inkl. Unterseiten)"
+            "directQuestionViewsLabel": "Direkt verknüpfte Fragen",
+            "aggregatedQuestionViewsLabel": "Alle Fragen (direkt verknüpft und eingeschlossen)"
         },
         "publishModal": {
             "title": "{name} veröffentlichen",
@@ -749,7 +746,7 @@
                 "pendingChanges": "Ausstehende Änderungen",
                 "saveChanges": "Speichern",
                 "info": "Beim Teilen von Seiten werden alle Fragen einbezogen",
-                "loginInfo": "Nur angemeldete Benutzer können geteilte Seiten bearbeiten",
+                "loginInfo": "Nur angemeldete Nutzer können geteilte Seiten bearbeiten",
                 "noManagementRights": "Du hast keine Berechtigung, Zugriffsrollen zu verwalten oder die Freigabeeinstellungen für diese Seite zu ändern."
             },
             "permission": {
@@ -1436,7 +1433,7 @@
             "facebookPrivacy": "Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer Datenschutzerklärung.",
             "resetPasswordInfo": "Gib hier die E-Mail-Adresse an, mit der du dich registriert hast. Wir schicken dir einen Link, mit dem du dir ein neues Passwort setzen kannst.",
             "or": "oder",
-            "notRegistered": "Noch kein Benutzer?",
+            "notRegistered": "Noch nicht registriert?",
             "rememberedPassword": "Passwort wieder eingefallen?",
             "clickToLogin": "Klicke hier um Dich anzumelden."
         }

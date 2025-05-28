@@ -601,15 +601,15 @@
             "contentTitle": "Content",
             "viewsTitle": "Views",
             "learnActivity": "Learning Activity",
-            "childPageCount": "Total Subpages",
-            "directVisibleChildPageLabel": "Direct Subpages",
+            "childPageCount": "Included Subpages",
+            "directVisibleChildPageLabel": "Directly Linked Subpages",
             "parentPageLabel": "Parent Pages",
-            "includedQuestionsLabel": "Total Questions",
+            "includedQuestionsLabel": "Included Questions",
             "directlyLinkedQuestionsLabel": "Directly Linked Questions",
             "pageViewsLabel": "Page Views",
             "subpageViewsLabel": "Subpages",
-            "directQuestionViewsLabel": "Direct Questions",
-            "aggregatedQuestionViewsLabel": "All Questions (incl. Subpages)"
+            "directQuestionViewsLabel": "Directly Linked Questions",
+            "aggregatedQuestionViewsLabel": "All Questions (directly linked and included)"
         },
         "publishModal": {
             "title": "Publish {name}",

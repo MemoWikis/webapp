@@ -25,7 +25,7 @@ const QUESTION_VIEWS_SECTION: PageAnalyticsSection = {
 }
 const LEARN_CALENDAR_SECTION: PageAnalyticsSection = {
     id: 'AnalyticsLearnCalendar',
-    translationKey: 'page.analytics.learnCalendar',
+    translationKey: 'page.analytics.learnActivity',
 }
 
 const SECTIONS: PageAnalyticsSection[] = [
