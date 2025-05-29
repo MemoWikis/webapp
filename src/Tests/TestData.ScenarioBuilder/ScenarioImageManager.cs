@@ -1,28 +1,20 @@
 public static class ScenarioImageManager
 {
-    /// <summary>Creates a new scenation docker Image and pushes it to registry.</summary>
-    public static async Task<string> BuildAndPushAsync(
-        ScenarioConfiguration cfg,
-        string? tag = null,
-        bool saveLocalTar = false,
-        CancellationToken ct = default)
+    /// <summary>Creates a new scenario docker Image and pushes it to registry.</summary>
+    public static async Task<string> BuildAndPushAsync(string? tag = null, bool saveLocalTar = false)
     {
         tag ??= DateTime.UtcNow.ToString("yyyyMMddHHmmss");
         var fullName = $"{ScenarioImageConstants.BaseName}:{tag}";
 
-        // 1. Harness setup
-        await using var harness = await TestHarness.CreateAsync(enablePerfLogging: true);
-        await harness.InitAsync(keepData: false);
 
-        // 2. Szenario create
-        var perf = new PerformanceLogger(enabled: true);
-        var builder = new ScenarioBuilder(harness, cfg, perf);
-        await builder.BuildAsync();
+        var perfLogger = new PerformanceLogger(enabled: true);
 
         // 3. Container → Image
         var docker = new DockerUtilities();
         await docker.PersistToDockerImageAsync(fullName, saveToFile: saveLocalTar);
         await docker.PushDockerImageToRepositoryAsync(fullName);
+
+        perfLogger.Log($"Image {fullName} built and pushed successfully.");
 
         return fullName; 
     }

@@ -2,6 +2,12 @@
 internal class ScenarioBuilderTests : BaseTestHarness
 {
     [Test]
+    public async Task Micro_Scenario()
+    {
+        await ScenarioImageManager.BuildAndPushAsync("micro_for_testing");
+    }
+    
+    [Test]
     public async Task Deterministic_Tiny_Scenario()
     {
         // Arrange
@@ -27,6 +33,8 @@ internal class ScenarioBuilderTests : BaseTestHarness
             allPages = await _testHarness.DbData.AllPagesSummaryAsync(),
             allQuestions = await _testHarness.DbData.AllQuestionsSummaryAsync()
         });
+
+        await ScenarioImageManager.BuildAndPushAsync("tiny");
     }
 
     [Test]
