@@ -4,35 +4,16 @@ public class QuestionFilterService(
     SessionUser _sessionUser,
     ExtendedUserCache _extendedUserCache)
 {
-    public IList<QuestionCacheItem> FilterQuestions(
-        IList<QuestionCacheItem> allQuestions,
-        LearningSessionConfig config,
-        int userId)
-    {
-        var filteredQuestions = new List<QuestionCacheItem>();
-        var allQuestionValuations = _extendedUserCache.GetQuestionValuations(userId);
 
-        if (_sessionUser.IsLoggedIn)
-        {
-            foreach (var question in allQuestions)
-            {
-                var userQuestionValuations = _extendedUserCache.GetItem(userId)?.QuestionValuations;
-                var questionProperties = BuildQuestionProperties(question, config, allQuestionValuations, userQuestionValuations);
 
-                if (questionProperties.AddToLearningSession)
-                {
-                    filteredQuestions.Add(question);
-                }
-            }
-        }
-        else
-        {
-            filteredQuestions = allQuestions.ToList();
-        }
-
-        return filteredQuestions;
-    }
-
+    /// <summary>
+    /// Builds question properties based on various filter criteria
+    /// </summary>
+    /// <param name="question">The question to evaluate</param>
+    /// <param name="config">Learning session configuration</param>
+    /// <param name="allQuestionValuations">All available question valuations</param>
+    /// <param name="userQuestionValuations">User-specific question valuations</param>
+    /// <returns>Properties indicating filter results</returns>
     public QuestionProperties BuildQuestionProperties(
         QuestionCacheItem question,
         LearningSessionConfig config,
@@ -64,6 +45,35 @@ public class QuestionFilterService(
         }
 
         return questionProperties;
+    }
+
+    public IList<QuestionCacheItem> FilterQuestions(
+        IList<QuestionCacheItem> allQuestions,
+        LearningSessionConfig config,
+        int userId)
+    {
+        var filteredQuestions = new List<QuestionCacheItem>();
+        var allQuestionValuations = _extendedUserCache.GetQuestionValuations(userId);
+
+        if (_sessionUser.IsLoggedIn)
+        {
+            foreach (var question in allQuestions)
+            {
+                var userQuestionValuations = _extendedUserCache.GetItem(userId)?.QuestionValuations;
+                var questionProperties = BuildQuestionProperties(question, config, allQuestionValuations, userQuestionValuations);
+
+                if (questionProperties.AddToLearningSession)
+                {
+                    filteredQuestions.Add(question);
+                }
+            }
+        }
+        else
+        {
+            filteredQuestions = allQuestions.ToList();
+        }
+
+        return filteredQuestions;
     }
 
     private static QuestionProperties FilterByCreator(
@@ -126,7 +136,7 @@ public class QuestionFilterService(
         QuestionProperties questionProperties,
         QuestionValuationCacheItem? questionValuation)
     {
-        if (questionValuation == null || questionValuation.CorrectnessProbabilityAnswerCount <= 0)
+        if (questionValuation is not { CorrectnessProbabilityAnswerCount: > 0 })
         {
             questionProperties.NotLearned = true;
 
@@ -225,7 +235,8 @@ public class QuestionFilterService(
         if (!config.NotLearned &&
             !config.NeedsConsolidation &&
             !config.NeedsLearning &&
-            !config.Solid)
+            !config.Solid
+           )
         {
             questionProperties.AddToLearningSession = true;
         }
@@ -238,7 +249,7 @@ public class QuestionFilterService(
         LearningSessionConfig config,
         QuestionProperties questionProperties)
     {
-        if (questionValuation != null && questionValuation.IsInWishKnowledge)
+        if (questionValuation is { IsInWishKnowledge: true })
         {
             questionProperties.InWishKnowledge = true;
 

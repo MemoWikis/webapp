@@ -127,7 +127,8 @@ public class LearningSessionCreator(
             question,
             config,
             allQuestionValuations,
-            userQuestionValuations);
+            userQuestionValuations
+        );
 
         _questionCounterService.Count(questionProperties, learningSession.QuestionCounter);
 

@@ -36,18 +36,6 @@ public class QuestionCounterService(
             counter.Private++;
     }
 
-    public QuestionCounter CreateAnonymousUserCounter(int questionCount)
-    {
-        return new QuestionCounter
-        {
-            Max = questionCount,
-            NotInWishKnowledge = questionCount,
-            NotCreatedByCurrentUser = questionCount,
-            NotLearned = questionCount,
-            Public = questionCount
-        };
-    }
-
     public QuestionCounter BuildCounter(
         IList<QuestionCacheItem> allQuestions,
         LearningSessionConfig config,
@@ -57,7 +45,7 @@ public class QuestionCounterService(
 
         if (!_sessionUser.IsLoggedIn)
         {
-            return CreateAnonymousUserCounter(allQuestions.Count);
+            return BuildAnonymousUserCounter(allQuestions.Count);
         }
 
         var allQuestionValuations = _extendedUserCache.GetQuestionValuations(_sessionUser.UserId);
@@ -80,5 +68,17 @@ public class QuestionCounterService(
         }
 
         return questionCounter;
+    }
+
+    private QuestionCounter BuildAnonymousUserCounter(int questionCount)
+    {
+        return new QuestionCounter
+        {
+            Max = questionCount,
+            NotInWishKnowledge = questionCount,
+            NotCreatedByCurrentUser = questionCount,
+            NotLearned = questionCount,
+            Public = questionCount
+        };
     }
 }
