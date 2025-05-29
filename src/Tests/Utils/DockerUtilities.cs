@@ -12,19 +12,34 @@
         string containerId = await GetMySqlContainerIdAsync();
         if (string.IsNullOrEmpty(containerId))
         {
-            throw new InvalidOperationException("MySQL Docker container not found.");
+            throw new InvalidOperationException("MySQL Docker container not found. Make sure a container with 'mysql' in its name is running.");
         }
 
-        // Create a Docker image from the running container
+        // Check if imageName already contains a tag (has a colon)
+        string fullImageName;
+        string baseImageName;
         string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-        string fullImageName = $"{imageName}:{timestamp}";
+
+        if (imageName.Contains(':'))
+        {
+            // Image name already has a tag, use it as is
+            fullImageName = imageName;
+            baseImageName = imageName.Replace(':', '-');
+        }
+        else
+        {
+            // No tag present, add timestamp as tag
+            fullImageName = $"{imageName}:{timestamp}";
+            baseImageName = imageName;
+        }
+
         await CommitContainerToImageAsync(containerId, fullImageName);
 
         // Optionally save image to file for later use
         string outputFile = string.Empty;
         if (saveToFile)
         {
-            outputFile = $"{imageName}-{timestamp}.tar";
+            outputFile = $"{baseImageName}-{timestamp}.tar";
             await SaveDockerImageToFileAsync(fullImageName, outputFile);
         }
 
@@ -40,6 +55,7 @@
     public async Task<bool> PushDockerImageToRepositoryAsync(string imageName, string repository = "")
     {
         // Tag the image with the repository if provided
+        string errorOutput;
         if (!string.IsNullOrEmpty(repository))
         {
             var tagStartInfo = new System.Diagnostics.ProcessStartInfo
@@ -47,6 +63,7 @@
                 FileName = "docker",
                 Arguments = $"tag {imageName} {repository}/{imageName}",
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
@@ -55,9 +72,13 @@
             if (tagProcess == null)
                 return false;
 
+            errorOutput = await tagProcess.StandardError.ReadToEndAsync();
+            
             await tagProcess.WaitForExitAsync();
             if (tagProcess.ExitCode != 0)
-                return false;
+            {
+                throw new InvalidOperationException($"Docker tag failed: {errorOutput}");
+            }
 
             imageName = $"{repository}/{imageName}";
         }
@@ -68,6 +89,7 @@
             FileName = "docker",
             Arguments = $"push {imageName}",
             RedirectStandardOutput = true,
+            RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
@@ -76,8 +98,16 @@
         if (pushProcess == null)
             return false;
 
+        string standardOutput = await pushProcess.StandardOutput.ReadToEndAsync();
+        errorOutput = await pushProcess.StandardError.ReadToEndAsync();
         await pushProcess.WaitForExitAsync();
-        return pushProcess.ExitCode == 0;
+
+        if (pushProcess.ExitCode != 0)
+        {
+            throw new InvalidOperationException($"Docker push failed: {errorOutput}");
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -105,6 +135,7 @@
             FileName = "docker",
             Arguments = arguments,
             RedirectStandardOutput = true,
+            RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
@@ -113,18 +144,45 @@
         if (process == null)
             return false;
 
+        string errorOutput = await process.StandardError.ReadToEndAsync();
         await process.WaitForExitAsync();
-        return process.ExitCode == 0;
+
+        if (process.ExitCode != 0)
+        {
+            throw new InvalidOperationException($"Docker load/pull failed: {errorOutput}");
+        }
+
+        return true;
     }
 
     private async Task<string> GetMySqlContainerIdAsync()
     {
+        // First, let's check all running containers to help with debugging
+        var listStartInfo = new System.Diagnostics.ProcessStartInfo
+        {
+            FileName = "docker",
+            Arguments = "ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.Status}}\"",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        using var listProcess = System.Diagnostics.Process.Start(listStartInfo);
+        if (listProcess != null)
+        {
+            string listOutput = await listProcess.StandardOutput.ReadToEndAsync();
+            await listProcess.WaitForExitAsync();
+            System.Diagnostics.Debug.WriteLine($"Running containers:\n{listOutput}");
+        }
+
         // Use Docker CLI to find the MySQL container for our tests
         var startInfo = new System.Diagnostics.ProcessStartInfo
         {
             FileName = "docker",
             Arguments = "ps --filter \"name=mysql\" --format \"{{.ID}}\"",
             RedirectStandardOutput = true,
+            RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
@@ -133,7 +191,13 @@
         if (process == null) return string.Empty;
 
         string output = await process.StandardOutput.ReadToEndAsync();
+        string errorOutput = await process.StandardError.ReadToEndAsync();
         await process.WaitForExitAsync();
+
+        if (!string.IsNullOrEmpty(errorOutput))
+        {
+            System.Diagnostics.Debug.WriteLine($"Docker ps error: {errorOutput}");
+        }
 
         return output.Trim();
     }
@@ -145,6 +209,7 @@
             FileName = "docker",
             Arguments = $"commit {containerId} {imageName}",
             RedirectStandardOutput = true,
+            RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
@@ -153,9 +218,17 @@
         if (process == null)
             throw new InvalidOperationException("Failed to start Docker commit process.");
 
+        string standardOutput = await process.StandardOutput.ReadToEndAsync();
+        string errorOutput = await process.StandardError.ReadToEndAsync();
         await process.WaitForExitAsync();
+
         if (process.ExitCode != 0)
-            throw new InvalidOperationException($"Docker commit failed with exit code {process.ExitCode}.");
+        {
+            throw new InvalidOperationException($"Docker commit failed with exit code {process.ExitCode}. " +
+                                                $"Container ID: '{containerId}', Image Name: '{imageName}'. " +
+                                                $"Error: {errorOutput}. " +
+                                                $"Output: {standardOutput}");
+        }
     }
 
     private async Task SaveDockerImageToFileAsync(string imageName, string outputFile)
@@ -165,6 +238,7 @@
             FileName = "docker",
             Arguments = $"save -o {outputFile} {imageName}",
             RedirectStandardOutput = true,
+            RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
@@ -173,8 +247,13 @@
         if (process == null)
             throw new InvalidOperationException("Failed to start Docker save process.");
 
+        string errorOutput = await process.StandardError.ReadToEndAsync();
         await process.WaitForExitAsync();
+
         if (process.ExitCode != 0)
-            throw new InvalidOperationException($"Docker save failed with exit code {process.ExitCode}.");
+        {
+            throw new InvalidOperationException($"Docker save failed with exit code {process.ExitCode}. " +
+                                                $"Error: {errorOutput}");
+        }
     }
 }
