@@ -73,7 +73,6 @@
                 return false;
 
             errorOutput = await tagProcess.StandardError.ReadToEndAsync();
-            
             await tagProcess.WaitForExitAsync();
             if (tagProcess.ExitCode != 0)
             {
@@ -177,10 +176,11 @@
         }
 
         // Use Docker CLI to find the MySQL container for our tests
+        // Using -n 1 to get only the first container
         var startInfo = new System.Diagnostics.ProcessStartInfo
         {
             FileName = "docker",
-            Arguments = "ps --filter \"name=mysql\" --format \"{{.ID}}\"",
+            Arguments = "ps --filter \"name=mem-mysql\" --format \"{{.ID}}\" -n 1",
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
@@ -199,7 +199,34 @@
             System.Diagnostics.Debug.WriteLine($"Docker ps error: {errorOutput}");
         }
 
-        return output.Trim();
+        // Take only the first line and trim it
+        string containerId = output.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? string.Empty;
+
+        // If no container found with mem-mysql, try with just mysql
+        if (string.IsNullOrEmpty(containerId))
+        {
+            var fallbackStartInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "docker",
+                Arguments = "ps --filter \"name=mysql\" --format \"{{.ID}}\" -n 1",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using var fallbackProcess = System.Diagnostics.Process.Start(fallbackStartInfo);
+            if (fallbackProcess != null)
+            {
+                output = await fallbackProcess.StandardOutput.ReadToEndAsync();
+                await fallbackProcess.WaitForExitAsync();
+                containerId = output.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? string.Empty;
+            }
+        }
+
+        System.Diagnostics.Debug.WriteLine($"Selected MySQL container ID: '{containerId}'");
+
+        return containerId;
     }
 
     private async Task CommitContainerToImageAsync(string containerId, string imageName)
