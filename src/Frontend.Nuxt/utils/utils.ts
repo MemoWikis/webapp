@@ -111,23 +111,6 @@ export function isValidEmail(email: string): boolean {
     return regex.test(email)
 }
 
-export function abbreviateNumberToM(
-    number: number,
-    localeString: string = 'de-DE',
-    mString: string = 'Mio'
-): string {
-    let newNumber
-    if (number < 1000000) {
-        return number.toLocaleString(localeString)
-    } else if (number >= 1000000 && number < 1000000000) {
-        newNumber = number / 1000000
-        return `${parseInt(newNumber.toFixed(2)).toLocaleString(
-            localeString
-        )} ${mString}.`
-    }
-    return ''
-}
-
 export function getLastElement<T>(arr: T[]): T | undefined {
     if (arr.length === 0) {
         return undefined

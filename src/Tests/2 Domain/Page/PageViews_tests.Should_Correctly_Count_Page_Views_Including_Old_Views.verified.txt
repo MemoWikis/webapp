@@ -1,0 +1,14 @@
+﻿{
+  TotalViews: 28,
+  ExpectedTotalViews: 28,
+  ViewsCount: 3,
+  DailyViewsCount: 2,
+  ViewsOfPast90Days: 15,
+  ExpectedViewsOfPast90Days: 15,
+  HasOutsideRangeViews: false,
+  HasYesterday: true,
+  YesterdayCount: 10,
+  HasTwoDaysAgo: true,
+  TwoDaysAgoCount: 5,
+  DoesNotHave95DaysAgo: true
+}

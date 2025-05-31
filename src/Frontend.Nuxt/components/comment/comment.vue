@@ -2,7 +2,6 @@
 import { Editor } from '@tiptap/vue-3'
 import { useUserStore } from '../user/userStore'
 import { useCommentsStore, CommentModel } from './commentsStore'
-import { useTimeElapsed } from "~~/composables/useTimeElapsed"
 
 const { getTimeElapsedAsText } = useTimeElapsed()
 const userStore = useUserStore()

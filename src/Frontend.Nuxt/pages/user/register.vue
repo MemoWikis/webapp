@@ -5,7 +5,7 @@ import { Google } from '~~/components/user/Google'
 import { FacebookMemoWikisUser } from '~~/components/user/FacebookMemoWikisUser'
 import { AlertType, useAlertStore } from '~~/components/alert/alertStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
-import { isValidEmail } from '~/components/shared/utils'
+import { isValidEmail } from '~/utils/utils'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()

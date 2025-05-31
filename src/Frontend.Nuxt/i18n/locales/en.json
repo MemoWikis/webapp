@@ -578,24 +578,38 @@
             "questionsGroupedByStatus": "Questions grouped by status",
             "noQuestionsAnswered": "You have not answered any questions on this page yet.",
             "pageData": "Data about this page",
-            "questionsLabel": "Questions:",
-            "includedQuestions": "included questions",
-            "directlyLinkedQuestions": "directly linked questions",
-            "pagesLabel": "Pages:",
-            "includedPages": "included pages",
-            "directlyLinkedChildPages": "directly linked subpages",
-            "parentPages": "parent pages",
+            "questionsLabel": "Questions",
+            "includedQuestions": "0 included questions | 1 included question | {count} included questions",
+            "directlyLinkedQuestions": "0 directly linked questions | 1 directly linked question | {count} directly linked questions",
+            "totalQuestionViews": "0 total question views | 1 total question view | {count} total question views",
+            "pagesLabel": "Pages",
+            "includedPages": "0 included pages | 1 included page | {count} included pages",
+            "directlyLinkedChildPages": "0 directly linked subpages | 1 directly linked subpage | {count} directly linked subpages",
+            "parentPages": "0 parent pages | 1 parent page | {count} parent pages",
+            "totalPageViews": "0 total page views | 1 total page view | {count} total page views",
             "statistics": "Statistics",
-            "pageViewsLast90Days": "Page views in the last 90 days",
+            "pageViewsLast90Days": "Page views (90 days)",
             "withoutChildPages": "Without subpages",
-            "withChildPages": "Incl. 0 subpages | Incl. 1 subpage | Incl. {count} subpages",
-            "questionViewsLast90Days": "Question views in the last 90 days",
+            "withChildPages": "0 subpages | 1 subpage | {count} subpages",
+            "questionViewsLast90Days": "Question views (90 days)",
             "directlyLinkedQuestionsTitle": "Directly linked questions",
             "includedQuestions90Days": "Included questions (0 subpages) | Included questions (1 subpage) | Included questions ({count} subpages)",
             "solidKnowledge": "@:knowledgeStatus.solid",
             "needsConsolidation": "@:knowledgeStatus.needsConsolidation",
             "needsLearning": "@:knowledgeStatus.needsLearning",
-            "notLearned": "@:knowledgeStatus.notLearned"
+            "notLearned": "@:knowledgeStatus.notLearned",
+            "contentTitle": "Content",
+            "viewsTitle": "Views",
+            "learnActivity": "Learning Activity",
+            "childPageCount": "Included Subpages",
+            "directVisibleChildPageLabel": "Directly Linked Subpages",
+            "parentPageLabel": "Parent Pages",
+            "includedQuestionsLabel": "Included Questions",
+            "directlyLinkedQuestionsLabel": "Directly Linked Questions",
+            "pageViewsLabel": "Page Views",
+            "subpageViewsLabel": "Subpages",
+            "directQuestionViewsLabel": "Directly Linked Questions",
+            "aggregatedQuestionViewsLabel": "All Questions (directly linked and included)"
         },
         "publishModal": {
             "title": "Publish {name}",
@@ -1641,5 +1655,9 @@
         "pageGrid": {
             "questions": "No questions | One question | {count} questions"
         }
+    },
+    "counter": {
+        "thousands": "{value}k",
+        "millions": "{value}M"
     }
 }

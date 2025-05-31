@@ -143,6 +143,7 @@ const { t } = useI18n()
     margin-right: 0;
     margin-left: 0;
     max-width: calc(100vw - 20px);
+    border-radius: 8px;
 
     &.is-mobile {
         max-width: 100vw;

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { KnowledgebarData } from './knowledgebarData'
+import { KnowledgeSummary } from '~/composables/knowledgeSummary'
 
 interface Props {
-    knowledgebarData: KnowledgebarData
+    knowledgebarData: KnowledgeSummary
 }
 const props = defineProps<Props>()
 

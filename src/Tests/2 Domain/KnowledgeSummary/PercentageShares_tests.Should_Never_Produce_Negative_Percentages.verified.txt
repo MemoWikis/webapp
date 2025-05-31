@@ -1,0 +1,62 @@
+﻿{
+  results: [
+    {
+      input: [
+        1,
+        299,
+        700
+      ],
+      output: [
+        0,
+        30,
+        70
+      ],
+      sum: 100
+    },
+    {
+      input: [
+        1,
+        1,
+        98
+      ],
+      output: [
+        1,
+        1,
+        98
+      ],
+      sum: 100
+    },
+    {
+      input: [
+        3,
+        3,
+        1,
+        93
+      ],
+      output: [
+        3,
+        3,
+        1,
+        93
+      ],
+      sum: 100
+    },
+    {
+      input: [
+        1,
+        1,
+        1,
+        97
+      ],
+      output: [
+        1,
+        1,
+        1,
+        97
+      ],
+      sum: 100
+    }
+  ],
+  allNonNegative: true,
+  allSum100: true
+}

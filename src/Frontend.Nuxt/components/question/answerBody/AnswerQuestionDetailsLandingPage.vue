@@ -5,8 +5,6 @@ import { Visibility } from '~~/components/shared/visibilityEnum'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
-import { abbreviateNumberToM } from '~~/components/shared/utils'
-import { useTimeElapsed } from '~~/composables/useTimeElapsed'
 
 const userStore = useUserStore()
 const { $urlHelper } = useNuxtApp()
@@ -554,10 +552,10 @@ const ariaId2 = useId()
                                 <svg ref="personalCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="model.personalAnswerCount > 0" class="counterLabel">
                                     {{ t('questionLandingPage.answers.personal.title') }} <br />
-                                    <strong>{{ abbreviateNumberToM(model.personalAnswerCount) }}</strong> {{ t('questionLandingPage.answers.personal.answered') }}
+                                    <strong>{{ getFormattedNumber(model.personalAnswerCount) }}</strong> {{ t('questionLandingPage.answers.personal.answered') }}
                                     <br />
-                                    <strong>{{ abbreviateNumberToM(model.personalAnsweredCorrectly) }}</strong> {{ t('questionLandingPage.answers.personal.correct') }} /
-                                    <strong>{{ abbreviateNumberToM(model.personalAnsweredWrongly) }}</strong>
+                                    <strong>{{ getFormattedNumber(model.personalAnsweredCorrectly) }}</strong> {{ t('questionLandingPage.answers.personal.correct') }} /
+                                    <strong>{{ getFormattedNumber(model.personalAnsweredWrongly) }}</strong>
                                     {{ t('questionLandingPage.answers.personal.wrong') }}
                                 </div>
                                 <div v-else-if="userStore.isLoggedIn" class="counterLabel">
@@ -572,10 +570,10 @@ const ariaId2 = useId()
                                 <svg ref="overallCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="model.overallAnswerCount > 0" class="counterLabel">
                                     {{ t('questionLandingPage.answers.overall.title') }} <br />
-                                    <strong>{{ abbreviateNumberToM(model.overallAnswerCount) }}</strong> {{ t('questionLandingPage.answers.overall.answered') }}
+                                    <strong>{{ getFormattedNumber(model.overallAnswerCount) }}</strong> {{ t('questionLandingPage.answers.overall.answered') }}
                                     <br />
-                                    <strong>{{ abbreviateNumberToM(model.overallAnsweredCorrectly) }}</strong> {{ t('questionLandingPage.answers.overall.correct') }} /
-                                    <strong>{{ abbreviateNumberToM(model.overallAnsweredWrongly) }}</strong> {{ t('questionLandingPage.answers.overall.wrong') }}
+                                    <strong>{{ getFormattedNumber(model.overallAnsweredCorrectly) }}</strong> {{ t('questionLandingPage.answers.overall.correct') }} /
+                                    <strong>{{ getFormattedNumber(model.overallAnsweredWrongly) }}</strong> {{ t('questionLandingPage.answers.overall.wrong') }}
                                 </div>
                                 <div v-else class="counterLabel">
                                     <template v-if="model.visibility === 1">

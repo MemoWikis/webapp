@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { SiteType } from '~/components/shared/siteEnum'
-import { color } from '~/components/shared/colors'
+import { color } from '~/constants/colors'
 import { SectionChart } from '~/components/metrics/sectionChart'
 
 const { $logger } = useNuxtApp()

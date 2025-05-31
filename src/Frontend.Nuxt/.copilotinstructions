@@ -1,0 +1,17 @@
+# Copilot Instructions for memoWikis Frontend
+
+## Translation Guidelines
+When working with translations in this memoWikis frontend project:
+
+1. **Key German terminology**:
+   - "Nutzer" (not "Benutzer"), "Eingeschlossene Seiten" vs "Unterseiten", Du-form
+
+2. **Key General terminology**:
+   - Casual, friendly tone across all languages
+
+3. **Complete guidelines**: `../../prompts/` (translation-glossary.md, translation-instructions.md, translation-qa.md, ui-text-de-updated.md)
+
+4. **Maintain consistency** across all language files (de.json, en.json, fr.json, es.json)
+
+## Project Context
+This is a Nuxt.js frontend for memoWikis, a wiki-based learning platform. The i18n files are located in `i18n/locales/` and contain UI text translations.

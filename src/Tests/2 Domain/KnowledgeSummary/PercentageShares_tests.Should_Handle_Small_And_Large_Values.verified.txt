@@ -1,0 +1,12 @@
+﻿{
+  input: [
+    1,
+    999
+  ],
+  output: [
+    0,
+    100
+  ],
+  sum: 100,
+  noNegatives: true
+}

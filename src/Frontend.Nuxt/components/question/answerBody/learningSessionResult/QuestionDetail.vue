@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { handleNewLine } from '~~/components/shared/utils'
+import { handleNewLine } from '~/utils/utils'
 import { AnswerState } from '~/components/page/learning/learningSessionStore'
 
 interface Step {

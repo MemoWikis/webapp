@@ -3,7 +3,7 @@ import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody
 import { SiteType } from '~/components/shared/siteEnum'
 import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
-import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
+import { handleNewLine, getHighlightedCode } from '~/utils/utils'
 import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 

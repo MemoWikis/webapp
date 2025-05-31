@@ -1,0 +1,13 @@
+﻿{
+  input: [
+    0,
+    0,
+    0
+  ],
+  output: [
+    0,
+    0,
+    0
+  ],
+  allZero: true
+}
