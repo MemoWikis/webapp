@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { PageFeedItem, PageChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author, getPageChangeTypeKey, getQuestionChangeTypeKey } from './feedHelper'
-import { color } from '~/components/shared/colors'
+import { color } from '~/constants/colors'
 
 import { usePageStore } from '../../pageStore'
 

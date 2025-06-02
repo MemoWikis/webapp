@@ -1,4 +1,4 @@
-export interface KnowledgebarData {
+export interface KnowledgeSummary {
     total: number
 
     needsLearning: number

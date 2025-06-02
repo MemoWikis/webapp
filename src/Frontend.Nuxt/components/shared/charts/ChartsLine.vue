@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Line } from 'vue-chartjs'
-import { memoBlue } from '../colors'
+import { memoBlue } from '~/constants/colors'
 
 interface Props {
     title: string

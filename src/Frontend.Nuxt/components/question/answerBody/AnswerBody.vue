@@ -3,7 +3,7 @@ import { useLearningSessionStore, AnswerState } from '~/components/page/learning
 import { useUserStore } from '~/components/user/userStore'
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { SolutionType } from '../solutionTypeEnum'
-import { getHighlightedCode, random } from '~~/components/shared/utils'
+import { getHighlightedCode, random } from '~/utils/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { usePageStore } from '~/components/page/pageStore'

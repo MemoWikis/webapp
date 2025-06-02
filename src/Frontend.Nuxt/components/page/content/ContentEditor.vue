@@ -17,13 +17,13 @@ import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isEmpty } from 'underscore'
 
-import { getRandomColor } from '~/components/shared/utils'
+import { getRandomColor } from '~/utils/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { CustomLink } from '~/components/shared/linkExtension'
 
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
-import { slugify } from '~/components/shared/utils'
+import { slugify } from '~/utils/utils'
 import { nanoid } from 'nanoid'
 
 import Collaboration from '@tiptap/extension-collaboration'

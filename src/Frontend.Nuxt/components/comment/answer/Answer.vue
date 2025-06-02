@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
 import { CommentModel } from '../commentsStore'
-import { useTimeElapsed } from "~~/composables/useTimeElapsed"
 
 const { getTimeElapsedAsText } = useTimeElapsed()
 

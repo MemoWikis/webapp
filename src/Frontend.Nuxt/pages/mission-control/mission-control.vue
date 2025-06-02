@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { SiteType } from '~/components/shared/siteEnum'
-import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
+import { KnowledgeSummary } from '~/composables/knowledgeSummary'
 import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar'
 import { PageData } from '~/composables/missionControl/pageData'
 import { useUserStore } from '~/components/user/userStore'
@@ -13,13 +13,13 @@ emit('setPage', SiteType.MissionControl)
 const { t } = useI18n()
 
 useHead({
-    title: t('missionControl.title')
+    title: t('missionControl.heading')
 })
 
 interface UserDashboardData {
     wikis: PageData[],
     favorites: PageData[],
-    knowledgeStatus: KnowledgebarData,
+    knowledgeStatus: KnowledgeSummary,
     activityCalendar: ActivityCalendarData
 }
 
@@ -89,50 +89,54 @@ watch(() => locale.value, async () => {
                 <div class="mission-control-container">
                     <h1>{{ t('missionControl.heading') }}</h1>
                     <div class="mission-control-content" v-if="dashboardData">
-
                         <!-- Knowledge Status Section -->
-                        <MissionControlSection :title="t('missionControl.sections.knowledgeStatus')">
-                            <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus"
-                                :knowledgeStatus="dashboardData.knowledgeStatus" />
-                        </MissionControlSection>
+                        <LayoutPanel :title="t('missionControl.sections.knowledgeStatus')">
+                            <LayoutCard :size="LayoutCardSize.Flex">
+                                <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus"
+                                    :knowledgeStatus="dashboardData.knowledgeStatus" />
+                            </LayoutCard>
+                        </LayoutPanel>
 
                         <DevOnly>
                             <!-- LearnCalendar Section -->
-                            <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
-                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
-                                    :calendarData="dashboardData.activityCalendar" />
-                            </MissionControlSection>
+                            <LayoutPanel :title="t('missionControl.sections.learnCalendar')">
+                                <LayoutCard>
+                                    <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
+                                        :calendarData="dashboardData.activityCalendar" />
+                                </LayoutCard>
+                            </LayoutPanel>
                         </DevOnly>
 
                         <template v-if="isMobile">
                             <!-- Wikis Section -->
-                            <MissionControlSection v-if="dashboardData.wikis"
+                            <LayoutPanel v-if="dashboardData.wikis"
                                 :title="t('missionControl.sections.wikis')">
                                 <MissionControlGrid :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
-                            </MissionControlSection>
-
+                            </LayoutPanel>
                             <!-- Favorites Section -->
-                            <MissionControlSection v-if="dashboardData.favorites"
+                            <LayoutPanel v-if="dashboardData.favorites"
                                 :title="t('missionControl.sections.favorites')">
                                 <MissionControlGrid :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
-                            </MissionControlSection>
+                            </LayoutPanel>
                         </template>
+
                         <template v-else>
                             <!-- Wikis Section -->
-                            <MissionControlSection v-if="dashboardData.wikis"
-                                :title="t('missionControl.sections.wikis')">
-                                <MissionControlTable :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
-                            </MissionControlSection>
-
+                            <LayoutPanel v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
+                                <LayoutCard :no-padding="true">
+                                    <MissionControlTable :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
+                                </LayoutCard>
+                            </LayoutPanel>
                             <!-- Favorites Section -->
-                            <MissionControlSection v-if="dashboardData.favorites"
-                                :title="t('missionControl.sections.favorites')">
-                                <MissionControlTable :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
-                            </MissionControlSection>
+                            <LayoutPanel v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                                <LayoutCard :no-padding="true">
+                                    <MissionControlTable :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
+                                </LayoutCard>
+                            </LayoutPanel>
                         </template>
 
                         <!-- LearnCalendar Section with Coming Soon overlay -->
-                        <MissionControlSection :title="t('missionControl.sections.learnCalendar')">
+                        <LayoutPanel :title="t('missionControl.sections.learnCalendar')">
                             <div class="coming-soon-container">
                                 <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
                                 <div class="coming-soon-overlay">
@@ -141,7 +145,7 @@ watch(() => locale.value, async () => {
                                     </div>
                                 </div>
                             </div>
-                        </MissionControlSection>
+                        </LayoutPanel>
                     </div>
                 </div>
             </div>
@@ -152,8 +156,11 @@ watch(() => locale.value, async () => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.main-page {
+    margin-top: 0;
+}
+
 .mission-control-container {
-    padding: 20px 0;
 
     h1 {
         margin-bottom: 24px;

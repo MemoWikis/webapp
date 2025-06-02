@@ -22,6 +22,7 @@ export class Page {
     childPageCount: number = 0
     directVisibleChildPageCount: number = 0
     views: number = 0
+    subpageViews: number = 0
     commentCount: number = 0
     visibility: Visibility = Visibility.Private
     authorIds: number[] = []
@@ -38,6 +39,13 @@ export class Page {
         needsConsolidation: 0,
         needsLearning: 0,
         notLearned: 0,
+
+        total: 0,
+
+        solidPercentage: 0,
+        needsConsolidationPercentage: 0,
+        needsLearningPercentage: 0,
+        notLearnedPercentage: 0,
     }
     gridItems: GridPageItem[] = []
     isChildOfPersonalWiki: boolean = false
@@ -53,6 +61,8 @@ export class Page {
     isShared: boolean = false
     sharedWith: SharedWithUser[] | null = null
     canEditByToken: boolean | null = null
+    totalQuestionViews: number = 0
+    directQuestionViews: number = 0
 }
 
 export interface ViewSummary {
@@ -66,7 +76,7 @@ export interface SharedWithUser {
     imgUrl: string
 }
 
-export interface KnowledgeSummary {
+export interface KnowledgeSummarySlim {
     solid: number
     needsConsolidation: number
     needsLearning: number
@@ -125,6 +135,7 @@ export const usePageStore = defineStore('pageStore', {
             childPageCount: 0,
             directVisibleChildPageCount: 0,
             views: 0,
+            subpageViews: 0,
             commentCount: 0,
             visibility: null as Visibility | null,
             authorIds: [] as number[],
@@ -134,6 +145,7 @@ export const usePageStore = defineStore('pageStore', {
             authors: [] as Author[],
             searchPageItem: null as null | PageItem,
             knowledgeSummary: {} as KnowledgeSummary,
+            knowledgeSummarySlim: {} as KnowledgeSummarySlim,
             gridItems: [] as GridPageItem[],
             isChildOfPersonalWiki: false,
             textIsHidden: false,
@@ -155,6 +167,8 @@ export const usePageStore = defineStore('pageStore', {
             isShared: false,
             sharedWith: [] as SharedWithUser[],
             canEditByToken: null as boolean | null,
+            totalQuestionViews: 0,
+            directQuestionViews: 0,
         }
     },
     actions: {
@@ -177,6 +191,7 @@ export const usePageStore = defineStore('pageStore', {
                     page.directVisibleChildPageCount
 
                 this.views = page.views
+                this.subpageViews = page.subpageViews
                 this.commentCount = page.commentCount
                 this.visibility = page.visibility
 
@@ -190,7 +205,9 @@ export const usePageStore = defineStore('pageStore', {
 
                 this.authors = page.authors
                 this.searchPageItem = page.pageItem
+
                 this.knowledgeSummary = page.knowledgeSummary
+                this.setKnowledgeSummarySlim(page.knowledgeSummary)
                 this.gridItems = page.gridItems
                 this.isChildOfPersonalWiki = page.isChildOfPersonalWiki
                 this.textIsHidden = page.textIsHidden
@@ -211,7 +228,18 @@ export const usePageStore = defineStore('pageStore', {
                 this.sharedWith = page.sharedWith || []
                 this.canEditByToken = page.canEditByToken
 
+                this.totalQuestionViews = page.totalQuestionViews
+                this.directQuestionViews = page.directQuestionViews
+
                 this.handleLoginReminder()
+            }
+        },
+        setKnowledgeSummarySlim(knowledgeSummary: KnowledgeSummary) {
+            this.knowledgeSummarySlim = {
+                solid: knowledgeSummary.solid,
+                needsConsolidation: knowledgeSummary.needsConsolidation,
+                needsLearning: knowledgeSummary.needsLearning,
+                notLearned: knowledgeSummary.notLearned,
             }
         },
         async saveContent() {
@@ -403,7 +431,7 @@ export const usePageStore = defineStore('pageStore', {
             )
         },
         async reloadKnowledgeSummary() {
-            this.knowledgeSummary = await $api<KnowledgeSummary>(
+            this.knowledgeSummarySlim = await $api<KnowledgeSummarySlim>(
                 `/apiVue/PageStore/GetUpdatedKnowledgeSummary/${this.id}`,
                 {
                     method: 'GET',
