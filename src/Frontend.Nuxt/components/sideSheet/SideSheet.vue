@@ -157,13 +157,32 @@ watch(() => sideSheetStore.showSideSheet, (show) => {
 const hover = ref(false)
 const mouseOverTimer = ref()
 const delayedMouseLeaveTimeOut = ref()
+const lastMousePosition = ref({ x: 0, y: 0 })
+const mouseMoveTimer = ref()
 
-const handleMouseOver = () => {
+const handleMouseOver = (event: MouseEvent) => {
     if (windowWidth.value > 900) {
         clearTimeout(delayedMouseLeaveTimeOut.value)
-        mouseOverTimer.value = setTimeout(() => {
-            hover.value = true
-        }, 500)
+        clearTimeout(mouseOverTimer.value)
+        clearTimeout(mouseMoveTimer.value)
+
+        const currentX = event.clientX
+        const currentY = event.clientY
+
+        clearTimeout(mouseOverTimer.value)
+
+        mouseMoveTimer.value = setTimeout(() => {
+            const deltaX = Math.abs(currentX - lastMousePosition.value.x)
+            const deltaY = Math.abs(currentY - lastMousePosition.value.y)
+
+            if (deltaX <= 10 && deltaY <= 10) {
+                mouseOverTimer.value = setTimeout(() => {
+                    hover.value = true
+                }, 200)
+            }
+        }, 100)
+
+        lastMousePosition.value = { x: currentX, y: currentY }
     }
 }
 
@@ -171,6 +190,7 @@ const handleMouseLeave = () => {
     if (windowWidth.value > 900) {
         clearTimeout(delayedMouseLeaveTimeOut.value)
         clearTimeout(mouseOverTimer.value)
+        clearTimeout(mouseMoveTimer.value)
         delayedMouseLeaveTimeOut.value = setTimeout(() => {
             hover.value = false
         }, 500)
@@ -302,6 +322,27 @@ onMounted(() => {
 const hoverWikiButton = ref(false)
 const hoverFavoritesButton = ref(false)
 
+const handleClick = (key?: string) => {
+    if (collapsed.value)
+        sideSheetStore.showSideSheet = !sideSheetStore.showSideSheet
+    else if (key) {
+        switch (key) {
+            case 'showWikis':
+                showWikis.value = !showWikis.value
+                break
+            case 'showFavorites':
+                showFavorites.value = !showFavorites.value
+                break
+            case 'showRecents':
+                showRecents.value = !showRecents.value
+                break
+            case 'showShared':
+                showShared.value = !showShared.value
+                break
+        }
+    }
+}
+
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet"
@@ -328,7 +369,7 @@ const hoverFavoritesButton = ref(false)
 
                 <SideSheetSection :class="{ 'no-b-padding': !showWikis }" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container" @click="showWikis = !showWikis" :class="{ 'no-hover': hoverWikiButton }">
+                        <div class="header-container" @click="handleClick('showWikis')" :class="{ 'no-hover': hoverWikiButton }">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showWikis" :icon="['fas', 'angle-down']" class="angle-icon" />
                                 <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
@@ -380,7 +421,7 @@ const hoverFavoritesButton = ref(false)
 
                 <SideSheetSection :class="{ 'no-b-padding': !showFavorites }" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container" @click="showFavorites = !showFavorites" :class="{ 'no-hover': hoverFavoritesButton }">
+                        <div class="header-container" @click="handleClick('showFavorites')" :class="{ 'no-hover': hoverFavoritesButton }">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showFavorites" :icon="['fas', 'angle-down']"
                                     class="angle-icon" />
@@ -426,7 +467,7 @@ const hoverFavoritesButton = ref(false)
 
                 <SideSheetSection :class="{ 'no-b-padding': !showShared }" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container" @click="showShared = !showShared">
+                        <div class="header-container" @click="handleClick('showShared')">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showShared" :icon="['fas', 'angle-down']" class="angle-icon" />
                                 <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
@@ -459,7 +500,7 @@ const hoverFavoritesButton = ref(false)
 
                 <SideSheetSection :class="{ 'no-b-padding': !showRecents }" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container" @click="showRecents = !showRecents">
+                        <div class="header-container" @click="handleClick('showRecents')">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showRecents" :icon="['fas', 'angle-down']"
                                     class="angle-icon" />
@@ -496,7 +537,7 @@ const hoverFavoritesButton = ref(false)
             <div class="sidesheet-content footer">
                 <SideSheetSection class="no-b-padding help-section" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container no-hover help-header" @click="showWikis = !showWikis">
+                        <div class="header-container no-hover help-header" @click="handleClick()">
 
                             <font-awesome-icon :icon="['fas', 'circle-question']" />
                             <div v-show="!hidden" class="header-title">
