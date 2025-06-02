@@ -60,7 +60,7 @@ public class QuestionEditModalController(
         {
             return new CreateResult
             {
-                Success = false, 
+                Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingText
             };
         }
@@ -70,7 +70,7 @@ public class QuestionEditModalController(
 
         question = SetQuestion(question, request, safeText);
 
-        _questionWritingRepo.Create(question, pageRepository);
+        _questionWritingRepo.Create(question);
 
         if (request.UploadedImagesInContent.Length > 0)
             SaveImageToFile.ReplaceTempQuestionContentImages(request.UploadedImagesInContent, question, _questionWritingRepo);
