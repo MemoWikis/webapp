@@ -73,7 +73,7 @@
 
         if (_persistQuestionsImmediately || persistImmediately)
         {
-            _questionWritingRepo.Create(question, _pageRepository);
+            _questionWritingRepo.Create(question);
         }
 
         return this;
@@ -107,7 +107,7 @@
     {
         foreach (var question in All)
         {
-            _questionWritingRepo.Create(question, _pageRepository);
+            _questionWritingRepo.Create(question);
         }
 
         _questionWritingRepo.Flush();
