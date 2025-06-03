@@ -161,6 +161,7 @@ watch(() => locale.value, async () => {
 }
 
 .mission-control-container {
+    margin-top: 25px;
 
     h1 {
         margin-bottom: 24px;
@@ -204,7 +205,5 @@ watch(() => locale.value, async () => {
             color: @memo-blue;
         }
     }
-
-
 }
 </style>
