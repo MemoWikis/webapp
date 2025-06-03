@@ -356,6 +356,34 @@ onMounted(() => {
                 margin-left: 260px;
             }
         }
+
+        @media (min-width: 1501px) and (max-width: 1610px) {
+            &.sidesheet-open {
+                .container:first-of-type {
+
+                    // width: calc(100vw - 40px);
+                }
+
+                .header-container {
+                    width: calc(100vw - 512px);
+                }
+            }
+        }
+
+        @media (min-width: 1301px) and (max-width: 1610px) {
+            &.sidesheet-open {
+
+
+                .nav-container {
+                    width: 100%;
+
+                    .container:first-of-type {
+
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
     }
 
     .container {

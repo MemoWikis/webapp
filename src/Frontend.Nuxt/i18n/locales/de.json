@@ -236,7 +236,11 @@
         "favorites": "Favoriten",
         "lastVisited": "Zuletzt besucht",
         "sharedWithMe": "Mit mir geteilt",
+        "noWikis": "Du hast noch keine Wikis erstellt",
+        "noFavorites": "Du hast noch keine Favoriten hinzugefügt",
         "noSharedPages": "Noch keine Seiten mit dir geteilt",
+        "noWikisNotLoggedIn": "Melde dich an, um deine Wikis zu sehen",
+        "noFavoritesNotLoggedIn": "Melde dich an, um deine Favoriten zu sehen",
         "help": "Hilfe",
         "documentation": "Dokumentation",
         "createWikiModal": {

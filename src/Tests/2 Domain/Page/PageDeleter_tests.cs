@@ -1,4 +1,6 @@
-﻿internal class PageDeleter_tests : BaseTestHarness
+﻿using Meilisearch;
+
+internal class PageDeleter_tests : BaseTestHarness
 {
     [Test]
     public async Task Should_delete_child()
@@ -39,7 +41,7 @@
     public async Task Should_delete_child_of_child_and_remove_relation()
     {
         await ClearData();
-        
+
         //Arrange
         var contextPage = NewPageContext();
         var parentName = "parent name";
@@ -216,7 +218,7 @@
         var child = contextPage
             .Add(childName, creator)
             .GetPageByName(childName);
-        
+
         var childOfChild = contextPage
             .Add(childOfChildName, creator)
             .GetPageByName(childOfChildName);
@@ -270,5 +272,72 @@
         await ReloadCaches();
 
         await Verify(requestResult);
+    }
+
+    [Test]
+    [Description("Verify page is removed from Meilisearch after deletion")]
+    public async Task Should_delete_page_from_meilisearch()
+    {
+        await ClearData();
+
+        // Arrange
+        var contextPage = NewPageContext();
+        var pageName = "meilisearch test page";
+        var sessionUser = R<SessionUser>();
+        var creator = new User { Id = sessionUser.UserId };
+
+        var root = contextPage
+            .Add("root", creator)
+            .GetPageByName("root");
+
+        var page = contextPage
+            .Add(pageName, creator)
+            .GetPageByName(pageName);
+
+        contextPage.Persist();
+        await ReloadCaches();
+
+        // Create a client to directly verify Meilisearch state
+        var client = new MeilisearchClient(_testHarness.MeilisearchUrl, TestHarness.MeilisearchMasterKey);
+        var index = client.Index(MeilisearchIndices.Pages);
+
+        // Allow time for initial indexing
+        await Task.Delay(500);
+
+        // Search for the page before deletion
+        var beforeQuery = new SearchQuery { Q = pageName };
+        var beforeResult = await index.SearchAsync<MeilisearchPageMap>(beforeQuery.ToString());
+
+        // Act
+        var pageDeleter = R<PageDeleter>();
+        var deleteResult = pageDeleter.DeletePage(page.Id, null);
+
+        // Allow time for deletion to propagate
+        await Task.Delay(500);
+
+        // Search for the page after deletion
+        var afterQuery = new SearchQuery { Q = pageName };
+        var afterResult = await index.SearchAsync<MeilisearchPageMap>(afterQuery.ToString());
+
+        // Verify the before and after states
+        await Verify(new
+        {
+            Page = new
+            {
+                Id = page.Id,
+                Name = pageName
+            },
+            BeforeDelete = new
+            {
+                ResultCount = beforeResult.Hits.Count,
+                ContainsPage = beforeResult.Hits.Any(p => p.Id == page.Id)
+            },
+            DeleteResult = deleteResult,
+            AfterDelete = new
+            {
+                ResultCount = afterResult.Hits.Count,
+                ContainsPage = afterResult.Hits.Any(p => p.Id == page.Id)
+            }
+        });
     }
 }

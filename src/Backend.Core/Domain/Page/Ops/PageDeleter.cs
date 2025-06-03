@@ -29,28 +29,46 @@
             return hasDeleted;
         }
 
+        DeleteRelations(pageCacheItem, userId);
+
+        EntityCache.Remove(pageCacheItem, userId);
+
+        var deleteChangeId = _pageChangeRepo.AddDeleteEntry(page, userId);
+        _extendedUserCache.RemoveAllForPage(page.Id, _pageValuationWritingRepo);
+
+        DeleteImages(page);
+
+        Task.Run(async () => await new MeilisearchPageIndexer()
+            .DeleteAsync(page));
+
+        DeleteFromRepos(page.Id);
+
+        hasDeleted.DeletedSuccessful = true;
+        hasDeleted.ChangeId = deleteChangeId;
+        return hasDeleted;
+    }
+
+    private void DeleteFromRepos(int pageId)
+    {
+        _pageToQuestionRepo.DeleteByPageId(pageId);
+        _userActivityRepo.DeleteForPage(pageId);
+        _sharesRepository.DeleteAllForPage(pageId);
+        _pageRepo.Delete(pageId);
+    }
+
+    private void DeleteRelations(PageCacheItem pageCacheItem, int userId)
+    {
         var modifyRelationsForPage =
             new ModifyRelationsForPage(_pageRepo, _pageRelationRepo);
 
         ModifyRelationsEntityCache.RemoveRelationsForPageDeleter(pageCacheItem, userId,
             modifyRelationsForPage);
+    }
 
-        EntityCache.Remove(pageCacheItem, userId);
-        _pageToQuestionRepo.DeleteByPageId(page.Id);
-        _userActivityRepo.DeleteForPage(page.Id);
-
-        var deleteChangeId = _pageChangeRepo.AddDeleteEntry(page, userId);
-        _extendedUserCache.RemoveAllForPage(page.Id, _pageValuationWritingRepo);
-
+    private void DeleteImages(Page page)
+    {
         var deleteImage = new DeleteImage();
         deleteImage.RemoveAllForPage(page.Id);
-
-        _sharesRepository.DeleteAllForPage(page.Id);
-        _pageRepo.Delete(page.Id);
-
-        hasDeleted.DeletedSuccessful = true;
-        hasDeleted.ChangeId = deleteChangeId;
-        return hasDeleted;
     }
 
     private bool CanDeleteItemBasedOnChildParentCount(

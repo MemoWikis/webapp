@@ -1,0 +1,22 @@
+﻿{
+  Page: {
+    Id: 2,
+    Name: meilisearch test page
+  },
+  BeforeDelete: {
+    ResultCount: 1,
+    ContainsPage: true
+  },
+  DeleteResult: {
+    HasChildren: false,
+    IsNotCreatorOrAdmin: false,
+    Success: true,
+    RedirectParent: {
+      Name: root,
+      Id: 1
+    }
+  },
+  AfterDelete: {
+    ContainsPage: false
+  }
+}

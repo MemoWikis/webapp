@@ -413,6 +413,9 @@ const handleClick = (key?: string) => {
                                         </template>
                                     </VDropdown>
                                 </div>
+                                <div v-if="sideSheetStore.wikis.length === 0" class="empty-pages">
+                                    {{ userStore.isLoggedIn ? t('sideSheet.noWikis') : t('sideSheet.noWikisNotLoggedIn') }}
+                                </div>
                             </div>
                         </Transition>
                     </template>
@@ -458,6 +461,9 @@ const handleClick = (key?: string) => {
                                         </font-awesome-layers>
                                     </div>
                                 </div>
+                                <div v-if="sideSheetStore.favorites.length === 0" class="empty-pages">
+                                    {{ userStore.isLoggedIn ? t('sideSheet.noFavorites') : t('sideSheet.noFavoritesNotLoggedIn') }}
+                                </div>
 
                             </div>
                         </Transition>
@@ -490,7 +496,7 @@ const handleClick = (key?: string) => {
                                         </div>
                                     </NuxtLink>
                                 </div>
-                                <div v-if="sideSheetStore.sharedPages.length === 0" class="empty-shared-pages">
+                                <div v-if="sideSheetStore.sharedPages.length === 0" class="empty-pages">
                                     {{ t('sideSheet.noSharedPages') }}
                                 </div>
                             </div>
@@ -701,7 +707,7 @@ const handleClick = (key?: string) => {
     }
 }
 
-.empty-shared-pages {
+.empty-pages {
     padding: 8px 16px;
     color: @memo-grey-dark;
     font-style: italic;

@@ -1,4 +1,4 @@
-﻿internal class PercentageShares_tests : BaseTestHarness
+﻿internal class PercentageShares_tests
 {
     [Test]
     public async Task Should_Distribute_Equal_Values()

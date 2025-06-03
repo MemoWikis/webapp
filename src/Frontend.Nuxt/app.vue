@@ -345,14 +345,24 @@ watch(locale, () => {
 					width: 100%;
 				}
 
-				#Sidebar {
-					display: none;
-				}
-
 				.page {
 					&.col-lg-9 {
 						width: 100%;
 					}
+				}
+			}
+
+			@media (min-width: 1501px) and (max-width: 1610px) {
+
+				.main-page:first-of-type {
+
+					width: calc(100vw - 260px);
+				}
+			}
+
+			@media (max-width: 1610px) {
+				#Sidebar {
+					display: none;
 				}
 			}
 		}
