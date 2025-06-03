@@ -60,7 +60,7 @@ const childrenLoaded = ref<boolean>(false)
 const { t } = useI18n()
 
 async function loadChildren(force: boolean = false) {
-
+    console.log('loadChildren', props.page.id, force)
     if (childrenLoaded.value && !force)
         return
 

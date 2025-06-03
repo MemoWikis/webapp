@@ -372,7 +372,7 @@
                     "reset": "Réinitialiser"
                 },
                 "messages": {
-                    "moved": "a été déplacée",
+                    "moved": "{pageName} a été déplacée",
                     "visibleToAll": "Les modifications sur la page {parentName} sont maintenant publiques"
                 },
                 "labels": {

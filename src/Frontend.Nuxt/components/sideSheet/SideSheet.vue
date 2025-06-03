@@ -6,7 +6,7 @@ import { useSideSheetStore } from './sideSheetStore'
 import { useUserStore } from '../user/userStore'
 import { useDeletePageStore } from '../page/delete/deletePageStore'
 import { useConvertStore } from '../page/convert/convertStore'
-import { useSnackbar } from 'vue3-snackbar'
+import { SnackbarCustomAction, SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 interface Props {
     footerPages: FooterPages
@@ -18,9 +18,9 @@ const sideSheetStore = useSideSheetStore()
 const userStore = useUserStore()
 const deletePageStore = useDeletePageStore()
 const convertStore = useConvertStore()
-const { t } = useI18n()
+const snackbarStore = useSnackbarStore()
 
-const snackbar = useSnackbar()
+const { t } = useI18n()
 
 const showSideSheetCookie = useCookie<boolean>('showSideSheet')
 
@@ -196,14 +196,16 @@ const addToFavorites = async (name: string, id: number) => {
         credentials: 'include',
     })
 
-    if (result.success) {
+    if (result.success)
         sideSheetStore.addToFavoritePages(name, id)
-    } else if (result.messageKey) {
-        snackbar.add({
-            text: t(result.messageKey),
+    else if (result.messageKey)
+        snackbarStore.showSnackbar({
+            text: {
+                message: t(result.messageKey),
+            },
             type: 'error'
         })
-    }
+
 }
 
 const removeFromFavorites = async (id: number) => {
@@ -220,13 +222,17 @@ const removeFromFavorites = async (id: number) => {
     if (result.success) {
         const name = sideSheetStore.favorites.find(f => f.id === id)?.name
         sideSheetStore.removeFromFavoritePages(id)
-        snackbar.add({
-            text: t('sideSheet.removedFromFavorites', { name: name }),
+        snackbarStore.showSnackbar({
+            text: {
+                message: t('sideSheet.removedFromFavorites', { name: name }),
+            },
             type: 'success'
         })
     } else if (result.messageKey) {
-        snackbar.add({
-            text: t(result.messageKey),
+        snackbarStore.showSnackbar({
+            text: {
+                message: t(result.messageKey),
+            },
             type: 'error'
         })
     }
