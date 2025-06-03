@@ -158,7 +158,7 @@ function handleDragStart(e: DragEvent) {
         return
     }
 
-    if (props.parentVisibility === Visibility.Public) {
+    if (props.parentVisibility === Visibility.Public && !userStore.gridInfoShown) {
 
         snackbarStore.showSnackbar({
             type: 'warning',

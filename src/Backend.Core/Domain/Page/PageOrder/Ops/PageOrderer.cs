@@ -51,10 +51,18 @@
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
 
-        var updatedNewOrder = AddBefore(relation.ChildId, beforePageId, newParentId, authorId,
+        var updatedNewOrder = AddBefore(
+            relation.ChildId,
+            beforePageId,
+            newParentId,
+            authorId,
             modifyRelationsForPage);
-        var updatedOldOrder =
-            Remove(relation, relation.ParentId, authorId, modifyRelationsForPage);
+
+        var updatedOldOrder = Remove(
+            relation,
+            relation.ParentId,
+            authorId,
+            modifyRelationsForPage);
 
         return (updatedOldOrder, updatedNewOrder);
     }
@@ -75,10 +83,18 @@
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
 
-        var updatedNewOrder = AddAfter(relation.ChildId, afterPageId, newParentId, authorId,
+        var updatedNewOrder = AddAfter(
+            relation.ChildId,
+            afterPageId,
+            newParentId,
+            authorId,
             modifyRelationsForPage);
-        var updatedOldOrder =
-            Remove(relation, relation.ParentId, authorId, modifyRelationsForPage);
+
+        var updatedOldOrder = Remove(
+            relation,
+            relation.ParentId,
+            authorId,
+            modifyRelationsForPage);
 
         return (updatedOldOrder, updatedNewOrder);
     }
