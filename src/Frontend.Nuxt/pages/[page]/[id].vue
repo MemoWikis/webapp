@@ -213,7 +213,7 @@ convertStore.$onAction(({ name, after }) => {
                     <template v-if="pageStore?.id != 0">
                         <ClientOnly>
                             <PageTabsContent
-                                v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)"
+                                v-show="(tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)) && !pageStore.textIsHidden"
                                 :text-is-hidden="pageStore.textIsHidden" />
                             <template #fallback>
                                 <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"

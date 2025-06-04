@@ -5,26 +5,15 @@ import { usePageStore } from '../pageStore'
 const { isMobile } = useDevice()
 const pageStore = usePageStore()
 
-const props = defineProps<{
-    textIsHidden: boolean
-}>()
 </script>
 
 <template>
-    <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'hideText': props.textIsHidden, 'no-grid-items': pageStore.gridItems.length === 0 }">
-        <template v-if="!props.textIsHidden">
+    <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }">
+        <template>
             <PageContentEditor />
             <PageContentEditBar v-if="pageStore.visibility === Visibility.Public" />
         </template>
     </div>
 </template>
 
-<style lang="less" scoped>
-#PageContent {
-    &.hideText {
-        position: absolute;
-        width: 100%;
-        padding-top: 12px;
-    }
-}
-</style>
+<style lang="less" scoped></style>
