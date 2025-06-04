@@ -345,7 +345,7 @@ const handleClick = (key?: string) => {
 
 </script>
 <template>
-    <div v-if="windowWidth > 0" id="SideSheet"
+    <div id="SideSheet"
         :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }"
         :style="`height: ${windowHeight}px`" @mouseleave="handleMouseLeave">
         <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>

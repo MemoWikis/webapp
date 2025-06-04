@@ -258,7 +258,7 @@ watch(locale, () => {
 			<LazyBannerMissionControlLoginReminder v-if="siteType === SiteType.MissionControl && !userStore.isLoggedIn"
 				:class="{ 'sidesheet-open': sideSheetStore.showSideSheet && !isMobile }" />
 
-			<div class="nuxt-page-container">
+			<div class="nuxt-page-container" :class="{ 'sidesheet-open': sideSheetStore.showSideSheet && !isMobile }">
 
 				<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :site="siteType"
@@ -267,7 +267,7 @@ watch(locale, () => {
 						'open-modal': modalIsOpen,
 						'mobile-headings': isMobile,
 						'window-loading': !windowLoaded,
-						'sidesheet-open': sideSheetStore.showSideSheet && !isMobile
+
 					}" />
 			</div>
 
@@ -313,57 +313,56 @@ watch(locale, () => {
 		min-height: unset;
 	}
 
-	.main-page-container {
+	.main-page-container {}
 
-		&.sidesheet-open {
+	&.sidesheet-open {
 
-			@media (max-width: 1500px) {
-				width: calc(100vw - 40px);
+		@media (max-width: 1500px) {
+			width: calc(100vw - 40px);
 
-				.main-page:first-of-type {
-					padding-left: 420px;
-					margin-right: 10px;
+			.main-page:first-of-type {
+				padding-left: 420px;
+				margin-right: 10px;
+				width: 100%;
+			}
+
+			#Sidebar {
+				display: none;
+			}
+
+			.page {
+				&.col-lg-9 {
 					width: 100%;
 				}
-
-				#Sidebar {
-					display: none;
-				}
-
-				.page {
-					&.col-lg-9 {
-						width: 100%;
-					}
-				}
 			}
+		}
 
-			@media (min-width: 1501px) and (max-width: 1980px) {
+		@media (min-width: 1501px) and (max-width: 1980px) {
 
-				.main-page:first-of-type {
-					padding-left: clamp(260px, 20vw, 0px);
-					margin-right: 10px;
+			// .main-page:first-of-type {
+			// 	padding-left: clamp(260px, 20vw, 0px);
+			// 	margin-right: 10px;
+			// 	width: 100%;
+			// }
+
+			.page {
+				&.col-lg-9 {
 					width: 100%;
 				}
-
-				.page {
-					&.col-lg-9 {
-						width: 100%;
-					}
-				}
 			}
+		}
 
-			@media (min-width: 1501px) and (max-width: 1610px) {
+		@media (min-width: 1501px) and (max-width: 1610px) {
 
-				.main-page:first-of-type {
+			// .main-page:first-of-type {
 
-					width: calc(100vw - 260px);
-				}
-			}
+			// 	width: calc(100vw - 260px);
+			// }
+		}
 
-			@media (max-width: 1610px) {
-				#Sidebar {
-					display: none;
-				}
+		@media (max-width: 1610px) {
+			#Sidebar {
+				display: none;
 			}
 		}
 	}

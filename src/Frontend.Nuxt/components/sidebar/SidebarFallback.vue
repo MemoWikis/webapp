@@ -123,7 +123,6 @@ const { isDesktop } = useDevice()
 
 #DefaultSidebar {
     height: 145px;
-    width: 200px;
     // :deep(.sidebar-title) {
     //     padding-bottom: 0px;
     //     height: 30px;

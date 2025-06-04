@@ -204,22 +204,22 @@ convertStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-    <div class="container page-container">
-        <div class="row page-content main-page">
+    <div class="page-container">
+        <div class="page-content main-page">
             <template v-if="page?.canAccess">
-                <div class="col-lg-9 col-md-12 container page">
+                <div class="page">
                     <PageHeader />
 
                     <template v-if="pageStore?.id != 0">
                         <ClientOnly>
                             <PageTabsContent
-                                v-show="(tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)) && !pageStore.textIsHidden"
-                                :text-is-hidden="pageStore.textIsHidden" />
+                                v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)" />
                             <template #fallback>
                                 <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
                                     v-if="!pageStore.textIsHidden"
                                     v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)">
-                                    <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
+                                    <div class="col-xs-12"
+                                        :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
                                         <div class="ProseMirror content-placeholder" v-html="pageStore.content"
                                             id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                         </div>
@@ -353,6 +353,18 @@ pre {
         min-height: 50vh;
     }
 }
+
+.sidesheet-open {
+    .page-container {
+        padding: 0 10px;
+        padding-left: 410px;
+
+        @media (min-width: 901px) {
+            padding-left: 410px !important;
+        }
+
+    }
+}
 </style>
 
 
@@ -363,6 +375,7 @@ pre {
     min-height: 400px;
     height: 100%;
     margin-top: 0;
+    width: 100%;
 
     @media(min-width: 992px) {
         display: flex;
@@ -496,5 +509,29 @@ h4 {
 
 .private-page {
     margin-bottom: -30px;
+}
+
+.page-container {
+    padding: 0 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    @media (min-width: 901px) {
+        padding-left: 90px;
+    }
+
+    .page {
+        max-width: 1200px;
+        width: 75%;
+    }
+
+    @media (max-width: 1300px) {
+
+        .page {
+            width: 100%;
+        }
+    }
 }
 </style>

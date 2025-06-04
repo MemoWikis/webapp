@@ -427,7 +427,7 @@ const createFlashcard = () => {
     if (editor.value == null)
         return
 
-    const { state, view } = editor.value
+    const { state } = editor.value
     const { selection } = state
     if (selection.empty)
         pageStore.generateFlashcard()
@@ -436,16 +436,14 @@ const createFlashcard = () => {
         const text = state.doc.textBetween(from, to)
         pageStore.generateFlashcard(text)
     }
-
 }
+
 </script>
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages">
+        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages">
             <template v-slot:start v-if="userStore.isAdmin">
-
-
                 <button class="menubar__button ai-create" @mousedown="createFlashcard">
                     <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
                 </button>
@@ -455,7 +453,7 @@ const createFlashcard = () => {
                 </div>
             </template>
         </LazyEditorMenuBar>
-        <LazyEditorMenuBar v-else :editor="editor" :heading="true" :is-page-content="true" />
+        <LazyEditorMenuBar v-else-if="editor" :editor="editor" :heading="true" :is-page-content="true" />
         <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }" />
     </template>
     <template v-else>
