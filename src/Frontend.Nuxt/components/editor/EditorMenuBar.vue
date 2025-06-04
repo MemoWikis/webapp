@@ -362,7 +362,6 @@ const slots = useSlots()
     display: flex;
     height: 36px;
     margin-top: -36px;
-    max-width: calc(100vw - 20px);
 
     &.is-mobile {
         max-width: 100vw;
@@ -460,6 +459,24 @@ const slots = useSlots()
 
         &:hover {
             filter: brightness(0.85);
+        }
+    }
+}
+</style>
+
+<style lang="less">
+.sidesheet-open {
+    #PageContent {
+        .menubar-container {
+            max-width: calc(100vw - 420px);
+        }
+    }
+}
+
+#PageContent {
+    @media (min-width: 900px) {
+        .menubar-container {
+            max-width: calc(100vw - 100px);
         }
     }
 }
