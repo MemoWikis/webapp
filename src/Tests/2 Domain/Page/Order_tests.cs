@@ -1,5 +1,5 @@
-﻿using Antlr.Runtime.Tree;
-using NHibernate.Driver;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 class Order_tests : BaseTestHarness
 {
@@ -124,11 +124,11 @@ class Order_tests : BaseTestHarness
         //Assert
         var allRelationsInDb = R<PageRelationRepo>().GetAll();
         await Verify(new
-            {
-                originalTree,
-                newTree,
-                allRelationsInDb
-            }
+        {
+            originalTree,
+            newTree,
+            allRelationsInDb
+        }
         );
     }
 
@@ -377,6 +377,160 @@ class Order_tests : BaseTestHarness
             sub1ChildRelationsCount = cachedSub1.ChildRelations.Count,
             sub2ChildRelationsCount = cachedSub2.ChildRelations.Count,
             movedSubParentRelationsCount = movedSub?.ParentRelations?.Count
+        });
+    }
+
+    [Test]
+    public async Task Should_maintain_integrity_when_moving_pages_multiple_times()
+    {
+        await ClearData();
+
+        //Arrange
+        var context = NewPageContext();
+        var sessionUser = R<SessionUser>();
+        var authorId = sessionUser.UserId;
+        var creator = new User { Id = authorId };
+
+        context.Add("root", creator: creator).Persist();
+
+        context
+            .Add("sub1", creator: creator)
+            .Add("sub2", creator: creator)
+            .Add("sub3", creator: creator)
+            .Add("sub4", creator: creator)
+            .Persist();
+
+        var root = context.All.ByName("root");
+        var sub1 = context.All.ByName("sub1");
+        var sub2 = context.All.ByName("sub2");
+        var sub3 = context.All.ByName("sub3");
+        var sub4 = context.All.ByName("sub4");
+
+        context.AddChild(root, sub1);
+        context.AddChild(root, sub2);
+        context.AddChild(root, sub3);
+        context.AddChild(root, sub4);
+
+        await ReloadCaches();
+
+        var entityCacheInitializer = R<EntityCacheInitializer>();
+        entityCacheInitializer.Init();
+
+        var pageRelationRepo = R<PageRelationRepo>();
+        var pageRepo = R<PageRepository>();
+        var permissionCheck = new PermissionCheck(new SessionlessUser(authorId));
+        var httpContextAccessor = R<IHttpContextAccessor>();
+        var webHostEnvironment = R<IWebHostEnvironment>();
+        var userWritingRepo = R<UserWritingRepo>();
+        var searchResultBuilder = R<SearchResultBuilder>();
+
+        var controller = new EditPageRelationStoreController(
+            sessionUser,
+            httpContextAccessor,
+            permissionCheck,
+            pageRepo,
+            pageRelationRepo,
+            userWritingRepo,
+            webHostEnvironment,
+            searchResultBuilder);
+
+        var cachedRoot = EntityCache.GetPage(root);
+        var initialTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
+        var snapshots = new Dictionary<string, string>();
+        snapshots.Add("initial", initialTree);
+
+        //Act - Perform multiple moves in sequence
+
+        // Move 1: sub1 after sub3
+        var move1Result = controller.MovePage(new EditPageRelationStoreController.MovePageRequest(
+            sub1.Id, sub3.Id, EditPageRelationStoreController.TargetPosition.After, root.Id, root.Id));
+
+        await ReloadCaches();
+        snapshots.Add("after_move1", TreeRenderer.ToAsciiDiagram(EntityCache.GetPage(root)));
+
+        // Move 2: sub4 before sub2
+        var move2Result = controller.MovePage(new EditPageRelationStoreController.MovePageRequest(
+            sub4.Id, sub2.Id, EditPageRelationStoreController.TargetPosition.Before, root.Id, root.Id));
+
+        await ReloadCaches();
+        snapshots.Add("after_move2", TreeRenderer.ToAsciiDiagram(EntityCache.GetPage(root)));
+
+        // Move 3: sub2 after sub3
+        var move3Result = controller.MovePage(new EditPageRelationStoreController.MovePageRequest(
+            sub2.Id, sub3.Id, EditPageRelationStoreController.TargetPosition.After, root.Id, root.Id));
+
+        await ReloadCaches();
+        snapshots.Add("after_move3", TreeRenderer.ToAsciiDiagram(EntityCache.GetPage(root)));
+
+        // Move 4: sub3 to beginning (before sub4)
+        var move4Result = controller.MovePage(new EditPageRelationStoreController.MovePageRequest(
+            sub3.Id, sub4.Id, EditPageRelationStoreController.TargetPosition.Before, root.Id, root.Id));
+
+        await ReloadCaches();
+        snapshots.Add("after_move4", TreeRenderer.ToAsciiDiagram(EntityCache.GetPage(root)));
+
+        // Final state verification
+        var finalTree = TreeRenderer.ToAsciiDiagram(EntityCache.GetPage(root));
+        var allRelationsInDb = pageRelationRepo.GetAll();
+        var childRelations = EntityCache.GetPage(root)?.ChildRelations;
+
+        // Verify proper linking (each relation should have correct previous and next references)
+        var areRelationsValid = true;
+        var relationErrors = new List<string>();
+
+        if (childRelations != null)
+        {
+            for (int i = 0; i < childRelations.Count; i++)
+            {
+                var relation = childRelations[i];
+
+                // First relation should have null previousId
+                if (i == 0 && relation.PreviousId != null)
+                {
+                    areRelationsValid = false;
+                    relationErrors.Add($"First relation (childId: {relation.ChildId}) has non-null previousId: {relation.PreviousId}");
+                }
+
+                // Last relation should have null nextId
+                if (i == childRelations.Count - 1 && relation.NextId != null)
+                {
+                    areRelationsValid = false;
+                    relationErrors.Add($"Last relation (childId: {relation.ChildId}) has non-null nextId: {relation.NextId}");
+                }
+
+                // Middle relations should link correctly
+                if (i > 0 && relation.PreviousId != childRelations[i - 1].ChildId)
+                {
+                    areRelationsValid = false;
+                    relationErrors.Add($"Relation at index {i} (childId: {relation.ChildId}) has incorrect previousId: {relation.PreviousId}, expected: {childRelations[i - 1].ChildId}");
+                }
+
+                if (i < childRelations.Count - 1 && relation.NextId != childRelations[i + 1].ChildId)
+                {
+                    areRelationsValid = false;
+                    relationErrors.Add($"Relation at index {i} (childId: {relation.ChildId}) has incorrect nextId: {relation.NextId}, expected: {childRelations[i + 1].ChildId}");
+                }
+            }
+        }
+
+        //Assert
+        await Verify(new
+        {
+            treeSnapshots = snapshots,
+            finalState = new
+            {
+                allRelationsInDb,
+                childRelations,
+                areRelationsValid,
+                relationErrors,
+                moveResults = new
+                {
+                    move1 = move1Result.Success,
+                    move2 = move2Result.Success,
+                    move3 = move3Result.Success,
+                    move4 = move4Result.Success
+                }
+            }
         });
     }
 }
