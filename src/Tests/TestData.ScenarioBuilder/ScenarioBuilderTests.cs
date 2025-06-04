@@ -4,7 +4,7 @@ internal class ScenarioBuilderTests : BaseTestHarness
     [Test]
     public async Task Micro_Scenario()
     {
-        await ScenarioImageManager.BuildAndPushAsync("micro_for_testing");
+        await ScenarioImageManager.BuildAndPushLocallyAsync("micro_for_testing");
     }
     
     [Test]
@@ -34,7 +34,7 @@ internal class ScenarioBuilderTests : BaseTestHarness
             allQuestions = await _testHarness.DbData.AllQuestionsSummaryAsync()
         });
 
-        await ScenarioImageManager.BuildAndPushAsync("tiny");
+        await ScenarioImageManager.BuildAndPushLocallyAsync("tiny");
     }
 
     [Test]

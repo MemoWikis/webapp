@@ -26,7 +26,7 @@ public static class ScenarioImageManager
     }
 
     /// <summary>Creates a new scenario docker Image locally (no push).</summary>
-    public static Task<string> BuildAndPushAsync(string? tag = null, bool saveLocalTar = false) 
+    public static Task<string> BuildAndPushLocallyAsync(string? tag = null, bool saveLocalTar = false) 
         => BuildImageAsync(tag, saveLocalTar, registry: null);
 
     /// <summary>Creates a new scenario docker Image and pushes it to GitHub registry.</summary>

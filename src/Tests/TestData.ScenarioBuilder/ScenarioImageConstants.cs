@@ -1,7 +1,7 @@
 public static class ScenarioImageConstants
 {
     /// <summary>Basis-Name des Images ohne Tag.</summary>
-    public const string BaseName = "registry.example.com/memowikis/testscenario";
+    public const string BaseName = "/memowikis/testscenario";
 
     /// <summary>Default-Tag, falls nichts Spezifisches vorliegt.</summary>
     public const string DefaultTag = "latest";
