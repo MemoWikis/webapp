@@ -9,7 +9,7 @@ import { useConvertStore } from '../page/convert/convertStore'
 import { useSnackbar } from 'vue3-snackbar'
 
 interface Props {
-    footerPages: FooterPages
+    footerPages?: FooterPages | null
 }
 const props = defineProps<Props>()
 
@@ -346,8 +346,7 @@ const handleClick = (key?: string) => {
 </script>
 <template>
     <div id="SideSheet"
-        :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }"
-        :style="`height: ${windowHeight}px`" @mouseleave="handleMouseLeave">
+        :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }" @mouseleave="handleMouseLeave">
         <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
@@ -552,7 +551,7 @@ const handleClick = (key?: string) => {
                         </div>
                     </template>
 
-                    <template #content v-if="!collapsed">
+                    <template #content v-if="!collapsed && props.footerPages">
                         <div class="help-links">
                             <NuxtLink
                                 :to="$urlHelper.getPageUrl(props.footerPages.documentation.name, props.footerPages.documentation.id)"
@@ -591,6 +590,7 @@ const handleClick = (key?: string) => {
     transition: all 0.3s ease-in-out;
     padding-top: 71px;
     overscroll-behavior: none;
+    height: 100%;
 
     &.not-logged-in {
         padding-top: 131px;

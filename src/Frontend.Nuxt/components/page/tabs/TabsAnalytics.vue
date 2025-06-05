@@ -201,4 +201,14 @@ h3 {
         }
     }
 }
+
+.analytics {
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        scroll-margin-top: 10rem;
+    }
+}
 </style>

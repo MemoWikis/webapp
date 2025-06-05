@@ -267,7 +267,7 @@ const { t } = useI18n()
                             </div>
                             <div class="mode-item-container item-disabled selectable-item">
                                 <div class="mode-sub-label">
-                                    {{ t('page.learningSessionConfiguration.rpeatByLeitner') }} <i>({{ t('page.learningSessionConfiguration.comingSoon') }})</i>
+                                    {{ t('page.learningSessionConfiguration.repeatByLeitner') }} <i>({{ t('page.learningSessionConfiguration.comingSoon') }})</i>
                                 </div>
                                 <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.practiceOptions.repetition === 2" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />

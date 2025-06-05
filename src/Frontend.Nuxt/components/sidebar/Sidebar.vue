@@ -19,7 +19,7 @@ const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
-    <div id="Sidebar" class="hidden-md hidden-sm hidden-xs container" v-if="isDesktop">
+    <div id="Sidebar" class="" v-if="isDesktop">
         <div id="SidebarDivider"></div>
         <div id="SidebarContent">
             <div id="SidebarSpacer"></div>
@@ -72,9 +72,9 @@ const { $urlHelper } = useNuxtApp()
     align-items: stretch;
     flex-grow: 1;
     height: 100%;
-    width: 240px;
+    max-width: 300px;
 
-    @media (max-width: 1300px) {
+    @media (max-width: 900px) {
         display: none;
     }
 

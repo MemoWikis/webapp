@@ -31,8 +31,8 @@ const { t, setLocale, locale, locales } = useI18n()
 
 <template>
     <div id="MasterFooter" :class="{ 'window-loading': !windowLoaded }">
-        <div class="row">
-            <div class="container footer-container">
+        <div class="footer-container">
+            <div class="footer-area">
                 <div class="row Promoter">
                     <div class="col-xs-12">
                     </div>

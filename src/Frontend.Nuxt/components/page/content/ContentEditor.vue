@@ -457,12 +457,17 @@ const createFlashcard = () => {
         <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }" />
     </template>
     <template v-else>
-        <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
+        <div class="" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
             <div class="ProseMirror content-placeholder" v-html="pageStore.content"
                 id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
             </div>
         </div>
     </template>
+    <!-- <div class="" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
+        <div class="ProseMirror content-placeholder" v-html="pageStore.content" id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
+        </div>
+    </div> -->
+
 </template>
 
 <style lang="less">
