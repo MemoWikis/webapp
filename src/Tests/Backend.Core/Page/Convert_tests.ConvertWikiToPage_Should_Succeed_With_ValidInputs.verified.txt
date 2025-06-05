@@ -4,7 +4,7 @@
     {
       AuthorIds: 2,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 2,
@@ -29,7 +29,7 @@
     {
       AuthorIds: 1,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 1,
@@ -54,7 +54,7 @@
     {
       AuthorIds: 2,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 2,
@@ -79,7 +79,7 @@
     {
       AuthorIds: 2,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 2,
@@ -104,7 +104,7 @@
     {
       AuthorIds: 3,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 3,
@@ -129,7 +129,7 @@
     {
       AuthorIds: 3,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 3,
@@ -154,7 +154,7 @@
     {
       AuthorIds: 3,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 3,
@@ -179,7 +179,7 @@
     {
       AuthorIds: 3,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 3,
@@ -204,7 +204,7 @@
     {
       AuthorIds: 5,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 5,
@@ -229,7 +229,7 @@
     {
       AuthorIds: 1,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 1,
@@ -254,7 +254,7 @@
     {
       AuthorIds: 5,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 5,
@@ -279,7 +279,7 @@
     {
       AuthorIds: 5,
       Content: null,
-      CorrectnessProbability: 0,
+      CorrectnessProbability: {Scrubbed},
       CorrectnessProbabilityAnswerCount: 0,
       CountQuestionsAggregated: 0,
       Creator_id: 5,
@@ -307,6 +307,7 @@
     Creator: {
       IsMemoWikisUser: false,
       AllowsSupportiveLogin: false,
+      CorrectnessProbability: {Scrubbed},
       DateCreated: {Scrubbed},
       IsMember: false,
       Id: 1,
@@ -337,6 +338,7 @@
         ParentId: 10
       }
     ],
+    CorrectnessProbability: {Scrubbed},
     DateCreated: {Scrubbed},
     DisableLearningFunctions: false,
     TextIsHidden: false,
@@ -347,173 +349,6 @@
     IsPublic: true,
     IsWiki: false,
     Language: en,
-    PageChangeCacheItems: [
-      {
-        Id: 35,
-        PageId: 10,
-        DataVersion: 2,
-        Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[9],"ChildIds":[11],"DeleteChangeId":null,"DeletedName":null},
-        AuthorId: 1,
-        DateCreated: {Scrubbed},
-        PageChangeData: {
-          NameChange: {
-            OldName: Sub1,
-            NewName: Sub1
-          },
-          RelationChange: {
-            AddedParentIds: [
-              9
-            ],
-            AddedChildIds: [
-              11
-            ]
-          },
-          PreviousId: 29,
-          VisibilityChange: {
-            OldVisibility: Public
-          }
-        },
-        GroupedPageChangeCacheItems: [
-          {
-            Id: 29,
-            PageId: 10,
-            DataVersion: 2,
-            Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":null,"ChildIds":null,"DeleteChangeId":null,"DeletedName":null},
-            AuthorId: 1,
-            DateCreated: {Scrubbed},
-            PageChangeData: {
-              NameChange: {
-                NewName: Sub1
-              },
-              RelationChange: {}
-            },
-            IsGroup: false,
-            IsPartOfGroup: true
-          },
-          {
-            Id: 32,
-            PageId: 10,
-            DataVersion: 2,
-            Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[9],"ChildIds":null,"DeleteChangeId":null,"DeletedName":null},
-            AuthorId: 1,
-            Type: Relations,
-            DateCreated: {Scrubbed},
-            PageChangeData: {
-              NameChange: {
-                OldName: Sub1,
-                NewName: Sub1
-              },
-              RelationChange: {
-                AddedParentIds: [
-                  9
-                ]
-              },
-              PreviousId: 29,
-              VisibilityChange: {
-                OldVisibility: Public
-              }
-            },
-            IsGroup: false,
-            IsPartOfGroup: true
-          },
-          {
-            Id: 35,
-            PageId: 10,
-            DataVersion: 2,
-            Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[9],"ChildIds":[11],"DeleteChangeId":null,"DeletedName":null},
-            AuthorId: 1,
-            Type: Relations,
-            DateCreated: {Scrubbed},
-            PageChangeData: {
-              NameChange: {
-                OldName: Sub1,
-                NewName: Sub1
-              },
-              RelationChange: {
-                AddedChildIds: [
-                  11
-                ]
-              },
-              PreviousId: 32,
-              VisibilityChange: {
-                OldVisibility: Public
-              }
-            },
-            IsGroup: false,
-            IsPartOfGroup: true
-          }
-        ],
-        IsGroup: true,
-        IsPartOfGroup: false
-      },
-      {
-        Id: 35,
-        PageId: 10,
-        DataVersion: 2,
-        Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[9],"ChildIds":[11],"DeleteChangeId":null,"DeletedName":null},
-        AuthorId: 1,
-        Type: Relations,
-        DateCreated: {Scrubbed},
-        PageChangeData: {
-          NameChange: {
-            OldName: Sub1,
-            NewName: Sub1
-          },
-          RelationChange: {
-            AddedChildIds: [
-              11
-            ]
-          },
-          PreviousId: 32,
-          VisibilityChange: {
-            OldVisibility: Public
-          }
-        },
-        IsGroup: false,
-        IsPartOfGroup: true
-      },
-      {
-        Id: 32,
-        PageId: 10,
-        DataVersion: 2,
-        Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":[9],"ChildIds":null,"DeleteChangeId":null,"DeletedName":null},
-        AuthorId: 1,
-        Type: Relations,
-        DateCreated: {Scrubbed},
-        PageChangeData: {
-          NameChange: {
-            OldName: Sub1,
-            NewName: Sub1
-          },
-          RelationChange: {
-            AddedParentIds: [
-              9
-            ]
-          },
-          PreviousId: 29,
-          VisibilityChange: {
-            OldVisibility: Public
-          }
-        },
-        IsGroup: false,
-        IsPartOfGroup: true
-      },
-      {
-        Id: 29,
-        PageId: 10,
-        DataVersion: 2,
-        Data: {"PageRelations":null,"ImageWasUpdated":false,"Name":"Sub1","Description":null,"PageMardkown":null,"Content":null,"CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":0,"ParentIds":null,"ChildIds":null,"DeleteChangeId":null,"DeletedName":null},
-        AuthorId: 1,
-        DateCreated: {Scrubbed},
-        PageChangeData: {
-          NameChange: {
-            NewName: Sub1
-          },
-          RelationChange: {}
-        },
-        IsGroup: false,
-        IsPartOfGroup: true
-      }
-    ]
+    PageChangeCacheItems: {Scrubbed}
   }
 }
