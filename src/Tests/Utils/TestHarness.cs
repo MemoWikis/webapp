@@ -14,6 +14,12 @@ using Testcontainers.MySql;
 using ContainerBuilder = Autofac.ContainerBuilder;
 using IContainer = DotNet.Testcontainers.Containers.IContainer;
 
+/// <summary>
+/// Test harness for integration tests with support for scenario images.
+/// 
+/// Scenario images allow you to save and reuse database states for faster test execution.
+/// Use the various CreateWithScenarioImageAsync methods to work with scenario images:
+/// </summary>
 public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
     private const string TestDbName = "memoWikisTest";
@@ -77,6 +83,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         return harness;
     }
 
+    /// <summary>Creates a new TestHarness using a specific scenario image tag.</summary>
+    public static async Task<TestHarness> CreateWithScenarioImageAsync(string scenarioTag, bool enablePerfLogging = false)
+    {
+        var scenarioImageName = $"{ScenarioImageConstants.BaseName}:{scenarioTag}";
+        return await CreateAsync(enablePerfLogging, scenarioImageName);
+    }
+
     // Modified constructor (now private and synchronous)
     private TestHarness(bool enablePerfLogging, string? prebuiltDbImage)
     {
@@ -85,8 +98,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         _db = new MySqlBuilder()
             .WithImage(prebuiltDbImage ?? "mysql:8.3.0")
-            .WithName(ScenarioContainer.Name)
-            .WithLabel(ScenarioContainer.Label, ScenarioContainer.Label)
+            .WithName("memowikis-mysql")
             .WithUsername("test")
             .WithPassword("P@ssw0rd_#123")
             .WithDatabase(TestDbName)
