@@ -49,22 +49,18 @@ const contact = () => {
 
 <template>
 
-    <div>
-        <div class="main-content row">
-            <div class="col-md-12 header">
-                <div class="top-label">{{ t('user.membership.header.topLabel') }}</div>
-                <div class="title">{{ t('user.membership.header.title') }}</div>
-                <div class="bottom-label">
-                    {{ t('user.membership.header.bottomLabel1') }} <br /><br />
-                    {{ t('user.membership.header.bottomLabel2') }}
-                </div>
+    <div class="main-content">
+        <div class="header">
+            <div class="top-label">{{ t('user.membership.header.topLabel') }}</div>
+            <div class="title">{{ t('user.membership.header.title') }}</div>
+            <div class="bottom-label">
+                {{ t('user.membership.header.bottomLabel1') }} <br /><br />
+                {{ t('user.membership.header.bottomLabel2') }}
             </div>
-            <div class="col-xs-12">
-                <UserMembershipPlans class="plans-container" />
-            </div>
-
         </div>
-        <div class="faq-content row ">
+        <UserMembershipPlans />
+
+        <div class="faq-content">
             <div id="FaqHeaderOuter">
                 <div class="faq-top-label">{{ t('user.membership.faq.title') }}</div>
             </div>
@@ -85,10 +81,6 @@ const contact = () => {
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
-
-.plans-container {
-    margin: 0 -10px;
-}
 
 .container {
     .header {

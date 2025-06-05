@@ -338,9 +338,16 @@ onMounted(() => {
         justify-content: center;
         align-items: center;
         min-height: 47px;
-        transition: all 0.3s ease-in-out;
         width: 100%;
         max-width: 1600px;
+
+        &.sidesheet-open {
+            padding-left: 330px;
+
+            @media (max-width: 900px) {
+                padding-left: 10px;
+            }
+        }
     }
 
     .container {

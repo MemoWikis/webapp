@@ -61,7 +61,7 @@ useHead(() => ({
 </script>
 
 <template>
-    <div class="form-horizontal col-md-12 main-content">
+    <div class="form-horizontal main-content">
 
         <h1 class="PageHeader" id="Impressum">
             Aviso legal y política de privacidad

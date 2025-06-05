@@ -2,6 +2,7 @@
 import { QuestionItem, SearchType, PageItem, UserItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '../user/userStore'
 import { useRootPageChipStore } from './rootPageChipStore'
+import { useSideSheetStore } from '~/components/sideSheet/sideSheetStore'
 
 interface Props {
     isError?: boolean
@@ -12,7 +13,7 @@ const props = defineProps<Props>()
 const { t } = useI18n()
 
 const userStore = useUserStore()
-
+const sideSheetStore = useSideSheetStore()
 const showSearch = ref(true)
 const { $urlHelper } = useNuxtApp()
 async function openUrl(val: PageItem | QuestionItem | UserItem) {
@@ -54,8 +55,8 @@ const rootPageChipStore = useRootPageChipStore()
 
 <template>
     <div id="GuestNavigation">
-        <div class="HeaderMainRow container" :class="{ 'search-is-open': showSearch }">
-            <div class="row">
+        <div class="HeaderMainRow" :class="{ 'search-is-open': showSearch }">
+            <div class="guest-header-container" :class="{ 'sidesheet-open': sideSheetStore.showSideSheet && !isMobile }">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
                     <NuxtLink id="LogoLink" @click="handleError"
                         :to="userStore.isLoggedIn ? $urlHelper.getPageUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getPageUrl(rootPageChipStore.name, rootPageChipStore.id)"
@@ -68,7 +69,7 @@ const rootPageChipStore = useRootPageChipStore()
                         </div>
                     </NuxtLink>
                 </div>
-                <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
+                <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8">
                     <div id="HeaderSearch" class="" v-if="!props.isError">
                         <div class="search-button" :class="{ 'showSearch': showSearch }" v-if="windowIsAvailable"
                             @click="showSearch = !showSearch">
@@ -120,6 +121,10 @@ const rootPageChipStore = useRootPageChipStore()
         min-height: 60px;
         height: 100%;
 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         &.search-is-open {
             @media(max-width: 479px) {
 
@@ -135,8 +140,23 @@ const rootPageChipStore = useRootPageChipStore()
             }
         }
 
-        .row {
+        .guest-header-container {
             height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1600px;
+            width: 100%;
+            padding: 0 10px;
+            padding-left: 90px;
+
+            &.sidesheet-open {
+                padding-left: 420px;
+
+                @media (max-width: 900px) {
+                    padding-left: 10px;
+                }
+            }
         }
 
         .col-LoginAndHelp {

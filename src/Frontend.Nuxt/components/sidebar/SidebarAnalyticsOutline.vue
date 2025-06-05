@@ -102,6 +102,7 @@ const headingClass = (index: number) => {
 
 #AnalyticsOutline {
     height: 100%;
+    width: 100%;
 
     .outline-container {
         height: 100%;

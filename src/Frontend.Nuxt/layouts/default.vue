@@ -10,7 +10,7 @@ const { openedModals } = $vfm
 
 <template>
     <div
-        class="layout-wrapper main-content"
+        class="layout-wrapper"
         :class="{
             'sidesheet-open': sideSheetStore.showSideSheet && !isMobile,
             'open-modal': openedModals.length > 0,
@@ -21,6 +21,12 @@ const { openedModals } = $vfm
         </div>
     </div>
 </template>
+
+<style lang="less" scoped>
+.layout-wrapper {
+    min-height: 86vh;
+}
+</style>
 
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
@@ -33,10 +39,6 @@ const { openedModals } = $vfm
 
     &.window-loading {
         padding-left: 0px;
-    }
-
-    &.main-content {
-        min-height: 86vh;
     }
 
     &.modal-is-open {
@@ -68,7 +70,6 @@ const { openedModals } = $vfm
         .content-area,
         .footer-area {
             padding-left: 420px;
-            margin-right: 10px;
             width: 100%;
         }
 
@@ -78,15 +79,8 @@ const { openedModals } = $vfm
             .content-area,
             .footer-area {
                 padding-left: 420px;
-                margin-right: 10px;
                 width: 100%;
             }
-
-            // .page {
-            //     &.col-lg-9 {
-            //         width: 100%;
-            //     }
-            // }
         }
 
         @media (max-width: 1209px) {
@@ -96,5 +90,11 @@ const { openedModals } = $vfm
             }
         }
     }
+}
+
+.main-content {
+    padding-top: 30px;
+    padding-bottom: 60px;
+    width: 100%;
 }
 </style>

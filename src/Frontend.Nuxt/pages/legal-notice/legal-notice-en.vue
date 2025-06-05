@@ -60,7 +60,7 @@ useHead(() => ({
 </script>
 
 <template>
-	<div class="form-horizontal col-md-12 main-content">
+	<div class="form-horizontal main-content">
 
 		<!-- ***************** LEGAL NOTICE ***************** -->
 		<h1 class="PageHeader" id="Impressum">Legal Notice &amp; Privacy Policy</h1>
