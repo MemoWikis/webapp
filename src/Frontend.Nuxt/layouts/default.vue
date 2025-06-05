@@ -10,7 +10,7 @@ const { openedModals } = $vfm
 
 <template>
     <div
-        class="layout-wrapper"
+        class="layout-wrapper main-content"
         :class="{
             'sidesheet-open': sideSheetStore.showSideSheet && !isMobile,
             'open-modal': openedModals.length > 0,
@@ -35,7 +35,9 @@ const { openedModals } = $vfm
         padding-left: 0px;
     }
 
-    min-height: 86vh;
+    &.main-content {
+        min-height: 86vh;
+    }
 
     &.modal-is-open {
         min-height: unset;
@@ -45,7 +47,8 @@ const { openedModals } = $vfm
         height: 100%;
     }
 
-    .content-area {
+    .content-area,
+    .footer-area {
         display: flex;
         justify-content: center;
         flex-wrap: nowrap;

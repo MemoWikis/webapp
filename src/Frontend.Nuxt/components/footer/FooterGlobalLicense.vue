@@ -27,22 +27,25 @@ const { isMobile } = useDevice()
 
 <template>
     <div id="GlobalLicense"
+        class="layout-wrapper"
         :class="{
             'sidesheet-open': sideSheetStore.showSideSheet && !isMobile,
         }" v-if="(props.site === SiteType.Page && pageStore.visibility === Visibility.Public) || (props.site === SiteType.Question && !props.questionPageIsPrivate)">
-        <div class="footer-area license-container">
+        <div class="footer-area">
 
-            <NuxtLink @click="handleError()" class="CCLogo" rel="license"
-                to="https://creativecommons.org/licenses/by/4.0/" :external="true">
-                <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
-            </NuxtLink>
-            <div class="Text cc-license-text">
-                {{ t('globalLicense.text.partOne') }}
-                <NuxtLink rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">
-                    {{ t('globalLicense.creativeCommonsLabel') }}
-                </NuxtLink>.
-                <br />
-                {{ t('globalLicense.text.partTwo') }}
+            <div class="license-content" :class="{ 'mobile': isMobile }">
+                <NuxtLink @click="handleError()" class="CCLogo" rel="license"
+                    to="https://creativecommons.org/licenses/by/4.0/" :external="true">
+                    <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
+                </NuxtLink>
+                <div class="cc-license-text">
+                    {{ t('globalLicense.text.partOne') }}
+                    <NuxtLink rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">
+                        {{ t('globalLicense.creativeCommonsLabel') }}
+                    </NuxtLink>.
+                    <br />
+                    {{ t('globalLicense.text.partTwo') }}
+                </div>
             </div>
         </div>
     </div>
@@ -57,32 +60,29 @@ const { isMobile } = useDevice()
     padding: 0 10px;
     background: @memo-grey-lighter;
 
-    @media (min-width: 901px) {
-        padding-left: 90px;
-    }
+    .license-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        gap: 1rem 2rem;
 
-    .license-container {
-        padding: 0px;
-        margin-top: 24px;
-        margin-bottom: 24px;
-    }
+        padding: 24px 10px;
 
-    &.sidesheet-open {
-        padding-left: 420px;
-
-        .footer-area {
-            margin-right: 10px;
-            width: 100%;
+        &.mobile {
+            flex-direction: column;
+            align-items: center;
         }
 
-        @media (max-width: 1500px) {
-            width: calc(100vw - 40px);
-
-            .footer-area {
-                margin-right: 10px;
-                width: 100%;
-            }
+        &.cc-license-text {
+            flex-direction: column;
         }
+
+        .CCLogo {
+            flex: 0 40px 90px;
+        }
+
+        .cc-license-text {}
     }
 }
 </style>

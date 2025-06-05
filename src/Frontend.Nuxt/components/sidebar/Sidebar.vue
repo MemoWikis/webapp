@@ -72,7 +72,6 @@ const { $urlHelper } = useNuxtApp()
     align-items: stretch;
     flex-grow: 1;
     height: 100%;
-    max-width: 300px;
 
     @media (max-width: 900px) {
         display: none;
