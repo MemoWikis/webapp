@@ -264,95 +264,6 @@ convertStore.$onAction(({ name, after }) => {
     </div>
 </template>
 
-<style lang="less">
-@import (reference) '~~/assets/includes/imports.less';
-
-#InlineEdit {
-    padding: 0px;
-    border: none;
-}
-
-#PageContentPlaceholder {
-    padding: 0px;
-    margin-bottom: 70px;
-
-    p {
-        min-height: calc(5em / 3);
-
-        .media-below-sm({
-            min-height: 1.5em;
-        });
-
-    img {
-
-        // Apply styles to p if it contains img
-        & {
-            margin-bottom: 40px !important;
-        }
-    }
-
-    .tiptapImgMixin(false)
-}
-
-
-&.is-mobile {
-    p {
-        min-height: 21px;
-    }
-}
-
-ul {
-    margin-bottom: 10px;
-
-    ul {
-        margin-bottom: 0px;
-    }
-}
-
-pre {
-    margin-bottom: 20px;
-}
-}
-
-.small-font {
-    p {
-        font-size: 16px;
-    }
-
-    .media-below-sm({
-        font-size: 12px;
-    });
-}
-
-.large-font {
-    h2 {
-        font-size: 2.6rem;
-    }
-
-    h3 {
-        font-size: 2.3rem;
-    }
-
-    h4 {
-        font-size: 2.1rem;
-    }
-
-    p {
-        font-size: 20px;
-    }
-
-    .media-below-sm({
-        font-size: 16px;
-    });
-}
-
-#PageContent {
-    &.no-grid-items {
-        min-height: 50vh;
-    }
-}
-</style>
-
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
@@ -512,6 +423,17 @@ h4 {
     @media (max-width: 900px) {
         .page {
             width: 100%;
+        }
+    }
+}
+
+.sidesheet-open {
+    .page-container {
+        @media (max-width: 1209px) {
+
+            .page {
+                width: 100%;
+            }
         }
     }
 }

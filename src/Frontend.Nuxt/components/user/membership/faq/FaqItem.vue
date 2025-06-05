@@ -35,6 +35,7 @@ const { t } = useI18n()
     margin-left: 30px;
     user-select: none;
     cursor: pointer;
+    border-radius: 8px;
 
     .question-inner {
         display: flex;

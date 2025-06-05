@@ -1,4 +1,3 @@
-
 <script lang="ts" setup>
 import { Plan } from './subscription'
 

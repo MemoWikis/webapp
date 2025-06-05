@@ -22,7 +22,7 @@ const { openedModals } = $vfm
     </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
 .layout-wrapper {
@@ -42,13 +42,18 @@ const { openedModals } = $vfm
     }
 
     .content-area {
+        height: 100%;
+    }
+
+    .content-area {
         display: flex;
         justify-content: center;
         flex-wrap: nowrap;
+
         gap: 0 1rem;
         width: 100%;
-        height: 100%;
         padding: 0 10px;
+        max-width: 1600px;
 
         @media (min-width: 901px) {
             padding-left: 90px;
@@ -57,32 +62,32 @@ const { openedModals } = $vfm
 
     &.sidesheet-open {
 
+        .content-area,
+        .footer-area {
+            padding-left: 420px;
+            margin-right: 10px;
+            width: 100%;
+        }
+
         @media (max-width: 1500px) {
             width: calc(100vw - 40px);
 
-            .content-area {
+            .content-area,
+            .footer-area {
                 padding-left: 420px;
                 margin-right: 10px;
                 width: 100%;
             }
 
-            .page {
-                &.col-lg-9 {
-                    width: 100%;
-                }
-            }
+            // .page {
+            //     &.col-lg-9 {
+            //         width: 100%;
+            //     }
+            // }
         }
 
-        @media (min-width: 1501px) and (max-width: 1980px) {
+        @media (max-width: 1209px) {
 
-            .page {
-                &.col-lg-9 {
-                    width: 100%;
-                }
-            }
-        }
-
-        @media (max-width: 1610px) {
             #Sidebar {
                 display: none;
             }

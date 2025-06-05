@@ -590,6 +590,13 @@ const createFlashcard = () => {
         .collaboration-cursor__caret {
             opacity: 0.6;
         }
+
+        &:focus,
+        &:focus-visible {
+            outline: none !important;
+            border: none !important;
+            box-shadow: none;
+        }
     }
 }
 

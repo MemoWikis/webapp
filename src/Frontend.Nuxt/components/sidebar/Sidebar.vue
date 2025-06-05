@@ -117,6 +117,7 @@ const { $urlHelper } = useNuxtApp()
 
         &.wiki-container {
             display: -webkit-box;
+            line-clamp: 2;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
 
@@ -196,6 +197,17 @@ const { $urlHelper } = useNuxtApp()
                 height: 100%;
                 background: @memo-grey-light;
             }
+        }
+    }
+}
+</style>
+
+<style lang="less">
+.sidesheet-open {
+    @media (max-width: 1209px) {
+
+        #Sidebar {
+            display: none;
         }
     }
 }
