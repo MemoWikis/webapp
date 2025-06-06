@@ -83,8 +83,12 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         return harness;
     }
 
+    public static async Task<TestHarness> CreateWithTinyScenario(bool enablePerfLogging = false) 
+        => await CreateWithScenarioImageAsync(ScenarioImageConstants.TagMicro, enablePerfLogging);
+
+
     /// <summary>Creates a new TestHarness using a specific scenario image tag.</summary>
-    public static async Task<TestHarness> CreateWithScenarioImageAsync(string scenarioTag, bool enablePerfLogging = false)
+    private static async Task<TestHarness> CreateWithScenarioImageAsync(string scenarioTag, bool enablePerfLogging)
     {
         var scenarioImageName = $"{ScenarioImageConstants.BaseName}:{scenarioTag}";
         return await CreateAsync(enablePerfLogging, scenarioImageName);

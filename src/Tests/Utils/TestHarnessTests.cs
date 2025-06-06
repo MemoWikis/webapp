@@ -33,15 +33,18 @@ internal class TestHarnessTests : BaseTestHarness
 
         await Verify(new { formattedJson = result });
     }
-
-    //[Test]
-    //public async Task TestHarness_CanUseSpecificScenarioImage()
-    //{
-    //    await using var harness = await TestHarness.CreateWithScenarioImageAsync(ScenarioImageConstants.BaseName);
-
-    //    // Assert
-    //    Assert.That(harness.Client, Is.Not.Null);
-    //    Assert.That(harness.ConnectionString, Is.Not.Empty);
-    //}
 }
 
+internal class TestHarnessCustomImageTests : BaseTestHarness
+{
+    public TestHarnessCustomImageTests() => _useTinyScenario = true;
+
+    [Test]
+    public async Task TestHarness_CanUseSpecificScenarioImage()
+    {
+        await Verify(new
+        {
+            usersSummary = await _testHarness.DbData.AllUsersAsync()
+        });
+    }
+}
