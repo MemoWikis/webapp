@@ -125,6 +125,13 @@
         }
         else
         {
+            // First, check if the image exists locally
+            if (await ImageExistsLocallyAsync(imageNameOrPath))
+            {
+                // Image exists locally, no need to pull
+                return true;
+            }
+
             // Pull image from repository
             arguments = $"pull {imageNameOrPath}";
         }
@@ -141,17 +148,43 @@
 
         using var process = System.Diagnostics.Process.Start(startInfo);
         if (process == null)
-            return false;
-
-        string errorOutput = await process.StandardError.ReadToEndAsync();
+            return false;        string errorOutput = await process.StandardError.ReadToEndAsync();
         await process.WaitForExitAsync();
-
+        
         if (process.ExitCode != 0)
         {
             throw new InvalidOperationException($"Docker load/pull failed: {errorOutput}");
         }
 
         return true;
+    }
+
+    /// <summary>
+    /// Checks if a Docker image exists locally
+    /// </summary>
+    /// <param name="imageName">Name of the Docker image to check</param>
+    /// <returns>True if the image exists locally</returns>
+    private static async Task<bool> ImageExistsLocallyAsync(string imageName)
+    {
+        var startInfo = new System.Diagnostics.ProcessStartInfo
+        {
+            FileName = "docker",
+            Arguments = $"images {imageName} --quiet",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        using var process = System.Diagnostics.Process.Start(startInfo);
+        if (process == null)
+            return false;
+
+        string output = await process.StandardOutput.ReadToEndAsync();
+        await process.WaitForExitAsync();
+
+        // If docker images returns output and no error, the image exists
+        return process.ExitCode == 0 && !string.IsNullOrWhiteSpace(output.Trim());
     }
 
     private async Task<string> GetMySqlContainerIdAsync()

@@ -35,7 +35,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         .WithWaitStrategy(
             Wait.ForUnixContainer()
                 .UntilHttpRequestIsSucceeded(r => r.ForPath("/health").ForPort(7700)))
-        .WithReuse(true)
+        .WithReuse(false)
         .Build();
 
     private ProgramWebApplicationFactory? _factory;
@@ -110,11 +110,11 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
                 "mysqld",
                 "--lower_case_table_names=1"
             )
-            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
-            .WithWaitStrategy(
+            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())            .WithWaitStrategy(
                 Wait.ForUnixContainer()
+                    .UntilCommandIsCompleted("mysqladmin", "ping", "-h", "localhost", "-u", "test", "-pP@ssw0rd_#123")
                     .UntilPortIsAvailable(3306))
-            .WithReuse(true)
+            .WithReuse(false)
             .Build();
 
         PerfLog($"Container Startup");

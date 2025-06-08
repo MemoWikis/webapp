@@ -1,0 +1,42 @@
+﻿{
+  usersSummary: [
+    {
+      ActivityLevel: 0,
+      ActivityPoints: 0,
+      AllowsSupportiveLogin: false,
+      Birthday: null,
+      BouncedMail: false,
+      CorrectnessProbability: {Scrubbed},
+      CorrectnessProbabilityAnswerCount: 0,
+      DateCreated: {Scrubbed},
+      DateModified: {Scrubbed},
+      EmailAddress: null,
+      EndDate: null,
+      FacebookId: null,
+      FavoriteIds: null,
+      FollowerCount: 0,
+      GoogleId: null,
+      Id: 1,
+      IsEmailConfirmed: false,
+      IsInstallationAdmin: false,
+      KnowledgeReportInterval: 0,
+      LearningSessionOptions: null,
+      MailBounceReason: null,
+      Name: SessionUser,
+      PasswordHashedAndSalted: null,
+      RecentlyUsedRelationTargetPages: null,
+      Reputation: 0,
+      ReputationPos: 0,
+      Salt: null,
+      ShowWishKnowledge: false,
+      StartPageId: 0,
+      StripeId: null,
+      SubscriptionStartDate: null,
+      TotalInOthersWishknowledge: 0,
+      UiLanguage: en,
+      WidgetHostsSpaceSeparated: null,
+      WishCountQuestions: 0,
+      WishCountSets: 0
+    }
+  ]
+}
