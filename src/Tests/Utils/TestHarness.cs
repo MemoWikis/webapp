@@ -83,7 +83,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         return harness;
     }
 
-    public static async Task<TestHarness> CreateWithTinyScenario(bool enablePerfLogging = false) 
+    public static async Task<TestHarness> CreateWithTinyScenario(bool enablePerfLogging = false)
         => await CreateWithScenarioImageAsync(ScenarioImageConstants.TagMicro, enablePerfLogging);
 
 
@@ -110,7 +110,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
                 "mysqld",
                 "--lower_case_table_names=1"
             )
-            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())            .WithWaitStrategy(
+            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole()).WithWaitStrategy(
                 Wait.ForUnixContainer()
                     .UntilCommandIsCompleted("mysqladmin", "ping", "-h", "localhost", "-u", "test", "-pP@ssw0rd_#123")
                     .UntilPortIsAvailable(3306))

@@ -148,9 +148,12 @@
 
         using var process = System.Diagnostics.Process.Start(startInfo);
         if (process == null)
-            return false;        string errorOutput = await process.StandardError.ReadToEndAsync();
+            return false;
+
+        string errorOutput = await process.StandardError.ReadToEndAsync();
+
         await process.WaitForExitAsync();
-        
+
         if (process.ExitCode != 0)
         {
             throw new InvalidOperationException($"Docker load/pull failed: {errorOutput}");

@@ -7,7 +7,8 @@
     {
         await Verify(new
         {
-            usersSummary = await _testHarness.DbData.AllUsersAsync()
+            users = await _testHarness.DbData.AllUsersAsync(),
+            pages = await _testHarness.DbData.AllPagesAsync()
         });
     }
 }
