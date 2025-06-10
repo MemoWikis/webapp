@@ -112,7 +112,6 @@ const { $urlHelper } = useNuxtApp()
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-width: 239px;
 
         &.wiki-container {
             display: -webkit-box;
