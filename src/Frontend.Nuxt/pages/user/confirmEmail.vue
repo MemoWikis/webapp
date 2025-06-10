@@ -122,7 +122,7 @@ const contact = () => {
                                 {{ t('user.confirmEmail.failed.message2') }}
                                 <br />
 
-                                {{ t('user.confirmEmail.failed.message3') }} <b>{{ config.public.teamEmail }}</b>,
+                                {{ t('user.confirmEmail.failed.message3') }} <NuxtLink to="#" @click="contact">{{ config.public.teamEmail }}</NuxtLink>,
                                 {{ t('user.confirmEmail.failed.message4') }}
 
                                 <br />
@@ -134,7 +134,8 @@ const contact = () => {
                                     <div class="confirmEmail-divider-line"></div>
                                 </div>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container"> <button class="memo-button btn-primary" @click="requestVerificationMail()">
+                            <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
+                                <button class="memo-button btn-primary" @click="requestVerificationMail()">
                                     {{ t('user.confirmEmail.failed.resendButton') }}
                                 </button>
                             </div>
@@ -146,7 +147,6 @@ const contact = () => {
             </div>
         </div>
     </div>
-    <Sidebar :site="props.site" />
 </template>
 
 <style lang="less" scoped>
