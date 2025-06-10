@@ -438,11 +438,13 @@ const createFlashcard = () => {
     }
 }
 
+
+
 </script>
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages">
+        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages" class="page-content-menubar">
             <template v-slot:start v-if="userStore.isAdmin">
                 <button class="menubar__button ai-create" @mousedown="createFlashcard">
                     <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
@@ -454,24 +456,21 @@ const createFlashcard = () => {
             </template>
         </LazyEditorMenuBar>
         <LazyEditorMenuBar v-else-if="editor" :editor="editor" :heading="true" :is-page-content="true" />
-        <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }" />
+        <editor-content :editor="editor" class="" :class="{ 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }" />
     </template>
-    <template v-else>
-        <div class="" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
-            <div class="ProseMirror content-placeholder" v-html="pageStore.content"
-                id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
-            </div>
-        </div>
-    </template>
-    <!-- <div class="" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
+    <div v-else class="" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
         <div class="ProseMirror content-placeholder" v-html="pageStore.content" id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
         </div>
-    </div> -->
+    </div>
 
 </template>
 
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
+
+.page-content-menubar {
+    padding: 0;
+}
 
 .ProseMirror {
     .content-placeholder {
@@ -615,8 +614,6 @@ const createFlashcard = () => {
             font-size: 12px;
 
         });
-
-
 }
 
 .large-font {

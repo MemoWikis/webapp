@@ -254,13 +254,16 @@ convertStore.$onAction(({ name, after }) => {
             </template>
         </div>
 
-        <ClientOnly>
-            <Sidebar class="is-page" :show-outline="true" :site="SiteType.Page" v-if="pageStore?.id != 0" />
+        <!-- <ClientOnly>
+            <Sidebar class="is-page sidebar" :show-outline="true" :site="SiteType.Page" v-if="pageStore?.id != 0" />
 
             <template #fallback>
                 <SidebarFallback class="is-page" />
             </template>
-        </ClientOnly>
+        </ClientOnly> -->
+
+        <Sidebar class="is-page sidebar" :show-outline="true" :site="SiteType.Page" v-if="pageStore?.id != 0" />
+
     </div>
 </template>
 
@@ -410,19 +413,21 @@ h4 {
 
 .page-container {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
+    // align-items: center;
     flex-wrap: nowrap;
     gap: 0 1rem;
     width: 100%;
 
     .page {
         max-width: 1200px;
-        width: 75%;
+        width: calc(75% - 1rem);
+        flex-grow: 2;
     }
 
     @media (max-width: 900px) {
         .page {
-            width: 100%;
+            // width: 100%;
         }
     }
 }
@@ -436,5 +441,9 @@ h4 {
             }
         }
     }
+}
+
+.sidebar {
+    flex: 0 0 25%;
 }
 </style>

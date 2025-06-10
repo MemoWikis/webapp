@@ -22,8 +22,15 @@ const { t } = useI18n()
 
 const snackbar = useSnackbar()
 
-// Initialize side sheet state with cookie persistence
-useSideSheetState()
+const { isMobile } = useDevice()
+
+const showSideSheetCookie = useCookie<boolean>('showSideSheet')
+if (showSideSheetCookie.value)
+    sideSheetStore.showSideSheet = showSideSheetCookie.value && !isMobile
+
+watch(() => sideSheetStore.showSideSheet, (show) => {
+    showSideSheetCookie.value = show
+})
 
 const windowWidth = ref(0)
 const windowHeight = ref(0)
@@ -297,7 +304,7 @@ pageStore.$onAction(({ after, name }) => {
 })
 
 const route = useRoute()
-const { isMobile } = useDevice()
+
 onMounted(() => {
     if (isMobile) {
         watch(() => route.path, () => {

@@ -68,6 +68,34 @@ watch(() => pageStore.knowledgeSummarySlim, () => setChartData(), { deep: true }
 const ariaId = useId()
 const ariaId2 = useId()
 
+const pageTextTabEl = ref()
+const pageLearningTabEl = ref()
+const pageFeedTabEl = ref()
+const pageAnalyticsTabEl = ref()
+
+const actualTabWidth = computed(() => {
+	const width = Math.max(
+		pageTextTabEl.value?.clientWidth || 0,
+		pageLearningTabEl.value?.clientWidth || 0,
+		pageFeedTabEl.value?.clientWidth || 0,
+		pageAnalyticsTabEl.value?.clientWidth || 0
+	)
+
+	return width
+})
+
+const pageTabBarEl = ref()
+
+const shouldShowScrollbarX = computed(() => {
+	if (!pageTabBarEl.value) return false
+	const tabBarWidth = pageTabBarEl.value.clientWidth
+	const actualWidth = actualTabWidth.value
+	return actualWidth + 4 >= tabBarWidth
+})
+
+const perfectScrollbarOptions = computed(() => {
+	// suppressScrollbarX if 
+})
 </script>
 
 <template>
@@ -75,9 +103,9 @@ const ariaId2 = useId()
 		<div>
 			<div class="tabs-bar" :class="{ 'is-mobile': isMobile }">
 				<perfect-scrollbar>
-					<div id="PageTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
+					<div id="PageTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }" ref="pageTabBarEl">
 
-						<div class="tab" @click="tabsStore.activeTab = Tab.Text">
+						<div class="tab" @click="tabsStore.activeTab = Tab.Text" ref="pageTextTabEl">
 
 							<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text" :style="pageLabelWidth">
 								{{ t('page.tabs.text') }}
@@ -92,7 +120,7 @@ const ariaId2 = useId()
 							</div>
 						</div>
 
-						<div class="tab" @click="tabsStore.activeTab = Tab.Learning">
+						<div class="tab" @click="tabsStore.activeTab = Tab.Learning" ref="pageLearningTabEl">
 
 							<div class="tab-label chip-tab active" v-if="tabsStore.activeTab === Tab.Learning"
 								:style="learningLabelWidth">
@@ -115,7 +143,7 @@ const ariaId2 = useId()
 							</div>
 						</div>
 
-						<div class="tab" @click="tabsStore.activeTab = Tab.Feed">
+						<div class="tab" @click="tabsStore.activeTab = Tab.Feed" ref="pageFeedTabEl">
 
 							<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed"
 								:style="feedLabelWidth">
@@ -132,7 +160,7 @@ const ariaId2 = useId()
 							</div>
 						</div>
 
-						<div class="tab" @click="tabsStore.activeTab = Tab.Analytics">
+						<div class="tab" @click="tabsStore.activeTab = Tab.Analytics" ref="pageAnalyticsTabEl">
 
 							<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics"
 								:style="analyticsLabelWidth">
