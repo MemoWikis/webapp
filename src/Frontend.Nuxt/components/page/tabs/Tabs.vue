@@ -100,10 +100,10 @@ const perfectScrollbarOptions = computed(() => {
 
 <template>
 	<ClientOnly>
-		<div>
+		<div class="col-xs-12">
 			<div class="tabs-bar" :class="{ 'is-mobile': isMobile }">
 				<perfect-scrollbar>
-					<div id="PageTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }" ref="pageTabBarEl">
+					<div id="PageTabBar" :class="{ 'is-mobile': isMobile }" ref="pageTabBarEl">
 
 						<div class="tab" @click="tabsStore.activeTab = Tab.Text" ref="pageTextTabEl">
 
@@ -225,7 +225,7 @@ const perfectScrollbarOptions = computed(() => {
 		</div>
 
 		<template #fallback>
-			<div id="PageTabBar" class="col-xs-12 fallback" :class="{ 'is-mobile': isMobile }">
+			<div id="PageTabBar" class="fallback" :class="{ 'is-mobile': isMobile }">
 
 				<div class="tab">
 
@@ -332,6 +332,10 @@ const perfectScrollbarOptions = computed(() => {
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+#PageTabBar {
+	width: 100%;
+}
 
 .tab {
 	user-select: none;
