@@ -1685,8 +1685,74 @@
             "questions": "No questions | One question | {count} questions"
         }
     },
+    "resetPassword": {
+        "title": "Set new password",
+        "password": "Password",
+        "passwordPlaceholder": "min. 5 characters",
+        "repeatPassword": "Repeat password",
+        "saveButton": "Save new password",
+        "passwordMismatch": "Passwords don't match",
+        "rememberedPassword": "I remembered my password."
+    },
     "counter": {
         "thousands": "{value}k",
         "millions": "{value}M"
+    },
+    "maintenance": {
+        "title": "Admin Page",
+        "metrics": {
+            "title": "Metrics",
+            "viewOverview": "View Overview"
+        },
+        "questions": {
+            "title": "Questions",
+            "recalculateAllKnowledgeItems": "Recalculate all answer probabilities",
+            "calcAggregatedValues": "Update aggregated numbers"
+        },
+        "cache": {
+            "title": "Cache",
+            "clearCache": "Clear cache"
+        },
+        "pages": {
+            "title": "Pages",
+            "updateCategoryAuthors": "Update page authors"
+        },
+        "meiliSearch": {
+            "title": "Search MeiliSearch",
+            "description": "Re-index all for search:",
+            "questions": "Questions",
+            "questionsCache": "Questions (Cache)",
+            "pages": "Pages",
+            "pagesCache": "Pages (Cache)",
+            "users": "Users",
+            "usersCache": "Users (Cache)"
+        },
+        "users": {
+            "title": "Users",
+            "updateReputationAndRankings": "Rankings and Reputation + Aggregates",
+            "updateWishCount": "Update desired knowledge counter",
+            "activeSessions": "Active Sessions",
+            "loggedIn": "Logged in",
+            "anonymous": "Anonymous",
+            "last5Minutes": "last 5 minutes",
+            "lastMinute": "last minute",
+            "deleteUser": "Delete User (ID)",
+            "deleteUserButton": "Delete User"
+        },
+        "misc": {
+            "title": "Miscellaneous",
+            "checkDuplicateInteractions": "Check for answers with the same Guid and InteractionNr"
+        },
+        "tools": {
+            "title": "Tools",
+            "throwException": "Throw exception",
+            "reloadIgnoreCrawlers": "Reload list of ignored crawlers",
+            "cleanupWorkInProgress": "Clean up work in progress questions",
+            "start100TestJobs": "Start 100 test jobs"
+        },
+        "removeAdminRights": {
+            "title": "Remove Admin Rights",
+            "button": "Remove Admin Rights for current user"
+        }
     }
 }

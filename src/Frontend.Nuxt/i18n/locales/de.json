@@ -1685,8 +1685,74 @@
             "questions": "No questions | One question | {count} questions"
         }
     },
+    "resetPassword": {
+        "title": "Neues Passwort setzen",
+        "password": "Passwort",
+        "passwordPlaceholder": "min. 5 Zeichen",
+        "repeatPassword": "Passwort wiederholen",
+        "saveButton": "Neues Passwort speichern",
+        "passwordMismatch": "Die Passwörter stimmen nicht überein",
+        "rememberedPassword": "Mein Passwort ist mir wieder eingefallen."
+    },
     "counter": {
         "thousands": "{value} Tsd.",
         "millions": "{value} Mio."
+    },
+    "maintenance": {
+        "title": "Admin-Seite",
+        "metrics": {
+            "title": "Metriken",
+            "viewOverview": "Übersicht anzeigen"
+        },
+        "questions": {
+            "title": "Fragen",
+            "recalculateAllKnowledgeItems": "Alle Antwortwahrscheinlichkeiten neu berechnen",
+            "calcAggregatedValues": "Aggregierte Zahlen aktualisieren"
+        },
+        "cache": {
+            "title": "Cache",
+            "clearCache": "Cache leeren"
+        },
+        "pages": {
+            "title": "Seiten",
+            "updateCategoryAuthors": "Seitenautoren aktualisieren"
+        },
+        "meiliSearch": {
+            "title": "Suche MeiliSearch",
+            "description": "Alle für Suche neu indexieren:",
+            "questions": "Fragen",
+            "questionsCache": "Fragen (Cache)",
+            "pages": "Seiten",
+            "pagesCache": "Seiten (Cache)",
+            "users": "Benutzer",
+            "usersCache": "Benutzer (Cache)"
+        },
+        "users": {
+            "title": "Benutzer",
+            "updateReputationAndRankings": "Rankings und Reputation + Aggregate",
+            "updateWishCount": "Gewünschten Wissensstand aktualisieren",
+            "activeSessions": "Aktive Sitzungen",
+            "loggedIn": "Eingeloggt",
+            "anonymous": "Anonym",
+            "last5Minutes": "letzte 5 Minuten",
+            "lastMinute": "letzte Minute",
+            "deleteUser": "Benutzer löschen (ID)",
+            "deleteUserButton": "Benutzer löschen"
+        },
+        "misc": {
+            "title": "Verschiedenes",
+            "checkDuplicateInteractions": "Prüfe auf Antworten mit gleicher Guid und InteractionNr"
+        },
+        "tools": {
+            "title": "Tools",
+            "throwException": "Exception werfen",
+            "reloadIgnoreCrawlers": "Liste der ignorierten Crawler neu laden",
+            "cleanupWorkInProgress": "In Bearbeitung befindliche Fragen bereinigen",
+            "start100TestJobs": "100 Test-Jobs starten"
+        },
+        "removeAdminRights": {
+            "title": "Admin-Rechte entfernen",
+            "button": "Admin-Rechte für aktuellen Benutzer entfernen"
+        }
     }
 }
