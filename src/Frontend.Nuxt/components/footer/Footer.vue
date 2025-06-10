@@ -31,13 +31,7 @@ onMounted(() => {
 const { t, setLocale, locale, locales } = useI18n()
 const { isMobile } = useDevice()
 
-const showSideSheetCookie = useCookie<boolean>('showSideSheet')
-const sideSheetOpen = ref(false)
-sideSheetOpen.value = showSideSheetCookie.value && !isMobile
-
-watch(() => sideSheetStore.showSideSheet, (newValue) => {
-    sideSheetOpen.value = newValue && !isMobile
-})
+const { sideSheetOpen } = useSideSheetState()
 </script>
 
 <template>

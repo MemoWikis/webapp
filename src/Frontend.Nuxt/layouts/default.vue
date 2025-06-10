@@ -1,18 +1,9 @@
 <script setup lang="ts">
-import { useSideSheetStore } from '~/components/sideSheet/sideSheetStore'
-
-const sideSheetStore = useSideSheetStore()
 const { isMobile } = useDevice()
 const { $vfm } = useNuxtApp()
 const { openedModals } = $vfm
 
-const showSideSheetCookie = useCookie<boolean>('showSideSheet')
-const sideSheetOpen = ref(false)
-sideSheetOpen.value = showSideSheetCookie.value && !isMobile
-
-watch(() => sideSheetStore.showSideSheet, (newValue) => {
-    sideSheetOpen.value = newValue && !isMobile
-})
+const { sideSheetOpen } = useSideSheetState()
 
 </script>
 

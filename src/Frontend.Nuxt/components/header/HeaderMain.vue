@@ -100,6 +100,8 @@ onMounted(() => {
     }
 })
 
+const { sideSheetOpen } = useSideSheetState()
+
 </script>
 
 <template>
@@ -113,7 +115,7 @@ onMounted(() => {
                     class="animate-grow" />
             </font-awesome-layers>
         </div>
-        <div class="nav-container" :class="{ 'sidesheet-open': sideSheetStore.showSideSheet }">
+        <div class="nav-container" :class="{ 'sidesheet-open': sideSheetOpen }">
 
             <div class="header-container" ref="headerContainer">
 

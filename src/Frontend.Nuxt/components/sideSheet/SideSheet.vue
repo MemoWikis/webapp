@@ -22,13 +22,8 @@ const { t } = useI18n()
 
 const snackbar = useSnackbar()
 
-const showSideSheetCookie = useCookie<boolean>('showSideSheet')
-if (showSideSheetCookie.value)
-    sideSheetStore.showSideSheet = showSideSheetCookie.value
-
-watch(() => sideSheetStore.showSideSheet, (show) => {
-    showSideSheetCookie.value = show
-})
+// Initialize side sheet state with cookie persistence
+useSideSheetState()
 
 const windowWidth = ref(0)
 const windowHeight = ref(0)

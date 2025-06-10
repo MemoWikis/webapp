@@ -51,12 +51,13 @@ function handleError() {
 }
 
 const rootPageChipStore = useRootPageChipStore()
+const { sideSheetOpen } = useSideSheetState()
 </script>
 
 <template>
     <div id="GuestNavigation">
         <div class="HeaderMainRow" :class="{ 'search-is-open': showSearch }">
-            <div class="guest-header-container" :class="{ 'sidesheet-open': sideSheetStore.showSideSheet && !isMobile }">
+            <div class="guest-header-container" :class="{ 'sidesheet-open': sideSheetOpen }">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
                     <NuxtLink id="LogoLink" @click="handleError"
                         :to="userStore.isLoggedIn ? $urlHelper.getPageUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getPageUrl(rootPageChipStore.name, rootPageChipStore.id)"
