@@ -1355,6 +1355,31 @@
                 }
             }
         },
+        "confirmEmail": {
+            "pending": {
+                "title": "Confirmation en cours",
+                "message": "On est en train de confirmer ton adresse e-mail. Patiente un moment."
+            },
+            "success": {
+                "title": "Confirmation réussie",
+                "message": "Ton adresse e-mail a été confirmée avec succès.",
+                "continue": "Continuer {destination}",
+                "yourWiki": "vers ton Wiki",
+                "homepage": "vers la page d'accueil"
+            },
+            "failed": {
+                "title": "Confirmation échouée",
+                "message1": "Désolé, la confirmation de ton adresse e-mail a échoué.",
+                "message2": "Il est possible que le lien de confirmation soit incorrect ou ait expiré.",
+                "message3": "Réessaie ou contacte",
+                "message4": "si le problème persiste.",
+                "message5": "On sera ravi de t'aider !",
+                "resendButton": "envoyer un nouvel e-mail de vérification"
+            },
+            "newMail": {
+                "title": "Nouvel e-mail de vérification demandé !"
+            }
+        },
         "messages": {
             "row": {
                 "markAsRead": "Marquer comme lu",

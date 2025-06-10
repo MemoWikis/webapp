@@ -30,6 +30,14 @@ onMounted(() => {
 
 const { t, setLocale, locale, locales } = useI18n()
 const { isMobile } = useDevice()
+
+const showSideSheetCookie = useCookie<boolean>('showSideSheet')
+const sideSheetOpen = ref(false)
+sideSheetOpen.value = showSideSheetCookie.value && !isMobile
+
+watch(() => sideSheetStore.showSideSheet, (newValue) => {
+    sideSheetOpen.value = newValue && !isMobile
+})
 </script>
 
 <template>
@@ -38,7 +46,7 @@ const { isMobile } = useDevice()
         class="layout-wrapper"
         :class="{
             'window-loading': !windowLoaded,
-            'sidesheet-open': sideSheetStore.showSideSheet && !isMobile,
+            'sidesheet-open': sideSheetOpen,
         }">
         <div class="footer-area">
 

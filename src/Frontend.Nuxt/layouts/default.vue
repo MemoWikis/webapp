@@ -6,13 +6,21 @@ const { isMobile } = useDevice()
 const { $vfm } = useNuxtApp()
 const { openedModals } = $vfm
 
+const showSideSheetCookie = useCookie<boolean>('showSideSheet')
+const sideSheetOpen = ref(false)
+sideSheetOpen.value = showSideSheetCookie.value && !isMobile
+
+watch(() => sideSheetStore.showSideSheet, (newValue) => {
+    sideSheetOpen.value = newValue && !isMobile
+})
+
 </script>
 
 <template>
     <div
         class="layout-wrapper"
         :class="{
-            'sidesheet-open': sideSheetStore.showSideSheet && !isMobile,
+            'sidesheet-open': sideSheetOpen,
             'open-modal': openedModals.length > 0,
             'mobile-headings': isMobile,
         }">

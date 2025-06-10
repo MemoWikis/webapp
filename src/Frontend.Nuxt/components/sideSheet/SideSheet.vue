@@ -23,11 +23,8 @@ const { t } = useI18n()
 const snackbar = useSnackbar()
 
 const showSideSheetCookie = useCookie<boolean>('showSideSheet')
-
-onBeforeMount(() => {
-    if (showSideSheetCookie.value)
-        sideSheetStore.showSideSheet = showSideSheetCookie.value
-})
+if (showSideSheetCookie.value)
+    sideSheetStore.showSideSheet = showSideSheetCookie.value
 
 watch(() => sideSheetStore.showSideSheet, (show) => {
     showSideSheetCookie.value = show
@@ -96,7 +93,7 @@ const init = async () => {
 
 onBeforeMount(async () => {
     if (userStore.isLoggedIn) {
-        init()
+        await init()
     }
 })
 
@@ -106,9 +103,9 @@ const isFavorite = computed(() => {
 
 const previouslyCollapsed = ref(false)
 
-watch(() => pageStore.id, (id) => {
+watch(() => pageStore.id, async (id) => {
     if (userStore.isLoggedIn) {
-        init()
+        await init()
     }
     else if (id)
         sideSheetStore.handleRecentPage(pageStore.name, pageStore.id)

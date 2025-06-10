@@ -1355,6 +1355,31 @@
                 }
             }
         },
+        "confirmEmail": {
+            "pending": {
+                "title": "Bestätigung läuft",
+                "message": "Wir sind gerade dabei, deine E-Mail-Adresse zu bestätigen. Einen Augenblick Geduld bitte."
+            },
+            "success": {
+                "title": "Bestätigung erfolgreich",
+                "message": "Deine E-Mail-Adresse wurde erfolgreich bestätigt.",
+                "continue": "Weiter {destination}",
+                "yourWiki": "zu deinem Wiki",
+                "homepage": "zur Startseite"
+            },
+            "failed": {
+                "title": "Bestätigung fehlgeschlagen",
+                "message1": "Es tut uns leid, die Bestätigung deiner E-Mail-Adresse ist fehlgeschlagen.",
+                "message2": "Es könnte sein, dass der Bestätigungslink nicht korrekt oder abgelaufen ist.",
+                "message3": "Versuche es bitte noch einmal oder wende dich an",
+                "message4": "falls das Problem weiterhin besteht.",
+                "message5": "Wir helfen dir gerne weiter!",
+                "resendButton": "neue Verifizierungs-Email senden"
+            },
+            "newMail": {
+                "title": "Neue Verifizierungs-E-Mail angefordert!"
+            }
+        },
         "messages": {
             "row": {
                 "markAsRead": "als gelesen markieren",

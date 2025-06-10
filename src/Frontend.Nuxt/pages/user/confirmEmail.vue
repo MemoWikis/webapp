@@ -36,12 +36,12 @@ watch(success, async (val) => {
 
 onMounted(async () => {
     if (!route.params.token) {
-        return navigateTo('/Fehler')// Redirect the user to an error page if the code isn't present.
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
     }
 })
 
 const newVerificationMailSent = ref(false)
-const msg = ref('')
+const messageKey = ref('')
 async function requestVerificationMail() {
     if (!userStore.isLoggedIn) {
         userStore.openLoginModal()
@@ -49,7 +49,7 @@ async function requestVerificationMail() {
     }
     const result = await userStore.requestVerificationMail()
     newVerificationMailSent.value = true
-    msg.value = t(result.messageKey)
+    messageKey.value = result.messageKey
 }
 
 const config = useRuntimeConfig()
@@ -61,104 +61,92 @@ const contact = () => {
 
 
 <template>
-    <div class="container">
-        <div class="row main-page">
-            <div class="col-lg-9 col-md-12 container main-content">
+    <div class="main-content">
 
-                <div class="row content">
-                    <div class="form-horizontal col-md-12">
-                        <template v-if="status === 'pending'">
+        <div class="row content">
+            <div class="form-horizontal col-md-12">
+                <template v-if="status === 'pending'">
+                    <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
+                        <h1 class="col-sm-offset-2 col-sm-8 reset-title">
+                            {{ t('user.confirmEmail.pending.title') }}
+                        </h1>
+                    </div>
+                    <div class="alert alert-info col-sm-offset-2 col-sm-8 ">
+                        {{ t('user.confirmEmail.pending.message') }}
+                    </div>
+                </template>
+                <template v-else>
+                    <div v-if="success">
+                        <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
+                            <h1 class="col-sm-offset-2 col-sm-8 reset-title">
+                                {{ t('user.confirmEmail.success.title') }}
+                            </h1>
+                        </div>
+                        <div class="alert alert-success col-sm-offset-2 col-sm-8 ">
+                            {{ t('user.confirmEmail.success.message') }}
+                        </div>
+                        <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
+                            <div class="confirmEmail-divider">
+                                <div class="confirmEmail-divider-line"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
+                            <NuxtLink to="/" class="memo-button btn-primary">
+                                {{ t('user.confirmEmail.success.continue', { destination: userStore.isLoggedIn ? t('user.confirmEmail.success.yourWiki') : t('user.confirmEmail.success.homepage') }) }}
+                            </NuxtLink>
+                        </div>
+                    </div>
+                    <div v-else>
+
+                        <template v-if="newVerificationMailSent">
                             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                                 <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                    {{ t('user.confirmEmail.pending.title') }}
+                                    {{ t('user.confirmEmail.newMail.title') }}
                                 </h1>
                             </div>
-                            <div class="alert alert-info col-sm-offset-2 col-sm-8 ">
-                                {{ t('user.confirmEmail.pending.message') }}
+
+                            <div class="alert alert-success col-sm-offset-2 col-sm-8 ">
+                                {{ t(messageKey) }}
                             </div>
                         </template>
                         <template v-else>
-                            <div v-if="success">
+                            <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
+                                <h1 class="col-sm-offset-2 col-sm-8 reset-title">
+                                    {{ t('user.confirmEmail.failed.title') }}
+                                </h1>
+                            </div>
+                            <div class="alert alert-danger col-sm-offset-2 col-sm-8">
+                                {{ t('user.confirmEmail.failed.message1') }}
+                                <br />
 
-                                <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
-                                    <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                        {{ t('user.confirmEmail.success.title') }}
-                                    </h1>
-                                </div>
-                                <div class="alert alert-success col-sm-offset-2 col-sm-8 ">
-                                    {{ t('user.confirmEmail.success.message') }}
-                                </div>
-                                <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
-                                    <div class="confirmEmail-divider">
-                                        <div class="confirmEmail-divider-line"></div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
-                                    <NuxtLink to="/" class="memo-button btn-primary">
-                                        {{ t('user.confirmEmail.success.continue', { destination: userStore.isLoggedIn ? t('user.confirmEmail.success.yourWiki') : t('user.confirmEmail.success.homepage') }) }}
-                                    </NuxtLink>
+                                {{ t('user.confirmEmail.failed.message2') }}
+                                <br />
+
+                                {{ t('user.confirmEmail.failed.message3') }} <b>{{ config.public.teamEmail }}</b>,
+                                {{ t('user.confirmEmail.failed.message4') }}
+
+                                <br />
+                                {{ t('user.confirmEmail.failed.message5') }}
+                            </div>
+
+                            <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
+                                <div class="confirmEmail-divider">
+                                    <div class="confirmEmail-divider-line"></div>
                                 </div>
                             </div>
-                            <div v-else>
-
-                                <template v-if="newVerificationMailSent">
-                                    <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
-                                        <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                            {{ t('user.confirmEmail.newMail.title') }}
-                                        </h1>
-                                    </div>
-
-                                    <div class="alert alert-success col-sm-offset-2 col-sm-8 ">
-                                        {{ msg }}
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
-                                        <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                            {{ t('user.confirmEmail.failed.title') }}
-                                        </h1>
-                                    </div>
-
-                                    <div class="alert alert-danger col-sm-offset-2 col-sm-8 ">
-                                        {{ t('user.confirmEmail.failed.message1') }}
-                                        <br />
-
-                                        {{ t('user.confirmEmail.failed.message2') }}
-                                        <br />
-
-                                        {{ t('user.confirmEmail.failed.message3') }} <b>{{ config.public.teamMail }}</b>,
-                                        {{ t('user.confirmEmail.failed.message4') }}
-
-                                        <br />
-                                        {{ t('user.confirmEmail.failed.message5') }}
-                                    </div>
-
-                                    <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
-                                        <div class="confirmEmail-divider">
-                                            <div class="confirmEmail-divider-line"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
-                                        <button class="memo-button btn-primary" @click="requestVerificationMail()">
-                                            {{ t('user.confirmEmail.failed.resendButton') }}
-                                        </button>
-                                    </div>
-                                </template>
-
+                            <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container"> <button class="memo-button btn-primary" @click="requestVerificationMail()">
+                                    {{ t('user.confirmEmail.failed.resendButton') }}
+                                </button>
                             </div>
                         </template>
 
                     </div>
-                </div>
-            </div>
-            <Sidebar :site="props.site" />
+                </template>
 
+            </div>
         </div>
     </div>
-
-    <div>
-
-    </div>
+    <Sidebar :site="props.site" />
 </template>
 
 <style lang="less" scoped>
