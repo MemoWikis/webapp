@@ -2,7 +2,6 @@
 import { QuestionItem, SearchType, PageItem, UserItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '../user/userStore'
 import { useRootPageChipStore } from './rootPageChipStore'
-import { useSideSheetStore } from '~/components/sideSheet/sideSheetStore'
 
 interface Props {
     isError?: boolean
@@ -13,17 +12,16 @@ const props = defineProps<Props>()
 const { t } = useI18n()
 
 const userStore = useUserStore()
-const sideSheetStore = useSideSheetStore()
 const showSearch = ref(true)
 const { $urlHelper } = useNuxtApp()
-async function openUrl(val: PageItem | QuestionItem | UserItem) {
+const openUrl = async (val: PageItem | QuestionItem | UserItem) => {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
     return navigateTo(val.url)
 }
 const { isDesktopOrTablet, isMobile } = useDevice()
 
-function handleResize() {
+const handleResize = () => {
     if (showSearch.value)
         return
 
@@ -45,7 +43,7 @@ onMounted(() => {
     }
 })
 
-function handleError() {
+const handleError = () => {
     if (props.isError)
         clearError()
 }

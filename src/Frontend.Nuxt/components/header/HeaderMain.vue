@@ -24,14 +24,14 @@ const sideSheetStore = useSideSheetStore()
 
 const showSearch = ref(false)
 
-async function openUrl(val: PageItem | QuestionItem | UserItem) {
+const openUrl = async (val: PageItem | QuestionItem | UserItem) => {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
     return await navigateTo(val.url)
 }
 
 const showRegisterButton = ref(false)
-function handleScroll() {
+const handleScroll = () => {
     showSearch.value = false
 
     var scrollTop = document.documentElement.scrollTop
@@ -41,7 +41,7 @@ function handleScroll() {
         showRegisterButton.value = false
 }
 
-function handleResize() {
+const handleResize = () => {
     if (showSearch.value)
         return
     if (window.innerWidth < 769) {
@@ -115,8 +115,8 @@ const { sideSheetOpen } = useSideSheetState()
                     class="animate-grow" />
             </font-awesome-layers>
         </div>
-        <div class="nav-container" :class="{ 'sidesheet-open': sideSheetOpen }">
 
+        <div class="nav-container" :class="{ 'sidesheet-open': sideSheetOpen }">
             <div class="header-container" ref="headerContainer">
 
                 <div class="main-container" :class="{ 'logged-in': userStore.isLoggedIn, 's-open': showSearch }">
@@ -207,8 +207,9 @@ const { sideSheetOpen } = useSideSheetState()
                         </template>
                     </ClientOnly>
                 </div>
+
                 <ClientOnly>
-                    <div class="register-btn-container" v-if="isDesktopOrTablet && !userStore.isLoggedIn" :class="{ 'hide-partial': hidePartial, 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen, 's-open': showSearch }">
+                    <div v-if="isDesktopOrTablet && !userStore.isLoggedIn" class="register-btn-container" :class="{ 'hide-partial': hidePartial, 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen, 's-open': showSearch }">
                         <div navigate class="btn memo-button register-btn">
                             <NuxtLink :to="`/${t('url.register')}`">
                                 {{ t('label.register') }}
@@ -216,8 +217,7 @@ const { sideSheetOpen } = useSideSheetState()
                         </div>
                     </div>
                     <template #fallback>
-                        <div class="register-btn-container"
-                            v-if="isDesktopOrTablet && !userStore.isLoggedIn">
+                        <div v-if="isDesktopOrTablet && !userStore.isLoggedIn" class="register-btn-container" :class="{ 'hide-partial': hidePartial, 'hide-nav': !showRegisterButton }">
                             <div navigate class="btn memo-button register-btn">
                                 <NuxtLink :to="`/${t('url.register')}`">
                                     {{ t('label.register') }}
@@ -226,11 +226,8 @@ const { sideSheetOpen } = useSideSheetState()
                         </div>
                     </template>
                 </ClientOnly>
-
             </div>
-
         </div>
-
     </div>
 </template>
 
