@@ -8,29 +8,6 @@ const pageStore = usePageStore()
 
 const { isMobile } = useDevice()
 
-const pageLabelEl = ref()
-const learningLabelEl = ref()
-const analyticsLabelEl = ref()
-const feedLabelEl = ref()
-
-const pageLabelWidth = ref('')
-const learningLabelWidth = ref('')
-const feedLabelWidth = ref('')
-const analyticsLabelWidth = ref('')
-
-const setWidths = async () => {
-
-	if (!pageLabelEl.value || !learningLabelEl.value || !feedLabelEl.value || !analyticsLabelEl.value) {
-		return
-	}
-	await nextTick()
-	pageLabelWidth.value = `width: ${pageLabelEl.value.clientWidth}px`
-	learningLabelWidth.value = `width: ${learningLabelEl.value.clientWidth}px`
-	feedLabelWidth.value = `width: ${feedLabelEl.value.clientWidth}px`
-	analyticsLabelWidth.value = `width: ${analyticsLabelEl.value.clientWidth}px`
-}
-
-onMounted(() => setWidths())
 
 const chartData = ref<ChartData[]>([])
 
@@ -46,9 +23,7 @@ function setChartData() {
 	chartData.value = chartData.value.slice().reverse()
 }
 
-const { t, locale } = useI18n()
-
-watch(locale, () => setWidths())
+const { t } = useI18n()
 
 function getTooltipLabel(key: string, count: number) {
 	switch (key) {
@@ -68,32 +43,6 @@ watch(() => pageStore.knowledgeSummarySlim, () => setChartData(), { deep: true }
 const ariaId = useId()
 const ariaId2 = useId()
 
-// const pageTextTabEl = ref()
-// const pageLearningTabEl = ref()
-// const pageFeedTabEl = ref()
-// const pageAnalyticsTabEl = ref()
-
-// const actualTabWidth = computed(() => {
-// 	const width = pageTextTabEl.value.clientWidth +
-// 		pageLearningTabEl.value.clientWidth +
-// 		pageFeedTabEl.value.clientWidth +
-// 		pageAnalyticsTabEl.value.clientWidth
-
-// 	return width
-// })
-
-// const pageTabBarEl = ref()
-
-// const shouldShowScrollbarX = computed(() => {
-// 	if (!pageTabBarEl.value) return false
-// 	const tabBarWidth = pageTabBarEl.value.clientWidth
-// 	const actualWidth = actualTabWidth.value
-// 	return actualWidth + 4 >= tabBarWidth
-// })
-
-// const perfectScrollbarOptions = computed(() => {
-// 	// suppressScrollbarX if 
-// })
 </script>
 
 <template>
@@ -103,7 +52,7 @@ const ariaId2 = useId()
 
 				<div class="tab" @click="tabsStore.activeTab = Tab.Text" ref="pageTextTabEl">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text" :style="pageLabelWidth">
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text">
 						{{ t('page.tabs.text') }}
 					</div>
 					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Text }" ref="pageLabelEl">
@@ -118,8 +67,7 @@ const ariaId2 = useId()
 
 				<div class="tab" @click="tabsStore.activeTab = Tab.Learning" ref="pageLearningTabEl">
 
-					<div class="tab-label chip-tab active" v-if="tabsStore.activeTab === Tab.Learning"
-						:style="learningLabelWidth">
+					<div class="tab-label chip-tab active" v-if="tabsStore.activeTab === Tab.Learning">
 						{{ t('page.tabs.questions') }}
 						<div class="chip" v-if="pageStore.questionCount > 0">
 							{{ pageStore.questionCount }}
@@ -141,8 +89,7 @@ const ariaId2 = useId()
 
 				<div class="tab" @click="tabsStore.activeTab = Tab.Feed" ref="pageFeedTabEl">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed"
-						:style="feedLabelWidth">
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed">
 						{{ t('page.tabs.feed') }}
 					</div>
 					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Feed }"
@@ -158,8 +105,7 @@ const ariaId2 = useId()
 
 				<div class="tab" @click="tabsStore.activeTab = Tab.Analytics" ref="pageAnalyticsTabEl">
 
-					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics"
-						:style="analyticsLabelWidth">
+					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics">
 						<template v-if="!isMobile">
 							{{ t('page.tabs.analytics') }}
 						</template>
@@ -241,12 +187,10 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text && isMobile"
-						:style="pageLabelWidth">
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text && isMobile">
 						{{ t('page.tabs.text') }}
 					</div>
-					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Text"
-						:style="pageLabelWidth">
+					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Text">
 						{{ t('page.tabs.text') }}
 					</div>
 					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Text }"
@@ -262,8 +206,7 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label chip-tab active learning-tab" v-if="tabsStore.activeTab === Tab.Learning"
-						:style="learningLabelWidth">
+					<div class="tab-label chip-tab active learning-tab" v-if="tabsStore.activeTab === Tab.Learning">
 						{{ t('page.tabs.questions') }}
 						<div class="chip" v-if="pageStore.questionCount > 0">
 							{{ pageStore.questionCount }}
@@ -286,12 +229,10 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed && isMobile"
-						:style="feedLabelWidth">
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed && isMobile">
 						{{ t('page.tabs.feed') }}
 					</div>
-					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Feed"
-						:style="feedLabelWidth">
+					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Feed">
 						{{ t('page.tabs.feed') }}
 					</div>
 					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Feed }"
@@ -307,8 +248,7 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics"
-						:style="analyticsLabelWidth">
+					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics">
 						<template v-if="!isMobile">
 							{{ t('page.tabs.analytics') }}
 						</template>
@@ -356,6 +296,12 @@ const ariaId2 = useId()
 .tabs-bar {
 	padding: 0 10px;
 	padding-top: 35px;
+
+	:deep(.ps--active-x) {
+		@media (min-width: 900px) {
+			display: none;
+		}
+	}
 }
 
 #PageTabBar {

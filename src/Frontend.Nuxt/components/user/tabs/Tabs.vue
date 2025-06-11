@@ -18,16 +18,6 @@ const props = defineProps<Props>()
 const { isMobile } = useDevice()
 
 const emit = defineEmits(['setTab'])
-
-const overviewLabelEl = ref()
-const wishknowledgeLabelEl = ref()
-const badgesLabelEl = ref()
-const settingsLabelEl = ref()
-
-function getWidth(e: VueElement) {
-    if (e != null)
-        return `width: ${e.clientWidth}px`
-}
 </script>
 
 <template>
@@ -38,11 +28,9 @@ function getWidth(e: VueElement) {
                     <div id="ProfileTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
                         <button class="tab" @click="emit('setTab', Tab.Overview)">
-                            <div class="tab-label active" v-if="props.tab === Tab.Overview" style="width: 113px;"
-                                :style="getWidth(overviewLabelEl)">{{ t('user.tabs.overview') }}
+                            <div class="tab-label active" v-if="props.tab === Tab.Overview">{{ t('user.tabs.overview') }}
                             </div>
-                            <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Overview }"
-                                ref="overviewLabelEl">
+                            <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Overview }">
                                 {{ t('user.tabs.overview') }}</div>
                             <div class="active-tab" v-if="props.tab === Tab.Overview"></div>
                             <div class="inactive-tab" v-else>
@@ -52,11 +40,9 @@ function getWidth(e: VueElement) {
 
                         <button class="tab" @click="emit('setTab', Tab.Wishknowledge)">
 
-                            <div class="tab-label active" v-if="props.tab === Tab.Wishknowledge"
-                                :style="getWidth(wishknowledgeLabelEl)" style="width: 156px;">
+                            <div class="tab-label active" v-if="props.tab === Tab.Wishknowledge">
                                 {{ t('user.tabs.wishknowledge') }}</div>
-                            <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Wishknowledge }"
-                                ref="wishknowledgeLabelEl">
+                            <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Wishknowledge }">
                                 {{ t('user.tabs.wishknowledge') }}</div>
 
                             <div class="active-tab" v-if="props.tab === Tab.Wishknowledge"></div>
@@ -67,11 +53,9 @@ function getWidth(e: VueElement) {
 
                         <button class="tab" @click="emit('setTab', Tab.Settings)"
                             v-if="userStore.isLoggedIn && props.isCurrentUser">
-                            <div class="tab-label active" v-if="props.tab === Tab.Settings"
-                                :style="getWidth(settingsLabelEl)" style="width: 145px;">
+                            <div class="tab-label active" v-if="props.tab === Tab.Settings">
                                 {{ t('user.tabs.settings') }}</div>
-                            <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Settings }"
-                                ref="settingsLabelEl">
+                            <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Settings }">
                                 {{ t('user.tabs.settings') }}
                             </div>
 
@@ -96,8 +80,7 @@ function getWidth(e: VueElement) {
             <div id="ProfileTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
                 <button class="tab" @click="emit('setTab', Tab.Overview)">
-                    <div class="tab-label active" v-if="props.tab === Tab.Overview" style="width: 113px;"
-                        :style="getWidth(overviewLabelEl)">{{ t('user.tabs.overview') }}
+                    <div class="tab-label active" v-if="props.tab === Tab.Overview">{{ t('user.tabs.overview') }}
                     </div>
                     <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Overview }" ref="overviewLabelEl">
                         {{ t('user.tabs.overview') }}</div>
@@ -109,8 +92,7 @@ function getWidth(e: VueElement) {
 
                 <button class="tab" @click="emit('setTab', Tab.Wishknowledge)">
 
-                    <div class="tab-label active" v-if="props.tab === Tab.Wishknowledge"
-                        :style="getWidth(wishknowledgeLabelEl)" style="width: 156px;">
+                    <div class="tab-label active" v-if="props.tab === Tab.Wishknowledge">
                         {{ t('user.tabs.wishknowledge') }}</div>
                     <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Wishknowledge }"
                         ref="wishknowledgeLabelEl">
@@ -124,7 +106,7 @@ function getWidth(e: VueElement) {
 
                 <button class="tab" @click="emit('setTab', Tab.Settings)"
                     v-if="userStore.isLoggedIn && props.isCurrentUser">
-                    <div class="tab-label active" v-if="props.tab === Tab.Settings" :style="getWidth(settingsLabelEl)" style="width: 145px;">
+                    <div class="tab-label active" v-if="props.tab === Tab.Settings">
                         {{ t('user.tabs.settings') }}</div>
                     <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Settings }" ref="settingsLabelEl">
                         {{ t('user.tabs.settings') }}

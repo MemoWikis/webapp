@@ -7,7 +7,6 @@ import { Author, FeedItem, FeedItemGroupByAuthor, FeedType } from './feedHelper'
 const { t, localeProperties } = useI18n()
 const pageStore = usePageStore()
 const tabsStore = useTabsStore()
-const userStore = useUserStore()
 
 const feedItems = ref<FeedItem[]>()
 const currentPage = ref(1)
@@ -119,144 +118,49 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
         selectedFeedItem.value = feedItem
     }
 }
-const ariaId = useId()
 </script>
 
 <template>
 
-    <div class="feed">
-        <div class="header">
-            <VDropdown :aria-id="ariaId" :distance="0" :popperHideTriggers="(triggers: any) => []" :arrow-padding="300" placement="auto">
-                <div class="feed-settings-btn">
-                    <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-                </div>
-                <template #popper>
-                    <div class="checkbox-container dropdown-row" @click="getDescendants = !getDescendants">
-                        <label>{{ t('page.feed.includeSubpages') }}</label>
-                        <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
+    <div>
+        <div class="feed">
+            <PageTabsFeedHeader
+                v-model:getDescendants="getDescendants"
+                v-model:getQuestions="getQuestions"
+                v-model:getGroups="getGroups" />
 
-                        <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
-                    </div>
+            <PageTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="openModal" class="feed-item" />
 
-                    <template v-if="userStore.isAdmin">
-                        <div class="checkbox-container dropdown-row" @click="getGroups = !getGroups">
-                            <label>{{ t('page.feed.groupItems') }}</label>
-                            <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getGroups" class="active" />
-
-                            <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
-                        </div>
-
-                        <div class="checkbox-container dropdown-row" @click="getQuestions = !getQuestions">
-                            <label>{{ t('page.feed.includeQuestions') }}</label>
-                            <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getQuestions" class="active" />
-
-                            <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
-                        </div>
+            <div class="pager pagination">
+                <vue-awesome-paginate :total-items="itemCount" :items-per-page="100" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                    <template #first-page-button>
+                        <font-awesome-layers>
+                            <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                            <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                        </font-awesome-layers>
                     </template>
-
-                </template>
-            </VDropdown>
-
+                    <template #prev-button>
+                        <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                    </template>
+                    <template #next-button>
+                        <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                    </template>
+                    <template #last-page-button>
+                        <font-awesome-layers>
+                            <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                            <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                        </font-awesome-layers>
+                    </template>
+                </vue-awesome-paginate>
+            </div>
         </div>
 
-        <PageTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="openModal" class="feed-item" />
-
-        <div class="pager pagination">
-            <vue-awesome-paginate :total-items="itemCount" :items-per-page="100" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
-                <template #first-page-button>
-                    <font-awesome-layers>
-                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
-                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
-                    </font-awesome-layers>
-                </template>
-                <template #prev-button>
-                    <font-awesome-icon :icon="['fas', 'chevron-left']" />
-                </template>
-                <template #next-button>
-                    <font-awesome-icon :icon="['fas', 'chevron-right']" />
-                </template>
-                <template #last-page-button>
-                    <font-awesome-layers>
-                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
-                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
-                    </font-awesome-layers>
-                </template>
-            </vue-awesome-paginate>
-        </div>
+        <PageTabsFeedModal :show="showModal" @close="showModal = false" v-if="selectedFeedItem" :feed-item="selectedFeedItem" @get-feed-items="getFeedItems" />
     </div>
-
-    <PageTabsFeedModal :show="showModal" @close="showModal = false" v-if="selectedFeedItem" :feed-item="selectedFeedItem" @get-feed-items="getFeedItems" />
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
-
-.header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    z-index: 2;
-    margin-bottom: -24px;
-    margin-top: 8px;
-    position: absolute;
-}
-
-.feed-settings-btn {
-    cursor: pointer;
-    font-size: 18px;
-    color: @memo-grey-dark;
-    background: white;
-    border-radius: 44px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-    z-index: 5;
-
-    &:hover {
-        filter: brightness(0.95);
-    }
-
-    &:active {
-        filter: brightness(0.9);
-    }
-}
-
-.checkbox-container {
-    padding: 2px 8px;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    margin-top: 4px;
-    background: white;
-    z-index: 2;
-
-    label {
-        margin-bottom: 0;
-        color: @memo-grey-dark;
-        cursor: pointer;
-        z-index: 2;
-
-    }
-
-    .active,
-    .not-active {
-        margin-left: 8px;
-        font-size: 1.8em;
-    }
-
-    .active {
-        color: @memo-blue-link;
-    }
-
-    .not-active {
-        color: @memo-grey-light;
-    }
-}
 
 .feed-item {
     width: 100%;
