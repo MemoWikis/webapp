@@ -23,30 +23,13 @@ interface UserDashboardData {
     activityCalendar: ActivityCalendarData
 }
 
-// Mock data for now - this would be replaced with an actual API call
-const dashboardData = ref<UserDashboardData>()
-
-const getAllData = async () => {
-    try {
-        const { data } = await useFetch<UserDashboardData>('/apiVue/MissionControl/GetAll')
-        if (data.value === null) {
-            console.error('No data received from API')
-            return
-        }
-        dashboardData.value = data.value
-    } catch (error) {
-        console.error('Failed to fetch dashboard data:', error)
-    }
-}
-
-onMounted(() => {
-    getAllData()
-})
+const { data: dashboardData } = await useFetch<UserDashboardData>('/apiVue/MissionControl/GetAll')
 
 const { isMobile } = useDevice()
 
 const { locale, setLocale } = useI18n()
 const route = useRoute()
+
 onBeforeMount(async () => {
     if (userStore.isLoggedIn) {
         await navigateToLocaleMissionControl()

@@ -14,7 +14,6 @@ const tabsStore = useTabsStore()
 const pageStore = usePageStore()
 const loadingStore = useLoadingStore()
 const convertStore = useConvertStore()
-const sideSheetStore = useSideSheetStore()
 
 interface Props {
     tab?: Tab,
