@@ -52,12 +52,11 @@ const pageAnalyticsTabEl = ref<VueElement | null>(null)
 // Use the scrollbar suppression composable
 const { suppressScrollX } = useScrollbarSuppression(
 	pageTabsBarEl,
-	[pageTextTabEl, pageLearningTabEl, pageFeedTabEl, pageAnalyticsTabEl],
-	{
-		buffer: 5,
-		throttleDelay: 100,
-		watchSources: [() => pageStore.questionCount, () => chartData.value]
-	}
+	[pageTextTabEl, pageLearningTabEl, pageFeedTabEl, pageAnalyticsTabEl], {
+	buffer: 2,
+	debounceDelay: 150,
+	watchSources: [() => pageStore.questionCount, () => chartData.value]
+}
 )
 
 </script>

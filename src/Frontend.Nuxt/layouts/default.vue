@@ -73,7 +73,7 @@ const { sideSheetOpen } = useSideSheetState()
         }
 
         @media (max-width: 1500px) {
-            width: calc(100vw - 20px);
+            width: calc(100vw - 15px);
 
             .content-area,
             .footer-area {

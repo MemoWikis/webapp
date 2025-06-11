@@ -2,12 +2,12 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { ref, nextTick } from 'vue'
 import { useScrollbarSuppression } from '~/composables/useScrollbarSuppression'
 
-// Mock underscore throttle
+// Mock underscore debounce
 vi.mock('underscore', () => ({
-    throttle: vi.fn((fn) => {
-        const throttled = fn as any
-        throttled.cancel = vi.fn()
-        return throttled
+    debounce: vi.fn((fn) => {
+        const debounced = fn as any
+        debounced.cancel = vi.fn()
+        return debounced
     }),
 }))
 

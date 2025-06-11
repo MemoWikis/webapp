@@ -112,7 +112,7 @@ const slots = useSlots()
     &.sidesheet-open {
         @media (max-width: 1500px) {
             .banner-container {
-                width: calc(100vw - 20px);
+                width: calc(100vw - 15px);
 
                 .banner-row {
                     padding-left: 420px;

@@ -380,7 +380,7 @@ h4 {
 
 #PageContent {
     padding-top: 36px;
-    max-width: calc(100vw - 20px);
+    max-width: calc(100vw - 15px);
 
     @media (min-width:1301px) {
         max-width: 100%;

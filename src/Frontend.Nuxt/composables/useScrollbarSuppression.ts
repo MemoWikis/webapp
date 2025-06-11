@@ -7,7 +7,7 @@ import {
     watch,
     type Ref,
 } from 'vue'
-import { throttle } from 'underscore'
+import { debounce } from 'underscore'
 import type { VueElement } from 'vue'
 
 export interface UseScrollbarSuppressionOptions {
@@ -18,10 +18,10 @@ export interface UseScrollbarSuppressionOptions {
     buffer?: number
 
     /**
-     * Throttle delay for resize events in milliseconds
-     * @default 100
+     * Debounce delay for resize events in milliseconds
+     * @default 150
      */
-    throttleDelay?: number
+    debounceDelay?: number
 
     /**
      * Additional reactive values to watch for changes that might affect dimensions
@@ -42,7 +42,7 @@ export function useScrollbarSuppression(
     elementRefs: Array<Ref<VueElement | null>>,
     options: UseScrollbarSuppressionOptions = {}
 ) {
-    const { buffer = 5, throttleDelay = 100, watchSources = [] } = options
+    const { buffer = 5, debounceDelay = 150, watchSources = [] } = options
 
     const containerWidth = ref(0)
     const totalElementsWidth = ref(0)
@@ -73,10 +73,10 @@ export function useScrollbarSuppression(
         })
     }
 
-    // Throttled version for resize events
-    const throttledMeasureDimensions = throttle(
+    // Debounced version for resize events - waits for resize to stop
+    const debouncedMeasureDimensions = debounce(
         measureDimensions,
-        throttleDelay
+        debounceDelay
     )
 
     // Watch for changes that might affect dimensions
@@ -86,12 +86,12 @@ export function useScrollbarSuppression(
 
     onMounted(() => {
         measureDimensions()
-        window.addEventListener('resize', throttledMeasureDimensions)
+        window.addEventListener('resize', debouncedMeasureDimensions)
     })
 
     onUnmounted(() => {
-        window.removeEventListener('resize', throttledMeasureDimensions)
-        throttledMeasureDimensions.cancel?.()
+        window.removeEventListener('resize', debouncedMeasureDimensions)
+        debouncedMeasureDimensions.cancel?.()
     })
 
     return {
