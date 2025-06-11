@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="row">
+    <div>
         <div id="PageHeader">
             <PageHeaderImage />
             <PageHeaderTitle />
@@ -20,6 +20,5 @@
 #PageHeader {
     margin-top: 25px;
     display: flex;
-    padding: 0 10px;
 }
 </style>

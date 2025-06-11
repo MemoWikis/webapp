@@ -153,7 +153,7 @@ const { sideSheetOpen } = useSideSheetState()
                 padding-left: 410px;
 
                 @media (max-width: 900px) {
-                    padding-left: 10px;
+                    padding-left: 0px;
                 }
 
                 @media (min-width: 1980px) {

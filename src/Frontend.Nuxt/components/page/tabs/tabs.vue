@@ -2,17 +2,16 @@
 import { useTabsStore, Tab } from './tabsStore'
 import { usePageStore } from '../pageStore'
 import { ChartData } from '~~/components/chart/chartData'
+import { VueElement } from 'vue'
 
 const tabsStore = useTabsStore()
 const pageStore = usePageStore()
 
 const { isMobile } = useDevice()
 
-
 const chartData = ref<ChartData[]>([])
 
 function setChartData() {
-
 	chartData.value = []
 	for (const [key, value] of Object.entries(pageStore.knowledgeSummarySlim)) {
 		chartData.value.push({
@@ -43,12 +42,30 @@ watch(() => pageStore.knowledgeSummarySlim, () => setChartData(), { deep: true }
 const ariaId = useId()
 const ariaId2 = useId()
 
+// Element refs
+const pageTabsBarEl = ref<VueElement | null>(null)
+const pageTextTabEl = ref<VueElement | null>(null)
+const pageLearningTabEl = ref<VueElement | null>(null)
+const pageFeedTabEl = ref<VueElement | null>(null)
+const pageAnalyticsTabEl = ref<VueElement | null>(null)
+
+// Use the scrollbar suppression composable
+const { suppressScrollX } = useScrollbarSuppression(
+	pageTabsBarEl,
+	[pageTextTabEl, pageLearningTabEl, pageFeedTabEl, pageAnalyticsTabEl],
+	{
+		buffer: 5,
+		throttleDelay: 100,
+		watchSources: [() => pageStore.questionCount, () => chartData.value]
+	}
+)
+
 </script>
 
 <template>
 	<ClientOnly>
-		<PerfectScrollbar class="tabs-bar">
-			<div id="PageTabBar" :class="{ 'is-mobile': isMobile }" ref="pageTabBarEl">
+		<PerfectScrollbar class="tabs-bar" :options="{ suppressScrollX: suppressScrollX }">
+			<div id="PageTabBar" :class="{ 'is-mobile': isMobile }" ref="pageTabsBarEl">
 
 				<div class="tab" @click="tabsStore.activeTab = Tab.Text" ref="pageTextTabEl">
 
@@ -294,14 +311,7 @@ const ariaId2 = useId()
 @import (reference) '~~/assets/includes/imports.less';
 
 .tabs-bar {
-	padding: 0 10px;
 	padding-top: 35px;
-
-	:deep(.ps--active-x) {
-		@media (min-width: 900px) {
-			display: none;
-		}
-	}
 }
 
 #PageTabBar {
@@ -344,7 +354,6 @@ const ariaId2 = useId()
 }
 
 .fallback {
-	padding: 0 10px;
 	padding-top: 35px;
 
 	.pie-chart {

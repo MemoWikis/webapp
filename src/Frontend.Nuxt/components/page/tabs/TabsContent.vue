@@ -4,7 +4,6 @@ import { usePageStore } from '../pageStore'
 
 const { isMobile } = useDevice()
 const pageStore = usePageStore()
-console.log(pageStore.textIsHidden, 'pageStore.textIsHidden')
 </script>
 
 <template>
