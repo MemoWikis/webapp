@@ -239,6 +239,7 @@ const slots = useSlots()
         width: 100%;
         justify-content: center;
         align-items: center;
+        display: flex;
 
         .banner-row {
             display: flex;
@@ -254,10 +255,18 @@ const slots = useSlots()
                 padding-left: 90px;
             }
 
-            .memoWikis-info-partial {
+            .banner-text {
                 width: calc(75% - 1rem);
                 flex-grow: 1;
                 padding: 1rem 0;
+            }
+
+            .banner-action {
+                flex: 0 0 25%;
+
+                :deep(.memo-button) {
+                    border-radius: 9rem;
+                }
             }
         }
     }
