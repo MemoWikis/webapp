@@ -49,14 +49,15 @@ const pageLearningTabEl = ref<VueElement | null>(null)
 const pageFeedTabEl = ref<VueElement | null>(null)
 const pageAnalyticsTabEl = ref<VueElement | null>(null)
 
-// Use the scrollbar suppression composable
+const { sideSheetOpen } = useSideSheetState()
 const { suppressScrollX } = useScrollbarSuppression(
 	pageTabsBarEl,
-	[pageTextTabEl, pageLearningTabEl, pageFeedTabEl, pageAnalyticsTabEl], {
-	buffer: 2,
-	debounceDelay: 150,
-	watchSources: [() => pageStore.questionCount, () => chartData.value]
-}
+	[pageTextTabEl, pageLearningTabEl, pageFeedTabEl, pageAnalyticsTabEl],
+	{
+		buffer: 2,
+		debounceDelay: 150,
+		watchSources: [() => pageStore.questionCount, () => chartData.value, () => sideSheetOpen.value]
+	}
 )
 
 </script>
