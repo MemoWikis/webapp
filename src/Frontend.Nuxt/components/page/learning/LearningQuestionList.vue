@@ -155,8 +155,8 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
 </script>
 
 <template>
-    <div id="QuestionListComponentContainer" class="col-xs-12">
-        <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
+    <div id="QuestionListComponentContainer" class="">
+        <div class="" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
             <PageLearningQuestion v-for="(q, index) in questions" :question="q"
                 :is-last-item="index === (questions.length - 1)" :session-index="q.sessionIndex"
@@ -196,14 +196,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
 #QuestionListComponentContainer {
     display: flex;
     justify-content: center;
-}
-
-.drop-down-question-sort {
-    display: flex;
-    flex-wrap: wrap;
-    font-size: 18px;
-    justify-content: space-between;
-    padding-right: 0;
+    width: 100%;
 }
 
 //Variables
@@ -211,7 +204,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
 
 //Less
 #QuestionListComponent {
-    max-width: 840px;
+    width: 100%;
 
     h4 {
         margin-bottom: 0;
@@ -239,24 +232,6 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
     #QuestionFooterIcons {
         .btn-link {
             color: @memo-grey-dark !important;
-        }
-    }
-
-    .drop-down-question-sort {
-        display: flex;
-        flex-wrap: wrap;
-        font-size: 18px;
-        justify-content: space-between;
-        padding-right: 0;
-
-        #ButtonAndDropdown {
-            display: flex;
-            align-items: center;
-            margin-top: -10px;
-
-            @media(max-width: 768px) {
-                padding-left: 10px;
-            }
         }
     }
 

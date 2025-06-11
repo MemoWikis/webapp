@@ -163,43 +163,61 @@ const ariaId2 = useId()
 						<template v-if="!isMobile">
 							{{ t('page.tabs.analytics') }}
 						</template>
-						<VTooltip :aria-id="ariaId" class="tooltip-container">
-							<div class="pie-container">
-								<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
-							</div>
-							<template #popper>
-								<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
-								<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
-									class="knowledgesummary-info">
-									<div class="color-container" :class="`color-${d.class}`"></div>
-									<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
-								</div>
-								<div v-else>
-									{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
+						<Suspense>
+							<template #default>
+								<VTooltip :aria-id="ariaId" class="tooltip-container">
+									<div class="pie-container">
+										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+									</div>
+									<template #popper>
+										<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
+										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
+											class="knowledgesummary-info">
+											<div class="color-container" :class="`color-${d.class}`"></div>
+											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+										</div>
+										<div v-else>
+											{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
+										</div>
+									</template>
+								</VTooltip>
+							</template>
+							<template #fallback>
+								<div class="pie-container">
+									<div class="pie-chart-placeholder"></div>
 								</div>
 							</template>
-						</VTooltip>
+						</Suspense>
 					</div>
 					<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Analytics }" ref="analyticsLabelEl">
 						<template v-if="!isMobile">
 							{{ t('page.tabs.analytics') }}
 						</template>
-						<VTooltip :aria-id="ariaId2" class="tooltip-container">
-							<div class="pie-container">
-								<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
-							</div>
-							<template #popper>
-								<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
-								<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
-									class="knowledgesummary-info">
-									<div class="color-container" :class="`color-${d.class}`"></div>
-									<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
-								</div>
-								<div v-else>
-									{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
+						<Suspense>
+							<template #default>
+								<VTooltip :aria-id="ariaId2" class="tooltip-container">
+									<div class="pie-container">
+										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+									</div>
+									<template #popper>
+										<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
+										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
+											class="knowledgesummary-info">
+											<div class="color-container" :class="`color-${d.class}`"></div>
+											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+										</div>
+										<div v-else>
+											{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
+										</div>
+									</template>
+								</VTooltip>
+							</template>
+							<template #fallback>
+								<div class="pie-container">
+									<div class="pie-chart-placeholder"></div>
 								</div>
 							</template>
-						</VTooltip>
+						</Suspense>
 					</div>
 
 					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Analytics"></div>
@@ -223,11 +241,11 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text && isMobile" style="width:60px"
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text && isMobile"
 						:style="pageLabelWidth">
 						{{ t('page.tabs.text') }}
 					</div>
-					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Text" style="width:68px"
+					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Text"
 						:style="pageLabelWidth">
 						{{ t('page.tabs.text') }}
 					</div>
@@ -268,11 +286,11 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed && isMobile" style="width:65px"
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed && isMobile"
 						:style="feedLabelWidth">
 						{{ t('page.tabs.feed') }}
 					</div>
-					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Feed" style="width:73px"
+					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Feed"
 						:style="feedLabelWidth">
 						{{ t('page.tabs.feed') }}
 					</div>
@@ -296,7 +314,7 @@ const ariaId2 = useId()
 						</template>
 						<div class="tooltip-container">
 							<div class="pie-container">
-								<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+								<div class="pie-chart-placeholder"></div>
 							</div>
 						</div>
 					</div>
@@ -306,7 +324,6 @@ const ariaId2 = useId()
 						</template>
 						<div class="tooltip-container">
 							<div class="pie-container">
-								<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 							</div>
 						</div>
 					</div>
@@ -364,6 +381,13 @@ const ariaId2 = useId()
 		.pie-container {
 			width: 24px;
 			height: 24px;
+
+			.pie-chart-placeholder {
+				height: 24px;
+				width: 24px;
+				border-radius: 50%;
+				background: @memo-grey-lighter;
+			}
 		}
 	}
 

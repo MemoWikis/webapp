@@ -202,15 +202,6 @@ const { sideSheetOpen } = useSideSheetState()
                                     <div class="login-btn" @click="userStore.openLoginModal()">
                                         <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                                     </div>
-                                    <!-- <div class="register-btn-container hidden-xs hidden-sm"
-                                        v-if="isDesktopOrTablet">
-                                        <div navigate class="btn memo-button register-btn">
-                                            <NuxtLink :to="`/${t('url.register')}`">
-                                                {{ t('label.register') }}
-                                            </NuxtLink>
-                                        </div>
-                                    </div> -->
-
                                 </div>
                             </div>
                         </template>
@@ -226,7 +217,7 @@ const { sideSheetOpen } = useSideSheetState()
                     </div>
                     <template #fallback>
                         <div class="register-btn-container"
-                            v-if="isDesktopOrTablet">
+                            v-if="isDesktopOrTablet && !userStore.isLoggedIn">
                             <div navigate class="btn memo-button register-btn">
                                 <NuxtLink :to="`/${t('url.register')}`">
                                     {{ t('label.register') }}

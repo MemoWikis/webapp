@@ -46,7 +46,7 @@ function getDateLabel(dateString: string) {
     }
 
     const options = { year: 'numeric', month: 'long', day: 'numeric' } as Intl.DateTimeFormatOptions
-    const iso = localeProperties.value.iso as string;
+    const iso = localeProperties.value.iso as string
     return date.toLocaleDateString(iso, options)
 }
 
@@ -123,72 +123,69 @@ const ariaId = useId()
 </script>
 
 <template>
-    <div class="row">
 
-        <div class="col-xs-12 feed">
-            <div class="header">
-                <VDropdown :aria-id="ariaId" :distance="0" :popperHideTriggers="(triggers: any) => []" :arrow-padding="300" placement="auto">
-                    <div class="feed-settings-btn">
-                        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+    <div class="feed">
+        <div class="header">
+            <VDropdown :aria-id="ariaId" :distance="0" :popperHideTriggers="(triggers: any) => []" :arrow-padding="300" placement="auto">
+                <div class="feed-settings-btn">
+                    <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+                </div>
+                <template #popper>
+                    <div class="checkbox-container dropdown-row" @click="getDescendants = !getDescendants">
+                        <label>{{ t('page.feed.includeSubpages') }}</label>
+                        <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
+
+                        <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
                     </div>
-                    <template #popper>
-                        <div class="checkbox-container dropdown-row" @click="getDescendants = !getDescendants">
-                            <label>{{ t('page.feed.includeSubpages') }}</label>
-                            <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
+
+                    <template v-if="userStore.isAdmin">
+                        <div class="checkbox-container dropdown-row" @click="getGroups = !getGroups">
+                            <label>{{ t('page.feed.groupItems') }}</label>
+                            <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getGroups" class="active" />
 
                             <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
                         </div>
 
-                        <template v-if="userStore.isAdmin">
-                            <div class="checkbox-container dropdown-row" @click="getGroups = !getGroups">
-                                <label>{{ t('page.feed.groupItems') }}</label>
-                                <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getGroups" class="active" />
+                        <div class="checkbox-container dropdown-row" @click="getQuestions = !getQuestions">
+                            <label>{{ t('page.feed.includeQuestions') }}</label>
+                            <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getQuestions" class="active" />
 
-                                <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
-                            </div>
-
-                            <div class="checkbox-container dropdown-row" @click="getQuestions = !getQuestions">
-                                <label>{{ t('page.feed.includeQuestions') }}</label>
-                                <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getQuestions" class="active" />
-
-                                <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
-                            </div>
-                        </template>
-
+                            <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
+                        </div>
                     </template>
-                </VDropdown>
 
-            </div>
+                </template>
+            </VDropdown>
 
-            <PageTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="openModal" class="feed-item" />
-
-
-            <div class="pager pagination">
-                <vue-awesome-paginate :total-items="itemCount" :items-per-page="100" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
-                    <template #first-page-button>
-                        <font-awesome-layers>
-                            <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
-                            <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
-                        </font-awesome-layers>
-                    </template>
-                    <template #prev-button>
-                        <font-awesome-icon :icon="['fas', 'chevron-left']" />
-                    </template>
-                    <template #next-button>
-                        <font-awesome-icon :icon="['fas', 'chevron-right']" />
-                    </template>
-                    <template #last-page-button>
-                        <font-awesome-layers>
-                            <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
-                            <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
-                        </font-awesome-layers>
-                    </template>
-                </vue-awesome-paginate>
-            </div>
         </div>
 
-        <PageTabsFeedModal :show="showModal" @close="showModal = false" v-if="selectedFeedItem" :feed-item="selectedFeedItem" @get-feed-items="getFeedItems" />
+        <PageTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="openModal" class="feed-item" />
+
+        <div class="pager pagination">
+            <vue-awesome-paginate :total-items="itemCount" :items-per-page="100" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                <template #first-page-button>
+                    <font-awesome-layers>
+                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                    </font-awesome-layers>
+                </template>
+                <template #prev-button>
+                    <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                </template>
+                <template #next-button>
+                    <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                </template>
+                <template #last-page-button>
+                    <font-awesome-layers>
+                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                    </font-awesome-layers>
+                </template>
+            </vue-awesome-paginate>
+        </div>
     </div>
+
+    <PageTabsFeedModal :show="showModal" @close="showModal = false" v-if="selectedFeedItem" :feed-item="selectedFeedItem" @get-feed-items="getFeedItems" />
 </template>
 
 <style lang="less" scoped>
@@ -201,7 +198,7 @@ const ariaId = useId()
     z-index: 2;
     margin-bottom: -24px;
     margin-top: 8px;
-    position: relative;
+    position: absolute;
 }
 
 .feed-settings-btn {
@@ -262,13 +259,12 @@ const ariaId = useId()
 }
 
 .feed-item {
-    margin: 8px;
-    padding: 8px;
     width: 100%;
-    max-width: 880px;
+    padding: 16px 0;
 }
 
 .feed {
     max-width: calc(100vw - 20px);
+    position: relative;
 }
 </style>
