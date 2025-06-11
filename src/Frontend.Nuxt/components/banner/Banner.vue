@@ -43,24 +43,22 @@ const slots = useSlots()
 
 <template>
     <div class="banner" :class="{ 'skip-animation': skipAnimation, 'show-banner': showBanner }" v-if="showBanner">
-        <div class="banner-container container">
-            <div class="banner-row row">
-                <div class="banner-text col-xs-12 col-sm-7 memoWikis-info-partial">
+        <div class="banner-container">
+            <div class="banner-row">
+                <div class="banner-text memoWikis-info-partial">
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
                         class="visible-xs close-banner mobile-close" />
-                    <div class="row fullWidth">
-                        <div class="col-xs-12">
-                            <div class="sub-text" v-if="slots.subText">
-                                <slot name="subText"></slot>
-                            </div>
+                    <div class="fullWidth">
+                        <div class="sub-text" v-if="slots.subText">
+                            <slot name="subText"></slot>
+                        </div>
 
-                            <div class="main-text">
-                                <slot name="mainText"></slot>
-                            </div>
+                        <div class="main-text">
+                            <slot name="mainText"></slot>
                         </div>
                     </div>
                 </div>
-                <div class="banner-action col-xs-12 col-sm-5 memoWikis-info-partial">
+                <div class="banner-action memoWikis-info-partial">
                     <slot name="action">
                     </slot>
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
@@ -98,7 +96,7 @@ const slots = useSlots()
         padding-top: 45px;
     }
 
-    .container {
+    .banner-container {
         height: 100%;
 
         .banner-row {
@@ -197,7 +195,7 @@ const slots = useSlots()
         pointer-events: unset;
         visibility: unset;
 
-        .container {
+        .banner-container {
             min-height: 96px;
 
             .banner-row {
@@ -234,6 +232,60 @@ const slots = useSlots()
                 width: 100%;
             }
 
+        }
+    }
+
+    .banner-container {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+        .banner-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+
+            gap: 0 1rem;
+            width: 100%;
+            padding: 0 10px;
+            max-width: 1600px;
+
+            @media (min-width: 901px) {
+                padding-left: 90px;
+            }
+
+            .memoWikis-info-partial {
+                width: calc(75% - 1rem);
+                flex-grow: 1;
+                padding: 1rem 0;
+            }
+        }
+    }
+
+    &.sidesheet-open {
+
+        .banner-container {
+            .banner-row {
+                padding-left: 420px;
+                width: 100%;
+            }
+
+            @media (max-width: 1500px) {
+                width: calc(100vw - 20px);
+
+                .banner-row {
+                    padding-left: 420px;
+                    width: 100%;
+                }
+            }
+
+
+            @media (min-width: 1980px) {
+
+                .banner-row {
+                    padding-left: clamp(90px, calc(420px - (100vw - 1980px)), 420px);
+                }
+            }
         }
     }
 
