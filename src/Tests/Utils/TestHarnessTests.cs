@@ -4,7 +4,7 @@ internal class TestHarnessTests : BaseTestHarness
     [Test]
     public async Task Should_create_testHarness_with_host_and_db_access()
     {
-        await ReloadCaches();
+        await ClearData();
         
         // arrange 
         var userWritRepo = _testHarness.R<UserWritingRepo>();
@@ -27,7 +27,7 @@ internal class TestHarnessTests : BaseTestHarness
     [Test]
     public async Task Should_create_testHarness_and_make_api_call()
     {
-        await ReloadCaches();
+        await ClearData();
 
         string result = await _testHarness.ApiCall("apiVue/App/GetCurrentUser");
 

@@ -1,4 +1,9 @@
+
+/// <summary>
+/// Is used to create scenarios. 
+/// </summary>
 [TestFixture]
+//[Ignore("Only execute manually")]
 internal class ScenarioBuilderTests : BaseTestHarness
 {
     [Test]
@@ -6,10 +11,12 @@ internal class ScenarioBuilderTests : BaseTestHarness
     {
         await ScenarioImageManager.BuildAndPushLocallyAsync("micro_for_testing");
     }
-    
+
     [Test]
     public async Task Deterministic_Tiny_Scenario()
     {
+        await ClearData();
+
         // Arrange
         var configuration = new ScenarioConfiguration(
             UserCount: 1,
