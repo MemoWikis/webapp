@@ -68,161 +68,155 @@ watch(() => pageStore.knowledgeSummarySlim, () => setChartData(), { deep: true }
 const ariaId = useId()
 const ariaId2 = useId()
 
-const pageTextTabEl = ref()
-const pageLearningTabEl = ref()
-const pageFeedTabEl = ref()
-const pageAnalyticsTabEl = ref()
+// const pageTextTabEl = ref()
+// const pageLearningTabEl = ref()
+// const pageFeedTabEl = ref()
+// const pageAnalyticsTabEl = ref()
 
-const actualTabWidth = computed(() => {
-	const width = Math.max(
-		pageTextTabEl.value?.clientWidth || 0,
-		pageLearningTabEl.value?.clientWidth || 0,
-		pageFeedTabEl.value?.clientWidth || 0,
-		pageAnalyticsTabEl.value?.clientWidth || 0
-	)
+// const actualTabWidth = computed(() => {
+// 	const width = pageTextTabEl.value.clientWidth +
+// 		pageLearningTabEl.value.clientWidth +
+// 		pageFeedTabEl.value.clientWidth +
+// 		pageAnalyticsTabEl.value.clientWidth
 
-	return width
-})
+// 	return width
+// })
 
-const pageTabBarEl = ref()
+// const pageTabBarEl = ref()
 
-const shouldShowScrollbarX = computed(() => {
-	if (!pageTabBarEl.value) return false
-	const tabBarWidth = pageTabBarEl.value.clientWidth
-	const actualWidth = actualTabWidth.value
-	return actualWidth + 4 >= tabBarWidth
-})
+// const shouldShowScrollbarX = computed(() => {
+// 	if (!pageTabBarEl.value) return false
+// 	const tabBarWidth = pageTabBarEl.value.clientWidth
+// 	const actualWidth = actualTabWidth.value
+// 	return actualWidth + 4 >= tabBarWidth
+// })
 
-const perfectScrollbarOptions = computed(() => {
-	// suppressScrollbarX if 
-})
+// const perfectScrollbarOptions = computed(() => {
+// 	// suppressScrollbarX if 
+// })
 </script>
 
 <template>
 	<ClientOnly>
-		<div class="col-xs-12">
-			<div class="tabs-bar" :class="{ 'is-mobile': isMobile }">
-				<perfect-scrollbar>
-					<div id="PageTabBar" :class="{ 'is-mobile': isMobile }" ref="pageTabBarEl">
+		<PerfectScrollbar class="tabs-bar">
+			<div id="PageTabBar" :class="{ 'is-mobile': isMobile }" ref="pageTabBarEl">
 
-						<div class="tab" @click="tabsStore.activeTab = Tab.Text" ref="pageTextTabEl">
+				<div class="tab" @click="tabsStore.activeTab = Tab.Text" ref="pageTextTabEl">
 
-							<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text" :style="pageLabelWidth">
-								{{ t('page.tabs.text') }}
-							</div>
-							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Text }" ref="pageLabelEl">
-								{{ t('page.tabs.text') }}
-							</div>
-
-							<div class="active-tab" v-if="tabsStore.activeTab === Tab.Text"></div>
-							<div class="inactive-tab" v-else>
-								<div class="tab-border"></div>
-							</div>
-						</div>
-
-						<div class="tab" @click="tabsStore.activeTab = Tab.Learning" ref="pageLearningTabEl">
-
-							<div class="tab-label chip-tab active" v-if="tabsStore.activeTab === Tab.Learning"
-								:style="learningLabelWidth">
-								{{ t('page.tabs.questions') }}
-								<div class="chip" v-if="pageStore.questionCount > 0">
-									{{ pageStore.questionCount }}
-								</div>
-							</div>
-							<div class="tab-label chip-tab"
-								:class="{ 'invisible-tab': tabsStore.activeTab === Tab.Learning }" ref="learningLabelEl">
-								{{ t('page.tabs.questions') }}
-								<div class="chip" v-if="pageStore.questionCount > 0">
-									{{ pageStore.questionCount }}
-								</div>
-							</div>
-
-							<div class="active-tab" v-if="tabsStore.activeTab === Tab.Learning"></div>
-							<div class="inactive-tab" v-else>
-								<div class="tab-border"></div>
-							</div>
-						</div>
-
-						<div class="tab" @click="tabsStore.activeTab = Tab.Feed" ref="pageFeedTabEl">
-
-							<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed"
-								:style="feedLabelWidth">
-								{{ t('page.tabs.feed') }}
-							</div>
-							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Feed }"
-								ref="feedLabelEl">
-								{{ t('page.tabs.feed') }}
-							</div>
-
-							<div class="active-tab" v-if="tabsStore.activeTab === Tab.Feed"></div>
-							<div class="inactive-tab" v-else>
-								<div class="tab-border"></div>
-							</div>
-						</div>
-
-						<div class="tab" @click="tabsStore.activeTab = Tab.Analytics" ref="pageAnalyticsTabEl">
-
-							<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics"
-								:style="analyticsLabelWidth">
-								<template v-if="!isMobile">
-									{{ t('page.tabs.analytics') }}
-								</template>
-								<VTooltip :aria-id="ariaId" class="tooltip-container">
-									<div class="pie-container">
-										<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
-									</div>
-									<template #popper>
-										<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
-										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
-											class="knowledgesummary-info">
-											<div class="color-container" :class="`color-${d.class}`"></div>
-											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
-										</div>
-										<div v-else>
-											{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
-										</div>
-									</template>
-								</VTooltip>
-							</div>
-							<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Analytics }" ref="analyticsLabelEl">
-								<template v-if="!isMobile">
-									{{ t('page.tabs.analytics') }}
-								</template>
-								<VTooltip :aria-id="ariaId2" class="tooltip-container">
-									<div class="pie-container">
-										<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
-									</div>
-									<template #popper>
-										<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
-										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
-											class="knowledgesummary-info">
-											<div class="color-container" :class="`color-${d.class}`"></div>
-											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
-										</div>
-										<div v-else>
-											{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
-										</div>
-									</template>
-								</VTooltip>
-							</div>
-
-							<div class="active-tab" v-if="tabsStore.activeTab === Tab.Analytics"></div>
-							<div class="inactive-tab" v-else>
-								<div class="tab-border"></div>
-							</div>
-						</div>
-
-						<div class="tab-filler-container">
-							<div class="tab-filler" :class="{ 'mobile': isMobile }"></div>
-							<div class="inactive-tab">
-								<div class="tab-border"></div>
-							</div>
-						</div>
-
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text" :style="pageLabelWidth">
+						{{ t('page.tabs.text') }}
 					</div>
-				</perfect-scrollbar>
+					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Text }" ref="pageLabelEl">
+						{{ t('page.tabs.text') }}
+					</div>
+
+					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Text"></div>
+					<div class="inactive-tab" v-else>
+						<div class="tab-border"></div>
+					</div>
+				</div>
+
+				<div class="tab" @click="tabsStore.activeTab = Tab.Learning" ref="pageLearningTabEl">
+
+					<div class="tab-label chip-tab active" v-if="tabsStore.activeTab === Tab.Learning"
+						:style="learningLabelWidth">
+						{{ t('page.tabs.questions') }}
+						<div class="chip" v-if="pageStore.questionCount > 0">
+							{{ pageStore.questionCount }}
+						</div>
+					</div>
+					<div class="tab-label chip-tab"
+						:class="{ 'invisible-tab': tabsStore.activeTab === Tab.Learning }" ref="learningLabelEl">
+						{{ t('page.tabs.questions') }}
+						<div class="chip" v-if="pageStore.questionCount > 0">
+							{{ pageStore.questionCount }}
+						</div>
+					</div>
+
+					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Learning"></div>
+					<div class="inactive-tab" v-else>
+						<div class="tab-border"></div>
+					</div>
+				</div>
+
+				<div class="tab" @click="tabsStore.activeTab = Tab.Feed" ref="pageFeedTabEl">
+
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed"
+						:style="feedLabelWidth">
+						{{ t('page.tabs.feed') }}
+					</div>
+					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Feed }"
+						ref="feedLabelEl">
+						{{ t('page.tabs.feed') }}
+					</div>
+
+					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Feed"></div>
+					<div class="inactive-tab" v-else>
+						<div class="tab-border"></div>
+					</div>
+				</div>
+
+				<div class="tab" @click="tabsStore.activeTab = Tab.Analytics" ref="pageAnalyticsTabEl">
+
+					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics"
+						:style="analyticsLabelWidth">
+						<template v-if="!isMobile">
+							{{ t('page.tabs.analytics') }}
+						</template>
+						<VTooltip :aria-id="ariaId" class="tooltip-container">
+							<div class="pie-container">
+								<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+							</div>
+							<template #popper>
+								<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
+								<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
+									class="knowledgesummary-info">
+									<div class="color-container" :class="`color-${d.class}`"></div>
+									<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+								</div>
+								<div v-else>
+									{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
+								</div>
+							</template>
+						</VTooltip>
+					</div>
+					<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Analytics }" ref="analyticsLabelEl">
+						<template v-if="!isMobile">
+							{{ t('page.tabs.analytics') }}
+						</template>
+						<VTooltip :aria-id="ariaId2" class="tooltip-container">
+							<div class="pie-container">
+								<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+							</div>
+							<template #popper>
+								<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
+								<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
+									class="knowledgesummary-info">
+									<div class="color-container" :class="`color-${d.class}`"></div>
+									<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+								</div>
+								<div v-else>
+									{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
+								</div>
+							</template>
+						</VTooltip>
+					</div>
+
+					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Analytics"></div>
+					<div class="inactive-tab" v-else>
+						<div class="tab-border"></div>
+					</div>
+				</div>
+
+				<div class="tab-filler-container">
+					<div class="tab-filler" :class="{ 'mobile': isMobile }"></div>
+					<div class="inactive-tab">
+						<div class="tab-border"></div>
+					</div>
+				</div>
+
 			</div>
-		</div>
+		</PerfectScrollbar>
 
 		<template #fallback>
 			<div id="PageTabBar" class="fallback" :class="{ 'is-mobile': isMobile }">
@@ -297,15 +291,24 @@ const perfectScrollbarOptions = computed(() => {
 
 					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics"
 						:style="analyticsLabelWidth">
-
 						<template v-if="!isMobile">
 							{{ t('page.tabs.analytics') }}
 						</template>
+						<div class="tooltip-container">
+							<div class="pie-container">
+								<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+							</div>
+						</div>
 					</div>
 					<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Analytics }" ref="analyticsLabelEl">
 						<template v-if="!isMobile">
 							{{ t('page.tabs.analytics') }}
 						</template>
+						<div class="tooltip-container">
+							<div class="pie-container">
+								<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
+							</div>
+						</div>
 					</div>
 
 					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Analytics"></div>
@@ -333,26 +336,18 @@ const perfectScrollbarOptions = computed(() => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.tabs-bar {
+	padding: 0 10px;
+	padding-top: 35px;
+}
+
 #PageTabBar {
 	width: 100%;
+	margin-top: 0;
 }
 
 .tab {
 	user-select: none;
-}
-
-.fallback {
-	.learning-tab {
-		margin-left: 15px;
-		margin-right: -15px;
-	}
-
-	.analytics-tab {
-		&.active {
-			margin-left: 15px;
-			margin-right: -15px;
-		}
-	}
 }
 
 .analytics-tab {
@@ -379,6 +374,9 @@ const perfectScrollbarOptions = computed(() => {
 }
 
 .fallback {
+	padding: 0 10px;
+	padding-top: 35px;
+
 	.pie-chart {
 		margin-left: 4px;
 	}

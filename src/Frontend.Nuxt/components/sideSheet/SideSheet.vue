@@ -346,7 +346,7 @@ const handleClick = (key?: string) => {
 <template>
     <div id="SideSheet"
         :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }" @mouseleave="handleMouseLeave">
-        <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
+        <PerfectScrollbar :options="{ suppressScrollX: true }" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
                 <SideSheetSection class="no-b-padding" @mouseover="handleMouseOver">
@@ -534,7 +534,7 @@ const handleClick = (key?: string) => {
                 </SideSheetSection>
             </div>
 
-        </perfect-scrollbar>
+        </PerfectScrollbar>
 
         <div id="SideSheetFooter">
             <div class="bg-fade"></div>

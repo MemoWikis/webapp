@@ -34,7 +34,7 @@ function getWidth(e: VueElement) {
     <ClientOnly>
         <div>
             <div class="tabs-bar" :class="{ 'is-mobile': isMobile }">
-                <perfect-scrollbar>
+                <PerfectScrollbar>
                     <div id="ProfileTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
                         <button class="tab" @click="emit('setTab', Tab.Overview)">
@@ -89,7 +89,7 @@ function getWidth(e: VueElement) {
                         </div>
 
                     </div>
-                </perfect-scrollbar>
+                </PerfectScrollbar>
             </div>
         </div>
         <template #fallback>

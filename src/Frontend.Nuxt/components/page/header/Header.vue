@@ -4,7 +4,7 @@
 
 <template>
     <div class="row">
-        <div id="PageHeader" class="col-xs-12">
+        <div id="PageHeader">
             <PageHeaderImage />
             <PageHeaderTitle />
             <PageHeaderOptions />
@@ -20,5 +20,6 @@
 #PageHeader {
     margin-top: 25px;
     display: flex;
+    padding: 0 10px;
 }
 </style>

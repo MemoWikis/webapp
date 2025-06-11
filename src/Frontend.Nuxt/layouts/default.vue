@@ -88,6 +88,14 @@ const { sideSheetOpen } = useSideSheetState()
                 display: none;
             }
         }
+
+        @media (min-width: 1980px) {
+
+            .content-area,
+            .footer-area {
+                padding-left: clamp(90px, calc(420px - (100vw - 1980px)), 420px);
+            }
+        }
     }
 }
 

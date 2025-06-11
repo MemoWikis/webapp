@@ -119,61 +119,15 @@ const { sideSheetOpen } = useSideSheetState()
 
             <div class="header-container" ref="headerContainer">
 
-                <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
-                    ref="partialLeft">
-                    <HeaderBreadcrumb :site="props.site" :show-search="showSearch"
-                        :question-page-data="props.questionPageData"
-                        :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
-                </div>
-                <ClientOnly>
-                    <div class="partial end" ref="headerExtras" :class="{ 'hide-partial': hidePartial }">
-                        <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
-                            :class="{ 'showSearch': showSearch }">
-                            <div class="search-button" :class="{ 'showSearch': showSearch }"
-                                @click="showSearch = !showSearch">
-                                <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
-                                <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
-                            </div>
-                            <div class="StickySearch">
-                                <Search :search-type="SearchType.all" :show-search="showSearch"
-                                    v-on:select-item="openUrl" placement="bottom-end" :main-search="true"
-                                    :distance="distance" />
-                            </div>
-                        </div>
-
-                        <HeaderUserDropdown
-                            v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
-
-                        <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
-                            :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
-                            <div class="StickySearchContainer"
-                                :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
-                                <div class="search-button" :class="{ 'showSearch': showSearch }"
-                                    @click="showSearch = !showSearch">
-                                    <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
-                                    <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
-                                </div>
-                                <div class="StickySearch">
-                                    <Search :search-type="SearchType.all" :show-search="showSearch"
-                                        v-on:select-item="openUrl" v-on:navigate-to-url="openUrl"
-                                        placement="bottom-end" />
-                                </div>
-                            </div>
-                            <div class="login-btn" @click="userStore.openLoginModal()">
-                                <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
-                            </div>
-                            <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
-                                <div navigate class="btn memo-button register-btn">
-                                    <NuxtLink :to="`/${t('url.register')}`">
-                                        {{ t('label.register') }}
-                                    </NuxtLink>
-                                </div>
-                            </div>
-
-                        </div>
+                <div class="main-container" :class="{ 'logged-in': userStore.isLoggedIn, 's-open': showSearch }">
+                    <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
+                        ref="partialLeft">
+                        <HeaderBreadcrumb :site="props.site" :show-search="showSearch"
+                            :question-page-data="props.questionPageData"
+                            :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
                     </div>
-                    <template #fallback>
-                        <div class="partial end" ref="headerExtras">
+                    <ClientOnly>
+                        <div class="partial end" ref="headerExtras" :class="{ 'hide-partial': hidePartial }">
                             <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                                 :class="{ 'showSearch': showSearch }">
                                 <div class="search-button" :class="{ 'showSearch': showSearch }"
@@ -209,15 +163,74 @@ const { sideSheetOpen } = useSideSheetState()
                                 <div class="login-btn" @click="userStore.openLoginModal()">
                                     <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                                 </div>
-                                <div class="register-btn-container hidden-xs hidden-sm"
-                                    v-if="isDesktopOrTablet">
-                                    <div navigate class="btn memo-button register-btn">
-                                        <NuxtLink :to="`/${t('url.register')}`">
-                                            {{ t('label.register') }}
-                                        </NuxtLink>
+                            </div>
+                        </div>
+                        <template #fallback>
+                            <div class="partial end" ref="headerExtras">
+                                <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
+                                    :class="{ 'showSearch': showSearch }">
+                                    <div class="search-button" :class="{ 'showSearch': showSearch }"
+                                        @click="showSearch = !showSearch">
+                                        <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
+                                        <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
+                                    </div>
+                                    <div class="StickySearch">
+                                        <Search :search-type="SearchType.all" :show-search="showSearch"
+                                            v-on:select-item="openUrl" placement="bottom-end" :main-search="true"
+                                            :distance="distance" />
                                     </div>
                                 </div>
 
+                                <HeaderUserDropdown
+                                    v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
+
+                                <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
+                                    :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
+                                    <div class="StickySearchContainer"
+                                        :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
+                                        <div class="search-button" :class="{ 'showSearch': showSearch }"
+                                            @click="showSearch = !showSearch">
+                                            <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
+                                            <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
+                                        </div>
+                                        <div class="StickySearch">
+                                            <Search :search-type="SearchType.all" :show-search="showSearch"
+                                                v-on:select-item="openUrl" v-on:navigate-to-url="openUrl"
+                                                placement="bottom-end" />
+                                        </div>
+                                    </div>
+                                    <div class="login-btn" @click="userStore.openLoginModal()">
+                                        <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
+                                    </div>
+                                    <!-- <div class="register-btn-container hidden-xs hidden-sm"
+                                        v-if="isDesktopOrTablet">
+                                        <div navigate class="btn memo-button register-btn">
+                                            <NuxtLink :to="`/${t('url.register')}`">
+                                                {{ t('label.register') }}
+                                            </NuxtLink>
+                                        </div>
+                                    </div> -->
+
+                                </div>
+                            </div>
+                        </template>
+                    </ClientOnly>
+                </div>
+                <ClientOnly>
+                    <div class="register-btn-container" v-if="isDesktopOrTablet && !userStore.isLoggedIn" :class="{ 'hide-partial': hidePartial, 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen, 's-open': showSearch }">
+                        <div navigate class="btn memo-button register-btn">
+                            <NuxtLink :to="`/${t('url.register')}`">
+                                {{ t('label.register') }}
+                            </NuxtLink>
+                        </div>
+                    </div>
+                    <template #fallback>
+                        <div class="register-btn-container"
+                            v-if="isDesktopOrTablet">
+                            <div navigate class="btn memo-button register-btn">
+                                <NuxtLink :to="`/${t('url.register')}`">
+                                    {{ t('label.register') }}
+                                </NuxtLink>
                             </div>
                         </div>
                     </template>
@@ -330,6 +343,7 @@ const { sideSheetOpen } = useSideSheetState()
     white-space: nowrap;
     top: 0;
     min-height: 47px;
+    width: 100%;
 
     display: flex;
     justify-content: center;
@@ -343,11 +357,19 @@ const { sideSheetOpen } = useSideSheetState()
         width: 100%;
         max-width: 1600px;
 
+        @media (min-width: 900px) {
+            padding-left: 80px;
+        }
+
         &.sidesheet-open {
-            padding-left: 330px;
+            padding-left: 420px;
 
             @media (max-width: 900px) {
-                padding-left: 10px;
+                padding-left: 80px;
+            }
+
+            @media (min-width: 1980px) {
+                padding-left: clamp(80px, calc(410px - (100vw - 1980px)), 410px);
             }
         }
     }
@@ -368,18 +390,53 @@ const { sideSheetOpen } = useSideSheetState()
         height: 100%;
     }
 
-    .header-container {
-        display: flex;
+
+    .main-container {
+        padding: 0 10px;
+        width: calc(75% - 1rem);
         justify-content: space-between;
+
+        &.logged-in {
+            width: 100%;
+        }
+
+        &.s-open {
+            @media (max-width: 768px) {
+                width: calc(100% - 1rem);
+            }
+        }
+    }
+
+    .header-container {
+        width: 100%;
+        gap: 0 5px;
+
+        @media (max-width: 899px) {
+            justify-content: space-between;
+
+        }
+    }
+
+    .sidesheet-open {
+        .header-container {
+            gap: 0 2px;
+
+            @media (min-width: 900px) and (max-width: 1500px) {
+                gap: 0;
+            }
+
+            @media (min-width: 1980px) {
+                gap: 0 5px;
+            }
+        }
+    }
+
+    .header-container,
+    .main-container {
+        display: flex;
         align-items: center;
         height: 100%;
         overflow: hidden;
-        width: 100%;
-        padding: 0 10px;
-
-        @media (min-width: 900px) {
-            padding-left: 90px;
-        }
 
         .partial {
             height: 100%;
@@ -399,7 +456,7 @@ const { sideSheetOpen } = useSideSheetState()
 
                 &.hide-partial {
                     min-width: 0px;
-                    width: 0p;
+                    width: 0px;
                     max-width: 0px;
                 }
             }
@@ -427,41 +484,67 @@ const { sideSheetOpen } = useSideSheetState()
                 filter: brightness(0.85)
             }
         }
+    }
 
-        .register-btn-container {
-            height: 100%;
-            display: flex;
+    .register-btn-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex: 0 0 25%;
+        min-width: unset;
+        width: unset;
+        max-width: unset;
+
+        &:hover {
+            filter: brightness(0.85)
+        }
+
+        &:active {
+            filter: brightness(0.7)
+        }
+
+        .register-btn {
+            color: white;
             align-items: center;
+            line-height: unset !important;
+            background: @memo-green;
+            height: 47px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 300px;
 
-            @media (min-width: 1300px) {
-                width: 270px;
-            }
-
-            &:hover {
-                filter: brightness(0.85)
-            }
-
-            &:active {
-                filter: brightness(0.7)
-            }
-
-            .register-btn {
-                color: white;
-                height: 100% !important;
+            @media (min-width: 900px) {
+                display: flex;
+                justify-content: center;
                 align-items: center;
-                line-height: unset !important;
-                background: @memo-green;
-
-                @media (min-width: 1300px) {
-                    width: 270px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
             }
         }
 
+        &.hide-partial {
+            display: none;
+            min-width: 0px;
+            width: 0px;
+            max-width: 0px;
+        }
 
+        &.hide-nav {
+            opacity: 0;
+        }
+
+        &.login-modal-is-open {
+            position: unset;
+        }
+
+        &.s-open {
+            @media (max-width: 768px) {
+                display: none;
+                min-width: 0px;
+                width: 0px;
+                max-width: 0px;
+            }
+        }
     }
 
     .sidesheet-button {

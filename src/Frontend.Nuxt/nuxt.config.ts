@@ -52,6 +52,7 @@ export default defineNuxtConfig({
         '@nuxtjs/i18n',
         '~/server/modules/ws-proxy',
         '@nuxt/test-utils/module',
+        'vue3-perfect-scrollbar/nuxt',
     ],
     eslint: {
         // options here

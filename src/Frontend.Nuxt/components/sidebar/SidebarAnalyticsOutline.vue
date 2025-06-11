@@ -83,7 +83,7 @@ const headingClass = (index: number) => {
 
 <template>
     <div id="AnalyticsOutline">
-        <perfect-scrollbar :suppressScrollX="true">
+        <PerfectScrollbar :options="{ suppressScrollX: true }">
             <div class="outline-container">
                 <div v-for="(heading, index) in PAGE_ANALYTICS_SECTIONS" :key="heading.id" class="outline-heading"
                     :class="headingClass(index)">
@@ -93,76 +93,10 @@ const headingClass = (index: number) => {
                     </NuxtLink>
                 </div>
             </div>
-        </perfect-scrollbar>
+        </PerfectScrollbar>
     </div>
 </template>
 
 <style lang="less" scoped>
-@import (reference) '~~/assets/includes/imports.less';
-
-#AnalyticsOutline {
-    height: 100%;
-    width: 100%;
-
-    .outline-container {
-        height: 100%;
-    }
-
-    .outline-heading {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        transition: all 0.01s ease;
-
-        &.level-2,
-        &.level-3 {
-            margin-top: 4px;
-            margin-bottom: 4px;
-        }
-
-        &.next-step {
-            margin-top: 8px;
-        }
-
-        &.level-1 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 8px;
-
-            .current-heading {
-                font-weight: 700;
-            }
-
-            &.preceeding-section-is-empty {
-                margin-top: 8px;
-            }
-        }
-
-        &.first-outline {
-            margin-top: 0px;
-        }
-
-        .outline-link {
-            color: @memo-grey-dark;
-            display: block;
-
-            transition: all 0.1s ease-out;
-
-            &:hover {
-                color: @memo-blue-link;
-            }
-
-            &:visited,
-            &:focus,
-            &:active,
-            &:hover {
-                text-decoration: none;
-            }
-
-            &.current-heading {
-                color: @memo-blue;
-            }
-        }
-    }
-}
+@import '~~/assets/sidebar.less';
 </style>

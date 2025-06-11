@@ -149,13 +149,17 @@ const { sideSheetOpen } = useSideSheetState()
             max-width: 1600px;
             width: 100%;
             padding: 0 10px;
-            padding-left: 90px;
+            padding-left: 80px;
 
             &.sidesheet-open {
                 padding-left: 420px;
 
                 @media (max-width: 900px) {
                     padding-left: 10px;
+                }
+
+                @media (min-width: 1980px) {
+                    padding-left: clamp(80px, calc(410px - (100vw - 1980px)), 410px);
                 }
             }
         }
@@ -239,9 +243,6 @@ const { sideSheetOpen } = useSideSheetState()
                 }
 
                 .register-btn-container {
-                    @media (min-width: 1300px) {
-                        width: 270px;
-                    }
 
                     .register-btn {
                         border-radius: 24px;
