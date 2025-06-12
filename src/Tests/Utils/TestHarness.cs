@@ -93,16 +93,29 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var scenarioImageName = $"{ScenarioImageConstants.BaseName}:{scenarioTag}";
         return await CreateAsync(enablePerfLogging, scenarioImageName);
     }
-
-    // Modified constructor (now private and synchronous)
     private TestHarness(bool enablePerfLogging, string? prebuiltDbImage)
     {
         _enablePerfLogging = enablePerfLogging;
         _stopwatch = Stopwatch.StartNew();
 
+        // Determine container name based on whether a prebuilt image is used
+        string containerName;
+        if (!string.IsNullOrEmpty(prebuiltDbImage))
+        {
+            // For prebuilt images, use a specific name and clean up previous containers
+            containerName = "memowikis-mysql-prebuilt";
+            CleanupExistingContainer(containerName);
+        }
+        else
+        {
+            // For regular images, use unique name to avoid conflicts
+            var uniqueId = DateTime.Now.Ticks.ToString();
+            containerName = $"memowikis-mysql-{uniqueId}";
+        }
+
         _db = new MySqlBuilder()
             .WithImage(prebuiltDbImage ?? "mysql:8.3.0")
-            .WithName("memowikis-mysql")
+            .WithName(containerName)
             .WithUsername("test")
             .WithPassword("P@ssw0rd_#123")
             .WithDatabase(TestDbName)
@@ -291,6 +304,34 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
                 b.RegisterInstance(_fakeHttpCtx).As<IHttpContextAccessor>().SingleInstance();
             });
             return base.CreateHost(builder);
+        }
+    }
+
+    private static void CleanupExistingContainer(string containerName)
+    {
+        try
+        {
+            // Use docker command to stop and remove existing container
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = "docker",
+                Arguments = $"rm -f {containerName}",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using var process = Process.Start(processInfo);
+            if (process != null)
+            {
+                process.WaitForExit();
+                // Ignore exit code - container might not exist
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error cleaning up existing container '{containerName}': {ex.Message}");
         }
     }
 }
