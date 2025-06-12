@@ -3,8 +3,8 @@
 </script>
 
 <template>
-    <div class="row">
-        <div id="PageHeader" class="col-xs-12">
+    <div>
+        <div id="PageHeader">
             <PageHeaderImage />
             <PageHeaderTitle />
             <PageHeaderOptions />

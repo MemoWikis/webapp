@@ -3,15 +3,11 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <div class="container">
-        <div class="row page-container main-page">
-            <div>
-                <h1>{{ t('success.membership.thankYou') }}</h1>
-                <p>
-                    {{ t('success.membership.congratulations') }}
-                </p>
-            </div>
-        </div>
+    <div class="main-content">
+        <h1>{{ t('success.membership.thankYou') }}</h1>
+        <p>
+            {{ t('success.membership.congratulations') }}
+        </p>
     </div>
 </template>
 

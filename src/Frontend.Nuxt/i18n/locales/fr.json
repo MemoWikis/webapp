@@ -1355,6 +1355,31 @@
                 }
             }
         },
+        "confirmEmail": {
+            "pending": {
+                "title": "Confirmation en cours",
+                "message": "On est en train de confirmer ton adresse e-mail. Patiente un moment."
+            },
+            "success": {
+                "title": "Confirmation réussie",
+                "message": "Ton adresse e-mail a été confirmée avec succès.",
+                "continue": "Continuer {destination}",
+                "yourWiki": "vers ton Wiki",
+                "homepage": "vers la page d'accueil"
+            },
+            "failed": {
+                "title": "Confirmation échouée",
+                "message1": "Désolé, la confirmation de ton adresse e-mail a échoué.",
+                "message2": "Il est possible que le lien de confirmation soit incorrect ou ait expiré.",
+                "message3": "Réessaie ou contacte",
+                "message4": "si le problème persiste.",
+                "message5": "On sera ravi de t'aider !",
+                "resendButton": "envoyer un nouvel e-mail de vérification"
+            },
+            "newMail": {
+                "title": "Nouvel e-mail de vérification demandé !"
+            }
+        },
         "messages": {
             "row": {
                 "markAsRead": "Marquer comme lu",
@@ -1660,8 +1685,74 @@
             "questions": "Aucune question | Une question | {count} questions"
         }
     },
+    "resetPassword": {
+        "title": "Nouveau mot de passe",
+        "password": "Mot de passe",
+        "passwordPlaceholder": "min. 5 caractères",
+        "repeatPassword": "Répéter le mot de passe",
+        "saveButton": "Enregistrer le nouveau mot de passe",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "rememberedPassword": "Je me suis souvenu(e) de mon mot de passe."
+    },
     "counter": {
         "thousands": "{value} k",
         "millions": "{value} M"
+    },
+    "maintenance": {
+        "title": "Page d'administration",
+        "metrics": {
+            "title": "Métriques",
+            "viewOverview": "Voir l'aperçu"
+        },
+        "questions": {
+            "title": "Questions",
+            "recalculateAllKnowledgeItems": "Recalculer toutes les probabilités de réponse",
+            "calcAggregatedValues": "Mettre à jour les nombres agrégés"
+        },
+        "cache": {
+            "title": "Cache",
+            "clearCache": "Vider le cache"
+        },
+        "pages": {
+            "title": "Pages",
+            "updateCategoryAuthors": "Mettre à jour les auteurs de pages"
+        },
+        "meiliSearch": {
+            "title": "Recherche MeiliSearch",
+            "description": "Réindexer tout pour la recherche :",
+            "questions": "Questions",
+            "questionsCache": "Questions (Cache)",
+            "pages": "Pages",
+            "pagesCache": "Pages (Cache)",
+            "users": "Utilisateurs",
+            "usersCache": "Utilisateurs (Cache)"
+        },
+        "users": {
+            "title": "Utilisateurs",
+            "updateReputationAndRankings": "Classements et Réputation + Agrégats",
+            "updateWishCount": "Mettre à jour le compteur de connaissances souhaitées",
+            "activeSessions": "Sessions actives",
+            "loggedIn": "Connecté",
+            "anonymous": "Anonyme",
+            "last5Minutes": "5 dernières minutes",
+            "lastMinute": "dernière minute",
+            "deleteUser": "Supprimer l'utilisateur (ID)",
+            "deleteUserButton": "Supprimer l'utilisateur"
+        },
+        "misc": {
+            "title": "Divers",
+            "checkDuplicateInteractions": "Vérifier les réponses avec le même Guid et InteractionNr"
+        },
+        "tools": {
+            "title": "Outils",
+            "throwException": "Lancer une exception",
+            "reloadIgnoreCrawlers": "Recharger la liste des crawlers ignorés",
+            "cleanupWorkInProgress": "Nettoyer les questions en cours de travail",
+            "start100TestJobs": "Démarrer 100 tâches de test"
+        },
+        "removeAdminRights": {
+            "title": "Supprimer les droits d'administrateur",
+            "button": "Supprimer les droits d'administrateur pour l'utilisateur actuel"
+        }
     }
 }

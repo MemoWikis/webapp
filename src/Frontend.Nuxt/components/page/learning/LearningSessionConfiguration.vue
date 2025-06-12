@@ -4,7 +4,6 @@ import { useLearningSessionConfigurationStore } from './learningSessionConfigura
 
 const userStore = useUserStore()
 interface Props {
-    isInQuestionList?: boolean
     openFilter?: boolean
     cookieName: string
     expiryDate?: Date
@@ -48,7 +47,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <div class="session-configurator" :class="{ 'col-xs-12': props.isInQuestionList }">
+    <div class="session-configurator">
         <div class="session-config-header">
             <div class="filter-button selectable-item session-title" @click="showFilterDropdown = !showFilterDropdown"
                 :class="[showFilterDropdown ? 'open' : 'closed', learningSessionConfigurationStore.activeCustomSettings ? 'activeCustomSettings' : '', isMobile ? 'is-mobile' : '']">
@@ -267,7 +266,7 @@ const { t } = useI18n()
                             </div>
                             <div class="mode-item-container item-disabled selectable-item">
                                 <div class="mode-sub-label">
-                                    {{ t('page.learningSessionConfiguration.rpeatByLeitner') }} <i>({{ t('page.learningSessionConfiguration.comingSoon') }})</i>
+                                    {{ t('page.learningSessionConfiguration.repeatByLeitner') }} <i>({{ t('page.learningSessionConfiguration.comingSoon') }})</i>
                                 </div>
                                 <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.practiceOptions.repetition === 2" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />

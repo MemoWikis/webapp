@@ -14,7 +14,6 @@ const tabsStore = useTabsStore()
 const pageStore = usePageStore()
 const loadingStore = useLoadingStore()
 const convertStore = useConvertStore()
-const sideSheetStore = useSideSheetStore()
 
 interface Props {
     tab?: Tab,
@@ -204,170 +203,75 @@ convertStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-    <div class="container page-container">
-        <div class="row page-content main-page">
-            <template v-if="page?.canAccess">
-                <div class="col-lg-9 col-md-12 container page">
-                    <PageHeader />
+    <div v-if="page?.canAccess" class="page-container">
+        <div class="page">
+            <PageHeader />
 
-                    <template v-if="pageStore?.id != 0">
-                        <ClientOnly>
-                            <PageTabsContent
-                                v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)"
-                                :text-is-hidden="pageStore.textIsHidden" />
-                            <template #fallback>
-                                <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
-                                    v-if="!pageStore.textIsHidden"
-                                    v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)">
-                                    <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
-                                        <div class="ProseMirror content-placeholder" v-html="pageStore.content"
-                                            id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
-                                        </div>
-                                    </div>
+            <template v-if="pageStore?.id != 0">
+
+                <!-- <PageTabsContent /> -->
+                <ClientOnly>
+                    <PageTabsContent
+                        v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)" v-if="!pageStore.textIsHidden" />
+                    <template #fallback>
+                        <div id="PageContent" class="" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
+                            v-if="!pageStore.textIsHidden"
+                            v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)">
+                            <div class=""
+                                :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
+                                <div class="ProseMirror content-placeholder" v-html="pageStore.content"
+                                    id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                 </div>
-                            </template>
-                        </ClientOnly>
-                        <div id="EditBarAnchor"></div>
-
-                        <PageContentGrid v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)" :children="pageStore.gridItems" />
-
-                        <ClientOnly>
-                            <PageTabsQuestions v-show="tabsStore.activeTab === Tab.Learning || (props.tab === Tab.Learning && !tabSwitched)" />
-                            <template #fallback>
-                                <div class="row">
-                                </div>
-                            </template>
-                            <LazyPageTabsFeed v-show="tabsStore.activeTab === Tab.Feed || (props.tab === Tab.Feed && !tabSwitched)" />
-                            <PageTabsAnalytics v-show="tabsStore.activeTab === Tab.Analytics || (props.tab === Tab.Analytics && !tabSwitched)" />
-                        </ClientOnly>
-
-                        <ClientOnly>
-                            <PageRelationEditModal />
-                            <QuestionEditModal />
-                            <QuestionEditDeleteModal />
-                            <PagePublishModal />
-                            <PageToPrivateModal />
-                            <PageDeleteModal />
-                            <PageLearningAiCreateFlashCard />
-                            <PageSharingModal />
-                        </ClientOnly>
+                            </div>
+                        </div>
                     </template>
-                </div>
+                </ClientOnly>
+                <div id="EditBarAnchor"></div>
+
+                <PageContentGrid v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)" :children="pageStore.gridItems" />
 
                 <ClientOnly>
-                    <Sidebar class="is-page" :show-outline="true" :site="SiteType.Page" v-if="pageStore?.id != 0" />
-
+                    <PageTabsQuestions v-show="tabsStore.activeTab === Tab.Learning || (props.tab === Tab.Learning && !tabSwitched)" />
                     <template #fallback>
-                        <SidebarFallback class="is-page" />
+                        <div class="row">
+                        </div>
                     </template>
+                    <LazyPageTabsFeed v-show="tabsStore.activeTab === Tab.Feed || (props.tab === Tab.Feed && !tabSwitched)" />
+                    <PageTabsAnalytics v-show="tabsStore.activeTab === Tab.Analytics || (props.tab === Tab.Analytics && !tabSwitched)" />
+                </ClientOnly>
+
+                <ClientOnly>
+                    <PageRelationEditModal />
+                    <QuestionEditModal />
+                    <QuestionEditDeleteModal />
+                    <PagePublishModal />
+                    <PageToPrivateModal />
+                    <PageDeleteModal />
+                    <PageLearningAiCreateFlashCard />
+                    <PageSharingModal />
                 </ClientOnly>
             </template>
         </div>
+
+        <Sidebar class="is-page sidebar" :show-outline="true" :site="SiteType.Page" v-if="pageStore?.id != 0" />
+
     </div>
 </template>
-
-<style lang="less">
-@import (reference) '~~/assets/includes/imports.less';
-
-#InlineEdit {
-    padding: 0px;
-    border: none;
-}
-
-#PageContentPlaceholder {
-    padding: 0px;
-    margin-bottom: 70px;
-
-    p {
-        min-height: calc(5em / 3);
-
-        .media-below-sm({
-            min-height: 1.5em;
-        });
-
-    img {
-
-        // Apply styles to p if it contains img
-        & {
-            margin-bottom: 40px !important;
-        }
-    }
-
-    .tiptapImgMixin(false)
-}
-
-
-&.is-mobile {
-    p {
-        min-height: 21px;
-    }
-}
-
-ul {
-    margin-bottom: 10px;
-
-    ul {
-        margin-bottom: 0px;
-    }
-}
-
-pre {
-    margin-bottom: 20px;
-}
-}
-
-.small-font {
-    p {
-        font-size: 16px;
-    }
-
-    .media-below-sm({
-        font-size: 12px;
-    });
-}
-
-.large-font {
-    h2 {
-        font-size: 2.6rem;
-    }
-
-    h3 {
-        font-size: 2.3rem;
-    }
-
-    h4 {
-        font-size: 2.1rem;
-    }
-
-    p {
-        font-size: 20px;
-    }
-
-    .media-below-sm({
-        font-size: 16px;
-    });
-}
-
-#PageContent {
-    &.no-grid-items {
-        min-height: 50vh;
-    }
-}
-</style>
 
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-.page-content {
-    min-height: 400px;
-    height: 100%;
-    margin-top: 0;
+// .page-content {
+//     min-height: 400px;
+//     height: 100%;
+//     margin-top: 0;
+//     width: 100%;
 
-    @media(min-width: 992px) {
-        display: flex;
-    }
-}
+//     @media(min-width: 992px) {
+//         display: flex;
+//     }
+// }
 
 :deep(.column) {
     width: 33%;
@@ -476,7 +380,7 @@ h4 {
 
 #PageContent {
     padding-top: 36px;
-    max-width: calc(100vw - 20px);
+    max-width: calc(100vw - 15px);
 
     @media (min-width:1301px) {
         max-width: 100%;
@@ -496,5 +400,41 @@ h4 {
 
 .private-page {
     margin-bottom: -30px;
+}
+
+.page-container {
+    display: flex;
+    // justify-content: center;
+    // align-items: center;
+    flex-wrap: nowrap;
+    gap: 0 1rem;
+    width: 100%;
+
+    .page {
+        max-width: 1200px;
+        width: calc(75% - 1rem);
+        flex-grow: 2;
+    }
+
+    @media (max-width: 900px) {
+        .page {
+            // width: 100%;
+        }
+    }
+}
+
+.sidesheet-open {
+    .page-container {
+        @media (max-width: 1209px) {
+
+            .page {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.sidebar {
+    flex: 0 0 25%;
 }
 </style>

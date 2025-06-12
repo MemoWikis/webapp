@@ -9,7 +9,7 @@ import { useConvertStore } from '../page/convert/convertStore'
 import { useSnackbar } from 'vue3-snackbar'
 
 interface Props {
-    footerPages: FooterPages
+    footerPages?: FooterPages | null
 }
 const props = defineProps<Props>()
 
@@ -22,12 +22,11 @@ const { t } = useI18n()
 
 const snackbar = useSnackbar()
 
-const showSideSheetCookie = useCookie<boolean>('showSideSheet')
+const { isMobile } = useDevice()
 
-onBeforeMount(() => {
-    if (showSideSheetCookie.value)
-        sideSheetStore.showSideSheet = showSideSheetCookie.value
-})
+const showSideSheetCookie = useCookie<boolean>('showSideSheet')
+if (showSideSheetCookie.value)
+    sideSheetStore.showSideSheet = showSideSheetCookie.value && !isMobile
 
 watch(() => sideSheetStore.showSideSheet, (show) => {
     showSideSheetCookie.value = show
@@ -96,7 +95,7 @@ const init = async () => {
 
 onBeforeMount(async () => {
     if (userStore.isLoggedIn) {
-        init()
+        await init()
     }
 })
 
@@ -106,9 +105,9 @@ const isFavorite = computed(() => {
 
 const previouslyCollapsed = ref(false)
 
-watch(() => pageStore.id, (id) => {
+watch(() => pageStore.id, async (id) => {
     if (userStore.isLoggedIn) {
-        init()
+        await init()
     }
     else if (id)
         sideSheetStore.handleRecentPage(pageStore.name, pageStore.id)
@@ -305,7 +304,7 @@ pageStore.$onAction(({ after, name }) => {
 })
 
 const route = useRoute()
-const { isMobile } = useDevice()
+
 onMounted(() => {
     if (isMobile) {
         watch(() => route.path, () => {
@@ -345,10 +344,9 @@ const handleClick = (key?: string) => {
 
 </script>
 <template>
-    <div v-if="windowWidth > 0" id="SideSheet"
-        :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }"
-        :style="`height: ${windowHeight}px`" @mouseleave="handleMouseLeave">
-        <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
+    <div id="SideSheet"
+        :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }" @mouseleave="handleMouseLeave">
+        <PerfectScrollbar :options="{ suppressScrollX: true }" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
                 <SideSheetSection class="no-b-padding" @mouseover="handleMouseOver">
@@ -536,7 +534,7 @@ const handleClick = (key?: string) => {
                 </SideSheetSection>
             </div>
 
-        </perfect-scrollbar>
+        </PerfectScrollbar>
 
         <div id="SideSheetFooter">
             <div class="bg-fade"></div>
@@ -552,7 +550,7 @@ const handleClick = (key?: string) => {
                         </div>
                     </template>
 
-                    <template #content v-if="!collapsed">
+                    <template #content v-if="!collapsed && props.footerPages">
                         <div class="help-links">
                             <NuxtLink
                                 :to="$urlHelper.getPageUrl(props.footerPages.documentation.name, props.footerPages.documentation.id)"
@@ -591,6 +589,7 @@ const handleClick = (key?: string) => {
     transition: all 0.3s ease-in-out;
     padding-top: 71px;
     overscroll-behavior: none;
+    height: 100%;
 
     &.not-logged-in {
         padding-top: 131px;

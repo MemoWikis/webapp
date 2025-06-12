@@ -12,17 +12,16 @@ const props = defineProps<Props>()
 const { t } = useI18n()
 
 const userStore = useUserStore()
-
 const showSearch = ref(true)
 const { $urlHelper } = useNuxtApp()
-async function openUrl(val: PageItem | QuestionItem | UserItem) {
+const openUrl = async (val: PageItem | QuestionItem | UserItem) => {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
     return navigateTo(val.url)
 }
 const { isDesktopOrTablet, isMobile } = useDevice()
 
-function handleResize() {
+const handleResize = () => {
     if (showSearch.value)
         return
 
@@ -44,18 +43,19 @@ onMounted(() => {
     }
 })
 
-function handleError() {
+const handleError = () => {
     if (props.isError)
         clearError()
 }
 
 const rootPageChipStore = useRootPageChipStore()
+const { sideSheetOpen } = useSideSheetState()
 </script>
 
 <template>
     <div id="GuestNavigation">
-        <div class="HeaderMainRow container" :class="{ 'search-is-open': showSearch }">
-            <div class="row">
+        <div class="HeaderMainRow" :class="{ 'search-is-open': showSearch }">
+            <div class="guest-header-container" :class="{ 'sidesheet-open': sideSheetOpen }">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
                     <NuxtLink id="LogoLink" @click="handleError"
                         :to="userStore.isLoggedIn ? $urlHelper.getPageUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getPageUrl(rootPageChipStore.name, rootPageChipStore.id)"
@@ -68,7 +68,7 @@ const rootPageChipStore = useRootPageChipStore()
                         </div>
                     </NuxtLink>
                 </div>
-                <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
+                <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8">
                     <div id="HeaderSearch" class="" v-if="!props.isError">
                         <div class="search-button" :class="{ 'showSearch': showSearch }" v-if="windowIsAvailable"
                             @click="showSearch = !showSearch">
@@ -120,6 +120,10 @@ const rootPageChipStore = useRootPageChipStore()
         min-height: 60px;
         height: 100%;
 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         &.search-is-open {
             @media(max-width: 479px) {
 
@@ -135,8 +139,27 @@ const rootPageChipStore = useRootPageChipStore()
             }
         }
 
-        .row {
+        .guest-header-container {
             height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1600px;
+            width: 100%;
+            padding: 0 10px;
+            padding-left: 80px;
+
+            &.sidesheet-open {
+                padding-left: 410px;
+
+                @media (max-width: 900px) {
+                    padding-left: 0px;
+                }
+
+                @media (min-width: 1980px) {
+                    padding-left: clamp(80px, calc(410px - (100vw - 1980px)), 410px);
+                }
+            }
         }
 
         .col-LoginAndHelp {
@@ -218,9 +241,6 @@ const rootPageChipStore = useRootPageChipStore()
                 }
 
                 .register-btn-container {
-                    @media (min-width: 1300px) {
-                        width: 270px;
-                    }
 
                     .register-btn {
                         border-radius: 24px;
