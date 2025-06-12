@@ -69,6 +69,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         _stopwatch.Restart();
     }
+
     public static async Task<TestHarness> CreateAsync(bool enablePerfLogging = false, string? prebuiltDbImage = null)
     {
         if (!string.IsNullOrEmpty(prebuiltDbImage))
@@ -98,6 +99,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var scenarioImageName = $"{ScenarioImageConstants.BaseName}:{scenarioTag}";
         return await CreateAsync(enablePerfLogging, scenarioImageName);
     }
+
     private TestHarness(bool enablePerfLogging, string? prebuiltDbImage, bool preserveContainerForScenarioImage = false)
     {
         _enablePerfLogging = enablePerfLogging;
@@ -112,7 +114,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             // For prebuilt images, use a specific name and clean up previous containers
             containerName = "memowikis-mysql-prebuilt";
             CleanupExistingContainer(containerName);
-            useReuse = false; // Don't reuse when using prebuilt images
+            useReuse = false;
         }
         else if (preserveContainerForScenarioImage)
         {
@@ -123,9 +125,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         }
         else
         {
-            // For regular tests, use a fixed name since containers are auto-cleaned up
             containerName = "memowikis-mysql-test";
-            useReuse = false; // Don't reuse, allow automatic cleanup
+            useReuse = true; 
         }
 
         _db = new MySqlBuilder()
@@ -240,6 +241,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         await questionsIndex.UpdateFilterableAttributesAsync(["Language"]);
         await usersIndex.UpdateFilterableAttributesAsync(["ContentLanguages"]);
     }
+
     public async ValueTask DisposeAsync()
     {
         JobScheduler.Clear();
