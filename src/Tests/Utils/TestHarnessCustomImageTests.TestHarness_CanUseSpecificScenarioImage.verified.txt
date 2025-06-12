@@ -1,5 +1,5 @@
 ﻿{
-  usersSummary: [
+  users: [
     {
       ActivityLevel: 0,
       ActivityPoints: 0,

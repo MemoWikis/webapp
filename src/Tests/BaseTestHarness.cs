@@ -2,9 +2,10 @@
 internal class BaseTestHarness
 {
     protected bool _useTinyScenario = false;
+    protected bool _useScenarioBuilding = false;
 
     protected TestHarness _testHarness = null!; // Will be set in OneTimeSetUp
-    
+
     protected T R<T>() where T : notnull => _testHarness.Resolve<T>();
 
     [OneTimeSetUp]
@@ -13,7 +14,7 @@ internal class BaseTestHarness
     [OneTimeTearDown]
     public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
 
-    public async Task ReloadCaches() 
+    public async Task ReloadCaches()
         => await _testHarness.InitAsync(keepData: true);
 
     public async Task ClearData()
@@ -24,7 +25,9 @@ internal class BaseTestHarness
 
     private async Task CreateTestHarness()
     {
-        if (_useTinyScenario)
+        if (_useScenarioBuilding)
+            _testHarness = await TestHarness.CreateForScenarioBuilding();
+        else if (_useTinyScenario)
             _testHarness = await TestHarness.CreateWithTinyScenario();
         else
             _testHarness = await TestHarness.CreateAsync();

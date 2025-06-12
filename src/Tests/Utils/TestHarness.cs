@@ -53,9 +53,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public static string MeilisearchMasterKey => "meilisearch-test-key";
 
     private readonly IWebHostEnvironment _webHostEnv;
-    private readonly IHttpContextAccessor _httpCtxAcc;
-
-    private readonly bool _enablePerfLogging;
+    private readonly IHttpContextAccessor _httpCtxAcc; private readonly bool _enablePerfLogging;
+    private readonly bool _preserveContainerForScenarioImage;
     private Stopwatch? _stopwatch;
 
     private void PerfLog(string message)
@@ -70,7 +69,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         _stopwatch.Restart();
     }
-
     public static async Task<TestHarness> CreateAsync(bool enablePerfLogging = false, string? prebuiltDbImage = null)
     {
         if (!string.IsNullOrEmpty(prebuiltDbImage))
@@ -78,7 +76,14 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             await DockerUtilities.LoadDockerImageAsync(prebuiltDbImage);
         }
 
-        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage);
+        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage, preserveContainerForScenarioImage: false);
+        await harness.InitAsync();
+        return harness;
+    }
+
+    public static async Task<TestHarness> CreateForScenarioBuilding(bool enablePerfLogging = false)
+    {
+        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage: null, preserveContainerForScenarioImage: true);
         await harness.InitAsync();
         return harness;
     }
@@ -93,24 +98,34 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var scenarioImageName = $"{ScenarioImageConstants.BaseName}:{scenarioTag}";
         return await CreateAsync(enablePerfLogging, scenarioImageName);
     }
-    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage)
+    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage, bool preserveContainerForScenarioImage = false)
     {
         _enablePerfLogging = enablePerfLogging;
+        _preserveContainerForScenarioImage = preserveContainerForScenarioImage;
         _stopwatch = Stopwatch.StartNew();
 
         // Determine container name based on whether a prebuilt image is used
         string containerName;
+        bool useReuse;
         if (!string.IsNullOrEmpty(prebuiltDbImage))
         {
             // For prebuilt images, use a specific name and clean up previous containers
             containerName = "memowikis-mysql-prebuilt";
             CleanupExistingContainer(containerName);
+            useReuse = false; // Don't reuse when using prebuilt images
+        }
+        else if (preserveContainerForScenarioImage)
+        {
+            // For scenario building, use a specific name but keep the container
+            containerName = "memowikis-mysql-scenario";
+            CleanupExistingContainer(containerName);
+            useReuse = false; // Don't reuse, but don't auto-dispose either
         }
         else
         {
-            // For regular images, use unique name to avoid conflicts
-            var uniqueId = DateTime.Now.Ticks.ToString();
-            containerName = $"memowikis-mysql-{uniqueId}";
+            // For regular tests, use a fixed name since containers are auto-cleaned up
+            containerName = "memowikis-mysql-test";
+            useReuse = false; // Don't reuse, allow automatic cleanup
         }
 
         _db = new MySqlBuilder()
@@ -126,7 +141,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
                 Wait.ForUnixContainer()
                     .UntilCommandIsCompleted("mysqladmin", "ping", "-h", "localhost", "-u", "test", "-pP@ssw0rd_#123")
                     .UntilPortIsAvailable(3306))
-            .WithReuse(true)
+            .WithReuse(useReuse)
             .Build();
 
         PerfLog($"Container Startup");
@@ -225,7 +240,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         await questionsIndex.UpdateFilterableAttributesAsync(["Language"]);
         await usersIndex.UpdateFilterableAttributesAsync(["ContentLanguages"]);
     }
-
     public async ValueTask DisposeAsync()
     {
         JobScheduler.Clear();
@@ -233,7 +247,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         _scope?.Dispose();
         _factory?.Dispose();
-        await _db.DisposeAsync();
+
+        // Only dispose the database container if we're not preserving it for scenario image building
+        if (!_preserveContainerForScenarioImage)
+        {
+            await _db.DisposeAsync();
+        }
+
         await _meiliSearch.DisposeAsync();
 
         GC.SuppressFinalize(this);
