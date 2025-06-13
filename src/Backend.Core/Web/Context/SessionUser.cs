@@ -72,7 +72,8 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
         HasBetaAccess = true;
         IsLoggedIn = true;
         _userId = user.Id;
-        CurrentWikiId = user.StartPageId;
+
+        CurrentWikiId = EntityCache.GetUserById(user.Id).FirstWikiId;
 
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;

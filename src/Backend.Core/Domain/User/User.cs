@@ -35,7 +35,6 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string RecentlyUsedRelationTargetPages { get; set; }
     public virtual int ReputationPos { get; set; }
     public virtual string Salt { get; set; }
-    public virtual int StartPageId { get; set; }
     public virtual string StripeId { get; set; }
     public virtual DateTime? SubscriptionStartDate { get; set; }
     public virtual int TotalInOthersWishknowledge { get; set; }
@@ -55,11 +54,6 @@ public class User : DomainEntity, IUserTinyModel
 
     public virtual string? FavoriteIds { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
-
-    public virtual bool IsStartPagePageId(int pageId)
-    {
-        return pageId == StartPageId;
-    }
 
     public virtual IList<string> WidgetHosts()
     {

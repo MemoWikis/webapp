@@ -98,6 +98,7 @@
             public static readonly string LoginFailed = "error.user.loginFailed";
             public static readonly string FalseEmailFormat = "error.user.falseEmailFormat";
             public static readonly string NotFound = Route.NotFound;
+            public static readonly string NoRemainingWikis = "error.user.noRemainingWikis";
         }
 
         public static class Route

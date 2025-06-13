@@ -254,7 +254,7 @@ public class PageCacheItem : IPersistable
         if (Parents().Count == 0)
             return true;
 
-        return Id == Creator.StartPageId;
+        return false;
     }
 
     public virtual List<PageCacheItem> Parents()

@@ -12,7 +12,7 @@ public class RecentlyUsedRelationTargets
     {
         var userCacheItem = EntityCache.GetUserById(userId);
 
-        if (userCacheItem.StartPageId == pageId)
+        if (userCacheItem.FirstWikiId == pageId)
             return;
 
         var recentlyUsedRelationTargetPageIds =

@@ -221,7 +221,7 @@ public class PageRelationEditController(
         if (elements.Pages.Any())
             _searchResultBuilder.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, pageIdsToFilter);
 
-        var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.StartPageId,
+        var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.FirstWikiId,
             _permissionCheck, _sessionUser.UserId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 

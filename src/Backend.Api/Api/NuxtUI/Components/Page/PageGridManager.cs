@@ -65,7 +65,7 @@
             Parents = GetParents(page),
             KnowledgebarData = GetKnowledgebarData(page),
             IsChildOfPersonalWiki = _sessionUser.IsLoggedIn && GraphService
-                .VisibleDescendants(_sessionUser.User.StartPageId, _permissionCheck,
+                .VisibleDescendants(_sessionUser.User.FirstWikiId, _permissionCheck,
                     _sessionUser.UserId).Any(c => c.Id == page.Id),
             CreatorId = page.CreatorId,
             CanDelete = _sessionUser.IsLoggedIn &&

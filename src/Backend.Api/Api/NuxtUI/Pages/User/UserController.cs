@@ -44,7 +44,7 @@
             };
         }
 
-        var userWiki = EntityCache.GetPage(user.StartPageId);
+        var userWiki = EntityCache.GetPage(user.FirstWikiId);
         var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
         var isCurrentUser = _sessionUser.UserId == user.Id;
         var allQuestionsCreatedByUser = EntityCache.GetAllQuestions()
@@ -58,7 +58,7 @@
                 Id = user.Id,
                 Name = user.Name,
                 WikiUrl = _permissionCheck.CanView(userWiki)
-                    ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartPageId
+                    ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.FirstWikiId
                     : null,
                 ImageUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                     .GetUrl_256px_square(user)

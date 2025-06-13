@@ -17,7 +17,9 @@
         var pageCacheItem = EntityCache.GetPage(page.Id);
         var hasDeleted = new HasDeleted();
 
-        if (!_permissionCheck.CanDelete(pageCacheItem))
+        var canDeleteResult = _permissionCheck.CanDelete(pageCacheItem);
+
+        if (!canDeleteResult.Allowed)
         {
             hasDeleted.IsNotCreatorOrAdmin = true;
             return hasDeleted;
@@ -206,7 +208,7 @@
 
     private RedirectPage FindAlternativePageWhenDeletingCurrentWiki(int id)
     {
-        var startPage = EntityCache.GetPage(_sessionUser.User.StartPageId);
+        var startPage = _sessionUser.User.FirstWiki();
         if (startPage != null && id != startPage.Id && startPage.IsWiki)
             return new RedirectPage(startPage.Name, startPage.Id);
 

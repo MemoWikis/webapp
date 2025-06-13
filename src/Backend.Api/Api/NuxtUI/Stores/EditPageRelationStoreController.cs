@@ -28,14 +28,14 @@ public class EditPageRelationStoreController(
     [HttpGet]
     public GetPersonalWikiDataResult GetPersonalWikiData([FromRoute] int id)
     {
-        if (GraphService.Descendants(id).Any(c => c.Id == _sessionUser.User.StartPageId))
+        if (GraphService.Descendants(id).Any(c => c.Id == _sessionUser.User.FirstWikiId))
             return new GetPersonalWikiDataResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
 
-        var personalWiki = EntityCache.GetPage(_sessionUser.User.StartPageId);
+        var personalWiki = EntityCache.GetPage(_sessionUser.User.FirstWikiId);
         var personalWikiItem = _searchResultBuilder.FillSearchPageItem(personalWiki, _sessionUser.UserId);
         var recentlyUsedRelationTargetPages = new List<SearchPageItem>();
 
@@ -209,7 +209,7 @@ public class EditPageRelationStoreController(
     [HttpPost]
     public PersonalWikiResult AddToPersonalWiki([FromRoute] int id)
     {
-        var personalWiki = EntityCache.GetPage(_sessionUser.User.StartPageId);
+        var personalWiki = EntityCache.GetPage(_sessionUser.User.FirstWikiId);
 
         if (personalWiki == null)
             return new PersonalWikiResult
@@ -248,7 +248,7 @@ public class EditPageRelationStoreController(
     [HttpPost]
     public RemoveFromPersonalWikiResult RemoveFromPersonalWiki([FromRoute] int id)
     {
-        var personalWiki = EntityCache.GetPage(_sessionUser.User.StartPageId);
+        var personalWiki = EntityCache.GetPage(_sessionUser.User.FirstWikiId);
 
         if (personalWiki == null)
             return new RemoveFromPersonalWikiResult
