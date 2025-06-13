@@ -1,4 +1,6 @@
-﻿internal class DockerUtilities
+﻿using System.Diagnostics;
+
+internal class DockerUtilities
 {
     /// <summary>
     ///     Creates a Docker image of the current database state that can be saved to a central repository
@@ -136,7 +138,7 @@
             arguments = $"pull {imageNameOrPath}";
         }
 
-        var startInfo = new System.Diagnostics.ProcessStartInfo
+        var startInfo = new ProcessStartInfo
         {
             FileName = "docker",
             Arguments = arguments,
@@ -146,7 +148,7 @@
             CreateNoWindow = true
         };
 
-        using var process = System.Diagnostics.Process.Start(startInfo);
+        using var process = Process.Start(startInfo);
         if (process == null)
             return false;
 
@@ -169,7 +171,7 @@
     /// <returns>True if the image exists locally</returns>
     private static async Task<bool> ImageExistsLocallyAsync(string imageName)
     {
-        var startInfo = new System.Diagnostics.ProcessStartInfo
+        var startInfo = new ProcessStartInfo
         {
             FileName = "docker",
             Arguments = $"images {imageName} --quiet",
@@ -179,7 +181,7 @@
             CreateNoWindow = true
         };
 
-        using var process = System.Diagnostics.Process.Start(startInfo);
+        using var process = Process.Start(startInfo);
         if (process == null)
             return false;
 
@@ -193,7 +195,7 @@
     private async Task<string> GetMySqlContainerIdAsync()
     {
         // First, let's check all running containers to help with debugging
-        var listStartInfo = new System.Diagnostics.ProcessStartInfo
+        var listStartInfo = new ProcessStartInfo
         {
             FileName = "docker",
             Arguments = "ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.Status}}\"",
@@ -203,17 +205,17 @@
             CreateNoWindow = true
         };
 
-        using var listProcess = System.Diagnostics.Process.Start(listStartInfo);
+        using var listProcess = Process.Start(listStartInfo);
         if (listProcess != null)
         {
             string listOutput = await listProcess.StandardOutput.ReadToEndAsync();
             await listProcess.WaitForExitAsync();
-            System.Diagnostics.Debug.WriteLine($"Running containers:\n{listOutput}");
+            Debug.WriteLine($"Running containers:\n{listOutput}");
         }
 
         // Use Docker CLI to find the MySQL container for our tests
         // Using -n 1 to get only the first container
-        var startInfo = new System.Diagnostics.ProcessStartInfo
+        var startInfo = new ProcessStartInfo
         {
             FileName = "docker",
             Arguments = "ps --filter \"name=mem-mysql\" --format \"{{.ID}}\" -n 1",
@@ -223,7 +225,7 @@
             CreateNoWindow = true
         };
 
-        using var process = System.Diagnostics.Process.Start(startInfo);
+        using var process = Process.Start(startInfo);
         if (process == null) return string.Empty;
 
         string output = await process.StandardOutput.ReadToEndAsync();
@@ -232,7 +234,7 @@
 
         if (!string.IsNullOrEmpty(errorOutput))
         {
-            System.Diagnostics.Debug.WriteLine($"Docker ps error: {errorOutput}");
+            Debug.WriteLine($"Docker ps error: {errorOutput}");
         }
 
         // Take only the first line and trim it
@@ -241,7 +243,7 @@
         // If no container found with mem-mysql, try with just mysql
         if (string.IsNullOrEmpty(containerId))
         {
-            var fallbackStartInfo = new System.Diagnostics.ProcessStartInfo
+            var fallbackStartInfo = new ProcessStartInfo
             {
                 FileName = "docker",
                 Arguments = "ps --filter \"name=mysql\" --format \"{{.ID}}\" -n 1",
@@ -251,7 +253,7 @@
                 CreateNoWindow = true
             };
 
-            using var fallbackProcess = System.Diagnostics.Process.Start(fallbackStartInfo);
+            using var fallbackProcess = Process.Start(fallbackStartInfo);
             if (fallbackProcess != null)
             {
                 output = await fallbackProcess.StandardOutput.ReadToEndAsync();
@@ -260,39 +262,50 @@
             }
         }
 
-        System.Diagnostics.Debug.WriteLine($"Selected MySQL container ID: '{containerId}'");
+        Debug.WriteLine($"Selected MySQL container ID: '{containerId}'");
 
         return containerId;
     }
 
-    private async Task CommitContainerToImageAsync(string containerId, string imageName)
+    private async Task CommitContainerToImageAsync(
+        string containerIdentifier,
+        string targetImageName)
     {
-        var startInfo = new System.Diagnostics.ProcessStartInfo
+        // All labels that should be cleared (value will be "")
+        string[] labelsToClear =
+        [
+            "org.testcontainers",
+            "org.testcontainers.lang",
+            "org.testcontainers.resource-reaper-session",
+            "org.testcontainers.session-id",
+            "org.testcontainers.version",
+            "desktop.docker.io/ports.scheme",
+            "desktop.docker.io/ports/3306/tcp"
+        ];
+
+        string labelArgs = string.Join(' ',
+            labelsToClear.Select(labelKey =>
+                $"--change \"LABEL {labelKey}=\""));
+
+        var processInfo = new ProcessStartInfo
         {
             FileName = "docker",
-            Arguments = $"commit {containerId} {imageName}",
+            Arguments = $"commit {labelArgs} {containerIdentifier} {targetImageName}",
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
 
-        using var process = System.Diagnostics.Process.Start(startInfo);
-        if (process == null)
-            throw new InvalidOperationException("Failed to start Docker commit process.");
-
-        string standardOutput = await process.StandardOutput.ReadToEndAsync();
-        string errorOutput = await process.StandardError.ReadToEndAsync();
-        await process.WaitForExitAsync();
-
+        using var process = Process.Start(processInfo);
+        await process!.WaitForExitAsync();
         if (process.ExitCode != 0)
         {
-            throw new InvalidOperationException($"Docker commit failed with exit code {process.ExitCode}. " +
-                                                $"Container ID: '{containerId}', Image Name: '{imageName}'. " +
-                                                $"Error: {errorOutput}. " +
-                                                $"Output: {standardOutput}");
+            string errorOutput = await process.StandardError.ReadToEndAsync();
+            throw new InvalidOperationException($"docker commit failed: {errorOutput}");
         }
     }
+
 
     private async Task SaveDockerImageToFileAsync(string imageName, string outputFile)
     {
@@ -306,7 +319,7 @@
             CreateNoWindow = true
         };
 
-        using var process = System.Diagnostics.Process.Start(startInfo);
+        using var process = Process.Start(startInfo);
         if (process == null)
             throw new InvalidOperationException("Failed to start Docker save process.");
 
