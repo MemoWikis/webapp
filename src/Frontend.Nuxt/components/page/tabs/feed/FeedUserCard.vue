@@ -61,7 +61,6 @@ watch(() => props.authorGroup, () => {
         justify-content: space-between;
         flex-direction: row;
         flex-wrap: nowrap;
-        // padding: 0 24px;
         min-width: 40px;
         margin: 0 24px;
         margin-left: 8px;

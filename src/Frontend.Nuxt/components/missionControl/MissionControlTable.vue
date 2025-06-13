@@ -139,13 +139,6 @@ function getSortIconClass(key: keyof PageData) {
 @import (reference) '~~/assets/includes/imports.less';
 
 .pages-table-container {
-    width: 100%;
-    margin-top: 1rem;
-
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-
     .no-pages {
         text-align: center;
         color: @memo-grey-dark;
@@ -177,6 +170,7 @@ function getSortIconClass(key: keyof PageData) {
         text-overflow: none;
         white-space: nowrap;
         background: white;
+        text-align: center;
 
         &.sortable {
             cursor: pointer;
@@ -194,6 +188,7 @@ function getSortIconClass(key: keyof PageData) {
         &.name-header {
             min-width: 50%;
             max-width: 50%;
+            text-align: left;
         }
 
         &.questioncount-header {
@@ -205,7 +200,6 @@ function getSortIconClass(key: keyof PageData) {
         &.knowledgestatus-header {
             width: 180px;
             min-width: 180px;
-            padding-right: 24px;
         }
 
         &.actions-column {

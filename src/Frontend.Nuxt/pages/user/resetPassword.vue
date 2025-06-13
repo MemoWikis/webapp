@@ -43,9 +43,8 @@ const repeatedPasswordInputType = ref<string>('password')
 
 async function saveNewPassword() {
     errorMessage.value = ''
-
     if (newPassword.value != repeatedPassword.value) {
-        errorMessage.value = 'Die Passwörter stimmen nicht überein'
+        errorMessage.value = t('resetPassword.passwordMismatch')
         return
     }
     if (newPassword.value.length < 5) {
@@ -76,84 +75,74 @@ async function saveNewPassword() {
 </script>
 
 <template>
-    <div class="container">
-        <div class="row main-page">
-            <div class="col-lg-9 col-md-12 container main-content">
-
-                <div class="row content">
-                    <div class="form-horizontal col-md-12">
-
-                        <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
-                            <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                Neues Passwort setzen
-                            </h1>
+    <div class="main-content">
+        <div class="row reset-password-container">
+            <div class="form-horizontal col-md-9 col-sm-12">
+                <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
+                    <h1 class="col-sm-offset-2 col-sm-8 reset-title">
+                        {{ t('resetPassword.title') }}
+                    </h1>
+                </div>
+                <fieldset v-if="tokenValidationResult?.success">
+                    <div class="col-sm-offset-2 alert alert-danger col-sm-8" v-if="errorMessage.length > 0">
+                        {{ errorMessage }}
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="overline-s no-line">{{ t('resetPassword.password') }}</div>
                         </div>
-                        <fieldset v-if="tokenValidationResult?.success">
-                            <div class="col-sm-offset-2 alert alert-danger col-sm-8" v-if="errorMessage.length > 0">
-                                {{ errorMessage }}
-                            </div>
 
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8">
-                                    <div class="overline-s no-line">Passwort</div>
-                                </div>
-
-                                <div class="col-sm-offset-2 col-sm-8">
-                                    <input name="password" placeholder="min. 5 Zeichen" :type="newPasswordInputType"
-                                        width="100%" class="password-inputs" v-model="newPassword"
-                                        @keydown.enter="saveNewPassword()" />
-                                    <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
-                                        v-if="newPasswordInputType === 'password'"
-                                        @click="newPasswordInputType = 'text'" />
-                                    <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                                        v-if="newPasswordInputType === 'text'"
-                                        @click="newPasswordInputType = 'password'" />
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8">
-                                    <div class="overline-s no-line">Passwort wiederholen</div>
-                                </div>
-
-                                <div class="col-sm-offset-2 col-sm-8">
-                                    <input name="password" placeholder="" :type="repeatedPasswordInputType" width="100%"
-                                        class="password-inputs" v-model="repeatedPassword"
-                                        @keydown.enter="saveNewPassword()" />
-                                    <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
-                                        v-if="repeatedPasswordInputType === 'password'"
-                                        @click="repeatedPasswordInputType = 'text'" />
-                                    <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                                        v-if="repeatedPasswordInputType === 'text'"
-                                        @click="repeatedPasswordInputType = 'password'" />
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
-                                    <button @click="saveNewPassword()" class="btn btn-primary memo-button col-sm-12">
-                                        Neues Passwort speichern
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
-                                    <p href="#" style="text-align: center;">
-                                        <button style="text-align: center;" class="btn btn-link"
-                                            @click="userStore.openLoginModal()">
-                                            Mein Passwort ist mir wieder eingefallen.
-                                        </button>
-                                    </p>
-                                </div>
-                            </div>
-
-                        </fieldset>
-                        <div v-else-if="!tokenValidationResult?.success"
-                            class="alert alert-danger col-sm-offset-2 col-sm-8 ">
-                            {{ errorMessage }}
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <input name="password" :placeholder="t('resetPassword.passwordPlaceholder')" :type="newPasswordInputType"
+                                width="100%" class="password-inputs" v-model="newPassword"
+                                @keydown.enter="saveNewPassword()" />
+                            <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
+                                v-if="newPasswordInputType === 'password'"
+                                @click="newPasswordInputType = 'text'" />
+                            <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
+                                v-if="newPasswordInputType === 'text'"
+                                @click="newPasswordInputType = 'password'" />
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="overline-s no-line">{{ t('resetPassword.repeatPassword') }}</div>
+                        </div>
+
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <input name="password" placeholder="" :type="repeatedPasswordInputType" width="100%"
+                                class="password-inputs" v-model="repeatedPassword"
+                                @keydown.enter="saveNewPassword()" />
+                            <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
+                                v-if="repeatedPasswordInputType === 'password'"
+                                @click="repeatedPasswordInputType = 'text'" />
+                            <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
+                                v-if="repeatedPasswordInputType === 'text'"
+                                @click="repeatedPasswordInputType = 'password'" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
+                            <button @click="saveNewPassword()" class="btn btn-primary memo-button col-sm-12">
+                                {{ t('resetPassword.saveButton') }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
+                            <p href="#" style="text-align: center;">
+                                <button style="text-align: center;" class="btn btn-link"
+                                    @click="userStore.openLoginModal()">
+                                    {{ t('resetPassword.rememberedPassword') }}
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <div v-else-if="!tokenValidationResult?.success"
+                    class="alert alert-danger col-sm-offset-2 col-sm-8 ">
+                    {{ errorMessage }}
                 </div>
             </div>
         </div>
@@ -163,8 +152,9 @@ async function saveNewPassword() {
 <style lang="less" scoped>
 @import (reference) '~/assets/includes/imports.less';
 
-.main-page {
-    padding-bottom: 45px;
+.reset-password-container {
+    display: flex;
+    justify-content: center;
 }
 
 .reset-title {
@@ -189,5 +179,20 @@ async function saveNewPassword() {
     right: 30px;
     cursor: pointer;
     width: 20px;
+}
+
+.sidesheet-open {
+
+    .reset-password-container {
+        @media (max-width: 1500px) {
+            .col-sm-offset-2 {
+                margin-left: 0;
+            }
+
+            .col-sm-8 {
+                width: 100%;
+            }
+        }
+    }
 }
 </style>

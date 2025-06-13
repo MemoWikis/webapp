@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { KnowledgebarData } from '~/components/page/content/grid/knowledgebar/knowledgebarData'
 import { Tab } from '../page/tabs/tabsStore'
 import { PageData } from '~/composables/missionControl/pageData'
 
@@ -72,7 +71,6 @@ const { $urlHelper } = useNuxtApp()
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     height: 100%;
     cursor: pointer;
-    margin-top: 24px;
     height: 160px;
 
     .page-image {

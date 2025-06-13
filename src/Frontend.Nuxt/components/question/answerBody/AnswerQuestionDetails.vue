@@ -10,10 +10,8 @@ import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { useCommentsStore } from '~~/components/comment/commentsStore'
 import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
-import { abbreviateNumberToM } from '~~/components/shared/utils'
 import { useActivityPointsStore } from '~/components/activityPoints/activityPointsStore'
-import { color } from '~/components/shared/colors'
-import { useTimeElapsed } from '~~/composables/useTimeElapsed'
+import { color } from '~/constants/colors'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
@@ -813,31 +811,31 @@ watch(personalAnswerCount, (val) => {
     if (val > 0)
         showPersonalArc.value = true
     personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
-    answerCount.value = abbreviateNumberToM(val)
+    answerCount.value = getFormattedNumber(val)
 })
 
 watch(personalAnsweredCorrectly, (val) => {
     personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
-    correctAnswers.value = abbreviateNumberToM(val)
+    correctAnswers.value = getFormattedNumber(val)
 })
 
 watch(personalAnsweredWrongly, (val) => {
     personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
-    wrongAnswers.value = abbreviateNumberToM(val)
+    wrongAnswers.value = getFormattedNumber(val)
 })
 
 watch(overallAnswerCount, (val) => {
     overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
-    allAnswerCount.value = abbreviateNumberToM(val)
+    allAnswerCount.value = getFormattedNumber(val)
 })
 
 watch(overallAnsweredCorrectly, (val) => {
-    allCorrectAnswers.value = abbreviateNumberToM(val)
+    allCorrectAnswers.value = getFormattedNumber(val)
     overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
 })
 
 watch(overallAnsweredWrongly, (val) => {
-    allWrongAnswers.value = abbreviateNumberToM(val)
+    allWrongAnswers.value = getFormattedNumber(val)
     overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
 })
 

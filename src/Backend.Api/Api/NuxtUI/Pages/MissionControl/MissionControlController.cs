@@ -31,9 +31,9 @@
         if (_sessionUser == null || !_sessionUser.IsLoggedIn)
         {
             return new GetAllResponse(
-                new List<PageItem>(), 
-                new List<PageItem>(), 
-                new KnowledgeSummaryResponse(), 
+                new List<PageItem>(),
+                new List<PageItem>(),
+                new KnowledgeSummaryResponse(),
                 new ActivityCalendar(new List<Activity>())
             );
         }
@@ -95,6 +95,9 @@
 
         return favorites;
     }
+
+    [HttpGet]
+    public ActivityCalendar GetMockActivityCalendar() => GetActivityCalendar();
 
     // wip mockup data
     private static ActivityCalendar GetActivityCalendar()

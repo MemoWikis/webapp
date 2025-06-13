@@ -5,7 +5,7 @@ import { Google } from '~~/components/user/Google'
 import { FacebookMemoWikisUser } from '~~/components/user/FacebookMemoWikisUser'
 import { AlertType, useAlertStore } from '~~/components/alert/alertStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
-import { isValidEmail } from '~/components/shared/utils'
+import { isValidEmail } from '~/utils/utils'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
@@ -178,161 +178,178 @@ async function register() {
 </script>
 
 <template>
-    <div class="container">
-        <div class="register-container row main-page">
-            <div class="col-xs-12 container main-content">
-                <div class="row login-register">
-                    <div class="form-horizontal col-md-12">
 
-                        <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
-                            <h1 class="col-sm-offset-2 col-sm-8 register-title">
-                                {{ t('register.title') }}
-                            </h1>
-                            <div class="col-sm-offset-2 col-sm-8">
-                                {{ t('register.description') }}
-                            </div>
-                        </div>
+    <div class="main-content">
+        <div class="row login-register">
+            <div class="form-horizontal col-md-9 col-sm-12">
 
-                        <div class="form-group omb_login row">
-                            <div class="col-sm-offset-2 col-sm-8 omb_socialButtons">
-                                <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                                    <div class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister" @click="googleRegister()">
-                                        <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleRegister" class="socialMediaLogo">
-                                        <div class="socialMediaLabel">{{ t('label.continueWithGoogle') }}</div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                                    <div class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegister" @click="facebookRegister()">
-                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
-                                        <div class="socialMediaLabel">{{ t('label.continueWithFacebook') }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <fieldset>
-                            <div class="row" style="margin-bottom: 10px;">
-                                <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-                                    <div class="register-divider-container">
-                                        <div class="register-divider">
-                                            <div class="register-divider-line"></div>
-                                        </div>
-                                        <div class="register-divider-label-container">
-                                            <div class="register-divider-label">
-                                                {{ t('register.orDivider') }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-offset-2 alert alert-danger col-sm-8" v-if="errorMessage.length > 0">
-                                {{ errorMessage }}
-                            </div>
-
-                            <div class="input-container">
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-8">
-                                            <div class="overline-s no-line">{{ t('label.username') }}</div>
-                                        </div>
-                                        <div class="col-sm-offset-2 col-sm-8">
-                                            <input name="login" placeholder="" type="text" width="100%" class="login-inputs" v-model="userName" @keydown.enter="register()" @click="errorMessage = ''" />
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8">
-                                    <div class="overline-s no-line">{{ t('label.email') }}</div>
-                                </div>
-                                <div class="col-sm-offset-2 col-sm-8">
-                                    <input name="login" placeholder="" type="email" width="100%" class="login-inputs" v-model="eMail" @keydown.enter="register()" @click="errorMessage = ''" />
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8">
-                                    <div class="overline-s no-line">{{ t('label.password') }}</div>
-                                </div>
-
-                                <div class="col-sm-offset-2 col-sm-8">
-                                    <input name="password" placeholder="" :type="passwordInputType" width="100%" class="login-inputs" v-model="password" @keydown.enter="register()" @click="errorMessage = ''" />
-                                    <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon" v-if="passwordInputType === 'password'" @click="passwordInputType = 'text'" />
-                                    <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon" v-if="passwordInputType === 'text'" @click="passwordInputType = 'password'" />
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
-                                    <button @click="register()" class="btn btn-primary memo-button col-sm-12">
-                                        {{ t('label.register') }}
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
-                                    <p href="#" style="text-align: center;">
-                                        {{ t('register.alreadyRegistered') }}
-                                        <br />
-                                        <button style="text-align: center;" class="btn btn-link" @click="userStore.openLoginModal()">
-                                            {{ t('label.login') }}
-                                        </button>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8" style="font-size: 12px; padding-top: 20px; text-align: center;">
-                                    <i18n-t keypath="register.registerNote">
-                                        <template #termsOfUse>
-                                            <NuxtLink :to="`/${t('url.termsOfUse')}`">
-                                                {{ t('label.termsOfUse') }}
-                                            </NuxtLink>
-                                        </template>
-                                        <template #privacyPolicy>
-                                            <NuxtLink :to="`/${t('url.legalNotice')}`">
-                                                {{ t('label.privacyPolicy') }}
-                                            </NuxtLink>
-                                        </template>
-                                        <template #hereMoreInfos>
-                                            <NuxtLink :to="`/${t('url.legalNotice')}#under16`">
-                                                {{ t('register.hereMoreInfos') }}
-                                            </NuxtLink>
-                                        </template>
-                                    </i18n-t>
-                                </div>
-                            </div>
-
-                        </fieldset>
+                <div class=" row" style="margin-bottom: 23px; margin-top: -13px;">
+                    <h1 class="col-sm-offset-2 col-sm-8 register-title">
+                        {{ t('register.title') }}
+                    </h1>
+                    <div class="col-sm-offset-2 col-sm-8">
+                        {{ t('register.description') }}
                     </div>
                 </div>
+
+                <div class="form-group omb_login row">
+                    <div class="col-sm-offset-2 col-sm-8 omb_socialButtons">
+                        <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
+                            <div class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister" @click="googleRegister()">
+                                <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleRegister" class="socialMediaLogo">
+                                <div class="socialMediaLabel">{{ t('label.continueWithGoogle') }}</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
+                            <div class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegister" @click="facebookRegister()">
+                                <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
+                                <div class="socialMediaLabel">{{ t('label.continueWithFacebook') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <fieldset>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                            <div class="register-divider-container">
+                                <div class="register-divider">
+                                    <div class="register-divider-line"></div>
+                                </div>
+                                <div class="register-divider-label-container">
+                                    <div class="register-divider-label">
+                                        {{ t('register.orDivider') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-offset-2 alert alert-danger col-sm-8" v-if="errorMessage.length > 0">
+                        {{ errorMessage }}
+                    </div>
+
+                    <div class="input-container">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-8">
+                                    <div class="overline-s no-line">{{ t('label.username') }}</div>
+                                </div>
+                                <div class="col-sm-offset-2 col-sm-8">
+                                    <input name="login" placeholder="" type="text" width="100%" class="login-inputs" v-model="userName" @keydown.enter="register()" @click="errorMessage = ''" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="overline-s no-line">{{ t('label.email') }}</div>
+                        </div>
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <input name="login" placeholder="" type="email" width="100%" class="login-inputs" v-model="eMail" @keydown.enter="register()" @click="errorMessage = ''" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="overline-s no-line">{{ t('label.password') }}</div>
+                        </div>
+
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <input name="password" placeholder="" :type="passwordInputType" width="100%" class="login-inputs" v-model="password" @keydown.enter="register()" @click="errorMessage = ''" />
+                            <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon" v-if="passwordInputType === 'password'" @click="passwordInputType = 'text'" />
+                            <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon" v-if="passwordInputType === 'text'" @click="passwordInputType = 'password'" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
+                            <button @click="register()" class="btn btn-primary memo-button col-sm-12">
+                                {{ t('label.register') }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
+                            <p href="#" style="text-align: center;">
+                                {{ t('register.alreadyRegistered') }}
+                                <br />
+                                <button style="text-align: center;" class="btn btn-link" @click="userStore.openLoginModal()">
+                                    {{ t('label.login') }}
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8" style="font-size: 12px; padding-top: 20px; text-align: center;">
+                            <i18n-t keypath="register.registerNote">
+                                <template #termsOfUse>
+                                    <NuxtLink :to="`/${t('url.termsOfUse')}`">
+                                        {{ t('label.termsOfUse') }}
+                                    </NuxtLink>
+                                </template>
+                                <template #privacyPolicy>
+                                    <NuxtLink :to="`/${t('url.legalNotice')}`">
+                                        {{ t('label.privacyPolicy') }}
+                                    </NuxtLink>
+                                </template>
+                                <template #hereMoreInfos>
+                                    <NuxtLink :to="`/${t('url.legalNotice')}#under16`">
+                                        {{ t('register.hereMoreInfos') }}
+                                    </NuxtLink>
+                                </template>
+                            </i18n-t>
+                        </div>
+                    </div>
+
+                </fieldset>
             </div>
         </div>
-
     </div>
+
 </template>
 
 <style lang="less" scoped>
 @import '~~/assets/shared/register.less';
 
-.register-container {
-    padding-bottom: 45px;
+.login-register {
+    display: flex;
+    justify-content: center;
+
 }
 
-#Sidebar {
-    display: flex;
-    align-items: stretch;
-    flex-grow: 1;
+.sidesheet-open {
+    .login-register {
+        @media (max-width: 1500px) {
+            .col-sm-offset-2 {
+                margin-left: 0;
+            }
 
-    #SidebarDivider {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border-left: 1px solid @memo-grey-light;
-        top: 0;
-        flex-grow: 1;
+            .col-sm-8 {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .omb_socialButtons {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem 0;
+
+                .socialMediaBtnContainer {
+                    width: 100%;
+                }
+
+                .socialMediaBtn {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
     }
 }
 </style>

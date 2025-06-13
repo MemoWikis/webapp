@@ -10,17 +10,17 @@ public class QuestionWritingRepo(
     QuestionChangeRepo _questionChangeRepo,
     ISession _nhibernateSession,
     SessionUser _sessionUser,
-    PageChangeRepo pageChangeRepo,
-    PageRepository pageRepository) : RepositoryDbBase<Question>(_nhibernateSession)
+    PageChangeRepo _pageChangeRepo,
+    PageRepository _pageRepository) : RepositoryDbBase<Question>(_nhibernateSession)
 {
-    public void Create(Question question, PageRepository pageRepository)
+    public override void Create(Question question)
     {
         if (question.Creator == null)
         {
             throw new Exception("no creator");
         }
 
-        Create(question);
+        base.Create(question);
         Flush();
 
         updateQuestionCountForPage.Run(question.Pages);
@@ -28,7 +28,7 @@ public class QuestionWritingRepo(
         foreach (var page in question.Pages.ToList())
         {
             page.UpdateCountQuestionsAggregated(question.Creator.Id);
-            pageRepository.Update(page);
+            _pageRepository.Update(page);
             KnowledgeSummaryUpdate.ScheduleForPage(page.Id, _jobQueueRepo);
         }
 
@@ -48,7 +48,7 @@ public class QuestionWritingRepo(
     public List<int> Delete(int questionId, int userId, List<int> parentIds)
     {
         var question = GetById(questionId);
-        var parentPages = pageRepository.GetByIds(parentIds);
+        var parentPages = _pageRepository.GetByIds(parentIds);
 
         updateQuestionCountForPage.Run(parentPages, userId);
         var safeText = Regex.Replace(question.Text, "<.*?>", "");
@@ -56,7 +56,7 @@ public class QuestionWritingRepo(
         var changeId = DeleteAndGetChangeId(question, userId);
 
         foreach (var parent in parentPages)
-            pageChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
+            _pageChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
 
         return parentIds;
     }

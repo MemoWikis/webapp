@@ -1,4 +1,3 @@
-
 <script lang="ts" setup>
 import { Plan } from './subscription'
 
@@ -11,7 +10,7 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-    <div class="col-sm-6 col-md-6 col-lg-3 card">
+    <div class="card">
         <div class="price-inner">
             <div class="header">
                 <div class="head-line">
@@ -57,8 +56,22 @@ const props = defineProps<Props>()
 
 .card {
     margin-top: 10px;
-    min-width: 270px;
+    width: calc(50% - 1rem);
     margin-bottom: 10px;
+
+    @media (max-width: 580px) {
+        width: 100%;
+    }
+}
+
+.sidesheet-open {
+    .card {
+
+        @media (max-width: 1000px) {
+            width: calc(100% - 1rem);
+        }
+
+    }
 }
 
 .recommended {
@@ -78,9 +91,8 @@ const props = defineProps<Props>()
 
 .price-inner {
     box-shadow: @memo-grey-light 0px 0px 0px 1px;
-
+    height: 100%;
     padding: 20px;
-    height: 700px;
 
     @media screen and (max-width: 768px) {
         height: unset;

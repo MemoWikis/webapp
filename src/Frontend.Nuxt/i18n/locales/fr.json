@@ -236,7 +236,11 @@
         "favorites": "Favoris",
         "lastVisited": "Dernières visites",
         "sharedWithMe": "Partagé avec moi",
+        "noWikis": "Tu n'as pas encore créé de wikis",
+        "noFavorites": "Tu n'as pas encore ajouté de favoris",
         "noSharedPages": "Aucune page n'a encore été partagée avec vous",
+        "noWikisNotLoggedIn": "Connecte-toi pour voir tes wikis",
+        "noFavoritesNotLoggedIn": "Connecte-toi pour voir tes favoris",
         "help": "Aide",
         "documentation": "Documentation",
         "createWikiModal": {
@@ -578,24 +582,38 @@
             "questionsGroupedByStatus": "Questions classées par statut",
             "noQuestionsAnswered": "Tu n’as pas encore répondu à une question sur cette page.",
             "pageData": "Données de la page",
-            "questionsLabel": "Questions :",
-            "includedQuestions": "questions incluses",
-            "directlyLinkedQuestions": "questions directement liées",
-            "pagesLabel": "Pages :",
-            "includedPages": "pages incluses",
-            "directlyLinkedChildPages": "sous-pages directement liées",
-            "parentPages": "pages parentes",
+            "questionsLabel": "Questions",
+            "includedQuestions": "0 question incluse | 1 question incluse | {count} questions incluses",
+            "directlyLinkedQuestions": "0 question directement liée | 1 question directement liée | {count} questions directement liées",
+            "totalQuestionViews": "0 vue de question au total | 1 vue de question au total | {count} vues de questions au total",
+            "pagesLabel": "Pages",
+            "includedPages": "0 page incluse | 1 page incluse | {count} pages incluses",
+            "directlyLinkedChildPages": "0 sous-page directement liée | 1 sous-page directement liée | {count} sous-pages directement liées",
+            "parentPages": "0 page parente | 1 page parente | {count} pages parentes",
+            "totalPageViews": "0 vue de page au total | 1 vue de page au total | {count} vues de pages au total",
             "statistics": "Statistiques",
-            "pageViewsLast90Days": "Visites de la page sur les 90 derniers jours",
+            "pageViewsLast90Days": "Visites de la page (90 jours)",
             "withoutChildPages": "Sans sous-pages",
-            "withChildPages": "Incl. 0 sous-page | Incl. 1 sous-page | Incl. {count} sous-pages",
-            "questionViewsLast90Days": "Visites de questions sur les 90 derniers jours",
+            "withChildPages": "0 sous-page | 1 sous-page | {count} sous-pages",
+            "questionViewsLast90Days": "Visites de questions (90 jours)",
             "directlyLinkedQuestionsTitle": "Questions directement liées",
             "includedQuestions90Days": "Questions incluses (0 sous-page) | Questions incluses (1 sous-page) | Questions incluses ({count} sous-pages)",
             "solidKnowledge": "@:knowledgeStatus.solid",
             "needsConsolidation": "@:knowledgeStatus.needsConsolidation",
             "needsLearning": "@:knowledgeStatus.needsLearning",
-            "notLearned": "@:knowledgeStatus.notLearned"
+            "notLearned": "@:knowledgeStatus.notLearned",
+            "contentTitle": "Contenu",
+            "viewsTitle": "Vues",
+            "learnActivity": "Activité d'Apprentissage",
+            "childPageCount": "Pages Incluses",
+            "directVisibleChildPageLabel": "Sous-pages Directement Liées",
+            "parentPageLabel": "Pages Parents",
+            "includedQuestionsLabel": "Questions Incluses",
+            "directlyLinkedQuestionsLabel": "Questions Directement Liées",
+            "pageViewsLabel": "Vues de Page",
+            "subpageViewsLabel": "Sous-pages",
+            "directQuestionViewsLabel": "Questions Directement Liées",
+            "aggregatedQuestionViewsLabel": "Toutes les Questions (directement liées et incluses)"
         },
         "publishModal": {
             "title": "Publier {name}",
@@ -1337,6 +1355,31 @@
                 }
             }
         },
+        "confirmEmail": {
+            "pending": {
+                "title": "Confirmation en cours",
+                "message": "On est en train de confirmer ton adresse e-mail. Patiente un moment."
+            },
+            "success": {
+                "title": "Confirmation réussie",
+                "message": "Ton adresse e-mail a été confirmée avec succès.",
+                "continue": "Continuer {destination}",
+                "yourWiki": "vers ton Wiki",
+                "homepage": "vers la page d'accueil"
+            },
+            "failed": {
+                "title": "Confirmation échouée",
+                "message1": "Désolé, la confirmation de ton adresse e-mail a échoué.",
+                "message2": "Il est possible que le lien de confirmation soit incorrect ou ait expiré.",
+                "message3": "Réessaie ou contacte",
+                "message4": "si le problème persiste.",
+                "message5": "On sera ravi de t'aider !",
+                "resendButton": "envoyer un nouvel e-mail de vérification"
+            },
+            "newMail": {
+                "title": "Nouvel e-mail de vérification demandé !"
+            }
+        },
         "messages": {
             "row": {
                 "markAsRead": "Marquer comme lu",
@@ -1640,6 +1683,76 @@
         },
         "pageGrid": {
             "questions": "Aucune question | Une question | {count} questions"
+        }
+    },
+    "resetPassword": {
+        "title": "Nouveau mot de passe",
+        "password": "Mot de passe",
+        "passwordPlaceholder": "min. 5 caractères",
+        "repeatPassword": "Répéter le mot de passe",
+        "saveButton": "Enregistrer le nouveau mot de passe",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "rememberedPassword": "Je me suis souvenu(e) de mon mot de passe."
+    },
+    "counter": {
+        "thousands": "{value} k",
+        "millions": "{value} M"
+    },
+    "maintenance": {
+        "title": "Page d'administration",
+        "metrics": {
+            "title": "Métriques",
+            "viewOverview": "Voir l'aperçu"
+        },
+        "questions": {
+            "title": "Questions",
+            "recalculateAllKnowledgeItems": "Recalculer toutes les probabilités de réponse",
+            "calcAggregatedValues": "Mettre à jour les nombres agrégés"
+        },
+        "cache": {
+            "title": "Cache",
+            "clearCache": "Vider le cache"
+        },
+        "pages": {
+            "title": "Pages",
+            "updateCategoryAuthors": "Mettre à jour les auteurs de pages"
+        },
+        "meiliSearch": {
+            "title": "Recherche MeiliSearch",
+            "description": "Réindexer tout pour la recherche :",
+            "questions": "Questions",
+            "questionsCache": "Questions (Cache)",
+            "pages": "Pages",
+            "pagesCache": "Pages (Cache)",
+            "users": "Utilisateurs",
+            "usersCache": "Utilisateurs (Cache)"
+        },
+        "users": {
+            "title": "Utilisateurs",
+            "updateReputationAndRankings": "Classements et Réputation + Agrégats",
+            "updateWishCount": "Mettre à jour le compteur de connaissances souhaitées",
+            "activeSessions": "Sessions actives",
+            "loggedIn": "Connecté",
+            "anonymous": "Anonyme",
+            "last5Minutes": "5 dernières minutes",
+            "lastMinute": "dernière minute",
+            "deleteUser": "Supprimer l'utilisateur (ID)",
+            "deleteUserButton": "Supprimer l'utilisateur"
+        },
+        "misc": {
+            "title": "Divers",
+            "checkDuplicateInteractions": "Vérifier les réponses avec le même Guid et InteractionNr"
+        },
+        "tools": {
+            "title": "Outils",
+            "throwException": "Lancer une exception",
+            "reloadIgnoreCrawlers": "Recharger la liste des crawlers ignorés",
+            "cleanupWorkInProgress": "Nettoyer les questions en cours de travail",
+            "start100TestJobs": "Démarrer 100 tâches de test"
+        },
+        "removeAdminRights": {
+            "title": "Supprimer les droits d'administrateur",
+            "button": "Supprimer les droits d'administrateur pour l'utilisateur actuel"
         }
     }
 }

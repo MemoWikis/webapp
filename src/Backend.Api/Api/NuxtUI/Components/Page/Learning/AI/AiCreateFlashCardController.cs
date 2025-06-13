@@ -96,7 +96,7 @@ public class AiCreateFlashCardController(
         question.Visibility = limitCheck.CanSavePrivateQuestion() ? QuestionVisibility.Private : QuestionVisibility.Public;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
-        _questionWritingRepo.Create(question, pageRepository);
+        _questionWritingRepo.Create(question);
         _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         return question.Id;

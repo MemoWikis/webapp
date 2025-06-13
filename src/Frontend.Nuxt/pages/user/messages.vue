@@ -47,33 +47,30 @@ const forceShow = ref(false)
 </script>
 
 <template>
-    <div class="container">
-        <div class="row messages-container main-page">
-            <div class="main-content row">
-                <div class="col-md-9" v-if="model != null && model.messages != null && model.readCount != null">
-                    <h1>
-                        <span class="ColoredUnderline Message">{{ t('breadcrumb.titles.messages') }}</span>
-                    </h1>
-                    <div id="messagesWrapper">
-                        <UserMessagesRow v-if="model.messages != null" v-for="message in model.messages"
-                            :message="message" :force-show="forceShow" :key="message.id" />
-                        <div class="alert alert-info" v-if="model.messages?.filter((m: any) => !m.read).length === 0">
-                            {{ t('messages.noUnread') }}
-                        </div>
 
-                        <p v-if="model.readCount > 0">
-                            {{ t('messages.readCount', { count: model.readCount }) }}
-                            <span v-if="!forceShow" @click="forceShow = true" class="click">{{ t('messages.showAll') }}</span>.
-                        </p>
-
-                    </div>
-
+    <div class="main-content row">
+        <div class="col-md-9" v-if="model != null && model.messages != null && model.readCount != null">
+            <h1>
+                <span class="ColoredUnderline Message">{{ t('breadcrumb.titles.messages') }}</span>
+            </h1>
+            <div id="messagesWrapper">
+                <UserMessagesRow v-if="model.messages != null" v-for="message in model.messages"
+                    :message="message" :force-show="forceShow" :key="message.id" />
+                <div class="alert alert-info" v-if="model.messages?.filter((m: any) => !m.read).length === 0">
+                    {{ t('messages.noUnread') }}
                 </div>
-                <div class="col-md-3"></div>
+
+                <p v-if="model.readCount > 0">
+                    {{ t('messages.readCount', { count: model.readCount }) }}
+                    <span v-if="!forceShow" @click="forceShow = true" class="click">{{ t('messages.showAll') }}</span>.
+                </p>
+
             </div>
 
         </div>
+        <div class="col-md-3"></div>
     </div>
+
 </template>
 
 <style lang="less" scoped>

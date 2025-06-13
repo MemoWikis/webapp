@@ -126,9 +126,9 @@ onBeforeMount(() => {
 </script>
 
 <template>
-    <div class="">
-        <div class="subscription-plans" v-if="plans">
+    <div class="subscription-plans" v-if="plans">
 
+        <div class="subscription-section">
             <UserMembershipPriceCard :plan="plans.basic" :selected="false"
                 :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Basic }">
                 <template v-slot:button>
@@ -174,7 +174,9 @@ onBeforeMount(() => {
                     </button>
                 </template>
             </UserMembershipPriceCard>
+        </div>
 
+        <div class="subscription-section">
             <UserMembershipPriceCard :plan="plans.team" :selected="false" :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Team }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn" disabled>
@@ -194,6 +196,27 @@ onBeforeMount(() => {
 
 <style lang="less" scoped>
 .subscription-plans {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+
+    flex-wrap: wrap;
+    width: 100%;
+
+    .subscription-section {
+        width: calc(50% - 0.5rem);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0 1rem;
+
+        @media (max-width: 1400px) {
+            width: 100%;
+        }
+    }
+
     button {
         width: 100%;
         display: flex;

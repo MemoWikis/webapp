@@ -58,6 +58,7 @@ public class PageController(
             QuestionCount = data.QuestionCount,
             PageItem = data.PageItem,
             Views = data.Views,
+            SubpageViews = data.SubpageViews,
             Visibility = data.Visibility,
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
@@ -66,7 +67,9 @@ public class PageController(
             CanEdit = _permissionCheck.CanEditPage(data.Id, shareToken),
             IsShared = canView && SharesService.IsShared(data.Id),
             SharedWith = canView ? GetSharedWithResponse(data.Id) : null,
-            CanEditByToken = _permissionCheck.TryGetEditPermissionByToken(data.Id, shareToken)
+            CanEditByToken = _permissionCheck.TryGetEditPermissionByToken(data.Id, shareToken),
+            DirectQuestionViews = data.DirectQuestionViews,
+            TotalQuestionViews = data.TotalQuestionViews,
         };
     }
 
@@ -95,6 +98,7 @@ public class PageController(
         int ChildPageCount,
         int DirectVisibleChildPageCount,
         int Views,
+        int SubpageViews,
         PageVisibility Visibility,
         int[] AuthorIds,
         PageDataManager.Author[] Authors,
@@ -106,7 +110,7 @@ public class PageController(
         int ImageId,
         SearchPageItem PageItem,
         string MetaDescription,
-        PageDataManager.KnowledgeSummarySlim KnowledgeSummary,
+        PageDataManager.KnowledgeSummaryResponse KnowledgeSummary,
         PageGridManager.GridPageItem[] GridItems,
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
@@ -120,6 +124,8 @@ public class PageController(
         bool CanEdit,
         bool IsShared,
         [CanBeNull] List<SharedWithResponse> SharedWith = null,
-        [CanBeNull] bool? CanEditByToken = null
+        [CanBeNull] bool? CanEditByToken = null,
+        int TotalQuestionViews = 0,
+        int DirectQuestionViews = 0
     );
 }

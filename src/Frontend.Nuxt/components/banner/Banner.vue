@@ -43,24 +43,22 @@ const slots = useSlots()
 
 <template>
     <div class="banner" :class="{ 'skip-animation': skipAnimation, 'show-banner': showBanner }" v-if="showBanner">
-        <div class="banner-container container">
-            <div class="banner-row row">
-                <div class="banner-text col-xs-12 col-sm-7 memoWikis-info-partial">
+        <div class="banner-container">
+            <div class="banner-row">
+                <div class="banner-text memoWikis-info-partial">
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
                         class="visible-xs close-banner mobile-close" />
-                    <div class="row fullWidth">
-                        <div class="col-xs-12">
-                            <div class="sub-text" v-if="slots.subText">
-                                <slot name="subText"></slot>
-                            </div>
+                    <div class="fullWidth">
+                        <div class="sub-text" v-if="slots.subText">
+                            <slot name="subText"></slot>
+                        </div>
 
-                            <div class="main-text">
-                                <slot name="mainText"></slot>
-                            </div>
+                        <div class="main-text">
+                            <slot name="mainText"></slot>
                         </div>
                     </div>
                 </div>
-                <div class="banner-action col-xs-12 col-sm-5 memoWikis-info-partial">
+                <div class="banner-action memoWikis-info-partial">
                     <slot name="action">
                     </slot>
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
@@ -94,19 +92,82 @@ const slots = useSlots()
         height: unset !important;
     }
 
-    .topBannerClass {
-        padding-top: 45px;
+    &.show-banner {
+        opacity: 1;
+        min-height: 96px;
+        height: unset;
+        transform: translateY(0px);
+        pointer-events: unset;
+        visibility: unset;
+
+        .banner-container {
+            min-height: 96px;
+
+            .banner-row {
+                min-height: 95px;
+            }
+        }
     }
 
-    .container {
+    &.sidesheet-open {
+        @media (max-width: 1500px) {
+            .banner-container {
+                width: calc(100vw - 15px);
+
+                .banner-row {
+                    padding-left: 420px;
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        @media (min-width: 1501px) and (max-width: 1979px) {
+            .banner-row {
+                padding-left: clamp(260px, 20vw, 0px);
+                margin-right: 10px;
+            }
+        }
+
+        @media (min-width: 1980px) {
+            .banner-row {
+                padding-left: clamp(90px, calc(420px - (100vw - 1980px)), 420px);
+            }
+        }
+
+        .page {
+            &.col-lg-9 {
+                width: 100%;
+            }
+        }
+
+        .banner-container {
+            .banner-row {
+                padding-left: 420px;
+                width: 100%;
+            }
+        }
+    }
+
+    .banner-container {
+        width: 100%;
         height: 100%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
 
         .banner-row {
             display: flex;
+            justify-content: center;
             align-items: center;
-            height: 100%;
-            flex-wrap: wrap;
-            padding: 10px 0;
+            flex-wrap: nowrap;
+            gap: 0 1rem;
+            width: 100%;
+            padding: 0 10px;
+            max-width: 1600px;
+
+            @media (min-width: 901px) {
+                padding-left: 90px;
+            }
 
             .memoWikis-info-partial {
                 display: flex;
@@ -115,10 +176,13 @@ const slots = useSlots()
             }
 
             .banner-text {
+                width: calc(75% - 1rem);
+                flex-grow: 1;
                 flex-direction: column;
                 align-items: flex-start;
                 color: @memo-blue;
                 justify-content: center;
+                padding: 1rem 0;
 
                 .sub-text {
                     font-size: 14px;
@@ -129,12 +193,12 @@ const slots = useSlots()
                     text-transform: uppercase;
 
                     .fa-heart {
+                        font-size: 20px;
+                        color: @memo-wuwi-red;
+
                         @media (max-width: 767px) {
                             margin-top: 10px;
                         }
-
-                        font-size: 20px;
-                        color: @memo-wuwi-red;
                     }
 
                     @media (max-width: 767px) {
@@ -156,6 +220,7 @@ const slots = useSlots()
             }
 
             .banner-action {
+                flex: 0 0 25%;
                 justify-content: flex-end;
 
                 @media (max-width: 767px) {
@@ -164,6 +229,10 @@ const slots = useSlots()
 
                 .close-banner {
                     margin-left: 34px;
+                }
+
+                :deep(.memo-button) {
+                    border-radius: 9rem;
                 }
             }
 
@@ -188,54 +257,5 @@ const slots = useSlots()
             }
         }
     }
-
-    &.show-banner {
-        opacity: 1;
-        min-height: 96px;
-        height: unset;
-        transform: translateY(0px);
-        pointer-events: unset;
-        visibility: unset;
-
-        .container {
-            min-height: 96px;
-
-            .banner-row {
-                min-height: 95px;
-            }
-        }
-    }
-
-    &.sidesheet-open {
-
-        @media (max-width: 1500px) {
-            .banner-container {
-                width: calc(100vw - 40px);
-            }
-
-            .banner-row {
-                padding-left: 420px;
-                margin-right: 10px;
-                width: 100%;
-            }
-
-            .page {
-                &.col-lg-9 {
-                    width: 100%;
-                }
-            }
-        }
-
-        @media (min-width: 1501px) and (max-width: 1980px) {
-
-            .banner-row {
-                padding-left: clamp(260px, 20vw, 0px);
-                margin-right: 10px;
-                width: 100%;
-            }
-
-        }
-    }
-
 }
 </style>

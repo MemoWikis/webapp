@@ -48,48 +48,39 @@ const contact = () => {
 </script>
 
 <template>
-    <div class="container">
-        <div class="row main-page">
-            <div class="main-content">
-                <div class="col-md-12 header">
-                    <div class="top-label">{{ t('user.membership.header.topLabel') }}</div>
-                    <div class="title">{{ t('user.membership.header.title') }}</div>
-                    <div class="bottom-label">
-                        {{ t('user.membership.header.bottomLabel1') }} <br /><br />
-                        {{ t('user.membership.header.bottomLabel2') }}
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <UserMembershipPlans class="plans-container" />
-                </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="top-label">{{ t('user.membership.header.topLabel') }}</div>
+            <div class="title">{{ t('user.membership.header.title') }}</div>
+            <div class="bottom-label">
+                {{ t('user.membership.header.bottomLabel1') }} <br /><br />
+                {{ t('user.membership.header.bottomLabel2') }}
+            </div>
+        </div>
+        <UserMembershipPlans />
+
+        <div class="faq-content">
+            <div id="FaqHeaderOuter">
+                <div class="faq-top-label">{{ t('user.membership.faq.title') }}</div>
             </div>
 
-        </div>
-    </div>
-    <div class="full-width-row">
-        <div id="FaqHeaderOuter">
-            <div class="faq-top-label">{{ t('user.membership.faq.title') }}</div>
-        </div>
+            <div id="QuestionsOuter">
+                <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" :answer-params="item.answerParams" />
 
-        <div id="QuestionsOuter">
-
-            <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" :answer-params="item.answerParams" />
-
-            <div id="NotFound">
-                <div class="not-found-header">{{ t('user.membership.faq.notFound') }}</div>
-                <div class="memoWikis-contact" @click="contact()">{{ t('user.membership.faq.contact') }}</div>
-                <div class="email">{{ config.public.teamMail }}</div>
+                <div id="NotFound">
+                    <div class="not-found-header">{{ t('user.membership.faq.notFound') }}</div>
+                    <div class="memoWikis-contact" @click="contact()">{{ t('user.membership.faq.contact') }}</div>
+                    <div class="email">{{ config.public.teamMail }}</div>
+                </div>
             </div>
         </div>
     </div>
+
 </template>
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
-
-.plans-container {
-    margin: 0 -10px;
-}
 
 .container {
     .header {
@@ -132,10 +123,12 @@ const contact = () => {
     margin-right: 10px;
 }
 
-.full-width-row {
+.faq-content {
     margin-top: 60px;
     background-color: @memo-grey-lighter;
     padding-top: 100px;
+    margin-bottom: 40px;
+    border-radius: 8px;
 
     #QuestionsOuter {
         margin-top: 31px;
