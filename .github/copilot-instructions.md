@@ -8,3 +8,4 @@
 
 - Do not use namespaces in C#.
 - I prefer Verify() for Tests
+- Use _testHarness.ApiCall("apiVue/{controller}/{action}") to do apicalls, do not init/resolve controllers in tests
