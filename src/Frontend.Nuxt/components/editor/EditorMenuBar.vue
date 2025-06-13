@@ -133,7 +133,7 @@ const { isMobile } = useDevice()
 const slots = useSlots()
 </script>
 <template>
-    <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
+    <div class="menubar-container" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
 
         <PerfectScrollbar :options="{ scrollYMarginOffset: 30 }" :class="{ 'ps--scrolling-x': showScrollbar }">
             <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
