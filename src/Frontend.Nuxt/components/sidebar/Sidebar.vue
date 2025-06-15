@@ -19,7 +19,7 @@ const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
-    <div id="Sidebar" class="hidden-md hidden-sm hidden-xs container" v-if="isDesktop">
+    <div id="Sidebar" class="" v-if="isDesktop">
         <div id="SidebarDivider"></div>
         <div id="SidebarContent">
             <div id="SidebarSpacer"></div>
@@ -52,6 +52,11 @@ const { $urlHelper } = useNuxtApp()
                         <SidebarOutline />
                     </template>
                 </SidebarCard>
+                <SidebarCard id="PageOutline" v-show="tabsStore?.activeTab === Tab.Analytics">
+                    <template v-slot:body>
+                        <SidebarAnalyticsOutline />
+                    </template>
+                </SidebarCard>
             </template>
 
         </div>
@@ -67,9 +72,8 @@ const { $urlHelper } = useNuxtApp()
     align-items: stretch;
     flex-grow: 1;
     height: 100%;
-    width: 240px;
 
-    @media (max-width: 1300px) {
+    @media (max-width: 900px) {
         display: none;
     }
 
@@ -108,10 +112,10 @@ const { $urlHelper } = useNuxtApp()
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-width: 239px;
 
         &.wiki-container {
             display: -webkit-box;
+            line-clamp: 2;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
 
@@ -169,7 +173,6 @@ const { $urlHelper } = useNuxtApp()
 
 #DefaultSidebar {
     height: 145px;
-    width: 200px;
     // :deep(.sidebar-title) {
     //     padding-bottom: 0px;
     //     height: 30px;
@@ -192,6 +195,17 @@ const { $urlHelper } = useNuxtApp()
                 height: 100%;
                 background: @memo-grey-light;
             }
+        }
+    }
+}
+</style>
+
+<style lang="less">
+.sidesheet-open {
+    @media (max-width: 1209px) {
+
+        #Sidebar {
+            display: none;
         }
     }
 }

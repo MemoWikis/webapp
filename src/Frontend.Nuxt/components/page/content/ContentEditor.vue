@@ -17,13 +17,13 @@ import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isEmpty } from 'underscore'
 
-import { getRandomColor } from '~/components/shared/utils'
+import { getRandomColor } from '~/utils/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { CustomLink } from '~/components/shared/linkExtension'
 
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
-import { slugify } from '~/components/shared/utils'
+import { slugify } from '~/utils/utils'
 import { nanoid } from 'nanoid'
 
 import Collaboration from '@tiptap/extension-collaboration'
@@ -427,7 +427,7 @@ const createFlashcard = () => {
     if (editor.value == null)
         return
 
-    const { state, view } = editor.value
+    const { state } = editor.value
     const { selection } = state
     if (selection.empty)
         pageStore.generateFlashcard()
@@ -436,16 +436,16 @@ const createFlashcard = () => {
         const text = state.doc.textBetween(from, to)
         pageStore.generateFlashcard(text)
     }
-
 }
+
+
+
 </script>
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages">
+        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages" class="page-content-menubar">
             <template v-slot:start v-if="userStore.isAdmin">
-
-
                 <button class="menubar__button ai-create" @mousedown="createFlashcard">
                     <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
                 </button>
@@ -455,20 +455,22 @@ const createFlashcard = () => {
                 </div>
             </template>
         </LazyEditorMenuBar>
-        <LazyEditorMenuBar v-else :editor="editor" :heading="true" :is-page-content="true" />
-        <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }" />
+        <LazyEditorMenuBar v-else-if="editor" :editor="editor" :heading="true" :is-page-content="true" />
+        <editor-content :editor="editor" class="" :class="{ 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }" />
     </template>
-    <template v-else>
-        <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
-            <div class="ProseMirror content-placeholder" v-html="pageStore.content"
-                id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
-            </div>
+    <div v-else class="" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
+        <div class="ProseMirror content-placeholder" v-html="pageStore.content" id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
         </div>
-    </template>
+    </div>
+
 </template>
 
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
+
+.page-content-menubar {
+    padding: 0;
+}
 
 .ProseMirror {
     .content-placeholder {
@@ -587,6 +589,13 @@ const createFlashcard = () => {
         .collaboration-cursor__caret {
             opacity: 0.6;
         }
+
+        &:focus,
+        &:focus-visible {
+            outline: none !important;
+            border: none !important;
+            box-shadow: none;
+        }
     }
 }
 
@@ -605,8 +614,6 @@ const createFlashcard = () => {
             font-size: 12px;
 
         });
-
-
 }
 
 .large-font {

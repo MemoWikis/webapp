@@ -1,18 +1,13 @@
 <script lang="ts" setup>
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
-import { usePageStore } from '../page/pageStore'
 import { throttle } from 'underscore'
 
 const outlineStore = useOutlineStore()
-const pageStore = usePageStore()
-
-const { $urlHelper } = useNuxtApp()
 
 const currentHeadingId = ref<string | null>()
 const previousIndex = ref()
 
-
-function getCurrentHeadingId() {
+const getCurrentHeadingId = () => {
     if (outlineStore.headings.length === 0) return
 
     const headings = outlineStore.headings
@@ -40,7 +35,6 @@ function getCurrentHeadingId() {
         const topPosition = rect.top + window.scrollY
 
         if (window.scrollY >= topPosition - offset) {
-
             headingId = heading.id
         } else {
             break
@@ -50,11 +44,11 @@ function getCurrentHeadingId() {
     return
 }
 
-function sleep(ms: number): Promise<void> {
+const sleep = (ms: number): Promise<void> => {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 const cancelToken = ref<number>(0)
-async function traverseIds(startIndex: number, endId: string | null) {
+const traverseIds = async (startIndex: number, endId: string | null) => {
     const token = ++cancelToken.value
     const headings = outlineStore.headings
     const initialEndIndex = headings.findIndex(h => h.id === endId)
@@ -79,7 +73,7 @@ async function traverseIds(startIndex: number, endId: string | null) {
     if (initialEndIndex === -1 || initialEndIndex == null) currentHeadingId.value = null
 }
 
-function findCurrentSectionId(): string | null {
+const findCurrentSectionId = (): string | null => {
     if (!outlineStore.nodeIndex)
         return null
 
@@ -117,7 +111,7 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', throttledGetCurrentHeadingId)
 })
 
-function headingClass(level: number, index: number) {
+const headingClass = (level: number, index: number) => {
     const previousLevel = index > 0 ? outlineStore.headings[index - 1].level : null
     if (previousLevel != null) {
         if (previousLevel > level)
@@ -133,11 +127,11 @@ function headingClass(level: number, index: number) {
 
 <template>
     <div id="Outline">
-        <perfect-scrollbar :suppressScrollX="true">
+        <PerfectScrollbar :options="{ suppressScrollX: true }">
             <div class="outline-container">
                 <div v-for="(heading, index) in outlineStore.headings" :key="heading.id" class="outline-heading"
                     :class="headingClass(heading.level, index)">
-                    <NuxtLink :to="`${$urlHelper.getPageUrl(pageStore.name, pageStore.id)}#${heading.id}`"
+                    <NuxtLink :to="`#${heading.id}`"
                         class="outline-link" :class="{ 'current-heading': heading.id === currentHeadingId }">
                         <div v-for="text in heading.text">
                             {{ text }}
@@ -145,92 +139,11 @@ function headingClass(level: number, index: number) {
                     </NuxtLink>
                 </div>
             </div>
-        </perfect-scrollbar>
+        </PerfectScrollbar>
 
     </div>
 </template>
 
 <style lang="less" scoped>
-@import (reference) '~~/assets/includes/imports.less';
-
-#Outline {
-    height: 100%;
-
-    .outline-container {
-        height: 100%;
-    }
-
-    .outline-heading {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        transition: all 0.01s ease;
-
-        &.level-2,
-        &.level-3 {
-            margin-top: 4px;
-            margin-bottom: 4px;
-        }
-
-        &.next-step {
-            margin-top: 8px;
-        }
-
-        &.level-1 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 24px;
-
-            .current-heading {
-                font-weight: 700;
-            }
-
-            &.preceeding-section-is-empty {
-                margin-top: 8px;
-            }
-        }
-
-        &.level-2 {
-            font-weight: 400;
-
-            .current-heading {
-                font-weight: 600;
-            }
-        }
-
-        &.level-3 {
-            font-weight: 300;
-
-            .current-heading {
-                font-weight: 600;
-            }
-        }
-
-        &.first-outline {
-            margin-top: 0px;
-        }
-
-        .outline-link {
-            color: @memo-grey-dark;
-            display: block;
-
-            transition: all 0.1s ease-out;
-
-            &:hover {
-                color: @memo-blue-link;
-            }
-
-            &:visited,
-            &:focus,
-            &:active,
-            &:hover {
-                text-decoration: none;
-            }
-
-            &.current-heading {
-                color: @memo-blue;
-            }
-        }
-    }
-}
+@import '~~/assets/sidebar.less';
 </style>

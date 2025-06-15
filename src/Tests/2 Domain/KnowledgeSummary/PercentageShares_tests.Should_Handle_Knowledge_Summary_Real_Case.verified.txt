@@ -1,0 +1,17 @@
+﻿{
+  values: {
+    notLearned: 3,
+    needsLearning: 2,
+    needsConsolidation: 1,
+    solid: 4
+  },
+  percentages: [
+    30,
+    20,
+    10,
+    40,
+    0
+  ],
+  sum: 100,
+  noNegatives: true
+}

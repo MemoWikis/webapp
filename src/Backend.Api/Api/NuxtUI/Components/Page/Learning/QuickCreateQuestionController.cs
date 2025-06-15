@@ -79,7 +79,7 @@ public class QuickCreateQuestionController(
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
-        _questionWritingRepo.Create(question, pageRepository);
+        _questionWritingRepo.Create(question);
 
         if (request.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);

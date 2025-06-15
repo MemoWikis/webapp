@@ -1,65 +1,13 @@
 <script setup lang="ts">
-import { ChartData } from '~~/components/chart/chartData'
+import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar'
 import { usePageStore } from '../pageStore'
 import { useTabsStore, Tab } from './tabsStore'
-import { color } from '~~/components/shared/colors'
+import PageAnalytics from '~/constants/pageAnalyticsSections'
 
 const pageStore = usePageStore()
 const tabsStore = useTabsStore()
-const knowledgeSummaryData = ref<ChartData[]>([])
-
-function setKnowledgeSummaryData() {
-
-    knowledgeSummaryData.value = []
-    for (const [key, value] of Object.entries(pageStore.knowledgeSummary)) {
-        knowledgeSummaryData.value.push({
-            value: value,
-            class: key,
-        })
-    }
-    knowledgeSummaryData.value = knowledgeSummaryData.value.slice().reverse()
-}
-
-const past90DaysLabelsAggregatedPages = computed(() => pageStore.viewsPast90DaysAggregatedPages?.map(v => {
-    const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${year}-${month}-${day}`
-}) as string[])
-const past90DaysCountsAggregatedPages = computed(() => pageStore.viewsPast90DaysAggregatedPages?.map(v => v.count) as number[])
-
-const past90DaysLabelsPages = computed(() => pageStore.viewsPast90DaysPage?.map(v => {
-    const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${year}-${month}-${day}`
-}) as string[])
-const past90DaysCountsPages = computed(() => pageStore.viewsPast90DaysPage?.map(v => v.count) as number[])
-
-const past90DaysLabelsAggregatedQuestions = computed(() => pageStore.viewsPast90DaysAggregatedQuestions?.map(v => {
-    const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${year}-${month}-${day}`
-}) as string[])
-const past90DaysCountsAggregatedQuestions = computed(() => pageStore.viewsPast90DaysAggregatedQuestions?.map(v => v.count) as number[])
-
-const past90DaysLabelsQuestions = computed(() => pageStore.viewsPast90DaysDirectQuestions?.map(v => {
-    const [year, month, day] = v.date.split("T")[0].split("-")
-    return `${year}-${month}-${day}`
-}) as string[])
-const past90DaysCountsQuestions = computed(() => pageStore.viewsPast90DaysDirectQuestions?.map(v => v.count) as number[])
-
 const { t } = useI18n()
 
-function getLabel(key: string) {
-    switch (key) {
-        case 'solid':
-            return t('knowledgeStatus.solid')
-        case 'needsConsolidation':
-            return t('knowledgeStatus.needsConsolidation')
-        case 'needsLearning':
-            return t('knowledgeStatus.needsLearning')
-        case 'notLearned':
-            return t('knowledgeStatus.notLearned')
-    }
-}
-
-onBeforeMount(() => setKnowledgeSummaryData())
 onMounted(() => {
     if (import.meta.client) {
         watch(() => tabsStore.activeTab, (newTab) => {
@@ -72,116 +20,115 @@ onMounted(() => {
             pageStore.getAnalyticsData()
         }
     }
-
 })
 
+const mockActivity = ref<ActivityCalendarData | null>(null)
+
+const getMockActivityCalendar = async () => {
+    const result = await $api<ActivityCalendarData>('/apiVue/MissionControl/GetMockActivityCalendar')
+    if (result)
+        mockActivity.value = result
+}
+
+onBeforeMount(() => {
+    getMockActivityCalendar()
+})
 
 </script>
 
 <template>
-    <div class="row">
+    <div class="row analytics">
         <div class="col-xs-12">
-            <div class="data-section">
-                <div class="knowledgesummary-section">
-                    <h3>{{ t('page.analytics.yourKnowledgeStatus') }}</h3>
-                    <div class="knowledgesummary-container">
-                        <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
-                            <div class="knowledgesummary-sub-label">
-                                {{ t('page.analytics.questionsGroupedByStatus') }}
-                            </div>
-                            <div class="knowledgesummary-content">
-                                <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info" :key="d.value">
-                                    <div class="color-container" :class="`color-${d.class}`"></div>
-                                    <div class="knowledgesummary-label"><b>{{ d.value }}</b> {{ getLabel(d.class!) }}</div>
-                                </div>
-                            </div>
+            <LayoutPanel :title="t(PageAnalytics.KNOWLEDGE_SECTION.translationKey)" :id="PageAnalytics.KNOWLEDGE_SECTION.id">
+                <LayoutCard class="analytics-knowledgesummary-section" :size="LayoutCardSize.Flex">
+                    <PageAnalyticsKnowledgeSummarySection />
+                </LayoutCard>
+            </LayoutPanel>
 
-                        </div>
-
-                        <div v-else>
-                            {{ t('page.analytics.noQuestionsAnswered') }}
+            <!-- LearnCalendar Section with Coming Soon overlay -->
+            <LayoutPanel :title="t(PageAnalytics.LEARN_CALENDAR_SECTION.translationKey)" :id="PageAnalytics.LEARN_CALENDAR_SECTION.id">
+                <div class="coming-soon-container">
+                    <MissionControlLearnCalendar v-if="mockActivity" :calendarData="mockActivity" />
+                    <div class="coming-soon-overlay">
+                        <div class="coming-soon-content">
+                            <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>
                         </div>
                     </div>
                 </div>
+            </LayoutPanel>
 
-                <div class="pagedata-section">
-                    <h3>{{ t('page.analytics.pageData') }}</h3>
-                    <div class="pagedata-container">
-                        <div class="pagedata-sub-label">
-                            {{ t('page.analytics.questionsLabel') }}
-                        </div>
-                        <div class="pagedata-content">
-                            <ul>
-                                <li>
-                                    <b>{{ pageStore.questionCount }}</b> {{ t('page.analytics.includedQuestions') }}
-                                </li>
-                                <li>
-                                    <b>{{ pageStore.directQuestionCount }}</b> {{ t('page.analytics.directlyLinkedQuestions') }}
-                                </li>
-                            </ul>
-                        </div>
+            <LayoutPanel :title="t(PageAnalytics.CONTENT_SECTION.translationKey)" :id="PageAnalytics.CONTENT_SECTION.id">
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directVisibleChildPageCount > 0">
+                    <LayoutCounter
+                        :value="pageStore.directVisibleChildPageCount"
+                        :label="t('page.analytics.directVisibleChildPageLabel')" />
+                </LayoutCard>
 
-                    </div>
-                    <div class="pagedata-container">
-                        <div class="pagedata-sub-label">
-                            {{ t('page.analytics.pagesLabel') }}
-                        </div>
-                        <div class="pagedata-content">
-                            <ul>
-                                <li>
-                                    <b>{{ pageStore.childPageCount }} </b> {{ t('page.analytics.includedPages') }}
-                                </li>
-                                <li>
-                                    <b>{{ pageStore.directVisibleChildPageCount }}</b> {{ t('page.analytics.directlyLinkedChildPages') }}
-                                </li>
-                                <li>
-                                    <b> {{ pageStore.parentPageCount }} </b> {{ t('page.analytics.parentPages') }}
-                                </li>
-                            </ul>
-                        </div>
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
+                    <LayoutCounter
+                        :value="pageStore.childPageCount"
+                        :label="t('page.analytics.childPageCount')" />
+                </LayoutCard>
 
-                    </div>
-                </div>
-            </div>
-            <div class="statistics-section" v-if="pageStore.analyticsLoaded">
-                <h3>{{ t('page.analytics.statistics') }}</h3>
-                <div class="statistics-sub-label">
-                    {{ t('page.analytics.pageViewsLast90Days') }}
-                </div>
-                <div class="statistics-container">
-                    <div class="statistics-content">
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directQuestionCount > 0">
+                    <LayoutCounter
+                        :value="pageStore.directQuestionCount"
+                        :label="t('page.analytics.directlyLinkedQuestionsLabel')" />
+                </LayoutCard>
 
-                        <div class="statistics-chart-section">
-                            <LazySharedChartsBar :labels="past90DaysLabelsPages" :datasets="past90DaysCountsPages" :color="color.middleBlue"
-                                :title="t('page.analytics.withoutChildPages')" />
-                        </div>
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">
+                    <LayoutCounter
+                        :value="pageStore.questionCount"
+                        :label="t('page.analytics.includedQuestionsLabel')" />
+                </LayoutCard>
 
-                        <div class="statistics-chart-section">
-                            <LazySharedChartsBar :labels="past90DaysLabelsAggregatedPages" :datasets="past90DaysCountsAggregatedPages" :color="color.darkBlue"
-                                :title="t('page.analytics.withChildPages', { count: pageStore.childPageCount })" />
-                        </div>
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.parentPageCount > 0">
+                    <LayoutCounter
+                        :value="pageStore.parentPageCount"
+                        :label="t('page.analytics.parentPageLabel')" />
+                </LayoutCard>
 
-                    </div>
-                </div>
-                <div class="statistics-sub-label">
-                    {{ t('page.analytics.questionViewsLast90Days') }}
-                </div>
-                <div class="statistics-container">
-                    <div class="statistics-content">
 
-                        <div class="statistics-chart-section">
-                            <LazySharedChartsBar :labels="past90DaysLabelsQuestions" :datasets="past90DaysCountsQuestions" :color="color.memoGreen"
-                                :title="t('page.analytics.directlyLinkedQuestionsTitle')" />
-                        </div>
+            </LayoutPanel>
 
-                        <div class="statistics-chart-section">
-                            <LazySharedChartsBar :labels="past90DaysLabelsAggregatedQuestions" :datasets="past90DaysCountsAggregatedQuestions" :color="color.darkGreen"
-                                :title="t('page.analytics.includedQuestions90Days', { count: pageStore.childPageCount })" />
-                        </div>
+            <LayoutPanel :title="t(PageAnalytics.VIEWS_SECTION.translationKey)" :id="PageAnalytics.VIEWS_SECTION.id">
+                <LayoutCard :size="LayoutCardSize.Tiny">
+                    <LayoutCounter
+                        :value="pageStore.views"
+                        :label="pageStore.name" />
+                </LayoutCard>
 
-                    </div>
-                </div>
-            </div>
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
+                    <LayoutCounter
+                        :value="pageStore.subpageViews"
+                        :label="t('page.analytics.subpageViewsLabel')" />
+                </LayoutCard>
+
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">
+                    <LayoutCounter
+                        :value="pageStore.directQuestionViews"
+                        :label="t('page.analytics.directQuestionViewsLabel')" />
+                </LayoutCard>
+
+                <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.totalQuestionViews">
+                    <LayoutCounter
+                        :value="pageStore.totalQuestionViews"
+                        :label="t('page.analytics.aggregatedQuestionViewsLabel')" />
+                </LayoutCard>
+            </LayoutPanel>
+
+            <template v-if="pageStore.analyticsLoaded">
+                <LayoutPanel :title="t(PageAnalytics.PAGE_VIEWS_SECTION.translationKey)" :id="PageAnalytics.PAGE_VIEWS_SECTION.id">
+                    <PageAnalyticsPageViewChart />
+                </LayoutPanel>
+
+                <LayoutPanel v-if="pageStore.questionCount > 0" :title="t(PageAnalytics.QUESTION_VIEWS_SECTION.translationKey)" :id="PageAnalytics.QUESTION_VIEWS_SECTION.id">
+                    <PageAnalyticsQuestionViewChart />
+                </LayoutPanel>
+            </template>
+
+
+
         </div>
     </div>
 </template>
@@ -189,90 +136,12 @@ onMounted(() => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.analytics {
+    margin-top: 20px;
+}
+
 .col-xs-12 {
     width: 100%;
-}
-
-.knowledgesummary-section,
-.pagedata-section,
-.statistics-section {
-    margin-bottom: 40px;
-    font-size: 18px;
-    width: 100%;
-
-    .knowledgesummary-container,
-    .pagedata-container,
-    .statistics-container {
-
-        .knowledgesummary-content,
-        .pagedata-content {
-            margin-bottom: 24px;
-        }
-
-        .knowledgesummary-sub-label,
-        .pagedata-sub-label {
-            margin-bottom: 16px;
-        }
-
-        .knowledgesummary-info {
-
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: center;
-            padding: 4px 0;
-
-            .color-container {
-                height: 24px;
-                width: 24px;
-                margin-right: 4px;
-                border-radius: 50%;
-
-                &.color-notLearned {
-                    background: @memo-grey-light;
-                }
-
-                &.color-needsLearning {
-                    background: @memo-salmon;
-                }
-
-                &.color-needsConsolidation {
-                    background: @memo-yellow;
-                }
-
-                &.color-solid {
-                    background: @memo-green;
-                }
-            }
-
-            .knowledgesummary-label {
-                padding-left: 20px;
-            }
-        }
-
-    }
-}
-
-.statistics-content {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 60px;
-
-    .statistics-chart-section {
-        width: 50%;
-        position: relative;
-        height: 100%;
-        min-height: 300px;
-
-        @media screen and (max-width: 991px) {
-            width: 100%;
-        }
-    }
-}
-
-.statistics-sub-label {
-    margin-bottom: 16px;
-    text-align: center;
-    margin-top: 24px;
 }
 
 .data-section {
@@ -281,16 +150,65 @@ onMounted(() => {
     justify-content: space-between;
 }
 
-.knowledgesummary-section,
-.pagedata-section {
-    width: 50%;
+h3 {
+    margin-top: 36px;
+}
 
-    @media screen and (max-width: 991px) {
+.coming-soon-container {
+    position: relative;
+    width: 100%;
+
+    .coming-soon-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        z-index: 10;
+    }
+
+    .coming-soon-content {
+        text-align: center;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        display: flex;
+    }
+
+    .coming-soon-text {
+        font-size: 24px;
+        font-weight: 600;
+        color: @memo-blue;
+    }
+}
+</style>
+
+<style lang="less">
+.sidesheet-open {
+    .analytics-knowledgesummary-section {
+        .knowledgesummary-container {
+            .knowledgesummary-content {
+                @media (max-width:1150px) {
+                    flex-direction: column;
+                }
+            }
+        }
     }
 }
 
-h3 {
-    margin-top: 36px;
+.analytics {
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        scroll-margin-top: 10rem;
+    }
 }
 </style>

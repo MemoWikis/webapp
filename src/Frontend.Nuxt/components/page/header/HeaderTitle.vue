@@ -140,12 +140,7 @@ const viewsLabel = computed(() => {
     if (pageStore.views === 1)
         return t('page.header.views.one')
 
-    let viewCount = pageStore.views.toString()
-
-    if (pageStore.views >= 10000) {
-        const formatter = new Intl.NumberFormat('de-DE')
-        viewCount = formatter.format(pageStore.views)
-    }
+    const viewCount = getFormattedNumber(pageStore.views)
     return t('page.header.views.other', { count: viewCount })
 })
 

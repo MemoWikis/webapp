@@ -49,13 +49,13 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <div id="QuestionListSection" class="row" :class="getClass()">
+    <div id="QuestionListSection" :class="getClass()">
         <div>
-            <div v-if="learningSessionConfigurationStore.showFilter" id="PageLearnignSessionContainer" class="col-xs-12">
-                <PageLearningSessionConfiguration :is-in-question-list="true" cookie-name="show-bottom-dropdown"
+            <div v-if="learningSessionConfigurationStore.showFilter" id="PageLearnignSessionContainer">
+                <PageLearningSessionConfiguration cookie-name="show-bottom-dropdown"
                     :open-filter="openFilter">
                     <slot>
-                        <div class="drop-down-question-sort col-xs-12">
+                        <div class="drop-down-question-sort">
                             <div class="session-config-header">
                                 <span class="hidden-xs">{{ t('page.questionsSection.youAreLearning') }}&nbsp;</span>
                                 <b v-if="learningSessionStore.steps.length === pageStore.questionCount">{{ t('page.questionsSection.all') }}&nbsp;</b>
@@ -120,7 +120,7 @@ const { t } = useI18n()
 
             <div class="session-configurator no-questions" v-else-if="!learningSessionConfigurationStore.showFilter">
                 <div class="session-config-header">
-                    <div class="col-xs-12 drop-down-question-sort">
+                    <div class="drop-down-question-sort">
                         {{ t('page.questionsSection.noQuestionsYet') }}
                     </div>
                 </div>
@@ -143,6 +143,7 @@ const { t } = useI18n()
     margin-right: 0;
     margin-left: 0;
     max-width: calc(100vw - 20px);
+    border-radius: 8px;
 
     &.is-mobile {
         max-width: 100vw;
@@ -169,13 +170,14 @@ const { t } = useI18n()
         }
     }
 
-
     .drop-down-question-sort {
         display: flex;
         flex-wrap: wrap;
         font-size: 18px;
         justify-content: space-between;
         padding-right: 0;
+        align-items: center;
+        width: 100%;
 
         #ButtonAndDropdown {
             cursor: pointer;
@@ -189,8 +191,6 @@ const { t } = useI18n()
             width: 30px;
             min-width: 30px;
             transition: filter 0.1s;
-
-            margin-top: -10px;
 
             @media(max-width: 768px) {
                 padding-left: 10px;

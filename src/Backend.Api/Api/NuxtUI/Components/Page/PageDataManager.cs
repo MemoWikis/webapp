@@ -19,8 +19,8 @@ public class PageDataManager(
                 MessageKey = FrontendMessageKeys.Error.Page.NotFound
             };
 
-        var canView = userId != null 
-            ? _permissionCheck.CanView((int)userId, page, token) 
+        var canView = userId != null
+            ? _permissionCheck.CanView((int)userId, page, token)
             : _permissionCheck.CanView(page, token);
 
         if (canView)
@@ -75,6 +75,7 @@ public class PageDataManager(
         KnowledgeSummary knowledgeSummary)
     {
         var authorIds = page.AuthorIds.Distinct();
+
         return new PageDataResult
         {
             CanAccess = true,
@@ -103,6 +104,9 @@ public class PageDataManager(
             DirectVisibleChildPageCount = GraphService
                 .VisibleChildren(page.Id, _permissionCheck, _sessionUser.UserId).Count,
             Views = page.TotalViews,
+            SubpageViews = GraphService
+                .VisibleDescendants(id, _permissionCheck, _sessionUser.UserId)
+                .Sum(p => p.TotalViews),
             Visibility = page.Visibility,
             AuthorIds = authorIds.ToArray(),
             Authors = authorIds.Select(authorId =>
@@ -128,12 +132,18 @@ public class PageDataManager(
                     ? null
                     : Regex.Replace(page.Content, "<.*?>", ""))
                 .Truncate(250, true),
-            KnowledgeSummary = new KnowledgeSummarySlim(
-                NotLearned: knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
+            KnowledgeSummary = new KnowledgeSummaryResponse(
+                NotLearned: knowledgeSummary.NotLearned,
+                NotLearnedPercentage: knowledgeSummary.NotLearnedPercentage,
                 NeedsLearning: knowledgeSummary.NeedsLearning,
+                NeedsLearningPercentage: knowledgeSummary.NeedsLearningPercentage,
                 NeedsConsolidation: knowledgeSummary.NeedsConsolidation,
-                Solid: knowledgeSummary.Solid
-            ),
+                NeedsConsolidationPercentage: knowledgeSummary.NeedsConsolidationPercentage,
+                Solid: knowledgeSummary.Solid,
+                SolidPercentage: knowledgeSummary.SolidPercentage,
+                NotInWishknowledge: knowledgeSummary.NotInWishknowledge,
+                NotInWishknowledgePercentage: knowledgeSummary.NotInWishknowledgePercentage,
+                Total: knowledgeSummary.Total),
             GridItems = new PageGridManager(
                 _permissionCheck,
                 _sessionUser,
@@ -148,6 +158,8 @@ public class PageDataManager(
             TextIsHidden = page.TextIsHidden,
             MessageKey = "",
             Language = page.Language,
+            DirectQuestionViews = page.GetQuestionViewCount(_sessionUser.UserId, fullList: false, permissionCheck: _permissionCheck),
+            TotalQuestionViews = page.GetQuestionViewCount(_sessionUser.UserId, permissionCheck: _permissionCheck)
         };
     }
 
@@ -168,11 +180,18 @@ public class PageDataManager(
         public string ImgUrl { get; set; }
     }
 
-    public record struct KnowledgeSummarySlim(
+    public record struct KnowledgeSummaryResponse(
         int NotLearned,
+        int NotLearnedPercentage,
         int NeedsLearning,
+        int NeedsLearningPercentage,
         int NeedsConsolidation,
-        int Solid);
+        int NeedsConsolidationPercentage,
+        int Solid,
+        int SolidPercentage,
+        int NotInWishknowledge,
+        int NotInWishknowledgePercentage,
+        int Total);
 
     public record struct PageDataResult(
         bool CanAccess,
@@ -185,6 +204,7 @@ public class PageDataManager(
         int ChildPageCount,
         int DirectVisibleChildPageCount,
         int Views,
+        int SubpageViews,
         PageVisibility Visibility,
         int[] AuthorIds,
         Author[] Authors,
@@ -196,7 +216,7 @@ public class PageDataManager(
         int ImageId,
         SearchPageItem PageItem,
         string MetaDescription,
-        KnowledgeSummarySlim KnowledgeSummary,
+        KnowledgeSummaryResponse KnowledgeSummary,
         PageGridManager.GridPageItem[] GridItems,
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
@@ -207,6 +227,8 @@ public class PageDataManager(
         List<DailyViews> ViewsLast30DaysPage,
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
         List<DailyViews> viewsLast30DaysQuestions,
-        string Language
+        string Language,
+        int DirectQuestionViews,
+        int TotalQuestionViews
     );
 }

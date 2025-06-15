@@ -78,7 +78,7 @@ public sealed class ScenarioBuilder
         {
             contextUser.Add(user);
             contextUser.Persist();
-            
+
             _pagesPerUser[user.Id] = [];
             _questionsPerUser[user.Id] = [];
         }
@@ -186,7 +186,7 @@ public sealed class ScenarioBuilder
                         Pages = new List<Page> { page }
                     };
 
-                    questionWritingRepository.Create(question, pageRepository);
+                    questionWritingRepository.Create(question);
                     _questions.Add(question);
                     _questionsPerUser[user.Id].Add(question);
                 }

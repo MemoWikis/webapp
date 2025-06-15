@@ -3,7 +3,7 @@ const { isDesktop } = useDevice()
 </script>
 
 <template>
-    <div id="Sidebar" class="col-lg-3 hidden-md hidden-sm hidden-xs container" v-if="isDesktop">
+    <div id="Sidebar" class="" v-if="isDesktop">
         <div id="SidebarDivider"></div>
         <div id="SidebarContent">
             <div id="SidebarSpacer"></div>
@@ -22,6 +22,8 @@ const { isDesktop } = useDevice()
     align-items: stretch;
     flex-grow: 1;
     height: 100%;
+    max-width: 300px;
+    margin: 0;
 
     @media (max-width: 1300px) {
         display: none;
@@ -123,7 +125,6 @@ const { isDesktop } = useDevice()
 
 #DefaultSidebar {
     height: 145px;
-    width: 200px;
     // :deep(.sidebar-title) {
     //     padding-bottom: 0px;
     //     height: 30px;

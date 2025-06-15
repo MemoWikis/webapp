@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ActivityCalendarData } from '~/composables/missionControl/learnCalendar'
-import { formatDate, getDaysBetween } from '../shared/utils'
+import { formatDate, getDaysBetween } from '~/utils/utils'
 
 const props = defineProps<{ calendarData?: ActivityCalendarData }>()
 const { t } = useI18n()
@@ -107,7 +107,7 @@ const isDateBeforeRange = (dateStr: string) => {
             <div>{{ t('missionControl.learnCalendar.longestStreak', { count: longestStreak }) }}</div>
         </div>
         <div class="grid-container">
-            <perfect-scrollbar :options="{ suppressScrollY: true, wheelPropagation: true, useBothWheelAxes: true }">
+            <PerfectScrollbar :options="{ suppressScrollY: true, wheelPropagation: true, useBothWheelAxes: true }">
                 <div class="grid">
                     <table>
                         <thead>
@@ -140,7 +140,7 @@ const isDateBeforeRange = (dateStr: string) => {
                         </tbody>
                     </table>
                 </div>
-            </perfect-scrollbar>
+            </PerfectScrollbar>
         </div>
     </div>
 </template>
@@ -149,9 +149,6 @@ const isDateBeforeRange = (dateStr: string) => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .learn-calendar {
-    background: white;
-    border-radius: 8px;
-    padding: 16px 20px;
 
     .stats {
         display: flex;

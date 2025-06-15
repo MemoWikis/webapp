@@ -1,0 +1,21 @@
+﻿{
+  DirectQuestionsCount: 1,
+  DirectQuestionTexts: [
+    Root Question
+  ],
+  AggregatedQuestionsCount: 4,
+  AggregatedQuestionTexts: [
+    Child1 Question 1,
+    Child1 Question 2,
+    Child2 Question,
+    Root Question
+  ],
+  Child1QuestionsCount: 2,
+  Child1QuestionTexts: [
+    Child1 Question 1,
+    Child1 Question 2
+  ],
+  RootPageHasChildren: true,
+  Child1IsChildOfRoot: true,
+  Child2IsChildOfRoot: true
+}

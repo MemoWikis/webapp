@@ -21,27 +21,23 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <div class="container">
-        <div class="row page-container main-page">
-            <div class="col-xs-12">
-                <div class="row">
-                    <h1>{{ t('membership.cancel.title') }}</h1>
-                    <p>
-                        {{ t('membership.cancel.message') }}
-                    </p>
-                    <div class="helper-links">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>{{ t('membership.cancel.title') }}</h1>
+            <p>
+                {{ t('membership.cancel.message') }}
+            </p>
+            <div class="helper-links">
 
-                        <NuxtLink to="https://discord.com/invite/nXKwGrN" external>
-                            <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
-                        </NuxtLink>
+                <NuxtLink to="https://discord.com/invite/nXKwGrN" external>
+                    <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
+                </NuxtLink>
 
-                        <template v-if="helperPages?.success === true">
-                            <NuxtLink v-for="helperPage in helperPages.data" :to="$urlHelper.getPageUrl(helperPage.name, helperPage.id)" :key="helperPage.id">
-                                {{ helperPage.name }}
-                            </NuxtLink>
-                        </template>
-                    </div>
-                </div>
+                <template v-if="helperPages?.success === true">
+                    <NuxtLink v-for="helperPage in helperPages.data" :to="$urlHelper.getPageUrl(helperPage.name, helperPage.id)" :key="helperPage.id">
+                        {{ helperPage.name }}
+                    </NuxtLink>
+                </template>
             </div>
         </div>
     </div>

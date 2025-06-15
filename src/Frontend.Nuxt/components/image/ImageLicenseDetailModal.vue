@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { handleNewLine } from '../shared/utils'
+import { handleNewLine } from '~/utils/utils'
 import { useImageLicenseStore } from './imageLicenseStore'
 const imageLicenseStore = useImageLicenseStore()
 const { t } = useI18n()

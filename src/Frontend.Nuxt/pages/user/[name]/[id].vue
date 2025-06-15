@@ -202,182 +202,175 @@ userStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-    <div class="container">
-        <div class="row profile-container main-page">
-            <div class="col-xs-12 container" v-if="profile && profile.user.id > 0">
-                <div class="row">
-                    <div class="col-xs-12 profile-header">
-                        <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
-                            class="profile-picture hidden-xs" />
-                        <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
-                            class="profile-picture-small hidden-sm hidden-md hidden-lg" />
 
-                        <div class="profile-header-info">
-                            <h1>{{ profile.user.name }}</h1>
-                            <div class="sub-info">
-                                <b>{{ profile.user.reputationPoints }}</b> {{ t('user.profile.reputationPoints') }}
-                                <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
-                                ({{ t('user.profile.rank') }} {{ profile.user.rank }})
-                                <NuxtLink class="link-to-all-users" to="/Nutzer">
-                                    {{ t('user.profile.viewAllUsers') }}
-                                </NuxtLink>
-                            </div>
-                            <div class="profile-btn-container">
-                                <button class="memo-button btn btn-primary" v-if="profile.user.wikiUrl">
-                                    <NuxtLink :to="profile.user.wikiUrl">
-                                        <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
-                                        <font-awesome-icon icon="fa-solid fa-house" v-else />
-                                        {{ t(isCurrentUser ? 'user.profile.toMyWiki' : 'user.profile.toUserWiki', { name: profile.user.name }) }}
-                                    </NuxtLink>
-                                </button>
+    <div class="main-content" v-if="profile && profile.user.id > 0">
+        <div class="profile-header">
+            <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
+                class="profile-picture hidden-xs" />
+            <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
+                class="profile-picture-small hidden-sm hidden-md hidden-lg" />
 
-                            </div>
-                        </div>
-                    </div>
+            <div class="profile-header-info">
+                <h1>{{ profile.user.name }}</h1>
+                <div class="sub-info">
+                    <b>{{ profile.user.reputationPoints }}</b> {{ t('user.profile.reputationPoints') }}
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
+                    ({{ t('user.profile.rank') }} {{ profile.user.rank }})
+                    <NuxtLink class="link-to-all-users" to="/Nutzer">
+                        {{ t('user.profile.viewAllUsers') }}
+                    </NuxtLink>
                 </div>
-                <div class="row">
-                    <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount"
-                        @set-tab="tab = $event" :is-current-user="isCurrentUser" />
+                <div class="profile-btn-container">
+                    <button class="memo-button btn btn-primary" v-if="profile.user.wikiUrl">
+                        <NuxtLink :to="profile.user.wikiUrl">
+                            <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
+                            <font-awesome-icon icon="fa-solid fa-house" v-else />
+                            {{ t(isCurrentUser ? 'user.profile.toMyWiki' : 'user.profile.toUserWiki', { name: profile.user.name }) }}
+                        </NuxtLink>
+                    </button>
+
                 </div>
-
-                <Transition>
-                    <div v-show="tab === Tab.Overview" class="row content">
-                        <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
-
-                            <div class="overline-s">
-                                {{ t('user.overview.reputation.title') }}
-                            </div>
-
-                            <div class="main-counter-container">
-                                <div class="count">
-                                    <h1>{{ profile.overview.activityPoints.total }}</h1>
-                                </div>
-                                <div class="count-label">
-                                    <div>{{ t('user.overview.reputation.total') }}</div>
-                                </div>
-                            </div>
-
-                            <div class="divider"></div>
-
-                            <div class="sub-counter-container">
-                                <div class="count">
-                                    {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
-                                </div>
-                                <div class="count-label">{{ t('user.overview.reputation.questionsInOtherWishknowledges') }}</div>
-                            </div>
-                            <div class="sub-counter-container">
-                                <div class="count">
-                                    {{ profile.overview.activityPoints.questionsCreated }} P
-                                </div>
-                                <div class="count-label">{{ t('user.overview.reputation.questionsCreated') }}</div>
-                            </div>
-                            <div class="sub-counter-container">
-                                <div class="count">
-                                    {{ profile.overview.activityPoints.publicWishknowledges }} P
-                                </div>
-                                <div class="count-label">{{ t('user.overview.reputation.publicWishknowledges') }}</div>
-                            </div>
-
-                            <div class="divider"></div>
-
-                            <NuxtLink to="/Globales-Wiki/1">{{ t('user.overview.reputation.learnMore') }}</NuxtLink>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
-
-                            <div class="overline-s">
-                                {{ t('user.overview.content.title') }}
-                            </div>
-
-                            <div class="main-counter-container">
-                                <div class="count">
-                                    <h1>{{ profile.overview.publicQuestionsCount }}</h1>
-                                </div>
-                                <div class="count-label">
-                                    <div>
-                                        {{ t('user.overview.content.publicQuestions') }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="divider"></div>
-
-                            <div class="main-counter-container">
-                                <div class="count">
-                                    <h1>{{ profile.overview.publicPagesCount }}</h1>
-                                </div>
-                                <div class="count-label">
-                                    <div>
-                                        {{ t('user.overview.content.publicPages') }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="main-counter-container">
-                                <div class="count">
-                                    <h1>{{ profile.overview.privateQuestionsCount }}</h1>
-                                </div>
-                                <div class="count-label">
-                                    <div>
-                                        {{ t('user.overview.content.privateQuestions') }} <font-awesome-icon icon="fa-solid fa-lock" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="divider"></div>
-
-                            <div class="main-counter-container">
-                                <div class="count">
-                                    <h1>{{ profile.overview.privatePagesCount }}</h1>
-                                </div>
-                                <div class="count-label">
-                                    <div>
-                                        {{ t('user.overview.content.privatePages') }} <font-awesome-icon icon="fa-solid fa-lock" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="divider"></div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
-
-                            <div class="overline-s">
-                                {{ t('user.overview.wishknowledge.title') }}
-                            </div>
-
-                            <div class="main-counter-container">
-                                <div class="count">
-                                    <h1>{{ profile.overview.wuwiCount }}</h1>
-                                </div>
-                                <div class="count-label">
-                                    <div>{{ t('user.overview.wishknowledge.questions') }}</div>
-                                </div>
-
-                            </div>
-                            <div class="divider"></div>
-
-                        </div>
-                    </div>
-                </Transition>
-                <Transition>
-                    <div v-show="tab === Tab.Wishknowledge">
-                        <div v-if="!profile.user.showWuwi" class="wuwi-is-hidden">
-                            <template v-if="profile.isCurrentUser">
-                                {{ t('user.wishknowledge.private.own') }} <span @click="tab = Tab.Settings"
-                                    class="btn-link">{{ t('user.wishknowledge.private.change') }}</span>
-                            </template>
-                            <template v-else>
-                                <b>{{ t('user.wishknowledge.private.notPublic') }}</b> {{ t('user.wishknowledge.private.userNotPublished', { name: profile.user.name }) }}
-                            </template>
-                        </div>
-                        <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
-                            <UserTabsWishknowledge :questions="wuwi.questions" :pages="wuwi.pages" />
-                        </div>
-
-                    </div>
-                </Transition>
-                <Transition v-if="userStore.isLoggedIn && profile.isCurrentUser">
-                    <UserSettings v-show="tab === Tab.Settings" :image-url="profile.user.imageUrl" :content="props.content" @update-profile="refreshProfile" />
-                </Transition>
-
             </div>
         </div>
+        <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount"
+            @set-tab="tab = $event" :is-current-user="isCurrentUser" />
+
+        <Transition>
+            <div v-show="tab === Tab.Overview" class="row content">
+                <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
+
+                    <div class="overline-s">
+                        {{ t('user.overview.reputation.title') }}
+                    </div>
+
+                    <div class="main-counter-container">
+                        <div class="count">
+                            <h1>{{ profile.overview.activityPoints.total }}</h1>
+                        </div>
+                        <div class="count-label">
+                            <div>{{ t('user.overview.reputation.total') }}</div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="sub-counter-container">
+                        <div class="count">
+                            {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
+                        </div>
+                        <div class="count-label">{{ t('user.overview.reputation.questionsInOtherWishknowledges') }}</div>
+                    </div>
+                    <div class="sub-counter-container">
+                        <div class="count">
+                            {{ profile.overview.activityPoints.questionsCreated }} P
+                        </div>
+                        <div class="count-label">{{ t('user.overview.reputation.questionsCreated') }}</div>
+                    </div>
+                    <div class="sub-counter-container">
+                        <div class="count">
+                            {{ profile.overview.activityPoints.publicWishknowledges }} P
+                        </div>
+                        <div class="count-label">{{ t('user.overview.reputation.publicWishknowledges') }}</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <NuxtLink to="/Globales-Wiki/1">{{ t('user.overview.reputation.learnMore') }}</NuxtLink>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
+
+                    <div class="overline-s">
+                        {{ t('user.overview.content.title') }}
+                    </div>
+
+                    <div class="main-counter-container">
+                        <div class="count">
+                            <h1>{{ profile.overview.publicQuestionsCount }}</h1>
+                        </div>
+                        <div class="count-label">
+                            <div>
+                                {{ t('user.overview.content.publicQuestions') }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="main-counter-container">
+                        <div class="count">
+                            <h1>{{ profile.overview.publicPagesCount }}</h1>
+                        </div>
+                        <div class="count-label">
+                            <div>
+                                {{ t('user.overview.content.publicPages') }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="main-counter-container">
+                        <div class="count">
+                            <h1>{{ profile.overview.privateQuestionsCount }}</h1>
+                        </div>
+                        <div class="count-label">
+                            <div>
+                                {{ t('user.overview.content.privateQuestions') }} <font-awesome-icon icon="fa-solid fa-lock" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="main-counter-container">
+                        <div class="count">
+                            <h1>{{ profile.overview.privatePagesCount }}</h1>
+                        </div>
+                        <div class="count-label">
+                            <div>
+                                {{ t('user.overview.content.privatePages') }} <font-awesome-icon icon="fa-solid fa-lock" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
+
+                    <div class="overline-s">
+                        {{ t('user.overview.wishknowledge.title') }}
+                    </div>
+
+                    <div class="main-counter-container">
+                        <div class="count">
+                            <h1>{{ profile.overview.wuwiCount }}</h1>
+                        </div>
+                        <div class="count-label">
+                            <div>{{ t('user.overview.wishknowledge.questions') }}</div>
+                        </div>
+
+                    </div>
+                    <div class="divider"></div>
+
+                </div>
+            </div>
+        </Transition>
+        <Transition>
+            <div v-show="tab === Tab.Wishknowledge">
+                <div v-if="!profile.user.showWuwi" class="wuwi-is-hidden">
+                    <template v-if="profile.isCurrentUser">
+                        {{ t('user.wishknowledge.private.own') }} <span @click="tab = Tab.Settings"
+                            class="btn-link">{{ t('user.wishknowledge.private.change') }}</span>
+                    </template>
+                    <template v-else>
+                        <b>{{ t('user.wishknowledge.private.notPublic') }}</b> {{ t('user.wishknowledge.private.userNotPublished', { name: profile.user.name }) }}
+                    </template>
+                </div>
+                <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
+                    <UserTabsWishknowledge :questions="wuwi.questions" :pages="wuwi.pages" />
+                </div>
+
+            </div>
+        </Transition>
+        <Transition v-if="userStore.isLoggedIn && profile.isCurrentUser">
+            <UserSettings v-show="tab === Tab.Settings" :image-url="profile.user.imageUrl" :content="props.content" @update-profile="refreshProfile" />
+        </Transition>
+
     </div>
 </template>
 

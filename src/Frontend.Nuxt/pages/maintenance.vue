@@ -46,15 +46,15 @@ const loggedInUserCount = ref(0)
 const anonymousUserCount = ref(0)
 watchEffect(() => {
     if (activeSessionsResult.value) {
-        loggedInUserCount.value = activeSessionsResult.value.loggedInUserCount;
-        anonymousUserCount.value = activeSessionsResult.value.anonymousUserCount;
+        loggedInUserCount.value = activeSessionsResult.value.loggedInUserCount
+        anonymousUserCount.value = activeSessionsResult.value.anonymousUserCount
     }
 
 })
 
 interface MethodData {
     url: string
-    label: string
+    translationKey: string
 }
 
 interface ActiveSessionsResponse {
@@ -63,35 +63,35 @@ interface ActiveSessionsResponse {
 }
 
 const questionMethods = ref<MethodData[]>([
-    { url: 'RecalculateAllKnowledgeItems', label: 'Recalculate all answer probabilities' },
-    { url: 'CalcAggregatedValuesQuestions', label: 'Update aggregated numbers' }
+    { url: 'RecalculateAllKnowledgeItems', translationKey: 'maintenance.questions.recalculateAllKnowledgeItems' },
+    { url: 'CalcAggregatedValuesQuestions', translationKey: 'maintenance.questions.calcAggregatedValues' }
 ])
 const cacheMethods = ref<MethodData[]>([
-    { url: 'ClearCache', label: 'Clear cache' },
+    { url: 'ClearCache', translationKey: 'maintenance.cache.clearCache' },
 ])
 const pageMethods = ref<MethodData[]>([
-    { url: 'UpdateCategoryAuthors', label: 'Update page authors' }
+    { url: 'UpdateCategoryAuthors', translationKey: 'maintenance.pages.updateCategoryAuthors' }
 ])
 const meiliSearchMethods = ref<MethodData[]>([
-    { url: 'MeiliReIndexAllQuestions', label: 'Questions' },
-    { url: 'MeiliReIndexAllQuestionsCache', label: 'Questions (Cache)' },
-    { url: 'MeiliReIndexAllPages', label: 'Pages' },
-    { url: 'MeiliReIndexAllPagesCache', label: 'Pages (Cache)' },
-    { url: 'MeiliReIndexAllUsers', label: 'Users' },
-    { url: 'MeiliReIndexAllUsersCache', label: 'Users (Cache)' }
+    { url: 'MeiliReIndexAllQuestions', translationKey: 'maintenance.meiliSearch.questions' },
+    { url: 'MeiliReIndexAllQuestionsCache', translationKey: 'maintenance.meiliSearch.questionsCache' },
+    { url: 'MeiliReIndexAllPages', translationKey: 'maintenance.meiliSearch.pages' },
+    { url: 'MeiliReIndexAllPagesCache', translationKey: 'maintenance.meiliSearch.pagesCache' },
+    { url: 'MeiliReIndexAllUsers', translationKey: 'maintenance.meiliSearch.users' },
+    { url: 'MeiliReIndexAllUsersCache', translationKey: 'maintenance.meiliSearch.usersCache' }
 ])
 const userMethods = ref<MethodData[]>([
-    { url: 'UpdateUserReputationAndRankings', label: 'Rankings and Reputation + Aggregates' },
-    { url: 'UpdateUserWishCount', label: 'Update desired knowledge counter' }
+    { url: 'UpdateUserReputationAndRankings', translationKey: 'maintenance.users.updateReputationAndRankings' },
+    { url: 'UpdateUserWishCount', translationKey: 'maintenance.users.updateWishCount' }
 ])
 const miscMethods = ref<MethodData[]>([
-    { url: 'CheckForDuplicateInteractionNumbers', label: 'Check for answers with the same Guid and InteractionNr' }
+    { url: 'CheckForDuplicateInteractionNumbers', translationKey: 'maintenance.misc.checkDuplicateInteractions' }
 ])
 const toolsMethods = ref<MethodData[]>([
-    { url: 'Throw500', label: 'Throw exception' },
-    { url: 'ReloadListFromIgnoreCrawlers', label: 'Reload list of ignored crawlers' },
-    { url: 'CleanUpWorkInProgressQuestions', label: 'Clean up work in progress questions' },
-    { url: 'Start100TestJobs', label: 'Start 100 test jobs' },
+    { url: 'Throw500', translationKey: 'maintenance.tools.throwException' },
+    { url: 'ReloadListFromIgnoreCrawlers', translationKey: 'maintenance.tools.reloadIgnoreCrawlers' },
+    { url: 'CleanUpWorkInProgressQuestions', translationKey: 'maintenance.tools.cleanupWorkInProgress' },
+    { url: 'Start100TestJobs', translationKey: 'maintenance.tools.start100TestJobs' },
 
 ])
 const resultMsg = ref('')
@@ -166,68 +166,62 @@ async function removeAdminRights() {
 </script>
 
 <template>
-    <div class="container">
-        <div class="row main-page">
-            <div class="main-content">
-                <div class="col-xs-12"
-                    v-if="isAdmin && userStore.isAdmin && antiForgeryToken != null && antiForgeryToken?.length > 0">
-                    <h1>Admin Page</h1>
-                    <div class="row">
-                        <div class="alert alert-warning alert-dismissible" role="alert" v-if="resultMsg.length > 0">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-                                @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
-                            {{ resultMsg }}
-                        </div>
-                        <MaintenanceSection title="Metrics" :methods="[]">
-                            <div class="custom-container">
-                                <NuxtLink to="/Metriken" class="memo-button btn btn-primary">
-                                    View Overview
-                                </NuxtLink>
-                            </div>
-                        </MaintenanceSection>
-                        <MaintenanceSection title="Questions" :methods="questionMethods" @method-clicked="handleClick"
-                            :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Cache" :methods="cacheMethods" @method-clicked="handleClick"
-                            :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Pages" :methods="pageMethods" @method-clicked="handleClick"
-                            :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Search MeiliSearch" :methods="meiliSearchMethods"
-                            description="Re-index all for search:" @method-clicked="handleClick"
-                            :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Users" :methods="userMethods" @method-clicked="handleClick"
-                            :icon="['fas', 'retweet']">
-                            <div class="active-users-info">
-                                <h4>Active Sessions</h4>
-                                <ul>
-                                    <li>Logged in: {{ loggedInUserCount }} (last 5 minutes)</li>
-                                    <li>Anonymous: {{ anonymousUserCount }} (last minute)</li>
-                                </ul>
-                            </div>
-                            <div class="delete-user-container">
-                                <h4>Delete User (ID)</h4>
-                                <div class="delete-user-input">
-                                    <input v-model="userIdToDelete" />
-                                    <button @click="deleteUser" class="memo-button btn btn-primary">
-                                        Delete User
-                                    </button>
-                                </div>
-                            </div>
-                        </MaintenanceSection>
-                        <MaintenanceSection title="Miscellaneous" :methods="miscMethods" @method-clicked="handleClick"
-                            :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Tools" :methods="toolsMethods" @method-clicked="handleClick"
-                            :icon="['fas', 'hammer']" />
-                        <div class="remove-admin-rights-section col-xs-12 col-lg-6">
-                            <h3>Remove Admin Rights for current user</h3>
-                            <div>
-                                <button @click="removeAdminRights" class="memo-button btn btn-primary">
-                                    Remove Admin Rights for current user
-                                </button>
-                            </div>
+    <div class="main-content"
+        v-if="isAdmin && userStore.isAdmin && antiForgeryToken != null && antiForgeryToken?.length > 0">
+        <h1>{{ $t('maintenance.title') }}</h1>
+        <div class="">
+            <div class="alert alert-warning alert-dismissible" role="alert" v-if="resultMsg.length > 0">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                    @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
+                {{ resultMsg }}
+            </div>
+            <LayoutPanel :title="$t('maintenance.metrics.title')">
+                <NuxtLink to="/Metriken" class="memo-button btn btn-primary">
+                    {{ $t('maintenance.metrics.viewOverview') }}
+                </NuxtLink>
+            </LayoutPanel>
+            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods" @method-clicked="handleClick"
+                :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods" @method-clicked="handleClick"
+                :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="handleClick"
+                :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods"
+                :description="$t('maintenance.meiliSearch.description')" @method-clicked="handleClick"
+                :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="handleClick"
+                :icon="['fas', 'retweet']">
+                <LayoutCard :size="LayoutCardSize.Tiny">
+                    <div class="active-users-info">
+                        <h4>{{ $t('maintenance.users.activeSessions') }}</h4>
+                        <ul>
+                            <li>{{ $t('maintenance.users.loggedIn') }}: {{ loggedInUserCount }} ({{ $t('maintenance.users.last5Minutes') }})</li>
+                            <li>{{ $t('maintenance.users.anonymous') }}: {{ anonymousUserCount }} ({{ $t('maintenance.users.lastMinute') }})</li>
+                        </ul>
+                    </div>
+                </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Small">
+                    <div class="delete-user-container">
+                        <h4>{{ $t('maintenance.users.deleteUser') }}</h4>
+                        <div class="delete-user-input">
+                            <input v-model="userIdToDelete" />
+                            <button @click="deleteUser" class="memo-button btn btn-primary">
+                                {{ $t('maintenance.users.deleteUserButton') }}
+                            </button>
                         </div>
                     </div>
-                </div>
-            </div>
+                </LayoutCard>
+
+            </MaintenanceSection>
+            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" @method-clicked="handleClick"
+                :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" @method-clicked="handleClick"
+                :icon="['fas', 'hammer']" />
+            <LayoutPanel :title="$t('maintenance.removeAdminRights.title')">
+                <button @click="removeAdminRights" class="memo-button btn btn-primary">
+                    {{ $t('maintenance.removeAdminRights.button') }}
+                </button>
+            </LayoutPanel>
         </div>
     </div>
 </template>

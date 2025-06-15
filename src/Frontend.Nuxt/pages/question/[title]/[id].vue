@@ -3,7 +3,7 @@ import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody
 import { SiteType } from '~/components/shared/siteEnum'
 import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
-import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
+import { handleNewLine, getHighlightedCode } from '~/utils/utils'
 import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 
@@ -127,102 +127,99 @@ useHead(() => ({
 	<title v-if="question && question?.answerBodyModel != null">
 		{{ t('questionLandingPage.title', { title: question.answerBodyModel.title }) }}
 	</title>
-	<div class="container page-container">
-		<div class="question-page-container row main-page">
-			<template v-if="question && question?.answerBodyModel != null">
-				<div class="col-lg-9 col-md-12 container main-content">
 
-					<div id="AnswerBody" class="col-xs-12 landing-page">
-						<div class="answerbody-header">
+	<div v-if="question && question?.answerBodyModel != null" class="questionpage-container">
+		<div class="questionpage">
 
-							<div class="answerbody-text">
-								<h3 v-if="question.answerBodyModel.solutionType != SolutionType.Flashcard"
-									class="QuestionText">
-									{{ question.answerBodyModel.text }}
-								</h3>
-							</div>
+			<div id="AnswerBody" class="col-xs-12 landing-page">
+				<div class="answerbody-header">
+
+					<div class="answerbody-text">
+						<h3 v-if="question.answerBodyModel.solutionType != SolutionType.Flashcard"
+							class="QuestionText">
+							{{ question.answerBodyModel.text }}
+						</h3>
+					</div>
+				</div>
+
+				<div class="row">
+
+					<div id="MarkdownCol"
+						v-if="question.answerBodyModel.solutionType != SolutionType.Flashcard && question.answerBodyModel.renderedQuestionTextExtended.length > 0">
+
+						<div id="ExtendedQuestionContainer" class="RenderedMarkdown"
+							v-html="handleNewLine(question.answerBodyModel.renderedQuestionTextExtended)">
 						</div>
+					</div>
 
-						<div class="row">
 
-							<div id="MarkdownCol"
-								v-if="question.answerBodyModel.solutionType != SolutionType.Flashcard && question.answerBodyModel.renderedQuestionTextExtended.length > 0">
+					<div id="AnswerAndSolutionCol">
+						<div id="AnswerAndSolution">
+							<div class="row"
+								:class="{ 'hasFlashcard': question.answerBodyModel.solutionType === SolutionType.Flashcard }">
+								<div id="AnswerInputSection">
 
-								<div id="ExtendedQuestionContainer" class="RenderedMarkdown"
-									v-html="handleNewLine(question.answerBodyModel.renderedQuestionTextExtended)">
+									<QuestionAnswerBodyFlashcard
+										:key="question.answerBodyModel.id + 'flashcard'"
+										v-if="question.answerBodyModel.solutionType === SolutionType.Flashcard"
+										ref="flashcard" :solution="question.answerBodyModel.solution"
+										:front-content="question.answerBodyModel.textHtml"
+										:marked-as-correct="true" />
+									<QuestionAnswerBodyMatchlist
+										:key="question.answerBodyModel.id + 'matchlist'"
+										v-else-if="question.answerBodyModel.solutionType === SolutionType.MatchList"
+										ref="matchList" :solution="question.answerBodyModel.solution"
+										:show-answer="true" />
+									<QuestionAnswerBodyMultipleChoice
+										:key="question.answerBodyModel.id + 'multiplechoice'"
+										v-else-if="question.answerBodyModel.solutionType === SolutionType.MultipleChoice"
+										:solution="question.answerBodyModel.solution" :show-answer="true"
+										ref="multipleChoice" />
+									<QuestionAnswerBodyText :key="question.answerBodyModel.id + 'text'"
+										v-else-if="question.answerBodyModel.solutionType === SolutionType.Text"
+										ref="text" :show-answer="true" />
+
 								</div>
-							</div>
+								<div id="ButtonsAndSolutionCol">
+									<div id="ButtonsAndSolution" class="Clearfix">
+										<div id="Buttons">
+											<div id="btnGoToTestSession">
 
-
-							<div id="AnswerAndSolutionCol">
-								<div id="AnswerAndSolution">
-									<div class="row"
-										:class="{ 'hasFlashcard': question.answerBodyModel.solutionType === SolutionType.Flashcard }">
-										<div id="AnswerInputSection">
-
-											<QuestionAnswerBodyFlashcard
-												:key="question.answerBodyModel.id + 'flashcard'"
-												v-if="question.answerBodyModel.solutionType === SolutionType.Flashcard"
-												ref="flashcard" :solution="question.answerBodyModel.solution"
-												:front-content="question.answerBodyModel.textHtml"
-												:marked-as-correct="true" />
-											<QuestionAnswerBodyMatchlist
-												:key="question.answerBodyModel.id + 'matchlist'"
-												v-else-if="question.answerBodyModel.solutionType === SolutionType.MatchList"
-												ref="matchList" :solution="question.answerBodyModel.solution"
-												:show-answer="true" />
-											<QuestionAnswerBodyMultipleChoice
-												:key="question.answerBodyModel.id + 'multiplechoice'"
-												v-else-if="question.answerBodyModel.solutionType === SolutionType.MultipleChoice"
-												:solution="question.answerBodyModel.solution" :show-answer="true"
-												ref="multipleChoice" />
-											<QuestionAnswerBodyText :key="question.answerBodyModel.id + 'text'"
-												v-else-if="question.answerBodyModel.solutionType === SolutionType.Text"
-												ref="text" :show-answer="true" />
-
+												<NuxtLink v-if="question.answerBodyModel.hasPages"
+													:to="$urlHelper.getPageUrlWithQuestionId(question.answerBodyModel.primaryPageName, question.answerBodyModel.primaryPageId, question.answerBodyModel.id)"
+													id="btnStartTestSession"
+													class="btn btn-primary show-tooltip" rel="nofollow"
+													v-tooltip="userStore.isLoggedIn ? t('questionLandingPage.tooltip.learnAllQuestions') : t('questionLandingPage.tooltip.learnRandomQuestions', { pageName: question.answerBodyModel.primaryPageName })">
+													<b>{{ t('questionLandingPage.continueLearning') }}</b>
+												</NuxtLink>
+											</div>
 										</div>
-										<div id="ButtonsAndSolutionCol">
-											<div id="ButtonsAndSolution" class="Clearfix">
-												<div id="Buttons">
-													<div id="btnGoToTestSession">
 
-														<NuxtLink v-if="question.answerBodyModel.hasPages"
-															:to="$urlHelper.getPageUrlWithQuestionId(question.answerBodyModel.primaryPageName, question.answerBodyModel.primaryPageId, question.answerBodyModel.id)"
-															id="btnStartTestSession"
-															class="btn btn-primary show-tooltip" rel="nofollow"
-															v-tooltip="userStore.isLoggedIn ? t('questionLandingPage.tooltip.learnAllQuestions') : t('questionLandingPage.tooltip.learnRandomQuestions', { pageName: question.answerBodyModel.primaryPageName })">
-															<b>{{ t('questionLandingPage.continueLearning') }}</b>
-														</NuxtLink>
+										<div id="AnswerFeedbackAndSolutionDetails">
+											<div v-if="question.answerBodyModel.solutionType != SolutionType.Flashcard"
+												id="AnswerFeedback">
+
+												<div id="Solution">
+													<div class="solution-label">
+														{{ t('questionLandingPage.rightAnswer') }}
 													</div>
+
+													<div class="Content body-m" id="SolutionContent"
+														v-html="handleNewLine(question.solutionData?.answerAsHTML)">
+													</div>
+
 												</div>
+											</div>
 
-												<div id="AnswerFeedbackAndSolutionDetails">
-													<div v-if="question.answerBodyModel.solutionType != SolutionType.Flashcard"
-														id="AnswerFeedback">
-
-														<div id="Solution">
-															<div class="solution-label">
-																{{ t('questionLandingPage.rightAnswer') }}
-															</div>
-
-															<div class="Content body-m" id="SolutionContent"
-																v-html="handleNewLine(question.solutionData?.answerAsHTML)">
-															</div>
-
-														</div>
+											<div id="SolutionDetails"
+												v-if="question.solutionData != null && question.solutionData.answerDescription.trim().length > 0">
+												<div id="Description">
+													<div class="solution-label">
+														{{ t('questionLandingPage.answerAdditions') }}
 													</div>
 
-													<div id="SolutionDetails"
-														v-if="question.solutionData != null && question.solutionData.answerDescription.trim().length > 0">
-														<div id="Description">
-															<div class="solution-label">
-																{{ t('questionLandingPage.answerAdditions') }}
-															</div>
-
-															<div class="Content body-m" id="ExtendedSolutionContent"
-																v-html="handleNewLine(question.solutionData?.answerDescription)">
-															</div>
-														</div>
+													<div class="Content body-m" id="ExtendedSolutionContent"
+														v-html="handleNewLine(question.solutionData?.answerDescription)">
 													</div>
 												</div>
 											</div>
@@ -231,17 +228,17 @@ useHead(() => ({
 								</div>
 							</div>
 						</div>
-
-						<QuestionAnswerBodyAnswerQuestionDetailsLandingPage
-							v-if="question.answerQuestionDetailsModel != null"
-							:model="question.answerQuestionDetailsModel" />
-
 					</div>
 				</div>
-				<Sidebar :site="props.site" />
-			</template>
+
+				<QuestionAnswerBodyAnswerQuestionDetailsLandingPage
+					v-if="question.answerQuestionDetailsModel != null"
+					:model="question.answerQuestionDetailsModel" />
+
+			</div>
 		</div>
 	</div>
+
 </template>
 
 <style scoped lang="less">
@@ -251,13 +248,21 @@ useHead(() => ({
 	}
 }
 
-.question-page-container {
-	padding-bottom: 45px;
-	margin-top: 20px;
-}
-
 #AnswerAndSolutionCol {
 	margin-bottom: 45px;
+}
+
+.questionpage-container {
+	display: flex;
+	justify-content: center;
+	flex-wrap: nowrap;
+	gap: 0 1rem;
+	width: 100%;
+	padding: 20px 0;
+
+	.questionpage {
+		width: 100%;
+	}
 }
 </style>
 

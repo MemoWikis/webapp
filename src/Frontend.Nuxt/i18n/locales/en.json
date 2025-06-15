@@ -236,7 +236,11 @@
         "favorites": "Favorites",
         "lastVisited": "Last visited",
         "sharedWithMe": "Shared with me",
+        "noWikis": "You haven't created any wikis yet",
+        "noFavorites": "You haven't added any favorites yet",
         "noSharedPages": "No pages shared with you yet",
+        "noWikisNotLoggedIn": "Log in to see your wikis",
+        "noFavoritesNotLoggedIn": "Log in to see your favorites",
         "help": "Help",
         "documentation": "Documentation",
         "createWikiModal": {
@@ -578,24 +582,38 @@
             "questionsGroupedByStatus": "Questions grouped by status",
             "noQuestionsAnswered": "You have not answered any questions on this page yet.",
             "pageData": "Data about this page",
-            "questionsLabel": "Questions:",
-            "includedQuestions": "included questions",
-            "directlyLinkedQuestions": "directly linked questions",
-            "pagesLabel": "Pages:",
-            "includedPages": "included pages",
-            "directlyLinkedChildPages": "directly linked subpages",
-            "parentPages": "parent pages",
+            "questionsLabel": "Questions",
+            "includedQuestions": "0 included questions | 1 included question | {count} included questions",
+            "directlyLinkedQuestions": "0 directly linked questions | 1 directly linked question | {count} directly linked questions",
+            "totalQuestionViews": "0 total question views | 1 total question view | {count} total question views",
+            "pagesLabel": "Pages",
+            "includedPages": "0 included pages | 1 included page | {count} included pages",
+            "directlyLinkedChildPages": "0 directly linked subpages | 1 directly linked subpage | {count} directly linked subpages",
+            "parentPages": "0 parent pages | 1 parent page | {count} parent pages",
+            "totalPageViews": "0 total page views | 1 total page view | {count} total page views",
             "statistics": "Statistics",
-            "pageViewsLast90Days": "Page views in the last 90 days",
+            "pageViewsLast90Days": "Page views (90 days)",
             "withoutChildPages": "Without subpages",
-            "withChildPages": "Incl. 0 subpages | Incl. 1 subpage | Incl. {count} subpages",
-            "questionViewsLast90Days": "Question views in the last 90 days",
+            "withChildPages": "0 subpages | 1 subpage | {count} subpages",
+            "questionViewsLast90Days": "Question views (90 days)",
             "directlyLinkedQuestionsTitle": "Directly linked questions",
             "includedQuestions90Days": "Included questions (0 subpages) | Included questions (1 subpage) | Included questions ({count} subpages)",
             "solidKnowledge": "@:knowledgeStatus.solid",
             "needsConsolidation": "@:knowledgeStatus.needsConsolidation",
             "needsLearning": "@:knowledgeStatus.needsLearning",
-            "notLearned": "@:knowledgeStatus.notLearned"
+            "notLearned": "@:knowledgeStatus.notLearned",
+            "contentTitle": "Content",
+            "viewsTitle": "Views",
+            "learnActivity": "Learning Activity",
+            "childPageCount": "Included Subpages",
+            "directVisibleChildPageLabel": "Directly Linked Subpages",
+            "parentPageLabel": "Parent Pages",
+            "includedQuestionsLabel": "Included Questions",
+            "directlyLinkedQuestionsLabel": "Directly Linked Questions",
+            "pageViewsLabel": "Page Views",
+            "subpageViewsLabel": "Subpages",
+            "directQuestionViewsLabel": "Directly Linked Questions",
+            "aggregatedQuestionViewsLabel": "All Questions (directly linked and included)"
         },
         "publishModal": {
             "title": "Publish {name}",
@@ -1337,6 +1355,31 @@
                 }
             }
         },
+        "confirmEmail": {
+            "pending": {
+                "title": "Confirmation in progress",
+                "message": "We're currently confirming your email address. Please wait a moment."
+            },
+            "success": {
+                "title": "Confirmation successful",
+                "message": "Your email address has been successfully confirmed.",
+                "continue": "Continue {destination}",
+                "yourWiki": "to your Wiki",
+                "homepage": "to homepage"
+            },
+            "failed": {
+                "title": "Confirmation failed",
+                "message1": "Sorry, confirming your email address has failed.",
+                "message2": "The confirmation link might be incorrect or has expired.",
+                "message3": "Please try again or contact",
+                "message4": "if the problem persists.",
+                "message5": "We're happy to help!",
+                "resendButton": "send new verification email"
+            },
+            "newMail": {
+                "title": "New verification email requested!"
+            }
+        },
         "messages": {
             "row": {
                 "markAsRead": "Mark as read",
@@ -1640,6 +1683,76 @@
         },
         "pageGrid": {
             "questions": "No questions | One question | {count} questions"
+        }
+    },
+    "resetPassword": {
+        "title": "Set new password",
+        "password": "Password",
+        "passwordPlaceholder": "min. 5 characters",
+        "repeatPassword": "Repeat password",
+        "saveButton": "Save new password",
+        "passwordMismatch": "Passwords don't match",
+        "rememberedPassword": "I remembered my password."
+    },
+    "counter": {
+        "thousands": "{value}k",
+        "millions": "{value}M"
+    },
+    "maintenance": {
+        "title": "Admin Page",
+        "metrics": {
+            "title": "Metrics",
+            "viewOverview": "View Overview"
+        },
+        "questions": {
+            "title": "Questions",
+            "recalculateAllKnowledgeItems": "Recalculate all answer probabilities",
+            "calcAggregatedValues": "Update aggregated numbers"
+        },
+        "cache": {
+            "title": "Cache",
+            "clearCache": "Clear cache"
+        },
+        "pages": {
+            "title": "Pages",
+            "updateCategoryAuthors": "Update page authors"
+        },
+        "meiliSearch": {
+            "title": "Search MeiliSearch",
+            "description": "Re-index all for search:",
+            "questions": "Questions",
+            "questionsCache": "Questions (Cache)",
+            "pages": "Pages",
+            "pagesCache": "Pages (Cache)",
+            "users": "Users",
+            "usersCache": "Users (Cache)"
+        },
+        "users": {
+            "title": "Users",
+            "updateReputationAndRankings": "Rankings and Reputation + Aggregates",
+            "updateWishCount": "Update desired knowledge counter",
+            "activeSessions": "Active Sessions",
+            "loggedIn": "Logged in",
+            "anonymous": "Anonymous",
+            "last5Minutes": "last 5 minutes",
+            "lastMinute": "last minute",
+            "deleteUser": "Delete User (ID)",
+            "deleteUserButton": "Delete User"
+        },
+        "misc": {
+            "title": "Miscellaneous",
+            "checkDuplicateInteractions": "Check for answers with the same Guid and InteractionNr"
+        },
+        "tools": {
+            "title": "Tools",
+            "throwException": "Throw exception",
+            "reloadIgnoreCrawlers": "Reload list of ignored crawlers",
+            "cleanupWorkInProgress": "Clean up work in progress questions",
+            "start100TestJobs": "Start 100 test jobs"
+        },
+        "removeAdminRights": {
+            "title": "Remove Admin Rights",
+            "button": "Remove Admin Rights for current user"
         }
     }
 }

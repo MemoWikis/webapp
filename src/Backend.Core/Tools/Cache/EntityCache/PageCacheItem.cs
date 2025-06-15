@@ -185,8 +185,13 @@ public class PageCacheItem : IPersistable
         }
         else
         {
-            questions = EntityCache.GetQuestionsForPage(pageId)
-                .Distinct().ToList();
+            if (pageId == 0)
+                pageId = Id; // use current page if no pageId is given
+
+            questions = EntityCache
+                .GetQuestionsForPage(pageId)
+                .Distinct()
+                .ToList();
         }
 
         if (onlyVisible)
@@ -224,6 +229,14 @@ public class PageCacheItem : IPersistable
         return GetAggregatedQuestions(userId, permissionCheck: permissionCheck)
             .Count;
     }
+
+    public virtual int GetQuestionViewCount(int userId,
+        bool onlyVisible = true,
+        bool fullList = true,
+        int pageId = 0,
+        PermissionCheck? permissionCheck = null) =>
+        GetAggregatedQuestions(userId, onlyVisible, fullList, pageId, permissionCheck)
+            .Sum(question => question.TotalViews);
 
     public virtual bool HasPublicParent()
     {
@@ -307,25 +320,7 @@ public class PageCacheItem : IPersistable
 
         if (EntityCache.IsFirstStart)
         {
-            if (views != null)
-            {
-                pageCacheItem.TotalViews = views.Count();
-
-                var startDate = DateTime.Now.Date.AddDays(-90);
-                var endDate = DateTime.Now.Date;
-
-                var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
-                    .Select(d => startDate.AddDays(d));
-
-                pageCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
-                    .Select(qv => new DailyViews
-                    {
-                        Date = qv.DateOnly,
-                        Count = qv.Count
-                    })
-                    .OrderBy(v => v.Date)
-                    .ToList();
-            }
+            SetPageViews(pageCacheItem, views);
 
             if (pageChanges != null)
             {
@@ -365,6 +360,7 @@ public class PageCacheItem : IPersistable
                                 previousCacheItem.IsPartOfGroup = true;
                                 currentGroupedCacheItem.Add(previousCacheItem);
                             }
+
                             currentCacheItem.IsPartOfGroup = true;
                             currentGroupedCacheItem.Add(currentCacheItem);
                         }
@@ -400,6 +396,29 @@ public class PageCacheItem : IPersistable
         return pageCacheItem;
     }
 
+    public static void SetPageViews(PageCacheItem pageCacheItem, List<PageViewRepo.PageViewSummaryWithId>? views = null)
+    {
+        if (views == null || views.Count == 0)
+            return;
+
+        pageCacheItem.TotalViews = (int)views.Sum(view => view.Count);
+
+        var startDate = DateTime.Now.Date.AddDays(-90);
+        var endDate = DateTime.Now.Date;
+
+        var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+            .Select(d => startDate.AddDays(d));
+
+        pageCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
+            .Select(qv => new DailyViews
+            {
+                Date = qv.DateOnly,
+                Count = qv.Count
+            })
+            .OrderBy(v => v.Date)
+            .ToList();
+    }
+
     public void AddPageView(DateTime date)
     {
         if (ViewsOfPast90Days == null)
@@ -418,6 +437,7 @@ public class PageCacheItem : IPersistable
                 Count = 1
             });
         }
+
         TotalViews++;
     }
 
@@ -442,7 +462,6 @@ public class PageCacheItem : IPersistable
 
                     visibleVisited.Add(r.ChildId, child);
                     AllChildPages(child, visibleVisited);
-
                 }
             }
         }
@@ -471,6 +490,7 @@ public class PageCacheItem : IPersistable
     }
 
     public record struct FeedItem(DateTime DateCreated, PageChangeCacheItem? PageChangeCacheItem, QuestionChangeCacheItem? QuestionChangeCacheItem);
+
     public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false, bool getItemsInGroup = false)
     {
         IEnumerable<FeedItem> changes;
@@ -532,7 +552,6 @@ public class PageCacheItem : IPersistable
 
         foreach (var c in changes)
         {
-
             if (!IsVisibleForUser(userId, c))
             {
                 continue;
@@ -571,6 +590,7 @@ public class PageCacheItem : IPersistable
 
         return (pagedChanges, visibleChanges.Count());
     }
+
     private FeedItem ToFeedItem(PageChangeCacheItem? pageChangeCacheItem = null, QuestionChangeCacheItem? questionChangeCacheItem = null)
     {
         if (pageChangeCacheItem != null)
@@ -620,7 +640,6 @@ public class PageCacheItem : IPersistable
 
     private bool IsDuplicateOfDelete(PageChangeCacheItem change, HashSet<int> pageChangeIds, HashSet<int> questionChangeIds)
     {
-
         var deleteChangeId = change.PageChangeData.DeleteData?.DeleteChangeId;
         if (deleteChangeId == null)
             return true;
