@@ -9,7 +9,6 @@
   },
   DeleteResult: {
     HasChildren: false,
-    IsNotCreatorOrAdmin: false,
     Success: true,
     RedirectParent: {
       Name: root,

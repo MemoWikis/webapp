@@ -1,9 +1,5 @@
 ﻿{
   HasChildren: false,
-  IsNotCreatorOrAdmin: true,
   Success: false,
-  RedirectParent: {
-    Name: parent name,
-    Id: 1
-  }
+  MessageKey: error.route.noRights
 }

@@ -8,32 +8,17 @@
     PageRepository _pageRepo,
     PageRelationRepo _pageRelationRepo,
     PermissionCheck _permissionCheck,
-    PageToQuestionRepo _pageToQuestionRepo,
-    SharesRepository _sharesRepository)
-    : IRegisterAsInstancePerLifetime
+    PageToQuestionRepo _pageToQuestionRepo,    SharesRepository _sharesRepository) : IRegisterAsInstancePerLifetime
 {
-    private HasDeleted Run(Page page, int userId)
+    private int Run(Page page, int userId)
     {
         var pageCacheItem = EntityCache.GetPage(page.Id);
-        var hasDeleted = new HasDeleted();
 
-        var canDeleteResult = _permissionCheck.CanDelete(pageCacheItem);
-
-        if (!canDeleteResult.Allowed)
+        if (pageCacheItem != null)
         {
-            hasDeleted.IsNotCreatorOrAdmin = true;
-            return hasDeleted;
+            DeleteRelations(pageCacheItem, userId);
+            EntityCache.Remove(pageCacheItem, userId);
         }
-
-        if (!CanDeleteItemBasedOnChildParentCount(page, userId))
-        {
-            hasDeleted.HasChildren = true;
-            return hasDeleted;
-        }
-
-        DeleteRelations(pageCacheItem, userId);
-
-        EntityCache.Remove(pageCacheItem, userId);
 
         var deleteChangeId = _pageChangeRepo.AddDeleteEntry(page, userId);
         _extendedUserCache.RemoveAllForPage(page.Id, _pageValuationWritingRepo);
@@ -45,9 +30,7 @@
 
         DeleteFromRepos(page.Id);
 
-        hasDeleted.DeletedSuccessful = true;
-        hasDeleted.ChangeId = deleteChangeId;
-        return hasDeleted;
+        return deleteChangeId;
     }
 
     private void DeleteFromRepos(int pageId)
@@ -123,14 +106,10 @@
 
     public record struct DeletePageResult(
         bool HasChildren = false,
-        bool IsNotCreatorOrAdmin = false,
         bool Success = false,
         RedirectPage? RedirectParent = null,
-        string? MessageKey = null);
-
-    public DeletePageResult DeletePage(int pageToDeleteId, int? newParentForQuestionsId)
+        string? MessageKey = null);    public DeletePageResult DeletePage(int pageToDeleteId, int? newParentForQuestionsId)
     {
-        var redirectPage = GetRedirectPage(pageToDeleteId);
         var page = _pageRepo.GetById(pageToDeleteId);
 
         if (page == null)
@@ -149,23 +128,48 @@
         if (hasQuestions && newParentForQuestionsId != null)
             MoveQuestionsToParent(pageToDeleteId, (int)newParentForQuestionsId);
         else if (hasQuestions && newParentForQuestionsId == null || newParentForQuestionsId == 0)
-            return new DeletePageResult(MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected, Success: false);
+            return new DeletePageResult(MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected, Success: false);        // Check permissions first
+        var pageCacheItem = EntityCache.GetPage(pageToDeleteId);
+        if (pageCacheItem == null)
+            throw new Exception("Page cache item not found.");
 
-        var hasDeleted = Run(page, _sessionUser.UserId);
+        var canDeleteResult = _permissionCheck.CanDelete(pageCacheItem);
 
+        if (!canDeleteResult.Allowed)
+        {
+            return new DeletePageResult(
+                Success: false,
+                MessageKey: canDeleteResult.Reason);
+        }
+
+        // Check if can delete based on child/parent count
+        if (!CanDeleteItemBasedOnChildParentCount(page, _sessionUser.UserId))
+        {
+            return new DeletePageResult(
+                HasChildren: true,
+                Success: false);
+        }
+
+        // Get redirect page before deletion (while page still exists)
+        var redirectPage = GetRedirectPage(pageToDeleteId);
+
+        // Actually delete the page
+        var deleteChangeId = Run(page, _sessionUser.UserId);
+
+        // Update parent relations
         if (parentIds != null && parentIds.Any())
         {
             var parentPages = _pageRepo.GetByIds(parentIds);
 
             foreach (var parent in parentPages)
-                _pageChangeRepo.AddDeletedChildPageEntry(parent, _sessionUser.UserId, hasDeleted.ChangeId, pageName, pageVisibility);
+                _pageChangeRepo.AddDeletedChildPageEntry(parent, _sessionUser.UserId, deleteChangeId, pageName, pageVisibility);
         }
 
         return new DeletePageResult(
-            HasChildren: hasDeleted.HasChildren,
-            IsNotCreatorOrAdmin: hasDeleted.IsNotCreatorOrAdmin,
-            Success: hasDeleted.DeletedSuccessful,
-            RedirectParent: redirectPage);
+            HasChildren: false,
+            Success: true,
+            RedirectParent: redirectPage,
+            MessageKey: null);
     }
 
     private void MoveQuestionsToParent(int pageToDeleteId, int parentId)
@@ -186,7 +190,6 @@
     }
 
     public record RedirectPage(string Name, int Id);
-
     private RedirectPage GetRedirectPage(int id)
     {
         var page = EntityCache.GetPage(id);
@@ -236,13 +239,5 @@
 
         var featuredRootPage = FeaturedPage.GetRootPage;
         return new RedirectPage(featuredRootPage.Name, featuredRootPage.Id);
-    }
-
-    private class HasDeleted
-    {
-        public bool DeletedSuccessful { get; set; }
-        public bool HasChildren { get; set; }
-        public bool IsNotCreatorOrAdmin { get; set; }
-        public int ChangeId { get; set; }
     }
 }

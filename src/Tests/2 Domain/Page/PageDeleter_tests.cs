@@ -33,7 +33,7 @@ internal class PageDeleter_tests : BaseTestHarness
         //Assert
         Assert.That(requestResult.Success);
         Assert.That(requestResult.HasChildren, Is.False);
-        Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
+        Assert.That(requestResult.MessageKey, Is.Null);
         Assert.That(parent.Id, Is.EqualTo(requestResult.RedirectParent.Id));
     }
 
@@ -83,7 +83,7 @@ internal class PageDeleter_tests : BaseTestHarness
         Assert.That(requestResult, Is.Not.False);
         Assert.That(requestResult.Success);
         Assert.That(requestResult.HasChildren, Is.False);
-        Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
+        Assert.That(requestResult.MessageKey, Is.Null);
         Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
         Assert.That(allAvailablePages.Any());
         Assert.That(allAvailablePages.Contains(parent));
@@ -136,7 +136,7 @@ internal class PageDeleter_tests : BaseTestHarness
 
         Assert.That(requestResult.Success);
         Assert.That(requestResult.HasChildren, Is.False);
-        Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
+        Assert.That(requestResult.MessageKey, Is.Null);
         Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
         Assert.That(allPagesInEntityCache.Any());
         Assert.That(allPagesInEntityCache.Any(c => c.Id == parent.Id));
@@ -237,7 +237,7 @@ internal class PageDeleter_tests : BaseTestHarness
         //Assert
         Assert.That(requestResult.Success, Is.False);
         Assert.That(requestResult.HasChildren);
-        Assert.That(requestResult.IsNotCreatorOrAdmin, Is.False);
+        Assert.That(requestResult.MessageKey, Is.Null);
     }
 
     [Test]
@@ -287,11 +287,11 @@ internal class PageDeleter_tests : BaseTestHarness
         var creator = new User { Id = sessionUser.UserId };
 
         var root = contextPage
-            .Add("root", creator)
+            .Add("root", creator, isWiki: true)
             .GetPageByName("root");
 
         var page = contextPage
-            .Add(pageName, creator)
+            .Add(pageName, creator, isWiki: true)
             .GetPageByName(pageName);
 
         contextPage.Persist();

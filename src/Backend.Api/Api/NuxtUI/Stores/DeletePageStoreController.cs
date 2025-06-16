@@ -89,7 +89,6 @@ public class DeletePageStoreController(
     public record struct DeleteResponse(
         bool Success,
         bool? HasChildren = null,
-        bool? IsNotCreatorOrAdmin = null,
         RedirectPage? RedirectParent = null,
         string? MessageKey = null);
 
@@ -111,7 +110,7 @@ public class DeletePageStoreController(
         return new DeleteResponse(
             Success: deleteResult.Success,
             HasChildren: deleteResult.HasChildren,
-            IsNotCreatorOrAdmin: deleteResult.IsNotCreatorOrAdmin,
-            RedirectParent: deleteResult.RedirectParent);
+            RedirectParent: deleteResult.RedirectParent,
+            MessageKey: deleteResult.MessageKey);
     }
 }

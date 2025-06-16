@@ -1,5 +1,6 @@
 ﻿public class PermissionCheck(ISessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
+    public readonly record struct CanDeleteResult(bool Allowed, string? Reason);
     private int _userId => _sessionUser.SessionIsActive() ? _sessionUser.UserId : default;
     private bool _isInstallationAdmin => _sessionUser.SessionIsActive() && _sessionUser.IsInstallationAdmin;
     private bool _isLoggedIn => _sessionUser.SessionIsActive() && _sessionUser.IsLoggedIn;
@@ -141,29 +142,27 @@
     public bool CanConvertPage(PageCacheItem page)
     {
         return _isInstallationAdmin || _userId == page.CreatorId;
-    }
-
-    public (bool Allowed, string? Reason) CanDelete(PageCacheItem page)
+    }    public CanDeleteResult CanDelete(PageCacheItem page)
     {
         if (_userId == default || page == null || page.Id == 0)
-            return (false, FrontendMessageKeys.Error.Default);
+            return new CanDeleteResult(false, FrontendMessageKeys.Error.Default);
 
         if (page.Creator.Id != _userId)
-            return (false, FrontendMessageKeys.Error.Page.NoRights);
+            return new CanDeleteResult(false, FrontendMessageKeys.Error.Page.NoRights);
 
         if (page.IsWikiType())
         {
             var wouldHaveRemainingWiki = page.Creator.GetWikis().Count >= 2;
             if (wouldHaveRemainingWiki)
-                return (true, "");
+                return new CanDeleteResult(true, null);
 
-            return (false, FrontendMessageKeys.Error.User.NoRemainingWikis);
+            return new CanDeleteResult(false, FrontendMessageKeys.Error.User.NoRemainingWikis);
         }
 
         if (page.Creator.Id == _userId)
-            return (true, "");
+            return new CanDeleteResult(true, null);
 
-        return (false, FrontendMessageKeys.Error.Default);
+        return new CanDeleteResult(false, FrontendMessageKeys.Error.Default);
     }
 
     public bool CanMovePage(int pageId, int oldParentId, int newParentId) => CanMovePage(

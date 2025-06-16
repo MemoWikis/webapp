@@ -84,12 +84,10 @@ export const useDeletePageStore = defineStore("deletePageStore", {
             }
             snackbarStore.showSnackbar(data)
         },
-        async deletePage() {
-            interface DeleteResult {
+        async deletePage() {            interface DeleteResult {
                 success: boolean
                 hasChildren: boolean
-                isNotCreatorOrAdmin: boolean
-                redirectParent: {
+                redirectParent?: {
                     name: string
                     id: number
                 }
@@ -106,21 +104,22 @@ export const useDeletePageStore = defineStore("deletePageStore", {
                         parentForQuestionsId: this.suggestedNewParent?.id
                             ? this.suggestedNewParent.id
                             : null,
-                    },
-                }
+                    },                }
             )
             if (!!result && result.success) {
                 const { $urlHelper } = useNuxtApp()
-                this.redirectURL = $urlHelper.getPageUrl(
-                    result.redirectParent.name,
-                    result.redirectParent.id
-                )
+                if (result.redirectParent) {
+                    this.redirectURL = $urlHelper.getPageUrl(
+                        result.redirectParent.name,
+                        result.redirectParent.id
+                    )
+                }
                 this.pageDeleted = true
 
                 return {
                     id: this.id,
                 }
-            } else if (!!result && result.success == false) {
+            }else if (!!result && result.success == false) {
                 const nuxtApp = useNuxtApp()
                 const { $i18n } = nuxtApp
 
