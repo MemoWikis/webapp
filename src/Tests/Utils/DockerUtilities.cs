@@ -271,6 +271,9 @@ internal class DockerUtilities
         string containerIdentifier,
         string targetImageName)
     {
+        // Force MySQL to flush all data to disk before committing
+        await FlushMySqlDataAsync(containerIdentifier);
+
         // All labels that should be cleared (value will be "")
         string[] labelsToClear =
         [
@@ -306,6 +309,57 @@ internal class DockerUtilities
         }
     }
 
+    /// <summary>
+    /// Flushes MySQL data to disk to ensure persistence when creating container images
+    /// </summary>
+    private async Task FlushMySqlDataAsync(string containerIdentifier)
+    {
+        try
+        {
+            // Execute MySQL FLUSH commands to ensure all data is written to disk
+            var flushCommands = new[]
+            {
+                "FLUSH TABLES;",           // Flush all table data
+                "FLUSH LOGS;",             // Flush log files
+                "FLUSH BINARY LOGS;",      // Flush binary logs
+                "SET GLOBAL innodb_fast_shutdown = 0;", // Clean shutdown for InnoDB
+                "FLUSH ENGINE LOGS;"       // Flush storage engine logs
+            };
+
+            foreach (var command in flushCommands)
+            {
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = "docker",
+                    Arguments = $"exec {containerIdentifier} mysql -u test -pP@ssw0rd_#123 -e \"{command}\"",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using var process = Process.Start(processInfo);
+                if (process != null)
+                {
+                    await process.WaitForExitAsync();
+                    // Log any issues but don't fail the entire process
+                    if (process.ExitCode != 0)
+                    {
+                        var errorOutput = await process.StandardError.ReadToEndAsync();
+                        Debug.WriteLine($"MySQL flush command '{command}' warning: {errorOutput}");
+                    }
+                }
+            }
+
+            // Give MySQL a moment to complete the flush operations
+            await Task.Delay(1000);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Warning: Failed to flush MySQL data: {ex.Message}");
+            throw;
+        }
+    }
 
     private async Task SaveDockerImageToFileAsync(string imageName, string outputFile)
     {

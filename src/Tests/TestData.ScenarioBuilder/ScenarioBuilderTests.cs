@@ -1,4 +1,3 @@
-
 /// <summary>
 /// Is used to create scenarios. 
 /// </summary>
@@ -10,6 +9,7 @@ internal class ScenarioBuilderTests : BaseTestHarness
     {
         _useScenarioBuilding = true; // Use scenario building mode for container preservation
     }
+
 
     [Test]
     public async Task Micro_Scenario()
