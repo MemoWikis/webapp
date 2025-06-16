@@ -160,7 +160,10 @@
         if (page.Creator.Id != _userId)
             return new CanDeleteResult(false, FrontendMessageKeys.Error.Page.NoRights);
 
-        if (page.IsWikiType())
+        if (page.Id == FeaturedPage.RootPageId)
+            return new CanDeleteResult(false, FrontendMessageKeys.Error.Page.NoRights);
+
+        if (page.IsWiki)
         {
             var wouldHaveRemainingWiki = page.Creator.GetWikis().Count >= 2;
             if (wouldHaveRemainingWiki)
