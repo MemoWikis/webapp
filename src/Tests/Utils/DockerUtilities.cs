@@ -3,6 +3,85 @@
 internal class DockerUtilities
 {
     /// <summary>
+    /// Creates a standardized ProcessStartInfo for Docker commands
+    /// </summary>
+    /// <param name="arguments">Docker command arguments</param>
+    /// <returns>Configured ProcessStartInfo</returns>
+    private static ProcessStartInfo CreateDockerProcessStartInfo(string arguments)
+    {
+        return new ProcessStartInfo
+        {
+            FileName = "docker",
+            Arguments = arguments,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+    }
+
+    /// <summary>
+    /// Executes a Docker command and returns the result
+    /// </summary>
+    /// <param name="arguments">Docker command arguments</param>
+    /// <param name="throwOnError">Whether to throw an exception on non-zero exit code</param>
+    /// <returns>Docker command execution result</returns>
+    private static async Task<DockerCommandResult> ExecuteDockerCommandAsync(string arguments)
+    {
+        var processStartInfo = CreateDockerProcessStartInfo(arguments);
+
+        using var process = Process.Start(processStartInfo);
+        if (process == null)
+        {
+            throw new InvalidOperationException($"Failed to start Docker process with arguments: {arguments}");
+        }
+
+        var standardOutput = await process.StandardOutput.ReadToEndAsync();
+        var errorOutput = await process.StandardError.ReadToEndAsync();
+        await process.WaitForExitAsync();
+
+        var result = new DockerCommandResult
+        {
+            ExitCode = process.ExitCode,
+            StandardOutput = standardOutput,
+            ErrorOutput = errorOutput,
+            IsSuccess = process.ExitCode == 0
+        };
+
+        if (!result.IsSuccess)
+        {
+            throw new InvalidOperationException($"Docker command failed with exit code {result.ExitCode}. " +
+                                                $"Arguments: {arguments}. Error: {result.ErrorOutput}");
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Executes a MySQL command inside a Docker container
+    /// </summary>
+    /// <param name="containerIdentifier">Container ID or name</param>
+    /// <param name="mysqlCommand">MySQL command to execute</param>
+    /// <param name="throwOnError">Whether to throw an exception on non-zero exit code</param>
+    /// <returns>Command execution result</returns>
+    private static async Task<DockerCommandResult> ExecuteMySqlCommandAsync(string containerIdentifier, string mysqlCommand)
+    {
+        var arguments = $"exec {containerIdentifier} mysql -u root -p{TestConstants.MySqlPassword} -e \"{mysqlCommand}\"";
+        return await ExecuteDockerCommandAsync(arguments);
+    }
+
+    /// <summary>
+    /// Represents the result of a Docker command execution
+    /// </summary>
+    private record DockerCommandResult
+    {
+        public int ExitCode { get; init; }
+        public string StandardOutput { get; init; } = string.Empty;
+        public string ErrorOutput { get; init; } = string.Empty;
+        public bool IsSuccess { get; init; }
+    }
+
+    /// <summary>
     ///     Creates a Docker image of the current database state that can be saved to a central repository
     /// </summary>
     /// <param name="imageName">Name to give the Docker image</param>
@@ -57,57 +136,15 @@ internal class DockerUtilities
     public async Task<bool> PushDockerImageToRepositoryAsync(string imageName, string repository = "")
     {
         // Tag the image with the repository if provided
-        string errorOutput;
         if (!string.IsNullOrEmpty(repository))
         {
-            var tagStartInfo = new ProcessStartInfo
-            {
-                FileName = "docker",
-                Arguments = $"tag {imageName} {repository}/{imageName}",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            using var tagProcess = Process.Start(tagStartInfo);
-            if (tagProcess == null)
-                return false;
-
-            errorOutput = await tagProcess.StandardError.ReadToEndAsync();
-            await tagProcess.WaitForExitAsync();
-            if (tagProcess.ExitCode != 0)
-            {
-                throw new InvalidOperationException($"Docker tag failed: {errorOutput}");
-            }
-
-            imageName = $"{repository}/{imageName}";
+            var taggedImageName = $"{repository}/{imageName}";
+            await ExecuteDockerCommandAsync($"tag {imageName} {taggedImageName}");
+            imageName = taggedImageName;
         }
 
         // Push the image to the repository
-        var pushStartInfo = new ProcessStartInfo
-        {
-            FileName = "docker",
-            Arguments = $"push {imageName}",
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using var pushProcess = Process.Start(pushStartInfo);
-        if (pushProcess == null)
-            return false;
-
-        string standardOutput = await pushProcess.StandardOutput.ReadToEndAsync();
-        errorOutput = await pushProcess.StandardError.ReadToEndAsync();
-        await pushProcess.WaitForExitAsync();
-
-        if (pushProcess.ExitCode != 0)
-        {
-            throw new InvalidOperationException($"Docker push failed: {errorOutput}");
-        }
-
+        await ExecuteDockerCommandAsync($"push {imageName}");
         return true;
     }
 
@@ -138,29 +175,7 @@ internal class DockerUtilities
             arguments = $"pull {imageNameOrPath}";
         }
 
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = "docker",
-            Arguments = arguments,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using var process = Process.Start(startInfo);
-        if (process == null)
-            return false;
-
-        string errorOutput = await process.StandardError.ReadToEndAsync();
-
-        await process.WaitForExitAsync();
-
-        if (process.ExitCode != 0)
-        {
-            throw new InvalidOperationException($"Docker load/pull failed: {errorOutput}");
-        }
-
+        await ExecuteDockerCommandAsync(arguments);
         return true;
     }
 
@@ -171,94 +186,40 @@ internal class DockerUtilities
     /// <returns>True if the image exists locally</returns>
     private static async Task<bool> ImageExistsLocallyAsync(string imageName)
     {
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = "docker",
-            Arguments = $"images {imageName} --quiet",
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using var process = Process.Start(startInfo);
-        if (process == null)
-            return false;
-
-        string output = await process.StandardOutput.ReadToEndAsync();
-        await process.WaitForExitAsync();
+        var result = await ExecuteDockerCommandAsync($"images {imageName} --quiet");
 
         // If docker images returns output and no error, the image exists
-        return process.ExitCode == 0 && !string.IsNullOrWhiteSpace(output.Trim());
+        return result.IsSuccess && !string.IsNullOrWhiteSpace(result.StandardOutput.Trim());
     }
 
     private async Task<string> GetMySqlContainerIdAsync()
     {
         // First, let's check all running containers to help with debugging
-        var listStartInfo = new ProcessStartInfo
+        var listResult = await ExecuteDockerCommandAsync("ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.Status}}\"");
+        if (listResult.IsSuccess)
         {
-            FileName = "docker",
-            Arguments = "ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.Status}}\"",
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using var listProcess = Process.Start(listStartInfo);
-        if (listProcess != null)
-        {
-            string listOutput = await listProcess.StandardOutput.ReadToEndAsync();
-            await listProcess.WaitForExitAsync();
-            Debug.WriteLine($"Running containers:\n{listOutput}");
+            Debug.WriteLine($"Running containers:\n{listResult.StandardOutput}");
         }
 
         // Use Docker CLI to find the MySQL container for our tests
         // Using -n 1 to get only the first container
-        var startInfo = new ProcessStartInfo
+        var result = await ExecuteDockerCommandAsync("ps --filter \"name=mem-mysql\" --format \"{{.ID}}\" -n 1");
+
+        if (!string.IsNullOrEmpty(result.ErrorOutput))
         {
-            FileName = "docker",
-            Arguments = "ps --filter \"name=mem-mysql\" --format \"{{.ID}}\" -n 1",
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using var process = Process.Start(startInfo);
-        if (process == null) return string.Empty;
-
-        string output = await process.StandardOutput.ReadToEndAsync();
-        string errorOutput = await process.StandardError.ReadToEndAsync();
-        await process.WaitForExitAsync();
-
-        if (!string.IsNullOrEmpty(errorOutput))
-        {
-            Debug.WriteLine($"Docker ps error: {errorOutput}");
+            Debug.WriteLine($"Docker ps error: {result.ErrorOutput}");
         }
 
         // Take only the first line and trim it
-        string containerId = output.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? string.Empty;
+        string containerId = result.StandardOutput.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? string.Empty;
 
         // If no container found with mem-mysql, try with just mysql
         if (string.IsNullOrEmpty(containerId))
         {
-            var fallbackStartInfo = new ProcessStartInfo
+            var fallbackResult = await ExecuteDockerCommandAsync("ps --filter \"name=mysql\" --format \"{{.ID}}\" -n 1");
+            if (fallbackResult.IsSuccess)
             {
-                FileName = "docker",
-                Arguments = "ps --filter \"name=mysql\" --format \"{{.ID}}\" -n 1",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            using var fallbackProcess = Process.Start(fallbackStartInfo);
-            if (fallbackProcess != null)
-            {
-                output = await fallbackProcess.StandardOutput.ReadToEndAsync();
-                await fallbackProcess.WaitForExitAsync();
-                containerId = output.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? string.Empty;
+                containerId = fallbackResult.StandardOutput.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? string.Empty;
             }
         }
 
@@ -290,23 +251,7 @@ internal class DockerUtilities
             labelsToClear.Select(labelKey =>
                 $"--change \"LABEL {labelKey}=\""));
 
-        var processInfo = new ProcessStartInfo
-        {
-            FileName = "docker",
-            Arguments = $"commit {labelArgs} {containerIdentifier} {targetImageName}",
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using var process = Process.Start(processInfo);
-        await process!.WaitForExitAsync();
-        if (process.ExitCode != 0)
-        {
-            string errorOutput = await process.StandardError.ReadToEndAsync();
-            throw new InvalidOperationException($"docker commit failed: {errorOutput}");
-        }
+        await ExecuteDockerCommandAsync($"commit {labelArgs} {containerIdentifier} {targetImageName}");
     }
 
     /// <summary>
@@ -328,26 +273,12 @@ internal class DockerUtilities
 
             foreach (var command in flushCommands)
             {
-                var processInfo = new ProcessStartInfo
-                {
-                    FileName = "docker",
-                    Arguments = $"exec {containerIdentifier} mysql -u {TestConstants.MySqlUsername} -p{TestConstants.MySqlPassword} -e \"{command}\"",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
+                var result = await ExecuteMySqlCommandAsync(containerIdentifier, command);
 
-                using var process = Process.Start(processInfo);
-                if (process != null)
+                // Log any issues but don't fail the entire process
+                if (!result.IsSuccess)
                 {
-                    await process.WaitForExitAsync();
-                    // Log any issues but don't fail the entire process
-                    if (process.ExitCode != 0)
-                    {
-                        var errorOutput = await process.StandardError.ReadToEndAsync();
-                        Debug.WriteLine($"MySQL flush command '{command}' warning: {errorOutput}");
-                    }
+                    Debug.WriteLine($"MySQL flush command '{command}' warning: {result.ErrorOutput}");
                 }
             }
 
@@ -363,27 +294,6 @@ internal class DockerUtilities
 
     private async Task SaveDockerImageToFileAsync(string imageName, string outputFile)
     {
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = "docker",
-            Arguments = $"save -o {outputFile} {imageName}",
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using var process = Process.Start(startInfo);
-        if (process == null)
-            throw new InvalidOperationException("Failed to start Docker save process.");
-
-        string errorOutput = await process.StandardError.ReadToEndAsync();
-        await process.WaitForExitAsync();
-
-        if (process.ExitCode != 0)
-        {
-            throw new InvalidOperationException($"Docker save failed with exit code {process.ExitCode}. " +
-                                                $"Error: {errorOutput}");
-        }
+        await ExecuteDockerCommandAsync($"save -o {outputFile} {imageName}");
     }
 }
