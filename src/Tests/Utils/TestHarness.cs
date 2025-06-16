@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
+using System.Text.Json;
 using Testcontainers.MySql;
 using ContainerBuilder = Autofac.ContainerBuilder;
 using IContainer = DotNet.Testcontainers.Containers.IContainer;
@@ -289,7 +291,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .Persist();
     }
 
-    public async Task<string> ApiCall([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
+    public async Task<string> ApiGet([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
     {
         var httpResponse = await this.Client.GetAsync(uri);
         var jsonContent = await httpResponse.Content.ReadAsStringAsync();
@@ -297,6 +299,22 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
         var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
         return formattedJson;
+    }
+
+    public async Task<JsonElement> ApiPostJson(string endpoint, object requestBody)
+    {
+        var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await Client.PostAsync(endpoint, content);
+
+        response.EnsureSuccessStatusCode();
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        return JsonSerializer.Deserialize<JsonElement>(responseContent);
     }
 
     private sealed class ProgramWebApplicationFactory(

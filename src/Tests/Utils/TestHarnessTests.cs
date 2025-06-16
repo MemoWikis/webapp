@@ -29,7 +29,7 @@ internal class TestHarnessTests : BaseTestHarness
     {
         await ClearData();
 
-        string result = await _testHarness.ApiCall("apiVue/App/GetCurrentUser");
+        string result = await _testHarness.ApiGet("apiVue/App/GetCurrentUser");
 
         await Verify(new { formattedJson = result });
     }

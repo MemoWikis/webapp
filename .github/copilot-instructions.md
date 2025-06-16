@@ -8,3 +8,7 @@
 
 - Do not use namespaces in C#.
 - I prefer Verify() for Tests
+
+# Unit Tests
+
+- For API calls use Testharness.ApiCall(..)

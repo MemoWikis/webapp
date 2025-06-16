@@ -1,8 +1,4 @@
-﻿using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
-
-[TestFixture]
+﻿[TestFixture]
 public class DockerDiagnosticsTests
 {
     private DockerUtilities _dockerUtilities;
