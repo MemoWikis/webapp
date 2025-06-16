@@ -177,4 +177,6 @@
     {
         return All.Single(c => c.Name == name);
     }
+
+    public ContextUser ContextUser => _contextUser;
 }

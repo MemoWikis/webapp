@@ -20,19 +20,18 @@ internal class BaseTestHarness
         }
     }
 
-    public async Task ReloadCaches() 
+    public async Task ReloadCaches()
         => await _testHarness.InitAsync(keepData: true);
 
     public async Task ClearData()
     {
-        if (_lazyTestHarness.IsValueCreated) 
+        if (_lazyTestHarness.IsValueCreated)
             await (await _lazyTestHarness.Value).DisposeAsync();
 
         // Reset the lazy initializer to allow creating a new instance
         _lazyTestHarness = new Lazy<Task<TestHarness>>(() => TestHarness.CreateAsync());
         _testHarness = await _lazyTestHarness.Value;
     }
-
 
     protected ContextPage NewPageContext(bool addContextUser = true)
         => new(_testHarness, addContextUser);

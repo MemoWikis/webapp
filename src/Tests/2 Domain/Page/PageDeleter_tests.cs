@@ -540,7 +540,9 @@ internal class PageDeleter_tests : BaseTestHarness
         Assert.That(result.Success, Is.False);
         Assert.That(result.HasChildren, Is.True);
         Assert.That(result.RedirectParent, Is.Null);
-    }    [Test]
+    }
+
+    [Test]
     [Description("Should fail to delete another user's wiki")]
     public async Task Should_fail_to_delete_another_users_wiki()
     {
@@ -550,10 +552,13 @@ internal class PageDeleter_tests : BaseTestHarness
         var contextPage = NewPageContext();
         var sessionUser = R<SessionUser>();
         var currentUser = new User { Id = sessionUser.UserId };
+        var otherUser = new User { Id = 999, Name = "Other User" };
 
-        // Create another user using the test context
-        var contextUser = ContextUser.New(R<UserWritingRepo>());
-        var otherUser = contextUser.Add("Other User").Persist().All.First();
+        // Create another user using the page context's user context
+        var otherUserContext = contextPage.ContextUser
+            .Add(otherUser)
+            .Persist()
+            .All.Last(); // Use Last() since the page context already added one user
 
         var rootWiki = contextPage
             .Add("Root Wiki", isWiki: true)
@@ -564,7 +569,7 @@ internal class PageDeleter_tests : BaseTestHarness
             .GetPageByName("Current User's Wiki");
 
         var otherUsersWiki = contextPage
-            .Add("Other User's Wiki", otherUser, isWiki: true)
+            .Add("Other User's Wiki", otherUserContext, isWiki: true)
             .GetPageByName("Other User's Wiki");
 
         contextPage.Persist();
