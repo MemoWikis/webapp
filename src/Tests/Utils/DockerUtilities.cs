@@ -60,7 +60,7 @@ internal class DockerUtilities
         string errorOutput;
         if (!string.IsNullOrEmpty(repository))
         {
-            var tagStartInfo = new System.Diagnostics.ProcessStartInfo
+            var tagStartInfo = new ProcessStartInfo
             {
                 FileName = "docker",
                 Arguments = $"tag {imageName} {repository}/{imageName}",
@@ -70,7 +70,7 @@ internal class DockerUtilities
                 CreateNoWindow = true
             };
 
-            using var tagProcess = System.Diagnostics.Process.Start(tagStartInfo);
+            using var tagProcess = Process.Start(tagStartInfo);
             if (tagProcess == null)
                 return false;
 
@@ -85,7 +85,7 @@ internal class DockerUtilities
         }
 
         // Push the image to the repository
-        var pushStartInfo = new System.Diagnostics.ProcessStartInfo
+        var pushStartInfo = new ProcessStartInfo
         {
             FileName = "docker",
             Arguments = $"push {imageName}",
@@ -95,7 +95,7 @@ internal class DockerUtilities
             CreateNoWindow = true
         };
 
-        using var pushProcess = System.Diagnostics.Process.Start(pushStartInfo);
+        using var pushProcess = Process.Start(pushStartInfo);
         if (pushProcess == null)
             return false;
 
@@ -331,7 +331,7 @@ internal class DockerUtilities
                 var processInfo = new ProcessStartInfo
                 {
                     FileName = "docker",
-                    Arguments = $"exec {containerIdentifier} mysql -u test -pP@ssw0rd_#123 -e \"{command}\"",
+                    Arguments = $"exec {containerIdentifier} mysql -u {TestConstants.MySqlUsername} -p{TestConstants.MySqlPassword} -e \"{command}\"",
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
@@ -363,7 +363,7 @@ internal class DockerUtilities
 
     private async Task SaveDockerImageToFileAsync(string imageName, string outputFile)
     {
-        var startInfo = new System.Diagnostics.ProcessStartInfo
+        var startInfo = new ProcessStartInfo
         {
             FileName = "docker",
             Arguments = $"save -o {outputFile} {imageName}",

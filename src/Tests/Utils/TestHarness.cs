@@ -128,21 +128,19 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         else
         {
             containerName = "memowikis-mysql-test";
-            useReuse = true; 
+            useReuse = true;
         }
-
         _db = new MySqlBuilder()
             .WithImage(prebuiltDbImage ?? "mysql:8.3.0")
             .WithName(containerName)
-            .WithUsername("test")
-            .WithPassword("P@ssw0rd_#123")
+            .WithUsername(TestConstants.MySqlUsername)
+            .WithPassword(TestConstants.MySqlPassword)
             .WithDatabase(TestDbName)
             .WithCommand(
                 "mysqld",
-                "--lower_case_table_names=1"
-            ).WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole()).WithWaitStrategy(
+                "--lower_case_table_names=1").WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole()).WithWaitStrategy(
                 Wait.ForUnixContainer()
-                    .UntilCommandIsCompleted("mysqladmin", "ping", "-h", "localhost", "-u", "test", "-pP@ssw0rd_#123")
+                    .UntilCommandIsCompleted("mysqladmin", "ping", "-h", "localhost", "-u", TestConstants.MySqlUsername, $"-p{TestConstants.MySqlPassword}")
                     .UntilPortIsAvailable(3306))
             .WithReuse(useReuse)
             .Build();
