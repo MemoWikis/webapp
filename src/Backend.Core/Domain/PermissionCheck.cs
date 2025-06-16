@@ -1,6 +1,7 @@
 ﻿public class PermissionCheck(ISessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
     public readonly record struct CanDeleteResult(bool Allowed, string? Reason);
+
     private int _userId => _sessionUser.SessionIsActive() ? _sessionUser.UserId : default;
     private bool _isInstallationAdmin => _sessionUser.SessionIsActive() && _sessionUser.IsInstallationAdmin;
     private bool _isLoggedIn => _sessionUser.SessionIsActive() && _sessionUser.IsLoggedIn;
@@ -32,13 +33,16 @@
         {
             var shareInfosByToken = EntityCache.GetPageShares(page.Id);
             _sessionUser.ShareTokens.TryGetValue(page.Id, out var sessionUserToken);
-            var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
+            var shareByToken =
+                shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
             if (shareByToken != null && shareByToken.Permission != SharePermission.RestrictAccess)
                 return true;
 
-            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _sessionUser.ShareTokens);
+            var closestSharePermissionByToken =
+                SharesService.GetClosestParentSharePermissionByTokens(page.Id, _sessionUser.ShareTokens);
             if (closestSharePermissionByToken != null)
-                return closestSharePermissionByToken is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
+                return closestSharePermissionByToken is SharePermission.EditWithChildren
+                    or SharePermission.ViewWithChildren;
         }
 
         if (shareInfos.Any(s => s.Permission is SharePermission.Edit
@@ -62,7 +66,9 @@
         return false;
     }
 
-    public bool CanEditPage(int pageId, string? token, bool isLoggedIn = false) => CanEdit(EntityCache.GetPage(pageId), token, isLoggedIn);
+    public bool CanEditPage(int pageId, string? token, bool isLoggedIn = false) =>
+        CanEdit(EntityCache.GetPage(pageId), token, isLoggedIn);
+
     public bool CanEditPage(int pageId) => CanEdit(EntityCache.GetPage(pageId));
     public bool CanEdit(Page page) => CanEdit(EntityCache.GetPage(page.Id));
 
@@ -117,7 +123,8 @@
         var shareInfosByToken = EntityCache.GetPageShares(pageId);
         _sessionUser.ShareTokens.TryGetValue(pageId, out var sessionUserToken);
 
-        var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
+        var shareByToken =
+            shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
         if (shareByToken != null)
         {
             if (shareByToken.Permission == SharePermission.RestrictAccess)
@@ -132,7 +139,8 @@
                 return true;
         }
 
-        var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(pageId, _sessionUser.ShareTokens);
+        var closestSharePermissionByToken =
+            SharesService.GetClosestParentSharePermissionByTokens(pageId, _sessionUser.ShareTokens);
         if (closestSharePermissionByToken != null)
             return closestSharePermissionByToken == SharePermission.EditWithChildren;
 
@@ -142,7 +150,9 @@
     public bool CanConvertPage(PageCacheItem page)
     {
         return _isInstallationAdmin || _userId == page.CreatorId;
-    }    public CanDeleteResult CanDelete(PageCacheItem page)
+    }
+
+    public CanDeleteResult CanDelete(PageCacheItem page)
     {
         if (_userId == default || page == null || page.Id == 0)
             return new CanDeleteResult(false, FrontendMessageKeys.Error.Default);
@@ -177,7 +187,8 @@
             || oldParent.Id == 0)
             return false;
 
-        if (FeaturedPage.RootPageId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.Public)
+        if (FeaturedPage.RootPageId == newParentId && !_isInstallationAdmin &&
+            movingPage.Visibility == PageVisibility.Public)
             return false;
 
         return _isInstallationAdmin || movingPage.CreatorId == _userId || oldParent.CreatorId == _userId;

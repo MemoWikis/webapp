@@ -8,8 +8,50 @@
     PageRepository _pageRepo,
     PageRelationRepo _pageRelationRepo,
     PermissionCheck _permissionCheck,
-    PageToQuestionRepo _pageToQuestionRepo,    SharesRepository _sharesRepository) : IRegisterAsInstancePerLifetime
+    PageToQuestionRepo _pageToQuestionRepo,
+    SharesRepository _sharesRepository) : IRegisterAsInstancePerLifetime
 {
+    private DeletePageResult? ValidatePageDeletion(Page page, int pageToDeleteId, int? newParentForQuestionsId)
+    {
+        if (page == null)
+            throw new Exception(
+                "Page couldn't be deleted. Page with specified Id cannot be found.");
+
+        // Check permissions first
+        var pageCacheItem = EntityCache.GetPage(pageToDeleteId);
+        if (pageCacheItem == null)
+            throw new Exception("Page cache item not found.");
+
+        var canDeleteResult = _permissionCheck.CanDelete(pageCacheItem);
+        if (!canDeleteResult.Allowed)
+        {
+            return new DeletePageResult(
+                Success: false,
+                MessageKey: canDeleteResult.Reason);
+        }
+
+        // Check if can delete based on child/parent count
+        if (!CanDeleteItemBasedOnChildParentCount(page, _sessionUser.UserId))
+        {
+            return new DeletePageResult(
+                HasChildren: true,
+                Success: false);
+        }
+
+        return null;
+    }
+
+    private DeletePageResult? HandleQuestions(int pageToDeleteId, int? newParentForQuestionsId)
+    {
+        var hasQuestions = EntityCache.PageHasQuestion(pageToDeleteId);
+        if (hasQuestions && newParentForQuestionsId != null)
+            MoveQuestionsToParent(pageToDeleteId, (int)newParentForQuestionsId);
+        else if (hasQuestions && newParentForQuestionsId == null || newParentForQuestionsId == 0)
+            return new DeletePageResult(MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected, Success: false);
+
+        return null; // No error, continue with deletion
+    }
+
     private int Run(Page page, int userId)
     {
         var pageCacheItem = EntityCache.GetPage(page.Id);
@@ -108,13 +150,21 @@
         bool HasChildren = false,
         bool Success = false,
         RedirectPage? RedirectParent = null,
-        string? MessageKey = null);    public DeletePageResult DeletePage(int pageToDeleteId, int? newParentForQuestionsId)
-    {
-        var page = _pageRepo.GetById(pageToDeleteId);
+        string? MessageKey = null);
 
-        if (page == null)
-            throw new Exception(
-                "Page couldn't be deleted. Page with specified Id cannot be found.");
+    public DeletePageResult DeletePage(int pageToDeleteId, int? newParentForQuestionsId)
+    {
+        var page = _pageRepo.GetById(pageToDeleteId)!;
+
+        var validationError = ValidatePageDeletion(page, pageToDeleteId, newParentForQuestionsId);
+        if (validationError != null)
+            return validationError.Value;
+
+        var questionHandlingError = HandleQuestions(pageToDeleteId, newParentForQuestionsId);
+        if (questionHandlingError != null)
+            return questionHandlingError.Value;
+
+        var redirectPage = GetRedirectPage(pageToDeleteId);
 
         var pageName = page.Name;
         var pageVisibility = page.Visibility;
@@ -122,36 +172,7 @@
         var parentIds = EntityCache.GetPage(pageToDeleteId)?
             .Parents()
             .Select(c => c.Id)
-            .ToList(); //if the parents are fetched directly from the page there is a problem with the flush
-
-        var hasQuestions = EntityCache.PageHasQuestion(pageToDeleteId);
-        if (hasQuestions && newParentForQuestionsId != null)
-            MoveQuestionsToParent(pageToDeleteId, (int)newParentForQuestionsId);
-        else if (hasQuestions && newParentForQuestionsId == null || newParentForQuestionsId == 0)
-            return new DeletePageResult(MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected, Success: false);        // Check permissions first
-        var pageCacheItem = EntityCache.GetPage(pageToDeleteId);
-        if (pageCacheItem == null)
-            throw new Exception("Page cache item not found.");
-
-        var canDeleteResult = _permissionCheck.CanDelete(pageCacheItem);
-
-        if (!canDeleteResult.Allowed)
-        {
-            return new DeletePageResult(
-                Success: false,
-                MessageKey: canDeleteResult.Reason);
-        }
-
-        // Check if can delete based on child/parent count
-        if (!CanDeleteItemBasedOnChildParentCount(page, _sessionUser.UserId))
-        {
-            return new DeletePageResult(
-                HasChildren: true,
-                Success: false);
-        }
-
-        // Get redirect page before deletion (while page still exists)
-        var redirectPage = GetRedirectPage(pageToDeleteId);
+            .ToList();
 
         // Actually delete the page
         var deleteChangeId = Run(page, _sessionUser.UserId);
@@ -162,7 +183,8 @@
             var parentPages = _pageRepo.GetByIds(parentIds);
 
             foreach (var parent in parentPages)
-                _pageChangeRepo.AddDeletedChildPageEntry(parent, _sessionUser.UserId, deleteChangeId, pageName, pageVisibility);
+                _pageChangeRepo.AddDeletedChildPageEntry(parent, _sessionUser.UserId, deleteChangeId, pageName,
+                    pageVisibility);
         }
 
         return new DeletePageResult(
@@ -184,12 +206,14 @@
 
         if (questionIdsFromPageToDelete.Any())
             _pageToQuestionRepo.AddQuestionsToPage(parentId, questionIdsFromPageToDelete);
+
         _pageRepo.Update(parent);
 
         EntityCache.AddQuestionsToPage(parentId, questionIdsFromPageToDelete);
     }
 
     public record RedirectPage(string Name, int Id);
+
     private RedirectPage GetRedirectPage(int id)
     {
         var page = EntityCache.GetPage(id);
