@@ -69,7 +69,9 @@
                 Id = breadcrumb.Current.Page.Id
             },
             BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Page.Id == FeaturedPage.RootPageId),
-            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.FirstWikiId == breadcrumb.Root.Page.Id : FeaturedPage.RootPageId == breadcrumb.Root.Page.Id
+            IsInPersonalWiki = _sessionUser.IsLoggedIn 
+                ? breadcrumb.Root.Page.Id == _sessionUser.User.FirstWikiId 
+                : breadcrumb.Root.Page.Id == FeaturedPage.RootPageId
         };
     }
 
