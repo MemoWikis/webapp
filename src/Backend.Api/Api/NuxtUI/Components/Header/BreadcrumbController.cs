@@ -25,7 +25,10 @@
     [HttpGet]
     public BreadcrumbItem GetPersonalWiki()
     {
-        var page = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.FirstWikiId) : FeaturedPage.GetRootPage;
+        var page = _sessionUser.IsLoggedIn 
+            ? EntityCache.GetPage(_sessionUser.User.FirstWikiId) 
+            : FeaturedPage.GetRootPage;
+
         return new BreadcrumbItem
         {
             Name = page.Name,
@@ -66,7 +69,9 @@
                 Id = breadcrumb.Current.Page.Id
             },
             BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Page.Id == FeaturedPage.RootPageId),
-            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.FirstWikiId == breadcrumb.Root.Page.Id : FeaturedPage.RootPageId == breadcrumb.Root.Page.Id
+            IsInPersonalWiki = _sessionUser.IsLoggedIn 
+                ? breadcrumb.Root.Page.Id == _sessionUser.User.FirstWikiId 
+                : breadcrumb.Root.Page.Id == FeaturedPage.RootPageId
         };
     }
 
