@@ -43,7 +43,7 @@
 
         if (hasQuestions && newParentForQuestionsId != null)
             MoveQuestionsToParent(pageToDeleteId, (int)newParentForQuestionsId);
-        else if (hasQuestions && newParentForQuestionsId == null || newParentForQuestionsId == 0)
+        else if (hasQuestions && newParentForQuestionsId is null or 0)
             return new DeletePageResult(MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected, Success: false);
 
         return null; // No error, continue with deletion
@@ -74,10 +74,25 @@
 
     private void DeleteFromRepos(int pageId)
     {
-        _pageToQuestionRepo.DeleteByPageId(pageId);
-        _userActivityRepo.DeleteForPage(pageId);
-        _sharesRepository.DeleteAllForPage(pageId);
-        _pageRepo.Delete(pageId);
+        // Use a single transaction for all operations to ensure consistency
+        using var transaction = _pageRepo.Session.BeginTransaction();
+
+        try
+        {
+            // Execute deletions in dependency order
+            _pageToQuestionRepo.DeleteByPageId(pageId);
+            _userActivityRepo.DeleteForPage(pageId);
+            _sharesRepository.DeleteAllForPageWithoutTransaction(pageId);
+            _pageRepo.Delete(pageId);
+
+            // Commit all operations together
+            transaction.Commit();
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 
     private void DeleteRelations(PageCacheItem pageCacheItem, int userId)
@@ -194,18 +209,18 @@
     private void MoveQuestionsToParent(int pageToDeleteId, int parentId)
     {
         if (parentId == 0)
-        {
             throw new NullReferenceException("parent is null");
-        }
 
         var parent = _pageRepo.GetById(parentId);
+        if (parent == null)
+            throw new Exception($"Parent page with ID {parentId} not found");
+
         var questionIdsFromPageToDelete = EntityCache.GetQuestionIdsForPage(pageToDeleteId);
 
         if (questionIdsFromPageToDelete.Any())
             _pageToQuestionRepo.AddQuestionsToPage(parentId, questionIdsFromPageToDelete);
 
         _pageRepo.Update(parent);
-
         EntityCache.AddQuestionsToPage(parentId, questionIdsFromPageToDelete);
     }
 
@@ -214,6 +229,11 @@
     private RedirectPage GetRedirectPage(int id)
     {
         var page = EntityCache.GetPage(id);
+        if (page == null)
+        {
+            var featuredRootPage = FeaturedPage.GetRootPage;
+            return new RedirectPage(featuredRootPage.Name, featuredRootPage.Id);
+        }
 
         if (page.IsWiki)
         {
@@ -222,6 +242,11 @@
         }
 
         var currentWiki = EntityCache.GetPage(_sessionUser.CurrentWikiId);
+        if (currentWiki == null)
+        {
+            var featuredRootPage = FeaturedPage.GetRootPage;
+            return new RedirectPage(featuredRootPage.Name, featuredRootPage.Id);
+        }
 
         var lastBreadcrumbItem = _crumbtrailService
             .BuildCrumbtrail(page, currentWiki)
