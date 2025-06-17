@@ -84,7 +84,8 @@ export const useDeletePageStore = defineStore("deletePageStore", {
             }
             snackbarStore.showSnackbar(data)
         },
-        async deletePage() {            interface DeleteResult {
+        async deletePage() {            
+            interface DeleteResult {
                 success: boolean
                 hasChildren: boolean
                 redirectParent?: {
