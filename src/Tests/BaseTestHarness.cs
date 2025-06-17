@@ -33,8 +33,8 @@ internal class BaseTestHarness
         _testHarness = await _lazyTestHarness.Value;
     }
 
-    protected ContextPage NewPageContext(bool addContextUser = true)
-        => new(_testHarness, addContextUser);
+    protected ContextPage NewPageContext(bool addContextUser = true, bool createFeaturedRootPage = false)
+        => new(_testHarness, addContextUser, createFeaturedRootPage);
 
     protected ContextQuestion NewQuestionContext(bool persistImmediately = false)
         => new(_testHarness, persistImmediately);

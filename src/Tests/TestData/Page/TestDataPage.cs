@@ -6,16 +6,17 @@
     public List<Page> All = new();
     private readonly TestHarness _testHarness;
 
-    public ContextPage(TestHarness testHarness, bool addContextUser)
+    public ContextPage(TestHarness testHarness, bool addContextUser, bool createFeaturedRootPage = false)
     {
         _testHarness = testHarness;
         _pageRepository = testHarness.R<PageRepository>();
         _contextUser = ContextUser.New(_testHarness.R<UserWritingRepo>());
 
-        if (!addContextUser)
-            return;
+        if (addContextUser)
+            _contextUser.Add("User").Persist();
 
-        _contextUser.Add("User").Persist();
+        if (createFeaturedRootPage)
+            Add("Root Wiki", isWiki: true);
     }
 
     public ContextPage Add(int amount)

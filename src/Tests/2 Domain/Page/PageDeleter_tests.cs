@@ -777,4 +777,100 @@ internal class PageDeleter_tests : BaseTestHarness
             RedirectParent = result.RedirectParent
         });
     }
+
+    [Test]
+    public async Task HandleQuestions_Should_Succeed_When_Valid_Parent_Provided()
+    {
+        await ClearData();
+
+        // Arrange
+        var contextPage = NewPageContext(createFeaturedRootPage: true);
+        var parentName = "parent page";
+        var childName = "child page";
+        var sessionUser = R<SessionUser>();
+        var creator = new User { Id = sessionUser.UserId };
+
+        var parent = contextPage
+            .Add(parentName, creator)
+            .GetPageByName(parentName);
+
+        var child = contextPage
+            .Add(childName, creator)
+            .GetPageByName(childName);
+
+        contextPage.Persist();
+        contextPage.AddChild(parent, child);
+
+        // Add questions to the child page
+        var questionContext = NewQuestionContext(persistImmediately: true);
+        questionContext.AddQuestion("Test Question 1", creator: creator, pages: new List<Page> { child });
+        questionContext.AddQuestion("Test Question 2", creator: creator, pages: new List<Page> { child });
+
+        await ReloadCaches();
+
+        var pageDeleter = R<PageDeleter>();
+
+        // Act
+        var result = pageDeleter.DeletePage(child.Id, parent.Id);
+
+        // Assert
+        await ReloadCaches();
+        var questionsInParent = EntityCache.GetQuestionsForPage(parent.Id);
+
+        await Verify(new
+        {
+            Success = result.Success,
+            MessageKey = result.MessageKey,
+            HasChildren = result.HasChildren,
+            QuestionsMovedToParentCount = questionsInParent.Count,
+            QuestionTexts = questionsInParent.Select(q => q.Text).OrderBy(t => t).ToList(),
+            ParentId = parent.Id,
+            ResultRedirectParentId = result.RedirectParent?.Id
+        });
+    }
+
+    [Test]
+    public async Task HandleQuestions_Should_Fail_When_No_Parent_Provided_For_Questions()
+    {
+        await ClearData();
+
+        // Arrange
+        var contextPage = NewPageContext(createFeaturedRootPage: true);
+        var childName = "child page with questions";
+        var sessionUser = R<SessionUser>();
+        var creator = new User { Id = sessionUser.UserId };
+
+        var child = contextPage
+            .Add(childName, creator)
+            .GetPageByName(childName);
+
+        contextPage.Persist();
+
+        // Add questions to the child page
+        var questionContext = NewQuestionContext(persistImmediately: true);
+        questionContext.AddQuestion("Test Question", creator: creator, pages: new List<Page> { child });
+
+        await ReloadCaches();
+
+        var pageDeleter = R<PageDeleter>();
+
+        // Act - Provide null parent for questions
+        var result = pageDeleter.DeletePage(child.Id, null);
+
+        // Assert
+        await ReloadCaches();
+        var childPage = EntityCache.GetPage(child.Id);
+        var questionsInChild = EntityCache.GetQuestionsForPage(child.Id);
+
+        await Verify(new
+        {
+            Success = result.Success,
+            MessageKey = result.MessageKey,
+            HasChildren = result.HasChildren,
+            PageStillExists = childPage != null,
+            QuestionsInChildCount = questionsInChild.Count,
+            QuestionText = questionsInChild.FirstOrDefault()?.Text,
+            ChildPageId = child.Id
+        });
+    }
 }
