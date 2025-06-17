@@ -11,7 +11,7 @@
         var wikiId = param.WikiId;
         int currentPageId = param.CurrentPageId;
 
-        var defaultWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.FirstWikiId : 1;
+        var defaultWikiId = _sessionUser.FirstWikiId();
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
         var page = EntityCache.GetPage(currentPageId);
         var currentWiki = _crumbtrailService.GetWiki(page, _sessionUser);

@@ -25,25 +25,28 @@ public class PageDeleter(
 
     private DeletePageResult? ValidatePageDeletion(Page page, int pageToDeleteId)
     {
-        if (page == null)
-            throw new Exception(
-                "Page couldn't be deleted. Page with specified Id cannot be found.");
-
-        // Check permissions first
         var pageCacheItem = EntityCache.GetPage(pageToDeleteId);
         if (pageCacheItem == null)
-            throw new Exception("Page cache item not found.");
+        {
+            return new DeletePageResult(
+                Success: false,
+                MessageKey: FrontendMessageKeys.Error.Page.NotFound);
+        }
 
         var canDeleteResult = _permissionCheck.CanDelete(pageCacheItem);
         if (!canDeleteResult.Allowed)
+        {
             return new DeletePageResult(
                 Success: false,
                 MessageKey: canDeleteResult.Reason);
+        }
 
         if (!CanDeleteItemBasedOnChildParentCount(page, _sessionUser.UserId))
+        {
             return new DeletePageResult(
                 HasChildren: true,
                 Success: false);
+        }
 
         return null;
     }
@@ -51,6 +54,9 @@ public class PageDeleter(
     private DeletePageResult? HandleQuestions(int pageToDeleteId, int? newParentForQuestionsId)
     {
         var hasQuestions = EntityCache.PageHasQuestion(pageToDeleteId);
+
+        if (!hasQuestions)
+            return null;
 
         if (hasQuestions && newParentForQuestionsId != null)
             MoveQuestionsToParent(pageToDeleteId, (int)newParentForQuestionsId);
@@ -62,7 +68,7 @@ public class PageDeleter(
 
     private int RunAndGetChangeId(Page page, int userId)
     {
-        var pageCacheItem = EntityCache.GetPage(page.Id);
+        var pageCacheItem = page.GetPageCacheItem();
 
         if (pageCacheItem != null)
         {
@@ -211,7 +217,14 @@ public class PageDeleter(
 
     public DeletePageResult DeletePage(int pageToDeleteId, int? newParentForQuestionsId)
     {
-        var page = _pageRepo.GetById(pageToDeleteId)!;
+        var page = _pageRepo.GetById(pageToDeleteId);
+        if (page == null)
+        {
+            return new DeletePageResult(
+                Success: false,
+                MessageKey: FrontendMessageKeys.Error.Page.NotFound);
+        }
+
         var pageCacheItem = EntityCache.GetPage(pageToDeleteId);
 
         // Lock page deletions per user to prevent race conditions 
@@ -327,28 +340,31 @@ public class PageDeleter(
         }
     }
 
-    public record RedirectPage(string Name, int Id);
-
-    private RedirectPage GetRedirectPage(int id)
+    public record RedirectPage(string Name, int Id)
     {
-        var page = EntityCache.GetPage(id);
+        public RedirectPage(PageCacheItem page) : this(page.Name, page.Id) { }
+    }
+
+    private RedirectPage GetRedirectPage(int pageToDeleteId)
+    {
+        var page = EntityCache.GetPage(pageToDeleteId);
         if (page == null)
         {
             var featuredRootPage = FeaturedPage.GetRootPage;
-            return new RedirectPage(featuredRootPage.Name, featuredRootPage.Id);
+            return new RedirectPage(featuredRootPage);
         }
 
-        if (page.IsWiki)
+        if (page.IsWiki || pageToDeleteId == _sessionUser.CurrentWikiId)
         {
-            var firstWiki = _sessionUser.User.GetWikis().First(wiki => wiki.Id != id);
-            return new RedirectPage(firstWiki.Name, firstWiki.Id);
+            var firstWiki = _sessionUser.User.FirstWiki();
+            return new RedirectPage(firstWiki);
         }
 
         var currentWiki = EntityCache.GetPage(_sessionUser.CurrentWikiId);
         if (currentWiki == null)
         {
             var featuredRootPage = FeaturedPage.GetRootPage;
-            return new RedirectPage(featuredRootPage.Name, featuredRootPage.Id);
+            return new RedirectPage(featuredRootPage);
         }
 
         var lastBreadcrumbItem = _crumbtrailService
@@ -357,14 +373,8 @@ public class PageDeleter(
             .LastOrDefault();
 
         if (lastBreadcrumbItem != null)
-            return new RedirectPage(lastBreadcrumbItem.Page.Name, lastBreadcrumbItem.Page.Id);
+            return new RedirectPage(lastBreadcrumbItem.Page);
 
-        if (id == currentWiki.Id)
-        {
-            var firstWiki = _sessionUser.User.FirstWiki();
-            return new RedirectPage(firstWiki.Name, firstWiki.Id);
-        }
-
-        return new RedirectPage(currentWiki.Name, currentWiki.Id);
+        return new RedirectPage(currentWiki);
     }
 }

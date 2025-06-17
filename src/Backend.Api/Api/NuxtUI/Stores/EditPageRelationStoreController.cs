@@ -26,7 +26,7 @@ public class EditPageRelationStoreController(
     [HttpGet]
     public GetPersonalWikiDataResult GetPersonalWikiData([FromRoute] int id)
     {
-        if (GraphService.IsCircularReference(parentPageId: id, childPageId: _sessionUser.User.FirstWikiId))
+        if (GraphService.IsCircularReference(parentPageId: id, childPageId: _sessionUser.FirstWikiId()))
             return new GetPersonalWikiDataResult
             {
                 Success = false,

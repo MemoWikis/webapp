@@ -124,7 +124,7 @@
         var creatorWiki = pageCacheItem.Creator.FirstWiki();
         if (_permissionCheck.CanView(creatorWiki))
         {
-            var newWiki = parents.FirstOrDefault(c => c == creatorWiki) ?? GetUserWiki(sessionUser, parents);
+            var newWiki = parents.FirstOrDefault(c => c == creatorWiki) ?? GetFirstWiki(sessionUser, parents);
             if (newWiki != null)
                 return newWiki;
         }
@@ -132,15 +132,15 @@
         return parents.FirstOrDefault(p => p.IsWikiType()) ?? FeaturedPage.GetRootPage;
     }
 
-    private PageCacheItem? GetUserWiki(SessionUser sessionUser, IList<PageCacheItem> parents)
+    private PageCacheItem? GetFirstWiki(SessionUser sessionUser, IList<PageCacheItem> parents)
     {
         if (!sessionUser.IsLoggedIn)
             return null;
 
-        var userWiki = _extendedUserCache.GetUser(sessionUser.UserId).FirstWiki();
+        var firstWiki = _extendedUserCache.GetUser(sessionUser.UserId).FirstWiki();
 
-        if (parents.Any(c => c.Id == userWiki?.Id))
-            return userWiki;
+        if (parents.Any(c => c.Id == firstWiki?.Id))
+            return firstWiki;
 
         return null;
     }
@@ -165,7 +165,7 @@
 
         var parent = breadcrumb.Items.LastOrDefault();
         if (parent == null)
-            return sessionUser.User.FirstWikiId;
+            return sessionUser.FirstWikiId();
 
         return parent.Page.Id;
     }

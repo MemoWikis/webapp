@@ -148,4 +148,11 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
     {
         ShareTokens = new Dictionary<int, string>();
     }
+
+    public int FirstWikiId()
+    {
+        if (IsLoggedIn)
+            return User.FirstWikiId;
+        return FeaturedPage.RootPageId;
+    }
 }

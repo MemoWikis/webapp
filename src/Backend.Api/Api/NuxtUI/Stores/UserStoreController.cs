@@ -131,7 +131,7 @@
                 Id = _sessionUser.UserId,
                 Name = _sessionUser.IsLoggedIn ? _sessionUser.User.Name : "",
                 IsAdmin = _sessionUser.IsInstallationAdmin,
-                PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.FirstWikiId : 1,
+                PersonalWikiId = _sessionUser.FirstWikiId(),
                 Type = UserType.Normal,
                 ImgUrl = _sessionUser.IsLoggedIn
                     ? new UserImageSettings(_sessionUser.UserId,
@@ -147,7 +147,7 @@
                         _imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)
-                    .GetPageData(_sessionUser.IsLoggedIn ? _sessionUser.User.FirstWikiId : 1),
+                    .GetPageData(_sessionUser.FirstWikiId()),
                 ActivityPoints = new FrontEndUserData.ActivityPoints
                 {
                     Points = activityPoints,

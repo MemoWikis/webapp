@@ -102,7 +102,7 @@
                     _sessionUser.UserId,
                     json.pageIdsToFilter);
 
-        var wikiChildren = GraphService.Descendants(_sessionUser.User.FirstWikiId);
+        var wikiChildren = GraphService.Descendants(_sessionUser.FirstWikiId());
         resultPage = resultPage.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new PageResult(

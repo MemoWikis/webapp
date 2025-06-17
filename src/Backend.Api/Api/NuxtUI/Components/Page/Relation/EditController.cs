@@ -221,8 +221,10 @@ public class PageRelationEditController(
         if (elements.Pages.Any())
             _searchResultBuilder.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, pageIdsToFilter);
 
-        var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.FirstWikiId,
-            _permissionCheck, _sessionUser.UserId);
+        var wikiChildren = GraphService.VisibleDescendants(
+            _sessionUser.FirstWikiId(),
+            _permissionCheck,
+            _sessionUser.UserId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new SearchPageInPersonalWikiResult
