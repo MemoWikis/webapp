@@ -1,4 +1,6 @@
-﻿public class PageDeleter(
+﻿using System.Collections.Concurrent;
+
+public class PageDeleter(
     SessionUser _sessionUser,
     UserActivityRepo _userActivityRepo,
     PageChangeRepo _pageChangeRepo,
@@ -11,6 +13,16 @@
     PageToQuestionRepo _pageToQuestionRepo,
     SharesRepository _sharesRepository) : IRegisterAsInstancePerLifetime
 {
+    // Static dictionary to coordinate page deletions to prevent race conditions
+    private static readonly ConcurrentDictionary<int, UserDeletionLock> _userPageDeletionLocks = new();
+
+    // Helper class to track lock usage with reference counting
+    private class UserDeletionLock
+    {
+        public object LockObject { get; } = new object();
+        public int ReferenceCount { get; set; } = 0;
+    }
+
     private DeletePageResult? ValidatePageDeletion(Page page, int pageToDeleteId)
     {
         if (page == null)
@@ -48,7 +60,7 @@
         return null; // No error, continue with deletion
     }
 
-    private int Run(Page page, int userId)
+    private int RunAndGetChangeId(Page page, int userId)
     {
         var pageCacheItem = EntityCache.GetPage(page.Id);
 
@@ -129,10 +141,11 @@
 
     private void DeleteRelations(PageCacheItem pageCacheItem, int userId)
     {
-        var modifyRelationsForPage =
-            new ModifyRelationsForPage(_pageRepo, _pageRelationRepo);
+        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepo, _pageRelationRepo);
 
-        ModifyRelationsEntityCache.RemoveRelationsForPageDeleter(pageCacheItem, userId,
+        ModifyRelationsEntityCache.RemoveRelationsForPageDeleter(
+            pageCacheItem,
+            userId,
             modifyRelationsForPage);
     }
 
@@ -199,7 +212,33 @@
     public DeletePageResult DeletePage(int pageToDeleteId, int? newParentForQuestionsId)
     {
         var page = _pageRepo.GetById(pageToDeleteId)!;
+        var pageCacheItem = EntityCache.GetPage(pageToDeleteId);
 
+        // Lock page deletions per user to prevent race conditions 
+        // (e.g., deleting multiple wikis simultaneously in different tabs)
+        if (pageCacheItem?.IsWiki == true)
+        {
+            var userDeletionLock = AcquireUserDeletionLock(pageCacheItem.Creator.Id);
+            lock (userDeletionLock.LockObject)
+            {
+                try
+                {
+                    return Run(page, pageToDeleteId, newParentForQuestionsId);
+                }
+                finally
+                {
+                    // Release the lock after deletion is complete
+                    ReleaseUserDeletionLock(pageCacheItem.Creator.Id);
+                }
+            }
+        }
+
+        // For non-wiki pages, proceed without locking
+        return Run(page, pageToDeleteId, newParentForQuestionsId);
+    }
+
+    private DeletePageResult Run(Page page, int pageToDeleteId, int? newParentForQuestionsId)
+    {
         var validationError = ValidatePageDeletion(page, pageToDeleteId);
         if (validationError != null)
             return validationError.Value;
@@ -219,7 +258,7 @@
             .ToList();
 
         // Actually delete the page
-        var deleteChangeId = Run(page, _sessionUser.UserId);
+        var deleteChangeId = RunAndGetChangeId(page, _sessionUser.UserId);
 
         // Update parent relations
         if (parentIds != null && parentIds.Any())
@@ -256,6 +295,38 @@
         EntityCache.AddQuestionsToPage(parentId, questionIdsFromPageToDelete);
     }
 
+    private UserDeletionLock AcquireUserDeletionLock(int userId)
+    {
+        // Get or create the lock for this user
+        var userDeletionLock = _userPageDeletionLocks.GetOrAdd(userId, _ => new UserDeletionLock());
+
+        // Atomically increment the reference count
+        lock (userDeletionLock.LockObject)
+        {
+            userDeletionLock.ReferenceCount++;
+        }
+
+        return userDeletionLock;
+    }
+
+    private void ReleaseUserDeletionLock(int userId)
+    {
+        // Try to get the existing lock for this user
+        if (_userPageDeletionLocks.TryGetValue(userId, out var userDeletionLock))
+        {
+            lock (userDeletionLock.LockObject)
+            {
+                userDeletionLock.ReferenceCount--;
+
+                // If no more references, remove the lock from the dictionary
+                if (userDeletionLock.ReferenceCount <= 0)
+                {
+                    _userPageDeletionLocks.TryRemove(userId, out _);
+                }
+            }
+        }
+    }
+
     public record RedirectPage(string Name, int Id);
 
     private RedirectPage GetRedirectPage(int id)
@@ -289,40 +360,11 @@
             return new RedirectPage(lastBreadcrumbItem.Page.Name, lastBreadcrumbItem.Page.Id);
 
         if (id == currentWiki.Id)
-            return FindAlternativePageWhenDeletingCurrentWiki(id);
+        {
+            var firstWiki = _sessionUser.User.FirstWiki();
+            return new RedirectPage(firstWiki.Name, firstWiki.Id);
+        }
 
         return new RedirectPage(currentWiki.Name, currentWiki.Id);
-    }
-
-    private RedirectPage FindAlternativePageWhenDeletingCurrentWiki(int id)
-    {
-        var startPage = _sessionUser.User.FirstWiki();
-        if (startPage != null && id != startPage.Id && startPage.IsWiki)
-            return new RedirectPage(startPage.Name, startPage.Id);
-
-        var wikis = _sessionUser.User.GetWikis();
-        if (wikis.Any())
-            return new RedirectPage(wikis.First().Name, wikis.First().Id);
-
-        var favorites = _sessionUser.User.GetFavorites();
-        if (favorites.Any())
-        {
-            var firstPossibleFavorite = favorites.FirstOrDefault(page => page.Id != id);
-            if (firstPossibleFavorite != null)
-                return new RedirectPage(firstPossibleFavorite.Name, firstPossibleFavorite.Id);
-        }
-
-        var userCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
-        var recentPages = userCacheItem.RecentPages?.GetRecentPages();
-
-        if (recentPages != null && recentPages.Any())
-        {
-            var firstPossiblePage = recentPages.FirstOrDefault(page => page.Id != id);
-            if (firstPossiblePage != null)
-                return new RedirectPage(firstPossiblePage.Name, firstPossiblePage.Id);
-        }
-
-        var featuredRootPage = FeaturedPage.GetRootPage;
-        return new RedirectPage(featuredRootPage.Name, featuredRootPage.Id);
     }
 }

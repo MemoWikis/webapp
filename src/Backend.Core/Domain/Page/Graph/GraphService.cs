@@ -48,6 +48,11 @@ public class GraphService
             ascendant.TotalViews++;
     }
 
+    public static bool IsCircularReference(int parentPageId, int childPageId)
+    {
+        return Descendants(parentPageId).Any(page => page.Id == childPageId);
+    }
+
     public static IList<PageCacheItem> VisibleAscendants(
         int childId,
         PermissionCheck permissionCheck)
@@ -103,6 +108,7 @@ public class GraphService
                         if (shareInfo.Permission == SharePermission.ViewWithChildren)
                             return true;
                     }
+
                     ascendants.Add(parent);
                 }
 
@@ -143,6 +149,7 @@ public class GraphService
                         if (shareInfo.Permission == SharePermission.EditWithChildren)
                             return true;
                     }
+
                     ascendants.Add(parent);
                 }
 

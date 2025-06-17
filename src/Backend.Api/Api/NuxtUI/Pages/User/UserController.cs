@@ -5,12 +5,18 @@
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
-    public readonly record struct GetResult(User User, Overview Overview, bool IsCurrentUser, string? MessageKey, NuxtErrorPageType ErrorCode);
+    public readonly record struct GetResult(
+        User User,
+        Overview Overview,
+        bool IsCurrentUser,
+        string MessageKey,
+        NuxtErrorPageType ErrorCode);
 
     public new readonly record struct User(
         int Id,
         string Name,
-        string WikiUrl,
+        string WikiName,
+        int? WikiId,
         string ImageUrl,
         int ReputationPoints,
         int Rank,
@@ -45,21 +51,22 @@
         }
 
         var userWiki = EntityCache.GetPage(user.FirstWikiId);
+        var canViewUserWiki = _permissionCheck.CanView(userWiki);
         var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
         var isCurrentUser = _sessionUser.UserId == user.Id;
         var allQuestionsCreatedByUser = EntityCache.GetAllQuestions()
             .Where(q => q.Creator != null && q.CreatorId == user.Id);
         var allPagesCreatedByUser = EntityCache.GetAllPagesList()
             .Where(c => c.Creator != null && c.CreatorId == user.Id);
+
         var result = new GetResult
         {
             User = new User
             {
                 Id = user.Id,
                 Name = user.Name,
-                WikiUrl = _permissionCheck.CanView(userWiki)
-                    ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.FirstWikiId
-                    : null,
+                WikiName = canViewUserWiki ? userWiki.Name : "",
+                WikiId = canViewUserWiki ? user.FirstWikiId : null,
                 ImageUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                     .GetUrl_256px_square(user)
                     .Url,

@@ -5,14 +5,12 @@ using Exception = System.Exception;
 
 public class EditPageRelationStoreController(
     SessionUser _sessionUser,
-    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo,
     PermissionCheck _permissionCheck,
     PageRepository pageRepository,
     PageRelationRepo pageRelationRepo,
     UserWritingRepo _userWritingRepo,
-    IWebHostEnvironment _webHostEnvironment, 
+    IWebHostEnvironment _webHostEnvironment,
     SearchResultBuilder _searchResultBuilder) : ApiBaseController
 {
     public record struct PersonalWikiData(
@@ -28,14 +26,14 @@ public class EditPageRelationStoreController(
     [HttpGet]
     public GetPersonalWikiDataResult GetPersonalWikiData([FromRoute] int id)
     {
-        if (GraphService.Descendants(id).Any(c => c.Id == _sessionUser.User.FirstWikiId))
+        if (GraphService.IsCircularReference(parentPageId: id, childPageId: _sessionUser.User.FirstWikiId))
             return new GetPersonalWikiDataResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
 
-        var personalWiki = EntityCache.GetPage(_sessionUser.User.FirstWikiId);
+        var personalWiki = _sessionUser.User.FirstWiki();
         var personalWikiItem = _searchResultBuilder.FillSearchPageItem(personalWiki, _sessionUser.UserId);
         var recentlyUsedRelationTargetPages = new List<SearchPageItem>();
 
@@ -85,11 +83,7 @@ public class EditPageRelationStoreController(
                 removedChildrenIds.Add(childId);
         }
 
-        return new RemovePagesResult
-        {
-            Success = true,
-            Data = removedChildrenIds
-        };
+        return new RemovePagesResult { Success = true, Data = removedChildrenIds };
     }
 
     public enum TargetPosition
@@ -119,7 +113,8 @@ public class EditPageRelationStoreController(
 
         if (!_permissionCheck.CanMovePage(json.MovingPageId, json.OldParentId, json.NewParentId))
         {
-            if (json.NewParentId == FeaturedPage.RootPageId && EntityCache.GetPage(json.MovingPageId)?.Visibility == PageVisibility.Public)
+            if (json.NewParentId == FeaturedPage.RootPageId &&
+                EntityCache.GetPage(json.MovingPageId)?.Visibility == PageVisibility.Public)
                 throw new SecurityException(FrontendMessageKeys.Error.Page.ParentIsRoot);
 
             throw new SecurityException(FrontendMessageKeys.Error.Page.MissingRights);
@@ -209,14 +204,10 @@ public class EditPageRelationStoreController(
     [HttpPost]
     public PersonalWikiResult AddToPersonalWiki([FromRoute] int id)
     {
-        var personalWiki = EntityCache.GetPage(_sessionUser.User.FirstWikiId);
+        var personalWiki = _sessionUser.User.FirstWiki();
 
         if (personalWiki == null)
-            return new PersonalWikiResult
-            {
-                Success = false,
-                MessageKey = FrontendMessageKeys.Error.Default
-            };
+            return new PersonalWikiResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId == id))
         {
@@ -240,22 +231,20 @@ public class EditPageRelationStoreController(
                 .AddChild(id, personalWiki.Id)
         };
     }
+
     public readonly record struct RemoveFromPersonalWikiResult(
         bool Success,
         ChildModifier.RemoveParentResult Data,
         string MessageKey);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public RemoveFromPersonalWikiResult RemoveFromPersonalWiki([FromRoute] int id)
     {
-        var personalWiki = EntityCache.GetPage(_sessionUser.User.FirstWikiId);
+        var personalWiki = _sessionUser.User.FirstWiki();
 
         if (personalWiki == null)
-            return new RemoveFromPersonalWikiResult
-            {
-                Success = false,
-                MessageKey = FrontendMessageKeys.Error.Default
-            };
+            return new RemoveFromPersonalWikiResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId != id))
         {
