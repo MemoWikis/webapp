@@ -2,6 +2,11 @@
 
 internal class PageDeleter_tests : BaseTestHarness
 {
+    // Creating root wiki explicitly is necessary because:
+    // 1. PermissionCheck prevents deletion of page with ID matching FeaturedPage.RootPageId
+    // 2. When auto-creating pages in tests, a page might get the same ID as RootPageId
+    // 3. Such a page would be undeletable (even by admins/creators), causing test issues
+
     [Test]
     public async Task Should_delete_child()
     {
@@ -681,5 +686,95 @@ internal class PageDeleter_tests : BaseTestHarness
         Assert.That(result.Success, Is.False);
         Assert.That(result.MessageKey, Is.EqualTo(FrontendMessageKeys.Error.Page.NoRights));
         Assert.That(result.RedirectParent, Is.Null);
+    }
+
+    [Test]
+    [Description("Should redirect to first remaining wiki when deleting a wiki")]
+    public async Task Should_redirect_to_first_remaining_wiki_when_deleting_wiki()
+    {
+        await ClearData();
+
+        // Arrange
+        var contextPage = NewPageContext();
+        var sessionUser = R<SessionUser>();
+        var creator = new User { Id = sessionUser.UserId };
+
+        var rootWiki = contextPage
+            .Add("Root Wiki", isWiki: true)
+            .GetPageByName("Root Wiki");
+
+        var firstWiki = contextPage
+            .Add("Alpha Wiki", creator, isWiki: true)
+            .GetPageByName("Alpha Wiki");
+
+        var secondWiki = contextPage
+            .Add("Beta Wiki", creator, isWiki: true)
+            .GetPageByName("Beta Wiki");
+
+        var thirdWiki = contextPage
+            .Add("Gamma Wiki", creator, isWiki: true)
+            .GetPageByName("Gamma Wiki");
+
+        contextPage.Persist();
+        await ReloadCaches();
+
+        var pageDeleter = R<PageDeleter>();
+
+        // Act - Delete the second wiki
+        var result = pageDeleter.DeletePage(secondWiki.Id, null);
+
+        // Assert - Should redirect to the first wiki (Alpha Wiki)
+        await Verify(new
+        {
+            Success = result.Success,
+            HasChildren = result.HasChildren,
+            MessageKey = result.MessageKey,
+            RedirectParent = result.RedirectParent
+        });
+    }
+
+    [Test]
+    [Description("Should redirect to first remaining wiki when deleting the first wiki")]
+    public async Task Should_redirect_to_first_remaining_wiki_when_deleting_first_wiki()
+    {
+        await ClearData();
+
+        // Arrange
+        var contextPage = NewPageContext();
+        var sessionUser = R<SessionUser>();
+        var creator = new User { Id = sessionUser.UserId };
+
+        var rootWiki = contextPage
+            .Add("Root Wiki", isWiki: true)
+            .GetPageByName("Root Wiki");
+
+        var firstWiki = contextPage
+            .Add("Alpha Wiki", creator, isWiki: true)
+            .GetPageByName("Alpha Wiki");
+
+        var secondWiki = contextPage
+            .Add("Beta Wiki", creator, isWiki: true)
+            .GetPageByName("Beta Wiki");
+
+        var thirdWiki = contextPage
+            .Add("Gamma Wiki", creator, isWiki: true)
+            .GetPageByName("Gamma Wiki");
+
+        contextPage.Persist();
+        await ReloadCaches();
+
+        var pageDeleter = R<PageDeleter>();
+
+        // Act - Delete the first wiki (Alpha Wiki)
+        var result = pageDeleter.DeletePage(firstWiki.Id, null);
+
+        // Assert - Should redirect to the first remaining wiki (Beta Wiki)
+        await Verify(new
+        {
+            Success = result.Success,
+            HasChildren = result.HasChildren,
+            MessageKey = result.MessageKey,
+            RedirectParent = result.RedirectParent
+        });
     }
 }

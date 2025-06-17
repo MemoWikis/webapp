@@ -214,6 +214,13 @@
     private RedirectPage GetRedirectPage(int id)
     {
         var page = EntityCache.GetPage(id);
+
+        if (page.IsWiki)
+        {
+            var firstWiki = _sessionUser.User.GetWikis().First(wiki => wiki.Id != id);
+            return new RedirectPage(firstWiki.Name, firstWiki.Id);
+        }
+
         var currentWiki = EntityCache.GetPage(_sessionUser.CurrentWikiId);
 
         var lastBreadcrumbItem = _crumbtrailService
