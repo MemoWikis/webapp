@@ -74,25 +74,58 @@
 
     private void DeleteFromRepos(int pageId)
     {
-        // Use a single transaction for all operations to ensure consistency
-        using var transaction = _pageRepo.Session.BeginTransaction();
+        const int maxRetries = 3;
+        const int retryDelayMs = 100;
 
-        try
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
         {
-            // Execute deletions in dependency order
-            _pageToQuestionRepo.DeleteByPageId(pageId);
-            _userActivityRepo.DeleteForPage(pageId);
-            _sharesRepository.DeleteAllForPageWithoutTransaction(pageId);
-            _pageRepo.Delete(pageId);
+            try
+            {
+                // Use a single transaction for all operations to ensure consistency
+                using var transaction = _pageRepo.Session.BeginTransaction();
 
-            // Commit all operations together
-            transaction.Commit();
+                try
+                {
+                    // Execute deletions in consistent order to prevent deadlocks:
+                    // 1. Child relationships first (pages_to_questions has Foreign Key to page)
+                    // 2. User activities (has Foreign Key to page) 
+                    // 3. Shares (has Foreign Key to page)
+                    // 4. Page itself last (parent of all Foreign Keys)
+
+                    _pageToQuestionRepo.DeleteByPageId(pageId);
+                    _userActivityRepo.DeleteForPage(pageId);
+                    _sharesRepository.DeleteAllForPageWithoutTransaction(pageId);
+                    _pageRepo.Delete(pageId);
+
+                    // Commit all operations together
+                    transaction.Commit();
+                    return; // Success - exit retry loop
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+            catch (Exception ex) when (IsDeadlockException(ex) && attempt < maxRetries)
+            {
+                // Log the deadlock and retry after a short delay
+                Log.Warning(
+                    "Deadlock detected on page deletion attempt {attempt}/{maxRetries} for pageId {pageId}: {message}",
+                    attempt, maxRetries, pageId, ex.Message);
+
+                // Wait with exponential backoff before retry
+                Thread.Sleep(retryDelayMs * attempt);
+            }
         }
-        catch
-        {
-            transaction.Rollback();
-            throw;
-        }
+    }
+
+    private static bool IsDeadlockException(Exception ex)
+    {
+        // Check if this is a MySQL deadlock error
+        return ex.Message.Contains("Deadlock found") ||
+               ex.Message.Contains("Lock wait timeout") ||
+               ex.Message.Contains("DataReader already open");
     }
 
     private void DeleteRelations(PageCacheItem pageCacheItem, int userId)
