@@ -11,7 +11,7 @@
     PageToQuestionRepo _pageToQuestionRepo,
     SharesRepository _sharesRepository) : IRegisterAsInstancePerLifetime
 {
-    private DeletePageResult? ValidatePageDeletion(Page page, int pageToDeleteId, int? newParentForQuestionsId)
+    private DeletePageResult? ValidatePageDeletion(Page page, int pageToDeleteId)
     {
         if (page == null)
             throw new Exception(
@@ -24,19 +24,15 @@
 
         var canDeleteResult = _permissionCheck.CanDelete(pageCacheItem);
         if (!canDeleteResult.Allowed)
-        {
             return new DeletePageResult(
                 Success: false,
                 MessageKey: canDeleteResult.Reason);
-        }
 
         // Check if can delete based on child/parent count
         if (!CanDeleteItemBasedOnChildParentCount(page, _sessionUser.UserId))
-        {
             return new DeletePageResult(
                 HasChildren: true,
                 Success: false);
-        }
 
         return null;
     }
@@ -44,6 +40,7 @@
     private DeletePageResult? HandleQuestions(int pageToDeleteId, int? newParentForQuestionsId)
     {
         var hasQuestions = EntityCache.PageHasQuestion(pageToDeleteId);
+
         if (hasQuestions && newParentForQuestionsId != null)
             MoveQuestionsToParent(pageToDeleteId, (int)newParentForQuestionsId);
         else if (hasQuestions && newParentForQuestionsId == null || newParentForQuestionsId == 0)
@@ -156,7 +153,7 @@
     {
         var page = _pageRepo.GetById(pageToDeleteId)!;
 
-        var validationError = ValidatePageDeletion(page, pageToDeleteId, newParentForQuestionsId);
+        var validationError = ValidatePageDeletion(page, pageToDeleteId);
         if (validationError != null)
             return validationError.Value;
 

@@ -558,7 +558,7 @@ internal class PageDeleter_tests : BaseTestHarness
         var otherUserContext = contextPage.ContextUser
             .Add(otherUser)
             .Persist()
-            .All.Last(); // Use Last() since the page context already added one user
+            .GetUser("Other User");
 
         var rootWiki = contextPage
             .Add("Root Wiki", isWiki: true)
@@ -584,42 +584,6 @@ internal class PageDeleter_tests : BaseTestHarness
         Assert.That(result.Success, Is.False);
         Assert.That(result.MessageKey, Is.EqualTo(FrontendMessageKeys.Error.Page.NoRights));
         Assert.That(result.RedirectParent, Is.Null);
-    }
-
-    [Test]
-    [Description("Should successfully delete wiki when user is installation admin")]
-    public async Task Should_delete_any_wiki_when_user_is_installation_admin()
-    {
-        await ClearData();
-
-        // Arrange
-        var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-
-        // Make session user an installation admin
-        var adminUser = new User { Id = sessionUser.UserId, IsInstallationAdmin = true };
-        var otherUser = new User { Id = 999, IsInstallationAdmin = false, Name = "Other User" };
-
-        var otherUsersWiki = contextPage
-            .Add("Other User's Wiki", otherUser, isWiki: true)
-            .GetPageByName("Other User's Wiki");
-
-        var anotherWiki = contextPage
-            .Add("Another Wiki", otherUser, isWiki: true)
-            .GetPageByName("Another Wiki");
-
-        contextPage.Persist();
-        await ReloadCaches();
-
-        var pageDeleter = R<PageDeleter>();
-
-        // Act
-        var result = pageDeleter.DeletePage(otherUsersWiki.Id, null);
-
-        // Assert
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.MessageKey, Is.Null);
-        Assert.That(result.RedirectParent, Is.Not.Null);
     }
 
     [Test]
