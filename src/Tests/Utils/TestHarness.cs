@@ -237,27 +237,38 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .New(R<UserWritingRepo>())
             .Add(new User { Id = 1, Name = "SessionUser" })
             .Persist();
-    }    /// <summary>
+    }
+
+    /// <summary>
     /// Sets up authentication for the current API request.
     /// Since SessionUser depends on HTTP session state which doesn't persist across requests in tests,
     /// we need to use a different approach - we'll add a custom header that can be read by the backend.
     /// </summary>
     private void LoginForCurrentRequest()
     {
-        // The approach of calling sessionUser.Login() doesn't work because each HTTP request
-        // gets a fresh HttpContext and session state. Instead, we need the backend to 
-        // recognize the test user during the request processing.
-        
+        // The approach of calling sessionUser.Login() doesn't work 
+        // because each HTTP request gets a fresh HttpContext and session state. 
+        // Instead, we need the backend to the test user during the request processing.
+
         // For now, let's try using a simple approach - set a test authorization header
         // that we can check for in the API controllers
-        
+
         // Remove any existing authorization headers
-        if (Client.DefaultRequestHeaders.Contains("X-Test-User-Id"))
+        //if (Client.DefaultRequestHeaders.Contains("X-Test-User-Id"))
+        //{
+        //    Client.DefaultRequestHeaders.Remove("X-Test-User-Id");
+        //}
+
+        //// Add a test user header that the backend can recognize
+        //Client.DefaultRequestHeaders.Add("X-Test-User-Id", "1");
+
+        R<SessionUser>().Login(new User
         {
-            Client.DefaultRequestHeaders.Remove("X-Test-User-Id");
-        }
-          // Add a test user header that the backend can recognize
-        Client.DefaultRequestHeaders.Add("X-Test-User-Id", "1");
+            Id = 1,
+            Name = "TestUser",
+            StartPageId = 1, // Assuming the start page ID is 1 for the test user
+            IsInstallationAdmin = true // Assuming the test user is an installation admin
+        }, R<PageViewRepo>());
     }
 
     public async Task<string> ApiCall([StringSyntax(StringSyntaxAttribute.Uri)] string uri, bool loggedIn = false)
@@ -275,7 +286,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         return formattedJson;
     }
 
-    public async Task<T> ApiCallPost<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object requestBody, bool loggedIn = false)
+    public async Task<T> ApiCallPost<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object requestBody,
+        bool loggedIn = false)
     {
         if (loggedIn)
         {
@@ -286,9 +298,11 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var content = new StringContent(jsonRequestBody, System.Text.Encoding.UTF8, "application/json");
 
         var httpResponse = await this.Client.PostAsync(uri, content);
-        httpResponse.EnsureSuccessStatusCode(); var jsonContent = await httpResponse.Content.ReadAsStringAsync();
+        httpResponse.EnsureSuccessStatusCode();
+        var jsonContent = await httpResponse.Content.ReadAsStringAsync();
 
-        return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonContent) ?? throw new InvalidOperationException("Failed to deserialize response");
+        return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonContent) ??
+               throw new InvalidOperationException("Failed to deserialize response");
     }
 
     /// <summary>
@@ -338,7 +352,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         IHttpContextAccessor _fakeHttpCtx,
         string _connectionString)
         : WebApplicationFactory<Program>
-    {        protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment("Test");
             builder.ConfigureAppConfiguration((_, cfg) =>
