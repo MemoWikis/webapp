@@ -2,7 +2,7 @@
 
 interface MethodData {
     url: string
-    label: string
+    translationKey: string
 }
 
 interface Props {
@@ -16,37 +16,19 @@ const emit = defineEmits(['methodClicked'])
 
 </script>
 <template>
-    <div class="maintenance-section col-xs-12 col-lg-6">
-        <h3>
-            {{ props.title }}
-        </h3>
-        <div v-if="props.description" class="description">
+    <LayoutPanel :title="props.title">
+        <template #description v-if="props.description" class="description">
             {{ props.description }}
-        </div>
-        <div class="maintenance-method-container">
-            <div v-for="method in props.methods">
+        </template>
+        <LayoutCard :size="LayoutCardSize.Flex">
+            <div v-for="method in props.methods" :size="LayoutCardSize.Flex">
                 <button class="btn btn-link" @click="emit('methodClicked', method.url)">
                     <font-awesome-icon :icon="props.icon" v-if="props.icon" />
-                    {{ method.label }}
+                    {{ $t(method.translationKey) }}
                 </button>
             </div>
-            <slot></slot>
-        </div>
-    </div>
+        </LayoutCard>
+        <slot></slot>
+
+    </LayoutPanel>
 </template>
-
-<style lang="less" scoped>
-@import (reference) '~~/assets/includes/imports.less';
-
-.maintenance-section {
-    border: solid 1px @memo-grey-lighter;
-    padding: 8px;
-    margin: 8px;
-
-    h3,
-    .description {
-        padding: 6px 12px;
-        margin-top: 0;
-    }
-}
-</style>

@@ -3,8 +3,7 @@ using NHibernate.Criterion;
 
 public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_session)
 {
-    public int AddDeleteEntry(Page page,
-        int userId)
+    public int AddDeleteEntry(Page page, int userId)
     {
         var pageChange = new PageChange
         {
@@ -21,8 +20,10 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
 
     public void AddCreateEntry(PageRepository pageRepository, Page page, int authorId) =>
         AddUpdateOrCreateEntry(pageRepository, page, authorId, PageChangeType.Create);
+
     public void AddCreateEntryDbOnly(PageRepository pageRepository, Page page, User author) =>
         AddUpdateOrCreateEntryDbOnly(pageRepository, page, author, PageChangeType.Create);
+
     public void AddUpdateEntry(
         PageRepository pageRepository,
         Page page,
@@ -184,13 +185,14 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
         var pageChangeList = query
             .List();
 
-        pageChangeList = pageChangeList.Where(pc =>
-            pc.Page.Id == pageId ||
-            pc.Type != PageChangeType.Text &&
-            pc.Type != PageChangeType.Image &&
-            pc.Type != PageChangeType.Restore &&
-            pc.Type != PageChangeType.Update &&
-            pc.Type != PageChangeType.Relations)
+        pageChangeList = pageChangeList
+            .Where(pc =>
+                pc.Page.Id == pageId ||
+                pc.Type != PageChangeType.Text &&
+                pc.Type != PageChangeType.Image &&
+                pc.Type != PageChangeType.Restore &&
+                pc.Type != PageChangeType.Update &&
+                pc.Type != PageChangeType.Relations)
             .ToList();
 
         return pageChangeList;
@@ -240,6 +242,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             page.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
             pageRepository.UpdateOnlyDb(page);
         }
+
         SetData(pageRepository, page, imageWasUpdated, pageChange);
         base.Create(pageChange);
     }

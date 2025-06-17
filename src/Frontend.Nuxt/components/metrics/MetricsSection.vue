@@ -12,38 +12,42 @@ const emit = defineEmits(['toggleBar'])
 </script>
 
 <template>
-    <div class="chart-section">
-        <h3>{{ title }}</h3>
-        <div class="chart-header">
-            <!-- Heutige Registrierungen: {{ overviewData?.todaysRegistrationCount }} -->
-            {{ subTitle }}
-        </div>
-
-        <div class="chart-container" v-for="chart in charts">
-            <div class="chart-toggle-section">
-                <div class="chart-toggle-container" @click="emit('toggleBar', chart.barToggleKey)">
-                    <div class="chart-toggle" :class="{ 'is-active': chart.showBar }">
-                        <font-awesome-icon :icon="['fas', 'chart-column']" />
-                    </div>
-                    <div class="chart-toggle" :class="{ 'is-active': !chart.showBar }">
-                        <font-awesome-icon :icon="['fas', 'chart-line']" />
-                    </div>
-                </div>
+    <LayoutPanel>
+        <div class="chart-section">
+            <h3>{{ title }}</h3>
+            <div class="chart-header">
+                <!-- Heutige Registrierungen: {{ overviewData?.todaysRegistrationCount }} -->
+                {{ subTitle }}
             </div>
 
-            <LazySharedChartsBar v-if="chart.showBar"
-                :labels="chart.labels"
-                :datasets="chart.datasets"
-                :title="chart.title"
-                :color="chart.color" />
-            <LazySharedChartsLine v-else
-                :labels="chart.labels"
-                :datasets="chart.datasets"
-                :title="chart.title"
-                :color="chart.color" />
-        </div>
+            <div class="chart-container" v-for="chart in charts">
+                <div class="chart-toggle-section">
+                    <div class="chart-toggle-container" @click="emit('toggleBar', chart.barToggleKey)">
+                        <div class="chart-toggle" :class="{ 'is-active': chart.showBar }">
+                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                        </div>
+                        <div class="chart-toggle" :class="{ 'is-active': !chart.showBar }">
+                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                        </div>
+                    </div>
+                </div>
 
-    </div>
+                <LayoutCard :size="LayoutCardSize.Large" class="chart-card">
+                    <LazySharedChartsBar v-if="chart.showBar"
+                        :labels="chart.labels"
+                        :datasets="chart.datasets"
+                        :title="chart.title"
+                        :color="chart.color" />
+                    <LazySharedChartsLine v-else
+                        :labels="chart.labels"
+                        :datasets="chart.datasets"
+                        :title="chart.title"
+                        :color="chart.color" />
+                </LayoutCard>
+            </div>
+
+        </div>
+    </LayoutPanel>
 </template>
 
 <style lang="less" scoped>
@@ -59,13 +63,15 @@ const emit = defineEmits(['toggleBar'])
 .chart-container {
     margin-bottom: 40px;
     min-height: 300px;
+    position: relative;
 }
 
 .chart-toggle-section {
     display: flex;
     justify-content: flex-end;
     position: absolute;
-    right: 0px;
+    right: 10px;
+    top: 8px;
 
     .chart-toggle-container {
         display: flex;
@@ -113,6 +119,13 @@ const emit = defineEmits(['toggleBar'])
 }
 
 .chart-section {
-    margin-bottom: 45px;
+    width: 100%;
+    height: 100%;
+
+    .chart-card {
+        :deep(canvas) {
+            height: 300px;
+        }
+    }
 }
 </style>

@@ -23,30 +23,13 @@ interface UserDashboardData {
     activityCalendar: ActivityCalendarData
 }
 
-// Mock data for now - this would be replaced with an actual API call
-const dashboardData = ref<UserDashboardData>()
-
-const getAllData = async () => {
-    try {
-        const { data } = await useFetch<UserDashboardData>('/apiVue/MissionControl/GetAll')
-        if (data.value === null) {
-            console.error('No data received from API')
-            return
-        }
-        dashboardData.value = data.value
-    } catch (error) {
-        console.error('Failed to fetch dashboard data:', error)
-    }
-}
-
-onMounted(() => {
-    getAllData()
-})
+const { data: dashboardData } = await useFetch<UserDashboardData>('/apiVue/MissionControl/GetAll')
 
 const { isMobile } = useDevice()
 
 const { locale, setLocale } = useI18n()
 const route = useRoute()
+
 onBeforeMount(async () => {
     if (userStore.isLoggedIn) {
         await navigateToLocaleMissionControl()
@@ -83,84 +66,77 @@ watch(() => locale.value, async () => {
 </script>
 
 <template>
-    <div class="container">
-        <div class="row main-page">
-            <div class="col-xs-12">
-                <div class="mission-control-container">
-                    <h1>{{ t('missionControl.heading') }}</h1>
-                    <div class="mission-control-content" v-if="dashboardData">
-                        <!-- Knowledge Status Section -->
-                        <LayoutPanel :title="t('missionControl.sections.knowledgeStatus')">
-                            <LayoutCard :size="LayoutCardSize.Flex">
-                                <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus"
-                                    :knowledgeStatus="dashboardData.knowledgeStatus" />
-                            </LayoutCard>
-                        </LayoutPanel>
 
-                        <DevOnly>
-                            <!-- LearnCalendar Section -->
-                            <LayoutPanel :title="t('missionControl.sections.learnCalendar')">
-                                <LayoutCard>
-                                    <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
-                                        :calendarData="dashboardData.activityCalendar" />
-                                </LayoutCard>
-                            </LayoutPanel>
-                        </DevOnly>
+    <div class="mission-control-container">
+        <h1>{{ t('missionControl.heading') }}</h1>
+        <div class="mission-control-content" v-if="dashboardData">
+            <!-- Knowledge Status Section -->
+            <LayoutPanel :title="t('missionControl.sections.knowledgeStatus')">
+                <LayoutCard :size="LayoutCardSize.Flex">
+                    <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus"
+                        :knowledgeStatus="dashboardData.knowledgeStatus" />
+                </LayoutCard>
+            </LayoutPanel>
 
-                        <template v-if="isMobile">
-                            <!-- Wikis Section -->
-                            <LayoutPanel v-if="dashboardData.wikis"
-                                :title="t('missionControl.sections.wikis')">
-                                <MissionControlGrid :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
-                            </LayoutPanel>
-                            <!-- Favorites Section -->
-                            <LayoutPanel v-if="dashboardData.favorites"
-                                :title="t('missionControl.sections.favorites')">
-                                <MissionControlGrid :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
-                            </LayoutPanel>
-                        </template>
+            <DevOnly>
+                <!-- LearnCalendar Section -->
+                <LayoutPanel :title="t('missionControl.sections.learnCalendar')">
+                    <LayoutCard>
+                        <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
+                            :calendarData="dashboardData.activityCalendar" />
+                    </LayoutCard>
+                </LayoutPanel>
+            </DevOnly>
 
-                        <template v-else>
-                            <!-- Wikis Section -->
-                            <LayoutPanel v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
-                                <LayoutCard :no-padding="true">
-                                    <MissionControlTable :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
-                                </LayoutCard>
-                            </LayoutPanel>
-                            <!-- Favorites Section -->
-                            <LayoutPanel v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
-                                <LayoutCard :no-padding="true">
-                                    <MissionControlTable :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
-                                </LayoutCard>
-                            </LayoutPanel>
-                        </template>
+            <template v-if="isMobile">
+                <!-- Wikis Section -->
+                <LayoutPanel v-if="dashboardData.wikis"
+                    :title="t('missionControl.sections.wikis')">
+                    <MissionControlGrid :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
+                </LayoutPanel>
+                <!-- Favorites Section -->
+                <LayoutPanel v-if="dashboardData.favorites"
+                    :title="t('missionControl.sections.favorites')">
+                    <MissionControlGrid :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
+                </LayoutPanel>
+            </template>
 
-                        <!-- LearnCalendar Section with Coming Soon overlay -->
-                        <LayoutPanel :title="t('missionControl.sections.learnCalendar')">
-                            <div class="coming-soon-container">
-                                <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
-                                <div class="coming-soon-overlay">
-                                    <div class="coming-soon-content">
-                                        <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </LayoutPanel>
+            <template v-else>
+                <!-- Wikis Section -->
+                <LayoutPanel v-if="dashboardData.wikis" :title="t('missionControl.sections.wikis')">
+                    <LayoutCard :no-padding="true">
+                        <MissionControlTable :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
+                    </LayoutCard>
+                </LayoutPanel>
+                <!-- Favorites Section -->
+                <LayoutPanel v-if="dashboardData.favorites" :title="t('missionControl.sections.favorites')">
+                    <LayoutCard :no-padding="true">
+                        <MissionControlTable :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
+                    </LayoutCard>
+                </LayoutPanel>
+            </template>
+
+            <!-- LearnCalendar Section with Coming Soon overlay -->
+            <LayoutPanel :title="t('missionControl.sections.learnCalendar')">
+                <div class="coming-soon-container">
+                    <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
+                    <div class="coming-soon-overlay">
+                        <div class="coming-soon-content">
+                            <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </LayoutPanel>
         </div>
     </div>
+
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.main-page {
-    margin-top: 0;
-}
-
 .mission-control-container {
+    width: 100%;
 
     h1 {
         margin-bottom: 24px;
@@ -204,7 +180,5 @@ watch(() => locale.value, async () => {
             color: @memo-blue;
         }
     }
-
-
 }
 </style>

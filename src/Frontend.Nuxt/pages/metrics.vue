@@ -310,30 +310,22 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
 </script>
 
 <template>
-    <div class="container">
-        <div class="row main-page">
-            <div class="col-xs-12 container">
+    <div class="main-content">
 
-                <div class="metrics-header">
-                    <h1>Gesamtdaten MemoWikis</h1>
-                </div>
+        <div class="metrics-header">
+            <h1>Gesamtdaten MemoWikis</h1>
+        </div>
 
-                <div class="row content" v-if="overviewData">
-                    <div class="col-xs-12">
-
-                        <MetricsSection title="Registrierungen" :sub-title="`Heutige Registrierungen: ${overviewData?.todaysRegistrationCount}`" :charts="registrationCharts" @toggle-bar="toggleBar" />
-                        <MetricsSection title="Aktive Nutzer" :sub-title="`Heutige Aktive Nutzer: ${overviewData?.todaysActiveUserCount}`" :charts="activeUsersChart" @toggle-bar="toggleBar" />
-                        <MetricsSection title="Private Seiten" :sub-title="`Heute erstellt: ${overviewData?.createdPrivatePageCount}`" :charts="privateCreatedPagesCharts" @toggle-bar="toggleBar" />
-                        <MetricsSection title="Öffentliche Seiten" :sub-title="`Heute erstellt: ${overviewData?.todaysPublicPageCreatedCount}`" :charts="publicCreatedPagesChart" @toggle-bar="toggleBar" />
-                        <MetricsSection title="Wiki-Pageviews" :sub-title="`Heutige Wiki-Pageviews: ${overviewData?.todaysPageViewCount}`" :charts="pageViewsCharts" @toggle-bar="toggleBar" />
-                        <MetricsSection title="Questionviews" :sub-title="`Heutige Questionviews: ${overviewData?.todaysQuestionViewCount}`" :charts="questionViewsCharts" @toggle-bar="toggleBar" />
-                        <MetricsSection title="Veröffentlichte Fragen" :sub-title="`Heute veröffentlicht: ${overviewData?.todaysPublishedQuestionCount}`" :charts="publishedQuestionsCharts" @toggle-bar="toggleBar" />
-                        <MetricsSection title="Öffentliche Fragen" :sub-title="`Heute erstellt: ${overviewData?.todaysPublicQuestionCreatedCount}`" :charts="publicCreatedPagesCharts" @toggle-bar="toggleBar" />
-                        <MetricsSection title="Private Fragen" :sub-title="`Heute erstellt: ${overviewData?.todaysPrivateQuestionCreatedCount}`" :charts="privateCreatedQuestionsCharts" @toggle-bar="toggleBar" />
-
-                    </div>
-                </div>
-            </div>
+        <div v-if="overviewData">
+            <MetricsSection title="Registrierungen" :sub-title="`Heutige Registrierungen: ${overviewData?.todaysRegistrationCount}`" :charts="registrationCharts" @toggle-bar="toggleBar" />
+            <MetricsSection title="Aktive Nutzer" :sub-title="`Heutige Aktive Nutzer: ${overviewData?.todaysActiveUserCount}`" :charts="activeUsersChart" @toggle-bar="toggleBar" />
+            <MetricsSection title="Private Seiten" :sub-title="`Heute erstellt: ${overviewData?.createdPrivatePageCount}`" :charts="privateCreatedPagesCharts" @toggle-bar="toggleBar" />
+            <MetricsSection title="Öffentliche Seiten" :sub-title="`Heute erstellt: ${overviewData?.todaysPublicPageCreatedCount}`" :charts="publicCreatedPagesChart" @toggle-bar="toggleBar" />
+            <MetricsSection title="Wiki-Pageviews" :sub-title="`Heutige Wiki-Pageviews: ${overviewData?.todaysPageViewCount}`" :charts="pageViewsCharts" @toggle-bar="toggleBar" />
+            <MetricsSection title="Questionviews" :sub-title="`Heutige Questionviews: ${overviewData?.todaysQuestionViewCount}`" :charts="questionViewsCharts" @toggle-bar="toggleBar" />
+            <MetricsSection title="Veröffentlichte Fragen" :sub-title="`Heute veröffentlicht: ${overviewData?.todaysPublishedQuestionCount}`" :charts="publishedQuestionsCharts" @toggle-bar="toggleBar" />
+            <MetricsSection title="Öffentliche Fragen" :sub-title="`Heute erstellt: ${overviewData?.todaysPublicQuestionCreatedCount}`" :charts="publicCreatedPagesCharts" @toggle-bar="toggleBar" />
+            <MetricsSection title="Private Fragen" :sub-title="`Heute erstellt: ${overviewData?.todaysPrivateQuestionCreatedCount}`" :charts="privateCreatedQuestionsCharts" @toggle-bar="toggleBar" />
         </div>
     </div>
 </template>

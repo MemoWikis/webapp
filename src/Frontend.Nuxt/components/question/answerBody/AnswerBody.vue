@@ -435,7 +435,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-    <div id="AnswerBody" v-if="answerBodyModel && !learningSessionStore.showResult" class="col-xs-12">
+    <div id="AnswerBody" v-if="answerBodyModel && !learningSessionStore.showResult">
         <div class="answerbody-header">
 
             <div class="answerbody-text">

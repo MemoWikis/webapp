@@ -264,7 +264,7 @@ const ariaId = useId()
                     <span v-if="addToWishknowledge">{{
                         t('page.questionsSection.quickCreateQuestion.wishKnowledge.added') }}</span>
                     <span v-else class="wuwi-grey">{{ t('page.questionsSection.quickCreateQuestion.wishKnowledge.add')
-                    }}</span>
+                        }}</span>
                 </div>
             </div>
         </div>
@@ -301,10 +301,10 @@ const ariaId = useId()
                                             <ul>
                                                 <li>{{
                                                     t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.onlyYou')
-                                                }}</li>
+                                                    }}</li>
                                                 <li>{{
                                                     t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.noOneElse')
-                                                }}</li>
+                                                    }}</li>
                                             </ul>
                                         </template>
                                     </VTooltip>
@@ -348,8 +348,9 @@ const ariaId = useId()
 #AddInlineQuestionContainer {
     background: white;
     margin-top: 20px;
-    padding: 22px 21px 30px;
+    padding: 36px 24px;
     font-size: 16px;
+    border-radius: 8px;
 
     .add-inline-question-label {
         font-weight: 700;

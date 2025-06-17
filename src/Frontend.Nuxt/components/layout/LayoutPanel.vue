@@ -23,6 +23,9 @@ const { isMobile } = useDevice()
             </div>
         </div>
 
+        <div class="panel-description" v-if="$slots.description">
+            <slot name="description"></slot>
+        </div>
         <Transition name="fade" mode="out-in">
             <div class="panel-content" v-if="showContent">
                 <slot></slot>
@@ -87,6 +90,13 @@ const { isMobile } = useDevice()
                 }
             }
         }
+    }
+
+    .panel-description {
+        padding: 0 20px 16px;
+        color: @memo-grey-dark;
+        font-size: 1.4rem;
+        line-height: 1.6;
     }
 
     .panel-content {

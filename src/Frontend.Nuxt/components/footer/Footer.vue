@@ -2,7 +2,9 @@
 import { FooterPages } from '../page/pageStore'
 import { SiteType } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
+import { useSideSheetStore } from '~/components/sideSheet/sideSheetStore'
 
+const sideSheetStore = useSideSheetStore()
 interface Props {
     footerPages: FooterPages,
     isError?: boolean
@@ -27,18 +29,23 @@ onMounted(() => {
 })
 
 const { t, setLocale, locale, locales } = useI18n()
+const { isMobile } = useDevice()
+
+const { sideSheetOpen } = useSideSheetState()
 </script>
 
 <template>
-    <div id="MasterFooter" :class="{ 'window-loading': !windowLoaded }">
-        <div class="row">
-            <div class="container footer-container">
-                <div class="row Promoter">
-                    <div class="col-xs-12">
-                    </div>
-                </div>
+    <div
+        id="MasterFooter"
+        class="layout-wrapper"
+        :class="{
+            'window-loading': !windowLoaded,
+            'sidesheet-open': sideSheetOpen,
+        }">
+        <div class="footer-area">
 
-                <div class="row footer-links-memoWikis col-xs-12">
+            <div class="footer-content">
+                <div class="row footer-links-memoWikis">
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div id="MasterFooterLogoContainer">
@@ -154,7 +161,6 @@ const { t, setLocale, locale, locales } = useI18n()
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -188,17 +194,6 @@ const { t, setLocale, locale, locales } = useI18n()
     color: @memo-grey-darker;
 }
 
-#MasterFooter {
-    transition: all 0.3s ease-in-out;
-
-    .footer-container {
-
-        &.window-loading {
-            padding-left: 0px;
-        }
-    }
-}
-
 .footer-group {
     &.language-selector-container {
         .language-selector {
@@ -228,6 +223,12 @@ const { t, setLocale, locale, locales } = useI18n()
                 font-weight: 600;
             }
         }
+    }
+}
+
+#MasterFooter {
+    .footer-content {
+        width: 100%;
     }
 }
 </style>

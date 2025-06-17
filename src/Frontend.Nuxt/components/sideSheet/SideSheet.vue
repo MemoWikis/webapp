@@ -9,7 +9,7 @@ import { useConvertStore } from '../page/convert/convertStore'
 import { SnackbarCustomAction, SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 interface Props {
-    footerPages: FooterPages
+    footerPages?: FooterPages | null
 }
 const props = defineProps<Props>()
 
@@ -22,12 +22,11 @@ const snackbarStore = useSnackbarStore()
 
 const { t } = useI18n()
 
-const showSideSheetCookie = useCookie<boolean>('showSideSheet')
+const { isMobile } = useDevice()
 
-onBeforeMount(() => {
-    if (showSideSheetCookie.value)
-        sideSheetStore.showSideSheet = showSideSheetCookie.value
-})
+const showSideSheetCookie = useCookie<boolean>('showSideSheet')
+if (showSideSheetCookie.value)
+    sideSheetStore.showSideSheet = showSideSheetCookie.value && !isMobile
 
 watch(() => sideSheetStore.showSideSheet, (show) => {
     showSideSheetCookie.value = show
@@ -96,7 +95,7 @@ const init = async () => {
 
 onBeforeMount(async () => {
     if (userStore.isLoggedIn) {
-        init()
+        await init()
     }
 })
 
@@ -106,9 +105,9 @@ const isFavorite = computed(() => {
 
 const previouslyCollapsed = ref(false)
 
-watch(() => pageStore.id, (id) => {
+watch(() => pageStore.id, async (id) => {
     if (userStore.isLoggedIn) {
-        init()
+        await init()
     }
     else if (id)
         sideSheetStore.handleRecentPage(pageStore.name, pageStore.id)
@@ -155,18 +154,42 @@ watch(() => sideSheetStore.showSideSheet, (show) => {
 }, { immediate: true })
 
 const hover = ref(false)
+const mouseOverTimer = ref()
 const delayedMouseLeaveTimeOut = ref()
+const lastMousePosition = ref({ x: 0, y: 0 })
+const mouseMoveTimer = ref()
 
-const handleMouseOver = () => {
+const handleMouseOver = (event: MouseEvent) => {
     if (windowWidth.value > 900) {
         clearTimeout(delayedMouseLeaveTimeOut.value)
-        hover.value = true
+        clearTimeout(mouseOverTimer.value)
+        clearTimeout(mouseMoveTimer.value)
+
+        const currentX = event.clientX
+        const currentY = event.clientY
+
+        clearTimeout(mouseOverTimer.value)
+
+        mouseMoveTimer.value = setTimeout(() => {
+            const deltaX = Math.abs(currentX - lastMousePosition.value.x)
+            const deltaY = Math.abs(currentY - lastMousePosition.value.y)
+
+            if (deltaX <= 10 && deltaY <= 10) {
+                mouseOverTimer.value = setTimeout(() => {
+                    hover.value = true
+                }, 200)
+            }
+        }, 100)
+
+        lastMousePosition.value = { x: currentX, y: currentY }
     }
 }
 
 const handleMouseLeave = () => {
     if (windowWidth.value > 900) {
         clearTimeout(delayedMouseLeaveTimeOut.value)
+        clearTimeout(mouseOverTimer.value)
+        clearTimeout(mouseMoveTimer.value)
         delayedMouseLeaveTimeOut.value = setTimeout(() => {
             hover.value = false
         }, 500)
@@ -287,7 +310,7 @@ pageStore.$onAction(({ after, name }) => {
 })
 
 const route = useRoute()
-const { isMobile } = useDevice()
+
 onMounted(() => {
     if (isMobile) {
         watch(() => route.path, () => {
@@ -304,15 +327,35 @@ onMounted(() => {
 const hoverWikiButton = ref(false)
 const hoverFavoritesButton = ref(false)
 
+const handleClick = (key?: string) => {
+    if (collapsed.value)
+        sideSheetStore.showSideSheet = !sideSheetStore.showSideSheet
+    else if (key) {
+        switch (key) {
+            case 'showWikis':
+                showWikis.value = !showWikis.value
+                break
+            case 'showFavorites':
+                showFavorites.value = !showFavorites.value
+                break
+            case 'showRecents':
+                showRecents.value = !showRecents.value
+                break
+            case 'showShared':
+                showShared.value = !showShared.value
+                break
+        }
+    }
+}
+
 </script>
 <template>
-    <div v-if="windowWidth > 0" id="SideSheet"
-        :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }"
-        @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :style="`height: ${windowHeight}px`">
-        <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
+    <div id="SideSheet"
+        :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }" @mouseleave="handleMouseLeave">
+        <PerfectScrollbar :options="{ suppressScrollX: true }" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
-                <SideSheetSection class="no-b-padding">
+                <SideSheetSection class="no-b-padding" @mouseover="handleMouseOver">
                     <template #header>
                         <NuxtLink :to="`/${t('url.missionControl')}`" class="mission-control-link">
                             <div class="header-container no-hover">
@@ -328,9 +371,9 @@ const hoverFavoritesButton = ref(false)
                     </template>
                 </SideSheetSection>
 
-                <SideSheetSection :class="{ 'no-b-padding': !showWikis }">
+                <SideSheetSection :class="{ 'no-b-padding': !showWikis }" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container" @click="showWikis = !showWikis" :class="{ 'no-hover': hoverWikiButton }">
+                        <div class="header-container" @click="handleClick('showWikis')" :class="{ 'no-hover': hoverWikiButton }">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showWikis" :icon="['fas', 'angle-down']" class="angle-icon" />
                                 <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
@@ -374,15 +417,18 @@ const hoverFavoritesButton = ref(false)
                                         </template>
                                     </VDropdown>
                                 </div>
+                                <div v-if="sideSheetStore.wikis.length === 0" class="empty-pages">
+                                    {{ userStore.isLoggedIn ? t('sideSheet.noWikis') : t('sideSheet.noWikisNotLoggedIn') }}
+                                </div>
                             </div>
                         </Transition>
                     </template>
 
                 </SideSheetSection>
 
-                <SideSheetSection :class="{ 'no-b-padding': !showFavorites }">
+                <SideSheetSection :class="{ 'no-b-padding': !showFavorites }" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container" @click="showFavorites = !showFavorites" :class="{ 'no-hover': hoverFavoritesButton }">
+                        <div class="header-container" @click="handleClick('showFavorites')" :class="{ 'no-hover': hoverFavoritesButton }">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showFavorites" :icon="['fas', 'angle-down']"
                                     class="angle-icon" />
@@ -419,6 +465,9 @@ const hoverFavoritesButton = ref(false)
                                         </font-awesome-layers>
                                     </div>
                                 </div>
+                                <div v-if="sideSheetStore.favorites.length === 0" class="empty-pages">
+                                    {{ userStore.isLoggedIn ? t('sideSheet.noFavorites') : t('sideSheet.noFavoritesNotLoggedIn') }}
+                                </div>
 
                             </div>
                         </Transition>
@@ -426,9 +475,9 @@ const hoverFavoritesButton = ref(false)
 
                 </SideSheetSection>
 
-                <SideSheetSection :class="{ 'no-b-padding': !showShared }">
+                <SideSheetSection :class="{ 'no-b-padding': !showShared }" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container" @click="showShared = !showShared">
+                        <div class="header-container" @click="handleClick('showShared')">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showShared" :icon="['fas', 'angle-down']" class="angle-icon" />
                                 <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
@@ -451,7 +500,7 @@ const hoverFavoritesButton = ref(false)
                                         </div>
                                     </NuxtLink>
                                 </div>
-                                <div v-if="sideSheetStore.sharedPages.length === 0" class="empty-shared-pages">
+                                <div v-if="sideSheetStore.sharedPages.length === 0" class="empty-pages">
                                     {{ t('sideSheet.noSharedPages') }}
                                 </div>
                             </div>
@@ -459,9 +508,9 @@ const hoverFavoritesButton = ref(false)
                     </template>
                 </SideSheetSection>
 
-                <SideSheetSection :class="{ 'no-b-padding': !showRecents }">
+                <SideSheetSection :class="{ 'no-b-padding': !showRecents }" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container" @click="showRecents = !showRecents">
+                        <div class="header-container" @click="handleClick('showRecents')">
                             <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showRecents" :icon="['fas', 'angle-down']"
                                     class="angle-icon" />
@@ -491,14 +540,14 @@ const hoverFavoritesButton = ref(false)
                 </SideSheetSection>
             </div>
 
-        </perfect-scrollbar>
+        </PerfectScrollbar>
 
         <div id="SideSheetFooter">
             <div class="bg-fade"></div>
             <div class="sidesheet-content footer">
-                <SideSheetSection class="no-b-padding help-section">
+                <SideSheetSection class="no-b-padding help-section" @mouseover="handleMouseOver">
                     <template #header>
-                        <div class="header-container no-hover help-header" @click="showWikis = !showWikis">
+                        <div class="header-container no-hover help-header" @click="handleClick()">
 
                             <font-awesome-icon :icon="['fas', 'circle-question']" />
                             <div v-show="!hidden" class="header-title">
@@ -507,7 +556,7 @@ const hoverFavoritesButton = ref(false)
                         </div>
                     </template>
 
-                    <template #content v-if="!collapsed">
+                    <template #content v-if="!collapsed && props.footerPages">
                         <div class="help-links">
                             <NuxtLink
                                 :to="$urlHelper.getPageUrl(props.footerPages.documentation.name, props.footerPages.documentation.id)"
@@ -546,6 +595,7 @@ const hoverFavoritesButton = ref(false)
     transition: all 0.3s ease-in-out;
     padding-top: 71px;
     overscroll-behavior: none;
+    height: 100%;
 
     &.not-logged-in {
         padding-top: 131px;
@@ -578,6 +628,14 @@ const hoverFavoritesButton = ref(false)
 
     &.collapsed {
         width: 80px;
+
+        :deep(.header) {
+            padding: 0px 12px;
+
+            .header-title {
+                padding: 0px 8px;
+            }
+        }
 
         #SideSheetFooter {
             width: 80px;
@@ -654,7 +712,7 @@ const hoverFavoritesButton = ref(false)
     }
 }
 
-.empty-shared-pages {
+.empty-pages {
     padding: 8px 16px;
     color: @memo-grey-dark;
     font-style: italic;

@@ -897,9 +897,9 @@ const ariaId2 = useId()
                         }
 
                         .counterLabel {
-                            max-width: 160px;
                             width: 100%;
                             padding: 0 0 0 20px;
+                            text-wrap: nowrap;
 
                             @media (max-width:595px) {
                                 max-width: 180px;
@@ -1082,6 +1082,20 @@ const ariaId2 = useId()
 
 .detail-label {
     padding-left: 3px;
+}
+
+.sidesheet-open {
+    #ExtendedQuestionDetails {
+        #questionDetailsContainer {
+
+            @media (max-width:1300px) {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: column;
+            }
+
+        }
+    }
 }
 </style>
 

@@ -107,7 +107,7 @@ const isDateBeforeRange = (dateStr: string) => {
             <div>{{ t('missionControl.learnCalendar.longestStreak', { count: longestStreak }) }}</div>
         </div>
         <div class="grid-container">
-            <perfect-scrollbar :options="{ suppressScrollY: true, wheelPropagation: true, useBothWheelAxes: true }">
+            <PerfectScrollbar :options="{ suppressScrollY: true, wheelPropagation: true, useBothWheelAxes: true }">
                 <div class="grid">
                     <table>
                         <thead>
@@ -140,7 +140,7 @@ const isDateBeforeRange = (dateStr: string) => {
                         </tbody>
                     </table>
                 </div>
-            </perfect-scrollbar>
+            </PerfectScrollbar>
         </div>
     </div>
 </template>

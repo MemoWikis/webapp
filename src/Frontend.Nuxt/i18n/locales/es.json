@@ -236,7 +236,11 @@
         "favorites": "Favoritos",
         "lastVisited": "Últimos visitados",
         "sharedWithMe": "Compartido conmigo",
+        "noWikis": "Aún no has creado ningún wiki",
+        "noFavorites": "Aún no has añadido ningún favorito",
         "noSharedPages": "Aún no hay páginas compartidas contigo",
+        "noWikisNotLoggedIn": "Inicia sesión para ver tus wikis",
+        "noFavoritesNotLoggedIn": "Inicia sesión para ver tus favoritos",
         "help": "Ayuda",
         "documentation": "Documentación",
         "createWikiModal": {
@@ -1351,6 +1355,31 @@
                 }
             }
         },
+        "confirmEmail": {
+            "pending": {
+                "title": "Confirmación en progreso",
+                "message": "Estamos confirmando tu dirección de correo electrónico. Por favor, espera un momento."
+            },
+            "success": {
+                "title": "Confirmación exitosa",
+                "message": "Tu dirección de correo electrónico ha sido confirmada exitosamente.",
+                "continue": "Continuar {destination}",
+                "yourWiki": "a tu Wiki",
+                "homepage": "a la página de inicio"
+            },
+            "failed": {
+                "title": "Confirmación fallida",
+                "message1": "Lo sentimos, la confirmación de tu dirección de correo electrónico ha fallado.",
+                "message2": "Es posible que el enlace de confirmación sea incorrecto o haya expirado.",
+                "message3": "Por favor, inténtalo de nuevo o contacta",
+                "message4": "si el problema persiste.",
+                "message5": "¡Estaremos encantados de ayudarte!",
+                "resendButton": "enviar nuevo correo de verificación"
+            },
+            "newMail": {
+                "title": "¡Nueva solicitud de correo de verificación enviada!"
+            }
+        },
         "messages": {
             "row": {
                 "markAsRead": "marcar como leído",
@@ -1656,8 +1685,74 @@
             "questions": "Ninguna pregunta | Una pregunta | {count} preguntas"
         }
     },
+    "resetPassword": {
+        "title": "Cambiar contraseña",
+        "password": "Contraseña",
+        "passwordPlaceholder": "mín. 5 caracteres",
+        "repeatPassword": "Repetir contraseña",
+        "saveButton": "Guardar nueva contraseña",
+        "passwordMismatch": "Las contraseñas no coinciden",
+        "rememberedPassword": "Me acordé de mi contraseña."
+    },
     "counter": {
         "thousands": "{value} mil",
         "millions": "{value}M"
+    },
+    "maintenance": {
+        "title": "Página de administración",
+        "metrics": {
+            "title": "Métricas",
+            "viewOverview": "Ver resumen"
+        },
+        "questions": {
+            "title": "Preguntas",
+            "recalculateAllKnowledgeItems": "Recalcular todas las probabilidades de respuesta",
+            "calcAggregatedValues": "Actualizar números agregados"
+        },
+        "cache": {
+            "title": "Caché",
+            "clearCache": "Limpiar caché"
+        },
+        "pages": {
+            "title": "Páginas",
+            "updateCategoryAuthors": "Actualizar autores de páginas"
+        },
+        "meiliSearch": {
+            "title": "Búsqueda MeiliSearch",
+            "description": "Reindexar todo para búsqueda:",
+            "questions": "Preguntas",
+            "questionsCache": "Preguntas (Caché)",
+            "pages": "Páginas",
+            "pagesCache": "Páginas (Caché)",
+            "users": "Usuarios",
+            "usersCache": "Usuarios (Caché)"
+        },
+        "users": {
+            "title": "Usuarios",
+            "updateReputationAndRankings": "Rankings y Reputación + Agregados",
+            "updateWishCount": "Actualizar contador de conocimientos deseados",
+            "activeSessions": "Sesiones activas",
+            "loggedIn": "Conectado",
+            "anonymous": "Anónimo",
+            "last5Minutes": "últimos 5 minutos",
+            "lastMinute": "último minuto",
+            "deleteUser": "Eliminar usuario (ID)",
+            "deleteUserButton": "Eliminar usuario"
+        },
+        "misc": {
+            "title": "Varios",
+            "checkDuplicateInteractions": "Verificar respuestas con el mismo Guid e InteractionNr"
+        },
+        "tools": {
+            "title": "Herramientas",
+            "throwException": "Lanzar excepción",
+            "reloadIgnoreCrawlers": "Recargar lista de rastreadores ignorados",
+            "cleanupWorkInProgress": "Limpiar preguntas en progreso",
+            "start100TestJobs": "Iniciar 100 trabajos de prueba"
+        },
+        "removeAdminRights": {
+            "title": "Eliminar derechos de administrador",
+            "button": "Eliminar derechos de administrador para usuario actual"
+        }
     }
 }

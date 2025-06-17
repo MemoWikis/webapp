@@ -144,177 +144,166 @@ const toggleLanguage = (code: string) => {
 </script>
 
 <template>
-    <div class="container">
-        <div class="row main-page">
-            <div class="col-xs-12 container">
-                <div class="users-header">
-                    <h1>{{ t('usersOverview.title') }}</h1>
+    <div class="main-content">
+        <div class="users-header">
+            <h1>{{ t('usersOverview.title') }}</h1>
+        </div>
+
+        <div class="row content" v-if="pageData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="overline-s no-line" v-if="pageData.totalItems <= 0 && searchTerm.length > 0">
+                    {{ t('usersOverview.search.noResults', { term: searchTerm }) }}
                 </div>
-
-                <div class="row content" v-if="pageData">
-                    <div class="col-xs-12 col-sm-12">
-                        <div class="overline-s no-line" v-if="pageData.totalItems <= 0 && searchTerm.length > 0">
-                            {{ t('usersOverview.search.noResults', { term: searchTerm }) }}
+                <div class="overline-s no-line" v-else-if="pageData.totalItems > 0 && searchTerm.length > 0">
+                    {{ t('usersOverview.search.results', { term: searchTerm, count: pageData.totalItems }) }}
+                </div>
+                <div class="overline-s no-line" v-else>
+                    {{ t('usersOverview.search.allUsers') }}
+                    <template v-if="totalUserCount != null"> ({{ totalUserCount }})</template>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 users-options">
+                <div class="search-section">
+                    <div class="search-container">
+                        <input type="text" v-model="searchTerm" class="search-input" :placeholder="t('usersOverview.search.placeholder')" />
+                        <div class="search-icon reset-icon" v-if="searchTerm.length > 0" @click="searchTerm = ''">
+                            <font-awesome-icon icon="fa-solid fa-xmark" />
                         </div>
-                        <div class="overline-s no-line" v-else-if="pageData.totalItems > 0 && searchTerm.length > 0">
-                            {{ t('usersOverview.search.results', { term: searchTerm, count: pageData.totalItems }) }}
+                        <div class="search-icon" v-else>
+                            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                         </div>
-                        <div class="overline-s no-line" v-else>
-                            {{ t('usersOverview.search.allUsers') }}
-                            <template v-if="totalUserCount != null"> ({{ totalUserCount }})</template>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 users-options">
-                        <div class="search-section">
-                            <div class="search-container">
-                                <input type="text" v-model="searchTerm" class="search-input"
-                                    :placeholder="t('usersOverview.search.placeholder')" />
-                                <div class="search-icon reset-icon" v-if="searchTerm.length > 0"
-                                    @click="searchTerm = ''">
-                                    <font-awesome-icon icon="fa-solid fa-xmark" />
-                                </div>
-                                <div class="search-icon" v-else>
-                                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="filter-options">
-                            <div class="language-section">
-
-                                <div class="language-dropdown">
-                                    <VDropdown :aria-id="ariaId" :distance="0">
-                                        <div class="language-select">
-                                            <div class="select-label">
-                                                <font-awesome-icon icon="fa-solid fa-language" />
-                                                <div class="language-label">{{ t('usersOverview.contentLanguageLabel')
-                                                    }}</div>
-                                            </div>
-
-                                            <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
-
-                                        </div>
-
-                                        <template #popper>
-                                            <div class="dropdown-row select-row" v-for="locale in locales"
-                                                :key="locale.code">
-                                                <div class="language-checkbox" @click="toggleLanguage(locale.code)"
-                                                    @keydown.space.prevent="toggleLanguage(locale.code)"
-                                                    @keydown.enter.prevent="toggleLanguage(locale.code)"
-                                                    :class="{ 'active': selectedLanguages.includes(locale.code) }"
-                                                    role="checkbox"
-                                                    :aria-checked="selectedLanguages.includes(locale.code)"
-                                                    tabindex="0">
-                                                    <font-awesome-icon
-                                                        :icon="selectedLanguages.includes(locale.code) ? 'fa-solid fa-square-check' : 'fa-regular fa-square'"
-                                                        class="checkbox-icon" />
-                                                    <span class="checkbox-text">{{ locale.name }}</span>
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </VDropdown>
-                                </div>
-                            </div>
-                            <div class="sort-section">
-                                <font-awesome-icon icon="fa-solid fa-sort" />
-                                <div class="sort-label">{{ t('usersOverview.sort.label') }}</div>
-                                <div class="orderby-dropdown">
-                                    <VDropdown :aria-id="ariaId2" :distance="0">
-                                        <div class="orderby-select">
-                                            <div>
-                                                {{ getSelectedOrderLabel }}
-                                            </div>
-                                            <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
-                                        </div>
-
-                                        <template #popper="{ hide }">
-                                            <div class="dropdown-row select-row"
-                                                @click="orderBy = SearchUsersOrderBy.Rank; hide()"
-                                                :class="{ 'active': orderBy === SearchUsersOrderBy.Rank }">
-                                                <div class="dropdown-label select-option">
-                                                    {{ t('usersOverview.sort.options.rank') }}
-                                                </div>
-                                            </div>
-                                            <div class="dropdown-row"
-                                                @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
-                                                :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
-                                                <div class="dropdown-label select-option">
-                                                    {{ t('usersOverview.sort.options.wishknowledge') }}
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </VDropdown>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row usercard-container">
-                        <TransitionGroup name="usercard">
-                            <UsersCard v-for="u in pageData.users" :user="u" :key="u.id" />
-                        </TransitionGroup>
-                    </div>
-
-                    <div class="col-xs-12 empty-page-container"
-                        v-if="pageData.users.length <= 0 && searchTerm.length > 0">
-                        <div class="empty-page">
-                            {{ t('usersOverview.search.noUserWithName', { term: searchTerm }) }}
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12" v-if="searchTerm.length === 0">
-                        <div class="pagination hidden-xs">
-                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="totalUserCount"
-                                :items-per-page="20" :max-pages-shown="5" v-model="currentPage"
-                                :show-ending-buttons="true" :show-breakpoint-buttons="false">
-                                <template #first-page-button>
-                                    <font-awesome-layers>
-                                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
-                                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
-                                    </font-awesome-layers>
-                                </template>
-                                <template #prev-button>
-                                    <font-awesome-icon :icon="['fas', 'chevron-left']" />
-                                </template>
-                                <template #next-button>
-                                    <font-awesome-icon :icon="['fas', 'chevron-right']" />
-                                </template>
-                                <template #last-page-button>
-                                    <font-awesome-layers>
-                                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
-                                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
-                                    </font-awesome-layers>
-                                </template>
-                            </vue-awesome-paginate>
-                        </div>
-                        <div class="pagination hidden-sm hidden-md hidden-lg">
-                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20"
-                                :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true"
-                                :show-breakpoint-buttons="false">
-                                <template #first-page-button>
-                                    <font-awesome-layers>
-                                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
-                                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
-                                    </font-awesome-layers>
-                                </template>
-                                <template #prev-button>
-                                    <font-awesome-icon :icon="['fas', 'chevron-left']" />
-                                </template>
-                                <template #next-button>
-                                    <font-awesome-icon :icon="['fas', 'chevron-right']" />
-                                </template>
-                                <template #last-page-button>
-                                    <font-awesome-layers>
-                                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
-                                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
-                                    </font-awesome-layers>
-                                </template>
-                            </vue-awesome-paginate>
-                        </div>
-                    </div>
-                    <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">
-                        {{ t('usersOverview.search.limitedResults') }}
                     </div>
                 </div>
+                <div class="filter-options">
+                    <div class="language-section">
+
+                        <div class="language-dropdown">
+                            <VDropdown :aria-id="ariaId" :distance="0">
+                                <div class="language-select">
+                                    <div class="select-label">
+                                        <font-awesome-icon icon="fa-solid fa-language" />
+                                        <div class="language-label">{{ t('usersOverview.contentLanguageLabel')
+                                        }}</div>
+                                    </div>
+
+                                    <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
+
+                                </div>
+
+                                <template #popper>
+                                    <div class="dropdown-row select-row" v-for="locale in locales"
+                                        :key="locale.code">
+                                        <div class="language-checkbox" @click="toggleLanguage(locale.code)"
+                                            @keydown.space.prevent="toggleLanguage(locale.code)"
+                                            @keydown.enter.prevent="toggleLanguage(locale.code)"
+                                            :class="{ 'active': selectedLanguages.includes(locale.code) }"
+                                            role="checkbox"
+                                            :aria-checked="selectedLanguages.includes(locale.code)"
+                                            tabindex="0">
+                                            <font-awesome-icon
+                                                :icon="selectedLanguages.includes(locale.code) ? 'fa-solid fa-square-check' : 'fa-regular fa-square'"
+                                                class="checkbox-icon" />
+                                            <span class="checkbox-text">{{ locale.name }}</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </VDropdown>
+                        </div>
+                    </div>
+                    <div class="sort-section">
+                        <font-awesome-icon icon="fa-solid fa-sort" />
+                        <div class="sort-label">{{ t('usersOverview.sort.label') }}</div>
+                        <div class="orderby-dropdown">
+                            <VDropdown :aria-id="ariaId2" :distance="0">
+                                <div class="orderby-select">
+                                    <div>
+                                        {{ getSelectedOrderLabel }}
+                                    </div>
+                                    <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
+                                </div>
+
+                                <template #popper="{ hide }">
+                                    <div class="dropdown-row select-row"
+                                        @click="orderBy = SearchUsersOrderBy.Rank; hide()"
+                                        :class="{ 'active': orderBy === SearchUsersOrderBy.Rank }">
+                                        <div class="dropdown-label select-option">
+                                            {{ t('usersOverview.sort.options.rank') }}
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-row"
+                                        @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
+                                        :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
+                                        <div class="dropdown-label select-option">
+                                            {{ t('usersOverview.sort.options.wishknowledge') }}
+                                        </div>
+                                    </div>
+                                </template>
+                            </VDropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row usercard-container">
+                <TransitionGroup name="usercard">
+                    <UsersCard v-for="u in pageData.users" :user="u" :key="u.id" />
+                </TransitionGroup>
+            </div>
+
+            <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
+                <div class="empty-page">
+                    {{ t('usersOverview.search.noUserWithName', { term: searchTerm }) }}
+                </div>
+            </div>
+
+            <div class="col-xs-12" v-if="searchTerm.length === 0">
+                <div class="pagination hidden-xs">
+                    <vue-awesome-paginate v-if="currentPage > 0" :total-items="totalUserCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                        <template #first-page-button>
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                            </font-awesome-layers>
+                        </template>
+                        <template #prev-button>
+                            <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                        </template>
+                        <template #next-button>
+                            <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                        </template>
+                        <template #last-page-button>
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                            </font-awesome-layers>
+                        </template>
+                    </vue-awesome-paginate>
+                </div>
+                <div class="pagination hidden-sm hidden-md hidden-lg">
+                    <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                        <template #first-page-button>
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                            </font-awesome-layers>
+                        </template>
+                        <template #prev-button>
+                            <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                        </template>
+                        <template #next-button>
+                            <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                        </template>
+                        <template #last-page-button>
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                            </font-awesome-layers>
+                        </template>
+                    </vue-awesome-paginate>
+                </div>
+            </div>
+            <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">
+                {{ t('usersOverview.search.limitedResults') }}
             </div>
         </div>
     </div>

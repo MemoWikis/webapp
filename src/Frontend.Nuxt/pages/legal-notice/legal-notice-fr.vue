@@ -63,7 +63,7 @@ useHead(() => ({
 <template>
 	<div class="container">
 		<div class="row main-page">
-			<div class="form-horizontal col-md-12 main-content">
+			<div class="form-horizontal main-content">
 
 				<h1 class="PageHeader" id="Impressum">Mentions légales &amp; Politique de confidentialité</h1>
 

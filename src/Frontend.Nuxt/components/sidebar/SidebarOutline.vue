@@ -116,7 +116,7 @@ const headingClass = (level: number, index: number) => {
     if (previousLevel != null) {
         if (previousLevel > level)
             return `level-${level - 1} next-step`
-        if (previousLevel === 2 && level === 2)
+        if (previousLevel === 3 && level === 4)
             return `level-${level - 1} preceeding-section-is-empty`
     }
 
@@ -127,7 +127,7 @@ const headingClass = (level: number, index: number) => {
 
 <template>
     <div id="Outline">
-        <perfect-scrollbar :suppressScrollX="true">
+        <PerfectScrollbar :options="{ suppressScrollX: true }">
             <div class="outline-container">
                 <div v-for="(heading, index) in outlineStore.headings" :key="heading.id" class="outline-heading"
                     :class="headingClass(heading.level, index)">
@@ -139,92 +139,11 @@ const headingClass = (level: number, index: number) => {
                     </NuxtLink>
                 </div>
             </div>
-        </perfect-scrollbar>
+        </PerfectScrollbar>
 
     </div>
 </template>
 
 <style lang="less" scoped>
-@import (reference) '~~/assets/includes/imports.less';
-
-#Outline {
-    height: 100%;
-
-    .outline-container {
-        height: 100%;
-    }
-
-    .outline-heading {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        transition: all 0.01s ease;
-
-        &.level-2,
-        &.level-3 {
-            margin-top: 4px;
-            margin-bottom: 4px;
-        }
-
-        &.next-step {
-            margin-top: 8px;
-        }
-
-        &.level-1 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 24px;
-
-            .current-heading {
-                font-weight: 700;
-            }
-
-            &.preceeding-section-is-empty {
-                margin-top: 8px;
-            }
-        }
-
-        &.level-2 {
-            font-weight: 400;
-
-            .current-heading {
-                font-weight: 600;
-            }
-        }
-
-        &.level-3 {
-            font-weight: 300;
-
-            .current-heading {
-                font-weight: 600;
-            }
-        }
-
-        &.first-outline {
-            margin-top: 0px;
-        }
-
-        .outline-link {
-            color: @memo-grey-dark;
-            display: block;
-
-            transition: all 0.1s ease-out;
-
-            &:hover {
-                color: @memo-blue-link;
-            }
-
-            &:visited,
-            &:focus,
-            &:active,
-            &:hover {
-                text-decoration: none;
-            }
-
-            &.current-heading {
-                color: @memo-blue;
-            }
-        }
-    }
-}
+@import '~~/assets/sidebar.less';
 </style>

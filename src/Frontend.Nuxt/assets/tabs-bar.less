@@ -8,7 +8,7 @@
     }
 }
 .ps {
- width: 100%;
+ width: auto !important;
 }
 
 #PageTabBar, #ProfileTabBar, #UsersTabBar {
@@ -98,11 +98,12 @@
         .tab-label {
             border-radius: 12px;
             visibility: visible;
+            padding: 4px 16px;
 
             &.active {
                 font-weight: 600;
                 position: absolute;
-                padding: 4px 0px;
+                padding: 4px 16px;
 
                 &.not-absolute {
                     position: unset;
@@ -147,14 +148,12 @@
                 background: white;
                 border-radius: 24px;
                 filter: brightness(0.95);
-
             }
-
         }
     }
 
     .tab-filler-container {
-        width: 100%;
+        flex-grow: 1;
     }
 
     button {

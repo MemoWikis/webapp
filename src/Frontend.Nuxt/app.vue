@@ -247,7 +247,7 @@ watch(locale, () => {
 <template>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :site="siteType" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
-	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
+	<SideSheet :footer-pages="footerPages" />
 
 	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen }">
 
@@ -258,27 +258,23 @@ watch(locale, () => {
 			<LazyBannerMissionControlLoginReminder v-if="siteType === SiteType.MissionControl && !userStore.isLoggedIn"
 				:class="{ 'sidesheet-open': sideSheetStore.showSideSheet && !isMobile }" />
 
-			<div class="nuxt-page-container">
 
+			<NuxtLayout>
 				<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :site="siteType"
-					class="main-page-container"
 					:class="{
-						'open-modal': modalIsOpen,
-						'mobile-headings': isMobile,
 						'window-loading': !windowLoaded,
-						'sidesheet-open': sideSheetStore.showSideSheet && !isMobile
+
 					}" />
-			</div>
+			</NuxtLayout>
 
 			<template #error="{ error }">
-				<div class="nuxt-page-container">
+				<NuxtLayout>
 					<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
 						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
 					<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-						:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="SiteType.Error" />
-				</div>
+						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages" :site="SiteType.Error" />
+				</NuxtLayout>
 			</template>
 		</NuxtErrorBoundary>
 	</div>
@@ -297,68 +293,6 @@ watch(locale, () => {
 </template>
 
 <style lang="less">
-.nuxt-page-container {
-	height: 100%;
-	transition: all 0.3s ease-in-out;
-	display: flex;
-	justify-content: center;
-
-	&.window-loading {
-		padding-left: 0px;
-	}
-
-	min-height: 86vh;
-
-	&.modal-is-open {
-		min-height: unset;
-	}
-
-	.main-page-container {
-
-		&.sidesheet-open {
-
-			@media (max-width: 1500px) {
-				width: calc(100vw - 40px);
-
-				.main-page:first-of-type {
-					padding-left: 420px;
-					margin-right: 10px;
-					width: 100%;
-				}
-
-				#Sidebar {
-					display: none;
-				}
-
-				.page {
-					&.col-lg-9 {
-						width: 100%;
-					}
-				}
-			}
-
-			@media (min-width: 1501px) and (max-width: 1980px) {
-
-				.main-page:first-of-type {
-					padding-left: clamp(260px, 20vw, 0px);
-					margin-right: 10px;
-					width: 100%;
-				}
-
-				#Sidebar {
-					display: none;
-				}
-
-				.page {
-					&.col-lg-9 {
-						width: 100%;
-					}
-				}
-			}
-		}
-	}
-}
-
 .mobile-headings {
 	h2 {
 		font-size: 28px;

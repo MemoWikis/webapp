@@ -236,7 +236,11 @@
         "favorites": "Favorites",
         "lastVisited": "Last visited",
         "sharedWithMe": "Shared with me",
+        "noWikis": "You haven't created any wikis yet",
+        "noFavorites": "You haven't added any favorites yet",
         "noSharedPages": "No pages shared with you yet",
+        "noWikisNotLoggedIn": "Log in to see your wikis",
+        "noFavoritesNotLoggedIn": "Log in to see your favorites",
         "help": "Help",
         "documentation": "Documentation",
         "createWikiModal": {
@@ -1351,6 +1355,31 @@
                 }
             }
         },
+        "confirmEmail": {
+            "pending": {
+                "title": "Confirmation in progress",
+                "message": "We're currently confirming your email address. Please wait a moment."
+            },
+            "success": {
+                "title": "Confirmation successful",
+                "message": "Your email address has been successfully confirmed.",
+                "continue": "Continue {destination}",
+                "yourWiki": "to your Wiki",
+                "homepage": "to homepage"
+            },
+            "failed": {
+                "title": "Confirmation failed",
+                "message1": "Sorry, confirming your email address has failed.",
+                "message2": "The confirmation link might be incorrect or has expired.",
+                "message3": "Please try again or contact",
+                "message4": "if the problem persists.",
+                "message5": "We're happy to help!",
+                "resendButton": "send new verification email"
+            },
+            "newMail": {
+                "title": "New verification email requested!"
+            }
+        },
         "messages": {
             "row": {
                 "markAsRead": "Mark as read",
@@ -1656,8 +1685,74 @@
             "questions": "No questions | One question | {count} questions"
         }
     },
+    "resetPassword": {
+        "title": "Set new password",
+        "password": "Password",
+        "passwordPlaceholder": "min. 5 characters",
+        "repeatPassword": "Repeat password",
+        "saveButton": "Save new password",
+        "passwordMismatch": "Passwords don't match",
+        "rememberedPassword": "I remembered my password."
+    },
     "counter": {
         "thousands": "{value}k",
         "millions": "{value}M"
+    },
+    "maintenance": {
+        "title": "Admin Page",
+        "metrics": {
+            "title": "Metrics",
+            "viewOverview": "View Overview"
+        },
+        "questions": {
+            "title": "Questions",
+            "recalculateAllKnowledgeItems": "Recalculate all answer probabilities",
+            "calcAggregatedValues": "Update aggregated numbers"
+        },
+        "cache": {
+            "title": "Cache",
+            "clearCache": "Clear cache"
+        },
+        "pages": {
+            "title": "Pages",
+            "updateCategoryAuthors": "Update page authors"
+        },
+        "meiliSearch": {
+            "title": "Search MeiliSearch",
+            "description": "Re-index all for search:",
+            "questions": "Questions",
+            "questionsCache": "Questions (Cache)",
+            "pages": "Pages",
+            "pagesCache": "Pages (Cache)",
+            "users": "Users",
+            "usersCache": "Users (Cache)"
+        },
+        "users": {
+            "title": "Users",
+            "updateReputationAndRankings": "Rankings and Reputation + Aggregates",
+            "updateWishCount": "Update desired knowledge counter",
+            "activeSessions": "Active Sessions",
+            "loggedIn": "Logged in",
+            "anonymous": "Anonymous",
+            "last5Minutes": "last 5 minutes",
+            "lastMinute": "last minute",
+            "deleteUser": "Delete User (ID)",
+            "deleteUserButton": "Delete User"
+        },
+        "misc": {
+            "title": "Miscellaneous",
+            "checkDuplicateInteractions": "Check for answers with the same Guid and InteractionNr"
+        },
+        "tools": {
+            "title": "Tools",
+            "throwException": "Throw exception",
+            "reloadIgnoreCrawlers": "Reload list of ignored crawlers",
+            "cleanupWorkInProgress": "Clean up work in progress questions",
+            "start100TestJobs": "Start 100 test jobs"
+        },
+        "removeAdminRights": {
+            "title": "Remove Admin Rights",
+            "button": "Remove Admin Rights for current user"
+        }
     }
 }

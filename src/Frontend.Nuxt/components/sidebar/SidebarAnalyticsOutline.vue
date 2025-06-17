@@ -10,22 +10,30 @@ const getCurrentHeadingId = () => {
     if (PAGE_ANALYTICS_SECTIONS.length === 0) return
 
     const headings = PAGE_ANALYTICS_SECTIONS
-    const offset = 120
-    let headingId: string | null = null
+    const offset = 180
+    let headingId: string | null = headings[0].id
 
     const startIndex = headings.findIndex(h => h.id === currentHeadingId.value)
 
-    for (const heading of headings) {
-        const element = document.getElementById(heading.id)
-        if (!element) continue
+    // Check if user has scrolled to the bottom of the page
+    const isScrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 40
 
-        const rect = element.getBoundingClientRect()
-        const topPosition = rect.top + window.scrollY
+    if (isScrolledToBottom) {
+        // Use the last heading when scrolled to bottom
+        headingId = headings[headings.length - 1].id
+    } else {
+        for (const heading of headings) {
+            const element = document.getElementById(heading.id)
+            if (!element) continue
 
-        if (window.scrollY >= topPosition - offset) {
-            headingId = heading.id
-        } else {
-            break
+            const rect = element.getBoundingClientRect()
+            const topPosition = rect.top + window.scrollY
+
+            if (window.scrollY >= topPosition - offset) {
+                headingId = heading.id
+            } else {
+                break
+            }
         }
     }
 
@@ -83,7 +91,7 @@ const headingClass = (index: number) => {
 
 <template>
     <div id="AnalyticsOutline">
-        <perfect-scrollbar :suppressScrollX="true">
+        <PerfectScrollbar :options="{ suppressScrollX: true }">
             <div class="outline-container">
                 <div v-for="(heading, index) in PAGE_ANALYTICS_SECTIONS" :key="heading.id" class="outline-heading"
                     :class="headingClass(index)">
@@ -93,75 +101,10 @@ const headingClass = (index: number) => {
                     </NuxtLink>
                 </div>
             </div>
-        </perfect-scrollbar>
+        </PerfectScrollbar>
     </div>
 </template>
 
 <style lang="less" scoped>
-@import (reference) '~~/assets/includes/imports.less';
-
-#AnalyticsOutline {
-    height: 100%;
-
-    .outline-container {
-        height: 100%;
-    }
-
-    .outline-heading {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        transition: all 0.01s ease;
-
-        &.level-2,
-        &.level-3 {
-            margin-top: 4px;
-            margin-bottom: 4px;
-        }
-
-        &.next-step {
-            margin-top: 8px;
-        }
-
-        &.level-1 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 8px;
-
-            .current-heading {
-                font-weight: 700;
-            }
-
-            &.preceeding-section-is-empty {
-                margin-top: 8px;
-            }
-        }
-
-        &.first-outline {
-            margin-top: 0px;
-        }
-
-        .outline-link {
-            color: @memo-grey-dark;
-            display: block;
-
-            transition: all 0.1s ease-out;
-
-            &:hover {
-                color: @memo-blue-link;
-            }
-
-            &:visited,
-            &:focus,
-            &:active,
-            &:hover {
-                text-decoration: none;
-            }
-
-            &.current-heading {
-                color: @memo-blue;
-            }
-        }
-    }
-}
+@import '~~/assets/sidebar.less';
 </style>

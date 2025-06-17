@@ -550,163 +550,165 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
     flex-direction: row-reverse;
 }
 
-select {
-    border: solid 1px @memo-grey-light;
-    border-radius: 0;
-    padding: 0 4px;
-    outline: none !important;
-}
-
-.edit-question-modal-header {
-    display: flex;
-    justify-content: space-between;
-
-    .heart-container {
-        display: flex;
-        align-content: center;
-        align-items: center;
-        flex-direction: column;
-        width: 100px;
-        margin-right: -22px;
-        cursor: pointer;
-        color: @memo-wuwi-red;
-        font-size: 22px;
-    }
-
-    .main-header {
-        display: flex;
-        align-items: baseline;
-        padding-bottom: 4px;
-
-        .main-label {
-            padding-right: 20px;
-        }
-
-        .solutionType-selector {
-            select {
-                border: none;
-                background: @memo-grey-lighter;
-                padding: 0 4px;
-                outline: none !important;
-                height: 34px;
-                width: 190px;
-            }
-        }
-
-        @media (max-width:576px) {
-            flex-direction: column;
-        }
-    }
-}
-
-.form-group {
-    margin-bottom: 16px;
-}
-
-.is-empty {
-
-    .ProseMirror {
-        border: solid 1px @memo-salmon;
-    }
-}
-
-.btn {
-    &.is-empty {
-        border: solid 1px @memo-salmon;
-    }
-}
-
-.input-group-addon {
-    border: none;
-    border-radius: 0;
-}
-
-input,
-.input-group-addon {
-    box-shadow: none;
-    background: none;
-
-    &.toggle-correctness {
-        min-width: 43px;
-
-        &.active {
-            color: white;
-
-            &.is-correct {
-                background-color: @memo-green;
-            }
-
-            &.is-wrong {
-                background-color: @memo-salmon;
-            }
-        }
-    }
-}
-
-input,
-.ProseMirror-focused,
-textarea,
-.form-control {
-
-    &:focus,
-    &:focus-visible {
+#EditQuestionModal {
+    select {
+        border: solid 1px @memo-grey-light;
+        border-radius: 0;
+        padding: 0 4px;
         outline: none !important;
-        border: solid 1px @memo-green;
-        box-shadow: none;
     }
-}
 
-.ProseMirror {
-    padding: 11px 15px 0;
-}
-
-.related-pages-container {
-    display: flex;
-    flex-wrap: wrap;
-
-    .page-chip-component {
+    .edit-question-modal-header {
         display: flex;
-        align-items: center;
-        margin-right: 15px;
-        overflow: hidden;
+        justify-content: space-between;
 
-        .page-chip-container {
-            padding: 4px 0;
-        }
-
-        .page-chip-deleteBtn {
+        .heart-container {
             display: flex;
-            justify-content: center;
+            align-content: center;
             align-items: center;
-            transition: all 0.2s ease-in-out;
-            width: 16px;
-            height: 100%;
+            flex-direction: column;
+            width: 100px;
+            margin-right: -22px;
             cursor: pointer;
-            color: @memo-salmon;
+            color: @memo-wuwi-red;
+            font-size: 22px;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: baseline;
+            padding-bottom: 4px;
+
+            .main-label {
+                padding-right: 20px;
+            }
+
+            .solutionType-selector {
+                select {
+                    border: none;
+                    background: @memo-grey-lighter;
+                    padding: 0 4px;
+                    outline: none !important;
+                    height: 34px;
+                    width: 190px;
+                }
+            }
+
+            @media (max-width:576px) {
+                flex-direction: column;
+            }
         }
     }
-}
 
-.input-group-addon {
-    background-color: @memo-grey-lighter;
-}
-
-textarea {
-    width: 100%;
-    padding: 11px 15px 0;
-}
-
-.description-container {
-    .ProseMirror {
-        min-height: 62px;
+    .form-group {
+        margin-bottom: 16px;
     }
-}
 
-.col-spacer {
-    min-width: 38px;
-}
+    .is-empty {
 
-.form-control {
-    max-width: 100%;
+        .ProseMirror {
+            border: solid 1px @memo-salmon;
+        }
+    }
+
+    .btn {
+        &.is-empty {
+            border: solid 1px @memo-salmon;
+        }
+    }
+
+    .input-group-addon {
+        border: none;
+        border-radius: 0;
+    }
+
+    input,
+    .input-group-addon {
+        box-shadow: none;
+        background: none;
+
+        &.toggle-correctness {
+            min-width: 43px;
+
+            &.active {
+                color: white;
+
+                &.is-correct {
+                    background-color: @memo-green;
+                }
+
+                &.is-wrong {
+                    background-color: @memo-salmon;
+                }
+            }
+        }
+    }
+
+    input,
+    .ProseMirror-focused,
+    textarea,
+    .form-control {
+
+        &:focus,
+        &:focus-visible {
+            outline: none !important;
+            border: solid 1px @memo-green;
+            box-shadow: none;
+        }
+    }
+
+    .ProseMirror {
+        padding: 11px 15px 0;
+    }
+
+    .related-pages-container {
+        display: flex;
+        flex-wrap: wrap;
+
+        .page-chip-component {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            overflow: hidden;
+
+            .page-chip-container {
+                padding: 4px 0;
+            }
+
+            .page-chip-deleteBtn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.2s ease-in-out;
+                width: 16px;
+                height: 100%;
+                cursor: pointer;
+                color: @memo-salmon;
+            }
+        }
+    }
+
+    .input-group-addon {
+        background-color: @memo-grey-lighter;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 11px 15px 0;
+    }
+
+    .description-container {
+        .ProseMirror {
+            min-height: 62px;
+        }
+    }
+
+    .col-spacer {
+        min-width: 38px;
+    }
+
+    .form-control {
+        max-width: 100%;
+    }
 }
 </style>
