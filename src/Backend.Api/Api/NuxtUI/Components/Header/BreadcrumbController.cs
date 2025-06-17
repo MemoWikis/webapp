@@ -25,7 +25,10 @@
     [HttpGet]
     public BreadcrumbItem GetPersonalWiki()
     {
-        var page = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.FirstWikiId) : FeaturedPage.GetRootPage;
+        var page = _sessionUser.IsLoggedIn 
+            ? EntityCache.GetPage(_sessionUser.User.FirstWikiId) 
+            : FeaturedPage.GetRootPage;
+
         return new BreadcrumbItem
         {
             Name = page.Name,
