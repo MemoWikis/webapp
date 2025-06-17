@@ -28,7 +28,6 @@
                 Success: false,
                 MessageKey: canDeleteResult.Reason);
 
-        // Check if can delete based on child/parent count
         if (!CanDeleteItemBasedOnChildParentCount(page, _sessionUser.UserId))
             return new DeletePageResult(
                 HasChildren: true,
