@@ -6,7 +6,7 @@
 internal static class ScenarioDumpConstants
 {
     public const string BaseName = "memowikis-test-scenario";
-    public const string TagTiny = "micro";
+    public const string TagTiny = "tiny";
 
     // Absolute path: …/TestData/Dumps/<basename>_<tag>.sql
     public static string GetDumpFilePath(string tag) =>

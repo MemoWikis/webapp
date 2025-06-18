@@ -2,7 +2,6 @@
 internal class BaseTestHarness
 {
     protected bool _useTinyScenario = false;
-    protected bool _useScenarioBuilding = false;
 
     protected TestHarness _testHarness = null!; // Will be set in OneTimeSetUp
 
@@ -25,9 +24,7 @@ internal class BaseTestHarness
 
     private async Task CreateTestHarness()
     {
-        if (_useScenarioBuilding)
-            _testHarness = await TestHarness.CreateForScenarioBuilding();
-        else if (_useTinyScenario)
+        if (_useTinyScenario)
             _testHarness = await TestHarness.CreateWithTinyScenario();
         else
             _testHarness = await TestHarness.CreateAsync();

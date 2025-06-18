@@ -47,4 +47,8 @@
     <ProjectReference Include="..\Backend.Core\Backend.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestData\Dumps\" />
+  </ItemGroup>
+
 </Project>

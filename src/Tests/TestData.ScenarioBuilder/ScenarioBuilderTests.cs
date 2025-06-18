@@ -5,11 +5,6 @@
 [Category(TestCategories.ScenarioBuild)]
 internal class ScenarioBuilderTests : BaseTestHarness
 {
-    public ScenarioBuilderTests()
-    {
-        _useScenarioBuilding = true; // Use scenario building mode for container preservation
-    }
-
     [Test]
     public async Task Micro_Scenario()
     {
