@@ -56,6 +56,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     private readonly IHttpContextAccessor _httpCtxAcc; private readonly bool _enablePerfLogging;
     private readonly bool _preserveContainerForScenarioImage;
     private Stopwatch? _stopwatch;
+    private readonly string? _dumpTagToLoad;
 
     private void PerfLog(string message)
     {
@@ -70,58 +71,44 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         _stopwatch.Restart();
     }
 
-    public static async Task<TestHarness> CreateAsync(bool enablePerfLogging = false, string? prebuiltDbImage = null)
+    public static async Task<TestHarness> CreateAsync(bool enablePerfLogging = false, string? prebuiltDbImage = null, string? dumpTagToLoad = null)
     {
         if (!string.IsNullOrEmpty(prebuiltDbImage))
         {
             await DockerUtilities.LoadDockerImageAsync(prebuiltDbImage);
         }
 
-        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage, preserveContainerForScenarioImage: false);
-        await harness.InitAsync();
-        return harness;
-    }
-
-    public static async Task<TestHarness> CreateForScenarioBuilding(bool enablePerfLogging = false)
-    {
-        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage: null, preserveContainerForScenarioImage: true);
+        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage, dumpTagToLoad, preserveContainerForScenarioImage: false);
         await harness.InitAsync();
         return harness;
     }
 
     public static async Task<TestHarness> CreateWithTinyScenario(bool enablePerfLogging = false)
-        => await CreateWithScenarioImageAsync(ScenarioImageConstants.TagMicro, enablePerfLogging);
-
-
-    /// <summary>Creates a new TestHarness using a specific scenario image tag.</summary>
-    private static async Task<TestHarness> CreateWithScenarioImageAsync(string scenarioTag, bool enablePerfLogging)
     {
-        var scenarioImageName = $"{ScenarioImageConstants.BaseName}:{scenarioTag}";
-        return await CreateAsync(enablePerfLogging, scenarioImageName);
+        return await CreateAsync(enablePerfLogging, dumpTagToLoad: ScenarioDumpConstants.TagTiny);
     }
 
-    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage, bool preserveContainerForScenarioImage = false)
+
+    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage, string? dumpTagToLoad, bool preserveContainerForScenarioImage = false)
     {
         _enablePerfLogging = enablePerfLogging;
         _preserveContainerForScenarioImage = preserveContainerForScenarioImage;
+        _dumpTagToLoad = dumpTagToLoad;
         _stopwatch = Stopwatch.StartNew();
 
-        // Determine container name based on whether a prebuilt image is used
         string containerName;
         bool useReuse;
         if (!string.IsNullOrEmpty(prebuiltDbImage))
         {
-            // For prebuilt images, use a specific name and clean up previous containers
             containerName = "memowikis-mysql-prebuilt";
             CleanupExistingContainer(containerName);
             useReuse = false;
         }
         else if (preserveContainerForScenarioImage)
         {
-            // For scenario building, use a specific name but keep the container
             containerName = "memowikis-mysql-scenario";
             CleanupExistingContainer(containerName);
-            useReuse = false; // Don't reuse, but don't auto-dispose either
+            useReuse = false;
         }
         else
         {
@@ -146,11 +133,9 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         PerfLog($"Container Startup");
 
-        // Prepare environment fake
         _webHostEnv = A.Fake<IWebHostEnvironment>();
         A.CallTo(() => _webHostEnv.EnvironmentName).Returns("Test");
 
-        // Prepare HttpContext/session fake with legacy userId=1
         _httpCtxAcc = A.Fake<IHttpContextAccessor>();
         var fakeHttpContext = A.Fake<HttpContext>();
         var fakeSession = A.Fake<ISession>();
@@ -182,7 +167,16 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             {
                 await _db.StartAsync();
                 PerfLog("MySql container started");
-                await new SchemaBuilder(PerfLog).Init(ConnectionString);
+
+                if (!string.IsNullOrEmpty(_dumpTagToLoad))
+                {
+                    await ScenarioDumpManager.LoadDumpAsync(_dumpTagToLoad);
+                    PerfLog($"Database dump '{_dumpTagToLoad}' loaded");
+                }
+                else
+                {
+                    await new SchemaBuilder(PerfLog).Init(ConnectionString);
+                }
             });
 
             var searchTask = Task.Run(async () =>

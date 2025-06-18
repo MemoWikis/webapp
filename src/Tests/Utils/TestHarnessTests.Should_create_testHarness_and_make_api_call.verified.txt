@@ -22,6 +22,7 @@
     "childPageCount": 0,
     "directVisibleChildPageCount": 0,
     "views": 0,
+    "subpageViews": 0,
     "visibility": 0,
     "authorIds": null,
     "authors": null,
@@ -35,9 +36,16 @@
     "metaDescription": null,
     "knowledgeSummary": {
       "notLearned": 0,
+      "notLearnedPercentage": 0,
       "needsLearning": 0,
+      "needsLearningPercentage": 0,
       "needsConsolidation": 0,
-      "solid": 0
+      "needsConsolidationPercentage": 0,
+      "solid": 0,
+      "solidPercentage": 0,
+      "notInWishknowledge": 0,
+      "notInWishknowledgePercentage": 0,
+      "total": 0
     },
     "gridItems": null,
     "isChildOfPersonalWiki": false,
@@ -49,7 +57,9 @@
     "viewsLast30DaysPage": null,
     "viewsLast30DaysAggregatedQuestions": null,
     "viewsLast30DaysQuestions": null,
-    "language": null
+    "language": null,
+    "directQuestionViews": 0,
+    "totalQuestionViews": 0
   },
   "activityPoints": {
     "points": 0,
