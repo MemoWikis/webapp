@@ -24,8 +24,6 @@ using IContainer = DotNet.Testcontainers.Containers.IContainer;
 /// </summary>
 public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
-    private const string TestDbName = "memoWikisTest";
-
     private readonly MySqlContainer _db;
 
     private readonly IContainer _meiliSearch = new DotNet.Testcontainers.Builders.ContainerBuilder()
@@ -130,12 +128,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             containerName = "memowikis-mysql-test";
             useReuse = true;
         }
+
         _db = new MySqlBuilder()
             .WithImage(prebuiltDbImage ?? "mysql:8.3.0")
             .WithName(containerName)
             .WithUsername(TestConstants.MySqlUsername)
             .WithPassword(TestConstants.MySqlPassword)
-            .WithDatabase(TestDbName)
+            .WithDatabase(TestConstants.TestDbName)
             .WithCommand(
                 "mysqld",
                 "--lower_case_table_names=1").WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole()).WithWaitStrategy(

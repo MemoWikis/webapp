@@ -296,4 +296,37 @@ internal class DockerUtilities
     {
         await ExecuteDockerCommandAsync($"save -o {outputFile} {imageName}");
     }
+
+    /// <summary>
+    /// Exports the test database (mysqldump) from the running container to a .sql file on the host.
+    /// </summary>
+    public async Task ExportMySqlDumpAsync(string hostFilePath)
+    {
+        string containerIdentifier = await GetMySqlContainerIdAsync();
+        string containerTempPath = "/tmp/testdump.sql";
+
+        // Create dump inside the container
+        await ExecuteDockerCommandAsync(
+            $"exec {containerIdentifier} sh -c \"mysqldump -u {TestConstants.MySqlUsername} -p{TestConstants.MySqlPassword} " +
+            $"--databases {TestConstants.TestDbName} --routines --events --single-transaction --quick > {containerTempPath}\"");
+
+        // Copy dump from container to host
+        await ExecuteDockerCommandAsync($"cp {containerIdentifier}:{containerTempPath} {hostFilePath}");
+    }
+
+    /// <summary>
+    /// Imports a .sql file located on the host into the running MySQL container.
+    /// </summary>
+    public async Task ImportMySqlDumpAsync(string hostFilePath)
+    {
+        string containerIdentifier = await GetMySqlContainerIdAsync();
+        string containerTempPath = "/tmp/testdump.sql";
+
+        // Copy file into container
+        await ExecuteDockerCommandAsync($"cp {hostFilePath} {containerIdentifier}:{containerTempPath}");
+
+        // Import into MySQL
+        await ExecuteDockerCommandAsync(
+            $"exec {containerIdentifier} sh -c \"mysql -u {TestConstants.MySqlUsername} -p{TestConstants.MySqlPassword} < {containerTempPath}\"");
+    }
 }

@@ -12,4 +12,6 @@ public static class TestConstants
     /// MySQL database password for test containers
     /// </summary>
     public const string MySqlPassword = "P@ssw0rd_#123";
+
+    public const string TestDbName = "memoWikisTest";
 }

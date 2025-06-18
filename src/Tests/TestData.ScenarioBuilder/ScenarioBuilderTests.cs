@@ -10,11 +10,10 @@ internal class ScenarioBuilderTests : BaseTestHarness
         _useScenarioBuilding = true; // Use scenario building mode for container preservation
     }
 
-
     [Test]
     public async Task Micro_Scenario()
     {
-        await ScenarioImageManager.BuildAndPushLocallyAsync("micro_for_testing");
+        await ScenarioDumpManager.CreateDumpAsync("micro_for_testing");
     }
 
     [Test]
@@ -46,7 +45,7 @@ internal class ScenarioBuilderTests : BaseTestHarness
             allQuestions = await _testHarness.DbData.AllQuestionsSummaryAsync()
         });
 
-        await ScenarioImageManager.BuildAndPushLocallyAsync(ScenarioImageConstants.TagMicro);
+        await ScenarioDumpManager.CreateDumpAsync(ScenarioDumpConstants.TagTiny);
     }
 
     [Test]
