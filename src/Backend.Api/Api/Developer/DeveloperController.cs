@@ -12,9 +12,7 @@ public class DeveloperController : ControllerBase
         {
             return BadRequest("This method can only be called in a Development environment.");
         }
-        
-        
-        
+
         return Ok("Sample data created successfully.");
     }
 }

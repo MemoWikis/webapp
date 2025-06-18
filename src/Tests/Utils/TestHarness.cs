@@ -54,7 +54,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     private readonly IWebHostEnvironment _webHostEnv;
     private readonly IHttpContextAccessor _httpCtxAcc; private readonly bool _enablePerfLogging;
-    private readonly bool _preserveContainerForScenarioImage;
     private Stopwatch? _stopwatch;
     private readonly string? _dumpTagToLoad;
 
@@ -78,7 +77,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             await DockerUtilities.LoadDockerImageAsync(prebuiltDbImage);
         }
 
-        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage, dumpTagToLoad, preserveContainerForScenarioImage: false);
+        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage, dumpTagToLoad);
         await harness.InitAsync();
         return harness;
     }
@@ -89,10 +88,9 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     }
 
 
-    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage, string? dumpTagToLoad, bool preserveContainerForScenarioImage = false)
+    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage, string? dumpTagToLoad)
     {
         _enablePerfLogging = enablePerfLogging;
-        _preserveContainerForScenarioImage = preserveContainerForScenarioImage;
         _dumpTagToLoad = dumpTagToLoad;
         _stopwatch = Stopwatch.StartNew();
 
@@ -101,12 +99,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         if (!string.IsNullOrEmpty(prebuiltDbImage))
         {
             containerName = "memowikis-mysql-prebuilt";
-            CleanupExistingContainer(containerName);
-            useReuse = false;
-        }
-        else if (preserveContainerForScenarioImage)
-        {
-            containerName = "memowikis-mysql-scenario";
             CleanupExistingContainer(containerName);
             useReuse = false;
         }
@@ -242,12 +234,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         _scope?.Dispose();
         _factory?.Dispose();
-
-        // Only dispose the database container if we're not preserving it for scenario image building
-        if (!_preserveContainerForScenarioImage)
-        {
-            await _db.DisposeAsync();
-        }
 
         await _meiliSearch.DisposeAsync();
 
