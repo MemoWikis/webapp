@@ -59,7 +59,7 @@ public class DeletePageStoreController(
             .GetPage(id)?
             .GetAggregatedQuestions(
                 _sessionUser.UserId,
-                onlyVisible: false, 
+                onlyVisible: false,
                 permissionCheck: _permissionCheck
             );
 
@@ -96,6 +96,10 @@ public class DeletePageStoreController(
     [HttpPost]
     public DeleteResponse Delete([FromBody] DeleteRequest deleteRequest)
     {
+        //var canDeleteResult = _permissionCheck.CanDelete(EntityCache.GetPage(deleteRequest.PageToDeleteId));
+        //if (!canDeleteResult.Allowed)
+        //    return new DeleteResponse(Success: false, MessageKey: canDeleteResult.Reason);
+
         if (EntityCache.PageHasQuestion(deleteRequest.PageToDeleteId))
         {
             if (deleteRequest.ParentForQuestionsId == 0)

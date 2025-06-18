@@ -1,0 +1,47 @@
+﻿{
+  SequentialDeletionResults: [
+    {
+      PageId: 3,
+      StatusCode: 200,
+      IsSuccess: true,
+      Content: {"success":true,"hasChildren":false,"redirectParent":{"name":"Root Wiki","id":1},"messageKey":null},
+      HasException: false
+    },
+    {
+      PageId: 4,
+      StatusCode: 200,
+      IsSuccess: true,
+      Content: {"success":true,"hasChildren":false,"redirectParent":{"name":"Root Wiki","id":1},"messageKey":null},
+      HasException: false
+    },
+    {
+      PageId: 5,
+      StatusCode: 200,
+      IsSuccess: true,
+      Content: {"success":true,"hasChildren":false,"redirectParent":{"name":"Root Wiki","id":1},"messageKey":null},
+      HasException: false
+    },
+    {
+      PageId: 6,
+      StatusCode: 200,
+      IsSuccess: true,
+      Content: {"success":true,"hasChildren":false,"redirectParent":{"name":"Root Wiki","id":1},"messageKey":null},
+      HasException: false
+    },
+    {
+      PageId: 7,
+      StatusCode: 200,
+      IsSuccess: true,
+      Content: {"success":true,"hasChildren":false,"redirectParent":{"name":"Root Wiki","id":1},"messageKey":null},
+      HasException: false
+    }
+  ],
+  FinalState: {
+    ParentId: 2,
+    ErrorSummary: {
+      ConcurrentErrors: 0,
+      HttpErrors: 0,
+      TotalRequests: 5
+    }
+  }
+}

@@ -66,7 +66,7 @@ public class PageDeleter(
         return null; // No error, continue with deletion
     }
 
-    private int ExecutePageDeletionAndGetChangeId(Page page, int userId)
+    private int RunAndGetChangeId(Page page, int userId)
     {
         var pageCacheItem = page.GetPageCacheItem();
 
@@ -230,7 +230,7 @@ public class PageDeleter(
 
         var redirectPage = GetRedirectPage(pageToDeleteId);
         var pageInfo = CapturePageInformationBeforeDeletion(page, pageToDeleteId);
-        var deleteChangeId = ExecutePageDeletionAndGetChangeId(page, _sessionUser.UserId);
+        var deleteChangeId = RunAndGetChangeId(page, _sessionUser.UserId);
         UpdateParentRelationsAfterDeletion(pageInfo, deleteChangeId);
 
         return new DeletePageResult(

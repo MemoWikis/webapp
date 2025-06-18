@@ -2,7 +2,8 @@
 using System.Text;
 
 public class PageToQuestionRepo(ISession _session)
-{    public void DeleteByPageId(int pageId)
+{
+    public void DeleteByPageId(int pageId)
     {
         _session
             .CreateSQLQuery("DELETE FROM pages_to_questions WHERE Page_id = :pageId")

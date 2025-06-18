@@ -42,7 +42,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             DataVersion = 2
         };
         var pageCacheItem = EntityCache.GetPage(page);
-
+        var pc = page.GetPageCacheItem();
         if (page.AuthorIds == null)
         {
             page.AuthorIds = "";
