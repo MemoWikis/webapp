@@ -124,9 +124,9 @@
         var creatorWiki = pageCacheItem.Creator.FirstWiki();
         if (_permissionCheck.CanView(creatorWiki))
         {
-            var newWiki = parents.FirstOrDefault(c => c == creatorWiki) ?? GetFirstWiki(sessionUser, parents);
-            if (newWiki != null)
-                return newWiki;
+            var alternativeWiki = parents.FirstOrDefault(page => page.Id == creatorWiki.Id) ?? GetFirstWiki(sessionUser, parents);
+            if (alternativeWiki != null)
+                return alternativeWiki;
         }
 
         return parents.FirstOrDefault(p => p.IsWikiType()) ?? FeaturedPage.GetRootPage;

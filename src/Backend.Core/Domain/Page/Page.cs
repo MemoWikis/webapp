@@ -51,7 +51,7 @@ public class Page : DomainEntity, ICreator
         AuthorIds = userId + ",";
     }
 
-    public PageCacheItem? GetPageCacheItem()
+    public virtual PageCacheItem? GetPageCacheItem()
     {
         return EntityCache.GetPage(Id);
     }

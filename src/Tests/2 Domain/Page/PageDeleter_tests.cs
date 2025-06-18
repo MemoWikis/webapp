@@ -396,12 +396,9 @@ internal class PageDeleter_tests : BaseTestHarness
         await ClearData();
 
         // Arrange
-        var contextPage = NewPageContext();
+        var contextPage = NewPageContext(createFeaturedRootPage: true);
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
-
-        var rootWiki = contextPage.Add("Root Wiki", isWiki: true)
-            .GetPageByName("Root Wiki");
 
         var onlyWiki = contextPage
             .Add("Only Wiki", creator, isWiki: true)
@@ -428,13 +425,9 @@ internal class PageDeleter_tests : BaseTestHarness
         await ClearData();
 
         // Arrange
-        var contextPage = NewPageContext();
+        var contextPage = NewPageContext(createFeaturedRootPage: true);
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
-
-        var rootWiki = contextPage
-            .Add("Root Wiki", isWiki: true)
-            .GetPageByName("Root Wiki");
 
         var firstWiki = contextPage
             .Add("First Wiki", creator, isWiki: true)
@@ -554,7 +547,7 @@ internal class PageDeleter_tests : BaseTestHarness
         await ClearData();
 
         // Arrange
-        var contextPage = NewPageContext();
+        var contextPage = NewPageContext(createFeaturedRootPage: true);
         var sessionUser = R<SessionUser>();
         var currentUser = new User { Id = sessionUser.UserId };
         var otherUser = new User { Id = 999, Name = "Other User" };
@@ -564,10 +557,6 @@ internal class PageDeleter_tests : BaseTestHarness
             .Add(otherUser)
             .Persist()
             .GetUser("Other User");
-
-        var rootWiki = contextPage
-            .Add("Root Wiki", isWiki: true)
-            .GetPageByName("Root Wiki");
 
         var userWiki = contextPage
             .Add("Current User's Wiki", currentUser, isWiki: true)
@@ -695,13 +684,9 @@ internal class PageDeleter_tests : BaseTestHarness
         await ClearData();
 
         // Arrange
-        var contextPage = NewPageContext();
+        var contextPage = NewPageContext(createFeaturedRootPage: true);
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
-
-        var rootWiki = contextPage
-            .Add("Root Wiki", isWiki: true)
-            .GetPageByName("Root Wiki");
 
         var firstWiki = contextPage
             .Add("Alpha Wiki", creator, isWiki: true)
@@ -740,13 +725,9 @@ internal class PageDeleter_tests : BaseTestHarness
         await ClearData();
 
         // Arrange
-        var contextPage = NewPageContext();
+        var contextPage = NewPageContext(createFeaturedRootPage: true);
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
-
-        var rootWiki = contextPage
-            .Add("Root Wiki", isWiki: true)
-            .GetPageByName("Root Wiki");
 
         var firstWiki = contextPage
             .Add("Alpha Wiki", creator, isWiki: true)

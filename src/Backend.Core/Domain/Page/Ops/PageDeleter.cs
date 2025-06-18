@@ -66,7 +66,7 @@ public class PageDeleter(
         return null; // No error, continue with deletion
     }
 
-    private int RunAndGetChangeId(Page page, int userId)
+    private int ExecutePageDeletionAndGetChangeId(Page page, int userId)
     {
         var pageCacheItem = page.GetPageCacheItem();
 
@@ -91,58 +91,26 @@ public class PageDeleter(
 
     private void DeleteFromRepos(int pageId)
     {
-        const int maxRetries = 3;
-        const int retryDelayMs = 100;
+        using var transaction = _pageRepo.Session.BeginTransaction();
 
-        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        try
         {
-            try
-            {
-                // Use a single transaction for all operations to ensure consistency
-                using var transaction = _pageRepo.Session.BeginTransaction();
+            // Decided to keep page views from deleted pages
+            // to keep data in global stats/analytics/metrics
 
-                try
-                {
-                    // Execute deletions in consistent order to prevent deadlocks:
-                    // 1. Child relationships first (pages_to_questions has Foreign Key to page)
-                    // 2. User activities (has Foreign Key to page) 
-                    // 3. Shares (has Foreign Key to page)
-                    // 4. Page itself last (parent of all Foreign Keys)
+            _pageToQuestionRepo.DeleteByPageId(pageId);
+            _userActivityRepo.DeleteForPage(pageId);
+            _sharesRepository.DeleteAllForPageWithoutTransaction(pageId);
+            _pageRepo.Delete(pageId);
 
-                    _pageToQuestionRepo.DeleteByPageId(pageId);
-                    _userActivityRepo.DeleteForPage(pageId);
-                    _sharesRepository.DeleteAllForPageWithoutTransaction(pageId);
-                    _pageRepo.Delete(pageId);
-
-                    // Commit all operations together
-                    transaction.Commit();
-                    return; // Success - exit retry loop
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    throw;
-                }
-            }
-            catch (Exception ex) when (IsDeadlockException(ex) && attempt < maxRetries)
-            {
-                // Log the deadlock and retry after a short delay
-                Log.Warning(
-                    "Deadlock detected on page deletion attempt {attempt}/{maxRetries} for pageId {pageId}: {message}",
-                    attempt, maxRetries, pageId, ex.Message);
-
-                // Wait with exponential backoff before retry
-                Thread.Sleep(retryDelayMs * attempt);
-            }
+            // Commit all operations together
+            transaction.Commit();
         }
-    }
-
-    private static bool IsDeadlockException(Exception ex)
-    {
-        // Check if this is a MySQL deadlock error
-        return ex.Message.Contains("Deadlock found") ||
-               ex.Message.Contains("Lock wait timeout") ||
-               ex.Message.Contains("DataReader already open");
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+            throw new Exception($"Failed to delete page {pageId}: {ex.Message}", ex);
+        }
     }
 
     private void DeleteRelations(PageCacheItem pageCacheItem, int userId)
@@ -261,27 +229,9 @@ public class PageDeleter(
             return questionHandlingError.Value;
 
         var redirectPage = GetRedirectPage(pageToDeleteId);
-
-        var pageName = page.Name;
-        var pageVisibility = page.Visibility;
-
-        var parentIds = EntityCache.GetPage(pageToDeleteId)?
-            .Parents()
-            .Select(c => c.Id)
-            .ToList();
-
-        // Actually delete the page
-        var deleteChangeId = RunAndGetChangeId(page, _sessionUser.UserId);
-
-        // Update parent relations
-        if (parentIds != null && parentIds.Any())
-        {
-            var parentPages = _pageRepo.GetByIds(parentIds);
-
-            foreach (var parent in parentPages)
-                _pageChangeRepo.AddDeletedChildPageEntry(parent, _sessionUser.UserId, deleteChangeId, pageName,
-                    pageVisibility);
-        }
+        var pageInfo = CapturePageInformationBeforeDeletion(page, pageToDeleteId);
+        var deleteChangeId = ExecutePageDeletionAndGetChangeId(page, _sessionUser.UserId);
+        UpdateParentRelationsAfterDeletion(pageInfo, deleteChangeId);
 
         return new DeletePageResult(
             HasChildren: false,
@@ -289,6 +239,42 @@ public class PageDeleter(
             RedirectParent: redirectPage,
             MessageKey: null);
     }
+
+    private PageDeletionInfo CapturePageInformationBeforeDeletion(Page page, int pageToDeleteId)
+    {
+        var parentIds = EntityCache.GetPage(pageToDeleteId)?
+            .Parents()
+            .Select(c => c.Id)
+            .ToList() ?? new List<int>();
+
+        return new PageDeletionInfo(
+            PageName: page.Name,
+            PageVisibility: page.Visibility,
+            ParentIds: parentIds);
+    }
+
+    private void UpdateParentRelationsAfterDeletion(PageDeletionInfo pageInfo, int deleteChangeId)
+    {
+        if (!pageInfo.ParentIds.Any())
+            return;
+
+        var parentPages = _pageRepo.GetByIds(pageInfo.ParentIds);
+
+        foreach (var parent in parentPages)
+        {
+            _pageChangeRepo.AddDeletedChildPageEntry(
+                parent,
+                _sessionUser.UserId,
+                deleteChangeId,
+                pageInfo.PageName,
+                pageInfo.PageVisibility);
+        }
+    }
+
+    private record PageDeletionInfo(
+        string PageName,
+        PageVisibility PageVisibility,
+        List<int> ParentIds);
 
     private void MoveQuestionsToParent(int pageToDeleteId, int parentId)
     {
@@ -356,7 +342,7 @@ public class PageDeleter(
 
         if (page.IsWiki || pageToDeleteId == _sessionUser.CurrentWikiId)
         {
-            var firstWiki = _sessionUser.User.FirstWiki();
+            var firstWiki = _sessionUser.User.GetWikis().First(wiki => wiki.Id != pageToDeleteId);
             return new RedirectPage(firstWiki);
         }
 
