@@ -52,6 +52,12 @@
         return this;
     }
 
+    public Page AddAndGet(
+        string pageName,
+        User? creator = null,
+        PageVisibility visibility = PageVisibility.Public,
+        bool isWiki = false) => Add(pageName, creator, visibility, isWiki).All.Last();
+
     public ContextPage AddChild(Page parent, Page child)
     {
         var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _testHarness.R<PageRelationRepo>());
