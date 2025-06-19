@@ -38,6 +38,7 @@ public static class LanguageExtensions
     }
 
     public static void SetContentLanguageOnAuthors(int id) => SetContentLanguageOnAuthors(EntityCache.GetPage(id) ?? throw new InvalidOperationException());
+
     public static void SetContentLanguageOnAuthors(PageCacheItem page)
     {
         foreach (var authorId in page.AuthorIds)
