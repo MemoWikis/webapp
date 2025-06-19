@@ -1,1 +1,5 @@
-﻿
+﻿{
+  HasChildren: false,
+  Success: false,
+  MessageKey: error.route.noRights
+}

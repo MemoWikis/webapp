@@ -237,16 +237,29 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .New(R<UserWritingRepo>())
             .Add(new User { Id = 1, Name = "SessionUser" })
             .Persist();
+    }    private async Task<string> FormatHttpResponse(HttpResponseMessage httpResponse)
+    {
+        var jsonContent = await httpResponse.Content.ReadAsStringAsync();
+        var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
+        var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
+        return formattedJson;
     }
 
     public async Task<string> ApiCall([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
     {
         var httpResponse = await this.Client.GetAsync(uri);
-        var jsonContent = await httpResponse.Content.ReadAsStringAsync();
+        return await FormatHttpResponse(httpResponse);
+    }
 
-        var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
-        var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
-        return formattedJson;
+    public async Task<string> ApiPost([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
+    {
+        var jsonContent = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(body),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        var httpResponse = await this.Client.PostAsync(uri, jsonContent);
+        return await FormatHttpResponse(httpResponse);
     }
 
     private sealed class ProgramWebApplicationFactory(

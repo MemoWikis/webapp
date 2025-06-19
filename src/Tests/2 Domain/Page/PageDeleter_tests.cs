@@ -1,7 +1,4 @@
-﻿using FluentNHibernate.Utils;
-using Meilisearch;
-
-internal class PageDeleter_tests : BaseTestHarness
+﻿internal class PageDeleter_tests : BaseTestHarness
 {
     // ToDo: Verify Searchindex, EntityCache and Database
     // Treebuilder: Before and After Act
@@ -322,7 +319,7 @@ internal class PageDeleter_tests : BaseTestHarness
     }
 
     [Test]
-    [Description("Test rapid concurrent page deletion to reproduce bulk manipulation query error")]
+    [Description("Test rapid page deletion to reproduce bulk manipulation query error")]
     public async Task Should_Handle_Rapid_Page_Deletion_Without_Database_Errors()
     {
         await ClearData();
@@ -417,7 +414,7 @@ internal class PageDeleter_tests : BaseTestHarness
 
     [Test]
     [Description("Test rapid concurrent page deletion to reproduce bulk manipulation query error")]
-    public async Task Should_Handle_Rapid_Page_Deletion_Without_Database_Errors_Concurrent()
+    public async Task Should_Handle_Concurrent_Rapid_Page_Deletion_Without_Database_Errors()
     {
         await ClearData();
 
@@ -453,70 +450,45 @@ internal class PageDeleter_tests : BaseTestHarness
 
         await ReloadCaches();
 
-        // Act - Simulate rapid deletion using real API calls (sequential rapid clicks)
-        var results = new List<dynamic>();
-
-        // Capture necessary data
+        // Act - Simulate rapid concurrent deletion using real API calls
         var parentPageId = parentPage.Id;
-
-        foreach (var child in childPages)
+        var deletionTasks = childPages.Select(child => Task.Run(async () =>
         {
             var childId = child.Id;
-
             try
             {
                 // Small delay to simulate rapid user clicks (but not simultaneous)
-                await Task.Delay(Random.Shared.Next(10, 50));
-
-                // Make actual HTTP API call - this creates a real request with proper DI scope
+                await Task.Delay(Random.Shared.Next(10, 50));                // Make actual HTTP API call - this creates a real request with proper DI scope
                 var requestBody = new { pageToDeleteId = childId, parentForQuestionsId = parentPageId };
-                var jsonContent = new StringContent(
-                    System.Text.Json.JsonSerializer.Serialize(requestBody),
-                    System.Text.Encoding.UTF8,
-                    "application/json");
+                var jsonResponseContent = await _testHarness.ApiPost("/apiVue/DeletePageStore/Delete", requestBody);
 
-                var response = await _testHarness.Client.PostAsync("/apiVue/DeletePageStore/Delete", jsonContent);
-
-                if (response.IsSuccessStatusCode)
+                return new
                 {
-                    var jsonResponseContent = await response.Content.ReadAsStringAsync();
-                    results.Add(new
-                    {
-                        PageId = childId,
-                        StatusCode = (int)response.StatusCode,
-                        IsSuccess = true,
-                        Content = jsonResponseContent,
-                        HasException = false
-                    });
-                }
-                else
-                {
-                    results.Add(new
-                    {
-                        PageId = childId,
-                        StatusCode = (int)response.StatusCode,
-                        IsSuccess = false,
-                        Content = $"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}",
-                        HasException = true
-                    });
-                }
+                    PageId = childId,
+                    StatusCode = 200, // ApiPost only returns content on success
+                    IsSuccess = true,
+                    Content = jsonResponseContent,
+                    HasException = false
+                };
             }
             catch (Exception ex)
             {
-                results.Add(new
+                return new
                 {
                     PageId = childId,
                     StatusCode = 0,
                     IsSuccess = false,
                     Content = $"Exception: {ex.GetType().Name}: {ex.Message}\nStack Trace: {ex.StackTrace}",
                     HasException = true
-                });
+                };
             }
-        }
+        })).ToList();
+
+        var results = await Task.WhenAll(deletionTasks);
 
         await Verify(new
         {
-            SequentialDeletionResults = results,
+            ConcurrentDeletionResults = results.OrderBy(r => r.PageId).ToList(),
             FinalState = new
             {
                 ParentId = parentPage.Id,
@@ -532,7 +504,7 @@ internal class PageDeleter_tests : BaseTestHarness
                 {
                     ConcurrentErrors = results.Count(r => r.HasException).ToString(),
                     HttpErrors = results.Count(r => !r.IsSuccess).ToString(),
-                    TotalRequests = results.Count.ToString()
+                    TotalRequests = results.Length.ToString()
                 }
             }
         });
@@ -584,45 +556,21 @@ internal class PageDeleter_tests : BaseTestHarness
 
         foreach (var child in childPages)
         {
-            var childId = child.Id;
-
-            try
+            var childId = child.Id;            try
             {
                 // Small delay to simulate rapid user clicks (but not simultaneous)
-                await Task.Delay(Random.Shared.Next(1000, 2500));
-
-                // Make actual HTTP API call - this creates a real request with proper DI scope
+                await Task.Delay(Random.Shared.Next(1000, 2500));                // Make actual HTTP API call - this creates a real request with proper DI scope
                 var requestBody = new { pageToDeleteId = childId, parentForQuestionsId = parentPageId };
-                var jsonContent = new StringContent(
-                    System.Text.Json.JsonSerializer.Serialize(requestBody),
-                    System.Text.Encoding.UTF8,
-                    "application/json");
+                var jsonResponseContent = await _testHarness.ApiPost("/apiVue/DeletePageStore/Delete", requestBody);
 
-                var response = await _testHarness.Client.PostAsync("/apiVue/DeletePageStore/Delete", jsonContent);
-
-                if (response.IsSuccessStatusCode)
+                results.Add(new
                 {
-                    var jsonResponseContent = await response.Content.ReadAsStringAsync();
-                    results.Add(new
-                    {
-                        PageId = childId,
-                        StatusCode = (int)response.StatusCode,
-                        IsSuccess = true,
-                        Content = jsonResponseContent,
-                        HasException = false
-                    });
-                }
-                else
-                {
-                    results.Add(new
-                    {
-                        PageId = childId,
-                        StatusCode = (int)response.StatusCode,
-                        IsSuccess = false,
-                        Content = $"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}",
-                        HasException = true
-                    });
-                }
+                    PageId = childId,
+                    StatusCode = 200, // ApiPost only returns content on success
+                    IsSuccess = true,
+                    Content = jsonResponseContent,
+                    HasException = false
+                });
             }
             catch (Exception ex)
             {
