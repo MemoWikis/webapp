@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
+using System.Text.Json;
 using Testcontainers.MySql;
 using ContainerBuilder = Autofac.ContainerBuilder;
 using IContainer = DotNet.Testcontainers.Containers.IContainer;
@@ -237,8 +239,11 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .New(R<UserWritingRepo>())
             .Add(new User { Id = 1, Name = "SessionUser" })
             .Persist();
-    }    private async Task<string> FormatHttpResponse(HttpResponseMessage httpResponse)
+    }
+
+    private async Task<string> FormatHttpResponse(HttpResponseMessage httpResponse)
     {
+        httpResponse.EnsureSuccessStatusCode();
         var jsonContent = await httpResponse.Content.ReadAsStringAsync();
         var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
         var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
@@ -254,12 +259,28 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public async Task<string> ApiPost([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
     {
         var jsonContent = new StringContent(
-            System.Text.Json.JsonSerializer.Serialize(body),
-            System.Text.Encoding.UTF8,
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
             "application/json");
 
         var httpResponse = await this.Client.PostAsync(uri, jsonContent);
         return await FormatHttpResponse(httpResponse);
+    }
+
+    public async Task<T> ApiPost<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
+    {
+        var jsonContent = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json");
+
+        var httpResponse = await this.Client.PostAsync(uri, jsonContent);
+        var responseContent = await FormatHttpResponse(httpResponse);
+        var result = JsonSerializer.Deserialize<T>(responseContent, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+        return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
     }
 
     private sealed class ProgramWebApplicationFactory(
