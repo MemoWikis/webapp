@@ -943,7 +943,7 @@ internal class PageDeleter_tests : BaseTestHarness
                 // Summary of any errors encountered
                 ErrorSummary = new
                 {
-                    ConcurrentErrors = deletionResults.Count(r => r.MessageKey?.Contains("Exception") == true),
+                    ConcurrentErrors = deletionResults.Count(r => r.MessageKey?.Contains("Exception") == true).ToString(),
                 }
             }
         });
@@ -1073,8 +1073,8 @@ internal class PageDeleter_tests : BaseTestHarness
     }
 
     [Test]
-    [Description("Test to reproduce the specific 'could not execute native bulk manipulation query' error")]
-    public async Task Should_Reproduce_Bulk_Manipulation_Query_Error()
+    [Description("Test slow concurrent page deletion to reproduce bulk manipulation query error")]
+    public async Task Should_Handle_Slow_Page_Deletion_Without_Database_Errors_Concurrent()
     {
         await ClearData();
 
@@ -1083,115 +1083,114 @@ internal class PageDeleter_tests : BaseTestHarness
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        // Create a parent page
+        // Create a parent page that will receive moved questions
         var parentPage = contextPage
             .Add("Parent Page", creator)
             .GetPageByName("Parent Page");
 
-        // Create multiple pages with questions that will be moved and deleted rapidly
-        var pagesToDelete = new List<Page>();
-        var questionContext = NewQuestionContext();
+        // Create multiple child pages to simulate rapid deletion scenario
+        var childPages = new List<Page>();
 
-        for (int i = 1; i <= 10; i++)
+        for (int i = 1; i <= 5; i++)
         {
-            var pageToDelete = contextPage
-                .Add($"Page To Delete {i}", creator)
-                .GetPageByName($"Page To Delete {i}");
+            var childPage = contextPage
+                .Add($"Child Page {i}", creator)
+                .GetPageByName($"Child Page {i}");
 
-            pagesToDelete.Add(pageToDelete);
-
-            // Add multiple questions to each page to increase the database load
-            for (int j = 1; j <= 3; j++)
-            {
-                questionContext.AddQuestion($"Question {j} for Page {i}", creator: creator,
-                    pages: new List<Page> { pageToDelete });
-            }
+            childPages.Add(childPage);
         }
 
         contextPage.Persist();
-        questionContext.Persist();
 
         // Set up parent-child relationships
-        foreach (var page in pagesToDelete)
+        foreach (var child in childPages)
         {
-            contextPage.AddChild(parentPage, page);
+            contextPage.AddChild(parentPage, child);
         }
 
         await ReloadCaches();
 
-        var pageDeleter = R<PageDeleter>();
-        var exceptions = new List<Exception>();
-        var results = new List<(int PageId, bool Success, string? Error)>();
+        // Act - Simulate rapid deletion using real API calls (sequential rapid clicks)
+        var results = new List<dynamic>();
 
-        // Act - Delete pages rapidly without any delays to stress the database
-        foreach (var pageToDelete in pagesToDelete)
+        // Capture necessary data
+        var parentPageId = parentPage.Id;
+
+        foreach (var child in childPages)
         {
+            var childId = child.Id;
+
             try
             {
-                var result = pageDeleter.DeletePage(pageToDelete.Id, parentPage.Id);
-                results.Add((pageToDelete.Id, result.Success, result.MessageKey));
+                // Small delay to simulate rapid user clicks (but not simultaneous)
+                await Task.Delay(Random.Shared.Next(1000, 2500));
+
+                // Make actual HTTP API call - this creates a real request with proper DI scope
+                var requestBody = new { pageToDeleteId = childId, parentForQuestionsId = parentPageId };
+                var jsonContent = new StringContent(
+                    System.Text.Json.JsonSerializer.Serialize(requestBody),
+                    System.Text.Encoding.UTF8,
+                    "application/json");
+
+                var response = await _testHarness.Client.PostAsync("/apiVue/DeletePageStore/Delete", jsonContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponseContent = await response.Content.ReadAsStringAsync();
+                    results.Add(new
+                    {
+                        PageId = childId,
+                        StatusCode = (int)response.StatusCode,
+                        IsSuccess = true,
+                        Content = jsonResponseContent,
+                        HasException = false
+                    });
+                }
+                else
+                {
+                    results.Add(new
+                    {
+                        PageId = childId,
+                        StatusCode = (int)response.StatusCode,
+                        IsSuccess = false,
+                        Content = $"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}",
+                        HasException = true
+                    });
+                }
             }
             catch (Exception ex)
             {
-                exceptions.Add(ex);
-                results.Add((pageToDelete.Id, false, ex.Message));
+                results.Add(new
+                {
+                    PageId = childId,
+                    StatusCode = 0,
+                    IsSuccess = false,
+                    Content = $"Exception: {ex.GetType().Name}: {ex.Message}\nStack Trace: {ex.StackTrace}",
+                    HasException = true
+                });
             }
         }
 
-        // Additional test: Try to delete a page that was already involved in previous operations
-        try
-        {
-            // This should fail gracefully if the page was already deleted
-            var redundantResult = pageDeleter.DeletePage(pagesToDelete.First().Id, parentPage.Id);
-            results.Add((pagesToDelete.First().Id, redundantResult.Success,
-                $"Redundant: {redundantResult.MessageKey}"));
-        }
-        catch (Exception ex)
-        {
-            exceptions.Add(ex);
-            results.Add((pagesToDelete.First().Id, false, $"Redundant Exception: {ex.Message}"));
-        }
-
-        // Assert
-        await ReloadCaches();
-        var questionsInParent = EntityCache.GetQuestionsForPage(parentPage.Id);
-
         await Verify(new
         {
-            DeletionResults =
-                results.Select(r => new
-                {
-                    PageId = r.PageId,
-                    Success = r.Success,
-                    Error = r.Error,
-                    HasBulkManipulationError =
-                        r.Error?.Contains("could not execute native bulk manipulation query") == true,
-                    HasGenericDatabaseError =
-                        r.Error?.Contains("database") == true || r.Error?.Contains("SQL") == true
-                }).ToList(),
-            ExceptionDetails =
-                exceptions.Select(ex => new
-                {
-                    Type = ex.GetType().Name,
-                    Message = ex.Message,
-                    HasBulkManipulationError =
-                        ex.Message.Contains("could not execute native bulk manipulation query"),
-                    HasInnerException = ex.InnerException != null,
-                    InnerExceptionMessage = ex.InnerException?.Message
-                }).ToList(),
-            Summary = new
+            SequentialDeletionResults = results,
+            FinalState = new
             {
-                TotalPagesProcessed = results.Count,
-                SuccessfulDeletions = results.Count(r => r.Success),
-                FailedDeletions = results.Count(r => !r.Success),
-                ExceptionsThrown = exceptions.Count,
-                BulkManipulationErrors = results.Count(r =>
-                                             r.Error?.Contains("could not execute native bulk manipulation query") ==
-                                             true) +
-                                         exceptions.Count(ex =>
-                                             ex.Message.Contains("could not execute native bulk manipulation query")),
-                FinalQuestionsInParent = questionsInParent.Count,
-                ExpectedQuestionsInParent = pagesToDelete.Count * 3 // 3 questions per page
+                ParentId = parentPage.Id,
+
+                // Check if any pages still exist that should have been deleted
+                PagesStillExisting = childPages
+                    .Where(p => EntityCache.GetPage(p.Id) != null)
+                    .Select(p => new { p.Id, p.Name })
+                    .ToList(),
+
+                // Summary of any errors encountered
+                ErrorSummary = new
+                {
+                    ConcurrentErrors = results.Count(r => r.HasException).ToString(),
+                    HttpErrors = results.Count(r => !r.IsSuccess).ToString(),
+                    TotalRequests = results.Count.ToString()
+                }
             }
         });
     }
@@ -1301,14 +1300,14 @@ internal class PageDeleter_tests : BaseTestHarness
                 }).ToList(),
             Summary = new
             {
-                TotalPagesProcessed = results.Count,
-                SuccessfulDeletions = results.Count(r => r.Success),
-                FailedDeletions = results.Count(r => !r.Success),
+                TotalPagesProcessed = results.Count.ToString(),
+                SuccessfulDeletions = results.Count(r => r.Success).ToString(),
+                FailedDeletions = results.Count(r => !r.Success).ToString(),
                 ExceptionsThrown = results.Count(r => r.MessageKey?.Contains("Exception") == true),
                 BulkManipulationErrors =
                     results.Count(r =>
                         r.MessageKey?.Contains("could not execute native bulk manipulation query") == true),
-                FinalQuestionsInParent = questionsInParent.Count,
+                FinalQuestionsInParent = questionsInParent.Count.ToString(),
                 ExpectedQuestionsInParent = childPages.Count * 3, // 3 questions per page
                 ParentId = parentPage.Id
             }

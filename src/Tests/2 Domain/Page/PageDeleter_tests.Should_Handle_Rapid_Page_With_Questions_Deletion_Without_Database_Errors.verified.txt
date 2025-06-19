@@ -1,0 +1,82 @@
+﻿{
+  DeletionResults: [
+    {
+      PageIndex: 1,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    },
+    {
+      PageIndex: 2,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    },
+    {
+      PageIndex: 3,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    },
+    {
+      PageIndex: 4,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    },
+    {
+      PageIndex: 5,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    },
+    {
+      PageIndex: 6,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    },
+    {
+      PageIndex: 7,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    },
+    {
+      PageIndex: 8,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    },
+    {
+      PageIndex: 9,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    },
+    {
+      PageIndex: 10,
+      Success: true,
+      HasChildren: false,
+      HasException: false,
+      HasBulkManipulationError: false
+    }
+  ],
+  Summary: {
+    TotalPagesProcessed: 10,
+    SuccessfulDeletions: 10,
+    FailedDeletions: 0,
+    FinalQuestionsInParent: 30,
+    ExpectedQuestionsInParent: 30,
+    ParentId: 2
+  }
+}

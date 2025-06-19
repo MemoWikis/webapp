@@ -1,1 +1,40 @@
-﻿
+﻿{
+  ConcurrentDeletionResults: [
+    {
+      PageIndex: 1,
+      Success: true,
+      HasChildren: false,
+      HasException: false
+    },
+    {
+      PageIndex: 2,
+      Success: true,
+      HasChildren: false,
+      HasException: false
+    },
+    {
+      PageIndex: 3,
+      Success: true,
+      HasChildren: false,
+      HasException: false
+    },
+    {
+      PageIndex: 4,
+      Success: true,
+      HasChildren: false,
+      HasException: false
+    },
+    {
+      PageIndex: 5,
+      Success: true,
+      HasChildren: false,
+      HasException: false
+    }
+  ],
+  FinalState: {
+    ParentId: 2,
+    ErrorSummary: {
+      ConcurrentErrors: 0
+    }
+  }
+}

@@ -195,27 +195,19 @@ public class PageDeleter(
 
         var pageCacheItem = EntityCache.GetPage(pageToDeleteId);
 
-        // Lock page deletions per user to prevent race conditions 
-        // (e.g., deleting multiple wikis simultaneously in different tabs)
-        if (pageCacheItem?.IsWiki == true)
+        var userDeletionLock = AcquireUserDeletionLock(pageCacheItem.Creator.Id);
+        lock (userDeletionLock.LockObject)
         {
-            var userDeletionLock = AcquireUserDeletionLock(pageCacheItem.Creator.Id);
-            lock (userDeletionLock.LockObject)
+            try
             {
-                try
-                {
-                    return Run(page, pageToDeleteId, newParentForQuestionsId);
-                }
-                finally
-                {
-                    // Release the lock after deletion is complete
-                    ReleaseUserDeletionLock(pageCacheItem.Creator.Id);
-                }
+                return Run(page, pageToDeleteId, newParentForQuestionsId);
+            }
+            finally
+            {
+                // Release the lock after deletion is complete
+                ReleaseUserDeletionLock(pageCacheItem.Creator.Id);
             }
         }
-
-        // For non-wiki pages, proceed without locking
-        return Run(page, pageToDeleteId, newParentForQuestionsId);
     }
 
     private DeletePageResult Run(Page page, int pageToDeleteId, int? newParentForQuestionsId)
