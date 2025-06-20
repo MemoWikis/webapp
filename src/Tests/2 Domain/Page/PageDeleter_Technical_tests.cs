@@ -36,8 +36,10 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
         // Set up parent-child relationships
         foreach (var child in childPages)
             contextPage.AddChild(parentPage, child);
-
         await ReloadCaches();
+
+        var cachedParent = EntityCache.GetPage(parentPage);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedParent!);
 
         // Act - Simulate rapid concurrent deletion using real API calls
         var parentPageId = parentPage.Id;
@@ -46,27 +48,27 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
             var childId = child.Id;
 
             // Small delay to simulate rapid user clicks (but not simultaneous)
-            await Task.Delay(Random.Shared.Next(10, 50));                // Make actual HTTP API call - this creates a real request with proper DI scope
+            await Task.Delay(Random.Shared.Next(10,
+                50)); // Make actual HTTP API call - this creates a real request with proper DI scope
             var requestBody = new { pageToDeleteId = childId, parentForQuestionsId = parentPageId };
-            var result = await _testHarness.ApiPost<DeletePageStoreController.DeleteResponse>("/apiVue/DeletePageStore/Delete", requestBody);
+            var result =
+                await _testHarness.ApiPost<DeletePageStoreController.DeleteResponse>("/apiVue/DeletePageStore/Delete",
+                    requestBody);
 
             return result;
         })).ToList();
 
         var results = await Task.WhenAll(deletionTasks);
 
+        // Assert
+        await ReloadCaches();
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedParent!);
         await Verify(new
         {
-            FinalState = new
-            {
-                ParentId = parentPage.Id,
-
-                // Check if any pages still exist that should have been deleted
-                PagesStillExisting = childPages
-                    .Where(p => EntityCache.GetPage(p.Id) != null)
-                    .Select(p => new { p.Id, p.Name })
-                    .ToList(),
-            }
+            deleteResult = results,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
         });
     }
 
@@ -116,6 +118,9 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
 
         await ReloadCaches();
 
+        var cachedParent = EntityCache.GetPage(parentPage);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedParent!);
+
         var pageDeleter = R<PageDeleter>();
 
         // Act - Simulate rapid deletion of multiple pages with questions
@@ -157,34 +162,15 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
 
         // Assert
         await ReloadCaches();
-        var questionsInParent = EntityCache.GetQuestionsForPage(parentPage.Id);
-
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedParent!);
+        var newQuestionsInParent = EntityCache.GetQuestionsForPage(parentPage.Id);
         await Verify(new
         {
-            DeletionResults =
-                results.Select((r, index) => new
-                {
-                    PageIndex = index + 1,
-                    Success = r.Success,
-                    MessageKey = r.MessageKey,
-                    HasChildren = r.HasChildren,
-                    HasException = r.MessageKey?.Contains("Exception") == true,
-                    HasBulkManipulationError =
-                        r.MessageKey?.Contains("could not execute native bulk manipulation query") == true
-                }).ToList(),
-            Summary = new
-            {
-                TotalPagesProcessed = results.Count.ToString(),
-                SuccessfulDeletions = results.Count(r => r.Success).ToString(),
-                FailedDeletions = results.Count(r => !r.Success).ToString(),
-                ExceptionsThrown = results.Count(r => r.MessageKey?.Contains("Exception") == true),
-                BulkManipulationErrors =
-                    results.Count(r =>
-                        r.MessageKey?.Contains("could not execute native bulk manipulation query") == true),
-                FinalQuestionsInParent = questionsInParent.Count.ToString(),
-                ExpectedQuestionsInParent = childPages.Count * 3, // 3 questions per page
-                ParentId = parentPage.Id
-            }
+            deleteResult = results,
+            originalTree,
+            newTree,
+            newQuestionsInParent,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
         });
     }
 }

@@ -44,16 +44,14 @@
         var pageDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = pageDeleter.DeletePage(childOfChild.Id, parent.Id);
-        await ReloadCaches();
+        var deleteResult = pageDeleter.DeletePage(childOfChild.Id, parent.Id);
+        await ReloadCaches(); //Assert
 
-        //Assert
-
-        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
         await Verify(new
         {
-            requestResult,
+            deleteResult,
             originalTree,
             newTree,
             PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
@@ -102,15 +100,13 @@
         var pageDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = pageDeleter.DeletePage(firstPage.Id, parent.Id);
-        await ReloadCaches();
-
-        //Assert
-        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
+        var deleteResult = pageDeleter.DeletePage(firstPage.Id, parent.Id);
+        await ReloadCaches(); //Assert
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
         await Verify(new
         {
-            requestResult,
+            deleteResult,
             originalTree,
             newTree,
             PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
@@ -141,22 +137,30 @@
         var childOfPage = contextPage
             .Add(childOfPageName, creator)
             .GetPageByName(childOfPageName);
-
         contextPage.Persist();
         contextPage.AddChild(parent, page);
         contextPage.AddChild(page, childOfPage);
         await ReloadCaches();
 
+        var cachedParent = EntityCache.GetPage(parent);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedParent!);
+
         var pageDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = pageDeleter.DeletePage(page.Id, parent.Id);
+        var deleteResult = pageDeleter.DeletePage(page.Id, parent.Id);
         await ReloadCaches();
 
         //Assert
-        Assert.That(requestResult.Success, Is.False);
-        Assert.That(requestResult.HasChildren);
-        Assert.That(requestResult.MessageKey, Is.Null);
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedParent!);
+
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     /// <summary>
@@ -183,26 +187,35 @@
         contextPage.AddChild(parent, child);
         await ReloadCaches();
 
+        var cachedParent = EntityCache.GetPage(parent);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedParent!);
+
         // Act: Attempt to delete the child page as the session user.
         // The PageDeleter service operates on behalf of the session user (user ID 1),
         // who does not have permission to delete the page.
         var pageDeleter = R<PageDeleter>();
-        var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
+        var deleteResult = pageDeleter.DeletePage(child.Id, parent.Id);
 
         // Assert: The deletion attempt should fail.
         await ReloadCaches();
 
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedParent!);
+
         // Verify that the result of the operation indicates a permission error.
-        await Verify(requestResult);
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     [Test]
     [Description("Should fail to delete root page with no rights error")]
     public async Task Should_fail_to_delete_root_page()
     {
-        await ClearData();
-
-        // Arrange
+        await ClearData(); // Arrange
         var contextPage = NewPageContext();
         var pageDeleter = R<PageDeleter>();
         var rootPageId = FeaturedPage.RootPageId;
@@ -210,14 +223,24 @@
         contextPage.Persist();
         await ReloadCaches();
 
+        var cachedRoot = EntityCache.GetPage(rootPageId);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
+
         // Act
         // Root page is already created in NewPageContext()
-        var result = pageDeleter.DeletePage(rootPageId, null);
+        var deleteResult = pageDeleter.DeletePage(rootPageId, null);
 
         // Assert
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.MessageKey, Is.EqualTo(FrontendMessageKeys.Error.Page.NoRights));
-        Assert.That(result.RedirectParent, Is.Null);
+        await ReloadCaches();
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
+
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     [Test]
@@ -247,28 +270,24 @@
         var questionContext = NewQuestionContext(persistImmediately: true);
         questionContext.AddQuestion("Test Question 1", creator: creator, pages: new List<Page> { child });
         questionContext.AddQuestion("Test Question 2", creator: creator, pages: new List<Page> { child });
-
         await ReloadCaches();
         var cachedRoot = EntityCache.GetPage(parent);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
-        var pageDeleter = R<PageDeleter>();
-
-        // Act
-        var result = pageDeleter.DeletePage(child.Id, parent.Id);
+        var pageDeleter = R<PageDeleter>(); // Act
+        var deleteResult = pageDeleter.DeletePage(child.Id, parent.Id);
 
         // Assert
         await ReloadCaches();
-        var questionsInParent = EntityCache.GetQuestionsForPage(parent.Id);
+        var newQuestionsInParent = EntityCache.GetQuestionsForPage(parent.Id);
 
-        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
-
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
         await Verify(new
         {
-            result,
+            deleteResult,
             originalTree,
             newTree,
-            questionsInParent,
+            newQuestionsInParent,
             PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
         });
     }
@@ -296,25 +315,16 @@
 
         await ReloadCaches();
 
-        var pageDeleter = R<PageDeleter>();
-
-        // Act - Provide null parent for questions
-        var result = pageDeleter.DeletePage(child.Id, null);
+        var pageDeleter = R<PageDeleter>(); // Act - Provide null parent for questions
+        var deleteResult = pageDeleter.DeletePage(child.Id, null);
 
         // Assert
         await ReloadCaches();
-        var childPage = EntityCache.GetPage(child.Id);
-        var questionsInChild = EntityCache.GetQuestionsForPage(child.Id);
 
         await Verify(new
         {
-            Success = result.Success,
-            MessageKey = result.MessageKey,
-            HasChildren = result.HasChildren,
-            PageStillExists = childPage != null,
-            QuestionsInChildCount = questionsInChild.Count,
-            QuestionText = questionsInChild.FirstOrDefault()?.Text,
-            ChildPageId = child.Id
+            deleteResult,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
         });
     }
 }

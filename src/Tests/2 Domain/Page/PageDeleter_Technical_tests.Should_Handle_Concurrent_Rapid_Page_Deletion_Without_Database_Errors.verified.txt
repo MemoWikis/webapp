@@ -1,0 +1,100 @@
+﻿{
+  deleteResult: [
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Root Page,
+        Id: 1
+      }
+    },
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Root Page,
+        Id: 1
+      }
+    },
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Root Page,
+        Id: 1
+      }
+    },
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Root Page,
+        Id: 1
+      }
+    },
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Root Page,
+        Id: 1
+      }
+    }
+  ],
+  originalTree:
+Parent Page
+├── Child Page 1
+├── Child Page 2
+├── Child Page 3
+├── Child Page 4
+└── Child Page 5
+[Child Page 1] → [Child Page 2] → [Child Page 3] → [Child Page 4] → [Child Page 5]
+,
+  newTree:
+Parent Page
+,
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 2,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: false,
+        Name: Parent Page,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 2,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        Id: 2,
+        Name: Parent Page,
+        IsPublic: true,
+        IsWiki: false
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: Parent Page
+      }
+    ]
+  }
+}

@@ -45,6 +45,7 @@ public class PageDeleter(
         if (!CanDeleteItemBasedOnChildParentCount(page, _sessionUser.UserId))
         {
             return new DeletePageResult(
+                MessageKey: FrontendMessageKeys.Error.Page.CannotDeletePageWithChildPage,
                 HasChildren: true,
                 Success: false);
         }

@@ -1,27 +1,18 @@
 ﻿{
   deleteResult: {
     HasChildren: false,
-    Success: true,
-    RedirectParent: {
-      Name: child name,
-      Id: 3
-    }
+    Success: false,
+    MessageKey: error.route.noRights
   },
   originalTree:
-Root Page
-└── parent name
-    └── child name
-        └── child of child name
-        [child of child name]
-    [child name]
-[parent name]
+parent name
+└── child name
+[child name]
 ,
   newTree:
-Root Page
-└── parent name
-    └── child name
-    [child name]
-[parent name]
+parent name
+└── child name
+[child name]
 ,
   PageVerificationData: {
     DbPages: [
@@ -33,14 +24,14 @@ Root Page
         Visibility: 0
       },
       {
-        Creator_id: 1,
+        Creator_id: 2,
         Id: 2,
         IsWiki: false,
         Name: parent name,
         Visibility: 0
       },
       {
-        Creator_id: 1,
+        Creator_id: 2,
         Id: 3,
         IsWiki: false,
         Name: child name,
@@ -50,30 +41,16 @@ Root Page
     EntityCachePages: [
       {
         CreatorId: 2,
-        ChildRelations: [
-          {
-            Id: 1,
-            ChildId: 2,
-            ParentId: 1
-          }
-        ],
         Id: 1,
         Name: Root Page,
         IsPublic: true,
         IsWiki: true
       },
       {
-        CreatorId: 1,
-        ParentRelations: [
-          {
-            Id: 1,
-            ChildId: 2,
-            ParentId: 1
-          }
-        ],
+        CreatorId: 2,
         ChildRelations: [
           {
-            Id: 2,
+            Id: 1,
             ChildId: 3,
             ParentId: 2
           }
@@ -84,10 +61,10 @@ Root Page
         IsWiki: false
       },
       {
-        CreatorId: 1,
+        CreatorId: 2,
         ParentRelations: [
           {
-            Id: 2,
+            Id: 1,
             ChildId: 3,
             ParentId: 2
           }
@@ -116,13 +93,6 @@ Root Page
       {
         Id: 1,
         Next_id: null,
-        Page_id: 2,
-        Previous_id: null,
-        Related_id: 1
-      },
-      {
-        Id: 2,
-        Next_id: null,
         Page_id: 3,
         Previous_id: null,
         Related_id: 2
@@ -131,11 +101,6 @@ Root Page
     EntityCacheRelations: [
       {
         Id: 1,
-        ChildId: 2,
-        ParentId: 1
-      },
-      {
-        Id: 2,
         ChildId: 3,
         ParentId: 2
       }

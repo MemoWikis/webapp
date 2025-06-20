@@ -1,0 +1,39 @@
+﻿{
+  deleteResult: {
+    HasChildren: false,
+    Success: false,
+    MessageKey: error.route.noRights
+  },
+  originalTree:
+Root Page
+,
+  newTree:
+Root Page
+,
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 2,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 2,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      }
+    ]
+  }
+}

@@ -1,28 +1,22 @@
 ﻿{
   deleteResult: {
-    HasChildren: false,
-    Success: true,
-    RedirectParent: {
-      Name: Root Page,
-      Id: 1
-    }
+    HasChildren: true,
+    Success: false,
+    MessageKey: error.page.cannotDeletePageWithChildPage
   },
   originalTree:
 parent name
-├── first child name
-│   └── child of child name
-│   [child of child name]
-└── second child name
+└── child name
     └── child of child name
     [child of child name]
-[first child name] → [second child name]
+[child name]
 ,
   newTree:
 parent name
-└── second child name
+└── child name
     └── child of child name
     [child of child name]
-[second child name]
+[child name]
 ,
   PageVerificationData: {
     DbPages: [
@@ -42,14 +36,14 @@ parent name
       },
       {
         Creator_id: 1,
-        Id: 4,
+        Id: 3,
         IsWiki: false,
-        Name: second child name,
+        Name: child name,
         Visibility: 0
       },
       {
         Creator_id: 1,
-        Id: 5,
+        Id: 4,
         IsWiki: false,
         Name: child of child name,
         Visibility: 0
@@ -67,8 +61,8 @@ parent name
         CreatorId: 1,
         ChildRelations: [
           {
-            Id: 2,
-            ChildId: 4,
+            Id: 1,
+            ChildId: 3,
             ParentId: 2
           }
         ],
@@ -81,20 +75,20 @@ parent name
         CreatorId: 1,
         ParentRelations: [
           {
-            Id: 2,
-            ChildId: 4,
+            Id: 1,
+            ChildId: 3,
             ParentId: 2
           }
         ],
         ChildRelations: [
           {
-            Id: 4,
-            ChildId: 5,
-            ParentId: 4
+            Id: 2,
+            ChildId: 4,
+            ParentId: 3
           }
         ],
-        Id: 4,
-        Name: second child name,
+        Id: 3,
+        Name: child name,
         IsPublic: true,
         IsWiki: false
       },
@@ -102,12 +96,12 @@ parent name
         CreatorId: 1,
         ParentRelations: [
           {
-            Id: 4,
-            ChildId: 5,
-            ParentId: 4
+            Id: 2,
+            ChildId: 4,
+            ParentId: 3
           }
         ],
-        Id: 5,
+        Id: 4,
         Name: child of child name,
         IsPublic: true,
         IsWiki: false
@@ -123,40 +117,40 @@ parent name
         Name: parent name
       },
       {
-        Id: 4,
-        Name: second child name
+        Id: 3,
+        Name: child name
       },
       {
-        Id: 5,
+        Id: 4,
         Name: child of child name
       }
     ],
     DbRelations: [
       {
-        Id: 2,
+        Id: 1,
         Next_id: null,
-        Page_id: 4,
+        Page_id: 3,
         Previous_id: null,
         Related_id: 2
       },
       {
-        Id: 4,
+        Id: 2,
         Next_id: null,
-        Page_id: 5,
+        Page_id: 4,
         Previous_id: null,
-        Related_id: 4
+        Related_id: 3
       }
     ],
     EntityCacheRelations: [
       {
-        Id: 2,
-        ChildId: 4,
+        Id: 1,
+        ChildId: 3,
         ParentId: 2
       },
       {
-        Id: 4,
-        ChildId: 5,
-        ParentId: 4
+        Id: 2,
+        ChildId: 4,
+        ParentId: 3
       }
     ]
   }

@@ -45,14 +45,16 @@ internal class MeilisearchQuestionsIndexer : MeilisearchIndexerBase
 
             await CheckStatus(taskInfo);
         });
-    }    private static MeilisearchQuestionMap CreateQuestionMap(Question question)
+    }
+
+    private static MeilisearchQuestionMap CreateQuestionMap(Question question)
     {
         var questionMap = new MeilisearchQuestionMap
         {
             CreatorId = question.Creator.Id,
             Description = question.Description ?? "",
-            Pages = question.Pages.Select(c => c.Name).ToList(),
-            PageIds = question.Pages.Select(c => c.Id).ToList(),
+            Pages = question.Pages.Select(page => page.Name).ToList(),
+            PageIds = question.Pages.Select(page => page.Id).ToList(),
             Id = question.Id,
             Solution = question.Solution,
             SolutionType = (int)question.SolutionType,

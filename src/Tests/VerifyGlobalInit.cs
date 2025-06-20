@@ -31,7 +31,14 @@ internal static class VerifyGlobalInit
         VerifierSettings.IgnoreMember("CountQuestionsAggregated");
         VerifierSettings.IgnoreMember("AuthorIds");
         VerifierSettings.IgnoreMember("Language");
-        VerifierSettings.ScrubMember<PageCacheItem>(page => page.Creator);
+        VerifierSettings.IgnoreMember<PageCacheItem>(page => page.Creator);
         VerifierSettings.IgnoreMember("IsHistoric");
+
+        //ignore irrelevant properties in Question
+        VerifierSettings.IgnoreMember<QuestionCacheItem>(question => question.Creator);
+        VerifierSettings.IgnoreMember<QuestionCacheItem>(question => question.Solution);
+        VerifierSettings.IgnoreMember<QuestionCacheItem>(question => question.SolutionMetadataJson);
+        VerifierSettings.IgnoreMember<QuestionCacheItem>(question => question.SolutionType);
+        VerifierSettings.IgnoreMember<QuestionCacheItem>(question => question.Text);
     }
 }

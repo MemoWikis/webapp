@@ -65,6 +65,7 @@
             public static readonly string NoRights = Route.NoRights;
             public static readonly string Unauthorized = Route.Unauthorized;
             public static readonly string NoChange = "error.page.noChange";
+            public static readonly string CannotDeletePageWithChildPage = "error.page.cannotDeletePageWithChildPage";
         }
 
         public static class Question

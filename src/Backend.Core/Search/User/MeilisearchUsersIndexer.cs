@@ -1,12 +1,12 @@
 ﻿using Meilisearch;
-using Index = Meilisearch.Index;
-
 using System.Runtime.CompilerServices;
+using Index = Meilisearch.Index;
 
 [assembly: InternalsVisibleTo("MemoWikis.Tests")]
 
 internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
-{    public void Create(User user)
+{
+    public void Create(User user)
     {
         var userMap = CreateUserMap(user);
         var index = GetIndex();
@@ -48,7 +48,9 @@ internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
 
             await CheckStatus(taskInfo);
         });
-    }    private static MeiliSearchUserMap CreateUserMap(User user)
+    }
+
+    private static MeiliSearchUserMap CreateUserMap(User user)
     {
         var userMap = new MeiliSearchUserMap
         {
@@ -60,7 +62,7 @@ internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
         };
         var userCacheItem = EntityCache.GetUserByIdNullable(user.Id);
         if (userCacheItem != null)
-            userMap.ContentLanguages = userCacheItem.ContentLanguages.Select(l => l.GetCode()).ToList();
+            userMap.ContentLanguages = userCacheItem.ContentLanguages.Select(language => language.GetCode()).ToList();
         else if (LanguageExtensions.CodeExists(user.UiLanguage))
             userMap.ContentLanguages = [user.UiLanguage];
 
