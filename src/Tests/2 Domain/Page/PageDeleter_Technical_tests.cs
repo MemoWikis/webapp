@@ -68,7 +68,7 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
             deleteResult = results,
             originalTree,
             newTree,
-            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync(delayForSearch: 250)
         });
     }
 
@@ -170,7 +170,7 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
             originalTree,
             newTree,
             newQuestionsInParent,
-            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync(delayForSearch: 500)
         });
     }
 }

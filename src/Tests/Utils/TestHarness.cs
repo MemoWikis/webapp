@@ -320,9 +320,12 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         List<Dictionary<string, object?>>? DbRelations = null,
         IList<PageRelationCache>? EntityCacheRelations = null);
 
-    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true)
+    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true, int delayForSearch = 100)
     {
         var dbPages = await DbData.AllPagesAsync();
+
+        // delay for search to ensure data is indexed, since Meilisearch indexing is asynchronous
+        await Task.Delay(delayForSearch);
         // needs to be ordered by Id for consistent results
         var searchPages = (await SearchData.GetAllPages()).OrderBy(page => page.Id).ToList();
 

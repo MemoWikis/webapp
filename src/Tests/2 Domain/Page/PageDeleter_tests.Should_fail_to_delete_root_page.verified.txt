@@ -2,7 +2,7 @@
   deleteResult: {
     HasChildren: false,
     Success: false,
-    MessageKey: error.route.noRights
+    MessageKey: error.page.noRights
   },
   originalTree:
 Root Page
