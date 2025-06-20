@@ -22,20 +22,28 @@ internal class WikiDeletionTests : BaseTestHarness
         var firstWiki = contextPage.AddAndGet("First Wiki", creator, isWiki: true);
         var secondWiki = contextPage.AddAndGet("Second Wiki", creator, isWiki: true);
         var thirdWiki = contextPage.AddAndGet("Third Wiki", creator, isWiki: true);
-
         contextPage.Persist();
         await ReloadCaches();
+
+        var cachedFirstWiki = EntityCache.GetPage(firstWiki);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedFirstWiki!);
 
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete one of the wikis.
-        var result = pageDeleter.DeletePage(secondWiki.Id, newParentForQuestionsId: null);
+        var deleteResult = pageDeleter.DeletePage(secondWiki.Id, newParentForQuestionsId: null);
 
         // Assert: The deletion should be successful.
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.HasChildren, Is.False);
-        Assert.That(result.MessageKey, Is.Null);
-        Assert.That(result.RedirectParent!.Id, Is.EqualTo(firstWiki.Id));
+        await ReloadCaches();
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedFirstWiki!);
+
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     /// <summary>
@@ -54,19 +62,28 @@ internal class WikiDeletionTests : BaseTestHarness
         var creator = new User { Id = sessionUser.UserId };
 
         var onlyWiki = contextPage.AddAndGet("Only Wiki", creator, isWiki: true);
-
         contextPage.Persist();
         await ReloadCaches();
+
+        var cachedWiki = EntityCache.GetPage(onlyWiki);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
 
         var pageDeleter = R<PageDeleter>();
 
         // Act: Attempt to delete the only wiki.
-        var result = pageDeleter.DeletePage(onlyWiki.Id, null);
+        var deleteResult = pageDeleter.DeletePage(onlyWiki.Id, null);
 
         // Assert: The deletion should fail with a specific error message.
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.MessageKey, Is.EqualTo(FrontendMessageKeys.Error.User.NoRemainingWikis));
-        Assert.That(result.RedirectParent, Is.Null);
+        await ReloadCaches();
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
+
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     /// <summary>
@@ -85,21 +102,25 @@ internal class WikiDeletionTests : BaseTestHarness
 
         var firstWiki = contextPage.AddAndGet("First Wiki", creator, isWiki: true);
         var secondWiki = contextPage.AddAndGet("Second Wiki", creator, isWiki: true);
-
         contextPage.Persist();
         await ReloadCaches();
+
 
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the first wiki, then attempt to delete the second.
-        var firstResult = pageDeleter.DeletePage(firstWiki.Id, null);
-        var secondResult = pageDeleter.DeletePage(secondWiki.Id, null);
+        var firstDeleteResult = pageDeleter.DeletePage(firstWiki.Id, null);
+        var secondDeleteResult = pageDeleter.DeletePage(secondWiki.Id, null);
 
         // Assert: The first deletion should succeed, but the second should fail.
-        Assert.That(firstResult.Success, Is.True);
-        Assert.That(secondResult.Success, Is.False);
-        Assert.That(secondResult.MessageKey, Is.EqualTo(FrontendMessageKeys.Error.User.NoRemainingWikis));
-        Assert.That(secondResult.RedirectParent, Is.Null);
+        await ReloadCaches();
+
+        await Verify(new
+        {
+            firstDeleteResult,
+            secondDeleteResult,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     /// <summary>
@@ -121,24 +142,33 @@ internal class WikiDeletionTests : BaseTestHarness
         var wikiToDelete = contextPage.AddAndGet("Wiki To Delete", creator, isWiki: true);
         var alternativeParent = contextPage.AddAndGet("Alternative Parent", creator);
         var childPage = contextPage.AddAndGet("Child Page", creator);
-
         contextPage.Persist();
         // Assign the child page to both the wiki being deleted and an alternative parent.
+        contextPage.AddChild(firstWiki, alternativeParent);
         contextPage.AddChild(wikiToDelete, childPage);
         contextPage.AddChild(alternativeParent, childPage);
 
         await ReloadCaches();
 
+        var cachedChildPage = EntityCache.GetPage(childPage);
+        var originalTree = TreeRenderer.ToAsciiParentDiagram(cachedChildPage!);
+
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the wiki.
-        var result = pageDeleter.DeletePage(wikiToDelete.Id, null);
+        var deleteResult = pageDeleter.DeletePage(wikiToDelete.Id, null);
 
         // Assert: The deletion should succeed because the child is not orphaned.
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.HasChildren, Is.False);
-        Assert.That(result.MessageKey, Is.Null);
-        Assert.That(result.RedirectParent, Is.Not.Null);
+        await ReloadCaches();
+        var newTree = TreeRenderer.ToAsciiParentDiagram(cachedChildPage!);
+
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     /// <summary>
@@ -159,20 +189,29 @@ internal class WikiDeletionTests : BaseTestHarness
         var firstWiki = contextPage.AddAndGet("First Wiki", creator, isWiki: true);
         var wikiToDelete = contextPage.AddAndGet("Wiki To Delete", creator, isWiki: true);
         var orphanedChild = contextPage.AddAndGet("Orphaned Child", creator);
-
         contextPage.Persist();
         contextPage.AddChild(wikiToDelete, orphanedChild);
         await ReloadCaches();
 
+        var cachedChild = EntityCache.GetPage(orphanedChild);
+        var originalTree = TreeRenderer.ToAsciiParentDiagram(cachedChild!);
+
         var pageDeleter = R<PageDeleter>();
 
         // Act: Attempt to delete the wiki.
-        var result = pageDeleter.DeletePage(wikiToDelete.Id, null);
+        var deleteResult = pageDeleter.DeletePage(wikiToDelete.Id, null);
 
         // Assert: The deletion should fail, indicating there are children that would be orphaned.
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.HasChildren, Is.True);
-        Assert.That(result.RedirectParent, Is.Null);
+        await ReloadCaches();
+        var newTree = TreeRenderer.ToAsciiParentDiagram(cachedChild!);
+
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
 
@@ -199,19 +238,28 @@ internal class WikiDeletionTests : BaseTestHarness
 
         var userWiki = contextPage.AddAndGet("Current User's Wiki", currentUser, isWiki: true);
         var otherUsersWiki = contextPage.AddAndGet("Other User's Wiki", otherUserContext, isWiki: true);
-
         contextPage.Persist();
         await ReloadCaches();
+
+        var cachedUserWiki = EntityCache.GetPage(userWiki);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedUserWiki!);
 
         var pageDeleter = R<PageDeleter>();
 
         // Act: The current user attempts to delete the other user's wiki.
-        var result = pageDeleter.DeletePage(otherUsersWiki.Id, null);
+        var deleteResult = pageDeleter.DeletePage(otherUsersWiki.Id, null);
 
         // Assert: The deletion should fail with a "no rights" error message.
-        Assert.That(result.Success, Is.False);
-        Assert.That(result.MessageKey, Is.EqualTo(FrontendMessageKeys.Error.Page.NoRights));
-        Assert.That(result.RedirectParent, Is.Null);
+        await ReloadCaches();
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedUserWiki!);
+
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     /// <summary>
@@ -234,15 +282,25 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
+        var cachedWiki = EntityCache.GetPage(wiki);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
+
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the parentless page.
-        var result = pageDeleter.DeletePage(orphanedPage.Id, null);
+        var deleteResult = pageDeleter.DeletePage(orphanedPage.Id, null);
 
         // Assert: The deletion should be successful.
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.MessageKey, Is.Null);
-        Assert.That(result.RedirectParent, Is.Not.Null);
+        await ReloadCaches();
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
+
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     /// <summary>
@@ -265,15 +323,25 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
+        var cachedWiki = EntityCache.GetPage(wiki);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
+
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the parentless page.
-        var result = pageDeleter.DeletePage(orphanedPage.Id, null);
+        var deleteResult = pageDeleter.DeletePage(orphanedPage.Id, null);
 
         // Assert: The deletion should be successful.
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.MessageKey, Is.Null);
-        Assert.That(result.RedirectParent, Is.Not.Null);
+        await ReloadCaches();
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
+
+        await Verify(new
+        {
+            deleteResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     /// <summary>
@@ -293,22 +361,21 @@ internal class WikiDeletionTests : BaseTestHarness
         var firstWiki = contextPage.AddAndGet("Alpha Wiki", creator, isWiki: true);
         var secondWiki = contextPage.AddAndGet("Beta Wiki", creator, isWiki: true);
         var thirdWiki = contextPage.AddAndGet("Gamma Wiki", creator, isWiki: true);
-
         contextPage.Persist();
         await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the second wiki.
-        var result = pageDeleter.DeletePage(secondWiki.Id, null);
+        var deleteResult = pageDeleter.DeletePage(secondWiki.Id, null);
 
         // Assert: The user should be redirected to the first wiki ("Alpha Wiki").
+        await ReloadCaches();
+
         await Verify(new
         {
-            Success = result.Success,
-            HasChildren = result.HasChildren,
-            MessageKey = result.MessageKey,
-            RedirectParent = result.RedirectParent
+            deleteResult,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
         });
     }
 
@@ -328,22 +395,21 @@ internal class WikiDeletionTests : BaseTestHarness
         var firstWiki = contextPage.AddAndGet("Alpha Wiki", creator, isWiki: true);
         var secondWiki = contextPage.AddAndGet("Beta Wiki", creator, isWiki: true);
         var thirdWiki = contextPage.AddAndGet("Gamma Wiki", creator, isWiki: true);
-
         contextPage.Persist();
         await ReloadCaches();
 
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the first wiki.
-        var result = pageDeleter.DeletePage(firstWiki.Id, null);
+        var deleteResult = pageDeleter.DeletePage(firstWiki.Id, null);
 
         // Assert: The user should be redirected to the second wiki ("Beta Wiki").
+        await ReloadCaches();
+
         await Verify(new
         {
-            Success = result.Success,
-            HasChildren = result.HasChildren,
-            MessageKey = result.MessageKey,
-            RedirectParent = result.RedirectParent
+            deleteResult,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
         });
     }
 }
