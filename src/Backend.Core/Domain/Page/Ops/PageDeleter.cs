@@ -186,14 +186,6 @@ public class PageDeleter(
 
     public DeletePageResult DeletePage(int pageToDeleteId, int? newParentForQuestionsId)
     {
-        var page = _pageRepo.GetById(pageToDeleteId);
-        if (page == null)
-        {
-            return new DeletePageResult(
-                Success: false,
-                MessageKey: FrontendMessageKeys.Error.Page.NotFound);
-        }
-
         var pageCacheItem = EntityCache.GetPage(pageToDeleteId);
 
         var userDeletionLock = AcquireUserDeletionLock(pageCacheItem.Creator.Id);
@@ -201,6 +193,14 @@ public class PageDeleter(
         {
             try
             {
+                var page = _pageRepo.GetById(pageToDeleteId);
+                if (page == null)
+                {
+                    return new DeletePageResult(
+                        Success: false,
+                        MessageKey: FrontendMessageKeys.Error.Page.NotFound);
+                }
+
                 return Run(page, pageToDeleteId, newParentForQuestionsId);
             }
             finally
