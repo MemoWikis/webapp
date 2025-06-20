@@ -56,7 +56,8 @@ export const useDeletePageStore = defineStore("deletePageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result != null) {                this.suggestedNewParent = result.suggestedNewParent
+            if (result != null) {                
+                this.suggestedNewParent = result.suggestedNewParent
                 this.name = result.name
                 this.hasQuestion = result.hasQuestion
                 this.hasPublicQuestion = result.hasPublicQuestion
@@ -119,7 +120,7 @@ export const useDeletePageStore = defineStore("deletePageStore", {
                 return {
                     id: this.id,
                 }
-            }else if (!!result && result.success == false) {
+            } else if (!!result && result.success == false) {
                 const nuxtApp = useNuxtApp()
                 const { $i18n } = nuxtApp
 
