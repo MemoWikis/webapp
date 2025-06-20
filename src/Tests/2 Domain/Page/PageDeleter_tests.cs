@@ -45,8 +45,9 @@
 
         //Act
         var deleteResult = pageDeleter.DeletePage(childOfChild.Id, parent.Id);
-        await ReloadCaches(); //Assert
+        await ReloadCaches();
 
+        //Assert
         var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
         await Verify(new

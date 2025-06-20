@@ -48,6 +48,16 @@ public class GraphService
             ascendant.TotalViews++;
     }
 
+    public static void RemoveDeletedPageViewsFromAscendants(int pageIdToDelete, int totalViewsOfPageToDelete)
+    {
+        var ascendants = Ascendants(pageIdToDelete);
+        var descendants = Descendants(pageIdToDelete);
+        var pageOwnViewsExcludingDescendants = totalViewsOfPageToDelete - descendants.Sum(d => d.TotalViews);
+
+        foreach (var ascendant in ascendants)
+            ascendant.TotalViews -= pageOwnViewsExcludingDescendants;
+    }
+
     public static bool IsCircularReference(int parentPageId, int childPageId)
     {
         return Descendants(parentPageId).Any(page => page.Id == childPageId);

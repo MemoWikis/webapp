@@ -74,6 +74,8 @@ public class PageDeleter(
 
         if (pageCacheItem != null)
         {
+            GraphService.RemoveDeletedPageViewsFromAscendants(pageCacheItem.Id, pageCacheItem.TotalViews);
+
             DeleteRelations(pageCacheItem, userId);
             EntityCache.Remove(pageCacheItem, userId);
         }
@@ -84,7 +86,6 @@ public class PageDeleter(
         DeleteImages(page);
 
         new MeilisearchPageIndexer().Delete(page);
-
         DeleteFromRepos(page.Id);
 
         return deleteChangeId;
@@ -205,7 +206,6 @@ public class PageDeleter(
             }
             finally
             {
-                // Release the lock after deletion is complete
                 ReleaseUserDeletionLock(pageCacheItem.Creator.Id);
             }
         }

@@ -39,11 +39,11 @@ export const useDeletePageStore = defineStore("deletePageStore", {
 
             if (await this.initDeleteData()) this.showModal = true
         },
-        async initDeleteData() {
+        async initDeleteData() {            
             interface DeleteDataResult {
                 name: string
                 canBeDeleted: boolean
-                hasChildren: boolean
+                wouldHaveOrphanedChildren: boolean
                 suggestedNewParent: PageItem | null
                 hasQuestion: boolean
                 hasPublicQuestion: boolean
@@ -56,13 +56,12 @@ export const useDeletePageStore = defineStore("deletePageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result != null) {
-                this.suggestedNewParent = result.suggestedNewParent
+            if (result != null) {                this.suggestedNewParent = result.suggestedNewParent
                 this.name = result.name
                 this.hasQuestion = result.hasQuestion
                 this.hasPublicQuestion = result.hasPublicQuestion
                 this.isWiki = result.isWiki
-                if (result.hasChildren) {
+                if (result.wouldHaveOrphanedChildren) {
                     const alertStore = useAlertStore()
                     alertStore.openAlert(
                         AlertType.Error,
