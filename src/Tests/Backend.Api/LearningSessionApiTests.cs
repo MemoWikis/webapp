@@ -1,4 +1,5 @@
-using System.Text.Json;
+using static LearningSessionStoreController;
+using static AnswerBodyController;
 
 [TestFixture]
 internal class LearningSessionApiTests : BaseTestHarness
@@ -10,123 +11,96 @@ internal class LearningSessionApiTests : BaseTestHarness
     {
         // Arrange - Get the first page from the scenario to use for learning session
         var pages = await _testHarness.DbData.AllPagesSummaryAsync();
-        var firstPage = pages.First;
-        if (firstPage == null)
-            throw new InvalidOperationException("No pages found in test data");
-        
-        var sessionConfig = new
-        {
-            pageId = Convert.ToInt32(firstPage["Id"]),
-            maxQuestionCount = 5,
-            currentUserId = 2, // LearningUser from scenario
-            isInTestMode = false,
-            questionOrder = 0, // SortByEasiest
-            answerHelp = true,
-            repetition = 0, // None
-            inWuwi = true,
-            notInWuwi = true,
-            createdByCurrentUser = true,
-            notCreatedByCurrentUser = true,
-            privateQuestions = true,
-            publicQuestions = true,
-            notLearned = true,
-            needsLearning = true,
-            needsConsolidation = true,
-            solid = true
-        };
+        var firstPage = pages.First!;
 
+        var sessionConfig = new LearningSessionConfigRequest
+        {
+            PageId = Convert.ToInt32(firstPage["Id"]),
+            MaxQuestionCount = 5,
+            CurrentUserId = 2, // LearningUser from scenario
+            IsInTestMode = false,
+            QuestionOrder = QuestionOrder.SortByEasiest,
+            AnswerHelp = true,
+            Repetition = RepetitionType.None,
+            InWuwi = true,
+            NotInWuwi = true,
+            CreatedByCurrentUser = true,
+            NotCreatedByCurrentUser = true,
+            PrivateQuestions = true,
+            PublicQuestions = true,
+            NotLearned = true,
+            NeedsLearning = true,
+            NeedsConsolidation = true,
+            Solid = true
+        }; 
+        
         // Act - Start new learning session
-        var newSessionResponse = await _testHarness.ApiPostJson("/apiVue/LearningSessionStore/NewSession", sessionConfig);
+        var newSessionResponse = await _testHarness.ApiLearningSessionStore.NewSession(sessionConfig);
 
         // Assert - Verify session was created successfully
-        await Verify(new
-        {
-            success = GetBoolProperty(newSessionResponse, "success"),
-            stepsCount = GetArrayLength(newSessionResponse, "steps"),
-            activeQuestionCount = GetIntProperty(newSessionResponse, "activeQuestionCount"),
-            hasCurrentStep = HasProperty(newSessionResponse, "currentStep"),
-            firstQuestionId = GetNestedIntProperty(newSessionResponse, "currentStep", "id")
-        }).UseMethodName("StartLearningSession");
-
-        // Continue with answering questions if session was created successfully
-        if (GetBoolProperty(newSessionResponse, "success") && GetArrayLength(newSessionResponse, "steps") > 0)
-        {
-            await AnswerQuestionsAndVerifyState(newSessionResponse);
-        }
+        await Verify(new { newSessionResponse });
+        await AnswerQuestionsAndVerifyState(newSessionResponse);
     }
 
-    private async Task AnswerQuestionsAndVerifyState(JsonElement sessionResponse)
+    private async Task AnswerQuestionsAndVerifyState(LearningSessionResponse sessionResponse)
     {
-        var currentStep = sessionResponse.GetProperty("currentStep");
-        var questionId = currentStep.GetProperty("id").GetInt32();
-
-        // Answer the first question correctly
-        var answerRequest = new
-        {
-            id = questionId,
-            questionViewGuid = Guid.NewGuid(),
-            answer = "Correct answer", // We'll use a generic correct answer
-            inTestMode = false
-        };
-
-        var answerResponse = await _testHarness.ApiPostJson("/apiVue/AnswerBody/SendAnswerToLearningSession", answerRequest);
-
+        var currentStep = sessionResponse.CurrentStep!.Value;
+        var questionId = currentStep.id;        // Answer the first question correctly
+        var answerRequest = new SendAnswerToLearningSessionRequest(
+            Id: questionId,
+            QuestionViewGuid: Guid.NewGuid(),
+            Answer: "Correct answer", // We'll use a generic correct answer
+            InTestMode: false
+        ); 
+        
         // Verify the answer response
+        var answerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSession(answerRequest);
         await Verify(new
         {
-            correct = GetBoolProperty(answerResponse, "correct"),
-            hasCorrectAnswer = HasProperty(answerResponse, "correctAnswer"),
-            newStepAdded = GetBoolProperty(answerResponse, "newStepAdded"),
-            isLastStep = GetBoolProperty(answerResponse, "isLastStep")
+            correct = answerResponse.Correct,
+            hasCorrectAnswer = !string.IsNullOrEmpty(answerResponse.CorrectAnswer),
+            newStepAdded = answerResponse.NewStepAdded,
+            isLastStep = answerResponse.IsLastStep
         }).UseMethodName("FirstQuestionAnswer");
 
         // Mark the first question as correct to test the MarkAsCorrect endpoint
-        var markCorrectRequest = new
-        {
-            id = questionId,
-            questionViewGuid = answerRequest.questionViewGuid,
-            amountOfTries = 1
-        };
-
-        var markCorrectResponse = await _testHarness.ApiPostJson("/apiVue/AnswerBody/MarkAsCorrect", markCorrectRequest);
-
+        var markCorrectRequest = new MarkAsCorrectParam(
+            Id: questionId,
+            QuestionViewGuid: answerRequest.QuestionViewGuid,
+            AmountOfTries: 1
+        ); 
+        
         // Get current session state after marking correct
-        var currentSessionResponse = await _testHarness.ApiGet("/apiVue/LearningSessionStore/GetCurrentSession");
-        var currentSessionJson = JsonSerializer.Deserialize<JsonElement>(currentSessionResponse);
+        var markCorrectResponse = await _testHarness.ApiAnswerBody.MarkAsCorrect(markCorrectRequest);
+        var currentSessionResponse = await _testHarness.ApiLearningSessionStore.GetCurrentSession();
 
         // Answer a second question if available
-        if (GetBoolProperty(currentSessionJson, "success") && GetArrayLength(currentSessionJson, "steps") > 1)
+        if (currentSessionResponse.Success && currentSessionResponse.Steps.Length > 1)
         {
             // Move to next question
             var nextQuestionIndex = 1; // Move to second question
-            var loadSpecificUri = $"/apiVue/LearningSessionStore/LoadSpecificQuestion/{nextQuestionIndex}";
-            var loadSpecificResponse = await _testHarness.Client.PostAsync(loadSpecificUri, null);
-            loadSpecificResponse.EnsureSuccessStatusCode();
-            var loadSpecificContent = await loadSpecificResponse.Content.ReadAsStringAsync();
-            var loadSpecificJson = JsonSerializer.Deserialize<JsonElement>(loadSpecificContent);
+            var loadSpecificSession = await _testHarness.ApiLearningSessionStore.LoadSpecificQuestion(nextQuestionIndex);
 
-            if (GetBoolProperty(loadSpecificJson, "success") && HasProperty(loadSpecificJson, "currentStep"))
+            if (loadSpecificSession.Success && loadSpecificSession.CurrentStep != null)
             {
-                var secondQuestionId = GetNestedIntProperty(loadSpecificJson, "currentStep", "id");
-
                 // Answer second question incorrectly
-                var secondAnswerRequest = new
-                {
-                    id = secondQuestionId,
-                    questionViewGuid = Guid.NewGuid(),
-                    answer = "Wrong answer",
-                    inTestMode = false
-                };
+                var secondQuestionId = loadSpecificSession.CurrentStep.Value.id;
+                var secondAnswerRequest = new SendAnswerToLearningSessionRequest(
+                    Id: secondQuestionId,
+                    QuestionViewGuid: Guid.NewGuid(),
+                    Answer: "Wrong answer",
+                    InTestMode: false
+                );
 
-                var secondAnswerResponse = await _testHarness.ApiPostJson("/apiVue/AnswerBody/SendAnswerToLearningSession", secondAnswerRequest);
+                var secondAnswerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSession(secondAnswerRequest);
 
                 // Verify second answer response
                 await Verify(new
                 {
-                    correct = GetBoolProperty(secondAnswerResponse, "correct"),
-                    hasCorrectAnswer = HasProperty(secondAnswerResponse, "correctAnswer"),
-                    newStepAdded = GetBoolProperty(secondAnswerResponse, "newStepAdded"),
-                    isLastStep = GetBoolProperty(secondAnswerResponse, "isLastStep")
+                    correct = secondAnswerResponse.Correct,
+                    hasCorrectAnswer = !string.IsNullOrEmpty(secondAnswerResponse.CorrectAnswer),
+                    newStepAdded = secondAnswerResponse.NewStepAdded,
+                    isLastStep = secondAnswerResponse.IsLastStep
                 }).UseMethodName("SecondQuestionAnswer");
             }
         }
@@ -136,14 +110,10 @@ internal class LearningSessionApiTests : BaseTestHarness
     }
 
     private async Task VerifyFinalState()
-    {
-        // Get final session state
-        var finalSessionResponse = await _testHarness.ApiGet("/apiVue/LearningSessionStore/GetCurrentSession");
-        var finalSessionJson = JsonSerializer.Deserialize<JsonElement>(finalSessionResponse);
-
+    {        // Get final session state
         // Get learning session result/summary
-        var sessionResultResponse = await _testHarness.ApiGet("/apiVue/LearningSessionResult/Get");
-        var sessionResultJson = JsonSerializer.Deserialize<JsonElement>(sessionResultResponse);
+        var finalSessionResponse = await _testHarness.ApiLearningSessionStore.GetCurrentSession();
+        var sessionResult = await _testHarness.ApiLearningSessionResult.Get();
 
         // Get database state summaries
         var usersData = await _testHarness.DbData.AllUsersSummaryAsync();
@@ -155,20 +125,20 @@ internal class LearningSessionApiTests : BaseTestHarness
         {
             finalSession = new
             {
-                success = GetBoolProperty(finalSessionJson, "success"),
-                stepsCount = GetArrayLength(finalSessionJson, "steps"),
-                activeQuestionCount = GetIntProperty(finalSessionJson, "activeQuestionCount"),
-                currentStepId = GetNestedIntProperty(finalSessionJson, "currentStep", "id"),
-                messageKey = GetStringProperty(finalSessionJson, "messageKey")
+                success = finalSessionResponse.Success,
+                stepsCount = finalSessionResponse.Steps.Length,
+                activeQuestionCount = finalSessionResponse.ActiveQuestionCount,
+                currentStepId = finalSessionResponse.CurrentStep?.id ?? 0,
+                messageKey = finalSessionResponse.MessageKey
             },
             sessionResult = new
             {
-                uniqueQuestionCount = GetIntProperty(sessionResultJson, "uniqueQuestionCount"),
-                correctCount = GetNestedIntProperty(sessionResultJson, "correct", "count"),
-                wrongCount = GetNestedIntProperty(sessionResultJson, "wrong", "count"),
-                notAnsweredCount = GetNestedIntProperty(sessionResultJson, "notAnswered", "count"),
-                pageId = GetIntProperty(sessionResultJson, "pageId"),
-                pageName = GetStringProperty(sessionResultJson, "pageName")
+                uniqueQuestionCount = sessionResult.UniqueQuestionCount,
+                correctCount = sessionResult.Correct.Count,
+                wrongCount = sessionResult.Wrong.Count,
+                notAnsweredCount = sessionResult.NotAnswered.Count,
+                pageId = sessionResult.PageId,
+                pageName = sessionResult.PageName
             },
             databaseState = new
             {
@@ -184,11 +154,9 @@ internal class LearningSessionApiTests : BaseTestHarness
     [Test]
     public async Task Should_Handle_Learning_Session_With_Page_Navigation()
     {
-        // Arrange - Get a page with multiple questions
         var pages = await _testHarness.DbData.AllPagesSummaryAsync();
-        var targetPage = pages.First; // Use first page which should have questions
-        if (targetPage == null)
-            throw new InvalidOperationException("No pages found in test data");
+        var targetPage = pages.First!;
+
         var sessionConfig = new
         {
             pageId = Convert.ToInt32(targetPage["Id"]),
@@ -208,33 +176,21 @@ internal class LearningSessionApiTests : BaseTestHarness
             needsLearning = true,
             needsConsolidation = true,
             solid = true
-        };
+        };        // Act - Create session and navigate through questions
+        var sessionResponse = await _testHarness.ApiLearningSessionStore.NewSession(sessionConfig);        // Test loading steps
+        var stepsResponse = await _testHarness.ApiLearningSessionStore.LoadSteps();        // Test getting last step in question list
+        var stepCount = sessionResponse.Steps.Length;
+        var lastStepResponse = await _testHarness.ApiLearningSessionStore.GetLastStepInQuestionList(stepCount - 1);
 
-        // Act - Create session and navigate through questions
-        var sessionResponse = await _testHarness.ApiPostJson("/apiVue/LearningSessionStore/NewSession", sessionConfig);
-
-        if (GetBoolProperty(sessionResponse, "success") && GetArrayLength(sessionResponse, "steps") > 0)
+        // Verify navigation functionality
+        await Verify(new
         {
-            // Test loading steps
-            var stepsResponse = await _testHarness.ApiGet("/apiVue/LearningSessionStore/LoadSteps");
-            var stepsJson = JsonSerializer.Deserialize<JsonElement>(stepsResponse);
-
-            // Test getting last step in question list
-            var stepCount = GetArrayLength(sessionResponse, "steps");
-            var lastStepUri = $"/apiVue/LearningSessionStore/GetLastStepInQuestionList/{stepCount - 1}";
-            var lastStepResponse = await _testHarness.ApiGet(lastStepUri);
-            var lastStepJson = JsonSerializer.Deserialize<JsonElement>(lastStepResponse);
-
-            // Verify navigation functionality
-            await Verify(new
-            {
-                sessionCreated = GetBoolProperty(sessionResponse, "success"),
-                totalSteps = stepCount,
-                stepsLoaded = GetArrayLength(stepsJson, "data"),
-                lastStepSuccess = GetBoolProperty(lastStepJson, "success"),
-                activeQuestionCount = GetIntProperty(lastStepJson, "activeQuestionCount")
-            }).UseMethodName("NavigationTest");
-        }
+            sessionCreated = sessionResponse.Success,
+            totalSteps = stepCount,
+            stepsLoaded = stepsResponse.Length,
+            lastStepSuccess = lastStepResponse.Success,
+            activeQuestionCount = lastStepResponse.ActiveQuestionCount
+        }).UseMethodName("NavigationTest");
     }
 
     [Test]
@@ -262,74 +218,32 @@ internal class LearningSessionApiTests : BaseTestHarness
             solid = true
         };
 
-        var invalidResponse = await _testHarness.ApiPostJson("/apiVue/LearningSessionStore/NewSession", invalidSessionConfig);
+        var invalidResponse = await _testHarness.ApiLearningSessionStore.NewSession(invalidSessionConfig);
 
         // Test answering question without session
-        var invalidAnswerRequest = new
+        var invalidAnswerRequest = new SendAnswerToLearningSessionRequest(
+            Id: 1,
+            QuestionViewGuid: Guid.NewGuid(),
+            Answer: "Some answer",
+            InTestMode: false
+        ); try
         {
-            id = 1,
-            questionViewGuid = Guid.NewGuid(),
-            answer = "Some answer",
-            inTestMode = false
-        };
-
-        try
-        {
-            var invalidAnswerResponse = await _testHarness.ApiPostJson("/apiVue/AnswerBody/SendAnswerToLearningSession", invalidAnswerRequest);
+            var invalidAnswerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSession(invalidAnswerRequest);
 
             await Verify(new
             {
-                invalidSessionSuccess = GetBoolProperty(invalidResponse, "success"),
-                invalidSessionMessage = GetStringProperty(invalidResponse, "messageKey"),
-                answeredWithoutSession = true // If we get here, it didn't throw
+                invalidAnswerResponse
             }).UseMethodName("InvalidRequests");
         }
         catch (Exception ex)
         {
             await Verify(new
             {
-                invalidSessionSuccess = GetBoolProperty(invalidResponse, "success"),
-                invalidSessionMessage = GetStringProperty(invalidResponse, "messageKey"),
+                invalidSessionSuccess = invalidResponse.Success,
+                invalidSessionMessage = invalidResponse.MessageKey,
                 answerWithoutSessionThrew = true,
                 exceptionType = ex.GetType().Name
             }).UseMethodName("InvalidRequests");
         }
-    }
-
-    // Helper methods for JSON property access
-    private static bool GetBoolProperty(JsonElement element, string propertyName)
-    {
-        return element.TryGetProperty(propertyName, out var property) && property.GetBoolean();
-    }
-
-    private static int GetIntProperty(JsonElement element, string propertyName)
-    {
-        return element.TryGetProperty(propertyName, out var property) ? property.GetInt32() : 0;
-    }
-
-    private static string GetStringProperty(JsonElement element, string propertyName)
-    {
-        return element.TryGetProperty(propertyName, out var property) ? property.GetString() ?? "" : "";
-    }
-
-    private static int GetArrayLength(JsonElement element, string propertyName)
-    {
-        return element.TryGetProperty(propertyName, out var property) && property.ValueKind == JsonValueKind.Array
-            ? property.GetArrayLength() : 0;
-    }
-
-    private static bool HasProperty(JsonElement element, string propertyName)
-    {
-        return element.TryGetProperty(propertyName, out _);
-    }
-
-    private static int GetNestedIntProperty(JsonElement element, string parentProperty, string childProperty)
-    {
-        if (element.TryGetProperty(parentProperty, out var parent) &&
-            parent.TryGetProperty(childProperty, out var child))
-        {
-            return child.GetInt32();
-        }
-        return 0;
     }
 }

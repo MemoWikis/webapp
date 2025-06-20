@@ -2,10 +2,8 @@ using System.Collections.Concurrent;
 
 public class QuestionFilterService(
     SessionUser _sessionUser,
-    ExtendedUserCache _extendedUserCache)
+    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
-
-
     /// <summary>
     /// Builds question properties based on various filter criteria
     /// </summary>

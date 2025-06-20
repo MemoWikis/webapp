@@ -43,10 +43,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     // Autofac scope coming from the running host (for Resolve<T> convenience)
     private ILifetimeScope? _scope;
-    public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
-
-    public RawDbDataLoader DbData = null!;
+    public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first"); public RawDbDataLoader DbData = null!;
     public RawMeilisearchDataLoader SearchData = null!;
+
+    // API Wrappers for cleaner test code
+    public LearningSessionStoreApiWrapper ApiLearningSessionStore = null!;
+    public AnswerBodyApiWrapper ApiAnswerBody = null!;
+    public LearningSessionResultApiWrapper ApiLearningSessionResult = null!;
 
     public string ConnectionString => _db.GetConnectionString();
     public string MeilisearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
@@ -192,10 +195,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         PerfLog("WebApplicationFactory + Autofac root");
 
         await InitializersMoreAsync();
-        PerfLog("Legacy initializers");
-
-        DbData = new RawDbDataLoader(ConnectionString);
+        PerfLog("Legacy initializers"); DbData = new RawDbDataLoader(ConnectionString);
         SearchData = new RawMeilisearchDataLoader(MeilisearchUrl, MeilisearchMasterKey);
+
+        // Initialize API wrappers
+        ApiLearningSessionStore = new LearningSessionStoreApiWrapper(this);
+        ApiAnswerBody = new AnswerBodyApiWrapper(this);
+        ApiLearningSessionResult = new LearningSessionResultApiWrapper(this);
     }
 
     private async Task ClearMeilisearchIndices()
@@ -236,6 +242,10 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         _factory?.Dispose();
 
         await _meiliSearch.DisposeAsync();
+        if (_db != null)
+        {
+            await _db.DisposeAsync();
+        }
 
         GC.SuppressFinalize(this);
     }
@@ -278,6 +288,17 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         return formattedJson;
     }
 
+    public async Task<TResult> ApiGet<TResult>([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
+    {
+        var httpResponse = await this.Client.GetAsync(uri);
+        var jsonContent = await httpResponse.Content.ReadAsStringAsync();
+
+        return JsonSerializer.Deserialize<TResult>(jsonContent, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+    }
+
     public async Task<JsonElement> ApiPostJson(string endpoint, object requestBody)
     {
         var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
@@ -292,6 +313,25 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var responseContent = await response.Content.ReadAsStringAsync();
 
         return JsonSerializer.Deserialize<JsonElement>(responseContent);
+    }
+
+    public async Task<TResult> ApiPostJson<TRequest, TResult>(string endpoint, TRequest requestBody)
+    {
+        var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await Client.PostAsync(endpoint, content);
+
+        response.EnsureSuccessStatusCode();
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        return JsonSerializer.Deserialize<TResult>(responseContent, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
     }
 
     private sealed class ProgramWebApplicationFactory(

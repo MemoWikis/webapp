@@ -1,5 +1,5 @@
 ﻿[TestFixture]
-internal class BaseTestHarness
+internal class BaseTestHarness : IDisposable, IAsyncDisposable
 {
     protected bool _useTinyScenario = false;
 
@@ -35,4 +35,14 @@ internal class BaseTestHarness
 
     protected ContextQuestion NewQuestionContext(bool persistImmediately = false)
         => new(_testHarness, persistImmediately);
+
+    public void Dispose()
+    {
+        _testHarness.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _testHarness.DisposeAsync();
+    }
 }

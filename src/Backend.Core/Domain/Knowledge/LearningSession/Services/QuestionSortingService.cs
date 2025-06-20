@@ -1,5 +1,6 @@
 // Service for sorting and organizing questions in learning sessions
-public class QuestionSortingService(SessionUser _sessionUser)
+
+public class QuestionSortingService(SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
     public IList<QuestionCacheItem> SortQuestions(
         IList<QuestionCacheItem> questions,

@@ -1,7 +1,7 @@
 // Service for managing question counters in learning sessions
 public class QuestionCounterService(
     SessionUser _sessionUser,
-    ExtendedUserCache _extendedUserCache)
+    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
     public void Count(QuestionProperties questionProperties, QuestionCounter counter)
     {

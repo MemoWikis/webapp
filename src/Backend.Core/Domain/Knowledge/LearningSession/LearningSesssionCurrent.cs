@@ -1,7 +1,7 @@
 ﻿public class LearningSessionCurrent(
     LearningSessionCache _learningSessionCache,
     LearningSessionResultService _resultService
-)
+) : IRegisterAsInstancePerLifetime
 {
     public LearningSessionResultStep GetCurrentSession()
     {

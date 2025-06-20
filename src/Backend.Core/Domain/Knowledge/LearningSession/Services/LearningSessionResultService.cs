@@ -1,6 +1,6 @@
 public class LearningSessionResultService(
     SessionUser _sessionUser,
-    PermissionCheck _permissionCheck)
+    PermissionCheck _permissionCheck) : IRegisterAsInstancePerLifetime
 {
     public LearningSessionResultStep FillLearningSessionResult(
         LearningSession learningSession,
