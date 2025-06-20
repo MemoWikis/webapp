@@ -61,9 +61,9 @@
             public static readonly string CircularReference = "error.page.circularReference";
             public static readonly string PageNotSelected = "error.page.pageNotSelected";
             public static readonly string NewPageIdIsPageIdToBeDeleted = "error.page.newPageIdIsPageIdToBeDeleted";
-            public static readonly string NotFound = Route.NotFound;
-            public static readonly string NoRights = Route.NoRights;
-            public static readonly string Unauthorized = Route.Unauthorized;
+            public static readonly string NotFound = "error.page.notFound";
+            public static readonly string NoRights = "error.page.noRights";
+            public static readonly string Unauthorized = "error.page.unauthorized";
             public static readonly string NoChange = "error.page.noChange";
             public static readonly string CannotDeletePageWithChildPage = "error.page.cannotDeletePageWithChildPage";
         }
@@ -77,9 +77,9 @@
             public static readonly string IsInWuwi = "error.question.isInWuwi";
             public static readonly string Rights = "error.question.rights";
             public static readonly string ErrorOnDelete = "error.question.errorOnDelete";
-            public static readonly string NoRights = Route.NoRights;
-            public static readonly string NotFound = Route.NotFound;
-            public static readonly string Unauthorized = Route.Unauthorized;
+            public static readonly string NoRights = "error.question.noRights";
+            public static readonly string NotFound = "error.question.notFound";
+            public static readonly string Unauthorized = "error.question.unauthorized";
         }
 
         public static class User
@@ -98,7 +98,7 @@
             public static readonly string PasswordTooShort = "error.user.passwordTooShort";
             public static readonly string LoginFailed = "error.user.loginFailed";
             public static readonly string FalseEmailFormat = "error.user.falseEmailFormat";
-            public static readonly string NotFound = Route.NotFound;
+            public static readonly string NotFound = "error.user.notFound";
             public static readonly string NoRemainingWikis = "error.user.noRemainingWikis";
         }
 
@@ -118,13 +118,16 @@
 
         public static class LearningSession
         {
-            public static readonly string NoQuestionsAvailableWithCurrentConfig = "error.learningSession.noQuestionsAvailableWithCurrentConfig";
+            public static readonly string NoQuestionsAvailableWithCurrentConfig =
+                "error.learningSession.noQuestionsAvailableWithCurrentConfig";
         }
 
         public static class Ai
         {
             public static readonly string GenerateFlashcards = "error.ai.generateFlashcards";
-            public static readonly string NoFlashcardsCreatedCauseLimitAndPageIsPrivate = "error.ai.noFlashcardsCreatedCauseLimitAndPageIsPrivate";
+
+            public static readonly string NoFlashcardsCreatedCauseLimitAndPageIsPrivate =
+                "error.ai.noFlashcardsCreatedCauseLimitAndPageIsPrivate";
         }
     }
 
@@ -150,8 +153,11 @@
 
         public static class Ai
         {
-            public static readonly string FlashcardsCreatedWillBePublicCauseLimit = "info.ai.flashcardsCreatedWillBePublicCauseLimit";
-            public static readonly string SomeFlashcardsCreatedWillBePublicCauseLimit = "info.ai.someFlashcardsCreatedWillBePublicCauseLimit";
+            public static readonly string FlashcardsCreatedWillBePublicCauseLimit =
+                "info.ai.flashcardsCreatedWillBePublicCauseLimit";
+
+            public static readonly string SomeFlashcardsCreatedWillBePublicCauseLimit =
+                "info.ai.someFlashcardsCreatedWillBePublicCauseLimit";
         }
     }
 }
