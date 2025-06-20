@@ -11,6 +11,3 @@ Comments should be
 - meaningful and explain the purpose of the code.
 - not be too verbose.
 - not be obvious, e.g. "this is a function that adds two numbers" is not a good comment.
-
-
-
