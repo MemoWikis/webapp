@@ -1,42 +1,52 @@
 ﻿using Meilisearch;
+using Index = Meilisearch.Index;
 
 internal class MeilisearchQuestionsIndexer : MeilisearchIndexerBase
 {
-    public async Task CreateAsync(Question question)
+    public void Create(Question question)
     {
-        var searchQuestionMap = CreateQuestionMap(question, out var index);
-        var taskInfo = await index
-            .AddDocumentsAsync(new List<MeilisearchQuestionMap> { searchQuestionMap })
-            .ConfigureAwait(false);
+        var searchQuestionMap = CreateQuestionMap(question);
+        var index = GetIndex();
 
-        await CheckStatus(taskInfo).ConfigureAwait(false);
+        Task.Run(async () =>
+        {
+            var taskInfo = await index
+                .AddDocumentsAsync(new List<MeilisearchQuestionMap> { searchQuestionMap })
+                .ConfigureAwait(false);
+
+            await CheckStatus(taskInfo);
+        });
     }
 
-    public async Task UpdateAsync(Question question)
+    public void Update(Question question)
     {
-        var searchQuestionMap = CreateQuestionMap(question, out var index);
-        var taskInfo = await index
-            .UpdateDocumentsAsync(new List<MeilisearchQuestionMap> { searchQuestionMap })
-            .ConfigureAwait(false);
-        
-        await CheckStatus(taskInfo).ConfigureAwait(false);
+        var searchQuestionMap = CreateQuestionMap(question);
+        var index = GetIndex();
+
+        Task.Run(async () =>
+        {
+            var taskInfo = await index
+                .UpdateDocumentsAsync(new List<MeilisearchQuestionMap> { searchQuestionMap })
+                .ConfigureAwait(false);
+
+            await CheckStatus(taskInfo);
+        });
     }
 
-    public async Task DeleteAsync(Question question)
+    public void Delete(Question question)
     {
-        var searchQuestionMap = CreateQuestionMap(question, out var index);
-        var taskInfo = await index
-            .DeleteOneDocumentAsync(searchQuestionMap.Id.ToString())
-            .ConfigureAwait(false);
+        var index = GetIndex();
 
-        await CheckStatus(taskInfo).ConfigureAwait(false);
-    }
+        Task.Run(async () =>
+        {
+            var taskInfo = await index
+                .DeleteOneDocumentAsync(question.Id.ToString())
+                .ConfigureAwait(false);
 
-    private MeilisearchQuestionMap CreateQuestionMap(Question question, out Meilisearch.Index index)
+            await CheckStatus(taskInfo);
+        });
+    }    private static MeilisearchQuestionMap CreateQuestionMap(Question question)
     {
-        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
-
-        index = client.Index(MeilisearchIndices.Questions);
         var questionMap = new MeilisearchQuestionMap
         {
             CreatorId = question.Creator.Id,
@@ -49,5 +59,11 @@ internal class MeilisearchQuestionsIndexer : MeilisearchIndexerBase
             Text = question.Text
         };
         return questionMap;
+    }
+
+    private static Index GetIndex()
+    {
+        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
+        return client.Index(MeilisearchIndices.Questions);
     }
 }

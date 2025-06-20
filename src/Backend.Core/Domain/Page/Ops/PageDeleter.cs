@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Text.Json.Serialization;
 
 public class PageDeleter(
     SessionUser _sessionUser,
@@ -81,8 +82,7 @@ public class PageDeleter(
 
         DeleteImages(page);
 
-        Task.Run(async () => await new MeilisearchPageIndexer()
-            .DeleteAsync(page));
+        new MeilisearchPageIndexer().Delete(page);
 
         DeleteFromRepos(page.Id);
 
@@ -317,9 +317,18 @@ public class PageDeleter(
             }
         }
     }
-
-    public record RedirectPage(string Name, int Id)
+    public record RedirectPage
     {
+        public string Name { get; init; }
+        public int Id { get; init; }
+
+        [JsonConstructor]
+        public RedirectPage(string Name, int Id)
+        {
+            this.Name = Name;
+            this.Id = Id;
+        }
+
         public RedirectPage(PageCacheItem page) : this(page.Name, page.Id) { }
     }
 

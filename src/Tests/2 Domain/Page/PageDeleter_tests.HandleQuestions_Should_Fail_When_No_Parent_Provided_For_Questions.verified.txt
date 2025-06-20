@@ -1,9 +1,0 @@
-﻿{
-  Success: false,
-  MessageKey: error.page.pageNotSelected,
-  HasChildren: false,
-  PageStillExists: true,
-  QuestionsInChildCount: 1,
-  QuestionText: Test Question,
-  ChildPageId: 2
-}

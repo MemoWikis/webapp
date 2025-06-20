@@ -38,11 +38,8 @@ public class QuestionWritingRepo(
             _reputationUpdate.ForUser(question.Creator);
         }
 
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
-
-        _questionChangeRepo.AddCreateEntry(question);
-        Task.Run(async () => await new MeilisearchQuestionsIndexer()
-            .CreateAsync(question));
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));        _questionChangeRepo.AddCreateEntry(question);
+        new MeilisearchQuestionsIndexer().Create(question);
     }
 
     public List<int> Delete(int questionId, int userId, List<int> parentIds)
@@ -62,11 +59,9 @@ public class QuestionWritingRepo(
     }
 
     public int DeleteAndGetChangeId(Question question, int userId)
-    {
-        base.Delete(question);
+    {        base.Delete(question);
         var changeId = _questionChangeRepo.AddDeleteEntry(question, userId);
-        Task.Run(async () => await new MeilisearchQuestionsIndexer()
-            .DeleteAsync(question));
+        new MeilisearchQuestionsIndexer().Delete(question);
         return changeId;
     }
 
@@ -108,11 +103,9 @@ public class QuestionWritingRepo(
 
         updateQuestionCountForPage.Run(pagesToUpdate);
         JobScheduler.StartImmediately_UpdateAggregatedPagesForQuestion(pagesToUpdateIds,
-            _sessionUser.UserId);
-        _questionChangeRepo.AddUpdateEntry(question);
+            _sessionUser.UserId);        _questionChangeRepo.AddUpdateEntry(question);
 
-        Task.Run(async () => await new MeilisearchQuestionsIndexer()
-            .UpdateAsync(question));
+        new MeilisearchQuestionsIndexer().Update(question);
     }
 
     public void UpdateFieldsOnly(Question question)

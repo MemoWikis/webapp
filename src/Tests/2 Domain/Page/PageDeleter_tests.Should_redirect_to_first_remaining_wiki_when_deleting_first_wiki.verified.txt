@@ -1,8 +1,0 @@
-﻿{
-  Success: true,
-  HasChildren: false,
-  RedirectParent: {
-    Name: Beta Wiki,
-    Id: 3
-  }
-}

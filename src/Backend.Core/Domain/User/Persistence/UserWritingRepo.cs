@@ -26,7 +26,7 @@ public class UserWritingRepo(
 
         _repo.Create(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-        Task.Run(async () => await new MeilisearchUsersIndexer().CreateAsync(user));
+        new MeilisearchUsersIndexer().Create(user);
     }
 
     public void Delete(int id)
@@ -39,16 +39,14 @@ public class UserWritingRepo(
         _repo.Delete(id);
         _extendedUserCache.Remove(user);
         EntityCache.RemoveUser(id);
-        Task.Run(async () =>
-            await new MeilisearchUsersIndexer()
-                .DeleteAsync(user));
+        new MeilisearchUsersIndexer().Delete(user);
     }
 
     public void DeleteFromAllTables(int userId)
     {
         var user = _repo.GetById(userId) ?? throw new Exception("user not found");
         
-        Task.Run(async () => await new MeilisearchUsersIndexer().DeleteAsync(user));
+        new MeilisearchUsersIndexer().Delete(user);
 
         Log.Information($"Starting deletion of user {userId} and related data.");
 
@@ -180,9 +178,7 @@ public class UserWritingRepo(
         _repo.Update(user);
         _extendedUserCache.Update(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-        Task.Run(async () =>
-            await new MeilisearchUsersIndexer()
-                .UpdateAsync(user));
+        new MeilisearchUsersIndexer().Update(user);
     }
 
     public void Update(UserCacheItem userCacheItem)

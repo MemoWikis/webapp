@@ -49,7 +49,7 @@ internal class WikiDeletionTests : BaseTestHarness
         await ClearData();
 
         // Arrange: Create a user with only one wiki.
-        var contextPage = NewPageContext(createFeaturedRootPage: true);
+        var contextPage = NewPageContext();
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
@@ -79,7 +79,7 @@ internal class WikiDeletionTests : BaseTestHarness
         await ClearData();
 
         // Arrange: Create a user with two wikis.
-        var contextPage = NewPageContext(createFeaturedRootPage: true);
+        var contextPage = NewPageContext();
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
@@ -187,7 +187,7 @@ internal class WikiDeletionTests : BaseTestHarness
         await ClearData();
 
         // Arrange: Create two users, each with their own wiki.
-        var contextPage = NewPageContext(createFeaturedRootPage: true);
+        var contextPage = NewPageContext();
         var sessionUser = R<SessionUser>();
         var currentUser = new User { Id = sessionUser.UserId };
         var otherUser = new User { Id = 999, Name = "Other User" };
@@ -286,7 +286,7 @@ internal class WikiDeletionTests : BaseTestHarness
         await ClearData();
 
         // Arrange: Create a user with three wikis in a specific order.
-        var contextPage = NewPageContext(createFeaturedRootPage: true);
+        var contextPage = NewPageContext();
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
@@ -321,7 +321,7 @@ internal class WikiDeletionTests : BaseTestHarness
         await ClearData();
 
         // Arrange: Create a user with three wikis.
-        var contextPage = NewPageContext(createFeaturedRootPage: true);
+        var contextPage = NewPageContext();
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 

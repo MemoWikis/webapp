@@ -19,6 +19,8 @@
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
+        var root = contextPage.All.First();
+
         var parent = contextPage
             .Add(parentName, creator)
             .GetPageByName(parentName);
@@ -31,9 +33,13 @@
             .GetPageByName(childOfChildName);
 
         contextPage.Persist();
+        contextPage.AddChild(root, parent);
         contextPage.AddChild(parent, child);
         contextPage.AddChild(child, childOfChild);
         await ReloadCaches();
+
+        var cachedRoot = EntityCache.GetPage(root);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
         var pageDeleter = R<PageDeleter>();
 
@@ -42,29 +48,16 @@
         await ReloadCaches();
 
         //Assert
-        var allPagesInEntityCache = EntityCache.GetAllPagesList();
-        var cachedParent = EntityCache.GetPage(parent.Id);
-        var cachedChild = EntityCache.GetPage(child.Id);
 
-        Assert.That(requestResult.Success);
-        Assert.That(requestResult.HasChildren, Is.False);
-        Assert.That(requestResult.MessageKey, Is.Null);
-        Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
-        Assert.That(allPagesInEntityCache.Any());
-        Assert.That(allPagesInEntityCache.Any(page => page.Id == parent.Id));
-        Assert.That(allPagesInEntityCache.Any(page => page.Id == child.Id));
-        Assert.That(allPagesInEntityCache.Any(page => page.Name.Equals(childOfChildName)), Is.False);
-        Assert.That(cachedParent.ChildRelations, Is.Not.Empty);
-        Assert.That(cachedChild.Id,
-            Is.EqualTo(cachedParent.ChildRelations.Single().ChildId));
-        Assert.That(cachedParent.ParentRelations, Is.Empty);
-        Assert.That(cachedChild.ChildRelations, Is.Empty);
-        Assert.That(cachedParent.Id, Is.EqualTo(cachedChild.ParentRelations.Single().Id));
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
 
-        var allRelationsInEntityCache = EntityCache.GetAllRelations();
-        Assert.That(allRelationsInEntityCache.Any(r => r.ChildId == childOfChild.Id), Is.False);
-
-        //ToDo: use Verify
+        await Verify(new
+        {
+            requestResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     [Test]
@@ -103,6 +96,8 @@
         contextPage.AddChild(firstPage, childWithTwoParents);
         contextPage.AddChild(secondPage, childWithTwoParents);
         await ReloadCaches();
+        var cachedRoot = EntityCache.GetPage(parent);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
         var pageDeleter = R<PageDeleter>();
 
@@ -111,9 +106,15 @@
         await ReloadCaches();
 
         //Assert
-        Assert.That(requestResult.Success);
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
 
-        //ToDo: use treebuilder and verify
+        await Verify(new
+        {
+            requestResult,
+            originalTree,
+            newTree,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
     }
 
     [Test]
@@ -206,14 +207,11 @@
         var pageDeleter = R<PageDeleter>();
         var rootPageId = FeaturedPage.RootPageId;
 
-        var rootPage = contextPage
-            .Add("Root Page")
-            .GetPageByName("Root Page");
-
         contextPage.Persist();
         await ReloadCaches();
 
         // Act
+        // Root page is already created in NewPageContext()
         var result = pageDeleter.DeletePage(rootPageId, null);
 
         // Assert
@@ -223,12 +221,12 @@
     }
 
     [Test]
-    public async Task HandleQuestions_Should_Succeed_When_Valid_Parent_Provided()
+    public async Task Should_Succeed_When_Valid_Parent_Provided()
     {
         await ClearData();
 
         // Arrange
-        var contextPage = NewPageContext(createFeaturedRootPage: true);
+        var contextPage = NewPageContext();
         var parentName = "parent page";
         var childName = "child page";
         var sessionUser = R<SessionUser>();
@@ -251,6 +249,8 @@
         questionContext.AddQuestion("Test Question 2", creator: creator, pages: new List<Page> { child });
 
         await ReloadCaches();
+        var cachedRoot = EntityCache.GetPage(parent);
+        var originalTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
         var pageDeleter = R<PageDeleter>();
 
@@ -261,15 +261,15 @@
         await ReloadCaches();
         var questionsInParent = EntityCache.GetQuestionsForPage(parent.Id);
 
+        var newTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
+
         await Verify(new
         {
-            Success = result.Success,
-            MessageKey = result.MessageKey,
-            HasChildren = result.HasChildren,
-            QuestionsMovedToParentCount = questionsInParent.Count,
-            QuestionTexts = questionsInParent.Select(q => q.Text).OrderBy(t => t).ToList(),
-            ParentId = parent.Id,
-            ResultRedirectParentId = result.RedirectParent?.Id
+            result,
+            originalTree,
+            newTree,
+            questionsInParent,
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
         });
     }
 
@@ -279,7 +279,7 @@
         await ClearData();
 
         // Arrange
-        var contextPage = NewPageContext(createFeaturedRootPage: true);
+        var contextPage = NewPageContext();
         var childName = "child page with questions";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
@@ -314,6 +314,7 @@
             PageStillExists = childPage != null,
             QuestionsInChildCount = questionsInChild.Count,
             QuestionText = questionsInChild.FirstOrDefault()?.Text,
-            ChildPageId = child.Id        });
+            ChildPageId = child.Id
+        });
     }
 }

@@ -312,4 +312,38 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             return base.CreateHost(builder);
         }
     }
+
+    public record struct DefaultPageVerificationData(
+        List<Dictionary<string, object?>> DbPages,
+        IList<PageCacheItem> EntityCachePages,
+        List<SearchPageItem> SearchPages,
+        List<Dictionary<string, object?>>? DbRelations = null,
+        IList<PageRelationCache>? EntityCacheRelations = null);
+
+    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true)
+    {
+        var dbPages = await DbData.AllPagesAsync();
+        // needs to be ordered by Id for consistent results
+        var searchPages = (await SearchData.GetAllPages()).OrderBy(page => page.Id).ToList();
+
+        if (includeRelations)
+        {
+            var dbRelations = await DbData.AllPageRelationsAsync();
+            return new DefaultPageVerificationData
+            {
+                DbPages = dbPages,
+                EntityCachePages = EntityCache.GetAllPagesList(),
+                SearchPages = searchPages,
+                DbRelations = dbRelations,
+                EntityCacheRelations = EntityCache.GetAllRelations()
+            };
+        }
+
+        return new DefaultPageVerificationData
+        {
+            DbPages = dbPages,
+            EntityCachePages = EntityCache.GetAllPagesList(),
+            SearchPages = searchPages
+        };
+    }
 }

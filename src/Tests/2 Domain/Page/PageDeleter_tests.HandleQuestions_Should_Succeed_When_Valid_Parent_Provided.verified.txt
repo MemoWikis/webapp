@@ -1,11 +1,1 @@
-﻿{
-  Success: true,
-  HasChildren: false,
-  QuestionsMovedToParentCount: 2,
-  QuestionTexts: [
-    Test Question 1,
-    Test Question 2
-  ],
-  ParentId: 2,
-  ResultRedirectParentId: 1
-}
+﻿
