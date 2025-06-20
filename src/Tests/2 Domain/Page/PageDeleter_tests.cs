@@ -328,4 +328,75 @@
             PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
         });
     }
+
+    [Test]
+    public async Task Should_Update_Ascendant_View_Counts_When_Deleting_Page()
+    {
+        await ClearData();
+
+        // Arrange
+        var contextPage = NewPageContext();
+        var grandparentName = "grandparent page";
+        var parentName = "parent page";
+        var childName = "child page to delete";
+        var sessionUser = R<SessionUser>();
+        var creator = new User { Id = sessionUser.UserId };
+
+        var grandparent = contextPage
+            .Add(grandparentName, creator)
+            .GetPageByName(grandparentName);
+
+        var parent = contextPage
+            .Add(parentName, creator)
+            .GetPageByName(parentName);
+
+        var child = contextPage
+            .Add(childName, creator)
+            .GetPageByName(childName);
+
+        contextPage.Persist();
+        contextPage.AddChild(grandparent, parent);
+        contextPage.AddChild(parent, child);
+        await ReloadCaches();
+
+        // Set up original view counts
+        var cachedGrandparent = EntityCache.GetPage(grandparent.Id)!;
+        var cachedParent = EntityCache.GetPage(parent.Id)!;
+        var cachedChild = EntityCache.GetPage(child.Id)!;
+
+        cachedChild.TotalViews = 10;
+        cachedParent.TotalViews = 15; // 5 own views + 10 from child
+        cachedGrandparent.TotalViews = 25; // 10 own views + 15 from parent tree
+
+        var originalGrandparentViews = cachedGrandparent.TotalViews;
+        var originalParentViews = cachedParent.TotalViews;
+        var childViews = cachedChild.TotalViews;
+
+        var pageDeleter = R<PageDeleter>();
+
+        // Act
+        var deleteResult = pageDeleter.DeletePage(child.Id, parent.Id);
+        await ReloadCaches();
+
+        // Assert
+        var newGrandparentViews = EntityCache.GetPage(grandparent.Id)!.TotalViews;
+        var newParentViews = EntityCache.GetPage(parent.Id)!.TotalViews;
+
+        await Verify(new
+        {
+            deleteResult,
+            originalGrandparentViews,
+            originalParentViews,
+            childViews,
+            newGrandparentViews,
+            newParentViews,
+            viewCountsDecreasedProperly = new
+            {
+                grandparentDecreased = originalGrandparentViews - newGrandparentViews,
+                parentDecreased = originalParentViews - newParentViews,
+                expectedDecrease = childViews // Should decrease by child's view count
+            },
+            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
+        });
+    }
 }

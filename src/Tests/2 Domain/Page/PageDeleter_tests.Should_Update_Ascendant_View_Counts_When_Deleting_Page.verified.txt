@@ -1,0 +1,114 @@
+﻿{
+  deleteResult: {
+    HasChildren: false,
+    Success: true,
+    RedirectParent: {
+      Name: Root Page,
+      Id: 1
+    }
+  },
+  originalGrandparentViews: 25,
+  originalParentViews: 15,
+  childViews: 10,
+  newGrandparentViews: 15,
+  newParentViews: 5,
+  viewCountsDecreasedProperly: {
+    grandparentDecreased: 10,
+    parentDecreased: 10,
+    expectedDecrease: 10
+  },
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 2,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: false,
+        Name: grandparent page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 3,
+        IsWiki: false,
+        Name: parent page,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 2,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        ChildRelations: [
+          {
+            Id: 1,
+            ChildId: 3,
+            ParentId: 2
+          }
+        ],
+        Id: 2,
+        Name: grandparent page,
+        IsPublic: true,
+        TotalViews: 15,
+        IsWiki: false
+      },
+      {
+        CreatorId: 1,
+        ParentRelations: [
+          {
+            Id: 1,
+            ChildId: 3,
+            ParentId: 2
+          }
+        ],
+        Id: 3,
+        Name: parent page,
+        IsPublic: true,
+        TotalViews: 5,
+        IsWiki: false
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: grandparent page
+      },
+      {
+        Id: 3,
+        Name: parent page
+      }
+    ],
+    DbRelations: [
+      {
+        Id: 1,
+        Next_id: null,
+        Page_id: 3,
+        Previous_id: null,
+        Related_id: 2
+      }
+    ],
+    EntityCacheRelations: [
+      {
+        Id: 1,
+        ChildId: 3,
+        ParentId: 2
+      }
+    ]
+  }
+}
