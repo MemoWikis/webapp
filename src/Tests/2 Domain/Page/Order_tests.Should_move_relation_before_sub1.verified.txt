@@ -17,50 +17,20 @@ root
     {
       Child: {
         Name: sub2,
-        DisableLearningFunctions: false,
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 2,
         AuthorIdsInts: [
           2
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 3
+        Id: 4
       },
-      Parent: {
-        Name: root,
-        DisableLearningFunctions: false,
-        IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 2,
-        AuthorIdsInts: [
-          2
-        ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 1
-      },
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
       Id: 2
     },
     {
       Child: {
         Name: sub3,
-        DisableLearningFunctions: false,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -68,87 +38,32 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 2
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 2,
         AuthorIdsInts: [
           2
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 4
+        Id: 5
       },
       Parent: {
         Name: root,
-        DisableLearningFunctions: false,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
-          Id: 2
-        },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 2,
         AuthorIdsInts: [
           2
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 1
+        Id: 2
       },
-      PreviousId: 3,
-      NextId: 2,
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
+      PreviousId: 4,
+      NextId: 3,
       Id: 3
     },
     {
       Child: {
         Name: sub1,
-        DisableLearningFunctions: false,
-        IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 2,
-        AuthorIdsInts: [
-          2
-        ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 2
-      },
-      Parent: {
-        Name: root,
-        DisableLearningFunctions: false,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -156,37 +71,31 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 2
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 2,
         AuthorIdsInts: [
           2
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 1
+        Id: 3
       },
-      PreviousId: 4,
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
+      Parent: {
+        Name: root,
+        IsWiki: false,
+        AuthorIdsInts: [
+          2
+        ],
+        Id: 2
+      },
+      PreviousId: 5,
       Id: 4
     },
     {
       Child: {
         Name: sub2,
-        DisableLearningFunctions: false,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -194,53 +103,42 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 5
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 5,
         AuthorIdsInts: [
           5
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 7
+        Id: 9
       },
       Parent: {
         Name: root,
-        DisableLearningFunctions: false,
+        Creator: {
+          AllowsSupportiveLogin: false,
+          BouncedMail: false,
+          IsEmailConfirmed: false,
+          IsInstallationAdmin: false,
+          Name: User,
+          ShowWishKnowledge: false,
+          IsFacebookUser: false,
+          IsGoogleUser: false,
+          UiLanguage: en,
+          Id: 5
+        },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 5,
         AuthorIdsInts: [
           5
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 5
+        Id: 7
       },
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
       Id: 6
     },
     {
       Child: {
         Name: sub3,
-        DisableLearningFunctions: false,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -248,55 +146,24 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 5
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 5,
         AuthorIdsInts: [
           5
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 8
+        Id: 10
       },
-      Parent: {
-        Name: root,
-        DisableLearningFunctions: false,
-        IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 5,
-        AuthorIdsInts: [
-          5
-        ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 5
-      },
-      PreviousId: 7,
-      NextId: 6,
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
+      PreviousId: 9,
+      NextId: 8,
       Id: 7
     },
     {
       Child: {
         Name: sub4,
-        DisableLearningFunctions: false,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -304,54 +171,43 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 5
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 5,
         AuthorIdsInts: [
           5
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 9
+        Id: 11
       },
       Parent: {
         Name: root,
-        DisableLearningFunctions: false,
+        Creator: {
+          AllowsSupportiveLogin: false,
+          BouncedMail: false,
+          IsEmailConfirmed: false,
+          IsInstallationAdmin: false,
+          Name: User,
+          ShowWishKnowledge: false,
+          IsFacebookUser: false,
+          IsGoogleUser: false,
+          UiLanguage: en,
+          Id: 5
+        },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 5,
         AuthorIdsInts: [
           5
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 5
+        Id: 7
       },
-      PreviousId: 6,
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
+      PreviousId: 8,
       Id: 8
     },
     {
       Child: {
         Name: sub1,
-        DisableLearningFunctions: false,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -359,55 +215,44 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 5
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 5,
         AuthorIdsInts: [
           5
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 6
+        Id: 8
       },
       Parent: {
         Name: root,
-        DisableLearningFunctions: false,
+        Creator: {
+          AllowsSupportiveLogin: false,
+          BouncedMail: false,
+          IsEmailConfirmed: false,
+          IsInstallationAdmin: false,
+          Name: User,
+          ShowWishKnowledge: false,
+          IsFacebookUser: false,
+          IsGoogleUser: false,
+          UiLanguage: en,
+          Id: 5
+        },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 5,
         AuthorIdsInts: [
           5
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 5
+        Id: 7
       },
-      PreviousId: 8,
-      NextId: 9,
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
+      PreviousId: 10,
+      NextId: 11,
       Id: 9
     },
     {
       Child: {
         Name: sub1,
-        DisableLearningFunctions: false,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -415,37 +260,43 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 8
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 8,
         AuthorIdsInts: [
           8
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 11
+        Id: 14
       },
-      PreviousId: 13,
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
+      Parent: {
+        Name: root,
+        Creator: {
+          AllowsSupportiveLogin: false,
+          BouncedMail: false,
+          IsEmailConfirmed: false,
+          IsInstallationAdmin: false,
+          Name: User,
+          ShowWishKnowledge: false,
+          IsFacebookUser: false,
+          IsGoogleUser: false,
+          UiLanguage: en,
+          Id: 8
+        },
+        IsWiki: false,
+        AuthorIdsInts: [
+          8
+        ],
+        Id: 13
+      },
+      PreviousId: 16,
       Id: 10
     },
     {
       Child: {
         Name: sub2,
-        DisableLearningFunctions: false,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -453,31 +304,19 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 8
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 8,
         AuthorIdsInts: [
           8
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 12
+        Id: 15
       },
       Parent: {
         Name: root,
-        DisableLearningFunctions: false,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -485,37 +324,23 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 8
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 8,
         AuthorIdsInts: [
           8
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 10
+        Id: 13
       },
-      PreviousId: 11,
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
+      PreviousId: 14,
       Id: 11
     },
     {
-      Parent: {
-        Name: root,
-        DisableLearningFunctions: false,
+      Child: {
+        Name: sub3,
         Creator: {
           AllowsSupportiveLogin: false,
           BouncedMail: false,
-          CorrectnessProbability: {Scrubbed},
           IsEmailConfirmed: false,
           IsInstallationAdmin: false,
           Name: User,
@@ -523,48 +348,36 @@ root
           IsFacebookUser: false,
           IsGoogleUser: false,
           UiLanguage: en,
-          DateCreated: {Scrubbed},
-          DateModified: {Scrubbed},
           Id: 8
         },
         IsWiki: false,
-        TextIsHidden: false,
-        AuthorIds: 8,
         AuthorIdsInts: [
           8
         ],
-        CorrectnessProbability: {Scrubbed},
-        IsHistoric: false,
-        SkipMigration: false,
-        Language: en,
-        DateCreated: {Scrubbed},
-        DateModified: {Scrubbed},
-        Id: 10
+        Id: 16
       },
-      NextId: 11,
-      DateCreated: {Scrubbed},
-      DateModified: {Scrubbed},
+      NextId: 14,
       Id: 13
     }
   ],
   childRelations: [
     {
       Id: 13,
-      ChildId: 13,
-      ParentId: 10,
-      NextId: 11
+      ChildId: 16,
+      ParentId: 13,
+      NextId: 14
     },
     {
       Id: 10,
-      ChildId: 11,
-      ParentId: 10,
-      PreviousId: 13
+      ChildId: 14,
+      ParentId: 13,
+      PreviousId: 16
     },
     {
       Id: 11,
-      ChildId: 12,
-      ParentId: 10,
-      PreviousId: 11
+      ChildId: 15,
+      ParentId: 13,
+      PreviousId: 14
     }
   ]
 }
