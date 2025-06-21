@@ -106,4 +106,101 @@ public class TreeRenderer
 
         return orderedChildren;
     }
+
+    public static string ToAsciiParentDiagram(PageCacheItem pageCacheItem)
+    {
+        var stringBuilder = new StringBuilder();
+        var allParentPaths = GetAllParentPaths(pageCacheItem);
+
+        if (allParentPaths.Count == 0)
+        {
+            stringBuilder.AppendLine(pageCacheItem.Name + " (current - no parents)");
+            return stringBuilder.ToString();
+        }
+
+        // Display all parent paths
+        for (int pathIndex = 0; pathIndex < allParentPaths.Count; pathIndex++)
+        {
+            var parentPath = allParentPaths[pathIndex];
+            
+            if (pathIndex > 0)
+            {
+                stringBuilder.AppendLine(); // Empty line between paths
+            }
+            
+            if (allParentPaths.Count > 1)
+            {
+                stringBuilder.AppendLine($"Parent Path {pathIndex + 1}:");
+            }
+
+            // Display the chain from root to current page
+            for (int i = parentPath.Count - 1; i >= 0; i--)
+            {
+                string indent = new string(' ', (parentPath.Count - 1 - i) * 4);
+                stringBuilder.Append(indent);
+                
+                if (i < parentPath.Count - 1)
+                {
+                    stringBuilder.Append("└── ");
+                }
+                
+                stringBuilder.AppendLine(parentPath[i].Name);
+            }
+
+            // Show the current page at the bottom
+            string finalIndent = new string(' ', parentPath.Count * 4);
+            stringBuilder.Append(finalIndent);
+            stringBuilder.Append("└── ");
+            stringBuilder.AppendLine(pageCacheItem.Name + " (current)");
+        }
+
+        return stringBuilder.ToString();
+    }    /// <summary>
+    /// Gets all possible parent paths from the current page up to root pages.
+    /// Returns a list of paths, where each path is a list of parent pages from immediate parent to root.
+    /// </summary>
+    private static List<List<PageCacheItem>> GetAllParentPaths(PageCacheItem page)
+    {
+        var allPaths = new List<List<PageCacheItem>>();
+        var visitedPages = new HashSet<int>();
+        
+        GetParentPathsRecursive(page, new List<PageCacheItem>(), allPaths, visitedPages);
+        
+        return allPaths;
+    }
+
+    /// <summary>
+    /// Recursively builds all possible parent paths to avoid infinite loops in case of circular references.
+    /// </summary>
+    private static void GetParentPathsRecursive(PageCacheItem currentPage, List<PageCacheItem> currentPath, List<List<PageCacheItem>> allPaths, HashSet<int> visitedPages)
+    {
+        // Prevent infinite loops
+        if (visitedPages.Contains(currentPage.Id))
+        {
+            return;
+        }
+
+        visitedPages.Add(currentPage.Id);
+
+        // If no parents, this is a complete path to root
+        if (currentPage.ParentRelations == null || currentPage.ParentRelations.Count == 0)
+        {
+            allPaths.Add(new List<PageCacheItem>(currentPath));
+        }
+        else
+        {
+            // For each parent, continue building the path
+            foreach (var parentRelation in currentPage.ParentRelations)
+            {
+                var parent = parentRelation.Parent ?? EntityCache.GetPage(parentRelation.ParentId);
+                
+                if (parent != null)
+                {
+                    var newPath = new List<PageCacheItem>(currentPath) { parent };
+                    var newVisited = new HashSet<int>(visitedPages);
+                    GetParentPathsRecursive(parent, newPath, allPaths, newVisited);
+                }
+            }
+        }
+    }
 }

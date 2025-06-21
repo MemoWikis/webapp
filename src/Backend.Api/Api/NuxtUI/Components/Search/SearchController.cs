@@ -4,7 +4,7 @@
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo, 
+    QuestionReadingRepo _questionReadingRepo,
     SearchResultBuilder _searchResultBuilder
 ) : ApiBaseController
 {
@@ -102,7 +102,7 @@
                     _sessionUser.UserId,
                     json.pageIdsToFilter);
 
-        var wikiChildren = GraphService.Descendants(_sessionUser.User.StartPageId);
+        var wikiChildren = GraphService.Descendants(_sessionUser.FirstWikiId());
         resultPage = resultPage.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new PageResult(

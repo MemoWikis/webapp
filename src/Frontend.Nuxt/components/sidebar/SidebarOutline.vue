@@ -116,7 +116,7 @@ const headingClass = (level: number, index: number) => {
     if (previousLevel != null) {
         if (previousLevel > level)
             return `level-${level - 1} next-step`
-        if (previousLevel === 2 && level === 2)
+        if (previousLevel === 3 && level === 4)
             return `level-${level - 1} preceeding-section-is-empty`
     }
 

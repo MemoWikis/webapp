@@ -6,17 +6,6 @@ import { Tab as UserTab } from '~~/components/user/tabs/tabsEnum'
 
 // https://router.vuejs.org/api/interfaces/routeroptions.html
 export default <RouterConfig>{
-    scrollBehavior: (to, from, savedPosition) => {
-        // this will use saved scroll position on browser forward/back navigation
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve({
-                    left: savedPosition?.left || 0,
-                    top: savedPosition?.top || 0,
-                })
-            }, 500)
-        })
-    },
     routes: (_routes) => [
         {
             name: 'welcomePage',

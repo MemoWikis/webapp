@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -254,7 +253,7 @@ public class PageCacheItem : IPersistable
         if (Parents().Count == 0)
             return true;
 
-        return Id == Creator.StartPageId;
+        return false;
     }
 
     public virtual List<PageCacheItem> Parents()
@@ -725,6 +724,25 @@ public class PageCacheItem : IPersistable
     public IList<ShareCacheItem> GetDirectShares()
     {
         return EntityCache.GetPageShares(Id);
+    }
+
+    public virtual int VisibleChildrenCount(PermissionCheck permissionCheck, int userId)
+    {
+        return GraphService
+            .VisibleDescendants(Id, permissionCheck, userId)
+            .Count;
+    }
+
+    public virtual bool IsChildOfPersonalWiki(SessionUser sessionUser, PermissionCheck permissionCheck)
+    {
+        if (!sessionUser.IsLoggedIn)
+        {
+            return false;
+        }
+        
+        return GraphService
+            .VisibleDescendants(sessionUser.User.FirstWikiId, permissionCheck, sessionUser.UserId)
+            .Any(descendant => descendant.Id == Id);
     }
 }
 

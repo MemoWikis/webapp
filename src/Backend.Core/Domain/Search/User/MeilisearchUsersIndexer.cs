@@ -1,45 +1,57 @@
 ﻿using Meilisearch;
 using System.Runtime.CompilerServices;
+using Index = Meilisearch.Index;
 
 [assembly: InternalsVisibleTo("MemoWikis.Tests")]
 
 internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
 {
-    public async Task CreateAsync(User user, string indexConstant = MeilisearchIndices.Users)
+    public void Create(User user)
     {
-        var userMap = CreateUserMap(user, indexConstant, out var index);
-        var taskInfo = await index
-            .AddDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
-            .ConfigureAwait(false);
+        var userMap = CreateUserMap(user);
+        var index = GetIndex();
 
-        await CheckStatus(taskInfo).ConfigureAwait(false);
+        Task.Run(async () =>
+        {
+            var taskInfo = await index
+                .AddDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
+                .ConfigureAwait(false);
+
+            await CheckStatus(taskInfo);
+        });
     }
 
-    public async Task UpdateAsync(User user, string indexConstant = MeilisearchIndices.Users)
+    public void Update(User user)
     {
-        var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
-        var taskInfo = await index
-            .UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
-            .ConfigureAwait(false);
+        var userMap = CreateUserMap(user);
+        var index = GetIndex();
 
-        await CheckStatus(taskInfo).ConfigureAwait(false);
+        Task.Run(async () =>
+        {
+            var taskInfo = await index
+                .UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
+                .ConfigureAwait(false);
+
+            await CheckStatus(taskInfo);
+        });
     }
 
-    public async Task DeleteAsync(User user, string indexConstant = MeilisearchIndices.Users)
+    public void Delete(User user)
     {
-        var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
-        var taskInfo = await index
-            .DeleteOneDocumentAsync(userMapAndIndex.Id.ToString())
-            .ConfigureAwait(false);
+        var index = GetIndex();
 
-        await CheckStatus(taskInfo).ConfigureAwait(false);
+        Task.Run(async () =>
+        {
+            var taskInfo = await index
+                .DeleteOneDocumentAsync(user.Id.ToString())
+                .ConfigureAwait(false);
+
+            await CheckStatus(taskInfo);
+        });
     }
 
-    private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant, out Meilisearch.Index index)
+    private static MeiliSearchUserMap CreateUserMap(User user)
     {
-        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
-        index = client.Index(indexConstant);
-
         var userMap = new MeiliSearchUserMap
         {
             Id = user.Id,
@@ -50,10 +62,16 @@ internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
         };
         var userCacheItem = EntityCache.GetUserByIdNullable(user.Id);
         if (userCacheItem != null)
-            userMap.ContentLanguages = userCacheItem.ContentLanguages.Select(l => l.GetCode()).ToList();
+            userMap.ContentLanguages = userCacheItem.ContentLanguages.Select(language => language.GetCode()).ToList();
         else if (LanguageExtensions.CodeExists(user.UiLanguage))
             userMap.ContentLanguages = [user.UiLanguage];
 
         return userMap;
+    }
+
+    private static Index GetIndex()
+    {
+        var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
+        return client.Index(MeilisearchIndices.Users);
     }
 }

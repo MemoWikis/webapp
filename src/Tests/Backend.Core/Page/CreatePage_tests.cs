@@ -9,14 +9,15 @@
 
         var sessionUser = R<SessionUser>();
         var pageViewRepo = R<PageViewRepo>();
-        
+
         var sessionUserDbUser = R<UserReadingRepo>().GetById(sessionUser.UserId)!;
 
-        sessionUser.Login(sessionUserDbUser, pageViewRepo);
         var parent = context
-            .Add(parentName, creator: sessionUserDbUser)
+            .Add(parentName, creator: sessionUserDbUser, isWiki: true)
             .Persist().All
             .Single(c => c.Name.Equals(parentName));
+
+        sessionUser.Login(sessionUserDbUser, pageViewRepo);
 
         var childName = "child";
 
@@ -47,19 +48,21 @@
     public async Task Should_create_Page_in_EntityCache()
     {
         await ClearData();
-        
+
         //Arrange
         var context = NewPageContext();
+
+        var sessionUser = R<SessionUser>();
+        var sessionDbUser = R<UserReadingRepo>().GetById(sessionUser.UserId)!;
+
         var parentName = "Parent";
         var parent = context
-            .Add(parentName)
+            .Add(parentName, isWiki: true, creator: sessionDbUser)
             .Persist()
             .All
             .Single(c => c.Name.Equals(parentName));
         var pageViewRepo = R<PageViewRepo>();
 
-        var sessionUser = R<SessionUser>();
-        var sessionDbUser = R<UserReadingRepo>().GetById(sessionUser.UserId)!;
         sessionUser.Login(sessionDbUser, pageViewRepo);
 
         var childName = "child";

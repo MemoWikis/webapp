@@ -1,6 +1,7 @@
 ﻿public class DeleteUser(UserWritingRepo _userWritingRepo) : IRegisterAsInstancePerLifetime
 {
     private readonly int _viewLimit = 2000;
+
     public bool CanDelete(int userId)
     {
         var userExists = EntityCache.GetUserByIdNullable(userId);

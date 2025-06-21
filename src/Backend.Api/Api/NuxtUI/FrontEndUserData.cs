@@ -61,7 +61,7 @@
                 _knowledgeSummaryLoader,
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
-                _questionReadingRepo).GetPageData(user.StartPageId, userId: _sessionUser.UserId);
+                _questionReadingRepo).GetPageData(user.FirstWikiId, userId: _sessionUser.UserId);
 
             return new CurrentUserData
             {
@@ -70,7 +70,7 @@
                 Name = user.Name,
                 Email = user.EmailAddress,
                 IsAdmin = _sessionUser.IsInstallationAdmin,
-                PersonalWikiId = user.StartPageId,
+                PersonalWikiId = user.FirstWikiId,
                 Type = type,
                 ImgUrl = new UserImageSettings(_sessionUser.UserId, _httpContextAccessor)
                     .GetUrl_50px_square(_sessionUser.User)

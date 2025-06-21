@@ -22,19 +22,33 @@ watch(() => deletePageStore.suggestedNewParent, (val) => {
         newParentForQuestions.value = val
 })
 
-async function handlePrimaryAction() {
-    if (deletePageStore.pageDeleted) {
-        deletePageStore.showModal = false
-        deletePageStore.pageDeleted = false
+const handlePageDeletion = async () => {
+    closeModal()
 
-        if (deletePageStore.redirect)
-            await navigateTo(deletePageStore.redirectURL)
-    } else {
-        deletePageStore.deletePage()
-    }
+    if (deletePageStore.redirect)
+        await navigateTo(deletePageStore.redirectURL)
 }
 
-function selectNewParentForQuestions(page: PageItem) {
+const closeModal = () => {
+    deletePageStore.showModal = false
+    deletePageStore.pageDeleted = false
+}
+
+const handlePrimaryAction = async () => {
+    if (deletePageStore.pageDeleted)
+        await handlePageDeletion()
+    else
+        deletePageStore.deletePage()
+}
+
+const handleClose = () => {
+    if (deletePageStore.pageDeleted)
+        handlePageDeletion()
+    else
+        closeModal()
+}
+
+const selectNewParentForQuestions = (page: PageItem) => {
     newParentForQuestions.value = page
     deletePageStore.suggestedNewParent = page
 }
@@ -52,7 +66,7 @@ const { $urlHelper } = useNuxtApp()
 <template>
     <LazyModal :show="deletePageStore.showModal" :show-cancel-btn="!deletePageStore.pageDeleted"
         v-if="deletePageStore.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="handlePrimaryAction()"
-        @close="deletePageStore.showModal = false">
+        @close="handleClose">
 
         <template v-slot:header>
             <h4 class="modal-title">

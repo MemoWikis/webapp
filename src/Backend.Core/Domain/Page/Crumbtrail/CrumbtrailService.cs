@@ -114,40 +114,39 @@
     }
 
     private bool IsCurrentWikiValid(int currentWikiId, IList<PageCacheItem> parents) =>
-        parents.Any(c => c.Id == currentWikiId) && 
-        currentWikiId > 0 && 
+        parents.Any(c => c.Id == currentWikiId) &&
+        currentWikiId > 0 &&
         _permissionCheck.CanView(EntityCache.GetPage(currentWikiId));
 
 
     private PageCacheItem GetAlternativeWiki(PageCacheItem pageCacheItem, SessionUser sessionUser, IList<PageCacheItem> parents)
     {
-        var creatorWikiId = pageCacheItem.Creator.StartPageId;
-        if (_permissionCheck.CanView(EntityCache.GetPage(creatorWikiId)))
+        var creatorWiki = pageCacheItem.Creator.FirstWiki();
+        if (_permissionCheck.CanView(creatorWiki))
         {
-            var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId) ?? GetUserWiki(sessionUser, parents);
-            if (newWiki != null)
-                return newWiki;
+            var alternativeWiki = parents.FirstOrDefault(page => page.Id == creatorWiki.Id) ?? GetFirstWiki(sessionUser, parents);
+            if (alternativeWiki != null)
+                return alternativeWiki;
         }
 
         return parents.FirstOrDefault(p => p.IsWikiType()) ?? FeaturedPage.GetRootPage;
     }
 
-    private PageCacheItem? GetUserWiki(SessionUser sessionUser, IList<PageCacheItem> parents)
+    private PageCacheItem? GetFirstWiki(SessionUser sessionUser, IList<PageCacheItem> parents)
     {
         if (!sessionUser.IsLoggedIn)
             return null;
 
-        var userWikiId = _extendedUserCache.GetUser(sessionUser.UserId).StartPageId;
-        var userWiki = EntityCache.GetPage(userWikiId);
+        var firstWiki = _extendedUserCache.GetUser(sessionUser.UserId).FirstWiki();
 
-        if (parents.Any(c => c.Id == userWiki?.Id))
-            return userWiki;
+        if (parents.Any(c => c.Id == firstWiki?.Id))
+            return firstWiki;
 
         return null;
     }
 
     public int? SuggestNewParent(
-        Crumbtrail breadcrumb, 
+        Crumbtrail breadcrumb,
         SessionUser sessionUser,
         bool hasPublicQuestion)
     {
@@ -166,7 +165,7 @@
 
         var parent = breadcrumb.Items.LastOrDefault();
         if (parent == null)
-            return sessionUser.User.StartPageId;
+            return sessionUser.FirstWikiId();
 
         return parent.Page.Id;
     }

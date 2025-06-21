@@ -23,7 +23,7 @@
         if (pageCacheItem != null)
         {
             if (pageCacheItem.HasPublicParent() ||
-                pageCacheItem.Creator.StartPageId == json.id)
+                pageCacheItem.Creator.FirstWikiId == json.id)
             {
                 if (pageCacheItem.Parents().Any(c => c.Id == 1) &&
                     !_sessionUser.IsInstallationAdmin)

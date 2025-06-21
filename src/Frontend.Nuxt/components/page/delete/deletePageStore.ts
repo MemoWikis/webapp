@@ -39,11 +39,11 @@ export const useDeletePageStore = defineStore("deletePageStore", {
 
             if (await this.initDeleteData()) this.showModal = true
         },
-        async initDeleteData() {
+        async initDeleteData() {            
             interface DeleteDataResult {
                 name: string
                 canBeDeleted: boolean
-                hasChildren: boolean
+                wouldHaveOrphanedChildren: boolean
                 suggestedNewParent: PageItem | null
                 hasQuestion: boolean
                 hasPublicQuestion: boolean
@@ -56,13 +56,13 @@ export const useDeletePageStore = defineStore("deletePageStore", {
             const nuxtApp = useNuxtApp()
             const { $i18n } = nuxtApp
 
-            if (result != null) {
+            if (result != null) {                
                 this.suggestedNewParent = result.suggestedNewParent
                 this.name = result.name
                 this.hasQuestion = result.hasQuestion
                 this.hasPublicQuestion = result.hasPublicQuestion
                 this.isWiki = result.isWiki
-                if (result.hasChildren) {
+                if (result.wouldHaveOrphanedChildren) {
                     const alertStore = useAlertStore()
                     alertStore.openAlert(
                         AlertType.Error,
@@ -84,12 +84,11 @@ export const useDeletePageStore = defineStore("deletePageStore", {
             }
             snackbarStore.showSnackbar(data)
         },
-        async deletePage() {
+        async deletePage() {            
             interface DeleteResult {
                 success: boolean
                 hasChildren: boolean
-                isNotCreatorOrAdmin: boolean
-                redirectParent: {
+                redirectParent?: {
                     name: string
                     id: number
                 }
@@ -106,15 +105,16 @@ export const useDeletePageStore = defineStore("deletePageStore", {
                         parentForQuestionsId: this.suggestedNewParent?.id
                             ? this.suggestedNewParent.id
                             : null,
-                    },
-                }
+                    },                }
             )
             if (!!result && result.success) {
                 const { $urlHelper } = useNuxtApp()
-                this.redirectURL = $urlHelper.getPageUrl(
-                    result.redirectParent.name,
-                    result.redirectParent.id
-                )
+                if (result.redirectParent) {
+                    this.redirectURL = $urlHelper.getPageUrl(
+                        result.redirectParent.name,
+                        result.redirectParent.id
+                    )
+                }
                 this.pageDeleted = true
 
                 return {

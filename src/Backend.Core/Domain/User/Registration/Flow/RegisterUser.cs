@@ -55,7 +55,6 @@ public class RegisterUser(
         var page = StartPage.Get(user);
         page.Visibility = PageVisibility.Private;
         _pageRepository.Create(page);
-        user.StartPageId = page.Id;
         user.DateCreated = DateTime.Now;
         var userCacheItem = EntityCache.GetUserById(user.Id);
 

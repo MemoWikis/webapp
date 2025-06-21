@@ -73,6 +73,9 @@
             "noChildSelected": "Tu n’as sélectionné aucune sous-page.",
             "noUsersSelected": "Sélectionne au moins un utilisateur avec qui partager.",
             "shareFailure": "La page n'a pas pu être partagée. Veuillez réessayer.",
+            "notFound": "Oh non ! Cette page n'existe pas.",
+            "noRights": "Tu n'as pas les droits pour modifier cette page.",
+            "unauthorized": "Tu n'es pas connecté(e). Tu n'as peut-être pas accès à cette page.",
             "token": {
                 "removal": "Le lien de partage a été supprimé."
             }
@@ -85,7 +88,10 @@
             "isInWuwi": "Impossible de la supprimer, elle est présente {count} fois dans les Connaissances souhaitées d’autres utilisateurs. Contacte-nous si tu penses qu’elle devrait quand même être retirée.",
             "rights": "Tu n’as pas l’autorisation de faire ça.",
             "errorOnDelete": "Oups, un problème est survenu ! Les références à la question (sessions d’apprentissage, etc.) ont peut-être été partiellement supprimées.",
-            "couldNotAddFlashcards": "Impossible d’ajouter ces cartes."
+            "couldNotAddFlashcards": "Impossible d’ajouter ces cartes.",
+            "notFound": "Oh non ! Cette question n'existe pas.",
+            "noRights": "Tu n'as pas les droits pour modifier cette question.",
+            "unauthorized": "Tu n'es pas connecté(e). Tu n'as peut-être pas accès à cette question."
         },
         "user": {
             "notLoggedIn": "Merci de te connecter pour continuer.",
@@ -102,7 +108,8 @@
             "invalidFBToken": "Oups ! Le jeton Facebook fourni est incorrect. Réessaie en te reconnectant via Facebook. Sinon, contacte-nous !",
             "emailIsInvalid": "{email} n’est pas une adresse valide.",
             "passwordTooShort": "Le mot de passe doit comporter au moins 5 caractères.",
-            "loginFailed": "Connexion échouée. Vérifie ton adresse e-mail et ton mot de passe."
+            "loginFailed": "Connexion échouée. Vérifie ton adresse e-mail et ton mot de passe.",
+            "notFound": "L'utilisateur spécifié n'a pas été trouvé."
         },
         "default": "Oups, une erreur inattendue est survenue. Réessaie plus tard.",
         "route": {

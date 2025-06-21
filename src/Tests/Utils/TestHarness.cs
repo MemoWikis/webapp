@@ -278,44 +278,37 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .Persist();
     }
 
-    public async Task<string> ApiGet([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
+    public async Task<string> ApiCall([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
     {
-        var httpResponse = await this.Client.GetAsync(uri);
         var jsonContent = await httpResponse.Content.ReadAsStringAsync();
-
         var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
         var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
         return formattedJson;
     }
 
-    public async Task<TResult> ApiGet<TResult>([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
     {
         var httpResponse = await this.Client.GetAsync(uri);
-        var jsonContent = await httpResponse.Content.ReadAsStringAsync();
-
-        return JsonSerializer.Deserialize<TResult>(jsonContent, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        })!;
     }
 
-    /// <summary>
+        {
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json");
+        })!;
+        var httpResponse = await this.Client.PostAsync(uri, jsonContent);
+        return await FormatHttpResponse(httpResponse);
+    }
+
+    public async Task<T> ApiPost<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
     /// Enhanced API call method that properly handles HTTP error status codes
     /// and provides better error information for test debugging.
     /// </summary>
     public async Task<TResult> ApiPostJson<TRequest, TResult>(string endpoint, TRequest requestBody)
     {
-        var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
 
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await Client.PostAsync(endpoint, content);
 
-        var responseContent = await response.Content.ReadAsStringAsync();
 
-        return JsonSerializer.Deserialize<TResult>(responseContent, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         })!;
@@ -331,7 +324,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
-
+        return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await Client.PostAsync(endpoint, content);
 
@@ -368,31 +361,40 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         }
     }
 
-    private static void CleanupExistingContainer(string containerName)
-    {
-        try
-        {
-            // Use docker command to stop and remove existing container
-            var processInfo = new ProcessStartInfo
-            {
-                FileName = "docker",
-                Arguments = $"rm -f {containerName}",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true
-            };
+    public record struct DefaultPageVerificationData(
+        List<Dictionary<string, object?>> DbPages,
+        IList<PageCacheItem> EntityCachePages,
+        List<SearchPageItem> SearchPages,
+        List<Dictionary<string, object?>>? DbRelations = null,
+        IList<PageRelationCache>? EntityCacheRelations = null);
 
-            using var process = Process.Start(processInfo);
-            if (process != null)
-            {
-                process.WaitForExit();
-                // Ignore exit code - container might not exist
-            }
-        }
-        catch (Exception ex)
+    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true, int delayForSearch = 100)
+    {
+        var dbPages = await DbData.AllPagesAsync();
+
+        // delay for search to ensure data is indexed, since Meilisearch indexing is asynchronous
+        await Task.Delay(delayForSearch);
+        // needs to be ordered by Id for consistent results
+        var searchPages = (await SearchData.GetAllPages()).OrderBy(page => page.Id).ToList();
+
+        if (includeRelations)
         {
-            Console.WriteLine($"Error cleaning up existing container '{containerName}': {ex.Message}");
+            var dbRelations = await DbData.AllPageRelationsAsync();
+            return new DefaultPageVerificationData
+            {
+                DbPages = dbPages,
+                EntityCachePages = EntityCache.GetAllPagesList(),
+                SearchPages = searchPages,
+                DbRelations = dbRelations,
+                EntityCacheRelations = EntityCache.GetAllRelations()
+            };
         }
+
+        return new DefaultPageVerificationData
+        {
+            DbPages = dbPages,
+            EntityCachePages = EntityCache.GetAllPagesList(),
+            SearchPages = searchPages
+        };
     }
 }

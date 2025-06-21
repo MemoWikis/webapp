@@ -141,7 +141,8 @@ const route = useRoute()
 watch(() => route.params, () => {
 	if (props.site != SiteType.Page)
 		getBreadcrumb()
-})
+}, { immediate: true })
+
 watch(() => pageStore.id, (newId, oldId) => {
 	if (newId > 0 && newId != oldId && props.site === SiteType.Page) {
 		getBreadcrumb()
@@ -153,12 +154,16 @@ watch(() => props.site, (newPage, oldPage) => {
 		getBreadcrumb()
 })
 
-async function getBreadcrumb() {
-	shouldCalc.value = true
-
-	rootWikiIsStacked.value = false
+const clearBreadcrumb = () => {
+	breadcrumb.value = undefined
 	breadcrumbItems.value = []
 	stackedBreadcrumbItems.value = []
+	rootWikiIsStacked.value = false
+	pageTitle.value = ''
+}
+
+async function getBreadcrumb() {
+	clearBreadcrumb()
 
 	await nextTick()
 
@@ -371,8 +376,7 @@ convertStore.$onAction(({ name, after }) => {
 		<div ref="lastBreadcrumbItem"></div>
 
 		<VDropdown :aria-id="ariaId2" :distance="0">
-			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`"
-				:class="{ 'current-wiki': pageStore.id === pageStore.currentWiki?.id }">
+			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`" :class="{ 'current-wiki': pageStore.id === pageStore.currentWiki?.id }">
 				{{ pageStore.name }}
 			</div>
 			<template #popper>

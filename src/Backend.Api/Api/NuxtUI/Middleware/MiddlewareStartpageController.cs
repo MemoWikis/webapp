@@ -6,7 +6,7 @@
     public TinyPage Get()
     {
         var page = _sessionUser.IsLoggedIn
-            ? EntityCache.GetPage(_sessionUser.User.StartPageId)
+            ? _sessionUser.User.FirstWiki()
             : FeaturedPage.GetRootPage;
         
         return new TinyPage { Name = page.Name, Id = page.Id };

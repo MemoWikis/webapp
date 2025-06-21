@@ -465,7 +465,7 @@ const createFlashcard = () => {
 
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
 .page-content-menubar {
@@ -592,8 +592,8 @@ const createFlashcard = () => {
 
         &:focus,
         &:focus-visible {
-            outline: none !important;
-            border: none !important;
+            outline: none;
+            border: none;
             box-shadow: none;
         }
     }

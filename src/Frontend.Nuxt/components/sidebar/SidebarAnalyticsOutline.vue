@@ -10,22 +10,30 @@ const getCurrentHeadingId = () => {
     if (PAGE_ANALYTICS_SECTIONS.length === 0) return
 
     const headings = PAGE_ANALYTICS_SECTIONS
-    const offset = 120
-    let headingId: string | null = null
+    const offset = 180
+    let headingId: string | null = headings[0].id
 
     const startIndex = headings.findIndex(h => h.id === currentHeadingId.value)
 
-    for (const heading of headings) {
-        const element = document.getElementById(heading.id)
-        if (!element) continue
+    // Check if user has scrolled to the bottom of the page
+    const isScrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 40
 
-        const rect = element.getBoundingClientRect()
-        const topPosition = rect.top + window.scrollY
+    if (isScrolledToBottom) {
+        // Use the last heading when scrolled to bottom
+        headingId = headings[headings.length - 1].id
+    } else {
+        for (const heading of headings) {
+            const element = document.getElementById(heading.id)
+            if (!element) continue
 
-        if (window.scrollY >= topPosition - offset) {
-            headingId = heading.id
-        } else {
-            break
+            const rect = element.getBoundingClientRect()
+            const topPosition = rect.top + window.scrollY
+
+            if (window.scrollY >= topPosition - offset) {
+                headingId = heading.id
+            } else {
+                break
+            }
         }
     }
 

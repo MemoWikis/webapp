@@ -9,8 +9,6 @@ public class PageToQuestionRepo(ISession _session)
             .CreateSQLQuery("DELETE FROM pages_to_questions WHERE Page_id = :pageId")
             .SetParameter("pageId", pageId)
             .ExecuteUpdate();
-
-        _session.Flush();
     }
 
     public void AddQuestionsToPage(int pageId, List<int> questionIds)
@@ -50,4 +48,3 @@ public class PageToQuestionRepo(ISession _session)
         }
     }
 }
-
