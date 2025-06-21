@@ -53,7 +53,8 @@ interface Wuwi {
 interface User {
     id: number
     name: string
-    wikiUrl?: string
+    wikiName: string
+    wikiId?: number
     imageUrl: string
     reputationPoints: number
     rank: number
@@ -221,8 +222,8 @@ userStore.$onAction(({ name, after }) => {
                     </NuxtLink>
                 </div>
                 <div class="profile-btn-container">
-                    <button class="memo-button btn btn-primary" v-if="profile.user.wikiUrl">
-                        <NuxtLink :to="profile.user.wikiUrl">
+                    <button class="memo-button btn btn-primary" v-if="profile.user.wikiName && profile.user.wikiId">
+                        <NuxtLink :to="$urlHelper.getPageUrl(profile.user.wikiName, profile.user.wikiId)">
                             <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                             <font-awesome-icon icon="fa-solid fa-house" v-else />
                             {{ t(isCurrentUser ? 'user.profile.toMyWiki' : 'user.profile.toUserWiki', { name: profile.user.name }) }}

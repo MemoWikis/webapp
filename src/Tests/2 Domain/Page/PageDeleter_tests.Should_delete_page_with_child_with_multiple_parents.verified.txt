@@ -1,0 +1,163 @@
+﻿{
+  deleteResult: {
+    HasChildren: false,
+    Success: true,
+    RedirectParent: {
+      Name: Root Page,
+      Id: 1
+    }
+  },
+  originalTree:
+parent name
+├── first child name
+│   └── child of child name
+│   [child of child name]
+└── second child name
+    └── child of child name
+    [child of child name]
+[first child name] → [second child name]
+,
+  newTree:
+parent name
+└── second child name
+    └── child of child name
+    [child of child name]
+[second child name]
+,
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 2,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: false,
+        Name: parent name,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 4,
+        IsWiki: false,
+        Name: second child name,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 5,
+        IsWiki: false,
+        Name: child of child name,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 2,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        ChildRelations: [
+          {
+            Id: 2,
+            ChildId: 4,
+            ParentId: 2
+          }
+        ],
+        Id: 2,
+        Name: parent name,
+        IsPublic: true,
+        IsWiki: false
+      },
+      {
+        CreatorId: 1,
+        ParentRelations: [
+          {
+            Id: 2,
+            ChildId: 4,
+            ParentId: 2
+          }
+        ],
+        ChildRelations: [
+          {
+            Id: 4,
+            ChildId: 5,
+            ParentId: 4
+          }
+        ],
+        Id: 4,
+        Name: second child name,
+        IsPublic: true,
+        IsWiki: false
+      },
+      {
+        CreatorId: 1,
+        ParentRelations: [
+          {
+            Id: 4,
+            ChildId: 5,
+            ParentId: 4
+          }
+        ],
+        Id: 5,
+        Name: child of child name,
+        IsPublic: true,
+        IsWiki: false
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: parent name
+      },
+      {
+        Id: 4,
+        Name: second child name
+      },
+      {
+        Id: 5,
+        Name: child of child name
+      }
+    ],
+    DbRelations: [
+      {
+        Id: 2,
+        Next_id: null,
+        Page_id: 4,
+        Previous_id: null,
+        Related_id: 2
+      },
+      {
+        Id: 4,
+        Next_id: null,
+        Page_id: 5,
+        Previous_id: null,
+        Related_id: 4
+      }
+    ],
+    EntityCacheRelations: [
+      {
+        Id: 2,
+        ChildId: 4,
+        ParentId: 2
+      },
+      {
+        Id: 4,
+        ChildId: 5,
+        ParentId: 4
+      }
+    ]
+  }
+}

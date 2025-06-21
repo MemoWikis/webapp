@@ -12,19 +12,22 @@
         _pageRepository = testHarness.R<PageRepository>();
         _contextUser = ContextUser.New(_testHarness.R<UserWritingRepo>());
 
-        if (!addContextUser)
-            return;
+        if (addContextUser)
+            _contextUser.Add("User").Persist();
 
-        _contextUser.Add("User").Persist();
+        Add("Root Page", isWiki: true);
     }
 
-    public ContextPage Add(int amount)
+    public ContextPage Add(int amount, bool isWiki = false)
     {
+        var name = isWiki ? "Wiki name" : "Page name";
+
         for (var i = 0; i < amount; i++)
-            Add($"page name {i + 1}");
+            Add($"{name} {i + 1}", isWiki: isWiki);
 
         return this;
     }
+
 
     public ContextPage Add(Page page)
     {
@@ -50,6 +53,12 @@
 
         return this;
     }
+
+    public Page AddAndGet(
+        string pageName,
+        User? creator = null,
+        PageVisibility visibility = PageVisibility.Public,
+        bool isWiki = false) => Add(pageName, creator, visibility, isWiki).All.Last();
 
     public ContextPage AddChild(Page parent, Page child)
     {
@@ -177,4 +186,6 @@
     {
         return All.Single(c => c.Name == name);
     }
+
+    public ContextUser ContextUser => _contextUser;
 }

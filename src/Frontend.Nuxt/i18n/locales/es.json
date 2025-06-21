@@ -73,6 +73,9 @@
             "noChildSelected": "No has seleccionado ninguna subpágina.",
             "noUsersSelected": "Por favor, selecciona al menos un usuario con quien compartir.",
             "shareFailure": "No se pudo compartir la página. Por favor, inténtalo de nuevo.",
+            "notFound": "¡Oh, no! Esta página no existe.",
+            "noRights": "No tienes permiso para editar esta página.",
+            "unauthorized": "No has iniciado sesión. Es posible que no tengas acceso a esta página.",
             "token": {
                 "removal": "No se pudo eliminar el enlace de compartir. Por favor, inténtalo de nuevo."
             }
@@ -85,7 +88,10 @@
             "isInWuwi": "No se puede eliminar la pregunta porque aparece {count} vez/veces en el Conocimiento deseado de otros usuarios. Contáctanos si crees que debería eliminarse igualmente.",
             "rights": "No tienes permiso para hacer eso.",
             "errorOnDelete": "Ha ocurrido un error. Puede que haya referencias parciales a la pregunta (sesiones de aprendizaje, citas, entradas de Conocimiento deseado...).",
-            "couldNotAddFlashcards": "No se pudieron añadir las tarjetas."
+            "couldNotAddFlashcards": "No se pudieron añadir las tarjetas.",
+            "notFound": "¡Oh, no! Esta pregunta no existe.",
+            "noRights": "No tienes permiso para editar esta pregunta.",
+            "unauthorized": "No has iniciado sesión. Es posible que no tengas acceso a esta pregunta."
         },
         "user": {
             "notLoggedIn": "Por favor, inicia sesión.",
@@ -102,7 +108,8 @@
             "invalidFBToken": "¡Hola! Parece que el token de Facebook proporcionado no es correcto. Prueba de nuevo con un nuevo inicio de sesión en Facebook. Si aún falla, contáctanos. ¡Con gusto te ayudamos!",
             "emailIsInvalid": "{email} no es una dirección de correo electrónico válida.",
             "passwordTooShort": "La contraseña debe tener al menos 5 caracteres.",
-            "loginFailed": "No se ha podido iniciar sesión. Verifica tu correo electrónico y tu contraseña."
+            "loginFailed": "No se ha podido iniciar sesión. Verifica tu correo electrónico y tu contraseña.",
+            "notFound": "No se encontró el usuario especificado."
         },
         "default": "Desafortunadamente, ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.",
         "route": {

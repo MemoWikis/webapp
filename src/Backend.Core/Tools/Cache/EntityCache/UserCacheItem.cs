@@ -3,7 +3,6 @@ using static System.String;
 public class UserCacheItem : IUserTinyModel, IPersistable
 {
     public int ReputationPos;
-    public int StartPageId;
     public int WishCountQuestions;
     public bool IsMemoWikisUser => Settings.MemoWikisUserId == Id;
 
@@ -63,7 +62,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         ShowWishKnowledge = user.ShowWishKnowledge;
         IsInstallationAdmin = user.IsInstallationAdmin;
 
-        StartPageId = user.StartPageId;
         WishCountQuestions = user.WishCountQuestions;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         KnowledgeReportInterval = user.KnowledgeReportInterval;
@@ -98,7 +96,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         ShowWishKnowledge = user.ShowWishKnowledge;
         IsInstallationAdmin = user.IsInstallationAdmin;
 
-        StartPageId = user.StartPageId;
         WishCountQuestions = user.WishCountQuestions;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         KnowledgeReportInterval = user.KnowledgeReportInterval;
@@ -156,14 +153,16 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         FavoriteIds = FavoriteIds.Where(id => EntityCache.GetPage(id) != null).ToList();
     }
 
+    public int FirstWikiId => FirstWiki().Id;
+    public PageCacheItem FirstWiki() => EntityCache.GetWikisByUserId(userId: Id).FirstOrDefault();
     public List<PageCacheItem> GetWikis() => EntityCache.GetWikisByUserId(userId: Id);
 
     public List<PageCacheItem> GetFavorites()
     {
         RemoveDeletedFavoriteIds();
-        
-        return Favorites.Any() 
-            ? Favorites 
+
+        return Favorites.Any()
+            ? Favorites
             : [];
     }
 

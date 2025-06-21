@@ -85,7 +85,7 @@
             ImgUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                 .GetUrl_128px_square(user)
                 .Url,
-            WikiId = _permissionCheck.CanViewPage(user.StartPageId) ? user.StartPageId : -1,
+            WikiId = _permissionCheck.CanViewPage(user.FirstWikiId) ? user.FirstWikiId : -1,
             ContentLanguages = user.ContentLanguages.Select(l => l.GetCode()).ToList()
         };
     }

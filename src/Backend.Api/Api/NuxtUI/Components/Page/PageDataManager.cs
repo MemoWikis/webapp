@@ -123,7 +123,7 @@ public class PageDataManager(
             }).ToArray(),
             IsWiki = page.IsWiki,
             CurrentUserIsCreator = CurrentUserIsCreator(page),
-            CanBeDeleted = _permissionCheck.CanDelete(page),
+            CanBeDeleted = _permissionCheck.CanDelete(page).Allowed,
             QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId, permissionCheck: _permissionCheck),
             DirectQuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId, true, page.Id, permissionCheck: _permissionCheck),
             ImageId = imageMetaData != null ? imageMetaData.Id : 0,
@@ -152,7 +152,7 @@ public class PageDataManager(
                 _knowledgeSummaryLoader,
                 _questionReadingRepo).GetChildren(id),
             IsChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache
-                .GetPage(_sessionUser.User.StartPageId)
+                .GetPage(_sessionUser.User.FirstWikiId)
                 .ChildRelations
                 .Any(r => r.ChildId == page.Id),
             TextIsHidden = page.TextIsHidden,

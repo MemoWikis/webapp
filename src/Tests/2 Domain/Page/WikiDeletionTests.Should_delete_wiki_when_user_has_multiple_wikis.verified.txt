@@ -1,0 +1,78 @@
+﻿{
+  deleteResult: {
+    HasChildren: false,
+    Success: true,
+    RedirectParent: {
+      Name: First Wiki,
+      Id: 2
+    }
+  },
+  originalTree:
+First Wiki
+,
+  newTree:
+First Wiki
+,
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 2,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: true,
+        Name: First Wiki,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 4,
+        IsWiki: true,
+        Name: Third Wiki,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 2,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        Id: 2,
+        Name: First Wiki,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        Id: 4,
+        Name: Third Wiki,
+        IsPublic: true,
+        IsWiki: true
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: First Wiki
+      },
+      {
+        Id: 4,
+        Name: Third Wiki
+      }
+    ]
+  }
+}
