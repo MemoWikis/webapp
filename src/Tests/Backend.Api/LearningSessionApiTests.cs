@@ -50,7 +50,7 @@ internal class LearningSessionApiTests : BaseTestHarness
         var newSessionResponse = await _testHarness.ApiLearningSessionStore.NewSession(sessionConfig);
 
         // Assert - Verify session was created successfully and test question answering workflow
-        await Verify(new { newSessionResponse });
+        await Verify(new { newSessionResponse }).UseMethodName("LearningSession-Start");
         await AnswerQuestionsAndVerifyState(newSessionResponse);
     }
 
@@ -76,11 +76,8 @@ internal class LearningSessionApiTests : BaseTestHarness
         var answerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSession(answerRequest);
         await Verify(new
         {
-            correct = answerResponse.Correct,
-            hasCorrectAnswer = !string.IsNullOrEmpty(answerResponse.CorrectAnswer),
-            newStepAdded = answerResponse.NewStepAdded,
-            isLastStep = answerResponse.IsLastStep
-        }).UseMethodName("FirstQuestionAnswer");
+            answerResponse
+        }).UseMethodName("LearningSession-Answer1");
 
         // Test the MarkAsCorrect endpoint functionality
         var markCorrectRequest = new MarkAsCorrectParam(
@@ -94,35 +91,26 @@ internal class LearningSessionApiTests : BaseTestHarness
         var currentSessionResponse = await _testHarness.ApiLearningSessionStore.GetCurrentSession();
 
         // Test answering a second question if available in the session
-        if (currentSessionResponse.Success && currentSessionResponse.Steps.Length > 1)
+        // Navigate to the second question in the session
+        var nextQuestionIndex = 1;
+        var loadSpecificSession = await _testHarness.ApiLearningSessionStore.LoadSpecificQuestion(nextQuestionIndex);
+
+        // Answer second question incorrectly to test wrong answer handling
+        var secondQuestionId = loadSpecificSession.CurrentStep.Value.id;
+        var secondAnswerRequest = new SendAnswerToLearningSessionRequest(
+            Id: secondQuestionId,
+            QuestionViewGuid: Guid.NewGuid(),
+            Answer: "Wrong answer",
+            InTestMode: false
+        );
+
+        var secondAnswerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSession(secondAnswerRequest);
+
+        // Verify incorrect answer response
+        await Verify(new
         {
-            // Navigate to the second question in the session
-            var nextQuestionIndex = 1;
-            var loadSpecificSession = await _testHarness.ApiLearningSessionStore.LoadSpecificQuestion(nextQuestionIndex);
-
-            if (loadSpecificSession.Success && loadSpecificSession.CurrentStep != null)
-            {
-                // Answer second question incorrectly to test wrong answer handling
-                var secondQuestionId = loadSpecificSession.CurrentStep.Value.id;
-                var secondAnswerRequest = new SendAnswerToLearningSessionRequest(
-                    Id: secondQuestionId,
-                    QuestionViewGuid: Guid.NewGuid(),
-                    Answer: "Wrong answer",
-                    InTestMode: false
-                );
-
-                var secondAnswerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSession(secondAnswerRequest);
-
-                // Verify incorrect answer response
-                await Verify(new
-                {
-                    correct = secondAnswerResponse.Correct,
-                    hasCorrectAnswer = !string.IsNullOrEmpty(secondAnswerResponse.CorrectAnswer),
-                    newStepAdded = secondAnswerResponse.NewStepAdded,
-                    isLastStep = secondAnswerResponse.IsLastStep
-                }).UseMethodName("SecondQuestionAnswer");
-            }
-        }
+            secondAnswerResponse
+        }).UseMethodName("LearningSession-Answer2");
 
         // Perform comprehensive verification of final system state
         await VerifyFinalState();
@@ -225,7 +213,7 @@ internal class LearningSessionApiTests : BaseTestHarness
             stepsLoaded = stepsResponse.Length,
             lastStepSuccess = lastStepResponse.Success,
             activeQuestionCount = lastStepResponse.ActiveQuestionCount
-        }).UseMethodName("NavigationTest");
+        }).UseMethodName("LearningSession-FinalState");
     }
 
     /// <summary>
@@ -257,7 +245,7 @@ internal class LearningSessionApiTests : BaseTestHarness
             solid = true
         };
 
-        var invalidResponse = await _testHarness.ApiLearningSessionStore.NewSession(invalidSessionConfig);
+        _ = await _testHarness.ApiLearningSessionStore.NewSession(invalidSessionConfig);
 
         // Test answering question without an active session
         var invalidAnswerRequest = new SendAnswerToLearningSessionRequest(
@@ -265,28 +253,17 @@ internal class LearningSessionApiTests : BaseTestHarness
             QuestionViewGuid: Guid.NewGuid(),
             Answer: "Some answer",
             InTestMode: false
-        );
-
+        );        
+        
         // Attempt to answer question and handle potential exceptions
-        try
-        {
-            var invalidAnswerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSession(invalidAnswerRequest);
+        var invalidAnswerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSessionCall(invalidAnswerRequest);
+        var responseContent = await invalidAnswerResponse.Content.ReadAsStringAsync();
 
-            await Verify(new
-            {
-                invalidAnswerResponse
-            }).UseMethodName("InvalidRequests");
-        }
-        catch (Exception ex)
+        await Verify(new
         {
-            // Verify error handling behavior when session is invalid
-            await Verify(new
-            {
-                invalidSessionSuccess = invalidResponse.Success,
-                invalidSessionMessage = invalidResponse.MessageKey,
-                answerWithoutSessionThrew = true,
-                exceptionType = ex.GetType().Name
-            }).UseMethodName("InvalidRequests");
-        }
+            statusCode = invalidAnswerResponse.StatusCode, // 500
+            isSuccessStatusCode = invalidAnswerResponse.IsSuccessStatusCode, //false
+            responseContent = responseContent
+        }).UseMethodName("InvalidRequests");
     }
 }

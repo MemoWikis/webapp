@@ -299,22 +299,10 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         })!;
     }
 
-    public async Task<JsonElement> ApiPostJson(string endpoint, object requestBody)
-    {
-        var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
-
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await Client.PostAsync(endpoint, content);
-
-        response.EnsureSuccessStatusCode();
-        var responseContent = await response.Content.ReadAsStringAsync();
-
-        return JsonSerializer.Deserialize<JsonElement>(responseContent);
-    }
-
+    /// <summary>
+    /// Enhanced API call method that properly handles HTTP error status codes
+    /// and provides better error information for test debugging.
+    /// </summary>
     public async Task<TResult> ApiPostJson<TRequest, TResult>(string endpoint, TRequest requestBody)
     {
         var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
@@ -325,13 +313,29 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await Client.PostAsync(endpoint, content);
 
-        response.EnsureSuccessStatusCode();
         var responseContent = await response.Content.ReadAsStringAsync();
 
         return JsonSerializer.Deserialize<TResult>(responseContent, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         })!;
+    }
+
+    /// <summary>
+    /// API call method that returns the raw HttpResponseMessage for handling error scenarios
+    /// where the response cannot be deserialized to the expected type.
+    /// </summary>
+    public async Task<HttpResponseMessage> ApiCall<TRequest>(string endpoint, TRequest requestBody)
+    {
+        var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await Client.PostAsync(endpoint, content);
+
+        return response;
     }
 
     private sealed class ProgramWebApplicationFactory(

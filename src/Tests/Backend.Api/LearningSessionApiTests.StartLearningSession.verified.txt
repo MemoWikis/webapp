@@ -1,7 +1,0 @@
-﻿{
-  success: true,
-  stepsCount: 5,
-  activeQuestionCount: 5,
-  hasCurrentStep: true,
-  firstQuestionId: 4
-}

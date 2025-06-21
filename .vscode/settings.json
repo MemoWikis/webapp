@@ -3,5 +3,7 @@
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     "*.cs": "${capture}.*.verified.txt, ${capture}.*.received.txt"
-  }
+  },
+  // yeagh i know, should be in the workspace settings, but ...
+  "vscode-pets.theme": "forest"
 }
