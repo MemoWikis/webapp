@@ -1,0 +1,23 @@
+﻿{
+  finalSession: {
+    success: false,
+    stepsCount: 4,
+    activeQuestionCount: 4,
+    currentStepIndex: 2
+  },
+  sessionResult: {
+    uniqueQuestionCount: 4,
+    correctCount: 1,
+    wrongCount: 1,
+    notAnsweredCount: 2,
+    pageId: 1,
+    pageName: LearningUser Topic 1
+  },
+  databaseState: {
+    userCount: 5,
+    pageCount: 31,
+    questionCount: 62,
+    firstUserId: 1,
+    firstPageId: 1
+  }
+}

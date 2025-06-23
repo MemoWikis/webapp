@@ -16,7 +16,7 @@ public class LearningSessionStoreApiWrapper(TestHarness _testHarness)
         await _testHarness.ApiGet<LearningSessionResponse>("/apiVue/LearningSessionStore/GetCurrentSession");
 
     public async Task<LearningSessionResponse> LoadSpecificQuestion(int questionIndex) => 
-        await _testHarness.ApiGet<LearningSessionResponse>($"/apiVue/LearningSessionStore/LoadSpecificQuestion/{questionIndex}");
+        await _testHarness.ApiPost<LearningSessionResponse>($"/apiVue/LearningSessionStore/LoadSpecificQuestion/{questionIndex}", String.Empty);
 
     public async Task<StepResult[]> LoadSteps() => 
         await _testHarness.ApiGet<StepResult[]>("/apiVue/LearningSessionStore/LoadSteps");

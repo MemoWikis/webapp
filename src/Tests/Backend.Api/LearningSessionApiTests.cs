@@ -50,14 +50,17 @@ internal class LearningSessionApiTests : BaseTestHarness
         var newSessionResponse = await _testHarness.ApiLearningSessionStore.NewSession(sessionConfig);
 
         // Steps a random per default, that lets the verify tests fail
-        
+
 
         // Assert - Verify session was created successfully and test question answering workflow
+
+        var currentStep = newSessionResponse.Steps.First(step => step.id == newSessionResponse.CurrentStep!.Value.id);
         await Verify(new
         {
-            newSessionResponse.CurrentStep,
+            indexIsZero = currentStep.index == 0, //fresh initializied 
             newSessionResponse.ActiveQuestionCount
         }).UseMethodName("LearningSession-Start");
+        
         await AnswerQuestionsAndVerifyState(newSessionResponse);
     }
 
@@ -83,7 +86,7 @@ internal class LearningSessionApiTests : BaseTestHarness
         var answerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSession(answerRequest);
         await Verify(new
         {
-            answerResponse
+            firstAnswerCorrect = answerResponse.Correct
         }).UseMethodName("LearningSession-Answer1");
 
         // Test the MarkAsCorrect endpoint functionality
@@ -117,7 +120,7 @@ internal class LearningSessionApiTests : BaseTestHarness
         await Verify(new
         {
             markCorrectResponse,
-            secondAnswerResponse
+            secondAnswerIsCorrect = secondAnswerResponse.Correct,
         }).UseMethodName("LearningSession-Answer2");
 
         // Perform comprehensive verification of final system state
@@ -147,7 +150,7 @@ internal class LearningSessionApiTests : BaseTestHarness
                 success = finalSessionResponse.Success,
                 stepsCount = finalSessionResponse.Steps.Length,
                 activeQuestionCount = finalSessionResponse.ActiveQuestionCount,
-                currentStepId = finalSessionResponse.CurrentStep?.id ?? 0,
+                currentStepIndex = finalSessionResponse.CurrentStep?.index,
                 messageKey = finalSessionResponse.MessageKey
             },
             sessionResult = new

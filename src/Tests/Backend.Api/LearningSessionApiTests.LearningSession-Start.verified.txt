@@ -1,7 +1,4 @@
 ﻿{
-  CurrentStep: {
-    id: 4,
-    isLastStep: false
-  },
+  indexIsZero: true,
   ActiveQuestionCount: 5
 }
