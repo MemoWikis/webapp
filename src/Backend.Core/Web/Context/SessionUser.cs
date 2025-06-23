@@ -41,12 +41,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
         set => _httpContext.Session.SetInt32("userId", value);
     }
 
-    private int _last
-    {
-        get => _httpContext.Session.GetInt32("userId") ?? 0;
-        set => _httpContext.Session.SetInt32("userId", value);
-    }
-
     public ExtendedUserCacheItem User
     {
         get
