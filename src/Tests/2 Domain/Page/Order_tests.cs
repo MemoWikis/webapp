@@ -387,7 +387,7 @@ class Order_tests : BaseTestHarness
 
         // Arrange
         var context = NewPageContext();
-        
+
         var sessionUser = R<SessionUser>();
         var authorId = sessionUser.UserId;
         var creator = new User { Id = authorId };
@@ -422,7 +422,7 @@ class Order_tests : BaseTestHarness
         var cachedRoot = EntityCache.GetPage(root);
         if (cachedRoot == null)
             throw new InvalidOperationException("Cached root page is null");
-            
+
         var initialTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
         var snapshots = new Dictionary<string, string>();
         snapshots.Add("initial", initialTree);
@@ -430,7 +430,7 @@ class Order_tests : BaseTestHarness
         //Act - Perform multiple moves in sequence
 
         // Move 1: sub1 after sub3
-        var move1Result = await _testHarness.ApiCallPost<EditPageRelationStoreController.MovePageResult>("apiVue/EditPageRelationStore/MovePage", new
+        var move1Result = await _testHarness.ApiPost<EditPageRelationStoreController.MovePageResult>("apiVue/EditPageRelationStore/MovePage", new
         {
             MovingPageId = sub1.Id,
             TargetId = sub3.Id,
@@ -446,7 +446,7 @@ class Order_tests : BaseTestHarness
         snapshots.Add("after_move1", TreeRenderer.ToAsciiDiagram(rootAfterMove1));
 
         // Move 2: sub4 before sub2
-        var move2Result = await _testHarness.ApiCallPost<EditPageRelationStoreController.MovePageResult>("apiVue/EditPageRelationStore/MovePage", new
+        var move2Result = await _testHarness.ApiPost<EditPageRelationStoreController.MovePageResult>("apiVue/EditPageRelationStore/MovePage", new
         {
             MovingPageId = sub4.Id,
             TargetId = sub2.Id,
@@ -462,7 +462,7 @@ class Order_tests : BaseTestHarness
         snapshots.Add("after_move2", TreeRenderer.ToAsciiDiagram(rootAfterMove2));
 
         // Move 3: sub2 after sub3
-        var move3Result = await _testHarness.ApiCallPost<EditPageRelationStoreController.MovePageResult>("apiVue/EditPageRelationStore/MovePage", new
+        var move3Result = await _testHarness.ApiPost<EditPageRelationStoreController.MovePageResult>("apiVue/EditPageRelationStore/MovePage", new
         {
             MovingPageId = sub2.Id,
             TargetId = sub3.Id,
@@ -478,7 +478,7 @@ class Order_tests : BaseTestHarness
         snapshots.Add("after_move3", TreeRenderer.ToAsciiDiagram(rootAfterMove3));
 
         // Move 4: sub3 to beginning (before sub4)
-        var move4Result = await _testHarness.ApiCallPost<EditPageRelationStoreController.MovePageResult>("apiVue/EditPageRelationStore/MovePage", new
+        var move4Result = await _testHarness.ApiPost<EditPageRelationStoreController.MovePageResult>("apiVue/EditPageRelationStore/MovePage", new
         {
             MovingPageId = sub3.Id,
             TargetId = sub4.Id,

@@ -113,7 +113,7 @@ public class EditPageRelationStoreController(
         if (!_permissionCheck.CanMovePage(request.MovingPageId, request.OldParentId, request.NewParentId))
         {
             if (request.NewParentId == FeaturedPage.RootPageId &&
-                EntityCache.GetPage(json.MovingPageId)?.Visibility == PageVisibility.Public)
+                EntityCache.GetPage(request.MovingPageId)?.Visibility == PageVisibility.Public)
                 throw new SecurityException(FrontendMessageKeys.Error.Page.ParentIsRoot);
 
             throw new SecurityException(FrontendMessageKeys.Error.Page.MissingRights);
