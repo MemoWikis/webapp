@@ -54,19 +54,14 @@
 
         return new GridPageItem
         {
-            Id = page.Id,
-            Name = page.Name,
+            Id = page.Id,            Name = page.Name,
             QuestionCount = page.GetAggregatedQuestions(_sessionUser.UserId, permissionCheck: _permissionCheck).Count,
-            ChildrenCount = GraphService
-                .VisibleDescendants(page.Id, _permissionCheck, _sessionUser.UserId)
-                .Count,
+            ChildrenCount = page.VisibleChildrenCount(_permissionCheck, _sessionUser.UserId),
             ImageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Page).Url,
             Visibility = page.Visibility,
             Parents = GetParents(page),
             KnowledgebarData = GetKnowledgebarData(page),
-            IsChildOfPersonalWiki = _sessionUser.IsLoggedIn && GraphService
-                .VisibleDescendants(_sessionUser.User.StartPageId, _permissionCheck,
-                    _sessionUser.UserId).Any(c => c.Id == page.Id),
+            IsChildOfPersonalWiki = page.IsChildOfPersonalWiki(_sessionUser, _permissionCheck),
             CreatorId = page.CreatorId,
             CanDelete = _sessionUser.IsLoggedIn &&
                         (page.CreatorId == _sessionUser.User.Id ||

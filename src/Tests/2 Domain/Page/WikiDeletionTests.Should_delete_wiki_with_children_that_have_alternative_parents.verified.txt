@@ -1,0 +1,161 @@
+﻿{
+  deleteResult: {
+    HasChildren: false,
+    Success: true,
+    RedirectParent: {
+      Name: First Wiki,
+      Id: 2
+    }
+  },
+  originalTree:
+Parent Path 1:
+Wiki To Delete
+    └── Child Page (current)
+
+Parent Path 2:
+First Wiki
+    └── Alternative Parent
+        └── Child Page (current)
+,
+  newTree:
+First Wiki
+    └── Alternative Parent
+        └── Child Page (current)
+,
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 2,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: true,
+        Name: First Wiki,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 4,
+        IsWiki: false,
+        Name: Alternative Parent,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 5,
+        IsWiki: false,
+        Name: Child Page,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 2,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        ChildRelations: [
+          {
+            Id: 1,
+            ChildId: 4,
+            ParentId: 2
+          }
+        ],
+        Id: 2,
+        Name: First Wiki,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        ParentRelations: [
+          {
+            Id: 1,
+            ChildId: 4,
+            ParentId: 2
+          }
+        ],
+        ChildRelations: [
+          {
+            Id: 3,
+            ChildId: 5,
+            ParentId: 4
+          }
+        ],
+        Id: 4,
+        Name: Alternative Parent,
+        IsPublic: true,
+        IsWiki: false
+      },
+      {
+        CreatorId: 1,
+        ParentRelations: [
+          {
+            Id: 3,
+            ChildId: 5,
+            ParentId: 4
+          }
+        ],
+        Id: 5,
+        Name: Child Page,
+        IsPublic: true,
+        IsWiki: false
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: First Wiki
+      },
+      {
+        Id: 4,
+        Name: Alternative Parent
+      },
+      {
+        Id: 5,
+        Name: Child Page
+      }
+    ],
+    DbRelations: [
+      {
+        Id: 1,
+        Next_id: null,
+        Page_id: 4,
+        Previous_id: null,
+        Related_id: 2
+      },
+      {
+        Id: 3,
+        Next_id: null,
+        Page_id: 5,
+        Previous_id: null,
+        Related_id: 4
+      }
+    ],
+    EntityCacheRelations: [
+      {
+        Id: 1,
+        ChildId: 4,
+        ParentId: 2
+      },
+      {
+        Id: 3,
+        ChildId: 5,
+        ParentId: 4
+      }
+    ]
+  }
+}

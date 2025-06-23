@@ -25,9 +25,7 @@ public class PageRepository(
 
         pageChangeRepo.AddCreateEntry(this, page, page.Creator?.Id ?? -1);
 
-        Task.Run(async () => await new MeilisearchPageIndexer()
-            .CreateAsync(page)
-            .ConfigureAwait(false));
+        new MeilisearchPageIndexer().Create(page);
     }
 
     public IList<Page> GetAllEager()
@@ -182,12 +180,7 @@ public class PageRepository(
 
         Flush();
         updateQuestionCountForPage.RunForJob(page, authorId);
-        Task.Run(async () =>
-        {
-            await new MeilisearchPageIndexer()
-                .UpdateAsync(page)
-                .ConfigureAwait(false);
-        });
+        new MeilisearchPageIndexer().Update(page);
     }
 
     public void UpdateChildAndParentForRelations(Page child, Page parent, int authorId)
@@ -213,47 +206,8 @@ public class PageRepository(
         updateQuestionCountForPage.RunForJob(child, authorId);
         updateQuestionCountForPage.RunForJob(parent, authorId);
 
-        Task.Run(async () =>
-        {
-            await new MeilisearchPageIndexer()
-                .UpdateAsync(child)
-                .ConfigureAwait(false);
-
-            await new MeilisearchPageIndexer()
-                .UpdateAsync(parent)
-                .ConfigureAwait(false);
-        });
-    }
-
-    public void CreateOnlyDb(Page page)
-    {
-        base.Create(page);
-        Flush();
-
-        pageChangeRepo.AddCreateEntryDbOnly(this, page, page.Creator);
-    }
-
-    public void UpdateOnlyDb(
-        Page page,
-        ExtendedUserCacheItem author = null,
-        bool imageWasUpdated = false,
-        bool isFromModifiyRelations = false,
-        PageChangeType type = PageChangeType.Update,
-        bool createPageChange = true)
-    {
-        base.Update(page);
-
-        if (author != null && createPageChange)
-        {
-            pageChangeRepo.AddUpdateEntry(this, page, author.Id, imageWasUpdated, type);
-        }
-
-        Flush();
-        Task.Run(async () =>
-        {
-            await new MeilisearchPageIndexer()
-                .UpdateAsync(page)
-                .ConfigureAwait(false);
-        });
+        var meilisearchIndexer = new MeilisearchPageIndexer();
+        meilisearchIndexer.Update(child);
+        meilisearchIndexer.Update(parent);
     }
 }

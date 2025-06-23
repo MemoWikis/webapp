@@ -21,9 +21,6 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
     public void AddCreateEntry(PageRepository pageRepository, Page page, int authorId) =>
         AddUpdateOrCreateEntry(pageRepository, page, authorId, PageChangeType.Create);
 
-    public void AddCreateEntryDbOnly(PageRepository pageRepository, Page page, User author) =>
-        AddUpdateOrCreateEntryDbOnly(pageRepository, page, author, PageChangeType.Create);
-
     public void AddUpdateEntry(
         PageRepository pageRepository,
         Page page,
@@ -42,7 +39,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             DataVersion = 2
         };
         var pageCacheItem = EntityCache.GetPage(page);
-
+        var pc = page.GetPageCacheItem();
         if (page.AuthorIds == null)
         {
             page.AuthorIds = "";
@@ -217,33 +214,5 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             .Where(cc => cc.Id == pageChangeId)
             .Left.JoinQueryOver(q => q.Page)
             .SingleOrDefault();
-    }
-
-    private void AddUpdateOrCreateEntryDbOnly(PageRepository pageRepository, Page page,
-        User author,
-        PageChangeType pageChangeType,
-        bool imageWasUpdated = false)
-    {
-        var pageChange = new PageChange
-        {
-            Page = page,
-            Type = pageChangeType,
-            AuthorId = author.Id,
-            DataVersion = 2
-        };
-        if (page.AuthorIds == null)
-        {
-            page.AuthorIds = "";
-        }
-        else if (AuthorWorthyChangeCheck(pageChangeType) && author.Id > 0 && page.AuthorIdsInts.All(id => id != author.Id))
-        {
-            var newAuthorIdsInts = page.AuthorIdsInts.ToList();
-            newAuthorIdsInts.Add(author.Id);
-            page.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
-            pageRepository.UpdateOnlyDb(page);
-        }
-
-        SetData(pageRepository, page, imageWasUpdated, pageChange);
-        base.Create(pageChange);
     }
 }

@@ -77,6 +77,17 @@ public class SharesRepository(ISession session) : RepositoryDbBase<Share>(sessio
         }
     }
 
+    /// <summary>
+    /// Delete all shares for a page without creating its own transaction.
+    /// Use this method when calling from within an existing transaction.
+    /// </summary>
+    public void DeleteAllForPageWithoutTransaction(int pageId)
+    {
+        _session.CreateQuery("DELETE FROM Share WHERE PageId = :pageId")
+            .SetParameter("pageId", pageId)
+            .ExecuteUpdate();
+    }
+
     public void DeleteAllForUser(int userId)
     {
         using var transaction = _session.BeginTransaction();

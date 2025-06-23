@@ -38,7 +38,7 @@ public class DeletePageStoreController(
 
     public readonly record struct DeleteData(
         string Name,
-        bool HasChildren,
+        bool WouldHaveOrphanedChildren,
         SuggestedNewParent? SuggestedNewParent,
         bool HasQuestion,
         bool HasPublicQuestion,
@@ -49,8 +49,7 @@ public class DeletePageStoreController(
     public DeleteData GetDeleteData([FromRoute] int id)
     {
         var page = EntityCache.GetPage(id);
-        var children = GraphService.Descendants(id);
-        var hasChildren = children.Count > 0;
+        var wouldHaveOrphanedChildren = !CanDeleteItemBasedOnChildParentCount(id, _sessionUser.UserId);
         if (page == null)
             throw new Exception(
                 "Page couldn't be deleted. Page with specified Id cannot be found.");
@@ -59,14 +58,15 @@ public class DeletePageStoreController(
             .GetPage(id)?
             .GetAggregatedQuestions(
                 _sessionUser.UserId,
-                onlyVisible: false, 
+                onlyVisible: false,
                 permissionCheck: _permissionCheck
             );
 
         var hasQuestion = questions?.Count > 0;
 
-        if (!hasChildren && !hasQuestion)
-            return new DeleteData(page.Name, HasChildren: false, SuggestedNewParent: null, HasQuestion: false, HasPublicQuestion: false, IsWiki: page.IsWiki);
+        if (!wouldHaveOrphanedChildren && !hasQuestion)
+            return new DeleteData(page.Name, WouldHaveOrphanedChildren: false, SuggestedNewParent: null,
+                HasQuestion: false, HasPublicQuestion: false, IsWiki: page.IsWiki);
 
         var hasPublicQuestion = questions?
             .Any(q => q.Visibility == QuestionVisibility.Public) ?? false;
@@ -77,11 +77,13 @@ public class DeletePageStoreController(
         var newParentId = _crumbtrailService.SuggestNewParent(parents, _sessionUser, hasPublicQuestion);
 
         if (newParentId == null)
-            return new DeleteData(page.Name, hasChildren, SuggestedNewParent: null, hasQuestion, hasPublicQuestion, IsWiki: page.IsWiki);
+            return new DeleteData(page.Name, wouldHaveOrphanedChildren, SuggestedNewParent: null, hasQuestion,
+                hasPublicQuestion, IsWiki: page.IsWiki);
 
         var suggestedNewParent = FillSuggestedNewParent(EntityCache.GetPage((int)newParentId));
 
-        return new DeleteData(page.Name, hasChildren, suggestedNewParent, hasQuestion, hasPublicQuestion, IsWiki: page.IsWiki);
+        return new DeleteData(page.Name, wouldHaveOrphanedChildren, suggestedNewParent, hasQuestion, hasPublicQuestion,
+            IsWiki: page.IsWiki);
     }
 
     public readonly record struct DeleteRequest(int PageToDeleteId, int? ParentForQuestionsId);
@@ -89,8 +91,7 @@ public class DeletePageStoreController(
     public record struct DeleteResponse(
         bool Success,
         bool? HasChildren = null,
-        bool? IsNotCreatorOrAdmin = null,
-        RedirectParent? RedirectParent = null,
+        RedirectPage? RedirectParent = null,
         string? MessageKey = null);
 
     [AccessOnlyAsLoggedIn]
@@ -103,7 +104,8 @@ public class DeletePageStoreController(
                 return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected);
 
             if (deleteRequest.ParentForQuestionsId == deleteRequest.PageToDeleteId)
-                return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.NewPageIdIsPageIdToBeDeleted);
+                return new DeleteResponse(Success: false,
+                    MessageKey: FrontendMessageKeys.Error.Page.NewPageIdIsPageIdToBeDeleted);
         }
 
         var deleteResult = _pageDeleter.DeletePage(deleteRequest.PageToDeleteId, deleteRequest.ParentForQuestionsId);
@@ -111,7 +113,55 @@ public class DeletePageStoreController(
         return new DeleteResponse(
             Success: deleteResult.Success,
             HasChildren: deleteResult.HasChildren,
-            IsNotCreatorOrAdmin: deleteResult.IsNotCreatorOrAdmin,
-            RedirectParent: deleteResult.RedirectParent);
+            RedirectParent: deleteResult.RedirectParent,
+            MessageKey: deleteResult.MessageKey);
+    }
+
+    private bool CanDeleteItemBasedOnChildParentCount(
+        int pageId,
+        int userId)
+    {
+        var allChildren = GraphService.Children(pageId);
+        var visitedChildrenIds = new HashSet<int>();
+
+        if (allChildren.Count > 0)
+        {
+            var allVisibleChildren =
+                GraphService.VisibleChildren(pageId, _permissionCheck, userId);
+
+            if (allVisibleChildren.Count > 0)
+            {
+                foreach (var child in allVisibleChildren)
+                {
+                    visitedChildrenIds.Add(child.Id);
+
+                    var visibleParents = GraphService
+                        .VisibleParents(child.Id, _permissionCheck)
+                        .Where(p => p.Id != pageId)
+                        .ToList();
+
+                    if (visibleParents.Count < 1)
+                        return false;
+                }
+            }
+
+            var privateChildren =
+                allChildren
+                    .Where(c => !visitedChildrenIds.Contains(c.Id))
+                    .ToList();
+
+            if (privateChildren.Count > 0)
+            {
+                foreach (var child in privateChildren)
+                {
+                    var hasExtraParent = GraphService.ParentIds(child).Any(i => i != pageId);
+
+                    if (!hasExtraParent)
+                        return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

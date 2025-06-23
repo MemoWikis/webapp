@@ -1,8 +1,43 @@
 ﻿public class PermissionCheck(ISessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
+    public readonly record struct CanDeleteResult(bool Allowed, string? Reason = null);
+
+    public readonly record struct ShareByTokenResult(ShareCacheItem? Share, string? SessionUserToken);
+
     private int _userId => _sessionUser.SessionIsActive() ? _sessionUser.UserId : default;
     private bool _isInstallationAdmin => _sessionUser.SessionIsActive() && _sessionUser.IsInstallationAdmin;
     private bool _isLoggedIn => _sessionUser.SessionIsActive() && _sessionUser.IsLoggedIn;
+
+    private ShareByTokenResult GetShareByToken(int pageId, string? token = null)
+    {
+        var shareInfosByToken = EntityCache.GetPageShares(pageId);
+        _sessionUser.ShareTokens.TryGetValue(pageId, out var sessionUserToken);
+        var shareByToken =
+            shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
+        return new ShareByTokenResult(shareByToken, sessionUserToken);
+    }
+
+    private bool? CanViewByToken(int pageId, string? token = null)
+    {
+        bool hasToken = token != null;
+        bool hasShareTokens = _sessionUser.ShareTokens != null && _sessionUser.ShareTokens.Any();
+
+        if (!hasToken && !hasShareTokens)
+            return null;
+
+        var shareResult = GetShareByToken(pageId, token);
+        if (shareResult.Share != null && shareResult.Share.Permission != SharePermission.RestrictAccess)
+            return true;
+
+        var closestSharePermissionByToken =
+            SharesService.GetClosestParentSharePermissionByTokens(pageId, _sessionUser.ShareTokens);
+        if (closestSharePermissionByToken != null)
+            return closestSharePermissionByToken
+                is SharePermission.EditWithChildren
+                or SharePermission.ViewWithChildren;
+
+        return false;
+    }
 
     //setter is for tests
     public bool CanViewPage(int id) => CanView(EntityCache.GetPage(id));
@@ -10,7 +45,7 @@
     public bool CanView(PageCacheItem? page) => CanView(_userId, page);
     public bool CanViewPage(int id, string shareToken) => CanView(EntityCache.GetPage(id), shareToken);
 
-    public bool CanView(PageCacheItem? page, string shareToken) => CanView(_userId, page, shareToken);
+    public bool CanView(PageCacheItem? page, string? shareToken) => CanView(_userId, page, shareToken);
 
     public bool CanView(int userId, PageCacheItem? page, string? token = null)
     {
@@ -27,18 +62,9 @@
         if (shareInfos.Any(s => s.Permission is SharePermission.RestrictAccess))
             return false;
 
-        if (token != null || (_sessionUser.ShareTokens != null && _sessionUser.ShareTokens.Any()))
-        {
-            var shareInfosByToken = EntityCache.GetPageShares(page.Id);
-            _sessionUser.ShareTokens.TryGetValue(page.Id, out var sessionUserToken);
-            var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
-            if (shareByToken != null && shareByToken.Permission != SharePermission.RestrictAccess)
-                return true;
-
-            var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(page.Id, _sessionUser.ShareTokens);
-            if (closestSharePermissionByToken != null)
-                return closestSharePermissionByToken is SharePermission.EditWithChildren or SharePermission.ViewWithChildren;
-        }
+        var tokenResult = CanViewByToken(page.Id, token);
+        if (tokenResult.HasValue)
+            return tokenResult.Value;
 
         if (shareInfos.Any(s => s.Permission is SharePermission.Edit
                 or SharePermission.EditWithChildren
@@ -61,7 +87,9 @@
         return false;
     }
 
-    public bool CanEditPage(int pageId, string? token, bool isLoggedIn = false) => CanEdit(EntityCache.GetPage(pageId), token, isLoggedIn);
+    public bool CanEditPage(int pageId, string? token, bool isLoggedIn = false) =>
+        CanEdit(EntityCache.GetPage(pageId), token, isLoggedIn);
+
     public bool CanEditPage(int pageId) => CanEdit(EntityCache.GetPage(pageId));
     public bool CanEdit(Page page) => CanEdit(EntityCache.GetPage(page.Id));
 
@@ -113,25 +141,23 @@
         if (!(token != null || _sessionUser.ShareTokens.Any()))
             return null;
 
-        var shareInfosByToken = EntityCache.GetPageShares(pageId);
-        _sessionUser.ShareTokens.TryGetValue(pageId, out var sessionUserToken);
-
-        var shareByToken = shareInfosByToken.FirstOrDefault(share => share.Token == token || share.Token == sessionUserToken);
-        if (shareByToken != null)
+        var shareResult = GetShareByToken(pageId, token);
+        if (shareResult.Share != null)
         {
-            if (shareByToken.Permission == SharePermission.RestrictAccess)
+            if (shareResult.Share.Permission == SharePermission.RestrictAccess)
                 return false;
 
-            if (shareByToken.Permission == SharePermission.View ||
-                shareByToken.Permission == SharePermission.ViewWithChildren)
+            if (shareResult.Share.Permission == SharePermission.View ||
+                shareResult.Share.Permission == SharePermission.ViewWithChildren)
                 return false;
 
-            if (shareByToken.Permission == SharePermission.Edit ||
-                shareByToken.Permission == SharePermission.EditWithChildren)
+            if (shareResult.Share.Permission == SharePermission.Edit ||
+                shareResult.Share.Permission == SharePermission.EditWithChildren)
                 return true;
         }
 
-        var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(pageId, _sessionUser.ShareTokens);
+        var closestSharePermissionByToken =
+            SharesService.GetClosestParentSharePermissionByTokens(pageId, _sessionUser.ShareTokens);
         if (closestSharePermissionByToken != null)
             return closestSharePermissionByToken == SharePermission.EditWithChildren;
 
@@ -143,32 +169,30 @@
         return _isInstallationAdmin || _userId == page.CreatorId;
     }
 
-    public bool CanDelete(PageCacheItem page)
+    public CanDeleteResult CanDelete(PageCacheItem page)
     {
         if (_userId == default || page == null || page.Id == 0)
-            return false;
+            return new CanDeleteResult(false, FrontendMessageKeys.Error.Default);
 
-        if (page.IsWikiType())
-            return false;
+        if (page.Creator.Id != _userId)
+            return new CanDeleteResult(false, FrontendMessageKeys.Error.Page.NoRights);
 
-        if (page.Creator.Id == _userId || _isInstallationAdmin)
-            return true;
+        if (page.Id == FeaturedPage.RootPageId)
+            return new CanDeleteResult(false, FrontendMessageKeys.Error.Page.NoRights);
 
-        return false;
-    }
+        if (page.IsWiki)
+        {
+            var wouldHaveRemainingWiki = page.Creator.GetWikis().Count >= 2;
+            if (wouldHaveRemainingWiki)
+                return new CanDeleteResult(true);
 
-    public bool CanDelete(Page page)
-    {
-        if (_userId == default || page == null || page.Id == 0)
-            return false;
+            return new CanDeleteResult(false, FrontendMessageKeys.Error.User.NoRemainingWikis);
+        }
 
-        if (page.Id == FeaturedPage.RootPageId || page.Id == page.Creator.StartPageId)
-            return false;
+        if (page.Creator.Id == _userId)
+            return new CanDeleteResult(true);
 
-        if (page.Creator.Id == _userId || _isInstallationAdmin)
-            return true;
-
-        return false;
+        return new CanDeleteResult(false, FrontendMessageKeys.Error.Default);
     }
 
     public bool CanMovePage(int pageId, int oldParentId, int newParentId) => CanMovePage(
@@ -183,7 +207,8 @@
             || oldParent.Id == 0)
             return false;
 
-        if (FeaturedPage.RootPageId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.Public)
+        if (FeaturedPage.RootPageId == newParentId && !_isInstallationAdmin &&
+            movingPage.Visibility == PageVisibility.Public)
             return false;
 
         return _isInstallationAdmin || movingPage.CreatorId == _userId || oldParent.CreatorId == _userId;
@@ -206,24 +231,9 @@
         {
             foreach (var page in question.Pages)
             {
-                if (_sessionUser.ShareTokens != null)
-                {
-                    var shareInfosByToken = EntityCache.GetPageShares(page.Id);
-                    _sessionUser.ShareTokens.TryGetValue(page.Id, out var sessionUserToken);
-                    var shareByToken = shareInfosByToken.FirstOrDefault(share =>
-                        share.Token == sessionUserToken &&
-                        share.Permission != SharePermission.RestrictAccess);
-
-                    if (shareByToken != null)
-                        return true;
-
-                    var closestSharePermissionByToken = SharesService.GetClosestParentSharePermissionByTokens(
-                        page.Id, _sessionUser.ShareTokens);
-
-                    if (closestSharePermissionByToken is SharePermission.EditWithChildren
-                        or SharePermission.ViewWithChildren)
-                        return true;
-                }
+                var tokenResult = CanViewByToken(page.Id);
+                if (tokenResult == true)
+                    return true;
 
                 var shareInfos = EntityCache.GetPageShares(page.Id).Where(s => s.SharedWith?.Id == _userId);
                 if (shareInfos.Any(s => s.Permission != SharePermission.RestrictAccess))
@@ -241,7 +251,7 @@
 
     public bool CanEditQuestion(int questionId) => CanEdit(EntityCache.GetQuestion(questionId));
 
-    public bool CanEdit(QuestionCacheItem question)
+    public bool CanEdit(QuestionCacheItem? question)
     {
         if (_userId == default)
             return false;
@@ -255,7 +265,7 @@
         return false;
     }
 
-    public bool CanDelete(Question question)
+    public bool CanDelete(Question? question)
     {
         if (_userId == default)
             return false;

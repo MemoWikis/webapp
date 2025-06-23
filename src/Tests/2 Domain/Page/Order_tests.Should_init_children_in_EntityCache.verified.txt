@@ -1,13 +1,13 @@
 ﻿[
   {
     Id: 1,
-    ChildId: 2,
-    ParentId: 1
+    ChildId: 3,
+    ParentId: 2
   },
   {
     Id: 2,
-    ChildId: 3,
-    ParentId: 1,
-    PreviousId: 2
+    ChildId: 4,
+    ParentId: 2,
+    PreviousId: 3
   }
 ]

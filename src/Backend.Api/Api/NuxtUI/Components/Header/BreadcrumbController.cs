@@ -11,7 +11,7 @@
         var wikiId = param.WikiId;
         int currentPageId = param.CurrentPageId;
 
-        var defaultWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartPageId : 1;
+        var defaultWikiId = _sessionUser.FirstWikiId();
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
         var page = EntityCache.GetPage(currentPageId);
         var currentWiki = _crumbtrailService.GetWiki(page, _sessionUser);
@@ -25,7 +25,10 @@
     [HttpGet]
     public BreadcrumbItem GetPersonalWiki()
     {
-        var page = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.StartPageId) : FeaturedPage.GetRootPage;
+        var page = _sessionUser.IsLoggedIn
+            ? _sessionUser.User.FirstWiki()
+            : FeaturedPage.GetRootPage;
+
         return new BreadcrumbItem
         {
             Name = page.Name,
@@ -66,7 +69,7 @@
                 Id = breadcrumb.Current.Page.Id
             },
             BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Page.Id == FeaturedPage.RootPageId),
-            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartPageId == breadcrumb.Root.Page.Id : FeaturedPage.RootPageId == breadcrumb.Root.Page.Id
+            IsInPersonalWiki = _sessionUser.IsLoggedIn && breadcrumb.Root.Page.Id == _sessionUser.User.FirstWikiId
         };
     }
 

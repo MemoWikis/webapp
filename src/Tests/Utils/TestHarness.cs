@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
+using System.Text.Json;
 using Testcontainers.MySql;
 using ContainerBuilder = Autofac.ContainerBuilder;
 using IContainer = DotNet.Testcontainers.Containers.IContainer;
@@ -239,112 +241,46 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .Persist();
     }
 
-    /// <summary>
-    /// Sets up authentication for the current API request.
-    /// Since SessionUser depends on HTTP session state which doesn't persist across requests in tests,
-    /// we need to use a different approach - we'll add a custom header that can be read by the backend.
-    /// </summary>
-    private void LoginForCurrentRequest()
+    private async Task<string> FormatHttpResponse(HttpResponseMessage httpResponse)
     {
-        // The approach of calling sessionUser.Login() doesn't work 
-        // because each HTTP request gets a fresh HttpContext and session state. 
-        // Instead, we need the backend to the test user during the request processing.
-
-        // For now, let's try using a simple approach - set a test authorization header
-        // that we can check for in the API controllers
-
-        // Remove any existing authorization headers
-        //if (Client.DefaultRequestHeaders.Contains("X-Test-User-Id"))
-        //{
-        //    Client.DefaultRequestHeaders.Remove("X-Test-User-Id");
-        //}
-
-        //// Add a test user header that the backend can recognize
-        //Client.DefaultRequestHeaders.Add("X-Test-User-Id", "1");
-
-        R<SessionUser>().Login(new User
-        {
-            Id = 1,
-            Name = "TestUser",
-            StartPageId = 1, // Assuming the start page ID is 1 for the test user
-            IsInstallationAdmin = true // Assuming the test user is an installation admin
-        }, R<PageViewRepo>());
-    }
-
-    public async Task<string> ApiCall([StringSyntax(StringSyntaxAttribute.Uri)] string uri, bool loggedIn = false)
-    {
-        if (loggedIn)
-        {
-            LoginForCurrentRequest();
-        }
-
-        var httpResponse = await this.Client.GetAsync(uri);
+        httpResponse.EnsureSuccessStatusCode();
         var jsonContent = await httpResponse.Content.ReadAsStringAsync();
-
         var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
         var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
         return formattedJson;
     }
 
-    public async Task<T> ApiCallPost<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object requestBody,
-        bool loggedIn = false)
+    public async Task<string> ApiCall([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
     {
-        if (loggedIn)
+        var httpResponse = await this.Client.GetAsync(uri);
+        return await FormatHttpResponse(httpResponse);
+    }
+
+    public async Task<string> ApiPost([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
+    {
+        var jsonContent = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json");
+
+        var httpResponse = await this.Client.PostAsync(uri, jsonContent);
+        return await FormatHttpResponse(httpResponse);
+    }
+
+    public async Task<T> ApiPost<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
+    {
+        var jsonContent = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json");
+
+        var httpResponse = await this.Client.PostAsync(uri, jsonContent);
+        var responseContent = await FormatHttpResponse(httpResponse);
+        var result = JsonSerializer.Deserialize<T>(responseContent, new JsonSerializerOptions
         {
-            LoginForCurrentRequest();
-        }
-
-        var jsonRequestBody = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody);
-        var content = new StringContent(jsonRequestBody, System.Text.Encoding.UTF8, "application/json");
-
-        var httpResponse = await this.Client.PostAsync(uri, content);
-        httpResponse.EnsureSuccessStatusCode();
-        var jsonContent = await httpResponse.Content.ReadAsStringAsync();
-
-        return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonContent) ??
-               throw new InvalidOperationException("Failed to deserialize response");
-    }
-
-    /// <summary>
-    /// Logs in the default SessionUser (ID=1) for API calls.
-    /// This approach sets up session state within the DI scope.
-    /// Use the loggedIn parameter in ApiCall methods instead of calling this directly.
-    /// </summary>
-    public bool Login()
-    {
-        return Login(1);
-    }
-
-    /// <summary>
-    /// Logs in a specific user for API calls.
-    /// This approach sets up session state within the DI scope.
-    /// Use the loggedIn parameter in ApiCall methods instead of calling this directly.
-    /// </summary>
-    /// <param name="userId">The ID of the user to log in</param>
-    public bool Login(int userId)
-    {
-        var sessionUser = R<SessionUser>();
-        var userReadingRepo = R<UserReadingRepo>();
-        var pageViewRepo = R<PageViewRepo>();
-
-        var user = userReadingRepo.GetById(userId);
-        if (user == null)
-        {
-            throw new InvalidOperationException($"User with ID={userId} not found in database.");
-        }
-
-        sessionUser.Login(user, pageViewRepo);
-
-        return sessionUser.IsLoggedIn;
-    }
-
-    /// <summary>
-    /// Logs out the current session user.
-    /// </summary>
-    public void Logout()
-    {
-        var sessionUser = R<SessionUser>();
-        sessionUser.Logout();
+            PropertyNameCaseInsensitive = true
+        });
+        return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
     }
 
     private sealed class ProgramWebApplicationFactory(
@@ -375,5 +311,42 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             });
             return base.CreateHost(builder);
         }
+    }
+
+    public record struct DefaultPageVerificationData(
+        List<Dictionary<string, object?>> DbPages,
+        IList<PageCacheItem> EntityCachePages,
+        List<SearchPageItem> SearchPages,
+        List<Dictionary<string, object?>>? DbRelations = null,
+        IList<PageRelationCache>? EntityCacheRelations = null);
+
+    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true, int delayForSearch = 100)
+    {
+        var dbPages = await DbData.AllPagesAsync();
+
+        // delay for search to ensure data is indexed, since Meilisearch indexing is asynchronous
+        await Task.Delay(delayForSearch);
+        // needs to be ordered by Id for consistent results
+        var searchPages = (await SearchData.GetAllPages()).OrderBy(page => page.Id).ToList();
+
+        if (includeRelations)
+        {
+            var dbRelations = await DbData.AllPageRelationsAsync();
+            return new DefaultPageVerificationData
+            {
+                DbPages = dbPages,
+                EntityCachePages = EntityCache.GetAllPagesList(),
+                SearchPages = searchPages,
+                DbRelations = dbRelations,
+                EntityCacheRelations = EntityCache.GetAllRelations()
+            };
+        }
+
+        return new DefaultPageVerificationData
+        {
+            DbPages = dbPages,
+            EntityCachePages = EntityCache.GetAllPagesList(),
+            SearchPages = searchPages
+        };
     }
 }

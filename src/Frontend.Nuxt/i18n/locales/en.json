@@ -73,6 +73,9 @@
             "noChildSelected": "You have not selected a subpage.",
             "noUsersSelected": "Please select at least one user to share with.",
             "shareFailure": "The page could not be shared. Please try again.",
+            "notFound": "Oh no! This page does not exist.",
+            "noRights": "You do not have permission to edit this page.",
+            "unauthorized": "You are not logged in. You may not have access to this page.",
             "token": {
                 "removal": "The share link could not be removed. Please try again."
             }
@@ -85,7 +88,10 @@
             "isInWuwi": "The question cannot be deleted, it is {count}x part of other users' Wish-Knowledge. Please contact us if you believe this question should still be deleted.",
             "rights": "You do not have permission to do that.",
             "errorOnDelete": "An error occurred! References to the question (study sessions, appointments, Wish-Knowledge entries...) may have been partially deleted.",
-            "couldNotAddFlashcards": "The flashcards could not be added."
+            "couldNotAddFlashcards": "The flashcards could not be added.",
+            "notFound": "Oh no! This question does not exist.",
+            "noRights": "You do not have permission to edit this question.",
+            "unauthorized": "You are not logged in. You may not have access to this question."
         },
         "user": {
             "notLoggedIn": "Please log in.",
@@ -102,7 +108,8 @@
             "invalidFBToken": "Hey! It looks like the Facebook token you entered isn't correct. Please try again with a new login via Facebook. If it still doesn't work, just contact us and we'll help you out!",
             "emailIsInvalid": "{email} is not a valid email address.",
             "passwordTooShort": "The password should be at least 5 characters long.",
-            "loginFailed": "We couldn't log you in. Please check your email address and the password."
+            "loginFailed": "We couldn't log you in. Please check your email address and the password.",
+            "notFound": "The specified user was not found."
         },
         "default": "Unfortunately, an unexpected error has occurred. Please try again later.",
         "route": {

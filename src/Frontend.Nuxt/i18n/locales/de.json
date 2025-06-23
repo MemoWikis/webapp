@@ -73,6 +73,9 @@
             "noChildSelected": "Du hast keine Unterseite ausgewählt.",
             "noUsersSelected": "Bitte wähle mindestens einen Benutzer aus, mit dem du teilen möchtest.",
             "shareFailure": "Die Seite konnte nicht geteilt werden. Bitte versuche es erneut.",
+            "notFound": "Oh nein! Diese Seite existiert nicht.",
+            "noRights": "Du hast keine Berechtigung, diese Seite zu bearbeiten.",
+            "unauthorized": "Du bist nicht angemeldet. Möglicherweise hast du keinen Zugriff auf diese Seite.",
             "token": {
                 "removal": "Der Freigabelink konnte nicht entfernt werden. Bitte versuche es erneut."
             }
@@ -85,7 +88,10 @@
             "isInWuwi": "Die Frage kann nicht gelöscht werden, sie ist {count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.",
             "rights": "Dir fehlt die Berechtigung dazu.",
             "errorOnDelete": "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
-            "couldNotAddFlashcards": "Die Karteikarten konnten nicht hinzugefügt werden."
+            "couldNotAddFlashcards": "Die Karteikarten konnten nicht hinzugefügt werden.",
+            "notFound": "Oh nein! Diese Frage existiert nicht.",
+            "noRights": "Du hast keine Berechtigung, diese Frage zu bearbeiten.",
+            "unauthorized": "Du bist nicht angemeldet. Möglicherweise hast du keinen Zugriff auf diese Frage."
         },
         "user": {
             "notLoggedIn": "Bitte logge dich ein.",
@@ -102,7 +108,8 @@
             "invalidFBToken": "Hey! Sieht so aus, als wäre das Facebook-Token, das Du eingegeben hast, nicht richtig. Probier's nochmal mit einer neuen Anmeldung über Facebook. Wenn's immer noch nicht klappt, meld Dich einfach bei uns. Wir helfen Dir gerne weiter!",
             "emailIsInvalid": "{email} ist keine gültige E-Mail-Adresse.",
             "passwordTooShort": "Das Passwort sollte mindestens 5 Zeichen lang sein.",
-            "loginFailed": "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
+            "loginFailed": "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort.",
+            "notFound": "Der angegebene Nutzer wurde nicht gefunden."
         },
         "default": "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
         "route": {

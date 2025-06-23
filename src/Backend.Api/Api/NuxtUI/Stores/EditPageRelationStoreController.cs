@@ -25,14 +25,14 @@ public class EditPageRelationStoreController(
     [HttpGet]
     public GetPersonalWikiDataResult GetPersonalWikiData([FromRoute] int id)
     {
-        if (GraphService.Descendants(id).Any(c => c.Id == _sessionUser.User.StartPageId))
+        if (GraphService.IsCircularReference(parentPageId: id, childPageId: _sessionUser.FirstWikiId()))
             return new GetPersonalWikiDataResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
 
-        var personalWiki = EntityCache.GetPage(_sessionUser.User.StartPageId);
+        var personalWiki = _sessionUser.User.FirstWiki();
         var personalWikiItem = _searchResultBuilder.FillSearchPageItem(personalWiki, _sessionUser.UserId);
         var recentlyUsedRelationTargetPages = new List<SearchPageItem>();
 
@@ -82,11 +82,7 @@ public class EditPageRelationStoreController(
                 removedChildrenIds.Add(childId);
         }
 
-        return new RemovePagesResult
-        {
-            Success = true,
-            Data = removedChildrenIds
-        };
+        return new RemovePagesResult { Success = true, Data = removedChildrenIds };
     }
 
     public enum TargetPosition
@@ -116,7 +112,8 @@ public class EditPageRelationStoreController(
 
         if (!_permissionCheck.CanMovePage(request.MovingPageId, request.OldParentId, request.NewParentId))
         {
-            if (request.NewParentId == FeaturedPage.RootPageId && EntityCache.GetPage(request.MovingPageId)?.Visibility == PageVisibility.Public)
+            if (request.NewParentId == FeaturedPage.RootPageId &&
+                EntityCache.GetPage(json.MovingPageId)?.Visibility == PageVisibility.Public)
                 throw new SecurityException(FrontendMessageKeys.Error.Page.ParentIsRoot);
 
             throw new SecurityException(FrontendMessageKeys.Error.Page.MissingRights);
@@ -205,14 +202,10 @@ public class EditPageRelationStoreController(
     [HttpPost]
     public PersonalWikiResult AddToPersonalWiki([FromRoute] int id)
     {
-        var personalWiki = EntityCache.GetPage(_sessionUser.User.StartPageId);
+        var personalWiki = _sessionUser.User.FirstWiki();
 
         if (personalWiki == null)
-            return new PersonalWikiResult
-            {
-                Success = false,
-                MessageKey = FrontendMessageKeys.Error.Default
-            };
+            return new PersonalWikiResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId == id))
         {
@@ -236,22 +229,20 @@ public class EditPageRelationStoreController(
                 .AddChild(id, personalWiki.Id)
         };
     }
+
     public readonly record struct RemoveFromPersonalWikiResult(
         bool Success,
         ChildModifier.RemoveParentResult Data,
         string MessageKey);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public RemoveFromPersonalWikiResult RemoveFromPersonalWiki([FromRoute] int id)
     {
-        var personalWiki = EntityCache.GetPage(_sessionUser.User.StartPageId);
+        var personalWiki = _sessionUser.User.FirstWiki();
 
         if (personalWiki == null)
-            return new RemoveFromPersonalWikiResult
-            {
-                Success = false,
-                MessageKey = FrontendMessageKeys.Error.Default
-            };
+            return new RemoveFromPersonalWikiResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId != id))
         {
