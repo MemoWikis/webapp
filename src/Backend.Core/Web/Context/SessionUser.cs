@@ -19,18 +19,11 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
     {
         get => _httpContext.Session.GetBool("isBetaLogin");
         set => _httpContext.Session.SetBool("isBetaLogin", value);
-    }    public bool IsLoggedIn
+    }
+
+    public bool IsLoggedIn
     {
-        get 
-        {
-            // Check for test authentication header in test environment
-            if (_httpContext?.Request?.Headers?.ContainsKey("X-Test-User-Id") == true)
-            {
-                return true; // If test header is present, consider user logged in
-            }
-            
-            return _httpContext?.Session?.GetBool("isLoggedIn") ?? false;
-        }
+        get => _httpContext?.Session?.GetBool("isLoggedIn") ?? false;
         private set => _httpContext.Session.SetBool("isLoggedIn", value);
     }
 
@@ -38,24 +31,13 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
     {
         get => _httpContext.Session.GetBool("isAdministrativeLogin");
         set => _httpContext.Session.SetBool("isAdministrativeLogin", value);
-    }    public int UserId => _userId;
+    }
+
+    public int UserId => _userId;
 
     private int _userId
     {
-        get 
-        {
-            // Check for test authentication header in test environment
-            if (_httpContext?.Request?.Headers?.ContainsKey("X-Test-User-Id") == true)
-            {
-                var userIdString = _httpContext.Request.Headers["X-Test-User-Id"].FirstOrDefault();
-                if (int.TryParse(userIdString, out var testUserId))
-                {
-                    return testUserId;
-                }
-            }
-            
-            return _httpContext?.Session?.GetInt32("userId") ?? 0;
-        }
+        get => _httpContext?.Session?.GetInt32("userId") ?? 0;
         set => _httpContext.Session.SetInt32("userId", value);
     }
 
