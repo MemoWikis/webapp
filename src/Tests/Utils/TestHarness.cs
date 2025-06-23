@@ -127,9 +127,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     }
 
     public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();
-    public T R<T>() where T : notnull => Resolve<T>();
-
-    public async Task InitAsync(bool keepData = false)
+    public T R<T>() where T : notnull => Resolve<T>();    public async Task InitAsync(bool keepData = false)
     {
         _stopwatch = Stopwatch.StartNew();
 
@@ -213,9 +211,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public void Dispose() => DisposeAsync().AsTask().GetAwaiter().GetResult();
-
-    private async Task InitializersMoreAsync()
+    public void Dispose() => DisposeAsync().AsTask().GetAwaiter().GetResult();    private async Task InitializersMoreAsync()
     {
         _stopwatch = Stopwatch.StartNew();
 
@@ -224,10 +220,18 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         Resolve<EntityCacheInitializer>().Init(" (started in unit test) ");
         PerfLog("EntityCache init");
-
         DateTimeX.ResetOffset();
-        SetSessionUserInDatabase();
-        PerfLog("DateTime+SessionUser");
+        
+        if (!UsersExistInDatabase())
+        {
+            SetSessionUserInDatabase();
+            CreateTestUser();
+            PerfLog("DateTime+SessionUser+TestUser (created)");
+        }
+        else
+        {
+            PerfLog("DateTime+SessionUser+TestUser (skipped - already exist)");
+        }
 
         await JobScheduler.InitializeAsync();
         PerfLog("JobScheduler init");
@@ -235,36 +239,48 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     private void SetSessionUserInDatabase()
     {
+        var testUser = new User { Id = 1, Name = "SessionUser", EmailAddress = "sessionUser@test.de" };
+
+        // Set a simple password "test123"
+        SetUserPassword.Run("test123", testUser);
+
         ContextUser
             .New(R<UserWritingRepo>())
-            .Add(new User { Id = 1, Name = "SessionUser" })
+            .Add(testUser)
+            .Persist();
+    }    private void CreateTestUser()
+    {
+        var testUser = new User { Id = 2, Name = "TestUser" };
+
+        ContextUser
+            .New(R<UserWritingRepo>())
+            .Add(testUser)
             .Persist();
     }
 
-    private async Task<string> FormatHttpResponse(HttpResponseMessage httpResponse)
+    private bool UsersExistInDatabase()
+    {
+        var userRepo = R<UserReadingRepo>();
+        var sessionUserExists = userRepo.GetById(1) != null;
+        var testUserExists = userRepo.GetById(2) != null;
+        return sessionUserExists && testUserExists;
+    }
+
+    private async Task<T> DeserializeHttpResponse<T>(HttpResponseMessage httpResponse)
     {
         httpResponse.EnsureSuccessStatusCode();
         var jsonContent = await httpResponse.Content.ReadAsStringAsync();
         var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
         var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
-        return formattedJson;
+        var result = JsonSerializer.Deserialize<T>(formattedJson,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
     }
 
-    public async Task<string> ApiCall([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
+    public async Task<T> ApiGet<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
     {
         var httpResponse = await this.Client.GetAsync(uri);
-        return await FormatHttpResponse(httpResponse);
-    }
-
-    public async Task<string> ApiPost([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
-    {
-        var jsonContent = new StringContent(
-            JsonSerializer.Serialize(body),
-            Encoding.UTF8,
-            "application/json");
-
-        var httpResponse = await this.Client.PostAsync(uri, jsonContent);
-        return await FormatHttpResponse(httpResponse);
+        return await DeserializeHttpResponse<T>(httpResponse);
     }
 
     public async Task<T> ApiPost<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
@@ -275,12 +291,25 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             "application/json");
 
         var httpResponse = await this.Client.PostAsync(uri, jsonContent);
-        var responseContent = await FormatHttpResponse(httpResponse);
-        var result = JsonSerializer.Deserialize<T>(responseContent, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        });
-        return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
+        return await DeserializeHttpResponse<T>(httpResponse);
+    }
+
+    public async Task LoginAsSessionUser()
+    {
+        var loginRequest = new LoginRequest("sessionUser@test.de", "test123", false);
+        var jsonContent = new StringContent(
+            JsonSerializer.Serialize(loginRequest),
+            Encoding.UTF8,
+            "application/json");
+
+        var httpResponse = await this.Client.PostAsync("apiVue/UserStore/Login", jsonContent);
+        httpResponse.EnsureSuccessStatusCode();
+    }
+
+    public async Task LogoutSessionUser()
+    {
+        var httpResponse = await this.Client.PostAsync("apiVue/UserStore/LogOut", null);
+        httpResponse.EnsureSuccessStatusCode();
     }
 
     private sealed class ProgramWebApplicationFactory(
@@ -320,7 +349,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         List<Dictionary<string, object?>>? DbRelations = null,
         IList<PageRelationCache>? EntityCacheRelations = null);
 
-    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true, int delayForSearch = 100)
+    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true,
+        int delayForSearch = 100)
     {
         var dbPages = await DbData.AllPagesAsync();
 
