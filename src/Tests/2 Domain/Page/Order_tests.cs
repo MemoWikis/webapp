@@ -183,7 +183,14 @@
         //Assert
         var allRelationsInDb = R<PageRelationRepo>().GetAll();
         var allRelationsCache = EntityCache.GetPage(root)?.ChildRelations;
-        await Verify(new { originalTree, newTree, allRelationsCache, allRelationsInDb }
+        await Verify(
+            new
+            {
+                originalTree,
+                newTree,
+                allRelationsCache,
+                allRelationsInDb
+            }
         );
     }
 
