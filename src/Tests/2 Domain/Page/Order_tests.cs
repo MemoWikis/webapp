@@ -182,7 +182,8 @@
 
         //Assert
         var allRelationsInDb = R<PageRelationRepo>().GetAll();
-        await Verify(new { originalTree, newTree, allRelationsInDb }
+        var allRelationsCache = EntityCache.GetPage(root)?.ChildRelations;
+        await Verify(new { originalTree, newTree, allRelationsCache, allRelationsInDb }
         );
     }
 
@@ -429,7 +430,7 @@
         var authorId = sessionUser.UserId;
         var creator = new User { Id = authorId };
 
-        context.Add("root", creator: creator).Persist();
+        context.Add("root", creator: creator, isWiki: true).Persist();
 
         context
             .Add("sub1", creator: creator)
