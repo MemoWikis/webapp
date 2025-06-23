@@ -1,0 +1,7 @@
+﻿{
+  sessionCreated: true,
+  totalSteps: 3,
+  stepsLoaded: 3,
+  lastStepSuccess: true,
+  activeQuestionCount: 3
+}

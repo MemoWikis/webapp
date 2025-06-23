@@ -46,11 +46,18 @@ internal class LearningSessionApiTests : BaseTestHarness
             Solid = true
         };
 
-        // Act - Start new learning session
+        // Act - Start new learning session-
         var newSessionResponse = await _testHarness.ApiLearningSessionStore.NewSession(sessionConfig);
 
+        // Steps a random per default, that lets the verify tests fail
+        
+
         // Assert - Verify session was created successfully and test question answering workflow
-        await Verify(new { newSessionResponse }).UseMethodName("LearningSession-Start");
+        await Verify(new
+        {
+            newSessionResponse.CurrentStep,
+            newSessionResponse.ActiveQuestionCount
+        }).UseMethodName("LearningSession-Start");
         await AnswerQuestionsAndVerifyState(newSessionResponse);
     }
 
@@ -109,6 +116,7 @@ internal class LearningSessionApiTests : BaseTestHarness
         // Verify incorrect answer response
         await Verify(new
         {
+            markCorrectResponse,
             secondAnswerResponse
         }).UseMethodName("LearningSession-Answer2");
 
@@ -263,7 +271,6 @@ internal class LearningSessionApiTests : BaseTestHarness
         {
             statusCode = invalidAnswerResponse.StatusCode, // 500
             isSuccessStatusCode = invalidAnswerResponse.IsSuccessStatusCode, //false
-            responseContent = responseContent
         }).UseMethodName("InvalidRequests");
     }
 }
