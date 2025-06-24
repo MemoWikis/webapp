@@ -48,6 +48,27 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public string MeilisearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
     public static string MeilisearchMasterKey => "meilisearch-test-key";
 
+    /// <summary>
+    /// Waits for all pending Meilisearch indexing operations to complete.
+    /// This provides a more reliable alternative to using fixed delays in tests.
+    /// </summary>
+    /// <param name="timeoutMs">Maximum time to wait in milliseconds</param>
+    /// <returns>True if all tasks completed, false if timeout occurred</returns>
+    public async Task<bool> WaitForMeilisearchIndexing(int timeoutMs = 10000)
+    {
+        var waiter = new MeilisearchTaskWaiter(MeilisearchUrl, MeilisearchMasterKey);
+        return await waiter.WaitForAllTasksToComplete(timeoutMs);
+    }
+
+    /// <summary>
+    /// Gets the current status of Meilisearch tasks for debugging purposes.
+    /// </summary>
+    public async Task<TaskStatusSummary> GetMeilisearchTaskStatus()
+    {
+        var waiter = new MeilisearchTaskWaiter(MeilisearchUrl, MeilisearchMasterKey);
+        return await waiter.GetTaskStatusSummary();
+    }
+
     private readonly IWebHostEnvironment _webHostEnv;
     private readonly IHttpContextAccessor _httpCtxAcc;
 
@@ -359,13 +380,19 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         List<Dictionary<string, object?>>? DbRelations = null,
         IList<PageRelationCache>? EntityCacheRelations = null);
 
-    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true,
-        int delayForSearch = 100)
+    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true)
     {
         var dbPages = await DbData.AllPagesAsync();
+        var indexingCompleted = await WaitForMeilisearchIndexing(timeoutMs: 15000);
+        if (!indexingCompleted)
+        {
+            var taskStatus = await GetMeilisearchTaskStatus();
+            throw new TimeoutException(
+                $"Meilisearch indexing did not complete within timeout in GetDefaultPageVerificationDataAsync. " +
+                $"Pending tasks: {taskStatus.HasPendingTasks}, " +
+                $"Failed tasks: {taskStatus.Failed}");
+        }
 
-        // delay for search to ensure data is indexed, since Meilisearch indexing is asynchronous
-        await Task.Delay(delayForSearch);
         // needs to be ordered by Id for consistent results
         var searchPages = (await SearchData.GetAllPages()).OrderBy(page => page.Id).ToList();
 
