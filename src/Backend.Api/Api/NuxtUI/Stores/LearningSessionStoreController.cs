@@ -47,7 +47,7 @@
     public LearningSessionResponse NewSession([FromBody] LearningSessionConfigRequest learningSessionConfigRequest)
     {
         var config = learningSessionConfigRequest.ToEntity();
-        
+
         if (config == null || config.PageId < 1 || !_permissionCheck.CanViewPage(config.PageId))
             return new LearningSessionResponse
             {
@@ -228,7 +228,7 @@ public static class LearningSessionConfigMapping
 {
     public static LearningSessionConfig ToEntity(this LearningSessionStoreController.LearningSessionConfigRequest _request)
     {
-        if (_request is null) 
+        if (_request is null)
             throw new ArgumentNullException(nameof(_request));
 
         return new LearningSessionConfig
