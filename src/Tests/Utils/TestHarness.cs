@@ -241,9 +241,9 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         PerfLog("JobScheduler init");
     }
 
-    private void SetSessionUserInDatabase()
+    private void SetSessionUserInDatabase(bool createWiki = false)
     {
-        var testUser = new User { Id = 1, Name = "SessionUser", EmailAddress = "sessionUser@test.de" };
+        var testUser = new User { Id = 1, Name = "SessionUser", EmailAddress = "sessionUser@dev.test" };
 
         // Set a simple password "test123"
         SetUserPassword.Run("test123", testUser);
@@ -278,6 +278,10 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var jsonContent = await httpResponse.Content.ReadAsStringAsync();
         var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
         var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
+
+        if (typeof(T) == typeof(string))
+            return (T)(object)formattedJson;
+
         var result = JsonSerializer.Deserialize<T>(formattedJson,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
@@ -302,7 +306,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     public async Task LoginAsSessionUser()
     {
-        var loginRequest = new LoginRequest("sessionUser@test.de", "test123", false);
+        var loginRequest = new LoginRequest("sessionUser@dev.test", "test123", false);
         var jsonContent = new StringContent(
             JsonSerializer.Serialize(loginRequest),
             Encoding.UTF8,

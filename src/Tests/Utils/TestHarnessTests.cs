@@ -21,7 +21,7 @@ internal class TestHarnessTests
         var user = new User
         {
             Name = "TestUser",
-            EmailAddress = "test@test.de"
+            EmailAddress = "test@dev.test"
         };
 
         // act
