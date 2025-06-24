@@ -125,7 +125,7 @@
     private static void UpdateNextRelationLinksOnRemove(int relationIndex, IList<PageRelationCache> relations,
         List<PageRelationCache> changedRelations)
     {
-        if (relationIndex < 0 || relationIndex >= relations.Count)
+        if (relationIndex >= relations.Count - 1)
             return;
 
         var nextRelation = relations[relationIndex + 1];
@@ -306,8 +306,7 @@
         EntityCache.AddOrUpdate(previousRelation);
         changedRelations.Add(previousRelation);
 
-        if (positionToInsert + 1 <
-            relations.Count) // updates the relation after the newly inserted relation
+        if (positionToInsert + 1 < relations.Count) // updates the relation after the newly inserted relation
         {
             var nextRelation = relations[positionToInsert + 1];
             nextRelation.PreviousId = current.ChildId;
