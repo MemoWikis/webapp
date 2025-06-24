@@ -23,7 +23,7 @@ internal class LearningSessionApi_tests : BaseTestHarness
         var firstPage = pages.First!;
 
         // Create a comprehensive session configuration with all filter options enabled.
-        var sessionConfig = GetSessionConfig(
+        var sessionConfig = LearningSessionApi_testUtils.GetSessionConfig(
             pageId: Convert.ToInt32(firstPage["Id"]),
             maxQuestionCount: 5,
             repetitionType: RepetitionType.Normal
@@ -51,6 +51,7 @@ internal class LearningSessionApi_tests : BaseTestHarness
     /// <param name="sessionResponse">The initial session response containing questions to answer.</param>
     private async Task AnswerQuestionsAndVerifyState(LearningSessionResponse sessionResponse)
     {
+        var scenarioPrefix = "LearningSession-TwoAnswers";
         var currentStep = sessionResponse.CurrentStep!.Value;
         var questionId = currentStep.id;
 
@@ -67,7 +68,7 @@ internal class LearningSessionApi_tests : BaseTestHarness
         await Verify(new
         {
             firstAnswerCorrect = answerResponse.Correct
-        }).UseMethodName("LearningSession-Answer1");
+        }).UseMethodName($"{scenarioPrefix}-Answer1");
 
         // Test the MarkAsCorrect endpoint functionality.
         var markCorrectRequest = new MarkAsCorrectParam(
@@ -101,56 +102,10 @@ internal class LearningSessionApi_tests : BaseTestHarness
         {
             markCorrectResponse,
             secondAnswerIsCorrect = secondAnswerResponse.Correct,
-        }).UseMethodName("LearningSession-Answer2");
+        }).UseMethodName($"{scenarioPrefix}-Answer2");
 
         // Perform a comprehensive verification of the final system state.
-        await VerifyFinalState();
-    }
-
-    /// <summary>
-    /// Verifies the final state of the learning session, database, and session results
-    /// after all question answering activities have been completed.
-    /// </summary>
-    private async Task VerifyFinalState()
-    {
-        // Retrieve the final session state and learning results.
-        var finalSessionResponse = await _testHarness.ApiLearningSessionStore.GetCurrentSession();
-        var sessionResult = await _testHarness.ApiLearningSessionResult.Get();
-
-        // Get database state summaries for verification.
-        var usersData = await _testHarness.DbData.AllUsersSummaryAsync();
-        var pagesData = await _testHarness.DbData.AllPagesSummaryAsync();
-        var questionsData = await _testHarness.DbData.AllQuestionsSummaryAsync();
-
-        // Verify the final state, including session status, results, and database integrity.
-        await Verify(new
-        {
-            finalSession = new
-            {
-                success = finalSessionResponse.Success,
-                stepsCount = finalSessionResponse.Steps.Length,
-                activeQuestionCount = finalSessionResponse.ActiveQuestionCount,
-                currentStepIndex = finalSessionResponse.CurrentStep?.index,
-                messageKey = finalSessionResponse.MessageKey
-            },
-            sessionResult = new
-            {
-                uniqueQuestionCount = sessionResult.UniqueQuestionCount,
-                correctCount = sessionResult.Correct.Count,
-                wrongCount = sessionResult.Wrong.Count,
-                notAnsweredCount = sessionResult.NotAnswered.Count,
-                pageId = sessionResult.PageId,
-                pageName = sessionResult.PageName
-            },
-            databaseState = new
-            {
-                userCount = usersData.Count,
-                pageCount = pagesData.Count,
-                questionCount = questionsData.Count,
-                firstUserId = usersData.First != null ? Convert.ToInt32(usersData.First["Id"]) : 0,
-                firstPageId = pagesData.First != null ? Convert.ToInt32(pagesData.First["Id"]) : 0
-            }
-        }).UseMethodName("FinalState");
+        await LearningSessionApi_testUtils.VerifyFinalState(_testHarness, scenarioPrefix);
     }
 
     /// <summary>
@@ -165,14 +120,12 @@ internal class LearningSessionApi_tests : BaseTestHarness
         var targetPage = pages.First!;
 
         // Create a session with normal repetition mode for navigation testing.
-        var sessionConfig = GetSessionConfig(
+        var sessionConfig = LearningSessionApi_testUtils.GetSessionConfig(
             pageId: Convert.ToInt32(targetPage["Id"])
         );
 
         // Act: Create the session and test navigation functionality.
         var sessionResponse = await _testHarness.ApiLearningSessionStore.NewSession(sessionConfig);
-
-        // Load all steps in the session to verify they are accessible.
         var stepsResponse = await _testHarness.ApiLearningSessionStore.LoadSteps();
 
         // Test navigation to the last step in the question list
@@ -198,7 +151,7 @@ internal class LearningSessionApi_tests : BaseTestHarness
     public async Task Should_Handle_Invalid_Learning_Session_Requests()
     {
         // Arrange - Create an invalid session configuration with a non-existent page ID
-        var invalidSessionConfig = GetSessionConfig(
+        var invalidSessionConfig = LearningSessionApi_testUtils.GetSessionConfig(
             pageId: Convert.ToInt32(99999)
         );
 
@@ -215,38 +168,11 @@ internal class LearningSessionApi_tests : BaseTestHarness
 
         // Attempt to answer question and handle potential exceptions
         var invalidAnswerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSessionCall(invalidAnswerRequest);
-        var responseContent = await invalidAnswerResponse.Content.ReadAsStringAsync();
 
         await Verify(new
         {
             statusCode = invalidAnswerResponse.StatusCode, // 500
             isSuccessStatusCode = invalidAnswerResponse.IsSuccessStatusCode, //false
         }).UseMethodName("InvalidRequests");
-    }
-
-    /// <summary>
-    /// Creates a learning session configuration object for testing purposes.
-    /// This helper method simplifies the creation of session configurations for tests.
-    /// </summary>
-    /// <param name="pageId">The ID of the page to start the session from.</param>
-    /// <param name="maxQuestionCount">The maximum number of questions in the session.</param>
-    /// <param name="repetitionType">The repetition type for the session.</param>
-    /// <returns>A configured LearningSessionConfigRequest object.</returns>
-    private static LearningSessionConfigRequest GetSessionConfig(
-        int pageId,
-        int maxQuestionCount = 3,
-        RepetitionType repetitionType = RepetitionType.None
-    )
-    {
-        // Returns a new learning session configuration with the specified parameters.
-        // All filter options are enabled by default in the request object.
-        return new LearningSessionConfigRequest
-        {
-            PageId = pageId,
-            MaxQuestionCount = maxQuestionCount,
-            Repetition = repetitionType,
-            AnswerHelp = true,
-            IsInTestMode = false
-        };
     }
 }
