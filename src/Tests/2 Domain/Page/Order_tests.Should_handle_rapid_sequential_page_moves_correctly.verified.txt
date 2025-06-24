@@ -1,1 +1,125 @@
-﻿
+﻿{
+  initialTree:
+root
+├── sub1
+├── sub2
+├── sub3
+└── sub4
+[sub1] → [sub2] → [sub3] → [sub4]
+,
+  intermediateSnapshots: {
+    after_move_1:
+root
+├── sub2
+├── sub3
+├── sub1
+└── sub4
+[sub2] → [sub3] → [sub1] → [sub4]
+,
+    after_move_2:
+root
+├── sub2
+├── sub3
+├── sub1
+└── sub4
+[sub2] → [sub3] → [sub1] → [sub4]
+,
+    after_move_3:
+root
+├── sub3
+├── sub2
+├── sub1
+└── sub4
+[sub3] → [sub2] → [sub1] → [sub4]
+
+  },
+  finalTree:
+root
+├── sub3
+├── sub2
+├── sub1
+└── sub4
+[sub3] → [sub2] → [sub1] → [sub4]
+,
+  moveResults: [
+    {
+      success: true,
+      error: 
+    },
+    {
+      success: true,
+      error: 
+    },
+    {
+      success: true,
+      error: 
+    }
+  ],
+  childRelationOrder: [
+    5,
+    4,
+    3,
+    6
+  ],
+  areRelationsValid: true,
+  allRelationsDb: [
+    {
+      Child: {
+        Name: sub4,
+        IsWiki: false,
+        Id: 6
+      },
+      Parent: {
+        Name: root,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 3,
+      Id: 4
+    },
+    {
+      Child: {
+        Name: sub1,
+        IsWiki: false,
+        Id: 3
+      },
+      Parent: {
+        Name: root,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 4,
+      NextId: 6,
+      Id: 5
+    },
+    {
+      Child: {
+        Name: sub3,
+        IsWiki: false,
+        Id: 5
+      },
+      Parent: {
+        Name: root,
+        IsWiki: true,
+        Id: 2
+      },
+      NextId: 4,
+      Id: 6
+    },
+    {
+      Child: {
+        Name: sub2,
+        IsWiki: false,
+        Id: 4
+      },
+      Parent: {
+        Name: root,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 5,
+      NextId: 3,
+      Id: 7
+    }
+  ]
+}

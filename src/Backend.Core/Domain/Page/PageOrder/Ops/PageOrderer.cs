@@ -67,13 +67,12 @@
         return (updatedOldOrder, updatedNewOrder);
     }
 
-    public static (List<PageRelationCache> UpdatedOldOrder, List<PageRelationCache>
-        UpdatedNewOrder) MoveAfter(
-            PageRelationCache relation,
-            int afterPageId,
-            int newParentId,
-            int authorId,
-            ModifyRelationsForPage modifyRelationsForPage)
+    public static (List<PageRelationCache> UpdatedOldOrder, List<PageRelationCache> UpdatedNewOrder) MoveAfter(
+        PageRelationCache relation,
+        int afterPageId,
+        int newParentId,
+        int authorId,
+        ModifyRelationsForPage modifyRelationsForPage)
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
         {

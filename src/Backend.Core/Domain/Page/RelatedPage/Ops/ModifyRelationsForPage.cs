@@ -11,14 +11,14 @@
     public void AddParentPage(Page page, int parentId)
     {
         var relatedPage = pageRepository.GetByIdEager(parentId);
-        var previousCachedRelation =
-            EntityCache.GetPage(parentId).ChildRelations.LastOrDefault();
+        var previousCachedRelation = EntityCache.GetPage(parentId).ChildRelations.LastOrDefault();
 
         if (previousCachedRelation != null)
         {
             var previousRelation = pageRelationRepo.GetById(previousCachedRelation.Id);
             previousRelation.NextId = page.Id;
 
+            EntityCache.AddOrUpdate(previousCachedRelation);
             pageRelationRepo.Update(previousRelation);
         }
 
@@ -51,17 +51,23 @@
         pageRelationRepo.Create(relation);
 
         if (previousCacheRelation != null)
-        {
-            var previousRelation = pageRelationRepo.GetById(previousCacheRelation.Id);
-            if (previousRelation != null)
-            {
-                previousRelation.NextId = childId;
-                pageRelationRepo.Update(previousRelation);
-            }
-        }
+            UpdatePreviousCacheRelationOnAddChild(childId, previousCacheRelation);
 
         ModifyRelationsEntityCache.AddChild(relation);
         pageRepository.UpdateChildAndParentForRelations(child, parent, authorId);
+    }
+
+    private void UpdatePreviousCacheRelationOnAddChild(int childId, PageRelationCache previousCacheRelation)
+    {
+        var previousRelation = pageRelationRepo.GetById(previousCacheRelation.Id);
+        previousCacheRelation.NextId = childId;
+        EntityCache.AddOrUpdate(previousCacheRelation);
+
+        if (previousRelation != null)
+        {
+            previousRelation.NextId = childId;
+            pageRelationRepo.Update(previousRelation);
+        }
     }
 
     public int CreateNewRelationAndGetId(int parentId, int childId, int? nextId, int? previousId)

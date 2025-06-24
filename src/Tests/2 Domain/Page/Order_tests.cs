@@ -183,6 +183,7 @@
         //Assert
         var allRelationsInDb = R<PageRelationRepo>().GetAll();
         var allRelationsCache = EntityCache.GetPage(root)?.ChildRelations;
+
         await Verify(
             new
             {
@@ -762,6 +763,8 @@
             }
         }
 
+        var allRelationsDb = R<PageRelationRepo>().GetAll();
+
         await Verify(new
         {
             initialTree,
@@ -770,7 +773,8 @@
             moveResults = moveResults.Select(r => new { success = r.Success, error = r.Error }).ToList(),
             childRelationOrder = childRelations?.Select(r => r.ChildId).ToList(),
             areRelationsValid,
-            relationErrors
+            relationErrors,
+            allRelationsDb
         });
     }
 }
