@@ -20,40 +20,20 @@ root
       Child: {
         Name: sub2,
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 4
       },
+      NextId: 5,
       Id: 2
     },
     {
       Child: {
         Name: sub3,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 2
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 5
       },
       Parent: {
         Name: root,
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 2
       },
       PreviousId: 4,
@@ -63,30 +43,12 @@ root
     {
       Child: {
         Name: sub1,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 2
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 3
       },
       Parent: {
         Name: root,
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 2
       },
       PreviousId: 5,
@@ -95,65 +57,21 @@ root
     {
       Child: {
         Name: sub2,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 5
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          5
-        ],
         Id: 9
       },
       Parent: {
         Name: root,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 5
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          5
-        ],
         Id: 7
       },
+      NextId: 10,
       Id: 6
     },
     {
       Child: {
         Name: sub3,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 5
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          5
-        ],
         Id: 10
       },
       PreviousId: 9,
@@ -163,42 +81,12 @@ root
     {
       Child: {
         Name: sub4,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 5
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          5
-        ],
         Id: 11
       },
       Parent: {
         Name: root,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 5
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          5
-        ],
         Id: 7
       },
       PreviousId: 8,
@@ -207,42 +95,12 @@ root
     {
       Child: {
         Name: sub1,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 5
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          5
-        ],
         Id: 8
       },
       Parent: {
         Name: root,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 5
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          5
-        ],
         Id: 7
       },
       PreviousId: 10,
@@ -254,7 +112,8 @@ root
     {
       Id: 6,
       ChildId: 9,
-      ParentId: 7
+      ParentId: 7,
+      NextId: 10
     },
     {
       Id: 7,

@@ -1,0 +1,375 @@
+﻿{
+  movementSequence: {
+    00_initial_rootA:
+rootWikiA
+├── pageA1
+├── pageA2
+│   └── nestedPageA1
+│       └── deepNestedPage
+│       [deepNestedPage]
+│   [nestedPageA1]
+├── pageA3
+└── pageA4
+    └── nestedPageA2
+    [nestedPageA2]
+[pageA1] → [pageA2] → [pageA3] → [pageA4]
+,
+    00_initial_rootB:
+rootWikiB
+├── pageB1
+└── pageB2
+[pageB1] → [pageB2]
+,
+    00_initial_rootC:
+rootWikiC
+└── pageC1
+[pageC1]
+,
+    01_after_move_pageA3_to_rootB:
+rootWikiB
+├── pageB1
+├── pageB2
+└── pageA3
+[pageB1] → [pageB2] → [pageA3]
+,
+    02_after_move_pageB1_to_rootC:
+rootWikiC
+├── pageB1
+└── pageC1
+[pageB1] → [pageC1]
+,
+    03_after_move_pageA2_nested_to_rootC:
+rootWikiC
+├── pageB1
+├── pageC1
+└── pageA2
+    └── nestedPageA1
+        └── deepNestedPage
+        [deepNestedPage]
+    [nestedPageA1]
+[pageB1] → [pageC1] → [pageA2]
+,
+    04_after_move_pageA4_to_rootB:
+rootWikiB
+├── pageA4
+│   └── nestedPageA2
+│   [nestedPageA2]
+├── pageB2
+└── pageA3
+[pageA4] → [pageB2] → [pageA3]
+,
+    05_after_reorder_pageA2_before_pageB1:
+rootWikiC
+├── pageA2
+│   └── nestedPageA1
+│       └── deepNestedPage
+│       [deepNestedPage]
+│   [nestedPageA1]
+├── pageB1
+└── pageC1
+[pageA2] → [pageB1] → [pageC1]
+,
+    06_after_move_pageC1_to_rootA:
+rootWikiA
+├── pageA1
+└── pageC1
+[pageA1] → [pageC1]
+,
+    07_after_reorder_pageA3_before_pageA4:
+rootWikiB
+├── pageA3
+├── pageA4
+│   └── nestedPageA2
+│   [nestedPageA2]
+└── pageB2
+[pageA3] → [pageA4] → [pageB2]
+,
+    08_after_move_nestedPageA1_to_rootA:
+rootWikiA
+├── pageA1
+├── pageC1
+└── nestedPageA1
+    └── deepNestedPage
+    [deepNestedPage]
+[pageA1] → [pageC1] → [nestedPageA1]
+,
+    09_final_rootA:
+rootWikiA
+├── pageA1
+├── pageC1
+└── nestedPageA1
+    └── deepNestedPage
+    [deepNestedPage]
+[pageA1] → [pageC1] → [nestedPageA1]
+,
+    09_final_rootB:
+rootWikiB
+├── pageA3
+├── pageA4
+│   └── nestedPageA2
+│   [nestedPageA2]
+└── pageB2
+[pageA3] → [pageA4] → [pageB2]
+,
+    09_final_rootC:
+rootWikiC
+├── pageA2
+└── pageB1
+[pageA2] → [pageB1]
+
+  },
+  entityCacheSnapshots: {
+    final_rootA_cache: {
+      Id: 2,
+      Name: rootWikiA,
+      ChildRelations: [
+        {
+          ChildId: 5,
+          ParentId: 2,
+          NextId: 11,
+          Id: 1
+        },
+        {
+          ChildId: 11,
+          ParentId: 2,
+          PreviousId: 5,
+          NextId: 12,
+          Id: 16
+        },
+        {
+          ChildId: 12,
+          ParentId: 2,
+          PreviousId: 11,
+          Id: 18
+        }
+      ]
+    },
+    final_rootB_cache: {
+      Id: 3,
+      Name: rootWikiB,
+      ChildRelations: [
+        {
+          ChildId: 7,
+          ParentId: 3,
+          NextId: 8,
+          Id: 17
+        },
+        {
+          ChildId: 8,
+          ParentId: 3,
+          PreviousId: 7,
+          NextId: 10,
+          Id: 14
+        },
+        {
+          ChildId: 10,
+          ParentId: 3,
+          PreviousId: 8,
+          Id: 9
+        }
+      ]
+    },
+    final_rootC_cache: {
+      Id: 4,
+      Name: rootWikiC,
+      ChildRelations: [
+        {
+          ChildId: 6,
+          ParentId: 4,
+          NextId: 9,
+          Id: 15
+        },
+        {
+          ChildId: 9,
+          ParentId: 4,
+          PreviousId: 6,
+          Id: 12
+        }
+      ]
+    }
+  },
+  dbSnapshots: {
+    final_rootA_db_relations: [
+      {
+        ChildId: 5,
+        ParentId: 2,
+        NextId: 11,
+        Id: 1
+      },
+      {
+        ChildId: 11,
+        ParentId: 2,
+        PreviousId: 5,
+        NextId: 12,
+        Id: 16
+      },
+      {
+        ChildId: 12,
+        ParentId: 2,
+        PreviousId: 11,
+        Id: 18
+      }
+    ],
+    final_rootB_db_relations: [
+      {
+        ChildId: 10,
+        ParentId: 3,
+        PreviousId: 8,
+        Id: 9
+      },
+      {
+        ChildId: 8,
+        ParentId: 3,
+        PreviousId: 7,
+        NextId: 10,
+        Id: 14
+      },
+      {
+        ChildId: 7,
+        ParentId: 3,
+        NextId: 8,
+        Id: 17
+      }
+    ],
+    final_rootC_db_relations: [
+      {
+        ChildId: 9,
+        ParentId: 4,
+        PreviousId: 6,
+        Id: 12
+      },
+      {
+        ChildId: 6,
+        ParentId: 4,
+        NextId: 9,
+        Id: 15
+      }
+    ]
+  },
+  moveResults: [
+    {
+      moveNumber: 1,
+      success: true,
+      error: 
+    },
+    {
+      moveNumber: 2,
+      success: true,
+      error: 
+    },
+    {
+      moveNumber: 3,
+      success: true,
+      error: 
+    },
+    {
+      moveNumber: 4,
+      success: true,
+      error: 
+    },
+    {
+      moveNumber: 5,
+      success: true,
+      error: 
+    },
+    {
+      moveNumber: 6,
+      success: true,
+      error: 
+    },
+    {
+      moveNumber: 7,
+      success: true,
+      error: 
+    },
+    {
+      moveNumber: 8,
+      success: true,
+      error: 
+    }
+  ],
+  structureIntegrity: {
+    deepNestedPageStillUnderNestedA1: true,
+    nestedPageA2StillUnderPageA4: true,
+    pageA2HasNoNestedPageA1: true
+  },
+  finalState: {
+    rootAChildrenIds: [
+      5,
+      11,
+      12
+    ],
+    rootBChildrenIds: [
+      7,
+      8,
+      10
+    ],
+    rootCChildrenIds: [
+      6,
+      9
+    ],
+    totalRelationsInDb: 10,
+    allRelationsInDb: [
+      {
+        ChildId: 5,
+        ParentId: 2,
+        NextId: 11,
+        Id: 1
+      },
+      {
+        ChildId: 14,
+        ParentId: 12,
+        Id: 4
+      },
+      {
+        ChildId: 13,
+        ParentId: 8,
+        Id: 7
+      },
+      {
+        ChildId: 10,
+        ParentId: 3,
+        PreviousId: 8,
+        Id: 9
+      },
+      {
+        ChildId: 9,
+        ParentId: 4,
+        PreviousId: 6,
+        Id: 12
+      },
+      {
+        ChildId: 8,
+        ParentId: 3,
+        PreviousId: 7,
+        NextId: 10,
+        Id: 14
+      },
+      {
+        ChildId: 6,
+        ParentId: 4,
+        NextId: 9,
+        Id: 15
+      },
+      {
+        ChildId: 11,
+        ParentId: 2,
+        PreviousId: 5,
+        NextId: 12,
+        Id: 16
+      },
+      {
+        ChildId: 7,
+        ParentId: 3,
+        NextId: 8,
+        Id: 17
+      },
+      {
+        ChildId: 12,
+        ParentId: 2,
+        PreviousId: 11,
+        Id: 18
+      }
+    ]
+  }
+}

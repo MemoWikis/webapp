@@ -1,0 +1,25 @@
+﻿{
+  initialTree:
+rootPage
+└── parentPage
+    └── childPage
+        └── grandChildPage
+        [grandChildPage]
+    [childPage]
+[parentPage]
+,
+  finalTree:
+rootPage
+└── parentPage
+    └── childPage
+        └── grandChildPage
+        [grandChildPage]
+    [childPage]
+[parentPage]
+,
+  circularMoveResult: {
+    success: false,
+    error: error.page.circularReference
+  },
+  structureUnchanged: true
+}

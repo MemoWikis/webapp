@@ -126,6 +126,5 @@
             pageRepository.Update(relationToDelete.Child, authorId, type: PageChangeType.Relations);
             pageRepository.Update(relationToDelete.Parent, authorId, type: PageChangeType.Relations);
         }
-
     }
 }

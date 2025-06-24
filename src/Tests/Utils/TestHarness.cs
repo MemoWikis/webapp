@@ -127,7 +127,9 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     }
 
     public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();
-    public T R<T>() where T : notnull => Resolve<T>();    public async Task InitAsync(bool keepData = false)
+    public T R<T>() where T : notnull => Resolve<T>();
+
+    public async Task InitAsync(bool keepData = false)
     {
         _stopwatch = Stopwatch.StartNew();
 
@@ -211,7 +213,9 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public void Dispose() => DisposeAsync().AsTask().GetAwaiter().GetResult();    private async Task InitializersMoreAsync()
+    public void Dispose() => DisposeAsync().AsTask().GetAwaiter().GetResult();
+
+    private async Task InitializersMoreAsync()
     {
         _stopwatch = Stopwatch.StartNew();
 
@@ -221,7 +225,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         Resolve<EntityCacheInitializer>().Init(" (started in unit test) ");
         PerfLog("EntityCache init");
         DateTimeX.ResetOffset();
-        
+
         if (!UsersExistInDatabase())
         {
             SetSessionUserInDatabase();
@@ -248,7 +252,9 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .New(R<UserWritingRepo>())
             .Add(testUser)
             .Persist();
-    }    private void CreateTestUser()
+    }
+
+    private void CreateTestUser()
     {
         var testUser = new User { Id = 2, Name = "TestUser" };
 
