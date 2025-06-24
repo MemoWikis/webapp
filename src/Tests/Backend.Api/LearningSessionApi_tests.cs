@@ -23,28 +23,11 @@ internal class LearningSessionApi_tests : BaseTestHarness
         var firstPage = pages.First!;
 
         // Create a comprehensive session configuration with all filter options enabled
-        var sessionConfig = new LearningSessionConfigRequest
-        {
-            PageId = Convert.ToInt32(firstPage["Id"]),
-            MaxQuestionCount = 5,
-            CurrentUserId = 2, // LearningUser from test scenario
-            IsInTestMode = false,
-            QuestionOrder = QuestionOrder.SortByEasiest,
-            AnswerHelp = true,
-            Repetition = RepetitionType.None,
-            // Enable all question visibility filters
-            InWuwi = true,
-            NotInWuwi = true,
-            CreatedByCurrentUser = true,
-            NotCreatedByCurrentUser = true,
-            PrivateQuestions = true,
-            PublicQuestions = true,
-            // Enable all knowledge status filters
-            NotLearned = true,
-            NeedsLearning = true,
-            NeedsConsolidation = true,
-            Solid = true
-        };
+        var sessionConfig = GetSessionConfig(
+            pageId: Convert.ToInt32(firstPage["Id"]),
+            maxQuestionCount: 5,
+            repetitionType: RepetitionType.Normal
+        );
 
         // Act - Start new learning session-
         var newSessionResponse = await _testHarness.ApiLearningSessionStore.NewSession(sessionConfig);
@@ -242,7 +225,11 @@ internal class LearningSessionApi_tests : BaseTestHarness
         }).UseMethodName("InvalidRequests");
     }
 
-    private static Object GetSessionConfig(int pageId, int maxQuestionCount = 3)
+    private static object GetSessionConfig(
+        int pageId, 
+        int maxQuestionCount = 3, 
+        RepetitionType repetitionType = RepetitionType.None
+    )
     {
         var sessionConfig = new
         {
@@ -252,7 +239,7 @@ internal class LearningSessionApi_tests : BaseTestHarness
             isInTestMode = false,
             questionOrder = 0,
             answerHelp = true,
-            repetition = 1, // Normal repetition mode
+            repetition = repetitionType,
             inWuwi = true,
             notInWuwi = true,
             createdByCurrentUser = true,
@@ -264,6 +251,7 @@ internal class LearningSessionApi_tests : BaseTestHarness
             needsConsolidation = true,
             solid = true
         };
+
         return sessionConfig;
     }
 }

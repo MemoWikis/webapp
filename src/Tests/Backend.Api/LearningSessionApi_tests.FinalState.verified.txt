@@ -1,15 +1,15 @@
 ﻿{
   finalSession: {
     success: false,
-    stepsCount: 4,
-    activeQuestionCount: 4,
+    stepsCount: 6,
+    activeQuestionCount: 5,
     currentStepIndex: 2
   },
   sessionResult: {
-    uniqueQuestionCount: 4,
+    uniqueQuestionCount: 5,
     correctCount: 1,
     wrongCount: 1,
-    notAnsweredCount: 2,
+    notAnsweredCount: 3,
     pageId: 1,
     pageName: LearningUser Topic 1
   },
