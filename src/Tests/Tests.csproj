@@ -51,4 +51,25 @@
     <Folder Include="TestData\Dumps\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Backend.Api\LearningSessionApi_tests.LearningSession-Start.verified.txt">
+      <DependentUpon>LearningSessionApi_tests.cs</DependentUpon>
+    </None>
+    <None Update="Backend.Api\LearningSessionApi_tests.LearningSession-FinalState.verified.txt">
+      <DependentUpon>LearningSessionApi_tests.cs</DependentUpon>
+    </None>
+    <None Update="Backend.Api\LearningSessionApi_tests.LearningSession-Answer2.verified.txt">
+      <DependentUpon>LearningSessionApi_tests.cs</DependentUpon>
+    </None>
+    <None Update="Backend.Api\LearningSessionApi_tests.LearningSession-Answer1.verified.txt">
+      <DependentUpon>LearningSessionApi_tests.cs</DependentUpon>
+    </None>
+    <None Update="Backend.Api\LearningSessionApi_tests.InvalidRequests.verified.txt">
+      <DependentUpon>LearningSessionApi_tests.cs</DependentUpon>
+    </None>
+    <None Update="Backend.Api\LearningSessionApi_tests.FinalState.verified.txt">
+      <DependentUpon>LearningSessionApi_tests.cs</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>

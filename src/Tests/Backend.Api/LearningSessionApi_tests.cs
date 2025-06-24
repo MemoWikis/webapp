@@ -7,9 +7,9 @@ using static AnswerBodyController;
 /// Uses the tiny scenario for faster test execution with minimal test data.
 /// </summary>
 [TestFixture]
-internal class LearningSessionApiTests : BaseTestHarness
+internal class LearningSessionApi_tests : BaseTestHarness
 {
-    public LearningSessionApiTests() => _useTinyScenario = true;
+    public LearningSessionApi_tests() => _useTinyScenario = true;
 
     /// <summary>
     /// Tests the complete learning session workflow: creating a session, answering questions correctly and incorrectly,
@@ -60,7 +60,7 @@ internal class LearningSessionApiTests : BaseTestHarness
             indexIsZero = currentStep.index == 0, //fresh initializied 
             newSessionResponse.ActiveQuestionCount
         }).UseMethodName("LearningSession-Start");
-        
+
         await AnswerQuestionsAndVerifyState(newSessionResponse);
     }
 
@@ -185,26 +185,9 @@ internal class LearningSessionApiTests : BaseTestHarness
         var targetPage = pages.First!;
 
         // Create session with normal repetition mode for navigation testing
-        var sessionConfig = new
-        {
-            pageId = Convert.ToInt32(targetPage["Id"]),
-            maxQuestionCount = 3,
-            currentUserId = 2, // LearningUser from test scenario
-            isInTestMode = false,
-            questionOrder = 0,
-            answerHelp = true,
-            repetition = 1, // Normal repetition mode
-            inWuwi = true,
-            notInWuwi = true,
-            createdByCurrentUser = true,
-            notCreatedByCurrentUser = true,
-            privateQuestions = true,
-            publicQuestions = true,
-            notLearned = true,
-            needsLearning = true,
-            needsConsolidation = true,
-            solid = true
-        };
+        var sessionConfig = GetSessionConfig(
+            pageId: Convert.ToInt32(targetPage["Id"])
+        );
 
         // Act - Create session and test navigation functionality
         var sessionResponse = await _testHarness.ApiLearningSessionStore.NewSession(sessionConfig);
@@ -226,7 +209,7 @@ internal class LearningSessionApiTests : BaseTestHarness
             activeQuestionCount = lastStepResponse.ActiveQuestionCount
         }).UseMethodName("LearningSession-FinalState");
     }
-
+    
     /// <summary>
     /// Tests error handling scenarios including invalid page IDs and
     /// attempting to answer questions without an active session.
@@ -234,16 +217,42 @@ internal class LearningSessionApiTests : BaseTestHarness
     [Test]
     public async Task Should_Handle_Invalid_Learning_Session_Requests()
     {
-        // Test session creation with non-existent page ID
-        var invalidSessionConfig = new
+        var invalidSessionConfig = GetSessionConfig(
+            pageId: Convert.ToInt32(99999)
+        );
+
+        _ = await _testHarness.ApiLearningSessionStore.NewSession(invalidSessionConfig);
+
+        // Test answering question without an active session
+        var invalidAnswerRequest = new SendAnswerToLearningSessionRequest(
+            Id: 1,
+            QuestionViewGuid: Guid.NewGuid(),
+            Answer: "Some answer",
+            InTestMode: false
+        );
+
+        // Attempt to answer question and handle potential exceptions
+        var invalidAnswerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSessionCall(invalidAnswerRequest);
+        var responseContent = await invalidAnswerResponse.Content.ReadAsStringAsync();
+
+        await Verify(new
         {
-            pageId = 99999, // Non-existent page ID
-            maxQuestionCount = 5,
-            currentUserId = 2,
+            statusCode = invalidAnswerResponse.StatusCode, // 500
+            isSuccessStatusCode = invalidAnswerResponse.IsSuccessStatusCode, //false
+        }).UseMethodName("InvalidRequests");
+    }
+
+    private static Object GetSessionConfig(int pageId, int maxQuestionCount = 3)
+    {
+        var sessionConfig = new
+        {
+            pageId = pageId,
+            maxQuestionCount = maxQuestionCount,
+            currentUserId = 2, // LearningUser from test scenario
             isInTestMode = false,
             questionOrder = 0,
             answerHelp = true,
-            repetition = 0,
+            repetition = 1, // Normal repetition mode
             inWuwi = true,
             notInWuwi = true,
             createdByCurrentUser = true,
@@ -255,25 +264,6 @@ internal class LearningSessionApiTests : BaseTestHarness
             needsConsolidation = true,
             solid = true
         };
-
-        _ = await _testHarness.ApiLearningSessionStore.NewSession(invalidSessionConfig);
-
-        // Test answering question without an active session
-        var invalidAnswerRequest = new SendAnswerToLearningSessionRequest(
-            Id: 1,
-            QuestionViewGuid: Guid.NewGuid(),
-            Answer: "Some answer",
-            InTestMode: false
-        );        
-        
-        // Attempt to answer question and handle potential exceptions
-        var invalidAnswerResponse = await _testHarness.ApiAnswerBody.SendAnswerToLearningSessionCall(invalidAnswerRequest);
-        var responseContent = await invalidAnswerResponse.Content.ReadAsStringAsync();
-
-        await Verify(new
-        {
-            statusCode = invalidAnswerResponse.StatusCode, // 500
-            isSuccessStatusCode = invalidAnswerResponse.IsSuccessStatusCode, //false
-        }).UseMethodName("InvalidRequests");
+        return sessionConfig;
     }
 }

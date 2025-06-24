@@ -1,5 +1,5 @@
 ﻿public enum RepetitionType
 {
-    None,
-    Normal,
+    None = 0,
+    Normal = 1,
 }
