@@ -76,13 +76,6 @@ export interface SharedWithUser {
     imgUrl: string
 }
 
-export interface KnowledgeSummarySlim {
-    solid: number
-    needsConsolidation: number
-    needsLearning: number
-    notLearned: number
-}
-
 export interface FooterPages {
     rootWiki: Page
     mainPages: Page[]
