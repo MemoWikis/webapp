@@ -138,22 +138,36 @@ public class EditPageRelationStoreController(
 
         var modifyRelationsForPage = new ModifyRelationsForPage(pageRepository, pageRelationRepo);
 
-        if (request.Position == TargetPosition.Inner)
+        switch (request.Position)
         {
-            PageOrderer.MoveIn(relationToMove, request.TargetId, _sessionUser.UserId,
-                modifyRelationsForPage, _permissionCheck);
-
-            return new TryMovePageResult(request.OldParentId, request.TargetId, undoMovePageData);
+            case TargetPosition.Before:
+                PageOrderer.MoveBefore(
+                    relationToMove,
+                    request.TargetId,
+                    request.NewParentId,
+                    _sessionUser.UserId,
+                    modifyRelationsForPage);
+                break;
+            case TargetPosition.After:
+                PageOrderer.MoveAfter(
+                    relationToMove,
+                    request.TargetId,
+                    request.NewParentId,
+                    _sessionUser.UserId,
+                    modifyRelationsForPage);
+                break;
+            case TargetPosition.Inner:
+                PageOrderer.MoveIn(
+                    relationToMove,
+                    request.TargetId,
+                    _sessionUser.UserId,
+                    modifyRelationsForPage,
+                    _permissionCheck);
+                break;
+            case TargetPosition.None:
+            default:
+                throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
-
-        if (request.Position == TargetPosition.Before)
-            PageOrderer.MoveBefore(relationToMove, request.TargetId, request.NewParentId,
-                _sessionUser.UserId, modifyRelationsForPage);
-        else if (request.Position == TargetPosition.After)
-            PageOrderer.MoveAfter(relationToMove, request.TargetId, request.NewParentId,
-                _sessionUser.UserId, modifyRelationsForPage);
-        else if (request.Position == TargetPosition.None)
-            throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
 
         return new TryMovePageResult(request.OldParentId, request.NewParentId, undoMovePageData);
     }
