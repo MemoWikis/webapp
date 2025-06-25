@@ -133,14 +133,14 @@ public class PageDataManager(
                     : Regex.Replace(page.Content, "<.*?>", ""))
                 .Truncate(250, true),
             KnowledgeSummary = new KnowledgeSummaryResponse(
-                NotLearned: knowledgeSummary.NotLearned,
-                NotLearnedPercentage: knowledgeSummary.NotLearnedPercentage,
-                NeedsLearning: knowledgeSummary.NeedsLearning,
-                NeedsLearningPercentage: knowledgeSummary.NeedsLearningPercentage,
-                NeedsConsolidation: knowledgeSummary.NeedsConsolidation,
-                NeedsConsolidationPercentage: knowledgeSummary.NeedsConsolidationPercentage,
                 Solid: knowledgeSummary.Solid,
                 SolidPercentage: knowledgeSummary.SolidPercentage,
+                NeedsConsolidation: knowledgeSummary.NeedsConsolidation,
+                NeedsConsolidationPercentage: knowledgeSummary.NeedsConsolidationPercentage,
+                NeedsLearning: knowledgeSummary.NeedsLearning,
+                NeedsLearningPercentage: knowledgeSummary.NeedsLearningPercentage,
+                NotLearned: knowledgeSummary.NotLearned,
+                NotLearnedPercentage: knowledgeSummary.NotLearnedPercentage,
                 NotInWishknowledge: knowledgeSummary.NotInWishknowledge,
                 NotInWishknowledgePercentage: knowledgeSummary.NotInWishknowledgePercentage,
                 Total: knowledgeSummary.Total),
@@ -181,14 +181,14 @@ public class PageDataManager(
     }
 
     public record struct KnowledgeSummaryResponse(
-        int NotLearned,
-        int NotLearnedPercentage,
-        int NeedsLearning,
-        int NeedsLearningPercentage,
-        int NeedsConsolidation,
-        int NeedsConsolidationPercentage,
         int Solid,
         int SolidPercentage,
+        int NeedsConsolidation,
+        int NeedsConsolidationPercentage,
+        int NeedsLearning,
+        int NeedsLearningPercentage,
+        int NotLearned,
+        int NotLearnedPercentage,
         int NotInWishknowledge,
         int NotInWishknowledgePercentage,
         int Total);
