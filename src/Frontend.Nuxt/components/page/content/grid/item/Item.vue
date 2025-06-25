@@ -60,7 +60,6 @@ const childrenLoaded = ref<boolean>(false)
 const { t } = useI18n()
 
 async function loadChildren(force: boolean = false) {
-    console.log('loadChildren', props.page.id, force)
     if (childrenLoaded.value && !force)
         return
 
@@ -190,9 +189,9 @@ function removeGridItem(id: number) {
 
 async function addGridItem(id: number) {
 
-    if (!childrenLoaded.value) {
+    if (!childrenLoaded.value)
         await loadChildren()
-    }
+
     await nextTick()
     if (children.value.findIndex(c => c.id === id) > 0)
         return

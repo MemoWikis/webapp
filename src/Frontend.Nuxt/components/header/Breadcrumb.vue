@@ -141,13 +141,12 @@ const route = useRoute()
 watch(() => route.params, () => {
 	if (props.site != SiteType.Page)
 		getBreadcrumb()
-}, { immediate: true })
+})
 
 watch(() => pageStore.id, (newId, oldId) => {
-	if (newId > 0 && newId != oldId && props.site === SiteType.Page) {
+	if (newId > 0 && newId != oldId && props.site === SiteType.Page)
 		getBreadcrumb()
-	}
-}, { immediate: true })
+})
 
 watch(() => props.site, (newPage, oldPage) => {
 	if (oldPage != newPage && (newPage === SiteType.Page && pageStore.id > 0))
