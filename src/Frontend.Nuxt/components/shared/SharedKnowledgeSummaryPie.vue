@@ -54,7 +54,7 @@ const totalQuestions = computed(() => {
 <template>
     <div class="summary-visualization">
         <div class="pie-chart-wrapper">
-            <ChartPie :data="pieData" :width="150" :height="150" />
+            <ChartPie :data="pieData" :width="150" :height="150" :single-color="true" />
         </div>
         <div class="total-questions">
             <span class="count">{{ totalQuestions }}</span>

@@ -140,7 +140,7 @@ const { suppressScrollX } = useScrollbarSuppression(
 											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
 										</div>
 										<div v-else>
-											{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
+											{{ t('page.tabs.knowledgeStatus.noQuestionAnswered') }}
 										</div>
 									</template>
 								</VTooltip>
@@ -170,7 +170,7 @@ const { suppressScrollX } = useScrollbarSuppression(
 											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
 										</div>
 										<div v-else>
-											{{ t('knowledgeStatus.tabs.noQuestionAnswered') }}
+											{{ t('page.tabs.knowledgeStatus.noQuestionAnswered') }}
 										</div>
 									</template>
 								</VTooltip>
