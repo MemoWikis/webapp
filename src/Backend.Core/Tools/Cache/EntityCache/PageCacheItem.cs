@@ -256,6 +256,8 @@ public class PageCacheItem : IPersistable
         return false;
     }
 
+    public virtual List<PageCacheItem> VisibleParents(PermissionCheck permissionCheck) => Parents().Where(permissionCheck.CanView).ToList();
+
     public virtual List<PageCacheItem> Parents()
     {
         return ParentRelations.Any()
@@ -739,7 +741,7 @@ public class PageCacheItem : IPersistable
         {
             return false;
         }
-        
+
         return GraphService
             .VisibleDescendants(sessionUser.User.FirstWikiId, permissionCheck, sessionUser.UserId)
             .Any(descendant => descendant.Id == Id);

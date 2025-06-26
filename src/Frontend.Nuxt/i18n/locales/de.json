@@ -78,7 +78,8 @@
             "unauthorized": "Du bist nicht angemeldet. Möglicherweise hast du keinen Zugriff auf diese Seite.",
             "token": {
                 "removal": "Der Freigabelink konnte nicht entfernt werden. Bitte versuche es erneut."
-            }
+            },
+            "convertErrorNoParents": "Das Wiki kann nicht in eine Seite umgewandelt werden, da es keine übergeordneten Seiten hat."
         },
         "question": {
             "missingText": "Der Fragetext fehlt.",

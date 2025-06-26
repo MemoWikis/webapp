@@ -78,7 +78,8 @@
             "unauthorized": "Tu n'es pas connecté(e). Tu n'as peut-être pas accès à cette page.",
             "token": {
                 "removal": "Le lien de partage a été supprimé."
-            }
+            },
+            "convertErrorNoParents": "Le wiki ne peut pas être converti en page car il n'a aucune page parente."
         },
         "question": {
             "missingText": "Il manque le texte de la question.",

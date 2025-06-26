@@ -66,6 +66,7 @@
             public static readonly string Unauthorized = "error.page.unauthorized";
             public static readonly string NoChange = "error.page.noChange";
             public static readonly string CannotDeletePageWithChildPage = "error.page.cannotDeletePageWithChildPage";
+            public static readonly string ConvertErrorNoParents = "error.page.convertErrorNoParents";
         }
 
         public static class Question

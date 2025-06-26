@@ -78,7 +78,8 @@
             "unauthorized": "You are not logged in. You may not have access to this page.",
             "token": {
                 "removal": "The share link could not be removed. Please try again."
-            }
+            },
+            "convertErrorNoParents": "The wiki cannot be converted to a page because it has no parent pages."
         },
         "question": {
             "missingText": "The question text is missing.",
