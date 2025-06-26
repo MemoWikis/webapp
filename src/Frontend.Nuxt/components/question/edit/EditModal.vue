@@ -462,7 +462,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <QuestionEditMatchList v-if="solutionType === SolutionType.MatchList" :solution="matchListJson"
                         :highlightEmptyFields="highlightEmptyFields" @set-matchlist-json="setMatchlistContent" />
                     <QuestionEditFlashcard v-if="solutionType === SolutionType.Flashcard" :solution="flashCardAnswer"
-                        :highlightEmptyFields="highlightEmptyFields" @set-flash-card-content="setFlashcardContent"
+                        :highlightEmptyFields="highlightEmptyFields" @set-flashcard-content="setFlashcardContent"
                         ref="flashCardComponent" :is-init="isInit" />
 
                     <div class="input-container description-container">

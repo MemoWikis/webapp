@@ -940,7 +940,10 @@
             "rrrright": "Exacteeeement !"
         },
         "emptyAnswerMessage": "Tu pourrais au moins essayer… (Ça ne compte pas comme une tentative.)",
-        "noCorrectAnswers": "Aucune réponse n’est correcte !"
+        "noCorrectAnswers": "Aucune réponse n'est correcte !",
+        "tooltip": {
+            "markAsCorrect": "Cliquez ici pour marquer la question comme correctement répondue"
+        }
     },
     "question": {
         "editModal": {

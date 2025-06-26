@@ -65,6 +65,16 @@ public class QuestionEditModalController(
             };
         }
 
+        var solution = RemoveHtmlTags(request.Solution);
+        if (solution.Length <= 0)
+        {
+            return new CreateResult
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Question.MissingAnswer
+            };
+        }
+
         var question = new Question();
         question.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
 

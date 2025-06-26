@@ -577,8 +577,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
                                         <button v-if="answerBodyModel.solutionType === SolutionType.Text
                                             && !learningSessionStore.isInTestMode
                                             && learningSessionStore.answerHelp
-                                            && answerIsWrong" href="#" id="aCountAsCorrect" class="SecAction btn btn-link show-tooltip memo-button" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow"
-                                            @click="markAsCorrect()">
+                                            && answerIsWrong" href="#" id="aCountAsCorrect" class="SecAction btn btn-link show-tooltip memo-button" :title="t('answerBody.tooltip.markAsCorrect')" rel="nofollow" @click="markAsCorrect()">
                                             {{ t('answerbody.markAsKnown') }}
                                         </button>
                                     </div>

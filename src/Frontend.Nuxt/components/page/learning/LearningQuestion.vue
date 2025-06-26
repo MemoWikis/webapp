@@ -490,6 +490,8 @@ const { $urlHelper } = useNuxtApp()
             min-width: 75px;
             height: 100%;
             padding: 8px 0 8px 32px;
+            max-height: 44px;
+            max-width: 44px;
 
             @media(max-width: @screen-xxs-max) {
                 display: none;
