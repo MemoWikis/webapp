@@ -164,10 +164,7 @@
         return null;
     }
 
-    public bool CanConvertPage(PageCacheItem page)
-    {
-        return _isInstallationAdmin || _userId == page.CreatorId;
-    }
+    public bool CanConvertPage(PageCacheItem page) => _isInstallationAdmin || _userId == page.CreatorId;
 
     public CanDeleteResult CanDelete(PageCacheItem page)
     {

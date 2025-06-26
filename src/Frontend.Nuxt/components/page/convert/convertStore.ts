@@ -1,14 +1,14 @@
-import { defineStore } from "pinia";
+import { defineStore } from "pinia"
 
 import {
     useSnackbarStore,
     SnackbarData,
-} from "~/components/snackBar/snackBarStore";
+} from "~/components/snackBar/snackBarStore"
 
 interface ConversionResult {
-    success: boolean;
-    name: string;
-    messageKey?: string;
+    success: boolean
+    name: string
+    messageKey?: string
 }
 
 export enum ConversionTarget {
@@ -17,30 +17,30 @@ export enum ConversionTarget {
 }
 
 export const useConvertStore = defineStore("convertStore", () => {
-    const errorMsg = ref("");
-    const showErrorMsg = ref(false);
-    const showModal = ref(false);
-    const itemId = ref<number>(0);
-    const conversionTarget = ref<ConversionTarget>(ConversionTarget.Wiki);
-    const name = ref("");
-    const keepParents = ref<boolean>(false);
+    const errorMsg = ref("")
+    const showErrorMsg = ref(false)
+    const showModal = ref(false)
+    const itemId = ref<number>(0)
+    const conversionTarget = ref<ConversionTarget>(ConversionTarget.Wiki)
+    const name = ref("")
+    const keepParents = ref<boolean>(false)
 
     const openModal = async (id: number) => {
-        itemId.value = id;
-        errorMsg.value = "";
-        showErrorMsg.value = false;
-        keepParents.value = false;
+        itemId.value = id
+        errorMsg.value = ""
+        showErrorMsg.value = false
+        keepParents.value = false
 
-        await initConvertData();
+        await initConvertData()
 
-        showModal.value = true;
-    };
+        showModal.value = true
+    }
 
     const initConvertData = async () => {
         interface ConvertDataResult {
-            isWiki: boolean;
-            name: string;
-            messageKey?: string;
+            isWiki: boolean
+            name: string
+            messageKey?: string
         }
         const result = await $api<ConvertDataResult>(
             `/apiVue/ConvertStore/GetConvertData/${itemId.value}`,
@@ -49,28 +49,39 @@ export const useConvertStore = defineStore("convertStore", () => {
                 mode: "cors",
                 credentials: "include",
             }
-        );
-        if (result && result.isWiki) {
-            conversionTarget.value = ConversionTarget.Page;
-            name.value = result.name;
-        } else if (result) {
-            conversionTarget.value = ConversionTarget.Wiki;
-            name.value = result.name;
+        )
+        if (result.messageKey) {
+            errorMsg.value = result.messageKey
+            showErrorMsg.value = true
+            return
         }
-    };
+
+        if (result && result.isWiki) {
+            conversionTarget.value = ConversionTarget.Page
+            name.value = result.name
+        } else if (result) {
+            conversionTarget.value = ConversionTarget.Wiki
+            name.value = result.name
+        }
+    }
 
     const closeModal = () => {
-        showModal.value = false;
-    };
+        showModal.value = false
+        return
+    }
 
     const confirmConversion = async () => {
-        if (conversionTarget.value === ConversionTarget.Wiki) {
-            await convertPageToWiki();
-        } else {
-            await convertWikiToPage();
-        }
-        closeModal();
-    };
+        if (showErrorMsg.value)             
+            closeModal()
+
+
+        if (conversionTarget.value === ConversionTarget.Wiki) 
+            await convertPageToWiki()
+        else 
+            await convertWikiToPage()
+        
+        closeModal()
+    }
 
     const convertWikiToPage = async () => {
         const result = await $api<ConversionResult>(
@@ -80,11 +91,11 @@ export const useConvertStore = defineStore("convertStore", () => {
                 mode: "cors",
                 credentials: "include",
             }
-        );
+        )
         if (result && result.success) {
-            const snackbarStore = useSnackbarStore();
-            const nuxtApp = useNuxtApp();
-            const { $i18n } = nuxtApp;
+            const snackbarStore = useSnackbarStore()
+            const nuxtApp = useNuxtApp()
+            const { $i18n } = nuxtApp
 
             const data: SnackbarData = {
                 type: "success",
@@ -93,13 +104,13 @@ export const useConvertStore = defineStore("convertStore", () => {
                         name: name.value,
                     }),
                 },
-            };
-            snackbarStore.showSnackbar(data);
+            }
+            snackbarStore.showSnackbar(data)
         } else if (result && !result.success && result.messageKey) {
-            errorMsg.value = result.messageKey;
-            showErrorMsg.value = true;
+            errorMsg.value = result.messageKey
+            showErrorMsg.value = true
         }
-    };
+    }
 
     const convertPageToWiki = async () => {
         const result = await $api<ConversionResult>(
@@ -113,11 +124,11 @@ export const useConvertStore = defineStore("convertStore", () => {
                     keepParents: keepParents.value,
                 },
             }
-        );
+        )
         if (result && result.success) {
-            const snackbarStore = useSnackbarStore();
-            const nuxtApp = useNuxtApp();
-            const { $i18n } = nuxtApp;
+            const snackbarStore = useSnackbarStore()
+            const nuxtApp = useNuxtApp()
+            const { $i18n } = nuxtApp
 
             const data: SnackbarData = {
                 type: "success",
@@ -126,13 +137,13 @@ export const useConvertStore = defineStore("convertStore", () => {
                         name: name.value,
                     }),
                 },
-            };
-            snackbarStore.showSnackbar(data);
+            }
+            snackbarStore.showSnackbar(data)
         } else if (result && !result.success && result.messageKey) {
-            errorMsg.value = result.messageKey;
-            showErrorMsg.value = true;
+            errorMsg.value = result.messageKey
+            showErrorMsg.value = true
         }
-    };
+    }
 
     return {
         errorMsg,
@@ -147,5 +158,5 @@ export const useConvertStore = defineStore("convertStore", () => {
         confirmConversion,
         convertPageToWiki,
         convertWikiToPage,
-    };
-});
+    }
+})
