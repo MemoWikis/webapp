@@ -990,6 +990,7 @@ function initData(e: AnswerQuestionDetailsResult) {
         display: flex;
         flex-wrap: wrap;
         padding-left: 15px;
+        gap: 1rem;
 
         #LicenseQuestion {
             padding-right: 10px;

@@ -10,23 +10,27 @@ const { t } = useI18n()
         @keydown.esc="licenseLinkModalStore.closeModal()">
         <template v-slot:header>
             <h2>
-                {{ t('answerbody.details.licenseInfoHeader') }}: {{ licenseLinkModalStore.license.shortText }}
+                {{ t('answerbody.details.licenseInfoHeader') }}
+                <br />
+
+                {{ licenseLinkModalStore.license.shortText }}
             </h2>
         </template>
         <template v-slot:body>
             <div class="license-container">
                 <div class="license-info">
-                    <div class="author-info" v-if="licenseLinkModalStore.creator.id > 0">
-                        <span class="info-label">{{ t('answerbody.details.author') }}:</span>
-                        <NuxtLink :to="$urlHelper.getUserUrl(licenseLinkModalStore.creator.name, licenseLinkModalStore.creator.id)">
-                            {{ licenseLinkModalStore.creator.name }}
-                        </NuxtLink>
-                    </div>
-                    <div v-if="licenseLinkModalStore.license.isDefault" class="license-image-container">
-                        <Image src="/Images/Licenses/cc-by 88x31.png" :width="88" />
-                    </div>
-                    <div class="license-text" v-if="licenseLinkModalStore.license.fullText.length > 0"
-                        v-html="licenseLinkModalStore.license.fullText">
+                    <template v-if="licenseLinkModalStore.license.isDefault">
+                        <div class="author-info" v-if="licenseLinkModalStore.creator.id > 0">
+                            <span class="info-label">{{ t('answerbody.details.author') }}:</span>
+                            <NuxtLink :to="$urlHelper.getUserUrl(licenseLinkModalStore.creator.name, licenseLinkModalStore.creator.id)">
+                                {{ licenseLinkModalStore.creator.name }}
+                            </NuxtLink>
+                        </div>
+                        <div class="license-image-container">
+                            <Image src="/Images/Licenses/cc-by 88x31.png" :width="88" />
+                        </div>
+                    </template>
+                    <div class="license-text" v-if="licenseLinkModalStore.license.fullText.length > 0" v-html="licenseLinkModalStore.license.fullText">
                     </div>
                 </div>
             </div>

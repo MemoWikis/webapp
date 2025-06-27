@@ -101,9 +101,7 @@ const openLicenseModal = () => {
     }
 
     &:focus {
-        outline: 2px solid #007acc;
-        outline-offset: 2px;
-        border-radius: 2px;
+        outline: none;
     }
 
     .text-div {
