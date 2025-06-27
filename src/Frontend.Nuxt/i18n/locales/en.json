@@ -940,7 +940,10 @@
             "rrrright": "Rrrrright!"
         },
         "emptyAnswerMessage": "You could at least try ... (This won’t count as an attempt.)",
-        "noCorrectAnswers": "None of the answers is correct!"
+        "noCorrectAnswers": "None of the answers is correct!",
+        "tooltip": {
+            "markAsCorrect": "Click here and the question will be marked as answered correctly"
+        }
     },
     "question": {
         "editModal": {
@@ -1760,6 +1763,28 @@
         "removeAdminRights": {
             "title": "Remove Admin Rights",
             "button": "Remove Admin Rights for current user"
+        }
+    },
+    "license": {
+        "ccBy40": {
+            "nameLong": "Creative Commons: Attribution 4.0 International",
+            "displayTextFull": "This content is licensed under 'Creative Commons: Attribution 4.0 International'. You can freely use and modify it as long as you credit the author and link to the license (cf. <a href='https://creativecommons.org/licenses/by/4.0/' target='_blank'>the summary</a> and <a href='https://creativecommons.org/licenses/by/4.0/legalcode' target='_blank'>the detailed license text</a>)."
+        },
+        "bamf": {
+            "nameShort": "Official Work BAMF",
+            "nameLong": "Other Official Work, Source BAMF",
+            "displayTextShort": "Source: BAMF",
+            "displayTextFull": "This content represents an 'other official work' according to <a href='https://www.gesetze-im-internet.de/urhg/__5.html' target='_blank'>§ 5 Para. 2 of the Copyright Act</a>. It may be used freely, but the source must be cited and no changes may be made."
+        },
+        "elwis": {
+            "nameLong": "Electronic Waterway Information Service (ELWIS.de)",
+            "displayTextShort": "Source: ELWIS.de",
+            "displayTextFull": "The <a href='https://www.elwis.de/Freizeitschifffahrt/fuehrerscheininformationen/' target='_blank'>question and answer options</a> are from the Electronic Waterway Information Service (ELWIS.de) of the Federal Waterways and Shipping Administration."
+        },
+        "blac": {
+            "nameLong": "Federal/State Working Group on Chemical Safety (BLAC)",
+            "displayTextShort": "Source: BLAC",
+            "displayTextFull": "The question, answer options and reference to sources are from the Common Question Catalog of the States (GFK) for the competence examination according to § 5 of the Chemical Prohibition Ordinance and are collected in <a href='http://blak-uis.server.de/servlet/is/2146/P-4a.pdf/' target='_blank'>this PDF</a>. The use of the question catalog is permitted in accordance with § 62 Para. 1 to 3 (prohibition of changes) and § 63 Para. 1 and 2 (source citation) of the Copyright Act. Author is the <a href='https://blac-info.server.de/servlet/is/2146/' target='_blank'>BLAC</a>."
         }
     }
 }

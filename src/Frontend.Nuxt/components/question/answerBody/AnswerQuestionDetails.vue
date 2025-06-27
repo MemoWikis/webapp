@@ -748,7 +748,7 @@ async function initData(e: AnswerQuestionDetailsResult) {
     creationDate.value = e.creationDate
     totalViewCount.value = e.totalViewCount
     wishknowledgeCount.value = e.wishknowledgeCount
-    license.value = e.license
+    licenseId.value = e.licenseId
     knowledgeStatus.value = e.knowledgeStatus
 
     if (!learningSessionStore.isInTestMode)
@@ -846,11 +846,7 @@ const creator = ref({
 const creationDate = ref<Date | string>()
 const wishknowledgeCount = ref(0)
 const totalViewCount = ref(0)
-const license = ref({
-    isDefault: true,
-    shortText: '',
-    fullText: ''
-})
+const licenseId = ref(1) // Default to CC BY 4.0
 
 function openCommentModal() {
     commentsStore.openModal(props.id)
@@ -873,9 +869,6 @@ onMounted(() => {
 watch(() => userStore.isLoggedIn, () => {
     loadData()
 })
-
-const ariaId = useId()
-const ariaId2 = useId()
 
 const backgroundColor = ref('')
 const currentKnowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
@@ -1056,41 +1049,7 @@ const activityPointsStore = useActivityPointsStore()
         </div>
         <div id="QuestionDetailsFooter">
             <div class="questionDetailsFooterPartialLeft">
-                <div id="LicenseQuestion">
-                    <VTooltip :aria-id="ariaId" v-if="license.isDefault">
-                        <div class="TextLinkWithIcon">
-                            <Image src="/Images/Licenses/cc-by 88x31.png" :width="60" />
-                            <div class="TextDiv">
-                                <span class="TextSpan">
-                                    {{ license.shortText }}
-                                </span>
-                            </div>
-                        </div>
-                        <template #popper>
-                            <div class="tooltip-header">
-                                {{ t('answerbody.details.licenseInfoHeader') }}: {{ license.shortText }}
-                            </div>
-                            {{ t('answerbody.details.author') }}:
-                            <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
-                                {{ creator.name }}
-                            </NuxtLink>
-                            <div v-html="license.fullText"></div>
-                        </template>
-                    </VTooltip>
-                    <VTooltip :aria-id="ariaId2" v-else>
-                        <div class="TextLinkWithIcon">
-                            <div class="TextDiv">
-                                <span class="TextSpan">
-                                    {{ license.shortText }}
-                                </span>
-                                <font-awesome-icon icon="fa-solid fa-circle-info" class="license-info" />
-                            </div>
-                        </div>
-                        <template #popper>
-                            {{ license.fullText }}
-                        </template>
-                    </VTooltip>
-                </div>
+                <LicenseLink :licenseId="licenseId" :creator="creator" />
                 <div class="created">
                     {{ t('answerbody.details.createdBy') }}
                     <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
@@ -1325,8 +1284,6 @@ const activityPointsStore = useActivityPointsStore()
         #pageList {
             padding-bottom: 30px;
 
-            &.isLandingPage {}
-
             .pageListChips {
                 @media(max-width:479px) {
                     padding-top: 10px;
@@ -1501,6 +1458,7 @@ const activityPointsStore = useActivityPointsStore()
         display: flex;
         flex-wrap: wrap;
         padding-left: 15px;
+        gap: 1rem;
 
         #LicenseQuestion {
             padding-right: 10px;

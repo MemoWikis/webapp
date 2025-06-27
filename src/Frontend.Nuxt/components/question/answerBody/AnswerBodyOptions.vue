@@ -94,3 +94,35 @@ const { t } = useI18n()
         </VDropdown>
     </div>
 </template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.answerbody-btn {
+    font-size: 18px;
+    user-select: none;
+
+    .answerbody-btn-inner {
+        cursor: pointer;
+        background: white;
+        height: 32px;
+        width: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+
+        .fa-ellipsis-vertical {
+            color: @memo-grey-dark;
+        }
+
+        &:hover {
+            filter: brightness(0.95);
+        }
+
+        &:active {
+            filter: brightness(0.85);
+        }
+    }
+}
+</style>

@@ -231,11 +231,7 @@ public class QuestionLandingPageController(
             CreationDate: question.DateCreated,
             TotalViewCount: question.TotalViews,
             WishknowledgeCount: question.TotalRelevancePersonalEntries,
-            License: new License(
-                IsDefault: question.License.IsDefault(),
-                ShortText: question.License.DisplayTextShort,
-                FullText: question.License.DisplayTextFull
-            )
+            LicenseId: question.License.Id
         );
         return result;
     }
