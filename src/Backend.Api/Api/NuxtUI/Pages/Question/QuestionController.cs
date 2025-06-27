@@ -20,7 +20,7 @@ public class QuestionController(
         AnswerBodyModel? AnswerBodyModel,
         SolutionData? SolutionData,
         AnswerQuestionDetailsResult? AnswerQuestionDetailsModel,
-        string? MessageKey,
+        string MessageKey,
         NuxtErrorPageType? ErrorCode);
 
     public readonly record struct AnswerBodyModel(
@@ -193,11 +193,7 @@ public class QuestionController(
             CreationDate: question.DateCreated,
             TotalViewCount: question.TotalViews,
             WishknowledgeCount: question.TotalRelevancePersonalEntries,
-            License: new License(
-                IsDefault: question.License.IsDefault(),
-                ShortText: question.License.DisplayTextShort,
-                FullText: question.License.DisplayTextFull
-            )
+            LicenseId: question.License.Id
         );
         return result;
     }
@@ -215,6 +211,7 @@ public class QuestionController(
         string LinkToQuestionVersions,
         int SessionIndex,
         QuestionVisibility Visibility,
+        int LicenseId,
         int CreatorId = 0,
         KnowledgeStatus KnowledgeStatus = KnowledgeStatus.NotLearned
     );
@@ -245,6 +242,7 @@ public class QuestionController(
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
         question.CreatorId = q.CreatorId;
+        question.LicenseId = q.License.Id;
 
         var learningSession = _learningSessionCache.GetLearningSession(log: false);
         if (learningSession != null)

@@ -48,7 +48,7 @@ const { t } = useI18n()
 
 <template>
     <div class="session-configurator">
-        <div class="session-config-header">
+        <div class="session-config-header-container">
             <div class="filter-button selectable-item session-title" @click="showFilterDropdown = !showFilterDropdown"
                 :class="[showFilterDropdown ? 'open' : 'closed', learningSessionConfigurationStore.activeCustomSettings ? 'activeCustomSettings' : '', isMobile ? 'is-mobile' : '']">
                 <template v-if="isMobile">
@@ -663,10 +663,11 @@ const { t } = useI18n()
     }
 }
 
-.session-config-header {
+.session-config-header-container {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
+    gap: 1rem;
 
     .session-progress-bar {
         font-size: @font-size-base;

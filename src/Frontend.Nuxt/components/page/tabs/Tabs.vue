@@ -333,10 +333,12 @@ const { suppressScrollX } = useScrollbarSuppression(
 		width: 24px;
 		height: 24px;
 		margin-left: 4px;
+		margin-right: -8px;
 
 		.pie-container {
 			width: 24px;
 			height: 24px;
+			margin-right: -8px;
 
 			.pie-chart-placeholder {
 				height: 24px;

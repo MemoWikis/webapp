@@ -940,7 +940,10 @@
             "rrrright": "Rrrrrrichtig!"
         },
         "emptyAnswerMessage": "Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
-        "noCorrectAnswers": "Keine der Antworten ist richtig!"
+        "noCorrectAnswers": "Keine der Antworten ist richtig!",
+        "tooltip": {
+            "markAsCorrect": "Drücke hier und die Frage wird als richtig beantwortet gewertet"
+        }
     },
     "question": {
         "editModal": {
@@ -1760,6 +1763,28 @@
         "removeAdminRights": {
             "title": "Admin-Rechte entfernen",
             "button": "Admin-Rechte für aktuellen Benutzer entfernen"
+        }
+    },
+    "license": {
+        "ccBy40": {
+            "nameLong": "Creative Commons: Namensnennung 4.0 International",
+            "displayTextFull": "Dieser Beitrag steht unter der Lizenz 'Creative Commons: Namensnennung 4.0 International'. Du kannst ihn frei verwenden und verändern, solange du den Autor angibst und die Lizenz verlinkst (vgl. <a href='https://creativecommons.org/licenses/by/4.0/deed.de' target='_blank'>die Kurzfassung</a> und <a href='https://creativecommons.org/licenses/by/4.0/legalcode' target='_blank'>den ausführlichen Lizenztext</a>)."
+        },
+        "bamf": {
+            "nameShort": "Amtliches Werk BAMF",
+            "nameLong": "Anderes Amtliches Werk, Quelle BAMF",
+            "displayTextShort": "Quelle: BAMF",
+            "displayTextFull": "Dieser Beitrag stellt ein 'anderes amtliches Werk' gemäß <a href='https://www.gesetze-im-internet.de/urhg/__5.html' target='_blank'>§ 5 Abs. 2 des Urheberrechtsgesetzes</a> dar. Es darf frei verwendet werden, allerdings unter Angabe der Quelle und ohne Veränderungen."
+        },
+        "elwis": {
+            "nameLong": "Elektronischer Wasserstraßen-Informationsservice (ELWIS.de)",
+            "displayTextShort": "Quelle: ELWIS.de",
+            "displayTextFull": "Die <a href='https://www.elwis.de/Freizeitschifffahrt/fuehrerscheininformationen/' target='_blank'>Frage und die Antwortmöglichkeiten</a> entstammen dem Elektronischen Wasserstraßen-Informationsservice (ELWIS.de) der Wasserstraßen- und Schifffahrtsverwaltung des Bundes."
+        },
+        "blac": {
+            "nameLong": "Bund/Länder-Arbeitsgemeinschaft Chemikaliensicherheit (BLAC)",
+            "displayTextShort": "Quelle: BLAC",
+            "displayTextFull": "Die Frage, Antwortmöglichkeiten und die Referenz auf Fundstellen entstammen dem Gemeinsamen Fragenkatalog der Länder (GFK) für die Sachkundeprüfung nach § 5 der Chemikalien-Verbotsverordnung und sind gesammelt in <a href='http://blak-uis.server.de/servlet/is/2146/P-4a.pdf/' target='_blank'>diesem PDF</a> verfügbar. Die Nutzung des Fragenkatalogs ist nach Maßgabe von § 62 Abs. 1 bis 3 (Änderungsverbot) und § 63 Abs. 1 und 2 (Quellenangabe) UrhG zulässig. Autor ist die <a href='https://blac-info.server.de/servlet/is/2146/' target='_blank'>BLAC</a>."
         }
     }
 }
