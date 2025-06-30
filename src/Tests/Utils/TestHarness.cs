@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using Testcontainers.MySql;
@@ -347,18 +348,17 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         // Reset date/time handling and prepare test user session
         DateTimeX.ResetOffset();
 
-        if (!UsersExistInDatabase())
-        {
+        // Create users individually if they don't exist to avoid duplicates
+        var userRepo = _lifetimeScope!.Resolve<UserReadingRepo>();
+        var sessionUserExists = userRepo.GetById(DefaultSessionUserId) != null;
+        var testUserExists = userRepo.GetById(DefaultTestUserId) != null;
+        
+        if (!sessionUserExists)
             SetSessionUserInDatabase();
+        
+        if (!testUserExists)
             CreateTestUser();
-            LogPerf("DateTime+SessionUser+TestUser (created)");
-        }
-        else
-        {
-            SetSessionUserInDatabase(); // Still set session user for current test
-            LogPerf("DateTime+SessionUser+TestUser (users already exist)");
-        }
-
+        
         // Initialize background job scheduler
         await JobScheduler.InitializeAsync();
         LogPerf("JobScheduler initialized");
@@ -382,28 +382,19 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .Persist();
     }
 
+    public int DefaultTestUserId = 2;
+
     /// <summary>
     /// Create additional test user for testing scenarios
     /// </summary>
     private void CreateTestUser()
     {
-        var testUser = new User { Id = 2, Name = "TestUser" };
+        var testUser = new User { Id = DefaultTestUserId, Name = "TestUser" };
 
         ContextUser
             .New(_lifetimeScope!.Resolve<UserWritingRepo>())
             .Add(testUser)
             .Persist();
-    }
-
-    /// <summary>
-    /// Check if test users already exist in database
-    /// </summary>
-    private bool UsersExistInDatabase()
-    {
-        var userRepo = _lifetimeScope!.Resolve<UserReadingRepo>();
-        var sessionUserExists = userRepo.GetById(1) != null;
-        var testUserExists = userRepo.GetById(2) != null;
-        return sessionUserExists && testUserExists;
     }
 
     // --------------------------------------------------------------------

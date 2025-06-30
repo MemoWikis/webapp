@@ -6,9 +6,11 @@
     public async Task Should_maintain_integrity_when_moving_pages_multiple_times()
     {
         await ClearData();
+        await _userLoginApi.LoginAsSessionUser();
 
         // Arrange
         var context = NewPageContext();
+
 
         var sessionUser = R<SessionUser>();
         var authorId = sessionUser.UserId;
@@ -48,9 +50,6 @@
         var initialTree = TreeRenderer.ToAsciiDiagram(cachedRoot);
         var snapshots = new Dictionary<string, string>();
         snapshots.Add("initial", initialTree); //Act - Perform multiple moves in sequence
-
-        // Login once for all API calls in this test
-        await _userLoginApi.LoginAsSessionUser();
 
         // Move 1: sub1 after sub3
         var move1Result = await _testHarness.ApiPost<EditPageRelationStoreController.MovePageResult>(
@@ -546,9 +545,7 @@
 
         // Arrange
         var context = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var authorId = sessionUser.UserId;
-        var creator = new User { Id = authorId };
+        var creator = new User { Id = _testHarness.DefaultSessionUserId };
 
         // Create root and nested structure
         context.Add("rootParent", creator: creator, isWiki: true).Persist();

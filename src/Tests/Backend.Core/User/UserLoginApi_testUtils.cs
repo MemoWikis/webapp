@@ -42,4 +42,30 @@ public class UserLoginApiWrapper
         var loginRequest = new LoginRequest(email, password, persistentLogin);
         return await _testHarness.ApiPost<UserStoreController.LoginResponse>("apiVue/UserStore/Login", loginRequest);
     }
+
+    /// <summary>
+    /// Create a personal wiki page for a user. This is needed because login functionality requires users to have a firstWikiId.
+    /// </summary>
+    public void CreatePersonalWikiForUser(int userId, string? wikiName = null)
+    {
+        var userRepo = _testHarness.Resolve<UserReadingRepo>();
+        var user = userRepo.GetById(userId);
+        if (user == null)
+        {
+            throw new ArgumentException($"User with ID {userId} not found");
+        }
+
+        var pageContext = new ContextPage(_testHarness, addContextUser: false);
+        pageContext
+            .Add(wikiName ?? $"{user.Name} Personal Wiki", creator: user, isWiki: true)
+            .Persist();
+    }
+
+    /// <summary>
+    /// Create a personal wiki for the session user (ID 1)
+    /// </summary>
+    public void CreatePersonalWikiForSessionUser()
+    {
+        CreatePersonalWikiForUser(1, "SessionUser Personal Wiki");
+    }
 }
