@@ -13,9 +13,10 @@
         _contextUser = ContextUser.New(_testHarness.R<UserWritingRepo>());
 
         if (addContextUser)
+        {
             _contextUser.Add("ContextPage User").Persist();
-
-        Add("Root Page", isWiki: true);
+            Add("Root Page", isWiki: true);
+        }
     }
 
     public ContextPage Add(int amount, bool isWiki = false)

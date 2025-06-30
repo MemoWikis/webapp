@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Containers;
 using FakeItEasy;
 using Meilisearch;
 using Microsoft.AspNetCore.Hosting;
@@ -67,6 +66,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public LearningSessionStoreApiWrapper ApiLearningSessionStore = null!;
     public AnswerBodyApiWrapper ApiAnswerBody = null!;
     public LearningSessionResultApiWrapper ApiLearningSessionResult = null!;
+    public UserLoginApiWrapper ApiUserLogin = null!;
 
     /// <summary>
     /// Connection string for the test MySQL database
@@ -80,8 +80,29 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     /// <summary>
     /// Master key for test Meilisearch authentication
-    /// </summary>
+    /// </summary>    
     public static string MeilisearchMasterKey => "meilisearch-test-key";
+
+    /// <summary>
+    /// Waits for all pending Meilisearch indexing operations to complete.
+    /// This provides a more reliable alternative to using fixed delays in tests.
+    /// </summary>
+    /// <param name="timeoutMs">Maximum time to wait in milliseconds</param>
+    /// <returns>True if all tasks completed, false if timeout occurred</returns>
+    public async Task<bool> WaitForMeilisearchIndexing(int timeoutMs = 10000)
+    {
+        var waiter = new MeilisearchTaskWaiter(MeilisearchUrl, MeilisearchMasterKey);
+        return await waiter.WaitForAllTasksToComplete(timeoutMs);
+    }
+
+    /// <summary>
+    /// Gets the current status of Meilisearch tasks for debugging purposes.
+    /// </summary>
+    public async Task<TaskStatusSummary> GetMeilisearchTaskStatus()
+    {
+        var waiter = new MeilisearchTaskWaiter(MeilisearchUrl, MeilisearchMasterKey);
+        return await waiter.GetTaskStatusSummary();
+    }
 
     /// <summary>
     /// Resolve service from the DI container
@@ -92,6 +113,11 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     /// Short alias for Resolve method
     /// </summary>
     public T R<T>() where T : notnull => Resolve<T>();
+
+    /// <summary>
+    /// Create a new page context with proper sequence initialization
+    /// </summary>
+    public ContextPage NewPageContext(bool addContextUser = true) => new(this, addContextUser);
 
     // --------------------------------------------------------------------
     // Factory helpers (names preserved)
@@ -181,18 +207,17 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         _webHostEnvironment = A.Fake<IWebHostEnvironment>();
         A.CallTo(() => _webHostEnvironment.EnvironmentName).Returns("Test");
 
-        // Setup fake HTTP context with session containing test user ID
-        _httpContextAccessor = A.Fake<IHttpContextAccessor>();
-        var fakeHttpContext = A.Fake<HttpContext>();
-        var fakeSession = A.Fake<ISession>();
+        // Setup HTTP context with a simple session wrapper for testing
+        _httpContextAccessor = new HttpContextAccessor();
+        var httpContext = new DefaultHttpContext();
 
-        A.CallTo(() => _httpContextAccessor.HttpContext).Returns(fakeHttpContext);
-        A.CallTo(() => fakeHttpContext.Session).Returns(fakeSession);
+        // Use a test session implementation that actually stores values
+        httpContext.Session = new TestSession();
 
-        // Configure session to return user ID 1 (test user)
-        var userIdBytes = BitConverter.GetBytes(1);
-        if (BitConverter.IsLittleEndian) Array.Reverse(userIdBytes);
-        A.CallTo(() => fakeSession.TryGetValue("userId", out userIdBytes)).Returns(true);
+        // Set user ID in session
+        httpContext.Session.SetInt32("userId", 1);
+
+        _httpContextAccessor.HttpContext = httpContext;
 
         LogPerf("Constructor completed");
     }
@@ -269,6 +294,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         ApiLearningSessionStore = new LearningSessionStoreApiWrapper(this);
         ApiAnswerBody = new AnswerBodyApiWrapper(this);
         ApiLearningSessionResult = new LearningSessionResultApiWrapper(this);
+        ApiUserLogin = new UserLoginApiWrapper(this);
     }
 
     /// <summary>
@@ -320,28 +346,87 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
         // Reset date/time handling and prepare test user session
         DateTimeX.ResetOffset();
-        SetSessionUserInDatabase();
-        LogPerf("DateTime and session user prepared");
+
+        if (!UsersExistInDatabase())
+        {
+            SetSessionUserInDatabase();
+            CreateTestUser();
+            LogPerf("DateTime+SessionUser+TestUser (created)");
+        }
+        else
+        {
+            SetSessionUserInDatabase(); // Still set session user for current test
+            LogPerf("DateTime+SessionUser+TestUser (users already exist)");
+        }
 
         // Initialize background job scheduler
         await JobScheduler.InitializeAsync();
         LogPerf("JobScheduler initialized");
     }
 
+    public int DefaultSessionUserId = 1;
+
     /// <summary>
     /// Create a test user in the database for session handling
     /// </summary>
     private void SetSessionUserInDatabase()
     {
+        var testUser = new User { Id = DefaultSessionUserId, Name = "SessionUser", EmailAddress = "sessionUser@dev.test" };
+
+        // Set a simple password "test123"
+        SetUserPassword.Run("test123", testUser);
+
         ContextUser
             .New(_lifetimeScope!.Resolve<UserWritingRepo>())
-            .Add(new User { Id = 1, Name = "SessionUser" })
+            .Add(testUser)
             .Persist();
+    }
+
+    /// <summary>
+    /// Create additional test user for testing scenarios
+    /// </summary>
+    private void CreateTestUser()
+    {
+        var testUser = new User { Id = 2, Name = "TestUser" };
+
+        ContextUser
+            .New(_lifetimeScope!.Resolve<UserWritingRepo>())
+            .Add(testUser)
+            .Persist();
+    }
+
+    /// <summary>
+    /// Check if test users already exist in database
+    /// </summary>
+    private bool UsersExistInDatabase()
+    {
+        var userRepo = _lifetimeScope!.Resolve<UserReadingRepo>();
+        var sessionUserExists = userRepo.GetById(1) != null;
+        var testUserExists = userRepo.GetById(2) != null;
+        return sessionUserExists && testUserExists;
     }
 
     // --------------------------------------------------------------------
     // REST helpers (names preserved)
     // --------------------------------------------------------------------
+    /// <summary>
+    /// Deserialize HTTP response with proper error handling and formatting
+    /// </summary>
+    private async Task<T> DeserializeHttpResponse<T>(HttpResponseMessage httpResponse)
+    {
+        httpResponse.EnsureSuccessStatusCode();
+        var jsonContent = await httpResponse.Content.ReadAsStringAsync();
+        var parsedJson = Newtonsoft.Json.Linq.JToken.Parse(jsonContent);
+        var formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
+
+        if (typeof(T) == typeof(string))
+            return (T)(object)formattedJson;
+
+        var result = JsonSerializer.Deserialize<T>(formattedJson,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
+    }
+
     /// <summary>
     /// Perform GET request and return formatted response
     /// </summary>
@@ -356,11 +441,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     /// </summary>
     public async Task<TResult> ApiGet<TResult>([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
     {
-        var response = await Client.GetAsync(uri);
-        var content = await response.Content.ReadAsStringAsync();
-
-        return JsonSerializer.Deserialize<TResult>(content,
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        var httpResponse = await Client.GetAsync(uri);
+        return await DeserializeHttpResponse<TResult>(httpResponse);
     }
 
     /// <summary>
@@ -368,13 +450,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     /// </summary>
     public async Task<T> ApiPost<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
     {
-        var content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
-        var response = await Client.PostAsync(uri, content);
-        var formatted = await FormatHttpResponse(response);
+        var jsonContent = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json");
 
-        return JsonSerializer.Deserialize<T>(formatted,
-                   new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
-               ?? throw new InvalidOperationException($"Cannot deserialize to {typeof(T).Name}");
+        var httpResponse = await Client.PostAsync(uri, jsonContent);
+        return await DeserializeHttpResponse<T>(httpResponse);
     }
 
     /// <summary>
@@ -445,8 +527,16 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     {
         var dbPages = await DbData.AllPagesAsync();
 
-        // Allow time for asynchronous search indexing to complete
-        await Task.Delay(delayForSearch);
+        // Use Meilisearch task waiter instead of fixed delay for more reliable testing
+        var indexingCompleted = await WaitForMeilisearchIndexing(timeoutMs: 15000);
+        if (!indexingCompleted)
+        {
+            var taskStatus = await GetMeilisearchTaskStatus();
+            throw new TimeoutException(
+                $"Meilisearch indexing did not complete within timeout in GetDefaultPageVerificationDataAsync. " +
+                $"Pending tasks: {taskStatus.HasPendingTasks}, " +
+                $"Failed tasks: {taskStatus.Failed}");
+        }
 
         var searchPages = (await SearchData.GetAllPages())
             .OrderBy(p => p.Id).ToList();
@@ -509,10 +599,15 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     [MemberNotNull(nameof(_stopwatch))]
     private void LogPerf(string message)
     {
-        if (!_enablePerformanceLogging) return;
+        if (!_enablePerformanceLogging)
+        {
+            _stopwatch ??= Stopwatch.StartNew();
+            return;
+        }
 
+        _stopwatch ??= Stopwatch.StartNew();
         Console.WriteLine(
-            $"[PERF {DateTime.Now:HH:mm:ss.fff}] {message} ({_stopwatch!.ElapsedMilliseconds:N0} ms)");
+            $"[PERF {DateTime.Now:HH:mm:ss.fff}] {message} ({_stopwatch.ElapsedMilliseconds:N0} ms)");
         _stopwatch.Restart();
     }
 
@@ -582,5 +677,59 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             });
             return base.CreateHost(builder);
         }
+    }
+
+    // --------------------------------------------------------------------
+    // Test Session Implementation
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// Simple in-memory session implementation for testing that actually stores values
+    /// </summary>
+    private sealed class TestSession : ISession
+    {
+        private readonly Dictionary<string, byte[]> _store = new();
+
+        public bool IsAvailable => true;
+        public string Id => "test-session-id";
+        public IEnumerable<string> Keys => _store.Keys;
+
+        public void Clear() => _store.Clear();
+
+        public Task CommitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+        public Task LoadAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+        public void Remove(string key) => _store.Remove(key);
+
+        public void Set(string key, byte[] value) => _store[key] = value;
+
+        public bool TryGetValue(string key, out byte[] value) => _store.TryGetValue(key, out value!);
+    }
+
+    /// <summary>
+    /// Set the current session user ID for testing
+    /// </summary>
+    public void SetSessionUserId(int userId)
+    {
+        if (_httpContextAccessor.HttpContext?.Session != null)
+        {
+            _httpContextAccessor.HttpContext.Session.SetInt32("userId", userId);
+        }
+    }
+
+    /// <summary>
+    /// Get the current session user ID for testing
+    /// </summary>
+    public int? GetSessionUserId()
+    {
+        return _httpContextAccessor.HttpContext?.Session?.GetInt32("userId");
+    }
+
+    /// <summary>
+    /// Clear the current session for testing
+    /// </summary>
+    public void ClearSession()
+    {
+        _httpContextAccessor.HttpContext?.Session?.Clear();
     }
 }

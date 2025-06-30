@@ -46,9 +46,10 @@ internal static class VerifyGlobalInit
         //page relations
         VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Child);
         VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Parent);
-        
+
         // VerifierSettings.IgnoreMember<PageRelation>(relation => relation.Child);
         // VerifierSettings.IgnoreMember<PageRelation>(relation => relation.Parent);
 
+        VerifierSettings.IgnoreMember("CollaborationToken");
     }
 }

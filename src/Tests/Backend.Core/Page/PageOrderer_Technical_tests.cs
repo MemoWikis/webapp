@@ -1,5 +1,7 @@
 ﻿internal class PageOrderer_Technical_tests : BaseTestHarness
 {
+    private UserLoginApiWrapper _userLoginApi => _testHarness.ApiUserLogin;
+
     [Test]
     public async Task Should_maintain_integrity_when_moving_pages_multiple_times()
     {
@@ -48,7 +50,7 @@
         snapshots.Add("initial", initialTree); //Act - Perform multiple moves in sequence
 
         // Login once for all API calls in this test
-        await _testHarness.LoginAsSessionUser();
+        await _userLoginApi.LoginAsSessionUser();
 
         // Move 1: sub1 after sub3
         var move1Result = await _testHarness.ApiPost<EditPageRelationStoreController.MovePageResult>(
@@ -228,7 +230,7 @@
         // Act - Perform multiple moves in very rapid succession
 
         // Login once for all API calls in this test
-        await _testHarness.LoginAsSessionUser();
+        await _userLoginApi.LoginAsSessionUser();
 
         // Execute moves in rapid succession using API calls
         var moveResults = new List<EditPageRelationStoreController.MovePageResult>();
@@ -398,7 +400,7 @@
         snapshots.Add("initial_rootA", TreeRenderer.ToAsciiDiagram(initialRootA));
         snapshots.Add("initial_rootB", TreeRenderer.ToAsciiDiagram(initialRootB));
 
-        await _testHarness.LoginAsSessionUser();
+        await _userLoginApi.LoginAsSessionUser();
 
         // Act 1: Move childPageA2 from rootA to rootB (after childPageB1)
         var moveChildToNewParentResult = await _testHarness.ApiPost<EditPageRelationStoreController.MovePageResult>(
@@ -438,7 +440,7 @@
             throw new InvalidOperationException("Root pages are null after move 2");
 
         snapshots.Add("final_rootA", TreeRenderer.ToAsciiDiagram(rootAAfterMove2));
-        snapshots.Add("final_rootB", TreeRenderer.ToAsciiDiagram(rootBAfterMove2));        // Assert
+        snapshots.Add("final_rootB", TreeRenderer.ToAsciiDiagram(rootBAfterMove2)); // Assert
         var finalChildRelationsA = EntityCache.GetPage(rootA)?.ChildRelations;
         var finalChildRelationsB = EntityCache.GetPage(rootB)?.ChildRelations;
         var pageRelationRepo = R<PageRelationRepo>();
@@ -448,68 +450,79 @@
         var entityCacheSnapshots = new Dictionary<string, object>();
         var finalRootACache = EntityCache.GetPage(rootA);
         var finalRootBCache = EntityCache.GetPage(rootB);
-        
-        entityCacheSnapshots.Add("final_rootA_cache", new
-        {
-            Id = finalRootACache?.Id,
-            Name = finalRootACache?.Name,
-            ChildRelations = finalRootACache?.ChildRelations?.Select(r => new
+
+        entityCacheSnapshots.Add("final_rootA_cache",
+            new
             {
-                r.ChildId,
-                r.ParentId,
-                r.PreviousId,
-                r.NextId,
-                r.Id
-            }).ToList()
-        });
-        
-        entityCacheSnapshots.Add("final_rootB_cache", new
-        {
-            Id = finalRootBCache?.Id,
-            Name = finalRootBCache?.Name,
-            ChildRelations = finalRootBCache?.ChildRelations?.Select(r => new
+                Id = finalRootACache?.Id,
+                Name = finalRootACache?.Name,
+                ChildRelations = finalRootACache?.ChildRelations?.Select(r => new
+                {
+                    r.ChildId,
+                    r.ParentId,
+                    r.PreviousId,
+                    r.NextId,
+                    r.Id
+                }).ToList()
+            });
+
+        entityCacheSnapshots.Add("final_rootB_cache",
+            new
             {
-                r.ChildId,
-                r.ParentId,
-                r.PreviousId,
-                r.NextId,
-                r.Id
-            }).ToList()
-        });
+                Id = finalRootBCache?.Id,
+                Name = finalRootBCache?.Name,
+                ChildRelations = finalRootBCache?.ChildRelations?.Select(r => new
+                {
+                    r.ChildId,
+                    r.ParentId,
+                    r.PreviousId,
+                    r.NextId,
+                    r.Id
+                }).ToList()
+            });
 
         // Get database snapshots
         var dbSnapshots = new Dictionary<string, object>();
         var rootARelationsInDb = allRelationsInDb.Where(r => r.Parent.Id == rootA.Id).ToList();
         var rootBRelationsInDb = allRelationsInDb.Where(r => r.Parent.Id == rootB.Id).ToList();
-        
-        dbSnapshots.Add("final_rootA_db_relations", rootARelationsInDb.Select(r => new
-        {
-            ChildId = r.Child.Id,
-            ParentId = r.Parent.Id,
-            r.PreviousId,
-            r.NextId,
-            r.Id
-        }).ToList());
-        
-        dbSnapshots.Add("final_rootB_db_relations", rootBRelationsInDb.Select(r => new
-        {
-            ChildId = r.Child.Id,
-            ParentId = r.Parent.Id,
-            r.PreviousId,
-            r.NextId,
-            r.Id
-        }).ToList());
+
+        dbSnapshots.Add("final_rootA_db_relations",
+            rootARelationsInDb.Select(r => new
+            {
+                ChildId = r.Child.Id,
+                ParentId = r.Parent.Id,
+                r.PreviousId,
+                r.NextId,
+                r.Id
+            }).ToList());
+
+        dbSnapshots.Add("final_rootB_db_relations",
+            rootBRelationsInDb.Select(r => new
+            {
+                ChildId = r.Child.Id,
+                ParentId = r.Parent.Id,
+                r.PreviousId,
+                r.NextId,
+                r.Id
+            }).ToList());
 
         await Verify(new
         {
             treeSnapshots = snapshots,
             entityCacheSnapshots,
             dbSnapshots,
-            moveResults = new
-            {
-                moveChildToNewParent = new { success = moveChildToNewParentResult.Success, error = moveChildToNewParentResult.Error },
-                moveChildBack = new { success = moveChildBackResult.Success, error = moveChildBackResult.Error }
-            },
+            moveResults =
+                new
+                {
+                    moveChildToNewParent =
+                        new
+                        {
+                            success = moveChildToNewParentResult.Success,
+                            error = moveChildToNewParentResult.Error
+                        },
+                    moveChildBack =
+                        new { success = moveChildBackResult.Success, error = moveChildBackResult.Error }
+                },
             finalState = new
             {
                 rootAChildrenIds = finalChildRelationsA?.Select(r => r.ChildId).ToList(),
@@ -576,7 +589,7 @@
         snapshots.Add("initial_rootParent", TreeRenderer.ToAsciiDiagram(initialRootParent));
         snapshots.Add("initial_rootSibling", TreeRenderer.ToAsciiDiagram(initialRootSibling));
 
-        await _testHarness.LoginAsSessionUser();
+        await _userLoginApi.LoginAsSessionUser();
 
         // Act 1: Move childPageToMove (with its nested child) to rootSibling as first child
         var moveNestedStructureResult = await _testHarness.ApiPost<EditPageRelationStoreController.MovePageResult>(
@@ -609,7 +622,8 @@
         await Verify(new
         {
             snapshots,
-            moveResult = new { success = moveNestedStructureResult.Success, error = moveNestedStructureResult.Error },
+            moveResult =
+                new { success = moveNestedStructureResult.Success, error = moveNestedStructureResult.Error },
             finalState = new
             {
                 rootParentChildrenIds = finalChildRelationsParent?.Select(r => r.ChildId).ToList(),
@@ -658,7 +672,7 @@
 
         var initialTree = TreeRenderer.ToAsciiDiagram(initialRoot);
 
-        await _testHarness.LoginAsSessionUser();
+        await _userLoginApi.LoginAsSessionUser();
 
         // Act & Assert - Try to create circular reference: move parentPage under grandChildPage
         var circularMoveResult = await _testHarness.ApiPost<EditPageRelationStoreController.MovePageResult>(
@@ -742,10 +756,10 @@
         context.AddChild(rootWikiA, pageA3);
         context.AddChild(rootWikiA, pageA4);
         context.AddChild(pageA4, nestedPageA2);
-        
+
         context.AddChild(rootWikiB, pageB1);
         context.AddChild(rootWikiB, pageB2);
-        
+
         context.AddChild(rootWikiC, pageC1);
 
         await ReloadCaches();
@@ -763,7 +777,7 @@
         snapshots.Add("00_initial_rootB", TreeRenderer.ToAsciiDiagram(initialRootB));
         snapshots.Add("00_initial_rootC", TreeRenderer.ToAsciiDiagram(initialRootC));
 
-        await _testHarness.LoginAsSessionUser();
+        await _userLoginApi.LoginAsSessionUser();
 
         var moveResults = new List<EditPageRelationStoreController.MovePageResult>();
 
@@ -776,7 +790,8 @@
                 Position = 1, // After
                 NewParentId = rootWikiB.Id,
                 OldParentId = rootWikiA.Id
-            });        moveResults.Add(move1Result);
+            });
+        moveResults.Add(move1Result);
         await ReloadCaches();
         var rootBAfterMove1 = EntityCache.GetPage(rootWikiB);
         if (rootBAfterMove1 != null)
@@ -911,80 +926,86 @@
 
         // Entity cache snapshots for all roots
         var entityCacheSnapshots = new Dictionary<string, object>();
-        entityCacheSnapshots.Add("final_rootA_cache", new
-        {
-            Id = finalRootA.Id,
-            Name = finalRootA.Name,
-            ChildRelations = finalRootA.ChildRelations?.Select(r => new
+        entityCacheSnapshots.Add("final_rootA_cache",
+            new
             {
-                r.ChildId,
-                r.ParentId,
-                r.PreviousId,
-                r.NextId,
-                r.Id
-            }).ToList()
-        });
-        
-        entityCacheSnapshots.Add("final_rootB_cache", new
-        {
-            Id = finalRootB.Id,
-            Name = finalRootB.Name,
-            ChildRelations = finalRootB.ChildRelations?.Select(r => new
+                Id = finalRootA.Id,
+                Name = finalRootA.Name,
+                ChildRelations = finalRootA.ChildRelations?.Select(r => new
+                {
+                    r.ChildId,
+                    r.ParentId,
+                    r.PreviousId,
+                    r.NextId,
+                    r.Id
+                }).ToList()
+            });
+
+        entityCacheSnapshots.Add("final_rootB_cache",
+            new
             {
-                r.ChildId,
-                r.ParentId,
-                r.PreviousId,
-                r.NextId,
-                r.Id
-            }).ToList()
-        });
-        
-        entityCacheSnapshots.Add("final_rootC_cache", new
-        {
-            Id = finalRootC.Id,
-            Name = finalRootC.Name,
-            ChildRelations = finalRootC.ChildRelations?.Select(r => new
+                Id = finalRootB.Id,
+                Name = finalRootB.Name,
+                ChildRelations = finalRootB.ChildRelations?.Select(r => new
+                {
+                    r.ChildId,
+                    r.ParentId,
+                    r.PreviousId,
+                    r.NextId,
+                    r.Id
+                }).ToList()
+            });
+
+        entityCacheSnapshots.Add("final_rootC_cache",
+            new
             {
-                r.ChildId,
-                r.ParentId,
-                r.PreviousId,
-                r.NextId,
-                r.Id
-            }).ToList()
-        });
+                Id = finalRootC.Id,
+                Name = finalRootC.Name,
+                ChildRelations = finalRootC.ChildRelations?.Select(r => new
+                {
+                    r.ChildId,
+                    r.ParentId,
+                    r.PreviousId,
+                    r.NextId,
+                    r.Id
+                }).ToList()
+            });
 
         // Database snapshots for all roots
         var dbSnapshots = new Dictionary<string, object>();
         var rootARelationsInDb = allRelationsInDb.Where(r => r.Parent.Id == rootWikiA.Id).ToList();
         var rootBRelationsInDb = allRelationsInDb.Where(r => r.Parent.Id == rootWikiB.Id).ToList();
         var rootCRelationsInDb = allRelationsInDb.Where(r => r.Parent.Id == rootWikiC.Id).ToList();
-        
-        dbSnapshots.Add("final_rootA_db_relations", rootARelationsInDb.Select(r => new
-        {
-            ChildId = r.Child.Id,
-            ParentId = r.Parent.Id,
-            r.PreviousId,
-            r.NextId,
-            r.Id
-        }).ToList());
-        
-        dbSnapshots.Add("final_rootB_db_relations", rootBRelationsInDb.Select(r => new
-        {
-            ChildId = r.Child.Id,
-            ParentId = r.Parent.Id,
-            r.PreviousId,
-            r.NextId,
-            r.Id
-        }).ToList());
-        
-        dbSnapshots.Add("final_rootC_db_relations", rootCRelationsInDb.Select(r => new
-        {
-            ChildId = r.Child.Id,
-            ParentId = r.Parent.Id,
-            r.PreviousId,
-            r.NextId,
-            r.Id
-        }).ToList());
+
+        dbSnapshots.Add("final_rootA_db_relations",
+            rootARelationsInDb.Select(r => new
+            {
+                ChildId = r.Child.Id,
+                ParentId = r.Parent.Id,
+                r.PreviousId,
+                r.NextId,
+                r.Id
+            }).ToList());
+
+        dbSnapshots.Add("final_rootB_db_relations",
+            rootBRelationsInDb.Select(r => new
+            {
+                ChildId = r.Child.Id,
+                ParentId = r.Parent.Id,
+                r.PreviousId,
+                r.NextId,
+                r.Id
+            }).ToList());
+
+        dbSnapshots.Add("final_rootC_db_relations",
+            rootCRelationsInDb.Select(r => new
+            {
+                ChildId = r.Child.Id,
+                ParentId = r.Parent.Id,
+                r.PreviousId,
+                r.NextId,
+                r.Id
+            }).ToList());
 
         // Verify nested structures are preserved
         var pageA2AfterMoves = EntityCache.GetPage(pageA2);
@@ -993,9 +1014,12 @@
 
         var structureIntegrity = new
         {
-            deepNestedPageStillUnderNestedA1 = nestedPageA1AfterMoves?.ChildRelations?.Any(r => r.ChildId == deepNestedPage.Id) == true,
-            nestedPageA2StillUnderPageA4 = pageA4AfterMoves?.ChildRelations?.Any(r => r.ChildId == nestedPageA2.Id) == true,
-            pageA2HasNoNestedPageA1 = pageA2AfterMoves?.ChildRelations?.Any(r => r.ChildId == nestedPageA1.Id) == false
+            deepNestedPageStillUnderNestedA1 =
+                nestedPageA1AfterMoves?.ChildRelations?.Any(r => r.ChildId == deepNestedPage.Id) == true,
+            nestedPageA2StillUnderPageA4 =
+                pageA4AfterMoves?.ChildRelations?.Any(r => r.ChildId == nestedPageA2.Id) == true,
+            pageA2HasNoNestedPageA1 =
+                pageA2AfterMoves?.ChildRelations?.Any(r => r.ChildId == nestedPageA1.Id) == false
         };
 
         await Verify(new
@@ -1003,12 +1027,9 @@
             movementSequence = snapshots,
             entityCacheSnapshots,
             dbSnapshots,
-            moveResults = moveResults.Select((r, i) => new 
-            { 
-                moveNumber = i + 1,
-                success = r.Success, 
-                error = r.Error 
-            }).ToList(),
+            moveResults =
+                moveResults.Select((r, i) => new { moveNumber = i + 1, success = r.Success, error = r.Error })
+                    .ToList(),
             structureIntegrity,
             finalState = new
             {

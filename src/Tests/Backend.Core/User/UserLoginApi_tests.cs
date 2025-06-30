@@ -1,51 +1,39 @@
-using System.Threading.Tasks;
-
-
-public class UserLoginApi_tests : TestHarness
+internal class UserLoginApi_tests : BaseTestHarness
 {
-    private readonly UserLoginApiWrapper userLoginApiWrapper;
+    private UserLoginApiWrapper _userLoginApi => _testHarness.ApiUserLogin;
 
-    public UserLoginApi_tests()
+    private void SetupSessionUserWiki()
     {
-        var testHarness = new TestHarness();
-        userLoginApiWrapper = new UserLoginApiWrapper(testHarness);
+        // Arrange
+        var userRepo = R<UserReadingRepo>();
+        var sessionUserDbUser = userRepo.GetById(_testHarness.DefaultSessionUserId)!;
+
+        // Create personal wiki for session user
+        var pageContext = NewPageContext(addContextUser: false);
+        pageContext
+            .Add("SessionUser Personal Wiki", creator: sessionUserDbUser, isWiki: true)
+            .Persist();
     }
 
     [Test]
     public async Task Login_WithValidCredentials_ReturnsSuccess()
     {
-        // Arrange
-        var request = new LoginRequest
-        {
-            UserName = "validUser",
-            Password = "validPassword"
-        };
+        SetupSessionUserWiki();
 
         // Act
-        var result = await userLoginApiWrapper.Login(request);
+        var result = await _userLoginApi.Login("sessionUser@dev.test", "test123");
 
         // Assert
-        result.Should().NotBeNull();
-        result.IsSuccess.Should().BeTrue();
         await Verify(result);
     }
 
     [Test]
     public async Task Login_WithInvalidCredentials_ReturnsFailure()
     {
-        // Arrange
-        var request = new LoginRequest
-        {
-            UserName = "invalidUser",
-            Password = "wrongPassword"
-        };
-
         // Act
-        var result = await userLoginApiWrapper.Login(request);
+        var result = await _userLoginApi.Login("invalidUser@dev.test", "wrongPassword");
 
         // Assert
-        result.Should().NotBeNull();
-        result.IsSuccess.Should().BeFalse();
         await Verify(result);
     }
 }
