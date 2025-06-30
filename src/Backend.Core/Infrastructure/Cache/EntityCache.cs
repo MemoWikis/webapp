@@ -50,11 +50,7 @@ public class EntityCache
             var aggregatedPageViews30Days = pagesViewsLast30Days
                 .Where(view => aggregatedPages.Contains(view.PageId))
                 .GroupBy(view => view.DateOnly)
-                .Select(g => new
-                {
-                    Date = g.Key,
-                    TotalCount = g.Sum(v => v.Count)
-                })
+                .Select(g => new { Date = g.Key, TotalCount = g.Sum(v => v.Count) })
                 .OrderBy(result => result.Date)
                 .Select(v => new DailyViews() { Date = v.Date, Count = v.TotalCount })
                 .ToList();
@@ -62,11 +58,7 @@ public class EntityCache
             var pageViews30Days = pagesViewsLast30Days
                 .Where(view => (view.PageId == pageCacheItem.Id))
                 .GroupBy(view => view.DateOnly)
-                .Select(g => new
-                {
-                    Date = g.Key,
-                    TotalCount = g.Sum(v => v.Count)
-                })
+                .Select(g => new { Date = g.Key, TotalCount = g.Sum(v => v.Count) })
                 .OrderBy(result => result.Date)
                 .Select(v => new DailyViews { Date = v.Date, Count = v.TotalCount })
                 .ToList();
@@ -76,23 +68,21 @@ public class EntityCache
         }
     }
 
-    public static void AddViewsLast30DaysToQuestion(QuestionViewRepository questionViewRepo, List<PageCacheItem> pageCacheItems)
+    public static void AddViewsLast30DaysToQuestion(QuestionViewRepository questionViewRepo,
+        List<PageCacheItem> pageCacheItems)
     {
         var watch = Stopwatch.StartNew();
         var questionViewsLast90Days = questionViewRepo.GetViewsForLastNDaysGroupByQuestionId(90);
         foreach (var pageCacheItem in pageCacheItems)
         {
-            var aggregatedQuestionsFromAllAggregatedPages = pageCacheItem.GetAggregatedQuestions(2, false, true, pageCacheItem.Id)
+            var aggregatedQuestionsFromAllAggregatedPages = pageCacheItem
+                .GetAggregatedQuestions(2, false, true, pageCacheItem.Id)
                 .Select(t => t.Id);
 
             var aggregatedQuestionsViews90Days = questionViewsLast90Days
                 .Where(view => aggregatedQuestionsFromAllAggregatedPages.Contains(view.QuestionId))
                 .GroupBy(view => view.DateOnly)
-                .Select(g => new
-                {
-                    Date = g.Key,
-                    TotalCount = g.Sum(v => v.Count)
-                })
+                .Select(g => new { Date = g.Key, TotalCount = g.Sum(v => v.Count) })
                 .OrderBy(result => result.Date)
                 .Select(v => new DailyViews() { Date = v.Date, Count = v.TotalCount })
                 .ToList();
@@ -103,11 +93,7 @@ public class EntityCache
             var pageQuestions90Days = questionViewsLast90Days
                 .Where(view => selfQuestionsFromPage.Contains(view.QuestionId))
                 .GroupBy(view => view.DateOnly)
-                .Select(g => new
-                {
-                    Date = g.Key,
-                    TotalCount = g.Sum(v => v.Count)
-                })
+                .Select(g => new { Date = g.Key, TotalCount = g.Sum(v => v.Count) })
                 .OrderBy(result => result.Date)
                 .Select(v => new DailyViews() { Date = v.Date, Count = v.TotalCount })
                 .ToList();
@@ -334,6 +320,7 @@ public class EntityCache
     {
         AddOrUpdate(Pages, pageCacheItem);
     }
+
     public static void AddOrUpdate(ShareCacheItem shareCacheItem)
     {
         var pageId = shareCacheItem.PageId;

@@ -50,7 +50,7 @@
     "gridItems": null,
     "isChildOfPersonalWiki": false,
     "textIsHidden": false,
-    "messageKey": "error.route.notFound",
+    "messageKey": "error.page.notFound",
     "errorCode": 404,
     "todayViews": 0,
     "viewsLast30DaysAggregatedPage": null,

@@ -23,7 +23,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
 
     public bool IsLoggedIn
     {
-        get => _httpContext.Session.GetBool("isLoggedIn");
+        get => _httpContext?.Session?.GetBool("isLoggedIn") ?? false;
         private set => _httpContext.Session.SetBool("isLoggedIn", value);
     }
 
@@ -37,13 +37,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
 
     private int _userId
     {
-        get => _httpContext.Session.GetInt32("userId") ?? 0;
-        set => _httpContext.Session.SetInt32("userId", value);
-    }
-
-    private int _last
-    {
-        get => _httpContext.Session.GetInt32("userId") ?? 0;
+        get => _httpContext?.Session?.GetInt32("userId") ?? 0;
         set => _httpContext.Session.SetInt32("userId", value);
     }
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { SnackbarData, useSnackbarStore } from './snackBarStore'
-import { useSnackbar } from 'vue3-snackbar' 
+import { useSnackbar } from 'vue3-snackbar'
 
 const snackbarStore = useSnackbarStore()
 
@@ -13,6 +13,7 @@ async function customFunction(id: number, dismiss?: any) {
 	}
 	dismiss()
 }
+
 const snackbar = useSnackbar()
 snackbarStore.$onAction(({ name, after }) => {
 	if (name === 'showSnackbar') {

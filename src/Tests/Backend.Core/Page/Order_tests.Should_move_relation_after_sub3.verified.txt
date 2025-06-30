@@ -13,45 +13,46 @@ root
 └── sub1
 [sub2] → [sub3] → [sub1]
 ,
+  allRelationsCache: [
+    {
+      Id: 2,
+      ChildId: 4,
+      ParentId: 2,
+      NextId: 5
+    },
+    {
+      Id: 3,
+      ChildId: 5,
+      ParentId: 2,
+      PreviousId: 4,
+      NextId: 3
+    },
+    {
+      Id: 4,
+      ChildId: 3,
+      ParentId: 2,
+      PreviousId: 5
+    }
+  ],
   allRelationsInDb: [
     {
       Child: {
         Name: sub2,
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 4
       },
+      NextId: 5,
       Id: 2
     },
     {
       Child: {
         Name: sub3,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 2
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 5
       },
       Parent: {
         Name: root,
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 2
       },
       PreviousId: 4,
@@ -61,30 +62,12 @@ root
     {
       Child: {
         Name: sub1,
-        Creator: {
-          AllowsSupportiveLogin: false,
-          BouncedMail: false,
-          IsEmailConfirmed: false,
-          IsInstallationAdmin: false,
-          Name: User,
-          ShowWishKnowledge: false,
-          IsFacebookUser: false,
-          IsGoogleUser: false,
-          UiLanguage: en,
-          Id: 2
-        },
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 3
       },
       Parent: {
         Name: root,
         IsWiki: false,
-        AuthorIdsInts: [
-          2
-        ],
         Id: 2
       },
       PreviousId: 5,

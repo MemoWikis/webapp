@@ -1,0 +1,46 @@
+﻿{
+  snapshots: {
+    after_move_rootParent:
+rootParent
+├── childPageStaysA
+└── childPageStaysB
+[childPageStaysA] → [childPageStaysB]
+,
+    after_move_rootSibling:
+rootSibling
+└── childPageToMove
+    └── nestedChildPage
+    [nestedChildPage]
+[childPageToMove]
+,
+    initial_rootParent:
+rootParent
+├── childPageStaysA
+├── childPageToMove
+│   └── nestedChildPage
+│   [nestedChildPage]
+└── childPageStaysB
+[childPageStaysA] → [childPageToMove] → [childPageStaysB]
+,
+    initial_rootSibling:
+rootSibling
+
+  },
+  moveResult: {
+    success: true,
+    error: 
+  },
+  finalState: {
+    rootParentChildrenIds: [
+      5,
+      6
+    ],
+    rootSiblingChildrenIds: [
+      4
+    ],
+    nestedChildStillExists: true,
+    movedChildPageChildrenIds: [
+      7
+    ]
+  }
+}

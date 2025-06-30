@@ -1,17 +1,27 @@
 ﻿[TestFixture]
-internal class TestHarnessTests : BaseTestHarness
+internal class TestHarnessTests
 {
-    [Test]
-    public async Task Should_create_testHarness_with_host_and_db_access()
+    private TestHarness _testHarness;
+
+    [OneTimeSetUp]
+    public async Task OneTimeSetUp()
     {
-        await ClearData();
-        
+        _testHarness = await TestHarness.CreateAsync();
+        await _testHarness.InitAsync(keepData: false);
+    }
+
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
+
+    [Test]
+    public async Task Should_create_testHarness_and_with_host_and_db_access()
+    {
         // arrange 
         var userWritRepo = _testHarness.R<UserWritingRepo>();
         var user = new User
         {
             Name = "TestUser",
-            EmailAddress = "test@test.de"
+            EmailAddress = "test@dev.test"
         };
 
         // act
@@ -27,10 +37,11 @@ internal class TestHarnessTests : BaseTestHarness
     [Test]
     public async Task Should_create_testHarness_and_make_api_call()
     {
-        await ClearData();
+        string result = await _testHarness.ApiGet<string>("apiVue/App/GetCurrentUser");
 
-        string result = await _testHarness.ApiGet("apiVue/App/GetCurrentUser");
-
-        await Verify(new { formattedJson = result });
+        await Verify(new
+        {
+            formattedJson = result
+        });
     }
 }

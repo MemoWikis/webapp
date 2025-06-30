@@ -23,16 +23,31 @@ internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
 
     public void Update(User user)
     {
-        var userMap = CreateUserMap(user);
         var index = GetIndex();
 
         Task.Run(async () =>
         {
-            var taskInfo = await index
-                .UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
-                .ConfigureAwait(false);
+            try
+            {
+                var userExists = EntityCache.GetUserByIdNullable(user.Id) != null;
+                if (!userExists)
+                    return;
+                // Check if the document exists before updating
+                await index.GetDocumentAsync<MeiliSearchUserMap>(user.Id.ToString());
+                
+                // Document exists, proceed with update
+                var userMap = CreateUserMap(user);
+                var taskInfo = await index
+                    .UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
+                    .ConfigureAwait(false);
 
-            await CheckStatus(taskInfo);
+                await CheckStatus(taskInfo);
+            }
+            catch (MeilisearchApiError ex) when (ex.Code == "document_not_found")
+            {
+                // Document doesn't exist (probably deleted), don't add it back
+                // This prevents race conditions where delete happens before update
+            }
         });
     }
 

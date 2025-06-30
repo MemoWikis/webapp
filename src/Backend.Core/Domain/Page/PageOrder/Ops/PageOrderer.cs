@@ -51,21 +51,28 @@
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
 
-        var updatedNewOrder = AddBefore(relation.ChildId, beforePageId, newParentId, authorId,
+        var updatedNewOrder = AddBefore(
+            relation.ChildId,
+            beforePageId,
+            newParentId,
+            authorId,
             modifyRelationsForPage);
-        var updatedOldOrder =
-            Remove(relation, relation.ParentId, authorId, modifyRelationsForPage);
+
+        var updatedOldOrder = Remove(
+            relation,
+            relation.ParentId,
+            authorId,
+            modifyRelationsForPage);
 
         return (updatedOldOrder, updatedNewOrder);
     }
 
-    public static (List<PageRelationCache> UpdatedOldOrder, List<PageRelationCache>
-        UpdatedNewOrder) MoveAfter(
-            PageRelationCache relation,
-            int afterPageId,
-            int newParentId,
-            int authorId,
-            ModifyRelationsForPage modifyRelationsForPage)
+    public static (List<PageRelationCache> UpdatedOldOrder, List<PageRelationCache> UpdatedNewOrder) MoveAfter(
+        PageRelationCache relation,
+        int afterPageId,
+        int newParentId,
+        int authorId,
+        ModifyRelationsForPage modifyRelationsForPage)
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
@@ -75,10 +82,18 @@
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
 
-        var updatedNewOrder = AddAfter(relation.ChildId, afterPageId, newParentId, authorId,
+        var updatedNewOrder = AddAfter(
+            relation.ChildId,
+            afterPageId,
+            newParentId,
+            authorId,
             modifyRelationsForPage);
-        var updatedOldOrder =
-            Remove(relation, relation.ParentId, authorId, modifyRelationsForPage);
+
+        var updatedOldOrder = Remove(
+            relation,
+            relation.ParentId,
+            authorId,
+            modifyRelationsForPage);
 
         return (updatedOldOrder, updatedNewOrder);
     }
@@ -96,39 +111,45 @@
         if (relationIndex != -1)
         {
             var changedRelations = new List<PageRelationCache>();
+            UpdatePreviousRelationLinksOnRemove(relationIndex, relations, changedRelations);
+            UpdateNextRelationLinksOnRemove(relationIndex, relations, changedRelations);
+            CleanupRelationFromCollections(relation, relationIndex, relations);
 
-            if (relationIndex > 0)
-            {
-                var previousRelation = relations[relationIndex - 1];
-                previousRelation.NextId = relationIndex < relations.Count - 1
-                    ? relations[relationIndex + 1].ChildId
-                    : null;
-
-                EntityCache.AddOrUpdate(previousRelation);
-                changedRelations.Add(previousRelation);
-            }
-
-            if (relationIndex < relations.Count - 1)
-            {
-                var nextRelation = relations[relationIndex + 1];
-                nextRelation.PreviousId = relationIndex > 0
-                    ? relations[relationIndex - 1].ChildId
-                    : null;
-
-                EntityCache.AddOrUpdate(nextRelation);
-                changedRelations.Add(nextRelation);
-            }
-
-            relations.RemoveAt(relationIndex);
-            RemoveRelationFromParentRelations(relation);
-            EntityCache.Remove(relation);
-            parent.ChildRelations = relations;
-            EntityCache.AddOrUpdate(parent);
-            modifyRelationsForPage.UpdateRelationsInDb(changedRelations, authorId);
-            modifyRelationsForPage.DeleteRelationInDb(relation.Id, authorId);
+            UpdateCacheWithModifiedParent(parent, relations);
+            PersistRelationChangesToDatabase(relation, changedRelations, modifyRelationsForPage, authorId);
         }
 
         return relations.ToList();
+    }
+
+    private static void UpdateNextRelationLinksOnRemove(int relationIndex, IList<PageRelationCache> relations,
+        List<PageRelationCache> changedRelations)
+    {
+        if (relationIndex >= relations.Count - 1)
+            return;
+
+        var nextRelation = relations[relationIndex + 1];
+        nextRelation.PreviousId = relationIndex > 0
+            ? relations[relationIndex - 1].ChildId
+            : null;
+
+        EntityCache.AddOrUpdate(nextRelation);
+        changedRelations.Add(nextRelation);
+    }
+
+    private static void UpdatePreviousRelationLinksOnRemove(int relationIndex, IList<PageRelationCache> relations,
+        List<PageRelationCache> changedRelations)
+    {
+        if (relationIndex <= 0)
+            return;
+
+        var previousRelation = relations[relationIndex - 1];
+        previousRelation.NextId = relationIndex < relations.Count - 1
+            ? relations[relationIndex + 1].ChildId
+            : null;
+
+        EntityCache.AddOrUpdate(previousRelation);
+        changedRelations.Add(previousRelation);
     }
 
     private static void RemoveRelationFromParentRelations(PageRelationCache relation)
@@ -285,8 +306,7 @@
         EntityCache.AddOrUpdate(previousRelation);
         changedRelations.Add(previousRelation);
 
-        if (positionToInsert + 1 <
-            relations.Count) // updates the relation after the newly inserted relation
+        if (positionToInsert + 1 < relations.Count) // updates the relation after the newly inserted relation
         {
             var nextRelation = relations[positionToInsert + 1];
             nextRelation.PreviousId = current.ChildId;
@@ -374,5 +394,31 @@
         }
 
         Log.Error("PageRelations - Sort: Broken Link End - PageId:{0}", pageId);
+    }
+
+    private static void CleanupRelationFromCollections(
+        PageRelationCache relation,
+        int relationIndex,
+        IList<PageRelationCache> relations)
+    {
+        relations.RemoveAt(relationIndex);
+        RemoveRelationFromParentRelations(relation);
+        EntityCache.Remove(relation);
+    }
+
+    private static void UpdateCacheWithModifiedParent(PageCacheItem parent, IList<PageRelationCache> relations)
+    {
+        parent.ChildRelations = relations;
+        EntityCache.AddOrUpdate(parent);
+    }
+
+    private static void PersistRelationChangesToDatabase(
+        PageRelationCache relation,
+        List<PageRelationCache> changedRelations,
+        ModifyRelationsForPage modifyRelationsForPage,
+        int authorId)
+    {
+        modifyRelationsForPage.UpdateRelationsInDb(changedRelations, authorId);
+        modifyRelationsForPage.DeleteRelationInDb(relation.Id, authorId);
     }
 }
