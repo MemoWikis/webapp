@@ -26,9 +26,5 @@ export interface AnswerQuestionDetailsResult {
     creationDate: Date
     totalViewCount: number
     wishknowledgeCount: number
-    license: {
-        isDefault: boolean
-        shortText: string
-        fullText: string
-    }
+    licenseId: number
 }

@@ -18,7 +18,7 @@
     DateTime CreationDate,
     int TotalViewCount,
     int WishknowledgeCount,
-    License License);
+    int LicenseId);
 
 public record struct MacroCreator(int Id, string Name);
 
@@ -31,8 +31,3 @@ public record struct AnswerQuestionDetailsPageItem(
     int Visibility,
     bool IsSpoiler
 );
-
-public record struct License(
-    bool IsDefault,
-    string ShortText,
-    string FullText);

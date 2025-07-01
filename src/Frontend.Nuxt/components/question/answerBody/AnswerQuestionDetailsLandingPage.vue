@@ -504,8 +504,6 @@ function initData(e: AnswerQuestionDetailsResult) {
     drawArc()
     drawCounterArcs()
 }
-const ariaId = useId()
-const ariaId2 = useId()
 
 </script>
 
@@ -592,43 +590,7 @@ const ariaId2 = useId()
         </div>
         <div id="QuestionDetailsFooter">
             <div class="questionDetailsFooterPartialLeft">
-                <div id="LicenseQuestion">
-                    <VTooltip :aria-id="ariaId" v-if="model.license.isDefault">
-                        <div class="TextLinkWithIcon">
-                            <Image src="/Images/Licenses/cc-by 88x31.png" :width="60" :alt="'Lizenzbild'" />
-                            <div class="TextDiv">
-                                <span class="TextSpan">
-                                    {{ model.license.shortText }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <template #popper>
-                            <div class="tooltip-header">
-                                {{ t('questionLandingPage.license.info') }} {{ model.license.shortText }}
-                            </div>
-                            {{ t('questionLandingPage.license.author') }} <NuxtLink v-if="model.creator.id > 0"
-                                :to="$urlHelper.getUserUrl(model.creator.name, model.creator.id)">
-                                {{ model.creator.name }} </NuxtLink>
-                            <div v-html="model.license.fullText"></div>
-                        </template>
-                    </VTooltip>
-
-                    <VTooltip :aria-id="ariaId2" v-else>
-                        <div class="TextLinkWithIcon">
-                            <div class="TextDiv">
-                                <span class="TextSpan">
-                                    {{ model.license.shortText }}
-                                </span>
-                                <font-awesome-icon icon="fa-solid fa-circle-info" class="license-info" />
-                            </div>
-                        </div>
-
-                        <template #popper>
-                            {{ model.license.fullText }}
-                        </template>
-                    </VTooltip>
-                </div>
+                <LicenseLink :licenseId="model.licenseId" :creator="model.creator" />
                 <div class="created"> {{ t('questionLandingPage.creation.by') }}
                     <NuxtLink v-if="model.creator.id > 0" :to="$urlHelper.getUserUrl(model.creator.name, model.creator.id)">
                         &nbsp;{{ model.creator.name }}&nbsp;
@@ -653,6 +615,7 @@ const ariaId2 = useId()
                 </div>
             </div>
         </div>
+        <LicenseLinkModal />
     </div>
 </template>
 
@@ -1027,6 +990,7 @@ const ariaId2 = useId()
         display: flex;
         flex-wrap: wrap;
         padding-left: 15px;
+        gap: 1rem;
 
         #LicenseQuestion {
             padding-right: 10px;

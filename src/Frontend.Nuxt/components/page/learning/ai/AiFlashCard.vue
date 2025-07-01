@@ -5,28 +5,28 @@ import { GeneratedFlashcard, usePageStore } from '../../pageStore'
 import { isEmpty } from 'underscore'
 
 interface Props {
-    flashCard: GeneratedFlashcard,
+    flashcard: GeneratedFlashcard,
     index: number
 }
 
 const props = defineProps<Props>()
 
-watch(() => props.flashCard, (flashCard) => {
-    if (flashCard) {
+watch(() => props.flashcard, (flashcard) => {
+    if (flashcard) {
         setFlashcardData()
     }
 }, { deep: true })
 
 onMounted(async () => {
     await nextTick()
-    if (props.flashCard) {
+    if (props.flashcard) {
         setFlashcardData()
     }
 })
 
 const setFlashcardData = () => {
-    frontEditor.value?.commands.setContent(props.flashCard.front)
-    backEditor.value?.commands.setContent(props.flashCard.back)
+    frontEditor.value?.commands.setContent(props.flashcard.front)
+    backEditor.value?.commands.setContent(props.flashcard.back)
 
     questionHtml.value = frontEditor.value?.getHTML() || ''
     answerHtml.value = backEditor.value?.getHTML() || ''
