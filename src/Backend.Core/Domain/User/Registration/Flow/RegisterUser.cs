@@ -50,12 +50,13 @@ public class RegisterUser(
 
         SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
         WelcomeMsg.Send(user, _messageRepo);
+        var page = StartPage.Get(user);
+        _pageRepository.Create(page);
+
+        user.DateCreated = DateTime.Now;
+
         _sessionUser.Login(user, _pageViewRepo);
 
-        var page = StartPage.Get(user);
-        page.Visibility = PageVisibility.Private;
-        _pageRepository.Create(page);
-        user.DateCreated = DateTime.Now;
         var userCacheItem = EntityCache.GetUserById(user.Id);
 
         LanguageExtensions.AddContentLanguageToUser(userCacheItem, user.UiLanguage);
