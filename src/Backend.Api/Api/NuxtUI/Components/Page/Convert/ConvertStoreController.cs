@@ -1,6 +1,6 @@
 ﻿public class ConvertStoreController(
-    SessionUser _sessionUser, 
-    PermissionCheck _permissionCheck, 
+    SessionUser _sessionUser,
+    PermissionCheck _permissionCheck,
     PageConversion _pageConversion) : ApiBaseController
 {
     [HttpGet]
@@ -11,8 +11,12 @@
 
         var page = EntityCache.GetPage(id);
 
+        if (page.IsWiki && !page.VisibleParents(_permissionCheck).Any())
+            return new GetConvertDataResult(page.IsWiki, page.Name, FrontendMessageKeys.Error.Page.ConvertErrorNoParents);
+
         return new GetConvertDataResult(page.IsWiki, page.Name);
     }
+
     public record struct GetConvertDataResult(bool IsWiki, string Name, string? MessageKey = null);
 
     [HttpPost]
@@ -45,11 +49,13 @@
         if (!_permissionCheck.CanConvertPage(page))
             return new ConversionResponse(false, FrontendMessageKeys.Error.Page.MissingRights);
 
+        if (!page.VisibleParents(_permissionCheck).Any())
+            return new ConversionResponse(false, FrontendMessageKeys.Error.Page.ConvertErrorNoParents);
+
         _pageConversion.ConvertWikiToPage(page, _sessionUser.UserId);
 
         return new ConversionResponse(true);
     }
 
     public record struct ConversionResponse(bool Success, string? MessageKey = null);
-
 }
