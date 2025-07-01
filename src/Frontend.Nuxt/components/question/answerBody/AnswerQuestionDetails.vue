@@ -727,32 +727,60 @@ watch(() => props.id, (o, n) => {
     else questionIdHasChanged.value = false
 })
 
-async function initData(e: AnswerQuestionDetailsResult) {
-    personalProbability.value = e.personalProbability
-    isInWishknowledge.value = e.isInWishknowledge
-    avgProbability.value = e.avgProbability
+const backgroundColor = ref('')
+const correctnessProbabilityLabel = ref(t('knowledgeStatus.notLearned'))
 
-    personalAnswerCount.value = e.personalAnswerCount
-    personalAnsweredCorrectly.value = e.personalAnsweredCorrectly
-    personalAnsweredWrongly.value = e.personalAnsweredWrongly
+const setKnowledgebarData = () => {
 
-    visibility.value = e.visibility
+    switch (knowledgeStatus.value) {
+        case KnowledgeStatus.Solid:
+            backgroundColor.value = "solid"
+            correctnessProbabilityLabel.value = t('knowledgeStatus.solid')
+            break
+        case KnowledgeStatus.NeedsConsolidation:
+            backgroundColor.value = "needsConsolidation"
+            correctnessProbabilityLabel.value = t('knowledgeStatus.needsConsolidation')
+            break
+        case KnowledgeStatus.NeedsLearning:
+            backgroundColor.value = "needsLearning"
+            correctnessProbabilityLabel.value = t('knowledgeStatus.needsLearning')
+            break
+        default:
+            backgroundColor.value = "notLearned"
+            correctnessProbabilityLabel.value = t('knowledgeStatus.notLearned')
+            break
+    }
+}
+watch(knowledgeStatus, () => {
+    setKnowledgebarData()
+})
 
-    overallAnswerCount.value = e.overallAnswerCount
-    overallAnsweredCorrectly.value = e.overallAnsweredCorrectly
-    overallAnsweredWrongly.value = e.overallAnsweredWrongly
+async function initData(model: AnswerQuestionDetailsResult) {
+    personalProbability.value = model.personalProbability
+    isInWishknowledge.value = model.isInWishknowledge
+    avgProbability.value = model.avgProbability
 
-    personalColor.value = e.personalColor
+    personalAnswerCount.value = model.personalAnswerCount
+    personalAnsweredCorrectly.value = model.personalAnsweredCorrectly
+    personalAnsweredWrongly.value = model.personalAnsweredWrongly
 
-    creator.value = e.creator
-    creationDate.value = e.creationDate
-    totalViewCount.value = e.totalViewCount
-    wishknowledgeCount.value = e.wishknowledgeCount
-    licenseId.value = e.licenseId
-    knowledgeStatus.value = e.knowledgeStatus
+    visibility.value = model.visibility
+
+    overallAnswerCount.value = model.overallAnswerCount
+    overallAnsweredCorrectly.value = model.overallAnsweredCorrectly
+    overallAnsweredWrongly.value = model.overallAnsweredWrongly
+
+    personalColor.value = model.personalColor
+
+    creator.value = model.creator
+    creationDate.value = model.creationDate
+    totalViewCount.value = model.totalViewCount
+    wishknowledgeCount.value = model.wishknowledgeCount
+    licenseId.value = model.licenseId
+    knowledgeStatus.value = model.knowledgeStatus
 
     if (!learningSessionStore.isInTestMode)
-        pages.value = e.pages
+        pages.value = model.pages
 
     setPersonalProbability()
     setPersonalArcData()
@@ -870,31 +898,6 @@ watch(() => userStore.isLoggedIn, () => {
     loadData()
 })
 
-const backgroundColor = ref('')
-const currentKnowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
-const correctnessProbabilityLabel = ref('Nicht gelernt')
-
-// function setKnowledgebarData() {
-
-//     switch (currentKnowledgeStatus.value) {
-//         case KnowledgeStatus.Solid:
-//             backgroundColor.value = "solid"
-//             correctnessProbabilityLabel.value = "Sicheres Wissen"
-//             break
-//         case KnowledgeStatus.NeedsConsolidation:
-//             backgroundColor.value = "needsConsolidation"
-//             correctnessProbabilityLabel.value = "Zu festigen"
-//             break
-//         case KnowledgeStatus.NeedsLearning:
-//             backgroundColor.value = "needsLearning"
-//             correctnessProbabilityLabel.value = "Zu lernen"
-//             break
-//         default:
-//             backgroundColor.value = "notLearned"
-//             correctnessProbabilityLabel.value = "Nicht gelernt"
-//             break
-//     }
-// }
 
 const showExtendedDetails = ref(false)
 watch(showExtendedDetails, () => {
