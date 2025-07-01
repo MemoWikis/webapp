@@ -24,11 +24,11 @@ commentsStore.loadComments()
 const answerBodyLogic = useAnswerBodyLogic()
 
 const attachQuestionIdToUrl = async () => {
-    if (!tabsStore.isLearning || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0) {
+    if (!tabsStore.isLearning || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0)
         return
-    }
 
-    const pathSegments = window.location.pathname.split('/')
+    const pathSegments = window.location.pathname
+        .split('/')
         .filter(segment => segment.length > 0)
 
     const currentPageId = pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))
@@ -48,9 +48,8 @@ const attachQuestionIdToUrl = async () => {
     }
 }
 watch(() => answerBodyLogic.answerBodyModel.value?.id, (newId, oldId) => {
-    if (newId !== oldId && newId) {
+    if (newId !== oldId && newId)
         attachQuestionIdToUrl()
-    }
 })
 watch(() => pageStore.id, (newId, oldId) => {
     if (newId !== oldId && answerBodyLogic.currentRequest.value) {
