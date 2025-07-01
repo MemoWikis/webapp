@@ -756,6 +756,7 @@ watch(knowledgeStatus, () => {
 })
 
 async function initData(model: AnswerQuestionDetailsResult) {
+
     personalProbability.value = model.personalProbability
     isInWishknowledge.value = model.isInWishknowledge
     avgProbability.value = model.avgProbability

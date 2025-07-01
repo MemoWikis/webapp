@@ -47,7 +47,11 @@ const attachQuestionIdToUrl = async () => {
         }
     }
 }
-
+watch(() => answerBodyLogic.answerBodyModel.value?.id, (newId, oldId) => {
+    if (newId !== oldId && newId) {
+        attachQuestionIdToUrl()
+    }
+})
 watch(() => pageStore.id, (newId, oldId) => {
     if (newId !== oldId && answerBodyLogic.currentRequest.value) {
         answerBodyLogic.currentRequest.value.abort()
