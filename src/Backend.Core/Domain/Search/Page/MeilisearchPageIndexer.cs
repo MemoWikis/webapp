@@ -21,6 +21,7 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
     public void Update(Page page)
     {
         var index = GetIndex();
+        var searchPageMap = CreatePageMap(page);
 
         Task.Run(async () =>
             {
@@ -31,9 +32,8 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
                         return;
                     // Check if the document exists before updating
                     await index.GetDocumentAsync<MeilisearchPageMap>(page.Id.ToString());
-                    
+
                     // Document exists, proceed with update
-                    var searchPageMap = CreatePageMap(page);
                     var taskInfo = await index
                         .UpdateDocumentsAsync(new List<MeilisearchPageMap> { searchPageMap })
                         .ConfigureAwait(false);

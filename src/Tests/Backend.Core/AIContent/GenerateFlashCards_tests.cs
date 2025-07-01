@@ -297,11 +297,11 @@ class GenerateFlashCards_tests : BaseTestHarness
     }
 
     // Helper method to create the controller with necessary dependencies
-    private PageStoreController CreatePageStoreController(LimitCheck limitCheck = null)
+    private PageStoreController CreatePageStoreController(LimitCheck? limitCheck = null)
     {
         var sessionUser = R<SessionUser>();
 
-        var permissionCheck = new PermissionCheck(new SessionlessUser(sessionUser.UserId));
+        var permissionCheck = new PermissionCheck(new SessionlessUser(_testHarness.DefaultSessionUserId));
         var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
         var pageRepository = R<PageRepository>();
         var httpContextAccessor = R<IHttpContextAccessor>();

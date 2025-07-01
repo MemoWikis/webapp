@@ -5,8 +5,7 @@
     {
         //Arrange
         //visiblePage
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = new User { Id = _testHarness.DefaultSessionUserId };
         var contextPage = NewPageContext();
         var publicPageName = "page1";
         var publicPage = contextPage

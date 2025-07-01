@@ -14,8 +14,14 @@ public class UserLoginApiWrapper
     /// Login as the session user for authenticated API testing
     /// Uses the Login method and sets persistent cookie for subsequent requests
     /// </summary>
-    public async Task<UserStoreController.LoginResponse> LoginAsSessionUser()
+    /// <param name="createWiki">If true, creates a personal wiki for the session user if it doesn't exist</param>
+    public async Task<UserStoreController.LoginResponse> LoginAsSessionUser(bool createWiki = true)
     {
+        if (createWiki)
+        {
+            SetupSessionUserWiki();
+        }
+        
         return await Login("sessionUser@dev.test", "test123", true);
     }
 
@@ -73,5 +79,27 @@ public class UserLoginApiWrapper
         }
 
         return loginResponse;
+    }
+
+    /// <summary>
+    /// Sets up a personal wiki for the session user if it doesn't already exist
+    /// </summary>
+    private void SetupSessionUserWiki()
+    {
+        var userRepo = _testHarness.R<UserReadingRepo>();
+        var sessionUserDbUser = userRepo.GetById(_testHarness.DefaultSessionUserId)!;
+
+        // Check if session user already has a wiki
+        var existingWikis = EntityCache.GetWikisByUserId(_testHarness.DefaultSessionUserId);
+        if (existingWikis.Any())
+        {
+            return; // Wiki already exists, no need to create
+        }
+
+        // Create personal wiki for session user
+        var pageContext = _testHarness.NewPageContext(addContextUser: false);
+        pageContext
+            .Add("SessionUser Personal Wiki", creator: sessionUserDbUser, isWiki: true)
+            .Persist();
     }
 }

@@ -1,5 +1,7 @@
 ﻿internal class PageDeleterMoveQuestionsTest : BaseTestHarness
 {
+    private UserLoginApiWrapper _userLoginApi => _testHarness.ApiUserLogin;
+
     [Test]
     public async Task Should_Move_Questions_To_Parent()
     {
@@ -9,8 +11,7 @@
         var contextPage = NewPageContext();
         var parentName = "parent name";
         var childName = "child name";
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = new User { Id = _testHarness.DefaultSessionUserId };
 
         var parent = contextPage
             .Add(parentName, creator)
@@ -26,6 +27,8 @@
         var questionContext = NewQuestionContext(persistImmediately: true);
 
         questionContext.AddQuestion("question1", creator: creator, pages: new List<Page> { child });
+        
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
         
         //Act
@@ -54,8 +57,7 @@
     {
         var contextPage = NewPageContext();
 
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = new User { Id = _testHarness.DefaultSessionUserId };
 
         var child = contextPage
             .Add("child", creator)
@@ -69,6 +71,7 @@
         
         await ReloadCaches();
 
+        await _userLoginApi.LoginAsSessionUser();
         var result = R<PageDeleter>().DeletePage(child.Id, parentId);
 
         Assert.That(result.Success, Is.EqualTo(false));

@@ -1,5 +1,5 @@
-using static LearningSessionStoreController;
 using static AnswerBodyController;
+using static LearningSessionStoreController;
 
 /// <summary>
 /// Integration tests for learning session functionality including session creation,
@@ -10,6 +10,8 @@ using static AnswerBodyController;
 internal class LearningSessionApi_tests : BaseTestHarness
 {
     public LearningSessionApi_tests() => _useTinyScenario = true;
+    private UserLoginApiWrapper _userLoginApi => _testHarness.ApiUserLogin;
+
 
     /// <summary>
     /// Tests the complete learning session workflow: creating a session, answering questions correctly and incorrectly,
@@ -18,6 +20,8 @@ internal class LearningSessionApi_tests : BaseTestHarness
     [Test]
     public async Task Should_Start_Learning_Session_And_Answer_Questions()
     {
+        await _userLoginApi.LoginAsSessionUser();
+
         // Arrange: Get the first page from the scenario to use for the learning session.
         var pages = await _testHarness.DbData.AllPagesSummaryAsync();
         var firstPage = pages.First!;
@@ -30,6 +34,7 @@ internal class LearningSessionApi_tests : BaseTestHarness
         );
 
         // Act: Start a new learning session.
+
         var newSessionResponse = await _testHarness.ApiLearningSessionStore.NewSession(sessionConfig);
 
 

@@ -4,6 +4,8 @@
 
 internal class WikiDeletionTests : BaseTestHarness
 {
+    private UserLoginApiWrapper _userLoginApi => _testHarness.ApiUserLogin;
+
     /// <summary>
     /// Verifies that a user can successfully delete a wiki if they own multiple wikis.
     /// The operation should succeed and not return any error messages.
@@ -16,8 +18,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create a user with three wikis.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var firstWiki = contextPage.AddAndGet("First Wiki", creator, isWiki: true);
         var secondWiki = contextPage.AddAndGet("Second Wiki", creator, isWiki: true);
@@ -25,6 +26,7 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete one of the wikis.
@@ -52,8 +54,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create a user with only one wiki.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var onlyWiki = contextPage.AddAndGet("Only Wiki", creator, isWiki: true);
         contextPage.Persist();
@@ -62,6 +63,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedWiki = EntityCache.GetPage(onlyWiki);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
 
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: Attempt to delete the only wiki.
@@ -91,15 +93,14 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create a user with two wikis.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var firstWiki = contextPage.AddAndGet("First Wiki", creator, isWiki: true);
         var secondWiki = contextPage.AddAndGet("Second Wiki", creator, isWiki: true);
         contextPage.Persist();
         await ReloadCaches();
 
-
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the first wiki, then attempt to delete the second.
@@ -129,8 +130,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create a wiki with a child page that also has another parent.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var firstWiki = contextPage.AddAndGet("First Wiki", creator, isWiki: true);
         var wikiToDelete = contextPage.AddAndGet("Wiki To Delete", creator, isWiki: true);
@@ -147,6 +147,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedChildPage = EntityCache.GetPage(childPage);
         var originalTree = TreeRenderer.ToAsciiParentDiagram(cachedChildPage!);
 
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the wiki.
@@ -177,8 +178,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create a wiki with a child that has no other parents.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var firstWiki = contextPage.AddAndGet("First Wiki", creator, isWiki: true);
         var wikiToDelete = contextPage.AddAndGet("Wiki To Delete", creator, isWiki: true);
@@ -190,6 +190,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedChild = EntityCache.GetPage(orphanedChild);
         var originalTree = TreeRenderer.ToAsciiParentDiagram(cachedChild!);
 
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: Attempt to delete the wiki.
@@ -221,8 +222,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create two users, each with their own wiki.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var currentUser = new User { Id = sessionUser.UserId };
+        var currentUser = new User { Id = _testHarness.DefaultSessionUserId };
         var otherUser = new User { Id = 999, Name = "Other User" };
 
         var otherUserContext = contextPage.ContextUser
@@ -238,6 +238,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedUserWiki = EntityCache.GetPage(userWiki);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedUserWiki!);
 
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: The current user attempts to delete the other user's wiki.
@@ -267,8 +268,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create a parentless page that is not a wiki.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var wiki = contextPage.AddAndGet("Explicit Wiki", creator, isWiki: true);
         var orphanedPage = contextPage.AddAndGet("Parentless Page", creator, isWiki: false);
@@ -279,6 +279,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedWiki = EntityCache.GetPage(wiki);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
 
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the parentless page.
@@ -308,8 +309,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create a user with an explicit wiki and a separate parentless page.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var wiki = contextPage.AddAndGet("Explicit Wiki", creator, isWiki: true);
         var orphanedPage = contextPage.AddAndGet("Parentless Page", creator, isWiki: false);
@@ -320,6 +320,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedWiki = EntityCache.GetPage(wiki);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
 
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the parentless page.
@@ -349,8 +350,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create a user with three wikis in a specific order.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var firstWiki = contextPage.AddAndGet("Alpha Wiki", creator, isWiki: true);
         var secondWiki = contextPage.AddAndGet("Beta Wiki", creator, isWiki: true);
@@ -358,6 +358,7 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the second wiki.
@@ -383,8 +384,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create a user with three wikis.
         var contextPage = NewPageContext();
-        var sessionUser = R<SessionUser>();
-        var creator = new User { Id = sessionUser.UserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var firstWiki = contextPage.AddAndGet("Alpha Wiki", creator, isWiki: true);
         var secondWiki = contextPage.AddAndGet("Beta Wiki", creator, isWiki: true);
@@ -392,6 +392,7 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
+        await _userLoginApi.LoginAsSessionUser();
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the first wiki.

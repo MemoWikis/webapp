@@ -369,11 +369,30 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public int DefaultSessionUserId = 1;
 
     /// <summary>
+    /// Default session user data for tests
+    /// </summary>
+    public User DefaultSessionUser => new User 
+    { 
+        Id = DefaultSessionUserId, 
+        Name = "SessionUser", 
+        EmailAddress = "sessionUser@dev.test" 
+    };
+
+    /// <summary>
+    /// Gets the default session user from the database
+    /// </summary>
+    public User GetDefaultSessionUserFromDb()
+    {
+        var userRepo = R<UserReadingRepo>();
+        return userRepo.GetById(DefaultSessionUserId) ?? throw new InvalidOperationException("Default session user not found in database");
+    }
+
+    /// <summary>
     /// Create a test user in the database for session handling
     /// </summary>
     private void SetSessionUserInDatabase()
     {
-        var testUser = new User { Id = DefaultSessionUserId, Name = "SessionUser", EmailAddress = "sessionUser@dev.test" };
+        var testUser = DefaultSessionUser;
 
         // Set a simple password "test123"
         SetUserPassword.Run("test123", testUser);

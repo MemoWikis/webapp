@@ -10,7 +10,7 @@
         // Arrange
         var context = NewPageContext();
 
-        var creator = new User { Id = _testHarness.DefaultSessionUserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         context.Add("root", creator: creator, isWiki: true).Persist();
 
@@ -191,7 +191,7 @@
 
         // Arrange
         var context = NewPageContext();
-        var creator = new User { Id = _testHarness.DefaultSessionUserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         context.Add("root", creator: creator, isWiki: true).Persist();
 
@@ -356,7 +356,7 @@
 
         // Arrange
         var context = NewPageContext();
-        var creator = new User { Id = _testHarness.DefaultSessionUserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         // Create root pages
         context.Add("rootA", creator: creator, isWiki: true).Persist();
@@ -539,7 +539,7 @@
 
         // Arrange
         var context = NewPageContext();
-        var creator = new User { Id = _testHarness.DefaultSessionUserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         // Create root and nested structure
         context.Add("rootParent", creator: creator, isWiki: true).Persist();
@@ -632,7 +632,7 @@
 
         // Arrange
         var context = NewPageContext();
-        var creator = new User { Id = _testHarness.DefaultSessionUserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         context.Add("rootPage", creator: creator, isWiki: true).Persist();
         context
@@ -697,7 +697,7 @@
 
         // Arrange
         var context = NewPageContext();
-        var creator = new User { Id = _testHarness.DefaultSessionUserId };
+        var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         // Create multiple root pages
         context.Add("rootWikiA", creator: creator, isWiki: true).Persist();

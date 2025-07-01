@@ -13,7 +13,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
         _extendedUserCache = extendedUserCache;
     }
 
-    public bool SessionIsActive() => _httpContext.Session is not null;
+    public bool SessionIsActive() => _httpContext?.Session is not null;
 
     public bool HasBetaAccess
     {
@@ -62,7 +62,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
 
     public void Login(User user, PageViewRepo _pageViewRepo)
     {
-        _httpContext.Session.ForceInit();
+        _httpContext?.Session.ForceInit();
         HasBetaAccess = true;
         IsLoggedIn = true;
         _userId = user.Id;

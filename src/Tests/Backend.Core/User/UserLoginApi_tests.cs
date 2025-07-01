@@ -2,24 +2,9 @@ internal class UserLoginApi_tests : BaseTestHarness
 {
     private UserLoginApiWrapper _userLoginApi => _testHarness.ApiUserLogin;
 
-    private void SetupSessionUserWiki()
-    {
-        // Arrange
-        var userRepo = R<UserReadingRepo>();
-        var sessionUserDbUser = userRepo.GetById(_testHarness.DefaultSessionUserId)!;
-
-        // Create personal wiki for session user
-        var pageContext = NewPageContext(addContextUser: false);
-        pageContext
-            .Add("SessionUser Personal Wiki", creator: sessionUserDbUser, isWiki: true)
-            .Persist();
-    }
-
     [Test]
     public async Task Login_WithValidCredentials_ReturnsSuccess()
     {
-        SetupSessionUserWiki();
-
         // Act
         var result = await _userLoginApi.Login("sessionUser@dev.test", "test123");
 
@@ -35,5 +20,24 @@ internal class UserLoginApi_tests : BaseTestHarness
 
         // Assert
         await Verify(result);
+    }
+
+    [Test]
+    public async Task LoginAsSessionUser_WithCreateWiki_CreatesWikiAutomatically()
+    {
+        // Arrange - Clear any existing wikis
+        await ClearData();
+
+        // Act
+        var result = await _userLoginApi.LoginAsSessionUser(createWiki: true);
+
+        // Assert
+        var wikis = EntityCache.GetWikisByUserId(_testHarness.DefaultSessionUserId);
+        await Verify(new
+        {
+            loginResult = result,
+            wikiCount = wikis.Count,
+            firstWikiName = wikis.FirstOrDefault()?.Name
+        });
     }
 }

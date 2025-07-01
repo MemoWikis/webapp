@@ -4,40 +4,40 @@
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: Root Page,
-        Id: 1
+        Name: SessionUser Personal Wiki,
+        Id: 8
       }
     },
     {
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: Root Page,
-        Id: 1
+        Name: SessionUser Personal Wiki,
+        Id: 8
       }
     },
     {
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: Root Page,
-        Id: 1
+        Name: SessionUser Personal Wiki,
+        Id: 8
       }
     },
     {
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: Root Page,
-        Id: 1
+        Name: SessionUser Personal Wiki,
+        Id: 8
       }
     },
     {
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: Root Page,
-        Id: 1
+        Name: SessionUser Personal Wiki,
+        Id: 8
       }
     }
   ],
@@ -68,6 +68,13 @@ Parent Page
         IsWiki: false,
         Name: Parent Page,
         Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 8,
+        IsWiki: true,
+        Name: SessionUser Personal Wiki,
+        Visibility: 0
       }
     ],
     EntityCachePages: [
@@ -84,6 +91,13 @@ Parent Page
         Name: Parent Page,
         IsPublic: true,
         IsWiki: false
+      },
+      {
+        CreatorId: 1,
+        Id: 8,
+        Name: SessionUser Personal Wiki,
+        IsPublic: true,
+        IsWiki: true
       }
     ],
     SearchPages: [
@@ -94,6 +108,10 @@ Parent Page
       {
         Id: 2,
         Name: Parent Page
+      },
+      {
+        Id: 8,
+        Name: SessionUser Personal Wiki
       }
     ]
   }

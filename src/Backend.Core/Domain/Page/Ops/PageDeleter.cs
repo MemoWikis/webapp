@@ -318,6 +318,7 @@ public class PageDeleter(
             }
         }
     }
+
     public record RedirectPage
     {
         public string Name { get; init; }

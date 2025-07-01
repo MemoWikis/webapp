@@ -1,0 +1,50 @@
+﻿{
+  loginResult: {
+    Data: {
+      IsLoggedIn: true,
+      Id: 1,
+      Name: SessionUser,
+      Email: sessionUser@dev.test,
+      IsAdmin: false,
+      PersonalWikiId: 1,
+      ImgUrl: /Images/Placeholders/placeholder-profile-50.png,
+      PersonalWiki: {
+        CanAccess: true,
+        Id: 1,
+        Name: SessionUser Personal Wiki,
+        ImageUrl: /Images/Placeholders/placeholder-page-128.png,
+        Authors: [
+          {
+            Id: 1,
+            Name: SessionUser,
+            ImgUrl: /Images/Placeholders/placeholder-profile-20.png
+          }
+        ],
+        IsWiki: true,
+        CurrentUserIsCreator: true,
+        CanBeDeleted: false,
+        PageItem: {
+          Id: 1,
+          Name: SessionUser Personal Wiki,
+          ImageUrl: /Images/Placeholders/placeholder-page-128.png,
+          MiniImageUrl: /Images/Placeholders/placeholder-page-50.png,
+          LanguageCode: en
+        },
+        MetaDescription: ,
+        IsChildOfPersonalWiki: false,
+        MessageKey: 
+      },
+      ActivityPoints: {
+        LevelUp: false,
+        ActivityPointsTillNextLevel: 65
+      },
+      HasStripeCustomerId: false,
+      IsSubscriptionCanceled: false,
+      IsEmailConfirmed: false,
+      UiLanguage: en
+    },
+    Success: true
+  },
+  wikiCount: 1,
+  firstWikiName: SessionUser Personal Wiki
+}

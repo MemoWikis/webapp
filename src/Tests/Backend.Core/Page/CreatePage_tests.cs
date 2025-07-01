@@ -10,7 +10,7 @@
         var sessionUser = R<SessionUser>();
         var pageViewRepo = R<PageViewRepo>();
 
-        var sessionUserDbUser = R<UserReadingRepo>().GetById(sessionUser.UserId)!;
+        var sessionUserDbUser = R<UserReadingRepo>().GetById(_testHarness.DefaultSessionUserId)!;
 
         var parent = context
             .Add(parentName, creator: sessionUserDbUser, isWiki: true)
@@ -53,7 +53,7 @@
         var context = NewPageContext();
 
         var sessionUser = R<SessionUser>();
-        var sessionDbUser = R<UserReadingRepo>().GetById(sessionUser.UserId)!;
+        var sessionDbUser = R<UserReadingRepo>().GetById(_testHarness.DefaultSessionUserId)!;;
 
         var parentName = "Parent";
         var parent = context
