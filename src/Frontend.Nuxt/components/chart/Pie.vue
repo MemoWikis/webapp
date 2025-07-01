@@ -6,6 +6,7 @@ interface Props {
     data: ChartData[]
     width?: number
     height?: number
+    singleColor?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -74,6 +75,13 @@ onMounted(() => {
 watch(() => props.data, () => drawPie(), { deep: true })
 
 onBeforeMount(() => {
+    if (props.singleColor)
+        chartData.value = [
+            {
+                value: 100,
+                class: 'placeholder-lighter'
+            }]
+
     if (props.data.some(d => d.value > 0))
         chartData.value = props.data
 })
@@ -110,4 +118,3 @@ onBeforeMount(() => {
     fill: @memo-green;
 }
 </style>
-
