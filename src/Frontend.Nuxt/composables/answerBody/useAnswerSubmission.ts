@@ -1,17 +1,18 @@
 import { ref } from 'vue'
 import { SolutionType } from '~/components/question/solutionTypeEnum'
 import { AnswerBodyModel } from '~/components/question/answerBody/answerBodyInterfaces'
+import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
 
 export const useAnswerSubmission = () => {
-    const { $api, $logger } = useNuxtApp() as any
+    const { $logger } = useNuxtApp()
+    const learningSessionStore = useLearningSessionStore()
     
     const showAnswer = ref(false)
     const showAnswerButtons = ref(true)
 
     const submitAnswer = async (
         answerBodyModel: AnswerBodyModel,
-        solutionComponent: any,
-        learningSessionStore: any
+        solutionComponent: any
     ) => {
         const data = {
             answer: await solutionComponent.getAnswerDataString(),
