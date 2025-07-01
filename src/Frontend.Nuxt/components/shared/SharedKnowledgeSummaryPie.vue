@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { KnowledgeSummary } from '~/composables/knowledgeSummary'
-import { ChartData } from '~/components/chart/chartData'
 
 interface Props {
     knowledgeSummary: KnowledgeSummary
@@ -9,38 +8,8 @@ interface Props {
 const props = defineProps<Props>()
 const { t } = useI18n()
 
-const pieData = computed<ChartData[]>(() => {
-    const data: ChartData[] = []
-
-    if (props.knowledgeSummary.solid > 0) {
-        data.push({
-            value: props.knowledgeSummary.solid,
-            class: 'solid'
-        })
-    }
-
-    if (props.knowledgeSummary.needsConsolidation > 0) {
-        data.push({
-            value: props.knowledgeSummary.needsConsolidation,
-            class: 'needsConsolidation'
-        })
-    }
-
-    if (props.knowledgeSummary.needsLearning > 0) {
-        data.push({
-            value: props.knowledgeSummary.needsLearning,
-            class: 'needsLearning'
-        })
-    }
-
-    if (props.knowledgeSummary.notLearned > 0) {
-        data.push({
-            value: props.knowledgeSummary.notLearned,
-            class: 'notLearned'
-        })
-    }
-
-    return data
+const pieData = computed(() => {
+    return convertKnowledgeSummaryToChartData(props.knowledgeSummary)
 })
 
 const totalQuestions = computed(() => {

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from './tabsStore'
 import { usePageStore } from '../pageStore'
-import { ChartData } from '~~/components/chart/chartData'
+import { ChartData } from '~/components/chart/chartData'
 import { VueElement } from 'vue'
 
 const tabsStore = useTabsStore()
@@ -9,18 +9,9 @@ const pageStore = usePageStore()
 
 const { isMobile } = useDevice()
 
-const chartData = ref<ChartData[]>([])
-
-function setChartData() {
-	chartData.value = []
-	for (const [key, value] of Object.entries(pageStore.knowledgeSummarySlim)) {
-		chartData.value.push({
-			value: value,
-			class: key,
-		})
-	}
-	chartData.value = chartData.value.slice().reverse()
-}
+const chartData = computed((): ChartData[] => {
+	return convertKnowledgeSummaryToChartData(pageStore.knowledgeSummarySlim)
+})
 
 const { t } = useI18n()
 
@@ -37,8 +28,6 @@ function getTooltipLabel(key: string, count: number) {
 	}
 }
 
-onBeforeMount(() => setChartData())
-watch(() => pageStore.knowledgeSummarySlim, () => setChartData(), { deep: true })
 const ariaId = useId()
 const ariaId2 = useId()
 
@@ -333,10 +322,12 @@ const { suppressScrollX } = useScrollbarSuppression(
 		width: 24px;
 		height: 24px;
 		margin-left: 4px;
+		margin-right: -8px;
 
 		.pie-container {
 			width: 24px;
 			height: 24px;
+			margin-right: -8px;
 
 			.pie-chart-placeholder {
 				height: 24px;

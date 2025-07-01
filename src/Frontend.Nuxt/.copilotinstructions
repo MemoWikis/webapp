@@ -15,3 +15,19 @@ When working with translations in this memoWikis frontend project:
 
 ## Project Context
 This is a Nuxt.js frontend for memoWikis, a wiki-based learning platform. The i18n files are located in `i18n/locales/` and contain UI text translations.
+
+## Technical Guidelines
+- Use Vue 3 Composition API with <script setup>
+- Use TypeScript for type safety
+- Follow LESS/CSS naming conventions with BEM methodology
+- Use Nuxt auto-imports for composables
+- Implement proper error handling with try-catch blocks
+- use arrow functions const foo () => {} instead of function foo() {}
+- use composables if possible and if it would make sense
+- do not import from 'vue' in .vue files since most of it is auto-imported through nuxt
+
+## Component Structure
+- Keep components focused and single-responsibility
+- Use proper prop typing with TypeScript interfaces
+- Implement proper accessibility (aria-labels, semantic HTML)
+- Use i18n for all user-facing text via t() function, use const { t } = useI18n() to initialise/use t

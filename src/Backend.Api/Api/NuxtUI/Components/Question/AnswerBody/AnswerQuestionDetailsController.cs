@@ -78,11 +78,7 @@ public class AnswerQuestionDetailsController(
             CreationDate: question.DateCreated,
             TotalViewCount: _questionViewRepository.GetViewCount(question.Id),
             WishknowledgeCount: question.TotalRelevancePersonalEntries,
-            License: new License(
-                IsDefault: question.License.IsDefault(),
-                ShortText: question.License.DisplayTextShort,
-                FullText: question.License.DisplayTextFull
-            )
+            LicenseId: question.License.Id
         );
         return result;
     }

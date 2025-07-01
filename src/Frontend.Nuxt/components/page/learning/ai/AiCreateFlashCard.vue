@@ -123,7 +123,7 @@ const deleteFlashcard = (index: number) => {
         <template #body>
             <div v-if="message" class="alert alert-info">{{ message }}</div>
             <div id="AiFlashcard">
-                <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i"
+                <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flashcard="flashcard" :index="i"
                     @delete-flashcard="deleteFlashcard" />
                 <div v-if="flashcards.length === 0" class="no-flashcards">
                     <p>{{ t('page.ai.flashcard.message.noFlashcards') }}</p>

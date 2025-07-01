@@ -78,7 +78,8 @@
             "unauthorized": "No has iniciado sesión. Es posible que no tengas acceso a esta página.",
             "token": {
                 "removal": "No se pudo eliminar el enlace de compartir. Por favor, inténtalo de nuevo."
-            }
+            },
+            "convertErrorNoParents": "El wiki no puede convertirse en una página porque no tiene páginas superiores."
         },
         "question": {
             "missingText": "Falta el texto de la pregunta.",
@@ -940,7 +941,10 @@
             "rrrright": "¡Exactoo!"
         },
         "emptyAnswerMessage": "Al menos podrías intentarlo... (Esto no cuenta como intento).",
-        "noCorrectAnswers": "¡Ninguna de las respuestas es correcta!"
+        "noCorrectAnswers": "¡Ninguna de las respuestas es correcta!",
+        "tooltip": {
+            "markAsCorrect": "Haz clic aquí para marcar la pregunta como respondida correctamente"
+        }
     },
     "question": {
         "editModal": {

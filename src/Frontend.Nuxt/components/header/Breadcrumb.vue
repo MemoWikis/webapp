@@ -46,12 +46,20 @@ const stackedBreadcrumbItems = ref<BreadcrumbItem[]>([])
 const breadcrumbEl = ref<VueElement>()
 const breadcrumbWidth = ref('')
 
-function handleResize() {
+const clearBreadcrumb = () => {
+	breadcrumb.value = undefined
+	breadcrumbItems.value = []
+	stackedBreadcrumbItems.value = []
+	rootWikiIsStacked.value = false
+	pageTitle.value = ''
+}
+
+const handleResize = () => {
 	windowInnerWidth.value = window?.innerWidth
 	updateBreadcrumb()
 }
 
-function handleScroll() {
+const handleScroll = () => {
 	if (userStore.isLoggedIn || window?.scrollY > 105)
 		return
 	updateBreadcrumb()
@@ -61,6 +69,7 @@ const isUpdating = ref(false)
 const shouldCalc = ref(true)
 const whiteOut = ref(true)
 const whiteOutTimer = ref()
+
 watch([isUpdating, shouldCalc], ([i, v]) => {
 	clearTimeout(whiteOutTimer.value)
 	if (i && v)
@@ -70,7 +79,8 @@ watch([isUpdating, shouldCalc], ([i, v]) => {
 			whiteOut.value = false
 		}, 100)
 })
-async function updateBreadcrumb() {
+
+const updateBreadcrumb = async () => {
 
 	isUpdating.value = true
 
@@ -104,7 +114,7 @@ async function updateBreadcrumb() {
 
 const rootWikiIsStacked = ref(false)
 
-function shiftToStackedBreadcrumbItems(update: boolean = true) {
+const shiftToStackedBreadcrumbItems = (update: boolean = true) => {
 	if (breadcrumbItems.value.length > 0) {
 		stackedBreadcrumbItems.value.push(breadcrumbItems.value.shift()!)
 
@@ -116,7 +126,7 @@ function shiftToStackedBreadcrumbItems(update: boolean = true) {
 		stackedBreadcrumbItems.value.unshift(breadcrumb.value.currentWiki)
 	}
 }
-function insertToBreadcrumbItems() {
+const insertToBreadcrumbItems = () => {
 	if (stackedBreadcrumbItems.value.length > 0) {
 		if (rootWikiIsStacked.value) {
 			rootWikiIsStacked.value = false
@@ -153,15 +163,7 @@ watch(() => props.site, (newPage, oldPage) => {
 		getBreadcrumb()
 })
 
-const clearBreadcrumb = () => {
-	breadcrumb.value = undefined
-	breadcrumbItems.value = []
-	stackedBreadcrumbItems.value = []
-	rootWikiIsStacked.value = false
-	pageTitle.value = ''
-}
-
-async function getBreadcrumb() {
+const getBreadcrumb = async () => {
 	clearBreadcrumb()
 
 	await nextTick()
@@ -205,7 +207,7 @@ async function getBreadcrumb() {
 	}, 300)
 }
 
-function setPageTitle() {
+const setPageTitle = () => {
 	pageTitle.value = ''
 	switch (props.site) {
 		case SiteType.Welcome:
@@ -495,7 +497,6 @@ convertStore.$onAction(({ name, after }) => {
 	.breadcrumb-item,
 	.fa-chevron-right {
 		color: white !important;
-
 	}
 }
 </style>

@@ -10,7 +10,7 @@ const { t } = useI18n()
         :primary-btn-label="t('page.convert.modal.confirm')"
         @primary-btn="convertStore.confirmConversion"
         @close="convertStore.closeModal"
-        :show-cancel-btn="true">
+        :show-cancel-btn="!convertStore.showErrorMsg">
         <template v-slot:header>
             <h4 class="modal-title">
                 {{ t(convertStore.conversionTarget === ConversionTarget.Wiki
@@ -19,29 +19,31 @@ const { t } = useI18n()
             </h4>
         </template>
         <template v-slot:body>
-            <p>
-                {{ t(convertStore.conversionTarget === ConversionTarget.Wiki
-                    ? 'page.convert.modal.body.toWiki'
-                    : 'page.convert.modal.body.toPage',
-                    { name: convertStore.name }) }}
-            </p>
-            <div class="keep-parents-container"
-                @click="convertStore.keepParents = !convertStore.keepParents"
-                v-if="convertStore.conversionTarget === ConversionTarget.Wiki">
-                <font-awesome-icon icon="fa-solid fa-square-check"
-                    class="keep-parents-checkbox active"
-                    v-if="convertStore.keepParents" />
-                <font-awesome-icon icon="fa-regular fa-square"
-                    class="keep-parents-checkbox"
-                    v-else />
-
-                <div class="">
-                    {{ t('page.convert.modal.keepParents') }}
-                </div>
-            </div>
             <div class="alert alert-warning" role="alert" v-if="convertStore.showErrorMsg">
-                {{ convertStore.errorMsg }}
+                {{ t(convertStore.errorMsg) }}
             </div>
+            <template v-else>
+                <p>
+                    {{ t(convertStore.conversionTarget === ConversionTarget.Wiki
+                        ? 'page.convert.modal.body.toWiki'
+                        : 'page.convert.modal.body.toPage',
+                        { name: convertStore.name }) }}
+                </p>
+                <div class="keep-parents-container"
+                    @click="convertStore.keepParents = !convertStore.keepParents"
+                    v-if="convertStore.conversionTarget === ConversionTarget.Wiki">
+                    <font-awesome-icon icon="fa-solid fa-square-check"
+                        class="keep-parents-checkbox active"
+                        v-if="convertStore.keepParents" />
+                    <font-awesome-icon icon="fa-regular fa-square"
+                        class="keep-parents-checkbox"
+                        v-else />
+
+                    <div class="">
+                        {{ t('page.convert.modal.keepParents') }}
+                    </div>
+                </div>
+            </template>
         </template>
     </LazyModal>
 </template>
