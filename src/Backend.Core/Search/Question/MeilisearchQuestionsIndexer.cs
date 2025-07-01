@@ -20,16 +20,31 @@ internal class MeilisearchQuestionsIndexer : MeilisearchIndexerBase
 
     public void Update(Question question)
     {
-        var searchQuestionMap = CreateQuestionMap(question);
         var index = GetIndex();
 
         Task.Run(async () =>
         {
-            var taskInfo = await index
-                .UpdateDocumentsAsync(new List<MeilisearchQuestionMap> { searchQuestionMap })
-                .ConfigureAwait(false);
+            try
+            {
+                var questionExists = EntityCache.GetQuestion(question.Id) != null;
+                if (!questionExists)
+                    return;
+                // Check if the document exists before updating
+                await index.GetDocumentAsync<MeilisearchQuestionMap>(question.Id.ToString());
+                
+                // Document exists, proceed with update
+                var searchQuestionMap = CreateQuestionMap(question);
+                var taskInfo = await index
+                    .UpdateDocumentsAsync(new List<MeilisearchQuestionMap> { searchQuestionMap })
+                    .ConfigureAwait(false);
 
-            await CheckStatus(taskInfo);
+                await CheckStatus(taskInfo);
+            }
+            catch (MeilisearchApiError ex) when (ex.Code == "document_not_found")
+            {
+                // Document doesn't exist (probably deleted), don't add it back
+                // This prevents race conditions where delete happens before update
+            }
         });
     }
 

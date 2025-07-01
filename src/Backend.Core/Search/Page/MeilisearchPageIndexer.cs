@@ -20,16 +20,31 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
 
     public void Update(Page page)
     {
-        var searchPageMap = CreatePageMap(page);
         var index = GetIndex();
 
         Task.Run(async () =>
             {
-                var taskInfo = await index
-                    .UpdateDocumentsAsync(new List<MeilisearchPageMap> { searchPageMap })
-                    .ConfigureAwait(false);
+                try
+                {
+                    var pageExists = EntityCache.GetPage(page.Id) != null;
+                    if (!pageExists)
+                        return;
+                    // Check if the document exists before updating
+                    await index.GetDocumentAsync<MeilisearchPageMap>(page.Id.ToString());
+                    
+                    // Document exists, proceed with update
+                    var searchPageMap = CreatePageMap(page);
+                    var taskInfo = await index
+                        .UpdateDocumentsAsync(new List<MeilisearchPageMap> { searchPageMap })
+                        .ConfigureAwait(false);
 
-                await CheckStatus(taskInfo);
+                    await CheckStatus(taskInfo);
+                }
+                catch (MeilisearchApiError ex) when (ex.Code == "document_not_found")
+                {
+                    // Document doesn't exist (probably deleted), don't add it back
+                    // This prevents race conditions where delete happens before update
+                }
             }
         );
     }

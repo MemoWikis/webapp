@@ -279,6 +279,9 @@ export const useEditPageRelationStore = defineStore("editPageRelationStore", {
                 return
             }
 
+            if (position == TargetPosition.Inner)
+                newParentId = targetId
+
             this.tempInsert(
                 movingPage,
                 targetId,

@@ -383,7 +383,7 @@
                     "reset": "Zurücksetzen"
                 },
                 "messages": {
-                    "moved": "wurde verschoben",
+                    "moved": "{pageName} wurde verschoben",
                     "visibleToAll": "Änderung auf der Seite {parentName} sind für alle sichtbar"
                 },
                 "labels": {

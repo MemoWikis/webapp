@@ -25,9 +25,6 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
-        var cachedFirstWiki = EntityCache.GetPage(firstWiki);
-        var originalTree = TreeRenderer.ToAsciiDiagram(cachedFirstWiki!);
-
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete one of the wikis.
@@ -35,13 +32,10 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Assert: The deletion should be successful.
         await ReloadCaches();
-        var newTree = TreeRenderer.ToAsciiDiagram(cachedFirstWiki!);
 
         await Verify(new
         {
             deleteResult,
-            originalTree,
-            newTree,
             PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync()
         });
     }

@@ -2,7 +2,8 @@
   {
     Id: 1,
     ChildId: 3,
-    ParentId: 2
+    ParentId: 2,
+    NextId: 4
   },
   {
     Id: 2,

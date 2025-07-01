@@ -57,7 +57,6 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
 
             return result;
         })).ToList();
-
         var results = await Task.WhenAll(deletionTasks);
 
         // Assert
@@ -68,7 +67,8 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
             deleteResult = results,
             originalTree,
             newTree,
-            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync(delayForSearch: 250)
+            PageVerificationData =
+                await _testHarness.GetDefaultPageVerificationDataAsync() // Meilisearch wait happens automatically
         });
     }
 
@@ -154,9 +154,8 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
                 }
             });
             deletionTasks.Add(task);
-        }
+        } // Wait for all deletions to complete
 
-        // Wait for all deletions to complete
         var taskResults = await Task.WhenAll(deletionTasks);
         results.AddRange(taskResults);
 
@@ -170,7 +169,8 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
             originalTree,
             newTree,
             newQuestionsInParent,
-            PageVerificationData = await _testHarness.GetDefaultPageVerificationDataAsync(delayForSearch: 500)
+            PageVerificationData =
+                await _testHarness.GetDefaultPageVerificationDataAsync() // Meilisearch wait happens automatically
         });
     }
 }

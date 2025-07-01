@@ -21,7 +21,7 @@ internal class TestHarnessTests
         var user = new User
         {
             Name = "TestUser",
-            EmailAddress = "test@test.de"
+            EmailAddress = "test@dev.test"
         };
 
         // act
@@ -37,7 +37,7 @@ internal class TestHarnessTests
     [Test]
     public async Task Should_create_testHarness_and_make_api_call()
     {
-        string result = await _testHarness.ApiCall("apiVue/App/GetCurrentUser");
+        string result = await _testHarness.ApiGet<string>("apiVue/App/GetCurrentUser");
 
         await Verify(new
         {

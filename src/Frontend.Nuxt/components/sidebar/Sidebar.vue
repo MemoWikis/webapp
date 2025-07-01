@@ -65,7 +65,7 @@ const { $urlHelper } = useNuxtApp()
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
-@import (reference) '~~/assets/sidebar.less';
+// @import (reference) '~~/assets/sidebar.less';
 
 #Sidebar {
     display: flex;

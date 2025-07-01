@@ -383,7 +383,7 @@
                     "reset": "Reset"
                 },
                 "messages": {
-                    "moved": "has been moved",
+                    "moved": "{pageName} has been moved",
                     "visibleToAll": "Changes on the page {parentName} are visible to everyone"
                 },
                 "labels": {

@@ -1,7 +1,7 @@
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 
 export interface SnackbarData {
-    type?: "warning" | "error" | "info" | "success"
+    type?: 'warning' | 'error' | 'info' | 'success'
     title?: string
     text?: SnackbarMessage
     snackbarCustomAction?: SnackbarCustomAction
@@ -23,7 +23,7 @@ export interface SnackbarCustomAction {
     icon?: string[]
 }
 
-export const useSnackbarStore = defineStore("snackbarStore", {
+export const useSnackbarStore = defineStore('snackbarStore', {
     state: () => {
         return {
             customActions: [] as SnackbarCustomAction[],

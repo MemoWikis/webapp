@@ -1,0 +1,129 @@
+﻿{
+  treeSnapshots: {
+    after_move1_rootA:
+rootA
+└── childPageA1
+[childPageA1]
+,
+    after_move1_rootB:
+rootB
+├── childPageB1
+└── childPageA2
+[childPageB1] → [childPageA2]
+,
+    final_rootA:
+rootA
+├── childPageB1
+└── childPageA1
+[childPageB1] → [childPageA1]
+,
+    final_rootB:
+rootB
+└── childPageA2
+[childPageA2]
+,
+    initial_rootA:
+rootA
+├── childPageA1
+└── childPageA2
+[childPageA1] → [childPageA2]
+,
+    initial_rootB:
+rootB
+└── childPageB1
+[childPageB1]
+
+  },
+  entityCacheSnapshots: {
+    final_rootA_cache: {
+      Id: 2,
+      Name: rootA,
+      ChildRelations: [
+        {
+          ChildId: 6,
+          ParentId: 2,
+          NextId: 4,
+          Id: 5
+        },
+        {
+          ChildId: 4,
+          ParentId: 2,
+          PreviousId: 6,
+          Id: 1
+        }
+      ]
+    },
+    final_rootB_cache: {
+      Id: 3,
+      Name: rootB,
+      ChildRelations: [
+        {
+          ChildId: 5,
+          ParentId: 3,
+          Id: 4
+        }
+      ]
+    }
+  },
+  dbSnapshots: {
+    final_rootA_db_relations: [
+      {
+        ChildId: 4,
+        ParentId: 2,
+        PreviousId: 6,
+        Id: 1
+      },
+      {
+        ChildId: 6,
+        ParentId: 2,
+        NextId: 4,
+        Id: 5
+      }
+    ],
+    final_rootB_db_relations: [
+      {
+        ChildId: 5,
+        ParentId: 3,
+        Id: 4
+      }
+    ]
+  },
+  moveResults: {
+    moveChildToNewParent: {
+      success: true,
+      error: 
+    },
+    moveChildBack: {
+      success: true,
+      error: 
+    }
+  },
+  finalState: {
+    rootAChildrenIds: [
+      6,
+      4
+    ],
+    rootBChildrenIds: [
+      5
+    ],
+    allRelationsInDb: [
+      {
+        ChildId: 4,
+        ParentId: 2,
+        PreviousId: 6,
+        Id: 1
+      },
+      {
+        ChildId: 5,
+        ParentId: 3,
+        Id: 4
+      },
+      {
+        ChildId: 6,
+        ParentId: 2,
+        NextId: 4,
+        Id: 5
+      }
+    ]
+  }
+}

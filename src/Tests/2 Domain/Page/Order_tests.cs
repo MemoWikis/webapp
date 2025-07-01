@@ -1,7 +1,4 @@
-﻿using Antlr.Runtime.Tree;
-using NHibernate.Driver;
-
-class Order_tests : BaseTestHarness
+﻿class Order_tests : BaseTestHarness
 {
     [Test]
     public async Task Should_Sort_Pages()
@@ -9,9 +6,30 @@ class Order_tests : BaseTestHarness
         //Arrange
         var unsortedRelations = new List<PageRelationCache>
         {
-            new() { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new() { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new() { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
+            new()
+            {
+                Id = 1,
+                ChildId = 3,
+                ParentId = 10,
+                PreviousId = 2,
+                NextId = null
+            },
+            new()
+            {
+                Id = 2,
+                ChildId = 1,
+                ParentId = 10,
+                PreviousId = null,
+                NextId = 2
+            },
+            new()
+            {
+                Id = 3,
+                ChildId = 2,
+                ParentId = 10,
+                PreviousId = 1,
+                NextId = 3
+            }
         };
 
         //Act
@@ -29,13 +47,54 @@ class Order_tests : BaseTestHarness
         //Arrange
         var unsortedRelations = new List<PageRelationCache>
         {
-            new() { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new() { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new() { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
-
-            new() { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
-            new() { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
-            new() { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
+            new()
+            {
+                Id = 1,
+                ChildId = 3,
+                ParentId = 10,
+                PreviousId = 2,
+                NextId = null
+            },
+            new()
+            {
+                Id = 2,
+                ChildId = 1,
+                ParentId = 10,
+                PreviousId = null,
+                NextId = 2
+            },
+            new()
+            {
+                Id = 3,
+                ChildId = 2,
+                ParentId = 10,
+                PreviousId = 1,
+                NextId = 3
+            },
+            new()
+            {
+                Id = 4,
+                ChildId = 4,
+                ParentId = 10,
+                PreviousId = 2,
+                NextId = null
+            },
+            new()
+            {
+                Id = 5,
+                ChildId = 5,
+                ParentId = 10,
+                PreviousId = null,
+                NextId = null
+            },
+            new()
+            {
+                Id = 6,
+                ChildId = 6,
+                ParentId = 10,
+                PreviousId = null,
+                NextId = 3
+            },
         };
 
         //Act
@@ -123,10 +182,14 @@ class Order_tests : BaseTestHarness
 
         //Assert
         var allRelationsInDb = R<PageRelationRepo>().GetAll();
-        await Verify(new
+        var allRelationsCache = EntityCache.GetPage(root)?.ChildRelations;
+
+        await Verify(
+            new
             {
                 originalTree,
                 newTree,
+                allRelationsCache,
                 allRelationsInDb
             }
         );
@@ -180,13 +243,7 @@ class Order_tests : BaseTestHarness
         var allRelationsInDb = pageRelationRepo.GetAll();
 
         //Assert
-        await Verify(new
-        {
-            originalTree,
-            newTree,
-            allRelationsInDb,
-            childRelations = cachedRoot.ChildRelations
-        });
+        await Verify(new { originalTree, newTree, allRelationsInDb, childRelations = cachedRoot.ChildRelations });
     }
 
     //Move sub1 after sub3 and before sub4
@@ -243,13 +300,7 @@ class Order_tests : BaseTestHarness
         var allRelationsInDb = pageRelationRepo.GetAll();
 
         //Assert
-        await Verify(new
-        {
-            originalTree,
-            newTree,
-            allRelationsInDb,
-            childRelations = cachedRoot.ChildRelations
-        });
+        await Verify(new { originalTree, newTree, allRelationsInDb, childRelations = cachedRoot.ChildRelations });
     }
 
     [Test]
@@ -300,12 +351,7 @@ class Order_tests : BaseTestHarness
             PageOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1,
                 modifyRelationsForPage));
 
-        await Verify(new
-        {
-            originalTree,
-            errorMessage1 = ex1.Message,
-            errorMessage2 = ex2.Message
-        });
+        await Verify(new { originalTree, errorMessage1 = ex1.Message, errorMessage2 = ex2.Message });
     }
 
     [Test]
@@ -379,4 +425,6 @@ class Order_tests : BaseTestHarness
             movedSubParentRelationsCount = movedSub?.ParentRelations?.Count
         });
     }
+
+
 }

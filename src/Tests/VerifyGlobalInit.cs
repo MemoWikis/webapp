@@ -12,8 +12,6 @@ internal static class VerifyGlobalInit
         VerifierSettings.IgnoreMember("QuestionChangeCacheItems");
         VerifierSettings.IgnoreMember("PageChangeCacheItems");
 
-        VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Child);
-        VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Parent);
 
         //Ignore irrelevant properties in Page
         VerifierSettings.IgnoreMember("TopicMarkdown");
@@ -31,8 +29,12 @@ internal static class VerifyGlobalInit
         VerifierSettings.IgnoreMember("CountQuestionsAggregated");
         VerifierSettings.IgnoreMember("AuthorIds");
         VerifierSettings.IgnoreMember("Language");
-        VerifierSettings.IgnoreMember<PageCacheItem>(page => page.Creator);
         VerifierSettings.IgnoreMember("IsHistoric");
+        VerifierSettings.IgnoreMember("AuthorIdsInts");
+
+        VerifierSettings.IgnoreMember<Page>(page => page.Creator);
+        VerifierSettings.IgnoreMember<PageCacheItem>(page => page.Creator);
+
 
         //ignore irrelevant properties in Question
         VerifierSettings.IgnoreMember<QuestionCacheItem>(question => question.Creator);
@@ -40,5 +42,13 @@ internal static class VerifyGlobalInit
         VerifierSettings.IgnoreMember<QuestionCacheItem>(question => question.SolutionMetadataJson);
         VerifierSettings.IgnoreMember<QuestionCacheItem>(question => question.SolutionType);
         VerifierSettings.IgnoreMember<QuestionCacheItem>(question => question.Text);
+
+        //page relations
+        VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Child);
+        VerifierSettings.IgnoreMember<PageRelationCache>(relation => relation.Parent);
+        
+        // VerifierSettings.IgnoreMember<PageRelation>(relation => relation.Child);
+        // VerifierSettings.IgnoreMember<PageRelation>(relation => relation.Parent);
+
     }
 }

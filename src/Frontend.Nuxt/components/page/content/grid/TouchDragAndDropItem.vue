@@ -3,9 +3,8 @@ import { ToggleState } from './toggleStateEnum'
 import { GridPageItem } from './item/gridPageItem'
 import { useEditPageRelationStore } from '~/components/page/relation/editPageRelationStore'
 import { useDragStore, TargetPosition, DragAndDropType, DropZoneData, MovePageTransferData } from '~~/components/shared/dragStore'
-import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { SnackbarCustomAction, SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { useUserStore } from '~/components/user/userStore'
-import { useSnackbar } from 'vue3-snackbar'
 import { Visibility } from '~/components/shared/visibilityEnum'
 
 const editPageRelationStore = useEditPageRelationStore()
@@ -28,8 +27,6 @@ const props = defineProps<Props>()
 const dropIn = ref(false)
 const dragOverTimer = ref()
 const isDroppableItemActive = ref(false)
-
-const snackbar = useSnackbar()
 
 async function onDrop() {
     isDroppableItemActive.value = false
@@ -66,18 +63,17 @@ async function onDrop() {
             icon: ['fas', 'rotate-left']
         }
 
-        snackbar.add({
+        const snackbarData: SnackbarData = {
             type: 'info',
             title: transferData.page.name,
-            text: t('page.grid.dnd.messages.moved'),
-            action: {
-                to: `/${transferData.page.name}/${transferData.page.id}`,
-                buttonLabel: snackbarCustomAction?.label,
-                buttonId: snackbarStore.addCustomAction(snackbarCustomAction),
-                buttonIcon: ['fas', 'rotate-left']
+            text: {
+                message: t('page.grid.dnd.messages.moved')
             },
+            snackbarCustomAction: snackbarCustomAction,
             dismissible: true
-        })
+        }
+
+        snackbarStore.showSnackbar(snackbarData)
     }
 }
 
@@ -86,10 +82,12 @@ const dragging = ref(false)
 async function prepareDragStart() {
     if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.page.creatorId != userStore.id)) {
         if (userStore.isLoggedIn)
-            snackbar.add({
+            snackbarStore.showSnackbar({
                 type: 'error',
                 title: '',
-                text: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` }),
+                text: {
+                    message: t('page.grid.dnd.errors.noPermission', { pageName: `${props.page.name}` }),
+                },
                 dismissible: true
             })
         else {
@@ -101,26 +99,27 @@ async function prepareDragStart() {
                 icon: ['fas', 'right-to-bracket']
             }
 
-            snackbar.add({
+            const snackbarData: SnackbarData = {
                 type: 'error',
                 title: '',
-                text: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` }),
-                action: {
-                    buttonIcon: snackbarCustomAction.icon,
-                    buttonLabel: snackbarCustomAction.label,
-                    buttonId: snackbarStore.addCustomAction(snackbarCustomAction)
+                text: {
+                    message: t('page.grid.dnd.errors.noPermission', { pageName: `${props.page.name}` }),
                 },
+                snackbarCustomAction: snackbarCustomAction,
                 dismissible: false
-            })
+            }
+            snackbarStore.showSnackbar(snackbarData)
         }
         return
     }
 
     if (props.parentVisibility === Visibility.Public && !userStore.gridInfoShown) {
-        snackbar.add({
+        snackbarStore.showSnackbar({
             type: 'warning',
             title: '',
-            text: t('page.grid.dnd.messages.visibleToAll', { parentName: `<b>${props.parentName}</b>` }),
+            text: {
+                message: t('page.grid.dnd.messages.visibleToAll', { pageName: `${props.page.name}` }),
+            },
             dismissible: true
         })
 
