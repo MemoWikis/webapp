@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
 using Testcontainers.MySql;
@@ -32,6 +31,9 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     private ProgramWebApplicationFactory? _webApplicationFactory;
     private HttpClient? _httpClient;
     private ILifetimeScope? _lifetimeScope;
+
+    // Cookie storage for API requests
+    public Dictionary<string, string> Cookies { get; } = new Dictionary<string, string>();
 
     // Fake hosting dependencies required for testing environment
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -352,13 +354,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var userRepo = _lifetimeScope!.Resolve<UserReadingRepo>();
         var sessionUserExists = userRepo.GetById(DefaultSessionUserId) != null;
         var testUserExists = userRepo.GetById(DefaultTestUserId) != null;
-        
+
         if (!sessionUserExists)
             SetSessionUserInDatabase();
-        
+
         if (!testUserExists)
             CreateTestUser();
-        
+
         // Initialize background job scheduler
         await JobScheduler.InitializeAsync();
         LogPerf("JobScheduler initialized");
@@ -419,21 +421,14 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     }
 
     /// <summary>
-    /// Perform GET request and return formatted response
-    /// </summary>
-    public async Task<string> ApiGet([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
-    {
-        var response = await Client.GetAsync(uri);
-        return await FormatHttpResponse(response);
-    }
-
-    /// <summary>
     /// Perform GET request and deserialize response to specified type
     /// </summary>
     public async Task<TResult> ApiGet<TResult>([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
     {
-        var httpResponse = await Client.GetAsync(uri);
-        return await DeserializeHttpResponse<TResult>(httpResponse);
+        using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+        AddCookiesToRequest(request);
+        var httpResponse = await Client.SendAsync(request);
+        return await DeserializeHttpResponse<TResult>(httpResponse);    
     }
 
     /// <summary>
@@ -446,7 +441,14 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             Encoding.UTF8,
             "application/json");
 
-        var httpResponse = await Client.PostAsync(uri, jsonContent);
+        // Add cookies to the request
+        using var request = new HttpRequestMessage(HttpMethod.Post, uri)
+        {
+            Content = jsonContent
+        };
+
+        AddCookiesToRequest(request);
+        var httpResponse = await Client.SendAsync(request);
         return await DeserializeHttpResponse<T>(httpResponse);
     }
 
@@ -476,8 +478,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
 
-        var response = await Client.PostAsync(endpoint,
-            new StringContent(json, Encoding.UTF8, "application/json"));
+        using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json")
+        };
+
+        AddCookiesToRequest(request);
+        var response = await Client.SendAsync(request);
 
         var responseJson = await response.Content.ReadAsStringAsync();
 
@@ -493,8 +500,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         });
 
-        return await Client.PostAsync(endpoint,
-            new StringContent(json, Encoding.UTF8, "application/json"));
+        using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json")
+        };
+
+        AddCookiesToRequest(request);
+        return await Client.SendAsync(request);
     }
 
     // --------------------------------------------------------------------
@@ -698,29 +710,24 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     }
 
     /// <summary>
-    /// Set the current session user ID for testing
+    /// Add stored cookies to an HTTP request
     /// </summary>
-    public void SetSessionUserId(int userId)
+    private void AddCookiesToRequest(HttpRequestMessage request)
     {
-        if (_httpContextAccessor.HttpContext?.Session != null)
+        if (Cookies.Any())
         {
-            _httpContextAccessor.HttpContext.Session.SetInt32("userId", userId);
+            var cookieString = string.Join("; ", Cookies.Select(kv => $"{kv.Key}={kv.Value}"));
+            request.Headers.Add("Cookie", cookieString);
         }
     }
 
     /// <summary>
-    /// Get the current session user ID for testing
+    /// Add or update a cookie for subsequent HTTP requests
     /// </summary>
-    public int? GetSessionUserId()
-    {
-        return _httpContextAccessor.HttpContext?.Session?.GetInt32("userId");
-    }
+    public void AddOrUpdateCookie(string key, string value) => Cookies[key] = value;
 
     /// <summary>
-    /// Clear the current session for testing
+    /// Remove a cookie from subsequent HTTP requests
     /// </summary>
-    public void ClearSession()
-    {
-        _httpContextAccessor.HttpContext?.Session?.Clear();
-    }
+    public void RemoveCookie(string key) => Cookies.Remove(key);
 }

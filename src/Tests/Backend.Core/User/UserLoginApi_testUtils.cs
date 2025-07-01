@@ -1,9 +1,9 @@
-using System.Text;
 using System.Text.Json;
 
 public class UserLoginApiWrapper
 {
     private readonly TestHarness _testHarness;
+    private string? _persistentCookie;
 
     public UserLoginApiWrapper(TestHarness testHarness)
     {
@@ -12,17 +12,11 @@ public class UserLoginApiWrapper
 
     /// <summary>
     /// Login as the session user for authenticated API testing
+    /// Uses the Login method and sets persistent cookie for subsequent requests
     /// </summary>
-    public async Task LoginAsSessionUser()
+    public async Task<UserStoreController.LoginResponse> LoginAsSessionUser()
     {
-        var loginRequest = new LoginRequest("sessionUser@dev.test", "test123", false);
-        var jsonContent = new StringContent(
-            JsonSerializer.Serialize(loginRequest),
-            Encoding.UTF8,
-            "application/json");
-
-        var httpResponse = await _testHarness.Client.PostAsync("apiVue/UserStore/Login", jsonContent);
-        httpResponse.EnsureSuccessStatusCode();
+        return await Login("sessionUser@dev.test", "test123", true);
     }
 
     /// <summary>
@@ -32,40 +26,52 @@ public class UserLoginApiWrapper
     {
         var httpResponse = await _testHarness.Client.PostAsync("apiVue/UserStore/LogOut", null);
         httpResponse.EnsureSuccessStatusCode();
+
+        // Clear the persistent cookie after logout
+        _persistentCookie = null;
+        _testHarness.Cookies.Clear();
     }
 
     /// <summary>
     /// Login with custom credentials
     /// </summary>
-    public async Task<UserStoreController.LoginResponse> Login(string email, string password, bool persistentLogin = false)
+    public async Task<UserStoreController.LoginResponse> Login(string email, string password, bool persistentLogin = true)
     {
         var loginRequest = new LoginRequest(email, password, persistentLogin);
-        return await _testHarness.ApiPost<UserStoreController.LoginResponse>("apiVue/UserStore/Login", loginRequest);
-    }
 
-    /// <summary>
-    /// Create a personal wiki page for a user. This is needed because login functionality requires users to have a firstWikiId.
-    /// </summary>
-    public void CreatePersonalWikiForUser(int userId, string? wikiName = null)
-    {
-        var userRepo = _testHarness.Resolve<UserReadingRepo>();
-        var user = userRepo.GetById(userId);
-        if (user == null)
+        // Use the TestHarness ApiCall to get the raw response so we can access headers
+        var httpResponse = await _testHarness.ApiCall("apiVue/UserStore/Login", loginRequest);
+        httpResponse.EnsureSuccessStatusCode();
+
+        // Deserialize the response using the same logic as ApiPost
+        var responseJson = await httpResponse.Content.ReadAsStringAsync();
+        var loginResponse = JsonSerializer.Deserialize<UserStoreController.LoginResponse>(responseJson,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+
+        // If login was successful and persistent login was requested, extract the persistent cookie
+        if (loginResponse.Success && persistentLogin)
         {
-            throw new ArgumentException($"User with ID {userId} not found");
+            // Extract the persistent cookie from the Set-Cookie headers
+            if (httpResponse.Headers.TryGetValues("Set-Cookie", out var setCookieHeaders))
+            {
+                foreach (var cookieHeader in setCookieHeaders)
+                {
+                    if (cookieHeader.Contains("persistentLogin="))
+                    {
+                        // Extract the cookie value: "persistentLogin=value; Path=/; ..."
+                        var cookieParts = cookieHeader.Split(';')[0].Split('=');
+                        if (cookieParts.Length == 2 && cookieParts[0].Trim() == "persistentLogin")
+                        {
+                            _persistentCookie = cookieParts[1].Trim();
+                            // Store the cookie in the TestHarness cookies collection
+                            _testHarness.AddOrUpdateCookie("persistentLogin", _persistentCookie);
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
-        var pageContext = new ContextPage(_testHarness, addContextUser: false);
-        pageContext
-            .Add(wikiName ?? $"{user.Name} Personal Wiki", creator: user, isWiki: true)
-            .Persist();
-    }
-
-    /// <summary>
-    /// Create a personal wiki for the session user (ID 1)
-    /// </summary>
-    public void CreatePersonalWikiForSessionUser()
-    {
-        CreatePersonalWikiForUser(1, "SessionUser Personal Wiki");
+        return loginResponse;
     }
 }
