@@ -1,36 +1,33 @@
 ﻿[TestFixture]
-internal class BaseTestHarness
+internal class BaseTestHarness : IDisposable, IAsyncDisposable
 {
-#pragma warning disable NUnit1032
-    private Lazy<Task<TestHarness>> _lazyTestHarness = new(() => TestHarness.CreateAsync());
+    protected bool _useTinyScenario = false;
+
     protected TestHarness _testHarness = null!; // Will be set in OneTimeSetUp
-#pragma warning restore NUnit1032
 
     protected T R<T>() where T : notnull => _testHarness.Resolve<T>();
 
     [OneTimeSetUp]
-    public async Task OneTimeSetUp() => _testHarness = await _lazyTestHarness.Value;
+    public async Task OneTimeSetUp() => await CreateTestHarness();
 
     [OneTimeTearDown]
-    public async Task OneTimeTearDown()
-    {
-        if (_lazyTestHarness.IsValueCreated)
-        {
-            await (await _lazyTestHarness.Value).DisposeAsync();
-        }
-    }
+    public async Task OneTimeTearDown() => await _testHarness.DisposeAsync();
 
     public async Task ReloadCaches()
         => await _testHarness.InitAsync(keepData: true);
 
     public async Task ClearData()
     {
-        if (_lazyTestHarness.IsValueCreated)
-            await (await _lazyTestHarness.Value).DisposeAsync();
+        await _testHarness.DisposeAsync();
+        await CreateTestHarness();
+    }
 
-        // Reset the lazy initializer to allow creating a new instance
-        _lazyTestHarness = new Lazy<Task<TestHarness>>(() => TestHarness.CreateAsync());
-        _testHarness = await _lazyTestHarness.Value;
+    private async Task CreateTestHarness()
+    {
+        if (_useTinyScenario)
+            _testHarness = await TestHarness.CreateWithTinyScenario();
+        else
+            _testHarness = await TestHarness.CreateAsync();
     }
 
     protected ContextPage NewPageContext(bool addContextUser = true)
@@ -38,4 +35,14 @@ internal class BaseTestHarness
 
     protected ContextQuestion NewQuestionContext(bool persistImmediately = false)
         => new(_testHarness, persistImmediately);
+
+    public void Dispose()
+    {
+        _testHarness.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _testHarness.DisposeAsync();
+    }
 }

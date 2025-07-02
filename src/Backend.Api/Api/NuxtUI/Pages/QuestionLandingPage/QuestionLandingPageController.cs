@@ -192,6 +192,7 @@ public class QuestionLandingPageController(
         var hasUserValuation =
             userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
         var result = new AnswerQuestionDetailsResult(
+            QuestionId: question.Id,
             KnowledgeStatus: hasUserValuation
                 ? userQuestionValuation[question.Id].KnowledgeStatus
                 : KnowledgeStatus.NotLearned,

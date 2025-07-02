@@ -72,6 +72,7 @@
     }
 
     public readonly record struct ResetPasswordRequest(string Email);
+
     [HttpPost]
     public LoginResponse ResetPassword([FromBody] ResetPasswordRequest req)
     {
@@ -182,6 +183,7 @@
     }
 
     public readonly record struct UpdateLanguageSettingRequest(string Language);
+
     public readonly record struct UpdateLanguageSettingResponse(string Language);
 
 

@@ -10,7 +10,11 @@
 - I prefer Verify() for Tests
 - Use _testHarness.ApiCall("apiVue/{controller}/{action}") to do apicalls, do not init/resolve controllers in tests
 
+# Unit Tests
+
+- For API calls use Testharness.ApiCall(..)
 # Glossar
+
 - `page`: a page
 - `childpage`: a page that is a child of page or wiki
 - `subpage`: subpage is a synonym for childpage and only used in user interface

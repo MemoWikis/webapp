@@ -1,4 +1,5 @@
 ﻿public record struct AnswerQuestionDetailsResult(
+    int QuestionId,
     KnowledgeStatus KnowledgeStatus,
     int PersonalProbability,
     string PersonalColor,

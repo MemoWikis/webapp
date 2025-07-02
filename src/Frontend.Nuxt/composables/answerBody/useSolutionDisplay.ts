@@ -4,7 +4,7 @@ import { SolutionData } from '~/components/question/answerBody/answerBodyInterfa
 import { getHighlightedCode } from '~/utils/utils'
 
 export const useSolutionDisplay = () => {
-    const { $api, $logger } = useNuxtApp() as any
+    const { $logger } = useNuxtApp()
     const { t } = useI18n()
     
     const solutionData = ref<SolutionData | null>(null)

@@ -11,9 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="2 Domain\Search\**" />
-    <EmbeddedResource Remove="2 Domain\Search\**" />
-    <None Remove="2 Domain\Search\**" />
+    <Compile Remove="Backend.Core\Search\**" />
+    <EmbeddedResource Remove="Backend.Core\Search\**" />
+    <None Remove="Backend.Core\Search\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +45,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Backend.Api\Backend.Api.csproj" />
     <ProjectReference Include="..\Backend.Core\Backend.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestData\Dumps\" />
   </ItemGroup>
 
 </Project>

@@ -34,7 +34,7 @@ public class PageRepository(
     }
 
     public Page? GetByIdEager(int pageId) =>
-        GetByIdsEager(new[] { pageId }).FirstOrDefault();
+        GetByIdsEager([pageId]).FirstOrDefault();
 
 
     public override void Delete(int pageId)

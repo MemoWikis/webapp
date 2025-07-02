@@ -34,11 +34,11 @@ public class AnswerQuestionDetailsController(
             ? sessionUser.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         Log.Information("AnswerQuestionDetailsTimer b - {0}", stopWatch.Elapsed.TotalMilliseconds);
-        var hasUserValuation =
-            userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
         stopWatch.Stop();
 
         var result = new AnswerQuestionDetailsResult(
+            QuestionId: question.Id,
             KnowledgeStatus: hasUserValuation
                 ? userQuestionValuation[question.Id].KnowledgeStatus
                 : KnowledgeStatus.NotLearned,

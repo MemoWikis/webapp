@@ -1,0 +1,16 @@
+﻿{
+  CreatorQuestionsCount: 2,
+  CreatorQuestionsTexts: [
+    Public Question,
+    Private Question
+  ],
+  OtherUserQuestionsCount: 1,
+  OtherUserQuestionsTexts: [
+    Public Question
+  ],
+  AllQuestionsCount: 2,
+  AllQuestionsTexts: [
+    Public Question,
+    Private Question
+  ]
+}

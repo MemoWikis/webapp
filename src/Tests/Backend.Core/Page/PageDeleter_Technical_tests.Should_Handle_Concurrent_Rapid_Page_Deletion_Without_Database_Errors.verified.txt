@@ -1,0 +1,118 @@
+﻿{
+  deleteResult: [
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Parent Page,
+        Id: 3
+      }
+    },
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Parent Page,
+        Id: 3
+      }
+    },
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Parent Page,
+        Id: 3
+      }
+    },
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Parent Page,
+        Id: 3
+      }
+    },
+    {
+      Success: true,
+      HasChildren: false,
+      RedirectParent: {
+        Name: Parent Page,
+        Id: 3
+      }
+    }
+  ],
+  originalTree:
+Parent Page
+├── Child Page 1
+├── Child Page 2
+├── Child Page 3
+├── Child Page 4
+└── Child Page 5
+[Child Page 1] → [Child Page 2] → [Child Page 3] → [Child Page 4] → [Child Page 5]
+,
+  newTree:
+Parent Page
+,
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 3,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: true,
+        Name: SessionUser Personal Wiki,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 3,
+        IsWiki: true,
+        Name: Parent Page,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 3,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        Id: 2,
+        Name: SessionUser Personal Wiki,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        Id: 3,
+        Name: Parent Page,
+        IsPublic: true,
+        IsWiki: true
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: SessionUser Personal Wiki
+      },
+      {
+        Id: 3,
+        Name: Parent Page
+      }
+    ]
+  }
+}

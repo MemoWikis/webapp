@@ -1,0 +1,76 @@
+﻿{
+  deleteResult: {
+    HasChildren: false,
+    Success: true,
+    RedirectParent: {
+      Name: parent page,
+      Id: 2
+    }
+  },
+  originalTree:
+parent page
+└── child page
+[child page]
+,
+  newTree:
+parent page
+,
+  newQuestionsInParent: [
+    {
+      CreatorId: 1,
+      Id: 1,
+      Visibility: Private,
+      IsPublic: false
+    },
+    {
+      CreatorId: 1,
+      Id: 2,
+      Visibility: Private,
+      IsPublic: false
+    }
+  ],
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 3,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: true,
+        Name: parent page,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 3,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        Id: 2,
+        Name: parent page,
+        IsPublic: true,
+        IsWiki: true
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: parent page
+      }
+    ]
+  }
+}

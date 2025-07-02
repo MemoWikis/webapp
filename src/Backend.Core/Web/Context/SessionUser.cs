@@ -13,13 +13,13 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
         _extendedUserCache = extendedUserCache;
     }
 
-    public bool SessionIsActive() => _httpContext.Session is not null;
+    public bool SessionIsActive() => _httpContext?.Session is not null;
 
-    public bool HasBetaAccess
-    {
-        get => _httpContext.Session.GetBool("isBetaLogin");
-        set => _httpContext.Session.SetBool("isBetaLogin", value);
-    }
+    //public bool HasBetaAccess
+    //{
+    //    get => _httpContext.Session.GetBool("isBetaLogin");
+    //    set => _httpContext.Session.SetBool("isBetaLogin", value);
+    //}
 
     public bool IsLoggedIn
     {
@@ -62,8 +62,8 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
 
     public void Login(User user, PageViewRepo _pageViewRepo)
     {
-        _httpContext.Session.ForceInit();
-        HasBetaAccess = true;
+        _httpContext?.Session.ForceInit();
+        //HasBetaAccess = true;
         IsLoggedIn = true;
         _userId = user.Id;
 

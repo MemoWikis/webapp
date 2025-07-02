@@ -1,0 +1,57 @@
+﻿{
+  deleteResult: {
+    HasChildren: false,
+    Success: false,
+    MessageKey: error.page.noRights
+  },
+  originalTree:
+Root Page
+,
+  newTree:
+Root Page
+,
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 3,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: true,
+        Name: SessionUserWiki,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 3,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        Id: 2,
+        Name: SessionUserWiki,
+        IsPublic: true,
+        IsWiki: true
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: SessionUserWiki
+      }
+    ]
+  }
+}

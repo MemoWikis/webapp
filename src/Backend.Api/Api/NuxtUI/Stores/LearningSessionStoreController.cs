@@ -1,5 +1,6 @@
 ﻿public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
+    LearningSessionCurrent _learningSessionCurrent,
     LearningSessionCache _learningSessionCache,
     PermissionCheck _permissionCheck) : ApiBaseController
 {
@@ -7,9 +8,9 @@
     {
         public int Index { get; set; } = 0;
 
-        public LearningSessionCreator.Step[] Steps { get; set; } = [];
+        public global::Step[] Steps { get; set; } = [];
 
-        public LearningSessionCreator.Step? CurrentStep { get; set; } = null;
+        public global::Step? CurrentStep { get; set; } = null;
         public int ActiveQuestionCount { get; set; } = 0;
         public bool AnswerHelp { get; set; } = true;
         public bool IsInTestMode { get; set; } = false;
@@ -46,7 +47,7 @@
     public LearningSessionResponse NewSession([FromBody] LearningSessionConfigRequest learningSessionConfigRequest)
     {
         var config = learningSessionConfigRequest.ToEntity();
-        
+
         if (config == null || config.PageId < 1 || !_permissionCheck.CanViewPage(config.PageId))
             return new LearningSessionResponse
             {
@@ -148,7 +149,7 @@
     [HttpGet]
     public LearningSessionResponse GetCurrentSession()
     {
-        var data = _learningSessionCreator.GetLearningSessionResult();
+        var data = _learningSessionCurrent.GetCurrentSession();
         return new LearningSessionResponse
         {
             MessageKey = data.MessageKey,
@@ -227,7 +228,8 @@ public static class LearningSessionConfigMapping
 {
     public static LearningSessionConfig ToEntity(this LearningSessionStoreController.LearningSessionConfigRequest _request)
     {
-        if (_request is null) throw new ArgumentNullException(nameof(_request));
+        if (_request is null)
+            throw new ArgumentNullException(nameof(_request));
 
         return new LearningSessionConfig
         {
@@ -238,8 +240,8 @@ public static class LearningSessionConfigMapping
             QuestionOrder = _request.QuestionOrder,
             AnswerHelp = _request.AnswerHelp,
             Repetition = _request.Repetition,
-            InWuwi = _request.InWuwi,
-            NotInWuwi = _request.NotInWuwi,
+            InWishKnowledge = _request.InWuwi,
+            NotWishKnowledge = _request.NotInWuwi,
             CreatedByCurrentUser = _request.CreatedByCurrentUser,
             NotCreatedByCurrentUser = _request.NotCreatedByCurrentUser,
             PrivateQuestions = _request.PrivateQuestions,

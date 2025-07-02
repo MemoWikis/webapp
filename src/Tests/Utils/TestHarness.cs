@@ -13,39 +13,82 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json;
 using Testcontainers.MySql;
-using ContainerBuilder = Autofac.ContainerBuilder;
+using ContainerBuilder = DotNet.Testcontainers.Builders.ContainerBuilder;
 using IContainer = DotNet.Testcontainers.Containers.IContainer;
 
+/// <summary>
+/// Test harness for integration tests with scenario-image support.
+/// A scenario image is a saved database state that lets tests start faster.
+/// </summary>
 public sealed class TestHarness : IAsyncDisposable, IDisposable
 {
-    private const string TestDbName = "memoWikisTest";
+    // --------------------------------------------------------------------
+    // Private fields
+    // --------------------------------------------------------------------
+    private readonly MySqlContainer _databaseContainer;
+    private readonly IContainer _meilisearchContainer;
 
-    private readonly MySqlContainer _db;
+    private ProgramWebApplicationFactory? _webApplicationFactory;
+    private HttpClient? _httpClient;
+    private ILifetimeScope? _lifetimeScope;
 
-    private readonly IContainer _meiliSearch = new DotNet.Testcontainers.Builders.ContainerBuilder()
-        .WithImage("getmeili/meilisearch:v1.5")
-        .WithPortBinding(7778, 7700)
-        .WithEnvironment("MEILI_MASTER_KEY", "meilisearch-test-key")
-        .WithEnvironment("MEILI_NO_ANALYTICS", "true")
-        .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
-        .WithWaitStrategy(
-            Wait.ForUnixContainer()
-                .UntilHttpRequestIsSucceeded(r => r.ForPath("/health").ForPort(7700)))
-        .WithReuse(true)
-        .Build();
+    // Cookie storage for API requests
+    public Dictionary<string, string> Cookies { get; } = new Dictionary<string, string>();
 
-    private ProgramWebApplicationFactory? _factory;
-    private HttpClient? _client;
+    // Fake hosting dependencies required for testing environment
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    // Autofac scope coming from the running host (for Resolve<T> convenience)
-    private ILifetimeScope? _scope;
-    public HttpClient Client => _client ?? throw new InvalidOperationException("Call InitAsync() first");
+    // Configuration options
+    private readonly bool _enablePerformanceLogging;
+    private readonly string? _dumpTagToLoad;
+    private Stopwatch? _stopwatch;
 
+    private bool _isDisposed;
+
+    // Default test user IDs
+    public int DefaultSessionUserId = 1;
+    public string DefaultSessionUserPassword = "test123";
+    public int DefaultTestUserId = 2;
+
+    // --------------------------------------------------------------------
+    // Public surface (unchanged!)
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// HTTP client for making API requests to the test application
+    /// </summary>
+    public HttpClient Client =>
+        _httpClient ?? throw new InvalidOperationException("Call InitAsync() first.");
+
+    /// <summary>
+    /// Direct database access for test setup and verification
+    /// </summary>
     public RawDbDataLoader DbData = null!;
+
+    /// <summary>
+    /// Direct search index access for test setup and verification
+    /// </summary>
     public RawMeilisearchDataLoader SearchData = null!;
 
-    public string ConnectionString => _db.GetConnectionString();
-    public string MeilisearchUrl => $"http://localhost:{_meiliSearch.GetMappedPublicPort(7700)}";
+    // API wrapper helpers for common operations
+    public LearningSessionStoreApiWrapper ApiLearningSessionStore = null!;
+    public AnswerBodyApiWrapper ApiAnswerBody = null!;
+    public LearningSessionResultApiWrapper ApiLearningSessionResult = null!;
+    public UserLoginApiWrapper ApiUserLogin = null!;
+
+    /// <summary>
+    /// Connection string for the test MySQL database
+    /// </summary>
+    public string ConnectionString => _databaseContainer.GetConnectionString();
+
+    /// <summary>
+    /// URL for the test Meilisearch instance
+    /// </summary>
+    public string MeilisearchUrl => $"http://localhost:{_meilisearchContainer.GetMappedPublicPort(7700)}";
+
+    /// <summary>
+    /// Master key for test Meilisearch authentication
+    /// </summary>    
     public static string MeilisearchMasterKey => "meilisearch-test-key";
 
     /// <summary>
@@ -69,87 +112,130 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         return await waiter.GetTaskStatusSummary();
     }
 
-    private readonly IWebHostEnvironment _webHostEnv;
-    private readonly IHttpContextAccessor _httpCtxAcc;
+    /// <summary>
+    /// Resolve service from the DI container
+    /// </summary>
+    public T Resolve<T>() where T : notnull => _lifetimeScope!.Resolve<T>();
 
-    private readonly bool _enablePerfLogging;
-    private Stopwatch? _stopwatch;
+    /// <summary>
+    /// Short alias for Resolve method
+    /// </summary>
+    public T R<T>() where T : notnull => Resolve<T>();
 
-    private void PerfLog(string message)
+    /// <summary>
+    /// Create a new page context with proper sequence initialization
+    /// </summary>
+    public ContextPage NewPageContext(bool addContextUser = true) => new(this, addContextUser);
+
+    // --------------------------------------------------------------------
+    // Factory helpers (names preserved)
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// Creates a new test harness instance with optional performance logging and database dumps
+    /// </summary>
+    public static async Task<TestHarness> CreateAsync(
+        bool enablePerfLogging = false,
+        string? prebuiltDbImage = null,
+        string? dumpTagToLoad = null)
     {
-        if (_stopwatch == null)
-            return;
-
-        if (_enablePerfLogging)
-        {
-            Console.WriteLine($"[PERF {DateTime.Now:HH:mm:ss.fff}] {message} ({_stopwatch.ElapsedMilliseconds:N0} ms)");
-        }
-
-        _stopwatch.Restart();
-    }
-
-    public static async Task<TestHarness> CreateAsync(bool enablePerfLogging = false, string? prebuiltDbImage = null)
-    {
-        if (!string.IsNullOrEmpty(prebuiltDbImage))
+        // Load prebuilt database image if specified
+        if (!string.IsNullOrWhiteSpace(prebuiltDbImage))
         {
             await DockerUtilities.LoadDockerImageAsync(prebuiltDbImage);
         }
 
-        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage);
+        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage, dumpTagToLoad);
         await harness.InitAsync();
         return harness;
     }
 
-    // Modified constructor (now private and synchronous)
-    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage)
+    /// <summary>
+    /// Creates a test harness with the tiny scenario dataset pre-loaded
+    /// </summary>
+    public static Task<TestHarness> CreateWithTinyScenario(bool enablePerfLogging = false) =>
+        CreateAsync(enablePerfLogging, dumpTagToLoad: ScenarioDumpConstants.TagTiny);
+
+    // --------------------------------------------------------------------
+    // Constructor
+    // --------------------------------------------------------------------
+    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage, string? dumpTagToLoad)
     {
-        _enablePerfLogging = enablePerfLogging;
+        _enablePerformanceLogging = enablePerfLogging;
+        _dumpTagToLoad = dumpTagToLoad;
         _stopwatch = Stopwatch.StartNew();
 
-        _db = new MySqlBuilder()
+        // ------------------------------------------------------------
+        // MySQL container configuration
+        // ------------------------------------------------------------
+        var containerName = string.IsNullOrWhiteSpace(prebuiltDbImage)
+            ? "memowikis-mysql-test"
+            : "memowikis-mysql-prebuilt";
+
+        // Remove any existing container with the same name
+        CleanupExistingContainer(containerName);
+
+        _databaseContainer = new MySqlBuilder()
             .WithImage(prebuiltDbImage ?? "mysql:8.3.0")
-            .WithName(ScenarioContainer.Name)
-            .WithLabel(ScenarioContainer.Label, ScenarioContainer.Label)
-            .WithUsername("test")
-            .WithPassword("P@ssw0rd_#123")
-            .WithDatabase(TestDbName)
-            .WithCommand(
-                "mysqld",
-                "--lower_case_table_names=1"
-            )
+            .WithName(containerName)
+            .WithUsername(TestConstants.MySqlUsername)
+            .WithPassword(TestConstants.MySqlPassword)
+            .WithDatabase(TestConstants.TestDbName)
+            // Use case-insensitive table names for Windows compatibility
+            .WithCommand("mysqld", "--lower_case_table_names=1")
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithWaitStrategy(
                 Wait.ForUnixContainer()
+                    .UntilCommandIsCompleted("mysqladmin", "ping", "-h", "localhost", "-u",
+                        TestConstants.MySqlUsername, $"-p{TestConstants.MySqlPassword}")
                     .UntilPortIsAvailable(3306))
+            // Enable container reuse for better performance unless using prebuilt image
+            .WithReuse(string.IsNullOrWhiteSpace(prebuiltDbImage))
+            .Build();
+
+        // ------------------------------------------------------------
+        // Meilisearch container configuration
+        // ------------------------------------------------------------
+        _meilisearchContainer = new ContainerBuilder()
+            .WithImage("getmeili/meilisearch:v1.5")
+            .WithPortBinding(7778, 7700)
+            .WithEnvironment("MEILI_MASTER_KEY", MeilisearchMasterKey)
+            .WithEnvironment("MEILI_NO_ANALYTICS", "true")
+            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
+            .WithWaitStrategy(
+                Wait.ForUnixContainer()
+                    .UntilHttpRequestIsSucceeded(r => r.ForPath("/health").ForPort(7700)))
             .WithReuse(true)
             .Build();
 
-        PerfLog($"Container Startup");
+        LogPerf("Container configuration finished");
 
-        // Prepare environment fake
-        _webHostEnv = A.Fake<IWebHostEnvironment>();
-        A.CallTo(() => _webHostEnv.EnvironmentName).Returns("Test");
+        // ------------------------------------------------------------
+        // Setup fake hosting environment for testing
+        // ------------------------------------------------------------
+        _webHostEnvironment = A.Fake<IWebHostEnvironment>();
+        A.CallTo(() => _webHostEnvironment.EnvironmentName).Returns("Test");
 
-        // Prepare HttpContext/session fake with legacy userId=1
-        _httpCtxAcc = A.Fake<IHttpContextAccessor>();
+        // Setup fake HTTP context with TestSession for testing
+        _httpContextAccessor = A.Fake<IHttpContextAccessor>();
         var fakeHttpContext = A.Fake<HttpContext>();
-        var fakeSession = A.Fake<ISession>();
-        A.CallTo(() => _httpCtxAcc.HttpContext).Returns(fakeHttpContext);
-        A.CallTo(() => fakeHttpContext.Session).Returns(fakeSession);
-        var userIdBytes = BitConverter.GetBytes(1);
-        if (BitConverter.IsLittleEndian)
-        {
-            Array.Reverse(userIdBytes);
-        }
+        var testSession = new TestSession();
 
-        A.CallTo(() => fakeSession.TryGetValue("userId", out userIdBytes)).Returns(true);
+        // Set user ID in session (default session user)
+        testSession.SetInt32("userId", DefaultSessionUserId);
 
-        PerfLog($"ctor end");
+        // Configure fake HTTP context
+        A.CallTo(() => fakeHttpContext.Session).Returns(testSession);
+        A.CallTo(() => _httpContextAccessor.HttpContext).Returns(fakeHttpContext);
+
+        LogPerf("Constructor completed");
     }
 
-    public T Resolve<T>() where T : notnull => _scope!.Resolve<T>();
-    public T R<T>() where T : notnull => Resolve<T>();
-
+    // --------------------------------------------------------------------
+    // Initialization
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// Initialize the test harness by starting containers and setting up the application
+    /// </summary>
     public async Task InitAsync(bool keepData = false)
     {
         _stopwatch = Stopwatch.StartNew();
@@ -158,141 +244,187 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         {
             Settings.Initialize(new ConfigurationManager());
 
+            // Start database and search containers in parallel for better performance
             var dbTask = Task.Run(async () =>
             {
-                await _db.StartAsync();
-                PerfLog("MySql container started");
-                await new SchemaBuilder(PerfLog).Init(ConnectionString);
+                await _databaseContainer.StartAsync();
+                LogPerf("MySQL container started");
+
+                // Load scenario dump if specified, otherwise build fresh schema
+                if (!string.IsNullOrWhiteSpace(_dumpTagToLoad))
+                {
+                    await ScenarioDumpManager.LoadDumpAsync(_dumpTagToLoad);
+                    LogPerf($"Database dump '{_dumpTagToLoad}' loaded");
+                }
+                else
+                {
+                    await new SchemaBuilder(LogPerf).Init(ConnectionString);
+                }
             });
 
             var searchTask = Task.Run(async () =>
             {
-                await _meiliSearch.StartAsync();
-                PerfLog("MeiliSearch container started");
+                await _meilisearchContainer.StartAsync();
+                LogPerf("Meilisearch container started");
             });
 
             await Task.WhenAll(dbTask, searchTask);
             await ClearMeilisearchIndices();
         }
 
-        _factory = new ProgramWebApplicationFactory(_webHostEnv, _httpCtxAcc, ConnectionString);
-        _client = _factory.CreateClient();
+        // ------------------------------------------------------------
+        // Setup web application factory for API testing
+        // ------------------------------------------------------------
+        _webApplicationFactory =
+            new ProgramWebApplicationFactory(_webHostEnvironment, _httpContextAccessor, ConnectionString);
 
+        _httpClient = _webApplicationFactory.CreateClient();
+
+        // Configure global settings for Meilisearch
         Settings.MeilisearchUrl = MeilisearchUrl;
         Settings.MeilisearchMasterKey = MeilisearchMasterKey;
 
-        var rootScope = _factory.Services.GetAutofacRoot();
-        _scope = rootScope.BeginLifetimeScope();
-        PerfLog("WebApplicationFactory + Autofac root");
+        // Initialize dependency injection scope
+        var rootScope = _webApplicationFactory.Services.GetAutofacRoot();
+        _lifetimeScope = rootScope.BeginLifetimeScope();
 
-        await InitializersMoreAsync();
-        PerfLog("Legacy initializers");
+        LogPerf("WebApplicationFactory + Autofac root created");
 
+        // Run initialization code required by legacy parts of the system
+        await RunLegacyInitializersAsync();
+
+        // ------------------------------------------------------------
+        // Initialize data loaders and API wrappers
+        // ------------------------------------------------------------
         DbData = new RawDbDataLoader(ConnectionString);
         SearchData = new RawMeilisearchDataLoader(MeilisearchUrl, MeilisearchMasterKey);
+
+        ApiLearningSessionStore = new LearningSessionStoreApiWrapper(this);
+        ApiAnswerBody = new AnswerBodyApiWrapper(this);
+        ApiLearningSessionResult = new LearningSessionResultApiWrapper(this);
+        ApiUserLogin = new UserLoginApiWrapper(this);
     }
 
+    /// <summary>
+    /// Reset Meilisearch indices to clean state for testing
+    /// </summary>
     private async Task ClearMeilisearchIndices()
     {
         var client = new MeilisearchClient(MeilisearchUrl, MeilisearchMasterKey);
 
-        // Delete all indices used in the application
-        var deletePageTaskId = (await client.DeleteIndexAsync(MeilisearchIndices.Pages)).TaskUid;
-        var deleteQuestionTaskId = (await client.DeleteIndexAsync(MeilisearchIndices.Questions)).TaskUid;
-        var deleteUserTaskId = (await client.DeleteIndexAsync(MeilisearchIndices.Users)).TaskUid;
+        // Delete existing indices
+        var deleteTaskIds = new[]
+        {
+            (await client.DeleteIndexAsync(MeilisearchIndices.Pages)).TaskUid,
+            (await client.DeleteIndexAsync(MeilisearchIndices.Questions)).TaskUid,
+            (await client.DeleteIndexAsync(MeilisearchIndices.Users)).TaskUid
+        };
 
-        // Wait for all deletion tasks to complete
-        await client.WaitForTaskAsync(deletePageTaskId);
-        await client.WaitForTaskAsync(deleteQuestionTaskId);
-        await client.WaitForTaskAsync(deleteUserTaskId);
+        // Wait for all deletions to complete
+        foreach (var taskId in deleteTaskIds)
+        {
+            await client.WaitForTaskAsync(taskId);
+        }
 
-        // Recreate the indices
+        // Recreate indices with fresh configuration
         await client.CreateIndexAsync(MeilisearchIndices.Pages);
         await client.CreateIndexAsync(MeilisearchIndices.Questions);
         await client.CreateIndexAsync(MeilisearchIndices.Users);
 
-        // Initialize filterable attributes for indices
-        var pagesIndex = client.Index(MeilisearchIndices.Pages);
-        var questionsIndex = client.Index(MeilisearchIndices.Questions);
-        var usersIndex = client.Index(MeilisearchIndices.Users);
-
-        await pagesIndex.UpdateFilterableAttributesAsync(["Language"]);
-        await questionsIndex.UpdateFilterableAttributesAsync(["Language"]);
-        await usersIndex.UpdateFilterableAttributesAsync(["ContentLanguages"]);
+        // Configure filterable attributes for search functionality
+        await client.Index(MeilisearchIndices.Pages).UpdateFilterableAttributesAsync(["Language"]);
+        await client.Index(MeilisearchIndices.Questions).UpdateFilterableAttributesAsync(["Language"]);
+        await client.Index(MeilisearchIndices.Users).UpdateFilterableAttributesAsync(["ContentLanguages"]);
     }
 
-    public async ValueTask DisposeAsync()
-    {
-        JobScheduler.Clear();
-        EntityCache.Clear();
-
-        _scope?.Dispose();
-        _factory?.Dispose();
-        await _db.DisposeAsync();
-        await _meiliSearch.DisposeAsync();
-
-        GC.SuppressFinalize(this);
-    }
-
-    public void Dispose() => DisposeAsync().AsTask().GetAwaiter().GetResult();
-
-    private async Task InitializersMoreAsync()
+    /// <summary>
+    /// Initialize legacy components that require special setup
+    /// </summary>
+    private async Task RunLegacyInitializersAsync()
     {
         _stopwatch = Stopwatch.StartNew();
 
-        ImageDirectoryCreator.CreateImageDirectories(_webHostEnv.ContentRootPath);
-        PerfLog("Created image directories");
+        // Create necessary directory structure for image uploads
+        ImageDirectoryCreator.CreateImageDirectories(_webHostEnvironment.ContentRootPath);
+        LogPerf("Image directories created");
 
-        Resolve<EntityCacheInitializer>().Init(" (started in unit test) ");
-        PerfLog("EntityCache init");
+        // Initialize entity caching system
+        _lifetimeScope!.Resolve<EntityCacheInitializer>().Init(" (started in unit test) ");
+        LogPerf("EntityCache initialized");
+
+        // Reset date/time handling and prepare test user session
         DateTimeX.ResetOffset();
 
-        if (!UsersExistInDatabase())
-        {
-            SetSessionUserInDatabase();
-            CreateTestUser();
-            PerfLog("DateTime+SessionUser+TestUser (created)");
-        }
-        else
-        {
-            PerfLog("DateTime+SessionUser+TestUser (skipped - already exist)");
-        }
+        // Create users individually if they don't exist to avoid duplicates
+        var userRepo = _lifetimeScope!.Resolve<UserReadingRepo>();
+        var sessionUserExists = userRepo.GetById(DefaultSessionUserId) != null;
+        var testUserExists = userRepo.GetById(DefaultTestUserId) != null;
 
+        if (!sessionUserExists)
+            SetSessionUserInDatabase();
+
+        if (!testUserExists)
+            CreateTestUser();
+
+        // Initialize background job scheduler
         await JobScheduler.InitializeAsync();
-        PerfLog("JobScheduler init");
+        LogPerf("JobScheduler initialized");
     }
 
-    private void SetSessionUserInDatabase(bool createWiki = false)
+    /// <summary>
+    /// Default session user data for tests
+    /// </summary>
+    public User DefaultSessionUser => new User
     {
-        var testUser = new User { Id = 1, Name = "SessionUser", EmailAddress = "sessionUser@dev.test" };
+        Id = DefaultSessionUserId,
+        Name = "SessionUser",
+        EmailAddress = "sessionUser@dev.test"
+    };
+
+    /// <summary>
+    /// Gets the default session user from the database
+    /// </summary>
+    public User GetDefaultSessionUserFromDb()
+    {
+        var userRepo = R<UserReadingRepo>();
+        return userRepo.GetById(DefaultSessionUserId) ?? throw new InvalidOperationException("Default session user not found in database");
+    }
+
+    /// <summary>
+    /// Create a test user in the database for session handling
+    /// </summary>
+    private void SetSessionUserInDatabase()
+    {
+        var testUser = DefaultSessionUser;
 
         // Set a simple password "test123"
         SetUserPassword.Run("test123", testUser);
 
         ContextUser
-            .New(R<UserWritingRepo>())
+            .New(_lifetimeScope!.Resolve<UserWritingRepo>())
             .Add(testUser)
             .Persist();
     }
 
+    /// <summary>
+    /// Create additional test user for testing scenarios
+    /// </summary>
     private void CreateTestUser()
     {
-        var testUser = new User { Id = 2, Name = "TestUser" };
+        var testUser = new User { Id = DefaultTestUserId, Name = "TestUser" };
 
         ContextUser
-            .New(R<UserWritingRepo>())
+            .New(_lifetimeScope!.Resolve<UserWritingRepo>())
             .Add(testUser)
             .Persist();
     }
 
-    private bool UsersExistInDatabase()
-    {
-        var userRepo = R<UserReadingRepo>();
-        var sessionUserExists = userRepo.GetById(1) != null;
-        var testUserExists = userRepo.GetById(2) != null;
-        return sessionUserExists && testUserExists;
-    }
-
+    // --------------------------------------------------------------------
+    // REST helpers (names preserved)
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// Deserialize HTTP response with proper error handling and formatting
+    /// </summary>
     private async Task<T> DeserializeHttpResponse<T>(HttpResponseMessage httpResponse)
     {
         httpResponse.EnsureSuccessStatusCode();
@@ -308,12 +440,20 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         return result ?? throw new InvalidOperationException($"Failed to deserialize response to {typeof(T).Name}");
     }
 
-    public async Task<T> ApiGet<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
+    /// <summary>
+    /// Perform GET request and deserialize response to specified type
+    /// </summary>
+    public async Task<TResult> ApiGet<TResult>([StringSyntax(StringSyntaxAttribute.Uri)] string uri)
     {
-        var httpResponse = await this.Client.GetAsync(uri);
-        return await DeserializeHttpResponse<T>(httpResponse);
+        using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+        AddCookiesToRequest(request);
+        var httpResponse = await Client.SendAsync(request);
+        return await DeserializeHttpResponse<TResult>(httpResponse);
     }
 
+    /// <summary>
+    /// Perform POST request with JSON body and return deserialized response
+    /// </summary>
     public async Task<T> ApiPost<T>([StringSyntax(StringSyntaxAttribute.Uri)] string uri, object body)
     {
         var jsonContent = new StringContent(
@@ -321,58 +461,80 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             Encoding.UTF8,
             "application/json");
 
-        var httpResponse = await this.Client.PostAsync(uri, jsonContent);
+        // Add cookies to the request
+        using var request = new HttpRequestMessage(HttpMethod.Post, uri)
+        {
+            Content = jsonContent
+        };
+
+        AddCookiesToRequest(request);
+        var httpResponse = await Client.SendAsync(request);
         return await DeserializeHttpResponse<T>(httpResponse);
     }
 
-    public async Task LoginAsSessionUser()
+    /// <summary>
+    /// Format HTTP response for better readability in test output
+    /// </summary>
+    private static async Task<string> FormatHttpResponse(HttpResponseMessage response)
     {
-        var loginRequest = new LoginRequest("sessionUser@dev.test", "test123", false);
-        var jsonContent = new StringContent(
-            JsonSerializer.Serialize(loginRequest),
-            Encoding.UTF8,
-            "application/json");
-
-        var httpResponse = await this.Client.PostAsync("apiVue/UserStore/Login", jsonContent);
-        httpResponse.EnsureSuccessStatusCode();
-    }
-
-    public async Task LogoutSessionUser()
-    {
-        var httpResponse = await this.Client.PostAsync("apiVue/UserStore/LogOut", null);
-        httpResponse.EnsureSuccessStatusCode();
-    }
-
-    private sealed class ProgramWebApplicationFactory(
-        IWebHostEnvironment _fakeEnv,
-        IHttpContextAccessor _fakeHttpCtx,
-        string _connectionString)
-        : WebApplicationFactory<Program>
-    {
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        var json = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
         {
-            builder.UseEnvironment("Test");
-            builder.ConfigureAppConfiguration((_, cfg) =>
-            {
-                cfg.AddInMemoryCollection(new Dictionary<string, string?>
-                {
-                    ["General:ConnectionString"] = _connectionString
-                });
-            });
+            throw new HttpRequestException(
+                $"HTTP {(int)response.StatusCode} {response.ReasonPhrase}\n{json}");
         }
 
-        protected override IHost CreateHost(IHostBuilder builder)
-        {
-            builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-            builder.ConfigureContainer<ContainerBuilder>(b =>
-            {
-                b.RegisterInstance(_fakeEnv).As<IWebHostEnvironment>().SingleInstance();
-                b.RegisterInstance(_fakeHttpCtx).As<IHttpContextAccessor>().SingleInstance();
-            });
-            return base.CreateHost(builder);
-        }
+        var parsed = Newtonsoft.Json.Linq.JToken.Parse(json);
+        return parsed.ToString(Newtonsoft.Json.Formatting.Indented);
     }
 
+    /// <summary>
+    /// Enhanced POST helper providing detailed error information.
+    /// </summary>
+    public async Task<TResult> ApiPostJson<TRequest, TResult>(string endpoint, TRequest requestBody)
+    {
+        var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+
+        using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json")
+        };
+
+        AddCookiesToRequest(request);
+        var response = await Client.SendAsync(request);
+
+        var responseJson = await response.Content.ReadAsStringAsync();
+
+        return JsonSerializer.Deserialize<TResult>(responseJson,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+    }
+
+    /// <summary>POST helper that returns the raw response for negative-case tests.</summary>
+    public async Task<HttpResponseMessage> ApiCall<TRequest>(string endpoint, TRequest requestBody)
+    {
+        var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+
+        using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json")
+        };
+
+        AddCookiesToRequest(request);
+        return await Client.SendAsync(request);
+    }
+
+    // --------------------------------------------------------------------
+    // Verification helpers (names preserved)
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// Standard data structure for verifying page-related test outcomes
+    /// </summary>
     public record struct DefaultPageVerificationData(
         List<Dictionary<string, object?>> DbPages,
         IList<PageCacheItem> EntityCachePages,
@@ -380,9 +542,15 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         List<Dictionary<string, object?>>? DbRelations = null,
         IList<PageRelationCache>? EntityCacheRelations = null);
 
-    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(bool includeRelations = true)
+    /// <summary>
+    /// Collect comprehensive page data from all sources for test verification
+    /// </summary>
+    public async Task<DefaultPageVerificationData> GetDefaultPageVerificationDataAsync(
+        bool includeRelations = true, int delayForSearch = 100)
     {
         var dbPages = await DbData.AllPagesAsync();
+
+        // Use Meilisearch task waiter instead of fixed delay for more reliable testing
         var indexingCompleted = await WaitForMeilisearchIndexing(timeoutMs: 15000);
         if (!indexingCompleted)
         {
@@ -393,27 +561,203 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
                 $"Failed tasks: {taskStatus.Failed}");
         }
 
-        // needs to be ordered by Id for consistent results
-        var searchPages = (await SearchData.GetAllPages()).OrderBy(page => page.Id).ToList();
+        var searchPages = (await SearchData.GetAllPages())
+            .OrderBy(p => p.Id).ToList();
 
         if (includeRelations)
         {
             var dbRelations = await DbData.AllPageRelationsAsync();
-            return new DefaultPageVerificationData
-            {
-                DbPages = dbPages,
-                EntityCachePages = EntityCache.GetAllPagesList(),
-                SearchPages = searchPages,
-                DbRelations = dbRelations,
-                EntityCacheRelations = EntityCache.GetAllRelations()
-            };
+            return new DefaultPageVerificationData(
+                dbPages,
+                EntityCache.GetAllPagesList(),
+                searchPages,
+                dbRelations,
+                EntityCache.GetAllRelations());
         }
 
-        return new DefaultPageVerificationData
+        return new DefaultPageVerificationData(
+            dbPages,
+            EntityCache.GetAllPagesList(),
+            searchPages);
+    }
+
+    // --------------------------------------------------------------------
+    // Disposal pattern (interface unchanged)
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// Cleanup all resources used by the test harness
+    /// </summary>
+    public async ValueTask DisposeAsync()
+    {
+        if (_isDisposed) return;
+
+        // Clear global singletons and caches
+        JobScheduler.Clear();
+        EntityCache.Clear();
+
+        // Dispose dependency injection scope
+        _lifetimeScope?.Dispose();
+        _webApplicationFactory?.Dispose();
+        _httpClient?.Dispose();
+
+        // Stop and dispose containers
+        await _meilisearchContainer.DisposeAsync();
+        await _databaseContainer.DisposeAsync();
+
+        _isDisposed = true;
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Synchronous disposal wrapper
+    /// </summary>
+    public void Dispose() => DisposeAsync().AsTask().GetAwaiter().GetResult();
+
+    // --------------------------------------------------------------------
+    // Helper utilities
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// Log performance metrics if enabled
+    /// </summary>
+    [MemberNotNull(nameof(_stopwatch))]
+    private void LogPerf(string message)
+    {
+        if (!_enablePerformanceLogging)
         {
-            DbPages = dbPages,
-            EntityCachePages = EntityCache.GetAllPagesList(),
-            SearchPages = searchPages
-        };
+            _stopwatch ??= Stopwatch.StartNew();
+            return;
+        }
+
+        _stopwatch ??= Stopwatch.StartNew();
+        Console.WriteLine(
+            $"[PERF {DateTime.Now:HH:mm:ss.fff}] {message} ({_stopwatch.ElapsedMilliseconds:N0} ms)");
+        _stopwatch.Restart();
+    }
+
+    /// <summary>
+    /// Remove any existing Docker container with the specified name
+    /// </summary>
+    private static void CleanupExistingContainer(string containerName)
+    {
+        try
+        {
+            var info = new ProcessStartInfo
+            {
+                FileName = "docker",
+                Arguments = $"rm -f {containerName}",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using var process = Process.Start(info);
+            process?.WaitForExit();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error cleaning up '{containerName}': {ex.Message}");
+        }
+    }
+
+    // --------------------------------------------------------------------
+    // Nested WebApplicationFactory
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// Custom web application factory for configuring the test environment
+    /// </summary>
+    private sealed class ProgramWebApplicationFactory(
+        IWebHostEnvironment fakeEnv,
+        IHttpContextAccessor fakeHttpCtx,
+        string connectionString)
+        : WebApplicationFactory<Program>
+    {
+        /// <summary>
+        /// Configure the web host for testing with custom connection string
+        /// </summary>
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.UseEnvironment("Test");
+            builder.ConfigureAppConfiguration((_, cfg) =>
+            {
+                cfg.AddInMemoryCollection(new Dictionary<string, string?>
+                {
+                    ["General:ConnectionString"] = connectionString
+                });
+            });
+        }
+
+        /// <summary>
+        /// Configure dependency injection with fake hosting dependencies
+        /// </summary>
+        protected override IHost CreateHost(IHostBuilder builder)
+        {
+            builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.ConfigureContainer<Autofac.ContainerBuilder>(b =>
+            {
+                b.RegisterInstance(fakeEnv).As<IWebHostEnvironment>().SingleInstance();
+                b.RegisterInstance(fakeHttpCtx).As<IHttpContextAccessor>().SingleInstance();
+            });
+            return base.CreateHost(builder);
+        }
+    }
+
+    // --------------------------------------------------------------------
+    // Test Session Implementation
+    // --------------------------------------------------------------------
+    /// <summary>
+    /// Simple in-memory session implementation for testing that actually stores values
+    /// </summary>
+    private sealed class TestSession : ISession
+    {
+        private readonly Dictionary<string, byte[]> _store = new();
+
+        public bool IsAvailable => true;
+        public string Id => "test-session-id";
+        public IEnumerable<string> Keys => _store.Keys;
+
+        public void Clear() => _store.Clear();
+
+        public Task CommitAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+        public Task LoadAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+        public void Remove(string key) => _store.Remove(key);
+
+        public void Set(string key, byte[] value) => _store[key] = value;
+
+        public bool TryGetValue(string key, out byte[] value) => _store.TryGetValue(key, out value!);
+    }
+
+    /// <summary>
+    /// Add stored cookies to an HTTP request
+    /// </summary>
+    private void AddCookiesToRequest(HttpRequestMessage request)
+    {
+        if (Cookies.Any())
+        {
+            var cookieString = string.Join("; ", Cookies.Select(kv => $"{kv.Key}={kv.Value}"));
+            request.Headers.Add("Cookie", cookieString);
+        }
+    }
+
+    /// <summary>
+    /// Add or update a cookie for subsequent HTTP requests
+    /// </summary>
+    public void AddOrUpdateCookie(string key, string value) => Cookies[key] = value;
+
+    /// <summary>
+    /// Remove a cookie from subsequent HTTP requests
+    /// </summary>
+    public void RemoveCookie(string key) => Cookies.Remove(key);
+
+    public void MockSessionUserLoginForDI(User? creator = null)
+    {
+        if (creator == null)
+            creator = GetDefaultSessionUserFromDb();
+
+        var sessionUser = R<SessionUser>();
+        var pageViewRepo = R<PageViewRepo>();
+        sessionUser.Login(creator, pageViewRepo);
     }
 }

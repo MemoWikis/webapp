@@ -14,12 +14,12 @@ public class AnswerQuestion(
     ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
     public AnswerQuestionResult Run(
-       int questionId,
-       string answer,
-       int userId,
-       Guid questionViewGuid,
-       int interactionNumber,
-       int millisecondsSinceQuestionView,
+        int questionId,
+        string answer,
+        int userId,
+        Guid questionViewGuid,
+        int interactionNumber,
+        int millisecondsSinceQuestionView,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
         var learningSession = _learningSessionCache.GetLearningSession();
@@ -51,7 +51,8 @@ public class AnswerQuestion(
         bool countUnansweredAsCorrect = false)
     {
         if (countLastAnswerAsCorrect && countUnansweredAsCorrect)
-            throw new Exception("either countLastAnswerAsCorrect OR countUnansweredAsCorrect should be set to true, not both");
+            throw new Exception(
+                "either countLastAnswerAsCorrect OR countUnansweredAsCorrect should be set to true, not both");
 
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
@@ -68,6 +69,7 @@ public class AnswerQuestion(
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
                 _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true);
         }
+
         throw new Exception("neither countLastAnswerAsCorrect or countUnansweredAsCorrect true");
     }
 
@@ -99,9 +101,10 @@ public class AnswerQuestion(
             _updateQuestionAnswerCount.Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
         new ProbabilityUpdate_Valuation(_nhibernateSession,
-            _questionValuationReadingRepo,
-            _probabilityCalcSimple1,
-            _answerRepo)
+                _questionValuationReadingRepo,
+                _probabilityCalcSimple1,
+                _answerRepo,
+                _extendedUserCache)
             .Run(questionId, userId, _questionReadingRepo, _userReadingRepo);
 
         return result;

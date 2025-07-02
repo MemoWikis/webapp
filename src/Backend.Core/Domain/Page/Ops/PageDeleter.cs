@@ -318,6 +318,7 @@ public class PageDeleter(
             }
         }
     }
+
     public record RedirectPage
     {
         public string Name { get; init; }
@@ -355,8 +356,17 @@ public class PageDeleter(
             return new RedirectPage(featuredRootPage);
         }
 
+        var wikiToRedirect = currentWiki;
+
+        var currentWikiIsAncestor = GraphService
+            .VisibleAscendants(page.Id, _permissionCheck)
+            .Any(p => p.Id == currentWiki.Id);
+
+        if (!currentWikiIsAncestor)
+            wikiToRedirect = _crumbtrailService.GetWiki(page, _sessionUser);
+
         var lastBreadcrumbItem = _crumbtrailService
-            .BuildCrumbtrail(page, currentWiki)
+            .BuildCrumbtrail(page, wikiToRedirect)
             .Items
             .LastOrDefault();
 

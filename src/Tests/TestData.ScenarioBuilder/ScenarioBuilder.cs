@@ -115,7 +115,7 @@ public sealed class ScenarioBuilder
         {
             string pageName = $"{topicPrefix} Topic {pageIndex}";
             contextPage
-                .Add(pageName, user, PageVisibility.Public, isWiki: true)
+                .Add(pageName, user, isWiki: true)
                 .Persist();
 
             var rootPage = contextPage.All.Last();
@@ -142,7 +142,7 @@ public sealed class ScenarioBuilder
         {
             string pageName = $"{topicPrefix} Subtopic {parentPage.Id}-{childIndex}";
             contextPage
-                .Add(pageName, user, PageVisibility.Public, isWiki: true)
+                .Add(pageName, user, isWiki: true)
                 .Persist();
 
             var childPage = contextPage.All.Last();
@@ -158,7 +158,6 @@ public sealed class ScenarioBuilder
     private async Task CreateQuestionsAsync()
     {
         var questionWritingRepository = _testHarness.R<QuestionWritingRepo>();
-        var pageRepository = _testHarness.R<PageRepository>();
 
         foreach (var user in _users)
         {

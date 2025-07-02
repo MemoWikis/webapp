@@ -1,0 +1,4 @@
+﻿{
+  markCorrectResponse: true,
+  secondAnswerIsCorrect: false
+}

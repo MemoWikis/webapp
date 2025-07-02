@@ -3,14 +3,12 @@ import { useLearningSessionStore } from '~/components/page/learning/learningSess
 import { useUserStore } from '~/components/user/userStore'
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { SolutionType } from '../solutionTypeEnum'
-import { useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { usePageStore } from '~/components/page/pageStore'
 import { useCommentsStore } from '~/components/comment/commentsStore'
 import { usePublishQuestionStore } from '../edit/publish/publishQuestionStore'
 import { useAnswerBodyLogic } from '~/composables/answerBody/useAnswerBodyLogic'
 
 const learningSessionStore = useLearningSessionStore()
-const activityPointsStore = useActivityPointsStore()
 const pageStore = usePageStore()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
@@ -26,11 +24,11 @@ commentsStore.loadComments()
 const answerBodyLogic = useAnswerBodyLogic()
 
 const attachQuestionIdToUrl = async () => {
-    if (!tabsStore.isLearning || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0) {
+    if (!tabsStore.isLearning || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0)
         return
-    }
 
-    const pathSegments = window.location.pathname.split('/')
+    const pathSegments = window.location.pathname
+        .split('/')
         .filter(segment => segment.length > 0)
 
     const currentPageId = pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))
@@ -49,7 +47,10 @@ const attachQuestionIdToUrl = async () => {
         }
     }
 }
-
+watch(() => answerBodyLogic.answerBodyModel.value?.id, (newId, oldId) => {
+    if (newId !== oldId && newId)
+        attachQuestionIdToUrl()
+})
 watch(() => pageStore.id, (newId, oldId) => {
     if (newId !== oldId && answerBodyLogic.currentRequest.value) {
         answerBodyLogic.currentRequest.value.abort()
@@ -58,21 +59,20 @@ watch(() => pageStore.id, (newId, oldId) => {
 })
 
 watch(() => tabsStore.activeTab, () => {
-    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString()))) {
+    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString())))
         attachQuestionIdToUrl()
-    }
 })
 
 onMounted(() => {
     watch([() => learningSessionStore.currentStep?.index, () => learningSessionStore.currentStep?.id], () => {
-        answerBodyLogic.loadAnswerBodyModel(learningSessionStore)
+        answerBodyLogic.loadAnswerBodyModel()
     })
 
     learningSessionStore.$onAction(({ name, after }) => {
         if (name === 'startNewSession') {
             after((newSession) => {
                 if (newSession) {
-                    answerBodyLogic.loadAnswerBodyModel(learningSessionStore)
+                    answerBodyLogic.loadAnswerBodyModel()
                 }
             })
         }
@@ -80,7 +80,7 @@ onMounted(() => {
         if (name === 'reloadAnswerBody') {
             after((result) => {
                 if (result.id === answerBodyLogic.answerBodyModel.value?.id && learningSessionStore.currentIndex === result.index) {
-                    answerBodyLogic.loadAnswerBodyModel(learningSessionStore)
+                    answerBodyLogic.loadAnswerBodyModel()
                 }
             })
         }
@@ -102,13 +102,13 @@ publishQuestionStore.$onAction(({ name, after }) => {
 })
 
 // Event handlers that delegate to the composable
-const handleAnswer = () => answerBodyLogic.answer(learningSessionStore, activityPointsStore, pageStore)
-const handleAnswerFlashcard = (isCorrect: boolean) => answerBodyLogic.answerFlashcard(isCorrect, learningSessionStore, activityPointsStore, pageStore)
+const handleAnswer = () => answerBodyLogic.answer()
+const handleAnswerFlashcard = (isCorrect: boolean) => answerBodyLogic.answerFlashcard(isCorrect)
 const handleFlip = () => answerBodyLogic.flip()
-const handleLoadSolution = (answered?: boolean) => answerBodyLogic.loadSolution(answered, learningSessionStore)
-const handleMarkAsCorrect = () => answerBodyLogic.markAsCorrect(activityPointsStore, learningSessionStore)
-const handleLoadResult = () => answerBodyLogic.loadResult(learningSessionStore)
-const handleStartNewSession = () => answerBodyLogic.startNewSession(learningSessionStore)
+const handleLoadSolution = (answered?: boolean) => answerBodyLogic.loadSolution(answered)
+const handleMarkAsCorrect = () => answerBodyLogic.markAsCorrect()
+const handleLoadResult = () => answerBodyLogic.loadResult()
+const handleStartNewSession = () => answerBodyLogic.startNewSession()
 </script>
 
 <template>
@@ -127,7 +127,7 @@ const handleStartNewSession = () => answerBodyLogic.startNewSession(learningSess
                             <QuestionAnswerBodyFlashcard
                                 :key="answerBodyLogic.answerBodyModel.value.id + 'flashcard'"
                                 v-if="answerBodyLogic.answerBodyModel.value.solutionType === SolutionType.Flashcard"
-                                ref="answerBodyLogic.flashcard"
+                                :ref="answerBodyLogic.flashcard"
                                 :solution="answerBodyLogic.answerBodyModel.value.solution"
                                 :front-content="answerBodyLogic.answerBodyModel.value.textHtml"
                                 :marked-as-correct="answerBodyLogic.markFlashcardAsCorrect.value"
@@ -135,7 +135,7 @@ const handleStartNewSession = () => answerBodyLogic.startNewSession(learningSess
                             <QuestionAnswerBodyMatchlist
                                 :key="answerBodyLogic.answerBodyModel.value.id + 'matchlist'"
                                 v-else-if="answerBodyLogic.answerBodyModel.value.solutionType === SolutionType.MatchList"
-                                ref="answerBodyLogic.matchList"
+                                :ref="answerBodyLogic.matchList"
                                 :solution="answerBodyLogic.answerBodyModel.value.solution"
                                 :show-answer="answerBodyLogic.showAnswer.value"
                                 @flipped="answerBodyLogic.incrementTries()" />
@@ -144,11 +144,11 @@ const handleStartNewSession = () => answerBodyLogic.startNewSession(learningSess
                                 v-else-if="answerBodyLogic.answerBodyModel.value.solutionType === SolutionType.MultipleChoice"
                                 :solution="answerBodyLogic.answerBodyModel.value.solution"
                                 :show-answer="answerBodyLogic.showAnswer.value"
-                                ref="answerBodyLogic.multipleChoice" />
+                                :ref="answerBodyLogic.multipleChoice" />
                             <QuestionAnswerBodyText
                                 :key="answerBodyLogic.answerBodyModel.value.id + 'text'"
                                 v-else-if="answerBodyLogic.answerBodyModel.value.solutionType === SolutionType.Text"
-                                ref="answerBodyLogic.text"
+                                :ref="answerBodyLogic.text"
                                 :show-answer="answerBodyLogic.showAnswer.value" />
                         </div>
 

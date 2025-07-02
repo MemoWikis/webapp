@@ -1,5 +1,5 @@
 ---
-description: 'Description of the custom chat mode.'
+description: "create meaningful comments"
 tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'search', 'usages']
 ---
 

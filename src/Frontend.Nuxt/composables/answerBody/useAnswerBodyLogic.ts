@@ -8,9 +8,17 @@ import { useAnswerAttempts } from './useAnswerAttempts'
 import { useAnswerSubmission } from './useAnswerSubmission'
 import { useSolutionDisplay } from './useSolutionDisplay'
 import { useFlashcardLogic } from './useFlashcardLogic'
+import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
+import { useActivityPointsStore } from '~/components/activityPoints/activityPointsStore'
+import { usePageStore } from '~/components/page/pageStore'
 
 export const useAnswerBodyLogic = () => {
     const { $logger } = useNuxtApp()
+    
+    // Store instances
+    const learningSessionStore = useLearningSessionStore()
+    const activityPointsStore = useActivityPointsStore()
+    const pageStore = usePageStore()
     
     // Composables
     const feedback = useAnswerFeedback()
@@ -39,7 +47,7 @@ export const useAnswerBodyLogic = () => {
         return false
     })
 
-    const loadAnswerBodyModel = async (learningSessionStore: any) => {
+    const loadAnswerBodyModel = async () => {
         if (!learningSessionStore.currentStep) {
             return
         }
@@ -82,11 +90,7 @@ export const useAnswerBodyLogic = () => {
         solution.resetSolution()
     }
 
-    const answer = async (
-        learningSessionStore: any,
-        activityPointsStore: any,
-        pageStore: any
-    ) => {
+    const answer = async () => {
         attempts.showWrongAnswers.value = false
 
         if (answerBodyModel.value?.solutionType === SolutionType.Text && text.value.getAnswerText().trim().length === 0) {
@@ -111,8 +115,7 @@ export const useAnswerBodyLogic = () => {
 
         const result = await submission.submitAnswer(
             answerBodyModel.value!,
-            solutionComponent,
-            learningSessionStore
+            solutionComponent
         )
 
         if (result) {
@@ -131,7 +134,7 @@ export const useAnswerBodyLogic = () => {
 
             submission.showAnswerButtons.value = false
 
-            if (shouldLoadSolution(learningSessionStore)) {
+            if (shouldLoadSolution()) {
                 await solution.loadSolution(answerBodyModel.value, attempts.amountOfTries.value)
                 submission.showAnswer.value = true
                 if (answerBodyModel.value?.solutionType === SolutionType.Text) {
@@ -148,22 +151,22 @@ export const useAnswerBodyLogic = () => {
         }
     }
 
-    const shouldLoadSolution = (learningSessionStore: any): boolean => {
+    const shouldLoadSolution = (): boolean => {
         return learningSessionStore.isInTestMode
             || feedback.answerIsCorrect.value
             || (answerBodyModel.value?.solutionType != SolutionType.MultipleChoice && attempts.amountOfTries.value > 1)
             || (answerBodyModel.value?.solutionType === SolutionType.MultipleChoice && allMultipleChoiceCombinationTried.value)
     }
 
-    const answerFlashcard = (isCorrect: boolean, learningSessionStore: any, activityPointsStore: any, pageStore: any) => {
-        flashcard.answerFlashcard(isCorrect, () => answer(learningSessionStore, activityPointsStore, pageStore))
+    const answerFlashcard = (isCorrect: boolean) => {
+        flashcard.answerFlashcard(isCorrect, () => answer())
     }
 
     const flip = () => {
         flashcard.flip(flashcardRef)
     }
 
-    const markAsCorrect = async (activityPointsStore: any, learningSessionStore: any) => {
+    const markAsCorrect = async () => {
         const result = await submission.markAsCorrect(answerBodyModel.value!, attempts.amountOfTries.value)
 
         if (result != false) {
@@ -173,7 +176,7 @@ export const useAnswerBodyLogic = () => {
         }
     }
 
-    const loadSolution = async (answered: boolean = true, learningSessionStore: any) => {
+    const loadSolution = async (answered: boolean = true) => {
         submission.showAnswerButtons.value = false
         if (answerBodyModel.value?.solutionType === SolutionType.Text) {
             attempts.showWrongAnswers.value = true
@@ -191,12 +194,12 @@ export const useAnswerBodyLogic = () => {
         }
     }
 
-    const loadResult = (learningSessionStore: any) => {
+    const loadResult = () => {
         answerBodyModel.value = undefined
         learningSessionStore.showResult = true
     }
 
-    const startNewSession = (learningSessionStore: any) => {
+    const startNewSession = () => {
         learningSessionStore.showResult = false
         learningSessionStore.startNewSession()
     }

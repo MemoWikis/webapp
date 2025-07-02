@@ -1,0 +1,125 @@
+﻿{
+  deleteResult: {
+    HasChildren: true,
+    Success: false,
+    MessageKey: error.page.cannotDeletePageWithChildPage
+  },
+  originalTree:
+Wiki To Delete
+    └── Orphaned Child (current)
+,
+  newTree:
+Wiki To Delete
+    └── Orphaned Child (current)
+,
+  PageVerificationData: {
+    DbPages: [
+      {
+        Creator_id: 3,
+        Id: 1,
+        IsWiki: true,
+        Name: Root Page,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: true,
+        Name: First Wiki,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 3,
+        IsWiki: true,
+        Name: Wiki To Delete,
+        Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 4,
+        IsWiki: false,
+        Name: Orphaned Child,
+        Visibility: 0
+      }
+    ],
+    EntityCachePages: [
+      {
+        CreatorId: 3,
+        Id: 1,
+        Name: Root Page,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        Id: 2,
+        Name: First Wiki,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        ChildRelations: [
+          {
+            Id: 1,
+            ChildId: 4,
+            ParentId: 3
+          }
+        ],
+        Id: 3,
+        Name: Wiki To Delete,
+        IsPublic: true,
+        IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        ParentRelations: [
+          {
+            Id: 1,
+            ChildId: 4,
+            ParentId: 3
+          }
+        ],
+        Id: 4,
+        Name: Orphaned Child,
+        IsPublic: true,
+        IsWiki: false
+      }
+    ],
+    SearchPages: [
+      {
+        Id: 1,
+        Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: First Wiki
+      },
+      {
+        Id: 3,
+        Name: Wiki To Delete
+      },
+      {
+        Id: 4,
+        Name: Orphaned Child
+      }
+    ],
+    DbRelations: [
+      {
+        Id: 1,
+        Next_id: null,
+        Page_id: 4,
+        Previous_id: null,
+        Related_id: 3
+      }
+    ],
+    EntityCacheRelations: [
+      {
+        Id: 1,
+        ChildId: 4,
+        ParentId: 3
+      }
+    ]
+  }
+}

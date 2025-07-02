@@ -27,8 +27,7 @@ public class AnswerBodyController(
         return GetLearningResult(
             request.Id,
             request.QuestionViewGuid,
-            request.Answer,
-            request.InTestMode);
+            request.Answer);
     }
 
     public readonly record struct MarkAsCorrectParam(
@@ -100,8 +99,7 @@ public class AnswerBodyController(
     private LearningResult GetLearningResult(
         int id,
         Guid questionViewGuid,
-        string answer,
-        bool isTestMode)
+        string answer)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession == null || learningSession.CurrentStep == null)

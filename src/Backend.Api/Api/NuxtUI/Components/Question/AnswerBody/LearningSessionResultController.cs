@@ -37,7 +37,7 @@
             throw new Exception(FrontendMessageKeys.Error.Default);
         }
         
-        var model = new LearningSessionResultModel(learningSession);
+        var model = new global::LearningSessionResult(learningSession);
         var tinyQuestions = model.AnsweredStepsGrouped
             .Where(g => g.First().Question.Id != 0)
             .Select(g =>
@@ -80,7 +80,7 @@
             ),
             PageName: learningSession.Config.GetPage().Name,
             PageId: learningSession.Config.GetPage().Id,
-            InWuwi: learningSession.Config.InWuwi,
+            InWuwi: learningSession.Config.InWishKnowledge,
             Questions: tinyQuestions
         );
     }

@@ -1,0 +1,62 @@
+﻿{
+  wikiCount: 0,
+  allDbPages: [
+    {
+      Creator_id: 3,
+      Id: 1,
+      IsWiki: true,
+      Name: Root Page,
+      Visibility: 0
+    },
+    {
+      Creator_id: 3,
+      Id: 2,
+      IsWiki: false,
+      Name: RootElement,
+      Visibility: 0
+    },
+    {
+      Creator_id: 1,
+      Id: 3,
+      IsWiki: false,
+      Name: Sub1,
+      Visibility: 0
+    },
+    {
+      Creator_id: 3,
+      Id: 4,
+      IsWiki: false,
+      Name: SubSub1,
+      Visibility: 0
+    },
+    {
+      Creator_id: 3,
+      Id: 5,
+      IsWiki: false,
+      Name: Sub2,
+      Visibility: 1
+    }
+  ],
+  cachedPage: {
+    CreatorId: 1,
+    ParentRelations: [
+      {
+        Id: 1,
+        ChildId: 3,
+        ParentId: 1,
+        NextId: 5
+      }
+    ],
+    ChildRelations: [
+      {
+        Id: 2,
+        ChildId: 4,
+        ParentId: 3
+      }
+    ],
+    Id: 3,
+    Name: Sub1,
+    IsPublic: true,
+    IsWiki: false
+  }
+}

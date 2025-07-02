@@ -1,0 +1,4 @@
+﻿{
+  statusCode: InternalServerError,
+  isSuccessStatusCode: false
+}
