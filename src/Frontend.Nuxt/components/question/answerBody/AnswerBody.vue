@@ -59,9 +59,8 @@ watch(() => pageStore.id, (newId, oldId) => {
 })
 
 watch(() => tabsStore.activeTab, () => {
-    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString()))) {
+    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString())))
         attachQuestionIdToUrl()
-    }
 })
 
 onMounted(() => {

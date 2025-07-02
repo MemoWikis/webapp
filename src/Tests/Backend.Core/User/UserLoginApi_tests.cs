@@ -5,8 +5,11 @@ internal class UserLoginApi_tests : BaseTestHarness
     [Test]
     public async Task Login_WithValidCredentials_ReturnsSuccess()
     {
+        // Arrange
+        _userLoginApi.SetupSessionUserWiki(); // Ensure session user has a wiki
+
         // Act
-        var result = await _userLoginApi.Login("sessionUser@dev.test", "test123");
+        var result = await _userLoginApi.Login(_testHarness.DefaultSessionUser.EmailAddress, _testHarness.DefaultSessionUserPassword);
 
         // Assert
         await Verify(result);

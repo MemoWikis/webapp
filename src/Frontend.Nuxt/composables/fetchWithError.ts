@@ -7,11 +7,11 @@ export const $api = $fetch.create({
     },
 })
 
-function handleResponseError(
+const handleResponseError = (
     response: FetchResponse<any> & FetchResponse<ResponseType>,
     request?: RequestInfo,
     options?: FetchOptions
-) {
+) => {
     const { $logger } = useNuxtApp()
     $logger.error("Default Fetch Error", [{ response, request, options }])
     if (import.meta.client) {

@@ -15,11 +15,11 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
 
     public bool SessionIsActive() => _httpContext?.Session is not null;
 
-    public bool HasBetaAccess
-    {
-        get => _httpContext.Session.GetBool("isBetaLogin");
-        set => _httpContext.Session.SetBool("isBetaLogin", value);
-    }
+    //public bool HasBetaAccess
+    //{
+    //    get => _httpContext.Session.GetBool("isBetaLogin");
+    //    set => _httpContext.Session.SetBool("isBetaLogin", value);
+    //}
 
     public bool IsLoggedIn
     {
@@ -63,7 +63,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
     public void Login(User user, PageViewRepo _pageViewRepo)
     {
         _httpContext?.Session.ForceInit();
-        HasBetaAccess = true;
+        //HasBetaAccess = true;
         IsLoggedIn = true;
         _userId = user.Id;
 

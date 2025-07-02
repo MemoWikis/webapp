@@ -18,6 +18,13 @@ Root Page
         IsWiki: true,
         Name: Root Page,
         Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 2,
+        IsWiki: true,
+        Name: SessionUser Personal Wiki,
+        Visibility: 0
       }
     ],
     EntityCachePages: [
@@ -27,12 +34,23 @@ Root Page
         Name: Root Page,
         IsPublic: true,
         IsWiki: true
+      },
+      {
+        CreatorId: 1,
+        Id: 2,
+        Name: SessionUser Personal Wiki,
+        IsPublic: true,
+        IsWiki: true
       }
     ],
     SearchPages: [
       {
         Id: 1,
         Name: Root Page
+      },
+      {
+        Id: 2,
+        Name: SessionUser Personal Wiki
       }
     ]
   }

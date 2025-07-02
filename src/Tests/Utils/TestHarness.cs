@@ -46,6 +46,11 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
 
     private bool _isDisposed;
 
+    // Default test user IDs
+    public int DefaultSessionUserId = 1;
+    public string DefaultSessionUserPassword = "test123";
+    public int DefaultTestUserId = 2;
+
     // --------------------------------------------------------------------
     // Public surface (unchanged!)
     // --------------------------------------------------------------------
@@ -210,17 +215,17 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         _webHostEnvironment = A.Fake<IWebHostEnvironment>();
         A.CallTo(() => _webHostEnvironment.EnvironmentName).Returns("Test");
 
-        // Setup HTTP context with a simple session wrapper for testing
-        _httpContextAccessor = new HttpContextAccessor();
-        var httpContext = new DefaultHttpContext();
+        // Setup fake HTTP context with TestSession for testing
+        _httpContextAccessor = A.Fake<IHttpContextAccessor>();
+        var fakeHttpContext = A.Fake<HttpContext>();
+        var testSession = new TestSession();
+        
+        // Set user ID in session (default session user)
+        testSession.SetInt32("userId", DefaultSessionUserId);
 
-        // Use a test session implementation that actually stores values
-        httpContext.Session = new TestSession();
-
-        // Set user ID in session
-        httpContext.Session.SetInt32("userId", 1);
-
-        _httpContextAccessor.HttpContext = httpContext;
+        // Configure fake HTTP context
+        A.CallTo(() => fakeHttpContext.Session).Returns(testSession);
+        A.CallTo(() => _httpContextAccessor.HttpContext).Returns(fakeHttpContext);
 
         LogPerf("Constructor completed");
     }
@@ -366,16 +371,14 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         LogPerf("JobScheduler initialized");
     }
 
-    public int DefaultSessionUserId = 1;
-
     /// <summary>
     /// Default session user data for tests
     /// </summary>
-    public User DefaultSessionUser => new User 
-    { 
-        Id = DefaultSessionUserId, 
-        Name = "SessionUser", 
-        EmailAddress = "sessionUser@dev.test" 
+    public User DefaultSessionUser => new User
+    {
+        Id = DefaultSessionUserId,
+        Name = "SessionUser",
+        EmailAddress = "sessionUser@dev.test"
     };
 
     /// <summary>
@@ -402,8 +405,6 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .Add(testUser)
             .Persist();
     }
-
-    public int DefaultTestUserId = 2;
 
     /// <summary>
     /// Create additional test user for testing scenarios
@@ -749,4 +750,28 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     /// Remove a cookie from subsequent HTTP requests
     /// </summary>
     public void RemoveCookie(string key) => Cookies.Remove(key);
+
+    /// <summary>
+    /// Update the session user ID for tests that need different users
+    /// </summary>
+    public void SetSessionUserId(int userId)
+    {
+        var fakeHttpContext = _httpContextAccessor.HttpContext;
+        if (fakeHttpContext?.Session != null)
+        {
+            fakeHttpContext.Session.SetInt32("userId", userId);
+        }
+    }
+
+    /// <summary>
+    /// Clear the session user for tests that need anonymous access
+    /// </summary>
+    public void ClearSessionUserId()
+    {
+        var fakeHttpContext = _httpContextAccessor.HttpContext;
+        if (fakeHttpContext?.Session != null)
+        {
+            fakeHttpContext.Session.Remove("userId");
+        }
+    }
 }
