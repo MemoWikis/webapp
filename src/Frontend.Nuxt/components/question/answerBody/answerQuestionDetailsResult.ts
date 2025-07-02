@@ -3,6 +3,7 @@ import { PageItem } from "~~/components/search/searchHelper"
 import { Visibility } from "~~/components/shared/visibilityEnum"
 
 export interface AnswerQuestionDetailsResult {
+    questionId: number
     knowledgeStatus: KnowledgeStatus
     personalProbability: number
     personalColor: string

@@ -20,7 +20,6 @@
                 new AnswerRecord(0, 0, 0, 0),
                 (key, existingValue) => UpdateAnswerRecord(existingValue, answer)
             );
-
         }
     }
 

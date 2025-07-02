@@ -756,6 +756,8 @@ watch(knowledgeStatus, () => {
 })
 
 async function initData(model: AnswerQuestionDetailsResult) {
+    // if (model.questionId !== props.id)
+    //     return
 
     personalProbability.value = model.personalProbability
     isInWishknowledge.value = model.isInWishknowledge
@@ -832,40 +834,67 @@ onMounted(async () => {
 })
 
 watch(() => props.id, () => loadData())
-watch(() => learningSessionStore.currentStep?.state, () => {
-    loadData()
-}, { deep: true })
 
+// Computed properties for better reactivity
+const computedPersonalStartAngle = computed(() => {
+    if (personalAnswerCount.value === 0) {
+        return 0
+    }
+    return 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
+})
+
+const computedOverallStartAngle = computed(() => {
+    if (overallAnswerCount.value === 0) {
+        return 0
+    }
+    return 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
+})
+
+const computedAnswerCount = computed(() => getFormattedNumber(personalAnswerCount.value))
+const computedCorrectAnswers = computed(() => getFormattedNumber(personalAnsweredCorrectly.value))
+const computedWrongAnswers = computed(() => getFormattedNumber(personalAnsweredWrongly.value))
+const computedAllAnswerCount = computed(() => getFormattedNumber(overallAnswerCount.value))
+const computedAllCorrectAnswers = computed(() => getFormattedNumber(overallAnsweredCorrectly.value))
+const computedAllWrongAnswers = computed(() => getFormattedNumber(overallAnsweredWrongly.value))
+
+// Watch for side effects that can't be computed
 watch(personalAnswerCount, (val) => {
-    if (val > 0)
+    if (val > 0) {
         showPersonalArc.value = true
-    personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
-    answerCount.value = getFormattedNumber(val)
+    }
 })
 
-watch(personalAnsweredCorrectly, (val) => {
-    personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
-    correctAnswers.value = getFormattedNumber(val)
+// Sync computed values to reactive refs for backward compatibility
+watch(computedPersonalStartAngle, (val) => {
+    personalStartAngle.value = val
 })
 
-watch(personalAnsweredWrongly, (val) => {
-    personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
-    wrongAnswers.value = getFormattedNumber(val)
+watch(computedOverallStartAngle, (val) => {
+    overallStartAngle.value = val
 })
 
-watch(overallAnswerCount, (val) => {
-    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
-    allAnswerCount.value = getFormattedNumber(val)
+watch(computedAnswerCount, (val) => {
+    answerCount.value = val
 })
 
-watch(overallAnsweredCorrectly, (val) => {
-    allCorrectAnswers.value = getFormattedNumber(val)
-    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
+watch(computedCorrectAnswers, (val) => {
+    correctAnswers.value = val
 })
 
-watch(overallAnsweredWrongly, (val) => {
-    allWrongAnswers.value = getFormattedNumber(val)
-    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
+watch(computedWrongAnswers, (val) => {
+    wrongAnswers.value = val
+})
+
+watch(computedAllAnswerCount, (val) => {
+    allAnswerCount.value = val
+})
+
+watch(computedAllCorrectAnswers, (val) => {
+    allCorrectAnswers.value = val
+})
+
+watch(computedAllWrongAnswers, (val) => {
+    allWrongAnswers.value = val
 })
 
 const creator = ref({

@@ -1,25 +1,13 @@
 ﻿using NHibernate.Util;
 using ISession = NHibernate.ISession;
 
-public class ProbabilityUpdate_Valuation
+public class ProbabilityUpdate_Valuation(
+    ISession _session,
+    QuestionValuationReadingRepo _questionValuationReadingRepo,
+    ProbabilityCalc_Simple1 _probabilityCalcSimple1,
+    AnswerRepo _answerRepo,
+    ExtendedUserCache _extendedUserCache)
 {
-    private readonly ISession _session;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
-    private readonly AnswerRepo _answerRepo;
-
-    public ProbabilityUpdate_Valuation(
-        ISession session,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
-        ProbabilityCalc_Simple1 probabilityCalcSimple1,
-        AnswerRepo answerRepo)
-    {
-        _session = session;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
-        _probabilityCalcSimple1 = probabilityCalcSimple1;
-        _answerRepo = answerRepo;
-    }
-
     public void Run(int userId)
     {
         _questionValuationReadingRepo
@@ -29,8 +17,9 @@ public class ProbabilityUpdate_Valuation
 
     private void Run(QuestionValuation questionValuation)
     {
-        UpdateValuationProbabilitys(questionValuation);
+        UpdateValuationProbability(questionValuation);
 
+        _extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
         _questionValuationReadingRepo.CreateOrUpdate(questionValuation);
     }
 
@@ -67,14 +56,13 @@ public class ProbabilityUpdate_Valuation
         Run(questionValuation);
     }
 
-    private void UpdateValuationProbabilitys(QuestionValuation questionValuation)
+    private void UpdateValuationProbability(QuestionValuation questionValuation)
     {
         var question = questionValuation.Question;
         var user = EntityCache.GetUserById(questionValuation.User.Id);
 
         var probabilityResult = _probabilityCalcSimple1
-            .Run(EntityCache.GetQuestionById(question.Id)
-                , user, _session, _answerRepo);
+            .Run(EntityCache.GetQuestionById(question.Id), user, _session, _answerRepo);
 
         questionValuation.CorrectnessProbability = probabilityResult.Probability;
         questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
