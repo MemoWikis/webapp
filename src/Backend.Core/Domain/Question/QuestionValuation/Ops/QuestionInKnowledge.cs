@@ -76,7 +76,8 @@ public class QuestionInKnowledge(
             new ProbabilityUpdate_Valuation(_nhibernateSession,
                     _questionValuationReadingRepo,
                     _probabilityCalcSimple1,
-                    _answerRepo)
+                    _answerRepo,
+                    _extendedUserCache)
                 .Run(questionId, userId, _questionReadingRepo, _userReadingRepo);
     }
 
