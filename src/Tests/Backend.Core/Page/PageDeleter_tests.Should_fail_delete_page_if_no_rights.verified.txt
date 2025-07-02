@@ -36,6 +36,13 @@ parent name
         IsWiki: false,
         Name: child name,
         Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 4,
+        IsWiki: true,
+        Name: SessionUserWiki,
+        Visibility: 0
       }
     ],
     EntityCachePages: [
@@ -73,6 +80,13 @@ parent name
         Name: child name,
         IsPublic: true,
         IsWiki: false
+      },
+      {
+        CreatorId: 1,
+        Id: 4,
+        Name: SessionUserWiki,
+        IsPublic: true,
+        IsWiki: true
       }
     ],
     SearchPages: [
@@ -87,6 +101,10 @@ parent name
       {
         Id: 3,
         Name: child name
+      },
+      {
+        Id: 4,
+        Name: SessionUserWiki
       }
     ],
     DbRelations: [

@@ -14,7 +14,7 @@
     pageName: LearningUser Topic 1
   },
   databaseState: {
-    userCount: 5,
+    userCount: 4,
     pageCount: 31,
     questionCount: 62,
     firstUserId: 1,

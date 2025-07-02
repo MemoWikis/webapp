@@ -3,8 +3,8 @@
     HasChildren: false,
     Success: true,
     RedirectParent: {
-      Name: Root Page,
-      Id: 1
+      Name: Explicit Wiki,
+      Id: 2
     }
   },
   originalTree:

@@ -15,9 +15,10 @@ internal class PageDeleter_Technical_tests : BaseTestHarness
         var contextPage = NewPageContext();
         var creator = _testHarness.GetDefaultSessionUserFromDb();
 
+        _userLoginApi.SetupSessionUserWiki(contextPage); // Ensure session user has a wiki
         // Create a parent page that will receive moved questions
         var parentPage = contextPage
-            .Add("Parent Page", creator)
+            .Add("Parent Page", creator, isWiki: true)
             .GetPageByName("Parent Page");
 
         // Create multiple child pages to simulate rapid deletion scenario

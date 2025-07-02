@@ -4,40 +4,40 @@
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: SessionUser Personal Wiki,
-        Id: 8
+        Name: Parent Page,
+        Id: 3
       }
     },
     {
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: SessionUser Personal Wiki,
-        Id: 8
+        Name: Parent Page,
+        Id: 3
       }
     },
     {
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: SessionUser Personal Wiki,
-        Id: 8
+        Name: Parent Page,
+        Id: 3
       }
     },
     {
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: SessionUser Personal Wiki,
-        Id: 8
+        Name: Parent Page,
+        Id: 3
       }
     },
     {
       Success: true,
       HasChildren: false,
       RedirectParent: {
-        Name: SessionUser Personal Wiki,
-        Id: 8
+        Name: Parent Page,
+        Id: 3
       }
     }
   ],
@@ -65,15 +65,15 @@ Parent Page
       {
         Creator_id: 1,
         Id: 2,
-        IsWiki: false,
-        Name: Parent Page,
+        IsWiki: true,
+        Name: SessionUser Personal Wiki,
         Visibility: 0
       },
       {
         Creator_id: 1,
-        Id: 8,
+        Id: 3,
         IsWiki: true,
-        Name: SessionUser Personal Wiki,
+        Name: Parent Page,
         Visibility: 0
       }
     ],
@@ -88,14 +88,14 @@ Parent Page
       {
         CreatorId: 1,
         Id: 2,
-        Name: Parent Page,
+        Name: SessionUser Personal Wiki,
         IsPublic: true,
-        IsWiki: false
+        IsWiki: true
       },
       {
         CreatorId: 1,
-        Id: 8,
-        Name: SessionUser Personal Wiki,
+        Id: 3,
+        Name: Parent Page,
         IsPublic: true,
         IsWiki: true
       }
@@ -107,11 +107,11 @@ Parent Page
       },
       {
         Id: 2,
-        Name: Parent Page
+        Name: SessionUser Personal Wiki
       },
       {
-        Id: 8,
-        Name: SessionUser Personal Wiki
+        Id: 3,
+        Name: Parent Page
       }
     ]
   }

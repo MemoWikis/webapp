@@ -203,7 +203,7 @@ internal class DockerUtilities
 
         // Use Docker CLI to find the MySQL container for our tests
         // Using -n 1 to get only the first container
-        var result = await ExecuteDockerCommandAsync("ps --filter \"name=mem-mysql\" --format \"{{.ID}}\" -n 1");
+        var result = await ExecuteDockerCommandAsync("ps --filter \"name=memowikis-mysql\" --format \"{{.ID}}\" -n 1");
 
         if (!string.IsNullOrEmpty(result.ErrorOutput))
         {
@@ -213,7 +213,7 @@ internal class DockerUtilities
         // Take only the first line and trim it
         string containerId = result.StandardOutput.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? string.Empty;
 
-        // If no container found with mem-mysql, try with just mysql
+        // If no container found with memowikis-mysql, try with just mysql as fallback
         if (string.IsNullOrEmpty(containerId))
         {
             var fallbackResult = await ExecuteDockerCommandAsync("ps --filter \"name=mysql\" --format \"{{.ID}}\" -n 1");

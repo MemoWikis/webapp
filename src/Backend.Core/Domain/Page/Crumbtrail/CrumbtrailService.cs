@@ -9,7 +9,7 @@
         if (!page.IsWikiType())
         {
             var parents = page.Parents();
-            var rootWikiParent = parents.FirstOrDefault(c => c == root);
+            var rootWikiParent = parents.FirstOrDefault(parent => parent == root);
             parents = OrderParentList(parents, root.Creator.Id);
 
             if (rootWikiParent != null)

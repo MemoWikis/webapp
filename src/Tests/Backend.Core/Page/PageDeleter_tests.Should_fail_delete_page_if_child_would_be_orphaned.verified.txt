@@ -30,7 +30,7 @@ parent name
       {
         Creator_id: 1,
         Id: 2,
-        IsWiki: false,
+        IsWiki: true,
         Name: parent name,
         Visibility: 0
       },
@@ -46,13 +46,6 @@ parent name
         Id: 4,
         IsWiki: false,
         Name: child of child name,
-        Visibility: 0
-      },
-      {
-        Creator_id: 1,
-        Id: 5,
-        IsWiki: true,
-        Name: SessionUser Personal Wiki,
         Visibility: 0
       }
     ],
@@ -76,7 +69,7 @@ parent name
         Id: 2,
         Name: parent name,
         IsPublic: true,
-        IsWiki: false
+        IsWiki: true
       },
       {
         CreatorId: 1,
@@ -112,13 +105,6 @@ parent name
         Name: child of child name,
         IsPublic: true,
         IsWiki: false
-      },
-      {
-        CreatorId: 1,
-        Id: 5,
-        Name: SessionUser Personal Wiki,
-        IsPublic: true,
-        IsWiki: true
       }
     ],
     SearchPages: [
@@ -137,10 +123,6 @@ parent name
       {
         Id: 4,
         Name: child of child name
-      },
-      {
-        Id: 5,
-        Name: SessionUser Personal Wiki
       }
     ],
     DbRelations: [

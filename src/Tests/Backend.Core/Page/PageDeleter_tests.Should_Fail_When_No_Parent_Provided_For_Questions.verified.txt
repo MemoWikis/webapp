@@ -19,6 +19,13 @@
         IsWiki: false,
         Name: child page with questions,
         Visibility: 0
+      },
+      {
+        Creator_id: 1,
+        Id: 3,
+        IsWiki: true,
+        Name: SessionUserWiki,
+        Visibility: 0
       }
     ],
     EntityCachePages: [
@@ -35,6 +42,13 @@
         Name: child page with questions,
         IsPublic: true,
         IsWiki: false
+      },
+      {
+        CreatorId: 1,
+        Id: 3,
+        Name: SessionUserWiki,
+        IsPublic: true,
+        IsWiki: true
       }
     ],
     SearchPages: [
@@ -45,6 +59,10 @@
       {
         Id: 2,
         Name: child page with questions
+      },
+      {
+        Id: 3,
+        Name: SessionUserWiki
       }
     ]
   }

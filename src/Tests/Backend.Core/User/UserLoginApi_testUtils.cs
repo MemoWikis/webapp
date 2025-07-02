@@ -21,7 +21,7 @@ public class UserLoginApiWrapper
         {
             SetupSessionUserWiki();
         }
-        
+
         return await Login(_testHarness.DefaultSessionUser.EmailAddress, _testHarness.DefaultSessionUserPassword, true);
     }
 
@@ -84,7 +84,7 @@ public class UserLoginApiWrapper
     /// <summary>
     /// Sets up a personal wiki for the session user if it doesn't already exist
     /// </summary>
-    public void SetupSessionUserWiki()
+    public void SetupSessionUserWiki(ContextPage? pageContext = null)
     {
         var userRepo = _testHarness.R<UserReadingRepo>();
         var sessionUserDbUser = userRepo.GetById(_testHarness.DefaultSessionUserId)!;
@@ -97,7 +97,7 @@ public class UserLoginApiWrapper
         }
 
         // Create personal wiki for session user
-        var pageContext = _testHarness.NewPageContext(addContextUser: false);
+        pageContext ??= _testHarness.NewPageContext(addContextUser: false);
         pageContext
             .Add("SessionUser Personal Wiki", creator: sessionUserDbUser, isWiki: true)
             .Persist();

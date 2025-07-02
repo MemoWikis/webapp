@@ -4,8 +4,6 @@
 
 internal class WikiDeletionTests : BaseTestHarness
 {
-    private UserLoginApiWrapper _userLoginApi => _testHarness.ApiUserLogin;
-
     /// <summary>
     /// Verifies that a user can successfully delete a wiki if they own multiple wikis.
     /// The operation should succeed and not return any error messages.
@@ -26,7 +24,7 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete one of the wikis.
@@ -63,7 +61,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedWiki = EntityCache.GetPage(onlyWiki);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         // Act: Attempt to delete the only wiki.
@@ -100,7 +98,7 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the first wiki, then attempt to delete the second.
@@ -147,7 +145,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedChildPage = EntityCache.GetPage(childPage);
         var originalTree = TreeRenderer.ToAsciiParentDiagram(cachedChildPage!);
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the wiki.
@@ -190,7 +188,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedChild = EntityCache.GetPage(orphanedChild);
         var originalTree = TreeRenderer.ToAsciiParentDiagram(cachedChild!);
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         // Act: Attempt to delete the wiki.
@@ -222,7 +220,7 @@ internal class WikiDeletionTests : BaseTestHarness
 
         // Arrange: Create two users, each with their own wiki.
         var contextPage = NewPageContext();
-        var currentUser = new User { Id = _testHarness.DefaultSessionUserId };
+        var currentUser = _testHarness.GetDefaultSessionUserFromDb();
         var otherUser = new User { Id = 999, Name = "Other User" };
 
         var otherUserContext = contextPage.ContextUser
@@ -238,7 +236,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedUserWiki = EntityCache.GetPage(userWiki);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedUserWiki!);
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(currentUser);
         var pageDeleter = R<PageDeleter>();
 
         // Act: The current user attempts to delete the other user's wiki.
@@ -279,7 +277,8 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedWiki = EntityCache.GetPage(wiki);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
+
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the parentless page.
@@ -320,7 +319,7 @@ internal class WikiDeletionTests : BaseTestHarness
         var cachedWiki = EntityCache.GetPage(wiki);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedWiki!);
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the parentless page.
@@ -358,7 +357,7 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the second wiki.
@@ -392,7 +391,7 @@ internal class WikiDeletionTests : BaseTestHarness
         contextPage.Persist();
         await ReloadCaches();
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         // Act: Delete the first wiki.

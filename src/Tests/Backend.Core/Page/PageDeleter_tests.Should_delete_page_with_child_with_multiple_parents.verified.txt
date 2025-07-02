@@ -3,8 +3,8 @@
     HasChildren: false,
     Success: true,
     RedirectParent: {
-      Name: Root Page,
-      Id: 1
+      Name: parent name,
+      Id: 2
     }
   },
   originalTree:
@@ -36,7 +36,7 @@ parent name
       {
         Creator_id: 1,
         Id: 2,
-        IsWiki: false,
+        IsWiki: true,
         Name: parent name,
         Visibility: 0
       },
@@ -75,7 +75,7 @@ parent name
         Id: 2,
         Name: parent name,
         IsPublic: true,
-        IsWiki: false
+        IsWiki: true
       },
       {
         CreatorId: 1,

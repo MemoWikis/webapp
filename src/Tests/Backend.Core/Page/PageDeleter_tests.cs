@@ -1,7 +1,5 @@
 ﻿internal class PageDeleter_tests : BaseTestHarness
 {
-    private UserLoginApiWrapper _userLoginApi => _testHarness.ApiUserLogin;
-
     [Test]
     public async Task Should_delete_child_of_child_and_remove_relations_in_EntityCache()
     {
@@ -36,9 +34,7 @@
         var cachedRoot = EntityCache.GetPage(root);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
-        var sessionUser = R<SessionUser>();
-        var pageViewRepo = R<PageViewRepo>();
-        sessionUser.Login(creator, pageViewRepo);
+        _testHarness.MockSessionUserLoginForDI(creator);
 
         var pageDeleter = R<PageDeleter>();
 
@@ -72,7 +68,7 @@
         var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var parent = contextPage
-            .Add(parentName, creator)
+            .Add(parentName, creator, isWiki: true)
             .GetPageByName(parentName);
 
         var firstPage = contextPage
@@ -96,7 +92,7 @@
         var cachedRoot = EntityCache.GetPage(parent);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         //Act
@@ -126,7 +122,7 @@
         var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var parent = contextPage
-            .Add(parentName, creator)
+            .Add(parentName, creator, isWiki: true)
             .GetPageByName(parentName);
 
         var page = contextPage
@@ -144,7 +140,7 @@
         var cachedParent = EntityCache.GetPage(parent);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedParent!);
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         //Act
@@ -183,6 +179,9 @@
         var parent = contextPage.AddAndGet(parentName, creator);
         var child = contextPage.AddAndGet(childName, creator);
 
+        var sessionUser = _testHarness.GetDefaultSessionUserFromDb();
+        contextPage.Add("SessionUserWiki", creator: sessionUser, isWiki: true);
+
         contextPage.Persist();
         contextPage.AddChild(parent, child);
         await ReloadCaches();
@@ -193,7 +192,7 @@
         // Act: Attempt to delete the child page as the session user.
         // The PageDeleter service operates on behalf of the session user (user ID 1),
         // who does not have permission to delete the page.
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(sessionUser);
         var pageDeleter = R<PageDeleter>();
         var deleteResult = pageDeleter.DeletePage(child.Id, parent.Id);
 
@@ -221,6 +220,9 @@
         var pageDeleter = R<PageDeleter>();
         var rootPageId = FeaturedPage.RootPageId;
 
+        var sessionUser = _testHarness.GetDefaultSessionUserFromDb();
+        contextPage.Add("SessionUserWiki", creator: sessionUser, isWiki: true);
+
         contextPage.Persist();
         await ReloadCaches();
 
@@ -229,7 +231,8 @@
 
         // Act
         // Root page is already created in NewPageContext()
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI();
+
         var deleteResult = pageDeleter.DeletePage(rootPageId, null);
 
         // Assert
@@ -257,7 +260,7 @@
         var creator = _testHarness.GetDefaultSessionUserFromDb();
 
         var parent = contextPage
-            .Add(parentName, creator)
+            .Add(parentName, creator, isWiki: true)
             .GetPageByName(parentName);
 
         var child = contextPage
@@ -275,7 +278,8 @@
         var cachedRoot = EntityCache.GetPage(parent);
         var originalTree = TreeRenderer.ToAsciiDiagram(cachedRoot!);
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
+
         var pageDeleter = R<PageDeleter>(); // Act
         var deleteResult = pageDeleter.DeletePage(child.Id, parent.Id);
 
@@ -308,6 +312,8 @@
             .Add(childName, creator)
             .GetPageByName(childName);
 
+        contextPage.Add("SessionUserWiki", creator: creator, isWiki: true);
+
         contextPage.Persist();
 
         // Add questions to the child page
@@ -316,7 +322,7 @@
 
         await ReloadCaches();
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>(); // Act - Provide null parent for questions
         var deleteResult = pageDeleter.DeletePage(child.Id, null);
 
@@ -347,7 +353,7 @@
             .GetPageByName(grandparentName);
 
         var parent = contextPage
-            .Add(parentName, creator)
+            .Add(parentName, creator, isWiki: true)
             .GetPageByName(parentName);
 
         var child = contextPage
@@ -372,7 +378,7 @@
         var originalParentViews = cachedParent.TotalViews;
         var childViews = cachedChild.TotalViews;
 
-        await _userLoginApi.LoginAsSessionUser();
+        _testHarness.MockSessionUserLoginForDI(creator);
         var pageDeleter = R<PageDeleter>();
 
         // Act

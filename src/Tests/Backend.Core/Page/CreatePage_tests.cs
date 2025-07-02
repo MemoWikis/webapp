@@ -10,14 +10,14 @@
         var sessionUser = R<SessionUser>();
         var pageViewRepo = R<PageViewRepo>();
 
-        var sessionUserDbUser = R<UserReadingRepo>().GetById(_testHarness.DefaultSessionUserId)!;
+        var sessionUserDb = _testHarness.GetDefaultSessionUserFromDb();
 
         var parent = context
-            .Add(parentName, creator: sessionUserDbUser, isWiki: true)
+            .Add(parentName, creator: sessionUserDb, isWiki: true)
             .Persist().All
-            .Single(c => c.Name.Equals(parentName));
+            .Single(page => page.Name.Equals(parentName));
 
-        sessionUser.Login(sessionUserDbUser, pageViewRepo);
+        sessionUser.Login(sessionUserDb, pageViewRepo);
 
         var childName = "child";
 
@@ -53,17 +53,17 @@
         var context = NewPageContext();
 
         var sessionUser = R<SessionUser>();
-        var sessionDbUser = R<UserReadingRepo>().GetById(_testHarness.DefaultSessionUserId)!;;
+        var sessionUserDb = _testHarness.GetDefaultSessionUserFromDb();
 
         var parentName = "Parent";
         var parent = context
-            .Add(parentName, isWiki: true, creator: sessionDbUser)
+            .Add(parentName, isWiki: true, creator: sessionUserDb)
             .Persist()
             .All
-            .Single(c => c.Name.Equals(parentName));
+            .Single(page => page.Name.Equals(parentName));
         var pageViewRepo = R<PageViewRepo>();
 
-        sessionUser.Login(sessionDbUser, pageViewRepo);
+        sessionUser.Login(sessionUserDb, pageViewRepo);
 
         var childName = "child";
 

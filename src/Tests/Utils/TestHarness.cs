@@ -219,7 +219,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         _httpContextAccessor = A.Fake<IHttpContextAccessor>();
         var fakeHttpContext = A.Fake<HttpContext>();
         var testSession = new TestSession();
-        
+
         // Set user ID in session (default session user)
         testSession.SetInt32("userId", DefaultSessionUserId);
 
@@ -448,7 +448,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         using var request = new HttpRequestMessage(HttpMethod.Get, uri);
         AddCookiesToRequest(request);
         var httpResponse = await Client.SendAsync(request);
-        return await DeserializeHttpResponse<TResult>(httpResponse);    
+        return await DeserializeHttpResponse<TResult>(httpResponse);
     }
 
     /// <summary>
@@ -751,27 +751,13 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     /// </summary>
     public void RemoveCookie(string key) => Cookies.Remove(key);
 
-    /// <summary>
-    /// Update the session user ID for tests that need different users
-    /// </summary>
-    public void SetSessionUserId(int userId)
+    public void MockSessionUserLoginForDI(User? creator = null)
     {
-        var fakeHttpContext = _httpContextAccessor.HttpContext;
-        if (fakeHttpContext?.Session != null)
-        {
-            fakeHttpContext.Session.SetInt32("userId", userId);
-        }
-    }
+        if (creator == null)
+            creator = GetDefaultSessionUserFromDb();
 
-    /// <summary>
-    /// Clear the session user for tests that need anonymous access
-    /// </summary>
-    public void ClearSessionUserId()
-    {
-        var fakeHttpContext = _httpContextAccessor.HttpContext;
-        if (fakeHttpContext?.Session != null)
-        {
-            fakeHttpContext.Session.Remove("userId");
-        }
+        var sessionUser = R<SessionUser>();
+        var pageViewRepo = R<PageViewRepo>();
+        sessionUser.Login(creator, pageViewRepo);
     }
 }

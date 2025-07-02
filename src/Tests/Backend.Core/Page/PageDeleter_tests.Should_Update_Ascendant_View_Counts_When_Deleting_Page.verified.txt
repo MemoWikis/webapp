@@ -3,8 +3,8 @@
     HasChildren: false,
     Success: true,
     RedirectParent: {
-      Name: Root Page,
-      Id: 1
+      Name: parent page,
+      Id: 3
     }
   },
   originalGrandparentViews: 25,
@@ -36,7 +36,7 @@
       {
         Creator_id: 1,
         Id: 3,
-        IsWiki: false,
+        IsWiki: true,
         Name: parent page,
         Visibility: 0
       }
@@ -77,7 +77,7 @@
         Name: parent page,
         IsPublic: true,
         TotalViews: 5,
-        IsWiki: false
+        IsWiki: true
       }
     ],
     SearchPages: [

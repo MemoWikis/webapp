@@ -23,7 +23,7 @@ Root Page
         Creator_id: 1,
         Id: 2,
         IsWiki: true,
-        Name: SessionUser Personal Wiki,
+        Name: SessionUserWiki,
         Visibility: 0
       }
     ],
@@ -38,7 +38,7 @@ Root Page
       {
         CreatorId: 1,
         Id: 2,
-        Name: SessionUser Personal Wiki,
+        Name: SessionUserWiki,
         IsPublic: true,
         IsWiki: true
       }
@@ -50,7 +50,7 @@ Root Page
       },
       {
         Id: 2,
-        Name: SessionUser Personal Wiki
+        Name: SessionUserWiki
       }
     ]
   }
