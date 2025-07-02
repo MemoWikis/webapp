@@ -135,8 +135,8 @@ internal class Convert_tests : BaseTestHarness
     [Test]
     public async Task ConvertWikiToPage_Should_Succeed_With_ValidInputs()
     {
-        await ReloadCaches();
-        
+        await ClearData();
+
         // Arrange
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
@@ -160,30 +160,32 @@ internal class Convert_tests : BaseTestHarness
         context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
         context.AddChild(root, children.ByName("Sub2"));
 
+        await ReloadCaches();
+
         var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
-        var page = EntityCache.GetPage(children.ByName("Sub1").Id);
-        page!.IsWiki = true;
+        var pageToConvert = EntityCache.GetPage(children.ByName("Sub1").Id);
+        pageToConvert!.IsWiki = true;
 
         // Add page and user to EntityCache
-        EntityCache.AddOrUpdate(page);
+        EntityCache.AddOrUpdate(pageToConvert);
 
         // Act
-        pageConversion.ConvertWikiToPage(page, userId);
+        pageConversion.ConvertWikiToPage(pageToConvert, userId);
 
         // Assert
-        Assert.That(page.IsWiki, Is.False, "Page should no longer be a Wiki.");
+        Assert.That(pageToConvert.IsWiki, Is.False, "Page should no longer be a Wiki.");
 
         // Verify that the page entity is updated in the repository
-        var updatedPageEntity = pageRepository.GetByIdEager(page.Id);
+        var updatedPageEntity = pageRepository.GetByIdEager(pageToConvert.Id);
         Assert.That(updatedPageEntity, Is.Not.Null, "Page entity should exist in repository.");
         Assert.That(updatedPageEntity.IsWiki, Is.False, "Page entity should no longer be a Wiki.");
 
         // Verify that the EntityCache was updated
-        var cachedPage = EntityCache.GetPage(page.Id);
+        var cachedPage = EntityCache.GetPage(pageToConvert.Id);
         var userCacheItem = EntityCache.GetUserById(userId);
         var wikiCount = userCacheItem.GetWikis().Count.ToString();
-        
+
 
         await Verify(new
         {
