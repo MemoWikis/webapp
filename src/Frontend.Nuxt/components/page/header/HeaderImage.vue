@@ -42,6 +42,7 @@ const { t } = useI18n()
 
 .editable {
     cursor: pointer;
+    position: relative;
 }
 
 .edit-overlay {
