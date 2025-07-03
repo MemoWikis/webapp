@@ -305,4 +305,11 @@ watch(locale, () => {
 		line-height: 1.2;
 	}
 }
+
+.tiptap-figure {
+	.tiptap-image {
+		width: 100%;
+		height: auto;
+	}
+}
 </style>
