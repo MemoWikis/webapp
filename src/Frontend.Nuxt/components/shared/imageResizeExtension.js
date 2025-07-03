@@ -7,21 +7,6 @@ import { color } from '~/constants/colors'
 const borderStyle = `1px dashed ${color.memoGreen}`
 const resizeHandle = `position: absolute; width: 9px; height: 9px; border: 2px solid ${color.memoGreyDarker}; border-radius: 50%;`
 const fontColor = `${color.memoGreyLighter}`
-const defaultIconStyle = `
-            background: white;
-            border: hidden;
-            font-size: 18px;
-            width: 36px;
-            height: 36px;
-            margin: 0px;
-            color: ${color.memoGreyDarker};
-            text-align: center;
-            padding: 0px 21px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: filter 0.1s;        
-            `
 
 const ImageResize = Image.extend({
     name: 'figure',
@@ -446,14 +431,6 @@ const ImageResize = Image.extend({
                 const $centerController = document.createElement('div')
                 const $rightController = document.createElement('div')
 
-                const controllerMouseOver = (e) => {
-                    e.target.style.opacity = 0.3
-                }
-
-                const controllerMouseOut = (e) => {
-                    e.target.style.opacity = 1
-                }
-
                 $positionController.setAttribute('class', 'position-controller')
 
                 // Set up left alignment button
@@ -461,9 +438,6 @@ const ImageResize = Image.extend({
                 const leftIcon = document.createElement('i')
                 leftIcon.classList.add('fa-solid', 'fa-align-left')
                 $leftController.appendChild(leftIcon)
-                $leftController.setAttribute('style', defaultIconStyle)
-                $leftController.addEventListener('mouseover', controllerMouseOver)
-                $leftController.addEventListener('mouseout', controllerMouseOut)
                 $leftController.addEventListener('click', () => {
                     $container.setAttribute('style', `${$container.style.cssText} margin: 0 auto 0 0;`)
                     dispatchNodeView()
@@ -474,9 +448,6 @@ const ImageResize = Image.extend({
                 const centerIcon = document.createElement('i')
                 centerIcon.classList.add('fa-solid', 'fa-align-center')
                 $centerController.appendChild(centerIcon)
-                $centerController.setAttribute('style', defaultIconStyle)
-                $centerController.addEventListener('mouseover', controllerMouseOver)
-                $centerController.addEventListener('mouseout', controllerMouseOut)
                 $centerController.addEventListener('click', () => {
                     $container.setAttribute('style', `${$container.style.cssText} margin: 0 auto;`)
                     dispatchNodeView()
@@ -487,9 +458,6 @@ const ImageResize = Image.extend({
                 const rightIcon = document.createElement('i')
                 rightIcon.classList.add('fa-solid', 'fa-align-right')
                 $rightController.appendChild(rightIcon)
-                $rightController.setAttribute('style', defaultIconStyle)
-                $rightController.addEventListener('mouseover', controllerMouseOver)
-                $rightController.addEventListener('mouseout', controllerMouseOut)
                 $rightController.addEventListener('click', () => {
                     $container.setAttribute('style', `${$container.style.cssText} margin: 0 0 0 auto;`)
                     dispatchNodeView()
@@ -503,23 +471,11 @@ const ImageResize = Image.extend({
 
                 // Add separate caption/license editing button
                 const $captionController = document.createElement('div')
-                $captionController.classList.add('menubar_button')
+                $captionController.classList.add('menubar_button', 'caption-controller')
                 const captionIcon = document.createElement('i')
                 captionIcon.classList.add('fa-solid', 'fa-pen')
                 $captionController.appendChild(captionIcon)
-                $captionController.setAttribute('style', `
-                    position: absolute;
-                    top: 30px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    ${defaultIconStyle}
-                    font-size: 14px;
-                    border-radius: 4px;
-                    z-index: 999;
-                `)
                 $captionController.title = 'Edit caption and license'
-                $captionController.addEventListener('mouseover', controllerMouseOver)
-                $captionController.addEventListener('mouseout', controllerMouseOut)
                 $captionController.addEventListener('click', (e) => {
                     e.preventDefault()
                     e.stopPropagation()
@@ -561,55 +517,6 @@ const ImageResize = Image.extend({
             // If not editable, return simple view
             if (!editable) return { dom: $container }
 
-            // Add floating caption button on hover
-            const $floatingButton = document.createElement('button')
-            const floatingIcon = document.createElement('i')
-            floatingIcon.classList.add('fa-solid', 'fa-pen')
-            $floatingButton.appendChild(floatingIcon)
-            $floatingButton.title = 'Edit caption and license'
-            $floatingButton.setAttribute('style', `
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                border: none;
-                background: rgba(255, 255, 255, 0.9);
-                color: ${color.memoGreyDarker};
-                font-size: 12px;
-                cursor: pointer;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-                opacity: 0;
-                transition: opacity 0.2s;
-                z-index: 1000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            `)
-
-            $floatingButton.addEventListener('click', (e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                showCaptionModal()
-            })
-
-            $container.appendChild($floatingButton)
-
-            // Convert Font Awesome icons to SVG for floating button
-            if (dom && dom.i2svg) {
-                dom.i2svg({ node: $floatingButton })
-            }
-
-            // Show/hide floating button on hover
-            $container.addEventListener('mouseenter', () => {
-                $floatingButton.style.opacity = '1'
-            })
-
-            $container.addEventListener('mouseleave', () => {
-                $floatingButton.style.opacity = '0'
-            })
-
             // Add resize functionality for editable mode
             const isMobile = document.documentElement.clientWidth < 768
             const dotPosition = isMobile ? '-8px' : '-4px'
@@ -628,11 +535,11 @@ const ImageResize = Image.extend({
                 const isMobile = document.documentElement.clientWidth < 768
                 isMobile && (document.querySelector('.ProseMirror-focused')?.blur())
 
-                // Count base elements: img + optional figcaption + floating button
-                const baseElementCount = (caption ? 2 : 1) + 1 // +1 for floating button
+                // Count base elements: img + optional figcaption
+                const baseElementCount = caption ? 2 : 1
                 if ($container.childElementCount > baseElementCount) {
-                    // Remove all controls except the floating button and base elements
-                    const elementsToKeep = [$img, $floatingButton]
+                    // Remove all controls except the base elements
+                    const elementsToKeep = [$img]
                     if (caption) {
                         const figcaption = $container.querySelector('figcaption')
                         if (figcaption) elementsToKeep.push(figcaption)
@@ -738,11 +645,11 @@ const ImageResize = Image.extend({
                     const newStyle = containerStyle?.replace(`border: ${borderStyle};`, '')
                     $container.setAttribute('style', newStyle || '')
 
-                    // Count base elements: img + optional figcaption + floating button
-                    const baseElementCount = (caption ? 2 : 1) + 1 // +1 for floating button
+                    // Count base elements: img + optional figcaption
+                    const baseElementCount = caption ? 2 : 1
                     if ($container.childElementCount > baseElementCount) {
-                        // Remove all controls except the floating button and base elements
-                        const elementsToKeep = [$img, $floatingButton]
+                        // Remove all controls except the base elements
+                        const elementsToKeep = [$img]
                         if (caption) {
                             const figcaption = $container.querySelector('figcaption')
                             if (figcaption) elementsToKeep.push(figcaption)

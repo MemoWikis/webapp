@@ -307,6 +307,8 @@ watch(locale, () => {
 }
 
 .tiptap-figure {
+	border: 1px solid transparent;
+
 	.tiptap-image {
 		width: 100%;
 		height: auto;
