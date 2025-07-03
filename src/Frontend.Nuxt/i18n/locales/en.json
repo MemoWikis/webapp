@@ -1593,6 +1593,7 @@
         }
     },
     "questionDetail": {
+        "title": "Your Response History",
         "tooltips": {
             "correctFirstTry": "Answered correctly on the first attempt",
             "correctLaterTry": "Answered correctly on the second or third attempt",
@@ -1602,8 +1603,14 @@
         "labels": {
             "correctAnswer": "Correct answer:",
             "yourTry": "Your {number}. attempt:",
-            "skipped": "(skipped)",
-            "notSeen": "(not yet viewed)"
+            "skipped": "skipped",
+            "notSeen": "not yet viewed"
+        },
+        "answerState": {
+            "0": "Unanswered",
+            "1": "False",
+            "2": "Correct",
+            "3": "Skipped"
         }
     },
     "chip": {

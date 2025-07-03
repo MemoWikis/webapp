@@ -20,8 +20,8 @@ const emit = defineEmits(['methodClicked'])
         <template #description v-if="props.description" class="description">
             {{ props.description }}
         </template>
-        <LayoutCard :size="LayoutCardSize.Flex">
-            <div v-for="method in props.methods" :size="LayoutCardSize.Flex">
+        <LayoutCard :size="LayoutContentSize.Flex">
+            <div v-for="method in props.methods" :size="LayoutContentSize.Flex">
                 <button class="btn btn-link" @click="emit('methodClicked', method.url)">
                     <font-awesome-icon :icon="props.icon" v-if="props.icon" />
                     {{ $t(method.translationKey) }}

@@ -155,8 +155,8 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
 </script>
 
 <template>
-    <div id="QuestionListComponentContainer" class="">
-        <div class="" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
+    <div id="QuestionListComponentContainer">
+        <div class="" id="QuestionListComponent">
 
             <PageLearningQuestion v-for="(q, index) in questions" :question="q"
                 :is-last-item="index === (questions.length - 1)" :session-index="q.sessionIndex"
