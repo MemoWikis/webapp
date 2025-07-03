@@ -293,6 +293,8 @@ watch(locale, () => {
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 .mobile-headings {
 	h2 {
 		font-size: 28px;
@@ -308,10 +310,18 @@ watch(locale, () => {
 
 .tiptap-figure {
 	border: 1px solid transparent;
+	margin-top: 24px !important;
 
-	.tiptap-image {
+	img {
 		width: 100%;
 		height: auto;
+	}
+
+	.tiptap-figcaption {
+		font-style: italic;
+		text-align: center;
+		color: @memo-grey-dark;
+		font-size: 1.4rem;
 	}
 }
 </style>

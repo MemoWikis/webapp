@@ -494,7 +494,9 @@ const ImageResize = Image.extend({
             $wrapper.setAttribute('style', `display: flex;`)
             $wrapper.appendChild($container)
 
-            $container.setAttribute('style', `${style}`)
+            // Ensure no inline border styling initially (let CSS handle transparent border)
+            const cleanStyle = style.replace(/border:\s*[^;]*;?/g, '')
+            $container.setAttribute('style', cleanStyle)
             $container.className = 'tiptap-figure'
             
             // Set up image
@@ -555,11 +557,8 @@ const ImageResize = Image.extend({
 
                 paintPositionController()
 
-                // Add resize handles to the figure
-                $container.setAttribute(
-                    'style',
-                    `position: relative; border: ${borderStyle}; ${style} cursor: pointer;`
-                )
+                // Add resize handles to the figure - show green border when clicked for all images
+                $container.setAttribute('style', `position: relative; border: ${borderStyle}; ${style} cursor: pointer;`)
 
                 Array.from({ length: 4 }, (_, index) => {
                     const $dot = document.createElement('div')
@@ -641,9 +640,12 @@ const ImageResize = Image.extend({
                 const isClickInside = $container.contains($target) || $target.style.cssText === iconStyle
 
                 if (!isClickInside) {
+                    // Remove inline border styling completely to fall back to CSS defaults
                     const containerStyle = $container.getAttribute('style')
-                    const newStyle = containerStyle?.replace(`border: ${borderStyle};`, '')
-                    $container.setAttribute('style', newStyle || '')
+                    let newStyle = containerStyle?.replace(`border: ${borderStyle};`, '') || ''
+                    // Also remove any leftover border styling
+                    newStyle = newStyle.replace(/border:\s*[^;]*;?/g, '')
+                    $container.setAttribute('style', newStyle)
 
                     // Count base elements: img + optional figcaption
                     const baseElementCount = caption ? 2 : 1
