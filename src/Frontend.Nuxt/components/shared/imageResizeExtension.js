@@ -8,6 +8,14 @@ const borderStyle = `1px dashed ${color.memoGreen}`
 const resizeHandle = `position: absolute; width: 9px; height: 9px; border: 2px solid ${color.memoGreyDarker}; border-radius: 50%;`
 const fontColor = `${color.memoGreyLighter}`
 
+// Helper function to format caption with license
+const formatCaptionWithLicense = (caption, license) => {
+    if (!caption && !license) return `(No license)`
+    if (!caption && license) return `(${license})`
+    if (caption && !license) return `${caption} (No license)`
+    return `${caption} (${license})`
+}
+
 const ImageResize = Image.extend({
     name: 'figure',
 
@@ -153,13 +161,14 @@ const ImageResize = Image.extend({
         
         const imgElement = ['img', { src, alt, class: 'tiptap-image', ...imgAttrs }]
         
-        if (caption) {
+        const formattedCaption = formatCaptionWithLicense(caption, license)
+        if (formattedCaption) {
             const figcaptionAttrs = license ? { 'data-license': license, class: 'tiptap-figcaption' } : { class: 'tiptap-figcaption' }
             return [
                 'figure',
                 { style, class: 'tiptap-figure' },
                 imgElement,
-                ['figcaption', figcaptionAttrs, caption]
+                ['figcaption', figcaptionAttrs, formattedCaption]
             ]
         } else {
             return [
@@ -373,10 +382,11 @@ const ImageResize = Image.extend({
                         $container.removeChild(existingFigcaption)
                     }
 
-                    if (newCaption) {
+                    const formattedCaption = formatCaptionWithLicense(newCaption, newLicense)
+                    if (formattedCaption) {
                         const $figcaption = document.createElement('figcaption')
                         $figcaption.className = 'tiptap-figcaption'
-                        $figcaption.textContent = newCaption
+                        $figcaption.textContent = formattedCaption
                         if (newLicense) {
                             $figcaption.setAttribute('data-license', newLicense)
                         }
@@ -505,11 +515,12 @@ const ImageResize = Image.extend({
             if (alt) $img.setAttribute('alt', alt)
             $container.appendChild($img)
 
-            // Add figcaption if caption exists
-            if (caption) {
+            // Add figcaption if caption or license exists
+            const formattedCaption = formatCaptionWithLicense(caption, license)
+            if (formattedCaption) {
                 const $figcaption = document.createElement('figcaption')
                 $figcaption.className = 'tiptap-figcaption'
-                $figcaption.textContent = caption
+                $figcaption.textContent = formattedCaption
                 if (license) {
                     $figcaption.setAttribute('data-license', license)
                 }
@@ -538,13 +549,13 @@ const ImageResize = Image.extend({
                 isMobile && (document.querySelector('.ProseMirror-focused')?.blur())
 
                 // Count base elements: img + optional figcaption
-                const baseElementCount = caption ? 2 : 1
+                const hasFigcaption = $container.querySelector('figcaption')
+                const baseElementCount = hasFigcaption ? 2 : 1
                 if ($container.childElementCount > baseElementCount) {
                     // Remove all controls except the base elements
                     const elementsToKeep = [$img]
-                    if (caption) {
-                        const figcaption = $container.querySelector('figcaption')
-                        if (figcaption) elementsToKeep.push(figcaption)
+                    if (hasFigcaption) {
+                        elementsToKeep.push(hasFigcaption)
                     }
                     
                     const children = Array.from($container.children)
@@ -648,13 +659,13 @@ const ImageResize = Image.extend({
                     $container.setAttribute('style', newStyle)
 
                     // Count base elements: img + optional figcaption
-                    const baseElementCount = caption ? 2 : 1
+                    const hasFigcaption = $container.querySelector('figcaption')
+                    const baseElementCount = hasFigcaption ? 2 : 1
                     if ($container.childElementCount > baseElementCount) {
                         // Remove all controls except the base elements
                         const elementsToKeep = [$img]
-                        if (caption) {
-                            const figcaption = $container.querySelector('figcaption')
-                            if (figcaption) elementsToKeep.push(figcaption)
+                        if (hasFigcaption) {
+                            elementsToKeep.push(hasFigcaption)
                         }
                         
                         const children = Array.from($container.children)
