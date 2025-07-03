@@ -2,6 +2,7 @@
 import { AnswerState } from '~/components/page/learning/learningSessionStore'
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { useUserStore } from '~~/components/user/userStore'
+import { SolutionType } from '../../solutionTypeEnum'
 
 const userStore = useUserStore()
 const emit = defineEmits(['startNewSession'])
@@ -35,6 +36,7 @@ interface LearningSessionResult {
         steps: Step[]
         imgUrl: string
         id: number
+        solutionType: SolutionType
     }[]
     pageName: string
     pageId: number
@@ -63,7 +65,7 @@ const { t } = useI18n()
 
 <template>
     <div v-if="learningSessionResult">
-        <h2 style="margin-bottom: 15px; margin-top: 0px;">
+        <h2>
             {{ t('answerbody.learningSessionResult.heading') }}
         </h2>
 

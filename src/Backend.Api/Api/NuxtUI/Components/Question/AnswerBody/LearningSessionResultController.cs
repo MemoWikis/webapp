@@ -1,4 +1,6 @@
-﻿public class VueLearningSessionResultController(
+﻿using Ubiety.Dns.Core.Common;
+
+public class VueLearningSessionResultController(
     LearningSessionCache _learningSessionCache,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
@@ -22,7 +24,8 @@
         int Id,
         string ImgUrl,
         string Title,
-        Step[] Steps);
+        Step[] Steps,
+        SolutionType SolutionType = SolutionType.FlashCard);
 
     public record struct Step(AnswerState AnswerState, string AnswerAsHtml);
 
@@ -56,7 +59,8 @@
                     Steps: g.Select(s => new Step(
                         AnswerState: s.AnswerState,
                         AnswerAsHtml: Question.AnswersAsHtml(s.Answer, question.SolutionType)
-                    )).ToArray()
+                    )).ToArray(),
+                    SolutionType: question.SolutionType
                 );
             }).ToArray();
 
