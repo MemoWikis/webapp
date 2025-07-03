@@ -164,7 +164,7 @@ const ariaId2 = useId()
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fas', 'link']" />
                             </div>
-                            <div class="dropdown-label">{{ t('page.grid.options.linkChildPage') }}</div>
+                            <div class="dropdown-label">{{ t('page.grid.linkChildPage') }}</div>
                         </div>
 
                         <!-- Remove parent page -->
