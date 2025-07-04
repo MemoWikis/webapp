@@ -3,6 +3,7 @@
 import Image from '@tiptap/extension-image'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { color } from '~/constants/colors'
+import { useTiptapImageLicenseStore } from './tiptapImageLicenseStore'
 
 const borderStyle = `1px dashed ${color.memoGreen}`
 const resizeHandle = `position: absolute; width: 9px; height: 9px; border: 2px solid ${color.memoGreyDarker}; border-radius: 50%;`
@@ -10,10 +11,37 @@ const fontColor = `${color.memoGreyLighter}`
 
 // Helper function to format caption with license
 const formatCaptionWithLicense = (caption, license) => {
-    if (!caption && !license) return `(No license)`
-    if (!caption && license) return `(${license})`
-    if (caption && !license) return `${caption} (No license)`
-    return `${caption} (${license})`
+    // Strip HTML tags for figcaption display
+    const stripHtml = (html) => {
+        if (!html) return ''
+        const temp = document.createElement('div')
+        temp.innerHTML = html
+        return temp.textContent || temp.innerText || ''
+    }
+    
+    const cleanCaption = stripHtml(caption)
+    const cleanLicense = stripHtml(license)
+    
+    const hasLicense = !!cleanLicense
+    let text = ''
+    
+    if (!cleanCaption && !cleanLicense) text = `(No license)`
+    else if (!cleanCaption && cleanLicense) text = `(${cleanLicense})`
+    else if (cleanCaption && !cleanLicense) text = `${cleanCaption} (No license)`
+    else text = `${cleanCaption} (${cleanLicense})`
+    
+    return { text, hasLicense }
+}
+
+// Helper function to add figcaption click handler
+const addFigcaptionClickHandler = ($figcaption, caption, license, src, alt) => {
+    $figcaption.style.cursor = 'pointer'
+    $figcaption.addEventListener('click', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        const store = useTiptapImageLicenseStore()
+        store.openModal(caption, license, src, alt)
+    })
 }
 
 const ImageResize = Image.extend({
@@ -161,14 +189,26 @@ const ImageResize = Image.extend({
         
         const imgElement = ['img', { src, alt, class: 'tiptap-image', ...imgAttrs }]
         
-        const formattedCaption = formatCaptionWithLicense(caption, license)
-        if (formattedCaption) {
-            const figcaptionAttrs = license ? { 'data-license': license, class: 'tiptap-figcaption' } : { class: 'tiptap-figcaption' }
+        const captionData = formatCaptionWithLicense(caption, license)
+        if (captionData.text) {
+            const figcaptionClasses = ['tiptap-figcaption']
+            if (!captionData.hasLicense) {
+                figcaptionClasses.push('no-license')
+            }
+            
+            const figcaptionAttrs = {
+                class: figcaptionClasses.join(' ')
+            }
+            
+            if (license) {
+                figcaptionAttrs['data-license'] = license
+            }
+            
             return [
                 'figure',
                 { style, class: 'tiptap-figure' },
                 imgElement,
-                ['figcaption', figcaptionAttrs, formattedCaption]
+                ['figcaption', figcaptionAttrs, captionData.text]
             ]
         } else {
             return [
@@ -218,220 +258,47 @@ const ImageResize = Image.extend({
             }
 
             const showCaptionModal = () => {
-                // Create modal overlay
-                const $modalOverlay = document.createElement('div')
-                $modalOverlay.setAttribute('style', `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    z-index: 10000;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                `)
-
-                // Create modal dialog
-                const $modal = document.createElement('div')
-                $modal.setAttribute('style', `
-                    background: white;
-                    border-radius: 8px;
-                    padding: 20px;
-                    width: 400px;
-                    max-width: 90vw;
-                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-                `)
-
-                // Create form elements
-                const $title = document.createElement('h3')
-                $title.textContent = 'Edit Image Caption and License'
-                $title.setAttribute('style', 'margin: 0 0 20px 0; color: #333; font-size: 18px;')
-
-                const $captionLabel = document.createElement('label')
-                $captionLabel.textContent = 'Caption:'
-                $captionLabel.setAttribute('style', 'display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 14px;')
-
-                const $captionInput = document.createElement('textarea')
-                $captionInput.value = node.attrs.caption || ''
-                $captionInput.setAttribute('style', `
-                    width: 100%;
-                    height: 80px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    padding: 8px;
-                    margin-bottom: 15px;
-                    font-family: inherit;
-                    font-size: 14px;
-                    resize: vertical;
-                    box-sizing: border-box;
-                    transition: border-color 0.2s;
-                `)
-                $captionInput.placeholder = 'Enter image caption...'
-
-                // Add focus styles
-                $captionInput.addEventListener('focus', () => {
-                    $captionInput.style.borderColor = color.memoGreen
-                    $captionInput.style.outline = 'none'
-                })
-                $captionInput.addEventListener('blur', () => {
-                    $captionInput.style.borderColor = '#ddd'
-                })
-
-                const $licenseLabel = document.createElement('label')
-                $licenseLabel.textContent = 'License:'
-                $licenseLabel.setAttribute('style', 'display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 14px;')
-
-                const $licenseInput = document.createElement('input')
-                $licenseInput.type = 'text'
-                $licenseInput.value = node.attrs.license || ''
-                $licenseInput.setAttribute('style', `
-                    width: 100%;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    padding: 8px;
-                    margin-bottom: 20px;
-                    font-family: inherit;
-                    font-size: 14px;
-                    box-sizing: border-box;
-                    transition: border-color 0.2s;
-                `)
-                $licenseInput.placeholder = 'Enter license information (e.g., CC BY 4.0, © Author Name)...'
-
-                // Add focus styles
-                $licenseInput.addEventListener('focus', () => {
-                    $licenseInput.style.borderColor = color.memoGreen
-                    $licenseInput.style.outline = 'none'
-                })
-                $licenseInput.addEventListener('blur', () => {
-                    $licenseInput.style.borderColor = '#ddd'
-                })
-
-                // Create button container
-                const $buttonContainer = document.createElement('div')
-                $buttonContainer.setAttribute('style', 'display: flex; justify-content: flex-end; gap: 10px;')
-
-                const $cancelButton = document.createElement('button')
-                $cancelButton.textContent = 'Cancel'
-                $cancelButton.setAttribute('style', `
-                    padding: 10px 20px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                    background: white;
-                    cursor: pointer;
-                    font-family: inherit;
-                    font-size: 14px;
-                    transition: background-color 0.2s, border-color 0.2s;
-                `)
-
-                const $saveButton = document.createElement('button')
-                $saveButton.textContent = 'Save'
-                $saveButton.setAttribute('style', `
-                    padding: 10px 20px;
-                    border: none;
-                    border-radius: 4px;
-                    background: ${color.memoGreen};
-                    color: white;
-                    cursor: pointer;
-                    font-family: inherit;
-                    font-size: 14px;
-                    font-weight: bold;
-                    transition: background-color 0.2s;
-                `)
-
-                // Add hover effects
-                $cancelButton.addEventListener('mouseenter', () => {
-                    $cancelButton.style.backgroundColor = '#f5f5f5'
-                    $cancelButton.style.borderColor = '#bbb'
-                })
-                $cancelButton.addEventListener('mouseleave', () => {
-                    $cancelButton.style.backgroundColor = 'white'
-                    $cancelButton.style.borderColor = '#ddd'
-                })
-
-                $saveButton.addEventListener('mouseenter', () => {
-                    $saveButton.style.backgroundColor = '#45a049'
-                })
-                $saveButton.addEventListener('mouseleave', () => {
-                    $saveButton.style.backgroundColor = color.memoGreen
-                })
-
-                // Add event listeners
-                $cancelButton.addEventListener('click', () => {
-                    document.body.removeChild($modalOverlay)
-                })
-
-                $saveButton.addEventListener('click', () => {
-                    const newCaption = $captionInput.value.trim() || null
-                    const newLicense = $licenseInput.value.trim() || null
-                    
-                    // Update node attributes
-                    if (typeof getPos === 'function') {
-                        const newAttrs = {
-                            ...node.attrs,
-                            caption: newCaption,
-                            license: newLicense
+                const store = useTiptapImageLicenseStore()
+                store.openEditModal(
+                    caption, 
+                    license, 
+                    src, 
+                    alt,
+                    (data) => {
+                        const { caption: newCaption, license: newLicense } = data
+                        
+                        // Update node attributes
+                        if (typeof getPos === 'function') {
+                            const newAttrs = {
+                                ...node.attrs,
+                                caption: newCaption,
+                                license: newLicense
+                            }
+                            view.dispatch(view.state.tr.setNodeMarkup(getPos(), null, newAttrs))
                         }
-                        view.dispatch(view.state.tr.setNodeMarkup(getPos(), null, newAttrs))
-                    }
 
-                    // Update figcaption in DOM
-                    const existingFigcaption = $container.querySelector('figcaption')
-                    if (existingFigcaption) {
-                        $container.removeChild(existingFigcaption)
-                    }
-
-                    const formattedCaption = formatCaptionWithLicense(newCaption, newLicense)
-                    if (formattedCaption) {
-                        const $figcaption = document.createElement('figcaption')
-                        $figcaption.className = 'tiptap-figcaption'
-                        $figcaption.textContent = formattedCaption
-                        if (newLicense) {
-                            $figcaption.setAttribute('data-license', newLicense)
+                        // Update figcaption in DOM
+                        const existingFigcaption = $container.querySelector('figcaption')
+                        if (existingFigcaption) {
+                            $container.removeChild(existingFigcaption)
                         }
-                        $container.appendChild($figcaption)
+
+                        const captionData = formatCaptionWithLicense(newCaption, newLicense)
+                        if (captionData.text) {
+                            const $figcaption = document.createElement('figcaption')
+                            $figcaption.className = 'tiptap-figcaption'
+                            if (!captionData.hasLicense) {
+                                $figcaption.classList.add('no-license')
+                            }
+                            $figcaption.textContent = captionData.text
+                            if (newLicense) {
+                                $figcaption.setAttribute('data-license', newLicense)
+                            }
+                            addFigcaptionClickHandler($figcaption, newCaption, newLicense, src, alt)
+                            $container.appendChild($figcaption)
+                        }
                     }
-
-                    document.body.removeChild($modalOverlay)
-                })
-
-                // Close modal on overlay click
-                $modalOverlay.addEventListener('click', (e) => {
-                    if (e.target === $modalOverlay) {
-                        document.body.removeChild($modalOverlay)
-                    }
-                })
-
-                // Escape key closes modal, Enter saves (if not in textarea)
-                const escapeHandler = (e) => {
-                    if (e.key === 'Escape') {
-                        document.body.removeChild($modalOverlay)
-                        document.removeEventListener('keydown', escapeHandler)
-                    } else if (e.key === 'Enter' && e.target !== $captionInput && !e.shiftKey) {
-                        e.preventDefault()
-                        $saveButton.click()
-                        document.removeEventListener('keydown', escapeHandler)
-                    }
-                }
-                document.addEventListener('keydown', escapeHandler)
-
-                // Assemble modal
-                $buttonContainer.appendChild($cancelButton)
-                $buttonContainer.appendChild($saveButton)
-
-                $modal.appendChild($title)
-                $modal.appendChild($captionLabel)
-                $modal.appendChild($captionInput)
-                $modal.appendChild($licenseLabel)
-                $modal.appendChild($licenseInput)
-                $modal.appendChild($buttonContainer)
-
-                $modalOverlay.appendChild($modal)
-                document.body.appendChild($modalOverlay)
-
-                // Focus on caption input
-                $captionInput.focus()
+                )
             }
 
             const paintPositionController = () => {
@@ -483,7 +350,7 @@ const ImageResize = Image.extend({
                 const $captionController = document.createElement('div')
                 $captionController.classList.add('menubar_button', 'caption-controller')
                 const captionIcon = document.createElement('i')
-                captionIcon.classList.add('fa-solid', 'fa-pen')
+                captionIcon.classList.add('fa-solid', 'fa-file-contract')
                 $captionController.appendChild(captionIcon)
                 $captionController.title = 'Edit caption and license'
                 $captionController.addEventListener('click', (e) => {
@@ -516,14 +383,18 @@ const ImageResize = Image.extend({
             $container.appendChild($img)
 
             // Add figcaption if caption or license exists
-            const formattedCaption = formatCaptionWithLicense(caption, license)
-            if (formattedCaption) {
+            const captionData = formatCaptionWithLicense(caption, license)
+            if (captionData.text) {
                 const $figcaption = document.createElement('figcaption')
                 $figcaption.className = 'tiptap-figcaption'
-                $figcaption.textContent = formattedCaption
+                if (!captionData.hasLicense) {
+                    $figcaption.classList.add('no-license')
+                }
+                $figcaption.textContent = captionData.text
                 if (license) {
                     $figcaption.setAttribute('data-license', license)
                 }
+                addFigcaptionClickHandler($figcaption, caption, license, src, alt)
                 $container.appendChild($figcaption)
             }
 
@@ -544,6 +415,7 @@ const ImageResize = Image.extend({
             let startX, startWidth
 
             $container.addEventListener('click', (e) => {
+
                 // Remove remaining dots and position controller (but keep floating button)
                 const isMobile = document.documentElement.clientWidth < 768
                 isMobile && (document.querySelector('.ProseMirror-focused')?.blur())

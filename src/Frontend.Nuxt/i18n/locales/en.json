@@ -1522,6 +1522,15 @@
         "license": {
             "info": "Licence info"
         },
+        "licenseInfo": {
+            "title": "Image License Information",
+            "editTitle": "Edit Image Caption and License",
+            "caption": "Caption",
+            "license": "License",
+            "noLicense": "No license information available",
+            "captionPlaceholder": "Enter image caption...",
+            "licensePlaceholder": "Enter license information (e.g., CC BY 4.0, © Author Name)..."
+        },
         "modal": {
             "title": "Image details",
             "description": "Description:"

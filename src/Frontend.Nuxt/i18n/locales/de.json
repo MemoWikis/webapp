@@ -1522,6 +1522,15 @@
         "license": {
             "info": "Lizenzinfos"
         },
+        "licenseInfo": {
+            "title": "Bildlizenz-Informationen",
+            "editTitle": "Bildunterschrift und Lizenz bearbeiten",
+            "caption": "Bildunterschrift",
+            "license": "Lizenz",
+            "noLicense": "Keine Lizenzinformationen verfügbar",
+            "captionPlaceholder": "Bildunterschrift eingeben...",
+            "licensePlaceholder": "Lizenzinformationen eingeben (z.B. CC BY 4.0, © Autorenname)..."
+        },
         "modal": {
             "title": "Bilddetails",
             "description": "Beschreibung:"
