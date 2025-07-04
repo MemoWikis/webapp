@@ -9,34 +9,40 @@ const borderStyle = `1px dashed ${color.memoGreen}`
 const resizeHandle = `position: absolute; width: 9px; height: 9px; border: 2px solid ${color.memoGreyDarker}; border-radius: 50%;`
 const fontColor = `${color.memoGreyLighter}`
 
-// Helper function to format caption with license
-const formatCaptionWithLicense = (caption, license) => {
-    // Strip HTML tags for figcaption display
-    const stripHtml = (html) => {
-        if (!html) return ''
-        const temp = document.createElement('div')
-        temp.innerHTML = html
-        return temp.textContent || temp.innerText || ''
+// Helper function to get figcaption content
+const getFigcaptionContent = (caption, license) => {
+    // Helper to check if HTML content has actual content (not just empty tags)
+    const hasActualContent = (html) => {
+        if (!html) return false
+        const trimmed = html.trim()
+        return trimmed !== '' && trimmed !== '<p></p>' && trimmed !== '<br>'
     }
     
-    const cleanCaption = stripHtml(caption)
-    const cleanLicense = stripHtml(license)
+    const cleanCaption = caption || ''
+    const cleanLicense = license || ''
     
-    const hasLicense = !!cleanLicense
-    let text = ''
+    const hasCaption = hasActualContent(cleanCaption)
+    const hasLicense = hasActualContent(cleanLicense)
     
-    if (!cleanCaption && !cleanLicense) text = `(No license)`
-    else if (!cleanCaption && cleanLicense) text = `(${cleanLicense})`
-    else if (cleanCaption && !cleanLicense) text = `${cleanCaption} (No license)`
-    else text = `${cleanCaption} (${cleanLicense})`
+    let html = ''
     
-    return { text, hasLicense }
+    if (!hasCaption && !hasLicense) html = `(No license)`
+    else if (!hasCaption && hasLicense) html = `${cleanLicense}`
+    else if (hasCaption && !hasLicense) html = `${cleanCaption} (No license)`
+    else html = `${cleanCaption} ${cleanLicense}`
+    
+    return { html, hasLicense }
 }
 
 // Helper function to add figcaption click handler
 const addFigcaptionClickHandler = ($figcaption, caption, license, src, alt) => {
     $figcaption.style.cursor = 'pointer'
     $figcaption.addEventListener('click', (e) => {
+        // Don't trigger if clicking on a link or if the target is inside a link
+        if (e.target.tagName === 'A' || e.target.closest('a')) {
+            return // Let the link handle its own click
+        }
+        
         e.preventDefault()
         e.stopPropagation()
         const store = useTiptapImageLicenseStore()
@@ -76,7 +82,7 @@ const ImageResize = Image.extend({
                 default: null,
                 parseHTML: (element) => {
                     const figcaption = element.querySelector('figcaption')
-                    return figcaption?.textContent || null
+                    return figcaption?.innerHTML || null
                 },
             },
             license: {
@@ -163,7 +169,7 @@ const ImageResize = Image.extend({
                         src: img.getAttribute('src'),
                         alt: img.getAttribute('alt'),
                         title: img.getAttribute('title'),
-                        caption: figcaption?.textContent || null,
+                        caption: figcaption?.innerHTML || null,
                         license: figcaption?.getAttribute('data-license') || null,
                         style: element.style.cssText || 'width: 100%; height: auto; cursor: pointer;'
                     }
@@ -189,8 +195,8 @@ const ImageResize = Image.extend({
         
         const imgElement = ['img', { src, alt, class: 'tiptap-image', ...imgAttrs }]
         
-        const captionData = formatCaptionWithLicense(caption, license)
-        if (captionData.text) {
+        const captionData = getFigcaptionContent(caption, license)
+        if (captionData.html) {
             const figcaptionClasses = ['tiptap-figcaption']
             if (!captionData.hasLicense) {
                 figcaptionClasses.push('no-license')
@@ -208,7 +214,7 @@ const ImageResize = Image.extend({
                 'figure',
                 { style, class: 'tiptap-figure' },
                 imgElement,
-                ['figcaption', figcaptionAttrs, captionData.text]
+                ['figcaption', figcaptionAttrs, captionData.html]
             ]
         } else {
             return [
@@ -267,11 +273,14 @@ const ImageResize = Image.extend({
                     (data) => {
                         const { caption: newCaption, license: newLicense } = data
                         
-                        // Update node attributes
+                        // Create the complete figcaption HTML
+                        const captionData = getFigcaptionContent(newCaption, newLicense)
+                        
+                        // Update node attributes - store the complete HTML in caption
                         if (typeof getPos === 'function') {
                             const newAttrs = {
                                 ...node.attrs,
-                                caption: newCaption,
+                                caption: captionData.html,
                                 license: newLicense
                             }
                             view.dispatch(view.state.tr.setNodeMarkup(getPos(), null, newAttrs))
@@ -283,18 +292,17 @@ const ImageResize = Image.extend({
                             $container.removeChild(existingFigcaption)
                         }
 
-                        const captionData = formatCaptionWithLicense(newCaption, newLicense)
-                        if (captionData.text) {
+                        if (captionData.html) {
                             const $figcaption = document.createElement('figcaption')
                             $figcaption.className = 'tiptap-figcaption'
                             if (!captionData.hasLicense) {
                                 $figcaption.classList.add('no-license')
                             }
-                            $figcaption.textContent = captionData.text
+                            $figcaption.innerHTML = captionData.html
                             if (newLicense) {
                                 $figcaption.setAttribute('data-license', newLicense)
                             }
-                            addFigcaptionClickHandler($figcaption, newCaption, newLicense, src, alt)
+                            addFigcaptionClickHandler($figcaption, captionData.html, newLicense, src, alt)
                             $container.appendChild($figcaption)
                         }
                     }
@@ -383,14 +391,14 @@ const ImageResize = Image.extend({
             $container.appendChild($img)
 
             // Add figcaption if caption or license exists
-            const captionData = formatCaptionWithLicense(caption, license)
-            if (captionData.text) {
+            const captionData = getFigcaptionContent(caption, license)
+            if (captionData.html) {
                 const $figcaption = document.createElement('figcaption')
                 $figcaption.className = 'tiptap-figcaption'
                 if (!captionData.hasLicense) {
                     $figcaption.classList.add('no-license')
                 }
-                $figcaption.textContent = captionData.text
+                $figcaption.innerHTML = captionData.html
                 if (license) {
                     $figcaption.setAttribute('data-license', license)
                 }
@@ -414,7 +422,9 @@ const ImageResize = Image.extend({
             let isResizing = false
             let startX, startWidth
 
-            $container.addEventListener('click', (e) => {
+            $img.addEventListener('click', (e) => {
+                e.preventDefault()
+                e.stopPropagation()
 
                 // Remove remaining dots and position controller (but keep floating button)
                 const isMobile = document.documentElement.clientWidth < 768

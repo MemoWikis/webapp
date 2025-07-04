@@ -324,6 +324,10 @@ watch(locale, () => {
 		text-align: center;
 		color: @memo-grey-dark;
 		font-size: 1.4rem;
+
+		p {
+			margin-bottom: 0;
+		}
 	}
 }
 </style>
