@@ -1,8 +1,27 @@
 <script setup lang="ts">
 import { useTiptapImageLicenseStore } from './tiptapImageLicenseStore'
+import { useUserStore } from '~/components/user/userStore'
 
 const tiptapImageLicenseStore = useTiptapImageLicenseStore()
+const userStore = useUserStore()
 const { t } = useI18n()
+
+const handleEdit = () => {
+    // Close the view modal first
+    tiptapImageLicenseStore.closeModal()
+
+    // Open the edit modal with the same data
+    tiptapImageLicenseStore.openEditModal(
+        tiptapImageLicenseStore.caption,
+        tiptapImageLicenseStore.license,
+        tiptapImageLicenseStore.imageUrl,
+        tiptapImageLicenseStore.imageAlt,
+        () => {
+            // Callback function - could be used to refresh data if needed
+            // For now, we don't need to do anything as the edit modal handles updates
+        }
+    )
+}
 </script>
 
 <template>
@@ -10,6 +29,8 @@ const { t } = useI18n()
         :show="tiptapImageLicenseStore.show"
         @close="tiptapImageLicenseStore.closeModal()"
         :show-close-button="true"
+        :secondary-btn-label="userStore.isLoggedIn ? t('label.edit') : undefined"
+        @secondary-btn="handleEdit"
         @keydown.esc="tiptapImageLicenseStore.closeModal()">
 
         <template v-slot:header>
@@ -43,10 +64,6 @@ const { t } = useI18n()
                     </div>
                 </div>
             </div>
-        </template>
-
-        <template v-slot:footer>
-            <!-- Empty footer -->
         </template>
     </LazyModal>
 </template>

@@ -204,7 +204,8 @@
         "registerWithFacebook": "Register with Facebook",
         "attention": "Attention",
         "toUpload": "to upload and embed in this way.",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "edit": "Edit"
     },
     "register": {
         "title": "Register",

@@ -204,7 +204,8 @@
         "registerWithFacebook": "Registrierung mit Facebook",
         "attention": "Achtung",
         "toUpload": "hochzuladen und so einzubinden.",
-        "cancel": "Abbrechen"
+        "cancel": "Abbrechen",
+        "edit": "Bearbeiten"
     },
     "register": {
         "title": "Registrieren",
