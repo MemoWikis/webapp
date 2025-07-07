@@ -275,7 +275,7 @@ const initEditor = () => {
         editorProps: {
             handlePaste: (view, pos, event) => {
                 const firstNode = event.content.firstChild
-                if (firstNode != null && firstNode.type.name === 'image') {
+                if (firstNode != null && (firstNode.type.name === 'image' || firstNode.type.name === 'figure')) {
                     if (!isEmpty(firstNode.attrs)) {
                         const src = firstNode.attrs.src
                         if (src.startsWith('data:image')) {

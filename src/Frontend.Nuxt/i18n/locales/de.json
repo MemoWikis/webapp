@@ -1526,6 +1526,7 @@
         "licenseInfo": {
             "title": "Bildlizenz-Informationen",
             "editTitle": "Bildunterschrift und Lizenz bearbeiten",
+            "viewTitle": "Bildunterschrift und Lizenz",
             "caption": "Bildunterschrift",
             "license": "Lizenz",
             "noLicense": "Keine Lizenzinformationen verfügbar",

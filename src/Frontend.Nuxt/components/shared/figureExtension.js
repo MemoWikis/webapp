@@ -188,12 +188,25 @@ const FigureExtension = Image.extend({
                     
                     if (!img) return false
                     
+                    let caption = null
+                    let license = null
+                    
+                    if (figcaption) {
+                        // Always get caption and license from data attributes
+                        caption = figcaption.getAttribute('data-caption') || null
+                        license = figcaption.getAttribute('data-license') || null
+                        
+                        // Clean up empty values
+                        if (!caption || caption === '') caption = null
+                        if (!license || license === '') license = null
+                    }
+                    
                     return {
                         src: img.getAttribute('src'),
                         alt: img.getAttribute('alt'),
                         title: img.getAttribute('title'),
-                        caption: figcaption?.innerHTML || null,
-                        license: figcaption?.getAttribute('data-license') || null,
+                        caption: caption,
+                        license: license,
                         style: element.style.cssText || 'width: 100%; height: auto; cursor: pointer;'
                     }
                 }
@@ -233,6 +246,10 @@ const FigureExtension = Image.extend({
                 figcaptionAttrs['data-license'] = license
             }
             
+            if (caption) {
+                figcaptionAttrs['data-caption'] = caption
+            }
+            
             // Use text version for SSR/prerendering to avoid HTML display issues
             return [
                 'figure',
@@ -261,21 +278,6 @@ const FigureExtension = Image.extend({
             const $wrapper = document.createElement('div')
             const $container = document.createElement('figure')
             const $img = document.createElement('img')
-            const iconStyle = `
-                background: white;
-                border: hidden;
-                font-size: 18px;
-                width: 36px;
-                height: 36px;
-                margin: 0px;
-                color: ${color.memoGreyDarker};
-                text-align: center;
-                padding: 0px 21px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                transition: filter 0.1s;        
-            `
 
             const dispatchNodeView = () => {
                 if (typeof getPos === 'function') {
@@ -323,9 +325,15 @@ const FigureExtension = Image.extend({
                                 $figcaption.classList.add('no-license')
                             }
                             $figcaption.innerHTML = captionData.html
+                            
+                            // Always add data attributes for future parsing
+                            if (newCaption) {
+                                $figcaption.setAttribute('data-caption', newCaption)
+                            }
                             if (newLicense) {
                                 $figcaption.setAttribute('data-license', newLicense)
                             }
+                            
                             addFigcaptionClickHandler($figcaption, newCaption, newLicense, src, alt, showCaptionModal)
                             $container.appendChild($figcaption)
                         }
@@ -422,9 +430,15 @@ const FigureExtension = Image.extend({
                     $figcaption.classList.add('no-license')
                 }
                 $figcaption.innerHTML = captionData.html
+                
+                // Always add data attributes for future parsing
+                if (caption) {
+                    $figcaption.setAttribute('data-caption', caption)
+                }
                 if (license) {
                     $figcaption.setAttribute('data-license', license)
                 }
+                
                 addFigcaptionClickHandler($figcaption, caption, license, src, alt, showCaptionModal)
                 $container.appendChild($figcaption)
             }
@@ -553,7 +567,7 @@ const FigureExtension = Image.extend({
             // Click outside to remove controls
             document.addEventListener('click', (e) => {
                 const $target = e.target
-                const isClickInside = $container.contains($target) || $target.style.cssText === iconStyle
+                const isClickInside = $container.contains($target) || $target.classList.contains('menubar_button')
 
                 if (!isClickInside) {
                     // Remove active class to hide border and controls

@@ -32,7 +32,7 @@ const captionEditor = useEditor({
             }
         }),
         Placeholder.configure({
-            placeholder: () => t('image.licenseInfo.captionPlaceholder')
+            placeholder: t('image.licenseInfo.captionPlaceholder')
         })
     ],
     content: '',
@@ -64,7 +64,7 @@ const licenseEditor = useEditor({
             }
         }),
         Placeholder.configure({
-            placeholder: () => t('image.licenseInfo.licensePlaceholder')
+            placeholder: () => pageStore.canEdit ? t('image.licenseInfo.licensePlaceholder') : ''
         })
     ],
     content: '',
@@ -84,32 +84,13 @@ watch(() => tiptapImageLicenseStore.showEdit, (show) => {
 }, { immediate: true })
 
 const handleSave = () => {
-    // Get HTML content to preserve formatting (links, etc.)
-    const captionContent = captionEditor.value?.getHTML() || ''
-    const licenseContent = licenseEditor.value?.getHTML() || ''
+    // Check if editors are empty using TipTap's isEmpty method
+    const captionIsEmpty = captionEditor.value?.isEmpty ?? true
+    const licenseIsEmpty = licenseEditor.value?.isEmpty ?? true
 
-    // Helper function to thoroughly trim whitespace from HTML content
-    const trimHtmlContent = (content: string): string | null => {
-        if (!content) return null
-
-        // Remove leading/trailing whitespace
-        let trimmed = content.trim()
-
-        // If content is just empty paragraph tags, treat as null
-        if (trimmed === '<p></p>' || trimmed === '') return null
-
-        // For paragraph content, also trim whitespace inside the paragraph tags
-        // This handles cases like '<p>  some text  </p>' -> '<p>some text</p>'
-        trimmed = trimmed.replace(/^<p>\s+/, '<p>').replace(/\s+<\/p>$/, '</p>')
-
-        // Handle multiple paragraphs - trim each one
-        trimmed = trimmed.replace(/<p>\s+/g, '<p>').replace(/\s+<\/p>/g, '</p>')
-
-        return trimmed
-    }
-
-    const cleanCaption = trimHtmlContent(captionContent)
-    const cleanLicense = trimHtmlContent(licenseContent)
+    // Get HTML content only if not empty, otherwise use null
+    const cleanCaption = captionIsEmpty ? null : captionEditor.value?.getHTML()?.trim() || null
+    const cleanLicense = licenseIsEmpty ? null : licenseEditor.value?.getHTML()?.trim() || null
 
     tiptapImageLicenseStore.saveEdit({
         caption: cleanCaption,
@@ -133,15 +114,15 @@ onBeforeUnmount(() => {
         :show="tiptapImageLicenseStore.showEdit"
         @close="handleCancel"
         :show-close-button="true"
-        :primary-btn-label="t('label.save')"
-        :show-cancel-btn="true"
+        :primary-btn-label="pageStore.canEdit ? t('label.save') : undefined"
+        :show-cancel-btn="pageStore.canEdit"
         @primary-btn="handleSave"
         @secondary-btn="handleCancel"
         @keydown.esc="handleCancel">
 
         <template v-slot:header>
             <h2>
-                {{ t('image.licenseInfo.editTitle') }}
+                {{ pageStore.canEdit ? t('image.licenseInfo.editTitle') : t('image.licenseInfo.viewTitle') }}
             </h2>
         </template>
 
