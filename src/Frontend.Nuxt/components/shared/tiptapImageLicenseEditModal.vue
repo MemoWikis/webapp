@@ -4,13 +4,16 @@ import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
+import { useUserStore } from '~/components/user/userStore'
 
 const tiptapImageLicenseStore = useTiptapImageLicenseStore()
 const { t } = useI18n()
 
+const userStore = useUserStore()
+
 // Caption editor with basic text and links
 const captionEditor = useEditor({
-    editable: true,
+    editable: userStore.isLoggedIn,
     extensions: [
         StarterKit.configure({
             // Disable block elements - only allow inline text formatting
@@ -42,7 +45,7 @@ const captionEditor = useEditor({
 
 // License editor with basic text and links
 const licenseEditor = useEditor({
-    editable: true,
+    editable: userStore.isLoggedIn,
     extensions: [
         StarterKit.configure({
             // Disable block elements - only allow inline text formatting
@@ -125,6 +128,14 @@ onBeforeUnmount(() => {
 
         <template v-slot:body>
             <div class="edit-license-container">
+                <!-- Image Preview -->
+                <div class="image-preview" v-if="tiptapImageLicenseStore.imageUrl">
+                    <img
+                        :src="tiptapImageLicenseStore.imageUrl"
+                        :alt="tiptapImageLicenseStore.imageAlt || ''"
+                        class="license-modal-image" />
+                </div>
+
                 <div class="form-group">
                     <label class="form-label">
                         {{ t('image.licenseInfo.caption') }}:
@@ -151,6 +162,18 @@ onBeforeUnmount(() => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .edit-license-container {
+    .image-preview {
+        margin-bottom: 20px;
+        text-align: center;
+
+        .license-modal-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+
     .form-group {
         margin-bottom: 20px;
 
