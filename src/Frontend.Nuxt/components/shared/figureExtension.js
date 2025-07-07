@@ -105,7 +105,7 @@ const FigureExtension = Image.extend({
                 default: null,
                 parseHTML: (element) => {
                     const figcaption = element.querySelector('figcaption')
-                    return figcaption?.innerHTML || null
+                    return figcaption?.getAttribute('data-caption') || null
                 },
             },
             license: {
