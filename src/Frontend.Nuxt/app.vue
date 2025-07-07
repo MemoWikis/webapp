@@ -310,24 +310,6 @@ watch(locale, () => {
 	}
 }
 
-.tiptap-figure {
-	border: 1px solid transparent;
-	margin-top: 24px !important;
-
-	img {
-		width: 100%;
-		height: auto;
-	}
-
-	.tiptap-figcaption {
-		font-style: italic;
-		text-align: center;
-		color: @memo-grey-dark;
-		font-size: 1.4rem;
-
-		p {
-			margin-bottom: 0;
-		}
-	}
-}
+// Import TipTap Figure Extension styles
+@import '@/components/shared/figure-extension.less';
 </style>

@@ -1,0 +1,109 @@
+// TipTap Figure Extension Styles
+// Based on the image resize extension for TipTap
+
+.tiptap-figure {
+    border: 1px solid transparent;
+    margin-top: 24px !important;
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    .tiptap-figcaption {
+        font-style: italic;
+        text-align: center;
+        color: @memo-grey-dark;
+        font-size: 1.4rem;
+
+        p {
+            margin-bottom: 0;
+        }
+
+        &.no-license {
+            opacity: 0.8;
+        }
+    }
+
+    // Active state when image is selected/clicked
+    &.active {
+        border: 1px dashed @memo-green;
+        position: relative;
+    }
+
+    // Position controller buttons
+    .position-controller, .caption-controller {
+        z-index: 4;
+    }
+
+    // Caption/license editing button
+    .caption-controller {
+        background: white;
+        transition: all 0.2s;
+    }
+
+    // Resize handles (dots)
+    .resize-handle {
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        border: 2px solid @memo-grey-darker;
+        border-radius: 50%;
+        background: white;
+        z-index: 10;
+
+        &.top-left {
+            top: -4px;
+            left: -4px;
+            cursor: nwse-resize;
+        }
+
+        &.top-right {
+            top: -4px;
+            right: -4px;
+            cursor: nesw-resize;
+        }
+
+        &.bottom-left {
+            bottom: -4px;
+            left: -4px;
+            cursor: nesw-resize;
+        }
+
+        &.bottom-right {
+            bottom: -4px;
+            right: -4px;
+            cursor: nwse-resize;
+        }
+
+        // Mobile adjustments
+        @media (max-width: 768px) {
+            &.top-left {
+                top: -8px;
+                left: -8px;
+            }
+
+            &.top-right {
+                top: -8px;
+                right: -8px;
+            }
+
+            &.bottom-left {
+                bottom: -8px;
+                left: -8px;
+            }
+
+            &.bottom-right {
+                bottom: -8px;
+                right: -8px;
+            }
+        }
+    }
+}
+
+// Global image styling for TipTap
+.tiptap-image {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+}
