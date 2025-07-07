@@ -85,12 +85,31 @@ watch(() => tiptapImageLicenseStore.showEdit, (show) => {
 
 const handleSave = () => {
     // Get HTML content to preserve formatting (links, etc.)
-    const captionContent = captionEditor.value?.getHTML()?.trim() || null
-    const licenseContent = licenseEditor.value?.getHTML()?.trim() || null
+    const captionContent = captionEditor.value?.getHTML() || ''
+    const licenseContent = licenseEditor.value?.getHTML() || ''
 
-    // If content is just empty paragraph tags, treat as null
-    const cleanCaption = (captionContent === '<p></p>' || !captionContent) ? null : captionContent
-    const cleanLicense = (licenseContent === '<p></p>' || !licenseContent) ? null : licenseContent
+    // Helper function to thoroughly trim whitespace from HTML content
+    const trimHtmlContent = (content: string): string | null => {
+        if (!content) return null
+
+        // Remove leading/trailing whitespace
+        let trimmed = content.trim()
+
+        // If content is just empty paragraph tags, treat as null
+        if (trimmed === '<p></p>' || trimmed === '') return null
+
+        // For paragraph content, also trim whitespace inside the paragraph tags
+        // This handles cases like '<p>  some text  </p>' -> '<p>some text</p>'
+        trimmed = trimmed.replace(/^<p>\s+/, '<p>').replace(/\s+<\/p>$/, '</p>')
+
+        // Handle multiple paragraphs - trim each one
+        trimmed = trimmed.replace(/<p>\s+/g, '<p>').replace(/\s+<\/p>/g, '</p>')
+
+        return trimmed
+    }
+
+    const cleanCaption = trimHtmlContent(captionContent)
+    const cleanLicense = trimHtmlContent(licenseContent)
 
     tiptapImageLicenseStore.saveEdit({
         caption: cleanCaption,
@@ -168,9 +187,7 @@ onBeforeUnmount(() => {
 
         .license-modal-image {
             max-width: 100%;
-            max-height: 300px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-height: auto;
         }
     }
 
@@ -187,19 +204,10 @@ onBeforeUnmount(() => {
 
         .editor-wrapper {
             border: 1px solid @memo-grey-light;
-            border-radius: 4px;
             transition: border-color 0.2s;
 
             &:focus-within {
                 border-color: @memo-green;
-            }
-
-            .tiptap-field {
-                min-height: 40px;
-
-                &.caption-editor {
-                    min-height: 80px;
-                }
             }
         }
     }
@@ -214,14 +222,6 @@ onBeforeUnmount(() => {
     outline: none;
     border: none;
     background: transparent;
-
-    &.caption-editor {
-        min-height: 64px;
-    }
-
-    &.license-editor {
-        min-height: 24px;
-    }
 
     // Placeholder styles
     .is-editor-empty:first-child::before {

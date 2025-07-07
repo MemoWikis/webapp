@@ -51,7 +51,7 @@ const getFigcaptionContent = (caption, license) => {
 }
 
 // Helper function to add figcaption click handler
-const addFigcaptionClickHandler = ($figcaption, caption, license, src, alt) => {
+const addFigcaptionClickHandler = ($figcaption, caption, license, src, alt, showModalFn) => {
     $figcaption.style.cursor = 'pointer'
     $figcaption.addEventListener('click', (e) => {
         // Don't trigger if clicking on a link or if the target is inside a link
@@ -61,8 +61,15 @@ const addFigcaptionClickHandler = ($figcaption, caption, license, src, alt) => {
         
         e.preventDefault()
         e.stopPropagation()
-        const store = useTiptapImageLicenseStore()
-        store.openModal(caption, license, src, alt)
+        
+        // Use the provided modal function (which has access to the update logic)
+        if (showModalFn) {
+            showModalFn()
+        } else {
+            // Fallback: just open edit modal without update logic
+            const store = useTiptapImageLicenseStore()
+            store.openEditModal(caption, license, src, alt, () => {})
+        }
     })
 }
 
@@ -319,7 +326,7 @@ const FigureExtension = Image.extend({
                             if (newLicense) {
                                 $figcaption.setAttribute('data-license', newLicense)
                             }
-                            addFigcaptionClickHandler($figcaption, newCaption, newLicense, src, alt)
+                            addFigcaptionClickHandler($figcaption, newCaption, newLicense, src, alt, showCaptionModal)
                             $container.appendChild($figcaption)
                         }
                     }
@@ -418,7 +425,7 @@ const FigureExtension = Image.extend({
                 if (license) {
                     $figcaption.setAttribute('data-license', license)
                 }
-                addFigcaptionClickHandler($figcaption, caption, license, src, alt)
+                addFigcaptionClickHandler($figcaption, caption, license, src, alt, showCaptionModal)
                 $container.appendChild($figcaption)
             }
 
