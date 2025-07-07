@@ -293,12 +293,12 @@ const FigureExtension = Image.extend({
                         // Create the complete figcaption HTML
                         const captionData = getFigcaptionContent(newCaption, newLicense)
                         
-                        // Update node attributes - store the complete HTML in caption
+                        // Update node attributes - store caption and license separately
                         if (typeof getPos === 'function') {
                             const newAttrs = {
                                 ...node.attrs,
-                                caption: captionData.html,
-                                license: newLicense
+                                caption: newCaption,    // Store only the caption content
+                                license: newLicense     // Store only the license content
                             }
                             view.dispatch(view.state.tr.setNodeMarkup(getPos(), null, newAttrs))
                         }
@@ -319,7 +319,7 @@ const FigureExtension = Image.extend({
                             if (newLicense) {
                                 $figcaption.setAttribute('data-license', newLicense)
                             }
-                            addFigcaptionClickHandler($figcaption, captionData.html, newLicense, src, alt)
+                            addFigcaptionClickHandler($figcaption, newCaption, newLicense, src, alt)
                             $container.appendChild($figcaption)
                         }
                     }
