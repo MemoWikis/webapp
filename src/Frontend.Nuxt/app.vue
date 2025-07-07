@@ -287,8 +287,7 @@ watch(locale, () => {
 		<LazyAlert />
 		<LazyActivityPointsLevelPopUp />
 		<LazyImageLicenseDetailModal />
-		<LazySharedTiptapImageLicenseModal />
-		<LazySharedTiptapImageLicenseEditModal />
+		<LazySharedFigureExtensionModal />
 		<SnackBar />
 		<LazyPageConvertModal />
 	</ClientOnly>

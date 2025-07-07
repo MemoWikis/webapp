@@ -4,16 +4,16 @@ import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
-import { useUserStore } from '~/components/user/userStore'
+import { usePageStore } from '~/components/page/pageStore'
 
 const tiptapImageLicenseStore = useTiptapImageLicenseStore()
 const { t } = useI18n()
 
-const userStore = useUserStore()
+const pageStore = usePageStore()
 
 // Caption editor with basic text and links
 const captionEditor = useEditor({
-    editable: userStore.isLoggedIn,
+    editable: pageStore.canEdit,
     extensions: [
         StarterKit.configure({
             // Disable block elements - only allow inline text formatting
@@ -45,7 +45,7 @@ const captionEditor = useEditor({
 
 // License editor with basic text and links
 const licenseEditor = useEditor({
-    editable: userStore.isLoggedIn,
+    editable: pageStore.canEdit,
     extensions: [
         StarterKit.configure({
             // Disable block elements - only allow inline text formatting
@@ -209,6 +209,11 @@ onBeforeUnmount(() => {
             &:focus-within {
                 border-color: @memo-green;
             }
+
+            // Red border when editor is not editable
+            &:has([contenteditable="false"]) {
+                border-color: transparent;
+            }
         }
     }
 }
@@ -222,6 +227,17 @@ onBeforeUnmount(() => {
     outline: none;
     border: none;
     background: transparent;
+
+    &.caption-editor,
+    &.license-editor {
+
+        // Not editable state
+        &[contenteditable="false"] {
+            background-color: @memo-grey-lightest;
+            color: @memo-grey-darker;
+            cursor: not-allowed;
+        }
+    }
 
     // Placeholder styles
     .is-editor-empty:first-child::before {
