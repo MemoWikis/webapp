@@ -7,7 +7,6 @@ import { useTiptapImageLicenseStore } from './tiptapImageLicenseStore'
 
 const borderStyle = `1px dashed ${color.memoGreen}`
 const resizeHandle = `position: absolute; width: 9px; height: 9px; border: 2px solid ${color.memoGreyDarker}; border-radius: 50%;`
-const fontColor = `${color.memoGreyLighter}`
 
 // Helper function to get figcaption content
 const getFigcaptionContent = (caption, license) => {
@@ -18,20 +17,37 @@ const getFigcaptionContent = (caption, license) => {
         return trimmed !== '' && trimmed !== '<p></p>' && trimmed !== '<br>'
     }
     
+    // Helper to strip HTML tags for text-only rendering
+    const stripHtml = (html) => {
+        if (!html) return ''
+        // Simple regex-based HTML tag removal that works in both client and server environments
+        return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').trim()
+    }
+    
     const cleanCaption = caption || ''
     const cleanLicense = license || ''
     
     const hasCaption = hasActualContent(cleanCaption)
     const hasLicense = hasActualContent(cleanLicense)
     
+    // Create HTML version (for interactive use)
     let html = ''
-    
     if (!hasCaption && !hasLicense) html = `(No license)`
     else if (!hasCaption && hasLicense) html = `${cleanLicense}`
     else if (hasCaption && !hasLicense) html = `${cleanCaption} (No license)`
     else html = `${cleanCaption} ${cleanLicense}`
     
-    return { html, hasLicense }
+    // Create text version (for SSR/prerendering)
+    let text = ''
+    const captionText = stripHtml(cleanCaption)
+    const licenseText = stripHtml(cleanLicense)
+    
+    if (!captionText && !licenseText) text = `(No license)`
+    else if (!captionText && licenseText) text = `${licenseText}`
+    else if (captionText && !licenseText) text = `${captionText} (No license)`
+    else text = `${captionText} ${licenseText}`
+    
+    return { html, text, hasLicense }
 }
 
 // Helper function to add figcaption click handler
@@ -196,7 +212,7 @@ const ImageResize = Image.extend({
         const imgElement = ['img', { src, alt, class: 'tiptap-image', ...imgAttrs }]
         
         const captionData = getFigcaptionContent(caption, license)
-        if (captionData.html) {
+        if (captionData.text) {
             const figcaptionClasses = ['tiptap-figcaption']
             if (!captionData.hasLicense) {
                 figcaptionClasses.push('no-license')
@@ -210,11 +226,12 @@ const ImageResize = Image.extend({
                 figcaptionAttrs['data-license'] = license
             }
             
+            // Use text version for SSR/prerendering to avoid HTML display issues
             return [
                 'figure',
                 { style, class: 'tiptap-figure' },
                 imgElement,
-                ['figcaption', figcaptionAttrs, captionData.html]
+                ['figcaption', figcaptionAttrs, captionData.text]
             ]
         } else {
             return [
