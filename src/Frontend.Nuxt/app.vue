@@ -295,7 +295,6 @@ watch(locale, () => {
 
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
-@import '@/components/shared/figure-extension.less';
 
 .mobile-headings {
 	h2 {

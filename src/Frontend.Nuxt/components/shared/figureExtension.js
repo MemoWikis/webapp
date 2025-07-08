@@ -229,7 +229,9 @@ const FigureExtension = Image.extend({
     renderHTML({ HTMLAttributes }) {
         const { caption, license, src, alt, style, ...imgAttrs } = HTMLAttributes
         
-        const imgElement = ['img', { src, alt, class: 'tiptap-image', ...imgAttrs }]
+        // Ensure img element always has tiptap-image class, remove any existing class from imgAttrs
+        const { class: imgClass, ...cleanImgAttrs } = imgAttrs
+        const imgElement = ['img', { src, alt, class: 'tiptap-image', ...cleanImgAttrs }]
         
         const captionData = getFigcaptionContent(caption, license)
         if (captionData.text) {
