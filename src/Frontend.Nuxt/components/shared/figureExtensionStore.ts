@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 
-export const useTiptapImageLicenseStore = defineStore('tiptapImageLicenseStore', {
+export const useFigureExtensionStore = defineStore('figureExtensionStore', {
     state: () => {
         return {
             show: false,

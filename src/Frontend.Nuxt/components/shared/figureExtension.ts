@@ -4,7 +4,7 @@
 import Image from '@tiptap/extension-image'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { color } from '~/constants/colors'
-import { useTiptapImageLicenseStore } from './tiptapImageLicenseStore'
+import { useFigureExtensionStore } from './figureExtensionStore'
 
 const resizeHandle = `position: absolute; width: 9px; height: 9px; border: 2px solid ${color.memoGreyDarker}; border-radius: 50%;`
 
@@ -81,7 +81,7 @@ const addFigcaptionClickHandler = (
             showModalFn()
         } else {
             // Fallback: just open edit modal without update logic
-            const store = useTiptapImageLicenseStore()
+            const store = useFigureExtensionStore()
             store.openEditModal(caption || '', license || '', src || '', alt || '', () => {})
         }
     })
@@ -306,13 +306,13 @@ const FigureExtension = Image.extend({
             }
 
             const showCaptionModal = () => {
-                const store = useTiptapImageLicenseStore()
+                const store = useFigureExtensionStore()
                 store.openEditModal(
                     caption, 
                     license, 
                     src, 
                     alt,
-                    (data) => {
+                    (data: { caption: string | null, license: string | null }) => {
                         const { caption: newCaption, license: newLicense } = data
                         
                         // Create the complete figcaption HTML
@@ -631,7 +631,11 @@ const FigureExtension = Image.extend({
 
 // Client-side hydration function to upgrade figcaptions after SSR
 const hydrateFigcaptions = () => {
-    const figcaptions = document.querySelectorAll('figcaption[data-caption], figcaption[data-license]')
+    // Only hydrate figcaptions inside #AnswerBody
+    const answerBody = document.getElementById('AnswerBody')
+    if (!answerBody) return
+    
+    const figcaptions = answerBody.querySelectorAll('figcaption[data-caption], figcaption[data-license]')
     
     figcaptions.forEach((figcaption) => {
         const caption = figcaption.getAttribute('data-caption')

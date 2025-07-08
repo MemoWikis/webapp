@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useTiptapImageLicenseStore } from './tiptapImageLicenseStore'
+import { useFigureExtensionStore } from './figureExtensionStore'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import { usePageStore } from '~/components/page/pageStore'
 
-const tiptapImageLicenseStore = useTiptapImageLicenseStore()
+const figureExtensionStore = useFigureExtensionStore()
 const { t } = useI18n()
 
 const pageStore = usePageStore()
@@ -75,11 +75,11 @@ const licenseEditor = useEditor({
     }
 })
 
-watch(() => tiptapImageLicenseStore.showEdit, (show) => {
+watch(() => figureExtensionStore.showEdit, (show) => {
     if (show && captionEditor.value && licenseEditor.value) {
         // Set initial content when modal opens
-        captionEditor.value.commands.setContent(tiptapImageLicenseStore.caption || '')
-        licenseEditor.value.commands.setContent(tiptapImageLicenseStore.license || '')
+        captionEditor.value.commands.setContent(figureExtensionStore.caption || '')
+        licenseEditor.value.commands.setContent(figureExtensionStore.license || '')
     }
 }, { immediate: true })
 
@@ -92,14 +92,14 @@ const handleSave = () => {
     const cleanCaption = captionIsEmpty ? null : captionEditor.value?.getHTML()?.trim() || null
     const cleanLicense = licenseIsEmpty ? null : licenseEditor.value?.getHTML()?.trim() || null
 
-    tiptapImageLicenseStore.saveEdit({
+    figureExtensionStore.saveEdit({
         caption: cleanCaption,
         license: cleanLicense
     })
 }
 
 const handleCancel = () => {
-    tiptapImageLicenseStore.closeEditModal()
+    figureExtensionStore.closeEditModal()
 }
 
 // Cleanup editors on unmount
@@ -111,7 +111,7 @@ onBeforeUnmount(() => {
 
 <template>
     <LazyModal
-        :show="tiptapImageLicenseStore.showEdit"
+        :show="figureExtensionStore.showEdit"
         @close="handleCancel"
         :show-close-button="true"
         :primary-btn-label="pageStore.canEdit ? t('label.save') : undefined"
@@ -129,14 +129,14 @@ onBeforeUnmount(() => {
         <template v-slot:body>
             <div class="edit-license-container">
                 <!-- Image Preview -->
-                <div class="image-preview" v-if="tiptapImageLicenseStore.imageUrl">
+                <div class="image-preview" v-if="figureExtensionStore.imageUrl">
                     <img
-                        :src="tiptapImageLicenseStore.imageUrl"
-                        :alt="tiptapImageLicenseStore.imageAlt || ''"
+                        :src="figureExtensionStore.imageUrl"
+                        :alt="figureExtensionStore.imageAlt || ''"
                         class="license-modal-image" />
                 </div>
 
-                <div class="form-group" v-if="pageStore.canEdit || tiptapImageLicenseStore.caption">
+                <div class="form-group" v-if="pageStore.canEdit || figureExtensionStore.caption">
                     <label class="form-label">
                         {{ t('image.licenseInfo.caption') }}:
                     </label>
@@ -150,7 +150,7 @@ onBeforeUnmount(() => {
                         {{ t('image.licenseInfo.license') }}:
                     </label>
                     <div class="editor-wrapper">
-                        <EditorContent :editor="licenseEditor" class="tiptap-field" v-if="pageStore.canEdit || tiptapImageLicenseStore.license" />
+                        <EditorContent :editor="licenseEditor" class="tiptap-field" v-if="pageStore.canEdit || figureExtensionStore.license" />
                         <div v-else class="tiptap-editor license-editor" contenteditable="false">
                             {{ t('image.licenseInfo.noLicense') }}
                         </div>
