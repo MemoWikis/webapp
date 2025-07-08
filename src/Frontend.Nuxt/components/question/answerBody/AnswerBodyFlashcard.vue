@@ -88,28 +88,6 @@ const { t } = useI18n()
     </div>
 </template>
 
-<style lang="less">
-@import (reference) '~~/assets/includes/imports.less';
-
-.question-text {
-    p {
-        .tiptapImgMixin(true);
-    }
-}
-
-// Make figcaptions look clickable in flashcard content
-.flashcard {
-
-    .tiptap-figcaption,
-    figcaption {
-        cursor: pointer;
-
-        &:hover {
-            opacity: 0.8;
-        }
-    }
-}
-</style>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
@@ -180,11 +158,39 @@ const { t } = useI18n()
 }
 </style>
 
-
 <style lang="less">
-.question-text {
-    pre {
-        text-align: left;
+@import (reference) '~~/assets/includes/imports.less';
+
+.flashcard {
+
+    .tiptap-figcaption,
+    figcaption {
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    .question-text {
+        max-width: 100%;
+
+        p {
+            img {
+                & {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+        }
+
+        pre {
+            text-align: left;
+        }
+
+        figure {
+            max-width: 100%;
+        }
     }
 }
 </style>
