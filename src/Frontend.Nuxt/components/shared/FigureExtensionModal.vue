@@ -136,7 +136,7 @@ onBeforeUnmount(() => {
                         class="license-modal-image" />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" v-if="pageStore.canEdit || tiptapImageLicenseStore.caption">
                     <label class="form-label">
                         {{ t('image.licenseInfo.caption') }}:
                     </label>
@@ -150,7 +150,10 @@ onBeforeUnmount(() => {
                         {{ t('image.licenseInfo.license') }}:
                     </label>
                     <div class="editor-wrapper">
-                        <EditorContent :editor="licenseEditor" class="tiptap-field" />
+                        <EditorContent :editor="licenseEditor" class="tiptap-field" v-if="pageStore.canEdit || tiptapImageLicenseStore.license" />
+                        <div v-else class="tiptap-editor license-editor" contenteditable="false">
+                            {{ t('image.licenseInfo.noLicense') }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -5,11 +5,14 @@
     border: 1px solid transparent;
     margin-top: 24px !important;
 
-    img {
+    .tiptap-image {
         width: 100%;
         height: auto;
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
     }
-
+    
     .tiptap-figcaption {
         font-style: italic;
         text-align: center;
@@ -118,9 +121,15 @@
     }
 }
 
-// Global image styling for TipTap
-.tiptap-image {
-    max-width: 100%;
-    height: auto;
-    cursor: pointer;
+
+#PageContent {
+    &.is-public {
+        .tiptap-figure {
+            .caption-controller {
+                &.no-license {
+                    background: @memo-yellow;
+                }
+            }
+        }
+    }
 }

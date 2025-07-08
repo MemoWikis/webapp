@@ -389,6 +389,12 @@ const FigureExtension = Image.extend({
                 // Add separate caption/license editing button
                 const $captionController = document.createElement('div')
                 $captionController.classList.add('menubar_button', 'caption-controller')
+                
+                // Add no-license class if there's no license
+                if (!license) {
+                    $captionController.classList.add('no-license')
+                }
+                
                 const captionIcon = document.createElement('i')
                 captionIcon.classList.add('fa-solid', 'fa-file-contract')
                 $captionController.appendChild(captionIcon)
