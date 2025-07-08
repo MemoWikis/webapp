@@ -629,4 +629,34 @@ const FigureExtension = Image.extend({
     },
 })
 
-export { FigureExtension, FigureExtension as default }
+// Client-side hydration function to upgrade figcaptions after SSR
+const hydrateFigcaptions = () => {
+    const figcaptions = document.querySelectorAll('figcaption[data-caption], figcaption[data-license]')
+    
+    figcaptions.forEach((figcaption) => {
+        const caption = figcaption.getAttribute('data-caption')
+        const license = figcaption.getAttribute('data-license')
+        
+        // Re-render with proper HTML content
+        const captionData = getFigcaptionContent(caption, license)
+        if (captionData.html) {
+            figcaption.innerHTML = captionData.html
+            
+            // Add click handlers for interactive behavior
+            const figure = figcaption.closest('figure')
+            const img = figure?.querySelector('img')
+            const src = img?.getAttribute('src') || null
+            const alt = img?.getAttribute('alt') || null
+            
+            addFigcaptionClickHandler(
+                figcaption as HTMLElement, 
+                caption, 
+                license, 
+                src, 
+                alt
+            )
+        }
+    })
+}
+
+export { FigureExtension, FigureExtension as default, hydrateFigcaptions }
