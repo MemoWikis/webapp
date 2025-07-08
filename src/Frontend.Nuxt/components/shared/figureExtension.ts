@@ -9,33 +9,39 @@ import { useTiptapImageLicenseStore } from './tiptapImageLicenseStore'
 const resizeHandle = `position: absolute; width: 9px; height: 9px; border: 2px solid ${color.memoGreyDarker}; border-radius: 50%;`
 
 // Helper function to get figcaption content
-const getFigcaptionContent = (caption, license) => {
+const getFigcaptionContent = (caption: string | null, license: string | null) => {
     // Helper to check if HTML content has actual content (not just empty tags)
-    const hasActualContent = (html) => {
+    const hasActualContent = (html: string | null): boolean => {
         if (!html) return false
         const trimmed = html.trim()
         return trimmed !== '' && trimmed !== '<p></p>' && trimmed !== '<br>'
     }
     
     // Helper to strip HTML tags for text-only rendering
-    const stripHtml = (html) => {
+    const stripHtml = (html: string | null): string => {
         if (!html) return ''
         // Simple regex-based HTML tag removal that works in both client and server environments
         return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').trim()
     }
     
-    const cleanCaption = caption || ''
-    const cleanLicense = license || ''
+    // Helper to strip p tags but keep other formatting
+    const stripPTags = (html: string | null): string => {
+        if (!html) return ''
+        return html.replace(/<\/?p[^>]*>/g, '').trim()
+    }
+    
+    const cleanCaption = stripPTags(caption || '')
+    const cleanLicense = stripPTags(license || '')
     
     const hasCaption = hasActualContent(cleanCaption)
     const hasLicense = hasActualContent(cleanLicense)
     
-    // Create HTML version (for interactive use)
+    // Create HTML version (for interactive use) - preserve HTML formatting but no p tags
     let html = ''
     if (!hasCaption && !hasLicense) html = `(No license)`
-    else if (!hasCaption && hasLicense) html = `${cleanLicense}`
-    else if (hasCaption && !hasLicense) html = `${cleanCaption} (No license)`
-    else html = `${cleanCaption} ${cleanLicense}`
+    else if (!hasCaption && hasLicense) html = cleanLicense
+    else if (hasCaption && !hasLicense) html = `${cleanCaption}. (No license)`
+    else html = `${cleanCaption}. ${cleanLicense}`
     
     // Create text version (for SSR/prerendering)
     let text = ''
@@ -44,18 +50,26 @@ const getFigcaptionContent = (caption, license) => {
     
     if (!captionText && !licenseText) text = `(No license)`
     else if (!captionText && licenseText) text = `${licenseText}`
-    else if (captionText && !licenseText) text = `${captionText} (No license)`
-    else text = `${captionText} ${licenseText}`
+    else if (captionText && !licenseText) text = `${captionText}. (No license)`
+    else text = `${captionText}. ${licenseText}`
     
     return { html, text, hasLicense }
 }
 
 // Helper function to add figcaption click handler
-const addFigcaptionClickHandler = ($figcaption, caption, license, src, alt, showModalFn) => {
+const addFigcaptionClickHandler = (
+    $figcaption: HTMLElement, 
+    caption: string | null, 
+    license: string | null, 
+    src: string | null, 
+    alt: string | null, 
+    showModalFn?: () => void
+): void => {
     $figcaption.style.cursor = 'pointer'
-    $figcaption.addEventListener('click', (e) => {
+    $figcaption.addEventListener('click', (e: MouseEvent) => {
         // Don't trigger if clicking on a link or if the target is inside a link
-        if (e.target.tagName === 'A' || e.target.closest('a')) {
+        const target = e.target as HTMLElement
+        if (target.tagName === 'A' || target.closest('a')) {
             return // Let the link handle its own click
         }
         
@@ -68,7 +82,7 @@ const addFigcaptionClickHandler = ($figcaption, caption, license, src, alt, show
         } else {
             // Fallback: just open edit modal without update logic
             const store = useTiptapImageLicenseStore()
-            store.openEditModal(caption, license, src, alt, () => {})
+            store.openEditModal(caption || '', license || '', src || '', alt || '', () => {})
         }
     })
 }
@@ -240,7 +254,7 @@ const FigureExtension = Image.extend({
                 figcaptionClasses.push('no-license')
             }
             
-            const figcaptionAttrs = {
+            const figcaptionAttrs: Record<string, string> = {
                 class: figcaptionClasses.join(' ')
             }
             
@@ -465,7 +479,8 @@ const FigureExtension = Image.extend({
             ]
 
             let isResizing = false
-            let startX, startWidth
+            let startX: number
+            let startWidth: number
 
             $img.addEventListener('click', (e) => {
                 e.preventDefault()
@@ -473,14 +488,17 @@ const FigureExtension = Image.extend({
 
                 // Remove remaining dots and position controller (but keep floating button)
                 const isMobile = document.documentElement.clientWidth < 768
-                isMobile && (document.querySelector('.ProseMirror-focused')?.blur())
+                if (isMobile) {
+                    const focusedElement = document.querySelector('.ProseMirror-focused') as HTMLElement
+                    focusedElement?.blur()
+                }
 
                 // Count base elements: img + optional figcaption
-                const hasFigcaption = $container.querySelector('figcaption')
+                const hasFigcaption = $container.querySelector('figcaption') as HTMLElement | null
                 const baseElementCount = hasFigcaption ? 2 : 1
                 if ($container.childElementCount > baseElementCount) {
                     // Remove all controls except the base elements
-                    const elementsToKeep = [$img]
+                    const elementsToKeep: (Element | HTMLElement)[] = [$img]
                     if (hasFigcaption) {
                         elementsToKeep.push(hasFigcaption)
                     }
@@ -511,7 +529,7 @@ const FigureExtension = Image.extend({
                         startX = e.clientX
                         startWidth = $container.offsetWidth
 
-                        const onMouseMove = (e) => {
+                        const onMouseMove = (e: MouseEvent) => {
                             if (!isResizing) return
                             const deltaX = index % 2 === 0 ? -(e.clientX - startX) : e.clientX - startX
                             const newWidth = startWidth + deltaX
@@ -542,7 +560,7 @@ const FigureExtension = Image.extend({
                             startX = e.touches[0].clientX
                             startWidth = $container.offsetWidth
 
-                            const onTouchMove = (e) => {
+                            const onTouchMove = (e: TouchEvent) => {
                                 if (!isResizing) return
                                 const deltaX = index % 2 === 0 
                                     ? -(e.touches[0].clientX - startX) 
@@ -574,19 +592,22 @@ const FigureExtension = Image.extend({
 
             // Click outside to remove controls
             document.addEventListener('click', (e) => {
-                const $target = e.target
-                const isClickInside = $container.contains($target) || $target.classList.contains('menubar_button')
+                const $target = e.target as Element
+                if (!$target) return
+                
+                const isClickInside = $container.contains($target) || 
+                    ($target instanceof Element && $target.classList.contains('menubar_button'))
 
                 if (!isClickInside) {
                     // Remove active class to hide border and controls
                     $container.classList.remove('active')
 
                     // Count base elements: img + optional figcaption
-                    const hasFigcaption = $container.querySelector('figcaption')
+                    const hasFigcaption = $container.querySelector('figcaption') as HTMLElement | null
                     const baseElementCount = hasFigcaption ? 2 : 1
                     if ($container.childElementCount > baseElementCount) {
                         // Remove all controls except the base elements
-                        const elementsToKeep = [$img]
+                        const elementsToKeep: (Element | HTMLElement)[] = [$img]
                         if (hasFigcaption) {
                             elementsToKeep.push(hasFigcaption)
                         }
