@@ -14,6 +14,9 @@ export interface KnowledgeSummary {
 
     notLearned: number
     notLearnedPercentage: number
+
+    knowledgeStatusPoints: number
+    knowledgeStatusPointsTotal: number
 }
 
 export interface KnowledgeSummarySlim {

@@ -17,8 +17,8 @@ const sortDirection = ref<'asc' | 'desc'>('asc')
 const sortedpages = computed(() => {
     return [...props.pages].sort((a, b) => {
         if (sortKey.value === 'knowledgebarData') {
-            const aValue = a.knowledgebarData?.solidPercentage || 0
-            const bValue = b.knowledgebarData?.solidPercentage || 0
+            const aValue = a.knowledgebarData?.knowledgeStatusPoints || 0
+            const bValue = b.knowledgebarData?.knowledgeStatusPoints || 0
             return sortDirection.value === 'asc' ? aValue - bValue : bValue - aValue
         } else {
             const aValue = a[sortKey.value as keyof PageData]

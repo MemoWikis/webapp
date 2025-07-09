@@ -1,0 +1,9 @@
+﻿{
+  KnowledgeStatusPoints: 0.543,
+  KnowledgeStatusPointsTotal: 0.543,
+  calculation: {
+    wishknowledgeQuestions: 105,
+    totalQuestions: 105,
+    weightedScore: 57.0
+  }
+}

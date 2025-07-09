@@ -1,0 +1,9 @@
+﻿{
+  KnowledgeStatusPoints: 0.543,
+  KnowledgeStatusPointsTotal: 0.543,
+  Solid: 40,
+  NeedsConsolidation: 30,
+  NeedsLearning: 20,
+  NotLearned: 15,
+  Total: 105
+}
