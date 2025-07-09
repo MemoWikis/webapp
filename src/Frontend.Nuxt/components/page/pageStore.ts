@@ -109,556 +109,310 @@ export interface GenerateFlashcardResponse {
     messageKey: string
 }
 
-export const usePageStore = defineStore('pageStore', {
-    state: () => {
-        return {
-            id: 0,
-            name: '',
-            initialName: '',
-            imgUrl: '',
-            imgId: 0,
-            questionCount: 0,
-            directQuestionCount: 0,
-            content: '',
-            initialContent: '',
-            contentHasChanged: false,
-            nameHasChanged: false,
-            parentPageCount: 0,
-            parents: [] as TinyPageModel[],
-            childPageCount: 0,
-            directVisibleChildPageCount: 0,
-            views: 0,
-            subpageViews: 0,
-            commentCount: 0,
-            visibility: null as Visibility | null,
-            authorIds: [] as number[],
-            isWiki: false,
-            currentUserIsCreator: false,
-            canBeDeleted: false,
-            authors: [] as Author[],
-            searchPageItem: null as null | PageItem,
-            knowledgeSummary: {} as KnowledgeSummary,
-            knowledgeSummarySlim: {} as KnowledgeSummarySlim,
-            gridItems: [] as GridPageItem[],
-            isChildOfPersonalWiki: false,
-            textIsHidden: false,
-            uploadedImagesInContent: [] as string[],
-            uploadedImagesMarkedForDeletion: [] as string[],
-            uploadTrackingArray: [] as string[],
-            viewsPast90DaysAggregatedPages: [] as ViewSummary[],
-            viewsPast90DaysPage: [] as ViewSummary[],
-            viewsPast90DaysAggregatedQuestions: [] as ViewSummary[],
-            viewsPast90DaysDirectQuestions: [] as ViewSummary[],
-            analyticsLoaded: false,
-            saveTrackingArray: [] as string[],
-            currentWiki: null as TinyPageModel | null,
-            text: '',
-            selectedText: '',
-            contentLanguage: 'en' as 'en' | 'de' | 'fr' | 'es',
-            canEdit: false,
-            shareToken: null as string | null,
-            isShared: false,
-            sharedWith: [] as SharedWithUser[],
-            canEditByToken: null as boolean | null,
-            totalQuestionViews: 0,
-            directQuestionViews: 0,
+export const usePageStore = defineStore('pageStore', () => {
+    // State
+    const id = ref(0)
+    const name = ref('')
+    const initialName = ref('')
+    const imgUrl = ref('')
+    const imgId = ref(0)
+    const questionCount = ref(0)
+    const directQuestionCount = ref(0)
+    const content = ref('')
+    const initialContent = ref('')
+    const contentHasChanged = ref(false)
+    const nameHasChanged = ref(false)
+    const parentPageCount = ref(0)
+    const parents = ref<TinyPageModel[]>([])
+    const childPageCount = ref(0)
+    const directVisibleChildPageCount = ref(0)
+    const views = ref(0)
+    const subpageViews = ref(0)
+    const commentCount = ref(0)
+    const visibility = ref<Visibility | null>(null)
+    const authorIds = ref<number[]>([])
+    const isWiki = ref(false)
+    const currentUserIsCreator = ref(false)
+    const canBeDeleted = ref(false)
+    const authors = ref<Author[]>([])
+    const searchPageItem = ref<PageItem | null>(null)
+    const knowledgeSummary = ref<KnowledgeSummary>({} as KnowledgeSummary)
+    const knowledgeSummarySlim = ref<KnowledgeSummarySlim>({} as KnowledgeSummarySlim)
+    const gridItems = ref<GridPageItem[]>([])
+    const isChildOfPersonalWiki = ref(false)
+    const textIsHidden = ref(false)
+    const uploadedImagesInContent = ref<string[]>([])
+    const uploadedImagesMarkedForDeletion = ref<string[]>([])
+    const uploadTrackingArray = ref<string[]>([])
+    const viewsPast90DaysAggregatedPages = ref<ViewSummary[]>([])
+    const viewsPast90DaysPage = ref<ViewSummary[]>([])
+    const viewsPast90DaysAggregatedQuestions = ref<ViewSummary[]>([])
+    const viewsPast90DaysDirectQuestions = ref<ViewSummary[]>([])
+    const analyticsLoaded = ref(false)
+    const saveTrackingArray = ref<string[]>([])
+    const currentWiki = ref<TinyPageModel | null>(null)
+    const text = ref('')
+    const selectedText = ref('')
+    const contentLanguage = ref<'en' | 'de' | 'fr' | 'es'>('en')
+    const canEdit = ref(false)
+    const shareToken = ref<string | null>(null)
+    const isShared = ref(false)
+    const sharedWith = ref<SharedWithUser[]>([])
+    const canEditByToken = ref<boolean | null>(null)
+    const totalQuestionViews = ref(0)
+    const directQuestionViews = ref(0)
+
+    // Actions
+    const setPage = (page: Page) => {
+        console.trace('setPage called with page:', page)
+        shareToken.value = null
+
+        if (page != null) {
+            id.value = page.id
+            name.value = page.name
+            initialName.value = page.name
+            imgUrl.value = page.imageUrl
+            imgId.value = page.imageId
+            content.value = page.content
+            initialContent.value = page.content
+
+            parentPageCount.value = page.parentPageCount
+            parents.value = page.parents
+            childPageCount.value = page.childPageCount
+            directVisibleChildPageCount.value = page.directVisibleChildPageCount
+
+            views.value = page.views
+            subpageViews.value = page.subpageViews
+            commentCount.value = page.commentCount
+            visibility.value = page.visibility
+
+            authorIds.value = page.authorIds
+            isWiki.value = page.isWiki
+            currentUserIsCreator.value = page.currentUserIsCreator
+            canBeDeleted.value = page.canBeDeleted
+
+            questionCount.value = page.questionCount
+            directQuestionCount.value = page.directQuestionCount
+
+            authors.value = page.authors
+            searchPageItem.value = page.pageItem
+
+            knowledgeSummary.value = page.knowledgeSummary
+            setKnowledgeSummarySlim(page.knowledgeSummary)
+            gridItems.value = page.gridItems
+            isChildOfPersonalWiki.value = page.isChildOfPersonalWiki
+            textIsHidden.value = page.textIsHidden
+            uploadedImagesInContent.value = []
+            uploadedImagesMarkedForDeletion.value = []
+
+            analyticsLoaded.value = false
+            viewsPast90DaysAggregatedPages.value = []
+            viewsPast90DaysPage.value = []
+            viewsPast90DaysAggregatedQuestions.value = []
+            viewsPast90DaysDirectQuestions.value = []
+            text.value = ''
+            selectedText.value = ''
+
+            contentLanguage.value = page.language
+            canEdit.value = page.canEdit
+            isShared.value = page.isShared
+            sharedWith.value = page.sharedWith || []
+            canEditByToken.value = page.canEditByToken
+
+            totalQuestionViews.value = page.totalQuestionViews
+            directQuestionViews.value = page.directQuestionViews
+
+            handleLoginReminder()
         }
-    },
-    actions: {
-        setPage(page: Page) {
-            this.shareToken = null
+    }
 
-            if (page != null) {
-                this.id = page.id
-                this.name = page.name
-                this.initialName = page.name
-                this.imgUrl = page.imageUrl
-                this.imgId = page.imageId
-                this.content = page.content
-                this.initialContent = page.content
+    const setKnowledgeSummarySlim = (knowledgeSummaryData: KnowledgeSummary) => {
+        knowledgeSummarySlim.value = {
+            solid: knowledgeSummaryData.solid,
+            needsConsolidation: knowledgeSummaryData.needsConsolidation,
+            needsLearning: knowledgeSummaryData.needsLearning,
+            notLearned: knowledgeSummaryData.notLearned,
+        }
+    }
 
-                this.parentPageCount = page.parentPageCount
-                this.parents = page.parents
-                this.childPageCount = page.childPageCount
-                this.directVisibleChildPageCount =
-                    page.directVisibleChildPageCount
+    const saveContent = async () => {
+        const userStore = useUserStore()
+        const snackbarStore = useSnackbarStore()
 
-                this.views = page.views
-                this.subpageViews = page.subpageViews
-                this.commentCount = page.commentCount
-                this.visibility = page.visibility
+        if (!userStore.isLoggedIn) {
+            userStore.openLoginModal()
+            return
+        }
 
-                this.authorIds = page.authorIds
-                this.isWiki = page.isWiki
-                this.currentUserIsCreator = page.currentUserIsCreator
-                this.canBeDeleted = page.canBeDeleted
+        if (contentHasChanged.value == false) return
+        await waitUntilAllUploadsComplete()
+        await waitUntilAllSavingsComplete()
 
-                this.questionCount = page.questionCount
-                this.directQuestionCount = page.directQuestionCount
+        const uploadId = nanoid(5)
+        saveTrackingArray.value.push(uploadId)
 
-                this.authors = page.authors
-                this.searchPageItem = page.pageItem
+        const data = {
+            id: id.value,
+            content: content.value,
+            shareToken: shareToken.value,
+        }
 
-                this.knowledgeSummary = page.knowledgeSummary
-                this.setKnowledgeSummarySlim(page.knowledgeSummary)
-                this.gridItems = page.gridItems
-                this.isChildOfPersonalWiki = page.isChildOfPersonalWiki
-                this.textIsHidden = page.textIsHidden
-                this.uploadedImagesInContent = []
-                this.uploadedImagesMarkedForDeletion = []
-
-                this.analyticsLoaded = false
-                this.viewsPast90DaysAggregatedPages = []
-                this.viewsPast90DaysPage = []
-                this.viewsPast90DaysAggregatedQuestions = []
-                this.viewsPast90DaysDirectQuestions = []
-                this.text = ''
-                this.selectedText = ''
-
-                this.contentLanguage = page.language
-                this.canEdit = page.canEdit
-                this.isShared = page.isShared
-                this.sharedWith = page.sharedWith || []
-                this.canEditByToken = page.canEditByToken
-
-                this.totalQuestionViews = page.totalQuestionViews
-                this.directQuestionViews = page.directQuestionViews
-
-                this.handleLoginReminder()
-            }
-        },
-        setKnowledgeSummarySlim(knowledgeSummary: KnowledgeSummary) {
-            this.knowledgeSummarySlim = {
-                solid: knowledgeSummary.solid,
-                needsConsolidation: knowledgeSummary.needsConsolidation,
-                needsLearning: knowledgeSummary.needsLearning,
-                notLearned: knowledgeSummary.notLearned,
-            }
-        },
-        async saveContent() {
-            const userStore = useUserStore()
-            const snackbarStore = useSnackbarStore()
-
-            if (!userStore.isLoggedIn) {
-                userStore.openLoginModal()
-                return
-            }
-
-            if (this.contentHasChanged == false) return
-            await this.waitUntilAllUploadsComplete()
-            await this.waitUntilAllSavingsComplete()
-
-            const uploadId = nanoid(5)
-            this.saveTrackingArray.push(uploadId)
-
-            const data = {
-                id: this.id,
-                content: this.content,
-                shareToken: this.shareToken,
-            }
-
-            const result = await $api<FetchResult<boolean>>(
-                '/apiVue/PageStore/SaveContent',
-                {
-                    method: 'POST',
-                    body: data,
-                    mode: 'cors',
-                    credentials: 'include',
-                    onResponseError(context) {
-                        const { $logger } = useNuxtApp()
-                        $logger.error(
-                            `fetch Error: ${context.response?.statusText}`,
-                            [
-                                {
-                                    response: context.response,
-                                    host: context.request,
-                                },
-                            ]
-                        )
-                    },
-                }
-            )
-            const nuxtApp = useNuxtApp()
-            const { $i18n } = nuxtApp
-
-            if (
-                result.success == true &&
-                this.visibility != Visibility.Private
-            ) {
-                const data: SnackbarData = {
-                    type: 'success',
-                    text: { message: $i18n.t('success.page.saved') },
-                }
-                snackbarStore.showSnackbar(data)
-                this.initialContent = this.content
-                this.contentHasChanged = false
-            } else if (result.success === false && result.messageKey != null) {
-                if (
-                    !(
-                        result.messageKey === 'error.page.noChange' &&
-                        this.visibility == Visibility.Private
-                    )
-                ) {
-                    const alertStore = useAlertStore()
-                    alertStore.openAlert(AlertType.Error, {
-                        text: $i18n.t(result.messageKey),
-                    })
-                }
-            }
-
-            this.saveTrackingArray = this.saveTrackingArray.filter(
-                (id) => id !== uploadId
-            )
-        },
-        async saveName() {
-            const userStore = useUserStore()
-
-            if (!userStore.isLoggedIn) {
-                userStore.openLoginModal()
-                return
-            }
-            if (this.name === this.initialName) return
-
-            await this.waitUntilAllUploadsComplete()
-            await this.waitUntilAllSavingsComplete()
-
-            const uploadId = nanoid(5)
-            this.saveTrackingArray.push(uploadId)
-
-            const data = {
-                id: this.id,
-                name: this.name,
-                shareToken: this.shareToken,
-            }
-
-            const result = await $api<FetchResult<boolean>>(
-                '/apiVue/PageStore/SaveName',
-                {
-                    method: 'POST',
-                    body: data,
-                    mode: 'cors',
-                    credentials: 'include',
-                    onResponseError(context) {
-                        const { $logger } = useNuxtApp()
-                        $logger.error(
-                            `fetch Error: ${context.response?.statusText}`,
-                            [
-                                {
-                                    response: context.response,
-                                    host: context.request,
-                                },
-                            ]
-                        )
-                    },
-                }
-            )
-            const nuxtApp = useNuxtApp()
-            const { $i18n } = nuxtApp
-
-            if (result.success && this.visibility != Visibility.Private) {
-                const data: SnackbarData = {
-                    type: 'success',
-                    text: { message: $i18n.t('success.page.saved') },
-                }
-                const snackbarStore = useSnackbarStore()
-
-                snackbarStore.showSnackbar(data)
-                this.initialName = this.name
-                this.nameHasChanged = false
-            } else if (result.success === false && result.messageKey != null) {
-                if (
-                    !(
-                        result.messageKey === 'error.page.noChange' &&
-                        this.visibility === Visibility.Private
-                    )
-                ) {
-                    const alertStore = useAlertStore()
-                    alertStore.openAlert(AlertType.Error, {
-                        text: $i18n.t(result.messageKey),
-                    })
-                }
-            }
-
-            this.saveTrackingArray = this.saveTrackingArray.filter(
-                (id) => id !== uploadId
-            )
-        },
-        async waitUntilAllSavingsComplete() {
-            while (this.saveTrackingArray.length > 0) {
-                await new Promise((resolve) => setTimeout(resolve, 100))
-            }
-        },
-        reset() {
-            this.name = this.initialName
-            this.nameHasChanged = false
-            this.content = this.initialContent
-            this.contentHasChanged = false
-            this.uploadedImagesInContent = []
-            this.uploadedImagesMarkedForDeletion = []
-        },
-        isOwnerOrAdmin() {
-            const userStore = useUserStore()
-            return userStore.isAdmin || this.currentUserIsCreator
-        },
-
-        async refreshPageImage() {
-            this.imgUrl = await $api<string>(
-                `/apiVue/PageStore/GetPageImageUrl/${this.id}`,
-                {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'include',
-                    onResponseError(context) {
-                        const { $logger } = useNuxtApp()
-                        $logger.error(
-                            `fetch Error: ${context.response?.statusText}`,
-                            [
-                                {
-                                    response: context.response,
-                                    req: context.request,
-                                },
-                            ]
-                        )
-                    },
-                }
-            )
-        },
-        async reloadKnowledgeSummary() {
-            this.knowledgeSummarySlim = await $api<KnowledgeSummarySlim>(
-                `/apiVue/PageStore/GetUpdatedKnowledgeSummary/${this.id}`,
-                {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'include',
-                    onResponseError(context) {
-                        const { $logger } = useNuxtApp()
-                        $logger.error(
-                            `fetch Error: ${context.response?.statusText}`,
-                            [
-                                {
-                                    response: context.response,
-                                    req: context.request,
-                                },
-                            ]
-                        )
-                    },
-                }
-            )
-        },
-        async reloadGridItems() {
-            const result = await $api<GridPageItem[]>(
-                `/apiVue/PageStore/GetGridPageItems/${this.id}`,
-                {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'include',
-                    onResponseError(context) {
-                        const { $logger } = useNuxtApp()
-                        $logger.error(
-                            `fetch Error: ${context.response?.statusText}`,
-                            [
-                                {
-                                    response: context.response,
-                                    host: context.request,
-                                },
-                            ]
-                        )
-                    },
-                }
-            )
-
-            if (result) this.gridItems = result
-        },
-        async hideOrShowText() {
-            if (
-                (!!this.content && this.content.length > 0) ||
-                this.contentHasChanged
-            )
-                return
-
-            const data = {
-                hideText: !this.textIsHidden,
-                pageId: this.id,
-            }
-            const result = await $api<boolean>(
-                `/apiVue/PageStore/HideOrShowText/`,
-                {
-                    body: data,
-                    method: 'POST',
-                    mode: 'cors',
-                    credentials: 'include',
-                    onResponseError(context) {
-                        const { $logger } = useNuxtApp()
-                        $logger.error(
-                            `fetch Error: ${context.response?.statusText}`,
-                            [
-                                {
-                                    response: context.response,
-                                    req: context.request,
-                                },
-                            ]
-                        )
-                    },
-                }
-            )
-
-            this.textIsHidden = result
-        },
-        async uploadContentImage(file: File): Promise<string> {
-            const uploadId = nanoid(5)
-            this.uploadTrackingArray.push(uploadId)
-
-            const data = new FormData()
-            data.append('file', file)
-            data.append('pageId', this.id.toString())
-
-            const result = await $api<string>(
-                '/apiVue/PageStore/UploadContentImage',
-                {
-                    body: data,
-                    method: 'POST',
-                    mode: 'cors',
-                    credentials: 'include',
-                }
-            )
-
-            this.uploadTrackingArray = this.uploadTrackingArray.filter(
-                (id) => id !== uploadId
-            )
-
-            return result
-        },
-        addImageUrlToDeleteList(url: string) {
-            if (!this.uploadedImagesMarkedForDeletion.includes(url))
-                this.uploadedImagesMarkedForDeletion.push(url)
-        },
-        refreshDeleteImageList() {
-            const imagesToKeep = this.uploadedImagesInContent
-            this.uploadedImagesMarkedForDeletion =
-                this.uploadedImagesMarkedForDeletion.filter((url) =>
-                    imagesToKeep.includes(url)
-                )
-        },
-        async deletePageContentImages() {
-            if (this.uploadedImagesMarkedForDeletion.length == 0) return
-
-            const data = {
-                pageId: this.id,
-                imageUrls: this.uploadedImagesMarkedForDeletion,
-            }
-            await $api<void>('/apiVue/PageStore/DeleteContentImages', {
-                body: data,
+        const result = await $api<FetchResult<boolean>>(
+            '/apiVue/PageStore/SaveContent',
+            {
                 method: 'POST',
+                body: data,
                 mode: 'cors',
                 credentials: 'include',
-            })
-            this.uploadedImagesMarkedForDeletion = []
-        },
-        async waitUntilAllUploadsComplete() {
-            while (this.uploadTrackingArray.length > 0) {
-                await new Promise((resolve) => setTimeout(resolve, 100))
+                onResponseError(context) {
+                    const { $logger } = useNuxtApp()
+                    $logger.error(
+                        `fetch Error: ${context.response?.statusText}`,
+                        [
+                            {
+                                response: context.response,
+                                host: context.request,
+                            },
+                        ]
+                    )
+                },
             }
-        },
-        async getAnalyticsData() {
-            const data = await $api<GetPageAnalyticsResponse>(
-                `/apiVue/PageStore/GetPageAnalytics/${this.id}`,
-                {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'include',
-                    onResponseError(context) {
-                        const { $logger } = useNuxtApp()
-                        $logger.error(
-                            `fetch Error: ${context.response?.statusText}`,
-                            [
-                                {
-                                    response: context.response,
-                                    req: context.request,
-                                },
-                            ]
-                        )
-                    },
-                }
-            )
+        )
+        const nuxtApp = useNuxtApp()
+        const { $i18n } = nuxtApp
 
-            if (data) {
-                this.viewsPast90DaysAggregatedPages =
-                    data.viewsPast90DaysAggregatedPages
-                this.viewsPast90DaysPage = data.viewsPast90DaysPage
-                this.viewsPast90DaysAggregatedQuestions =
-                    data.viewsPast90DaysAggregatedQuestions
-                this.viewsPast90DaysDirectQuestions =
-                    data.viewsPast90DaysDirectQuestions
-
-                this.analyticsLoaded = true
+        if (
+            result.success == true &&
+            visibility.value != Visibility.Private
+        ) {
+            const data: SnackbarData = {
+                type: 'success',
+                text: { message: $i18n.t('success.page.saved') },
             }
-        },
-        async generateFlashcard(
-            selectedText?: string
-        ): Promise<GenerateFlashcardResponse> {
-            const loadingStore = useLoadingStore()
-            loadingStore.startLoading(9000, 'Karteikarten werden generiert')
-            const data = {
-                pageId: this.id,
-                text:
-                    (selectedText ?? '').length > 0 ? selectedText : this.text,
+            snackbarStore.showSnackbar(data)
+            initialContent.value = content.value
+            contentHasChanged.value = false
+        } else if (result.success === false && result.messageKey != null) {
+            if (
+                !(
+                    result.messageKey === 'error.page.noChange' &&
+                    visibility.value == Visibility.Private
+                )
+            ) {
+                const alertStore = useAlertStore()
+                alertStore.openAlert(AlertType.Error, {
+                    text: $i18n.t(result.messageKey),
+                })
             }
-            const result = await $api<GenerateFlashcardResponse>(
-                `/apiVue/PageStore/GenerateFlashcard/`,
-                {
-                    body: data,
-                    method: 'POST',
-                    mode: 'cors',
-                    credentials: 'include',
-                }
-            )
+        }
 
-            if (selectedText != null && selectedText.length > 0)
-                this.selectedText = selectedText
+        saveTrackingArray.value = saveTrackingArray.value.filter(
+            (filterId) => filterId !== uploadId
+        )
+    }
 
-            await loadingStore.finishLoading()
+    const saveName = async () => {
+        const userStore = useUserStore()
 
-            return result
-        },
-        async reGenerateFlashcard(): Promise<GenerateFlashcardResponse> {
-            return await this.generateFlashcard(this.selectedText)
-        },
-        async updateQuestionCount() {
-            const result = await $api<number>(
-                `/apiVue/PageStore/GetQuestionCount/${this.id}`,
-                {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'include',
-                    onResponseError(context) {
-                        const { $logger } = useNuxtApp()
-                        $logger.error(
-                            `fetch Error: ${context.response?.statusText}`,
-                            [
-                                {
-                                    response: context.response,
-                                    req: context.request,
-                                },
-                            ]
-                        )
-                    },
-                }
-            )
+        if (!userStore.isLoggedIn) {
+            userStore.openLoginModal()
+            return
+        }
+        if (name.value === initialName.value) return
 
-            this.questionCount = result
-        },
-        setToken(token: string | null) {
-            this.shareToken = token
-            const userStore = useUserStore()
-            if (token !== null) userStore.addShareToken(this.id, token)
-        },
-        async updateIsShared() {
-            let url = `/apiVue/PageStore/GetIsShared/${this.id}`
-            if (this.shareToken) {
-                url += `?shareToken=${this.shareToken}`
+        await waitUntilAllUploadsComplete()
+        await waitUntilAllSavingsComplete()
+
+        const uploadId = nanoid(5)
+        saveTrackingArray.value.push(uploadId)
+
+        const data = {
+            id: id.value,
+            name: name.value,
+            shareToken: shareToken.value,
+        }
+
+        const result = await $api<FetchResult<boolean>>(
+            '/apiVue/PageStore/SaveName',
+            {
+                method: 'POST',
+                body: data,
+                mode: 'cors',
+                credentials: 'include',
+                onResponseError(context) {
+                    const { $logger } = useNuxtApp()
+                    $logger.error(
+                        `fetch Error: ${context.response?.statusText}`,
+                        [
+                            {
+                                response: context.response,
+                                host: context.request,
+                            },
+                        ]
+                    )
+                },
             }
+        )
+        const nuxtApp = useNuxtApp()
+        const { $i18n } = nuxtApp
 
-            const result = await $api<boolean>(url, {
+        if (result.success && visibility.value != Visibility.Private) {
+            const data: SnackbarData = {
+                type: 'success',
+                text: { message: $i18n.t('success.page.saved') },
+            }
+            const snackbarStore = useSnackbarStore()
+
+            snackbarStore.showSnackbar(data)
+            initialName.value = name.value
+            nameHasChanged.value = false
+        } else if (result.success === false && result.messageKey != null) {
+            if (
+                !(
+                    result.messageKey === 'error.page.noChange' &&
+                    visibility.value === Visibility.Private
+                )
+            ) {
+                const alertStore = useAlertStore()
+                alertStore.openAlert(AlertType.Error, {
+                    text: $i18n.t(result.messageKey),
+                })
+            }
+        }
+
+        saveTrackingArray.value = saveTrackingArray.value.filter(
+            (filterId) => filterId !== uploadId
+        )
+    }
+
+    const waitUntilAllSavingsComplete = async () => {
+        while (saveTrackingArray.value.length > 0) {
+            await new Promise((resolve) => setTimeout(resolve, 100))
+        }
+    }
+
+    const reset = () => {
+        name.value = initialName.value
+        nameHasChanged.value = false
+        content.value = initialContent.value
+        contentHasChanged.value = false
+        uploadedImagesInContent.value = []
+        uploadedImagesMarkedForDeletion.value = []
+    }
+
+    const clearPage = () => {
+        setPage(new Page())
+    }
+
+    const isOwnerOrAdmin = () => {
+        const userStore = useUserStore()
+        return userStore.isAdmin || currentUserIsCreator.value
+    }
+
+    const refreshPageImage = async () => {
+        imgUrl.value = await $api<string>(
+            `/apiVue/PageStore/GetPageImageUrl/${id.value}`,
+            {
                 method: 'GET',
                 mode: 'cors',
                 credentials: 'include',
@@ -674,24 +428,371 @@ export const usePageStore = defineStore('pageStore', {
                         ]
                     )
                 },
-            })
-            this.isShared = result
-        },
-
-        handleLoginReminder() {
-            const userStore = useUserStore()
-            userStore.showLoginReminder = false
-
-            if (this.isShared && this.canEditByToken) {
-                if (!userStore.isLoggedIn) {
-                    userStore.showLoginReminder = true
-                }
             }
-        },
-    },
-    getters: {
-        getPageName(): string {
-            return this.name
-        },
-    },
+        )
+    }
+
+    const reloadKnowledgeSummary = async () => {
+        knowledgeSummarySlim.value = await $api<KnowledgeSummarySlim>(
+            `/apiVue/PageStore/GetUpdatedKnowledgeSummary/${id.value}`,
+            {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                onResponseError(context) {
+                    const { $logger } = useNuxtApp()
+                    $logger.error(
+                        `fetch Error: ${context.response?.statusText}`,
+                        [
+                            {
+                                response: context.response,
+                                req: context.request,
+                            },
+                        ]
+                    )
+                },
+            }
+        )
+    }
+
+    const reloadGridItems = async () => {
+        const result = await $api<GridPageItem[]>(
+            `/apiVue/PageStore/GetGridPageItems/${id.value}`,
+            {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                onResponseError(context) {
+                    const { $logger } = useNuxtApp()
+                    $logger.error(
+                        `fetch Error: ${context.response?.statusText}`,
+                        [
+                            {
+                                response: context.response,
+                                host: context.request,
+                            },
+                        ]
+                    )
+                },
+            }
+        )
+
+        if (result) gridItems.value = result
+    }
+
+    const hideOrShowText = async () => {
+        if (
+            (!!content.value && content.value.length > 0) ||
+            contentHasChanged.value
+        )
+            return
+
+        const data = {
+            hideText: !textIsHidden.value,
+            pageId: id.value,
+        }
+        const result = await $api<boolean>(
+            `/apiVue/PageStore/HideOrShowText/`,
+            {
+                body: data,
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+                onResponseError(context) {
+                    const { $logger } = useNuxtApp()
+                    $logger.error(
+                        `fetch Error: ${context.response?.statusText}`,
+                        [
+                            {
+                                response: context.response,
+                                req: context.request,
+                            },
+                        ]
+                    )
+                },
+            }
+        )
+
+        textIsHidden.value = result
+    }
+
+    const uploadContentImage = async (file: File): Promise<string> => {
+        const uploadId = nanoid(5)
+        uploadTrackingArray.value.push(uploadId)
+
+        const data = new FormData()
+        data.append('file', file)
+        data.append('pageId', id.value.toString())
+
+        const result = await $api<string>(
+            '/apiVue/PageStore/UploadContentImage',
+            {
+                body: data,
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+            }
+        )
+
+        uploadTrackingArray.value = uploadTrackingArray.value.filter(
+            (filterId) => filterId !== uploadId
+        )
+
+        return result
+    }
+
+    const addImageUrlToDeleteList = (url: string) => {
+        if (!uploadedImagesMarkedForDeletion.value.includes(url))
+            uploadedImagesMarkedForDeletion.value.push(url)
+    }
+
+    const refreshDeleteImageList = () => {
+        const imagesToKeep = uploadedImagesInContent.value
+        uploadedImagesMarkedForDeletion.value =
+            uploadedImagesMarkedForDeletion.value.filter((url) =>
+                imagesToKeep.includes(url)
+            )
+    }
+
+    const deletePageContentImages = async () => {
+        if (uploadedImagesMarkedForDeletion.value.length == 0) return
+
+        const data = {
+            pageId: id.value,
+            imageUrls: uploadedImagesMarkedForDeletion.value,
+        }
+        await $api<void>('/apiVue/PageStore/DeleteContentImages', {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+        })
+        uploadedImagesMarkedForDeletion.value = []
+    }
+
+    const waitUntilAllUploadsComplete = async () => {
+        while (uploadTrackingArray.value.length > 0) {
+            await new Promise((resolve) => setTimeout(resolve, 100))
+        }
+    }
+
+    const getAnalyticsData = async () => {
+        const data = await $api<GetPageAnalyticsResponse>(
+            `/apiVue/PageStore/GetPageAnalytics/${id.value}`,
+            {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                onResponseError(context) {
+                    const { $logger } = useNuxtApp()
+                    $logger.error(
+                        `fetch Error: ${context.response?.statusText}`,
+                        [
+                            {
+                                response: context.response,
+                                req: context.request,
+                            },
+                        ]
+                    )
+                },
+            }
+        )
+
+        if (data) {
+            viewsPast90DaysAggregatedPages.value =
+                data.viewsPast90DaysAggregatedPages
+            viewsPast90DaysPage.value = data.viewsPast90DaysPage
+            viewsPast90DaysAggregatedQuestions.value =
+                data.viewsPast90DaysAggregatedQuestions
+            viewsPast90DaysDirectQuestions.value =
+                data.viewsPast90DaysDirectQuestions
+
+            analyticsLoaded.value = true
+        }
+    }
+
+    const generateFlashcard = async (
+        selectedTextParam?: string
+    ): Promise<GenerateFlashcardResponse> => {
+        const loadingStore = useLoadingStore()
+        loadingStore.startLoading(9000, 'Karteikarten werden generiert')
+        const data = {
+            pageId: id.value,
+            text:
+                (selectedTextParam ?? '').length > 0 ? selectedTextParam : text.value,
+        }
+        const result = await $api<GenerateFlashcardResponse>(
+            `/apiVue/PageStore/GenerateFlashcard/`,
+            {
+                body: data,
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+            }
+        )
+
+        if (selectedTextParam != null && selectedTextParam.length > 0)
+            selectedText.value = selectedTextParam
+
+        await loadingStore.finishLoading()
+
+        return result
+    }
+
+    const reGenerateFlashcard = async (): Promise<GenerateFlashcardResponse> => {
+        return await generateFlashcard(selectedText.value)
+    }
+
+    const updateQuestionCount = async () => {
+        const result = await $api<number>(
+            `/apiVue/PageStore/GetQuestionCount/${id.value}`,
+            {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                onResponseError(context) {
+                    const { $logger } = useNuxtApp()
+                    $logger.error(
+                        `fetch Error: ${context.response?.statusText}`,
+                        [
+                            {
+                                response: context.response,
+                                req: context.request,
+                            },
+                        ]
+                    )
+                },
+            }
+        )
+
+        questionCount.value = result
+    }
+
+    const setToken = (token: string | null) => {
+        shareToken.value = token
+        const userStore = useUserStore()
+        if (token !== null) userStore.addShareToken(id.value, token)
+    }
+
+    const updateIsShared = async () => {
+        let url = `/apiVue/PageStore/GetIsShared/${id.value}`
+        if (shareToken.value) {
+            url += `?shareToken=${shareToken.value}`
+        }
+
+        const result = await $api<boolean>(url, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            onResponseError(context) {
+                const { $logger } = useNuxtApp()
+                $logger.error(
+                    `fetch Error: ${context.response?.statusText}`,
+                    [
+                        {
+                            response: context.response,
+                            req: context.request,
+                        },
+                    ]
+                )
+            },
+        })
+        isShared.value = result
+    }
+
+    const handleLoginReminder = () => {
+        const userStore = useUserStore()
+        userStore.showLoginReminder = false
+
+        if (isShared.value && canEditByToken.value) {
+            if (!userStore.isLoggedIn)
+                userStore.showLoginReminder = true
+        }
+    }
+
+    // Getters
+    const getPageName = computed(() => name.value)
+
+    return {
+        // State
+        id,
+        name,
+        initialName,
+        imgUrl,
+        imgId,
+        questionCount,
+        directQuestionCount,
+        content,
+        initialContent,
+        contentHasChanged,
+        nameHasChanged,
+        parentPageCount,
+        parents,
+        childPageCount,
+        directVisibleChildPageCount,
+        views,
+        subpageViews,
+        commentCount,
+        visibility,
+        authorIds,
+        isWiki,
+        currentUserIsCreator,
+        canBeDeleted,
+        authors,
+        searchPageItem,
+        knowledgeSummary,
+        knowledgeSummarySlim,
+        gridItems,
+        isChildOfPersonalWiki,
+        textIsHidden,
+        uploadedImagesInContent,
+        uploadedImagesMarkedForDeletion,
+        uploadTrackingArray,
+        viewsPast90DaysAggregatedPages,
+        viewsPast90DaysPage,
+        viewsPast90DaysAggregatedQuestions,
+        viewsPast90DaysDirectQuestions,
+        analyticsLoaded,
+        saveTrackingArray,
+        currentWiki,
+        text,
+        selectedText,
+        contentLanguage,
+        canEdit,
+        shareToken,
+        isShared,
+        sharedWith,
+        canEditByToken,
+        totalQuestionViews,
+        directQuestionViews,
+        
+        // Actions
+        setPage,
+        setKnowledgeSummarySlim,
+        saveContent,
+        saveName,
+        waitUntilAllSavingsComplete,
+        reset,
+        clearPage,
+        isOwnerOrAdmin,
+        refreshPageImage,
+        reloadKnowledgeSummary,
+        reloadGridItems,
+        hideOrShowText,
+        uploadContentImage,
+        addImageUrlToDeleteList,
+        refreshDeleteImageList,
+        deletePageContentImages,
+        waitUntilAllUploadsComplete,
+        getAnalyticsData,
+        generateFlashcard,
+        reGenerateFlashcard,
+        updateQuestionCount,
+        setToken,
+        updateIsShared,
+        handleLoginReminder,
+        
+        // Getters
+        getPageName,
+    }
 })
