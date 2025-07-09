@@ -205,7 +205,8 @@
         "attention": "Achtung",
         "toUpload": "hochzuladen und so einzubinden.",
         "cancel": "Abbrechen",
-        "edit": "Bearbeiten"
+        "edit": "Bearbeiten",
+        "save": "Speichern"
     },
     "register": {
         "title": "Registrieren",

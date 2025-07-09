@@ -205,7 +205,8 @@
         "attention": "Attention",
         "toUpload": "to upload and embed in this way.",
         "cancel": "Cancel",
-        "edit": "Edit"
+        "edit": "Edit",
+        "save": "Save"
     },
     "register": {
         "title": "Register",
