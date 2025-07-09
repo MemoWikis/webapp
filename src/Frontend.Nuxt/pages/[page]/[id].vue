@@ -6,7 +6,6 @@ import { SiteType } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useConvertStore } from '~/components/page/convert/convertStore'
-import { useSideSheetStore } from '~/components/sideSheet/sideSheetStore'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -62,7 +61,7 @@ const tabSwitched = ref(false)
 
 const router = useRouter()
 
-function setPage() {
+const setPage = () => {
     if (page.value != null) {
 
         if (page.value?.errorCode && page.value?.messageKey) {
@@ -120,7 +119,7 @@ onBeforeMount(() => {
     emit('setPage', SiteType.Page)
 })
 
-function setTab() {
+const setTab = () => {
     if (tabsStore != null) {
         switch (props.tab) {
             case Tab.Learning:

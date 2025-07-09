@@ -72,11 +72,22 @@ const siteType = ref(SiteType.Default)
 
 const pageStore = usePageStore()
 
-function setPage(type: SiteType | undefined | null = null) {
+const setPage = async (type: SiteType | undefined | null = null) => {
 	if (type != null && type != undefined) {
 		siteType.value = type
 		if (type != SiteType.Page) {
-			pageStore.setPage(new Page())
+			await nextTick()
+			// Wait for navigation and DOM updates to complete
+			if (import.meta.client) {
+				await new Promise(resolve => requestAnimationFrame(() => {
+					requestAnimationFrame(resolve)
+				}))
+			}
+
+			// Additional delay to ensure page transition is complete
+			await new Promise(resolve => setTimeout(resolve, 150))
+
+			pageStore.clearPage()
 		}
 	}
 }
@@ -88,12 +99,12 @@ interface QuestionPageData {
 	isPrivate: boolean
 }
 const questionPageData = ref<QuestionPageData>()
-function setQuestionpageBreadcrumb(e: QuestionPageData) {
+const setQuestionpageBreadcrumb = (e: QuestionPageData) => {
 	questionPageData.value = e
 }
 
 const breadcrumbItems = ref<BreadcrumbItem[]>()
-function setBreadcrumb(e: BreadcrumbItem[]) {
+const setBreadcrumb = (e: BreadcrumbItem[]) => {
 	breadcrumbItems.value = e
 }
 const route = useRoute()
@@ -150,7 +161,7 @@ userStore.$onAction(({ name, after }) => {
 	}
 })
 
-async function handleLogin() {
+const handleLogin = async () => {
 	if (siteType.value === SiteType.Error)
 		return
 	if ((siteType.value === SiteType.Page || siteType.value === SiteType.Register) && route.params.id === rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
@@ -184,12 +195,12 @@ useHead(() => ({
 const { isMobile } = useDevice()
 const statusCode = ref<number>(0)
 
-function clearErr() {
+const resetErrorState = () => {
 	statusCode.value = 0
 	clearError()
 }
 
-function logError(error: any) {
+const logError = (error: any) => {
 
 	const errorObject = {
 		error: error,
@@ -218,7 +229,7 @@ function logError(error: any) {
 				after((result) => {
 					if (result.cancelled === false && result.id === 'reloadPage')
 						window.location.reload()
-					else clearErr()
+					else resetErrorState()
 				})
 			}
 		})
@@ -271,7 +282,7 @@ watch(locale, () => {
 			<template #error="{ error }">
 				<NuxtLayout>
 					<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
-						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
+						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="resetErrorState" />
 					<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages" :site="SiteType.Error" />
 				</NuxtLayout>
