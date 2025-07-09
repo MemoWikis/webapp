@@ -1,0 +1,7 @@
+﻿{
+  KnowledgeStatusPoints: 0.1001,
+  KnowledgeStatusPointsTotal: 0.1001,
+  NeedsLearning: 3,
+  pointsAsString: 0.1001,
+  hasCorrectPrecision: true
+}
