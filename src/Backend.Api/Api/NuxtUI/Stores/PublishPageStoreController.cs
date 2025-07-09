@@ -7,47 +7,44 @@
     ExtendedUserCache _extendedUserCache,
     SharesRepository _sharesRepository) : ApiBaseController
 {
-    public readonly record struct PublishPageJson(int id);
+    public readonly record struct PublishPageRequest(int id);
 
-    public readonly record struct PublishPageResult(
+    public readonly record struct PublishPageResponse(
         bool Success,
         string MessageKey,
         List<int> Data);
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public PublishPageResult PublishPage([FromBody] PublishPageJson json)
+    public PublishPageResponse PublishPage([FromBody] PublishPageRequest request)
     {
-        var pageCacheItem = EntityCache.GetPage(json.id);
+        var pageCacheItem = EntityCache.GetPage(request.id);
 
         if (pageCacheItem != null)
         {
             if (pageCacheItem.HasPublicParent() ||
-                pageCacheItem.Creator.FirstWikiId == json.id)
+                pageCacheItem.IsWiki)
             {
                 if (pageCacheItem.Parents().Any(c => c.Id == 1) &&
                     !_sessionUser.IsInstallationAdmin)
-                    return new PublishPageResult
+                    return new PublishPageResponse
                     {
                         Success = false,
                         MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot
                     };
 
                 pageCacheItem.Visibility = PageVisibility.Public;
-                var page = pageRepository.GetById(json.id);
+                var page = pageRepository.GetById(request.id);
                 page.Visibility = PageVisibility.Public;
                 pageRepository.Update(page, _sessionUser.UserId,
                     type: PageChangeType.Published);
 
                 SharesService.RemoveAllSharesForPage(pageCacheItem.Id, _sharesRepository);
 
-                return new PublishPageResult
-                {
-                    Success = true,
-                };
+                return new PublishPageResponse { Success = true, };
             }
 
-            return new PublishPageResult
+            return new PublishPageResponse
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.ParentIsPrivate,
@@ -55,20 +52,16 @@
             };
         }
 
-        return new PublishPageResult
-        {
-            Success = false,
-            MessageKey = FrontendMessageKeys.Error.Default
-        };
+        return new PublishPageResponse { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
     }
 
-    public readonly record struct PublishQuestionsJson(List<int> questionIds);
+    public readonly record struct PublishQuestionsRequest(List<int> questionIds);
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public void PublishQuestions([FromBody] PublishQuestionsJson json)
+    public void PublishQuestions([FromBody] PublishQuestionsRequest request)
     {
-        foreach (var questionId in json.questionIds)
+        foreach (var questionId in request.questionIds)
         {
             var questionCacheItem =
                 EntityCache.GetQuestionById(questionId);
@@ -83,7 +76,7 @@
         }
     }
 
-    public readonly record struct TinyPage(
+    public readonly record struct GetResponse(
         bool Success,
         string Name,
         List<int> QuestionIds,
@@ -91,16 +84,13 @@
 
     [HttpGet]
     [AccessOnlyAsLoggedIn]
-    public TinyPage Get([FromRoute] int id)
+    public GetResponse Get([FromRoute] int id)
     {
         var pageCacheItem = EntityCache.GetPage(id);
         var userCacheItem = _extendedUserCache.GetItem(_sessionUser.UserId);
 
         if (pageCacheItem.Creator == null || pageCacheItem.Creator.Id != userCacheItem.Id)
-            return new TinyPage
-            {
-                Success = false,
-            };
+            return new GetResponse { Success = false, };
 
         var filteredAggregatedQuestions = pageCacheItem
             .GetAggregatedQuestions(_sessionUser.UserId, permissionCheck: _permissionCheck)
@@ -111,7 +101,7 @@
                 _permissionCheck.CanEdit(q))
             .Select(q => q.Id).ToList();
 
-        return new TinyPage
+        return new GetResponse
         {
             Success = true,
             Name = pageCacheItem.Name,

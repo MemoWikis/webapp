@@ -33,11 +33,7 @@ public class PageStoreController(
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.NoChange };
 
         if (!_permissionCheck.CanEdit(pageCacheItem, request.ShareToken))
-            return new SaveResult
-            {
-                Success = false,
-                MessageKey = FrontendMessageKeys.Error.Page.MissingRights
-            };
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.MissingRights };
 
         var page = _pageRepository.GetByIdEager(request.Id);
 
@@ -51,10 +47,7 @@ public class PageStoreController(
         LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
         _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
 
-        return new SaveResult
-        {
-            Success = true
-        };
+        return new SaveResult { Success = true };
     }
 
     public readonly record struct SaveNameRequest(
@@ -75,11 +68,7 @@ public class PageStoreController(
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.NoChange };
 
         if (!_permissionCheck.CanEdit(pageCacheItem, request.ShareToken))
-            return new SaveResult
-            {
-                Success = false,
-                MessageKey = FrontendMessageKeys.Error.Page.MissingRights
-            };
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.MissingRights };
 
         var page = _pageRepository.GetByIdEager(request.Id);
 
@@ -92,10 +81,7 @@ public class PageStoreController(
         LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
         _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Renamed);
 
-        return new SaveResult
-        {
-            Success = true
-        };
+        return new SaveResult { Success = true };
     }
 
     [HttpGet]
@@ -201,6 +187,7 @@ public class PageStoreController(
     }
 
     public record struct DeleteContentImagesRequest(int id, string[] imageUrls);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public void DeleteContentImages([FromBody] DeleteContentImagesRequest request)
@@ -237,7 +224,7 @@ public class PageStoreController(
             viewsPast90DaysPages,
             viewsPast90DaysAggregatedQuestions,
             viewsPast90DaysQuestion
-);
+        );
     }
 
     private List<DailyViews> GetAggregatedPageViewsOfPast90Days(int id, List<DailyViews> pageViews)
@@ -248,11 +235,7 @@ public class PageStoreController(
             .SelectMany(descendant => descendant.GetViewsOfPast90Days())
             .Concat(pageViews)
             .GroupBy(view => view.Date)
-            .Select(group => new DailyViews
-            {
-                Date = group.Key,
-                Count = group.Sum(view => view.Count)
-            })
+            .Select(group => new DailyViews { Date = group.Key, Count = group.Sum(view => view.Count) })
             .OrderBy(view => view.Date)
             .ToList();
 
@@ -264,11 +247,7 @@ public class PageStoreController(
         var result = questions
             .SelectMany(q => q.GetViewsOfPast90Days())
             .GroupBy(view => view.Date)
-            .Select(group => new DailyViews
-            {
-                Date = group.Key,
-                Count = group.Sum(view => view.Count)
-            })
+            .Select(group => new DailyViews { Date = group.Key, Count = group.Sum(view => view.Count) })
             .OrderBy(view => view.Date)
             .ToList();
 
@@ -277,13 +256,15 @@ public class PageStoreController(
 
     private List<DailyViews> GetQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, fullList: false, pageId: page.Id, permissionCheck: _permissionCheck);
+        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, fullList: false,
+            pageId: page.Id, permissionCheck: _permissionCheck);
         return GetQuestionViews(questions);
     }
 
     private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, fullList: true, pageId: page.Id, permissionCheck: _permissionCheck);
+        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, fullList: true,
+            pageId: page.Id, permissionCheck: _permissionCheck);
         return GetQuestionViews(questions);
     }
 
@@ -300,14 +281,16 @@ public class PageStoreController(
 
         string? messageKey = null;
 
-        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(request.PageId).Visibility != PageVisibility.Public)
+        if (!limitCheck.CanSavePrivateQuestion() &&
+            EntityCache.GetPage(request.PageId).Visibility != PageVisibility.Public)
         {
             messageKey = FrontendMessageKeys.Error.Ai.NoFlashcardsCreatedCauseLimitAndPageIsPrivate;
             return new GenerateFlashCardResponse(new List<AiFlashCard.FlashCard>(), messageKey);
         }
 
         var aiFlashCard = new AiFlashCard(_aiUsageLogRepo);
-        var flashcards = await aiFlashCard.Generate(request.Text, request.PageId, _sessionUser.UserId, _permissionCheck);
+        var flashcards =
+            await aiFlashCard.Generate(request.Text, request.PageId, _sessionUser.UserId, _permissionCheck);
 
         if (flashcards.Count == 0)
             messageKey = FrontendMessageKeys.Error.Ai.GenerateFlashcards;
@@ -336,7 +319,9 @@ public class PageStoreController(
     [HttpGet]
     public bool GetIsShared([FromRoute] int id, [CanBeNull] string shareToken)
     {
-        var canView = shareToken != null ? _permissionCheck.CanViewPage(id, shareToken) : _permissionCheck.CanViewPage(id);
+        var canView = shareToken != null
+            ? _permissionCheck.CanViewPage(id, shareToken)
+            : _permissionCheck.CanViewPage(id);
         return canView && SharesService.IsShared(id);
     }
 }

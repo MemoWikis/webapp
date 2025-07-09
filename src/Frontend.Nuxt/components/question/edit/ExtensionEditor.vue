@@ -8,7 +8,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg } from '../../alert/alertStore'
-import ImageResize from '~~/components/shared/imageResizeExtension'
+import FigureExtension from '~~/components/shared/figureExtension'
 import UploadImage from '~/components/shared/imageUploadExtension'
 import { useEditQuestionStore } from './editQuestionStore'
 
@@ -44,7 +44,7 @@ const editor = useEditor({
             placeholder: t('editor.placeholderDescription'),
             showOnlyCurrent: true,
         }),
-        ImageResize.configure({
+        FigureExtension.configure({
             inline: true,
             allowBase64: true,
         }),

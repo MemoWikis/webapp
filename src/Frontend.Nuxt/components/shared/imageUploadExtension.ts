@@ -2,7 +2,7 @@
 
 import { Plugin } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import Image from './imageResizeExtension'
+import Image from './figureExtension'
 import { EditorView } from '@tiptap/pm/view'
 import { Schema } from '@tiptap/pm/model'
 import './upload-image.css'

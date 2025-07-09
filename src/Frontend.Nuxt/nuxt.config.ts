@@ -70,6 +70,7 @@ export default defineNuxtConfig({
         '~/assets/vue-transitions.less',
         '~/assets/shared/pagination.less',
         'vue-circle-flags/dist/vue-circle-flags.css',
+        '~/components/shared/figure-extension.less'
     ],
     typescript: {
         shim: false,

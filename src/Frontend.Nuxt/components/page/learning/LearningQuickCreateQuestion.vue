@@ -15,7 +15,7 @@ import { useLearningSessionStore } from './learningSessionStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import UploadImage from '~/components/shared/imageUploadExtension'
-import ImageResize from '~~/components/shared/imageResizeExtension'
+import FigureExtension from '~~/components/shared/figureExtension'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 
 const { t } = useI18n()
@@ -68,7 +68,7 @@ const editor = useEditor({
             placeholder: t('page.questionsSection.quickCreateQuestion.placeholders.question'),
             showOnlyCurrent: true,
         }),
-        ImageResize.configure({
+        FigureExtension.configure({
             inline: true,
             allowBase64: true,
         }),

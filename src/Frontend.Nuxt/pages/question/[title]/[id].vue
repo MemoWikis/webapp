@@ -6,6 +6,7 @@ import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/utils/utils'
 import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
+import { hydrateFigcaptions } from '~/components/shared/figureExtension'
 
 
 const { $logger } = useNuxtApp()
@@ -15,7 +16,7 @@ interface Props {
 	site: SiteType
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 
 const { t } = useI18n()
 
@@ -53,8 +54,7 @@ if (question.value && question.value.messageKey && question.value.messageKey.len
 	throw createError({ statusCode: question.value.errorCode, statusMessage: t(question.value.messageKey) })
 }
 
-function highlightCode(id: string) {
-
+const highlightCode = (id: string) => {
 	const el = document.getElementById(id)
 	if (el != null)
 		el.querySelectorAll('code').forEach(block => {
@@ -78,6 +78,7 @@ onBeforeMount(() => {
 
 	highlightCode('AnswerBody')
 	highlightCode('SolutionContent')
+	hydrateFigcaptions()
 
 	if (question.value?.answerBodyModel != null && question.value?.solutionData != null) {
 		if (question.value.answerBodyModel.solutionType != SolutionType.Flashcard && question.value.answerBodyModel.renderedQuestionTextExtended.length > 0)
@@ -87,7 +88,9 @@ onBeforeMount(() => {
 	}
 
 })
+
 const { $urlHelper } = useNuxtApp()
+
 useHead(() => ({
 	htmlAttrs: {
 		lang: question.value?.language ?? 'en'
@@ -151,7 +154,6 @@ useHead(() => ({
 							v-html="handleNewLine(question.answerBodyModel.renderedQuestionTextExtended)">
 						</div>
 					</div>
-
 
 					<div id="AnswerAndSolutionCol">
 						<div id="AnswerAndSolution">
