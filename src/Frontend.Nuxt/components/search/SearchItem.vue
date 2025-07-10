@@ -34,7 +34,9 @@ const subLabelText = computed(() => {
     switch (props.item.type) {
         case 'PageItem':
             const pageItem = props.item as PageItem
-            return t('search.countedQuestions', pageItem.questionCount)
+            if (pageItem.questionCount > 0) {
+                return t('search.countedQuestions', pageItem.questionCount)
+            }
         case 'QuestionItem':
         case 'UserItem':
         default:
@@ -64,7 +66,7 @@ const showCreatorName = computed(() => {
             </div>
             <div class="search-result-sub-label body-s">
                 <div>
-                    <span v-if="showCreatorName" class="creator-name" v-tooltip="t('search.createdBy', { creator: (props.item as PageItem | QuestionItem).creatorName })">
+                    <span v-if="showCreatorName" class="creator-name">
                         {{ (props.item as PageItem | QuestionItem).creatorName }}
                     </span>
                     <template v-if="showCreatorName && (showLanguageTag || subLabelText)">
@@ -91,6 +93,11 @@ const showCreatorName = computed(() => {
     width: 100%;
     transition: .2s ease-in-out;
     cursor: pointer;
+    border-bottom: 1px solid @memo-grey-lighter;
+
+    &:last-child {
+        border-bottom: none;
+    }
 
     &:hover {
         background: @memo-grey-lighter;
