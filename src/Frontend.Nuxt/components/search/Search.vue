@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { FullSearch, QuestionItem, SearchType, PageItem, UserItem } from './searchHelper'
-import { ImageFormat } from '../image/imageFormatEnum'
+import { FullSearch, QuestionItem, SearchType, PageItem, UserItem, SearchItemType } from './searchHelper'
 import { useUserStore } from '../user/userStore'
 
 interface Props {
@@ -232,66 +231,46 @@ const questionsInOtherLanguages = computed(() => {
                             <div>{{ t('search.pages') }} </div>
                             <div>{{ t('search.resultsInCurrentLanguage', { count: pagesInCurrentLanguage.length }) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="p in pagesInCurrentLanguage" @click="selectItem(p)" v-tooltip="p.name">
-                            <Image :src="p.imageUrl" :format="ImageFormat.Page" />
-                            <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ p.name }}</div>
-                                <div class="searchResultSubLabel body-s">{{ t('search.countedQuestions', p.questionCount) }}</div>
-                            </div>
-                        </div>
+                        <SearchItem v-for="p in pagesInCurrentLanguage"
+                            :item="p"
+                            @click="selectItem(p)"
+                            v-tooltip="p.name" />
 
                         <div v-if="pagesInOtherLanguages.length > 0" class="searchBanner subBanner">
                             <div>{{ t('search.pagesInOtherLanguages') }} </div>
                             <div>{{ t('search.results', { count: pagesInOtherLanguages.length }) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="p in pagesInOtherLanguages" @click="selectItem(p)" v-tooltip="p.name">
-                            <Image :src="p.imageUrl" :format="ImageFormat.Page" />
-                            <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ p.name }}</div>
-                                <div class="searchResultSubLabel body-s">
-                                    <span class="language-tag">{{ p.languageCode }}</span>
-                                    {{ t('search.countedQuestions', p.questionCount) }}
-                                </div>
-                            </div>
-                        </div>
+                        <SearchItem v-for="p in pagesInOtherLanguages"
+                            :item="p"
+                            @click="selectItem(p)"
+                            v-tooltip="p.name" />
 
                         <div v-if="questionsInCurrentLanguage.length > 0" class="searchBanner">
                             <div>{{ t('search.questions') }} </div>
                             <div>{{ t('search.resultsInCurrentLanguage', { count: questionsInCurrentLanguage.length }) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="q in questionsInCurrentLanguage" @click="selectItem(q)" v-tooltip="q.name">
-                            <Image :src="q.imageUrl" />
-                            <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ q.name }}</div>
-                                <div class="searchResultSubLabel body-s"></div>
-                            </div>
-                        </div>
+                        <SearchItem v-for="q in questionsInCurrentLanguage"
+                            :item="q"
+                            @click="selectItem(q)"
+                            v-tooltip="q.name" />
 
                         <div v-if="questionsInOtherLanguages.length > 0" class="searchBanner">
                             <div>{{ t('search.questionsInOtherLanguages') }} </div>
                             <div>{{ t('search.results', { count: questionsInOtherLanguages.length }) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="q in questionsInOtherLanguages" @click="selectItem(q)" v-tooltip="q.name">
-                            <Image :src="q.imageUrl" />
-                            <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ q.name }}</div>
-                                <div class="searchResultSubLabel body-s">
-                                    <span class="language-tag">{{ q.languageCode }}</span>
-                                </div>
-                            </div>
-                        </div>
+                        <SearchItem v-for="q in questionsInOtherLanguages"
+                            :item="q"
+                            @click="selectItem(q)"
+                            v-tooltip="q.name" />
 
                         <div v-if="users.length > 0" class="searchBanner">
                             <div>{{ t('search.users') }}</div>
                             <div class="link" @click="openUsers()">{{ t('search.showUserResults', userCount) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.name">
-                            <Image :src="u.imageUrl" :format="ImageFormat.Author" />
-                            <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ u.name }}</div>
-                                <div class="searchResultSubLabel body-s"></div>
-                            </div>
-                        </div>
+                        <SearchItem v-for="u in users"
+                            :item="u"
+                            @click="selectItem(u)"
+                            v-tooltip="u.name" />
                         <div v-if="noResults" class="noResult">
                             <div>{{ t('search.noResults') }}</div>
                         </div>
@@ -413,54 +392,6 @@ const questionsInOtherLanguages = computed(() => {
     }
 }
 
-.searchResultItem {
-    padding: 4px 8px;
-    display: flex;
-    width: 100%;
-    height: 70px;
-    transition: .2s ease-in-out;
-    cursor: pointer;
-
-    &:hover {
-        background: @memo-grey-lighter;
-        color: @memo-blue;
-    }
-
-    .searchResultLabelContainer {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .searchResultLabel {
-        height: 40px;
-        line-height: normal;
-        color: @memo-grey-darker;
-        text-overflow: ellipsis;
-        margin: 0;
-        overflow: hidden;
-        max-width: 408px;
-        white-space: normal;
-    }
-
-    .searchResultSubLabel {
-        color: @memo-grey-light;
-        font-style: italic;
-        height: 20px;
-        line-height: normal;
-    }
-
-
-    .img-container {
-        max-height: 62px;
-        max-width: 62px;
-        height: auto;
-        margin-right: 10px;
-        width: 100%;
-        margin-top: 0px !important;
-    }
-}
-
 .search-button {
     svg.fa-xmark {
         color: @memo-blue;
@@ -485,16 +416,5 @@ input,
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.language-tag {
-    background-color: @memo-blue-link;
-    color: white;
-    font-size: 0.8em;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-right: 6px;
-    text-transform: uppercase;
-    font-style: normal;
 }
 </style>

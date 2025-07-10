@@ -9,6 +9,12 @@ export enum SearchType {
     pageInWiki = categoryInWiki,
 }
 
+export enum SearchItemType {
+    Page = 'page',
+    Question = 'question',
+    User = 'user'
+}
+
 export interface PageItem {
     type?: "PageItem"
     id: number
