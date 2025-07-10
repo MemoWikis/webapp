@@ -231,10 +231,11 @@
         "questions": "Questions",
         "users": "Utilisateurs",
         "resultsInCurrentLanguage": "({count})",
-        "countedQuestions": "{count} questions",
+        "countedQuestions": "0 question | 1 question | {count} questions",
         "showUserResults": "Tout afficher ({count})",
         "noResults": "Aucun résultat trouvé",
-        "inYourLanguage": "dans ta langue"
+        "inYourLanguage": "dans ta langue",
+        "createdBy": "par {creator}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",

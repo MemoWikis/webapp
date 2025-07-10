@@ -234,7 +234,8 @@
         "countedQuestions": "@:label.questionCount",
         "showUserResults": "mostrar {count} resultados",
         "noResults": "No se encontraron resultados",
-        "inYourLanguage": "en tu idioma."
+        "inYourLanguage": "en tu idioma.",
+        "createdBy": "por {creator}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",

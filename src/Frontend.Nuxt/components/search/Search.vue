@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { FullSearch, QuestionItem, SearchType, PageItem, UserItem, SearchItemType } from './searchHelper'
+import { FullSearch, QuestionItem, SearchType, PageItem, UserItem } from './searchHelper'
 import { useUserStore } from '../user/userStore'
 
 interface Props {
@@ -233,8 +233,7 @@ const questionsInOtherLanguages = computed(() => {
                         </div>
                         <SearchItem v-for="p in pagesInCurrentLanguage"
                             :item="p"
-                            @click="selectItem(p)"
-                            v-tooltip="p.name" />
+                            @click="selectItem(p)" />
 
                         <div v-if="pagesInOtherLanguages.length > 0" class="searchBanner subBanner">
                             <div>{{ t('search.pagesInOtherLanguages') }} </div>
@@ -242,8 +241,7 @@ const questionsInOtherLanguages = computed(() => {
                         </div>
                         <SearchItem v-for="p in pagesInOtherLanguages"
                             :item="p"
-                            @click="selectItem(p)"
-                            v-tooltip="p.name" />
+                            @click="selectItem(p)" />
 
                         <div v-if="questionsInCurrentLanguage.length > 0" class="searchBanner">
                             <div>{{ t('search.questions') }} </div>
@@ -260,8 +258,7 @@ const questionsInOtherLanguages = computed(() => {
                         </div>
                         <SearchItem v-for="q in questionsInOtherLanguages"
                             :item="q"
-                            @click="selectItem(q)"
-                            v-tooltip="q.name" />
+                            @click="selectItem(q)" />
 
                         <div v-if="users.length > 0" class="searchBanner">
                             <div>{{ t('search.users') }}</div>
@@ -269,8 +266,7 @@ const questionsInOtherLanguages = computed(() => {
                         </div>
                         <SearchItem v-for="u in users"
                             :item="u"
-                            @click="selectItem(u)"
-                            v-tooltip="u.name" />
+                            @click="selectItem(u)" />
                         <div v-if="noResults" class="noResult">
                             <div>{{ t('search.noResults') }}</div>
                         </div>

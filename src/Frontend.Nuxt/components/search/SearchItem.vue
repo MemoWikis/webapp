@@ -14,23 +14,28 @@ const imageFormat = computed(() => {
 })
 
 const showLanguageTag = computed(() => {
-    if (props.item.type === 'UserItem') return false
+    if (props.item.type === 'UserItem') {
+        const userItem = props.item as UserItem
+        return userItem.languageCodes && userItem.languageCodes.length > 0
+    }
     return (props.item as PageItem | QuestionItem).languageCode !== locale.value
 })
 
-const languageCode = computed(() => {
-    if (props.item.type === 'UserItem') return ''
-    return (props.item as PageItem | QuestionItem).languageCode
+const languageCodes = computed(() => {
+    if (props.item.type === 'UserItem') {
+        const userItem = props.item as UserItem
+        return userItem.languageCodes
+    }
+    return [(props.item as PageItem | QuestionItem).languageCode]
 })
 
 const subLabelText = computed(() => {
     switch (props.item.type) {
         case 'PageItem':
-            return t('search.countedQuestions', (props.item as PageItem).questionCount)
+            const pageItem = props.item as PageItem
+            return t('search.countedQuestions', pageItem.questionCount)
         case 'QuestionItem':
-            return ''
         case 'UserItem':
-            return ''
         default:
             return ''
     }
@@ -42,13 +47,18 @@ const itemTypeClass = computed(() => {
 </script>
 
 <template>
-    <div class="searchResultItem" :class="itemTypeClass">
+    <div class="searchResultItem" :class="itemTypeClass" v-tooltip="props.item.name">
         <Image :src="props.item.imageUrl" :format="imageFormat" />
         <div class="searchResultLabelContainer">
             <div class="searchResultLabel body-m">{{ props.item.name }}</div>
             <div class="searchResultSubLabel body-s">
-                <span v-if="showLanguageTag" class="language-tag">{{ languageCode }}</span>
-                {{ subLabelText }}
+                <p>
+                    <span v-if="showLanguageTag" v-for="langCode in languageCodes" :key="langCode" class="language-tag" :class="{ 'current-locale': langCode === locale }">{{ langCode }}</span>
+                    <span v-if="subLabelText">{{ subLabelText }}</span>
+                </p>
+                <p v-if="props.item.type !== 'UserItem' && (props.item as PageItem | QuestionItem).creatorName" class="creator-name">
+                    {{ t('search.createdBy', { creator: (props.item as PageItem | QuestionItem).creatorName }) }}
+                </p>
             </div>
         </div>
     </div>
@@ -61,7 +71,7 @@ const itemTypeClass = computed(() => {
     padding: 4px 8px;
     display: flex;
     width: 100%;
-    height: 70px;
+    height: 90px;
     transition: .2s ease-in-out;
     cursor: pointer;
 
@@ -79,7 +89,7 @@ const itemTypeClass = computed(() => {
     .searchResultLabel {
         height: 40px;
         line-height: normal;
-        color: @memo-grey-darker;
+        color: @memo-blue;
         text-overflow: ellipsis;
         margin: 0;
         overflow: hidden;
@@ -88,14 +98,29 @@ const itemTypeClass = computed(() => {
     }
 
     .searchResultSubLabel {
-        color: @memo-grey-light;
+        display: flex;
+        flex-direction: column-reverse;
+        color: @memo-grey-dark;
         font-style: italic;
-        height: 20px;
+        height: 40px;
         line-height: normal;
+        margin-bottom: 0px;
+        max-width: 250px;
+
+        p {
+            margin-bottom: 0px;
+        }
+
+        .creator-name {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 2px;
+        }
     }
 
     .language-tag {
-        background-color: @memo-blue-link;
+        background-color: @memo-grey;
         color: white;
         font-size: 0.8em;
         padding: 2px 6px;
@@ -103,11 +128,15 @@ const itemTypeClass = computed(() => {
         margin-right: 6px;
         text-transform: uppercase;
         font-style: normal;
+
+        &.current-locale {
+            background-color: @memo-blue-link;
+        }
     }
 
     .img-container {
-        max-height: 62px;
-        max-width: 62px;
+        max-height: 82px;
+        max-width: 82px;
         height: auto;
         margin-right: 10px;
         width: 100%;

@@ -1,8 +1,7 @@
 ﻿public class SearchResultBuilder(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo,
-    SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
+    QuestionReadingRepo _questionReadingRepo) : IRegisterAsInstancePerLifetime
 {
     public void AddPageItems(
         List<SearchPageItem> items,
@@ -10,11 +9,11 @@
         PermissionCheck permissionCheck,
         int userId,
         int[] pageIdsToFilter = null) => items.AddRange(
-            elements.Pages
-                .Where(c => permissionCheck.CanView(c) &&
-                    (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)))
-                .Select(c => FillSearchPageItem(c, userId))
-            );
+        elements.Pages
+            .Where(c => permissionCheck.CanView(c) &&
+                        (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)))
+            .Select(c => FillSearchPageItem(c, userId))
+    );
 
     public void AddPageItems(
         List<SearchPageItem> items,
@@ -41,7 +40,6 @@
     );
 
 
-
     public SearchPageItem FillSearchPageItem(PageCacheItem page, int userId)
     {
         return new SearchPageItem
@@ -51,13 +49,14 @@
             QuestionCount = EntityCache.GetPage(page.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new PageImageSettings(page.Id, _httpContextAccessor).GetUrl_128px(true).Url,
             MiniImageUrl = new ImageFrontendData(
-                    _imageMetaDataReadingRepo.GetBy(page.Id, ImageType.Page), 
-                    _httpContextAccessor, 
+                    _imageMetaDataReadingRepo.GetBy(page.Id, ImageType.Page),
+                    _httpContextAccessor,
                     _questionReadingRepo
                 )
                 .GetImageUrl(30, true, false, ImageType.Page).Url,
             Visibility = (int)page.Visibility,
-            LanguageCode = page.Language
+            LanguageCode = page.Language,
+            CreatorName = page.Creator?.Name
         };
     }
 
@@ -78,7 +77,8 @@
                         .Url,
                     PrimaryPageId = q.PagesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
                     PrimaryPageName = q.PagesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name,
-                    LanguageCode = q.Language
+                    LanguageCode = q.Language,
+                    CreatorName = q.Creator?.Name
                 }));
     }
 

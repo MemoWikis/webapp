@@ -9,12 +9,6 @@ export enum SearchType {
     pageInWiki = categoryInWiki,
 }
 
-export enum SearchItemType {
-    Page = 'page',
-    Question = 'question',
-    User = 'user'
-}
-
 export interface PageItem {
     type?: "PageItem"
     id: number
@@ -26,6 +20,7 @@ export interface PageItem {
     visibility: number
     isSpoiler?: boolean
     languageCode: string
+    creatorName?: string
 }
 
 export interface QuestionItem {
@@ -38,6 +33,7 @@ export interface QuestionItem {
     primaryPageId: number
     primaryPageName: string
     languageCode: string
+    creatorName?: string
 }
 
 export interface UserItem {
@@ -47,7 +43,7 @@ export interface UserItem {
     url: string | null
     imageUrl: string
     visibility: number
-    LanguageCodes: string[]
+    languageCodes: string[]
 }
 
 export type FullSearch = {
