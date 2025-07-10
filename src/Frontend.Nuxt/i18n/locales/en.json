@@ -227,8 +227,11 @@
     "search": {
         "results": "{count} results",
         "pages": "Pages",
+        "myPages": "My Pages",
         "pagesInOtherLanguages": "Pages in other languages",
         "questions": "Questions",
+        "myQuestions": "My Questions",
+        "questionsInOtherLanguages": "Questions in other languages",
         "users": "Users",
         "resultsInCurrentLanguage": "({count})",
         "countedQuestions": "0 questions | 1 question | {count} questions",

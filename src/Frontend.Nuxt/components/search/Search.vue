@@ -190,20 +190,46 @@ watch(() => props.showSearch, (val) => {
 })
 const ariaId = useId()
 
+const myPages = computed(() => {
+    if (!userStore.isLoggedIn) {
+        return []
+    }
+    return pages.value.filter(p => p.creatorName === userStore.name)
+})
+
 const pagesInCurrentLanguage = computed(() => {
-    return pages.value.filter(p => p.languageCode === locale.value)
+    if (!userStore.isLoggedIn) {
+        return pages.value.filter(p => p.languageCode === locale.value)
+    }
+    return pages.value.filter(p => p.languageCode === locale.value && p.creatorName !== userStore.name)
 })
 
 const pagesInOtherLanguages = computed(() => {
-    return pages.value.filter(p => p.languageCode !== locale.value)
+    if (!userStore.isLoggedIn) {
+        return pages.value.filter(p => p.languageCode !== locale.value)
+    }
+    return pages.value.filter(p => p.languageCode !== locale.value && p.creatorName !== userStore.name)
+})
+
+const myQuestions = computed(() => {
+    if (!userStore.isLoggedIn) {
+        return []
+    }
+    return questions.value.filter(q => q.creatorName === userStore.name)
 })
 
 const questionsInCurrentLanguage = computed(() => {
-    return questions.value.filter(q => q.languageCode === locale.value)
+    if (!userStore.isLoggedIn) {
+        return questions.value.filter(q => q.languageCode === locale.value)
+    }
+    return questions.value.filter(q => q.languageCode === locale.value && q.creatorName !== userStore.name)
 })
 
 const questionsInOtherLanguages = computed(() => {
-    return questions.value.filter(q => q.languageCode !== locale.value)
+    if (!userStore.isLoggedIn) {
+        return questions.value.filter(q => q.languageCode !== locale.value)
+    }
+    return questions.value.filter(q => q.languageCode !== locale.value && q.creatorName !== userStore.name)
 })
 
 </script>
@@ -227,6 +253,14 @@ const questionsInOtherLanguages = computed(() => {
                 :placement="props.placement">
                 <template #popper>
                     <div class="searchDropdown">
+                        <div v-if="myPages.length > 0" class="searchBanner">
+                            <div>{{ t('search.myPages') }} </div>
+                            <div>{{ t('search.results', { count: myPages.length }) }}</div>
+                        </div>
+                        <SearchItem v-for="p in myPages"
+                            :item="p"
+                            @click="selectItem(p)" />
+
                         <div v-if="pagesInCurrentLanguage.length > 0" class="searchBanner">
                             <div>{{ t('search.pages') }} </div>
                             <div>{{ t('search.resultsInCurrentLanguage', { count: pagesInCurrentLanguage.length }) }}</div>
@@ -242,6 +276,15 @@ const questionsInOtherLanguages = computed(() => {
                         <SearchItem v-for="p in pagesInOtherLanguages"
                             :item="p"
                             @click="selectItem(p)" />
+
+                        <div v-if="myQuestions.length > 0" class="searchBanner">
+                            <div>{{ t('search.myQuestions') }} </div>
+                            <div>{{ t('search.results', { count: myQuestions.length }) }}</div>
+                        </div>
+                        <SearchItem v-for="q in myQuestions"
+                            :item="q"
+                            @click="selectItem(q)"
+                            v-tooltip="q.name" />
 
                         <div v-if="questionsInCurrentLanguage.length > 0" class="searchBanner">
                             <div>{{ t('search.questions') }} </div>
@@ -281,6 +324,8 @@ const questionsInOtherLanguages = computed(() => {
 @import '~~/assets/shared/search.less';
 @import (reference) '~~/assets/includes/imports.less';
 
+@dropdownWidth: calc(100vw - 32px);
+
 .default-search-icon {
     position: absolute;
     margin-top: 10px;
@@ -316,9 +361,9 @@ const questionsInOtherLanguages = computed(() => {
 }
 
 .searchDropdown {
-    max-width: min(500px, calc(100vw - 32px));
+    max-width: min(500px, @dropdownWidth);
     padding: 0;
-    width: calc(100vw - 32px);
+    width: @dropdownWidth;
 
     .dropdownFooter {
         line-height: 20px;

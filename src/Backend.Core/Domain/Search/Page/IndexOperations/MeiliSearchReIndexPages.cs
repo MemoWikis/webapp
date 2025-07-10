@@ -21,7 +21,7 @@ public class MeilisearchReIndexPages(PageRepository _pageRepository) : IRegister
         });
 
         var index = _client.Index(MeilisearchIndices.Pages);
-        await index.UpdateFilterableAttributesAsync(new[] { "Language" });
+        await index.UpdateFilterableAttributesAsync(new[] { "Language", "CreatorName" });
 
         await index.AddDocumentsAsync(meiliSearchPageMaps);
     }
@@ -38,13 +38,13 @@ public class MeilisearchReIndexPages(PageRepository _pageRepository) : IRegister
             Name = c.Name,
             CreatorName = c.Creator == null ? "-" : c.Creator.Name,
             DateCreated = c.DateCreated,
-            Description = c.Description,
-            Content = c.Content,
+            Description = c.Description ?? "",
+            Content = c.Content ?? "",
             Language = c.Language
         });
 
         var index = _client.Index(MeilisearchIndices.Pages);
-        await index.UpdateFilterableAttributesAsync(new[] { "Language" });
+        await index.UpdateFilterableAttributesAsync(new[] { "Language", "CreatorName" });
 
         await index.AddDocumentsAsync(meiliSearchPageMaps);
     }
