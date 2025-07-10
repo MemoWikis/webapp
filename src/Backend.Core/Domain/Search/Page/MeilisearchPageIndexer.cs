@@ -66,11 +66,12 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
     {
         var pageMap = new MeilisearchPageMap
         {
-            CreatorName = page.Creator.Name,
+            CreatorName = page.Creator?.Name ?? "-",
             DateCreated = page.DateCreated == DateTime.MinValue
                 ? DateTime.Now
                 : page.DateCreated,
             Description = page.Description ?? "",
+            Content = page.Content ?? "",
             Name = page.Name,
             Id = page.Id,
             Language = page.Language

@@ -20,6 +20,13 @@ export interface PageItem {
     visibility: number
     isSpoiler?: boolean
     languageCode: string
+    creatorName?: string
+    breadcrumbPath?: BreadcrumbItem[]
+}
+
+export interface BreadcrumbItem {
+    name: string
+    id: number
 }
 
 export interface QuestionItem {
@@ -32,6 +39,7 @@ export interface QuestionItem {
     primaryPageId: number
     primaryPageName: string
     languageCode: string
+    creatorName?: string
 }
 
 export interface UserItem {
@@ -41,7 +49,7 @@ export interface UserItem {
     url: string | null
     imageUrl: string
     visibility: number
-    LanguageCodes: string[]
+    languageCodes: string[]
 }
 
 export type FullSearch = {
