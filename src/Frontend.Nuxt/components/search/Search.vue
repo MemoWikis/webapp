@@ -316,7 +316,7 @@ const questionsInOtherLanguages = computed(() => {
 }
 
 .searchDropdown {
-    max-width: 360px;
+    max-width: min(500px, calc(100vw - 32px));
     padding: 0;
     width: calc(100vw - 32px);
 

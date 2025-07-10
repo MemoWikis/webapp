@@ -235,7 +235,7 @@
         "showUserResults": "Alle anzeigen ({count})",
         "noResults": "Keine Ergebnisse gefunden",
         "inYourLanguage": "in deiner Sprache",
-        "createdBy": "von {creator}"
+        "createdBy": "erstellt von: {creator}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",

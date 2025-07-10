@@ -8,4 +8,7 @@
     public int Visibility { get; set; }
     public string? LanguageCode { get; set; }
     public string? CreatorName { get; set; }
+    public List<BreadcrumbItem>? BreadcrumbPath { get; set; }
 }
+
+public record struct BreadcrumbItem(string Name, int Id);

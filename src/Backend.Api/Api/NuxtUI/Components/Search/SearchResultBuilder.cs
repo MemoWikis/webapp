@@ -1,7 +1,9 @@
 ﻿public class SearchResultBuilder(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : IRegisterAsInstancePerLifetime
+    QuestionReadingRepo _questionReadingRepo,
+    CrumbtrailService _crumbtrailService,
+    SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
     public void AddPageItems(
         List<SearchPageItem> items,
@@ -42,6 +44,15 @@
 
     public SearchPageItem FillSearchPageItem(PageCacheItem page, int userId)
     {
+        var currentWiki = _crumbtrailService.GetWiki(page, _sessionUser);
+        var breadcrumb = _crumbtrailService.BuildCrumbtrail(page, currentWiki);
+        
+        // Build breadcrumb path: exclude the current page from the path
+        var breadcrumbPath = breadcrumb.Items
+            .Where(item => item.Page.Id != page.Id)
+            .Select(item => new BreadcrumbItem(item.Text, item.Page.Id))
+            .ToList();
+
         return new SearchPageItem
         {
             Id = page.Id,
@@ -56,7 +67,8 @@
                 .GetImageUrl(30, true, false, ImageType.Page).Url,
             Visibility = (int)page.Visibility,
             LanguageCode = page.Language,
-            CreatorName = page.Creator?.Name
+            CreatorName = page.Creator?.Name,
+            BreadcrumbPath = breadcrumbPath
         };
     }
 

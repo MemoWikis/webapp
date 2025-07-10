@@ -235,7 +235,7 @@
         "showUserResults": "mostrar {count} resultados",
         "noResults": "No se encontraron resultados",
         "inYourLanguage": "en tu idioma.",
-        "createdBy": "por {creator}"
+        "createdBy": "creado por: {creator}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",

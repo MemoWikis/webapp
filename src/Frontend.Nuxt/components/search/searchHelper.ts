@@ -21,6 +21,12 @@ export interface PageItem {
     isSpoiler?: boolean
     languageCode: string
     creatorName?: string
+    breadcrumbPath?: BreadcrumbItem[]
+}
+
+export interface BreadcrumbItem {
+    name: string
+    id: number
 }
 
 export interface QuestionItem {
