@@ -24,11 +24,11 @@ const ariaId = useId()
         <!-- Show root crumb -->
         <span v-if="rootCrumb" class="breadcrumb-item first-crumb">
             <span class="breadcrumb-name">{{ rootCrumb.name }}</span>
-            <span v-if="pathCrumbs.length > 0" class="breadcrumb-separator"> › </span>
+            <span class="breadcrumb-separator"> › </span>
         </span>
 
         <!-- Show path crumbs: dropdown if more than 2, otherwise show directly -->
-        <template v-if="pathCrumbs.length > 2">
+        <template v-if="pathCrumbs.length > 1">
             <VDropdown :aria-id="ariaId" :distance="0">
                 <span class="breadcrumb-dropdown">
                     <span class="breadcrumb-ellipsis">...</span>
@@ -44,7 +44,7 @@ const ariaId = useId()
         </template>
 
         <template v-else>
-            <span v-for="(crumb, index) in pathCrumbs" :key="crumb.id" class="breadcrumb-item">
+            <span v-for="(crumb) in pathCrumbs" :key="crumb.id" class="breadcrumb-item">
                 <span class="breadcrumb-name">{{ crumb.name }}</span>
                 <span class="breadcrumb-separator"> › </span>
             </span>
@@ -70,7 +70,7 @@ const ariaId = useId()
         align-items: center;
 
         .breadcrumb-name {
-            max-width: 50px;
+            max-width: 100px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
