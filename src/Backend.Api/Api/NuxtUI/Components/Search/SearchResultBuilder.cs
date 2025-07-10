@@ -2,6 +2,7 @@
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
+    CrumbtrailService _crumbtrailService,
     SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
     public void AddPageItems(
@@ -10,11 +11,11 @@
         PermissionCheck permissionCheck,
         int userId,
         int[] pageIdsToFilter = null) => items.AddRange(
-            elements.Pages
-                .Where(c => permissionCheck.CanView(c) &&
-                    (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)))
-                .Select(c => FillSearchPageItem(c, userId))
-            );
+        elements.Pages
+            .Where(c => permissionCheck.CanView(c) &&
+                        (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)))
+            .Select(c => FillSearchPageItem(c, userId))
+    );
 
     public void AddPageItems(
         List<SearchPageItem> items,
@@ -41,9 +42,17 @@
     );
 
 
-
     public SearchPageItem FillSearchPageItem(PageCacheItem page, int userId)
     {
+        var currentWiki = _crumbtrailService.GetWiki(page, _sessionUser);
+        var breadcrumb = _crumbtrailService.BuildCrumbtrail(page, currentWiki);
+        
+        // Build breadcrumb path: exclude the current page from the path
+        var breadcrumbPath = breadcrumb.Items
+            .Where(item => item.Page.Id != page.Id)
+            .Select(item => new BreadcrumbItem(item.Text, item.Page.Id))
+            .ToList();
+
         return new SearchPageItem
         {
             Id = page.Id,
@@ -51,13 +60,15 @@
             QuestionCount = EntityCache.GetPage(page.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new PageImageSettings(page.Id, _httpContextAccessor).GetUrl_128px(true).Url,
             MiniImageUrl = new ImageFrontendData(
-                    _imageMetaDataReadingRepo.GetBy(page.Id, ImageType.Page), 
-                    _httpContextAccessor, 
+                    _imageMetaDataReadingRepo.GetBy(page.Id, ImageType.Page),
+                    _httpContextAccessor,
                     _questionReadingRepo
                 )
                 .GetImageUrl(30, true, false, ImageType.Page).Url,
             Visibility = (int)page.Visibility,
-            LanguageCode = page.Language
+            LanguageCode = page.Language,
+            CreatorName = page.Creator?.Name,
+            BreadcrumbPath = breadcrumbPath
         };
     }
 
@@ -78,7 +89,8 @@
                         .Url,
                     PrimaryPageId = q.PagesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
                     PrimaryPageName = q.PagesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name,
-                    LanguageCode = q.Language
+                    LanguageCode = q.Language,
+                    CreatorName = q.Creator?.Name
                 }));
     }
 
