@@ -28,7 +28,7 @@ const ariaId = useId()
         </span>
 
         <!-- Show path crumbs: dropdown if more than 2, otherwise show directly -->
-        <template v-if="pathCrumbs.length > 1">
+        <template v-if="pathCrumbs.length > 2">
             <VDropdown :aria-id="ariaId" :distance="0">
                 <span class="breadcrumb-dropdown">
                     <span class="breadcrumb-ellipsis">...</span>
