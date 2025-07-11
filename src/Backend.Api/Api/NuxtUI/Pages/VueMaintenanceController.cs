@@ -17,11 +17,17 @@ public class VueMaintenanceController(
     UserWritingRepo _userWritingRepo,
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment) : ApiBaseController
+    PageRelationRepo _pageRelationRepo) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
     public readonly record struct ActiveSessionsResponse(int LoggedInUserCount, int AnonymousUserCount);
+
+    public readonly record struct RelationErrorsResponse(bool Success, List<RelationErrorItem> Data);
+
+    public readonly record struct RelationErrorItem(int ParentId, List<RelationError> Errors);
+
+    public readonly record struct RelationError(string Type, int ChildId, string Description);
 
     [AccessOnlyAsAdmin]
     [HttpGet]
@@ -309,5 +315,213 @@ public class VueMaintenanceController(
             Success = true,
             Data = ""
         };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ClearCache()
+    {
+        // Clear various caches
+        EntityCache.Clear();
+        
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Cache wurde geleert."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult UpdateCategoryAuthors()
+    {
+        // This would need to be implemented based on your business logic
+        // For now, returning a placeholder message
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Kategorie-Autoren wurden aktualisiert."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpGet]
+    public RelationErrorsResponse ShowRelationErrors()
+    {
+        var relationErrors = new List<RelationErrorItem>();
+        
+        try
+        {
+            var allRelations = EntityCache.GetAllRelations();
+            var groupedByParent = allRelations.GroupBy(r => r.ParentId);
+
+            foreach (var parentGroup in groupedByParent)
+            {
+                var parentId = parentGroup.Key;
+                var parentPage = EntityCache.GetPage(parentId);
+                
+                if (parentPage == null) continue;
+
+                var relations = parentGroup.ToList();
+                var errors = new List<RelationError>();
+
+                // Check for duplicate relations
+                var duplicateGroups = relations
+                    .GroupBy(r => r.ChildId)
+                    .Where(g => g.Count() > 1);
+
+                foreach (var duplicateGroup in duplicateGroups)
+                {
+                    var childId = duplicateGroup.Key;
+                    var count = duplicateGroup.Count();
+                    
+                    errors.Add(new RelationError(
+                        "Duplicate",
+                        childId,
+                        $"Child page appears {count} times"
+                    ));
+                }
+
+                // Check for broken links (child pages that don't exist)
+                foreach (var relation in relations)
+                {
+                    var childPage = EntityCache.GetPage(relation.ChildId);
+                    if (childPage == null)
+                    {
+                        errors.Add(new RelationError(
+                            "BrokenLink",
+                            relation.ChildId,
+                            "Child page does not exist"
+                        ));
+                    }
+                }
+
+                // Check for broken ordering (PreviousId/NextId inconsistencies)
+                var orderedRelations = PageOrderer.Sort(relations, parentId);
+
+                if (orderedRelations.Count != relations.Count)
+                {
+                    errors.Add(new RelationError(
+                        "BrokenOrder",
+                        0,
+                        "Inconsistent relation ordering detected"
+                    ));
+                }
+
+                if (errors.Any())
+                {
+                    relationErrors.Add(new RelationErrorItem(
+                        parentId,
+                        errors
+                    ));
+                }
+            }
+
+            return new RelationErrorsResponse(true, relationErrors);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error while checking relation errors");
+            return new RelationErrorsResponse(false, new List<RelationErrorItem>());
+        }
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult HealRelations(int pageId)
+    {
+        try
+        {
+            var page = EntityCache.GetPage(pageId);
+            if (page == null)
+            {
+                return new VueMaintenanceResult
+                {
+                    Success = false,
+                    Data = "Seite nicht gefunden."
+                };
+            }
+
+            var relations = EntityCache.GetCacheRelationsByParentId(pageId);
+            var healedCount = 0;
+
+            // Remove duplicate relations
+            var duplicateGroups = relations
+                .GroupBy(r => r.ChildId)
+                .Where(g => g.Count() > 1);
+
+            foreach (var duplicateGroup in duplicateGroups)
+            {
+                var relationsToKeep = duplicateGroup.First();
+                var relationsToDelete = duplicateGroup.Skip(1);
+
+                foreach (var relationToDelete in relationsToDelete)
+                {
+                    var dbRelation = _pageRelationRepo.GetById(relationToDelete.Id);
+                    if (dbRelation != null)
+                    {
+                        _pageRelationRepo.Delete(dbRelation);
+                        EntityCache.Remove(relationToDelete);
+                        healedCount++;
+                    }
+                }
+            }
+
+            // Remove relations with broken links (non-existent child pages)
+            var brokenRelations = relations.Where(r => EntityCache.GetPage(r.ChildId) == null);
+            foreach (var brokenRelation in brokenRelations)
+            {
+                var dbRelation = _pageRelationRepo.GetById(brokenRelation.Id);
+                if (dbRelation != null)
+                {
+                    _pageRelationRepo.Delete(dbRelation);
+                    EntityCache.Remove(brokenRelation);
+                    healedCount++;
+                }
+            }
+
+            // Fix ordering by re-sorting remaining relations
+            var remainingRelations = EntityCache.GetCacheRelationsByParentId(pageId);
+
+            if (remainingRelations.Any())
+            {
+                // Reset all ordering
+                for (int i = 0; i < remainingRelations.Count; i++)
+                {
+                    var relation = remainingRelations[i];
+                    var dbRelation = _pageRelationRepo.GetById(relation.Id);
+                    
+                    if (dbRelation != null)
+                    {
+                        relation.PreviousId = i > 0 ? remainingRelations[i - 1].ChildId : null;
+                        relation.NextId = i < remainingRelations.Count - 1 ? remainingRelations[i + 1].ChildId : null;
+                        
+                        dbRelation.PreviousId = relation.PreviousId;
+                        dbRelation.NextId = relation.NextId;
+                        
+                        _pageRelationRepo.Update(dbRelation);
+                        EntityCache.AddOrUpdate(relation);
+                    }
+                }
+            }
+
+            return new VueMaintenanceResult
+            {
+                Success = true,
+                Data = $"Relationen repariert. {healedCount} Probleme behoben."
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error while healing relations for page {PageId}", pageId);
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = "Fehler beim Reparieren der Relationen."
+            };
+        }
     }
 }

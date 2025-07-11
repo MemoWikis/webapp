@@ -62,6 +62,22 @@ interface ActiveSessionsResponse {
     anonymousUserCount: number
 }
 
+interface RelationError {
+    type: string
+    childId: number
+    description: string
+}
+
+interface RelationErrorItem {
+    parentId: number
+    errors: RelationError[]
+}
+
+interface RelationErrorsResponse {
+    success: boolean
+    data: RelationErrorItem[]
+}
+
 const questionMethods = ref<MethodData[]>([
     { url: 'RecalculateAllKnowledgeItems', translationKey: 'maintenance.questions.recalculateAllKnowledgeItems' },
     { url: 'CalcAggregatedValuesQuestions', translationKey: 'maintenance.questions.calcAggregatedValues' }
@@ -72,6 +88,12 @@ const cacheMethods = ref<MethodData[]>([
 const pageMethods = ref<MethodData[]>([
     { url: 'UpdateCategoryAuthors', translationKey: 'maintenance.pages.updateCategoryAuthors' }
 ])
+const relationMethods = ref<MethodData[]>([])
+
+// Simple button for showing relation errors
+const showRelationErrorsButton = async () => {
+    await loadRelationErrors()
+}
 const meiliSearchMethods = ref<MethodData[]>([
     { url: 'MeiliReIndexAllQuestions', translationKey: 'maintenance.meiliSearch.questions' },
     { url: 'MeiliReIndexAllQuestionsCache', translationKey: 'maintenance.meiliSearch.questionsCache' },
@@ -95,6 +117,8 @@ const toolsMethods = ref<MethodData[]>([
 
 ])
 const resultMsg = ref('')
+const relationErrors = ref<RelationErrorItem[]>([])
+const showRelationErrors = ref(false)
 
 async function handleClick(url: string) {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
@@ -163,6 +187,56 @@ async function removeAdminRights() {
         await navigateTo('/')
     }
 }
+
+async function loadRelationErrors() {
+    try {
+        const result = await $api<RelationErrorsResponse>('/apiVue/VueMaintenance/ShowRelationErrors', {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (result.success) {
+            relationErrors.value = result.data
+            showRelationErrors.value = true
+            resultMsg.value = `Found ${result.data.length} pages with relation errors.`
+        } else {
+            resultMsg.value = 'Error loading relation errors.'
+        }
+    } catch (error) {
+        console.error('Error loading relation errors:', error)
+        resultMsg.value = 'Error loading relation errors.'
+    }
+}
+
+async function healRelations(pageId: number) {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    if (pageId <= 0) {
+        resultMsg.value = 'Please enter a valid page ID.'
+        return
+    }
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('pageId', pageId.toString())
+
+    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/HealRelations`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result.success) {
+        resultMsg.value = result.data
+        // Refresh relation errors if they are currently displayed
+        if (showRelationErrors.value) {
+            await loadRelationErrors()
+        }
+    }
+}
 </script>
 
 <template>
@@ -186,11 +260,36 @@ async function removeAdminRights() {
                 :icon="['fas', 'retweet']" />
             <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="handleClick"
                 :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods"
-                :description="$t('maintenance.meiliSearch.description')" @method-clicked="handleClick"
-                :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="handleClick"
-                :icon="['fas', 'retweet']">
+            <LayoutPanel :title="$t('maintenance.relations.title')">
+                <template #description>
+                    <button @click="showRelationErrorsButton" class="memo-button btn btn-primary">
+                        {{ $t('maintenance.relations.showErrors') }}
+                    </button>
+                </template>
+
+                <div class="relation-errors" v-if="showRelationErrors && relationErrors.length > 0">
+                    <h4>{{ $t('maintenance.relations.foundErrors') }}</h4>
+                    <div class="error-cards">
+                        <LayoutCard v-for="errorItem in relationErrors" :key="errorItem.parentId" :size="LayoutCardSize.Small">
+                            <div class="error-card-content">
+                                <h5>Parent Page ID: {{ errorItem.parentId }}</h5>
+                                <ul class="error-list">
+                                    <li v-for="error in errorItem.errors" :key="`${error.childId}-${error.type}`" :class="'error-type-' + error.type.toLowerCase()">
+                                        <strong>{{ error.type }}:</strong> Child ID: {{ error.childId }} - {{ error.description }}
+                                    </li>
+                                </ul>
+                                <div class="heal-button-container">
+                                    <button @click="healRelations(errorItem.parentId)" class="memo-button btn btn-sm btn-primary heal-card-button">
+                                        {{ $t('maintenance.relations.healButton') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </LayoutCard>
+                    </div>
+                </div>
+            </LayoutPanel>
+            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods" :description="$t('maintenance.meiliSearch.description')" @method-clicked="handleClick" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="handleClick" :icon="['fas', 'retweet']">
                 <LayoutCard :size="LayoutCardSize.Tiny">
                     <div class="active-users-info">
                         <h4>{{ $t('maintenance.users.activeSessions') }}</h4>
@@ -213,10 +312,8 @@ async function removeAdminRights() {
                 </LayoutCard>
 
             </MaintenanceSection>
-            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" @method-clicked="handleClick"
-                :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" @method-clicked="handleClick"
-                :icon="['fas', 'hammer']" />
+            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" @method-clicked="handleClick" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" @method-clicked="handleClick" :icon="['fas', 'hammer']" />
             <LayoutPanel :title="$t('maintenance.removeAdminRights.title')">
                 <button @click="removeAdminRights" class="memo-button btn btn-primary">
                     {{ $t('maintenance.removeAdminRights.button') }}
@@ -273,6 +370,69 @@ async function removeAdminRights() {
     .description {
         padding: 6px 12px;
         margin-top: 0;
+    }
+}
+
+.relation-errors {
+    margin-bottom: 20px;
+
+    h4 {
+        margin-bottom: 15px;
+        color: @memo-grey-darker;
+    }
+
+    .error-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .error-card-content {
+        padding: 15px;
+
+        h5 {
+            margin: 0 0 15px 0;
+            color: @memo-grey-darker;
+            font-weight: 600;
+        }
+
+        .error-list {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+
+            li {
+                margin-bottom: 8px;
+                padding: 4px 0;
+
+                &.error-type-duplicate {
+                    color: #d9534f;
+                }
+
+                &.error-type-brokenlink {
+                    color: #f0ad4e;
+                }
+
+                &.error-type-brokenorder {
+                    color: #5bc0de;
+                }
+
+                strong {
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .heal-button-container {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 10px;
+            border-top: 1px solid @memo-grey-lighter;
+
+            .heal-card-button {
+                padding: 6px 16px;
+                font-size: 12px;
+            }
+        }
     }
 }
 </style>
