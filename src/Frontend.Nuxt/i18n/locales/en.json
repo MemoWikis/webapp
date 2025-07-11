@@ -1728,6 +1728,19 @@
             "title": "Pages",
             "updateCategoryAuthors": "Update page authors"
         },
+        "relations": {
+            "title": "Page Relations",
+            "showErrors": "Show Relation Errors",
+            "foundErrors": "Found Errors:",
+            "healButton": "Heal Relations",
+            "relationsTableTitle": "Relations for this parent:",
+            "table": {
+                "relationId": "Relation ID",
+                "childId": "Child ID",
+                "previousId": "Previous ID",
+                "nextId": "Next ID"
+            }
+        },
         "meiliSearch": {
             "title": "Search MeiliSearch",
             "description": "Re-index all for search:",

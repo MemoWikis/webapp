@@ -25,9 +25,11 @@ public class VueMaintenanceController(
 
     public readonly record struct RelationErrorsResponse(bool Success, List<RelationErrorItem> Data);
 
-    public readonly record struct RelationErrorItem(int ParentId, List<RelationError> Errors);
+    public readonly record struct RelationErrorItem(int ParentId, List<RelationError> Errors, List<RelationTableItem> Relations);
 
     public readonly record struct RelationError(string Type, int ChildId, string Description);
+
+    public readonly record struct RelationTableItem(int RelationId, int? PreviousId, int? NextId, int ChildId, int ParentId);
 
     [AccessOnlyAsAdmin]
     [HttpGet]
@@ -380,7 +382,7 @@ public class VueMaintenanceController(
                     errors.Add(new RelationError(
                         "Duplicate",
                         childId,
-                        $"Child page appears {count} times"
+                        $"Child page (ID: {childId}) appears {count} times"
                     ));
                 }
 
@@ -410,11 +412,21 @@ public class VueMaintenanceController(
                     ));
                 }
 
+                // Convert relations to table items
+                var relationTableItems = relations.Select(r => new RelationTableItem(
+                    r.Id,
+                    r.PreviousId,
+                    r.NextId,
+                    r.ChildId,
+                    r.ParentId
+                )).ToList();
+
                 if (errors.Any())
                 {
                     relationErrors.Add(new RelationErrorItem(
                         parentId,
-                        errors
+                        errors,
+                        relationTableItems
                     ));
                 }
             }
