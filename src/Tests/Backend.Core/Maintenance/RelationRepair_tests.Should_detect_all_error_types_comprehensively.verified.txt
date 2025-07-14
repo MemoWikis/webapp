@@ -1,0 +1,967 @@
+﻿{
+  GetErrorsResult: {
+    Success: true,
+    Data: [
+      {
+        ParentId: 3,
+        Errors: [
+          {
+            Type: Duplicate,
+            ChildId: 12
+          },
+          {
+            Type: MultipleFirstItems,
+            ChildId: 12
+          },
+          {
+            Type: MultipleFirstItems,
+            ChildId: 12
+          },
+          {
+            Type: MultipleLastItems,
+            ChildId: 12
+          },
+          {
+            Type: MultipleLastItems,
+            ChildId: 12
+          }
+        ],
+        Relations: [
+          {
+            RelationId: 10,
+            ChildId: 12,
+            ParentId: 3
+          },
+          {
+            RelationId: 11,
+            ChildId: 12,
+            ParentId: 3
+          }
+        ]
+      },
+      {
+        ParentId: 4,
+        Errors: [
+          {
+            Type: MultipleFirstItems,
+            ChildId: 13
+          },
+          {
+            Type: MultipleFirstItems,
+            ChildId: 14
+          },
+          {
+            Type: MultipleLastItems,
+            ChildId: 13
+          },
+          {
+            Type: MultipleLastItems,
+            ChildId: 14
+          },
+          {
+            Type: OrphanedRelation,
+            ChildId: 14
+          }
+        ],
+        Relations: [
+          {
+            RelationId: 12,
+            ChildId: 13,
+            ParentId: 4
+          },
+          {
+            RelationId: 13,
+            ChildId: 14,
+            ParentId: 4
+          }
+        ]
+      },
+      {
+        ParentId: 5,
+        Errors: [
+          {
+            Type: MultipleLastItems,
+            ChildId: 15
+          },
+          {
+            Type: MultipleLastItems,
+            ChildId: 16
+          },
+          {
+            Type: InconsistentChainLink,
+            ChildId: 16
+          },
+          {
+            Type: OrphanedRelation,
+            ChildId: 16
+          }
+        ],
+        Relations: [
+          {
+            RelationId: 14,
+            ChildId: 15,
+            ParentId: 5
+          },
+          {
+            RelationId: 15,
+            PreviousId: 15,
+            ChildId: 16,
+            ParentId: 5
+          }
+        ]
+      },
+      {
+        ParentId: 6,
+        Errors: [
+          {
+            Type: DuplicatePreviousId,
+            ChildId: 18
+          },
+          {
+            Type: DuplicatePreviousId,
+            ChildId: 19
+          },
+          {
+            Type: InconsistentChainLink,
+            ChildId: 18
+          },
+          {
+            Type: InconsistentChainLink,
+            ChildId: 19
+          }
+        ],
+        Relations: [
+          {
+            RelationId: 16,
+            NextId: 18,
+            ChildId: 17,
+            ParentId: 6
+          },
+          {
+            RelationId: 17,
+            PreviousId: 17,
+            NextId: 19,
+            ChildId: 18,
+            ParentId: 6
+          },
+          {
+            RelationId: 18,
+            PreviousId: 17,
+            ChildId: 19,
+            ParentId: 6
+          }
+        ]
+      },
+      {
+        ParentId: 7,
+        Errors: [
+          {
+            Type: DuplicateNextId,
+            ChildId: 20
+          },
+          {
+            Type: DuplicateNextId,
+            ChildId: 12
+          },
+          {
+            Type: InconsistentChainLink,
+            ChildId: 20
+          },
+          {
+            Type: InconsistentChainLink,
+            ChildId: 12
+          },
+          {
+            Type: OrphanedRelation,
+            ChildId: 12
+          }
+        ],
+        Relations: [
+          {
+            RelationId: 19,
+            NextId: 21,
+            ChildId: 20,
+            ParentId: 7
+          },
+          {
+            RelationId: 20,
+            PreviousId: 20,
+            NextId: 21,
+            ChildId: 12,
+            ParentId: 7
+          },
+          {
+            RelationId: 21,
+            PreviousId: 12,
+            ChildId: 21,
+            ParentId: 7
+          }
+        ]
+      },
+      {
+        ParentId: 8,
+        Errors: [
+          {
+            Type: InconsistentChainLink,
+            ChildId: 13
+          },
+          {
+            Type: BrokenPreviousLink,
+            ChildId: 14
+          }
+        ],
+        Relations: [
+          {
+            RelationId: 22,
+            NextId: 14,
+            ChildId: 13,
+            ParentId: 8
+          },
+          {
+            RelationId: 23,
+            PreviousId: 15,
+            ChildId: 14,
+            ParentId: 8
+          }
+        ]
+      },
+      {
+        ParentId: 10,
+        Errors: [
+          {
+            Type: MultipleFirstItems,
+            ChildId: 19
+          },
+          {
+            Type: MultipleFirstItems,
+            ChildId: 21
+          },
+          {
+            Type: MultipleLastItems,
+            ChildId: 20
+          },
+          {
+            Type: MultipleLastItems,
+            ChildId: 21
+          },
+          {
+            Type: OrphanedRelation,
+            ChildId: 21
+          }
+        ],
+        Relations: [
+          {
+            RelationId: 27,
+            NextId: 20,
+            ChildId: 19,
+            ParentId: 10
+          },
+          {
+            RelationId: 28,
+            PreviousId: 19,
+            ChildId: 20,
+            ParentId: 10
+          },
+          {
+            RelationId: 29,
+            ChildId: 21,
+            ParentId: 10
+          }
+        ]
+      },
+      {
+        ParentId: 11,
+        Errors: [
+          {
+            Type: CircularReference,
+            ChildId: 12
+          },
+          {
+            Type: CircularReference,
+            ChildId: 13
+          },
+          {
+            Type: CircularReference,
+            ChildId: 14
+          },
+          {
+            Type: NoChainStart
+          }
+        ],
+        Relations: [
+          {
+            RelationId: 30,
+            PreviousId: 13,
+            NextId: 14,
+            ChildId: 12,
+            ParentId: 11
+          },
+          {
+            RelationId: 31,
+            PreviousId: 14,
+            NextId: 12,
+            ChildId: 13,
+            ParentId: 11
+          },
+          {
+            RelationId: 32,
+            PreviousId: 12,
+            NextId: 13,
+            ChildId: 14,
+            ParentId: 11
+          }
+        ]
+      }
+    ]
+  },
+  CacheItemsCount: 32,
+  DbItemsCount: 32,
+  AllRelationCacheItems: [
+    {
+      Id: 1,
+      ChildId: 3,
+      ParentId: 2,
+      NextId: 4
+    },
+    {
+      Id: 2,
+      ChildId: 4,
+      ParentId: 2,
+      PreviousId: 3,
+      NextId: 5
+    },
+    {
+      Id: 3,
+      ChildId: 5,
+      ParentId: 2,
+      PreviousId: 4,
+      NextId: 6
+    },
+    {
+      Id: 4,
+      ChildId: 6,
+      ParentId: 2,
+      PreviousId: 5,
+      NextId: 7
+    },
+    {
+      Id: 5,
+      ChildId: 7,
+      ParentId: 2,
+      PreviousId: 6,
+      NextId: 8
+    },
+    {
+      Id: 6,
+      ChildId: 8,
+      ParentId: 2,
+      PreviousId: 7,
+      NextId: 9
+    },
+    {
+      Id: 7,
+      ChildId: 9,
+      ParentId: 2,
+      PreviousId: 8,
+      NextId: 10
+    },
+    {
+      Id: 8,
+      ChildId: 10,
+      ParentId: 2,
+      PreviousId: 9,
+      NextId: 11
+    },
+    {
+      Id: 9,
+      ChildId: 11,
+      ParentId: 2,
+      PreviousId: 10
+    },
+    {
+      Id: 10,
+      ChildId: 12,
+      ParentId: 3
+    },
+    {
+      Id: 11,
+      ChildId: 12,
+      ParentId: 3
+    },
+    {
+      Id: 12,
+      ChildId: 13,
+      ParentId: 4
+    },
+    {
+      Id: 13,
+      ChildId: 14,
+      ParentId: 4
+    },
+    {
+      Id: 14,
+      ChildId: 15,
+      ParentId: 5
+    },
+    {
+      Id: 15,
+      ChildId: 16,
+      ParentId: 5,
+      PreviousId: 15
+    },
+    {
+      Id: 16,
+      ChildId: 17,
+      ParentId: 6,
+      NextId: 18
+    },
+    {
+      Id: 17,
+      ChildId: 18,
+      ParentId: 6,
+      PreviousId: 17,
+      NextId: 19
+    },
+    {
+      Id: 18,
+      ChildId: 19,
+      ParentId: 6,
+      PreviousId: 17
+    },
+    {
+      Id: 19,
+      ChildId: 20,
+      ParentId: 7,
+      NextId: 21
+    },
+    {
+      Id: 20,
+      ChildId: 12,
+      ParentId: 7,
+      PreviousId: 20,
+      NextId: 21
+    },
+    {
+      Id: 21,
+      ChildId: 21,
+      ParentId: 7,
+      PreviousId: 12
+    },
+    {
+      Id: 22,
+      ChildId: 13,
+      ParentId: 8,
+      NextId: 14
+    },
+    {
+      Id: 23,
+      ChildId: 14,
+      ParentId: 8,
+      PreviousId: 15
+    },
+    {
+      Id: 24,
+      ChildId: 16,
+      ParentId: 9,
+      NextId: 17
+    },
+    {
+      Id: 25,
+      ChildId: 17,
+      ParentId: 9,
+      PreviousId: 16,
+      NextId: 18
+    },
+    {
+      Id: 26,
+      ChildId: 18,
+      ParentId: 9,
+      PreviousId: 17
+    },
+    {
+      Id: 27,
+      ChildId: 19,
+      ParentId: 10,
+      NextId: 20
+    },
+    {
+      Id: 28,
+      ChildId: 20,
+      ParentId: 10,
+      PreviousId: 19
+    },
+    {
+      Id: 29,
+      ChildId: 21,
+      ParentId: 10
+    },
+    {
+      Id: 30,
+      ChildId: 12,
+      ParentId: 11,
+      PreviousId: 13,
+      NextId: 14
+    },
+    {
+      Id: 31,
+      ChildId: 13,
+      ParentId: 11,
+      PreviousId: 14,
+      NextId: 12
+    },
+    {
+      Id: 32,
+      ChildId: 14,
+      ParentId: 11,
+      PreviousId: 12,
+      NextId: 13
+    }
+  ],
+  AllDbItems: [
+    {
+      Child: {
+        Name: parentDuplicates,
+        IsWiki: false,
+        Id: 3
+      },
+      Parent: {
+        Name: rootWiki,
+        IsWiki: true,
+        Id: 2
+      },
+      NextId: 4,
+      Id: 1
+    },
+    {
+      Child: {
+        Name: parentMultipleFirsts,
+        IsWiki: false,
+        Id: 4
+      },
+      PreviousId: 3,
+      NextId: 5,
+      Id: 2
+    },
+    {
+      Child: {
+        Name: parentMultipleLasts,
+        IsWiki: false,
+        Id: 5
+      },
+      Parent: {
+        Name: rootWiki,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 4,
+      NextId: 6,
+      Id: 3
+    },
+    {
+      Child: {
+        Name: parentDuplicatePrevious,
+        IsWiki: false,
+        Id: 6
+      },
+      Parent: {
+        Name: rootWiki,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 5,
+      NextId: 7,
+      Id: 4
+    },
+    {
+      Child: {
+        Name: parentDuplicateNext,
+        IsWiki: false,
+        Id: 7
+      },
+      Parent: {
+        Name: rootWiki,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 6,
+      NextId: 8,
+      Id: 5
+    },
+    {
+      Child: {
+        Name: parentInconsistent,
+        IsWiki: false,
+        Id: 8
+      },
+      Parent: {
+        Name: rootWiki,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 7,
+      NextId: 9,
+      Id: 6
+    },
+    {
+      Child: {
+        Name: parentCircular,
+        IsWiki: false,
+        Id: 9
+      },
+      Parent: {
+        Name: rootWiki,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 8,
+      NextId: 10,
+      Id: 7
+    },
+    {
+      Child: {
+        Name: parentOrphaned,
+        IsWiki: false,
+        Id: 10
+      },
+      Parent: {
+        Name: rootWiki,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 9,
+      NextId: 11,
+      Id: 8
+    },
+    {
+      Child: {
+        Name: parentNoStart,
+        IsWiki: false,
+        Id: 11
+      },
+      Parent: {
+        Name: rootWiki,
+        IsWiki: true,
+        Id: 2
+      },
+      PreviousId: 10,
+      Id: 9
+    },
+    {
+      Child: {
+        Name: child1,
+        IsWiki: false,
+        Id: 12
+      },
+      Parent: {
+        Name: parentDuplicates,
+        IsWiki: false,
+        Id: 3
+      },
+      Id: 10
+    },
+    {
+      Child: {
+        Name: child1,
+        IsWiki: false,
+        Id: 12
+      },
+      Parent: {
+        Name: parentDuplicates,
+        IsWiki: false,
+        Id: 3
+      },
+      Id: 11
+    },
+    {
+      Child: {
+        Name: child2,
+        IsWiki: false,
+        Id: 13
+      },
+      Parent: {
+        Name: parentMultipleFirsts,
+        IsWiki: false,
+        Id: 4
+      },
+      Id: 12
+    },
+    {
+      Child: {
+        Name: child3,
+        IsWiki: false,
+        Id: 14
+      },
+      Parent: {
+        Name: parentMultipleFirsts,
+        IsWiki: false,
+        Id: 4
+      },
+      Id: 13
+    },
+    {
+      Child: {
+        Name: child4,
+        IsWiki: false,
+        Id: 15
+      },
+      Parent: {
+        Name: parentMultipleLasts,
+        IsWiki: false,
+        Id: 5
+      },
+      Id: 14
+    },
+    {
+      Child: {
+        Name: child5,
+        IsWiki: false,
+        Id: 16
+      },
+      Parent: {
+        Name: parentMultipleLasts,
+        IsWiki: false,
+        Id: 5
+      },
+      PreviousId: 15,
+      Id: 15
+    },
+    {
+      Child: {
+        Name: child6,
+        IsWiki: false,
+        Id: 17
+      },
+      Parent: {
+        Name: parentDuplicatePrevious,
+        IsWiki: false,
+        Id: 6
+      },
+      NextId: 18,
+      Id: 16
+    },
+    {
+      Child: {
+        Name: child7,
+        IsWiki: false,
+        Id: 18
+      },
+      Parent: {
+        Name: parentDuplicatePrevious,
+        IsWiki: false,
+        Id: 6
+      },
+      PreviousId: 17,
+      NextId: 19,
+      Id: 17
+    },
+    {
+      Child: {
+        Name: child8,
+        IsWiki: false,
+        Id: 19
+      },
+      Parent: {
+        Name: parentDuplicatePrevious,
+        IsWiki: false,
+        Id: 6
+      },
+      PreviousId: 17,
+      Id: 18
+    },
+    {
+      Child: {
+        Name: child9,
+        IsWiki: false,
+        Id: 20
+      },
+      Parent: {
+        Name: parentDuplicateNext,
+        IsWiki: false,
+        Id: 7
+      },
+      NextId: 21,
+      Id: 19
+    },
+    {
+      Child: {
+        Name: child1,
+        IsWiki: false,
+        Id: 12
+      },
+      Parent: {
+        Name: parentDuplicateNext,
+        IsWiki: false,
+        Id: 7
+      },
+      PreviousId: 20,
+      NextId: 21,
+      Id: 20
+    },
+    {
+      Parent: {
+        Name: parentDuplicateNext,
+        IsWiki: false,
+        Id: 7
+      },
+      PreviousId: 12,
+      Id: 21
+    },
+    {
+      Child: {
+        Name: child2,
+        IsWiki: false,
+        Id: 13
+      },
+      Parent: {
+        Name: parentInconsistent,
+        IsWiki: false,
+        Id: 8
+      },
+      NextId: 14,
+      Id: 22
+    },
+    {
+      Child: {
+        Name: child3,
+        IsWiki: false,
+        Id: 14
+      },
+      Parent: {
+        Name: parentInconsistent,
+        IsWiki: false,
+        Id: 8
+      },
+      PreviousId: 15,
+      Id: 23
+    },
+    {
+      Child: {
+        Name: child5,
+        IsWiki: false,
+        Id: 16
+      },
+      Parent: {
+        Name: parentCircular,
+        IsWiki: false,
+        Id: 9
+      },
+      NextId: 17,
+      Id: 24
+    },
+    {
+      Child: {
+        Name: child6,
+        IsWiki: false,
+        Id: 17
+      },
+      Parent: {
+        Name: parentCircular,
+        IsWiki: false,
+        Id: 9
+      },
+      PreviousId: 16,
+      NextId: 18,
+      Id: 25
+    },
+    {
+      Child: {
+        Name: child7,
+        IsWiki: false,
+        Id: 18
+      },
+      Parent: {
+        Name: parentCircular,
+        IsWiki: false,
+        Id: 9
+      },
+      PreviousId: 17,
+      Id: 26
+    },
+    {
+      Child: {
+        Name: child8,
+        IsWiki: false,
+        Id: 19
+      },
+      Parent: {
+        Name: parentOrphaned,
+        IsWiki: false,
+        Id: 10
+      },
+      NextId: 20,
+      Id: 27
+    },
+    {
+      Child: {
+        Name: child9,
+        IsWiki: false,
+        Id: 20
+      },
+      Parent: {
+        Name: parentOrphaned,
+        IsWiki: false,
+        Id: 10
+      },
+      PreviousId: 19,
+      Id: 28
+    },
+    {
+      Child: {
+        Name: child10,
+        IsWiki: false,
+        Id: 21
+      },
+      Parent: {
+        Name: parentOrphaned,
+        IsWiki: false,
+        Id: 10
+      },
+      Id: 29
+    },
+    {
+      Child: {
+        Name: child1,
+        IsWiki: false,
+        Id: 12
+      },
+      Parent: {
+        Name: parentNoStart,
+        IsWiki: false,
+        Id: 11
+      },
+      PreviousId: 13,
+      NextId: 14,
+      Id: 30
+    },
+    {
+      Child: {
+        Name: child2,
+        IsWiki: false,
+        Id: 13
+      },
+      Parent: {
+        Name: parentNoStart,
+        IsWiki: false,
+        Id: 11
+      },
+      PreviousId: 14,
+      NextId: 12,
+      Id: 31
+    },
+    {
+      Child: {
+        Name: child3,
+        IsWiki: false,
+        Id: 14
+      },
+      Parent: {
+        Name: parentNoStart,
+        IsWiki: false,
+        Id: 11
+      },
+      PreviousId: 12,
+      NextId: 13,
+      Id: 32
+    }
+  ]
+}

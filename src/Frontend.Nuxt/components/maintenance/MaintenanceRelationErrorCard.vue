@@ -1,0 +1,226 @@
+<script lang="ts" setup>
+interface RelationError {
+    type: string
+    childId: number
+    description: string
+}
+
+interface RelationTableItem {
+    relationId: number
+    previousId: number | null
+    nextId: number | null
+    childId: number
+    parentId: number
+}
+
+interface RelationErrorItem {
+    parentId: number
+    errors: RelationError[]
+    relations: RelationTableItem[]
+}
+
+interface Props {
+    errorItem: RelationErrorItem
+}
+
+const props = defineProps<Props>()
+
+const emit = defineEmits<{
+    healRelations: [pageId: number]
+}>()
+
+const handleHealClick = () => {
+    emit('healRelations', props.errorItem.parentId)
+}
+const selectedChildId = ref<number | null>(null)
+const handleClickChildId = (childId: number) => {
+    if (selectedChildId.value === childId) {
+        selectedChildId.value = null
+        return
+    }
+    selectedChildId.value = childId
+}
+</script>
+
+<template>
+    <LayoutCard :size="LayoutCardSize.Medium" class="relation-error-card">
+        <div class="error-card-content">
+            <h5>{{ $t('maintenance.relations.parentPageId') }}: {{ errorItem.parentId }}</h5>
+            <ul class="error-list">
+                <li v-for="error in errorItem.errors" :key="`${error.childId}-${error.type}`"
+                    :class="['error-type-' + error.type.toLowerCase(), { 'selected': selectedChildId === error.childId, 'no-selection': error.type.toLowerCase() === 'brokenorder' }]" @click="handleClickChildId(error.childId)"
+                    class="error-item">
+                    <strong>{{ error.type }}:</strong> {{ error.description }}
+                    <font-awesome-icon :icon="['fas', 'caret-left']" v-if="selectedChildId === error.childId" />
+                </li>
+            </ul>
+
+            <h6>{{ $t('maintenance.relations.relationsTableTitle') }}</h6>
+            <table class="relations-table">
+                <thead>
+                    <tr>
+                        <th>{{ $t('maintenance.relations.table.relationId') }}</th>
+                        <th>{{ $t('maintenance.relations.table.childId') }}</th>
+                        <th>{{ $t('maintenance.relations.table.previousId') }}</th>
+                        <th>{{ $t('maintenance.relations.table.nextId') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="relation in errorItem.relations" :key="relation.relationId" class="table-item" :class="{ 'selected': selectedChildId === relation.childId }">
+                        <td>{{ relation.relationId }}</td>
+                        <td>{{ relation.childId }}</td>
+                        <td>{{ relation.previousId || '-' }}</td>
+                        <td>{{ relation.nextId || '-' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="heal-button-container">
+                <button @click="handleHealClick" class="memo-button btn btn-sm btn-primary heal-card-button">
+                    {{ $t('maintenance.relations.healButton') }}
+                </button>
+            </div>
+        </div>
+    </LayoutCard>
+</template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.relation-error-card {
+    margin-bottom: 16px;
+
+    .error-card-content {
+        padding: 15px;
+
+        h5 {
+            margin: 0 0 15px 0;
+            color: @memo-grey-darker;
+            font-weight: 600;
+        }
+
+        .error-list {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+
+            .error-item {
+                cursor: pointer;
+                transition: background-color 0.3s;
+                padding: 0 8px;
+                border-radius: 4px;
+
+                &:hover {
+                    background-color: fade(@memo-grey-lighter, 50%);
+                }
+
+                &.selected {
+                    background-color: @memo-grey-lightest;
+                }
+
+                &.no-selection {
+                    background-color: unset;
+                    cursor: unset;
+
+                    &:hover {
+                        background-color: unset;
+                    }
+                }
+            }
+
+            li {
+                margin-bottom: 8px;
+                padding: 4px 0;
+
+                &.error-type-duplicate {
+                    color: #d9534f;
+                }
+
+                &.error-type-brokenlink {
+                    color: #f0ad4e;
+                }
+
+                &.error-type-brokenchain {
+                    color: #5bc0de;
+                }
+
+                &.error-type-circularchain {
+                    color: #d9534f;
+                }
+
+                &.error-type-nochainstart {
+                    color: #f0ad4e;
+                }
+
+                &.error-type-multiplechainstarts {
+                    color: #5bc0de;
+                }
+
+                &.error-type-brokenorder {
+                    color: #5bc0de;
+                }
+
+                strong {
+                    font-weight: 600;
+                }
+            }
+        }
+
+        h6 {
+            margin: 15px 0 5px 0;
+            color: @memo-grey-darker;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .relations-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 0 15px 0;
+
+            th,
+            td {
+                padding: 8px 6px;
+                text-align: left;
+                border-bottom: 1px solid @memo-grey-lighter;
+            }
+
+            th {
+                background-color: @memo-grey-lightest;
+                font-weight: 600;
+                color: @memo-grey-darker;
+                border-bottom: 2px solid @memo-grey-light;
+                font-size: 12px;
+            }
+
+            tbody tr {
+                &:hover {
+                    background-color: fade(@memo-grey-lightest, 50%);
+                }
+            }
+
+            td {
+                font-family: monospace;
+                font-size: 11px;
+            }
+
+            .table-item {
+                &.selected {
+                    // background-color: fade(@memo-wuwi-red, 10%);
+                    background-color: @memo-grey-lighter;
+                }
+            }
+        }
+
+        .heal-button-container {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 15px;
+
+            .heal-card-button {
+                padding: 6px 16px;
+                font-size: 12px;
+            }
+        }
+    }
+}
+</style>

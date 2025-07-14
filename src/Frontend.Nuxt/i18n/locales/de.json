@@ -1733,6 +1733,7 @@
             "showErrors": "Beziehungsfehler anzeigen",
             "foundErrors": "Gefundene Fehler:",
             "healButton": "Beziehungen reparieren",
+            "parentPageId": "Übergeordnete Seiten-ID",
             "relationsTableTitle": "Beziehungen für diese übergeordnete Seite:",
             "table": {
                 "relationId": "Beziehungs-ID",

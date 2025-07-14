@@ -331,38 +331,65 @@
         var sortedRelations = new List<PageRelationCache>();
         var addedRelationIds = new HashSet<int>();
         var addedChildIds = new HashSet<int>();
+        var visitedInCurrentPath = new HashSet<int>(); // Track relations visited in current traversal path
+
+        // If no chain start found, try to find a good starting point or handle circular chains
+        if (currentRelation == null && childRelations.Any())
+        {
+            Log.Warning("PageRelations - Sort: No chain start found (all relations have non-null PreviousId) - PageId:{0}", pageId);
+            
+            // Try to find a relation that isn't pointed to by any other relation (broken chain start)
+            var allNextIds = childRelations.Where(r => r.NextId.HasValue).Select(r => r.NextId!.Value).ToHashSet();
+            currentRelation = childRelations.FirstOrDefault(r => !allNextIds.Contains(r.ChildId));
+            
+            // If still no start found, just pick the first relation and break any cycles
+            if (currentRelation == null)
+            {
+                currentRelation = childRelations.First();
+                Log.Warning("PageRelations - Sort: Using arbitrary start point due to circular references - PageId:{0}, StartRelationId:{1}", 
+                    pageId, currentRelation.Id);
+            }
+        }
 
         while (currentRelation != null)
         {
-            var nextCurrentRelation = childRelations.FirstOrDefault(r =>
-                r.ChildId == currentRelation.NextId);
+            // Check for circular reference in current traversal path
+            if (visitedInCurrentPath.Contains(currentRelation.Id))
+            {
+                Log.Error("PageRelations - Sort: Circular reference detected in traversal path - PageId:{0}, RelationId:{1}", 
+                    pageId, currentRelation.Id);
+                break;
+            }
 
+            // Check for duplicate child (different relation, same child)
             if (addedChildIds.Contains(currentRelation.ChildId))
             {
                 addedRelationIds.Add(currentRelation.Id);
-
-                Log.Error(
-                    "PageRelations - Sort: Force break 'while loop', duplicate child - PageId:{0}, RelationId: {1}",
+                Log.Error("PageRelations - Sort: Force break 'while loop', duplicate child - PageId:{0}, RelationId: {1}",
                     pageId, currentRelation.Id);
-
                 break;
             }
 
+            // Add to current path tracking
+            visitedInCurrentPath.Add(currentRelation.Id);
             addedRelationIds.Add(currentRelation.Id);
             addedChildIds.Add(currentRelation.ChildId);
-
             sortedRelations.Add(currentRelation);
 
-            currentRelation = nextCurrentRelation;
+            // Find next relation
+            var nextCurrentRelation = currentRelation.NextId.HasValue 
+                ? childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId.Value)
+                : null;
 
-
-            if (addedRelationIds.Count >= childRelations.Count && currentRelation != null)
+            // Safety check: if we've processed all relations but still have a next, break
+            if (addedRelationIds.Count >= childRelations.Count && nextCurrentRelation != null)
             {
-                Log.Error(
-                    "PageRelations - Sort: Force break 'while loop', faulty links - PageId:{0}, RelationId: {1}",
-                    pageId, currentRelation.Id);
+                Log.Error("PageRelations - Sort: Force break 'while loop', faulty links - PageId:{0}, RelationId: {1}",
+                    pageId, nextCurrentRelation.Id);
                 break;
             }
+
+            currentRelation = nextCurrentRelation;
         }
 
         if (sortedRelations.Count < childRelations.Count)

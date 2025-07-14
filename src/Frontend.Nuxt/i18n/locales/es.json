@@ -1733,6 +1733,7 @@
             "showErrors": "Mostrar Errores de Relaciones",
             "foundErrors": "Errores Encontrados:",
             "healButton": "Reparar Relaciones",
+            "parentPageId": "ID de Página Padre",
             "relationsTableTitle": "Relaciones para esta página padre:",
             "table": {
                 "relationId": "ID de Relación",

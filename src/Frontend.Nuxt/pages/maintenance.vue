@@ -62,24 +62,10 @@ interface ActiveSessionsResponse {
     anonymousUserCount: number
 }
 
-interface RelationError {
-    type: string
-    childId: number
-    description: string
-}
-
-interface RelationTableItem {
-    relationId: number
-    previousId: number | null
-    nextId: number | null
-    childId: number
-    parentId: number
-}
-
 interface RelationErrorItem {
     parentId: number
-    errors: RelationError[]
-    relations: RelationTableItem[]
+    errors: any[]
+    relations: any[]
 }
 
 interface RelationErrorsResponse {
@@ -268,50 +254,14 @@ async function healRelations(pageId: number) {
             <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="handleClick"
                 :icon="['fas', 'retweet']" />
             <LayoutPanel :title="$t('maintenance.relations.title')">
-                <template #description>
+
+                <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
                     <button @click="showRelationErrorsButton" class="memo-button btn btn-primary">
                         {{ $t('maintenance.relations.showErrors') }}
                     </button>
-                    <h5 v-if="relationErrors.length > 0" class="found-errors-heading">{{ $t('maintenance.relations.foundErrors') }}</h5>
-
-                </template>
-
-                <LayoutCard v-for="errorItem in relationErrors" :key="errorItem.parentId" :size="LayoutCardSize.Medium" class="relation-error-card">
-                    <div class="error-card-content">
-                        <h5>Parent Page ID: {{ errorItem.parentId }}</h5>
-                        <ul class="error-list">
-                            <li v-for="error in errorItem.errors" :key="`${error.childId}-${error.type}`" :class="'error-type-' + error.type.toLowerCase()">
-                                <strong>{{ error.type }}:</strong> {{ error.description }}
-                            </li>
-                        </ul>
-
-                        <h6>{{ $t('maintenance.relations.relationsTableTitle') }}</h6>
-                        <table class="relations-table">
-                            <thead>
-                                <tr>
-                                    <th>{{ $t('maintenance.relations.table.relationId') }}</th>
-                                    <th>{{ $t('maintenance.relations.table.childId') }}</th>
-                                    <th>{{ $t('maintenance.relations.table.previousId') }}</th>
-                                    <th>{{ $t('maintenance.relations.table.nextId') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="relation in errorItem.relations" :key="relation.relationId">
-                                    <td>{{ relation.relationId }}</td>
-                                    <td>{{ relation.childId }}</td>
-                                    <td>{{ relation.previousId || '-' }}</td>
-                                    <td>{{ relation.nextId || '-' }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="heal-button-container">
-                            <button @click="healRelations(errorItem.parentId)" class="memo-button btn btn-sm btn-primary heal-card-button">
-                                {{ $t('maintenance.relations.healButton') }}
-                            </button>
-                        </div>
-                    </div>
                 </LayoutCard>
+
+                <MaintenanceRelationErrorCard v-for="errorItem in relationErrors" :key="errorItem.parentId" :error-item="errorItem" @heal-relations="healRelations" />
             </LayoutPanel>
             <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods" :description="$t('maintenance.meiliSearch.description')" @method-clicked="handleClick" :icon="['fas', 'retweet']" />
             <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="handleClick" :icon="['fas', 'retweet']">
@@ -400,111 +350,5 @@ async function healRelations(pageId: number) {
 
 .found-errors-heading {
     margin-top: 48px;
-}
-
-.relation-error-card {
-    margin-bottom: 16px;
-
-    .error-card-content {
-        padding: 15px;
-
-        h5 {
-            margin: 0 0 15px 0;
-            color: @memo-grey-darker;
-            font-weight: 600;
-        }
-
-        .error-list {
-            margin: 0 0 15px 0;
-            padding-left: 20px;
-
-            li {
-                margin-bottom: 8px;
-                padding: 4px 0;
-
-                &.error-type-duplicate {
-                    color: #d9534f;
-                }
-
-                &.error-type-brokenlink {
-                    color: #f0ad4e;
-                }
-
-                &.error-type-brokenchain {
-                    color: #5bc0de;
-                }
-
-                &.error-type-circularchain {
-                    color: #d9534f;
-                }
-
-                &.error-type-nochainstart {
-                    color: #f0ad4e;
-                }
-
-                &.error-type-multiplechainstarts {
-                    color: #5bc0de;
-                }
-
-                &.error-type-brokenorder {
-                    color: #5bc0de;
-                }
-
-                strong {
-                    font-weight: 600;
-                }
-            }
-        }
-
-        h6 {
-            margin: 15px 0 5px 0;
-            color: @memo-grey-darker;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .relations-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 0 0 15px 0;
-
-            th,
-            td {
-                padding: 8px 6px;
-                text-align: left;
-                border-bottom: 1px solid @memo-grey-lighter;
-            }
-
-            th {
-                background-color: @memo-grey-lightest;
-                font-weight: 600;
-                color: @memo-grey-darker;
-                border-bottom: 2px solid @memo-grey-light;
-                font-size: 12px;
-            }
-
-            tbody tr {
-                &:hover {
-                    background-color: fade(@memo-grey-lightest, 50%);
-                }
-            }
-
-            td {
-                font-family: monospace;
-                font-size: 11px;
-            }
-        }
-
-        .heal-button-container {
-            display: flex;
-            justify-content: flex-end;
-            padding-top: 15px;
-
-            .heal-card-button {
-                padding: 6px 16px;
-                font-size: 12px;
-            }
-        }
-    }
 }
 </style>
