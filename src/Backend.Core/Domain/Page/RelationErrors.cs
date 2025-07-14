@@ -1,4 +1,4 @@
-public class RelationErrors(PageRelationRepo _pageRelationRepo)
+public class RelationErrors(PageRelationRepo _pageRelationRepo, PageRepository _pageRepository)
 {
     public readonly record struct RelationErrorsResult(bool Success, List<RelationErrorItem> Data);
 
@@ -82,28 +82,13 @@ public class RelationErrors(PageRelationRepo _pageRelationRepo)
                 return new HealResult(false, "Page not found.", 0);
             }
 
-            var relations = EntityCache.GetCacheRelationsByParentId(parentPageId);
-            var healedCount = 0;
-
-            // Remove duplicate relations
-            healedCount += RemoveDuplicateRelations(relations);
-
-            // Refresh relations after duplicates removal
-            relations = EntityCache.GetCacheRelationsByParentId(parentPageId);
-
-            // Remove relations with broken links (non-existent child pages)
-            healedCount += RemoveBrokenLinkRelations(relations);
-
-            // Refresh relations after broken links removal
-            relations = EntityCache.GetCacheRelationsByParentId(parentPageId);
-
-            // Fix ordering issues for this specific parent only
-            healedCount += HealOrderingErrorsForParent(parentPageId);
+            // Use nuclear approach to completely rebuild all relations for this parent
+            HealOrderingErrorsForParent(parentPageId);
 
             return new HealResult(
                 true,
-                $"Relations repaired. {healedCount} issues fixed.",
-                healedCount
+                "Relations repaired successfully.",
+                0
             );
         }
         catch (Exception ex)
@@ -313,7 +298,7 @@ public class RelationErrors(PageRelationRepo _pageRelationRepo)
     /// <summary>
     /// Checks if a relation is part of a circular reference using DFS
     /// </summary>
-    private bool HasCircularReference(PageRelationCache startRelation, List<PageRelationCache> allRelations, 
+    private bool HasCircularReference(PageRelationCache startRelation, List<PageRelationCache> allRelations,
         HashSet<int> visited, HashSet<int> visiting)
     {
         if (visiting.Contains(startRelation.ChildId))
@@ -415,8 +400,8 @@ public class RelationErrors(PageRelationRepo _pageRelationRepo)
                 var dbRelation = _pageRelationRepo.GetById(relationToDelete.Id);
                 if (dbRelation != null)
                 {
-                    _pageRelationRepo.Delete(dbRelation);
                     EntityCache.Remove(relationToDelete);
+                    _pageRelationRepo.Delete(dbRelation);
                     healedCount++;
                 }
             }
@@ -438,8 +423,8 @@ public class RelationErrors(PageRelationRepo _pageRelationRepo)
             var dbRelation = _pageRelationRepo.GetById(brokenRelation.Id);
             if (dbRelation != null)
             {
-                _pageRelationRepo.Delete(dbRelation);
                 EntityCache.Remove(brokenRelation);
+                _pageRelationRepo.Delete(dbRelation);
                 healedCount++;
             }
         }
@@ -448,94 +433,113 @@ public class RelationErrors(PageRelationRepo _pageRelationRepo)
     }
 
     /// <summary>
-    /// Heals ordering errors using a hybrid approach: preserve working chain segments, rebuild broken parts
+    /// Heals ordering errors using a nuclear approach: completely rebuild the relation chain from scratch
     /// </summary>
-    private int HealOrderingErrorsForParent(int parentPageId)
+    private void HealOrderingErrorsForParent(int parentPageId)
     {
         var relations = EntityCache.GetCacheRelationsByParentId(parentPageId);
-        
+
         if (!relations.Any())
-            return 0;
+            return;
 
-        var healedCount = 0;
+        // Step 1: Gather all valid child IDs (no duplicates, only existing pages)
+        var validChildIds = GatherValidChildIds(relations);
 
-        // Step 1: Build relation lookup for faster access
-        var relationLookup = relations.ToDictionary(r => r.ChildId);
+        // Step 2: Remove all existing relations for this parent
+        RemoveAllExistingRelations(relations);
 
-        // Step 2: Follow the valid chain starting from PreviousId = null
-        var validChainOrder = new List<PageRelationCache>();
-        var processedRelations = new HashSet<int>();
-        
-        // Find the start of the chain
-        var chainStart = relations.FirstOrDefault(r => r.PreviousId == null);
-        if (chainStart != null)
+        // Step 3: Create new properly chained relations
+        CreateNewChainedRelations(parentPageId, validChildIds);
+    }
+
+    /// <summary>
+    /// Step 1: Gathers valid child IDs, filtering out duplicates and broken links
+    /// </summary>
+    private List<int> GatherValidChildIds(List<PageRelationCache> relations)
+    {
+        var validChildIds = new List<int>();
+        var processedChildIds = new HashSet<int>();
+
+        foreach (var relation in relations)
         {
-            var currentRelation = chainStart;
-            
-            // Follow the chain as long as it's valid
-            while (currentRelation != null)
+            // Skip if we've already processed this child ID
+            if (processedChildIds.Contains(relation.ChildId))
             {
-                validChainOrder.Add(currentRelation);
-                processedRelations.Add(currentRelation.ChildId);
-                
-                // Check if next link is valid
-                if (currentRelation.NextId.HasValue && 
-                    relationLookup.TryGetValue(currentRelation.NextId.Value, out var nextRelation) &&
-                    nextRelation.PreviousId == currentRelation.ChildId &&
-                    !processedRelations.Contains(nextRelation.ChildId)) // Prevent circular references
-                {
-                    currentRelation = nextRelation;
-                }
-                else
-                {
-                    // Chain is broken, stop following
-                    break;
-                }
+                continue; // Skip duplicate
             }
+
+            // Check if the child page exists
+            var childPage = EntityCache.GetPage(relation.ChildId);
+            if (childPage == null)
+            {
+                continue; // Skip broken link
+            }
+
+            // Valid child - add to our new list
+            validChildIds.Add(relation.ChildId);
+            processedChildIds.Add(relation.ChildId);
         }
 
-        // Step 3: Find remaining unprocessed relations (broken parts)
-        var brokenRelations = relations.Where(r => !processedRelations.Contains(r.ChildId)).ToList();
+        return validChildIds;
+    }
 
-        // Step 4: If there are broken relations, append them to the valid chain in a logical order
-        if (brokenRelations.Any())
+    /// <summary>
+    /// Step 2: Removes all existing relations for the specified parent
+    /// </summary>
+    private void RemoveAllExistingRelations(List<PageRelationCache> relations)
+    {
+        foreach (var relation in relations)
         {
-            // Order broken relations by ChildId for consistency
-            var orderedBrokenRelations = brokenRelations
-                .GroupBy(r => r.ChildId)
-                .Select(g => g.First()) // Remove any remaining duplicates
-                .OrderBy(r => r.ChildId)
-                .ToList();
-            
-            validChainOrder.AddRange(orderedBrokenRelations);
-        }
-
-        // Step 5: Now rebuild the chain links for the complete ordered list
-        for (int i = 0; i < validChainOrder.Count; i++)
-        {
-            var relation = validChainOrder[i];
             var dbRelation = _pageRelationRepo.GetById(relation.Id);
-
             if (dbRelation != null)
             {
-                var newPreviousId = i > 0 ? (int?)validChainOrder[i - 1].ChildId : null;
-                var newNextId = i < validChainOrder.Count - 1 ? (int?)validChainOrder[i + 1].ChildId : null;
-
-                // Only update if something actually changed
-                if (relation.PreviousId != newPreviousId || relation.NextId != newNextId)
-                {
-                    relation.PreviousId = newPreviousId;
-                    relation.NextId = newNextId;
-                    dbRelation.PreviousId = newPreviousId;
-                    dbRelation.NextId = newNextId;
-                    _pageRelationRepo.Update(dbRelation);
-                    EntityCache.AddOrUpdate(relation);
-                    healedCount++;
-                }
+                _pageRelationRepo.Delete(dbRelation);
+                EntityCache.Remove(relation);
             }
         }
+    }
 
-        return healedCount;
+    /// <summary>
+    /// Step 3: Creates new properly chained relations for the valid child IDs
+    /// </summary>
+    private void CreateNewChainedRelations(int parentPageId, List<int> validChildIds)
+    {
+        for (int i = 0; i < validChildIds.Count; i++)
+        {
+            var childId = validChildIds[i];
+            var previousId = i > 0 ? (int?)validChildIds[i - 1] : null;
+            var nextId = i < validChildIds.Count - 1 ? (int?)validChildIds[i + 1] : null;
+
+            // Get the actual page entities from repository
+            var parentPage = _pageRepository.GetById(parentPageId);
+            var childPage = _pageRepository.GetById(childId);
+
+            if (parentPage == null || childPage == null)
+                continue; // Skip if pages don't exist
+
+            // Create new database relation
+            var newDbRelation = new PageRelation
+            {
+                Parent = parentPage,
+                Child = childPage,
+                PreviousId = previousId,
+                NextId = nextId
+            };
+
+            _pageRelationRepo.Create(newDbRelation);
+
+            // Create new cache relation
+            var newCacheRelation = new PageRelationCache
+            {
+                Id = newDbRelation.Id,
+                ParentId = parentPageId,
+                ChildId = childId,
+                PreviousId = previousId,
+                NextId = nextId
+            };
+
+            EntityCache.AddOrUpdate(newCacheRelation);
+        }
     }
 
     /// <summary>

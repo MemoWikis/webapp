@@ -75,21 +75,36 @@ internal class RelationRepair_tests : BaseTestHarness
         };
         pageRelationRepo.Create(normalRelation);
 
-        // Create broken link relation (child that doesn't exist)
+        // Create a temporary child page that we'll delete to simulate a broken link
+        var tempChild = new Page
+        {
+            Name = "TempChild",
+            Creator = creator,
+            IsWiki = false,
+            Visibility = PageVisibility.Public
+        };
+        var pageRepo = R<PageRepository>();
+        pageRepo.Create(tempChild);
+
+        // Create relation to the temporary child
         var brokenRelation = new PageRelation
         {
             Parent = parent2,
-            Child = new Page { Id = 99999 }, // Non-existent child
+            Child = tempChild,
             PreviousId = null,
             NextId = null
         };
         pageRelationRepo.Create(brokenRelation);
 
+        // Now delete the child page to create a broken link
+        // But keep the relation in the database to simulate corruption
+        pageRepo.Delete(tempChild.Id);
+
         await ReloadCaches();
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var relationErrors = new RelationErrors(pageRelationRepo);
+        var relationErrors = new RelationErrors(pageRelationRepo, R<PageRepository>());
 
         // Act - Test healing for parent2 (the problematic one)
         var healResult = relationErrors.HealErrors(parent2.Id);
@@ -145,7 +160,7 @@ internal class RelationRepair_tests : BaseTestHarness
         entityCacheInitializer.Init();
 
         var pageRelationRepo = R<PageRelationRepo>();
-        var relationErrors = new RelationErrors(pageRelationRepo);
+        var relationErrors = new RelationErrors(pageRelationRepo, R<PageRepository>());
 
         // Act
         var errorResponse = relationErrors.GetErrors();
@@ -304,7 +319,7 @@ internal class RelationRepair_tests : BaseTestHarness
         entityCacheInitializer.Init();
 
         // Get service instance
-        var relationErrors = new RelationErrors(pageRelationRepo);
+        var relationErrors = new RelationErrors(pageRelationRepo, R<PageRepository>());
 
         // Act
         var errorResponse = relationErrors.GetErrors();
