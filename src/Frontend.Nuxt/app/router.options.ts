@@ -61,12 +61,6 @@ export default <RouterConfig>{
             component: () => import('~/pages/terms/terms-es.vue'),
         },
         {
-            name: 'userSettingsSubscriptionDE',
-            path: '/Nutzer/Einstellungen/Subscription',
-            component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { isSettingsPage: true, activeContentProp: 'Subscription' },
-        },
-        {
             name: 'legalNoticePageDE',
             path: '/Impressum',
             component: () => import('~/pages/legal-notice/legal-notice-de.vue'),
@@ -169,24 +163,6 @@ export default <RouterConfig>{
             component: () => import('~/pages/user/[name]/[id].vue'),
         },
         {
-            name: 'userSettingsPageDE',
-            path: '/Nutzer/:name/:id/Einstellungen',
-            component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Settings },
-            meta: {
-                key: (route) => `/${route.params.name}/${route.params.id}`,
-            },
-        },
-        {
-            name: 'userSettingsPageEN',
-            path: '/User/:name/:id/Settings',
-            component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Settings },
-            meta: {
-                key: (route) => `/${route.params.name}/${route.params.id}`,
-            },
-        },
-        {
             name: 'userWuwiPage',
             path: '/Nutzer/:name/:id/Wunschwissen',
             component: () => import('~/pages/user/[name]/[id].vue'),
@@ -198,38 +174,24 @@ export default <RouterConfig>{
         {
             name: 'directUserSettingsPageDE',
             path: '/Nutzer/Einstellungen',
-            component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Settings },
-            meta: {
-                key: (route) => `/${route.params.name}/${route.params.id}`,
-            },
+            component: () => import('~/pages/user/user-settings.vue'),
         },
         {
             name: 'directUserSettingsPageEN',
             path: '/User/Settings',
-            component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Settings },
-            meta: {
-                key: (route) => `/${route.params.name}/${route.params.id}`,
-            },
+            component: () => import('~/pages/user/user-settings.vue'),
         },
         {
             name: 'userSubscriptionPageDE',
             path: '/Nutzer/Einstellungen/Mitgliedschaft',
-            component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Settings, content: Content.Membership },
-            meta: {
-                key: (route) => `/${route.params.name}/${route.params.id}`,
-            },
+            component: () => import('~/pages/user/user-settings.vue'),
+            props: { content: Content.Membership },
         },
         {
             name: 'userSubscriptionPageEN',
             path: '/User/Settings/Membership',
-            component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Settings, content: Content.Membership },
-            meta: {
-                key: (route) => `/${route.params.name}/${route.params.id}`,
-            },
+            component: () => import('~/pages/user/user-settings.vue'),
+            props: { content: Content.Membership },
         },
         {
             name: 'pageContentPage',

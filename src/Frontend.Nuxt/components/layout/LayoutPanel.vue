@@ -3,7 +3,11 @@ defineProps({
     title: {
         type: String,
         default: '',
-    }
+    },
+    noBackground: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const showContent = ref(true)
@@ -11,7 +15,7 @@ const { isMobile } = useDevice()
 </script>
 
 <template>
-    <div class="layout-panel">
+    <div class="layout-panel" :class="{ 'no-background': noBackground }">
         <div class="panel-header" v-if="title" @click="showContent = !showContent">
             <h2 class="panel-title">{{ title }}</h2>
             <div class="panel-actions">
@@ -44,6 +48,10 @@ const { isMobile } = useDevice()
     overflow: hidden;
     width: 100%;
     max-width: calc(100vw - 40px);
+
+    &.no-background {
+        background-color: transparent;
+    }
 
     .panel-header {
         display: flex;
