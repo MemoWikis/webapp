@@ -12,106 +12,97 @@ internal class RelationRepair_tests : BaseTestHarness
         // Create pages - first 3 relations will be fine, next 4 will have issues, last one will be clean
         context.Add("rootWiki", creator: creator, isWiki: true).Persist();
         context
-            .Add("parent1", creator: creator)  // Will have 3 clean relations
-            .Add("parent2", creator: creator)  // Will have 4 problematic relations
-            .Add("parent3", creator: creator)  // Will have 3 clean relations (no issues)
+            .Add("parent", creator: creator)
             .Add("child1", creator: creator)
             .Add("child2", creator: creator)
             .Add("child3", creator: creator)
             .Add("child4", creator: creator)
             .Add("child5", creator: creator)
-            .Add("child6", creator: creator)
-            .Add("child7", creator: creator)
-            .Add("child8", creator: creator)
-            .Add("child9", creator: creator)
-            .Add("child10", creator: creator)
             .Persist();
 
-        var rootWiki = context.All.ByName("rootWiki");
-        var parent1 = context.All.ByName("parent1");
-        var parent2 = context.All.ByName("parent2");
-        var parent3 = context.All.ByName("parent3");
+        var parent = context.GetPageByName("parent");
+        var child1 = context.GetPageByName("child1");
+        var child2 = context.GetPageByName("child2");
+        var child3 = context.GetPageByName("child3");
+        var child4 = context.GetPageByName("child4");
+        var child5 = context.GetPageByName("child5");
 
-        // Set up clean relations for parent1 (first 3 relations - these should be fine)
-        context.AddChild(parent1, context.All.ByName("child1"));
-        context.AddChild(parent1, context.All.ByName("child2"));
-        context.AddChild(parent1, context.All.ByName("child3"));
-
-        // Set up clean relations for parent3 (last 3 relations - these should be fine)
-        context.AddChild(parent3, context.All.ByName("child8"));
-        context.AddChild(parent3, context.All.ByName("child9"));
-        context.AddChild(parent3, context.All.ByName("child10"));
-
-        await ReloadCaches();
-
-        // Create problematic relations for parent2 (next 4 relations with issues)
+        // Create correct relations for the first 3 children
         var pageRelationRepo = R<PageRelationRepo>();
 
-        // Create duplicate relations for same child
-        var duplicateRelation1 = new PageRelation
+        var correctRelation1 = new PageRelation
         {
-            Parent = parent2,
-            Child = context.All.ByName("child4"),
+            Parent = parent,
+            Child = child1,
             PreviousId = null,
+            NextId = child2.Id
+        };
+        var correctRelation2 = new PageRelation
+        {
+            Parent = parent,
+            Child = context.All.ByName("child2"),
+            PreviousId = child1.Id,
+            NextId = child3.Id
+        };
+        var correctRelation3 = new PageRelation
+        {
+            Parent = parent,
+            Child = context.All.ByName("child3"),
+            PreviousId = child2.Id,
+            NextId = child4.Id
+        };
+
+        pageRelationRepo.Create(correctRelation1);
+        pageRelationRepo.Create(correctRelation2);
+        pageRelationRepo.Create(correctRelation3);
+
+        // Create problematic relations for the next 3 relations
+        var problematicRelation1 = new PageRelation
+        {
+            Parent = parent,
+            Child = child4,
+            PreviousId = null,
+            NextId = child5.Id
+        };
+
+        var problematicRelation2 = new PageRelation
+        {
+            Parent = parent,
+            Child = child5,
+            PreviousId = child4.Id,
+            NextId = child3.Id
+        };
+
+        var problematicRelation3 = new PageRelation
+        {
+            Parent = parent,
+            Child = child3,
+            PreviousId = child5.Id,
             NextId = null
         };
-        var duplicateRelation2 = new PageRelation
-        {
-            Parent = parent2,
-            Child = context.All.ByName("child4"), // Same child - duplicate
-            PreviousId = null,
-            NextId = null
-        };
-        pageRelationRepo.Create(duplicateRelation1);
-        pageRelationRepo.Create(duplicateRelation2);
 
-        // Create normal relation for child5
-        var normalRelation = new PageRelation
-        {
-            Parent = parent2,
-            Child = context.All.ByName("child5"),
-            PreviousId = null,
-            NextId = null
-        };
-        pageRelationRepo.Create(normalRelation);
-
-        // Create a temporary child page that we'll delete to simulate a broken link
-        var tempChild = new Page
-        {
-            Name = "TempChild",
-            Creator = creator,
-            IsWiki = false,
-            Visibility = PageVisibility.Public
-        };
-        var pageRepo = R<PageRepository>();
-        pageRepo.Create(tempChild);
-
-        // Create relation to the temporary child
-        var brokenRelation = new PageRelation
-        {
-            Parent = parent2,
-            Child = tempChild,
-            PreviousId = null,
-            NextId = null
-        };
-        pageRelationRepo.Create(brokenRelation);
-
-        // Now delete the child page to create a broken link
-        // But keep the relation in the database to simulate corruption
-        pageRepo.Delete(tempChild.Id);
-
+        EntityCache.Clear();
         await ReloadCaches();
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
+        // Capture tree diagram BEFORE healing
+        var parentPage = EntityCache.GetPage(parent.Id);
+        var beforeHealingDiagram = parentPage != null ? TreeRenderer.ToAsciiDiagram(parentPage) : "Parent2 page not found in cache";
+
         var relationErrors = new RelationErrors(pageRelationRepo, R<PageRepository>());
 
         // Act - Test healing for parent2 (the problematic one)
-        var healResult = relationErrors.HealErrors(parent2.Id);
+        var healResult = relationErrors.HealErrors(parent.Id);
 
+        EntityCache.Clear();
         // Reload cache after healing
         await ReloadCaches();
         entityCacheInitializer.Init();
+
+        // Capture tree diagram AFTER healing
+        var parent2PageAfter = EntityCache.GetPage(parent.Id);
+        var afterHealingDiagram = parent2PageAfter != null ? TreeRenderer.ToAsciiDiagram(parent2PageAfter) : "Parent2 page not found in cache";
 
         // Assert - Verify healing worked
         var finalErrorResponse = relationErrors.GetErrors();
@@ -122,6 +113,8 @@ internal class RelationRepair_tests : BaseTestHarness
         {
             HealingResult = healResult,
             GetErrorsResult = finalErrorResponse,
+            TreeDiagramBeforeHealing = beforeHealingDiagram,
+            TreeDiagramAfterHealing = afterHealingDiagram,
             AllRelationCacheItems = allRelationCacheItems,
             CacheItemsCount = allRelationCacheItems.Count,
             AllDbItems = allDbItems,
@@ -167,10 +160,15 @@ internal class RelationRepair_tests : BaseTestHarness
         var allRelationCacheItems = EntityCache.GetAllRelations();
         var allDbItems = pageRelationRepo.GetAll();
 
+        // Generate tree diagram for the final result
+        var parentPage = EntityCache.GetPage(parent.Id);
+        var treeDiagram = parentPage != null ? TreeRenderer.ToAsciiDiagram(parentPage) : "Parent page not found in cache";
+
         // Assert - Should have no errors
         var verificationData = new
         {
             GetErrorsResult = errorResponse,
+            TreeDiagram = treeDiagram,
             AllRelationCacheItems = allRelationCacheItems,
             CacheItemsCount = allRelationCacheItems.Count,
             AllDbItems = allDbItems,
@@ -326,10 +324,32 @@ internal class RelationRepair_tests : BaseTestHarness
         var allRelationCacheItems = EntityCache.GetAllRelations();
         var allDbItems = pageRelationRepo.GetAll();
 
+        // Helper function for getting tree diagrams safely
+        string GetTreeDiagram(int pageId)
+        {
+            var page = EntityCache.GetPage(pageId);
+            return page != null ? TreeRenderer.ToAsciiDiagram(page) : "Page not found in cache";
+        }
+
+        // Generate tree diagrams for all problematic parents
+        var treeDiagrams = new
+        {
+            ParentDuplicates = GetTreeDiagram(parentDuplicates.Id),
+            ParentMultipleFirsts = GetTreeDiagram(parentMultipleFirsts.Id),
+            ParentMultipleLasts = GetTreeDiagram(parentMultipleLasts.Id),
+            ParentDuplicatePrevious = GetTreeDiagram(parentDuplicatePrevious.Id),
+            ParentDuplicateNext = GetTreeDiagram(parentDuplicateNext.Id),
+            ParentInconsistent = GetTreeDiagram(parentInconsistent.Id),
+            ParentCircular = GetTreeDiagram(parentCircular.Id),
+            ParentOrphaned = GetTreeDiagram(parentOrphaned.Id),
+            ParentNoStart = GetTreeDiagram(parentNoStart.Id)
+        };
+
         // Assert
         var verificationData = new
         {
             GetErrorsResult = errorResponse,
+            TreeDiagrams = treeDiagrams,
             CacheItemsCount = allRelationCacheItems.Count,
             DbItemsCount = allDbItems.Count,
             AllRelationCacheItems = allRelationCacheItems,

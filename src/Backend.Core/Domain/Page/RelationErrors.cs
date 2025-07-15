@@ -446,7 +446,7 @@ public class RelationErrors(PageRelationRepo _pageRelationRepo, PageRepository _
         var validChildIds = GatherValidChildIds(relations);
 
         // Step 2: Remove all existing relations for this parent
-        RemoveAllExistingRelations(relations);
+        RemoveAllExistingRelations(parentPageId);
 
         // Step 3: Create new properly chained relations
         CreateNewChainedRelations(parentPageId, validChildIds);
@@ -486,15 +486,23 @@ public class RelationErrors(PageRelationRepo _pageRelationRepo, PageRepository _
     /// <summary>
     /// Step 2: Removes all existing relations for the specified parent
     /// </summary>
-    private void RemoveAllExistingRelations(List<PageRelationCache> relations)
+    private void RemoveAllExistingRelations(int parentPageId)
     {
-        foreach (var relation in relations)
+        // Get ALL database relations for this parent (not just cached ones)
+        var allDbRelationsForParent = _pageRelationRepo.GetAll()
+            .Where(r => r.Parent.Id == parentPageId)
+            .ToList();
+        
+        foreach (var dbRelation in allDbRelationsForParent)
         {
-            var dbRelation = _pageRelationRepo.GetById(relation.Id);
-            if (dbRelation != null)
+            _pageRelationRepo.Delete(dbRelation);
+            
+            // Also remove from cache if it exists
+            var cacheRelation = EntityCache.GetCacheRelationsByParentId(parentPageId)
+                .FirstOrDefault(cr => cr.Id == dbRelation.Id);
+            if (cacheRelation != null)
             {
-                _pageRelationRepo.Delete(dbRelation);
-                EntityCache.Remove(relation);
+                EntityCache.Remove(cacheRelation);
             }
         }
     }
