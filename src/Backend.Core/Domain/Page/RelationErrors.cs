@@ -1,4 +1,4 @@
-public class RelationErrors(PageRelationRepo _pageRelationRepo, PageRepository _pageRepository)
+public class RelationErrors(PageRelationRepo _pageRelationRepo, PageRepository _pageRepository) : IRegisterAsInstancePerLifetime
 {
     public readonly record struct RelationErrorsResult(bool Success, List<RelationErrorItem> Data);
 
@@ -492,11 +492,11 @@ public class RelationErrors(PageRelationRepo _pageRelationRepo, PageRepository _
         var allDbRelationsForParent = _pageRelationRepo.GetAll()
             .Where(r => r.Parent.Id == parentPageId)
             .ToList();
-        
+
         foreach (var dbRelation in allDbRelationsForParent)
         {
             _pageRelationRepo.Delete(dbRelation);
-            
+
             // Also remove from cache if it exists
             var cacheRelation = EntityCache.GetCacheRelationsByParentId(parentPageId)
                 .FirstOrDefault(cr => cr.Id == dbRelation.Id);

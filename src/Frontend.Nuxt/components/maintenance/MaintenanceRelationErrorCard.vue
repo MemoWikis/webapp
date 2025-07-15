@@ -48,7 +48,7 @@ const handleClickChildId = (childId: number) => {
             <h5>{{ $t('maintenance.relations.parentPageId') }}: {{ errorItem.parentId }}</h5>
             <ul class="error-list">
                 <li v-for="error in errorItem.errors" :key="`${error.childId}-${error.type}`"
-                    :class="['error-type-' + error.type.toLowerCase(), { 'selected': selectedChildId === error.childId, 'no-selection': error.type.toLowerCase() === 'brokenorder' }]" @click="handleClickChildId(error.childId)"
+                    :class="[{ 'selected': selectedChildId === error.childId, 'no-selection': error.type.toLowerCase() === 'brokenorder' }]" @click="handleClickChildId(error.childId)"
                     class="error-item">
                     <strong>{{ error.type }}:</strong> {{ error.description }}
                     <font-awesome-icon :icon="['fas', 'caret-left']" v-if="selectedChildId === error.childId" />
@@ -130,34 +130,6 @@ const handleClickChildId = (childId: number) => {
             li {
                 margin-bottom: 8px;
                 padding: 4px 0;
-
-                &.error-type-duplicate {
-                    color: #d9534f;
-                }
-
-                &.error-type-brokenlink {
-                    color: #f0ad4e;
-                }
-
-                &.error-type-brokenchain {
-                    color: #5bc0de;
-                }
-
-                &.error-type-circularchain {
-                    color: #d9534f;
-                }
-
-                &.error-type-nochainstart {
-                    color: #f0ad4e;
-                }
-
-                &.error-type-multiplechainstarts {
-                    color: #5bc0de;
-                }
-
-                &.error-type-brokenorder {
-                    color: #5bc0de;
-                }
 
                 strong {
                     font-weight: 600;
