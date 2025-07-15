@@ -1,5 +1,7 @@
 internal class RelationRepair_tests : BaseTestHarness
 {
+    public record struct TinyRelation(int RelationId, int ChildId);
+
     [Test]
     public async Task Should_heal_relations()
     {
@@ -13,19 +15,19 @@ internal class RelationRepair_tests : BaseTestHarness
         context.Add("rootWiki", creator: creator, isWiki: true).Persist();
         context
             .Add("parent", creator: creator)
-            .Add("child1", creator: creator)
-            .Add("child2", creator: creator)
-            .Add("child3", creator: creator)
-            .Add("child4", creator: creator)
-            .Add("child5", creator: creator)
+            .Add("child1-Id4", creator: creator)
+            .Add("child2-Id5", creator: creator)
+            .Add("child3-Id6", creator: creator)
+            .Add("child4-Id7", creator: creator)
+            .Add("child5-Id8", creator: creator)
             .Persist();
 
         var parent = context.GetPageByName("parent");
-        var child1 = context.GetPageByName("child1");
-        var child2 = context.GetPageByName("child2");
-        var child3 = context.GetPageByName("child3");
-        var child4 = context.GetPageByName("child4");
-        var child5 = context.GetPageByName("child5");
+        var child1 = context.GetPageByName("child1-Id4");
+        var child2 = context.GetPageByName("child2-Id5");
+        var child3 = context.GetPageByName("child3-Id6");
+        var child4 = context.GetPageByName("child4-Id7");
+        var child5 = context.GetPageByName("child5-Id8");
 
         // Create correct relations for the first 3 children
         var pageRelationRepo = R<PageRelationRepo>();
@@ -40,14 +42,14 @@ internal class RelationRepair_tests : BaseTestHarness
         var correctRelation2 = new PageRelation
         {
             Parent = parent,
-            Child = context.All.ByName("child2"),
+            Child = context.All.ByName("child2-Id5"),
             PreviousId = child1.Id,
             NextId = child3.Id
         };
         var correctRelation3 = new PageRelation
         {
             Parent = parent,
-            Child = context.All.ByName("child3"),
+            Child = context.All.ByName("child3-Id6"),
             PreviousId = child2.Id,
             NextId = child4.Id
         };
@@ -81,6 +83,10 @@ internal class RelationRepair_tests : BaseTestHarness
             NextId = null
         };
 
+        pageRelationRepo.Create(problematicRelation1);
+        pageRelationRepo.Create(problematicRelation2);
+        pageRelationRepo.Create(problematicRelation3);
+
         EntityCache.Clear();
         await ReloadCaches();
         var entityCacheInitializer = R<EntityCacheInitializer>();
@@ -89,6 +95,7 @@ internal class RelationRepair_tests : BaseTestHarness
         // Capture tree diagram BEFORE healing
         var parentPage = EntityCache.GetPage(parent.Id);
         var beforeHealingDiagram = parentPage != null ? TreeRenderer.ToAsciiDiagram(parentPage) : "Parent2 page not found in cache";
+        var relationsBeforeHealing = parentPage.ChildRelations.Select(r => new TinyRelation(r.Id, r.ChildId)).ToList();
 
         var relationErrors = new RelationErrors(pageRelationRepo, R<PageRepository>());
 
@@ -101,8 +108,9 @@ internal class RelationRepair_tests : BaseTestHarness
         entityCacheInitializer.Init();
 
         // Capture tree diagram AFTER healing
-        var parent2PageAfter = EntityCache.GetPage(parent.Id);
-        var afterHealingDiagram = parent2PageAfter != null ? TreeRenderer.ToAsciiDiagram(parent2PageAfter) : "Parent2 page not found in cache";
+        var parentPageAfter = EntityCache.GetPage(parent.Id);
+        var afterHealingDiagram = parentPageAfter != null ? TreeRenderer.ToAsciiDiagram(parentPageAfter) : "Parent2 page not found in cache";
+        var relationsAfterHealing = parentPageAfter.ChildRelations.Select(r => new TinyRelation(r.Id, r.ChildId)).ToList();
 
         // Assert - Verify healing worked
         var finalErrorResponse = relationErrors.GetErrors();
@@ -115,6 +123,8 @@ internal class RelationRepair_tests : BaseTestHarness
             GetErrorsResult = finalErrorResponse,
             TreeDiagramBeforeHealing = beforeHealingDiagram,
             TreeDiagramAfterHealing = afterHealingDiagram,
+            RelationsBeforeHealing = relationsBeforeHealing,
+            RelationsAfterHealing = relationsAfterHealing,
             AllRelationCacheItems = allRelationCacheItems,
             CacheItemsCount = allRelationCacheItems.Count,
             AllDbItems = allDbItems,
