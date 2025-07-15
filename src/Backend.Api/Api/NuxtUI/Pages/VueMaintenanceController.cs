@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Hosting;
 using System.Security;
 
 public class VueMaintenanceController(
@@ -113,7 +112,7 @@ public class VueMaintenanceController(
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public VueMaintenanceResult DeleteUser(int userId)
+    public VueMaintenanceResult DeleteUser([FromForm] int userId)
     {
         _userWritingRepo.DeleteFromAllTables(userId);
 
@@ -318,7 +317,7 @@ public class VueMaintenanceController(
     {
         // Clear various caches
         EntityCache.Clear();
-        
+
         return new VueMaintenanceResult
         {
             Success = true,
@@ -350,10 +349,10 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public VueMaintenanceResult HealRelations(int pageId)
+    public VueMaintenanceResult HealRelations([FromForm] int pageId)
     {
         var result = _relationErrors.HealErrors(pageId);
-        
+
         return new VueMaintenanceResult
         {
             Success = result.Success,

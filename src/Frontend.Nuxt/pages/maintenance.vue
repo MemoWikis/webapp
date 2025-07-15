@@ -182,6 +182,8 @@ async function removeAdminRights() {
     }
 }
 
+const relationErrorsLoaded = ref(false)
+
 async function loadRelationErrors() {
     try {
         const result = await $api<RelationErrorsResponse>('/apiVue/VueMaintenance/ShowRelationErrors', {
@@ -193,6 +195,7 @@ async function loadRelationErrors() {
         if (result.success) {
             relationErrors.value = result.data
             resultMsg.value = `Found ${result.data.length} pages with relation errors.`
+            relationErrorsLoaded.value = true
         } else {
             resultMsg.value = 'Error loading relation errors.'
         }
@@ -262,6 +265,9 @@ async function healRelations(pageId: number) {
                 </LayoutCard>
 
                 <MaintenanceRelationErrorCard v-for="errorItem in relationErrors" :key="errorItem.parentId" :error-item="errorItem" @heal-relations="healRelations" />
+                <div v-if="relationErrorsLoaded && relationErrors.length === 0" class="no-errors-message">
+                    {{ $t('maintenance.relations.noErrorsFound') }}
+                </div>
             </LayoutPanel>
             <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods" :description="$t('maintenance.meiliSearch.description')" @method-clicked="handleClick" :icon="['fas', 'retweet']" />
             <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="handleClick" :icon="['fas', 'retweet']">

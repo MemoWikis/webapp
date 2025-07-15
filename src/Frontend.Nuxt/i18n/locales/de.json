@@ -1735,6 +1735,7 @@
             "healButton": "Beziehungen reparieren",
             "parentPageId": "Übergeordnete Seiten-ID",
             "relationsTableTitle": "Beziehungen für diese übergeordnete Seite:",
+            "noErrorsFound": "Keine Beziehungsfehler gefunden.",
             "table": {
                 "relationId": "Beziehungs-ID",
                 "childId": "Unterseiten-ID",

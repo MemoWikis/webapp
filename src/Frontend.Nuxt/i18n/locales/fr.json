@@ -1735,6 +1735,7 @@
             "healButton": "Réparer les Relations",
             "parentPageId": "ID de Page Parent",
             "relationsTableTitle": "Relations pour cette page parent :",
+            "noErrorsFound": "Aucune erreur de relation trouvée.",
             "table": {
                 "relationId": "ID de Relation",
                 "childId": "ID de Page Enfant",

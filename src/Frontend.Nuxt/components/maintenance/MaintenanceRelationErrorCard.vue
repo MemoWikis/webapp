@@ -32,6 +32,7 @@ const emit = defineEmits<{
 const handleHealClick = () => {
     emit('healRelations', props.errorItem.parentId)
 }
+
 const selectedChildId = ref<number | null>(null)
 const handleClickChildId = (childId: number) => {
     if (selectedChildId.value === childId) {
@@ -40,20 +41,33 @@ const handleClickChildId = (childId: number) => {
     }
     selectedChildId.value = childId
 }
+
+const groupedErrors = computed(() => {
+    const groups: { [key: string]: RelationError[] } = {}
+
+    props.errorItem.errors.forEach(error => {
+        if (!groups[error.type]) {
+            groups[error.type] = []
+        }
+        groups[error.type].push(error)
+    })
+
+    return Object.entries(groups).map(([key, errors]) => ({
+        key,
+        errors
+    }))
+})
 </script>
 
 <template>
     <LayoutCard :size="LayoutCardSize.Medium" class="relation-error-card">
         <div class="error-card-content">
             <h5>{{ $t('maintenance.relations.parentPageId') }}: {{ errorItem.parentId }}</h5>
-            <ul class="error-list">
-                <li v-for="error in errorItem.errors" :key="`${error.childId}-${error.type}`"
-                    :class="[{ 'selected': selectedChildId === error.childId, 'no-selection': error.type.toLowerCase() === 'brokenorder' }]" @click="handleClickChildId(error.childId)"
-                    class="error-item">
-                    <strong>{{ error.type }}:</strong> {{ error.description }}
-                    <font-awesome-icon :icon="['fas', 'caret-left']" v-if="selectedChildId === error.childId" />
-                </li>
-            </ul>
+            <MaintenanceRelationErrorList
+                v-for="group in groupedErrors" :key="group.key"
+                :group="group"
+                :selected-child-id="selectedChildId"
+                @click-child-id="handleClickChildId" />
 
             <h6>{{ $t('maintenance.relations.relationsTableTitle') }}</h6>
             <table class="relations-table">
@@ -97,44 +111,6 @@ const handleClickChildId = (childId: number) => {
             margin: 0 0 15px 0;
             color: @memo-grey-darker;
             font-weight: 600;
-        }
-
-        .error-list {
-            margin: 0 0 15px 0;
-            padding-left: 20px;
-
-            .error-item {
-                cursor: pointer;
-                transition: background-color 0.3s;
-                padding: 0 8px;
-                border-radius: 4px;
-
-                &:hover {
-                    background-color: fade(@memo-grey-lighter, 50%);
-                }
-
-                &.selected {
-                    background-color: @memo-grey-lightest;
-                }
-
-                &.no-selection {
-                    background-color: unset;
-                    cursor: unset;
-
-                    &:hover {
-                        background-color: unset;
-                    }
-                }
-            }
-
-            li {
-                margin-bottom: 8px;
-                padding: 4px 0;
-
-                strong {
-                    font-weight: 600;
-                }
-            }
         }
 
         h6 {
