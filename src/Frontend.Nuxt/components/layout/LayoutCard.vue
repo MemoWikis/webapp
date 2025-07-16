@@ -91,6 +91,16 @@ withDefaults(defineProps<Props>(), {
         }
     }
 
+    &.size-micro {
+        @media (min-width: 768px) {
+            width: calc(20% - 0.8rem);
+        }
+
+        @media (max-width: 767px) {
+            width: calc(50% - 0.5rem);
+        }
+    }
+
     .card-header {
         display: flex;
         align-items: center;
@@ -151,6 +161,16 @@ withDefaults(defineProps<Props>(), {
 
             @media (max-width: 900px) {
                 width: 100%;
+            }
+        }
+
+        &.size-micro {
+            @media (max-width:1300px) {
+                width: calc(33.3333% - 0.666rem);
+            }
+
+            @media (max-width: 900px) {
+                width: calc(50% - 0.5rem);
             }
         }
     }

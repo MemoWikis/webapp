@@ -4,28 +4,39 @@ import { LayoutGridSize } from '~/composables/layoutGridSize'
 interface Props {
     size?: LayoutGridSize
     gap?: string
+    direction?: 'row' | 'column'
+    title?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
     size: LayoutGridSize.Flex,
-    gap: '0rem 1rem'
+    gap: '0rem 1rem',
+    direction: 'row',
+    title: ''
 })
 
 const gridStyle = computed(() => ({
-    '--grid-gap': props.gap
+    '--grid-gap': props.gap,
+    '--grid-direction': props.direction
 }))
 
 const gridClass = computed(() => ({
     'layout-grid': true,
-    'layout-grid--half': props.size === LayoutGridSize.Half,
-    'layout-grid--full': props.size === LayoutGridSize.Full,
+    'layout-grid--small': props.size === LayoutGridSize.Small,
+    'layout-grid--medium': props.size === LayoutGridSize.Medium,
+    'layout-grid--large': props.size === LayoutGridSize.Large,
     'layout-grid--flex': props.size === LayoutGridSize.Flex
 }))
 </script>
 
 <template>
-    <div :class="gridClass" :style="gridStyle">
-        <slot />
+    <div :class="gridClass">
+        <div class="grid-header" v-if="title">
+            <h3 class="grid-title">{{ title }}</h3>
+        </div>
+        <div class="layout-grid-content" :style="gridStyle">
+            <slot />
+        </div>
     </div>
 </template>
 
@@ -33,20 +44,38 @@ const gridClass = computed(() => ({
 @import (reference) '~~/assets/includes/imports.less';
 
 .layout-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--grid-gap);
+    &--small {
+        width: 33%;
+    }
 
-    &--half {
+    &--medium {
         width: 50%;
     }
 
-    &--full {
+    &--large {
         width: 100%;
     }
 
     &--flex {
         flex-grow: 2;
     }
+
+    .grid-header {
+        padding: 2rem 0rem 1rem;
+
+        .grid-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: @memo-grey-darker;
+            margin: 0;
+        }
+    }
+}
+
+.layout-grid-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--grid-gap);
+    flex-direction: var(--grid-direction);
 }
 </style>

@@ -8,6 +8,10 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    halfSize: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const showContent = ref(true)
@@ -15,7 +19,7 @@ const { isMobile } = useDevice()
 </script>
 
 <template>
-    <div class="layout-panel" :class="{ 'no-background': noBackground }">
+    <div class="layout-panel" :class="{ 'no-background': noBackground, 'half-size': halfSize }">
         <div class="panel-header" v-if="title" @click="showContent = !showContent">
             <h2 class="panel-title">{{ title }}</h2>
             <div class="panel-actions">
@@ -31,7 +35,7 @@ const { isMobile } = useDevice()
             <slot name="description"></slot>
         </div>
         <Transition name="fade" mode="out-in">
-            <div class="panel-content" v-if="showContent">
+            <div class="panel-content" v-if="showContent" :class="{ 'has-header': title }">
                 <slot></slot>
             </div>
         </Transition>
@@ -48,6 +52,11 @@ const { isMobile } = useDevice()
     overflow: hidden;
     width: 100%;
     max-width: calc(100vw - 40px);
+
+    &.half-size {
+        max-width: calc(50vw - 20px);
+        width: 50%;
+    }
 
     &.no-background {
         background-color: transparent;
@@ -114,6 +123,10 @@ const { isMobile } = useDevice()
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
+
+        &.has-header {
+            padding-top: 0;
+        }
     }
 }
 </style>

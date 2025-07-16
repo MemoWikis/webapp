@@ -8,6 +8,7 @@ import { ErrorCode } from '~/components/error/errorCodeEnum'
 import { LayoutCardSize } from '~/composables/layoutCardSize'
 import { LayoutGridSize } from '~/composables/layoutGridSize'
 import { PageData } from '~/composables/missionControl/pageData'
+import { color } from '~/constants/colors'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -207,76 +208,104 @@ const { isMobile } = useDevice()
                 <div class="profile-header-info">
                     <h1>{{ profile.user.name }}</h1>
                     <div class="sub-info">
-                        <b>{{ profile.user.reputationPoints }}</b> {{ t('user.profile.reputationPoints') }}
+                        <font-awesome-icon :icon="['fas', 'star']" class="star" /> <b>{{ profile.user.reputationPoints }}</b> {{ t('user.profile.reputationPoints') }}
                         <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
-                        ({{ t('user.profile.rank') }} {{ profile.user.rank }})
-                        <NuxtLink class="link-to-all-users" to="/Nutzer">
-                            {{ t('user.profile.viewAllUsers') }}
-                        </NuxtLink>
+                        <p>
+                            ({{ t('user.profile.rank') }} {{ profile.user.rank }})
+                        </p>
+                        <p>
+                            <NuxtLink class="link-to-all-users" to="/Nutzer">
+                                {{ t('user.profile.viewAllUsers') }}
+                            </NuxtLink>
+                        </p>
                     </div>
                 </div>
             </div>
         </LayoutPanel>
 
         <LayoutPanel>
-            <LayoutCard :size="LayoutCardSize.Tiny">
+            <LayoutGrid :size="LayoutGridSize.Small" direction="row" title="Title 1">
+                <LayoutCard :size="LayoutCardSize.Medium">
+                    <LayoutCounter :value="1000" label="reputation" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
+                </LayoutCard>
 
-                <div class="sub-counter-container">
-                    <div class="count">
-                        {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
+                <!-- <NuxtLink class="link-to-all-users" to="/Nutzer">
+                    {{ t('user.profile.viewAllUsers') }}
+                </NuxtLink> -->
+                <LayoutCard :size="LayoutCardSize.Medium">
+                    <LayoutCounter :value="2" label="Rank" :icon="['fas', 'crown']" :icon-color="color.memoYellow" url-value="/Nutzer" />
+                </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Medium">
+                    <LayoutCounter :value="31" label="Pages" :icon="['fas', 'file-lines']" :icon-color="color.memoBlue" />
+                </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Medium">
+                    <LayoutCounter :value="15523" label="Questions" :icon="['fas', 'circle-question']" :icon-color="color.memoGreyDark" />
+                </LayoutCard>
+            </LayoutGrid>
+
+            <LayoutGrid :size="LayoutGridSize.Small" direction="column" title="Title 2">
+
+                <LayoutCard :size="LayoutCardSize.Flex">
+                    <div class="sub-counter-container">
+                        <div class="count">
+                            {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
+                        </div>
+                        <div class="count-label">{{ t('user.overview.reputation.questionsInOtherWishknowledges') }}</div>
                     </div>
-                    <div class="count-label">{{ t('user.overview.reputation.questionsInOtherWishknowledges') }}</div>
-                </div>
-                <div class="sub-counter-container">
-                    <div class="count">
-                        {{ profile.overview.activityPoints.questionsCreated }} P
+                    <div class="sub-counter-container">
+                        <div class="count">
+                            {{ profile.overview.activityPoints.questionsCreated }} P
+                        </div>
+                        <div class="count-label">{{ t('user.overview.reputation.questionsCreated') }}</div>
                     </div>
-                    <div class="count-label">{{ t('user.overview.reputation.questionsCreated') }}</div>
-                </div>
-                <div class="sub-counter-container">
-                    <div class="count">
-                        {{ profile.overview.activityPoints.publicWishknowledges }} P
+                    <div class="sub-counter-container">
+                        <div class="count">
+                            {{ profile.overview.activityPoints.publicWishknowledges }} P
+                        </div>
+                        <div class="count-label">{{ t('user.overview.reputation.publicWishknowledges') }}</div>
                     </div>
-                    <div class="count-label">{{ t('user.overview.reputation.publicWishknowledges') }}</div>
-                </div>
+                </LayoutCard>
 
-                <div class="divider"></div>
+                <LayoutCard :size="LayoutCardSize.Flex">
+                    <LayoutCounter
+                        :value="profile.overview.activityPoints.total"
+                        :label="t('user.overview.reputation.total')" />
 
-                <LayoutCounter
-                    :value="profile.overview.activityPoints.total"
-                    :label="t('user.overview.reputation.total')" />
+                </LayoutCard>
 
-                <NuxtLink to="/Globales-Wiki/1">{{ t('user.overview.reputation.learnMore') }}</NuxtLink>
-            </LayoutCard>
+                <!-- <NuxtLink to="/Globales-Wiki/1">{{ t('user.overview.reputation.learnMore') }}</NuxtLink> -->
 
-            <LayoutGrid :size="LayoutGridSize.Flex">
-                <LayoutCard :size="LayoutCardSize.Tiny">
+            </LayoutGrid>
+
+
+            <LayoutGrid :size="LayoutGridSize.Flex" title="Content">
+                <LayoutCard :size="LayoutCardSize.Micro">
                     <LayoutCounter
                         :value="profile.overview.publicQuestionsCount"
                         :label="t('user.overview.content.publicQuestions')" />
                 </LayoutCard>
 
-                <LayoutCard :size="LayoutCardSize.Tiny">
+                <LayoutCard :size="LayoutCardSize.Micro">
                     <LayoutCounter
                         :value="profile.overview.publicPagesCount"
                         :label="t('user.overview.content.publicPages')" />
                 </LayoutCard>
 
-                <LayoutCard :size="LayoutCardSize.Tiny">
+                <LayoutCard :size="LayoutCardSize.Micro">
                     <LayoutCounter
                         :value="profile.overview.privateQuestionsCount"
                         :label="t('user.overview.content.privateQuestions')"
                         icon="fa-solid fa-lock" />
                 </LayoutCard>
 
-                <LayoutCard :size="LayoutCardSize.Tiny">
+                <LayoutCard :size="LayoutCardSize.Micro">
                     <LayoutCounter
                         :value="profile.overview.privatePagesCount"
                         :label="t('user.overview.content.privatePages')"
                         icon="fa-solid fa-lock" />
                 </LayoutCard>
 
-                <LayoutCard :size="LayoutCardSize.Tiny">
+                <LayoutCard :size="LayoutCardSize.Micro">
                     <LayoutCounter :value="profile.overview.wuwiCount" :label="t('user.overview.wishknowledge.questions')" />
                 </LayoutCard>
             </LayoutGrid>
@@ -345,6 +374,10 @@ const { isMobile } = useDevice()
     .sub-info {
         font-size: 18px;
         margin-bottom: 10px;
+
+        .star {
+            color: @memo-yellow;
+        }
 
         .info-icon {
             color: @memo-grey-light;

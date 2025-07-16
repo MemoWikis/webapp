@@ -3,10 +3,11 @@
 interface Props {
     value: string | number
     label: string
-    icon?: string
+    icon?: string | string[]
     color?: string
     iconColor?: string
     formatNumber?: boolean
+    urlValue?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,7 +31,10 @@ const formattedValue = computed(() => {
             </div>
             <div class="counter-label">{{ label }}</div>
         </div>
-        <div class="counter-value" :style="{ color: color }">{{ formattedValue }}</div>
+        <NuxtLink class="link-to-all-users" :to="props.urlValue" v-if="props.urlValue">
+            <div class="counter-value" :style="{ color: color }">{{ formattedValue }}</div>
+        </NuxtLink>
+        <div v-else class="counter-value" :style="{ color: color }">{{ formattedValue }}</div>
     </div>
 </template>
 
@@ -52,7 +56,7 @@ const formattedValue = computed(() => {
 
         .counter-icon {
             margin-right: 8px;
-            font-size: 14px;
+            font-size: 2rem;
             color: @memo-grey-dark;
         }
 

@@ -114,12 +114,13 @@ public class UserController(
         var userCacheItem = EntityCache.GetUserById(userId);
 
         var wikis = userCacheItem.GetWikis()
+            .Where(_permissionCheck.CanView)
             .Select(wiki => new PageItem(
                 wiki.Id,
                 wiki.Name,
                 new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
                 wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(userId, wiki.Id))))
+                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.RunTest(_sessionUser.UserId, userId, wiki.Id))))
             .ToList();
 
         return wikis;

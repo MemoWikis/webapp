@@ -76,6 +76,15 @@
         return knowledgeSummary;
     }
 
+    // temp start: for testing usercontroller
+    public KnowledgeSummary RunTest(int sessionUserId, int userId, int pageId, bool onlyValuated = true)
+        => Run(userId,
+            EntityCache.GetPage(pageId).GetAggregatedQuestions(sessionUserId)
+                .GetIds(),
+            onlyValuated);
+
+    // temp end
+
     public KnowledgeSummary Run(int userId, int pageId, bool onlyValuated = true)
         => Run(userId,
             EntityCache.GetPage(pageId).GetAggregatedQuestions(userId)

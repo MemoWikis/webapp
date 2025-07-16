@@ -1,5 +1,6 @@
 export enum LayoutGridSize {
-    Half = 'half',
-    Full = 'full',
+    Small = 'small',
+    Medium = 'medium',
+    Large = 'large',
     Flex = 'flex'
 }
