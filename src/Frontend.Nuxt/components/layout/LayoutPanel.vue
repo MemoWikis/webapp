@@ -57,7 +57,7 @@ const { isMobile } = useDevice()
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 16px 20px;
+        padding: 2rem;
         user-select: none;
         cursor: pointer;
 
@@ -108,8 +108,8 @@ const { isMobile } = useDevice()
     }
 
     .panel-content {
-        padding: 16px 20px;
-        padding-top: 0;
+        padding: 2rem;
+        padding-top: 1rem;
         width: 100%;
         display: flex;
         flex-wrap: wrap;

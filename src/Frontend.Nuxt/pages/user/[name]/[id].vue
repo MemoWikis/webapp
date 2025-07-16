@@ -6,6 +6,8 @@ import { useUserStore } from '~~/components/user/userStore'
 import { SiteType } from '~/components/shared/siteEnum'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 import { LayoutCardSize } from '~/composables/layoutCardSize'
+import { LayoutGridSize } from '~/composables/layoutGridSize'
+import { PageData } from '~/composables/missionControl/pageData'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -62,9 +64,10 @@ interface User {
 interface ProfileData {
     user: User
     overview: Overview
-    isCurrentUser: boolean,
+    isCurrentUser: boolean
     messageKey?: string
     errorCode?: ErrorCode
+    wikis?: PageData[]
 }
 
 const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/User/Get/${route.params.id ? route.params.id : userStore.id}`, {
@@ -187,6 +190,8 @@ userStore.$onAction(({ name, after }) => {
     }
 })
 
+const { isMobile } = useDevice()
+
 </script>
 
 <template>
@@ -209,34 +214,12 @@ userStore.$onAction(({ name, after }) => {
                             {{ t('user.profile.viewAllUsers') }}
                         </NuxtLink>
                     </div>
-                    <div class="profile-btn-container">
-                        <button class="memo-button btn btn-primary" v-if="profile.user.wikiName && profile.user.wikiId">
-                            <NuxtLink :to="$urlHelper.getPageUrl(profile.user.wikiName, profile.user.wikiId)">
-                                <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
-                                <font-awesome-icon icon="fa-solid fa-house" v-else />
-                                {{ t(isCurrentUser ? 'user.profile.toMyWiki' : 'user.profile.toUserWiki', { name: profile.user.name }) }}
-                            </NuxtLink>
-                        </button>
-
-                    </div>
                 </div>
             </div>
         </LayoutPanel>
 
         <LayoutPanel>
-            <LayoutCard
-                :title="t('user.overview.reputation.title')"
-                :size="LayoutCardSize.Tiny">
-                <div>
-                    <div class="count">
-                        <h1>{{ profile.overview.activityPoints.total }}</h1>
-                    </div>
-                    <!-- <div class="count-label">
-                        <div>{{ t('user.overview.reputation.total') }}</div>
-                    </div> -->
-                </div>
-
-                <div class="divider"></div>
+            <LayoutCard :size="LayoutCardSize.Tiny">
 
                 <div class="sub-counter-container">
                     <div class="count">
@@ -259,66 +242,46 @@ userStore.$onAction(({ name, after }) => {
 
                 <div class="divider"></div>
 
+                <LayoutCounter
+                    :value="profile.overview.activityPoints.total"
+                    :label="t('user.overview.reputation.total')" />
+
                 <NuxtLink to="/Globales-Wiki/1">{{ t('user.overview.reputation.learnMore') }}</NuxtLink>
             </LayoutCard>
 
-            <LayoutCard
-                :title="t('user.overview.content.publicQuestions')"
-                :size="LayoutCardSize.Tiny">
-                <div>
-                    <div class="count">
-                        <h1>{{ profile.overview.publicQuestionsCount }}</h1>
-                    </div>
-                </div>
-            </LayoutCard>
+            <LayoutGrid :size="LayoutGridSize.Flex">
+                <LayoutCard :size="LayoutCardSize.Tiny">
+                    <LayoutCounter
+                        :value="profile.overview.publicQuestionsCount"
+                        :label="t('user.overview.content.publicQuestions')" />
+                </LayoutCard>
 
-            <LayoutCard
-                :title="t('user.overview.content.publicPages')"
-                :size="LayoutCardSize.Tiny">
-                <div>
-                    <div class="count">
-                        <h1>{{ profile.overview.publicPagesCount }}</h1>
-                    </div>
-                </div>
-            </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Tiny">
+                    <LayoutCounter
+                        :value="profile.overview.publicPagesCount"
+                        :label="t('user.overview.content.publicPages')" />
+                </LayoutCard>
 
-            <LayoutCard
-                :title="t('user.overview.content.privateQuestions')"
-                :size="LayoutCardSize.Tiny">
-                <template #title>
-                    <span>{{ t('user.overview.content.privateQuestions') }} <font-awesome-icon icon="fa-solid fa-lock" /></span>
-                </template>
-                <div>
-                    <div class="count">
-                        <h1>{{ profile.overview.privateQuestionsCount }}</h1>
-                    </div>
-                </div>
-            </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Tiny">
+                    <LayoutCounter
+                        :value="profile.overview.privateQuestionsCount"
+                        :label="t('user.overview.content.privateQuestions')"
+                        icon="fa-solid fa-lock" />
+                </LayoutCard>
 
-            <LayoutCard :title="t('user.overview.content.privatePages')" :size="LayoutCardSize.Tiny">
-                <template #title>
-                    <span>{{ t('user.overview.content.privatePages') }} <font-awesome-icon icon="fa-solid fa-lock" /></span>
-                </template>
-                <div>
-                    <div class="count">
-                        <h1>{{ profile.overview.privatePagesCount }}</h1>
-                    </div>
-                </div>
-            </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Tiny">
+                    <LayoutCounter
+                        :value="profile.overview.privatePagesCount"
+                        :label="t('user.overview.content.privatePages')"
+                        icon="fa-solid fa-lock" />
+                </LayoutCard>
 
-            <LayoutCard :title="t('user.overview.wishknowledge.title')" :size="LayoutCardSize.Tiny">
-                <div>
-                    <div class="count">
-                        <h1>{{ profile.overview.wuwiCount }}</h1>
-                    </div>
-                    <div class="count-label">
-                        <div>{{ t('user.overview.wishknowledge.questions') }}</div>
-                    </div>
-
-                </div>
-            </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Tiny">
+                    <LayoutCounter :value="profile.overview.wuwiCount" :label="t('user.overview.wishknowledge.questions')" />
+                </LayoutCard>
+            </LayoutGrid>
         </LayoutPanel>
-        <LayoutPanel :title="t('user.overview.wishknowledge.title')" v-if="profile.user.showWuwi || profile.isCurrentUser">
+        <!-- <LayoutPanel :title="t('user.overview.wishknowledge.title')" v-if="profile.user.showWuwi || profile.isCurrentUser">
             <div v-if="!profile.user.showWuwi" class="wuwi-is-hidden">
                 <template v-if="profile.isCurrentUser">
                     {{ t('user.wishknowledge.private.own') }}
@@ -326,15 +289,25 @@ userStore.$onAction(({ name, after }) => {
                         {{ t('user.wishknowledge.private.change') }}
                     </NuxtLink>
                 </template>
-                <template v-else>
+<template v-else>
                     <b>{{ t('user.wishknowledge.private.notPublic') }}</b> {{ t('user.wishknowledge.private.userNotPublished', { name: profile.user.name }) }}
                 </template>
-            </div>
-            <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
-                <UserTabsWishknowledge :questions="wuwi.questions" :pages="wuwi.pages" />
-            </div>
+</div>
+<div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
+    <UserTabsWishknowledge :questions="wuwi.questions" :pages="wuwi.pages" />
+</div>
+</LayoutPanel> -->
+
+
+        <LayoutPanel v-if="isMobile && profile.wikis" :title="t('missionControl.sections.wikis')">
+            <MissionControlGrid :pages="profile.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
         </LayoutPanel>
 
+        <LayoutPanel v-else-if="profile.wikis" :title="t('missionControl.sections.wikis')">
+            <LayoutCard :no-padding="true">
+                <MissionControlTable :pages="profile.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
+            </LayoutCard>
+        </LayoutPanel>
     </div>
 </template>
 
@@ -390,14 +363,6 @@ userStore.$onAction(({ name, after }) => {
 
 .overline-s {
     margin-bottom: 10px;
-}
-
-.count {
-    h1 {
-        margin-top: 0px;
-        margin-bottom: 0px;
-        color: @memo-grey-darker;
-    }
 }
 
 .sub-counter-container {

@@ -1,16 +1,22 @@
-﻿public class UserController(
+﻿using JetBrains.Annotations;
+using static MissionControlController;
+
+public class UserController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ReputationCalc _rpReputationCalc,
     IHttpContextAccessor _httpContextAccessor,
-    ExtendedUserCache _extendedUserCache) : ApiBaseController
+    ExtendedUserCache _extendedUserCache,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader) : ApiBaseController
 {
     public readonly record struct GetResult(
         User User,
         Overview Overview,
         bool IsCurrentUser,
         string MessageKey,
-        NuxtErrorPageType ErrorCode);
+        NuxtErrorPageType ErrorCode,
+        [CanBeNull] IList<PageItem> Wikis //temp for ui building
+    );
 
     public new readonly record struct User(
         int Id,
@@ -96,10 +102,46 @@
                     allPagesCreatedByUser.Count(c => c.Visibility != PageVisibility.Public),
                 WuwiCount = user.WishCountQuestions
             },
-            IsCurrentUser = isCurrentUser
+            IsCurrentUser = isCurrentUser,
+            Wikis = GetWikis(user.Id),
         };
         return result;
     }
+
+    /// temp start
+    private IList<PageItem> GetWikis(int userId)
+    {
+        var userCacheItem = EntityCache.GetUserById(userId);
+
+        var wikis = userCacheItem.GetWikis()
+            .Select(wiki => new PageItem(
+                wiki.Id,
+                wiki.Name,
+                new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
+                wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
+                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(userId, wiki.Id))))
+            .ToList();
+
+        return wikis;
+    }
+
+    private KnowledgeSummaryResponse FillKnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary)
+    {
+        return new KnowledgeSummaryResponse(
+            knowledgeSummary.NotLearned,
+            knowledgeSummary.NotLearnedPercentage,
+            knowledgeSummary.NeedsLearning,
+            knowledgeSummary.NeedsLearningPercentage,
+            knowledgeSummary.NeedsConsolidation,
+            knowledgeSummary.NeedsConsolidationPercentage,
+            knowledgeSummary.Solid,
+            knowledgeSummary.SolidPercentage,
+            knowledgeSummary.NotInWishknowledge,
+            knowledgeSummary.NotInWishknowledgePercentage,
+            knowledgeSummary.Total);
+    }
+
+    // temp end
 
     public readonly record struct WuwiResult(WuwiQuestion[] Questions, WuwiPage[] Pages);
 
