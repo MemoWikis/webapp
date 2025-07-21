@@ -4,6 +4,7 @@ interface Props {
     title?: string
     noPadding?: boolean
     size?: LayoutCardSize
+    url?: string
 }
 
 withDefaults(defineProps<Props>(), {
@@ -16,23 +17,45 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <div class="layout-card" :class="`size-${size}`">
-        <div class="card-header" v-if="title || $slots.actions || $slots.header">
+    <div class="layout-card" :class="[`size-${size}`, { 'has-link': url }]">
 
-            <slot name="header"></slot>
+        <NuxtLink v-if="url" :to="url" class="card-link">
+            <div class="card-header" v-if="title || $slots.actions || $slots.header">
 
-            <template v-if="!$slots.header">
-                <h2 class="card-title">{{ title }}</h2>
-                <div class="card-actions" v-if="$slots.actions">
-                    <slot name="actions"></slot>
-                </div>
+                <slot name="header"></slot>
 
-            </template>
+                <template v-if="!$slots.header">
+                    <h2 class="card-title">{{ title }}</h2>
+                    <div class="card-actions" v-if="$slots.actions">
+                        <slot name="actions"></slot>
+                    </div>
 
-        </div>
-        <div class="card-content" :class="{ 'no-padding': noPadding }">
-            <slot></slot>
-        </div>
+                </template>
+
+            </div>
+            <div class="card-content" :class="{ 'no-padding': noPadding }">
+                <slot></slot>
+            </div>
+        </NuxtLink>
+
+        <template v-else>
+            <div class="card-header" v-if="title || $slots.actions || $slots.header">
+
+                <slot name="header"></slot>
+
+                <template v-if="!$slots.header">
+                    <h2 class="card-title">{{ title }}</h2>
+                    <div class="card-actions" v-if="$slots.actions">
+                        <slot name="actions"></slot>
+                    </div>
+
+                </template>
+
+            </div>
+            <div class="card-content" :class="{ 'no-padding': noPadding }">
+                <slot></slot>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -130,6 +153,21 @@ withDefaults(defineProps<Props>(), {
 
         &.no-padding {
             padding: 0;
+        }
+    }
+
+    &.has-link {
+        cursor: pointer;
+
+
+        &:hover {
+            .card-content {
+                background: @memo-grey-lighter;
+            }
+
+            :deep(*) {
+                text-decoration: none;
+            }
         }
     }
 }

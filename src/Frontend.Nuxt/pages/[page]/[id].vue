@@ -250,13 +250,11 @@ convertStore.$onAction(({ name, after }) => {
                     <PageLearningAiCreateFlashCard />
                     <PageSharingModal />
                     <LicenseLinkModal />
-
                 </ClientOnly>
             </template>
         </div>
 
-        <Sidebar class="is-page sidebar" :show-outline="true" :site="SiteType.Page" v-if="pageStore?.id != 0" />
-
+        <SidebarPage :show-outline="true" v-if="pageStore?.id != 0" />
     </div>
 </template>
 

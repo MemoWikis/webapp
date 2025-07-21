@@ -1,71 +1,40 @@
-<script lang="ts" setup>
-import { usePageStore } from '../page/pageStore'
-import { useTabsStore, Tab } from '../page/tabs/tabsStore'
-import { SiteType } from '../shared/siteEnum'
-import { ImageFormat } from '../image/imageFormatEnum'
-
-const pageStore = usePageStore()
-const tabsStore = useTabsStore()
-
+<script setup lang="ts">
 const { isDesktop } = useDevice()
+
 interface Props {
-    showOutline?: boolean
-    site: SiteType
+    siteClass?: string
 }
-const props = defineProps<Props>()
 
-const { $urlHelper } = useNuxtApp()
-
+const props = withDefaults(defineProps<Props>(), {
+    siteClass: ''
+})
 </script>
 
 <template>
-    <div id="Sidebar" class="" v-if="isDesktop">
+    <div id="Sidebar" :class="siteClass" v-if="isDesktop">
         <div id="SidebarDivider"></div>
         <div id="SidebarContent">
             <div id="SidebarSpacer"></div>
+
+            <!-- Header/Default content slot -->
             <div id="DefaultSidebar">
-
-                <SidebarCard v-if="props.site === SiteType.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
-                    <template v-slot:body>
-                        <Image :src="pageStore.currentWiki.imgUrl" class="page-header-image" :format="ImageFormat.WikiLogo" :show-license="false" :min-height="80" :min-width="80" :alt="`${pageStore.currentWiki.name}'s image'`" />
-
-                        <div class="overline-s no-line sidebar-link-container wiki-container">
-                            <NuxtLink
-                                :to="$urlHelper.getPageUrl(pageStore.currentWiki.name, pageStore.currentWiki.id)"
-                                class="sidebar-link">
-                                {{ pageStore.currentWiki.name }}
-                            </NuxtLink>
-                        </div>
-
-                    </template>
-                </SidebarCard>
-
+                <slot name="header" v-if="$slots.header" />
             </div>
-            <template v-if="props.showOutline && pageStore.id && pageStore.name">
 
-                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab === Tab.Text && props.site === SiteType.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
+            <!-- Outline content slot -->
+            <template v-if="$slots.outline">
+                <div class="sidebarcard-divider-container" v-if="$slots.header">
                     <div class="sidebarcard-divider"></div>
                 </div>
 
-                <SidebarCard id="PageOutline" v-show="tabsStore?.activeTab === Tab.Text && !pageStore.textIsHidden">
-                    <template v-slot:body>
-                        <SidebarOutline />
-                    </template>
-                </SidebarCard>
-                <SidebarCard id="PageOutline" v-show="tabsStore?.activeTab === Tab.Analytics">
-                    <template v-slot:body>
-                        <SidebarAnalyticsOutline />
-                    </template>
-                </SidebarCard>
+                <slot name="outline" />
             </template>
-
         </div>
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
-// @import (reference) '~~/assets/sidebar.less';
 
 #Sidebar {
     display: flex;
@@ -104,7 +73,21 @@ const { $urlHelper } = useNuxtApp()
                 height: 25px;
             }
         }
+    }
 
+    &.is-user {
+        #SidebarDivider {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #SidebarContent {
+            flex-grow: 2;
+
+            #SidebarSpacer {
+                height: 25px;
+            }
+        }
     }
 
     .sidebar-link-container {
@@ -138,7 +121,7 @@ const { $urlHelper } = useNuxtApp()
     }
 
     .sidebarcard-divider-container {
-        margin-left: 20px;
+        margin-left: 1rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -147,11 +130,10 @@ const { $urlHelper } = useNuxtApp()
             height: 1px;
             background-color: @memo-grey-light;
             width: 100%;
-
         }
     }
 
-    #PageOutline {
+    #OutlineSection {
         margin-top: 20px;
         position: sticky;
         top: 60px;
@@ -173,10 +155,6 @@ const { $urlHelper } = useNuxtApp()
 
 #DefaultSidebar {
     height: 145px;
-    // :deep(.sidebar-title) {
-    //     padding-bottom: 0px;
-    //     height: 30px;
-    // }
 
     #SidebarHelpBody {
         display: flex;
@@ -203,7 +181,6 @@ const { $urlHelper } = useNuxtApp()
 <style lang="less">
 .sidesheet-open {
     @media (max-width: 1209px) {
-
         #Sidebar {
             display: none;
         }

@@ -22,6 +22,7 @@ const gridStyle = computed(() => ({
 
 const gridClass = computed(() => ({
     'layout-grid': true,
+    'layout-grid--divider': props.size === LayoutGridSize.Divider,
     'layout-grid--small': props.size === LayoutGridSize.Small,
     'layout-grid--medium': props.size === LayoutGridSize.Medium,
     'layout-grid--large': props.size === LayoutGridSize.Large,
@@ -44,6 +45,11 @@ const gridClass = computed(() => ({
 @import (reference) '~~/assets/includes/imports.less';
 
 .layout-grid {
+
+    &--divider {
+        width: 1rem;
+    }
+
     &--small {
         width: 33%;
     }

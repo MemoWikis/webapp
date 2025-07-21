@@ -191,7 +191,7 @@
         "language": "Language",
         "fontSizeSample": "Aa",
         "yourProfilePage": "Your profile page",
-        "accountSettings": "Account settings",
+        "accountSettings": "Settings",
         "administrative": "Administrative",
         "questionCount": "0 questions | 1 question | {count} questions",
         "questionCountText": "No question | One question | {count} questions",
@@ -1217,7 +1217,9 @@
             "rank": "Rank",
             "viewAllUsers": "Go to the overview of all users",
             "toMyWiki": "Go to my Wiki",
-            "toUserWiki": "Go to {name}'s Wiki"
+            "toUserWiki": "Go to {name}'s Wiki",
+            "questions": "Questions",
+            "noQuestions": "No questions available"
         },
         "overview": {
             "reputation": {
@@ -1264,6 +1266,13 @@
                 "first": "First",
                 "last": "Last"
             }
+        },
+        "sidebar": {
+            "quickActions": "Quick Actions",
+            "stats": "Stats",
+            "skills": "Skills",
+            "wikis": "Wikis",
+            "questions": "Questions"
         },
         "tabs": {
             "overview": "Overview",
@@ -1786,6 +1795,14 @@
             "nameLong": "Federal/State Working Group on Chemical Safety (BLAC)",
             "displayTextShort": "Source: BLAC",
             "displayTextFull": "The question, answer options and reference to sources are from the Common Question Catalog of the States (GFK) for the competence examination according to § 5 of the Chemical Prohibition Ordinance and are collected in <a href='http://blak-uis.server.de/servlet/is/2146/P-4a.pdf/' target='_blank'>this PDF</a>. The use of the question catalog is permitted in accordance with § 62 Para. 1 to 3 (prohibition of changes) and § 63 Para. 1 and 2 (source citation) of the Copyright Act. Author is the <a href='https://blac-info.server.de/servlet/is/2146/' target='_blank'>BLAC</a>."
+        }
+    },
+    "layout": {
+        "questionList": {
+            "popularity": "Popularity",
+            "question": "Question",
+            "creationDate": "Creation Date",
+            "learnQuestion": "Learn Question"
         }
     }
 }

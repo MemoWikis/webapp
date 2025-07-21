@@ -64,8 +64,8 @@ onMounted(() => {
     emit('setPage', SiteType.User)
 
     const breadcrumbItem: BreadcrumbItem = {
-        name: t('url.settings'),
-        url: `/${t('url.user')}/${t('url.settings')}`
+        name: t('label.accountSettings'),
+        url: t('label.accountSettings')
     }
     emit('setBreadcrumb', [breadcrumbItem])
 })
@@ -79,13 +79,7 @@ watch(() => userStore.isLoggedIn, () => {
 })
 
 useHead(() => ({
-    title: t('user.settings.title'),
-    meta: [
-        {
-            name: 'description',
-            content: t('user.settings.description')
-        },
-    ]
+    title: t('label.accountSettings'),
 }))
 
 userStore.$onAction(({ name, after }) => {
@@ -103,8 +97,7 @@ userStore.$onAction(({ name, after }) => {
 <template>
     <div class="main-content" v-if="profile && profile.user.id > 0 && profile.isCurrentUser">
         <div class="settings-header">
-            <h1>{{ t('user.settings.title') }}</h1>
-            <p class="settings-description">{{ t('user.settings.description') }}</p>
+            <h1>{{ t('label.accountSettings') }}</h1>
         </div>
 
         <UserSettings

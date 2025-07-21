@@ -103,7 +103,7 @@ const { isDesktop } = useDevice()
         }
     }
 
-    #PageOutline {
+    #OutlineSection {
         margin-top: 20px;
         position: sticky;
         top: 60px;

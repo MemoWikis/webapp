@@ -52,18 +52,18 @@ const formattedValue = computed(() => {
     .counter-header {
         display: flex;
         align-items: center;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
 
         .counter-icon {
             margin-right: 8px;
-            font-size: 2rem;
-            color: @memo-grey-dark;
+            font-size: 1.5rem;
+            color: @memo-grey;
         }
 
         .counter-label {
             font-size: 14px;
             font-weight: 500;
-            color: @memo-grey-dark;
+            color: @memo-grey;
             overflow-wrap: break-word;
         }
     }

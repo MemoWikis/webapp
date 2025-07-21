@@ -1,45 +1,63 @@
 <script lang="ts" setup>
-import { useOutlineStore } from '~/components/sidebar/outlineStore'
 import { throttle } from 'underscore'
 
-const outlineStore = useOutlineStore()
+interface Section {
+    id: string
+    translationKey: string
+}
 
-const currentHeadingId = ref<string | null>()
-const previousIndex = ref()
+interface Props {
+    sections: Section[]
+    containerId?: string
+    visibleSections?: string[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    containerId: 'Outline',
+    visibleSections: () => []
+})
+
+const { t } = useI18n()
+const currentHeadingId = ref<string | null>(null)
+const cancelToken = ref<number>(0)
+
+const getVisibleSections = computed(() => {
+    if (props.visibleSections.length === 0) return props.sections
+    return props.sections.filter(section => props.visibleSections.includes(section.id))
+})
 
 const getCurrentHeadingId = () => {
-    if (outlineStore.headings.length === 0) return
+    const visibleSections = getVisibleSections.value
+    if (visibleSections.length === 0) return
 
-    const headings = outlineStore.headings
-    const offset = 120
-    let headingId: string | null = null
+    const headings = visibleSections
+    const offset = 180
+    let headingId: string | null = headings[0].id
 
     const startIndex = headings.findIndex(h => h.id === currentHeadingId.value)
-    if (outlineStore.editorIsFocused) {
-        if (previousIndex.value === outlineStore.nodeIndex) return
-        previousIndex.value = outlineStore.nodeIndex
 
-        const currentSectionId = findCurrentSectionId()
-        if (currentSectionId !== null) {
-            traverseIds(startIndex, currentSectionId)
-            return
+    // Check if user has scrolled to the bottom of the page
+    const isScrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 40
+
+    if (isScrolledToBottom) {
+        // Use the last heading when scrolled to bottom
+        headingId = headings[headings.length - 1].id
+    } else {
+        for (const heading of headings) {
+            const element = document.getElementById(heading.id)
+            if (!element) continue
+
+            const rect = element.getBoundingClientRect()
+            const topPosition = rect.top + window.scrollY
+
+            if (window.scrollY >= topPosition - offset) {
+                headingId = heading.id
+            } else {
+                break
+            }
         }
     }
 
-    for (const heading of headings) {
-
-        const element = document.getElementById(heading.id)
-        if (!element) continue
-
-        const rect = element.getBoundingClientRect()
-        const topPosition = rect.top + window.scrollY
-
-        if (window.scrollY >= topPosition - offset) {
-            headingId = heading.id
-        } else {
-            break
-        }
-    }
     traverseIds(startIndex, headingId)
     return
 }
@@ -47,10 +65,10 @@ const getCurrentHeadingId = () => {
 const sleep = (ms: number): Promise<void> => {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
-const cancelToken = ref<number>(0)
+
 const traverseIds = async (startIndex: number, endId: string | null) => {
     const token = ++cancelToken.value
-    const headings = outlineStore.headings
+    const headings = getVisibleSections.value
     const initialEndIndex = headings.findIndex(h => h.id === endId)
     if (startIndex === initialEndIndex) return
     if (startIndex === -1) startIndex = 0
@@ -73,37 +91,12 @@ const traverseIds = async (startIndex: number, endId: string | null) => {
     if (initialEndIndex === -1 || initialEndIndex == null) currentHeadingId.value = null
 }
 
-const findCurrentSectionId = (): string | null => {
-    if (!outlineStore.nodeIndex)
-        return null
-
-    const headings = outlineStore.headings
-
-    for (let i = 0; i < headings.length; i++) {
-        const num = headings[i].index
-        if (outlineStore.nodeIndex === num ||
-            outlineStore.nodeIndex > num &&
-            (i + 1 >= headings.length || headings[i + 1].index > outlineStore.nodeIndex)) {
-            return headings[i].id
-        }
-    }
-    return null
-}
-
 const throttledGetCurrentHeadingId = throttle(getCurrentHeadingId, 50)
 
-onMounted(async () => {
+onMounted(() => {
     window.addEventListener('scroll', throttledGetCurrentHeadingId)
-    await nextTick()
-    getCurrentHeadingId()
-
-    watch(() => outlineStore.nodeIndex, () => {
-        if (previousIndex.value !== outlineStore.nodeIndex)
-            getCurrentHeadingId()
-    })
-
-    watch(() => outlineStore.editorIsFocused, () => {
-        throttledGetCurrentHeadingId()
+    nextTick(() => {
+        getCurrentHeadingId()
     })
 })
 
@@ -111,36 +104,24 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', throttledGetCurrentHeadingId)
 })
 
-const headingClass = (level: number, index: number) => {
-    const previousLevel = index > 0 ? outlineStore.headings[index - 1].level : null
-    if (previousLevel != null) {
-        if (previousLevel > level)
-            return `level-${level - 1} next-step`
-        if (previousLevel === 3 && level === 4)
-            return `level-${level - 1} preceeding-section-is-empty`
-    }
-
-    return `level-${level - 1}${index === 0 ? ' first-outline' : ''}`
+const headingClass = (index: number) => {
+    return `level-1${index === 0 ? ' first-outline' : ''}`
 }
-
 </script>
 
 <template>
-    <div id="Outline">
+    <div :id="containerId">
         <PerfectScrollbar :options="{ suppressScrollX: true }">
             <div class="outline-container">
-                <div v-for="(heading, index) in outlineStore.headings" :key="heading.id" class="outline-heading"
-                    :class="headingClass(heading.level, index)">
+                <div v-for="(heading, index) in getVisibleSections" :key="heading.id" class="outline-heading"
+                    :class="headingClass(index)">
                     <NuxtLink :to="`#${heading.id}`"
                         class="outline-link" :class="{ 'current-heading': heading.id === currentHeadingId }">
-                        <div v-for="text in heading.text">
-                            {{ text }}
-                        </div>
+                        {{ t(heading.translationKey) }}
                     </NuxtLink>
                 </div>
             </div>
         </PerfectScrollbar>
-
     </div>
 </template>
 

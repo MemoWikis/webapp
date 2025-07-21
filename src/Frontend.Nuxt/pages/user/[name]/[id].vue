@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { ImageFormat } from '~~/components/image/imageFormatEnum.js'
-import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { SiteType } from '~/components/shared/siteEnum'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
@@ -9,6 +8,7 @@ import { LayoutCardSize } from '~/composables/layoutCardSize'
 import { LayoutGridSize } from '~/composables/layoutGridSize'
 import { PageData } from '~/composables/missionControl/pageData'
 import { color } from '~/constants/colors'
+import UserSection from '~/constants/userSections'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -16,13 +16,6 @@ const headers = useRequestHeaders(['cookie']) as HeadersInit
 const userStore = useUserStore()
 const { $logger, $urlHelper } = useNuxtApp()
 const { t } = useI18n()
-
-interface Props {
-    tab?: Tab
-}
-const props = withDefaults(defineProps<Props>(), {
-    tab: Tab.Overview,
-})
 
 interface Overview {
     activityPoints: {
@@ -37,21 +30,7 @@ interface Overview {
     privatePagesCount: number
     wuwiCount: number
 }
-interface Question {
-    title: string
-    primaryPageName: string
-    primaryPageId: number
-    id: number
-}
-interface Page {
-    name: string
-    id: number
-    questionCount: number
-}
-interface Wuwi {
-    questions: Question[]
-    pages: Page[]
-}
+
 interface User {
     id: number
     name: string
@@ -62,6 +41,7 @@ interface User {
     rank: number
     showWuwi: boolean
 }
+
 interface ProfileData {
     user: User
     overview: Overview
@@ -91,58 +71,20 @@ if (profile.value && profile.value.messageKey && profile.value?.messageKey != ""
     throw createError({ statusCode: profile.value.errorCode, statusMessage: t(profile.value.messageKey) })
 }
 
-const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/User/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {
-    credentials: 'include',
-    mode: 'no-cors',
-    onRequest({ options }) {
-        if (import.meta.server) {
-            options.headers = new Headers(headers)
-            options.baseURL = config.public.serverBase
-        }
-    },
-    onResponseError(context) {
-        $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-    },
-})
-
-const tab = ref<Tab>(props.tab)
-const isCurrentUser = computed(() => {
-    if (profile.value?.isCurrentUser && userStore.id === profile.value?.user.id)
-        return true
-    else return false
-})
-
-const badgeCount = ref(0)
-const maxBadgeCount = ref(0)
-
 const router = useRouter()
 
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
-function handleBreadcrumb(tab: Tab) {
-    if (profile.value && profile.value.user.id > 0 && tab === Tab.Wishknowledge) {
-        const newPath = `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
-        router.push({ path: newPath })
+function handleBreadcrumb() {
 
-        const breadcrumbItems: BreadcrumbItem[] = [
-            {
-                name: t('url.user'),
-                url: `/${t('url.user')}`
-            },
-            {
-                name: `${profile.value.user.name}'s Wunschwissen`,
-                url: `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
-            }]
-        emit('setBreadcrumb', breadcrumbItems)
-    }
-    else if (profile.value?.user.id && profile.value.user.id > 0 && tab === Tab.Overview) {
+    if (profile.value?.user.id && profile.value.user.id > 0) {
         const newPath = $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
         router.push({ path: newPath })
 
         const breadcrumbItems: BreadcrumbItem[] = [
             {
-                name: t('url.user'),
-                url: `/${t('url.user')}`
+                name: t('url.users'),
+                url: `/${t('url.users')}`
             },
             {
                 name: `${profile.value.user.name}`,
@@ -156,18 +98,13 @@ function handleBreadcrumb(tab: Tab) {
 
 onMounted(() => {
     emit('setPage', SiteType.User)
-    handleBreadcrumb(tab.value)
-})
-
-watch(tab, (t) => {
-    if (t != undefined)
-        handleBreadcrumb(t)
+    handleBreadcrumb()
 })
 
 watch(() => userStore.isLoggedIn, () => {
-    refreshWuwi()
     refreshProfile()
 })
+
 useHead(() => ({
     link: [
         {
@@ -183,209 +120,302 @@ useHead(() => ({
     ]
 }))
 
-userStore.$onAction(({ name, after }) => {
-    if (name === 'logout') {
-        after(async (loggedOut) => {
-            // Handle logout actions if needed
-        })
-    }
-})
-
 const { isMobile } = useDevice()
 
+interface Question {
+    id: number
+    title: string
+    knowledgeStatus: 'not-learned' | 'needs-learning' | 'needs-consolidation' | 'solid'
+    popularity: number
+    creationDate: string
+    wikiId?: number
+}
+
+// Add fake questions data
+const fakeQuestions: Question[] = [
+    {
+        id: 1,
+        title: "What is the capital of France?",
+        knowledgeStatus: "solid",
+        popularity: 12250,
+        creationDate: "2024-01-15T10:30:00Z",
+        wikiId: 1
+    },
+    {
+        id: 2,
+        title: "How do photosynthesis work in plants?",
+        knowledgeStatus: "needs-consolidation",
+        popularity: 851239,
+        creationDate: "2024-02-20T14:45:00Z",
+        wikiId: 2
+    },
+    {
+        id: 3,
+        title: "What are the fundamental laws of thermodynamics?",
+        knowledgeStatus: "needs-learning",
+        popularity: 62337,
+        creationDate: "2024-03-10T09:15:00Z",
+        wikiId: 3
+    },
+    {
+        id: 4,
+        title: "Who wrote Romeo and Juliet?",
+        knowledgeStatus: "not-learned",
+        popularity: 234,
+        creationDate: "2024-01-05T16:20:00Z",
+        wikiId: 4
+    },
+    {
+        id: 5,
+        title: "What is the difference between HTML and CSS?",
+        knowledgeStatus: "solid",
+        popularity: 112,
+        creationDate: "2024-02-28T11:00:00Z",
+        wikiId: 5
+    }
+]
+
+const hasWikis = computed(() => {
+    return profile.value?.wikis && profile.value.wikis.length > 0
+})
+
+const hasQuestions = computed(() => {
+    return fakeQuestions.length > 0 || (profile.value?.overview.publicQuestionsCount ? profile.value.overview.publicQuestionsCount > 0 : false)
+})
+
+const showSkills = computed(() => {
+    return profile.value?.user.id === userStore.id || (profile.value?.wikis && profile.value.wikis.length > 0)
+})
 </script>
 
 <template>
+    <div v-if="profile && profile.user.id > 0" class="user-container">
+        <div class="user-content">
+            <div id="UserHeader">
+                <div class="profile-header">
+                    <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
+                        class="profile-picture-small" />
 
-    <div class="main-content" v-if="profile && profile.user.id > 0">
-        <LayoutPanel :no-background="true">
-            <div class="profile-header">
-                <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
-                    class="profile-picture hidden-xs" />
-                <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
-                    class="profile-picture-small hidden-sm hidden-md hidden-lg" />
-
-                <div class="profile-header-info">
-                    <h1>{{ profile.user.name }}</h1>
-                    <div class="sub-info">
-                        <font-awesome-icon :icon="['fas', 'star']" class="star" /> <b>{{ profile.user.reputationPoints }}</b> {{ t('user.profile.reputationPoints') }}
-                        <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
-                        <p>
-                            ({{ t('user.profile.rank') }} {{ profile.user.rank }})
-                        </p>
-                        <p>
+                    <div class="profile-header-info">
+                        <h1>{{ profile.user.name }} <span class="profile-id">#{{ profile.user.id }}</span></h1>
+                        <div class="sub-info">
+                            <p>Passionate about learning and sharing knowledge. </p>
+                            <p> I enjoy helping others discover new things.</p>
+                            <!-- <font-awesome-icon :icon="['fas', 'star']" class="star" /> <b>{{ profile.user.reputationPoints }}</b> {{ t('user.profile.reputationPoints') }}
                             <NuxtLink class="link-to-all-users" to="/Nutzer">
-                                {{ t('user.profile.viewAllUsers') }}
-                            </NuxtLink>
-                        </p>
+                                ({{ t('user.profile.rank') }} {{ profile.user.rank }})
+                            </NuxtLink> -->
+
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </LayoutPanel>
 
-        <LayoutPanel>
-            <LayoutGrid :size="LayoutGridSize.Small" direction="row" title="Title 1">
-                <LayoutCard :size="LayoutCardSize.Medium">
-                    <LayoutCounter :value="1000" label="reputation" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
-                </LayoutCard>
+            <div class="panel-divider"></div>
 
-                <!-- <NuxtLink class="link-to-all-users" to="/Nutzer">
+            <LayoutPanel :id="UserSection.STATS_SECTION.id" :title="t(UserSection.STATS_SECTION.translationKey)">
+                <LayoutGrid :size="LayoutGridSize.Small" direction="row" title="Title 1">
+                    <LayoutCard :size="LayoutCardSize.Medium">
+                        <LayoutCounter :value="1000" label="Reputation" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
+                    </LayoutCard>
+
+                    <!-- <NuxtLink class="link-to-all-users" to="/Nutzer">
                     {{ t('user.profile.viewAllUsers') }}
                 </NuxtLink> -->
-                <LayoutCard :size="LayoutCardSize.Medium">
-                    <LayoutCounter :value="2" label="Rank" :icon="['fas', 'crown']" :icon-color="color.memoYellow" url-value="/Nutzer" />
-                </LayoutCard>
-                <LayoutCard :size="LayoutCardSize.Medium">
-                    <LayoutCounter :value="31" label="Pages" :icon="['fas', 'file-lines']" :icon-color="color.memoBlue" />
-                </LayoutCard>
-                <LayoutCard :size="LayoutCardSize.Medium">
-                    <LayoutCounter :value="15523" label="Questions" :icon="['fas', 'circle-question']" :icon-color="color.memoGreyDark" />
-                </LayoutCard>
-            </LayoutGrid>
+                    <LayoutCard :size="LayoutCardSize.Medium">
+                        <LayoutCounter :value="2" label="Rank" :icon="['fas', 'crown']" :icon-color="color.memoYellow" url-value="/Nutzer" />
+                    </LayoutCard>
+                    <LayoutCard :size="LayoutCardSize.Medium">
+                        <LayoutCounter :value="31" label="Pages" :icon="['fas', 'file-lines']" />
+                    </LayoutCard>
+                    <LayoutCard :size="LayoutCardSize.Medium">
+                        <LayoutCounter :value="profile.overview.publicQuestionsCount + profile.overview.privateQuestionsCount" label="Questions" :icon="['fas', 'circle-question']" />
+                    </LayoutCard>
+                </LayoutGrid>
 
-            <LayoutGrid :size="LayoutGridSize.Small" direction="column" title="Title 2">
+                <!-- <LayoutGrid :size="LayoutGridSize.Small" direction="column" title="Title 2">
 
-                <LayoutCard :size="LayoutCardSize.Flex">
-                    <div class="sub-counter-container">
-                        <div class="count">
-                            {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
+                    <LayoutCard :size="LayoutCardSize.Flex">
+                        <div class="sub-counter-container">
+                            <div class="count">
+                                {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
+                            </div>
+                            <div class="count-label">{{ t('user.overview.reputation.questionsInOtherWishknowledges') }}</div>
                         </div>
-                        <div class="count-label">{{ t('user.overview.reputation.questionsInOtherWishknowledges') }}</div>
-                    </div>
-                    <div class="sub-counter-container">
-                        <div class="count">
-                            {{ profile.overview.activityPoints.questionsCreated }} P
+                        <div class="sub-counter-container">
+                            <div class="count">
+                                {{ profile.overview.activityPoints.questionsCreated }} P
+                            </div>
+                            <div class="count-label">{{ t('user.overview.reputation.questionsCreated') }}</div>
                         </div>
-                        <div class="count-label">{{ t('user.overview.reputation.questionsCreated') }}</div>
-                    </div>
-                    <div class="sub-counter-container">
-                        <div class="count">
-                            {{ profile.overview.activityPoints.publicWishknowledges }} P
+                        <div class="sub-counter-container">
+                            <div class="count">
+                                {{ profile.overview.activityPoints.publicWishknowledges }} P
+                            </div>
+                            <div class="count-label">{{ t('user.overview.reputation.publicWishknowledges') }}</div>
                         </div>
-                        <div class="count-label">{{ t('user.overview.reputation.publicWishknowledges') }}</div>
-                    </div>
+                    </LayoutCard>
+
+                    <LayoutCard :size="LayoutCardSize.Flex">
+                        <LayoutCounter
+                            :value="profile.overview.activityPoints.total"
+                            :label="t('user.overview.reputation.total')" />
+
+                    </LayoutCard>
+                </LayoutGrid> -->
+                <LayoutGrid :size="LayoutGridSize.Divider">
+                </LayoutGrid>
+
+                <LayoutGrid :size="LayoutGridSize.Medium" title="Content">
+                    <LayoutCard :size="LayoutCardSize.Medium">
+                        <LayoutCounter
+                            :value="profile.overview.publicQuestionsCount"
+                            :label="t('user.overview.content.publicQuestions')" />
+                    </LayoutCard>
+
+                    <LayoutCard :size="LayoutCardSize.Medium">
+                        <LayoutCounter
+                            :value="profile.overview.publicPagesCount"
+                            :label="t('user.overview.content.publicPages')" />
+                    </LayoutCard>
+
+                    <LayoutCard :size="LayoutCardSize.Medium">
+                        <LayoutCounter
+                            :value="profile.overview.privateQuestionsCount"
+                            :label="t('user.overview.content.privateQuestions')"
+                            icon="fa-solid fa-lock" />
+                    </LayoutCard>
+
+                    <LayoutCard :size="LayoutCardSize.Medium">
+                        <LayoutCounter
+                            :value="profile.overview.privatePagesCount"
+                            :label="t('user.overview.content.privatePages')"
+                            icon="fa-solid fa-lock" />
+                    </LayoutCard>
+                    <!-- 
+                    <LayoutCard :size="LayoutCardSize.Small">
+                        <LayoutCounter :value="profile.overview.wuwiCount" :label="t('user.overview.wishknowledge.questions')" />
+                    </LayoutCard> -->
+                </LayoutGrid>
+            </LayoutPanel>
+
+            <!-- temp template for testing, since there are no skills yet -->
+            <template v-if="showSkills">
+                <LayoutPanel :id="UserSection.SKILLS_SECTION.id" v-if="profile.isCurrentUser || showSkills" :title="t(UserSection.SKILLS_SECTION.translationKey)">
+                    <UserSkillCard :skill="profile.wikis![0]" />
+                    <UserSkillCard :skill="profile.wikis![1]" />
+                    <UserSkillCard :skill="profile.wikis![2]" />
+                    <UserSkillCard :skill="profile.wikis![3]" />
+                    <UserSkillCard :skill="profile.wikis![4]" />
+                </LayoutPanel>
+            </template>
+
+            <LayoutPanel v-if="hasWikis" :id="UserSection.WIKIS_SECTION.id" :title="t(UserSection.WIKIS_SECTION.translationKey)">
+                <MissionControlGrid v-if="isMobile" :pages="profile.wikis!" :no-pages-text="t('missionControl.pageTable.noWikis')" />
+
+                <LayoutCard v-else :no-padding="true">
+                    <MissionControlTable :pages="profile.wikis!" :no-pages-text="t('missionControl.pageTable.noWikis')" />
                 </LayoutCard>
+            </LayoutPanel>
 
-                <LayoutCard :size="LayoutCardSize.Flex">
-                    <LayoutCounter
-                        :value="profile.overview.activityPoints.total"
-                        :label="t('user.overview.reputation.total')" />
-
+            <LayoutPanel v-if="hasQuestions" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)">
+                <LayoutCard :no-padding="true">
+                    <LayoutQuestionList :questions="fakeQuestions" :no-questions-text="t('user.profile.noQuestions')" />
                 </LayoutCard>
+            </LayoutPanel>
+        </div>
 
-                <!-- <NuxtLink to="/Globales-Wiki/1">{{ t('user.overview.reputation.learnMore') }}</NuxtLink> -->
-
-            </LayoutGrid>
-
-
-            <LayoutGrid :size="LayoutGridSize.Flex" title="Content">
-                <LayoutCard :size="LayoutCardSize.Micro">
-                    <LayoutCounter
-                        :value="profile.overview.publicQuestionsCount"
-                        :label="t('user.overview.content.publicQuestions')" />
-                </LayoutCard>
-
-                <LayoutCard :size="LayoutCardSize.Micro">
-                    <LayoutCounter
-                        :value="profile.overview.publicPagesCount"
-                        :label="t('user.overview.content.publicPages')" />
-                </LayoutCard>
-
-                <LayoutCard :size="LayoutCardSize.Micro">
-                    <LayoutCounter
-                        :value="profile.overview.privateQuestionsCount"
-                        :label="t('user.overview.content.privateQuestions')"
-                        icon="fa-solid fa-lock" />
-                </LayoutCard>
-
-                <LayoutCard :size="LayoutCardSize.Micro">
-                    <LayoutCounter
-                        :value="profile.overview.privatePagesCount"
-                        :label="t('user.overview.content.privatePages')"
-                        icon="fa-solid fa-lock" />
-                </LayoutCard>
-
-                <LayoutCard :size="LayoutCardSize.Micro">
-                    <LayoutCounter :value="profile.overview.wuwiCount" :label="t('user.overview.wishknowledge.questions')" />
-                </LayoutCard>
-            </LayoutGrid>
-        </LayoutPanel>
-        <!-- <LayoutPanel :title="t('user.overview.wishknowledge.title')" v-if="profile.user.showWuwi || profile.isCurrentUser">
-            <div v-if="!profile.user.showWuwi" class="wuwi-is-hidden">
-                <template v-if="profile.isCurrentUser">
-                    {{ t('user.wishknowledge.private.own') }}
-                    <NuxtLink :to="`/${t('url.user')}/${t('url.settings')}`" class="btn-link">
-                        {{ t('user.wishknowledge.private.change') }}
-                    </NuxtLink>
-                </template>
-<template v-else>
-                    <b>{{ t('user.wishknowledge.private.notPublic') }}</b> {{ t('user.wishknowledge.private.userNotPublished', { name: profile.user.name }) }}
-                </template>
-</div>
-<div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
-    <UserTabsWishknowledge :questions="wuwi.questions" :pages="wuwi.pages" />
-</div>
-</LayoutPanel> -->
-
-
-        <LayoutPanel v-if="isMobile && profile.wikis" :title="t('missionControl.sections.wikis')">
-            <MissionControlGrid :pages="profile.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
-        </LayoutPanel>
-
-        <LayoutPanel v-else-if="profile.wikis" :title="t('missionControl.sections.wikis')">
-            <LayoutCard :no-padding="true">
-                <MissionControlTable :pages="profile.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
-            </LayoutCard>
-        </LayoutPanel>
+        <SidebarUser :user="profile.user" :has-wikis="hasWikis" :has-questions="hasQuestions" :show-skills="showSkills" />
     </div>
 </template>
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-.profile-header-info {
+.user-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0 1rem;
+    width: 100%;
 
-    h1 {
-        margin-top: 0px;
+    .user-content {
+        max-width: 1200px;
+        width: calc(75% - 1rem);
+        flex-grow: 2;
+
+        .user-header {
+            padding-top: 40px;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .user-content {
+            width: 100%;
+        }
     }
 }
 
-.profile-header {
+#UserHeader {
     display: flex;
-    flex-direction: row;
+    margin: 25px 0;
+    // height: 200px;
 
-    .profile-picture {
-        width: 166px;
-        height: 166px;
-        margin-right: 30px;
-        min-width: 166px;
+    .profile-header-info {
+        display: flex;
+        flex-direction: column;
+        margin-top: 1rem;
+
+        h1 {
+            margin-top: 0px;
+
+            .profile-id {
+                color: @memo-grey;
+            }
+        }
     }
 
-    .profile-picture-small {
-        width: 96px;
-        height: 96px;
-        margin-right: 30px;
-        min-width: 96px;
-    }
+    .profile-header {
+        display: flex;
+        flex-direction: row;
 
-    .sub-info {
-        font-size: 18px;
-        margin-bottom: 10px;
+        .profile-picture-small {
+            display: flex;
+            align-items: flex-start;
+            margin-right: 30px;
 
-        .star {
-            color: @memo-yellow;
+            :deep(img) {
+                width: 96px;
+                height: 96px;
+                min-width: 96px;
+            }
         }
 
-        .info-icon {
-            color: @memo-grey-light;
-            margin-right: 4px;
-        }
+        .sub-info {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: @memo-grey;
 
+            p {
+                max-width: 500px;
+                line-height: 1.4;
+                margin: 0;
+            }
+
+            .star {
+                color: @memo-yellow;
+            }
+
+            .info-icon {
+                color: @memo-grey-light;
+                margin-right: 4px;
+            }
+
+        }
     }
 }
+
+
 
 .divider {
     height: 1px;

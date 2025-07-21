@@ -186,8 +186,7 @@ function getSortIconClass(key: keyof PageData) {
         }
 
         &.name-header {
-            min-width: 50%;
-            max-width: 50%;
+            flex: 1;
             text-align: left;
         }
 
@@ -237,8 +236,7 @@ function getSortIconClass(key: keyof PageData) {
     }
 
     .page-name-cell {
-        min-width: 50%;
-        max-width: 50%;
+        flex: 1;
     }
 
     .page-name {

@@ -191,7 +191,7 @@
         "language": "Idioma",
         "fontSizeSample": "Aa",
         "yourProfilePage": "Tu página de perfil",
-        "accountSettings": "Configuración de cuenta",
+        "accountSettings": "Configuración",
         "administrative": "Administrativo",
         "questionCount": "0 preguntas | 1 pregunta | {count} preguntas",
         "questionCountText": "Ninguna pregunta | Una pregunta | {count} preguntas",
@@ -1217,7 +1217,9 @@
             "rank": "Rango",
             "viewAllUsers": "Ver todos los usuarios",
             "toMyWiki": "Ir a mi Wiki",
-            "toUserWiki": "Ir al Wiki de {name}"
+            "toUserWiki": "Ir al Wiki de {name}",
+            "questions": "Preguntas",
+            "noQuestions": "No hay preguntas disponibles"
         },
         "overview": {
             "reputation": {
@@ -1264,6 +1266,12 @@
                 "first": "Primera",
                 "last": "Última"
             }
+        },
+        "sidebar": {
+            "stats": "Estadísticas",
+            "skills": "Habilidades",
+            "wikis": "Wikis",
+            "questions": "Preguntas"
         },
         "tabs": {
             "overview": "Resumen",
@@ -1764,6 +1772,14 @@
         "removeAdminRights": {
             "title": "Eliminar derechos de administrador",
             "button": "Eliminar derechos de administrador para usuario actual"
+        }
+    },
+    "layout": {
+        "questionList": {
+            "popularity": "Popularidad",
+            "question": "Pregunta",
+            "creationDate": "Fecha de creación",
+            "learnQuestion": "Aprender pregunta"
         }
     }
 }
