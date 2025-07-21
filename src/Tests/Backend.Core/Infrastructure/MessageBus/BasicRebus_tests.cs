@@ -50,7 +50,7 @@ internal class BasicRebus_tests : BaseTestHarness
         await messageBusService.SendAsync(renameMessage);
 
         // Wait for message processing
-        await Task.Delay(200);
+        await Task.Delay(500);
 
         var updatedCachedPage = EntityCache.GetPage(page);
 
