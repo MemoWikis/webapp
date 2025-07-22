@@ -8,7 +8,7 @@ public class UserWritingRepo(
     UserReadingRepo _userReadingRepo,
     ReputationCalc _reputationCalc,
     GetWishQuestionCount _getWishQuestionCount,
-    ExtendedUserCache _extendedUserCache)
+    LoggedInUserCache _loggedInUserCache)
 {
     private readonly RepositoryDb<User> _repo = new(_session);
 
@@ -37,7 +37,7 @@ public class UserWritingRepo(
             throw new InvalidAccessException();
 
         _repo.Delete(id);
-        _extendedUserCache.Remove(user);
+        _loggedInUserCache.Remove(user);
         EntityCache.RemoveUser(id);
         new MeilisearchUsersIndexer().Delete(user);
     }
@@ -176,7 +176,7 @@ public class UserWritingRepo(
         Log.Information("user update {Id} {Email}", user.Id, user.EmailAddress);
 
         _repo.Update(user);
-        _extendedUserCache.Update(user);
+        _loggedInUserCache.Update(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         new MeilisearchUsersIndexer().Update(user);
     }

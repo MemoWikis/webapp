@@ -137,7 +137,7 @@
         };
     }
 
-    private ExtendedUserCacheItem GetSessionUserUser()
+    private LoggedInUserCacheItem GetSessionUserUser()
     {
         if (_sessionUser.IsLoggedIn == false)
             return null;

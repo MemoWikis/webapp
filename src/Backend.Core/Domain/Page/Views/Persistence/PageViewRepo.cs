@@ -7,7 +7,7 @@ public class PageViewRepo(
     ISession _session,
     PageRepository pageRepository,
     UserReadingRepo _userReadingRepo,
-    ExtendedUserCache _extendedUserCache) : RepositoryDb<PageView>(_session)
+    LoggedInUserCache _loggedInUserCache) : RepositoryDb<PageView>(_session)
 {
     public int GetViewCount(int pageId)
     {
@@ -83,10 +83,10 @@ public class PageViewRepo(
         if (userId <= 0)
             return;
 
-        if (!_extendedUserCache.ItemExists(userId))
+        if (!_loggedInUserCache.ItemExists(userId))
             return;
 
-        var userCacheItem = _extendedUserCache.GetUser(userId);
+        var userCacheItem = _loggedInUserCache.GetUser(userId);
         if (userCacheItem.RecentPages != null)
             userCacheItem.RecentPages.VisitPage(pageId);
     }

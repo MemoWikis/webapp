@@ -1,14 +1,14 @@
 using System.Collections.Concurrent;
 
-public class ExtendedUserCacheItem : UserCacheItem
+public class LoggedInUserCacheItem : UserCacheItem
 {
     public ConcurrentDictionary<int, PageValuation> PageValuations = new();
     public ConcurrentDictionary<int, QuestionValuationCacheItem> QuestionValuations = new();
     public ConcurrentDictionary<int, AnswerRecord> AnswerCounter = new();
 
-    public static ExtendedUserCacheItem CreateCacheItem(User user, PageViewRepo pageViewRepo)
+    public static LoggedInUserCacheItem CreateCacheItem(User user, PageViewRepo pageViewRepo)
     {
-        var sessionUserCacheItem = new ExtendedUserCacheItem();
+        var sessionUserCacheItem = new LoggedInUserCacheItem();
 
         if (user != null)
         {

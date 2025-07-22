@@ -3,14 +3,14 @@
 public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
 {
     private readonly HttpContext _httpContext;
-    private readonly ExtendedUserCache _extendedUserCache;
+    private readonly LoggedInUserCache _loggedInUserCache;
 
     public SessionUser(
         IHttpContextAccessor httpContextAccessor,
-        ExtendedUserCache extendedUserCache)
+        LoggedInUserCache loggedInUserCache)
     {
         _httpContext = httpContextAccessor.HttpContext;
-        _extendedUserCache = extendedUserCache;
+        _loggedInUserCache = loggedInUserCache;
     }
 
     public bool SessionIsActive() => _httpContext?.Session is not null;
@@ -41,12 +41,12 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
         set => _httpContext.Session.SetInt32("userId", value);
     }
 
-    public ExtendedUserCacheItem User
+    public LoggedInUserCacheItem User
     {
         get
         {
             if (_userId > 0)
-                return _extendedUserCache.GetUser(_userId);
+                return _loggedInUserCache.GetUser(_userId);
 
             throw new Exception("user is not logged in");
         }
@@ -71,7 +71,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime, ISessionUser
 
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
-        _extendedUserCache.Add(user.Id, _pageViewRepo);
+        _loggedInUserCache.Add(user.Id, _pageViewRepo);
     }
 
     public void Logout()

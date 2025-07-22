@@ -1,6 +1,6 @@
 ﻿public class KnowledgeSummaryLoader(
     PageValuationReadingRepository pageValuationReadingRepository,
-    ExtendedUserCache _extendedUserCache,
+    LoggedInUserCache _loggedInUserCache,
     SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
     public KnowledgeSummary RunFromDbCache(Page page, int userId)
@@ -41,7 +41,7 @@
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var userValuations = _extendedUserCache.GetItem(userId)?.QuestionValuations;
+        var userValuations = _loggedInUserCache.GetItem(userId)?.QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 
@@ -101,7 +101,7 @@
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
 
         var questionValuations =
-            new QuestionValuationCache(_extendedUserCache).GetByUserFromCache(userId);
+            new QuestionValuationCache(_loggedInUserCache).GetByUserFromCache(userId);
         if (onlyValuated)
             questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
         if (questionIds != null)

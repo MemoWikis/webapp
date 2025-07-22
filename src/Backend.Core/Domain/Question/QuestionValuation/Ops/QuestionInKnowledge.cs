@@ -11,7 +11,7 @@ public class QuestionInKnowledge(
     ProbabilityCalc_Simple1 _probabilityCalcSimple1,
     AnswerRepo _answerRepo,
     UserReadingRepo _userReadingRepo,
-    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
+    LoggedInUserCache _loggedInUserCache) : IRegisterAsInstancePerLifetime
 {
     public void Pin(int questionId, int userId)
     {
@@ -77,7 +77,7 @@ public class QuestionInKnowledge(
                     _questionValuationReadingRepo,
                     _probabilityCalcSimple1,
                     _answerRepo,
-                    _extendedUserCache)
+                    _loggedInUserCache)
                 .Run(questionId, userId, _questionReadingRepo, _userReadingRepo);
     }
 
@@ -118,7 +118,7 @@ public class QuestionInKnowledge(
 
     public void UpdateTotalRelevancePersonalInCache(IList<QuestionCacheItem> questions)
     {
-        var questionValuations = new QuestionValuationCache(_extendedUserCache)
+        var questionValuations = new QuestionValuationCache(_loggedInUserCache)
             .GetByQuestionsFromCache(questions);
         foreach (var question in questions)
         {

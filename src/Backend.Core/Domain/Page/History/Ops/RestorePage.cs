@@ -29,7 +29,7 @@ public class RestorePage(
         NotifyAboutRestore(pageChange);
     }
 
-    public void Run(int pageChangeId, ExtendedUserCacheItem author)
+    public void Run(int pageChangeId, LoggedInUserCacheItem author)
     {
         var pageChange = pageChangeRepo.GetByIdEager(pageChangeId);
         var historicPage = pageChange.ToHistoryPage();

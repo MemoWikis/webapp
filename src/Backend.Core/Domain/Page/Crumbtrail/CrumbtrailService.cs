@@ -1,6 +1,6 @@
 ﻿public class CrumbtrailService(
     PermissionCheck _permissionCheck,
-    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
+    LoggedInUserCache _loggedInUserCache) : IRegisterAsInstancePerLifetime
 {
     public Crumbtrail BuildCrumbtrail(PageCacheItem page, PageCacheItem root)
     {
@@ -137,7 +137,7 @@
         if (!sessionUser.IsLoggedIn)
             return null;
 
-        var firstWiki = _extendedUserCache.GetUser(sessionUser.UserId).FirstWiki();
+        var firstWiki = _loggedInUserCache.GetUser(sessionUser.UserId).FirstWiki();
 
         if (parents.Any(c => c.Id == firstWiki?.Id))
             return firstWiki;

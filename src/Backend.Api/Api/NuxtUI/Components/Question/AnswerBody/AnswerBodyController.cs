@@ -3,7 +3,7 @@
 public class AnswerBodyController(
     LearningSessionCache _learningSessionCache,
     SessionUser _sessionUser,
-    ExtendedUserCache _extendedUserCache,
+    LoggedInUserCache _loggedInUserCache,
     AnswerQuestion _answerQuestion,
     AnswerLog _answerLog,
     SaveQuestionView _saveQuestionView) : ApiBaseController
@@ -89,7 +89,7 @@ public class AnswerBodyController(
             Solution: question.Solution,
             IsCreator: question.Creator.Id == _sessionUser.UserId,
             IsInWishknowledge: _sessionUser.IsLoggedIn &&
-                               question.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+                               question.IsInWishknowledge(_sessionUser.UserId, _loggedInUserCache),
             QuestionViewGuid: Guid.NewGuid(),
             IsLastStep: learningSession.Steps.Last() == step,
             IsPrivate: question.IsPrivate());

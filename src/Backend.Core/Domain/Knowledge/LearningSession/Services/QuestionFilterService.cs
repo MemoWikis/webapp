@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 
 public class QuestionFilterService(
     SessionUser _sessionUser,
-    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
+    LoggedInUserCache _loggedInUserCache) : IRegisterAsInstancePerLifetime
 {
     /// <summary>
     /// Builds question properties based on various filter criteria
@@ -51,13 +51,13 @@ public class QuestionFilterService(
         int userId)
     {
         var filteredQuestions = new List<QuestionCacheItem>();
-        var allQuestionValuations = _extendedUserCache.GetQuestionValuations(userId);
+        var allQuestionValuations = _loggedInUserCache.GetQuestionValuations(userId);
 
         if (_sessionUser.IsLoggedIn)
         {
             foreach (var question in allQuestions)
             {
-                var userQuestionValuations = _extendedUserCache.GetItem(userId)?.QuestionValuations;
+                var userQuestionValuations = _loggedInUserCache.GetItem(userId)?.QuestionValuations;
                 var questionProperties = BuildQuestionProperties(question, config, allQuestionValuations, userQuestionValuations);
 
                 if (questionProperties.AddToLearningSession)

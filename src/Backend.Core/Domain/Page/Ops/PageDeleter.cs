@@ -6,7 +6,7 @@ public class PageDeleter(
     UserActivityRepo _userActivityRepo,
     PageChangeRepo _pageChangeRepo,
     PageValuationWritingRepo _pageValuationWritingRepo,
-    ExtendedUserCache _extendedUserCache,
+    LoggedInUserCache _loggedInUserCache,
     CrumbtrailService _crumbtrailService,
     PageRepository _pageRepo,
     PageRelationRepo _pageRelationRepo,
@@ -81,7 +81,7 @@ public class PageDeleter(
         }
 
         var deleteChangeId = _pageChangeRepo.AddDeleteEntry(page, userId);
-        _extendedUserCache.RemoveAllForPage(page.Id, _pageValuationWritingRepo);
+        _loggedInUserCache.RemoveAllForPage(page.Id, _pageValuationWritingRepo);
 
         DeleteImages(page);
 

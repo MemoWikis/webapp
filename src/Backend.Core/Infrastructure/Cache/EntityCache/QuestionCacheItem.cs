@@ -134,9 +134,9 @@ public class QuestionCacheItem
         return Pages.Where(permissionCheck.CanView);
     }
 
-    public virtual bool IsInWishknowledge(int userId, ExtendedUserCache extendedUserCache)
+    public virtual bool IsInWishknowledge(int userId, LoggedInUserCache loggedInUserCache)
     {
-        return extendedUserCache.IsQuestionInWishknowledge(userId, Id);
+        return loggedInUserCache.IsQuestionInWishknowledge(userId, Id);
     }
 
     public virtual bool IsPrivate()

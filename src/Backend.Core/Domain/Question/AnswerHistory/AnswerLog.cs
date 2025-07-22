@@ -1,4 +1,4 @@
-﻿public class AnswerLog(AnswerRepo answerRepo, QuestionReadingRepo questionReadingRepo, ExtendedUserCache _extendedUserCache)
+﻿public class AnswerLog(AnswerRepo answerRepo, QuestionReadingRepo questionReadingRepo, LoggedInUserCache _loggedInUserCache)
     : IRegisterAsInstancePerLifetime
 {
     public void Run(
@@ -30,7 +30,7 @@
         };
 
         answerRepo.Create(answer);
-        AnswerCache.AddAnswerToCache(_extendedUserCache, answer);
+        AnswerCache.AddAnswerToCache(_loggedInUserCache, answer);
     }
 
     public void CountLastAnswerAsCorrect(Guid questionViewGuid)

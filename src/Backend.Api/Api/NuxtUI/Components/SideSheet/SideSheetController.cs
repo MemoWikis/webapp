@@ -1,7 +1,7 @@
 ﻿public class SideSheetController(
     SessionUser _sessionUser,
     UserWritingRepo _userWritingRepo,
-    ExtendedUserCache _extendedUserCache) : ApiBaseController
+    LoggedInUserCache _loggedInUserCache) : ApiBaseController
 {
     // Section: Wikis
 
@@ -85,7 +85,7 @@
         if (!_sessionUser.IsLoggedIn)
             return new List<RecentPageItem>();
 
-        var userCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
+        var userCacheItem = _loggedInUserCache.GetUser(_sessionUser.UserId);
         var recentPages = userCacheItem.RecentPages?.GetRecentPages()
             .Select(rp => new RecentPageItem(rp.Name, rp.Id))
             .ToList();
@@ -103,7 +103,7 @@
         if (!_sessionUser.IsLoggedIn)
             return new List<SharedPageItem>();
 
-        var userCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
+        var userCacheItem = _loggedInUserCache.GetUser(_sessionUser.UserId);
 
         return userCacheItem.SharedPages
             .Where(p => p != null)

@@ -1,6 +1,6 @@
 ﻿public class AnswerCache
 {
-    public static void AddAnswerToCache(ExtendedUserCache extendedUserCache, Answer answer)
+    public static void AddAnswerToCache(LoggedInUserCache loggedInUserCache, Answer answer)
     {
         var userId = answer.UserId;
         if (userId < 1)
@@ -14,7 +14,7 @@
         }
         else
         {
-            var user = extendedUserCache.GetUser(userId);
+            var user = loggedInUserCache.GetUser(userId);
             user.AnswerCounter.AddOrUpdate(
                 answer.Question.Id,
                 new AnswerRecord(0, 0, 0, 0),
@@ -23,7 +23,7 @@
         }
     }
 
-    public static void UpdateAnswerInCache(ExtendedUserCache extendedUserCache, Answer answer)
+    public static void UpdateAnswerInCache(LoggedInUserCache loggedInUserCache, Answer answer)
     {
         var userId = answer.UserId;
         if (userId < 1)
@@ -37,7 +37,7 @@
         }
         else
         {
-            var user = extendedUserCache.GetUser(userId);
+            var user = loggedInUserCache.GetUser(userId);
             user.AnswerCounter.AddOrUpdate(
                 answer.Question.Id,
                 new AnswerRecord(0, 0, 0, 0),

@@ -3,7 +3,7 @@
     SessionUser _sessionUser,
     QuestionReadingRepo _questionReadingRepo,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
-    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
+    LoggedInUserCache _loggedInUserCache) : IRegisterAsInstancePerLifetime
 {
     public void Run(int questionId)
     {
@@ -20,7 +20,7 @@
         var parentIds = questionCacheItem.Pages.Select(c => c.Id).ToList();
 
         EntityCache.Remove(questionCacheItem);
-        _extendedUserCache.RemoveQuestionForAllUsers(questionId);
+        _loggedInUserCache.RemoveQuestionForAllUsers(questionId);
 
         var deleteImage = new DeleteImage();
         deleteImage.RemoveAllForQuestion(questionId);

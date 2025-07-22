@@ -1,7 +1,7 @@
 // Service for managing question counters in learning sessions
 public class QuestionCounterService(
     SessionUser _sessionUser,
-    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
+    LoggedInUserCache _loggedInUserCache) : IRegisterAsInstancePerLifetime
 {
     public void Count(QuestionProperties questionProperties, QuestionCounter counter)
     {
@@ -48,8 +48,8 @@ public class QuestionCounterService(
             return BuildAnonymousUserCounter(allQuestions.Count);
         }
 
-        var allQuestionValuations = _extendedUserCache.GetQuestionValuations(_sessionUser.UserId);
-        var userQuestionValuations = _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations;
+        var allQuestionValuations = _loggedInUserCache.GetQuestionValuations(_sessionUser.UserId);
+        var userQuestionValuations = _loggedInUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations;
 
         foreach (var question in allQuestions)
         {
