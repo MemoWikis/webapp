@@ -7,7 +7,7 @@ public class AnswerQuestionDetailsController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     TotalsPerUserLoader totalsPerUserLoader,
     IHttpContextAccessor _httpContextAccessor,
-    LoggedInUserCache _loggedInUserCache,
+    ExtendedUserCache _extendedUserCache,
     QuestionReadingRepo _questionReadingRepo,
     QuestionViewRepository _questionViewRepository) : ApiBaseController
 {
@@ -25,11 +25,11 @@ public class AnswerQuestionDetailsController(
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser,
             totalsPerUserLoader,
-            _loggedInUserCache);
+            _extendedUserCache);
 
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
-        var sessionUser = _loggedInUserCache.GetItem(_sessionUser.UserId);
+        var sessionUser = _extendedUserCache.GetItem(_sessionUser.UserId);
         var userQuestionValuation = _sessionUser.IsLoggedIn
             ? sessionUser.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();

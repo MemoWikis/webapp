@@ -5,7 +5,7 @@ public class PageLearningQuestionController(
     CommentRepository _commentRepository,
     TotalsPerUserLoader totalsPerUserLoader,
     IHttpContextAccessor _httpContextAccessor,
-    LoggedInUserCache _sessionUserCache) : ApiBaseController
+    ExtendedUserCache _sessionUserCache) : ApiBaseController
 {
     public readonly record struct LoadQuestionDataResult(bool Success, QuestionData Data);
 

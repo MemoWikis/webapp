@@ -6,7 +6,7 @@ public class UserController(
     PermissionCheck _permissionCheck,
     ReputationCalc _rpReputationCalc,
     IHttpContextAccessor _httpContextAccessor,
-    LoggedInUserCache _loggedInUserCache,
+    ExtendedUserCache _extendedUserCache,
     KnowledgeSummaryLoader _knowledgeSummaryLoader) : ApiBaseController
 {
     public readonly record struct GetResult(
@@ -164,12 +164,12 @@ public class UserController(
 
         if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
-            var valuations = new QuestionValuationCache(_loggedInUserCache)
+            var valuations = new QuestionValuationCache(_extendedUserCache)
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
                 .Where(question => _permissionCheck.CanView(question)
-                                   && question.IsInWishknowledge(id, _loggedInUserCache)
+                                   && question.IsInWishknowledge(id, _extendedUserCache)
                                    && question.PagesVisibleToCurrentUser(_permissionCheck)
                                        .Any());
 

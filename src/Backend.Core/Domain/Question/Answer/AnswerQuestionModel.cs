@@ -12,7 +12,7 @@ public class AnswerQuestionModel
         QuestionCacheItem question,
         SessionUser sessionUser,
         TotalsPerUserLoader totalsPerUserLoader,
-        LoggedInUserCache loggedInUserCache)
+        ExtendedUserCache extendedUserCache)
     {
         var stopWatch = new Stopwatch();
         stopWatch.Start();
@@ -24,7 +24,7 @@ public class AnswerQuestionModel
 
         var questionValuationForUser =
             NotNull.Run(
-                new QuestionValuationCache(loggedInUserCache).GetByFromCache(question.Id,
+                new QuestionValuationCache(extendedUserCache).GetByFromCache(question.Id,
                     sessionUser.UserId));
         Log.Information("AnswerQuestionDetailsTimer 3 - {0}", stopWatch.Elapsed.TotalMilliseconds);
         stopWatch.Stop();

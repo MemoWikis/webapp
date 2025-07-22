@@ -11,7 +11,7 @@ public class QuickCreateQuestionController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
-    LoggedInUserCache _loggedInUserCache,
+    ExtendedUserCache _extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : ApiBaseController
@@ -99,7 +99,7 @@ public class QuickCreateQuestionController(
             Success = true,
             Data = new QuestionLoader(
                 _sessionUser,
-                _loggedInUserCache,
+                _extendedUserCache,
                 _httpContextAccessor,
                 _actionContextAccessor,
                 _imageMetaDataReadingRepo,

@@ -5,7 +5,7 @@ public class LearningSessionCreator(
     SessionUser _sessionUser,
     LearningSessionCache _learningSessionCache,
     PermissionCheck _permissionCheck,
-    LoggedInUserCache _loggedInUserCache,
+    ExtendedUserCache _extendedUserCache,
     QuestionFilterService _questionFilterService,
     QuestionSortingService _questionSortingService,
     QuestionCounterService _questionCounterService,
@@ -118,9 +118,9 @@ public class LearningSessionCreator(
         }
 
         var step = new LearningSessionStep(question);
-        var allQuestionValuations = _loggedInUserCache.GetQuestionValuations(config.CurrentUserId);
+        var allQuestionValuations = _extendedUserCache.GetQuestionValuations(config.CurrentUserId);
         var userQuestionValuations = _sessionUser.IsLoggedIn
-            ? _loggedInUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
+            ? _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var questionProperties = _questionFilterService.BuildQuestionProperties(
@@ -281,8 +281,8 @@ public class LearningSessionCreator(
             return knowledgeSummaryDetails;
         }
 
-        var allQuestionValuations = _loggedInUserCache.GetQuestionValuations(_sessionUser.UserId);
-        var userQuestionValuations = _loggedInUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations;
+        var allQuestionValuations = _extendedUserCache.GetQuestionValuations(_sessionUser.UserId);
+        var userQuestionValuations = _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations;
 
         foreach (var question in questions)
         {

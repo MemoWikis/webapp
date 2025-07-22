@@ -1,7 +1,7 @@
 ﻿public class QuestionPinStoreController(
     SessionUser _sessionUser,
     QuestionInKnowledge _questionInKnowledge,
-    LoggedInUserCache _loggedInUserCache) : ApiBaseController
+    ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
     public readonly record struct PinResult(bool Success, string MessageKey);
 
@@ -37,7 +37,7 @@
         }
 
         var success = EntityCache.GetQuestion(id)
-            .IsInWishknowledge(_sessionUser.UserId, _loggedInUserCache);
+            .IsInWishknowledge(_sessionUser.UserId, _extendedUserCache);
         return new PinResult
             { Success = success, MessageKey = success ? null : FrontendMessageKeys.Error.Default };
     }
@@ -64,7 +64,7 @@
         }
 
         var success = !EntityCache.GetQuestion(id)
-            .IsInWishknowledge(_sessionUser.UserId, _loggedInUserCache);
+            .IsInWishknowledge(_sessionUser.UserId, _extendedUserCache);
         return new PinResult
             { Success = success, MessageKey = success ? null : FrontendMessageKeys.Error.Default };
     }

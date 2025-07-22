@@ -7,7 +7,7 @@ public class PageLearningQuestionListController(
     LearningSessionCreator _learningSessionCreator,
     LearningSessionCache _learningSessionCache,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    LoggedInUserCache _loggedInUserCache,
+    ExtendedUserCache _extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
@@ -57,7 +57,7 @@ public class PageLearningQuestionListController(
     private List<LoadQuestionsResult> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, LearningSession learningSession)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _loggedInUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
+            ? _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var steps = learningSession.Steps;
@@ -185,7 +185,7 @@ public class PageLearningQuestionListController(
 
         var question = steps[id].Question;
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _loggedInUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
+            ? _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         // Build and return the response via our helper
@@ -236,7 +236,7 @@ public class PageLearningQuestionListController(
             };
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _loggedInUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
+            ? _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var questions = new List<QuestionListJson.Question>();

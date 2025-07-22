@@ -14,7 +14,7 @@ public class QuestionEditModalController(
     QuestionWritingRepo _questionWritingRepo,
     QuestionReadingRepo _questionReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    LoggedInUserCache _loggedInUserCache,
+    ExtendedUserCache _extendedUserCache,
     IActionContextAccessor _actionContextAccessor) : ApiBaseController
 {
     public readonly record struct QuestionDataRequest(
@@ -234,7 +234,7 @@ public class QuestionEditModalController(
     private QuestionListJson.Question LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = _loggedInUserCache.GetItem(user.Id).QuestionValuations;
+        var userQuestionValuation = _extendedUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

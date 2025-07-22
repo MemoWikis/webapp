@@ -5,7 +5,7 @@
     GetTotalUsers _totalUsers,
     UserSummary _userSummary,
     IHttpContextAccessor _httpContextAccessor,
-    LoggedInUserCache _loggedInUserCache) : ApiBaseController
+    ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
     public record struct UserResult(
         int CreatedQuestionsCount,
@@ -62,7 +62,7 @@
 
         if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
-            var valuations = new QuestionValuationCache(_loggedInUserCache)
+            var valuations = new QuestionValuationCache(_extendedUserCache)
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)

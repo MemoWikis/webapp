@@ -6,7 +6,7 @@ public class ProbabilityUpdate_Valuation(
     QuestionValuationReadingRepo _questionValuationReadingRepo,
     ProbabilityCalc_Simple1 _probabilityCalcSimple1,
     AnswerRepo _answerRepo,
-    LoggedInUserCache _loggedInUserCache)
+    ExtendedUserCache _extendedUserCache)
 {
     public void Run(int userId)
     {
@@ -19,7 +19,7 @@ public class ProbabilityUpdate_Valuation(
     {
         UpdateValuationProbability(questionValuation);
 
-        _loggedInUserCache.AddOrUpdate(questionValuation.ToCacheItem());
+        _extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
         _questionValuationReadingRepo.CreateOrUpdate(questionValuation);
     }
 

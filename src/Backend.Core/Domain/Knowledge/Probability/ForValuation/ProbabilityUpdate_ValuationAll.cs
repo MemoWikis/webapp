@@ -12,7 +12,7 @@ public class ProbabilityUpdate_ValuationAll(
     AnswerRepo _answerRepo,
     UserReadingRepo _userReadingRepo,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
-    LoggedInUserCache _loggedInUserCache)
+    ExtendedUserCache _extendedUserCache)
     : IRegisterAsInstancePerLifetime
 {
     public void Run()
@@ -29,7 +29,7 @@ public class ProbabilityUpdate_ValuationAll(
                     _questionValuationReadingRepo,
                     _probabilityCalcSimple1,
                     _answerRepo,
-                    _loggedInUserCache)
+                    _extendedUserCache)
                 .Run((int)item[0],
                     (int)item[1],
                     _questionReadingRepo,

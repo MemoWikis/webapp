@@ -4,7 +4,7 @@
     PageRepository pageRepository,
     QuestionReadingRepo _questionReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
-    LoggedInUserCache _loggedInUserCache) : ApiBaseController
+    ExtendedUserCache _extendedUserCache) : ApiBaseController
 {
     public readonly record struct Page(
         string Name,
@@ -21,7 +21,7 @@
     public GetResult Get([FromRoute] int id)
     {
         var pageCacheItem = EntityCache.GetPage(id);
-        var userCacheItem = _loggedInUserCache.GetItem(_sessionUser.UserId);
+        var userCacheItem = _extendedUserCache.GetItem(_sessionUser.UserId);
         if (pageCacheItem == null)
             return new GetResult
             {
@@ -192,7 +192,7 @@
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries >
-                (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _loggedInUserCache)
+                (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache)
                     ? 1
                     : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId &&

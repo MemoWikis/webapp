@@ -1,7 +1,7 @@
 ﻿using FluentNHibernate.Conventions;
 
 public class PageInKnowledge(
-    LoggedInUserCache _loggedInUserCache)
+    ExtendedUserCache _extendedUserCache)
     : IRegisterAsInstancePerLifetime
 {
     private IList<int> QuestionsInValuatedPages(
@@ -12,7 +12,7 @@ public class PageInKnowledge(
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        var evaluatedPages = _loggedInUserCache
+        var evaluatedPages = _extendedUserCache
             .GetPageValuations(userId)
             .Where(v => v.IsInWishKnowledge());
 

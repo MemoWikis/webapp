@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-public class LoggedInUserCache(
+public class ExtendedUserCache(
     PageValuationReadingRepository pageValuationReadingRepository,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
     AnswerRepo _answerRepo)
@@ -11,7 +11,7 @@ public class LoggedInUserCache(
 
     private string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
 
-    public List<LoggedInUserCacheItem?> GetAllCacheItems()
+    public List<ExtendedUserCacheItem?> GetAllCacheItems()
     {
         return EntityCache.GetAllUsers()
             .Select(user => GetItem(user.Id))
@@ -19,7 +19,7 @@ public class LoggedInUserCache(
             .ToList();
     }
 
-    public LoggedInUserCacheItem GetUser(int userId)
+    public ExtendedUserCacheItem GetUser(int userId)
     {
         if (userId < 1)
         {
@@ -67,8 +67,8 @@ public class LoggedInUserCache(
         return new List<PageValuation>();
     }
 
-    public LoggedInUserCacheItem? GetItem(int userId) =>
-        Cache.Get<LoggedInUserCacheItem>(GetCacheKey(userId));
+    public ExtendedUserCacheItem? GetItem(int userId) =>
+        Cache.Get<ExtendedUserCacheItem>(GetCacheKey(userId));
 
     public void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
@@ -94,13 +94,13 @@ public class LoggedInUserCache(
     public void Remove(int userId)
     {
         var cacheKey = GetCacheKey(userId);
-        var cacheItem = Cache.Get<LoggedInUserCacheItem>(cacheKey);
+        var cacheItem = Cache.Get<ExtendedUserCacheItem>(cacheKey);
 
         if (cacheItem != null)
             Cache.Remove(cacheKey);
     }
 
-    public LoggedInUserCacheItem Add(int userId, PageViewRepo? _pageViewRepo = null)
+    public ExtendedUserCacheItem Add(int userId, PageViewRepo? _pageViewRepo = null)
     {
         lock ("2ba84bee-5294-420b-bd43-1decaa0d2d3e" + userId)
         {
@@ -143,7 +143,7 @@ public class LoggedInUserCache(
     /// Get all active UserCaches
     /// </summary>
     /// <returns></returns>
-    public List<LoggedInUserCacheItem> GetAllActiveCaches()
+    public List<ExtendedUserCacheItem> GetAllActiveCaches()
     {
         var allUsers = EntityCache.GetAllUsers();
         var userCacheItems = allUsers
@@ -166,15 +166,15 @@ public class LoggedInUserCache(
         }
     }
 
-    public LoggedInUserCacheItem CreateCacheItem(UserCacheItem userCacheItem)
+    public ExtendedUserCacheItem CreateCacheItem(UserCacheItem userCacheItem)
     {
-        var sessionUserCacheItem = new LoggedInUserCacheItem();
+        var sessionUserCacheItem = new ExtendedUserCacheItem();
         sessionUserCacheItem.Populate(userCacheItem);
 
         return sessionUserCacheItem;
     }
 
-    public LoggedInUserCacheItem CreateExtendedUserCacheItem(int userId, PageViewRepo? _pageViewRepo)
+    public ExtendedUserCacheItem CreateExtendedUserCacheItem(int userId, PageViewRepo? _pageViewRepo)
     {
         var cacheItem = CreateCacheItem(EntityCache.GetUserById(userId));
 
@@ -187,7 +187,7 @@ public class LoggedInUserCache(
         return cacheItem;
     }
 
-    private void PopulatePageValuations(LoggedInUserCacheItem cacheItem)
+    private void PopulatePageValuations(ExtendedUserCacheItem cacheItem)
     {
         cacheItem.PageValuations = new ConcurrentDictionary<int, PageValuation>(
             pageValuationReadingRepository
@@ -196,7 +196,7 @@ public class LoggedInUserCache(
         );
     }
 
-    private void PopulateQuestionValuations(LoggedInUserCacheItem cacheItem)
+    private void PopulateQuestionValuations(ExtendedUserCacheItem cacheItem)
     {
         cacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
             _questionValuationReadingRepo
@@ -210,7 +210,7 @@ public class LoggedInUserCache(
         );
     }
 
-    private void PopulateAnswers(LoggedInUserCacheItem cacheItem)
+    private void PopulateAnswers(ExtendedUserCacheItem cacheItem)
     {
         var answers = _answerRepo.GetByUser(cacheItem.Id);
         if (answers != null)
@@ -224,7 +224,7 @@ public class LoggedInUserCache(
         }
     }
 
-    private void PopulateRecentPages(LoggedInUserCacheItem cacheItem, PageViewRepo _pageViewRepo)
+    private void PopulateRecentPages(ExtendedUserCacheItem cacheItem, PageViewRepo _pageViewRepo)
     {
         if (cacheItem.RecentPages == null || !cacheItem.RecentPages.PagesQueue.Any())
         {
@@ -232,14 +232,14 @@ public class LoggedInUserCache(
         }
     }
 
-    private void AddToCache(LoggedInUserCacheItem cacheItem)
+    private void AddToCache(ExtendedUserCacheItem cacheItem)
     {
         Cache.Add(GetCacheKey(cacheItem.Id), cacheItem,
             TimeSpan.FromMinutes(ExpirationSpanInMinutes),
             slidingExpiration: true);
     }
 
-    private void PopulateTokenUsage(LoggedInUserCacheItem cacheItem, AiUsageLogRepo _aiUsageLogRepo)
+    private void PopulateTokenUsage(ExtendedUserCacheItem cacheItem, AiUsageLogRepo _aiUsageLogRepo)
     {
         if (cacheItem.MonthlyTokenUsage == null)
         {

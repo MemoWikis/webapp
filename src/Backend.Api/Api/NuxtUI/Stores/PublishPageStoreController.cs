@@ -4,7 +4,7 @@
     PageRepository pageRepository,
     QuestionReadingRepo _questionReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
-    LoggedInUserCache _loggedInUserCache,
+    ExtendedUserCache _extendedUserCache,
     SharesRepository _sharesRepository) : ApiBaseController
 {
     public readonly record struct PublishPageJson(int id);
@@ -94,7 +94,7 @@
     public TinyPage Get([FromRoute] int id)
     {
         var pageCacheItem = EntityCache.GetPage(id);
-        var userCacheItem = _loggedInUserCache.GetItem(_sessionUser.UserId);
+        var userCacheItem = _extendedUserCache.GetItem(_sessionUser.UserId);
 
         if (pageCacheItem.Creator == null || pageCacheItem.Creator.Id != userCacheItem.Id)
             return new TinyPage
