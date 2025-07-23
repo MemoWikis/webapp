@@ -215,24 +215,25 @@ const showSkills = computed(() => {
             <div class="panel-divider"></div>
 
             <LayoutPanel :id="UserSection.STATS_SECTION.id" :title="t(UserSection.STATS_SECTION.translationKey)">
-                <LayoutGrid :size="LayoutGridSize.Small" direction="row" title="Title 1">
-                    <LayoutCard :size="LayoutCardSize.Medium">
-                        <LayoutCounter :value="1000" label="Reputation" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
-                    </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Small">
+                    <LayoutCounter :value="1000" label="Reputation" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
+                </LayoutCard>
 
-                    <!-- <NuxtLink class="link-to-all-users" to="/Nutzer">
-                    {{ t('user.profile.viewAllUsers') }}
-                </NuxtLink> -->
-                    <LayoutCard :size="LayoutCardSize.Medium">
-                        <LayoutCounter :value="2" label="Rank" :icon="['fas', 'crown']" :icon-color="color.memoYellow" url-value="/Nutzer" />
-                    </LayoutCard>
-                    <LayoutCard :size="LayoutCardSize.Medium">
-                        <LayoutCounter :value="31" label="Pages" :icon="['fas', 'file-lines']" />
-                    </LayoutCard>
-                    <LayoutCard :size="LayoutCardSize.Medium">
-                        <LayoutCounter :value="profile.overview.publicQuestionsCount + profile.overview.privateQuestionsCount" label="Questions" :icon="['fas', 'circle-question']" />
-                    </LayoutCard>
-                </LayoutGrid>
+                <LayoutCard :size="LayoutCardSize.Small">
+                    <LayoutCounter :value="2" label="Rank" :icon="['fas', 'crown']" :icon-color="color.memoYellow" url-value="/Nutzer" />
+                </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Small" background-color="transparent">
+                    <!-- Filler -->
+                </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Small">
+                    <LayoutCounter :value="31" label="Pages" :icon="['fas', 'file-lines']" />
+                </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Small">
+                    <LayoutCounter :value="31" label="Wikis" :icon="['fas', 'file-lines']" />
+                </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Small">
+                    <LayoutCounter :value="profile.overview.publicQuestionsCount + profile.overview.privateQuestionsCount" label="Questions" :icon="['fas', 'circle-question']" />
+                </LayoutCard>
 
                 <!-- <LayoutGrid :size="LayoutGridSize.Small" direction="column" title="Title 2">
 
@@ -264,40 +265,6 @@ const showSkills = computed(() => {
 
                     </LayoutCard>
                 </LayoutGrid> -->
-                <LayoutGrid :size="LayoutGridSize.Divider">
-                </LayoutGrid>
-
-                <LayoutGrid :size="LayoutGridSize.Medium" title="Content">
-                    <LayoutCard :size="LayoutCardSize.Medium">
-                        <LayoutCounter
-                            :value="profile.overview.publicQuestionsCount"
-                            :label="t('user.overview.content.publicQuestions')" />
-                    </LayoutCard>
-
-                    <LayoutCard :size="LayoutCardSize.Medium">
-                        <LayoutCounter
-                            :value="profile.overview.publicPagesCount"
-                            :label="t('user.overview.content.publicPages')" />
-                    </LayoutCard>
-
-                    <LayoutCard :size="LayoutCardSize.Medium">
-                        <LayoutCounter
-                            :value="profile.overview.privateQuestionsCount"
-                            :label="t('user.overview.content.privateQuestions')"
-                            icon="fa-solid fa-lock" />
-                    </LayoutCard>
-
-                    <LayoutCard :size="LayoutCardSize.Medium">
-                        <LayoutCounter
-                            :value="profile.overview.privatePagesCount"
-                            :label="t('user.overview.content.privatePages')"
-                            icon="fa-solid fa-lock" />
-                    </LayoutCard>
-                    <!-- 
-                    <LayoutCard :size="LayoutCardSize.Small">
-                        <LayoutCounter :value="profile.overview.wuwiCount" :label="t('user.overview.wishknowledge.questions')" />
-                    </LayoutCard> -->
-                </LayoutGrid>
             </LayoutPanel>
 
             <!-- temp template for testing, since there are no skills yet -->

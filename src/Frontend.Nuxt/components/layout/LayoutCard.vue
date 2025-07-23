@@ -5,12 +5,19 @@ interface Props {
     noPadding?: boolean
     size?: LayoutCardSize
     url?: string
+    backgroundColor?: string
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     title: '',
     noPadding: false,
-    size: LayoutCardSize.Large
+    size: LayoutCardSize.Large,
+    backgroundColor: 'white'
+})
+
+const backgroundColorStyle = computed(() => {
+    if (props.backgroundColor)
+        return `background: ${props.backgroundColor};`
 })
 
 
@@ -33,7 +40,7 @@ withDefaults(defineProps<Props>(), {
                 </template>
 
             </div>
-            <div class="card-content" :class="{ 'no-padding': noPadding }">
+            <div class="card-content" :class="{ 'no-padding': noPadding }" :style="backgroundColorStyle">
                 <slot></slot>
             </div>
         </NuxtLink>
@@ -52,7 +59,7 @@ withDefaults(defineProps<Props>(), {
                 </template>
 
             </div>
-            <div class="card-content" :class="{ 'no-padding': noPadding }">
+            <div class="card-content" :class="{ 'no-padding': noPadding }" :style="backgroundColorStyle">
                 <slot></slot>
             </div>
         </template>
@@ -121,6 +128,16 @@ withDefaults(defineProps<Props>(), {
 
         @media (max-width: 767px) {
             width: calc(50% - 0.5rem);
+        }
+    }
+
+    &.size-nano {
+        @media (min-width: 768px) {
+            width: calc(16.6667% - 0.8333rem);
+        }
+
+        @media (max-width: 767px) {
+            width: calc(33.3333% - 0.666rem);
         }
     }
 
@@ -203,6 +220,16 @@ withDefaults(defineProps<Props>(), {
         }
 
         &.size-micro {
+            @media (max-width:1300px) {
+                width: calc(33.3333% - 0.666rem);
+            }
+
+            @media (max-width: 900px) {
+                width: calc(50% - 0.5rem);
+            }
+        }
+
+        &.size-nano {
             @media (max-width:1300px) {
                 width: calc(33.3333% - 0.666rem);
             }

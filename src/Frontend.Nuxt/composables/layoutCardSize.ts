@@ -1,4 +1,5 @@
 export enum LayoutCardSize {
+    Nano = 'nano',
     Micro = 'micro',
     Tiny = 'tiny',
     Small = 'small',
