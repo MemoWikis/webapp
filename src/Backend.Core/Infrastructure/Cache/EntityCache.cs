@@ -9,6 +9,8 @@ public class EntityCache
     public const string CacheKeyPageQuestionsList = "pageQuestionsList_EntityCache";
     public const string CacheKeyRelations = "allRelations_EntityCache";
     public const string CacheKeyPageShares = "pageShares_EntityCache";
+    public const string CacheKeyExtendedUsers = "allExtendedUsers_EntityCache";
+    public const string CacheKeySkills = "allSkills_EntityCache";
 
     public static bool IsFirstStart = true;
 
@@ -20,6 +22,16 @@ public class EntityCache
 
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions =>
         MemoCache.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
+
+    private static ConcurrentDictionary<int, ExtendedUserCacheItem> ExtendedUsers =>
+        MemoCache.Get<ConcurrentDictionary<int, ExtendedUserCacheItem>>(CacheKeyExtendedUsers);
+
+    /// <summary>
+    /// Skills organized by UserId -> Dictionary of PageId -> UserSkillCacheItem
+    /// This allows efficient retrieval of all skills for a user
+    /// </summary>
+    private static ConcurrentDictionary<int, ConcurrentDictionary<int, UserSkillCacheItem>> Skills =>
+        MemoCache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, UserSkillCacheItem>>>(CacheKeySkills);
 
     private static ConcurrentDictionary<int, PageRelationCache> Relations =>
         MemoCache.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
@@ -135,7 +147,7 @@ public class EntityCache
     public static bool PageHasQuestion(int pageId) =>
         GetQuestionIdsForPage(pageId)?.Any() ?? false;
 
-    public static IList<QuestionCacheItem> GetQuestionsForPage(int pageId) => 
+    public static IList<QuestionCacheItem> GetQuestionsForPage(int pageId) =>
         GetQuestionsByIds(GetQuestionIdsForPage(pageId));
 
     public static List<int> GetQuestionIdsForPage(int pageId)
@@ -610,5 +622,93 @@ public class EntityCache
 
             AddOrUpdatePageShares(pageId, updatedShares);
         }
+    }
+
+    // Extended User Cache Methods
+    public static ExtendedUserCacheItem GetExtendedUserById(int userId)
+    {
+        if (ExtendedUsers.TryGetValue(userId, out var extendedUser))
+            return extendedUser;
+
+        return new ExtendedUserCacheItem();
+    }
+
+    public static ExtendedUserCacheItem? GetExtendedUserByIdNullable(int userId)
+    {
+        ExtendedUsers.TryGetValue(userId, out var extendedUser);
+        return extendedUser;
+    }
+
+    public static void AddOrUpdate(ExtendedUserCacheItem extendedUser)
+    {
+        AddOrUpdate(ExtendedUsers, extendedUser);
+    }
+
+    public static void Remove(ExtendedUserCacheItem extendedUser)
+    {
+        Remove(ExtendedUsers, extendedUser);
+    }
+
+    public static ICollection<ExtendedUserCacheItem> GetAllExtendedUsers()
+    {
+        return ExtendedUsers.Values;
+    }
+
+    // Skills Cache Methods
+    public static UserSkillCacheItem? GetSkillByUserAndPage(int userId, int pageId)
+    {
+        if (Skills.TryGetValue(userId, out var userSkills))
+        {
+            userSkills.TryGetValue(pageId, out var skill);
+            return skill;
+        }
+        return null;
+    }
+
+    public static ICollection<UserSkillCacheItem> GetSkillsByUserId(int userId)
+    {
+        if (Skills.TryGetValue(userId, out var userSkills))
+        {
+            return userSkills.Values;
+        }
+        return new List<UserSkillCacheItem>();
+    }
+
+    public static void AddOrUpdateSkill(int userId, UserSkillCacheItem skill)
+    {
+        var userSkills = Skills.GetOrAdd(userId, _ => new ConcurrentDictionary<int, UserSkillCacheItem>());
+        userSkills.AddOrUpdate(skill.PageId, skill, (key, existingValue) => skill);
+    }
+
+    public static void RemoveSkill(int userId, int pageId)
+    {
+        if (Skills.TryGetValue(userId, out var userSkills))
+        {
+            userSkills.TryRemove(pageId, out _);
+        }
+    }
+
+    public static ICollection<UserSkillCacheItem> GetAllSkills()
+    {
+        var allSkills = new List<UserSkillCacheItem>();
+        foreach (var userSkills in Skills.Values)
+        {
+            allSkills.AddRange(userSkills.Values);
+        }
+        return allSkills;
+    }
+
+    private static void AddOrUpdate(
+        ConcurrentDictionary<int, ExtendedUserCacheItem> objectToCache,
+        ExtendedUserCacheItem obj)
+    {
+        objectToCache.AddOrUpdate(obj.Id, obj, (key, existingValue) => obj);
+    }
+
+    private static void Remove(
+        ConcurrentDictionary<int, ExtendedUserCacheItem> objectToCache,
+        ExtendedUserCacheItem obj)
+    {
+        objectToCache.TryRemove(obj.Id, out _);
     }
 }

@@ -5,7 +5,6 @@ import { useUserStore } from '~~/components/user/userStore'
 import { SiteType } from '~/components/shared/siteEnum'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 import { LayoutCardSize } from '~/composables/layoutCardSize'
-import { LayoutGridSize } from '~/composables/layoutGridSize'
 import { PageData } from '~/composables/missionControl/pageData'
 import { color } from '~/constants/colors'
 import UserSection from '~/constants/userSections'
@@ -268,7 +267,7 @@ const showSkills = computed(() => {
             </LayoutPanel>
 
             <!-- temp template for testing, since there are no skills yet -->
-            <template v-if="showSkills">
+            <!-- <template v-if="showSkills">
                 <LayoutPanel :id="UserSection.SKILLS_SECTION.id" v-if="profile.isCurrentUser || showSkills" :title="t(UserSection.SKILLS_SECTION.translationKey)">
                     <UserSkillCard :skill="profile.wikis![0]" />
                     <UserSkillCard :skill="profile.wikis![1]" />
@@ -276,7 +275,7 @@ const showSkills = computed(() => {
                     <UserSkillCard :skill="profile.wikis![3]" />
                     <UserSkillCard :skill="profile.wikis![4]" />
                 </LayoutPanel>
-            </template>
+            </template> -->
 
             <LayoutPanel v-if="hasWikis" :id="UserSection.WIKIS_SECTION.id" :title="t(UserSection.WIKIS_SECTION.translationKey)">
                 <MissionControlGrid v-if="isMobile" :pages="profile.wikis!" :no-pages-text="t('missionControl.pageTable.noWikis')" />

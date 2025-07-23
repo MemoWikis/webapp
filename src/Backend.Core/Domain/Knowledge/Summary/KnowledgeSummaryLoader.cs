@@ -26,7 +26,11 @@
 
     public KnowledgeSummary RunFromMemoryCache(int pageId, int userId)
     {
-        return RunFromMemoryCache(EntityCache.GetPage(pageId), userId);
+        var page = EntityCache.GetPage(pageId);
+        if (page == null)
+            return new KnowledgeSummary();
+            
+        return RunFromMemoryCache(page, userId);
     }
 
     public KnowledgeSummary RunFromMemoryCache(PageCacheItem pageCacheItem, int userId)
@@ -78,24 +82,29 @@
 
     // temp start: for testing usercontroller
     public KnowledgeSummary RunTest(int sessionUserId, int userId, int pageId, bool onlyValuated = true)
-        => Run(userId,
-            EntityCache.GetPage(pageId).GetAggregatedQuestions(sessionUserId)
-                .GetIds(),
-            onlyValuated);
+    {
+        var page = EntityCache.GetPage(pageId);
+        if (page == null)
+            return new KnowledgeSummary();
+            
+        return Run(userId, page.GetAggregatedQuestions(sessionUserId).GetIds(), onlyValuated);
+    }
 
     // temp end
 
     public KnowledgeSummary Run(int userId, int pageId, bool onlyValuated = true)
-        => Run(userId,
-            EntityCache.GetPage(pageId).GetAggregatedQuestions(userId)
-                .GetIds(),
-            onlyValuated);
+    {
+        var page = EntityCache.GetPage(pageId);
+        if (page == null)
+            return new KnowledgeSummary();
+            
+        return Run(userId, page.GetAggregatedQuestions(userId).GetIds(), onlyValuated);
+    }
 
     public KnowledgeSummary Run(
         int userId,
-        IList<int> questionIds = null,
-        bool onlyValuated = true,
-        string options = "standard")
+        IList<int>? questionIds = null,
+        bool onlyValuated = true)
     {
         if (userId <= 0 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
@@ -126,7 +135,6 @@
             needsLearning: needsLearning,
             needsConsolidation: needsConsolidation,
             solid: solid,
-            notInWishKnowledge: notInWishknowledge,
-            options: options);
+            notInWishKnowledge: notInWishknowledge);
     }
 }

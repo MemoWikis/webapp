@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 
 public class EntityCacheInitializer(
     PageRepository pageRepository,
@@ -26,6 +27,8 @@ public class EntityCacheInitializer(
         InitializePages();
         InitializeQuestions();
         InitializeShareInfos();
+        InitializeExtendedUsers();
+        InitializeSkills();
 
         Log.Information("EntityCache PutIntoCache" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
         EntityCache.IsFirstStart = false;
@@ -107,6 +110,24 @@ public class EntityCacheInitializer(
 
         var shareCacheItems = allShareInfos.Select(ShareCacheItem.ToCacheItem).ToList();
         MemoCache.Add(EntityCache.CacheKeyPageShares, shareCacheItems.ToConcurrentDictionary());
+    }
+
+    private void InitializeExtendedUsers()
+    {
+        // Initialize empty ExtendedUsers cache - will be populated on-demand
+        var extendedUsers = new ConcurrentDictionary<int, ExtendedUserCacheItem>();
+        Log.Information("EntityCache ExtendedUsers Initialized " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+
+        MemoCache.Add(EntityCache.CacheKeyExtendedUsers, extendedUsers);
+    }
+
+    private void InitializeSkills()
+    {
+        // Initialize empty Skills cache - will be populated on-demand
+        var skills = new ConcurrentDictionary<int, ConcurrentDictionary<int, UserSkillCacheItem>>();
+        Log.Information("EntityCache Skills Initialized " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+
+        MemoCache.Add(EntityCache.CacheKeySkills, skills);
     }
 }
 
