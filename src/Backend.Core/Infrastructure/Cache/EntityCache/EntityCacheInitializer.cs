@@ -27,7 +27,6 @@ public class EntityCacheInitializer(
         InitializePages();
         InitializeQuestions();
         InitializeShareInfos();
-        InitializeExtendedUsers();
         InitializeSkills();
 
         Log.Information("EntityCache PutIntoCache" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
@@ -110,15 +109,6 @@ public class EntityCacheInitializer(
 
         var shareCacheItems = allShareInfos.Select(ShareCacheItem.ToCacheItem).ToList();
         MemoCache.Add(EntityCache.CacheKeyPageShares, shareCacheItems.ToConcurrentDictionary());
-    }
-
-    private void InitializeExtendedUsers()
-    {
-        // Initialize empty ExtendedUsers cache - will be populated on-demand
-        var extendedUsers = new ConcurrentDictionary<int, ExtendedUserCacheItem>();
-        Log.Information("EntityCache ExtendedUsers Initialized " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
-
-        MemoCache.Add(EntityCache.CacheKeyExtendedUsers, extendedUsers);
     }
 
     private void InitializeSkills()

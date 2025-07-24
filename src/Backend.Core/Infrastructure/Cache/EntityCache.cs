@@ -9,7 +9,6 @@ public class EntityCache
     public const string CacheKeyPageQuestionsList = "pageQuestionsList_EntityCache";
     public const string CacheKeyRelations = "allRelations_EntityCache";
     public const string CacheKeyPageShares = "pageShares_EntityCache";
-    public const string CacheKeyExtendedUsers = "allExtendedUsers_EntityCache";
     public const string CacheKeySkills = "allSkills_EntityCache";
 
     public static bool IsFirstStart = true;
@@ -22,9 +21,6 @@ public class EntityCache
 
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions =>
         MemoCache.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
-
-    private static ConcurrentDictionary<int, ExtendedUserCacheItem> ExtendedUsers =>
-        MemoCache.Get<ConcurrentDictionary<int, ExtendedUserCacheItem>>(CacheKeyExtendedUsers);
 
     /// <summary>
     /// Skills organized by UserId -> Dictionary of PageId -> UserSkillCacheItem
@@ -624,34 +620,24 @@ public class EntityCache
         }
     }
 
-    // Extended User Cache Methods
-    public static ExtendedUserCacheItem GetExtendedUserById(int userId)
-    {
-        if (ExtendedUsers.TryGetValue(userId, out var extendedUser))
-            return extendedUser;
+    // Extended User Cache Methods - delegated to SlidingCache
+    public static ExtendedUserCacheItem GetExtendedUserById(int userId) =>
+        SlidingCache.GetExtendedUserById(userId);
 
-        return new ExtendedUserCacheItem();
-    }
+    public static ExtendedUserCacheItem? GetExtendedUserByIdNullable(int userId) =>
+        SlidingCache.GetExtendedUserByIdNullable(userId);
 
-    public static ExtendedUserCacheItem? GetExtendedUserByIdNullable(int userId)
-    {
-        ExtendedUsers.TryGetValue(userId, out var extendedUser);
-        return extendedUser;
-    }
+    public static void AddOrUpdate(ExtendedUserCacheItem extendedUser) =>
+        SlidingCache.AddOrUpdate(extendedUser);
 
-    public static void AddOrUpdate(ExtendedUserCacheItem extendedUser)
-    {
-        AddOrUpdate(ExtendedUsers, extendedUser);
-    }
-
-    public static void Remove(ExtendedUserCacheItem extendedUser)
-    {
-        Remove(ExtendedUsers, extendedUser);
-    }
+    public static void Remove(ExtendedUserCacheItem extendedUser) =>
+        SlidingCache.Remove(extendedUser);
 
     public static ICollection<ExtendedUserCacheItem> GetAllExtendedUsers()
     {
-        return ExtendedUsers.Values;
+        // Note: Sliding cache doesn't support bulk retrieval by design
+        // Individual cache keys expire independently based on usage
+        return new List<ExtendedUserCacheItem>();
     }
 
     // Skills Cache Methods
@@ -696,19 +682,5 @@ public class EntityCache
             allSkills.AddRange(userSkills.Values);
         }
         return allSkills;
-    }
-
-    private static void AddOrUpdate(
-        ConcurrentDictionary<int, ExtendedUserCacheItem> objectToCache,
-        ExtendedUserCacheItem obj)
-    {
-        objectToCache.AddOrUpdate(obj.Id, obj, (key, existingValue) => obj);
-    }
-
-    private static void Remove(
-        ConcurrentDictionary<int, ExtendedUserCacheItem> objectToCache,
-        ExtendedUserCacheItem obj)
-    {
-        objectToCache.TryRemove(obj.Id, out _);
     }
 }

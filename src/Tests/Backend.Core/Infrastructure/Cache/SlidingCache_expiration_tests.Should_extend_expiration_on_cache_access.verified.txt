@@ -1,0 +1,17 @@
+﻿{
+  ActiveUsers: [
+    {
+      IsMemoWikisUser: false,
+      AllowsSupportiveLogin: false,
+      IsMember: false,
+      Id: 3,
+      IsFacebookUser: false,
+      IsGoogleUser: false,
+      ShowWishKnowledge: false,
+      IsInstallationAdmin: false,
+      IsEmailConfirmed: false,
+      UiLanguage: en,
+      FirstWikiId: 1
+    }
+  ]
+}

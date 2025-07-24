@@ -1,0 +1,45 @@
+﻿{
+  InitialActiveUsers: [
+    {
+      IsMemoWikisUser: false,
+      AllowsSupportiveLogin: false,
+      IsMember: false,
+      Id: 1,
+      IsFacebookUser: false,
+      IsGoogleUser: false,
+      ShowWishKnowledge: false,
+      IsInstallationAdmin: false,
+      IsEmailConfirmed: false,
+      UiLanguage: en,
+      FirstWikiId: 2
+    },
+    {
+      IsMemoWikisUser: false,
+      AllowsSupportiveLogin: false,
+      IsMember: false,
+      Id: 2,
+      IsFacebookUser: false,
+      IsGoogleUser: false,
+      ShowWishKnowledge: false,
+      IsInstallationAdmin: false,
+      IsEmailConfirmed: false,
+      UiLanguage: en,
+      FirstWikiId: 3
+    }
+  ],
+  ActiveUsersAfterExpiration: [
+    {
+      IsMemoWikisUser: false,
+      AllowsSupportiveLogin: false,
+      IsMember: false,
+      Id: 2,
+      IsFacebookUser: false,
+      IsGoogleUser: false,
+      ShowWishKnowledge: false,
+      IsInstallationAdmin: false,
+      IsEmailConfirmed: false,
+      UiLanguage: en,
+      FirstWikiId: 3
+    }
+  ]
+}
