@@ -690,7 +690,7 @@
         "ai": {
             "flashcard": {
                 "button": {
-                    "create": "Create flashcard"
+                    "create": "Create flashcard | Create flashcards"
                 },
                 "message": {
                     "noFlashcards": "Oops! You have no flashcards."

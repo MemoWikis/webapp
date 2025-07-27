@@ -690,7 +690,7 @@
         "ai": {
             "flashcard": {
                 "button": {
-                    "create": "Créer une carte"
+                    "create": "Créer une carte | Créer des cartes"
                 },
                 "message": {
                     "noFlashcards": "Oups ! Tu n’as aucune carte."
