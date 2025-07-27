@@ -2,8 +2,6 @@
     IGlobalSearch _search,
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
-    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
     SearchResultBuilder _searchResultBuilder
 ) : ApiBaseController

@@ -4,6 +4,13 @@ public class MeilisearchPages(PermissionCheck _permissionCheck, int _size = 5)
     : MeilisearchBase, IRegisterAsInstancePerLifetime
 {
     private List<PageCacheItem> _pages = new();
+    private string _currentUserName = string.Empty;
+
+    public MeilisearchPages(PermissionCheck permissionCheck, int size, string currentUserName) 
+        : this(permissionCheck, size)
+    {
+        _currentUserName = currentUserName;
+    }
 
     public async Task<ISearchPagesResult> RunAsync(string searchTerm, List<Language>? languages = null)
     {
@@ -19,7 +26,9 @@ public class MeilisearchPages(PermissionCheck _permissionCheck, int _size = 5)
         List<Language>? languages = null
     )
     {
-        var hits = new List<MeilisearchPageMap>();
+        var allResults = new List<MeilisearchPageMap>();
+
+        // Search for pages in specified languages first (if provided)
         if (languages != null && languages.Any())
         {
             var clauses = languages
@@ -34,23 +43,34 @@ public class MeilisearchPages(PermissionCheck _permissionCheck, int _size = 5)
                 Filter = string.Join(" OR ", clauses)
             };
             var resBoosted = await index.SearchAsync<MeilisearchPageMap>(searchTerm, sqBoosted);
-            hits = resBoosted.Hits.ToList();
+            allResults.AddRange(resBoosted.Hits);
         }
 
+        // Then search for all other pages
         var searchQuery = new SearchQuery
         {
             Q = searchTerm,
             Limit = _count
         };
         var resAll = await index.SearchAsync<MeilisearchPageMap>(searchTerm, searchQuery);
-        var allMaps = resAll.Hits.ToList();
+        
+        // Add results that aren't already in the list
+        var existingIds = allResults.Select(r => r.Id).ToHashSet();
+        var additionalResults = resAll.Hits.Where(r => !existingIds.Contains(r.Id));
+        allResults.AddRange(additionalResults);
 
-        var remainder = allMaps.Where(a => hits.All(b => b.Id != a.Id));
-        var results = hits.Concat(remainder).ToList();
+        // Sort results to prioritize user's own pages first (if user is logged in)
+        if (!string.IsNullOrEmpty(_currentUserName))
+        {
+            allResults = allResults
+                .OrderByDescending(r => r.CreatorName == _currentUserName)
+                .ThenBy(r => r.Id)
+                .ToList();
+        }
 
-        FilterCacheItems(results);
+        FilterCacheItems(allResults);
 
-        if (IsReloadRequired(results.Count, _pages.Count()))
+        if (IsReloadRequired(allResults.Count, _pages.Count()))
         {
             _count += 20;
             await LoadSearchResults(searchTerm, index, languages);
@@ -63,7 +83,7 @@ public class MeilisearchPages(PermissionCheck _permissionCheck, int _size = 5)
 
         var result = new MeilisearchPagesResult();
         result.PageIds.AddRange(pageIds);
-        result.Count = results.Count;
+        result.Count = allResults.Count;
 
         return result;
     }
