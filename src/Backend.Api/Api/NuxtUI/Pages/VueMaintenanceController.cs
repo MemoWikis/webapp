@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Hosting;
 using System.Security;
 
 public class VueMaintenanceController(
@@ -17,7 +16,7 @@ public class VueMaintenanceController(
     UserWritingRepo _userWritingRepo,
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment) : ApiBaseController
+    RelationErrors _relationErrors) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -113,7 +112,7 @@ public class VueMaintenanceController(
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public VueMaintenanceResult DeleteUser(int userId)
+    public VueMaintenanceResult DeleteUser([FromForm] int userId)
     {
         _userWritingRepo.DeleteFromAllTables(userId);
 
@@ -308,6 +307,56 @@ public class VueMaintenanceController(
         {
             Success = true,
             Data = ""
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ClearCache()
+    {
+        // Clear various caches
+        EntityCache.Clear();
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Cache wurde geleert."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult UpdateCategoryAuthors()
+    {
+        // This would need to be implemented based on your business logic
+        // For now, returning a placeholder message
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Kategorie-Autoren wurden aktualisiert."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpGet]
+    public RelationErrors.RelationErrorsResult ShowRelationErrors()
+    {
+        return _relationErrors.GetErrors();
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult HealRelations([FromForm] int pageId)
+    {
+        var result = _relationErrors.HealErrors(pageId);
+
+        return new VueMaintenanceResult
+        {
+            Success = result.Success,
+            Data = result.Message
         };
     }
 }

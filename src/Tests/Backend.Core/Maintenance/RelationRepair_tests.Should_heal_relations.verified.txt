@@ -1,0 +1,181 @@
+﻿{
+  HealingResult: {
+    Success: true,
+    Message: Relations repaired successfully.
+  },
+  GetErrorsResult: {
+    Success: true
+  },
+  TreeDiagramBeforeHealing:
+parent
+├── child1-Id4
+├── child2-Id5
+└── child3-Id6
+[child1-Id4] → [child2-Id5] → [child3-Id6]
+,
+  TreeDiagramAfterHealing:
+parent
+├── child1-Id4
+├── child2-Id5
+├── child3-Id6
+├── child4-Id7
+└── child5-Id8
+[child1-Id4] → [child2-Id5] → [child3-Id6] → [child4-Id7] → [child5-Id8]
+,
+  RelationsBeforeHealing: [
+    {
+      RelationId: 1,
+      ChildId: 4
+    },
+    {
+      RelationId: 2,
+      ChildId: 5
+    },
+    {
+      RelationId: 3,
+      ChildId: 6
+    },
+    {
+      RelationId: 4,
+      ChildId: 7
+    },
+    {
+      RelationId: 5,
+      ChildId: 8
+    }
+  ],
+  RelationsAfterHealing: [
+    {
+      RelationId: 7,
+      ChildId: 4
+    },
+    {
+      RelationId: 8,
+      ChildId: 5
+    },
+    {
+      RelationId: 9,
+      ChildId: 6
+    },
+    {
+      RelationId: 10,
+      ChildId: 7
+    },
+    {
+      RelationId: 11,
+      ChildId: 8
+    }
+  ],
+  AllRelationCacheItems: [
+    {
+      Id: 7,
+      ChildId: 4,
+      ParentId: 3,
+      NextId: 5
+    },
+    {
+      Id: 8,
+      ChildId: 5,
+      ParentId: 3,
+      PreviousId: 4,
+      NextId: 6
+    },
+    {
+      Id: 9,
+      ChildId: 6,
+      ParentId: 3,
+      PreviousId: 5,
+      NextId: 7
+    },
+    {
+      Id: 10,
+      ChildId: 7,
+      ParentId: 3,
+      PreviousId: 6,
+      NextId: 8
+    },
+    {
+      Id: 11,
+      ChildId: 8,
+      ParentId: 3,
+      PreviousId: 7
+    }
+  ],
+  CacheItemsCount: 5,
+  AllDbItems: [
+    {
+      Child: {
+        Name: child1-Id4,
+        IsWiki: false,
+        Id: 4
+      },
+      Parent: {
+        Name: parent,
+        IsWiki: false,
+        Id: 3
+      },
+      NextId: 5,
+      Id: 7
+    },
+    {
+      Child: {
+        Name: child2-Id5,
+        IsWiki: false,
+        Id: 5
+      },
+      Parent: {
+        Name: parent,
+        IsWiki: false,
+        Id: 3
+      },
+      PreviousId: 4,
+      NextId: 6,
+      Id: 8
+    },
+    {
+      Child: {
+        Name: child3-Id6,
+        IsWiki: false,
+        Id: 6
+      },
+      Parent: {
+        Name: parent,
+        IsWiki: false,
+        Id: 3
+      },
+      PreviousId: 5,
+      NextId: 7,
+      Id: 9
+    },
+    {
+      Child: {
+        Name: child4-Id7,
+        IsWiki: false,
+        Id: 7
+      },
+      Parent: {
+        Name: parent,
+        IsWiki: false,
+        Id: 3
+      },
+      PreviousId: 6,
+      NextId: 8,
+      Id: 10
+    },
+    {
+      Child: {
+        Name: child5-Id8,
+        IsWiki: false,
+        Id: 8
+      },
+      Parent: {
+        Name: parent,
+        IsWiki: false,
+        Id: 3
+      },
+      PreviousId: 7,
+      Id: 11
+    }
+  ],
+  DbItemsCount: 5
+}

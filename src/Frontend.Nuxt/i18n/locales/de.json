@@ -1728,6 +1728,21 @@
             "title": "Seiten",
             "updateCategoryAuthors": "Seitenautoren aktualisieren"
         },
+        "relations": {
+            "title": "Seitenbeziehungen",
+            "showErrors": "Beziehungsfehler anzeigen",
+            "foundErrors": "Gefundene Fehler:",
+            "healButton": "Beziehungen reparieren",
+            "parentPageId": "Übergeordnete Seiten-ID",
+            "relationsTableTitle": "Beziehungen für diese übergeordnete Seite:",
+            "noErrorsFound": "Keine Beziehungsfehler gefunden.",
+            "table": {
+                "relationId": "Beziehungs-ID",
+                "childId": "Unterseiten-ID",
+                "previousId": "Vorherige ID",
+                "nextId": "Nächste ID"
+            }
+        },
         "meiliSearch": {
             "title": "Suche MeiliSearch",
             "description": "Alle für Suche neu indexieren:",

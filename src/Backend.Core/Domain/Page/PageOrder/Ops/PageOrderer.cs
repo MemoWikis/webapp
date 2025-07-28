@@ -385,6 +385,7 @@
         {
             if (!addedRelationIds.Contains(childRelation.Id))
             {
+
                 if (!addedChildIds.Contains(childRelation.ChildId))
                     sortedRelations.Add(childRelation);
 
