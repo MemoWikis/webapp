@@ -22,13 +22,6 @@ public class EntityCache
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions =>
         MemoCache.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
-    /// <summary>
-    /// Skills organized by UserId -> Dictionary of PageId -> UserSkillCacheItem
-    /// This allows efficient retrieval of all skills for a user
-    /// </summary>
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, UserSkillCacheItem>> Skills =>
-        MemoCache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, UserSkillCacheItem>>>(CacheKeySkills);
-
     private static ConcurrentDictionary<int, PageRelationCache> Relations =>
         MemoCache.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
 
@@ -638,49 +631,5 @@ public class EntityCache
         // Note: Sliding cache doesn't support bulk retrieval by design
         // Individual cache keys expire independently based on usage
         return new List<ExtendedUserCacheItem>();
-    }
-
-    // Skills Cache Methods
-    public static UserSkillCacheItem? GetSkillByUserAndPage(int userId, int pageId)
-    {
-        if (Skills.TryGetValue(userId, out var userSkills))
-        {
-            userSkills.TryGetValue(pageId, out var skill);
-            return skill;
-        }
-        return null;
-    }
-
-    public static ICollection<UserSkillCacheItem> GetSkillsByUserId(int userId)
-    {
-        if (Skills.TryGetValue(userId, out var userSkills))
-        {
-            return userSkills.Values;
-        }
-        return new List<UserSkillCacheItem>();
-    }
-
-    public static void AddOrUpdateSkill(int userId, UserSkillCacheItem skill)
-    {
-        var userSkills = Skills.GetOrAdd(userId, _ => new ConcurrentDictionary<int, UserSkillCacheItem>());
-        userSkills.AddOrUpdate(skill.PageId, skill, (key, existingValue) => skill);
-    }
-
-    public static void RemoveSkill(int userId, int pageId)
-    {
-        if (Skills.TryGetValue(userId, out var userSkills))
-        {
-            userSkills.TryRemove(pageId, out _);
-        }
-    }
-
-    public static ICollection<UserSkillCacheItem> GetAllSkills()
-    {
-        var allSkills = new List<UserSkillCacheItem>();
-        foreach (var userSkills in Skills.Values)
-        {
-            allSkills.AddRange(userSkills.Values);
-        }
-        return allSkills;
     }
 }

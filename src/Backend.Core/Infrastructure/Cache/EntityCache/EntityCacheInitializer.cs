@@ -114,7 +114,7 @@ public class EntityCacheInitializer(
     private void InitializeSkills()
     {
         // Initialize empty Skills cache - will be populated on-demand
-        var skills = new ConcurrentDictionary<int, ConcurrentDictionary<int, UserSkillCacheItem>>();
+        var skills = new ConcurrentDictionary<int, ConcurrentDictionary<int, KnowledgeEvaluationCacheItem>>();
         Log.Information("EntityCache Skills Initialized " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
 
         MemoCache.Add(EntityCache.CacheKeySkills, skills);

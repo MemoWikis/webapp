@@ -1,28 +1,62 @@
-﻿class KnowledgeSummaryUpdate
+﻿public class KnowledgeSummaryUpdate(
+    PageValuationReadingRepository pageValuationReadingRepository,
+    PageValuationWritingRepo pageValuationWritingRepo,
+    KnowledgeSummaryLoader knowledgeSummaryLoader,
+    UserSkillService userSkillService) : IRegisterAsInstancePerLifetime
 {
-    public static void RunForPage(int pageId,
-        PageValuationReadingRepository pageValuationReadingRepository,
-        PageValuationWritingRepo pageValuationWritingRepo,
-        KnowledgeSummaryLoader knowledgeSummaryLoader)
+    public void RunForPage(int pageId)
     {
         foreach (var pageValuation in pageValuationReadingRepository.GetByPage(pageId))
         {
-            Run(pageValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
+            Run(pageValuation);
         }
     }
 
-    public static void RunForUser(int userId,
-        PageValuationReadingRepository pageValuationReadingRepository,
-        PageValuationWritingRepo pageValuationWritingRepo,
-        KnowledgeSummaryLoader knowledgeSummaryLoader)
+    public void RunForUser(int userId)
     {
-        foreach (var pageValuation in pageValuationReadingRepository.GetByUser(userId))
+        // Try to get from cache first
+        var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
+        if (extendedUser?.PageValuations != null && extendedUser.PageValuations.Any())
         {
-            Run(pageValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
+            // Use cached page valuations if available
+            foreach (var pageValuation in extendedUser.PageValuations.Values)
+            {
+                Run(pageValuation);
+            }
+        }
+        else
+        {
+            // Fallback to database if not in cache
+            foreach (var pageValuation in pageValuationReadingRepository.GetByUser(userId))
+            {
+                Run(pageValuation);
+            }
         }
     }
 
-    private static void Run(PageValuation pageValuation, PageValuationWritingRepo pageValuationWritingRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
+    public void RunForUserAndPage(int userId, int pageId)
+    {
+        // Try to get from cache first
+        var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
+        var cachedPageValuation = extendedUser?.PageValuations?.GetValueOrDefault(pageId);
+
+        if (cachedPageValuation != null)
+        {
+            // Use cached page valuation if available
+            Run(cachedPageValuation);
+        }
+        else
+        {
+            // Fallback to database if not in cache
+            var pageValuation = pageValuationReadingRepository.GetBy(pageId, userId);
+            if (pageValuation != null)
+            {
+                Run(pageValuation);
+            }
+        }
+    }
+
+    private void Run(PageValuation pageValuation)
     {
         var knowledgeSummary = knowledgeSummaryLoader.Run(pageValuation.UserId, pageValuation.PageId, false);
         pageValuation.CountNotLearned = knowledgeSummary.NotLearned;
@@ -31,8 +65,13 @@
         pageValuation.CountSolid = knowledgeSummary.Solid;
 
         pageValuationWritingRepo.Update(pageValuation);
-    }
 
-    public static void ScheduleForPage(int pageId, JobQueueRepo jobQueueRepo)
-        => jobQueueRepo.Add(JobQueueType.RecalcKnowledgeSummaryForPage, pageId.ToString());
+        // Update user skills in cache if the page exists and the user has an extended cache
+        var existingSkillFromCache = SlidingCache
+            .GetExtendedUserById(pageValuation.UserId)?
+            .GetSkill(pageValuation.PageId);
+
+        if (existingSkillFromCache != null)
+            userSkillService.UpdateUserSkill(existingSkillFromCache, knowledgeSummary);
+    }
 }

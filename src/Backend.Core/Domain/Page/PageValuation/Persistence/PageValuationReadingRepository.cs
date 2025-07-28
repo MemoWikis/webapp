@@ -1,5 +1,4 @@
-﻿using System.Text;
-using NHibernate;
+﻿using NHibernate;
 
 
 public class PageValuationReadingRepository(ISession _session) : IRegisterAsInstancePerLifetime

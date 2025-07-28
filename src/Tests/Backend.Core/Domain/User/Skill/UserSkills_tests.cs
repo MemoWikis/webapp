@@ -9,10 +9,10 @@ class UserSkills_tests : BaseTestHarness
         // Arrange
         await ReloadCaches();
         var userSkillService = R<UserSkillService>();
-        
+
         var context = NewPageContext();
         var creator = new User { Id = 1 };
-        
+
         context.Add("testPage", creator: creator).Persist();
         var page = context.All.ByName("testPage");
 
@@ -29,20 +29,17 @@ class UserSkills_tests : BaseTestHarness
 
         // Assert
         var skill = userSkillService.GetUserSkill(creator.Id, page.Id);
-        var cachedSkill = EntityCache.GetSkillByUserAndPage(creator.Id, page.Id);
 
         await Verify(new
         {
             UserId = creator.Id,
             PageId = page.Id,
             Skill = skill,
-            CachedSkill = cachedSkill,
             SkillExists = skill != null,
-            CachedSkillExists = cachedSkill != null,
-            EvaluationLevel = skill?.Evaluation?.GetOverallSkillLevel(),
-            EvaluationTotal = skill?.Evaluation?.Total,
-            EvaluationSolid = skill?.Evaluation?.Solid,
-            EvaluationNeedsConsolidation = skill?.Evaluation?.NeedsConsolidation
+            EvaluationLevel = skill?.KnowledgeSummary?.GetOverallSkillLevel(),
+            EvaluationTotal = skill?.KnowledgeSummary?.Total,
+            EvaluationSolid = skill?.KnowledgeSummary?.Solid,
+            EvaluationNeedsConsolidation = skill?.KnowledgeSummary?.NeedsConsolidation
         });
     }
 
@@ -52,10 +49,10 @@ class UserSkills_tests : BaseTestHarness
         // Arrange
         await ReloadCaches();
         var userSkillService = R<UserSkillService>();
-        
+
         var context = NewPageContext();
         var creator = new User { Id = 1 };
-        
+
         context.Add("testPage", creator: creator).Persist();
         var page = context.All.ByName("testPage");
 
@@ -86,9 +83,9 @@ class UserSkills_tests : BaseTestHarness
             PageId = page.Id,
             UpdatedSkill = updatedSkill,
             InitialLevel = "Basic", // Based on initial knowledge
-            ImprovedLevel = updatedSkill?.Evaluation?.GetOverallSkillLevel(),
-            SolidQuestions = updatedSkill?.Evaluation?.Solid,
-            TotalQuestions = updatedSkill?.Evaluation?.Total,
+            ImprovedLevel = updatedSkill?.KnowledgeSummary?.GetOverallSkillLevel(),
+            SolidQuestions = updatedSkill?.KnowledgeSummary?.Solid,
+            TotalQuestions = updatedSkill?.KnowledgeSummary?.Total,
             LastUpdatedExists = updatedSkill?.LastUpdatedAt != null
         });
     }
@@ -99,16 +96,16 @@ class UserSkills_tests : BaseTestHarness
         // Arrange
         await ReloadCaches();
         var userSkillService = R<UserSkillService>();
-        
+
         var context = NewPageContext();
         var creator = new User { Id = 1 };
-        
+
         context
             .Add("page1", creator: creator)
-            .Add("page2", creator: creator)  
+            .Add("page2", creator: creator)
             .Add("page3", creator: creator)
             .Persist();
-            
+
         var page1 = context.All.ByName("page1");
         var page2 = context.All.ByName("page2");
         var page3 = context.All.ByName("page3");
@@ -125,13 +122,11 @@ class UserSkills_tests : BaseTestHarness
         var skillsData = allSkills.Select(s => new
         {
             s.PageId,
-            s.PageName,
-            s.IsWiki,
-            SkillLevel = s.Evaluation.GetOverallSkillLevel(),
-            Total = s.Evaluation.Total,
-            Solid = s.Evaluation.Solid,
-            NeedsConsolidation = s.Evaluation.NeedsConsolidation,
-            NotLearned = s.Evaluation.NotLearned
+            SkillLevel = s.KnowledgeSummary.GetOverallSkillLevel(),
+            Total = s.KnowledgeSummary.Total,
+            Solid = s.KnowledgeSummary.Solid,
+            NeedsConsolidation = s.KnowledgeSummary.NeedsConsolidation,
+            NotLearned = s.KnowledgeSummary.NotLearned
         }).OrderBy(s => s.PageId).ToList();
 
         await Verify(new
@@ -150,10 +145,10 @@ class UserSkills_tests : BaseTestHarness
         await ReloadCaches();
         var userSkillService = R<UserSkillService>();
         var extendedUserCache = R<ExtendedUserCache>();
-        
+
         var context = NewPageContext();
         var creator = new User { Id = 1 };
-        
+
         context.Add("testPage", creator: creator).Persist();
         var page = context.All.ByName("testPage");
 
@@ -176,7 +171,7 @@ class UserSkills_tests : BaseTestHarness
             PageId = page.Id,
             SkillInExtendedCache = skillFromExtendedCache != null,
             SkillPageId = skillFromExtendedCache?.PageId,
-            SkillLevel = skillFromExtendedCache?.Evaluation?.GetOverallSkillLevel(),
+            SkillLevel = skillFromExtendedCache?.KnowledgeSummary?.GetOverallSkillLevel(),
             TotalSkillsInExtendedCache = allSkillsFromExtendedCache.Count,
             ExtendedCacheIntegrated = skillFromExtendedCache?.PageId == page.Id
         });
@@ -188,16 +183,16 @@ class UserSkills_tests : BaseTestHarness
         // Arrange
         await ReloadCaches();
         var userSkillService = R<UserSkillService>();
-        
+
         var context = NewPageContext();
         var creator = new User { Id = 1 };
-        
+
         context.Add("testPage", creator: creator).Persist();
         var page = context.All.ByName("testPage");
 
         // Create skill first
         userSkillService.CalculateAndUpdateUserSkill(creator.Id, page.Id, new KnowledgeSummary(solid: 10));
-        
+
         // Verify it exists
         var skillBeforeRemoval = userSkillService.GetUserSkill(creator.Id, page.Id);
 
@@ -206,7 +201,6 @@ class UserSkills_tests : BaseTestHarness
 
         // Assert
         var skillAfterRemoval = userSkillService.GetUserSkill(creator.Id, page.Id);
-        var cachedSkillAfterRemoval = EntityCache.GetSkillByUserAndPage(creator.Id, page.Id);
 
         await Verify(new
         {
@@ -214,8 +208,7 @@ class UserSkills_tests : BaseTestHarness
             PageId = page.Id,
             SkillExistedBefore = skillBeforeRemoval != null,
             SkillRemovedFromService = skillAfterRemoval == null,
-            SkillRemovedFromCache = cachedSkillAfterRemoval == null,
-            RemovalSuccessful = skillAfterRemoval == null && cachedSkillAfterRemoval == null
+            RemovalSuccessful = skillAfterRemoval == null
         });
     }
 
@@ -225,7 +218,7 @@ class UserSkills_tests : BaseTestHarness
         // Arrange
         await ReloadCaches();
         var userSkillService = R<UserSkillService>();
-        
+
         var context = NewPageContext();
         var users = new[]
         {
@@ -241,7 +234,7 @@ class UserSkills_tests : BaseTestHarness
             .Add("page2", creator: users[0])
             .Add("page3", creator: users[0])
             .Persist();
-            
+
         var pages = new[]
         {
             context.All.ByName("page1"),
@@ -271,8 +264,8 @@ class UserSkills_tests : BaseTestHarness
             Skills = userSkillService.GetUserSkills(user.Id).Select(s => new
             {
                 s.PageId,
-                SkillLevel = s.Evaluation.GetOverallSkillLevel(),
-                Total = s.Evaluation.Total
+                SkillLevel = s.KnowledgeSummary.GetOverallSkillLevel(),
+                Total = s.KnowledgeSummary.Total
             }).OrderBy(s => s.PageId).ToList()
         }).OrderBy(u => u.UserId).ToList();
 

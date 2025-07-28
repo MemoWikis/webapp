@@ -21,12 +21,21 @@ public class RebusModule : Module
             .As<IMessageBusService>()
             .SingleInstance();
 
+        // Register knowledge summary update service
+        builder.RegisterType<KnowledgeSummaryUpdateService>()
+            .AsSelf()
+            .InstancePerLifetimeScope();
+
         // Register message handlers
         builder.RegisterType<TestMessageHandler>()
             .AsImplementedInterfaces()
             .InstancePerDependency();
             
         builder.RegisterType<RenamePageHandler>()
+            .AsImplementedInterfaces()
+            .InstancePerDependency();
+
+        builder.RegisterType<UpdateKnowledgeSummaryHandler>()
             .AsImplementedInterfaces()
             .InstancePerDependency();
 

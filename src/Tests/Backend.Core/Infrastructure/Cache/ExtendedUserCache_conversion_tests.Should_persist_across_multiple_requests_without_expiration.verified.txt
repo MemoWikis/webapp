@@ -1,0 +1,51 @@
+﻿{
+  UserId: 1,
+  TestPageId: 2,
+  OriginalUser: {
+    PageValuations: {
+      2: {
+        UserId: 1,
+        PageId: 2,
+        RelevancePersonal: -1
+      }
+    },
+    IsMemoWikisUser: false,
+    AllowsSupportiveLogin: false,
+    IsMember: false,
+    Id: 1,
+    Name: SessionUser,
+    EmailAddress: sessionUser@dev.test,
+    IsFacebookUser: false,
+    IsGoogleUser: false,
+    ShowWishKnowledge: false,
+    IsInstallationAdmin: false,
+    IsEmailConfirmed: false,
+    UiLanguage: en,
+    FirstWikiId: 2
+  },
+  RetrievedUser: {
+    PageValuations: {
+      2: {
+        UserId: 1,
+        PageId: 2,
+        RelevancePersonal: -1
+      }
+    },
+    IsMemoWikisUser: false,
+    AllowsSupportiveLogin: false,
+    IsMember: false,
+    Id: 1,
+    Name: SessionUser,
+    EmailAddress: sessionUser@dev.test,
+    IsFacebookUser: false,
+    IsGoogleUser: false,
+    ShowWishKnowledge: false,
+    IsInstallationAdmin: false,
+    IsEmailConfirmed: false,
+    UiLanguage: en,
+    FirstWikiId: 2
+  },
+  UserPersists: true,
+  PageValuationsPersist: true,
+  PageValuationDataCorrect: true
+}
