@@ -12,7 +12,8 @@ public class QuestionWritingRepo(
     SessionUser _sessionUser,
     PageChangeRepo _pageChangeRepo,
     PageRepository _pageRepository,
-    KnowledgeSummaryUpdateService _knowledgeSummaryUpdateService) : RepositoryDbBase<Question>(_nhibernateSession)
+    KnowledgeSummaryUpdateService _knowledgeSummaryUpdateService,
+    UpdateAggregatedPagesService _updateAggregatedPagesService) : RepositoryDbBase<Question>(_nhibernateSession)
 {
     public override void Create(Question question)
     {
@@ -104,8 +105,7 @@ public class QuestionWritingRepo(
         UpdateQuestionCacheItem(question, pagesToUpdateIds);
 
         updateQuestionCountForPage.Run(pagesToUpdate);
-        JobScheduler.StartImmediately_UpdateAggregatedPagesForQuestion(pagesToUpdateIds,
-            _sessionUser.UserId);
+        _updateAggregatedPagesService.UpdateAggregatedPages(pagesToUpdateIds, _sessionUser.UserId);
 
         _questionChangeRepo.AddUpdateEntry(question);
 

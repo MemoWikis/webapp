@@ -119,21 +119,6 @@ public static class JobScheduler
             TriggerBuilder.Create().StartNow().Build());
     }
 
-    public static void StartImmediately_UpdateAggregatedPagesForQuestion(
-        List<int> pageIds,
-        int userId = -1)
-    {
-        var job = JobBuilder.Create<UpdateAggregatedPagesForQuestion>()
-            .Build();
-
-        job.JobDataMap["pageIds"] = pageIds;
-        job.JobDataMap["userId"] = userId;
-
-        _scheduler.ScheduleJob(
-            job,
-            TriggerBuilder.Create().StartNow().Build());
-    }
-
     public static void StartImmediately_DeleteQuestion(int questionId, int userId, string? parentIdString)
     {
         _scheduler.ScheduleJob(

@@ -26,6 +26,11 @@ public class RebusModule : Module
             .AsSelf()
             .InstancePerLifetimeScope();
 
+        // Register aggregated pages update service
+        builder.RegisterType<UpdateAggregatedPagesService>()
+            .AsSelf()
+            .InstancePerLifetimeScope();
+
         // Register message handlers
         builder.RegisterType<TestMessageHandler>()
             .AsImplementedInterfaces()
@@ -36,6 +41,10 @@ public class RebusModule : Module
             .InstancePerDependency();
 
         builder.RegisterType<UpdateKnowledgeSummaryHandler>()
+            .AsImplementedInterfaces()
+            .InstancePerDependency();
+
+        builder.RegisterType<UpdateAggregatedPagesHandler>()
             .AsImplementedInterfaces()
             .InstancePerDependency();
 
