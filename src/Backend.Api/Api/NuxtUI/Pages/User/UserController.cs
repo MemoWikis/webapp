@@ -43,9 +43,14 @@ public class UserController(
         int QuestionsCreated,
         int PublicWishknowledges);
 
-    private readonly record struct SkillWithPage(
-        KnowledgeEvaluationCacheItem Skill,
-        PageCacheItem Page);
+    public readonly record struct PageItem(
+        int Id,
+        string Name,
+        string ImgUrl,
+        int? QuestionCount,
+        KnowledgeSummaryResponse KnowledgebarData,
+        [CanBeNull] string CreatorName = "");
+
 
     [HttpGet]
     public GetResult? Get([FromRoute] int id)
@@ -164,7 +169,8 @@ public class UserController(
                     page.Name,
                     new PageImageSettings(skill.PageId, _httpContextAccessor).GetUrl_128px(true).Url,
                     page.CountQuestions,
-                    FillKnowledgeSummaryResponse(skill.KnowledgeSummary)));
+                    FillKnowledgeSummaryResponse(skill.KnowledgeSummary),
+                    page.Creator.Name));
             }
         }
 

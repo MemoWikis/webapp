@@ -13,6 +13,10 @@ const props = withDefaults(defineProps<Props>(), {
 const { t } = useI18n()
 const { $urlHelper } = useNuxtApp()
 
+const hasKnowledgebarData = computed(() => {
+    return props.skill.knowledgebarData != null && props.skill.knowledgebarData.total > 0
+})
+
 </script>
 
 <template>
@@ -23,11 +27,11 @@ const { $urlHelper } = useNuxtApp()
             </div>
             <div class="skill-details">
                 <h4>{{ skill.name }}</h4>
-                <p class="creator">By: Foobar</p>
+                <p class="creator">By: {{ skill.creatorName }}</p>
                 <div class="skill-bar" v-if="skill.questionCount > 0">
                     <p class="question-count">Question count: {{ skill.questionCount }}</p>
                     <PageContentGridKnowledgebar
-                        v-if="skill.knowledgebarData"
+                        v-if="hasKnowledgebarData"
                         :knowledgebarData="skill.knowledgebarData" />
                 </div>
 

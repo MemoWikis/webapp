@@ -190,11 +190,30 @@ public class ExtendedUserCache(
 
     private void PopulatePageValuations(ExtendedUserCacheItem cacheItem)
     {
+        Log.Information("PopulatePageValuations: Starting for userId {UserId}", cacheItem.Id);
+        
+        var pageValuations = pageValuationReadingRepository
+            .GetByUser(cacheItem.Id, onlyActiveKnowledge: false);
+            
+        Log.Information("PopulatePageValuations: Found {Count} page valuations for userId {UserId}", 
+            pageValuations?.Count() ?? 0, cacheItem.Id);
+        
+        if (pageValuations != null && pageValuations.Any())
+        {
+            foreach (var pv in pageValuations.Take(5)) // Log first 5 for debugging
+            {
+                Log.Information("PopulatePageValuations: Found PageValuation - UserId: {UserId}, PageId: {PageId}", 
+                    pv.UserId, pv.PageId);
+            }
+        }
+        
         cacheItem.PageValuations = new ConcurrentDictionary<int, PageValuation>(
-            pageValuationReadingRepository
-                .GetByUser(cacheItem.Id, onlyActiveKnowledge: false)
-                .Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v))
+            pageValuations?.Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v)) ?? 
+            new List<KeyValuePair<int, PageValuation>>()
         );
+        
+        Log.Information("PopulatePageValuations: Completed for userId {UserId}, final count: {Count}", 
+            cacheItem.Id, cacheItem.PageValuations.Count);
     }
 
     private void PopulateQuestionValuations(ExtendedUserCacheItem cacheItem)

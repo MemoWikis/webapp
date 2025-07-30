@@ -6,4 +6,5 @@ export interface PageData {
     imgUrl?: string
     questionCount: number
     knowledgebarData: KnowledgeSummary
+    creatorName?: string
 }
