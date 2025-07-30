@@ -36,6 +36,7 @@
 
     public void RunForUserAndPage(int userId, int pageId, bool forProfilePage = false)
     {
+        Log.Information("RunForUserAndPage: userId: {0}, {1}", userId, pageId);
         // Try to get from cache first
         var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
         var cachedPageValuation = extendedUser?.PageValuations?.GetValueOrDefault(pageId);

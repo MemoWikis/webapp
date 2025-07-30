@@ -35,7 +35,9 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
         };
 
         userSkillRepo.Create(newSkill);
-        AddNewSkillToCache(newSkill);
+        var dbSkill = userSkillRepo.GetByUserAndPage(userId, pageId);
+        AddNewSkillToCache(dbSkill);
+        knowledgeSummaryUpdateService.ScheduleUserAndPageUpdateForProfilePage(userId, pageId);
     }
 
     /// <summary>
@@ -44,7 +46,6 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
     public void CreateUserSkill(int userId, int pageId)
     {
         var defaultKnowledgeSummary = new KnowledgeSummary();
-        knowledgeSummaryUpdateService.ScheduleUserAndPageUpdateForProfilePage(userId, pageId);
 
         CreateUserSkill(userId, pageId, defaultKnowledgeSummary);
     }

@@ -312,8 +312,8 @@ async function handleAddSkillClick() {
             <LayoutPanel v-if="hasSkills || profile.isCurrentUser" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)">
                 <UserSkillCard v-for="skill in profile.skills" :skill="skill" />
 
-                <LayoutCard v-if="!hasSkills" :size="LayoutCardSize.Large">                
-                    {{t('user.profile.noSkills')}}
+                <LayoutCard v-if="!hasSkills" :size="LayoutCardSize.Large">
+                    {{ t('user.profile.noSkills') }}
                 </LayoutCard>
 
                 <LayoutCard v-if="profile.isCurrentUser" :size="LayoutCardSize.Small" @click="handleAddSkillClick" class="add-skill-card">
@@ -332,11 +332,13 @@ async function handleAddSkillClick() {
                 </LayoutCard>
             </LayoutPanel>
 
-            <LayoutPanel v-if="hasQuestions" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)">
-                <LayoutCard :no-padding="true">
-                    <LayoutQuestionList :questions="fakeQuestions" :no-questions-text="t('user.profile.noQuestions')" />
-                </LayoutCard>
-            </LayoutPanel>
+            <DevOnly>
+                <LayoutPanel v-if="hasQuestions" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)">
+                    <LayoutCard :no-padding="true">
+                        <LayoutQuestionList :questions="fakeQuestions" :no-questions-text="t('user.profile.noQuestions')" />
+                    </LayoutCard>
+                </LayoutPanel>
+            </DevOnly>
         </div>
 
         <SidebarUser :user="profile.user" :has-wikis="hasWikis" :has-questions="hasQuestions" :show-skills="showSkills" />
