@@ -3,7 +3,8 @@
 public class ExtendedUserCache(
     PageValuationReadingRepository pageValuationReadingRepository,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
-    AnswerRepo _answerRepo)
+    AnswerRepo _answerRepo,
+    UserSkillService _userSkillService)
     : IRegisterAsInstancePerLifetime
 {
     // Note: No longer using session-based expiration
@@ -180,6 +181,7 @@ public class ExtendedUserCache(
         PopulatePageValuations(cacheItem);
         PopulateQuestionValuations(cacheItem);
         PopulateAnswers(cacheItem);
+        PopulateUserSkills(cacheItem);
         if (_pageViewRepo != null)
             PopulateRecentPages(cacheItem, _pageViewRepo);
 
@@ -220,6 +222,15 @@ public class ExtendedUserCache(
                     .GroupBy(a => a.Question.Id)
                     .ToDictionary(g => g.Key, AnswerCache.AnswersToAnswerRecord)
             );
+        }
+    }
+
+    private void PopulateUserSkills(ExtendedUserCacheItem cacheItem)
+    {
+        var userSkills = _userSkillService.GetUserSkills(cacheItem.Id);
+        if (userSkills != null && userSkills.Any())
+        {
+            cacheItem.PopulateSkills(userSkills);
         }
     }
 

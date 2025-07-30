@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 public class EntityCacheInitializer(
     PageRepository pageRepository,
@@ -27,7 +26,6 @@ public class EntityCacheInitializer(
         InitializePages();
         InitializeQuestions();
         InitializeShareInfos();
-        InitializeSkills();
 
         Log.Information("EntityCache PutIntoCache" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
         EntityCache.IsFirstStart = false;
@@ -109,15 +107,6 @@ public class EntityCacheInitializer(
 
         var shareCacheItems = allShareInfos.Select(ShareCacheItem.ToCacheItem).ToList();
         MemoCache.Add(EntityCache.CacheKeyPageShares, shareCacheItems.ToConcurrentDictionary());
-    }
-
-    private void InitializeSkills()
-    {
-        // Initialize empty Skills cache - will be populated on-demand
-        var skills = new ConcurrentDictionary<int, ConcurrentDictionary<int, KnowledgeEvaluationCacheItem>>();
-        Log.Information("EntityCache Skills Initialized " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
-
-        MemoCache.Add(EntityCache.CacheKeySkills, skills);
     }
 }
 

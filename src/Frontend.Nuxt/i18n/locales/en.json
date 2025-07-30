@@ -145,6 +145,17 @@
         },
         "token": {
             "generation": "Could not generate share link. Please try again."
+        },
+        "unauthorized": "You are not authorized to perform this action.",
+        "pageNotFound": "The page was not found.",
+        "noPermission": "You do not have permission to view this page.",
+        "skillAlreadyExists": "This skill is already in your list.",
+        "skillNotFound": "This skill was not found in your list.",
+        "addSkill": {
+            "failed": "The skill could not be added."
+        },
+        "removeSkill": {
+            "failed": "The skill could not be removed."
         }
     },
     "info": {
@@ -311,6 +322,7 @@
             "addParentPage": "Link parent page",
             "addChildPage": "Link subpage",
             "addToPersonalWiki": "Add to my Wiki",
+            "addToSkills": "Add to my Skills",
             "setToPrivate": "Set page to private",
             "publishPage": "Publish page",
             "convertToWiki": "Convert page into Wiki",

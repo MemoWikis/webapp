@@ -15,7 +15,8 @@ public class UserController(
         bool IsCurrentUser,
         string MessageKey,
         NuxtErrorPageType ErrorCode,
-        [CanBeNull] IList<PageItem> Wikis //temp for ui building
+        [CanBeNull] IList<PageItem> Wikis, //temp for ui building
+        [CanBeNull] IList<PageItem> Skills
     );
 
     public new readonly record struct User(
@@ -42,6 +43,10 @@ public class UserController(
         int QuestionsCreated,
         int PublicWishknowledges);
 
+    private readonly record struct SkillWithPage(
+        KnowledgeEvaluationCacheItem Skill,
+        PageCacheItem Page);
+
     [HttpGet]
     public GetResult? Get([FromRoute] int id)
     {
@@ -52,7 +57,8 @@ public class UserController(
             return new GetResult
             {
                 ErrorCode = NuxtErrorPageType.NotFound,
-                MessageKey = FrontendMessageKeys.Error.User.NotFound
+                MessageKey = FrontendMessageKeys.Error.User.NotFound,
+                Skills = null
             };
         }
 
@@ -104,6 +110,7 @@ public class UserController(
             },
             IsCurrentUser = isCurrentUser,
             Wikis = GetWikis(user.Id),
+            Skills = GetSkills(user.Id)
         };
         return result;
     }
@@ -142,7 +149,27 @@ public class UserController(
             knowledgeSummary.Total);
     }
 
-    // temp end
+    private IList<PageItem> GetSkills(int userId)
+    {
+        var extendedUserCacheItem = _extendedUserCache.GetUser(userId);
+        var skillsWithPages = new List<PageItem>();
+
+        foreach (var skill in extendedUserCacheItem.GetAllSkills())
+        {
+            var page = EntityCache.GetPage(skill.PageId);
+            if (_permissionCheck.CanView(page))
+            {
+                skillsWithPages.Add(new PageItem(
+                    skill.PageId,
+                    page.Name,
+                    new PageImageSettings(skill.PageId, _httpContextAccessor).GetUrl_128px(true).Url,
+                    page.CountQuestions,
+                    FillKnowledgeSummaryResponse(skill.KnowledgeSummary)));
+            }
+        }
+
+        return skillsWithPages;
+    }
 
     public readonly record struct WuwiResult(WuwiQuestion[] Questions, WuwiPage[] Pages);
 

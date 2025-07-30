@@ -145,6 +145,17 @@
         },
         "token": {
             "generation": "Impossible de générer le lien de partage. Merci d'essayer à nouveau."
+        },
+        "unauthorized": "Vous n'êtes pas autorisé à effectuer cette action.",
+        "pageNotFound": "La page n'a pas été trouvée.",
+        "noPermission": "Vous n'avez pas la permission de voir cette page.",
+        "skillAlreadyExists": "Cette compétence est déjà dans votre liste.",
+        "skillNotFound": "Cette compétence n'a pas été trouvée dans votre liste.",
+        "addSkill": {
+            "failed": "La compétence n'a pas pu être ajoutée."
+        },
+        "removeSkill": {
+            "failed": "La compétence n'a pas pu être supprimée."
         }
     },
     "info": {
@@ -311,6 +322,7 @@
             "addParentPage": "Lier une page parente",
             "addChildPage": "Lier une sous-page",
             "addToPersonalWiki": "Ajouter à mon wiki",
+            "addToSkills": "Ajouter à mes compétences",
             "setToPrivate": "Rendre cette page privée",
             "publishPage": "Publier la page",
             "convertToWiki": "Convertir la page en wiki",

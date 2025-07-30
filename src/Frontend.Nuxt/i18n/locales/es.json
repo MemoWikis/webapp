@@ -145,6 +145,17 @@
         },
         "token": {
             "generation": "No se pudo generar el enlace para compartir. Por favor, inténtalo de nuevo."
+        },
+        "unauthorized": "No tienes autorización para realizar esta acción.",
+        "pageNotFound": "La página no fue encontrada.",
+        "noPermission": "No tienes permiso para ver esta página.",
+        "skillAlreadyExists": "Esta habilidad ya está en tu lista.",
+        "skillNotFound": "Esta habilidad no fue encontrada en tu lista.",
+        "addSkill": {
+            "failed": "La habilidad no pudo ser añadida."
+        },
+        "removeSkill": {
+            "failed": "La habilidad no pudo ser eliminada."
         }
     },
     "info": {
@@ -311,6 +322,7 @@
             "addParentPage": "Vincular página superior",
             "addChildPage": "Vincular subpágina",
             "addToPersonalWiki": "Añadir a mi Wiki",
+            "addToSkills": "Añadir a mis habilidades",
             "setToPrivate": "Establecer la página como privada",
             "publishPage": "Publicar página",
             "convertToWiki": "Convertir la página en Wiki",

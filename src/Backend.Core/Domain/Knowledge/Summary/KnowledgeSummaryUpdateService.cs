@@ -16,7 +16,7 @@ public class KnowledgeSummaryUpdateService
     /// <param name="pageId">The page ID to update knowledge summaries for</param>
     public void SchedulePageUpdate(int pageId)
     {
-        var message = new UpdateKnowledgeSummaryMessage(pageId, UpdateType.Page);
+        var message = new UpdateKnowledgeSummaryMessage(pageId);
         _messageBusService.SendAsync(message);
     }
 
@@ -26,7 +26,7 @@ public class KnowledgeSummaryUpdateService
     /// <param name="pageId">The page ID to update knowledge summaries for</param>
     public async Task SchedulePageUpdateAsync(int pageId)
     {
-        var message = new UpdateKnowledgeSummaryMessage(pageId, UpdateType.Page);
+        var message = new UpdateKnowledgeSummaryMessage(pageId);
         await _messageBusService.SendAsync(message);
     }
 
@@ -82,6 +82,12 @@ public class KnowledgeSummaryUpdateService
     public void ScheduleUserAndPageUpdate(int userId, int pageId)
     {
         var message = new UpdateKnowledgeSummaryMessage(userId, pageId);
+        _messageBusService.SendAsync(message);
+    }
+
+    public void ScheduleUserAndPageUpdateForProfilePage(int userId, int pageId)
+    {
+        var message = new UpdateKnowledgeSummaryMessage(userId, pageId, forProfilePage: true);
         _messageBusService.SendAsync(message);
     }
 

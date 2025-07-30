@@ -4,15 +4,15 @@
     KnowledgeSummaryLoader knowledgeSummaryLoader,
     UserSkillService userSkillService) : IRegisterAsInstancePerLifetime
 {
-    public void RunForPage(int pageId)
+    public void RunForPage(int pageId, bool forProfilePage = false)
     {
         foreach (var pageValuation in pageValuationReadingRepository.GetByPage(pageId))
         {
-            Run(pageValuation);
+            Run(pageValuation, forProfilePage);
         }
     }
 
-    public void RunForUser(int userId)
+    public void RunForUser(int userId, bool forProfilePage = false)
     {
         // Try to get from cache first
         var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
@@ -21,7 +21,7 @@
             // Use cached page valuations if available
             foreach (var pageValuation in extendedUser.PageValuations.Values)
             {
-                Run(pageValuation);
+                Run(pageValuation, forProfilePage);
             }
         }
         else
@@ -29,12 +29,12 @@
             // Fallback to database if not in cache
             foreach (var pageValuation in pageValuationReadingRepository.GetByUser(userId))
             {
-                Run(pageValuation);
+                Run(pageValuation, forProfilePage);
             }
         }
     }
 
-    public void RunForUserAndPage(int userId, int pageId)
+    public void RunForUserAndPage(int userId, int pageId, bool forProfilePage = false)
     {
         // Try to get from cache first
         var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
@@ -43,7 +43,7 @@
         if (cachedPageValuation != null)
         {
             // Use cached page valuation if available
-            Run(cachedPageValuation);
+            Run(cachedPageValuation, forProfilePage);
         }
         else
         {
@@ -51,14 +51,23 @@
             var pageValuation = pageValuationReadingRepository.GetBy(pageId, userId);
             if (pageValuation != null)
             {
-                Run(pageValuation);
+                Run(pageValuation, forProfilePage);
             }
         }
     }
 
-    private void Run(PageValuation pageValuation)
+    private void Run(PageValuation pageValuation, bool forProfilePage = false)
     {
-        var knowledgeSummary = knowledgeSummaryLoader.Run(pageValuation.UserId, pageValuation.PageId, false);
+        var knowledgeSummary = forProfilePage
+            ? knowledgeSummaryLoader.RunForProfilePage(
+                pageValuation.UserId,
+                pageValuation.PageId,
+                onlyValuated: false)
+            : knowledgeSummaryLoader.Run(
+                pageValuation.UserId,
+                pageValuation.PageId,
+                onlyValuated: false);
+
         pageValuation.CountNotLearned = knowledgeSummary.NotLearned;
         pageValuation.CountNeedsLearning = knowledgeSummary.NeedsLearning;
         pageValuation.CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;

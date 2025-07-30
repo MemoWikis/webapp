@@ -5,7 +5,7 @@ public class ExtendedUserCacheItem : UserCacheItem
     public ConcurrentDictionary<int, PageValuation> PageValuations = new();
     public ConcurrentDictionary<int, QuestionValuationCacheItem> QuestionValuations = new();
     public ConcurrentDictionary<int, AnswerRecord> AnswerCounter = new();
-    public ConcurrentDictionary<int, KnowledgeEvaluationCacheItem> Skills = new();
+    private ConcurrentDictionary<int, KnowledgeEvaluationCacheItem> Skills = new();
 
     public void AddOrUpdateQuestionValuations(QuestionValuationCacheItem questionValuationCacheItem)
     {
@@ -81,8 +81,15 @@ public class ExtendedUserCacheItem : UserCacheItem
         return skill;
     }
 
-    public ICollection<KnowledgeEvaluationCacheItem> GetAllSkills()
+    public List<KnowledgeEvaluationCacheItem> GetAllSkills()
     {
-        return Skills.Values;
+        return Skills.Values.ToList();
+    }
+
+    public void PopulateSkills(IEnumerable<KnowledgeEvaluationCacheItem> skillsList)
+    {
+        Skills = new ConcurrentDictionary<int, KnowledgeEvaluationCacheItem>(
+            skillsList.ToDictionary(skill => skill.PageId, skill => skill)
+        );
     }
 }

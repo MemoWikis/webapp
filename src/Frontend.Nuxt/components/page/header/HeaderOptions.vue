@@ -10,6 +10,7 @@ import { useDeletePageStore } from '../delete/deletePageStore'
 
 import { useConvertStore } from '../convert/convertStore'
 import { useSharePageStore } from '../sharing/sharePageStore'
+import { useUserSkills } from '~~/composables/useUserSkills'
 
 const userStore = useUserStore()
 const pageStore = usePageStore()
@@ -20,11 +21,71 @@ const deletePageStore = useDeletePageStore()
 const pageToPrivateStore = usePageToPrivateStore()
 const convertStore = useConvertStore()
 const sharePageStore = useSharePageStore()
+const { addSkill, removeSkill, checkSkill } = useUserSkills()
 
 const hoverLock = ref(false)
 const ariaId = useId()
+const isSkill = ref(false)
 
 const { t, localeProperties } = useI18n()
+
+// Check if current page is already a skill
+const checkIfSkill = async () => {
+    // if (userStore.id && pageStore.id) {
+    //     const result = await checkSkill(userStore.id, pageStore.id)
+    //     isSkill.value = result.isSkill
+    // }
+}
+
+// Check skill status when component mounts
+// onMounted(checkIfSkill)
+
+// Also check when page changes
+// watch(() => pageStore.id, checkIfSkill)
+
+const addToSkills = async () => {
+    if (!userStore.id) {
+        return
+    }
+
+    try {
+        const result = await addSkill(userStore.id, pageStore.id)
+
+        if (result.success) {
+            // Show success message or toast
+            console.log('Page added to skills successfully')
+        } else {
+            // Show error message
+            console.error('Failed to add to skills:', result.errorMessageKey)
+            alert(`Error: ${t(result.errorMessageKey)}`)
+        }
+    } catch (error) {
+        console.error('Error adding to skills:', error)
+        alert('Failed to add page to skills')
+    }
+}
+
+const removeFromSkills = async () => {
+    if (!userStore.id) {
+        return
+    }
+
+    try {
+        const result = await removeSkill(userStore.id, pageStore.id)
+
+        if (result.success) {
+            // Show success message or toast
+            console.log('Page removed from skills successfully')
+        } else {
+            // Show error message
+            console.error('Failed to remove from skills:', result.errorMessageKey)
+            alert(`Error: ${t(result.errorMessageKey)}`)
+        }
+    } catch (error) {
+        console.error('Error removing from skills:', error)
+        alert('Failed to remove page from skills')
+    }
+}
 
 </script>
 
@@ -103,6 +164,32 @@ const { t, localeProperties } = useI18n()
                         </div>
                         <div class="dropdown-label">
                             {{ t('page.header.addToPersonalWiki') }}
+                        </div>
+                    </div>
+
+                    <div v-if="userStore.isLoggedIn" class="dropdown-row" @click="addToSkills(); hide()">
+                        <div class="dropdown-icon">
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'brain']" />
+                                <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
+                                <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-3 down-1 right-1" style="color: white;" />
+                            </font-awesome-layers>
+                        </div>
+                        <div class="dropdown-label">
+                            {{ t('page.header.addToSkills') }}
+                        </div>
+                    </div>
+
+                    <div v-if="userStore.isLoggedIn" class="dropdown-row" @click="removeFromSkills(); hide()">
+                        <div class="dropdown-icon">
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'brain']" />
+                                <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
+                                <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-3 down-1 right-1" style="color: white;" />
+                            </font-awesome-layers>
+                        </div>
+                        <div class="dropdown-label">
+                            {{ t('page.header.removeFromSkills') }}
                         </div>
                     </div>
 

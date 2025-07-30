@@ -145,6 +145,17 @@
         },
         "token": {
             "generation": "Der Freigabelink konnte nicht erstellt werden. Bitte versuche es erneut."
+        },
+        "unauthorized": "Du bist nicht berechtigt, diese Aktion auszuführen.",
+        "pageNotFound": "Die Seite wurde nicht gefunden.",
+        "noPermission": "Du hast keine Berechtigung, diese Seite anzuzeigen.",
+        "skillAlreadyExists": "Diese Fähigkeit ist bereits in deiner Liste.",
+        "skillNotFound": "Diese Fähigkeit wurde nicht in deiner Liste gefunden.",
+        "addSkill": {
+            "failed": "Die Fähigkeit konnte nicht hinzugefügt werden."
+        },
+        "removeSkill": {
+            "failed": "Die Fähigkeit konnte nicht entfernt werden."
         }
     },
     "info": {
@@ -311,6 +322,7 @@
             "addParentPage": "Übergeordnete Seite verknüpfen",
             "addChildPage": "Unterseite verknüpfen",
             "addToPersonalWiki": "Zu meinem Wiki hinzufügen",
+            "addToSkills": "Zu meinen Fähigkeiten hinzufügen",
             "setToPrivate": "Seite auf privat setzen",
             "publishPage": "Seite veröffentlichen",
             "convertToWiki": "Seite in Wiki konvertieren",

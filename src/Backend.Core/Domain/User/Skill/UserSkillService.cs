@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 /// <summary>
 /// Service for managing user skills - automatically calculated based on question answering performance
 /// </summary>
-public class UserSkillService(UserSkillRepo userSkillRepo)
+public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdateService knowledgeSummaryUpdateService) : IRegisterAsInstancePerLifetime
 {
     /// <summary>
     /// Calculate and update user skill based on their question performance for a specific page/wiki
@@ -36,6 +36,17 @@ public class UserSkillService(UserSkillRepo userSkillRepo)
 
         userSkillRepo.Create(newSkill);
         AddNewSkillToCache(newSkill);
+    }
+
+    /// <summary>
+    /// Create a new user skill with default empty knowledge summary (KnowledgeSummary will be Updated using Rebus)
+    /// </summary>
+    public void CreateUserSkill(int userId, int pageId)
+    {
+        var defaultKnowledgeSummary = new KnowledgeSummary();
+        knowledgeSummaryUpdateService.ScheduleUserAndPageUpdateForProfilePage(userId, pageId);
+
+        CreateUserSkill(userId, pageId, defaultKnowledgeSummary);
     }
 
     private void AddNewSkillToCache(UserSkill newSkill)
@@ -107,7 +118,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo)
         var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
         var cachedSkills = SlidingCache.GetExtendedUserById(userId)?.GetAllSkills();
 
-        if (cachedSkills.Any())
+        if (cachedSkills?.Any() == true)
         {
             return cachedSkills.ToList();
         }
@@ -153,8 +164,11 @@ public class UserSkillService(UserSkillRepo userSkillRepo)
         if (dbSkill != null && page != null)
         {
             var cacheItem = KnowledgeEvaluationCacheItem.FromUserSkill(dbSkill, page.Name, page.IsWiki);
-            extendedUser.AddOrUpdateSkill(cacheItem);
-            SlidingCache.AddOrUpdate(extendedUser);
+            if (extendedUser != null)
+            {
+                extendedUser.AddOrUpdateSkill(cacheItem);
+                SlidingCache.AddOrUpdate(extendedUser);
+            }
             return cacheItem;
         }
 

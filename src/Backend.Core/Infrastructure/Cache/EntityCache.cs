@@ -9,7 +9,6 @@ public class EntityCache
     public const string CacheKeyPageQuestionsList = "pageQuestionsList_EntityCache";
     public const string CacheKeyRelations = "allRelations_EntityCache";
     public const string CacheKeyPageShares = "pageShares_EntityCache";
-    public const string CacheKeySkills = "allSkills_EntityCache";
 
     public static bool IsFirstStart = true;
 

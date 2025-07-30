@@ -1,3 +1,4 @@
+using Autofac;
 using Rebus.Handlers;
 using System.Collections.Concurrent;
 
@@ -8,6 +9,7 @@ public class UpdateKnowledgeSummaryHandler : IHandleMessages<UpdateKnowledgeSumm
 {
     private readonly KnowledgeSummaryUpdate _knowledgeSummaryUpdate;
     private readonly ILogger _logger;
+    private readonly IContainer _container;
 
     // Debounce state management
     private static readonly ConcurrentDictionary<string, DateTime> _lastMessageTime = new();
@@ -19,13 +21,15 @@ public class UpdateKnowledgeSummaryHandler : IHandleMessages<UpdateKnowledgeSumm
 
     public UpdateKnowledgeSummaryHandler(
         KnowledgeSummaryUpdate knowledgeSummaryUpdate,
-        ILogger logger)
+        ILogger logger,
+        IContainer container)
     {
         _knowledgeSummaryUpdate = knowledgeSummaryUpdate;
         _logger = logger;
+        _container = container;
     }
 
-    public async Task Handle(UpdateKnowledgeSummaryMessage message)
+    public Task Handle(UpdateKnowledgeSummaryMessage message)
     {
         var debounceKey = message.DebounceKey;
         var now = DateTime.UtcNow;
@@ -43,15 +47,17 @@ public class UpdateKnowledgeSummaryHandler : IHandleMessages<UpdateKnowledgeSumm
         }
 
         // Create new timer for debounced execution
-        var timer = new Timer(async _ => await ExecuteUpdate(debounceKey), null, DebounceDelayMs, Timeout.Infinite);
+        var timer = new Timer(_ => ExecuteUpdate(debounceKey), null, DebounceDelayMs, Timeout.Infinite);
         _debounceTimers.AddOrUpdate(debounceKey, timer, (key, existing) =>
         {
             existing?.Dispose();
             return timer;
         });
+
+        return Task.CompletedTask;
     }
 
-    private async Task ExecuteUpdate(string debounceKey)
+    private void ExecuteUpdate(string debounceKey)
     {
         try
         {
@@ -67,31 +73,37 @@ public class UpdateKnowledgeSummaryHandler : IHandleMessages<UpdateKnowledgeSumm
             {
                 timer?.Dispose();
             }
+
             _lastMessageTime.TryRemove(debounceKey, out _);
 
             _logger.Information("Executing debounced knowledge summary update for key: {DebounceKey}", debounceKey);
 
-            // Execute the actual knowledge summary update
-            switch (message.Type)
+            // Create a new scope from the root container for database operations
+            // The root container never gets disposed, so this is safe for background operations
+            using (var scope = _container.BeginLifetimeScope())
             {
-                case UpdateType.Page:
-                    _knowledgeSummaryUpdate.RunForPage(message.PageId);
-                    break;
+                var scopedKnowledgeSummaryUpdate = scope.Resolve<KnowledgeSummaryUpdate>();
+                
+                // Execute the actual knowledge summary update
+                switch (message.Type)
+                {
+                    case UpdateType.Page:
+                        scopedKnowledgeSummaryUpdate.RunForPage(message.PageId, message.ForProfilePage);
+                        break;
 
-                case UpdateType.User when message.UserId.HasValue:
-                    _knowledgeSummaryUpdate.RunForUser(message.UserId.Value);
-                    break;
+                    case UpdateType.User when message.UserId.HasValue:
+                        scopedKnowledgeSummaryUpdate.RunForUser(message.UserId.Value, message.ForProfilePage);
+                        break;
 
-                case UpdateType.UserAndPage when message.UserId.HasValue:
-                    _knowledgeSummaryUpdate.RunForUserAndPage(message.UserId.Value, message.PageId);
-                    break;
+                    case UpdateType.UserAndPage when message.UserId.HasValue:
+                        scopedKnowledgeSummaryUpdate.RunForUserAndPage(message.UserId.Value, message.PageId, message.ForProfilePage);
+                        break;
 
-                default:
-                    _logger.Warning("Invalid update type or missing UserId for message: {Message}", message);
-                    break;
-            }
-
-            _logger.Information("Successfully completed knowledge summary update for key: {DebounceKey}", debounceKey);
+                    default:
+                        _logger.Warning("Invalid update type or missing UserId for message: {Message}", message);
+                        break;
+                }
+            }            _logger.Information("Successfully completed knowledge summary update for key: {DebounceKey}", debounceKey);
         }
         catch (Exception ex)
         {

@@ -48,6 +48,7 @@ interface ProfileData {
     messageKey?: string
     errorCode?: ErrorCode
     wikis?: PageData[]
+    skills?: PageData[]
 }
 
 const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/User/Get/${route.params.id ? route.params.id : userStore.id}`, {
@@ -178,13 +179,44 @@ const hasWikis = computed(() => {
     return profile.value?.wikis && profile.value.wikis.length > 0
 })
 
+const hasSkills = computed(() => {
+    return profile.value?.skills && profile.value.skills.length > 0
+})
+
 const hasQuestions = computed(() => {
     return fakeQuestions.length > 0 || (profile.value?.overview.publicQuestionsCount ? profile.value.overview.publicQuestionsCount > 0 : false)
 })
 
 const showSkills = computed(() => {
-    return profile.value?.user.id === userStore.id || (profile.value?.wikis && profile.value.wikis.length > 0)
+    return profile.value?.user.id === userStore.id || hasSkills.value
 })
+
+const { addSkill, removeSkill } = useUserSkills()
+
+// Placeholder function for adding skills - will open modal later
+async function handleAddSkillClick() {
+    // TODO: Replace this with a proper modal that allows searching and selecting skills
+    const pageId = prompt('Enter a Page ID to add as skill (temporary - modal will be implemented later):')
+
+    if (!pageId || isNaN(Number(pageId)) || !profile.value?.user.id) {
+        return
+    }
+
+    try {
+        const result = await addSkill(profile.value.user.id, Number(pageId))
+
+        if (result.success) {
+            console.log('Skill added successfully:', result.addedSkill)
+            // Refresh the profile to show the new skill
+            await refreshProfile()
+        } else {
+            // alert(`Error adding skill: ${result.errorMessageKey}`)
+        }
+    } catch (error) {
+        console.error('Error adding skill:', error)
+        alert('Failed to add skill')
+    }
+}
 </script>
 
 <template>
@@ -276,6 +308,21 @@ const showSkills = computed(() => {
                     <UserSkillCard :skill="profile.wikis![4]" />
                 </LayoutPanel>
             </template> -->
+
+            <LayoutPanel v-if="hasSkills || profile.isCurrentUser" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)">
+                <UserSkillCard v-for="skill in profile.skills" :skill="skill" />
+
+                <LayoutCard v-if="!hasSkills" :size="LayoutCardSize.Large">                
+                    {{t('user.profile.noSkills')}}
+                </LayoutCard>
+
+                <LayoutCard v-if="profile.isCurrentUser" :size="LayoutCardSize.Small" @click="handleAddSkillClick" class="add-skill-card">
+                    <div class="add-skill-content">
+                        <font-awesome-icon :icon="['fas', 'plus']" class="add-icon" />
+                        <span>{{ t('user.skills.addSkill') }}</span>
+                    </div>
+                </LayoutCard>
+            </LayoutPanel>
 
             <LayoutPanel v-if="hasWikis" :id="UserSection.WIKIS_SECTION.id" :title="t(UserSection.WIKIS_SECTION.translationKey)">
                 <MissionControlGrid v-if="isMobile" :pages="profile.wikis!" :no-pages-text="t('missionControl.pageTable.noWikis')" />
@@ -418,5 +465,44 @@ const showSkills = computed(() => {
     padding: 20px;
     width: 100%;
     margin-top: 20px;
+}
+
+.add-skill-card {
+    cursor: pointer;
+    border: 2px dashed @memo-grey-light;
+    background-color: @memo-grey-lightest;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: darken(@memo-grey-lightest, 5%);
+    }
+
+    .add-skill-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        text-align: center;
+        color: @memo-grey-dark;
+
+        .add-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: @memo-grey;
+        }
+
+        span {
+            font-weight: 500;
+        }
+    }
+
+    &:hover .add-skill-content {
+        color: @memo-blue;
+
+        .add-icon {
+            color: @memo-blue;
+        }
+    }
 }
 </style>

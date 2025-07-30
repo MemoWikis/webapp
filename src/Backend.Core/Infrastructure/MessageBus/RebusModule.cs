@@ -42,13 +42,14 @@ public class RebusModule : Module
 
         builder.RegisterType<UpdateKnowledgeSummaryHandler>()
             .AsImplementedInterfaces()
+            .AsSelf()
             .InstancePerDependency();
 
         builder.RegisterType<UpdateAggregatedPagesHandler>()
             .AsImplementedInterfaces()
             .InstancePerDependency();
 
-        // Configure Rebus
+        // Configure Rebus with proper session management
         builder.RegisterRebus((configurer, context) =>
         {
             return configurer
