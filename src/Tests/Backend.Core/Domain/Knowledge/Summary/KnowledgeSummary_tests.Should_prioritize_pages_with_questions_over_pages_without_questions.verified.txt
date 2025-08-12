@@ -1,0 +1,14 @@
+﻿{
+  pageWithUnlearnedQuestions: {
+    KnowledgeStatusPoints: 0.0001,
+    KnowledgeStatusPointsTotal: 0.0001,
+    Total: 10
+  },
+  pageWithNoQuestions: {},
+  priorityComparison: {
+    unlearnedHasHigherPoints: true,
+    unlearnedHasHigherPointsTotal: true,
+    unlearnedGetsBaseline: true,
+    noQuestionsGetsZero: true
+  }
+}
