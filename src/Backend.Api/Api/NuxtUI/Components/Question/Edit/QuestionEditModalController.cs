@@ -78,7 +78,7 @@ public class QuestionEditModalController(
         var question = new Question();
         question.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
 
-        question = SetQuestion(question, request, safeText);
+        question = SetQuestion(question, request);
 
         _questionWritingRepo.Create(question);
 
@@ -125,7 +125,7 @@ public class QuestionEditModalController(
             };
 
         var question = _questionReadingRepo.GetById((int)request.QuestionId);
-        var updatedQuestion = SetQuestion(question, request, safeText);
+        var updatedQuestion = SetQuestion(question, request);
 
         _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
@@ -138,10 +138,10 @@ public class QuestionEditModalController(
         return new QuestionEditResult { Success = true, Data = LoadQuestion(updatedQuestion.Id) };
     }
 
-    private Question SetQuestion(Question question, QuestionDataRequest request, string safeText)
+    private Question SetQuestion(Question question, QuestionDataRequest request)
     {
         question.TextHtml = request.TextHtml;
-        question.Text = safeText;
+        question.Text = SafeQuestionTitle.Get(request.TextHtml);
         question.TextExtendedHtml = request.QuestionExtensionHtml;
         question.DescriptionHtml = request.DescriptionHtml;
         question.SolutionType = request.SolutionType;

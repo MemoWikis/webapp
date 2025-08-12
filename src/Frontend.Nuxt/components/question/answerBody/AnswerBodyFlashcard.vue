@@ -11,13 +11,13 @@ const props = defineProps<Props>()
 const flipped = ref(false)
 
 const solutionHtml = ref('')
-function init() {
+const init = () => {
     solutionHtml.value = JSON.parse(props.solution).Text
 }
 
 watch(() => props.solution, () => init())
 
-function flip() {
+const flip = () => {
     if (flipped.value && solutionHtml.value.charAt(0) === ' ')
         solutionHtml.value = solutionHtml.value.substring(1)
     else solutionHtml.value = ' ' + solutionHtml.value
@@ -25,15 +25,24 @@ function flip() {
     flipped.value = !flipped.value
 }
 
+const onFlashcardClick = (event: Event) => {
+    // Prevent flip if clicking on figcaption or its children
+    const target = event.target as HTMLElement
+    if (target.closest('.tiptap-figcaption, figcaption')) {
+        return // Don't flip when clicking on captions
+    }
+    flip()
+}
+
 watch(flipped, () => emit('flipped'))
 
-async function getAnswerDataString(): Promise<string> {
+const getAnswerDataString = async (): Promise<string> => {
     await nextTick()
     const result = props.markedAsCorrect ? FlashcardAnswerTypeEnum.Known : FlashcardAnswerTypeEnum.Unknown
     return result.toString()
 }
 
-function getAnswerText(): string {
+const getAnswerText = (): string => {
     return ''
 }
 defineExpose({ flip, getAnswerDataString, getAnswerText })
@@ -41,7 +50,7 @@ defineExpose({ flip, getAnswerDataString, getAnswerText })
 const front = ref()
 const back = ref()
 
-function getMinHeight() {
+const getMinHeight = () => {
     let minHeight = 200
     if (front.value != null && back.value != null) {
         minHeight = Math.max(front.value.clientHeight, back.value.clientHeight, minHeight) + 68
@@ -57,7 +66,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <div class="flashcard" @click="flip()" :class="{ 'flipped': flipped }">
+    <div class="flashcard" @click="onFlashcardClick" :class="{ 'flipped': flipped }">
         <div class="flashcard-inner">
             <div class="flashcard-front" :style="getMinHeight()">
                 <div class="question-text" ref="front" v-html="props.frontContent">
@@ -79,15 +88,6 @@ const { t } = useI18n()
     </div>
 </template>
 
-<style lang="less">
-@import (reference) '~~/assets/includes/imports.less';
-
-.question-text {
-    p {
-        .tiptapImgMixin(true);
-    }
-}
-</style>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
@@ -158,11 +158,39 @@ const { t } = useI18n()
 }
 </style>
 
-
 <style lang="less">
-.question-text {
-    pre {
-        text-align: left;
+@import (reference) '~~/assets/includes/imports.less';
+
+.flashcard {
+
+    .tiptap-figcaption,
+    figcaption {
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    .question-text {
+        max-width: 100%;
+
+        p {
+            img {
+                & {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+        }
+
+        pre {
+            text-align: left;
+        }
+
+        figure {
+            max-width: 100%;
+        }
     }
 }
 </style>

@@ -78,7 +78,7 @@ public class AiCreateFlashCardController(
         var question = new Question
         {
             TextHtml = json.front,
-            Text = safeText,
+            Text = SafeQuestionTitle.Get(json.front),
             SolutionType = SolutionType.FlashCard
         };
 

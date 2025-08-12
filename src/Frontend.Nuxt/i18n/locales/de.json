@@ -204,7 +204,9 @@
         "registerWithFacebook": "Registrierung mit Facebook",
         "attention": "Achtung",
         "toUpload": "hochzuladen und so einzubinden.",
-        "cancel": "Abbrechen"
+        "cancel": "Abbrechen",
+        "edit": "Bearbeiten",
+        "save": "Speichern"
     },
     "register": {
         "title": "Registrieren",
@@ -1521,6 +1523,16 @@
     "image": {
         "license": {
             "info": "Lizenzinfos"
+        },
+        "licenseInfo": {
+            "title": "Bildlizenz-Informationen",
+            "editTitle": "Bildunterschrift und Lizenz bearbeiten",
+            "viewTitle": "Bildunterschrift und Lizenz",
+            "caption": "Bildunterschrift",
+            "license": "Lizenz",
+            "noLicense": "Keine Lizenzinformationen verfügbar",
+            "captionPlaceholder": "Bildunterschrift eingeben...",
+            "licensePlaceholder": "Lizenzinformationen eingeben (z.B. CC BY 4.0, © Autorenname)..."
         },
         "modal": {
             "title": "Bilddetails",

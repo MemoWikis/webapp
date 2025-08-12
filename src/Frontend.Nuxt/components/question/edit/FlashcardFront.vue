@@ -8,7 +8,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { Indent } from '../../editor/indent'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import ImageResize from '~~/components/shared/imageResizeExtension'
+import FigureExtension from '~~/components/shared/figureExtension'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import UploadImage from '~/components/shared/imageUploadExtension'
 import { useEditQuestionStore } from './editQuestionStore'
@@ -48,7 +48,7 @@ const editor = useEditor({
             showOnlyCurrent: true,
         }),
         Indent,
-        ImageResize.configure({
+        FigureExtension.configure({
             inline: true,
             allowBase64: true,
         }),
