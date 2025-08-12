@@ -191,7 +191,7 @@ async function removeAdminRights() {
                 :icon="['fas', 'retweet']" />
             <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="handleClick"
                 :icon="['fas', 'retweet']">
-                <LayoutCard :size="LayoutCardSize.Tiny">
+                <LayoutCard :size="LayoutContentSize.Tiny">
                     <div class="active-users-info">
                         <h4>{{ $t('maintenance.users.activeSessions') }}</h4>
                         <ul>
@@ -200,7 +200,7 @@ async function removeAdminRights() {
                         </ul>
                     </div>
                 </LayoutCard>
-                <LayoutCard :size="LayoutCardSize.Small">
+                <LayoutCard :size="LayoutContentSize.Small">
                     <div class="delete-user-container">
                         <h4>{{ $t('maintenance.users.deleteUser') }}</h4>
                         <div class="delete-user-input">

@@ -1593,6 +1593,7 @@
         }
     },
     "questionDetail": {
+        "title": "Tu historial de respuestas",
         "tooltips": {
             "correctFirstTry": "Respondida correctamente en el primer intento",
             "correctLaterTry": "Respondida correctamente en el segundo o tercer intento",
@@ -1602,8 +1603,14 @@
         "labels": {
             "correctAnswer": "Respuesta correcta:",
             "yourTry": "Tu {number}. intento:",
-            "skipped": "(omitida)",
-            "notSeen": "(todavía no vista)"
+            "skipped": "omitida",
+            "notSeen": "todavía no vista"
+        },
+        "answerState": {
+            "0": "Sin responder",
+            "1": "Falso",
+            "2": "Correcto",
+            "3": "Omitida"
         }
     },
     "chip": {

@@ -1,4 +1,4 @@
-export enum LayoutCardSize {
+export enum LayoutContentSize {
     Tiny = 'tiny',
     Small = 'small',
     Medium = 'medium',

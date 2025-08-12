@@ -2,48 +2,53 @@
 
 interface Props {
     title?: string
-    noPadding?: boolean
     size?: LayoutContentSize
+    defaultOpen?: boolean
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     title: '',
-    noPadding: false,
-    size: LayoutContentSize.Large
+    size: LayoutContentSize.Large,
+    defaultOpen: false
 })
 
+const isOpen = ref(props.defaultOpen)
+
+const toggleCollapse = () => {
+    isOpen.value = !isOpen.value
+}
 
 </script>
 
 <template>
-    <div class="layout-card" :class="`size-${size}`">
-        <div class="card-header" v-if="title || $slots.actions || $slots.header">
-
-            <slot name="header"></slot>
-
-            <template v-if="!$slots.header">
-                <h2 class="card-title">{{ title }}</h2>
-                <div class="card-actions" v-if="$slots.actions">
-                    <slot name="actions"></slot>
-                </div>
-
-            </template>
-
+    <div class="layout-collapse" :class="`size-${size}`">
+        <div class="collapse-header" @click="toggleCollapse" :class="{ 'is-open': isOpen }">
+            <slot name="header">
+                <h3 class="collapse-title">{{ title }}</h3>
+            </slot>
+            <div class="chevron-container">
+                <font-awesome-icon icon="fa-solid fa-chevron-up" v-if="isOpen" class="pointer" />
+                <font-awesome-icon icon="fa-solid fa-chevron-down" v-else class="pointer" />
+            </div>
         </div>
-        <div class="card-content" :class="{ 'no-padding': noPadding }">
-            <slot></slot>
-        </div>
+
+        <Transition name="fade">
+            <div class="collapse-body" v-show="isOpen">
+                <slot name="body"></slot>
+            </div>
+        </Transition>
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.layout-card {
+.layout-collapse {
     width: 100%;
     margin-top: 1rem;
     border-radius: 8px;
     overflow: hidden;
+    background: white;
 
     &.size-flex {
         width: unset;
@@ -91,43 +96,63 @@ withDefaults(defineProps<Props>(), {
         }
     }
 
-    .card-header {
+    .collapse-header {
+        cursor: pointer;
+        user-select: none;
+        padding: 16px 20px;
+        background: white;
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        padding: 16px 0;
+        align-items: center;
 
-        .card-title {
-            font-size: 1.8rem;
+        &.is-open {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        &:hover {
+            filter: brightness(0.95);
+        }
+
+        &:active {
+            filter: brightness(0.90);
+        }
+
+        .collapse-title {
+            font-size: 1.6rem;
             font-weight: 600;
             color: @memo-grey-darker;
             margin: 0;
         }
 
-        .card-actions {
+        .chevron-container {
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            color: @memo-grey-dark;
+            font-size: 14px;
         }
     }
 
-    .card-content {
+    .collapse-body {
         padding: 16px 20px;
-        border-radius: 8px;
-        overflow: hidden;
         background: white;
-        height: 100%;
-
-        &.no-padding {
-            padding: 0;
-        }
     }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>
 
 <style lang="less">
 .sidesheet-open {
-    .layout-card {
+    .layout-collapse {
         &.size-medium {
             @media (max-width:1300px) {
                 width: 100%;

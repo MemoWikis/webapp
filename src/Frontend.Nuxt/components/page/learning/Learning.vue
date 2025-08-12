@@ -134,7 +134,7 @@ function stepForward() {
 
 <template>
     <div class="row">
-        <div class="col-xs-12" v-if="learningSessionConfigurationStore?.showFilter">
+        <div class="col-xs-12" v-if="learningSessionConfigurationStore?.showFilter" v-show="!learningSessionStore.showResult">
             <PageLearningSessionConfiguration :open-filter="openFilter" :expiry-date="expiryDate"
                 cookie-name="show-top-dropdown">
                 <slot>
@@ -181,7 +181,7 @@ function stepForward() {
             <QuestionAnswerBody />
         </div>
 
-        <div class="col-xs-12" id="QuestionListContainer">
+        <div class="col-xs-12" id="QuestionListContainer" v-show="!learningSessionStore.showResult">
             <PageLearningQuestionsSection />
         </div>
 
