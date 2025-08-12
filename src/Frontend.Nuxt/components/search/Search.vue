@@ -216,7 +216,7 @@ const questionsInOtherLanguages = computed(() => {
                 <div class="form-group searchAutocomplete">
                     <div class="searchInputContainer">
                         <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }"
-                            type="text" v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
+                            type="text" v-bind:value="searchTerm" @input="inputValue($event)" autocomplete="off"
                             :placeholder="placeHolderText" ref="searchInput" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />
