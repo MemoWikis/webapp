@@ -158,7 +158,7 @@ onMounted(() => {
     margin-bottom: 10px;
     color: @memo-grey;
     max-height: unset;
-    min-height: 116px;
+    min-height: 60px;
     width: 100%;
     max-width: 600px;
 

@@ -12,12 +12,13 @@ interface Props {
     showSkills?: boolean
     hasWikis?: boolean
     hasQuestions?: boolean
-
+    marginTop?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
     hasWikis: false,
-    hasQuestions: false
+    hasQuestions: false,
+    marginTop: 25
 })
 
 const getVisibleSections = computed(() => {
@@ -38,7 +39,7 @@ const getVisibleSections = computed(() => {
 <template>
     <LayoutSidebar site-class="is-user">
         <template #outline>
-            <SidebarCard id="OutlineSection">
+            <SidebarCard id="OutlineSection" :style="{ marginTop: props.marginTop + 'px' }">
                 <template #body>
                     <SidebarOutline
                         :sections="USER_SECTIONS"
@@ -52,4 +53,8 @@ const getVisibleSections = computed(() => {
 
 <style lang="less" scoped>
 @import '~~/assets/sidebar.less';
+
+#OutlineSection {
+    margin-top: 25px;
+}
 </style>

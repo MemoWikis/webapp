@@ -218,13 +218,46 @@ async function handleAddSkillClick() {
         alert('Failed to add skill')
     }
 }
+
+const profileHeader = ref()
+const profileHeaderHeight = ref(123) // Default height
+
+const sideBarMarginTop = computed(() => {
+    const defaultHeaderHeight = 123
+    if (profileHeaderHeight.value > defaultHeaderHeight) {
+        return profileHeaderHeight.value - defaultHeaderHeight + 25
+    }
+    return 25 // Default margin top if no profile header is available
+})
+
+// Watch for profile header height changes
+onMounted(() => {
+    if (profileHeader.value) {
+        // Initial height measurement
+        profileHeaderHeight.value = profileHeader.value.offsetHeight
+
+        // Set up ResizeObserver to watch for height changes
+        const resizeObserver = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+                profileHeaderHeight.value = entry.contentRect.height
+            }
+        })
+
+        resizeObserver.observe(profileHeader.value)
+
+        // Cleanup on unmount
+        onUnmounted(() => {
+            resizeObserver.disconnect()
+        })
+    }
+})
 </script>
 
 <template>
     <div v-if="profile && profile.user.id > 0" class="user-container">
         <div class="user-content">
             <div id="UserHeader">
-                <div class="profile-header">
+                <div class="profile-header" ref="profileHeader">
                     <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
                         class="profile-picture-small" />
 
@@ -333,7 +366,7 @@ async function handleAddSkillClick() {
             </DevOnly>
         </div>
 
-        <SidebarUser :user="profile.user" :has-wikis="hasWikis" :has-questions="hasQuestions" :show-skills="showSkills" />
+        <SidebarUser :user="profile.user" :has-wikis="hasWikis" :has-questions="hasQuestions" :show-skills="showSkills" :margin-top="sideBarMarginTop" />
     </div>
 </template>
 
@@ -449,6 +482,7 @@ async function handleAddSkillClick() {
     transition: all 0.2s ease;
 
     &:hover {
+        border: 2px solid @memo-green;
         background-color: darken(@memo-grey-lightest, 5%);
     }
 
@@ -473,10 +507,10 @@ async function handleAddSkillClick() {
     }
 
     &:hover .add-skill-content {
-        color: @memo-blue;
+        color: @memo-green;
 
         .add-icon {
-            color: @memo-blue;
+            color: @memo-green;
         }
     }
 }
