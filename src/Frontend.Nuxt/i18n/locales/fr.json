@@ -1285,6 +1285,9 @@
             "wikis": "Wikis",
             "questions": "Questions"
         },
+        "skills": {
+            "addSkill": "Ajouter une Compétence"
+        },
         "tabs": {
             "overview": "Aperçu",
             "wishknowledge": "Connaissances souhaitées",
@@ -1793,5 +1796,9 @@
             "creationDate": "Date de création",
             "learnQuestion": "Apprendre la question"
         }
+    },
+    "userSkillCard": {
+        "by": "Par",
+        "questionCount": "Nombre de questions"
     }
 }

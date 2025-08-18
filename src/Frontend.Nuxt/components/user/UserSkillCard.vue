@@ -17,6 +17,10 @@ const hasKnowledgebarData = computed(() => {
     return props.skill.knowledgebarData != null && props.skill.knowledgebarData.total > 0
 })
 
+const knowledgebarData = computed(() => {
+    return props.skill.knowledgebarData
+})
+
 </script>
 
 <template>
@@ -27,12 +31,12 @@ const hasKnowledgebarData = computed(() => {
             </div>
             <div class="skill-details">
                 <h4>{{ skill.name }}</h4>
-                <p class="creator">By: {{ skill.creatorName }}</p>
+                <p class="creator">{{ t('userSkillCard.by') }}: {{ skill.creatorName }}</p>
                 <div class="skill-bar" v-if="skill.questionCount > 0">
-                    <p class="question-count">Question count: {{ skill.questionCount }}</p>
+                    <p class="question-count">{{ t('userSkillCard.questionCount') }}: {{ skill.questionCount }}</p>
                     <PageContentGridKnowledgebar
                         v-if="hasKnowledgebarData"
-                        :knowledgebarData="skill.knowledgebarData" />
+                        :knowledgebarData="knowledgebarData" />
                 </div>
 
             </div>

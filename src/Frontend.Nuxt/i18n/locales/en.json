@@ -1286,6 +1286,9 @@
             "wikis": "Wikis",
             "questions": "Questions"
         },
+        "skills": {
+            "addSkill": "Add Skill"
+        },
         "tabs": {
             "overview": "Overview",
             "wishknowledge": "Wish-Knowledge",
@@ -1816,5 +1819,9 @@
             "creationDate": "Creation Date",
             "learnQuestion": "Learn Question"
         }
+    },
+    "userSkillCard": {
+        "by": "By",
+        "questionCount": "Question count"
     }
 }

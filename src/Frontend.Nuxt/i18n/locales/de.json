@@ -149,13 +149,13 @@
         "unauthorized": "Du bist nicht berechtigt, diese Aktion auszuführen.",
         "pageNotFound": "Die Seite wurde nicht gefunden.",
         "noPermission": "Du hast keine Berechtigung, diese Seite anzuzeigen.",
-        "skillAlreadyExists": "Diese Fähigkeit ist bereits in deiner Liste.",
-        "skillNotFound": "Diese Fähigkeit wurde nicht in deiner Liste gefunden.",
+        "skillAlreadyExists": "Dieser Skill ist bereits in deiner Liste.",
+        "skillNotFound": "Dieser Skill wurde nicht in deiner Liste gefunden.",
         "addSkill": {
-            "failed": "Die Fähigkeit konnte nicht hinzugefügt werden."
+            "failed": "Der Skill konnte nicht hinzugefügt werden."
         },
         "removeSkill": {
-            "failed": "Die Fähigkeit konnte nicht entfernt werden."
+            "failed": "Der Skill konnte nicht entfernt werden."
         }
     },
     "info": {
@@ -322,7 +322,7 @@
             "addParentPage": "Übergeordnete Seite verknüpfen",
             "addChildPage": "Unterseite verknüpfen",
             "addToPersonalWiki": "Zu meinem Wiki hinzufügen",
-            "addToSkills": "Zu meinen Fähigkeiten hinzufügen",
+            "addToSkills": "Zu meinen Skills hinzufügen",
             "setToPrivate": "Seite auf privat setzen",
             "publishPage": "Seite veröffentlichen",
             "convertToWiki": "Seite in Wiki konvertieren",
@@ -1281,9 +1281,12 @@
         },
         "sidebar": {
             "stats": "Statistiken",
-            "skills": "Fähigkeiten",
+            "skills": "Skills",
             "wikis": "Wikis",
             "questions": "Fragen"
+        },
+        "skills": {
+            "addSkill": "Skill hinzufügen"
         },
         "tabs": {
             "overview": "Übersicht",
@@ -1815,5 +1818,9 @@
             "creationDate": "Erstellungsdatum",
             "learnQuestion": "Frage lernen"
         }
+    },
+    "userSkillCard": {
+        "by": "Von",
+        "questionCount": "Anzahl Fragen"
     }
 }

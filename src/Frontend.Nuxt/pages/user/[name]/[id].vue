@@ -229,16 +229,7 @@ async function handleAddSkillClick() {
 
                     <div class="profile-header-info">
                         <h1>{{ profile.user.name }} <span class="profile-id">#{{ profile.user.id }}</span></h1>
-                        <div class="sub-info">
-                            <p>Passionate about learning and sharing knowledge. </p>
-                            <p> I enjoy helping others discover new things.</p>
-                            <!-- <font-awesome-icon :icon="['fas', 'star']" class="star" /> <b>{{ profile.user.reputationPoints }}</b> {{ t('user.profile.reputationPoints') }}
-                            <NuxtLink class="link-to-all-users" to="/Nutzer">
-                                ({{ t('user.profile.rank') }} {{ profile.user.rank }})
-                            </NuxtLink> -->
-
-
-                        </div>
+                        <UserAboutMeSection :user-id="profile.user.id" />
                     </div>
                 </div>
             </div>
@@ -404,28 +395,6 @@ async function handleAddSkillClick() {
                 height: 96px;
                 min-width: 96px;
             }
-        }
-
-        .sub-info {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: @memo-grey;
-
-            p {
-                max-width: 500px;
-                line-height: 1.4;
-                margin: 0;
-            }
-
-            .star {
-                color: @memo-yellow;
-            }
-
-            .info-icon {
-                color: @memo-grey-light;
-                margin-right: 4px;
-            }
-
         }
     }
 }
