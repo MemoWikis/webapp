@@ -1287,7 +1287,19 @@
             "questions": "Fragen"
         },
         "skills": {
-            "addSkill": "Skill hinzufügen"
+            "addSkill": "Skill hinzufügen",
+            "addSkillModal": {
+                "title": "Skill hinzufügen",
+                "searchLabel": "Nach einer Seite suchen:",
+                "searchPlaceholder": "Seitenname eingeben...",
+                "noResults": "Keine Seiten gefunden",
+                "addButton": "Skill hinzufügen"
+            },
+            "error": {
+                "noPageSelected": "Bitte wählen Sie eine Seite aus",
+                "addFailed": "Skill konnte nicht hinzugefügt werden"
+            },
+            "questions": "Fragen"
         },
         "tabs": {
             "overview": "Übersicht",

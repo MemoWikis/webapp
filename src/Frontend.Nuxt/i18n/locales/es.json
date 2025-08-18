@@ -1287,7 +1287,19 @@
             "questions": "Preguntas"
         },
         "skills": {
-            "addSkill": "Agregar Habilidad"
+            "addSkill": "Agregar Habilidad",
+            "addSkillModal": {
+                "title": "Agregar Habilidad",
+                "searchLabel": "Buscar una página:",
+                "searchPlaceholder": "Ingrese nombre de página...",
+                "noResults": "No se encontraron páginas",
+                "addButton": "Agregar Habilidad"
+            },
+            "error": {
+                "noPageSelected": "Por favor seleccione una página",
+                "addFailed": "No se pudo agregar la habilidad"
+            },
+            "questions": "Preguntas"
         },
         "tabs": {
             "overview": "Resumen",

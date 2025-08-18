@@ -1287,7 +1287,19 @@
             "questions": "Questions"
         },
         "skills": {
-            "addSkill": "Ajouter une Compétence"
+            "addSkill": "Ajouter une Compétence",
+            "addSkillModal": {
+                "title": "Ajouter une Compétence",
+                "searchLabel": "Rechercher une page :",
+                "searchPlaceholder": "Entrez le nom de la page...",
+                "noResults": "Aucune page trouvée",
+                "addButton": "Ajouter la Compétence"
+            },
+            "error": {
+                "noPageSelected": "Veuillez sélectionner une page",
+                "addFailed": "Impossible d'ajouter la compétence"
+            },
+            "questions": "Questions"
         },
         "tabs": {
             "overview": "Aperçu",

@@ -1288,7 +1288,19 @@
             "questions": "Questions"
         },
         "skills": {
-            "addSkill": "Add Skill"
+            "addSkill": "Add Skill",
+            "addSkillModal": {
+                "title": "Add Skill",
+                "searchLabel": "Search for a page:",
+                "searchPlaceholder": "Enter page name...",
+                "noResults": "No pages found",
+                "addButton": "Add Skill"
+            },
+            "error": {
+                "noPageSelected": "Please select a page",
+                "addFailed": "Could not add skill"
+            },
+            "questions": "Questions"
         },
         "tabs": {
             "overview": "Overview",

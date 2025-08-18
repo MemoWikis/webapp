@@ -194,29 +194,16 @@ const showSkills = computed(() => {
 
 const { addSkill, removeSkill } = useUserSkills()
 
-// Placeholder function for adding skills - will open modal later
-async function handleAddSkillClick() {
-    // TODO: Replace this with a proper modal that allows searching and selecting skills
-    const pageId = prompt('Enter a Page ID to add as skill (temporary - modal will be implemented later):')
+const showAddSkillModal = ref(false)
 
-    if (!pageId || isNaN(Number(pageId)) || !profile.value?.user.id) {
-        return
-    }
+function handleAddSkillClick() {
+    showAddSkillModal.value = true
+}
 
-    try {
-        const result = await addSkill(profile.value.user.id, Number(pageId))
-
-        if (result.success) {
-            console.log('Skill added successfully:', result.addedSkill)
-            // Refresh the profile to show the new skill
-            await refreshProfile()
-        } else {
-            // alert(`Error adding skill: ${result.errorMessageKey}`)
-        }
-    } catch (error) {
-        console.error('Error adding skill:', error)
-        alert('Failed to add skill')
-    }
+async function handleSkillAdded(skillId: number) {
+    console.log('Skill added successfully:', skillId)
+    // Refresh the profile to show the new skill
+    await refreshProfile()
 }
 
 const profileHeader = ref()
@@ -290,49 +277,7 @@ onMounted(() => {
                 <LayoutCard :size="LayoutCardSize.Small">
                     <LayoutCounter :value="profile.overview.publicQuestionsCount + profile.overview.privateQuestionsCount" label="Questions" :icon="['fas', 'circle-question']" />
                 </LayoutCard>
-
-                <!-- <LayoutGrid :size="LayoutGridSize.Small" direction="column" title="Title 2">
-
-                    <LayoutCard :size="LayoutCardSize.Flex">
-                        <div class="sub-counter-container">
-                            <div class="count">
-                                {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
-                            </div>
-                            <div class="count-label">{{ t('user.overview.reputation.questionsInOtherWishknowledges') }}</div>
-                        </div>
-                        <div class="sub-counter-container">
-                            <div class="count">
-                                {{ profile.overview.activityPoints.questionsCreated }} P
-                            </div>
-                            <div class="count-label">{{ t('user.overview.reputation.questionsCreated') }}</div>
-                        </div>
-                        <div class="sub-counter-container">
-                            <div class="count">
-                                {{ profile.overview.activityPoints.publicWishknowledges }} P
-                            </div>
-                            <div class="count-label">{{ t('user.overview.reputation.publicWishknowledges') }}</div>
-                        </div>
-                    </LayoutCard>
-
-                    <LayoutCard :size="LayoutCardSize.Flex">
-                        <LayoutCounter
-                            :value="profile.overview.activityPoints.total"
-                            :label="t('user.overview.reputation.total')" />
-
-                    </LayoutCard>
-                </LayoutGrid> -->
             </LayoutPanel>
-
-            <!-- temp template for testing, since there are no skills yet -->
-            <!-- <template v-if="showSkills">
-                <LayoutPanel :id="UserSection.SKILLS_SECTION.id" v-if="profile.isCurrentUser || showSkills" :title="t(UserSection.SKILLS_SECTION.translationKey)">
-                    <UserSkillCard :skill="profile.wikis![0]" />
-                    <UserSkillCard :skill="profile.wikis![1]" />
-                    <UserSkillCard :skill="profile.wikis![2]" />
-                    <UserSkillCard :skill="profile.wikis![3]" />
-                    <UserSkillCard :skill="profile.wikis![4]" />
-                </LayoutPanel>
-            </template> -->
 
             <LayoutPanel v-if="hasSkills || profile.isCurrentUser" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)">
                 <UserSkillCard v-for="skill in profile.skills" :skill="skill" />
@@ -367,6 +312,14 @@ onMounted(() => {
         </div>
 
         <SidebarUser :user="profile.user" :has-wikis="hasWikis" :has-questions="hasQuestions" :show-skills="showSkills" :margin-top="sideBarMarginTop" />
+
+        <!-- Add Skill Modal -->
+        <UserSkillsAddSkillModal
+            v-if="profile?.user.id"
+            :show="showAddSkillModal"
+            :user-id="profile.user.id"
+            @close="showAddSkillModal = false"
+            @skill-added="handleSkillAdded" />
     </div>
 </template>
 
