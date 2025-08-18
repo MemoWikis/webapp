@@ -1829,8 +1829,7 @@
         "placeholder": "Tell others about yourself...",
         "bold": "Bold",
         "italic": "Italic",
-        "showMore": "Show more",
-        "showLess": "Show less",
+        "readMore": "Read more",
         "defaultText": "Tell others about yourself..."
     }
 }

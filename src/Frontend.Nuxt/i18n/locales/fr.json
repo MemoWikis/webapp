@@ -1806,8 +1806,7 @@
         "placeholder": "Parlez aux autres de vous...",
         "bold": "Gras",
         "italic": "Italique",
-        "showMore": "Afficher plus",
-        "showLess": "Afficher moins",
+        "readMore": "Lire plus",
         "defaultText": "Parlez aux autres de vous..."
     }
 }

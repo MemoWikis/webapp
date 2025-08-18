@@ -1828,8 +1828,7 @@
         "placeholder": "Erzähle anderen etwas über dich...",
         "bold": "Fett",
         "italic": "Kursiv",
-        "showMore": "Mehr anzeigen",
-        "showLess": "Weniger anzeigen",
+        "readMore": "Mehr lesen",
         "defaultText": "Erzähle anderen etwas über dich..."
     }
 }

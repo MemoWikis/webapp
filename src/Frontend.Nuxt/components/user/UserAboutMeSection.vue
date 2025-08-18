@@ -16,14 +16,12 @@ const { t } = useI18n()
 const { updateAboutMe } = useUserProfile()
 
 const aboutMeModel = ref<string>('')
-const readonly = computed(() => props.userId != null && props.userId !== userStore.id)
 const isCurrentUser = computed(() => props.userId === userStore.id)
 
 const aboutMeHtml = ref<string>('')
 
 onBeforeMount(() => {
     aboutMeModel.value = props.aboutMe || `<p>${t('userAboutMe.defaultText')}</p>`
-
 })
 
 const collapsed = ref(true)
@@ -74,19 +72,48 @@ const editor = useEditor({
             id: 'AboutMe',
         },
     },
-    editable: isCurrentUser.value, // Only editable for current user
+    editable: isCurrentUser.value,
     onUpdate: ({ editor }) => {
         const html = editor.getHTML()
         aboutMeHtml.value = html
-        // Save changes with debounce
+        // Save changes with debounce (only for current user edits)
         if (isCurrentUser.value) {
             debouncedSave(html)
         }
     },
     onTransaction: ({ editor }) => {
-        collapsed.value = false
-        aboutMeHtml.value = editor.getHTML()
+        const html = editor.getHTML()
+        aboutMeHtml.value = html
+        // Only collapse on user transactions (when editor is focused/active)
+        if (editor.isFocused && isCurrentUser.value) {
+            collapsed.value = false
+        }
     },
+})
+
+const editorRef = ref()
+
+// Check if editor content is tall enough to need collapse functionality
+const needsCollapse = ref(false)
+
+const checkEditorHeight = () => {
+    if (editorRef.value && editorRef.value.$el) {
+        const editorElement = editorRef.value.$el
+        needsCollapse.value = editorElement.scrollHeight > 116
+    }
+}
+
+// Watch for content changes to update collapse state
+watch(() => aboutMeHtml.value, () => {
+    nextTick(() => {
+        checkEditorHeight()
+    })
+})
+
+onMounted(() => {
+    nextTick(() => {
+        checkEditorHeight()
+    })
 })
 
 </script>
@@ -107,14 +134,18 @@ const editor = useEditor({
                 </button>
             </div>
         </bubble-menu>
-        <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed }" />
+        <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed }" ref="editorRef" />
 
-        <!-- Gradient overlay when collapsed -->
-        <div v-if="collapsed" class="gradient-overlay"></div>
+        <template v-if="collapsed && needsCollapse">
+            <!-- Gradient overlay when collapsed -->
+            <div class="gradient-overlay"></div>
 
-        <div class="collapse-button" @click="collapsed = !collapsed">
-            {{ collapsed ? t('userAboutMe.showMore') : t('userAboutMe.showLess') }}
-        </div>
+            <div class="collapse-button-section">
+                <div class="collapse-button" @click="collapsed = false" :class="{ 'collapsed': collapsed }">
+                    {{ t('userAboutMe.readMore') }}
+                </div>
+            </div>
+        </template>
     </div>
 
 </template>
@@ -127,13 +158,12 @@ const editor = useEditor({
     margin-bottom: 10px;
     color: @memo-grey;
     max-height: unset;
-    min-height: 100px;
+    min-height: 116px;
     width: 100%;
+    max-width: 600px;
 
-    p {
-        max-width: 500px;
-        line-height: 1.4;
-        margin: 0;
+    :deep(p) {
+        margin-bottom: 0.5rem;
     }
 
     .star {
@@ -146,7 +176,7 @@ const editor = useEditor({
     }
 
     .about-me-text {
-        max-height: 100px;
+        max-height: 110px;
         overflow: hidden;
         max-width: 600px;
 
@@ -164,15 +194,33 @@ const editor = useEditor({
         z-index: 1;
     }
 
-    .collapse-button {
-        cursor: pointer;
-        color: @memo-blue;
-        text-decoration: underline;
+    .collapse-button-section {
         display: flex;
         justify-content: center;
+        position: relative;
+        margin-top: 0;
 
-        &:hover {
-            text-decoration: none;
+        .collapse-button {
+            cursor: pointer;
+            color: @memo-blue;
+            padding: 8px 16px;
+            z-index: 2;
+            font-size: 1.4rem;
+            color: @memo-grey-dark;
+            background: white;
+            border-radius: 24px;
+
+            &:hover {
+                filter: brightness(0.95);
+            }
+
+            &:active {
+                filter: brightness(0.9);
+            }
+
+            &.collapsed {
+                margin-top: -30px;
+            }
         }
     }
 
