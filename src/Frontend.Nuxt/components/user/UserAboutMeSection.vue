@@ -21,11 +21,9 @@ const isCurrentUser = computed(() => props.userId === userStore.id)
 
 const aboutMeHtml = ref<string>('')
 
-onMounted(() => {
-    aboutMeModel.value = props.aboutMe || `<p>Passionate about learning and sharing knowledge.</p><p>I enjoy helping others discover new things.</p>`
-    if (editor.value) {
-        editor.value.commands.setContent(aboutMeModel.value)
-    }
+onBeforeMount(() => {
+    aboutMeModel.value = props.aboutMe || `<p>${t('userAboutMe.defaultText')}</p>`
+
 })
 
 const collapsed = ref(true)
@@ -52,6 +50,7 @@ const debouncedSave = async (html: string) => {
 }
 
 const editor = useEditor({
+    content: props.aboutMe ?? null,
     extensions: [
         StarterKit.configure({
             codeBlock: false,

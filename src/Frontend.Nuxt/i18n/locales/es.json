@@ -1807,6 +1807,7 @@
         "bold": "Negrita",
         "italic": "Cursiva",
         "showMore": "Mostrar más",
-        "showLess": "Mostrar menos"
+        "showLess": "Mostrar menos",
+        "defaultText": "Cuéntales a otros sobre ti..."
     }
 }

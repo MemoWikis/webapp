@@ -27,7 +27,8 @@ public class UserController(
         string ImageUrl,
         int ReputationPoints,
         int Rank,
-        bool ShowWuwi);
+        bool ShowWuwi,
+        [CanBeNull] string AboutMeText);
 
     public readonly record struct Overview(
         ActivityPoints ActivityPoints,
@@ -89,7 +90,8 @@ public class UserController(
                     .Url,
                 ReputationPoints = reputation.TotalReputation,
                 Rank = user.ReputationPos,
-                ShowWuwi = user.ShowWishKnowledge
+                ShowWuwi = user.ShowWishKnowledge,
+                AboutMeText = user.AboutMeText
             },
             Overview = new Overview
             {

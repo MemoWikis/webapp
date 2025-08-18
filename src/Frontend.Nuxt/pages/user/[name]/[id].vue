@@ -39,6 +39,7 @@ interface User {
     reputationPoints: number
     rank: number
     showWuwi: boolean
+    aboutMeText?: string
 }
 
 interface ProfileData {
@@ -229,7 +230,7 @@ async function handleAddSkillClick() {
 
                     <div class="profile-header-info">
                         <h1>{{ profile.user.name }} <span class="profile-id">#{{ profile.user.id }}</span></h1>
-                        <UserAboutMeSection :user-id="profile.user.id" />
+                        <UserAboutMeSection :user-id="profile.user.id" :about-me="profile.user.aboutMeText" />
                     </div>
                 </div>
             </div>

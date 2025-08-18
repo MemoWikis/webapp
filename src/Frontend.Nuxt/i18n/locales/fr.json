@@ -1807,6 +1807,7 @@
         "bold": "Gras",
         "italic": "Italique",
         "showMore": "Afficher plus",
-        "showLess": "Afficher moins"
+        "showLess": "Afficher moins",
+        "defaultText": "Parlez aux autres de vous..."
     }
 }

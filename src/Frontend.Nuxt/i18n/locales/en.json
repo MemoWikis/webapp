@@ -1830,6 +1830,7 @@
         "bold": "Bold",
         "italic": "Italic",
         "showMore": "Show more",
-        "showLess": "Show less"
+        "showLess": "Show less",
+        "defaultText": "Tell others about yourself..."
     }
 }

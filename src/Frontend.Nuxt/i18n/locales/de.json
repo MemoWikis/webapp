@@ -1829,6 +1829,7 @@
         "bold": "Fett",
         "italic": "Kursiv",
         "showMore": "Mehr anzeigen",
-        "showLess": "Weniger anzeigen"
+        "showLess": "Weniger anzeigen",
+        "defaultText": "Erzähle anderen etwas über dich..."
     }
 }
