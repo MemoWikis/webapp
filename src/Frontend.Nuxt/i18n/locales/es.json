@@ -110,7 +110,8 @@
             "emailIsInvalid": "{email} no es una dirección de correo electrónico válida.",
             "passwordTooShort": "La contraseña debe tener al menos 5 caracteres.",
             "loginFailed": "No se ha podido iniciar sesión. Verifica tu correo electrónico y tu contraseña.",
-            "notFound": "No se encontró el usuario especificado."
+            "notFound": "No se encontró el usuario especificado.",
+            "updateFailed": "Los datos del perfil no pudieron guardarse."
         },
         "default": "Desafortunadamente, ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.",
         "route": {
@@ -1800,5 +1801,12 @@
     "userSkillCard": {
         "by": "Por",
         "questionCount": "Cantidad de preguntas"
+    },
+    "userAboutMe": {
+        "placeholder": "Cuéntales a otros sobre ti...",
+        "bold": "Negrita",
+        "italic": "Cursiva",
+        "showMore": "Mostrar más",
+        "showLess": "Mostrar menos"
     }
 }

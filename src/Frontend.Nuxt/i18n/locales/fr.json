@@ -110,7 +110,8 @@
             "emailIsInvalid": "{email} n’est pas une adresse valide.",
             "passwordTooShort": "Le mot de passe doit comporter au moins 5 caractères.",
             "loginFailed": "Connexion échouée. Vérifie ton adresse e-mail et ton mot de passe.",
-            "notFound": "L'utilisateur spécifié n'a pas été trouvé."
+            "notFound": "L'utilisateur spécifié n'a pas été trouvé.",
+            "updateFailed": "Les données du profil n'ont pas pu être sauvegardées."
         },
         "default": "Oups, une erreur inattendue est survenue. Réessaie plus tard.",
         "route": {
@@ -1800,5 +1801,12 @@
     "userSkillCard": {
         "by": "Par",
         "questionCount": "Nombre de questions"
+    },
+    "userAboutMe": {
+        "placeholder": "Parlez aux autres de vous...",
+        "bold": "Gras",
+        "italic": "Italique",
+        "showMore": "Afficher plus",
+        "showLess": "Afficher moins"
     }
 }

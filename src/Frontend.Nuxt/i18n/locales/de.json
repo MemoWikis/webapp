@@ -110,7 +110,8 @@
             "emailIsInvalid": "{email} ist keine gültige E-Mail-Adresse.",
             "passwordTooShort": "Das Passwort sollte mindestens 5 Zeichen lang sein.",
             "loginFailed": "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort.",
-            "notFound": "Der angegebene Nutzer wurde nicht gefunden."
+            "notFound": "Der angegebene Nutzer wurde nicht gefunden.",
+            "updateFailed": "Die Profildaten konnten nicht gespeichert werden."
         },
         "default": "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
         "route": {
@@ -1822,5 +1823,12 @@
     "userSkillCard": {
         "by": "Von",
         "questionCount": "Anzahl Fragen"
+    },
+    "userAboutMe": {
+        "placeholder": "Erzähle anderen etwas über dich...",
+        "bold": "Fett",
+        "italic": "Kursiv",
+        "showMore": "Mehr anzeigen",
+        "showLess": "Weniger anzeigen"
     }
 }

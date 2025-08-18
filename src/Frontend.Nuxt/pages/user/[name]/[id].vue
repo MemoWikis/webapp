@@ -371,6 +371,7 @@ async function handleAddSkillClick() {
         display: flex;
         flex-direction: column;
         margin-top: 1rem;
+        width: 100%;
 
         h1 {
             margin-top: 0px;
@@ -384,6 +385,8 @@ async function handleAddSkillClick() {
     .profile-header {
         display: flex;
         flex-direction: row;
+        flex-grow: 1;
+        width: 100%;
 
         .profile-picture-small {
             display: flex;

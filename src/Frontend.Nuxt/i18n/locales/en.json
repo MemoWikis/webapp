@@ -110,7 +110,8 @@
             "emailIsInvalid": "{email} is not a valid email address.",
             "passwordTooShort": "The password should be at least 5 characters long.",
             "loginFailed": "We couldn't log you in. Please check your email address and the password.",
-            "notFound": "The specified user was not found."
+            "notFound": "The specified user was not found.",
+            "updateFailed": "Profile data could not be saved."
         },
         "default": "Unfortunately, an unexpected error has occurred. Please try again later.",
         "route": {
@@ -1823,5 +1824,12 @@
     "userSkillCard": {
         "by": "By",
         "questionCount": "Question count"
+    },
+    "userAboutMe": {
+        "placeholder": "Tell others about yourself...",
+        "bold": "Bold",
+        "italic": "Italic",
+        "showMore": "Show more",
+        "showLess": "Show less"
     }
 }
