@@ -50,7 +50,8 @@ public class UserController(
         string ImgUrl,
         int? QuestionCount,
         KnowledgeSummaryResponse KnowledgebarData,
-        [CanBeNull] string CreatorName = "");
+        [CanBeNull] string CreatorName = "",
+        [CanBeNull] bool IsPublic = false);
 
 
     [HttpGet]
@@ -166,13 +167,17 @@ public class UserController(
             var page = EntityCache.GetPage(skill.PageId);
             if (_permissionCheck.CanView(page))
             {
-                skillsWithPages.Add(new PageItem(
-                    skill.PageId,
-                    page.Name,
-                    new PageImageSettings(skill.PageId, _httpContextAccessor).GetUrl_128px(true).Url,
-                    page.CountQuestions,
-                    FillKnowledgeSummaryResponse(skill.KnowledgeSummary),
-                    page.Creator.Name));
+                skillsWithPages.Add(
+                    new PageItem(
+                        skill.PageId,
+                        page.Name,
+                        new PageImageSettings(skill.PageId, _httpContextAccessor).GetUrl_128px(true).Url,
+                        page.GetAggregatedPublicQuestions().Count,
+                        FillKnowledgeSummaryResponse(skill.KnowledgeSummary),
+                        page.Creator.Name,
+                        IsPublic: page.IsPublic
+                    )
+                );
             }
         }
 

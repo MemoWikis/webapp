@@ -17,9 +17,6 @@ const hasKnowledgebarData = computed(() => {
     return props.skill.knowledgebarData != null && props.skill.knowledgebarData.total > 0
 })
 
-const knowledgebarData = computed(() => {
-    return props.skill.knowledgebarData
-})
 
 </script>
 
@@ -30,13 +27,17 @@ const knowledgebarData = computed(() => {
                 <Image :src="skill.imgUrl" :alt="skill.name" />
             </div>
             <div class="skill-details">
-                <h4>{{ skill.name }}</h4>
+                <font-awesome-icon v-if="!skill.isPublic" icon="fa-solid fa-lock" v-tooltip="t('userSkillCard.private')" class="lock-icon" />
+                <font-awesome-icon v-else-if="skill.questionCount < 1" v-tooltip="t('userSkillCard.noQuestions')" class="visibility-icon" icon="fa-solid fa-eye-slash" />
+                <h4>
+                    {{ skill.name }}
+                </h4>
                 <p class="creator">{{ t('userSkillCard.by') }}: {{ skill.creatorName }}</p>
-                <div class="skill-bar" v-if="skill.questionCount > 0">
+                <div class="knowledge-container" v-if="skill.questionCount > 0">
                     <p class="question-count">{{ t('userSkillCard.questionCount') }}: {{ skill.questionCount }}</p>
-                    <PageContentGridKnowledgebar
+                    <PageContentGridKnowledgebar class="skill-bar"
                         v-if="hasKnowledgebarData"
-                        :knowledgebarData="knowledgebarData" />
+                        :knowledgebarData="props.skill.knowledgebarData" />
                 </div>
 
             </div>
@@ -64,6 +65,19 @@ const knowledgebarData = computed(() => {
         align-items: flex-start;
         width: 100%;
 
+        position: relative;
+
+        .lock-icon,
+        .visibility-icon {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            padding-top: 2px;
+            padding-left: 1px; // padding added for alignment issue with v-tooltip
+            font-size: 1.2em;
+            color: @memo-grey;
+        }
+
         h4 {
             margin: 0.5rem 0;
             // font-size: 1.2em;
@@ -75,7 +89,7 @@ const knowledgebarData = computed(() => {
             color: @memo-grey;
 
             &.creator {
-                font-style: italic;
+                // font-style: italic;
             }
 
             &.question-count {
@@ -83,8 +97,12 @@ const knowledgebarData = computed(() => {
             }
         }
 
-        .skill-bar {
+        .knowledge-container {
             width: 100%;
+
+            .skill-bar {
+                margin-top: -7px;
+            }
         }
     }
 }

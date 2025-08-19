@@ -192,8 +192,6 @@ const showSkills = computed(() => {
     return profile.value?.user.id === userStore.id || hasSkills.value
 })
 
-const { addSkill, removeSkill } = useUserSkills()
-
 const showAddSkillModal = ref(false)
 
 function handleAddSkillClick() {

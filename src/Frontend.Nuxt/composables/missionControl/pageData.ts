@@ -7,4 +7,5 @@ export interface PageData {
     questionCount: number
     knowledgebarData: KnowledgeSummary
     creatorName?: string
+    isPublic?: boolean
 }

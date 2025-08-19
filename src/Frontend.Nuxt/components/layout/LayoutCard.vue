@@ -176,14 +176,27 @@ const backgroundColorStyle = computed(() => {
     &.has-link {
         cursor: pointer;
 
-
         &:hover {
             .card-content {
-                background: @memo-grey-lighter;
+                background: @memo-grey-lightest;
+
+                &[style*="background"] {
+                    filter: brightness(0.95);
+                }
             }
 
             :deep(*) {
                 text-decoration: none;
+            }
+        }
+
+        &:active {
+            .card-content {
+                background: @memo-grey-lighter;
+
+                &[style*="background"] {
+                    filter: brightness(0.9);
+                }
             }
         }
     }

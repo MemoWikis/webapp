@@ -66,7 +66,7 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
     {
         var pageMap = new MeilisearchPageMap
         {
-            CreatorName = page.Creator.Name,
+            CreatorName = page.Creator != null ? page.Creator.Name : "",
             DateCreated = page.DateCreated == DateTime.MinValue
                 ? DateTime.Now
                 : page.DateCreated,

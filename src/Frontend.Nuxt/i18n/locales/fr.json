@@ -1812,7 +1812,9 @@
     },
     "userSkillCard": {
         "by": "Par",
-        "questionCount": "Nombre de questions"
+        "questionCount": "Nombre de questions",
+        "private": "Les pages privées ne seront pas affichées sur votre profil public",
+        "noQuestions": "Les pages sans questions publiques ne seront pas affichées sur votre profil public"
     },
     "userAboutMe": {
         "placeholder": "Parlez aux autres de vous...",

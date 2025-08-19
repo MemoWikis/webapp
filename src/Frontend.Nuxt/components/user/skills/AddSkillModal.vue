@@ -235,7 +235,7 @@ watch(() => props.show, (show) => {
 
 .pageSearchAutocomplete {
     .form-control {
-        border-radius: 0px;
+        border-radius: 24px;
     }
 }
 

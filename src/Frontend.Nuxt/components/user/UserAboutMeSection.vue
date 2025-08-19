@@ -124,12 +124,10 @@ onMounted(() => {
 
         <bubble-menu :editor="editor" v-if="editor && isCurrentUser">
             <div class="bubble-menu">
-                <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+                <button class="menubar__button" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
                     <font-awesome-icon icon="fa-solid fa-bold" />
                 </button>
-                <button
-                    @click="editor.chain().focus().toggleItalic().run()"
-                    :class="{ 'is-active': editor.isActive('italic') }">
+                <button class="menubar__button" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
                     <font-awesome-icon icon="fa-solid fa-italic" />
                 </button>
             </div>
@@ -224,5 +222,54 @@ onMounted(() => {
         }
     }
 
+}
+
+.bubble-menu {
+    font-size: 0;
+    height: 36px;
+    display: flex;
+    flex-wrap: nowrap;
+    background: white;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+    border-radius: 4px;
+    overflow: hidden;
+
+    .menubar__button {
+        background: white;
+        border: hidden;
+        font-size: 18px;
+        width: 36px;
+        height: 36px;
+        margin: 0px;
+        color: @memo-grey-darker;
+        text-align: center;
+        padding: 0px 21px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: filter 0.1s;
+
+        &:hover {
+            filter: brightness(0.85);
+        }
+
+        &.is-active {
+            background: @memo-grey-light;
+        }
+
+        &:active {
+            filter: brightness(0.7);
+        }
+
+        &:last-child {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        &:first-child {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+    }
 }
 </style>

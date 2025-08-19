@@ -1835,7 +1835,9 @@
     },
     "userSkillCard": {
         "by": "By",
-        "questionCount": "Question count"
+        "questionCount": "Question count",
+        "private": "Private pages will not be shown on your public profile",
+        "noQuestions": "Pages without public questions will not be shown on your public profile"
     },
     "userAboutMe": {
         "placeholder": "Tell others about yourself...",
