@@ -28,7 +28,7 @@ const hasKnowledgebarData = computed(() => {
             </div>
             <div class="skill-details">
                 <font-awesome-icon v-if="!skill.isPublic" icon="fa-solid fa-lock" v-tooltip="t('userSkillCard.private')" class="lock-icon" />
-                <font-awesome-icon v-else-if="skill.questionCount < 1" v-tooltip="t('userSkillCard.noQuestions')" class="visibility-icon" icon="fa-solid fa-eye-slash" />
+                <font-awesome-icon v-else-if="skill.questionCount < 1 || !hasKnowledgebarData" v-tooltip="t('userSkillCard.noQuestions')" class="visibility-icon" icon="fa-solid fa-eye-slash" />
                 <h4>
                     {{ skill.name }}
                 </h4>

@@ -181,7 +181,7 @@ const hasWikis = computed(() => {
 })
 
 const hasSkills = computed(() => {
-    return profile.value?.skills && profile.value.skills.length > 0
+    return profile.value?.skills && profile.value.skills.length > 0 && profile.value.skills.some(skill => skill.isPublic && skill.knowledgebarData?.total > 0)
 })
 
 const hasQuestions = computed(() => {
@@ -278,7 +278,9 @@ onMounted(() => {
             </LayoutPanel>
 
             <LayoutPanel v-if="hasSkills || profile.isCurrentUser" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)">
-                <UserSkillCard v-for="skill in profile.skills" :skill="skill" />
+                <template v-for="skill in profile.skills">
+                    <UserSkillCard :skill="skill" v-if="profile.isCurrentUser || (skill.knowledgebarData && skill.knowledgebarData.total > 0)" />
+                </template>
 
                 <LayoutCard v-if="!hasSkills" :size="LayoutCardSize.Large">
                     {{ t('user.profile.noSkills') }}
@@ -312,12 +314,7 @@ onMounted(() => {
         <SidebarUser :user="profile.user" :has-wikis="hasWikis" :has-questions="hasQuestions" :show-skills="showSkills" :margin-top="sideBarMarginTop" />
 
         <!-- Add Skill Modal -->
-        <UserSkillsAddSkillModal
-            v-if="profile?.user.id"
-            :show="showAddSkillModal"
-            :user-id="profile.user.id"
-            @close="showAddSkillModal = false"
-            @skill-added="handleSkillAdded" />
+        <UserSkillsAddSkillModal v-if="profile?.user.id" :show="showAddSkillModal" :user-id="profile.user.id" @close="showAddSkillModal = false" @skill-added="handleSkillAdded" />
     </div>
 </template>
 

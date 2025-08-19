@@ -13,24 +13,15 @@
 
     public void RunForUser(int userId, bool forProfilePage = false)
     {
-        //// Try to get from cache first
-        //var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
-        //if (extendedUser?.PageValuations != null && extendedUser.PageValuations.Any())
-        //{
-        //    // Use cached page valuations if available
-        //    foreach (var pageValuation in extendedUser.PageValuations.Values)
-        //    {
-        //        Run(pageValuation, forProfilePage);
-        //    }
-        //}
-        //else
-        //{
-        //    // Fallback to database if not in cache
-        //    foreach (var pageValuation in pageValuationReadingRepository.GetByUser(userId))
-        //    {
-        //        Run(pageValuation, forProfilePage);
-        //    }
-        //}
+        // Try to get from cache first
+        var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
+        var skills = extendedUser.GetAllSkills();
+
+        if (skills.Any())
+        {
+            foreach (var skill in skills)
+                Run(skill.PageId, userId, forProfilePage);
+        }
     }
 
     public void RunForUserAndPage(int userId, int pageId, bool forProfilePage = false)

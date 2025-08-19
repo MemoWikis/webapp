@@ -123,19 +123,21 @@ public class UserController(
         return result;
     }
 
-    /// temp start
     private IList<PageItem> GetWikis(int userId)
     {
         var userCacheItem = EntityCache.GetUserById(userId);
 
-        var wikis = userCacheItem.GetWikis()
+        var wikis = userCacheItem
+            .GetWikis()
             .Where(_permissionCheck.CanView)
-            .Select(wiki => new PageItem(
-                wiki.Id,
-                wiki.Name,
-                new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
-                wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.RunTest(_sessionUser.UserId, userId, wiki.Id))))
+            .Select(wiki =>
+                new PageItem(
+                    wiki.Id,
+                    wiki.Name,
+                    new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
+                    wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
+                    FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id)))
+            )
             .ToList();
 
         return wikis;

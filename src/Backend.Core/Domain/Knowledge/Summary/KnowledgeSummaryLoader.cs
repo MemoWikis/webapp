@@ -80,25 +80,13 @@
         return knowledgeSummary;
     }
 
-    // temp start: for testing usercontroller
-    public KnowledgeSummary RunTest(int sessionUserId, int userId, int pageId, bool onlyValuated = true)
-    {
-        var page = EntityCache.GetPage(pageId);
-        if (page == null)
-            return new KnowledgeSummary();
-
-        return Run(userId, page.GetAggregatedQuestions(sessionUserId).GetIds(), onlyValuated);
-    }
-
-    // temp end
-
     public KnowledgeSummary RunForProfilePage(int userId, int pageId, bool onlyValuated = true)
     {
         var page = EntityCache.GetPage(pageId);
         if (page == null)
             return new KnowledgeSummary();
 
-        return Run(userId, page.GetAggregatedQuestions(-1).GetIds(), onlyValuated);
+        return Run(userId, page.GetAggregatedPublicQuestions().GetIds(), onlyValuated);
     }
 
     public KnowledgeSummary Run(int userId, int pageId, bool onlyValuated = true)
