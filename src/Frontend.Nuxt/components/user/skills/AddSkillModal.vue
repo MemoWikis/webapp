@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { debounce } from 'underscore'
 import { useUserStore } from '~/components/user/userStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
-import { PageItem } from '~~/components/search/searchHelper'
+import { PageItem, SearchType } from '~~/components/search/searchHelper'
 
 const props = defineProps<{
     show: boolean
@@ -15,82 +14,23 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { $logger } = useNuxtApp()
 const userStore = useUserStore()
 const loadingStore = useLoadingStore()
 const { addSkill } = useUserSkills()
 
-const searchTerm = ref('')
 const selectedPage = ref(null as PageItem | null)
 const selectedPageId = ref(0)
-const showDropdown = ref(false)
-const lockDropdown = ref(false)
 const showSelectedPage = ref(false)
 const showErrorMsg = ref(false)
 const errorMsg = ref('')
 const disableAddButton = ref(true)
 
-// Search results
-const pages = reactive({ value: [] as PageItem[] })
-const totalCount = ref(0)
-
 function selectPage(page: PageItem) {
-    showDropdown.value = false
-    lockDropdown.value = true
-    searchTerm.value = page.name
     selectedPage.value = page
     selectedPageId.value = page.id
     showSelectedPage.value = true
     disableAddButton.value = false
 }
-
-async function search() {
-    if (searchTerm.value.length === 0) {
-        pages.value = []
-        showDropdown.value = false
-        return
-    }
-
-    showDropdown.value = true
-
-    const data = {
-        term: searchTerm.value,
-        pageIdsToFilter: []
-    }
-
-    try {
-        const result = await $api<any>('/apiVue/Search/Page', {
-            body: data,
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            onResponseError(context) {
-                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-            },
-        })
-
-        if (result != null) {
-            pages.value = result.pages || []
-            totalCount.value = result.totalCount || 0
-        }
-    } catch (error) {
-        $logger.error('Search error:', error)
-        pages.value = []
-    }
-}
-
-const debounceSearch = debounce(() => {
-    search()
-}, 500)
-
-watch(searchTerm, (term) => {
-    if (term.length > 0 && lockDropdown.value === false) {
-        showDropdown.value = true
-        debounceSearch()
-    } else {
-        showDropdown.value = false
-    }
-})
 
 watch(selectedPageId, (id) => {
     disableAddButton.value = id <= 0
@@ -131,16 +71,12 @@ async function handleAddSkill() {
 }
 
 function resetForm() {
-    searchTerm.value = ''
     selectedPage.value = null
     selectedPageId.value = 0
-    showDropdown.value = false
-    lockDropdown.value = false
     showSelectedPage.value = false
     showErrorMsg.value = false
     errorMsg.value = ''
     disableAddButton.value = true
-    pages.value = []
 }
 
 function handleClose() {
@@ -176,7 +112,7 @@ watch(() => props.show, (show) => {
                 <p>{{ t('user.skills.addSkillModal.searchLabel') }}</p>
             </div>
 
-            <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
+            <div class="form-group dropdown pageSearchAutocomplete">
                 <div v-if="showSelectedPage && selectedPage != null" class="searchResultItem mb-125"
                     data-toggle="tooltip" data-placement="top" :title="selectedPage.name">
                     <img :src="selectedPage.imageUrl" />
@@ -189,35 +125,7 @@ watch(() => props.show, (show) => {
                     </div>
                 </div>
 
-                <input
-                    v-model="searchTerm"
-                    type="text"
-                    class="form-control"
-                    :placeholder="t('user.skills.addSkillModal.searchPlaceholder')"
-                    @focus="lockDropdown = false" />
-
-                <!-- Search dropdown results -->
-                <div v-if="showDropdown && !showSelectedPage" class="dropdown-menu" style="display: block; position: relative; width: 100%; box-shadow: none; border: 1px solid #ddd; margin-top: 0;">
-                    <div v-if="pages.value.length === 0" class="dropdown-item-text text-center text-muted">
-                        {{ t('user.skills.addSkillModal.noResults') }}
-                    </div>
-                    <div
-                        v-for="page in pages.value"
-                        :key="page.id"
-                        class="searchResultItem"
-                        @click="selectPage(page)">
-                        <img :src="page.imageUrl" alt="" />
-                        <div class="searchResultBody">
-                            <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ page.name }}</div>
-                            </div>
-                            <div class="searchResultQuestionCount body-s">
-                                {{ page.questionCount }}
-                                {{ page.questionCount != 1 ? t('user.skills.questions') : t('user.skills.question') }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="[]" />
             </div>
 
             <!-- Error message -->
