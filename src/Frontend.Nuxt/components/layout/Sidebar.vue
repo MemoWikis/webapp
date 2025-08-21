@@ -3,16 +3,18 @@ const { isDesktop } = useDevice()
 
 interface Props {
     siteClass?: string
+    hideDivider?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    siteClass: ''
+    siteClass: '',
+    hideDivider: false
 })
 </script>
 
 <template>
     <div id="Sidebar" :class="siteClass" v-if="isDesktop">
-        <div id="SidebarDivider"></div>
+        <div id="SidebarDivider" v-if="!hideDivider"></div>
         <div id="SidebarContent">
             <div id="SidebarSpacer"></div>
 

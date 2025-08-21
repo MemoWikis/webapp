@@ -8,6 +8,7 @@ interface Props {
     iconColor?: string
     formatNumber?: boolean
     urlValue?: string
+    labelTooltip?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -25,7 +26,7 @@ const formattedValue = computed(() => {
 
 <template>
     <div class="layout-counter">
-        <div class="counter-header">
+        <div class="counter-header" v-tooltip="labelTooltip">
             <div v-if="icon" class="counter-icon">
                 <font-awesome-icon :icon="icon" :style="{ color: iconColor }" />
             </div>

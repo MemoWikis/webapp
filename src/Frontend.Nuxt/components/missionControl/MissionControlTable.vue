@@ -60,6 +60,13 @@ function getSortIconClass(key: keyof PageData) {
         <table v-if="pages.length" class="pages-table">
             <thead>
                 <tr>
+                    <th class="sortable popularity-header" @click="toggleSort('popularity')">
+                        {{ t('missionControl.pageTable.popularity') }}
+                        <span :class="getSortIconClass('popularity')">
+                            <font-awesome-icon v-if="sortKey === 'popularity'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
+                            <font-awesome-icon v-else :icon="['fas', 'sort']" />
+                        </span>
+                    </th>
                     <th class="sortable name-header" @click="toggleSort('name')">
                         {{ t('missionControl.pageTable.name') }}
                         <span :class="getSortIconClass('name')">
@@ -86,6 +93,9 @@ function getSortIconClass(key: keyof PageData) {
             </thead>
             <tbody>
                 <tr v-for="(page, index) in sortedpages" :key="page.id" class="page-row" :class="{ last: index === sortedpages.length - 1 }">
+                    <td class="popularity-cell">
+                        <span class="popularity-count">{{ getFormattedNumber(page.popularity) }}</span>
+                    </td>
                     <td class="page-name-cell">
                         <div class="page-name">
                             <div class="page-image" v-if="page.imgUrl">
@@ -186,6 +196,12 @@ function getSortIconClass(key: keyof PageData) {
             }
         }
 
+        &.popularity-header {
+            width: 120px;
+            max-width: 120px;
+            text-align: center;
+        }
+
         &.name-header {
             flex: 1;
             text-align: left;
@@ -234,6 +250,12 @@ function getSortIconClass(key: keyof PageData) {
                 border-bottom: none;
             }
         }
+    }
+
+    .popularity-cell {
+        width: 120px;
+        max-width: 120px;
+        text-align: center;
     }
 
     .page-name-cell {
@@ -309,6 +331,15 @@ function getSortIconClass(key: keyof PageData) {
             padding-left: 2px;
         }
     }
+}
+
+.popularity-count {
+    background-color: @light-blue;
+    color: @dark-blue;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    font-weight: 600;
 }
 
 @media (max-width: 767px) {

@@ -80,10 +80,12 @@ public class PageRelationEditController(
         int childId,
         int parentIdToRemove,
         int parentIdToAdd);
+
     public readonly record struct MoveChildResult(
         bool Success,
         string MessageKey,
         TinyPageItem Data);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public MoveChildResult MoveChild([FromBody] MoveChildParam param)

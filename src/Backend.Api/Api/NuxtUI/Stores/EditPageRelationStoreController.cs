@@ -10,7 +10,8 @@ public class EditPageRelationStoreController(
     PageRelationRepo pageRelationRepo,
     UserWritingRepo _userWritingRepo,
     IWebHostEnvironment _webHostEnvironment,
-    SearchResultBuilder _searchResultBuilder) : ApiBaseController
+    SearchResultBuilder _searchResultBuilder,
+    KnowledgeSummaryUpdateService _knowledgeSummaryUpdateService) : ApiBaseController
 {
     public record struct PersonalWikiData(
         SearchPageItem PersonalWiki,
@@ -136,7 +137,7 @@ public class EditPageRelationStoreController(
 
         var undoMovePageData = GetUndoMovePageData(relationToMove, request.NewParentId, request.TargetId);
 
-        var modifyRelationsForPage = new ModifyRelationsForPage(pageRepository, pageRelationRepo);
+        var modifyRelationsForPage = new ModifyRelationsForPage(pageRepository, pageRelationRepo, _knowledgeSummaryUpdateService);
 
         switch (request.Position)
         {

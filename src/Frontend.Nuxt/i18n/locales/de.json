@@ -1234,7 +1234,21 @@
             "toUserWiki": "Zu {name}s Wiki",
             "questions": "Fragen",
             "noQuestions": "Keine Fragen verfügbar",
-            "showAsVisitor": "Als Besucher anzeigen"
+            "showAsVisitor": "Als Besucher anzeigen",
+            "stats": {
+                "reputation": "Reputation",
+                "rank": "Rang",
+                "createdPages": "Erstellte Seiten",
+                "createdWikis": "Erstellte Wikis",
+                "createdQuestions": "Erstellte Fragen",
+                "tooltips": {
+                    "reputation": "Reputation basiert auf erstellten Fragen, Fragen im Wunsch-Wissen anderer und öffentlichem Wunsch-Wissen",
+                    "rank": "Rang basiert auf Reputationspunkten",
+                    "createdPages": "Anzahl der öffentlichen Seiten, die erstellt wurden",
+                    "createdWikis": "Anzahl der öffentlichen Wikis, die erstellt wurden",
+                    "createdQuestions": "Anzahl der öffentlichen Fragen, die erstellt wurden"
+                }
+            }
         },
         "overview": {
             "reputation": {
@@ -1286,7 +1300,12 @@
             "stats": "Statistiken",
             "skills": "Skills",
             "wikis": "Wikis",
-            "questions": "Fragen"
+            "questions": "Fragen",
+            "tooltips": {
+                "skills": "Zeigt nur öffentliche Skills mit beantworteten Fragen und Wissenszusammenfassung",
+                "wikis": "Zeigt nur öffentliche Wikis",
+                "questions": "Zeigt nur öffentliche Fragen"
+            }
         },
         "skills": {
             "addSkill": "Skill hinzufügen",
@@ -1722,6 +1741,7 @@
             "longestStreak": "Längste Serie: {count} Tage"
         },
         "pageTable": {
+            "popularity": "Beliebtheit",
             "name": "Name",
             "questions": "Fragen",
             "knowledgeStatus": "Wissensstand",

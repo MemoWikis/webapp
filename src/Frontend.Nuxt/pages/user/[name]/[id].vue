@@ -238,27 +238,26 @@ const ariaId = useId()
 
             <LayoutPanel :id="UserSection.STATS_SECTION.id" :title="t(UserSection.STATS_SECTION.translationKey)">
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.reputation" label="Reputation" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
+                    <LayoutCounter :value="profile.overview.reputation" :label="t('user.profile.stats.reputation')" v-tooltip="t('user.profile.stats.tooltips.reputation')" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.rank" label="Rank" :icon="['fas', 'crown']" :icon-color="color.memoYellow" :url-value="t('url.users')" />
+                    <LayoutCounter :value="profile.overview.rank" :label="t('user.profile.stats.rank')" v-tooltip="t('user.profile.stats.tooltips.rank')" :icon="['fas', 'crown']" :icon-color="color.memoYellow" :url-value="t('url.users')" />
                 </LayoutCard>
-                <LayoutCard :size="LayoutCardSize.Small" background-color="transparent">
-                    <!-- Filler -->
+
+                <LayoutCard :size="LayoutCardSize.Small">
+                    <LayoutCounter :value="profile.overview.publicPagesCount" :label="t('user.profile.stats.createdPages')" v-tooltip="t('user.profile.stats.tooltips.createdPages')" :icon="['fas', 'file-lines']" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicPagesCount" label="Pages" :icon="['fas', 'file-lines']" />
+                    <LayoutCounter :value="profile.overview.publicWikisCount" :label="t('user.profile.stats.createdWikis')" v-tooltip="t('user.profile.stats.tooltips.createdWikis')" :icon="['fas', 'file-lines']" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicWikisCount" label="Wikis" :icon="['fas', 'file-lines']" />
-                </LayoutCard>
-                <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicQuestionsCount" label="Questions" :icon="['fas', 'circle-question']" />
+                    <LayoutCounter :value="profile.overview.publicQuestionsCount" :label="t('user.profile.stats.createdQuestions')" v-tooltip="t('user.profile.stats.tooltips.createdQuestions')" :icon="['fas', 'circle-question']" />
                 </LayoutCard>
             </LayoutPanel>
 
-            <LayoutPanel v-if="hasSkills || profile.isCurrentUser && userStore.showAsVisitor" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)">
+            <LayoutPanel v-if="hasSkills || profile.isCurrentUser && userStore.showAsVisitor" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)"
+                :labelTooltip="UserSection.SKILLS_SECTION.tooltipKey ? t(UserSection.SKILLS_SECTION.tooltipKey) : ''">
                 <template v-for="skill in profile.skills">
                     <UserSkillCard :skill="skill" v-if="profile.isCurrentUser && userStore.showAsVisitor || (skill.knowledgebarData && skill.knowledgebarData.total > 0) && skill.isPublic" />
                 </template>
@@ -276,7 +275,7 @@ const ariaId = useId()
 
             </LayoutPanel>
 
-            <LayoutPanel v-if="hasWikis" :id="UserSection.WIKIS_SECTION.id" :title="t(UserSection.WIKIS_SECTION.translationKey)">
+            <LayoutPanel v-if="hasWikis" :id="UserSection.WIKIS_SECTION.id" :title="t(UserSection.WIKIS_SECTION.translationKey)" :labelTooltip="UserSection.WIKIS_SECTION.tooltipKey ? t(UserSection.WIKIS_SECTION.tooltipKey) : ''">
                 <MissionControlGrid v-if="isMobile" :pages="profile.wikis!" :no-pages-text="t('missionControl.pageTable.noWikis')" />
 
                 <LayoutCard v-else :no-padding="true">
@@ -285,7 +284,8 @@ const ariaId = useId()
             </LayoutPanel>
 
             <DevOnly>
-                <LayoutPanel v-if="hasQuestions" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)">
+                <LayoutPanel v-if="hasQuestions" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)"
+                    :labelTooltip="UserSection.QUESTIONS_SECTION.tooltipKey ? t(UserSection.QUESTIONS_SECTION.tooltipKey) : ''">
                     <LayoutCard :no-padding="true">
                         <LayoutQuestionList :questions="profile.questions || []" :no-questions-text="t('user.profile.noQuestions')" />
                     </LayoutCard>

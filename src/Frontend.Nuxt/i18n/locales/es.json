@@ -1234,7 +1234,21 @@
             "toUserWiki": "Ir al Wiki de {name}",
             "questions": "Preguntas",
             "noQuestions": "No hay preguntas disponibles",
-            "showAsVisitor": "Mostrar como visitante"
+            "showAsVisitor": "Mostrar como visitante",
+            "stats": {
+                "reputation": "Reputación",
+                "rank": "Rango",
+                "createdPages": "Páginas Creadas",
+                "createdWikis": "Wikis Creados",
+                "createdQuestions": "Preguntas Creadas",
+                "tooltips": {
+                    "reputation": "La reputación se basa en preguntas creadas, preguntas en el conocimiento deseado de otros y conocimiento deseado público",
+                    "rank": "El ranking de usuarios se basa en puntos de reputación",
+                    "createdPages": "Número de páginas públicas que han sido creadas",
+                    "createdWikis": "Número de wikis públicos que han sido creados",
+                    "createdQuestions": "Número de preguntas públicas que han sido creadas"
+                }
+            }
         },
         "overview": {
             "reputation": {
@@ -1286,7 +1300,12 @@
             "stats": "Estadísticas",
             "skills": "Habilidades",
             "wikis": "Wikis",
-            "questions": "Preguntas"
+            "questions": "Preguntas",
+            "tooltips": {
+                "skills": "Muestra solo habilidades públicas con preguntas respondidas y resumen de conocimiento",
+                "wikis": "Muestra solo wikis públicos",
+                "questions": "Muestra solo preguntas públicas"
+            }
         },
         "skills": {
             "addSkill": "Agregar Habilidad",
@@ -1722,6 +1741,7 @@
             "longestStreak": "Racha más larga: {count} días"
         },
         "pageTable": {
+            "popularity": "Popularidad",
             "name": "Nombre",
             "questions": "Preguntas",
             "knowledgeStatus": "Estado de conocimiento",

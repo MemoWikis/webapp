@@ -1234,7 +1234,21 @@
             "toUserWiki": "Go to {name}'s Wiki",
             "questions": "Questions",
             "noQuestions": "No questions available",
-            "showAsVisitor": "Show as Visitor"
+            "showAsVisitor": "Show as Visitor",
+            "stats": {
+                "reputation": "Reputation",
+                "rank": "Rank",
+                "createdPages": "Created Pages",
+                "createdWikis": "Created Wikis",
+                "createdQuestions": "Created Questions",
+                "tooltips": {
+                    "reputation": "Reputation is based on created questions, questions in others' wish knowledge, and public wish knowledge",
+                    "rank": "User ranking is based on reputation points",
+                    "createdPages": "Number of public pages that have been created",
+                    "createdWikis": "Number of public wikis that have been created",
+                    "createdQuestions": "Number of public questions that have been created"
+                }
+            }
         },
         "overview": {
             "reputation": {
@@ -1287,7 +1301,12 @@
             "stats": "Stats",
             "skills": "Skills",
             "wikis": "Wikis",
-            "questions": "Questions"
+            "questions": "Questions",
+            "tooltips": {
+                "skills": "Shows only public skills with answered questions and knowledge summary",
+                "wikis": "Shows only public wikis",
+                "questions": "Shows only public questions"
+            }
         },
         "skills": {
             "addSkill": "Add Skill",
@@ -1723,6 +1742,7 @@
             "longestStreak": "Longest streak: {count} days"
         },
         "pageTable": {
+            "popularity": "Popularity",
             "name": "Name",
             "questions": "Questions",
             "knowledgeStatus": "Knowledge Status",

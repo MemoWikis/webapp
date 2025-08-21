@@ -4,6 +4,11 @@ defineProps({
         type: String,
         default: '',
     },
+    labelTooltip: {
+        type: String,
+        default: '',
+        required: false,
+    },
     noBackground: {
         type: Boolean,
         default: false,
@@ -21,7 +26,9 @@ const { isMobile } = useDevice()
 <template>
     <div class="layout-panel" :class="{ 'no-background': noBackground, 'half-size': halfSize }">
         <div class="panel-header" v-if="title" @click="showContent = !showContent">
-            <h2 class="panel-title">{{ title }}</h2>
+            <h2 class="panel-title">
+                <span v-tooltip="{ content: labelTooltip, disabled: labelTooltip?.length <= 0 }">{{ title }}</span>
+            </h2>
             <div class="panel-actions">
                 <div class="collapse-toggle" :class="{ 'is-mobile': isMobile }">
                     <font-awesome-icon :icon="['fas', 'chevron-up']" v-if="showContent" />

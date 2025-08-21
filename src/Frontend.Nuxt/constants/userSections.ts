@@ -1,6 +1,7 @@
 export interface UserSection {
     id: string
     translationKey: string
+    tooltipKey?: string
 }
 
 const STATS_SECTION: UserSection = {
@@ -11,16 +12,19 @@ const STATS_SECTION: UserSection = {
 const SKILLS_SECTION: UserSection = {
     id: 'Skills',
     translationKey: 'user.sidebar.skills',
+    tooltipKey: 'user.sidebar.tooltips.skills'
 }
 
 const WIKIS_SECTION: UserSection = {
     id: 'Wikis',
     translationKey: 'user.sidebar.wikis',
+    tooltipKey: 'user.sidebar.tooltips.wikis'
 }
 
 const QUESTIONS_SECTION: UserSection = {
     id: 'Questions',
     translationKey: 'user.sidebar.questions',
+    tooltipKey: 'user.sidebar.tooltips.questions'
 }
 
 const SECTIONS: UserSection[] = [

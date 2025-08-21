@@ -37,7 +37,7 @@ const getVisibleSections = computed(() => {
 </script>
 
 <template>
-    <LayoutSidebar site-class="is-user">
+    <LayoutSidebar site-class="is-user" :hide-divider="true">
         <template #outline>
             <SidebarCard id="OutlineSection" :style="{ marginTop: props.marginTop + 'px' }">
                 <template #body>
