@@ -10,9 +10,10 @@ interface Props {
 const props = defineProps<Props>()
 const { t } = useI18n()
 const { $urlHelper } = useNuxtApp()
+const { getFormattedNumber } = useFormatNumber()
 
-const sortKey = ref<keyof PageData>('name')
-const sortDirection = ref<'asc' | 'desc'>('asc')
+const sortKey = ref<keyof PageData>('popularity')
+const sortDirection = ref<'asc' | 'desc'>('desc')
 
 const sortedpages = computed(() => {
     return [...props.pages].sort((a, b) => {
@@ -44,7 +45,7 @@ function toggleSort(key: keyof PageData) {
         sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
     } else {
         sortKey.value = key
-        sortDirection.value = 'asc'
+        sortDirection.value = key === 'popularity' ? 'desc' : 'asc' // Default to desc for popularity, asc for others
     }
 }
 

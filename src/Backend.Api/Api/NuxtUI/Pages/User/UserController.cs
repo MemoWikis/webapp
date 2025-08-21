@@ -4,10 +4,11 @@ using static MissionControlController;
 public class UserController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
-    ReputationCalc _rpReputationCalc,
+    ReputationCalc _reputationCalc,
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
-    KnowledgeSummaryLoader _knowledgeSummaryLoader) : ApiBaseController
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    PopularityCalculator _popularityCalculator) : ApiBaseController
 {
     public readonly record struct GetResult(
         User User,
@@ -16,7 +17,8 @@ public class UserController(
         string MessageKey,
         NuxtErrorPageType ErrorCode,
         [CanBeNull] IList<PageItem> Wikis, //temp for ui building
-        [CanBeNull] IList<PageItem> Skills
+        [CanBeNull] IList<PageItem> Skills,
+        [CanBeNull] IList<QuestionItem> Questions
     );
 
     public new readonly record struct User(
@@ -36,7 +38,10 @@ public class UserController(
         int PrivateQuestionsCount,
         int PublicPagesCount,
         int PrivatePagesCount,
-        int WuwiCount);
+        int WuwiCount,
+        int PublicWikisCount,
+        int Reputation,
+        int Rank);
 
     public readonly record struct ActivityPoints(
         int Total,
@@ -50,8 +55,17 @@ public class UserController(
         string ImgUrl,
         int? QuestionCount,
         KnowledgeSummaryResponse KnowledgebarData,
+        int Popularity,
         [CanBeNull] string CreatorName = "",
         [CanBeNull] bool IsPublic = false);
+
+    public readonly record struct QuestionItem(
+        int Id,
+        string Title,
+        string KnowledgeStatus,
+        int Popularity,
+        string CreationDate,
+        int? WikiId);
 
 
     [HttpGet]
@@ -65,18 +79,21 @@ public class UserController(
             {
                 ErrorCode = NuxtErrorPageType.NotFound,
                 MessageKey = FrontendMessageKeys.Error.User.NotFound,
-                Skills = null
+                Skills = null,
+                Questions = null
             };
         }
 
         var userWiki = EntityCache.GetPage(user.FirstWikiId);
         var canViewUserWiki = _permissionCheck.CanView(userWiki);
-        var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
+        var reputation = _reputationCalc.RunWithQuestionCacheItems(user);
         var isCurrentUser = _sessionUser.UserId == user.Id;
         var allQuestionsCreatedByUser = EntityCache.GetAllQuestions()
             .Where(q => q.Creator != null && q.CreatorId == user.Id);
         var allPagesCreatedByUser = EntityCache.GetAllPagesList()
             .Where(c => c.Creator != null && c.CreatorId == user.Id);
+
+        var publicWikis = user.GetWikis().Where(wiki => wiki.IsPublic);
 
         var result = new GetResult
         {
@@ -114,33 +131,31 @@ public class UserController(
                     allPagesCreatedByUser.Count(c => c.Visibility == PageVisibility.Public),
                 PrivatePagesCount =
                     allPagesCreatedByUser.Count(c => c.Visibility != PageVisibility.Public),
-                WuwiCount = user.WishCountQuestions
+                WuwiCount = user.WishCountQuestions,
+                PublicWikisCount = publicWikis.Count(),
+                Reputation = reputation.TotalReputation,
+                Rank = user.Rank
             },
             IsCurrentUser = isCurrentUser,
-            Wikis = GetWikis(user.Id),
-            Skills = GetSkills(user.Id)
+            Wikis = GetWikis(publicWikis),
+            Skills = GetSkills(user.Id),
+            Questions = GetQuestions(user.Id)
         };
         return result;
     }
 
-    private IList<PageItem> GetWikis(int userId)
+    private IList<PageItem> GetWikis(IEnumerable<PageCacheItem> wikis)
     {
-        var userCacheItem = EntityCache.GetUserById(userId);
-
-        var wikis = userCacheItem
-            .GetWikis()
-            .Where(_permissionCheck.CanView)
-            .Select(wiki =>
+        return wikis.Select(wiki =>
                 new PageItem(
                     wiki.Id,
                     wiki.Name,
                     new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
                     wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                    FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id)))
+                    FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id)),
+                    _popularityCalculator.CalculatePagePopularity(wiki))
             )
             .ToList();
-
-        return wikis;
     }
 
     private KnowledgeSummaryResponse FillKnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary)
@@ -176,6 +191,7 @@ public class UserController(
                         new PageImageSettings(skill.PageId, _httpContextAccessor).GetUrl_128px(true).Url,
                         page.GetAggregatedPublicQuestions().Count,
                         FillKnowledgeSummaryResponse(skill.KnowledgeSummary),
+                        _popularityCalculator.CalculatePagePopularity(page),
                         page.Creator.Name,
                         IsPublic: page.IsPublic
                     )
@@ -184,6 +200,36 @@ public class UserController(
         }
 
         return skillsWithPages;
+    }
+
+    private IList<QuestionItem> GetQuestions(int userId)
+    {
+        var questionsCreatedByUser = EntityCache.GetAllQuestions()
+            .Where(q => q.Creator != null && q.CreatorId == userId && q.Visibility == QuestionVisibility.Public)
+            .Take(10) // Limit to 10 questions for now
+            .ToList();
+
+        var questionItems = new List<QuestionItem>();
+
+        foreach (var question in questionsCreatedByUser)
+        {
+            if (question.IsPublic)
+            {
+                // Get the primary page for this question
+                var primaryPage = question.PagesVisibleToCurrentUser(_permissionCheck).LastOrDefault();
+                
+                questionItems.Add(new QuestionItem(
+                    question.Id,
+                    question.GetShortTitle(200),
+                    "not-learned", // Default knowledge status - will be updated later
+                    _popularityCalculator.CalculateQuestionPopularity(question),
+                    question.DateCreated.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                    primaryPage?.Id
+                ));
+            }
+        }
+
+        return questionItems;
     }
 
     public readonly record struct WuwiResult(WuwiQuestion[] Questions, WuwiPage[] Pages);

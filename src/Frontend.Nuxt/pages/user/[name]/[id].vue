@@ -24,10 +24,13 @@ interface Overview {
         publicWishknowledges: number
     }
     publicQuestionsCount: number
-    publicPagesCount: number
     privateQuestionsCount: number
+    publicPagesCount: number
     privatePagesCount: number
     wuwiCount: number
+    publicWikisCount: number
+    reputation: number
+    rank: number
 }
 
 interface User {
@@ -50,6 +53,7 @@ interface ProfileData {
     errorCode?: ErrorCode
     wikis?: PageData[]
     skills?: PageData[]
+    questions?: Question[]
 }
 
 const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/User/Get/${route.params.id ? route.params.id : userStore.id}`, {
@@ -132,50 +136,6 @@ interface Question {
     wikiId?: number
 }
 
-// Add fake questions data
-const fakeQuestions: Question[] = [
-    {
-        id: 1,
-        title: "What is the capital of France?",
-        knowledgeStatus: "solid",
-        popularity: 12250,
-        creationDate: "2024-01-15T10:30:00Z",
-        wikiId: 1
-    },
-    {
-        id: 2,
-        title: "How do photosynthesis work in plants?",
-        knowledgeStatus: "needs-consolidation",
-        popularity: 851239,
-        creationDate: "2024-02-20T14:45:00Z",
-        wikiId: 2
-    },
-    {
-        id: 3,
-        title: "What are the fundamental laws of thermodynamics?",
-        knowledgeStatus: "needs-learning",
-        popularity: 62337,
-        creationDate: "2024-03-10T09:15:00Z",
-        wikiId: 3
-    },
-    {
-        id: 4,
-        title: "Who wrote Romeo and Juliet?",
-        knowledgeStatus: "not-learned",
-        popularity: 234,
-        creationDate: "2024-01-05T16:20:00Z",
-        wikiId: 4
-    },
-    {
-        id: 5,
-        title: "What is the difference between HTML and CSS?",
-        knowledgeStatus: "solid",
-        popularity: 112,
-        creationDate: "2024-02-28T11:00:00Z",
-        wikiId: 5
-    }
-]
-
 const hasWikis = computed(() => {
     return profile.value?.wikis && profile.value.wikis.length > 0
 })
@@ -185,7 +145,7 @@ const hasSkills = computed(() => {
 })
 
 const hasQuestions = computed(() => {
-    return fakeQuestions.length > 0 || (profile.value?.overview.publicQuestionsCount ? profile.value.overview.publicQuestionsCount > 0 : false)
+    return (profile.value?.questions && profile.value.questions.length > 0) || (profile.value?.overview.publicQuestionsCount ? profile.value.overview.publicQuestionsCount > 0 : false)
 })
 
 const showSkills = computed(() => {
@@ -236,6 +196,8 @@ onMounted(() => {
         })
     }
 })
+const ariaId = useId()
+
 </script>
 
 <template>
@@ -243,10 +205,29 @@ onMounted(() => {
         <div class="user-content">
             <div id="UserHeader">
                 <div class="profile-header" ref="profileHeader">
-                    <Image :format="ImageFormat.Author" :src="profile.user.imageUrl"
-                        class="profile-picture-small" />
-
+                    <Image :format="ImageFormat.Author" :src="profile.user.imageUrl" class="profile-picture-small" />
                     <div class="profile-header-info">
+
+                        <div v-if="profile.isCurrentUser" class="user-profile-header-container">
+
+                            <VDropdown :aria-id="ariaId" :distance="0" :popperHideTriggers="(triggers: any) => []" :arrow-padding="300" placement="auto">
+                                <div class="user-header-options-btn">
+                                    <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+                                </div>
+                                <template #popper="{ hide }">
+                                    <div @click="userStore.toggleShowAsVisitor()" class="dropdown-row">
+                                        <div class="dropdown-icon">
+                                            <font-awesome-icon icon="fa-solid fa-toggle-off" class="inactive toggle-icon" v-if="userStore.showAsVisitor" />
+                                            <font-awesome-icon icon="fa-solid fa-toggle-on" class="active toggle-icon" v-else />
+                                        </div>
+                                        <div class="dropdown-label">
+                                            {{ t('user.profile.showAsVisitor') }}
+                                        </div>
+                                    </div>
+                                </template>
+                            </VDropdown>
+                        </div>
+
                         <h1>{{ profile.user.name }} <span class="profile-id">#{{ profile.user.id }}</span></h1>
                         <UserAboutMeSection :user-id="profile.user.id" :about-me="profile.user.aboutMeText" />
                     </div>
@@ -257,41 +238,42 @@ onMounted(() => {
 
             <LayoutPanel :id="UserSection.STATS_SECTION.id" :title="t(UserSection.STATS_SECTION.translationKey)">
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="1000" label="Reputation" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
+                    <LayoutCounter :value="profile.overview.reputation" label="Reputation" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="2" label="Rank" :icon="['fas', 'crown']" :icon-color="color.memoYellow" url-value="/Nutzer" />
+                    <LayoutCounter :value="profile.overview.rank" label="Rank" :icon="['fas', 'crown']" :icon-color="color.memoYellow" :url-value="t('url.users')" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small" background-color="transparent">
                     <!-- Filler -->
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="31" label="Pages" :icon="['fas', 'file-lines']" />
+                    <LayoutCounter :value="profile.overview.publicPagesCount" label="Pages" :icon="['fas', 'file-lines']" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="31" label="Wikis" :icon="['fas', 'file-lines']" />
+                    <LayoutCounter :value="profile.overview.publicWikisCount" label="Wikis" :icon="['fas', 'file-lines']" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicQuestionsCount + profile.overview.privateQuestionsCount" label="Questions" :icon="['fas', 'circle-question']" />
+                    <LayoutCounter :value="profile.overview.publicQuestionsCount" label="Questions" :icon="['fas', 'circle-question']" />
                 </LayoutCard>
             </LayoutPanel>
 
-            <LayoutPanel v-if="hasSkills || profile.isCurrentUser" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)">
+            <LayoutPanel v-if="hasSkills || profile.isCurrentUser && userStore.showAsVisitor" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)">
                 <template v-for="skill in profile.skills">
-                    <UserSkillCard :skill="skill" v-if="profile.isCurrentUser || (skill.knowledgebarData && skill.knowledgebarData.total > 0)" />
+                    <UserSkillCard :skill="skill" v-if="profile.isCurrentUser && userStore.showAsVisitor || (skill.knowledgebarData && skill.knowledgebarData.total > 0) && skill.isPublic" />
                 </template>
 
                 <LayoutCard v-if="!hasSkills" :size="LayoutCardSize.Large">
                     {{ t('user.profile.noSkills') }}
                 </LayoutCard>
 
-                <LayoutCard v-if="profile.isCurrentUser" :size="LayoutCardSize.Small" @click="handleAddSkillClick" class="add-skill-card">
+                <LayoutCard v-if="profile.isCurrentUser && userStore.showAsVisitor" :size="LayoutCardSize.Small" @click="handleAddSkillClick" class="add-skill-card">
                     <div class="add-skill-content">
                         <font-awesome-icon :icon="['fas', 'plus']" class="add-icon" />
                         <span>{{ t('user.skills.addSkill') }}</span>
                     </div>
                 </LayoutCard>
+
             </LayoutPanel>
 
             <LayoutPanel v-if="hasWikis" :id="UserSection.WIKIS_SECTION.id" :title="t(UserSection.WIKIS_SECTION.translationKey)">
@@ -305,7 +287,7 @@ onMounted(() => {
             <DevOnly>
                 <LayoutPanel v-if="hasQuestions" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)">
                     <LayoutCard :no-padding="true">
-                        <LayoutQuestionList :questions="fakeQuestions" :no-questions-text="t('user.profile.noQuestions')" />
+                        <LayoutQuestionList :questions="profile.questions || []" :no-questions-text="t('user.profile.noQuestions')" />
                     </LayoutCard>
                 </LayoutPanel>
             </DevOnly>
@@ -354,6 +336,7 @@ onMounted(() => {
         flex-direction: column;
         margin-top: 1rem;
         width: 100%;
+        position: relative;
 
         h1 {
             margin-top: 0px;
@@ -459,6 +442,49 @@ onMounted(() => {
 
         .add-icon {
             color: @memo-green;
+        }
+    }
+}
+
+.user-profile-header-container {
+    position: absolute;
+    top: 0;
+    right: 10px;
+
+    .user-header-options-btn {
+        cursor: pointer;
+        background: white;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        height: 30px;
+        width: 30px;
+        min-width: 30px;
+        transition: filter 0.1s;
+        color: @memo-grey-dark;
+
+        &:hover {
+            filter: brightness(0.95)
+        }
+
+        &:active {
+            filter: brightness(0.85)
+        }
+    }
+
+
+}
+</style>
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.dropdown-icon {
+    .toggle-icon {
+        &.active {
+            color: @memo-blue-link;
         }
     }
 }

@@ -14,8 +14,6 @@ export class CustomPino {
         const message = (args[0] ?? 'no message specified') as string
         const additionalData = args[1] as Property[]
 
-        console.log(args)
-
         let properties = {}
 
         if (additionalData != undefined)

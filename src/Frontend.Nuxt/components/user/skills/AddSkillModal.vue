@@ -141,12 +141,6 @@ watch(() => props.show, (show) => {
 @import '~~/assets/shared/search.less';
 @import (reference) '~~/assets/includes/imports.less';
 
-.pageSearchAutocomplete {
-    .form-control {
-        border-radius: 24px;
-    }
-}
-
 .searchResultItem {
     padding: 4px;
     display: flex;

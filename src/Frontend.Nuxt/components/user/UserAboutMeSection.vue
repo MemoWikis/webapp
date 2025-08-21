@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useUserStore } from './userStore'
-import { useEditor, EditorContent, JSONContent, BubbleMenu } from '@tiptap/vue-3'
+import { useEditor, EditorContent, BubbleMenu } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -116,29 +116,41 @@ onMounted(() => {
     })
 })
 
+watch(() => userStore.showAsVisitor, (show) => {
+    editor.value?.setEditable(show && isCurrentUser.value)
+    if (!show) {
+        collapsed.value = true
+    }
+})
+
 </script>
 
 <template>
     <div class="about-me-section">
         <!-- <div v-html="aboutMeModel"></div> -->
 
-        <bubble-menu :editor="editor" v-if="editor && isCurrentUser">
-            <div class="bubble-menu">
-                <button class="menubar__button" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-                    <font-awesome-icon icon="fa-solid fa-bold" />
-                </button>
-                <button class="menubar__button" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-                    <font-awesome-icon icon="fa-solid fa-italic" />
-                </button>
-            </div>
-        </bubble-menu>
-        <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed }" ref="editorRef" />
+        <template v-if="editor">
+            <bubble-menu :editor="editor" v-if="editor && isCurrentUser">
+                <div class="bubble-menu">
+                    <button class="menubar__button" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+                        <font-awesome-icon icon="fa-solid fa-bold" />
+                    </button>
+                    <button class="menubar__button" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+                        <font-awesome-icon icon="fa-solid fa-italic" />
+                    </button>
+                </div>
+            </bubble-menu>
+            <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed }" ref="editorRef" />
+        </template>
 
-        <template v-if="collapsed && needsCollapse">
+        <div v-else v-html="aboutMe" class="about-me-text placeholder" />
+
+
+        <template v-if="collapsed && needsCollapse || editor == null">
             <!-- Gradient overlay when collapsed -->
             <div class="gradient-overlay"></div>
 
-            <div class="collapse-button-section">
+            <div class="collapse-button-section" v-if="editor">
                 <div class="collapse-button" @click="collapsed = false" :class="{ 'collapsed': collapsed }">
                     {{ t('userAboutMe.readMore') }}
                 </div>
@@ -181,6 +193,10 @@ onMounted(() => {
         &.show-full {
             max-height: none;
         }
+
+        &.placeholder {
+            max-height: 115px;
+        }
     }
 
     .gradient-overlay {
@@ -204,7 +220,7 @@ onMounted(() => {
             padding: 8px 16px;
             z-index: 2;
             font-size: 1.4rem;
-            color: @memo-grey-dark;
+            color: @memo-grey;
             background: white;
             border-radius: 24px;
 

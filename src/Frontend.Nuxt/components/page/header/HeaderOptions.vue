@@ -31,20 +31,21 @@ const { t, localeProperties } = useI18n()
 
 // Check if current page is already a skill
 const checkIfSkill = async () => {
-    // if (userStore.id && pageStore.id) {
-    //     const result = await checkSkill(userStore.id, pageStore.id)
-    //     isSkill.value = result.isSkill
-    // }
+    if (userStore.id && pageStore.id) {
+        const result = await checkSkill(userStore.id, pageStore.id)
+        isSkill.value = result.isSkill
+    }
 }
 
 // Check skill status when component mounts
-// onMounted(checkIfSkill)
+onMounted(checkIfSkill)
 
 // Also check when page changes
-// watch(() => pageStore.id, checkIfSkill)
+watch(() => pageStore.id, checkIfSkill)
 
 const addToSkills = async () => {
-    if (!userStore.id) {
+    if (!userStore.id || !userStore.isLoggedIn) {
+        userStore.openLoginModal()
         return
     }
 
@@ -66,7 +67,8 @@ const addToSkills = async () => {
 }
 
 const removeFromSkills = async () => {
-    if (!userStore.id) {
+    if (!userStore.id || !userStore.isLoggedIn) {
+        userStore.openLoginModal()
         return
     }
 
@@ -154,6 +156,8 @@ const removeFromSkills = async () => {
                         </div>
                     </div>
 
+                    <div class="dropdown-divider"></div>
+
                     <div v-if="!pageStore.isChildOfPersonalWiki && pageStore.id != userStore.personalWiki?.id" class="dropdown-row" @click="editPageRelationStore.addToPersonalWiki(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-layers>
@@ -167,25 +171,11 @@ const removeFromSkills = async () => {
                         </div>
                     </div>
 
-                    <div v-if="userStore.isLoggedIn" class="dropdown-row" @click="addToSkills(); hide()">
+                    <div v-if="isSkill" class="dropdown-row" @click="removeFromSkills(); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-layers>
-                                <font-awesome-icon :icon="['fas', 'brain']" />
-                                <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
-                                <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-3 down-1 right-1" style="color: white;" />
-                            </font-awesome-layers>
-                        </div>
-                        <div class="dropdown-label">
-                            {{ t('page.header.addToSkills') }}
-                        </div>
-                    </div>
+                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
 
-                    <div v-if="userStore.isLoggedIn" class="dropdown-row" @click="removeFromSkills(); hide()">
-                        <div class="dropdown-icon">
-                            <font-awesome-layers>
-                                <font-awesome-icon :icon="['fas', 'brain']" />
-                                <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
-                                <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-3 down-1 right-1" style="color: white;" />
                             </font-awesome-layers>
                         </div>
                         <div class="dropdown-label">
@@ -193,52 +183,67 @@ const removeFromSkills = async () => {
                         </div>
                     </div>
 
-                    <div v-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Public" class="dropdown-row" @click="pageToPrivateStore.openModal(pageStore.id); hide()">
+                    <div v-else class="dropdown-row" @click="addToSkills(); hide()">
                         <div class="dropdown-icon">
-                            <font-awesome-icon icon="fa-solid fa-lock" />
+                            <font-awesome-layers>
+                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
+
+                            </font-awesome-layers>
                         </div>
                         <div class="dropdown-label">
-                            {{ t('page.header.setToPrivate') }}
-                        </div>
-                    </div>
-                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Private" class="dropdown-row" @click="publishPageStore.openModal(pageStore.id); hide()">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon icon="fa-solid fa-unlock" />
-                        </div>
-                        <div class="dropdown-label">
-                            {{ t('page.header.publishPage') }}
+                            {{ t('page.header.addToSkills') }}
                         </div>
                     </div>
 
-                    <div v-if="pageStore.isOwnerOrAdmin() && !pageStore.isWiki" class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fas', 'folder']" />
-                        </div>
-                        <div class="dropdown-label">
-                            {{ t('page.header.convertToWiki') }}
-                        </div>
-                    </div>
-                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.isWiki" class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fas', 'file']" />
-                        </div>
-                        <div class="dropdown-label">
-                            {{ t('page.header.convertToPage') }}
-                        </div>
-                    </div>
-                    <template v-if="pageStore.canBeDeleted">
+                    <template v-if="pageStore.isOwnerOrAdmin()">
                         <div class="dropdown-divider"></div>
 
-                        <div class="dropdown-row"
-                            @click="deletePageStore.openModal(pageStore.id, true); hide()">
-
+                        <div v-if="pageStore.visibility === Visibility.Public" class="dropdown-row" @click="pageToPrivateStore.openModal(pageStore.id); hide()">
                             <div class="dropdown-icon">
-                                <font-awesome-icon icon="fa-solid fa-trash" />
+                                <font-awesome-icon icon="fa-solid fa-lock" />
                             </div>
                             <div class="dropdown-label">
-                                {{ t('page.header.deletePage') }}
+                                {{ t('page.header.setToPrivate') }}
                             </div>
                         </div>
+                        <div v-else-if="pageStore.visibility === Visibility.Private" class="dropdown-row" @click="publishPageStore.openModal(pageStore.id); hide()">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon icon="fa-solid fa-unlock" />
+                            </div>
+                            <div class="dropdown-label">
+                                {{ t('page.header.publishPage') }}
+                            </div>
+                        </div>
+
+                        <div v-if="pageStore.isWiki" class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fas', 'file']" />
+                            </div>
+                            <div class="dropdown-label">
+                                {{ t('page.header.convertToPage') }}
+                            </div>
+                        </div>
+                        <div v-else class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fas', 'folder']" />
+                            </div>
+                            <div class="dropdown-label">
+                                {{ t('page.header.convertToWiki') }}
+                            </div>
+                        </div>
+
+                        <template v-if="pageStore.canBeDeleted">
+                            <div class="dropdown-row"
+                                @click="deletePageStore.openModal(pageStore.id, true); hide()">
+
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon icon="fa-solid fa-trash" />
+                                </div>
+                                <div class="dropdown-label">
+                                    {{ t('page.header.deletePage') }}
+                                </div>
+                            </div>
+                        </template>
                     </template>
                     <div class="dropdown-divider"></div>
 

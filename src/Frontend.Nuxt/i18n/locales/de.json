@@ -324,6 +324,7 @@
             "addChildPage": "Unterseite verknüpfen",
             "addToPersonalWiki": "Zu meinem Wiki hinzufügen",
             "addToSkills": "Zu meinen Skills hinzufügen",
+            "removeFromSkills": "Aus meinen Skills entfernen",
             "setToPrivate": "Seite auf privat setzen",
             "publishPage": "Seite veröffentlichen",
             "convertToWiki": "Seite in Wiki konvertieren",
@@ -1232,7 +1233,8 @@
             "toMyWiki": "Zu meinem Wiki",
             "toUserWiki": "Zu {name}s Wiki",
             "questions": "Fragen",
-            "noQuestions": "Keine Fragen verfügbar"
+            "noQuestions": "Keine Fragen verfügbar",
+            "showAsVisitor": "Als Besucher anzeigen"
         },
         "overview": {
             "reputation": {
