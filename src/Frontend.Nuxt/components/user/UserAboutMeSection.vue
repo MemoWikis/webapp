@@ -125,8 +125,8 @@ onMounted(() => {
 })
 
 watch(() => userStore.showAsVisitor, (show) => {
-    editor.value?.setEditable(show && isCurrentUser.value)
-    if (!show) {
+    editor.value?.setEditable(!show && isCurrentUser.value)
+    if (show) {
         collapsed.value = true
     }
 })
