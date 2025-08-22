@@ -204,7 +204,7 @@ const ariaId = useId()
     <div v-if="profile && profile.user.id > 0" class="user-container">
         <div class="user-content">
             <div id="UserHeader">
-                <div class="profile-header" ref="profileHeader">
+                <div class="profile-header" ref="profileHeader" :class="{ 'is-mobile': isMobile }">
                     <Image :format="ImageFormat.Author" :src="profile.user.imageUrl" class="profile-picture-small" />
                     <div class="profile-header-info">
 
@@ -339,7 +339,7 @@ const ariaId = useId()
         position: relative;
 
         h1 {
-            margin-top: 0px;
+            margin-top: -10px;
 
             .profile-id {
                 color: @memo-grey;
@@ -352,6 +352,10 @@ const ariaId = useId()
         flex-direction: row;
         flex-grow: 1;
         width: 100%;
+
+        &.is-mobile {
+            padding: 0 2rem;
+        }
 
         .profile-picture-small {
             display: flex;
@@ -448,7 +452,7 @@ const ariaId = useId()
 
 .user-profile-header-container {
     position: absolute;
-    top: 0;
+    top: -10px;
     right: 10px;
 
     .user-header-options-btn {

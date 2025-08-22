@@ -58,7 +58,7 @@ const { isMobile } = useDevice()
     margin-bottom: 24px;
     overflow: hidden;
     width: 100%;
-    max-width: calc(100vw - 40px);
+    max-width: calc(100vw - 20px);
 
     &.half-size {
         max-width: calc(50vw - 20px);

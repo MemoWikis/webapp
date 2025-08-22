@@ -21,7 +21,7 @@ const isCurrentUser = computed(() => props.userId === userStore.id)
 const aboutMeHtml = ref<string>('')
 
 onBeforeMount(() => {
-    aboutMeModel.value = props.aboutMe || `<p>${t('userAboutMe.defaultText')}</p>`
+    aboutMeModel.value = props.aboutMe || `<p>${t('userAboutMe.placeholderText')}</p>`
 })
 
 const collapsed = ref(true)
@@ -46,6 +46,14 @@ const debouncedSave = async (html: string) => {
         }
     }, 1000) // 1 second debounce
 }
+
+const placeholderFlavorTextKeys = [
+    'userAboutMe.placeholderFlavorText1',
+    'userAboutMe.placeholderFlavorText2',
+    'userAboutMe.placeholderFlavorText3',
+    'userAboutMe.placeholderFlavorText4',
+    'userAboutMe.placeholderFlavorText5'
+]
 
 const editor = useEditor({
     content: props.aboutMe ?? null,
@@ -123,12 +131,28 @@ watch(() => userStore.showAsVisitor, (show) => {
     }
 })
 
+const noContent = computed(() => {
+    if (!aboutMeHtml.value) return true
+
+    const tempDiv = document.createElement('div')
+    tempDiv.innerHTML = aboutMeHtml.value
+
+    const textContent = tempDiv.textContent || tempDiv.innerText || ''
+    return textContent.trim().length === 0
+})
+
+const flavorText = computed(() => {
+    if (noContent.value) {
+        const randomIndex = Math.floor(Math.random() * placeholderFlavorTextKeys.length)
+        return t(placeholderFlavorTextKeys[randomIndex])
+    }
+    return ''
+})
+
 </script>
 
 <template>
     <div class="about-me-section">
-        <!-- <div v-html="aboutMeModel"></div> -->
-
         <template v-if="editor">
             <bubble-menu :editor="editor" v-if="editor && isCurrentUser">
                 <div class="bubble-menu">
@@ -143,7 +167,9 @@ watch(() => userStore.showAsVisitor, (show) => {
             <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed }" ref="editorRef" />
         </template>
 
-        <div v-else v-html="aboutMe" class="about-me-text placeholder" />
+        <div v-else v-html="aboutMe" class="about-me-text placeholder"></div>
+
+        <div v-if="editor && (userStore.showAsVisitor || !isCurrentUser) && noContent" :v-html="flavorText" class="about-me-text placeholder"> </div>
 
 
         <template v-if="collapsed && needsCollapse || editor == null">
@@ -195,6 +221,7 @@ watch(() => userStore.showAsVisitor, (show) => {
         }
 
         &.placeholder {
+            min-height: 60px;
             max-height: 115px;
         }
     }

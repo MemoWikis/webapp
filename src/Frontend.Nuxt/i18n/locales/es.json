@@ -1843,6 +1843,11 @@
         "bold": "Negrita",
         "italic": "Cursiva",
         "readMore": "Leer más",
-        "defaultText": "Cuéntales a otros sobre ti..."
+        "placeholderText": "Cuéntales a otros sobre ti...",
+        "placeholderFlavorText1": "Esta persona aún no ha compartido nada sobre sí misma. 🤷‍♀️",
+        "placeholderFlavorText2": "¡Parece que esta persona mantiene su historia en misterio por ahora! 🕵️",
+        "placeholderFlavorText3": "¡Esta persona probablemente está muy ocupada aprendiendo cosas increíbles! 📚",
+        "placeholderFlavorText4": "Nada aquí por ahora, ¡pero seguramente vienen cosas geniales! ✨",
+        "placeholderFlavorText5": "¡Este espacio está esperando que ocurra un poco de magia personal! 🎭"
     }
 }

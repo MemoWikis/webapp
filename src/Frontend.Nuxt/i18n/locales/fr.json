@@ -1843,6 +1843,11 @@
         "bold": "Gras",
         "italic": "Italique",
         "readMore": "Lire plus",
-        "defaultText": "Parlez aux autres de vous..."
+        "placeholderText": "Parlez aux autres de vous...",
+        "placeholderFlavorText1": "Cette personne n'a encore rien partagé sur elle-même. 🤷‍♀️",
+        "placeholderFlavorText2": "On dirait que cette personne garde son histoire mystérieuse pour l'instant ! 🕵️",
+        "placeholderFlavorText3": "Cette personne est probablement trop occupée à apprendre des choses géniales ! 📚",
+        "placeholderFlavorText4": "Rien ici pour l'instant, mais de grandes choses arrivent sûrement ! ✨",
+        "placeholderFlavorText5": "Cet espace attend qu'un peu de magie personnelle arrive ! 🎭"
     }
 }

@@ -1865,6 +1865,11 @@
         "bold": "Fett",
         "italic": "Kursiv",
         "readMore": "Mehr lesen",
-        "defaultText": "Erzähle anderen etwas über dich..."
+        "placeholderText": "Erzähle anderen etwas über dich...",
+        "placeholderFlavorText1": "Diese Person hat noch nichts über sich erzählt. 🤷‍♀️",
+        "placeholderFlavorText2": "Anscheinend hält diese Person ihre Geschichte noch geheim! 🕵️",
+        "placeholderFlavorText3": "Diese Person ist wahrscheinlich zu beschäftigt damit, großartige Sachen zu lernen! 📚",
+        "placeholderFlavorText4": "Hier ist noch nichts, aber sicher kommen tolle Dinge! ✨",
+        "placeholderFlavorText5": "Dieser Platz wartet darauf, dass etwas Persönliches passiert! 🎭"
     }
 }

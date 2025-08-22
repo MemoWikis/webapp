@@ -1866,6 +1866,11 @@
         "bold": "Bold",
         "italic": "Italic",
         "readMore": "Read more",
-        "defaultText": "Tell others about yourself..."
+        "placeholderText": "Tell others about yourself...",
+        "placeholderFlavorText1": "This user hasn't shared anything about themselves yet. 🤷‍♀️",
+        "placeholderFlavorText2": "Looks like this person is keeping their story a mystery for now! 🕵️",
+        "placeholderFlavorText3": "This user is probably too busy learning awesome stuff to write about themselves! 📚",
+        "placeholderFlavorText4": "Nothing here yet, but great things are surely coming! ✨",
+        "placeholderFlavorText5": "This space is waiting for some personal magic to happen! 🎭"
     }
 }
