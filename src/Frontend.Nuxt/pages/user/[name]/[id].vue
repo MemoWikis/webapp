@@ -217,8 +217,9 @@ const ariaId = useId()
                                 <template #popper="{ hide }">
                                     <div @click="userStore.toggleShowAsVisitor()" class="dropdown-row">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-toggle-off" class="inactive toggle-icon" v-if="userStore.showAsVisitor" />
-                                            <font-awesome-icon icon="fa-solid fa-toggle-on" class="active toggle-icon" v-else />
+                                            <font-awesome-icon icon="fa-solid fa-toggle-on" class="active toggle-icon" v-if="userStore.showAsVisitor" />
+                                            <font-awesome-icon icon="fa-solid fa-toggle-off" class="inactive toggle-icon" v-else />
+
                                         </div>
                                         <div class="dropdown-label">
                                             {{ t('user.profile.showAsVisitor') }}

@@ -22,6 +22,8 @@ const { getFormattedNumber } = useFormatNumber()
 
 const sortKey = ref<keyof Question>('popularity')
 const sortDirection = ref<'asc' | 'desc'>('desc')
+const currentPage = ref(1)
+const itemsPerPage = ref(20)
 
 const sortedQuestions = computed(() => {
     return [...props.questions].sort((a, b) => {
@@ -48,7 +50,13 @@ const sortedQuestions = computed(() => {
     })
 })
 
-function toggleSort(key: keyof Question) {
+const paginatedQuestions = computed(() => {
+    const startIndex = (currentPage.value - 1) * itemsPerPage.value
+    const endIndex = startIndex + itemsPerPage.value
+    return sortedQuestions.value.slice(startIndex, endIndex)
+})
+
+const toggleSort = (key: keyof Question) => {
     if (sortKey.value === key) {
         sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
     } else {
@@ -57,12 +65,12 @@ function toggleSort(key: keyof Question) {
     }
 }
 
-function getSortIconClass(key: keyof Question) {
+const getSortIconClass = (key: keyof Question) => {
     if (sortKey.value !== key) return 'sort-icon'
     return sortDirection.value === 'asc' ? 'sort-icon sort-asc' : 'sort-icon sort-desc'
 }
 
-function formatDate(dateString: string): string {
+const formatDate = (dateString: string): string => {
     const date = new Date(dateString)
     const { locale } = useI18n()
 
@@ -73,10 +81,12 @@ function formatDate(dateString: string): string {
     })
 }
 
-function learnQuestion(question: Question) {
+const learnQuestion = (question: Question) => {
     // TODO: Implement navigation to question learning
     console.log('Learning question:', question.id)
 }
+
+const { isMobile } = useDevice()
 </script>
 
 <template>
@@ -114,10 +124,10 @@ function learnQuestion(question: Question) {
             </thead>
             <tbody>
                 <tr
-                    v-for="(question, index) in sortedQuestions"
+                    v-for="(question, index) in paginatedQuestions"
                     :key="question.id"
                     class="question-row"
-                    :class="{ last: index === sortedQuestions.length - 1 }">
+                    :class="{ last: index === paginatedQuestions.length - 1 }">
                     <td class="popularity-cell">
                         <span class="popularity-count">{{ getFormattedNumber(question.popularity) }}</span>
                     </td>
@@ -141,6 +151,36 @@ function learnQuestion(question: Question) {
                 </tr>
             </tbody>
         </table>
+
+        <div class="pagination-container" v-if="questions.length > itemsPerPage">
+            <vue-awesome-paginate
+                v-if="currentPage > 0"
+                :total-items="sortedQuestions.length"
+                :items-per-page="itemsPerPage"
+                :max-pages-shown="isMobile ? 3 : 10"
+                v-model="currentPage"
+                :show-ending-buttons="true"
+                :show-breakpoint-buttons="false">
+                <template #first-page-button>
+                    <font-awesome-layers>
+                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                    </font-awesome-layers>
+                </template>
+                <template #prev-button>
+                    <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                </template>
+                <template #next-button>
+                    <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                </template>
+                <template #last-page-button>
+                    <font-awesome-layers>
+                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                    </font-awesome-layers>
+                </template>
+            </vue-awesome-paginate>
+        </div>
     </div>
 </template>
 
@@ -149,6 +189,43 @@ function learnQuestion(question: Question) {
 
 .question-list {
     width: 100%;
+
+    .pagination-container {
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+
+        :deep(.paginate-buttons) {
+            background: white;
+            color: @memo-grey-dark;
+            font-size: 1.4rem;
+            padding: 1rem 1.6rem;
+
+            &.active-page {
+                color: @memo-blue;
+            }
+
+            &:hover {
+                filter: brightness(0.95);
+            }
+
+            &:active {
+                filter: brightness(0.9);
+            }
+        }
+
+        :deep(li:first-child) {
+            border-top-left-radius: 2em;
+            border-bottom-left-radius: 2em;
+            overflow: hidden;
+        }
+
+        :deep(li:last-child) {
+            border-top-right-radius: 2em;
+            border-bottom-right-radius: 2em;
+            overflow: hidden;
+        }
+    }
 }
 
 .no-questions {
