@@ -8,6 +8,7 @@ import { LayoutCardSize } from '~/composables/layoutCardSize'
 import { PageData } from '~/composables/missionControl/pageData'
 import { color } from '~/constants/colors'
 import UserSection from '~/constants/userSections'
+import { Question } from '~~/components/layout/LayoutQuestionList.vue'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -127,15 +128,6 @@ useHead(() => ({
 
 const { isMobile } = useDevice()
 
-interface Question {
-    id: number
-    title: string
-    knowledgeStatus: 'not-learned' | 'needs-learning' | 'needs-consolidation' | 'solid'
-    popularity: number
-    creationDate: string
-    wikiId?: number
-}
-
 const hasWikis = computed(() => {
     return profile.value?.wikis && profile.value.wikis.length > 0
 })
@@ -158,9 +150,7 @@ function handleAddSkillClick() {
     showAddSkillModal.value = true
 }
 
-async function handleSkillAdded(skillId: number) {
-    console.log('Skill added successfully:', skillId)
-    // Refresh the profile to show the new skill
+async function handleSkillAdded() {
     await refreshProfile()
 }
 
@@ -217,9 +207,8 @@ const ariaId = useId()
                                 <template #popper="{ hide }">
                                     <div @click="userStore.toggleShowAsVisitor()" class="dropdown-row">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-toggle-on" class="active toggle-icon" v-if="userStore.showAsVisitor" />
-                                            <font-awesome-icon icon="fa-solid fa-toggle-off" class="inactive toggle-icon" v-else />
-
+                                            <font-awesome-icon icon="fa-solid fa-toggle-off" class="inactive toggle-icon" v-if="userStore.showAsVisitor" />
+                                            <font-awesome-icon icon="fa-solid fa-toggle-on" class="active toggle-icon" v-else />
                                         </div>
                                         <div class="dropdown-label">
                                             {{ t('user.profile.showAsVisitor') }}

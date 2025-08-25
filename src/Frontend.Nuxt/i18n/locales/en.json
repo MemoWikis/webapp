@@ -1303,9 +1303,9 @@
             "wikis": "Wikis",
             "questions": "Questions",
             "tooltips": {
-                "skills": "Shows only public skills with answered questions and knowledge summary",
-                "wikis": "Shows only public wikis",
-                "questions": "Shows only public questions"
+                "skills": "Only public pages with answered and public questions are displayed",
+                "wikis": "Only public wikis are displayed",
+                "questions": "Only public questions from public pages are displayed"
             }
         },
         "skills": {

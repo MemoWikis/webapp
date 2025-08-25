@@ -1302,9 +1302,9 @@
             "wikis": "Wikis",
             "questions": "Questions",
             "tooltips": {
-                "skills": "Affiche uniquement les compétences publiques avec des questions répondues et un résumé de connaissances",
-                "wikis": "Affiche uniquement les wikis publics",
-                "questions": "Affiche uniquement les questions publiques"
+                "skills": "Seules les pages publiques avec des questions répondues et publiques sont affichées",
+                "wikis": "Seuls les wikis publics sont affichés",
+                "questions": "Seules les questions publiques de pages publiques sont affichées"
             }
         },
         "skills": {

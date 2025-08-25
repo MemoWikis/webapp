@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-interface Question {
+export interface Question {
     id: number
     title: string
-    knowledgeStatus: 'not-learned' | 'needs-learning' | 'needs-consolidation' | 'solid'
     popularity: number
     creationDate: string
-    wikiId?: number
+    pageId: number
+    pageName: string
 }
 
 interface Props {
@@ -141,12 +141,13 @@ const { isMobile } = useDevice()
                     </td>
 
                     <td class="actions-cell">
-                        <button
+                        <NuxtLink
+                            :to="$urlHelper.getPageUrlWithQuestionId(question.pageName, question.pageId, question.id)"
                             class="learn-button"
                             @click="learnQuestion(question)"
                             :title="t('layout.questionList.learnQuestion')">
                             <font-awesome-icon :icon="['fas', 'play']" />
-                        </button>
+                        </NuxtLink>
                     </td>
                 </tr>
             </tbody>

@@ -1302,9 +1302,9 @@
             "wikis": "Wikis",
             "questions": "Fragen",
             "tooltips": {
-                "skills": "Zeigt nur öffentliche Skills mit beantworteten Fragen und Wissenszusammenfassung",
-                "wikis": "Zeigt nur öffentliche Wikis",
-                "questions": "Zeigt nur öffentliche Fragen"
+                "skills": "Nur öffentliche Seiten mit beantworteten und öffentlichen Fragen werden angezeigt",
+                "wikis": "Es werden nur öffentliche Wikis angezeigt",
+                "questions": "Nur öffentliche Fragen von öffentlichen Seiten werden angezeigt"
             }
         },
         "skills": {

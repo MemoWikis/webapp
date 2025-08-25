@@ -125,8 +125,8 @@ onMounted(() => {
 })
 
 watch(() => userStore.showAsVisitor, (show) => {
-    editor.value?.setEditable(!show && isCurrentUser.value)
-    if (show) {
+    editor.value?.setEditable(show && isCurrentUser.value)
+    if (!show) {
         collapsed.value = true
     }
 })
@@ -164,13 +164,12 @@ const flavorText = computed(() => {
                     </button>
                 </div>
             </bubble-menu>
-            <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed, 'show-flavorText': noContent && (userStore.showAsVisitor || !isCurrentUser) }" ref="editorRef" />
-            <div v-if="noContent && (userStore.showAsVisitor || !isCurrentUser)" class="about-me-text placeholder">{{ flavorText }}</div>
-
+            <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed }" ref="editorRef" />
         </template>
 
         <div v-else v-html="aboutMe" class="about-me-text placeholder"></div>
 
+        <div v-if="editor && (userStore.showAsVisitor || !isCurrentUser) && noContent" :v-html="flavorText" class="about-me-text placeholder"> </div>
 
 
         <template v-if="collapsed && needsCollapse || editor == null">
@@ -224,11 +223,6 @@ const flavorText = computed(() => {
         &.placeholder {
             min-height: 60px;
             max-height: 115px;
-        }
-
-        &.show-flavorText {
-            max-height: 0px;
-            overflow: hidden;
         }
     }
 

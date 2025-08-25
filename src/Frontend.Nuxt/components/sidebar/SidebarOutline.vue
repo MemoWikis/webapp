@@ -110,7 +110,7 @@ const headingClass = (index: number) => {
 </script>
 
 <template>
-    <div :id="containerId">
+    <div :id="containerId" class="sidebar-outline">
         <PerfectScrollbar :options="{ suppressScrollX: true }">
             <div class="outline-container">
                 <div v-for="(heading, index) in getVisibleSections" :key="heading.id" class="outline-heading"
@@ -126,5 +126,13 @@ const headingClass = (index: number) => {
 </template>
 
 <style lang="less" scoped>
+:global(html) {
+    scroll-behavior: smooth;
+    scroll-padding-top: 180px;
+    /* Offset for fixed headers */
+}
+</style>
+
+<style lang="less">
 @import '~~/assets/sidebar.less';
 </style>

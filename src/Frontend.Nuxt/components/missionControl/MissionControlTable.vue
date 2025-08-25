@@ -15,7 +15,7 @@ const { getFormattedNumber } = useFormatNumber()
 const sortKey = ref<keyof PageData>('popularity')
 const sortDirection = ref<'asc' | 'desc'>('desc')
 const currentPage = ref(1)
-const itemsPerPage = ref(3)
+const itemsPerPage = ref(20)
 
 const sortedpages = computed(() => {
     return [...props.pages].sort((a, b) => {

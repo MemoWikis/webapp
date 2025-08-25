@@ -62,10 +62,10 @@ public class UserController(
     public readonly record struct QuestionItem(
         int Id,
         string Title,
-        string KnowledgeStatus,
         int Popularity,
         string CreationDate,
-        int? WikiId);
+        int? PageId,
+        [CanBeNull] string PageName);
 
 
     [HttpGet]
@@ -215,17 +215,17 @@ public class UserController(
         {
             if (question.IsPublic)
             {
-                // Get the primary page for this question
-                var primaryPage = question.PagesVisibleToCurrentUser(_permissionCheck).LastOrDefault();
-                
-                questionItems.Add(new QuestionItem(
-                    question.Id,
-                    question.GetShortTitle(200),
-                    "not-learned", // Default knowledge status - will be updated later
-                    _popularityCalculator.CalculateQuestionPopularity(question),
-                    question.DateCreated.ToString("yyyy-MM-ddTHH:mm:ssZ"),
-                    primaryPage?.Id
-                ));
+                var primaryPage = question.PublicPages().LastOrDefault();
+
+                if (primaryPage != null)
+                    questionItems.Add(new QuestionItem(
+                        question.Id,
+                        question.GetShortTitle(200),
+                        _popularityCalculator.CalculateQuestionPopularity(question),
+                        question.DateCreated.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                        primaryPage.Id,
+                        primaryPage.Name
+                    ));
             }
         }
 
