@@ -327,7 +327,7 @@ public class VueMaintenanceController(
 
     [AccessOnlyAsAdmin]
     [HttpGet]
-    public RelationErrors.RelationErrorsResult ShowRelationErrors()
+    public RelationErrorsResult ShowRelationErrors()
     {
         return _relationErrors.GetErrors();
     }

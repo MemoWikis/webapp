@@ -1,23 +1,5 @@
 public class RelationErrors(PageRelationRepo _pageRelationRepo, PageRepository _pageRepository) : IRegisterAsInstancePerLifetime
 {
-    public readonly record struct RelationErrorsResult(bool Success, List<RelationErrorItem> Data);
-
-    public readonly record struct RelationErrorItem(
-        int ParentId,
-        List<RelationError> Errors,
-        List<RelationTableItem> Relations);
-
-    public readonly record struct RelationError(string Type, int ChildId, string Description);
-
-    public readonly record struct RelationTableItem(
-        int RelationId,
-        int? PreviousId,
-        int? NextId,
-        int ChildId,
-        int ParentId);
-
-    public readonly record struct HealResult(bool Success, string Message, int HealedCount);
-
     /// <summary>
     /// Detects all relation errors across the system
     /// </summary>
@@ -559,3 +541,21 @@ public class RelationErrors(PageRelationRepo _pageRelationRepo, PageRepository _
         HealOrderingErrorsForParent(parentPageId);
     }
 }
+
+public readonly record struct RelationErrorsResult(bool Success, List<RelationErrorItem> Data);
+
+public readonly record struct RelationErrorItem(
+    int ParentId,
+    List<RelationError> Errors,
+    List<RelationTableItem> Relations);
+
+public readonly record struct RelationError(string Type, int ChildId, string Description);
+
+public readonly record struct RelationTableItem(
+    int RelationId,
+    int? PreviousId,
+    int? NextId,
+    int ChildId,
+    int ParentId);
+
+public readonly record struct HealResult(bool Success, string Message, int HealedCount);
