@@ -99,13 +99,19 @@ public class PageRelationEditController(
     private MoveChildResult MoveChild(int childId, int parentIdToRemove, int parentIdToAdd)
     {
         if (childId == parentIdToRemove || childId == parentIdToAdd)
-            return new MoveChildResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.LoopLink };
+            return new MoveChildResult
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Page.LoopLink
+            };
 
-        if (parentIdToRemove == FeaturedPage.RootPageId &&
-            !_sessionUser.IsInstallationAdmin ||
-            parentIdToAdd == FeaturedPage.RootPageId &&
-            !_sessionUser.IsInstallationAdmin)
-            return new MoveChildResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot };
+        if (parentIdToRemove == FeaturedPage.RootPageId && !_sessionUser.IsInstallationAdmin ||
+            parentIdToAdd == FeaturedPage.RootPageId && !_sessionUser.IsInstallationAdmin)
+            return new MoveChildResult
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot
+            };
 
         var childModifier = new ChildModifier(_permissionCheck,
             _sessionUser,

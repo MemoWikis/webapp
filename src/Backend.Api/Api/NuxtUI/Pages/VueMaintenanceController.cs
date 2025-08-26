@@ -65,7 +65,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Antwortwahrscheinlichkeiten wurden neu berechnet."
+            Data = "Answer probabilities have been recalculated."
         };
     }
 
@@ -79,7 +79,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Aggregierte Werte wurden aktualisiert."
+            Data = "Aggregated values have been updated."
         };
     }
 
@@ -92,7 +92,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Reputation and Rankings wurden aktualisiert."
+            Data = "Reputation and rankings have been updated."
         };
     }
 
@@ -106,7 +106,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert."
+            Data = "Wish knowledge answer probability has been updated."
         };
     }
 
@@ -119,7 +119,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Der User wurde gelöscht"
+            Data = "The user has been deleted."
         };
     }
 
@@ -133,7 +133,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Fragen wurden neu indiziert."
+            Data = "Questions have been re-indexed."
         };
     }
 
@@ -148,7 +148,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Fragen wurden neu indiziert."
+            Data = "Questions have been re-indexed."
         };
     }
 
@@ -162,7 +162,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Themen wurden neu indiziert."
+            Data = "Pages have been re-indexed."
         };
     }
 
@@ -176,7 +176,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Themen wurden neu indiziert."
+            Data = "Pages have been re-indexed."
         };
     }
 
@@ -190,7 +190,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Nutzer wurden neu indiziert."
+            Data = "Users have been re-indexed."
         };
     }
 
@@ -204,7 +204,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Nutzer wurden neu indiziert."
+            Data = "Users have been re-indexed."
         };
     }
 
@@ -220,7 +220,7 @@ public class VueMaintenanceController(
             .SelectMany(g => g)
             .ToList();
 
-        var message = duplicates.Any() ? "Es gibt Dubletten." : "Es gibt keine Dubletten.";
+        var message = duplicates.Any() ? "There are duplicates." : "There are no duplicates.";
 
         return new VueMaintenanceResult
         {
@@ -246,7 +246,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Job: 'Cleanup work in progress' wird ausgeführt."
+            Data = "Job: 'Cleanup work in progress' is being executed."
         };
     }
 
@@ -262,14 +262,14 @@ public class VueMaintenanceController(
             return new VueMaintenanceResult
             {
                 Success = true,
-                Data = "Die Liste wird neu geladen."
+                Data = "The list is being reloaded."
             };
         }
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Sie sind nicht berechtigt die Liste neu zu laden."
+            Data = "You are not authorized to reload the list."
         };
     }
 
@@ -321,21 +321,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Cache wurde geleert."
-        };
-    }
-
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public VueMaintenanceResult UpdateCategoryAuthors()
-    {
-        // This would need to be implemented based on your business logic
-        // For now, returning a placeholder message
-        return new VueMaintenanceResult
-        {
-            Success = true,
-            Data = "Kategorie-Autoren wurden aktualisiert."
+            Data = "Cache has been cleared."
         };
     }
 
