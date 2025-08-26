@@ -214,10 +214,10 @@ public class VueMaintenanceController(
     public VueMaintenanceResult CheckForDuplicateInteractionNumbers()
     {
         var duplicates = _answerRepo.GetAll()
-            .Where(a => a.QuestionViewGuid != Guid.Empty)
-            .GroupBy(a => new { a.QuestionViewGuid, a.InteractionNumber })
-            .Where(g => g.Skip(1).Any())
-            .SelectMany(g => g)
+            .Where(answer => answer.QuestionViewGuid != Guid.Empty)
+            .GroupBy(answer => new { answer.QuestionViewGuid, answer.InteractionNumber })
+            .Where(group => group.Skip(1).Any())
+            .SelectMany(group => group)
             .ToList();
 
         var message = duplicates.Any() ? "There are duplicates." : "There are no duplicates.";
