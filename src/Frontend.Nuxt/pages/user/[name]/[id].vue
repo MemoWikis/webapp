@@ -232,7 +232,8 @@ const ariaId = useId()
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.rank" :label="t('user.profile.stats.rank')" v-tooltip="t('user.profile.stats.tooltips.rank')" :icon="['fas', 'crown']" :icon-color="color.memoYellow" :url-value="t('url.users')" />
+                    <LayoutCounter :value="profile.overview.rank" :label="t('user.profile.stats.rank')" v-tooltip="t('user.profile.stats.tooltips.rank')" :icon="['fas', 'crown']" :icon-color="color.memoYellow"
+                        :url-value="`/${t('url.users')}`" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Small">
@@ -443,7 +444,7 @@ const ariaId = useId()
 .user-profile-header-container {
     position: absolute;
     top: -10px;
-    right: 10px;
+    right: 0px;
 
     .user-header-options-btn {
         cursor: pointer;

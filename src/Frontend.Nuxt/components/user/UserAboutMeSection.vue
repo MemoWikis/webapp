@@ -149,6 +149,8 @@ const flavorText = computed(() => {
     return ''
 })
 
+const { isMobile } = useDevice()
+
 </script>
 
 <template>
@@ -164,7 +166,7 @@ const flavorText = computed(() => {
                     </button>
                 </div>
             </bubble-menu>
-            <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed, 'show-flavorText': noContent && (userStore.showAsVisitor || !isCurrentUser) }" ref="editorRef" />
+            <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed, 'show-flavorText': noContent && (userStore.showAsVisitor || !isCurrentUser), 'is-mobile': isMobile }" ref="editorRef" />
             <div v-if="noContent && (userStore.showAsVisitor || !isCurrentUser)" class="about-me-text placeholder">{{ flavorText }}</div>
         </template>
 
@@ -227,9 +229,13 @@ const flavorText = computed(() => {
             max-height: 0px;
             overflow: hidden;
         }
+
+        :deep(.is-editor-empty) {
+            min-height: 51px;
+        }
     }
 
-    .gradient-overlay {
+    .adient-overlay {
         position: relative;
         height: 40px;
         margin-top: -40px;
