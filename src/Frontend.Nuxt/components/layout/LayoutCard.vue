@@ -4,12 +4,14 @@ interface Props {
     title?: string
     noPadding?: boolean
     size?: LayoutContentSize
+    backgroundColor?: string
 }
 
 withDefaults(defineProps<Props>(), {
     title: '',
     noPadding: false,
-    size: LayoutContentSize.Large
+    size: LayoutContentSize.Large,
+    backgroundColor: 'white'
 })
 
 
@@ -30,7 +32,7 @@ withDefaults(defineProps<Props>(), {
             </template>
 
         </div>
-        <div class="card-content" :class="{ 'no-padding': noPadding }">
+        <div class="card-content" :class="{ 'no-padding': noPadding }" :style="{ backgroundColor: backgroundColor }">
             <slot></slot>
         </div>
     </div>

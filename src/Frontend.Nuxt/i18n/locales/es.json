@@ -690,7 +690,7 @@
         "ai": {
             "flashcard": {
                 "button": {
-                    "create": "Crear tarjeta"
+                    "create": "Crear tarjeta | Crear tarjetas"
                 },
                 "message": {
                     "noFlashcards": "¡Vaya! No hay tarjetas."
@@ -1734,6 +1734,21 @@
         "pages": {
             "title": "Páginas",
             "updateCategoryAuthors": "Actualizar autores de páginas"
+        },
+        "relations": {
+            "title": "Relaciones de Páginas",
+            "showErrors": "Mostrar Errores de Relaciones",
+            "foundErrors": "Errores Encontrados:",
+            "healButton": "Reparar Relaciones",
+            "parentPageId": "ID de Página Padre",
+            "relationsTableTitle": "Relaciones para esta página padre:",
+            "noErrorsFound": "No se encontraron errores de relación.",
+            "table": {
+                "relationId": "ID de Relación",
+                "childId": "ID de Página Hija",
+                "previousId": "ID Anterior",
+                "nextId": "ID Siguiente"
+            }
         },
         "meiliSearch": {
             "title": "Búsqueda MeiliSearch",

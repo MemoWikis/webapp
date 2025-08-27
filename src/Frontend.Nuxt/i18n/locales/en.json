@@ -690,7 +690,7 @@
         "ai": {
             "flashcard": {
                 "button": {
-                    "create": "Create flashcard"
+                    "create": "Create flashcard | Create flashcards"
                 },
                 "message": {
                     "noFlashcards": "Oops! You have no flashcards."
@@ -1734,6 +1734,21 @@
         "pages": {
             "title": "Pages",
             "updateCategoryAuthors": "Update page authors"
+        },
+        "relations": {
+            "title": "Page Relations",
+            "showErrors": "Show Relation Errors",
+            "foundErrors": "Found Errors:",
+            "healButton": "Heal Relations",
+            "parentPageId": "Parent Page ID",
+            "relationsTableTitle": "Relations for this parent:",
+            "noErrorsFound": "No relation errors found.",
+            "table": {
+                "relationId": "Relation ID",
+                "childId": "Child ID",
+                "previousId": "Previous ID",
+                "nextId": "Next ID"
+            }
         },
         "meiliSearch": {
             "title": "Search MeiliSearch",

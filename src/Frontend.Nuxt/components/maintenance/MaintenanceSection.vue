@@ -17,18 +17,34 @@ const emit = defineEmits(['methodClicked'])
 </script>
 <template>
     <LayoutPanel :title="props.title">
-        <template #description v-if="props.description" class="description">
-            {{ props.description }}
-        </template>
-        <LayoutCard :size="LayoutContentSize.Flex">
-            <div v-for="method in props.methods" :size="LayoutContentSize.Flex">
-                <button class="btn btn-link" @click="emit('methodClicked', method.url)">
+        <template #description>
+            <div v-if="props.description" class="description">
+                {{ props.description }}
+            </div>
+            <div class="methods-buttons">
+                <button v-for="method in props.methods" :key="method.url" class="btn btn-link" @click="emit('methodClicked', method.url)">
                     <font-awesome-icon :icon="props.icon" v-if="props.icon" />
                     {{ $t(method.translationKey) }}
                 </button>
             </div>
-        </LayoutCard>
+        </template>
         <slot></slot>
-
     </LayoutPanel>
 </template>
+
+<style lang="less" scoped>
+.methods-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+
+    .btn {
+        margin: 0;
+    }
+}
+
+.description {
+    margin-bottom: 10px;
+}
+</style>
