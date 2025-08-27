@@ -3,20 +3,51 @@ import { handleNewLine } from '~/utils/utils'
 import { AnswerState } from '~/components/page/learning/learningSessionStore'
 import { SolutionType } from '../../solutionTypeEnum'
 
-interface Step {
+export class SessionAnswer {
     answerState: AnswerState
     answerAsHtml?: string
+
+    constructor(answerState: AnswerState, answerAsHtml?: string) {
+        this.answerState = answerState
+        this.answerAsHtml = answerAsHtml
+    }
+
+    get isCorrect(): boolean {
+        return this.answerState === AnswerState.Correct
+    }
+
+    get isUnanswered(): boolean {
+        return this.answerState === AnswerState.Unanswered
+    }
+
+    get isSkipped(): boolean {
+        return this.answerState === AnswerState.Skipped
+    }
+
+    get isFalse(): boolean {
+        return this.answerState === AnswerState.False
+    }
+}
+
+export class Question {
+    correctAnswerHtml: string = ""
+    title: string = ""
+    sessionAnswers: SessionAnswer[] = []
+    imgUrl: string = ""
+    id: number = 0
+    solutionType: SolutionType = SolutionType.Flashcard
+
+    get isUnanswered(): boolean {
+        return this.sessionAnswers.every(s => s.isUnanswered)
+    }
+
+    get hasWrongAnswer(): boolean {
+        return this.sessionAnswers.some(s => s.isFalse) && this.sessionAnswers.every(s => !s.isCorrect)
+    }
 }
 
 interface Props {
-    questions: {
-        correctAnswerHtml: string
-        title: string
-        steps: Step[]
-        imgUrl: string
-        id: number
-        solutionType: SolutionType
-    }[]
+    questions: Question[]
 }
 const props = defineProps<Props>()
 const collapseTrackingArray = ref<boolean[]>([])
@@ -36,12 +67,12 @@ onBeforeMount(() => {
         <LayoutCollapse :size="LayoutContentSize.Large" v-for="question in props.questions" :key="question.id">
             <template #header>
                 <div>
-                    <font-awesome-icon icon="fa-solid fa-circle-check" v-if="question.steps[0].answerState === AnswerState.Correct && question.steps.length === 1" v-tooltip="t('questionDetail.tooltips.correctFirstTry')" />
+                    <font-awesome-icon icon="fa-solid fa-circle-check" v-if="question.sessionAnswers[0].isCorrect && question.sessionAnswers.length === 1" v-tooltip="t('questionDetail.tooltips.correctFirstTry')" />
                     <font-awesome-icon icon="fa-solid fa-circle-check"
-                        v-else-if="question.steps[0].answerState != AnswerState.Unanswered && question.steps.length > 1 && question.steps[question.steps.length - 1].answerState === AnswerState.Correct"
+                        v-else-if="!question.sessionAnswers[0].isUnanswered && question.sessionAnswers.length > 1 && question.sessionAnswers[question.sessionAnswers.length - 1].isCorrect"
                         v-tooltip="t('questionDetail.tooltips.correctLaterTry')" />
-                    <font-awesome-icon icon="fa-solid fa-circle" v-else-if="question.steps.every(s => s.answerState === AnswerState.Unanswered)" v-tooltip="t('questionDetail.tooltips.unanswered')" />
-                    <font-awesome-icon icon="fa-solid fa-circle-minus" v-else-if="question.steps.some(s => s.answerState === AnswerState.False) && question.steps.every(s => s.answerState != AnswerState.Correct)"
+                    <font-awesome-icon icon="fa-solid fa-circle" v-else-if="question.isUnanswered" v-tooltip="t('questionDetail.tooltips.unanswered')" />
+                    <font-awesome-icon icon="fa-solid fa-circle-minus" v-else-if="question.hasWrongAnswer"
                         v-tooltip="t('questionDetail.tooltips.wrong')" />
 
                     {{ question.title }}
@@ -57,23 +88,23 @@ onBeforeMount(() => {
                         <p class="correct-answer">{{ t('questionDetail.labels.correctAnswer') }}
                             <span v-html="handleNewLine(question.correctAnswerHtml)"></span>
                         </p>
-                        <p class="answer-try" v-for="(step, stepIndex) in question.steps"
-                            :class="[step.answerState === AnswerState.Skipped ? 'skipped' : '', step.answerState === AnswerState.Unanswered ? 'unanswered' : '', step.answerState === AnswerState.False ? 'needs-learning' : '']">
+                        <p class="answer-try" v-for="(sessionAnswer, sessionAnswerIndex) in question.sessionAnswers"
+                            :class="[sessionAnswer.isSkipped ? 'skipped' : '', sessionAnswer.isUnanswered ? 'unanswered' : '', sessionAnswer.isFalse ? 'needs-learning' : '']">
 
-                            {{ t('questionDetail.labels.yourTry', { number: stepIndex + 1 }) }}
+                            {{ t('questionDetail.labels.yourTry', { number: sessionAnswerIndex + 1 }) }}
 
-                            <template v-if="step.answerState === AnswerState.Skipped">
+                            <template v-if="sessionAnswer.isSkipped">
                                 {{ t('questionDetail.labels.skipped') }}
                             </template>
-                            <template v-else-if="step.answerState === AnswerState.Unanswered">
+                            <template v-else-if="sessionAnswer.isUnanswered">
                                 {{ t('questionDetail.labels.notSeen') }}
                             </template>
 
                             <template v-else>
                                 <span v-if="question.solutionType === SolutionType.Flashcard">
-                                    {{ t(`questionDetail.answerState.${step.answerState}`) }}
+                                    {{ t(`questionDetail.answerState.${sessionAnswer.answerState}`) }}
                                 </span>
-                                <span v-else v-html="step.answerAsHtml"></span>
+                                <span v-else v-html="sessionAnswer.answerAsHtml"></span>
                             </template>
                         </p>
                     </div>
