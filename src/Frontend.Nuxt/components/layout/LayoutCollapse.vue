@@ -59,13 +59,13 @@ const toggleCollapse = () => {
     }
 
     &.size-medium {
-        @media (min-width: 768px) {
+        @media (min-width: @screen-sm) {
             width: calc(50% - 0.5rem);
         }
     }
 
     &.size-small {
-        @media (min-width: 768px) {
+        @media (min-width: @screen-sm) {
             width: calc(33.3333% - 0.666rem);
         }
 
@@ -83,7 +83,7 @@ const toggleCollapse = () => {
     }
 
     &.size-tiny {
-        @media (min-width: 768px) {
+        @media (min-width: @screen-sm) {
             width: calc(25% - 0.75rem);
         }
 
