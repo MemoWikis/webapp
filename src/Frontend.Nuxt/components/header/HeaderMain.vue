@@ -366,7 +366,7 @@ const { sideSheetOpen } = useSideSheetState()
         height: 100%;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: @screen-sm) {
         .container {
             margin-left: 0;
             margin-right: 0;
@@ -389,7 +389,7 @@ const { sideSheetOpen } = useSideSheetState()
         }
 
         &.s-open {
-            @media (max-width: 768px) {
+            @media (max-width: @screen-sm) {
                 width: calc(100% - 1rem);
             }
         }
@@ -526,7 +526,7 @@ const { sideSheetOpen } = useSideSheetState()
         }
 
         &.s-open {
-            @media (max-width: 768px) {
+            @media (max-width: @screen-sm) {
                 display: none;
                 min-width: 0px;
                 width: 0px;
