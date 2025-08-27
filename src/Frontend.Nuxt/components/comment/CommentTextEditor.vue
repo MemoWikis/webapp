@@ -8,7 +8,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore } from '../alert/alertStore'
-import ImageResize from '~~/components/shared/imageResizeExtension'
+import FigureExtension from '~~/components/shared/figureExtension'
 
 interface Props {
     highlightEmptyFields: boolean
@@ -42,7 +42,7 @@ const editor = useEditor({
             placeholder: t('editor.placeholderComment'),
             showOnlyCurrent: true,
         }),
-        ImageResize.configure({
+        FigureExtension.configure({
             inline: true,
             allowBase64: true,
         })

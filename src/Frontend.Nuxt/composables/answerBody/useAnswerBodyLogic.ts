@@ -11,6 +11,7 @@ import { useFlashcardLogic } from './useFlashcardLogic'
 import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
 import { useActivityPointsStore } from '~/components/activityPoints/activityPointsStore'
 import { usePageStore } from '~/components/page/pageStore'
+import { hydrateFigcaptions } from '~/components/shared/figureExtension'
 
 export const useAnswerBodyLogic = () => {
     const { $logger } = useNuxtApp()
@@ -79,6 +80,7 @@ export const useAnswerBodyLogic = () => {
             answerBodyModel.value = result
             await nextTick()
             solution.highlightCode()
+            hydrateFigcaptions()
         }
     }
 
