@@ -39,7 +39,7 @@ onBeforeMount(() => {
 <template>
     <div class="analytics">
         <LayoutPanel :title="t(PageAnalytics.KNOWLEDGE_SECTION.translationKey)" :id="PageAnalytics.KNOWLEDGE_SECTION.id">
-            <LayoutCard class="analytics-knowledgesummary-section" :size="LayoutCardSize.Flex">
+            <LayoutCard class="analytics-knowledgesummary-section" :size="LayoutContentSize.Flex">
                 <PageAnalyticsKnowledgeSummarySection />
             </LayoutCard>
         </LayoutPanel>
@@ -57,31 +57,31 @@ onBeforeMount(() => {
         </LayoutPanel>
 
         <LayoutPanel :title="t(PageAnalytics.CONTENT_SECTION.translationKey)" :id="PageAnalytics.CONTENT_SECTION.id">
-            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directVisibleChildPageCount > 0">
+            <LayoutCard :size="LayoutContentSize.Tiny" v-if="pageStore.hasVisibleDirectChildren">
                 <LayoutCounter
                     :value="pageStore.directVisibleChildPageCount"
                     :label="t('page.analytics.directVisibleChildPageLabel')" />
             </LayoutCard>
 
-            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
+            <LayoutCard :size="LayoutContentSize.Tiny" v-if="pageStore.childPageCount > 0">
                 <LayoutCounter
                     :value="pageStore.childPageCount"
                     :label="t('page.analytics.childPageCount')" />
             </LayoutCard>
 
-            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directQuestionCount > 0">
+            <LayoutCard :size="LayoutContentSize.Tiny" v-if="pageStore.directQuestionCount > 0">
                 <LayoutCounter
                     :value="pageStore.directQuestionCount"
                     :label="t('page.analytics.directlyLinkedQuestionsLabel')" />
             </LayoutCard>
 
-            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">
+            <LayoutCard :size="LayoutContentSize.Tiny" v-if="pageStore.questionCount > 0">
                 <LayoutCounter
                     :value="pageStore.questionCount"
                     :label="t('page.analytics.includedQuestionsLabel')" />
             </LayoutCard>
 
-            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.parentPageCount > 0">
+            <LayoutCard :size="LayoutContentSize.Tiny" v-if="pageStore.parentPageCount > 0">
                 <LayoutCounter
                     :value="pageStore.parentPageCount"
                     :label="t('page.analytics.parentPageLabel')" />
@@ -91,25 +91,25 @@ onBeforeMount(() => {
         </LayoutPanel>
 
         <LayoutPanel :title="t(PageAnalytics.VIEWS_SECTION.translationKey)" :id="PageAnalytics.VIEWS_SECTION.id">
-            <LayoutCard :size="LayoutCardSize.Tiny">
+            <LayoutCard :size="LayoutContentSize.Tiny">
                 <LayoutCounter
                     :value="pageStore.views"
                     :label="pageStore.name" />
             </LayoutCard>
 
-            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
+            <LayoutCard :size="LayoutContentSize.Tiny" v-if="pageStore.childPageCount > 0">
                 <LayoutCounter
                     :value="pageStore.subpageViews"
                     :label="t('page.analytics.subpageViewsLabel')" />
             </LayoutCard>
 
-            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">
+            <LayoutCard :size="LayoutContentSize.Tiny" v-if="pageStore.questionCount > 0">
                 <LayoutCounter
                     :value="pageStore.directQuestionViews"
                     :label="t('page.analytics.directQuestionViewsLabel')" />
             </LayoutCard>
 
-            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.totalQuestionViews">
+            <LayoutCard :size="LayoutContentSize.Tiny" v-if="pageStore.totalQuestionViews">
                 <LayoutCounter
                     :value="pageStore.totalQuestionViews"
                     :label="t('page.analytics.aggregatedQuestionViewsLabel')" />

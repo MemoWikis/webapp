@@ -192,7 +192,7 @@ const { t } = useI18n()
             min-width: 30px;
             transition: filter 0.1s;
 
-            @media(max-width: 768px) {
+            @media(max-width: @screen-sm) {
                 padding-left: 10px;
             }
 

@@ -693,5 +693,8 @@ export const usePageStore = defineStore('pageStore', {
         getPageName(): string {
             return this.name
         },
+        hasVisibleDirectChildren(): boolean {
+            return this.directVisibleChildPageCount > 0
+        }
     },
 })

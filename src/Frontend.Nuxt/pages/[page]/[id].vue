@@ -351,7 +351,7 @@ h4 {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: @screen-sm) {
     #MasterMainWrapper {
         padding-left: 0;
         padding-right: 0;

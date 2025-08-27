@@ -692,7 +692,7 @@
         "ai": {
             "flashcard": {
                 "button": {
-                    "create": "Créer une carte"
+                    "create": "Créer une carte | Créer des cartes"
                 },
                 "message": {
                     "noFlashcards": "Oups ! Tu n’as aucune carte."
@@ -1605,6 +1605,7 @@
         }
     },
     "questionDetail": {
+        "title": "Votre historique de réponses",
         "tooltips": {
             "correctFirstTry": "Réponse correcte dès le premier essai",
             "correctLaterTry": "Réponse correcte après quelques essais",
@@ -1614,8 +1615,14 @@
         "labels": {
             "correctAnswer": "Réponse exacte :",
             "yourTry": "Ton {number}ᵉ essai :",
-            "skipped": "(ignoré)",
-            "notSeen": "(pas encore vue)"
+            "skipped": "ignoré",
+            "notSeen": "pas encore vue"
+        },
+        "answerState": {
+            "0": "Sans réponse",
+            "1": "Faux",
+            "2": "Correct",
+            "3": "Ignoré"
         }
     },
     "chip": {
@@ -1739,6 +1746,21 @@
         "pages": {
             "title": "Pages",
             "updateCategoryAuthors": "Mettre à jour les auteurs de pages"
+        },
+        "relations": {
+            "title": "Relations de Pages",
+            "showErrors": "Afficher les Erreurs de Relations",
+            "foundErrors": "Erreurs Trouvées :",
+            "healButton": "Réparer les Relations",
+            "parentPageId": "ID de Page Parent",
+            "relationsTableTitle": "Relations pour cette page parent :",
+            "noErrorsFound": "Aucune erreur de relation trouvée.",
+            "table": {
+                "relationId": "ID de Relation",
+                "childId": "ID de Page Enfant",
+                "previousId": "ID Précédent",
+                "nextId": "ID Suivant"
+            }
         },
         "meiliSearch": {
             "title": "Recherche MeiliSearch",
