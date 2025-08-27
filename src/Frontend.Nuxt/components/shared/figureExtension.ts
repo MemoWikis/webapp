@@ -12,21 +12,27 @@ const resizeHandle = `position: absolute; width: 9px; height: 9px; border: 2px s
 const getFigcaptionContent = (caption: string | null, license: string | null) => {
     // Helper to check if HTML content has actual content (not just empty tags)
     const hasActualContent = (html: string | null): boolean => {
-        if (!html) return false
+        if (!html) 
+            return false
+
         const trimmed = html.trim()
         return trimmed !== '' && trimmed !== '<p></p>' && trimmed !== '<br>'
     }
     
     // Helper to strip HTML tags for text-only rendering
     const stripHtml = (html: string | null): string => {
-        if (!html) return ''
+        if (!html) 
+            return ''
+
         // Simple regex-based HTML tag removal that works in both client and server environments
         return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').trim()
     }
     
     // Helper to strip p tags but keep other formatting
     const stripPTags = (html: string | null): string => {
-        if (!html) return ''
+        if (!html) 
+            return ''
+        
         return html.replace(/<\/?p[^>]*>/g, '').trim()
     }
     
