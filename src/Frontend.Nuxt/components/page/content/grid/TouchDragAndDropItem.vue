@@ -21,6 +21,8 @@ interface Props {
     parentVisibility: Visibility
     disabled?: boolean
     userIsCreatorOfParent: boolean
+    previousPageId?: number
+    nextPageId?: number
 }
 const props = defineProps<Props>()
 
@@ -340,6 +342,14 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
     }
 }, { immediate: true })
 
+const draggedPageId = computed(() => {
+    if (dragStore.isMovePageTransferData) {
+        const m = dragStore.transferData as MovePageTransferData
+        return m.page.id
+    }
+    return null
+})
+
 </script>
 
 <template>
@@ -363,13 +373,14 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 
                 <template #topdropzone>
                     <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
-                        :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = true"
-                        @dragleave="hoverTopHalf = false" :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
+                        :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = props.previousPageId != draggedPageId"
+                        @dragleave=" hoverTopHalf = false" :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
                     </div>
                 </template>
                 <template #bottomdropzone>
                     <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="dropzone bottom"
-                        :class="{ 'hover': hoverBottomHalf && !dragging }"
+                        :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = props.nextPageId != draggedPageId"
+                        @dragleave="hoverBottomHalf = false"
                         :data-dropzonedata="getDropZoneData(TargetPosition.After)">
                     </div>
                 </template>
