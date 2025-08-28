@@ -39,7 +39,7 @@ const combinedPast90DaysDatasetsForQuestions = computed(() => {
 </script>
 
 <template>
-    <LayoutCard :size="LayoutContentSize.Large">
+    <LayoutCard :size="LayoutCardSize.Large">
         <PageAnalyticsAnaylticsChart :class="{ 'no-subpages': pageStore.childPageCount === 0 }">
             <LazySharedChartsBar
                 :datasets="combinedPast90DaysDatasetsForQuestions"

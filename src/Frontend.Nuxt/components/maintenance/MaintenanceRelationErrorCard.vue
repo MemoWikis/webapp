@@ -60,7 +60,7 @@ const groupedErrors = computed(() => {
 </script>
 
 <template>
-    <LayoutCard :size="LayoutContentSize.Medium" class="relation-error-card">
+    <LayoutCard :size="LayoutCardSize.Medium" class="relation-error-card">
         <div class="error-card-content">
             <h5>{{ $t('maintenance.relations.parentPageId') }}: {{ errorItem.parentId }}</h5>
             <MaintenanceRelationErrorList

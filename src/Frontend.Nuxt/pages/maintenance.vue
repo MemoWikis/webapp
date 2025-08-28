@@ -258,7 +258,7 @@ async function healRelations(pageId: number) {
                 :icon="['fas', 'retweet']" />
             <LayoutPanel :title="$t('maintenance.relations.title')">
 
-                <LayoutCard :size="LayoutContentSize.Large" :background-color="'transparent'">
+                <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
                     <button @click="showRelationErrorsButton" class="memo-button btn btn-primary">
                         {{ $t('maintenance.relations.showErrors') }}
                     </button>
@@ -271,7 +271,7 @@ async function healRelations(pageId: number) {
             </LayoutPanel>
             <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods" :description="$t('maintenance.meiliSearch.description')" @method-clicked="handleClick" :icon="['fas', 'retweet']" />
             <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="handleClick" :icon="['fas', 'retweet']">
-                <LayoutCard :size="LayoutContentSize.Tiny">
+                <LayoutCard :size="LayoutCardSize.Tiny">
                     <div class="active-users-info">
                         <h4>{{ $t('maintenance.users.activeSessions') }}</h4>
                         <ul>
@@ -280,7 +280,7 @@ async function healRelations(pageId: number) {
                         </ul>
                     </div>
                 </LayoutCard>
-                <LayoutCard :size="LayoutContentSize.Small">
+                <LayoutCard :size="LayoutCardSize.Small">
                     <div class="delete-user-container">
                         <h4>{{ $t('maintenance.users.deleteUser') }}</h4>
                         <div class="delete-user-input">

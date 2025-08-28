@@ -64,7 +64,7 @@ onBeforeMount(() => {
 
 <template>
     <LayoutPanel :title="t('questionDetail.title')" :collapsable="false">
-        <LayoutCollapse :size="LayoutContentSize.Large" v-for="question in props.questions" :key="question.id">
+        <LayoutCollapse :size="LayoutCardSize.Large" v-for="question in props.questions" :key="question.id">
             <template #header>
                 <div>
                     <font-awesome-icon icon="fa-solid fa-circle-check" v-if="question.sessionAnswers[0].isCorrect && question.sessionAnswers.length === 1" v-tooltip="t('questionDetail.tooltips.correctFirstTry')" />

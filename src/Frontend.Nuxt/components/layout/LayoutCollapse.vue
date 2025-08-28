@@ -2,13 +2,13 @@
 
 interface Props {
     title?: string
-    size?: LayoutContentSize
+    size?: LayoutCardSize
     defaultOpen?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
     title: '',
-    size: LayoutContentSize.Large,
+    size: LayoutCardSize.Large,
     defaultOpen: false
 })
 
