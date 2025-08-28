@@ -6,7 +6,6 @@ import { SiteType } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useConvertStore } from '~/components/page/convert/convertStore'
-import { useSideSheetStore } from '~/components/sideSheet/sideSheetStore'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -62,7 +61,7 @@ const tabSwitched = ref(false)
 
 const router = useRouter()
 
-function setPage() {
+const setPage = () => {
     if (page.value != null) {
 
         if (page.value?.errorCode && page.value?.messageKey) {
@@ -120,7 +119,7 @@ onBeforeMount(() => {
     emit('setPage', SiteType.Page)
 })
 
-function setTab() {
+const setTab = () => {
     if (tabsStore != null) {
         switch (props.tab) {
             case Tab.Learning:
@@ -351,7 +350,7 @@ h4 {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: @screen-sm) {
     #MasterMainWrapper {
         padding-left: 0;
         padding-right: 0;
@@ -438,5 +437,41 @@ h4 {
 
 .sidebar {
     flex: 0 0 25%;
+}
+</style>
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.caption-controller {
+    position: absolute;
+    top: -18px;
+    left: calc(50% + 100px);
+    transform: translateX(-50%);
+    background: white;
+    border: hidden;
+    font-size: 14px;
+    width: 36px;
+    height: 36px;
+    margin: 0px;
+    color: @memo-grey-darker;
+    text-align: center;
+    padding: 0px 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: filter 0.1s;
+    border-radius: 4px;
+    z-index: 999;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+
+    &:hover {
+        filter: brightness(0.85);
+    }
+
+    &:active {
+        filter: brightness(0.7);
+    }
 }
 </style>

@@ -203,8 +203,10 @@
         "registerWithGoogle": "Inscription avec Google",
         "registerWithFacebook": "Inscription avec Facebook",
         "attention": "Attention",
-        "toUpload": "pour l’importer et l’intégrer.",
-        "cancel": "Annuler"
+        "toUpload": "pour l'importer et l'intégrer.",
+        "cancel": "Annuler",
+        "edit": "Modifier",
+        "save": "Enregistrer"
     },
     "register": {
         "title": "Inscris-toi",
@@ -690,7 +692,7 @@
         "ai": {
             "flashcard": {
                 "button": {
-                    "create": "Créer une carte"
+                    "create": "Créer une carte | Créer des cartes"
                 },
                 "message": {
                     "noFlashcards": "Oups ! Tu n’as aucune carte."
@@ -1522,6 +1524,16 @@
         "license": {
             "info": "Infos sur la licence"
         },
+        "licenseInfo": {
+            "title": "Informations sur la licence d'image",
+            "editTitle": "Modifier la légende et la licence de l'image",
+            "viewTitle": "Légende et licence de l'image",
+            "caption": "Légende de l'image",
+            "license": "Licence",
+            "noLicense": "Aucune information de licence disponible",
+            "captionPlaceholder": "Saisir la légende de l'image...",
+            "licensePlaceholder": "Saisir les informations de licence (par ex. CC BY 4.0, © Nom de l'auteur)..."
+        },
         "modal": {
             "title": "Détails de l’image",
             "description": "Description :"
@@ -1593,6 +1605,7 @@
         }
     },
     "questionDetail": {
+        "title": "Votre historique de réponses",
         "tooltips": {
             "correctFirstTry": "Réponse correcte dès le premier essai",
             "correctLaterTry": "Réponse correcte après quelques essais",
@@ -1602,8 +1615,14 @@
         "labels": {
             "correctAnswer": "Réponse exacte :",
             "yourTry": "Ton {number}ᵉ essai :",
-            "skipped": "(ignoré)",
-            "notSeen": "(pas encore vue)"
+            "skipped": "ignoré",
+            "notSeen": "pas encore vue"
+        },
+        "answerState": {
+            "0": "Sans réponse",
+            "1": "Faux",
+            "2": "Correct",
+            "3": "Ignoré"
         }
     },
     "chip": {
@@ -1728,6 +1747,21 @@
             "title": "Pages",
             "updateCategoryAuthors": "Mettre à jour les auteurs de pages"
         },
+        "relations": {
+            "title": "Relations de Pages",
+            "showErrors": "Afficher les Erreurs de Relations",
+            "foundErrors": "Erreurs Trouvées :",
+            "healButton": "Réparer les Relations",
+            "parentPageId": "ID de Page Parent",
+            "relationsTableTitle": "Relations pour cette page parent :",
+            "noErrorsFound": "Aucune erreur de relation trouvée.",
+            "table": {
+                "relationId": "ID de Relation",
+                "childId": "ID de Page Enfant",
+                "previousId": "ID Précédent",
+                "nextId": "ID Suivant"
+            }
+        },
         "meiliSearch": {
             "title": "Recherche MeiliSearch",
             "description": "Réindexer tout pour la recherche :",
@@ -1764,6 +1798,28 @@
         "removeAdminRights": {
             "title": "Supprimer les droits d'administrateur",
             "button": "Supprimer les droits d'administrateur pour l'utilisateur actuel"
+        }
+    },
+    "license": {
+        "ccBy40": {
+            "nameLong": "Creative Commons : Attribution 4.0 International",
+            "displayTextFull": "Cette contribution est sous la licence 'Creative Commons : Attribution 4.0 International'. Tu peux l'utiliser et la modifier librement, tant que tu cites l'auteur et que tu renvoies vers la licence (cf. <a href='https://creativecommons.org/licenses/by/4.0/deed.fr' target='_blank'>le résumé</a> et <a href='https://creativecommons.org/licenses/by/4.0/legalcode' target='_blank'>le texte intégral de la licence</a>)."
+        },
+        "bamf": {
+            "nameShort": "Œuvre officielle BAMF",
+            "nameLong": "Autre œuvre officielle, source BAMF",
+            "displayTextShort": "Source : BAMF",
+            "displayTextFull": "Cette contribution constitue une 'autre œuvre officielle' selon <a href='https://www.gesetze-im-internet.de/urhg/__5.html' target='_blank'>l'article 5, alinéa 2 de la loi sur le droit d'auteur</a>. Elle peut être utilisée librement, mais en citant la source et sans modifications."
+        },
+        "elwis": {
+            "nameLong": "Service électronique d'information sur les voies navigables (ELWIS.de)",
+            "displayTextShort": "Source : ELWIS.de",
+            "displayTextFull": "La <a href='https://www.elwis.de/Freizeitschifffahrt/fuehrerscheininformationen/' target='_blank'>question et les options de réponse</a> proviennent du Service électronique d'information sur les voies navigables (ELWIS.de) de l'administration fédérale des voies navigables et de la navigation."
+        },
+        "blac": {
+            "nameLong": "Groupe de travail fédéral/régional sur la sécurité chimique (BLAC)",
+            "displayTextShort": "Source : BLAC",
+            "displayTextFull": "La question, les options de réponse et la référence aux sources proviennent du Catalogue commun de questions des Länder (GFK) pour l'examen de compétence selon l'article 5 de l'ordonnance d'interdiction des produits chimiques et sont rassemblées dans <a href='http://blak-uis.server.de/servlet/is/2146/P-4a.pdf/' target='_blank'>ce PDF</a>. L'utilisation du catalogue de questions est autorisée conformément à l'article 62, alinéas 1 à 3 (interdiction de modification) et à l'article 63, alinéas 1 et 2 (citation de la source) de la loi sur le droit d'auteur. L'auteur est le <a href='https://blac-info.server.de/servlet/is/2146/' target='_blank'>BLAC</a>."
         }
     }
 }
