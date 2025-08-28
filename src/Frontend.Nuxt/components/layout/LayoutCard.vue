@@ -3,14 +3,14 @@
 interface Props {
     title?: string
     noPadding?: boolean
-    size?: LayoutContentSize
+    size?: LayoutCardSize
     backgroundColor?: string
 }
 
 withDefaults(defineProps<Props>(), {
     title: '',
     noPadding: false,
-    size: LayoutContentSize.Large,
+    size: LayoutCardSize.Large,
     backgroundColor: 'white'
 })
 

@@ -46,6 +46,9 @@ export class Page {
         needsConsolidationPercentage: 0,
         needsLearningPercentage: 0,
         notLearnedPercentage: 0,
+
+        knowledgeStatusPoints: 0,
+        knowledgeStatusPointsTotal: 0,
     }
     gridItems: GridPageItem[] = []
     isChildOfPersonalWiki: boolean = false

@@ -32,7 +32,7 @@ const emit = defineEmits(['toggleBar'])
                     </div>
                 </div>
 
-                <LayoutCard :size="LayoutContentSize.Large" class="chart-card">
+                <LayoutCard :size="LayoutCardSize.Large" class="chart-card">
                     <LazySharedChartsBar v-if="chart.showBar"
                         :labels="chart.labels"
                         :datasets="chart.datasets"
