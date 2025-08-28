@@ -229,14 +229,18 @@
     "search": {
         "results": "{count} resultados",
         "pages": "Páginas",
+        "myPages": "Mis Páginas",
         "pagesInOtherLanguages": "Páginas en otros idiomas",
         "questions": "Preguntas",
+        "myQuestions": "Mis Preguntas",
+        "questionsInOtherLanguages": "Preguntas en otros idiomas",
         "users": "Usuarios",
         "resultsInCurrentLanguage": "({count})",
         "countedQuestions": "@:label.questionCount",
         "showUserResults": "mostrar {count} resultados",
         "noResults": "No se encontraron resultados",
-        "inYourLanguage": "en tu idioma."
+        "inYourLanguage": "en tu idioma.",
+        "createdBy": "creado por: {creator}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",

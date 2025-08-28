@@ -229,14 +229,18 @@
     "search": {
         "results": "{count} Treffer",
         "pages": "Seiten",
+        "myPages": "Meine Seiten",
         "pagesInOtherLanguages": "Seiten in anderen Sprachen",
         "questions": "Fragen",
+        "myQuestions": "Meine Fragen",
+        "questionsInOtherLanguages": "Fragen in anderen Sprachen",
         "users": "Nutzer",
         "resultsInCurrentLanguage": "({count})",
-        "countedQuestions": "{count} Fragen",
+        "countedQuestions": "0 Fragen | 1 Frage | {count} Fragen",
         "showUserResults": "Alle anzeigen ({count})",
         "noResults": "Keine Ergebnisse gefunden",
-        "inYourLanguage": "in deiner Sprache"
+        "inYourLanguage": "in deiner Sprache",
+        "createdBy": "erstellt von: {creator}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",
