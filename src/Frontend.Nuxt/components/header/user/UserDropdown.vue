@@ -11,6 +11,22 @@ const { isMobile } = useDevice()
 
 const { locale, locales, setLocale, localeProperties } = useI18n()
 const showLanguages = ref(false)
+
+const settingsUrl = computed(() => {
+    const { resolve } = useRouter()
+
+    switch (locale.value) {
+        case 'de':
+            return resolve({ name: 'userSettingsPageDE' }).href
+        case 'fr':
+            return resolve({ name: 'userSettingsPageFR' }).href
+        case 'es':
+            return resolve({ name: 'userSettingsPageES' }).href
+        case 'en':
+        default:
+            return resolve({ name: 'userSettingsPageEN' }).href
+    }
+})
 </script>
 
 <template>
@@ -134,7 +150,7 @@ const showLanguages = ref(false)
                 <div class="divider"></div>
 
                 <div class="user-dropdown-managment">
-                    <NuxtLink @click="hide()" :to="`/Nutzer/Einstellungen`">
+                    <NuxtLink @click="hide()" :to="settingsUrl">
                         <div class="user-dropdown-label">
                             {{ t('label.accountSettings') }}
                         </div>

@@ -1,4 +1,22 @@
 ﻿@import (reference) 'includes/imports.less';
+#OutlineSection {
+    margin-top: 20px;
+    position: sticky;
+    top: 60px;
+
+    .outline-title {
+        cursor: pointer;
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+            color: @memo-blue-link;
+        }
+
+        &.current-heading {
+            color: @memo-blue;
+        }
+    }
+}
 
 #Outline, #AnalyticsOutline {
     height: 100%;

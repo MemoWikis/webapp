@@ -45,6 +45,7 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string Name { get; set; }
     public virtual int Reputation { get; set; }
     public virtual bool ShowWishKnowledge { get; set; }
+    public virtual string? AboutMeText { get; set; }
     public virtual bool IsFacebookUser => !IsNullOrEmpty(FacebookId);
     public virtual bool IsGoogleUser => !IsNullOrEmpty(GoogleId);
     public virtual int FollowerCount { get; set; }

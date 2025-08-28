@@ -69,6 +69,7 @@ export const useUserStore = defineStore('userStore', {
             fontSize: FontSize.Medium,
             uiLanguage: 'en' as 'de' | 'en' | 'fr' | 'es',
             showLoginReminder: false,
+            showAsVisitor: false
         }
     },
     actions: {
@@ -301,6 +302,9 @@ export const useUserStore = defineStore('userStore', {
                 credentials: 'include',
             })
         },
+        toggleShowAsVisitor() {
+            this.showAsVisitor = !this.showAsVisitor
+        }
     },
     getters: {
         showLoginToEditReminderBanner(): boolean {

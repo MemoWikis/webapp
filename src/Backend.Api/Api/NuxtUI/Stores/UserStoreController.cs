@@ -1,4 +1,5 @@
-﻿public class UserStoreController(
+﻿
+public class UserStoreController(
     FrontEndUserData _frontEndUserData,
     SessionUser _sessionUser,
     RegisterUser _registerUser,

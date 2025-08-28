@@ -10,9 +10,12 @@ interface Props {
 const props = defineProps<Props>()
 const { t } = useI18n()
 const { $urlHelper } = useNuxtApp()
+const { getFormattedNumber } = useFormatNumber()
 
-const sortKey = ref<keyof PageData>('name')
-const sortDirection = ref<'asc' | 'desc'>('asc')
+const sortKey = ref<keyof PageData>('popularity')
+const sortDirection = ref<'asc' | 'desc'>('desc')
+const currentPage = ref(1)
+const itemsPerPage = ref(20)
 
 const sortedpages = computed(() => {
     return [...props.pages].sort((a, b) => {
@@ -39,96 +42,147 @@ const sortedpages = computed(() => {
     })
 })
 
-function toggleSort(key: keyof PageData) {
+const paginatedPages = computed(() => {
+    const startIndex = (currentPage.value - 1) * itemsPerPage.value
+    const endIndex = startIndex + itemsPerPage.value
+    return sortedpages.value.slice(startIndex, endIndex)
+})
+
+const toggleSort = (key: keyof PageData) => {
     if (sortKey.value === key) {
         sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
     } else {
         sortKey.value = key
-        sortDirection.value = 'asc'
+        sortDirection.value = key === 'popularity' ? 'desc' : 'asc' // Default to desc for popularity, asc for others
     }
 }
 
-function getSortIconClass(key: keyof PageData) {
+const getSortIconClass = (key: keyof PageData) => {
     if (sortKey.value !== key) return 'sort-icon'
     return sortDirection.value === 'asc' ? 'sort-icon sort-asc' : 'sort-icon sort-desc'
 }
+
+const { isMobile } = useDevice()
 </script>
 
 <template>
     <div class="pages-table-container">
-        <table v-if="pages.length" class="pages-table">
-            <thead>
-                <tr>
-                    <th class="sortable name-header" @click="toggleSort('name')">
-                        {{ t('missionControl.pageTable.name') }}
-                        <span :class="getSortIconClass('name')">
-                            <font-awesome-icon v-if="sortKey === 'name'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
-                            <font-awesome-icon v-else :icon="['fas', 'sort']" />
-                        </span>
-                    </th>
-                    <th class="sortable questioncount-header" @click="toggleSort('questionCount')">
-                        {{ t('missionControl.pageTable.questions') }}
-                        <span :class="getSortIconClass('questionCount')">
-                            <font-awesome-icon v-if="sortKey === 'questionCount'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
-                            <font-awesome-icon v-else :icon="['fas', 'sort']" />
-                        </span>
-                    </th>
-                    <th class="sortable knowledgestatus-header" @click="toggleSort('knowledgebarData')">
-                        {{ t('missionControl.pageTable.knowledgeStatus') }}
-                        <span :class="getSortIconClass('knowledgebarData')">
-                            <font-awesome-icon v-if="sortKey === 'knowledgebarData'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
-                            <font-awesome-icon v-else :icon="['fas', 'sort']" />
-                        </span>
-                    </th>
-                    <th class="actions-column"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(page, index) in sortedpages" :key="page.id" class="page-row" :class="{ last: index === sortedpages.length - 1 }">
-                    <td class="page-name-cell">
-                        <div class="page-name">
-                            <div class="page-image" v-if="page.imgUrl">
-                                <Image
-                                    :src="page.imgUrl"
-                                    :alt="page.name"
-                                    :width="40"
-                                    :height="40"
-                                    :customStyle="'object-fit: cover; border-radius: 6px;'" />
+        <template v-if="pages.length">
+            <table class="pages-table">
+                <thead>
+                    <tr>
+                        <th class="sortable popularity-header" @click="toggleSort('popularity')">
+                            {{ t('missionControl.pageTable.popularity') }}
+                            <span :class="getSortIconClass('popularity')">
+                                <font-awesome-icon v-if="sortKey === 'popularity'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
+                                <font-awesome-icon v-else :icon="['fas', 'sort']" />
+                            </span>
+                        </th>
+                        <th class="sortable name-header" @click="toggleSort('name')">
+                            {{ t('missionControl.pageTable.name') }}
+                            <span :class="getSortIconClass('name')">
+                                <font-awesome-icon v-if="sortKey === 'name'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
+                                <font-awesome-icon v-else :icon="['fas', 'sort']" />
+                            </span>
+                        </th>
+                        <th class="sortable questioncount-header" @click="toggleSort('questionCount')">
+                            {{ t('missionControl.pageTable.questions') }}
+                            <span :class="getSortIconClass('questionCount')">
+                                <font-awesome-icon v-if="sortKey === 'questionCount'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
+                                <font-awesome-icon v-else :icon="['fas', 'sort']" />
+                            </span>
+                        </th>
+                        <th class="sortable knowledgestatus-header" @click="toggleSort('knowledgebarData')">
+                            {{ t('missionControl.pageTable.knowledgeStatus') }}
+                            <span :class="getSortIconClass('knowledgebarData')">
+                                <font-awesome-icon v-if="sortKey === 'knowledgebarData'" :icon="['fas', sortDirection === 'asc' ? 'sort-up' : 'sort-down']" />
+                                <font-awesome-icon v-else :icon="['fas', 'sort']" />
+                            </span>
+                        </th>
+                        <th class="actions-column"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(page, index) in paginatedPages" :key="page.id" class="page-row" :class="{ last: index === paginatedPages.length - 1 }">
+                        <td class="popularity-cell">
+                            <span class="popularity-count">{{ getFormattedNumber(page.popularity) }}</span>
+                        </td>
+                        <td class="page-name-cell">
+                            <div class="page-name">
+                                <div class="page-image" v-if="page.imgUrl">
+                                    <Image
+                                        :src="page.imgUrl"
+                                        :alt="page.name"
+                                        :width="40"
+                                        :height="40"
+                                        :customStyle="'object-fit: cover; border-radius: 6px;'" />
+                                </div>
+                                <div class="page-image" v-else>
+                                    <Image
+                                        src="/Images/Placeholders/placeholder-page-206.png"
+                                        :alt="page.name"
+                                        :width="40"
+                                        :height="40"
+                                        :customStyle="'object-fit: cover; border-radius: 6px;'" />
+                                </div>
+                                <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)" class="page-link">
+                                    {{ page.name }}
+                                </NuxtLink>
                             </div>
-                            <div class="page-image" v-else>
-                                <Image
-                                    src="/Images/Placeholders/placeholder-page-206.png"
-                                    :alt="page.name"
-                                    :width="40"
-                                    :height="40"
-                                    :customStyle="'object-fit: cover; border-radius: 6px;'" />
-                            </div>
-                            <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)" class="page-link">
-                                {{ page.name }}
+                        </td>
+                        <td class="question-count-cell">
+                            {{ page.questionCount }}
+                        </td>
+                        <td class="knowledge-status-cell">
+                            <PageContentGridKnowledgebar
+                                v-if="page.knowledgebarData"
+                                :knowledgebarData="page.knowledgebarData" />
+                        </td>
+                        <td class="actions-cell">
+                            <NuxtLink
+                                v-if="page.questionCount > 0"
+                                :to="{ path: $urlHelper.getPageUrl(page.name, page.id, Tab.Learning), query: { inWuWi: (page.knowledgebarData != null).toString() } }"
+                                class="action-button"
+                                :title="t('missionControl.pageTable.learnNow')"
+                                v-tooltip="t('missionControl.pageTable.learnNow')">
+                                <font-awesome-icon :icon="['fas', 'play']" />
                             </NuxtLink>
-                        </div>
-                    </td>
-                    <td class="question-count-cell">
-                        {{ page.questionCount }}
-                    </td>
-                    <td class="knowledge-status-cell">
-                        <PageContentGridKnowledgebar
-                            v-if="page.knowledgebarData"
-                            :knowledgebarData="page.knowledgebarData" />
-                    </td>
-                    <td class="actions-cell">
-                        <NuxtLink
-                            v-if="page.questionCount > 0"
-                            :to="{ path: $urlHelper.getPageUrl(page.name, page.id, Tab.Learning), query: { inWuWi: (page.knowledgebarData != null).toString() } }"
-                            class="action-button"
-                            :title="t('missionControl.pageTable.learnNow')"
-                            v-tooltip="t('missionControl.pageTable.learnNow')">
-                            <font-awesome-icon :icon="['fas', 'play']" />
-                        </NuxtLink>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination-container" v-if="sortedpages.length > itemsPerPage">
+                <vue-awesome-paginate
+                    v-if="currentPage > 0"
+                    :total-items="sortedpages.length"
+                    :items-per-page="itemsPerPage"
+                    :max-pages-shown="isMobile ? 3 : 10"
+                    v-model="currentPage"
+                    :show-ending-buttons="true"
+                    :show-breakpoint-buttons="false">
+                    <template #first-page-button>
+                        <font-awesome-layers>
+                            <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                            <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                        </font-awesome-layers>
+                    </template>
+                    <template #prev-button>
+                        <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                    </template>
+                    <template #next-button>
+                        <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                    </template>
+                    <template #last-page-button>
+                        <font-awesome-layers>
+                            <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                            <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                        </font-awesome-layers>
+                    </template>
+                </vue-awesome-paginate>
+            </div>
+        </template>
+
         <div v-else class="no-pages">
             <p>{{ noPagesText ? noPagesText : t('missionControl.pageTable.noPages') }}</p>
         </div>
@@ -144,6 +198,43 @@ function getSortIconClass(key: keyof PageData) {
         color: @memo-grey-dark;
         font-style: italic;
         padding: 20px 0;
+    }
+
+    .pagination-container {
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+
+        :deep(.paginate-buttons) {
+            background: white;
+            color: @memo-grey-dark;
+            font-size: 1.4rem;
+            padding: 1rem 1.6rem;
+
+            &.active-page {
+                color: @memo-blue;
+            }
+
+            &:hover {
+                filter: brightness(0.95);
+            }
+
+            &:active {
+                filter: brightness(0.9);
+            }
+        }
+
+        :deep(li:first-child) {
+            border-top-left-radius: 2em;
+            border-bottom-left-radius: 2em;
+            overflow: hidden;
+        }
+
+        :deep(li:last-child) {
+            border-top-right-radius: 2em;
+            border-bottom-right-radius: 2em;
+            overflow: hidden;
+        }
     }
 }
 
@@ -185,9 +276,14 @@ function getSortIconClass(key: keyof PageData) {
             }
         }
 
+        &.popularity-header {
+            width: 120px;
+            max-width: 120px;
+            text-align: center;
+        }
+
         &.name-header {
-            min-width: 50%;
-            max-width: 50%;
+            flex: 1;
             text-align: left;
         }
 
@@ -236,9 +332,14 @@ function getSortIconClass(key: keyof PageData) {
         }
     }
 
+    .popularity-cell {
+        width: 120px;
+        max-width: 120px;
+        text-align: center;
+    }
+
     .page-name-cell {
-        min-width: 50%;
-        max-width: 50%;
+        flex: 1;
     }
 
     .page-name {
@@ -310,6 +411,15 @@ function getSortIconClass(key: keyof PageData) {
             padding-left: 2px;
         }
     }
+}
+
+.popularity-count {
+    background-color: @light-blue;
+    color: @dark-blue;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    font-weight: 600;
 }
 
 @media (max-width: 767px) {

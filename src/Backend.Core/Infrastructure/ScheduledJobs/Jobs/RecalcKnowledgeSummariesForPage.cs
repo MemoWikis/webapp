@@ -3,17 +3,11 @@ using Quartz;
 
 public class RecalcKnowledgeSummariesForPage : IJob
 {
-    private readonly PageValuationReadingRepository _pageValuationReadingRepository;
-    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly PageValuationWritingRepo _pageValuationWritingRepo;
+    private readonly KnowledgeSummaryUpdate _knowledgeSummaryUpdate;
 
-    public RecalcKnowledgeSummariesForPage(PageValuationReadingRepository pageValuationReadingRepository,
-        KnowledgeSummaryLoader knowledgeSummaryLoader,
-        PageValuationWritingRepo pageValuationWritingRepo)
+    public RecalcKnowledgeSummariesForPage(KnowledgeSummaryUpdate knowledgeSummaryUpdate)
     {
-        _pageValuationReadingRepository = pageValuationReadingRepository;
-        _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _pageValuationWritingRepo = pageValuationWritingRepo;
+        _knowledgeSummaryUpdate = knowledgeSummaryUpdate;
     }
 
     public Task Execute(IJobExecutionContext context)
@@ -27,10 +21,7 @@ public class RecalcKnowledgeSummariesForPage : IJob
             {
                 try
                 {
-                    KnowledgeSummaryUpdate.RunForPage(Convert.ToInt32(grouping.Key),
-                        _pageValuationReadingRepository,
-                        _pageValuationWritingRepo,
-                        _knowledgeSummaryLoader);
+                    _knowledgeSummaryUpdate.RunForPage(Convert.ToInt32(grouping.Key));
 
                     successfullJobIds.AddRange(grouping.Select(j => j.Id).ToList<int>());
                 }

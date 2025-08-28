@@ -97,7 +97,10 @@ internal class RelationRepair_tests : BaseTestHarness
         var beforeHealingDiagram = parentPage != null ? TreeRenderer.ToAsciiDiagram(parentPage) : "Parent2 page not found in cache";
         var relationsBeforeHealing = parentPage.ChildRelations.Select(r => new TinyRelation(r.Id, r.ChildId)).ToList();
 
-        var relationErrors = new RelationErrors(pageRelationRepo, R<PageRepository>());
+        var relationErrorDetection = R<RelationErrorDetection>();
+        var relationErrorRepair = R<RelationErrorRepair>();
+
+        var relationErrors = new RelationErrors(relationErrorDetection, relationErrorRepair);
 
         // Act - Test healing for parent2 (the problematic one)
         var healResult = relationErrors.HealErrors(parent.Id);
@@ -163,7 +166,10 @@ internal class RelationRepair_tests : BaseTestHarness
         entityCacheInitializer.Init();
 
         var pageRelationRepo = R<PageRelationRepo>();
-        var relationErrors = new RelationErrors(pageRelationRepo, R<PageRepository>());
+        var relationErrorDetection = R<RelationErrorDetection>();
+        var relationErrorRepair = R<RelationErrorRepair>();
+
+        var relationErrors = new RelationErrors(relationErrorDetection, relationErrorRepair);
 
         // Act
         var errorResponse = relationErrors.GetErrors();
@@ -327,8 +333,10 @@ internal class RelationRepair_tests : BaseTestHarness
         entityCacheInitializer.Init();
 
         // Get service instance
-        var relationErrors = new RelationErrors(pageRelationRepo, R<PageRepository>());
+        var relationErrorDetection = R<RelationErrorDetection>();
+        var relationErrorRepair = R<RelationErrorRepair>();
 
+        var relationErrors = new RelationErrors(relationErrorDetection, relationErrorRepair);
         // Act
         var errorResponse = relationErrors.GetErrors();
         var allRelationCacheItems = EntityCache.GetAllRelations();

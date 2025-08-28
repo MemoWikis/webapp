@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { VueElement } from 'vue'
 import { useUserStore } from '../userStore'
 import { Tab } from './tabsEnum'
 
@@ -51,20 +50,6 @@ const emit = defineEmits(['setTab'])
                             </div>
                         </button>
 
-                        <button class="tab" @click="emit('setTab', Tab.Settings)"
-                            v-if="userStore.isLoggedIn && props.isCurrentUser">
-                            <div class="tab-label active" v-if="props.tab === Tab.Settings">
-                                {{ t('user.tabs.settings') }}</div>
-                            <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Settings }">
-                                {{ t('user.tabs.settings') }}
-                            </div>
-
-                            <div class="active-tab" v-if="props.tab === Tab.Settings"></div>
-                            <div class="inactive-tab" v-else>
-                                <div class="tab-border"></div>
-                            </div>
-                        </button>
-
                         <div class="tab-filler-container">
                             <div class="tab-filler" :class="{ 'mobile': isMobile }"></div>
                             <div class="inactive-tab">
@@ -104,20 +89,6 @@ const emit = defineEmits(['setTab'])
                     </div>
                 </button>
 
-                <button class="tab" @click="emit('setTab', Tab.Settings)"
-                    v-if="userStore.isLoggedIn && props.isCurrentUser">
-                    <div class="tab-label active" v-if="props.tab === Tab.Settings">
-                        {{ t('user.tabs.settings') }}</div>
-                    <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Settings }" ref="settingsLabelEl">
-                        {{ t('user.tabs.settings') }}
-                    </div>
-
-                    <div class="active-tab" v-if="props.tab === Tab.Settings"></div>
-                    <div class="inactive-tab" v-else>
-                        <div class="tab-border"></div>
-                    </div>
-                </button>
-
                 <div class="tab-filler-container">
                     <div class="tab-filler" :class="{ 'mobile': isMobile }"></div>
                     <div class="inactive-tab">
@@ -132,4 +103,30 @@ const emit = defineEmits(['setTab'])
 
 <style lang="less">
 @import '~~/assets/tabs-bar.less';
+
+.tab-link {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:visited {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .tab {
+        display: flex;
+        flex-direction: column;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            outline: none;
+        }
+    }
+}
 </style>

@@ -38,6 +38,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public bool IsInstallationAdmin { get; set; }
     public bool IsEmailConfirmed { get; set; }
     public int Rank { get; set; }
+    public string? AboutMeText { get; set; }
 
     public List<int> FavoriteIds { get; set; } = new List<int>();
     public List<PageCacheItem> Favorites => EntityCache.GetPages(FavoriteIds);
@@ -78,6 +79,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         Rank = user.ReputationPos;
         DateCreated = user.DateCreated;
         UiLanguage = user.UiLanguage;
+        AboutMeText = user.AboutMeText;
 
         if (!String.IsNullOrEmpty(user.FavoriteIds))
             FavoriteIds = user.FavoriteIds.Split(',').Select(int.Parse).ToList();
@@ -116,6 +118,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         FavoriteIds = user.FavoriteIds;
 
         UiLanguage = user.UiLanguage;
+        AboutMeText = user.AboutMeText;
     }
 
     public static UserCacheItem ToCacheUser(User user)

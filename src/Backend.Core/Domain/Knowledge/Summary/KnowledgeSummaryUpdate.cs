@@ -1,38 +1,55 @@
-﻿class KnowledgeSummaryUpdate
+﻿public class KnowledgeSummaryUpdate(
+    KnowledgeSummaryLoader knowledgeSummaryLoader,
+    UserSkillService userSkillService) : IRegisterAsInstancePerLifetime
 {
-    public static void RunForPage(int pageId,
-        PageValuationReadingRepository pageValuationReadingRepository,
-        PageValuationWritingRepo pageValuationWritingRepo,
-        KnowledgeSummaryLoader knowledgeSummaryLoader)
+    public void RunForPage(int pageId, bool forProfilePage = false)
     {
-        foreach (var pageValuation in pageValuationReadingRepository.GetByPage(pageId))
+        // var allQuestions = EntityCache.GetQuestionsForPage(pageId);
+        // foreach (var pageValuation in pageValuationReadingRepository.GetByPage(pageId))
+        // {
+        //     Run(pageValuation, forProfilePage);
+        // }
+    }
+
+    public void RunForUser(int userId, bool forProfilePage = false)
+    {
+        var extendedUser = SlidingCache.GetExtendedUserById(userId);
+
+        //// Run for all skills
+        var skills = extendedUser.GetAllSkills();
+
+        if (skills.Any())
         {
-            Run(pageValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
+            foreach (var skill in skills)
+                Run(skill.PageId, userId, forProfilePage);
         }
+        //var allQuestionValuations = extendedUser.QuestionValuations.Values;
     }
 
-    public static void RunForUser(int userId,
-        PageValuationReadingRepository pageValuationReadingRepository,
-        PageValuationWritingRepo pageValuationWritingRepo,
-        KnowledgeSummaryLoader knowledgeSummaryLoader)
+    public void RunForUserAndPage(int userId, int pageId, bool forProfilePage = false)
     {
-        foreach (var pageValuation in pageValuationReadingRepository.GetByUser(userId))
-        {
-            Run(pageValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
-        }
+        Log.Information("RunForUserAndPage: userId: {0}, {1}", userId, pageId);
+        Run(pageId, userId, forProfilePage);
     }
 
-    private static void Run(PageValuation pageValuation, PageValuationWritingRepo pageValuationWritingRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
+    private void Run(int pageId, int userId, bool forProfilePage = false)
     {
-        var knowledgeSummary = knowledgeSummaryLoader.Run(pageValuation.UserId, pageValuation.PageId, false);
-        pageValuation.CountNotLearned = knowledgeSummary.NotLearned;
-        pageValuation.CountNeedsLearning = knowledgeSummary.NeedsLearning;
-        pageValuation.CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;
-        pageValuation.CountSolid = knowledgeSummary.Solid;
+        var knowledgeSummary = forProfilePage
+            ? knowledgeSummaryLoader.RunForProfilePage(
+                userId,
+                pageId,
+                onlyValuated: false)
+            : knowledgeSummaryLoader.Run(
+                userId,
+                pageId,
+                onlyValuated: false);
 
-        pageValuationWritingRepo.Update(pageValuation);
+        // Update user skills in cache if the page exists and the user has an extended cache
+        var existingSkillFromCache = SlidingCache
+            .GetExtendedUserById(userId)?
+            .GetSkill(pageId);
+
+        if (existingSkillFromCache != null)
+            userSkillService.UpdateUserSkill(existingSkillFromCache, knowledgeSummary);
     }
-
-    public static void ScheduleForPage(int pageId, JobQueueRepo jobQueueRepo)
-        => jobQueueRepo.Add(JobQueueType.RecalcKnowledgeSummaryForPage, pageId.ToString());
 }

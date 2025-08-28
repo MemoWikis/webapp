@@ -51,9 +51,8 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         /* Calculate Reputation for other things */
 
-        result.ForPublicWishknowledge =
-            result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
-        result.ForUsersFollowingMe = _totalFollowers.Run(result.User.Id) * PointsPerUserFollowingMe;
+        result.ForPublicWishknowledge = result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
+        // result.ForUsersFollowingMe = _totalFollowers.Run(result.User.Id) * PointsPerUserFollowingMe;
 
         return result;
     }
@@ -80,7 +79,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         result.ForPublicWishknowledge =
             result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
-        result.ForUsersFollowingMe = _totalFollowers.Run(result.User.Id) * PointsPerUserFollowingMe;
+        // result.ForUsersFollowingMe = _totalFollowers.Run(result.User.Id) * PointsPerUserFollowingMe;
 
         return result;
     }

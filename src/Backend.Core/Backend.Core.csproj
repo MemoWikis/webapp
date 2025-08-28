@@ -48,6 +48,8 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="NHibernate" Version="5.5.2" />
 		<PackageReference Include="Quartz" Version="3.14.0" />
+		<PackageReference Include="Rebus" Version="8.8.0" />
+		<PackageReference Include="Rebus.Autofac" Version="8.0.0" />
 		<PackageReference Include="Remotion.Linq" Version="2.2.0" />
 		<PackageReference Include="Remotion.Linq.EagerFetching" Version="2.2.0" />
 		<PackageReference Include="Serilog" Version="4.2.0" />

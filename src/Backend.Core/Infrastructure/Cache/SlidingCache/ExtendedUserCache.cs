@@ -3,13 +3,11 @@
 public class ExtendedUserCache(
     PageValuationReadingRepository pageValuationReadingRepository,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
-    AnswerRepo _answerRepo)
+    AnswerRepo _answerRepo,
+    UserSkillService _userSkillService)
     : IRegisterAsInstancePerLifetime
 {
-    public const int ExpirationSpanInMinutes = 600;
-    private const string SessionUserCacheItemPrefix = "SessionUserCacheItem_";
-
-    private string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
+    // Note: No longer using session-based expiration
 
     public List<ExtendedUserCacheItem?> GetAllCacheItems()
     {
@@ -31,17 +29,21 @@ public class ExtendedUserCache(
         if (extendedUser != null)
             return extendedUser;
 
+        // If user doesn't exist in extended cache, create and add them
         return Add(userId);
     }
 
     public bool ItemExists(int userId)
     {
-        return Cache.Contains(GetCacheKey(userId));
+        return EntityCache.GetExtendedUserByIdNullable(userId) != null;
     }
 
     public bool IsQuestionInWishknowledge(int userId, int questionId)
     {
         var cacheItem = GetItem(userId);
+
+        if (cacheItem == null)
+            return false;
 
         var hasQuestionValuation = cacheItem.QuestionValuations.ContainsKey(questionId);
 
@@ -67,16 +69,21 @@ public class ExtendedUserCache(
         return new List<PageValuation>();
     }
 
-    public ExtendedUserCacheItem? GetItem(int userId) =>
-        Cache.Get<ExtendedUserCacheItem>(GetCacheKey(userId));
+    public ExtendedUserCacheItem? GetItem(int userId)
+    {
+        return EntityCache.GetExtendedUserByIdNullable(userId);
+    }
 
     public void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
         var cacheItem = GetItem(questionValuation.User.Id);
 
-        cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id,
-            questionValuation,
-            (k, v) => questionValuation);
+        if (cacheItem != null)
+        {
+            cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id,
+                questionValuation,
+                (k, v) => questionValuation);
+        }
     }
 
     public void Update(User user)
@@ -93,11 +100,10 @@ public class ExtendedUserCache(
 
     public void Remove(int userId)
     {
-        var cacheKey = GetCacheKey(userId);
-        var cacheItem = Cache.Get<ExtendedUserCacheItem>(cacheKey);
+        var cacheItem = EntityCache.GetExtendedUserByIdNullable(userId);
 
         if (cacheItem != null)
-            Cache.Remove(cacheKey);
+            EntityCache.Remove(cacheItem);
     }
 
     public ExtendedUserCacheItem Add(int userId, PageViewRepo? _pageViewRepo = null)
@@ -145,13 +151,7 @@ public class ExtendedUserCache(
     /// <returns></returns>
     public List<ExtendedUserCacheItem> GetAllActiveCaches()
     {
-        var allUsers = EntityCache.GetAllUsers();
-        var userCacheItems = allUsers
-            .Select(user => GetItem(user.Id))
-            .Where(item => item != null)
-            .ToList();
-
-        return userCacheItems;
+        return EntityCache.GetAllExtendedUsers().ToList();
     }
 
     /// <summary> Used for page delete </summary>
@@ -181,6 +181,7 @@ public class ExtendedUserCache(
         PopulatePageValuations(cacheItem);
         PopulateQuestionValuations(cacheItem);
         PopulateAnswers(cacheItem);
+        PopulateUserSkills(cacheItem);
         if (_pageViewRepo != null)
             PopulateRecentPages(cacheItem, _pageViewRepo);
 
@@ -189,11 +190,30 @@ public class ExtendedUserCache(
 
     private void PopulatePageValuations(ExtendedUserCacheItem cacheItem)
     {
+        Log.Information("PopulatePageValuations: Starting for userId {UserId}", cacheItem.Id);
+        
+        var pageValuations = pageValuationReadingRepository
+            .GetByUser(cacheItem.Id, onlyActiveKnowledge: false);
+            
+        Log.Information("PopulatePageValuations: Found {Count} page valuations for userId {UserId}", 
+            pageValuations?.Count() ?? 0, cacheItem.Id);
+        
+        if (pageValuations != null && pageValuations.Any())
+        {
+            foreach (var pv in pageValuations.Take(5)) // Log first 5 for debugging
+            {
+                Log.Information("PopulatePageValuations: Found PageValuation - UserId: {UserId}, PageId: {PageId}", 
+                    pv.UserId, pv.PageId);
+            }
+        }
+        
         cacheItem.PageValuations = new ConcurrentDictionary<int, PageValuation>(
-            pageValuationReadingRepository
-                .GetByUser(cacheItem.Id, onlyActiveKnowledge: false)
-                .Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v))
+            pageValuations?.Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v)) ?? 
+            new List<KeyValuePair<int, PageValuation>>()
         );
+        
+        Log.Information("PopulatePageValuations: Completed for userId {UserId}, final count: {Count}", 
+            cacheItem.Id, cacheItem.PageValuations.Count);
     }
 
     private void PopulateQuestionValuations(ExtendedUserCacheItem cacheItem)
@@ -224,6 +244,15 @@ public class ExtendedUserCache(
         }
     }
 
+    private void PopulateUserSkills(ExtendedUserCacheItem cacheItem)
+    {
+        var userSkills = _userSkillService.GetUserSkills(cacheItem.Id);
+        if (userSkills != null && userSkills.Any())
+        {
+            cacheItem.PopulateSkills(userSkills);
+        }
+    }
+
     private void PopulateRecentPages(ExtendedUserCacheItem cacheItem, PageViewRepo _pageViewRepo)
     {
         if (cacheItem.RecentPages == null || !cacheItem.RecentPages.PagesQueue.Any())
@@ -234,9 +263,7 @@ public class ExtendedUserCache(
 
     private void AddToCache(ExtendedUserCacheItem cacheItem)
     {
-        Cache.Add(GetCacheKey(cacheItem.Id), cacheItem,
-            TimeSpan.FromMinutes(ExpirationSpanInMinutes),
-            slidingExpiration: true);
+        EntityCache.AddOrUpdate(cacheItem);
     }
 
     private void PopulateTokenUsage(ExtendedUserCacheItem cacheItem, AiUsageLogRepo _aiUsageLogRepo)

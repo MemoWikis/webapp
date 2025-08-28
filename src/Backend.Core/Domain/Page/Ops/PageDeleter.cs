@@ -12,7 +12,8 @@ public class PageDeleter(
     PageRelationRepo _pageRelationRepo,
     PermissionCheck _permissionCheck,
     PageToQuestionRepo _pageToQuestionRepo,
-    SharesRepository _sharesRepository) : IRegisterAsInstancePerLifetime
+    SharesRepository _sharesRepository,
+    KnowledgeSummaryUpdateService _knowledgeSummaryUpdateService) : IRegisterAsInstancePerLifetime
 {
     // Static dictionary to coordinate page deletions to prevent race conditions
     private static readonly ConcurrentDictionary<int, UserDeletionLock> _userPageDeletionLocks = new();
@@ -117,7 +118,7 @@ public class PageDeleter(
 
     private void DeleteRelations(PageCacheItem pageCacheItem, int userId)
     {
-        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepo, _pageRelationRepo);
+        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepo, _pageRelationRepo, _knowledgeSummaryUpdateService);
 
         ModifyRelationsEntityCache.RemoveRelationsForPageDeleter(
             pageCacheItem,

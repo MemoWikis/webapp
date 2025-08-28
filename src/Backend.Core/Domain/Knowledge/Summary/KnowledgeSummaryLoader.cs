@@ -1,9 +1,8 @@
 ﻿public class KnowledgeSummaryLoader(
     PageValuationReadingRepository pageValuationReadingRepository,
-    ExtendedUserCache _extendedUserCache,
-    SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
+    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
-    public KnowledgeSummary RunFromDbCache(Page page, int userId)
+    public KnowledgeSummary RunFromDb(Page page, int userId)
     {
         var pageValuation = pageValuationReadingRepository.GetBy(page.Id, userId);
 
@@ -26,14 +25,19 @@
 
     public KnowledgeSummary RunFromMemoryCache(int pageId, int userId)
     {
-        return RunFromMemoryCache(EntityCache.GetPage(pageId), userId);
+        var page = EntityCache.GetPage(pageId);
+        if (page == null)
+            return new KnowledgeSummary();
+
+        return RunFromMemoryCache(page, userId);
     }
 
     public KnowledgeSummary RunFromMemoryCache(PageCacheItem pageCacheItem, int userId)
     {
         var aggregatedQuestions = new List<QuestionCacheItem>();
 
-        var aggregatedPages = pageCacheItem.AggregatedPages(new PermissionCheck(_sessionUser), includingSelf: true);
+        var sessionlessUser = new SessionlessUser(userId);
+        var aggregatedPages = pageCacheItem.AggregatedPages(new PermissionCheck(sessionlessUser), includingSelf: true);
 
         foreach (var currentPage in aggregatedPages)
         {
@@ -76,17 +80,28 @@
         return knowledgeSummary;
     }
 
+    public KnowledgeSummary RunForProfilePage(int userId, int pageId, bool onlyValuated = true)
+    {
+        var page = EntityCache.GetPage(pageId);
+        if (page == null)
+            return new KnowledgeSummary();
+
+        return Run(userId, page.GetAggregatedPublicQuestions().GetIds(), onlyValuated);
+    }
+
     public KnowledgeSummary Run(int userId, int pageId, bool onlyValuated = true)
-        => Run(userId,
-            EntityCache.GetPage(pageId).GetAggregatedQuestions(userId)
-                .GetIds(),
-            onlyValuated);
+    {
+        var page = EntityCache.GetPage(pageId);
+        if (page == null)
+            return new KnowledgeSummary();
+
+        return Run(userId, page.GetAggregatedQuestions(userId).GetIds(), onlyValuated);
+    }
 
     public KnowledgeSummary Run(
         int userId,
-        IList<int> questionIds = null,
-        bool onlyValuated = true,
-        string options = "standard")
+        IList<int>? questionIds = null,
+        bool onlyValuated = true)
     {
         if (userId <= 0 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
@@ -117,7 +132,6 @@
             needsLearning: needsLearning,
             needsConsolidation: needsConsolidation,
             solid: solid,
-            notInWishKnowledge: notInWishknowledge,
-            options: options);
+            notInWishKnowledge: notInWishknowledge);
     }
 }

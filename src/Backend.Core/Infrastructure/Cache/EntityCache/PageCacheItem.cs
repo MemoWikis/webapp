@@ -165,6 +165,14 @@ public class PageCacheItem : IPersistable
         return visibleVisited;
     }
 
+    public virtual IList<QuestionCacheItem> GetAggregatedPublicQuestions() =>
+        GetAggregatedQuestions(
+            -1,
+            onlyVisible: true,
+            fullList: true,
+            permissionCheck: new PermissionCheck(new SessionlessUser(0))
+        );
+
     public virtual IList<QuestionCacheItem> GetAggregatedQuestions(
         int userId,
         bool onlyVisible = true,

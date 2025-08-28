@@ -10,12 +10,12 @@ public class Cache
     }
 
     /// <summary>
-    /// Add an object to the MemoCache (overwrite if already existent).<br/>
+    /// Add an object to the MemoCache with custom expiration (overwrite if already existent).<br/>
     /// Remove the item from the cache after <paramref name="timeSpan"/> has elapsed.
     /// </summary>
-    public static void Add(string key, object obj, TimeSpan timeSpan, bool slidingExpiration = false)
+    public static void AddWithExpiration(string key, object obj, TimeSpan timeSpan, bool slidingExpiration = false)
     {
-        CacheAspNet.Add(key, obj, timeSpan, slidingExpiration);
+        CacheAspNet.AddWithExpiration(key, obj, timeSpan, slidingExpiration);
     }
 
     public static object? Get(string key)

@@ -11,6 +11,7 @@ public class DeleteQuestion : IJob
     private readonly ISession _nhibernateSession;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly QuestionValuationWritingRepo _questionValuationWritingRepo;
+    private readonly UpdateAggregatedPagesService _updateAggregatedPagesService;
 
 
     public DeleteQuestion(ReferenceRepo referenceRepo,
@@ -20,7 +21,8 @@ public class DeleteQuestion : IJob
         CommentRepository commentRepository,
         ISession nhibernateSession,
         QuestionWritingRepo questionWritingRepo,
-        QuestionValuationWritingRepo questionValuationWritingRepo)
+        QuestionValuationWritingRepo questionValuationWritingRepo,
+        UpdateAggregatedPagesService updateAggregatedPagesService)
     {
         _referenceRepo = referenceRepo;
         _answerRepo = answerRepo;
@@ -28,6 +30,9 @@ public class DeleteQuestion : IJob
         _userActivityRepo = userActivityRepo;
         _commentRepository = commentRepository;
         _nhibernateSession = nhibernateSession;
+        _questionWritingRepo = questionWritingRepo;
+        _questionValuationWritingRepo = questionValuationWritingRepo;
+        _updateAggregatedPagesService = updateAggregatedPagesService;
         _questionWritingRepo = questionWritingRepo;
         _questionValuationWritingRepo = questionValuationWritingRepo;
     }
@@ -54,7 +59,7 @@ public class DeleteQuestion : IJob
             .ExecuteUpdate();
         var pagesToUpdateIds = _questionWritingRepo.Delete(questionId, userId, parentIds);
 
-        JobScheduler.StartImmediately_UpdateAggregatedPagesForQuestion(pagesToUpdateIds, userId);
+        _updateAggregatedPagesService.UpdateAggregatedPages(pagesToUpdateIds, userId);
         Log.Information("Question {id} deleted", questionId);
 
         return Task.CompletedTask;

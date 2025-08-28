@@ -3,10 +3,12 @@
 interface Props {
     value: string | number
     label: string
-    icon?: string
+    icon?: string | string[]
     color?: string
     iconColor?: string
     formatNumber?: boolean
+    urlValue?: string
+    labelTooltip?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -24,13 +26,16 @@ const formattedValue = computed(() => {
 
 <template>
     <div class="layout-counter">
-        <div class="counter-header">
+        <div class="counter-header" v-tooltip="labelTooltip">
             <div v-if="icon" class="counter-icon">
                 <font-awesome-icon :icon="icon" :style="{ color: iconColor }" />
             </div>
             <div class="counter-label">{{ label }}</div>
         </div>
-        <div class="counter-value" :style="{ color: color }">{{ formattedValue }}</div>
+        <NuxtLink class="link-to-all-users" :to="props.urlValue" v-if="props.urlValue">
+            <div class="counter-value" :style="{ color: color }">{{ formattedValue }}</div>
+        </NuxtLink>
+        <div v-else class="counter-value" :style="{ color: color }">{{ formattedValue }}</div>
     </div>
 </template>
 
@@ -48,18 +53,18 @@ const formattedValue = computed(() => {
     .counter-header {
         display: flex;
         align-items: center;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
 
         .counter-icon {
             margin-right: 8px;
-            font-size: 14px;
-            color: @memo-grey-dark;
+            font-size: 1.5rem;
+            color: @memo-grey;
         }
 
         .counter-label {
             font-size: 14px;
             font-weight: 500;
-            color: @memo-grey-dark;
+            color: @memo-grey;
             overflow-wrap: break-word;
         }
     }

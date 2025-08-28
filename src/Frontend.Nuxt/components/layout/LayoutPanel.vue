@@ -8,6 +8,19 @@ const props = defineProps({
         type: Boolean,
         default: true
     },
+    labelTooltip: {
+        type: String,
+        default: '',
+        required: false,
+    },
+    noBackground: {
+        type: Boolean,
+        default: false,
+    },
+    halfSize: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const showContent = ref(true)
@@ -19,9 +32,11 @@ const toggleContent = () => {
 </script>
 
 <template>
-    <div class="layout-panel">
+    <div class="layout-panel" :class="{ 'no-background': noBackground, 'half-size': halfSize }">
         <div class="panel-header" v-if="title" @click="toggleContent" :class="{ 'no-pointer': !collapsable }">
-            <h2 class="panel-title">{{ title }}</h2>
+            <h2 class="panel-title">
+                <span v-tooltip="{ content: labelTooltip, disabled: labelTooltip?.length <= 0 }">{{ title }}</span>
+            </h2>
             <div class="panel-actions">
                 <div class="collapse-toggle" :class="{ 'is-mobile': isMobile }">
                     <font-awesome-icon :icon="['fas', 'chevron-up']" v-if="showContent" />
@@ -35,7 +50,7 @@ const toggleContent = () => {
             <slot name="description"></slot>
         </div>
         <Transition name="fade" mode="out-in">
-            <div class="panel-content" v-if="showContent">
+            <div class="panel-content" v-if="showContent" :class="{ 'has-header': title }">
                 <slot></slot>
             </div>
         </Transition>
@@ -51,13 +66,22 @@ const toggleContent = () => {
     margin-bottom: 24px;
     overflow: hidden;
     width: 100%;
-    max-width: calc(100vw - 40px);
+    max-width: calc(100vw - 20px);
+
+    &.half-size {
+        max-width: calc(50vw - 20px);
+        width: 50%;
+    }
+
+    &.no-background {
+        background-color: transparent;
+    }
 
     .panel-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 16px 20px;
+        padding: 2rem;
         user-select: none;
         cursor: pointer;
 
@@ -118,12 +142,16 @@ const toggleContent = () => {
     }
 
     .panel-content {
-        padding: 16px 20px;
-        padding-top: 0;
+        padding: 2rem;
+        padding-top: 1rem;
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
+
+        &.has-header {
+            padding-top: 0;
+        }
     }
 }
 </style>
