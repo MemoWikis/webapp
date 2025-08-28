@@ -36,7 +36,6 @@ class UserSkills_tests : BaseTestHarness
             PageId = page.Id,
             Skill = skill,
             SkillExists = skill != null,
-            EvaluationLevel = skill?.KnowledgeSummary?.GetOverallSkillLevel(),
             EvaluationTotal = skill?.KnowledgeSummary?.Total,
             EvaluationSolid = skill?.KnowledgeSummary?.Solid,
             EvaluationNeedsConsolidation = skill?.KnowledgeSummary?.NeedsConsolidation
@@ -83,7 +82,6 @@ class UserSkills_tests : BaseTestHarness
             PageId = page.Id,
             UpdatedSkill = updatedSkill,
             InitialLevel = "Basic", // Based on initial knowledge
-            ImprovedLevel = updatedSkill?.KnowledgeSummary?.GetOverallSkillLevel(),
             SolidQuestions = updatedSkill?.KnowledgeSummary?.Solid,
             TotalQuestions = updatedSkill?.KnowledgeSummary?.Total,
             LastUpdatedExists = updatedSkill?.LastUpdatedAt != null
@@ -122,7 +120,6 @@ class UserSkills_tests : BaseTestHarness
         var skillsData = allSkills.Select(s => new
         {
             s.PageId,
-            SkillLevel = s.KnowledgeSummary.GetOverallSkillLevel(),
             Total = s.KnowledgeSummary.Total,
             Solid = s.KnowledgeSummary.Solid,
             NeedsConsolidation = s.KnowledgeSummary.NeedsConsolidation,
@@ -171,7 +168,6 @@ class UserSkills_tests : BaseTestHarness
             PageId = page.Id,
             SkillInExtendedCache = skillFromExtendedCache != null,
             SkillPageId = skillFromExtendedCache?.PageId,
-            SkillLevel = skillFromExtendedCache?.KnowledgeSummary?.GetOverallSkillLevel(),
             TotalSkillsInExtendedCache = allSkillsFromExtendedCache.Count,
             ExtendedCacheIntegrated = skillFromExtendedCache?.PageId == page.Id
         });
@@ -264,7 +260,6 @@ class UserSkills_tests : BaseTestHarness
             Skills = userSkillService.GetUserSkills(user.Id).Select(s => new
             {
                 s.PageId,
-                SkillLevel = s.KnowledgeSummary.GetOverallSkillLevel(),
                 Total = s.KnowledgeSummary.Total
             }).OrderBy(s => s.PageId).ToList()
         }).OrderBy(u => u.UserId).ToList();
