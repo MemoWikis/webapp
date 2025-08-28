@@ -22,9 +22,10 @@
         int Id,
         string ImgUrl,
         string Title,
-        Step[] Steps);
+        SessionAnswer[] SessionAnswers,
+        SolutionType SolutionType = SolutionType.FlashCard);
 
-    public record struct Step(AnswerState AnswerState, string AnswerAsHtml);
+    public record struct SessionAnswer(AnswerState AnswerState, string AnswerAsHtml);
 
     [HttpGet]
     public LearningSessionResult Get() => GetLearningSessionResult();
@@ -53,10 +54,11 @@
                             _questionReadingRepo)
                         .GetImageUrl(128, true).Url,
                     Title: question.GetShortTitle(),
-                    Steps: g.Select(s => new Step(
+                    SessionAnswers: g.Select(s => new SessionAnswer(
                         AnswerState: s.AnswerState,
                         AnswerAsHtml: Question.AnswersAsHtml(s.Answer, question.SolutionType)
-                    )).ToArray()
+                    )).ToArray(),
+                    SolutionType: question.SolutionType
                 );
             }).ToArray();
 

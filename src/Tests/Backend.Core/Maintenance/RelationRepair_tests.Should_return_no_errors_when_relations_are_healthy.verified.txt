@@ -1,0 +1,68 @@
+﻿{
+  GetErrorsResult: {
+    Success: true
+  },
+  AllRelationCacheItems: [
+    {
+      Id: 1,
+      ChildId: 4,
+      ParentId: 3,
+      NextId: 5
+    },
+    {
+      Id: 2,
+      ChildId: 5,
+      ParentId: 3,
+      PreviousId: 4,
+      NextId: 6
+    },
+    {
+      Id: 3,
+      ChildId: 6,
+      ParentId: 3,
+      PreviousId: 5
+    }
+  ],
+  CacheItemsCount: 3,
+  AllDbItems: [
+    {
+      Child: {
+        Name: child1,
+        IsWiki: false,
+        Id: 4
+      },
+      Parent: {
+        Name: parent,
+        IsWiki: false,
+        Id: 3
+      },
+      NextId: 5,
+      Id: 1
+    },
+    {
+      Child: {
+        Name: child2,
+        IsWiki: false,
+        Id: 5
+      },
+      Parent: {
+        Name: parent,
+        IsWiki: false,
+        Id: 3
+      },
+      PreviousId: 4,
+      NextId: 6,
+      Id: 2
+    },
+    {
+      Child: {
+        Name: child3,
+        IsWiki: false,
+        Id: 6
+      },
+      PreviousId: 5,
+      Id: 3
+    }
+  ],
+  DbItemsCount: 3
+}

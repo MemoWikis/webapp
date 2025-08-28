@@ -216,7 +216,9 @@
         "registerWithFacebook": "Register with Facebook",
         "attention": "Attention",
         "toUpload": "to upload and embed in this way.",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "save": "Save"
     },
     "register": {
         "title": "Register",
@@ -239,14 +241,18 @@
     "search": {
         "results": "{count} results",
         "pages": "Pages",
+        "myPages": "My Pages",
         "pagesInOtherLanguages": "Pages in other languages",
         "questions": "Questions",
+        "myQuestions": "My Questions",
+        "questionsInOtherLanguages": "Questions in other languages",
         "users": "Users",
         "resultsInCurrentLanguage": "({count})",
-        "countedQuestions": "{count} questions",
+        "countedQuestions": "0 questions | 1 question | {count} questions",
         "showUserResults": "Show all ({count})",
         "noResults": "No results found",
-        "inYourLanguage": "in your language"
+        "inYourLanguage": "in your language",
+        "createdBy": "created by: {creator}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",
@@ -704,7 +710,7 @@
         "ai": {
             "flashcard": {
                 "button": {
-                    "create": "Create flashcard"
+                    "create": "Create flashcard | Create flashcards"
                 },
                 "message": {
                     "noFlashcards": "Oops! You have no flashcards."
@@ -1580,6 +1586,16 @@
         "license": {
             "info": "Licence info"
         },
+        "licenseInfo": {
+            "title": "Image License Information",
+            "editTitle": "Edit Image Caption and License",
+            "viewTitle": "Image Caption and License",
+            "caption": "Caption",
+            "license": "License",
+            "noLicense": "No license information available",
+            "captionPlaceholder": "Enter image caption...",
+            "licensePlaceholder": "Enter license information (e.g., CC BY 4.0, © Author Name)..."
+        },
         "modal": {
             "title": "Image details",
             "description": "Description:"
@@ -1651,6 +1667,7 @@
         }
     },
     "questionDetail": {
+        "title": "Your Response History",
         "tooltips": {
             "correctFirstTry": "Answered correctly on the first attempt",
             "correctLaterTry": "Answered correctly on the second or third attempt",
@@ -1660,8 +1677,14 @@
         "labels": {
             "correctAnswer": "Correct answer:",
             "yourTry": "Your {number}. attempt:",
-            "skipped": "(skipped)",
-            "notSeen": "(not yet viewed)"
+            "skipped": "skipped",
+            "notSeen": "not yet viewed"
+        },
+        "answerState": {
+            "0": "Unanswered",
+            "1": "False",
+            "2": "Correct",
+            "3": "Skipped"
         }
     },
     "chip": {
@@ -1786,6 +1809,21 @@
         "pages": {
             "title": "Pages",
             "updateCategoryAuthors": "Update page authors"
+        },
+        "relations": {
+            "title": "Page Relations",
+            "showErrors": "Show Relation Errors",
+            "foundErrors": "Found Errors:",
+            "healButton": "Heal Relations",
+            "parentPageId": "Parent Page ID",
+            "relationsTableTitle": "Relations for this parent:",
+            "noErrorsFound": "No relation errors found.",
+            "table": {
+                "relationId": "Relation ID",
+                "childId": "Child ID",
+                "previousId": "Previous ID",
+                "nextId": "Next ID"
+            }
         },
         "meiliSearch": {
             "title": "Search MeiliSearch",

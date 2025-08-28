@@ -216,7 +216,9 @@
         "registerWithFacebook": "Registrarse con Facebook",
         "attention": "Atención",
         "toUpload": "para subirla e incrustarla.",
-        "cancel": "Cancelar"
+        "cancel": "Cancelar",
+        "edit": "Editar",
+        "save": "Guardar"
     },
     "register": {
         "title": "Registro",
@@ -239,14 +241,18 @@
     "search": {
         "results": "{count} resultados",
         "pages": "Páginas",
+        "myPages": "Mis Páginas",
         "pagesInOtherLanguages": "Páginas en otros idiomas",
         "questions": "Preguntas",
+        "myQuestions": "Mis Preguntas",
+        "questionsInOtherLanguages": "Preguntas en otros idiomas",
         "users": "Usuarios",
         "resultsInCurrentLanguage": "({count})",
         "countedQuestions": "@:label.questionCount",
         "showUserResults": "mostrar {count} resultados",
         "noResults": "No se encontraron resultados",
-        "inYourLanguage": "en tu idioma."
+        "inYourLanguage": "en tu idioma.",
+        "createdBy": "creado por: {creator}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",
@@ -704,7 +710,7 @@
         "ai": {
             "flashcard": {
                 "button": {
-                    "create": "Crear tarjeta"
+                    "create": "Crear tarjeta | Crear tarjetas"
                 },
                 "message": {
                     "noFlashcards": "¡Vaya! No hay tarjetas."
@@ -1579,6 +1585,16 @@
         "license": {
             "info": "Información de la licencia"
         },
+        "licenseInfo": {
+            "title": "Información de Licencia de Imagen",
+            "editTitle": "Editar Descripción y Licencia de la Imagen",
+            "viewTitle": "Descripción y Licencia de la Imagen",
+            "caption": "Descripción de la imagen",
+            "license": "Licencia",
+            "noLicense": "No hay información de licencia disponible",
+            "captionPlaceholder": "Introduce la descripción de la imagen...",
+            "licensePlaceholder": "Introduce información de licencia (ej. CC BY 4.0, © Nombre del autor)..."
+        },
         "modal": {
             "title": "Detalles de la imagen",
             "description": "Descripción:"
@@ -1650,6 +1666,7 @@
         }
     },
     "questionDetail": {
+        "title": "Tu historial de respuestas",
         "tooltips": {
             "correctFirstTry": "Respondida correctamente en el primer intento",
             "correctLaterTry": "Respondida correctamente en el segundo o tercer intento",
@@ -1659,8 +1676,14 @@
         "labels": {
             "correctAnswer": "Respuesta correcta:",
             "yourTry": "Tu {number}. intento:",
-            "skipped": "(omitida)",
-            "notSeen": "(todavía no vista)"
+            "skipped": "omitida",
+            "notSeen": "todavía no vista"
+        },
+        "answerState": {
+            "0": "Sin responder",
+            "1": "Falso",
+            "2": "Correcto",
+            "3": "Omitida"
         }
     },
     "chip": {
@@ -1786,6 +1809,21 @@
             "title": "Páginas",
             "updateCategoryAuthors": "Actualizar autores de páginas"
         },
+        "relations": {
+            "title": "Relaciones de Páginas",
+            "showErrors": "Mostrar Errores de Relaciones",
+            "foundErrors": "Errores Encontrados:",
+            "healButton": "Reparar Relaciones",
+            "parentPageId": "ID de Página Padre",
+            "relationsTableTitle": "Relaciones para esta página padre:",
+            "noErrorsFound": "No se encontraron errores de relación.",
+            "table": {
+                "relationId": "ID de Relación",
+                "childId": "ID de Página Hija",
+                "previousId": "ID Anterior",
+                "nextId": "ID Siguiente"
+            }
+        },
         "meiliSearch": {
             "title": "Búsqueda MeiliSearch",
             "description": "Reindexar todo para búsqueda:",
@@ -1822,6 +1860,28 @@
         "removeAdminRights": {
             "title": "Eliminar derechos de administrador",
             "button": "Eliminar derechos de administrador para usuario actual"
+        }
+    },
+    "license": {
+        "ccBy40": {
+            "nameLong": "Creative Commons: Atribución 4.0 Internacional",
+            "displayTextFull": "Esta contribución está bajo la licencia 'Creative Commons: Atribución 4.0 Internacional'. Puedes usarla y modificarla libremente, siempre que cites al autor y enlaces a la licencia (cf. <a href='https://creativecommons.org/licenses/by/4.0/deed.es' target='_blank'>el resumen</a> y <a href='https://creativecommons.org/licenses/by/4.0/legalcode' target='_blank'>el texto completo de la licencia</a>)."
+        },
+        "bamf": {
+            "nameShort": "Obra oficial BAMF",
+            "nameLong": "Otra obra oficial, fuente BAMF",
+            "displayTextShort": "Fuente: BAMF",
+            "displayTextFull": "Esta contribución constituye una 'otra obra oficial' según <a href='https://www.gesetze-im-internet.de/urhg/__5.html' target='_blank'>§ 5 Abs. 2 del Urheberrechtsgesetz</a>. Puede utilizarse libremente, pero citando la fuente y sin modificaciones."
+        },
+        "elwis": {
+            "nameLong": "Servicio Electrónico de Información de Vías Navegables (ELWIS.de)",
+            "displayTextShort": "Fuente: ELWIS.de",
+            "displayTextFull": "La <a href='https://www.elwis.de/Freizeitschifffahrt/fuehrerscheininformationen/' target='_blank'>pregunta y las opciones de respuesta</a> provienen del Servicio Electrónico de Información de Vías Navegables (ELWIS.de) de la Administración Federal de Vías Navegables y Navegación."
+        },
+        "blac": {
+            "nameLong": "Grupo de Trabajo Federal/Estatal sobre Seguridad Química (BLAC)",
+            "displayTextShort": "Fuente: BLAC",
+            "displayTextFull": "La pregunta, las opciones de respuesta y la referencia a las fuentes provienen del Catálogo Común de Preguntas de los Länder (GFK) para el examen de competencia según § 5 de la Chemikalien-Verbotsverordnung y están recopiladas en <a href='http://blak-uis.server.de/servlet/is/2146/P-4a.pdf/' target='_blank'>este PDF</a>. El uso del catálogo de preguntas está permitido de acuerdo con § 62 Abs. 1 bis 3 (prohibición de cambios) y § 63 Abs. 1 y 2 (cita de fuente) del UrhG. El autor es <a href='https://blac-info.server.de/servlet/is/2146/' target='_blank'>BLAC</a>."
         }
     },
     "layout": {

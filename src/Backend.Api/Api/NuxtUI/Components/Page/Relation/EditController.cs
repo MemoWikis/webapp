@@ -105,10 +105,8 @@ public class PageRelationEditController(
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
 
-        if (parentIdToRemove == FeaturedPage.RootPageId &&
-            !_sessionUser.IsInstallationAdmin ||
-            parentIdToAdd == FeaturedPage.RootPageId &&
-            !_sessionUser.IsInstallationAdmin)
+        if (parentIdToRemove == FeaturedPage.RootPageId && !_sessionUser.IsInstallationAdmin ||
+            parentIdToAdd == FeaturedPage.RootPageId && !_sessionUser.IsInstallationAdmin)
             return new MoveChildResult
             {
                 Success = false,
@@ -134,6 +132,7 @@ public class PageRelationEditController(
         int ParentId,
         int ParentIdToRemove,
         bool AddIdToWikiHistory);
+
     public readonly record struct AddChildResult(
         bool Success,
         string MessageKey,
@@ -165,6 +164,7 @@ public class PageRelationEditController(
     public readonly record struct RemoveParentParam(
         int parentIdToRemove,
         int childId);
+
     public readonly record struct RemoveParentResult(
         bool Success,
         string MessageKey,
@@ -200,11 +200,7 @@ public class PageRelationEditController(
         if (elements.Pages.Any())
             _searchResultBuilder.AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
-        return new SearchPageResult
-        {
-            TotalCount = elements.PageCount,
-            Pages = items,
-        };
+        return new SearchPageResult { TotalCount = elements.PageCount, Pages = items, };
     }
 
     public readonly record struct SearchPageInPersonalWikiResult(
@@ -229,11 +225,7 @@ public class PageRelationEditController(
             _sessionUser.UserId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
-        return new SearchPageInPersonalWikiResult
-        {
-            TotalCount = elements.PageCount,
-            Pages = items,
-        };
+        return new SearchPageInPersonalWikiResult { TotalCount = elements.PageCount, Pages = items, };
     }
 
     public readonly record struct ValidateNameResult(
@@ -253,17 +245,10 @@ public class PageRelationEditController(
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.NameIsForbidden,
-                Data = new ValidateTinyPageItem
-                {
-                    PageNameAllowed = false,
-                    name = name,
-                }
+                Data = new ValidateTinyPageItem { PageNameAllowed = false, name = name, }
             };
         }
 
-        return new ValidateNameResult
-        {
-            Success = true
-        };
+        return new ValidateNameResult { Success = true };
     }
 }

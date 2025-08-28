@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Hosting;
 using System.Security;
 
 public class VueMaintenanceController(
@@ -17,7 +16,7 @@ public class VueMaintenanceController(
     UserWritingRepo _userWritingRepo,
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment) : ApiBaseController
+    RelationErrors _relationErrors) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -66,7 +65,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Antwortwahrscheinlichkeiten wurden neu berechnet."
+            Data = "Answer probabilities have been recalculated."
         };
     }
 
@@ -80,7 +79,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Aggregierte Werte wurden aktualisiert."
+            Data = "Aggregated values have been updated."
         };
     }
 
@@ -93,7 +92,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Reputation and Rankings wurden aktualisiert."
+            Data = "Reputation and rankings have been updated."
         };
     }
 
@@ -107,20 +106,20 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert."
+            Data = "Wish knowledge answer probability has been updated."
         };
     }
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public VueMaintenanceResult DeleteUser(int userId)
+    public VueMaintenanceResult DeleteUser([FromForm] int userId)
     {
         _userWritingRepo.DeleteFromAllTables(userId);
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Der User wurde gelöscht"
+            Data = "The user has been deleted."
         };
     }
 
@@ -134,7 +133,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Fragen wurden neu indiziert."
+            Data = "Questions have been re-indexed."
         };
     }
 
@@ -149,7 +148,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Fragen wurden neu indiziert."
+            Data = "Questions have been re-indexed."
         };
     }
 
@@ -163,7 +162,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Themen wurden neu indiziert."
+            Data = "Pages have been re-indexed."
         };
     }
 
@@ -177,7 +176,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Themen wurden neu indiziert."
+            Data = "Pages have been re-indexed."
         };
     }
 
@@ -191,7 +190,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Nutzer wurden neu indiziert."
+            Data = "Users have been re-indexed."
         };
     }
 
@@ -205,7 +204,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Nutzer wurden neu indiziert."
+            Data = "Users have been re-indexed."
         };
     }
 
@@ -215,13 +214,13 @@ public class VueMaintenanceController(
     public VueMaintenanceResult CheckForDuplicateInteractionNumbers()
     {
         var duplicates = _answerRepo.GetAll()
-            .Where(a => a.QuestionViewGuid != Guid.Empty)
-            .GroupBy(a => new { a.QuestionViewGuid, a.InteractionNumber })
-            .Where(g => g.Skip(1).Any())
-            .SelectMany(g => g)
+            .Where(answer => answer.QuestionViewGuid != Guid.Empty)
+            .GroupBy(answer => new { answer.QuestionViewGuid, answer.InteractionNumber })
+            .Where(group => group.Skip(1).Any())
+            .SelectMany(group => group)
             .ToList();
 
-        var message = duplicates.Any() ? "Es gibt Dubletten." : "Es gibt keine Dubletten.";
+        var message = duplicates.Any() ? "There are duplicates." : "There are no duplicates.";
 
         return new VueMaintenanceResult
         {
@@ -247,7 +246,7 @@ public class VueMaintenanceController(
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Job: 'Cleanup work in progress' wird ausgeführt."
+            Data = "Job: 'Cleanup work in progress' is being executed."
         };
     }
 
@@ -263,14 +262,14 @@ public class VueMaintenanceController(
             return new VueMaintenanceResult
             {
                 Success = true,
-                Data = "Die Liste wird neu geladen."
+                Data = "The list is being reloaded."
             };
         }
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Sie sind nicht berechtigt die Liste neu zu laden."
+            Data = "You are not authorized to reload the list."
         };
     }
 
@@ -308,6 +307,42 @@ public class VueMaintenanceController(
         {
             Success = true,
             Data = ""
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ClearCache()
+    {
+        // Clear various caches
+        EntityCache.Clear();
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Cache has been cleared."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpGet]
+    public RelationErrorsResult ShowRelationErrors()
+    {
+        return _relationErrors.GetErrors();
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult HealRelations([FromForm] int pageId)
+    {
+        var result = _relationErrors.HealErrors(pageId);
+
+        return new VueMaintenanceResult
+        {
+            Success = result.Success,
+            Data = result.Message
         };
     }
 }

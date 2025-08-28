@@ -79,7 +79,7 @@ public class QuestionController(
                 {
                     Id = question.Id,
                     Text = question.Text,
-                    Title = Regex.Replace(question.Text, "<.*?>", string.Empty),
+                    Title = SafeQuestionTitle.Get(question.Text),
                     SolutionType = question.SolutionType,
                     RenderedQuestionTextExtended = question.GetRenderedQuestionTextExtended(),
                     Description = question.Description,

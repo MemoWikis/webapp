@@ -57,7 +57,7 @@ onBeforeMount(() => {
         </LayoutPanel>
 
         <LayoutPanel :title="t(PageAnalytics.CONTENT_SECTION.translationKey)" :id="PageAnalytics.CONTENT_SECTION.id">
-            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directVisibleChildPageCount > 0">
+            <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.hasVisibleDirectChildren">
                 <LayoutCounter
                     :value="pageStore.directVisibleChildPageCount"
                     :label="t('page.analytics.directVisibleChildPageLabel')" />

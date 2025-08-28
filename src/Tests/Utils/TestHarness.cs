@@ -332,7 +332,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         await client.CreateIndexAsync(MeilisearchIndices.Users);
 
         // Configure filterable attributes for search functionality
-        await client.Index(MeilisearchIndices.Pages).UpdateFilterableAttributesAsync(["Language"]);
+        await client.Index(MeilisearchIndices.Pages).UpdateFilterableAttributesAsync(["Language", "CreatorName"]);
         await client.Index(MeilisearchIndices.Questions).UpdateFilterableAttributesAsync(["Language"]);
         await client.Index(MeilisearchIndices.Users).UpdateFilterableAttributesAsync(["ContentLanguages"]);
     }

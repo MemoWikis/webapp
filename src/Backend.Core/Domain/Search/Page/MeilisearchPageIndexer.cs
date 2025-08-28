@@ -71,6 +71,7 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
                 ? DateTime.Now
                 : page.DateCreated,
             Description = page.Description ?? "",
+            Content = page.Content ?? "",
             Name = page.Name,
             Id = page.Id,
             Language = page.Language

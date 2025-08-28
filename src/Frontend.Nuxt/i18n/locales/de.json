@@ -216,7 +216,9 @@
         "registerWithFacebook": "Registrierung mit Facebook",
         "attention": "Achtung",
         "toUpload": "hochzuladen und so einzubinden.",
-        "cancel": "Abbrechen"
+        "cancel": "Abbrechen",
+        "edit": "Bearbeiten",
+        "save": "Speichern"
     },
     "register": {
         "title": "Registrieren",
@@ -239,14 +241,18 @@
     "search": {
         "results": "{count} Treffer",
         "pages": "Seiten",
+        "myPages": "Meine Seiten",
         "pagesInOtherLanguages": "Seiten in anderen Sprachen",
         "questions": "Fragen",
+        "myQuestions": "Meine Fragen",
+        "questionsInOtherLanguages": "Fragen in anderen Sprachen",
         "users": "Nutzer",
         "resultsInCurrentLanguage": "({count})",
-        "countedQuestions": "{count} Fragen",
+        "countedQuestions": "0 Fragen | 1 Frage | {count} Fragen",
         "showUserResults": "Alle anzeigen ({count})",
         "noResults": "Keine Ergebnisse gefunden",
-        "inYourLanguage": "in deiner Sprache"
+        "inYourLanguage": "in deiner Sprache",
+        "createdBy": "erstellt von: {creator}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",
@@ -704,7 +710,7 @@
         "ai": {
             "flashcard": {
                 "button": {
-                    "create": "Karteikarte erstellen"
+                    "create": "Karteikarte erstellen | Karteikarten erstellen"
                 },
                 "message": {
                     "noFlashcards": "Oops! Du hast keine Karteikarten."
@@ -1579,6 +1585,16 @@
         "license": {
             "info": "Lizenzinfos"
         },
+        "licenseInfo": {
+            "title": "Bildlizenz-Informationen",
+            "editTitle": "Bildunterschrift und Lizenz bearbeiten",
+            "viewTitle": "Bildunterschrift und Lizenz",
+            "caption": "Bildunterschrift",
+            "license": "Lizenz",
+            "noLicense": "Keine Lizenzinformationen verfügbar",
+            "captionPlaceholder": "Bildunterschrift eingeben...",
+            "licensePlaceholder": "Lizenzinformationen eingeben (z.B. CC BY 4.0, © Autorenname)..."
+        },
         "modal": {
             "title": "Bilddetails",
             "description": "Beschreibung:"
@@ -1650,6 +1666,7 @@
         }
     },
     "questionDetail": {
+        "title": "Deine Antworthistorie",
         "tooltips": {
             "correctFirstTry": "Beim 1. Versuch richtig beantwortet",
             "correctLaterTry": "Beim 2. oder 3. Versuch richtig beantwortet",
@@ -1659,8 +1676,14 @@
         "labels": {
             "correctAnswer": "Richtige Antwort:",
             "yourTry": "Dein {number}. Versuch:",
-            "skipped": "(übersprungen)",
-            "notSeen": "(noch nicht gesehen)"
+            "skipped": "übersprungen",
+            "notSeen": "noch nicht gesehen"
+        },
+        "answerState": {
+            "0": "Unbeantwortet",
+            "1": "Falsch",
+            "2": "Richtig",
+            "3": "Übersprungen"
         }
     },
     "chip": {
@@ -1785,6 +1808,21 @@
         "pages": {
             "title": "Seiten",
             "updateCategoryAuthors": "Seitenautoren aktualisieren"
+        },
+        "relations": {
+            "title": "Seitenbeziehungen",
+            "showErrors": "Beziehungsfehler anzeigen",
+            "foundErrors": "Gefundene Fehler:",
+            "healButton": "Beziehungen reparieren",
+            "parentPageId": "Übergeordnete Seiten-ID",
+            "relationsTableTitle": "Beziehungen für diese übergeordnete Seite:",
+            "noErrorsFound": "Keine Beziehungsfehler gefunden.",
+            "table": {
+                "relationId": "Beziehungs-ID",
+                "childId": "Unterseiten-ID",
+                "previousId": "Vorherige ID",
+                "nextId": "Nächste ID"
+            }
         },
         "meiliSearch": {
             "title": "Suche MeiliSearch",

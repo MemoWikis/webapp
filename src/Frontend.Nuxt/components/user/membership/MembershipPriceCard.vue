@@ -94,7 +94,7 @@ const props = defineProps<Props>()
     height: 100%;
     padding: 20px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: @screen-sm) {
         height: unset;
         padding-bottom: 40px;
     }
@@ -155,7 +155,7 @@ const props = defineProps<Props>()
         color: @memo-grey-darker;
         height: 150px;
 
-        @media screen and (min-width: 386px) and (max-width: 768px) {
+        @media screen and (min-width: 386px) and (max-width: @screen-sm) {
             height: 90px;
         }
     }
