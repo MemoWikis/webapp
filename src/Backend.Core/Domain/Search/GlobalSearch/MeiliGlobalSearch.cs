@@ -37,7 +37,7 @@ public class MeiliGlobalSearch : IGlobalSearch
         var currentUserName = _sessionUser.IsLoggedIn ? _sessionUser.User.Name : string.Empty;
         
         result.PagesResult =
-            await new MeilisearchPages(_permissionCheck, 10, currentUserName)
+            await new MeilisearchPages(_permissionCheck, size:10, currentUserName)
                 .RunAsync(term)
                 .ConfigureAwait(false);
         return result;
