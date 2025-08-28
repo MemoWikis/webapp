@@ -1,20 +1,21 @@
 ﻿public class KnowledgeSummaryUpdate(
     KnowledgeSummaryLoader knowledgeSummaryLoader,
-    UserSkillService userSkillService,
-    ExtendedUserCache extendedUserCache) : IRegisterAsInstancePerLifetime
+    UserSkillService userSkillService) : IRegisterAsInstancePerLifetime
 {
     public void RunForPage(int pageId, bool forProfilePage = false)
     {
-        //foreach (var pageValuation in pageValuationReadingRepository.GetByPage(pageId))
-        //{
-        //    Run(pageValuation, forProfilePage);
-        //}
+        // var allQuestions = EntityCache.GetQuestionsForPage(pageId);
+        // foreach (var pageValuation in pageValuationReadingRepository.GetByPage(pageId))
+        // {
+        //     Run(pageValuation, forProfilePage);
+        // }
     }
 
     public void RunForUser(int userId, bool forProfilePage = false)
     {
-        // Try to get from cache first
-        var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
+        var extendedUser = SlidingCache.GetExtendedUserById(userId);
+
+        //// Run for all skills
         var skills = extendedUser.GetAllSkills();
 
         if (skills.Any())
@@ -22,13 +23,12 @@
             foreach (var skill in skills)
                 Run(skill.PageId, userId, forProfilePage);
         }
+        //var allQuestionValuations = extendedUser.QuestionValuations.Values;
     }
 
     public void RunForUserAndPage(int userId, int pageId, bool forProfilePage = false)
     {
         Log.Information("RunForUserAndPage: userId: {0}, {1}", userId, pageId);
-        // Try to get from cache first
-        //var extendedUser = extendedUserCache.GetUser(userId);
         Run(pageId, userId, forProfilePage);
     }
 

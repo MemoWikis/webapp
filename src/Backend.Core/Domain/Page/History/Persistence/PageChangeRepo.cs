@@ -52,7 +52,9 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             pageCacheItem.AuthorIds = page.AuthorIdsInts.Distinct().ToArray();
             //the line should not be needed
             EntityCache.AddOrUpdate(pageCacheItem);
-            pageRepository.Update(page);
+
+            var meilisearchDocumentCheck = pageChangeType != PageChangeType.Create;
+            pageRepository.Update(page, meilisearchDocumentCheck: meilisearchDocumentCheck);
         }
 
         var parentIds = pageCacheItem.ParentRelations.Any()

@@ -1,5 +1,4 @@
 using NHibernate;
-using NHibernate.Criterion;
 
 public class UserSkillRepo(ISession session) : RepositoryDb<UserSkill>(session)
 {
@@ -8,7 +7,7 @@ public class UserSkillRepo(ISession session) : RepositoryDb<UserSkill>(session)
         return Session
             .QueryOver<UserSkill>()
             .Where(us => us.UserId == userId)
-            .OrderBy(us => us.AddedAt).Desc
+            .OrderBy(us => us.DateCreated).Desc
             .List();
     }
 
@@ -42,7 +41,7 @@ public class UserSkillRepo(ISession session) : RepositoryDb<UserSkill>(session)
         return Session
             .QueryOver<UserSkill>()
             .Where(us => us.PageId == pageId)
-            .OrderBy(us => us.AddedAt).Desc
+            .OrderBy(us => us.DateCreated).Desc
             .List();
     }
 }

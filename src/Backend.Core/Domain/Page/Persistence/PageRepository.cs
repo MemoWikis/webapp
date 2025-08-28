@@ -22,10 +22,9 @@ public class PageRepository(
 
         var pageCacheItem = PageCacheItem.ToCachePage(page);
         EntityCache.AddOrUpdate(pageCacheItem);
+        new MeilisearchPageIndexer().Create(page);
 
         pageChangeRepo.AddCreateEntry(this, page, page.Creator?.Id ?? -1);
-
-        new MeilisearchPageIndexer().Create(page);
     }
 
     public IList<Page> GetAllEager()
@@ -169,7 +168,8 @@ public class PageRepository(
         bool imageWasUpdated = false,
         bool isFromModifyRelations = false,
         PageChangeType type = PageChangeType.Update,
-        bool createPageChange = true)
+        bool createPageChange = true,
+        bool meilisearchDocumentCheck = true)
     {
         base.Update(page);
 
@@ -180,7 +180,7 @@ public class PageRepository(
 
         Flush();
         updateQuestionCountForPage.RunForJob(page, authorId);
-        new MeilisearchPageIndexer().Update(page);
+        new MeilisearchPageIndexer().Update(page, meilisearchDocumentCheck);
     }
 
     public void UpdateChildAndParentForRelations(Page child, Page parent, int authorId)

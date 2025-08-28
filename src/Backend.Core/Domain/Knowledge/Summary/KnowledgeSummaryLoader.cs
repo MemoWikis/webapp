@@ -2,7 +2,7 @@
     PageValuationReadingRepository pageValuationReadingRepository,
     ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
-    public KnowledgeSummary RunFromDbCache(Page page, int userId)
+    public KnowledgeSummary RunFromDb(Page page, int userId)
     {
         var pageValuation = pageValuationReadingRepository.GetBy(page.Id, userId);
 

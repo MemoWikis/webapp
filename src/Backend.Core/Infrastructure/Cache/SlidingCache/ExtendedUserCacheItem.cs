@@ -6,6 +6,7 @@ public class ExtendedUserCacheItem : UserCacheItem
     public ConcurrentDictionary<int, QuestionValuationCacheItem> QuestionValuations = new();
     public ConcurrentDictionary<int, AnswerRecord> AnswerCounter = new();
     private ConcurrentDictionary<int, KnowledgeEvaluationCacheItem> Skills = new();
+    private ConcurrentDictionary<int, KnowledgeSummary> KnowledgeSummaries = new();
 
     public void AddOrUpdateQuestionValuations(QuestionValuationCacheItem questionValuationCacheItem)
     {

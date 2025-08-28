@@ -30,7 +30,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
             UserId = userId,
             PageId = pageId,
             EvaluationJson = JsonConvert.SerializeObject(knowledgeSummary),
-            AddedAt = now,
+            DateCreated = now,
             LastUpdatedAt = now
         };
 
@@ -170,6 +170,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
                 extendedUser.AddOrUpdateSkill(cacheItem);
                 SlidingCache.AddOrUpdate(extendedUser);
             }
+
             return cacheItem;
         }
 

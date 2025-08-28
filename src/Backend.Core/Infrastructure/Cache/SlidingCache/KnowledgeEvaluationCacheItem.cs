@@ -41,7 +41,7 @@ public class KnowledgeEvaluationCacheItem
             UserId = userSkill.UserId,
             PageId = userSkill.PageId,
             KnowledgeSummary = knowledgeSummary,
-            AddedAt = userSkill.AddedAt,
+            AddedAt = userSkill.DateCreated,
             LastUpdatedAt = userSkill.LastUpdatedAt
         };
     }
