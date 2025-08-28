@@ -99,13 +99,13 @@ interface QuestionPageData {
 	isPrivate: boolean
 }
 const questionPageData = ref<QuestionPageData>()
-const setQuestionpageBreadcrumb = (e: QuestionPageData) => {
-	questionPageData.value = e
+const setQuestionpageBreadcrumb = (eventData: QuestionPageData) => {
+	questionPageData.value = eventData
 }
 
 const breadcrumbItems = ref<BreadcrumbItem[]>()
-const setBreadcrumb = (e: BreadcrumbItem[]) => {
-	breadcrumbItems.value = e
+const setBreadcrumb = (eventData: BreadcrumbItem[]) => {
+	breadcrumbItems.value = eventData
 }
 const route = useRoute()
 userStore.$onAction(({ name, after }) => {
@@ -131,7 +131,7 @@ userStore.$onAction(({ name, after }) => {
 		after(async (loginResult) => {
 			if (loginResult.success === true) {
 				await nextTick()
-				handleLogin()
+				onLogin()
 			}
 		})
 	}
@@ -140,7 +140,7 @@ userStore.$onAction(({ name, after }) => {
 		after(async (loggedIn) => {
 			if (loggedIn === true) {
 				await nextTick()
-				handleLogin()
+				onLogin()
 			}
 
 		})
@@ -161,7 +161,7 @@ userStore.$onAction(({ name, after }) => {
 	}
 })
 
-const handleLogin = async () => {
+const onLogin = async () => {
 	if (siteType.value === SiteType.Error)
 		return
 	if ((siteType.value === SiteType.Page || siteType.value === SiteType.Register) && route.params.id === rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
@@ -195,7 +195,7 @@ useHead(() => ({
 const { isMobile } = useDevice()
 const statusCode = ref<number>(0)
 
-const resetErrorState = () => {
+const clearErrorAndStatusCode = () => {
 	statusCode.value = 0
 	clearError()
 }
@@ -229,7 +229,8 @@ const logError = (error: any) => {
 				after((result) => {
 					if (result.cancelled === false && result.id === 'reloadPage')
 						window.location.reload()
-					else resetErrorState()
+					else
+						clearErrorAndStatusCode()
 				})
 			}
 		})
@@ -282,7 +283,7 @@ watch(locale, () => {
 			<template #error="{ error }">
 				<NuxtLayout>
 					<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
-						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="resetErrorState" />
+						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErrorAndStatusCode" />
 					<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages" :site="SiteType.Error" />
 				</NuxtLayout>
