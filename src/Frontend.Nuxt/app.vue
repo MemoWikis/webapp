@@ -298,12 +298,15 @@ watch(locale, () => {
 		<LazyAlert />
 		<LazyActivityPointsLevelPopUp />
 		<LazyImageLicenseDetailModal />
+		<LazySharedFigureExtensionModal />
 		<SnackBar />
 		<LazyPageConvertModal />
 	</ClientOnly>
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 .mobile-headings {
 	h2 {
 		font-size: 28px;
@@ -316,4 +319,5 @@ watch(locale, () => {
 		line-height: 1.2;
 	}
 }
-</style>
+
+// Import TipTap Figure Extension styles</style>

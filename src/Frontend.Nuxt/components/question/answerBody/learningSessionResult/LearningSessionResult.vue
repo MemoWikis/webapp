@@ -1,15 +1,10 @@
 <script lang="ts" setup>
-import { AnswerState } from '~/components/page/learning/learningSessionStore'
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { useUserStore } from '~~/components/user/userStore'
+import { Question } from './QuestionDetail.vue'
 
 const userStore = useUserStore()
 const emit = defineEmits(['startNewSession'])
-
-interface Step {
-    answerState: AnswerState
-    answerAsHtml?: string
-}
 
 interface LearningSessionResult {
     correct: {
@@ -29,13 +24,7 @@ interface LearningSessionResult {
         count: number
     }
     uniqueQuestionCount: number
-    questions: {
-        correctAnswerHtml: string
-        title: string
-        steps: Step[]
-        imgUrl: string
-        id: number
-    }[]
+    questions: Question[]
     pageName: string
     pageId: number
     inWuwi: boolean
@@ -63,7 +52,7 @@ const { t } = useI18n()
 
 <template>
     <div v-if="learningSessionResult">
-        <h2 style="margin-bottom: 15px; margin-top: 0px;">
+        <h2>
             {{ t('answerbody.learningSessionResult.heading') }}
         </h2>
 

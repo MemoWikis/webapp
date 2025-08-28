@@ -21,6 +21,8 @@ interface Props {
     parentVisibility: Visibility
     disabled?: boolean
     userIsCreatorOfParent: boolean
+    previousPageId?: number
+    nextPageId?: number
 }
 const props = defineProps<Props>()
 
@@ -113,7 +115,7 @@ async function onDrop() {
 
 const dragging = ref(false)
 const customDragImage = ref()
-function handleDragStart(e: DragEvent) {
+function handleDragStart(event: DragEvent) {
 
     const cdi = document.createElement('div')
     cdi.textContent = ''
@@ -123,7 +125,7 @@ function handleDragStart(e: DragEvent) {
 
     document.body.appendChild(cdi)
 
-    e.dataTransfer?.setDragImage(cdi, 0, 0)
+    event.dataTransfer?.setDragImage(cdi, 0, 0)
 
     if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.page.creatorId != userStore.id)) {
         if (userStore.isLoggedIn)
@@ -240,6 +242,14 @@ watch(() => dragStore.transferData, (t) => {
 
 const hoverPlaceholder = ref(false)
 
+const draggedPageId = computed(() => {
+    if (dragStore.isMovePageTransferData) {
+        const m = dragStore.transferData as MovePageTransferData
+        return m.page.id
+    }
+    return null
+})
+
 </script>
 
 <template>
@@ -263,13 +273,13 @@ const hoverPlaceholder = ref(false)
 
                     <template #topdropzone>
                         <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
-                            :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = true"
+                            :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = props.previousPageId != draggedPageId"
                             @dragleave="hoverTopHalf = false">
                         </div>
                     </template>
                     <template #bottomdropzone>
                         <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="dropzone bottom"
-                            :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
+                            :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = props.nextPageId != draggedPageId"
                             @dragleave="hoverBottomHalf = false">
                         </div>
                     </template>

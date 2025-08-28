@@ -3,13 +3,15 @@
 interface Props {
     title?: string
     noPadding?: boolean
-    size?: LayoutCardSize
+    size?: LayoutContentSize
+    backgroundColor?: string
 }
 
 withDefaults(defineProps<Props>(), {
     title: '',
     noPadding: false,
-    size: LayoutCardSize.Large
+    size: LayoutContentSize.Large,
+    backgroundColor: 'white'
 })
 
 
@@ -30,7 +32,7 @@ withDefaults(defineProps<Props>(), {
             </template>
 
         </div>
-        <div class="card-content" :class="{ 'no-padding': noPadding }">
+        <div class="card-content" :class="{ 'no-padding': noPadding }" :style="{ backgroundColor: backgroundColor }">
             <slot></slot>
         </div>
     </div>
@@ -54,13 +56,13 @@ withDefaults(defineProps<Props>(), {
     }
 
     &.size-medium {
-        @media (min-width: 768px) {
+        @media (min-width: @screen-sm) {
             width: calc(50% - 0.5rem);
         }
     }
 
     &.size-small {
-        @media (min-width: 768px) {
+        @media (min-width: @screen-sm) {
             width: calc(33.3333% - 0.666rem);
         }
 
@@ -78,7 +80,7 @@ withDefaults(defineProps<Props>(), {
     }
 
     &.size-tiny {
-        @media (min-width: 768px) {
+        @media (min-width: @screen-sm) {
             width: calc(25% - 0.75rem);
         }
 

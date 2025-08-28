@@ -74,7 +74,7 @@ public class AnswerBodyController(
         _saveQuestionView.Run(question, _sessionUser.UserId);
 
         var primaryPage = question.Pages.LastOrDefault();
-        var title = Regex.Replace(question.Text, "<.*?>", String.Empty);
+        var title = SafeQuestionTitle.Get(question.Text);
         var learningBody = new LearningBody(
             Id: question.Id,
             Text: question.Text,

@@ -712,6 +712,7 @@ export const usePageStore = defineStore('pageStore', () => {
 
     // Getters
     const getPageName = computed(() => name.value)
+    const hasVisibleDirectChildren = computed(() => directVisibleChildPageCount.value > 0)
 
     return {
         // State
@@ -794,5 +795,6 @@ export const usePageStore = defineStore('pageStore', () => {
         
         // Getters
         getPageName,
+        hasVisibleDirectChildren
     }
 })
