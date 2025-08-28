@@ -10,7 +10,7 @@ const userStore = useUserStore()
 const emit = defineEmits(['setPage'])
 emit('setPage', SiteType.MissionControl)
 
-const { t } = useI18n()
+const { t, locale, setLocale } = useI18n()
 
 useHead({
     title: t('missionControl.heading')
@@ -27,7 +27,6 @@ const { data: dashboardData } = await useFetch<UserDashboardData>('/apiVue/Missi
 
 const { isMobile } = useDevice()
 
-const { locale, setLocale } = useI18n()
 const route = useRoute()
 
 onBeforeMount(async () => {
