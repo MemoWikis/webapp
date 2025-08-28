@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 public class QuickCreateQuestionController(
     SessionUser _sessionUser,
@@ -34,7 +33,7 @@ public class QuickCreateQuestionController(
     [HttpPost]
     public CreateFlashcardResponse CreateFlashcard([FromBody] CreateFlashcardRequest request)
     {
-        var safeText = GetSafeText(request.TextHtml);
+        var safeText = SafeQuestionTitle.Get(request.TextHtml);
 
         if (string.IsNullOrEmpty(safeText))
         {
@@ -106,10 +105,5 @@ public class QuickCreateQuestionController(
                 _questionReadingRepo,
                 _learningSessionCache).LoadQuestion(question.Id).SessionIndex
         };
-    }
-
-    private string GetSafeText(string text)
-    {
-        return Regex.Replace(text, "<.*?>", "");
     }
 }

@@ -89,7 +89,8 @@ public class ImageStore(
 
     public string RunPageContentUploadAndGetPath(IFormFile imageFile, int pageId, int userId, string licenseGiverName)
     {
-        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo).Create<PageContentImageSettings>(pageId);
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo)
+            .Create<PageContentImageSettings>(pageId);
 
         imageSettings.Init(pageId);
 
@@ -102,9 +103,11 @@ public class ImageStore(
         return path;
     }
 
-    public string RunQuestionContentUploadAndGetPath(IFormFile imageFile, int questionId, int userId, string licenseGiverName)
+    public string RunQuestionContentUploadAndGetPath(IFormFile imageFile, int questionId, int userId,
+        string licenseGiverName)
     {
-        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo).Create<QuestionContentImageSettings>(questionId);
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo)
+            .Create<QuestionContentImageSettings>(questionId);
 
         imageSettings.Init(questionId);
 
@@ -113,7 +116,9 @@ public class ImageStore(
 
         using var stream = imageFile.OpenReadStream();
 
-        var path = questionId > 0 ? SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings) : SaveImageToFile.SaveTempQuestionContentImageAndGetPath(stream, imageSettings);
+        var path = questionId > 0
+            ? SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings)
+            : SaveImageToFile.SaveTempQuestionContentImageAndGetPath(stream, imageSettings);
         return path;
     }
 }

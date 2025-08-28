@@ -9,7 +9,7 @@ import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 import History from '@tiptap/extension-history'
 import { all, createLowlight } from 'lowlight'
-import ImageResize from '~~/components/shared/imageResizeExtension'
+import FigureExtension from '~~/components/shared/figureExtension'
 import { Indent } from '../../editor/indent'
 import UploadImage from '~/components/shared/imageUploadExtension'
 
@@ -176,7 +176,7 @@ const initEditor = () => {
                 showOnlyCurrent: true,
             }),
             Underline,
-            ImageResize.configure({
+            FigureExtension.configure({
                 inline: true,
                 allowBase64: true
             }),
@@ -275,7 +275,7 @@ const initEditor = () => {
         editorProps: {
             handlePaste: (view, pos, event) => {
                 const firstNode = event.content.firstChild
-                if (firstNode != null && firstNode.type.name === 'image') {
+                if (firstNode != null && (firstNode.type.name === 'image' || firstNode.type.name === 'figure')) {
                     if (!isEmpty(firstNode.attrs)) {
                         const src = firstNode.attrs.src
                         if (src.startsWith('data:image')) {

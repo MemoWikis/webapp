@@ -1,18 +1,26 @@
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
     title: {
         type: String,
         default: '',
-    }
+    },
+    collapsable: {
+        type: Boolean,
+        default: true
+    },
 })
 
 const showContent = ref(true)
 const { isMobile } = useDevice()
+const toggleContent = () => {
+    if (props.collapsable === false) return
+    showContent.value = !showContent.value
+}
 </script>
 
 <template>
     <div class="layout-panel">
-        <div class="panel-header" v-if="title" @click="showContent = !showContent">
+        <div class="panel-header" v-if="title" @click="toggleContent" :class="{ 'no-pointer': !collapsable }">
             <h2 class="panel-title">{{ title }}</h2>
             <div class="panel-actions">
                 <div class="collapse-toggle" :class="{ 'is-mobile': isMobile }">
@@ -53,8 +61,18 @@ const { isMobile } = useDevice()
         user-select: none;
         cursor: pointer;
 
+
+
         &:hover {
             background-color: @memo-grey-lighter;
+        }
+
+        &.no-pointer {
+            cursor: default;
+
+            &:hover {
+                background-color: @memo-grey-lightest;
+            }
         }
 
         .panel-title {

@@ -117,7 +117,7 @@ const deleteFlashcard = (index: number) => {
 
 <template>
     <Modal :show="show" @close="show = false" @primary-btn="acceptFlashcards" :show-cancel-btn="true"
-        :primary-btn-label="t('page.ai.flashcard.button.create')" content-class="wide-modal"
+        :primary-btn-label="t('page.ai.flashcard.button.create', flashcards.length)" content-class="wide-modal"
         :fullscreen="false" container-class="wide-modal"
         :show-close-button="true" :disabled="flashcards.length === 0">
         <template #body>

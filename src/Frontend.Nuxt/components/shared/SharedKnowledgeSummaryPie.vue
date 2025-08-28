@@ -42,7 +42,7 @@ const totalQuestions = computed(() => {
     justify-content: center;
     align-items: center;
 
-    @media (min-width: 768px) {
+    @media (min-width: @screen-sm) {
         margin: 0 10px 0 10px;
         flex: 0 0 150px;
     }

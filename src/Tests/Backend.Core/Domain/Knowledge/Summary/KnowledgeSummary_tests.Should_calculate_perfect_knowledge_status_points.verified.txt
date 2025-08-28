@@ -1,0 +1,8 @@
+﻿{
+  KnowledgeStatusPoints: 1.0001,
+  KnowledgeStatusPointsTotal: 1.0001,
+  Solid: 50,
+  Total: 50,
+  isPerfectKnowledge: true,
+  allQuestionsSolid: true
+}

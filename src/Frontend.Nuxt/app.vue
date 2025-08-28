@@ -72,11 +72,22 @@ const siteType = ref(SiteType.Default)
 
 const pageStore = usePageStore()
 
-function setPage(type: SiteType | undefined | null = null) {
+const setPage = async (type: SiteType | undefined | null = null) => {
 	if (type != null && type != undefined) {
 		siteType.value = type
 		if (type != SiteType.Page) {
-			pageStore.setPage(new Page())
+			await nextTick()
+			// Wait for navigation and DOM updates to complete
+			if (import.meta.client) {
+				await new Promise(resolve => requestAnimationFrame(() => {
+					requestAnimationFrame(resolve)
+				}))
+			}
+
+			// Additional delay to ensure page transition is complete
+			await new Promise(resolve => setTimeout(resolve, 150))
+
+			pageStore.clearPage()
 		}
 	}
 }
@@ -88,13 +99,13 @@ interface QuestionPageData {
 	isPrivate: boolean
 }
 const questionPageData = ref<QuestionPageData>()
-function setQuestionpageBreadcrumb(e: QuestionPageData) {
-	questionPageData.value = e
+const setQuestionpageBreadcrumb = (eventData: QuestionPageData) => {
+	questionPageData.value = eventData
 }
 
 const breadcrumbItems = ref<BreadcrumbItem[]>()
-function setBreadcrumb(e: BreadcrumbItem[]) {
-	breadcrumbItems.value = e
+const setBreadcrumb = (eventData: BreadcrumbItem[]) => {
+	breadcrumbItems.value = eventData
 }
 const route = useRoute()
 userStore.$onAction(({ name, after }) => {
@@ -120,7 +131,7 @@ userStore.$onAction(({ name, after }) => {
 		after(async (loginResult) => {
 			if (loginResult.success === true) {
 				await nextTick()
-				handleLogin()
+				onLogin()
 			}
 		})
 	}
@@ -129,7 +140,7 @@ userStore.$onAction(({ name, after }) => {
 		after(async (loggedIn) => {
 			if (loggedIn === true) {
 				await nextTick()
-				handleLogin()
+				onLogin()
 			}
 
 		})
@@ -150,7 +161,7 @@ userStore.$onAction(({ name, after }) => {
 	}
 })
 
-async function handleLogin() {
+const onLogin = async () => {
 	if (siteType.value === SiteType.Error)
 		return
 	if ((siteType.value === SiteType.Page || siteType.value === SiteType.Register) && route.params.id === rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
@@ -184,12 +195,12 @@ useHead(() => ({
 const { isMobile } = useDevice()
 const statusCode = ref<number>(0)
 
-function clearErr() {
+const clearErrorAndStatusCode = () => {
 	statusCode.value = 0
 	clearError()
 }
 
-function logError(error: any) {
+const logError = (error: any) => {
 
 	const errorObject = {
 		error: error,
@@ -218,7 +229,8 @@ function logError(error: any) {
 				after((result) => {
 					if (result.cancelled === false && result.id === 'reloadPage')
 						window.location.reload()
-					else clearErr()
+					else
+						clearErrorAndStatusCode()
 				})
 			}
 		})
@@ -271,7 +283,7 @@ watch(locale, () => {
 			<template #error="{ error }">
 				<NuxtLayout>
 					<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
-						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErr" />
+						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErrorAndStatusCode" />
 					<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages" :site="SiteType.Error" />
 				</NuxtLayout>
@@ -287,12 +299,15 @@ watch(locale, () => {
 		<LazyAlert />
 		<LazyActivityPointsLevelPopUp />
 		<LazyImageLicenseDetailModal />
+		<LazySharedFigureExtensionModal />
 		<SnackBar />
 		<LazyPageConvertModal />
 	</ClientOnly>
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 .mobile-headings {
 	h2 {
 		font-size: 28px;
@@ -305,4 +320,5 @@ watch(locale, () => {
 		line-height: 1.2;
 	}
 }
-</style>
+
+// Import TipTap Figure Extension styles</style>

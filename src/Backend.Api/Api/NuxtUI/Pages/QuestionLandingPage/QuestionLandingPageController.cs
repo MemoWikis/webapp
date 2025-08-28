@@ -98,7 +98,7 @@ public class QuestionLandingPageController(
         CheckParentLanguageConsistency(pages, question.Id);
         var primaryPage = pages.LastOrDefault();
         var solution = GetQuestionSolution.Run(question);
-        var title = Regex.Replace(question.Text, "<.*?>", string.Empty);
+        var title = SafeQuestionTitle.Get(question.Text);
         EscapeReferencesText(question.References);
 
         _saveQuestionView.Run(question, _sessionUser.UserId);
