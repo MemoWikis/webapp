@@ -2,54 +2,140 @@
     KnowledgeSummaryLoader knowledgeSummaryLoader,
     UserSkillService userSkillService) : IRegisterAsInstancePerLifetime
 {
-    public void RunForPage(int pageId, bool forProfilePage = false)
+    public void UpdateSkillsByPage(int pageId)
     {
-        // var allQuestions = EntityCache.GetQuestionsForPage(pageId);
-        // foreach (var pageValuation in pageValuationReadingRepository.GetByPage(pageId))
-        // {
-        //     Run(pageValuation, forProfilePage);
-        // }
+        // Get all active extended users and find users who have a skill for this page
+        var allActiveExtendedUsers = SlidingCache.GetAllActiveExtendedUsers();
+        
+        foreach (var userCache in allActiveExtendedUsers)
+        {
+            var existingSkill = userCache.GetSkill(pageId);
+            if (existingSkill != null)
+            {
+                Log.Information("Updating skill for userId: {0}, pageId: {1}", userCache.Id, pageId);
+                UpdateSkill(pageId, userCache.Id);
+            }
+        }
     }
 
-    public void RunForUser(int userId, bool forProfilePage = false)
+    public void UpdateKnowledgeSummariesByPage(int pageId)
+    {
+        // Get all active extended users and find users who have a knowledge summary for this page
+        var allActiveExtendedUsers = SlidingCache.GetAllActiveExtendedUsers();
+        
+        foreach (var userCache in allActiveExtendedUsers)
+        {
+            var existingKnowledgeSummary = userCache.GetKnowledgeSummary(pageId);
+            if (existingKnowledgeSummary != null)
+            {
+                Log.Information("Updating knowledge summary for userId: {0}, pageId: {1}", userCache.Id, pageId);
+                UpdateKnowledgeSummary(pageId, userCache.Id);
+            }
+        }
+    }
+
+    public void UpdateSkillsByUser(int userId)
     {
         var extendedUser = SlidingCache.GetExtendedUserById(userId);
 
-        //// Run for all skills
+        // Update all skills for the user
         var skills = extendedUser.GetAllSkills();
 
         if (skills.Any())
         {
             foreach (var skill in skills)
-                Run(skill.PageId, userId, forProfilePage);
+                UpdateSkill(skill.PageId, userId);
         }
-        //var allQuestionValuations = extendedUser.QuestionValuations.Values;
+    }
+
+    public void UpdateKnowledgeSummariesByUser(int userId)
+    {
+        var extendedUser = SlidingCache.GetExtendedUserById(userId);
+
+        // Update all knowledge summaries for the user
+        var knowledgeSummaries = extendedUser.GetAllKnowledgeSummaries();
+
+        if (knowledgeSummaries.Any())
+        {
+            foreach (var knowledgeSummary in knowledgeSummaries)
+                UpdateKnowledgeSummary(knowledgeSummary.PageId, userId);
+        }
+    }
+
+    public void UpdateSkillForUserAndPage(int userId, int pageId)
+    {
+        Log.Information("UpdateSkillForUserAndPage: userId: {0}, pageId: {1}", userId, pageId);
+        UpdateSkill(pageId, userId);
+    }
+
+    public void UpdateKnowledgeSummaryForUserAndPage(int userId, int pageId)
+    {
+        Log.Information("UpdateKnowledgeSummaryForUserAndPage: userId: {0}, pageId: {1}", userId, pageId);
+        UpdateKnowledgeSummary(pageId, userId);
+    }
+
+    private void UpdateSkill(int pageId, int userId)
+    {
+        var knowledgeSummary = knowledgeSummaryLoader.RunForProfilePage(
+            userId,
+            pageId,
+            onlyValuated: false);
+
+        var extendedUser = SlidingCache.GetExtendedUserById(userId);
+        
+        if (extendedUser != null)
+        {
+            // Update user skills in cache
+            var existingSkillFromCache = extendedUser.GetSkill(pageId);
+            if (existingSkillFromCache != null)
+                userSkillService.UpdateUserSkill(existingSkillFromCache, knowledgeSummary);
+        }
+    }
+
+    private void UpdateKnowledgeSummary(int pageId, int userId)
+    {
+        var knowledgeSummary = knowledgeSummaryLoader.Run(
+            userId,
+            pageId,
+            onlyValuated: false);
+
+        var extendedUser = SlidingCache.GetExtendedUserById(userId);
+        
+        if (extendedUser != null)
+        {
+                var knowledgeEvaluationCacheItem = new KnowledgeEvaluationCacheItem
+                {
+                    UserId = userId,
+                    PageId = pageId,
+                    KnowledgeSummary = knowledgeSummary,
+                    DateCreated = DateTime.Now,
+                    LastUpdatedAt = DateTime.Now
+                };
+                extendedUser.AddOrUpdateKnowledgeSummary(knowledgeEvaluationCacheItem);
+        }
+    }
+
+    public void RunForUser(int userId, bool forProfilePage = false)
+    {
+        if (forProfilePage)
+            UpdateSkillsByUser(userId);
+        else
+            UpdateKnowledgeSummariesByUser(userId);
+    }
+
+    public void RunForPage(int pageId, bool forProfilePage = false)
+    {
+        if (forProfilePage)
+            UpdateSkillsByPage(pageId);
+        else
+            UpdateKnowledgeSummariesByPage(pageId);
     }
 
     public void RunForUserAndPage(int userId, int pageId, bool forProfilePage = false)
     {
-        Log.Information("RunForUserAndPage: userId: {0}, {1}", userId, pageId);
-        Run(pageId, userId, forProfilePage);
-    }
-
-    private void Run(int pageId, int userId, bool forProfilePage = false)
-    {
-        var knowledgeSummary = forProfilePage
-            ? knowledgeSummaryLoader.RunForProfilePage(
-                userId,
-                pageId,
-                onlyValuated: false)
-            : knowledgeSummaryLoader.Run(
-                userId,
-                pageId,
-                onlyValuated: false);
-
-        // Update user skills in cache if the page exists and the user has an extended cache
-        var existingSkillFromCache = SlidingCache
-            .GetExtendedUserById(userId)?
-            .GetSkill(pageId);
-
-        if (existingSkillFromCache != null)
-            userSkillService.UpdateUserSkill(existingSkillFromCache, knowledgeSummary);
+        if (forProfilePage)
+            UpdateSkillForUserAndPage(userId, pageId);
+        else
+            UpdateKnowledgeSummaryForUserAndPage(userId, pageId);
     }
 }

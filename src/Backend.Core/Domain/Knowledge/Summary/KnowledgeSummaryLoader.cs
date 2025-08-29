@@ -45,7 +45,7 @@
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var userValuations = _extendedUserCache.GetItem(userId)?.QuestionValuations;
+        var userValuations = SlidingCache.GetExtendedUserById(userId).QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 
@@ -106,8 +106,8 @@
         if (userId <= 0 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
 
-        var questionValuations =
-            new QuestionValuationCache(_extendedUserCache).GetByUserFromCache(userId);
+        var questionValuations = SlidingCache.GetExtendedUserById(userId).GetAllQuestionValuations();
+        
         if (onlyValuated)
             questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
         if (questionIds != null)

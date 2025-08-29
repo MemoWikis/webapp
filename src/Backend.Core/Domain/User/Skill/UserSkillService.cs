@@ -90,7 +90,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
         var page = EntityCache.GetPage(userSkill.PageId);
         if (page != null)
         {
-            var cacheItem = KnowledgeEvaluationCacheItem.FromUserSkill(userSkill, page.Name, page.IsWiki);
+            var cacheItem = KnowledgeEvaluationCacheItem.FromUserSkill(userSkill);
 
             // Also update user's extended cache if it exists
             var extendedUser = EntityCache.GetExtendedUserByIdNullable(userSkill.UserId);
@@ -134,7 +134,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
 
             if (dbSkill != null && page != null)
             {
-                var cacheItem = KnowledgeEvaluationCacheItem.FromUserSkill(dbSkill, page.Name, page.IsWiki);
+                var cacheItem = KnowledgeEvaluationCacheItem.FromUserSkill(dbSkill);
                 skillCacheItems.Add(cacheItem);
             }
         }
@@ -164,7 +164,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
 
         if (dbSkill != null && page != null)
         {
-            var cacheItem = KnowledgeEvaluationCacheItem.FromUserSkill(dbSkill, page.Name, page.IsWiki);
+            var cacheItem = KnowledgeEvaluationCacheItem.FromUserSkill(dbSkill);
             if (extendedUser != null)
             {
                 extendedUser.AddOrUpdateSkill(cacheItem);

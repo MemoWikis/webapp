@@ -9,7 +9,7 @@ public class KnowledgeEvaluationCacheItem
     public int UserId { get; set; }
     public int PageId { get; set; }
     public KnowledgeSummary KnowledgeSummary { get; set; }
-    public DateTime AddedAt { get; set; }
+    public DateTime DateCreated { get; set; }
     public DateTime? LastUpdatedAt { get; set; }
 
     public KnowledgeEvaluationCacheItem()
@@ -17,7 +17,7 @@ public class KnowledgeEvaluationCacheItem
         KnowledgeSummary = new KnowledgeSummary();
     }
 
-    public static KnowledgeEvaluationCacheItem FromUserSkill(UserSkill userSkill, string pageName, bool isWiki)
+    public static KnowledgeEvaluationCacheItem FromUserSkill(UserSkill userSkill)
     {
         var knowledgeSummary = new KnowledgeSummary();
 
@@ -41,7 +41,7 @@ public class KnowledgeEvaluationCacheItem
             UserId = userSkill.UserId,
             PageId = userSkill.PageId,
             KnowledgeSummary = knowledgeSummary,
-            AddedAt = userSkill.DateCreated,
+            DateCreated = userSkill.DateCreated,
             LastUpdatedAt = userSkill.LastUpdatedAt
         };
     }
