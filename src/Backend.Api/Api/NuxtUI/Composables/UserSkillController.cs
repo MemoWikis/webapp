@@ -1,5 +1,3 @@
-using static MissionControlController;
-
 public class UserSkillController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
