@@ -104,7 +104,7 @@ public class PageStoreController(
     public KnowledgeSummaryResult GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
         var sessionUserId = _sessionUser?.UserId ?? -1;
-        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, sessionUserId);
+        var knowledgeSummary = _knowledgeSummaryLoader.RunFromCache(pageId: id, sessionUserId, maxCacheAgeInMinutes: 0);
 
         return new KnowledgeSummaryResult
         {

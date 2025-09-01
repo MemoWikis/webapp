@@ -1,6 +1,3 @@
-using Autofac;
-using NUnit.Framework;
-
 [TestFixture]
 internal class RebusSessionManagement_tests : BaseTestHarness
 {
@@ -11,7 +8,7 @@ internal class RebusSessionManagement_tests : BaseTestHarness
         await ReloadCaches();
         var context = NewPageContext();
         var creator = _testHarness.GetDefaultSessionUserFromDb();
-        
+
         context.Add("testPage", creator: creator).Persist();
         var page = context.All.ByName("testPage");
 
@@ -22,19 +19,19 @@ internal class RebusSessionManagement_tests : BaseTestHarness
         // Simulate background processing - since we can't easily access the root container,
         // let's just verify that KnowledgeSummaryUpdate works when resolved normally
         var knowledgeSummaryUpdate = R<KnowledgeSummaryUpdate>();
-        
+
         // This should work without session issues
-        Assert.DoesNotThrow(() => 
+        Assert.DoesNotThrow(() =>
         {
             knowledgeSummaryUpdate.RunForPage(page.Id, forProfilePage: false);
         });
 
-        Assert.DoesNotThrow(() => 
+        Assert.DoesNotThrow(() =>
         {
             knowledgeSummaryUpdate.RunForUser(creator.Id, forProfilePage: false);
         });
 
-        Assert.DoesNotThrow(() => 
+        Assert.DoesNotThrow(() =>
         {
             knowledgeSummaryUpdate.RunForUserAndPage(creator.Id, page.Id, forProfilePage: false);
         });
@@ -47,20 +44,20 @@ internal class RebusSessionManagement_tests : BaseTestHarness
         await ReloadCaches();
         var context = NewPageContext();
         var creator = _testHarness.GetDefaultSessionUserFromDb();
-        
+
         context.Add("testPage", creator: creator).Persist();
         var page = context.All.ByName("testPage");
 
         // Simulate background processing - test that repository works normally
         var pageValuationRepo = R<PageValuationReadingRepository>();
-        
-        Assert.DoesNotThrow(() => 
+
+        Assert.DoesNotThrow(() =>
         {
             var valuations = pageValuationRepo.GetByPage(page.Id);
             // Should not throw session exceptions
         });
 
-        Assert.DoesNotThrow(() => 
+        Assert.DoesNotThrow(() =>
         {
             var userValuations = pageValuationRepo.GetByUser(creator.Id);
             // Should not throw session exceptions
@@ -74,16 +71,16 @@ internal class RebusSessionManagement_tests : BaseTestHarness
         await ReloadCaches();
         var context = NewPageContext();
         var creator = _testHarness.GetDefaultSessionUserFromDb();
-        
+
         context.Add("testPage", creator: creator).Persist();
         var page = context.All.ByName("testPage");
 
         // Test that KnowledgeSummaryLoader works with SessionlessUser
         var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
-        
-        Assert.DoesNotThrow(() => 
+
+        Assert.DoesNotThrow(() =>
         {
-            var summary = knowledgeSummaryLoader.RunFromMemoryCache(page.Id, creator.Id);
+            var summary = knowledgeSummaryLoader.RunFromCache(page.Id, creator.Id);
             Assert.That(summary, Is.Not.Null);
         });
     }
@@ -95,7 +92,7 @@ internal class RebusSessionManagement_tests : BaseTestHarness
         await ReloadCaches();
         var context = NewPageContext();
         var creator1 = _testHarness.GetDefaultSessionUserFromDb();
-        
+
         // Create a second user
         var userContext = context.ContextUser;
         userContext.Add("SecondUser").Persist();
@@ -111,12 +108,12 @@ internal class RebusSessionManagement_tests : BaseTestHarness
         var knowledgeSummaryUpdate2 = R<KnowledgeSummaryUpdate>();
 
         // Both should work independently
-        Assert.DoesNotThrow(() => 
+        Assert.DoesNotThrow(() =>
         {
             knowledgeSummaryUpdate1.RunForUserAndPage(creator1.Id, page1.Id, false);
         });
 
-        Assert.DoesNotThrow(() => 
+        Assert.DoesNotThrow(() =>
         {
             knowledgeSummaryUpdate2.RunForUserAndPage(creator2.Id, page2.Id, false);
         });
@@ -129,13 +126,13 @@ internal class RebusSessionManagement_tests : BaseTestHarness
         for (int i = 0; i < 5; i++)
         {
             // Should be able to resolve basic services
-            Assert.DoesNotThrow(() => 
+            Assert.DoesNotThrow(() =>
             {
                 var session = R<NHibernate.ISession>();
                 Assert.That(session, Is.Not.Null);
             });
 
-            Assert.DoesNotThrow(() => 
+            Assert.DoesNotThrow(() =>
             {
                 var knowledgeSummaryUpdate = R<KnowledgeSummaryUpdate>();
                 Assert.That(knowledgeSummaryUpdate, Is.Not.Null);

@@ -1,92 +1,25 @@
-﻿public class KnowledgeSummaryLoader(
-    PageValuationReadingRepository pageValuationReadingRepository,
-    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
+﻿public class KnowledgeSummaryLoader(KnowledgeSummaryUpdateService knowledgeSummaryUpdateService, KnowledgeSummaryUpdate knowledgeSummaryUpdate) : IRegisterAsInstancePerLifetime
 {
-    public KnowledgeSummary RunFromDb(Page page, int userId)
+    public KnowledgeSummary RunFromCache(int pageId, int userId, int maxCacheAgeInMinutes = 10)
     {
-        var pageValuation = pageValuationReadingRepository.GetBy(page.Id, userId);
+        var knowledgeEvaluationCacheItem = SlidingCache.GetExtendedUserById(userId).GetKnowledgeSummary(pageId);
 
-        if (pageValuation == null)
+        if (knowledgeEvaluationCacheItem != null && maxCacheAgeInMinutes > 0)
         {
-            return new KnowledgeSummary(notInWishKnowledge: page.CountQuestionsAggregated);
-        }
-
-        return new KnowledgeSummary(
-            notLearned: pageValuation.CountNotLearned,
-            needsLearning: pageValuation.CountNeedsLearning,
-            needsConsolidation: pageValuation.CountNeedsConsolidation,
-            solid: pageValuation.CountSolid,
-            notInWishKnowledge: Math.Max(0,
-                page.CountQuestionsAggregated - pageValuation.CountNotLearned -
-                pageValuation.CountNeedsLearning - pageValuation.CountNeedsConsolidation -
-                pageValuation.CountSolid)
-        );
-    }
-
-    public KnowledgeSummary RunFromMemoryCache(int pageId, int userId)
-    {
-        var page = EntityCache.GetPage(pageId);
-        if (page == null)
-            return new KnowledgeSummary();
-
-        return RunFromMemoryCache(page, userId);
-    }
-
-    public KnowledgeSummary RunFromMemoryCache(PageCacheItem pageCacheItem, int userId)
-    {
-        var aggregatedQuestions = new List<QuestionCacheItem>();
-
-        var sessionlessUser = new SessionlessUser(userId);
-        var aggregatedPages = pageCacheItem.AggregatedPages(new PermissionCheck(sessionlessUser), includingSelf: true);
-
-        foreach (var currentPage in aggregatedPages)
-        {
-            aggregatedQuestions.AddRange(EntityCache.GetQuestionsForPage(currentPage.Key));
-        }
-
-        aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var userValuations = SlidingCache.GetExtendedUserById(userId).QuestionValuations;
-        var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
-        int countNoValuation = 0;
-
-        foreach (var question in aggregatedQuestions)
-        {
-            if (userValuations != null && userValuations.ContainsKey(question.Id))
+            if (knowledgeEvaluationCacheItem.LastUpdatedAt >= DateTime.UtcNow.AddMinutes(-maxCacheAgeInMinutes))
             {
-                var valuation = userValuations[question.Id];
+                var cachedKnowledgeSummary = knowledgeEvaluationCacheItem.KnowledgeSummary;
 
-                if (valuation != null)
-                    aggregatedQuestionValuations.Add(valuation);
+                knowledgeSummaryUpdateService.ScheduleUserAndPageUpdate(userId, pageId);
 
-                else
-                    countNoValuation++;
+                return cachedKnowledgeSummary;
             }
-            else
-                countNoValuation++;
         }
 
-        var knowledgeSummary = new KnowledgeSummary(
-            notInWishKnowledge: countNoValuation,
-            notLearned: aggregatedQuestionValuations.Count(v =>
-                v.KnowledgeStatus == KnowledgeStatus.NotLearned),
-            needsLearning: aggregatedQuestionValuations.Count(v =>
-                v.KnowledgeStatus == KnowledgeStatus.NeedsLearning),
-            needsConsolidation: aggregatedQuestionValuations.Count(v =>
-                v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation),
-            solid: aggregatedQuestionValuations.Count(v =>
-                v.KnowledgeStatus == KnowledgeStatus.Solid)
-        );
+        var knowledgeSummary = Run(userId, pageId, onlyValuated: false);
+        knowledgeSummaryUpdate.UpdateKnowledgeSummary(pageId, userId, knowledgeSummary);
 
         return knowledgeSummary;
-    }
-
-    public KnowledgeSummary RunForProfilePage(int userId, int pageId, bool onlyValuated = true)
-    {
-        var page = EntityCache.GetPage(pageId);
-        if (page == null)
-            return new KnowledgeSummary();
-
-        return Run(userId, page.GetAggregatedPublicQuestions().GetIds(), onlyValuated);
     }
 
     public KnowledgeSummary Run(int userId, int pageId, bool onlyValuated = true)
@@ -107,7 +40,7 @@
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
 
         var questionValuations = SlidingCache.GetExtendedUserById(userId).GetAllQuestionValuations();
-        
+
         if (onlyValuated)
             questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
         if (questionIds != null)

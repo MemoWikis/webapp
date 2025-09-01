@@ -78,6 +78,7 @@ public class PageDeleter(
             GraphService.RemoveDeletedPageViewsFromAscendants(pageCacheItem.Id, pageCacheItem.TotalViews);
 
             DeleteRelations(pageCacheItem, userId);
+            SlidingCache.RemovePage(pageCacheItem.Id);
             EntityCache.Remove(pageCacheItem, userId);
         }
 

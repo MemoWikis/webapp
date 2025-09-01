@@ -26,7 +26,7 @@ public static class SlidingCache
     {
         var cacheKey = $"{_extendedUserCacheKeyPrefix}{userId}";
         var extendedUser = MemoCache.Get<ExtendedUserCacheItem>(cacheKey);
-        
+
         if (extendedUser != null)
         {
             // Update tracking since this is a sliding expiration access
@@ -42,14 +42,14 @@ public static class SlidingCache
     {
         var cacheKey = $"{_extendedUserCacheKeyPrefix}{userId}";
         var extendedUser = MemoCache.Get<ExtendedUserCacheItem>(cacheKey);
-        
+
         if (extendedUser != null)
         {
             // Update tracking since this is a sliding expiration access
             var newExpirationTime = DateTime.UtcNow.AddSeconds(_defaultExpirationSeconds);
             _activeUserIds.AddOrUpdate(userId, newExpirationTime, (key, oldValue) => newExpirationTime);
         }
-        
+
         return extendedUser;
     }
 
@@ -58,7 +58,7 @@ public static class SlidingCache
         var activeUsers = new List<ExtendedUserCacheItem>();
         var now = DateTime.UtcNow;
         var expiredKeys = new List<int>();
-        
+
         foreach (var kvp in _activeUserIds.ToList())
         {
             if (kvp.Value > now) // Not expired according to our tracking
@@ -82,13 +82,13 @@ public static class SlidingCache
                 expiredKeys.Add(kvp.Key);
             }
         }
-        
+
         // Clean up expired tracking entries
         foreach (var key in expiredKeys)
         {
             _activeUserIds.TryRemove(key, out _);
         }
-        
+
         return activeUsers;
     }
 
@@ -97,7 +97,7 @@ public static class SlidingCache
         var cacheKey = $"{_extendedUserCacheKeyPrefix}{extendedUser.Id}";
         // Use AddWithSlidingExpiration for sliding expiration
         MemoCache.AddWithSlidingExpiration(cacheKey, extendedUser, TimeSpan.FromSeconds(expirationSeconds));
-        
+
         // Track the active user ID with expiration time
         var expirationTime = DateTime.UtcNow.AddSeconds(expirationSeconds);
         _activeUserIds.AddOrUpdate(extendedUser.Id, expirationTime, (key, oldValue) => expirationTime);
@@ -117,5 +117,16 @@ public static class SlidingCache
         MemoCache.Remove(cacheKey);
         // Remove from tracking
         _activeUserIds.TryRemove(userId, out _);
+    }
+
+    public static void RemovePage(int pageId)
+    {
+        var allActiveUsers = GetAllActiveExtendedUsers();
+
+        foreach (var user in allActiveUsers)
+        {
+            user.RemoveSkill(pageId);
+            user.RemoveKnowledgeSummary(pageId);
+        }
     }
 }

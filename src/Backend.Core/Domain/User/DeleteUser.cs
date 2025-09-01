@@ -35,6 +35,7 @@
     public void Run(int userId)
     {
         _userWritingRepo.DeleteFromAllTables(userId);
+        SlidingCache.RemoveExtendedUser(userId);
         EntityCache.RemoveUser(userId);
     }
 }

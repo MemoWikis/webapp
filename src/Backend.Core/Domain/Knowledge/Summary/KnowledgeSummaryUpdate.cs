@@ -6,7 +6,7 @@
     {
         // Get all active extended users and find users who have a skill for this page
         var allActiveExtendedUsers = SlidingCache.GetAllActiveExtendedUsers();
-        
+
         foreach (var userCache in allActiveExtendedUsers)
         {
             var existingSkill = userCache.GetSkill(pageId);
@@ -22,7 +22,7 @@
     {
         // Get all active extended users and find users who have a knowledge summary for this page
         var allActiveExtendedUsers = SlidingCache.GetAllActiveExtendedUsers();
-        
+
         foreach (var userCache in allActiveExtendedUsers)
         {
             var existingKnowledgeSummary = userCache.GetKnowledgeSummary(pageId);
@@ -76,13 +76,13 @@
 
     private void UpdateSkill(int pageId, int userId)
     {
-        var knowledgeSummary = knowledgeSummaryLoader.RunForProfilePage(
+        var knowledgeSummary = knowledgeSummaryLoader.Run(
             userId,
             pageId,
             onlyValuated: false);
 
         var extendedUser = SlidingCache.GetExtendedUserById(userId);
-        
+
         if (extendedUser != null)
         {
             // Update user skills in cache
@@ -99,19 +99,24 @@
             pageId,
             onlyValuated: false);
 
+        UpdateKnowledgeSummary(pageId, userId, knowledgeSummary);
+    }
+
+    public void UpdateKnowledgeSummary(int pageId, int userId, KnowledgeSummary knowledgeSummary)
+    {
         var extendedUser = SlidingCache.GetExtendedUserById(userId);
-        
+
         if (extendedUser != null)
         {
-                var knowledgeEvaluationCacheItem = new KnowledgeEvaluationCacheItem
-                {
-                    UserId = userId,
-                    PageId = pageId,
-                    KnowledgeSummary = knowledgeSummary,
-                    DateCreated = DateTime.Now,
-                    LastUpdatedAt = DateTime.Now
-                };
-                extendedUser.AddOrUpdateKnowledgeSummary(knowledgeEvaluationCacheItem);
+            var knowledgeEvaluationCacheItem = new KnowledgeEvaluationCacheItem
+            {
+                UserId = userId,
+                PageId = pageId,
+                KnowledgeSummary = knowledgeSummary,
+                DateCreated = DateTime.Now,
+                LastUpdatedAt = DateTime.Now
+            };
+            extendedUser.AddOrUpdateKnowledgeSummary(knowledgeEvaluationCacheItem);
         }
     }
 
