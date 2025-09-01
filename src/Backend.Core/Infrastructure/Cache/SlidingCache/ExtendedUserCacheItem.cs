@@ -96,6 +96,11 @@ public class ExtendedUserCacheItem : UserCacheItem
         return skill;
     }
 
+    public bool IsSkill(int pageId)
+    {
+        return Skills.ContainsKey(pageId);
+    }
+
     public List<KnowledgeEvaluationCacheItem> GetAllSkills()
     {
         return Skills.Values.ToList();

@@ -130,6 +130,14 @@
             public static readonly string NoFlashcardsCreatedCauseLimitAndPageIsPrivate =
                 "error.ai.noFlashcardsCreatedCauseLimitAndPageIsPrivate";
         }
+
+        public static class Skill
+        {
+            public static readonly string AlreadyExists = "error.skill.alreadyExists";
+            public static readonly string NotFound = "error.skill.notFound";
+            public static readonly string AddFailed = "error.skill.addFailed";
+            public static readonly string RemoveFailed = "error.skill.removeFailed";
+        }
     }
 
     public static class Info

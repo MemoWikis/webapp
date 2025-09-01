@@ -150,6 +150,12 @@
         "unauthorized": "Du bist nicht berechtigt, diese Aktion auszuführen.",
         "pageNotFound": "Die Seite wurde nicht gefunden.",
         "noPermission": "Du hast keine Berechtigung, diese Seite anzuzeigen.",
+        "skill": {
+            "alreadyExists": "Dieser Skill ist bereits in deiner Liste.",
+            "notFound": "Dieser Skill wurde nicht in deiner Liste gefunden.",
+            "addFailed": "Der Skill konnte nicht hinzugefügt werden.",
+            "removeFailed": "Der Skill konnte nicht entfernt werden."
+        },
         "skillAlreadyExists": "Dieser Skill ist bereits in deiner Liste.",
         "skillNotFound": "Dieser Skill wurde nicht in deiner Liste gefunden.",
         "addSkill": {

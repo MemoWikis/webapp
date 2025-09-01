@@ -5,130 +5,94 @@ public class UserSkillController(
     ExtendedUserCache _extendedUserCache,
     UserSkillService _userSkillService) : ApiBaseController
 {
-    public readonly record struct AddRequest(int PageId);
-
     public readonly record struct AddResult(
         bool Success,
         string ErrorMessageKey,
-        PageItem AddedSkill);
+        PageItem? AddedSkill = null);
 
-    public readonly record struct RemoveRequest(int PageId);
+    public readonly record struct RemoveRequest(int UserId, int PageId);
 
     public readonly record struct RemoveResult(
         bool Success,
         string ErrorMessageKey);
 
-    public readonly record struct CheckRequest(int PageId);
+    public readonly record struct CheckRequest(int UserId, int PageId);
 
-    public readonly record struct CheckResult(
-        bool IsSkill);
-
-    [HttpPost]
-    public CheckResult Check([FromRoute] int id, [FromBody] CheckRequest request)
+    [HttpGet]
+    public bool Check([FromBody] CheckRequest request)
     {
-        if (_sessionUser.UserId != id)
-        {
-            return new CheckResult(false);
-        }
+        if (_sessionUser.UserId != request.UserId)
+            return false;
 
-        try
-        {
-            var extendedUserCacheItem = _extendedUserCache.GetUser(id);
-            var existingSkill = extendedUserCacheItem.GetSkill(request.PageId);
-            
-            return new CheckResult(existingSkill != null);
-        }
-        catch (Exception)
-        {
-            return new CheckResult(false);
-        }
+        return _extendedUserCache.GetUser(request.UserId).IsSkill(request.PageId);
     }
 
     [HttpPost]
-    public AddResult Add([FromRoute] int id, [FromBody] AddRequest request)
+    public AddResult Add([FromRoute] int id)
     {
-        var defaultPageItem = new PageItem(0, "", "", 0, FillKnowledgeSummaryResponse(new KnowledgeSummary()));
+        if (!_sessionUser.IsLoggedIn)
+            throw new UnauthorizedAccessException(FrontendMessageKeys.Error.User.NotLoggedIn);
 
-        if (_sessionUser.UserId != id)
-        {
-            return new AddResult(false, "error.unauthorized", defaultPageItem);
-        }
+        var page = EntityCache.GetPage(id);
 
-        var page = EntityCache.GetPage(request.PageId);
         if (page == null)
         {
-            return new AddResult(false, "error.pageNotFound", defaultPageItem);
+            return new AddResult(false, FrontendMessageKeys.Error.Page.NotFound, null);
         }
 
         if (!_permissionCheck.CanView(page))
         {
-            return new AddResult(false, "error.noPermission", defaultPageItem);
+            return new AddResult(false, FrontendMessageKeys.Error.Page.NoRights, null);
         }
 
-        try
+        var extendedUserCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
+
+        // Check if skill already exists
+        var existingSkill = extendedUserCacheItem.GetSkill(id);
+        if (existingSkill != null)
         {
-            var extendedUserCacheItem = _extendedUserCache.GetUser(id);
-            
-            // Check if skill already exists
-            var existingSkill = extendedUserCacheItem.GetSkill(request.PageId);
-            if (existingSkill != null)
-            {
-                return new AddResult(false, "error.skillAlreadyExists", defaultPageItem);
-            }
-
-            // Use UserSkillService to create the skill
-            _userSkillService.CreateUserSkill(id, request.PageId);
-
-            // Get the newly created skill from cache to return it
-            var newSkill = extendedUserCacheItem.GetSkill(request.PageId);
-            if (newSkill != null)
-            {
-                var addedSkillPageItem = new PageItem(
-                    page.Id,
-                    page.Name,
-                    new PageImageSettings(page.Id, _httpContextAccessor).GetUrl_128px(true).Url,
-                    page.CountQuestions,
-                    FillKnowledgeSummaryResponse(newSkill.KnowledgeSummary));
-
-                return new AddResult(true, "", addedSkillPageItem);
-            }
-
-            return new AddResult(false, "error.addSkill.failed", defaultPageItem);
+            return new AddResult(false, FrontendMessageKeys.Error.Skill.AlreadyExists, null);
         }
-        catch (Exception)
+
+        // Use UserSkillService to create the skill
+        _userSkillService.CreateUserSkill(_sessionUser.UserId, id);
+
+        // Get the newly created skill from cache to return it
+        var newSkill = extendedUserCacheItem.GetSkill(id);
+        if (newSkill != null)
         {
-            return new AddResult(false, "error.addSkill.failed", defaultPageItem);
+            var addedSkillPageItem = new PageItem(
+                page.Id,
+                page.Name,
+                new PageImageSettings(page.Id, _httpContextAccessor).GetUrl_128px(true).Url,
+                page.CountQuestions,
+                FillKnowledgeSummaryResponse(newSkill.KnowledgeSummary));
+
+            return new AddResult(true, "", addedSkillPageItem);
         }
+
+        return new AddResult(false, FrontendMessageKeys.Error.Skill.AddFailed, null);
     }
 
     [HttpPost]
-    public RemoveResult Remove([FromRoute] int id, [FromBody] RemoveRequest request)
+    public RemoveResult Remove([FromRoute] int id)
     {
-        if (_sessionUser.UserId != id)
+        if (!_sessionUser.IsLoggedIn)
+            throw new UnauthorizedAccessException(FrontendMessageKeys.Error.User.NotLoggedIn);
+
+        var extendedUserCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
+
+        // Check if skill exists
+        var existingSkill = extendedUserCacheItem.GetSkill(id);
+        if (existingSkill == null)
         {
-            return new RemoveResult(false, "error.unauthorized");
+            return new RemoveResult(false, FrontendMessageKeys.Error.Skill.NotFound);
         }
 
-        try
-        {
-            var extendedUserCacheItem = _extendedUserCache.GetUser(id);
-            
-            // Check if skill exists
-            var existingSkill = extendedUserCacheItem.GetSkill(request.PageId);
-            if (existingSkill == null)
-            {
-                return new RemoveResult(false, "error.skillNotFound");
-            }
+        // Use UserSkillService to remove the skill
+        _userSkillService.RemoveUserSkill(_sessionUser.UserId, id);
 
-            // Use UserSkillService to remove the skill
-            _userSkillService.RemoveUserSkill(id, request.PageId);
-
-            return new RemoveResult(true, "");
-        }
-        catch (Exception)
-        {
-            return new RemoveResult(false, "error.removeSkill.failed");
-        }
+        return new RemoveResult(true, "");
     }
 
     private KnowledgeSummaryResponse FillKnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary)

@@ -1,9 +1,9 @@
 public readonly record struct PageItem(
-    int Id,
-    string Name,
-    string ImgUrl,
-    int? QuestionCount,
-    KnowledgeSummaryResponse KnowledgebarData,
+    int Id = 0,
+    string Name = "",
+    string ImgUrl = "",
+    int? QuestionCount = null,
+    KnowledgeSummaryResponse KnowledgebarData = new KnowledgeSummaryResponse(),
     int? Popularity = null);
 
 public readonly record struct KnowledgeSummaryResponse(

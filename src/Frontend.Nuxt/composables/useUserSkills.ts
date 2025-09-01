@@ -1,15 +1,10 @@
-export interface AddSkillRequest {
-    pageId: number
-}
+import { PageData } from "./missionControl/pageData"
+
 
 export interface AddSkillResult {
     success: boolean
     errorMessageKey: string
-    addedSkill: any
-}
-
-export interface RemoveSkillRequest {
-    pageId: number
+    addedSkill?: PageData | null 
 }
 
 export interface RemoveSkillResult {
@@ -21,20 +16,13 @@ export interface CheckSkillRequest {
     pageId: number
 }
 
-export interface CheckSkillResult {
-    isSkill: boolean
-}
-
 export const useUserSkills = () => {
-    const addSkill = async (userId: number, pageId: number): Promise<AddSkillResult> => {
+    const addSkill = async (pageId: number): Promise<AddSkillResult> => {
         try {
-            const result = await $api<AddSkillResult>(`/apiVue/UserSkill/Add/${userId}`, {
+            const result = await $api<AddSkillResult>(`/apiVue/UserSkill/Add/${pageId}`, {
                 method: 'POST',
                 mode: 'cors',
                 credentials: 'include',
-                body: {
-                    pageId: pageId
-                }
             })
             
             return result
@@ -50,13 +38,10 @@ export const useUserSkills = () => {
 
     const removeSkill = async (userId: number, pageId: number): Promise<RemoveSkillResult> => {
         try {
-            const result = await $api<RemoveSkillResult>(`/apiVue/UserSkill/Remove/${userId}`, {
+            const result = await $api<RemoveSkillResult>(`/apiVue/UserSkill/Remove/${pageId}`, {
                 method: 'POST',
                 mode: 'cors',
                 credentials: 'include',
-                body: {
-                    pageId: pageId
-                }
             })
             
             return result
@@ -69,13 +54,14 @@ export const useUserSkills = () => {
         }
     }
 
-    const checkSkill = async (userId: number, pageId: number): Promise<CheckSkillResult> => {
+    const checkSkill = async (userId: number, pageId: number): Promise<boolean> => {
         try {
-            const result = await $api<CheckSkillResult>(`/apiVue/UserSkill/Check/${userId}`, {
+            const result = await $api<boolean>(`/apiVue/UserSkill/Check/`, {
                 method: 'POST',
                 mode: 'cors',
                 credentials: 'include',
                 body: {
+                    userId: userId,
                     pageId: pageId
                 }
             })
@@ -83,9 +69,7 @@ export const useUserSkills = () => {
             return result
         } catch (error) {
             console.error('Error checking skill:', error)
-            return {
-                isSkill: false
-            }
+            return false
         }
     }
 

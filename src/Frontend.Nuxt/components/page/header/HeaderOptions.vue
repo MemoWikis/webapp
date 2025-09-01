@@ -33,7 +33,7 @@ const { t, localeProperties } = useI18n()
 const checkIfSkill = async () => {
     if (userStore.id && pageStore.id) {
         const result = await checkSkill(userStore.id, pageStore.id)
-        isSkill.value = result.isSkill
+        isSkill.value = result
     }
 }
 
@@ -50,7 +50,7 @@ const addToSkills = async () => {
     }
 
     try {
-        const result = await addSkill(userStore.id, pageStore.id)
+        const result = await addSkill(pageStore.id)
 
         if (result.success) {
             // Show success message or toast

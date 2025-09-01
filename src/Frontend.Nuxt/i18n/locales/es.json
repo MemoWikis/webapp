@@ -150,6 +150,12 @@
         "unauthorized": "No tienes autorización para realizar esta acción.",
         "pageNotFound": "La página no fue encontrada.",
         "noPermission": "No tienes permiso para ver esta página.",
+        "skill": {
+            "alreadyExists": "Esta habilidad ya está en tu lista.",
+            "notFound": "Esta habilidad no fue encontrada en tu lista.",
+            "addFailed": "La habilidad no pudo ser añadida.",
+            "removeFailed": "La habilidad no pudo ser eliminada."
+        },
         "skillAlreadyExists": "Esta habilidad ya está en tu lista.",
         "skillNotFound": "Esta habilidad no fue encontrada en tu lista.",
         "addSkill": {

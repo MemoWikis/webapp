@@ -150,6 +150,12 @@
         "unauthorized": "Vous n'êtes pas autorisé à effectuer cette action.",
         "pageNotFound": "La page n'a pas été trouvée.",
         "noPermission": "Vous n'avez pas la permission de voir cette page.",
+        "skill": {
+            "alreadyExists": "Cette compétence est déjà dans votre liste.",
+            "notFound": "Cette compétence n'a pas été trouvée dans votre liste.",
+            "addFailed": "La compétence n'a pas pu être ajoutée.",
+            "removeFailed": "La compétence n'a pas pu être supprimée."
+        },
         "skillAlreadyExists": "Cette compétence est déjà dans votre liste.",
         "skillNotFound": "Cette compétence n'a pas été trouvée dans votre liste.",
         "addSkill": {
