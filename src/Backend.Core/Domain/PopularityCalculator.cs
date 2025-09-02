@@ -10,8 +10,8 @@ public class PopularityCalculator : IRegisterAsInstancePerLifetime
             return 0;
 
         // Formula: views(1pt) + answers(2pts each) + totalRelevancePersonalEntries(5pts each)
-        var popularity = question.TotalViews * 1 + 
-                         question.TotalAnswers() * 2 + 
+        var popularity = question.TotalViews * 1 +
+                         question.TotalAnswers() * 2 +
                          question.TotalRelevancePersonalEntries * 5;
 
         if (question.Visibility == QuestionVisibility.Public)
@@ -32,9 +32,9 @@ public class PopularityCalculator : IRegisterAsInstancePerLifetime
         var normalizedIndirectQuestionPopularity = CalculateIndirectQuestionPopularityForPage(directQuestions, allAggregatedQuestions);
         var childPageViewPopularity = CalculateChildPageViewPopularity(page);
 
-        var totalPopularity = page.TotalViews + 
-                             normalizedDirectQuestionPopularity + 
-                             normalizedIndirectQuestionPopularity + 
+        var totalPopularity = (int)page.ViewsOfPast90Days.Sum(views => views.Count) +
+                             normalizedDirectQuestionPopularity +
+                             normalizedIndirectQuestionPopularity +
                              childPageViewPopularity;
 
         return Math.Max(0, totalPopularity);
@@ -46,7 +46,7 @@ public class PopularityCalculator : IRegisterAsInstancePerLifetime
     private int CalculateDirectQuestionPopularityForPage(IList<QuestionCacheItem> directQuestions)
     {
         var directQuestionPopularity = 0;
-        
+
         foreach (var question in directQuestions)
         {
             directQuestionPopularity += CalculateQuestionPopularity(question);
@@ -65,7 +65,7 @@ public class PopularityCalculator : IRegisterAsInstancePerLifetime
     {
         var indirectQuestionPopularity = 0;
         var directQuestionIds = directQuestions.Select(q => q.Id).ToHashSet();
-        
+
         var indirectQuestions = allAggregatedQuestions.Where(q => !directQuestionIds.Contains(q.Id));
         foreach (var question in indirectQuestions)
         {
@@ -89,7 +89,7 @@ public class PopularityCalculator : IRegisterAsInstancePerLifetime
         {
             // Only count direct page views from children, not their questions
             // to avoid exponential complexity
-            totalChildPopularity += childPage.TotalViews;
+            totalChildPopularity += (int)childPage.ViewsOfPast90Days.Sum(views => views.Count);
         }
 
         // Apply a factor to reduce child contribution (0.2 = 20% weight)
