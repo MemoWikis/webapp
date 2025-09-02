@@ -12,7 +12,7 @@ public class QuestionWritingRepo(
     SessionUser _sessionUser,
     PageChangeRepo _pageChangeRepo,
     PageRepository _pageRepository,
-    KnowledgeSummaryUpdateService _knowledgeSummaryUpdateService,
+    KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher,
     UpdateAggregatedPagesService _updateAggregatedPagesService) : RepositoryDbBase<Question>(_nhibernateSession)
 {
     public override void Create(Question question)
@@ -31,7 +31,7 @@ public class QuestionWritingRepo(
         {
             page.UpdateCountQuestionsAggregated(question.Creator.Id);
             _pageRepository.Update(page);
-            _knowledgeSummaryUpdateService.SchedulePageUpdate(page.Id);
+            _knowledgeSummaryUpdateDispatcher.SchedulePageUpdateAsync(page.Id);
         }
 
         if (question.Visibility != QuestionVisibility.Private)

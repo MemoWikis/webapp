@@ -3,7 +3,7 @@
     UserReadingRepo _userReadingRepo,
     PageRelationRepo _pageRelationRepo,
     UserWritingRepo _userWritingRepo,
-    KnowledgeSummaryUpdateService _knowledgeSummaryUpdateService)
+    KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher)
     : IRegisterAsInstancePerLifetime
 {
     public readonly record struct CreateResult(
@@ -39,7 +39,7 @@
         LanguageExtensions.AddContentLanguageToUser(user, page.Language);
         _userWritingRepo.Update(user);
 
-        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo, _knowledgeSummaryUpdateService);
+        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo, _knowledgeSummaryUpdateDispatcher);
         modifyRelationsForPage.AddChild(parentPageId, page.Id, sessionUser.UserId);
 
         return new CreateResult

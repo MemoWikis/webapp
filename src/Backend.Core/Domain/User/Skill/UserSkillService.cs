@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 /// <summary>
 /// Service for managing user skills - automatically calculated based on question answering performance
 /// </summary>
-public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdateService knowledgeSummaryUpdateService) : IRegisterAsInstancePerLifetime
+public class UserSkillService(UserSkillRepo _userSkillRepo, KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher) : IRegisterAsInstancePerLifetime
 {
     /// <summary>
     /// Calculate and update user skill based on their question performance for a specific page/wiki
@@ -34,10 +34,10 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
             LastUpdatedAt = now
         };
 
-        userSkillRepo.Create(newSkill);
-        var dbSkill = userSkillRepo.GetByUserAndPage(userId, pageId);
+        _userSkillRepo.Create(newSkill);
+        var dbSkill = _userSkillRepo.GetByUserAndPage(userId, pageId);
         AddNewSkillToCache(dbSkill);
-        knowledgeSummaryUpdateService.ScheduleUserAndPageUpdateForProfilePage(userId, pageId);
+        _knowledgeSummaryUpdateDispatcher.ScheduleUserAndPageUpdateForProfilePageAsync(userId, pageId);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
 
     private void AddNewSkillToCache(UserSkill newSkill)
     {
-        var dbSkill = userSkillRepo.GetByUserAndPage(newSkill.UserId, newSkill.PageId);
+        var dbSkill = _userSkillRepo.GetByUserAndPage(newSkill.UserId, newSkill.PageId);
         UpdateSkillInCache(dbSkill);
     }
 
@@ -72,13 +72,13 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
             extendedUser.AddOrUpdateSkill(knowledgeEvaluationCacheItem);
         }
 
-        var existingSkill = userSkillRepo.GetById(knowledgeEvaluationCacheItem.Id);
+        var existingSkill = _userSkillRepo.GetById(knowledgeEvaluationCacheItem.Id);
         if (existingSkill != null)
         {
             existingSkill.EvaluationJson = JsonConvert.SerializeObject(knowledgeSummary);
             existingSkill.LastUpdatedAt = knowledgeEvaluationCacheItem.LastUpdatedAt.Value;
 
-            userSkillRepo.Update(existingSkill);
+            _userSkillRepo.Update(existingSkill);
         }
     }
 
@@ -103,7 +103,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
 
     public void RemoveUserSkill(int userId, int pageId)
     {
-        userSkillRepo.DeleteByUserAndPage(userId, pageId);
+        _userSkillRepo.DeleteByUserAndPage(userId, pageId);
 
         // Also remove from user's extended cache if it exists
         var extendedUser = EntityCache.GetExtendedUserByIdNullable(userId);
@@ -125,7 +125,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
         }
 
         // Load from database and populate cache
-        var dbSkills = userSkillRepo.GetByUserId(userId);
+        var dbSkills = _userSkillRepo.GetByUserId(userId);
         var skillCacheItems = new List<KnowledgeEvaluationCacheItem>();
 
         foreach (var dbSkill in dbSkills)
@@ -159,7 +159,7 @@ public class UserSkillService(UserSkillRepo userSkillRepo, KnowledgeSummaryUpdat
             return cachedSkill;
 
         // Load from database
-        var dbSkill = userSkillRepo.GetByUserAndPage(userId, pageId);
+        var dbSkill = _userSkillRepo.GetByUserAndPage(userId, pageId);
         var page = EntityCache.GetPage(pageId);
 
         if (dbSkill != null && page != null)

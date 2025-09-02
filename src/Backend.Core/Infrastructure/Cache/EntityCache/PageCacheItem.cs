@@ -88,7 +88,7 @@ public class PageCacheItem : IPersistable
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
     /// <returns>Dictionary&lt;int, PageCacheItem&gt;</returns>
-    public Dictionary<int, PageCacheItem> AggregatedPages(
+    public Dictionary<int, PageCacheItem> VisibleAggregatedPages(
         PermissionCheck permissionCheck,
         bool includingSelf = true)
     {
@@ -112,7 +112,6 @@ public class PageCacheItem : IPersistable
     /// <summary>
     /// Get Aggregated Pages
     /// </summary>
-    /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
     /// <returns>Dictionary&lt;int, PageCacheItem&gt;</returns>
     public Dictionary<int, PageCacheItem> GetAllAggregatedPages(bool includingSelf = true)
@@ -169,26 +168,46 @@ public class PageCacheItem : IPersistable
         GetAggregatedQuestions(
             -1,
             onlyVisible: true,
-            fullList: true,
-            permissionCheck: new PermissionCheck(new SessionlessUser(0))
+            getQuestionsFromChildPages: true,
+            permissionCheck: new PermissionCheck(new SessionlessUser(-1))
         );
+
+    public virtual IList<QuestionCacheItem> GetDirectQuestions(
+        int userId = -1,
+        bool onlyVisible = true,
+        int pageId = 0,
+        PermissionCheck? permissionCheck = null) => GetAggregatedQuestions(
+        userId,
+        onlyVisible,
+        getQuestionsFromChildPages: false,
+        pageId,
+        permissionCheck);
 
     public virtual IList<QuestionCacheItem> GetAggregatedQuestions(
         int userId,
         bool onlyVisible = true,
-        bool fullList = true,
+        bool getQuestionsFromChildPages = true,
         int pageId = 0,
         PermissionCheck? permissionCheck = null)
     {
         IList<QuestionCacheItem> questions;
         var sessionlessUser = new SessionlessUser(userId);
 
-        if (fullList)
+        if (getQuestionsFromChildPages)
         {
-            permissionCheck ??= new PermissionCheck(sessionlessUser);
-            questions = AggregatedPages(permissionCheck)
-                .SelectMany(c => EntityCache.GetQuestionsForPage(c.Key))
-                .Distinct().ToList();
+            if (onlyVisible)
+            {
+                permissionCheck ??= new PermissionCheck(sessionlessUser);
+                questions = VisibleAggregatedPages(permissionCheck)
+                    .SelectMany(c => EntityCache.GetQuestionsForPage(c.Key))
+                    .Distinct().ToList();
+            }
+            else
+            {
+                questions = GetAllAggregatedPages()
+                    .SelectMany(c => EntityCache.GetQuestionsForPage(c.Key))
+                    .Distinct().ToList();
+            }
         }
         else
         {
@@ -215,6 +234,13 @@ public class PageCacheItem : IPersistable
 
         return questions.ToList();
     }
+
+    public virtual IList<QuestionCacheItem> GetAllAggregatedQuestions() => GetAggregatedQuestions(
+        -1,
+        onlyVisible: false,
+        getQuestionsFromChildPages: true,
+        permissionCheck: null
+    );
 
     public virtual int GetCountQuestionsAggregated(
         int userId,
@@ -264,7 +290,8 @@ public class PageCacheItem : IPersistable
         return false;
     }
 
-    public virtual List<PageCacheItem> VisibleParents(PermissionCheck permissionCheck) => Parents().Where(permissionCheck.CanView).ToList();
+    public virtual List<PageCacheItem> VisibleParents(PermissionCheck permissionCheck) =>
+        Parents().Where(permissionCheck.CanView).ToList();
 
     public virtual List<PageCacheItem> Parents()
     {
@@ -276,7 +303,8 @@ public class PageCacheItem : IPersistable
             : new List<PageCacheItem>();
     }
 
-    public static IEnumerable<PageCacheItem> ToCachePages(IEnumerable<Page> pages, IList<PageViewRepo.PageViewSummaryWithId> views, IList<PageChange> changes)
+    public static IEnumerable<PageCacheItem> ToCachePages(IEnumerable<Page> pages,
+        IList<PageViewRepo.PageViewSummaryWithId> views, IList<PageChange> changes)
     {
         var pageViewsDict = views
             .GroupBy(cv => cv.PageId)
@@ -294,7 +322,8 @@ public class PageCacheItem : IPersistable
         });
     }
 
-    public static PageCacheItem ToCachePage(Page page, List<PageViewRepo.PageViewSummaryWithId>? views = null, List<PageChange>? pageChanges = null)
+    public static PageCacheItem ToCachePage(Page page, List<PageViewRepo.PageViewSummaryWithId>? views = null,
+        List<PageChange>? pageChanges = null)
     {
         var creatorId = page.Creator == null ? -1 : page.Creator.Id;
         var parentRelations = EntityCache.GetParentRelationsByChildId(page.Id);
@@ -351,13 +380,15 @@ public class PageCacheItem : IPersistable
                     }
                     else
                     {
-                        throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for page change id {curr.Id}");
+                        throw new ArgumentOutOfRangeException(
+                            $"Invalid data version number {curr.DataVersion} for page change id {curr.Id}");
                     }
 
                     if (currentData == null)
                         continue;
 
-                    var currentCacheItem = PageChangeCacheItem.ToPageChangeCacheItem(curr, currentData, previousData, previousId);
+                    var currentCacheItem =
+                        PageChangeCacheItem.ToPageChangeCacheItem(curr, currentData, previousData, previousId);
 
                     if (pageChangeCacheItem.Count > 0)
                     {
@@ -375,7 +406,8 @@ public class PageCacheItem : IPersistable
                         }
                         else if (currentGroupedCacheItem.Count > 1)
                         {
-                            var groupedPageChangeCacheItem = PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
+                            var groupedPageChangeCacheItem =
+                                PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
                             pageChangeCacheItem.Add(groupedPageChangeCacheItem);
                             currentGroupedCacheItem = new List<PageChangeCacheItem>();
                         }
@@ -389,7 +421,8 @@ public class PageCacheItem : IPersistable
                 // handle last group
                 if (currentGroupedCacheItem.Count > 1)
                 {
-                    var groupedPageChangeCacheItem = PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
+                    var groupedPageChangeCacheItem =
+                        PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
                     pageChangeCacheItem.Add(groupedPageChangeCacheItem);
                 }
 
@@ -419,11 +452,7 @@ public class PageCacheItem : IPersistable
             .Select(d => startDate.AddDays(d));
 
         pageCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
-            .Select(qv => new DailyViews
-            {
-                Date = qv.DateOnly,
-                Count = qv.Count
-            })
+            .Select(qv => new DailyViews { Date = qv.DateOnly, Count = qv.Count })
             .OrderBy(v => v.Date)
             .ToList();
     }
@@ -440,11 +469,7 @@ public class PageCacheItem : IPersistable
         }
         else
         {
-            ViewsOfPast90Days.Add(new DailyViews
-            {
-                Date = date,
-                Count = 1
-            });
+            ViewsOfPast90Days.Add(new DailyViews { Date = date, Count = 1 });
         }
 
         TotalViews++;
@@ -481,11 +506,7 @@ public class PageCacheItem : IPersistable
     private void GenerateEmptyViewsOfPast90DaysList()
     {
         ViewsOfPast90Days = Enumerable.Range(0, 90)
-            .Select(i => new DailyViews
-            {
-                Date = DateTime.Now.Date.AddDays(-i),
-                Count = 0
-            })
+            .Select(i => new DailyViews { Date = DateTime.Now.Date.AddDays(-i), Count = 0 })
             .Reverse()
             .ToList();
     }
@@ -498,9 +519,14 @@ public class PageCacheItem : IPersistable
         Question
     }
 
-    public record struct FeedItem(DateTime DateCreated, PageChangeCacheItem? PageChangeCacheItem, QuestionChangeCacheItem? QuestionChangeCacheItem);
+    public record struct FeedItem(
+        DateTime DateCreated,
+        PageChangeCacheItem? PageChangeCacheItem,
+        QuestionChangeCacheItem? QuestionChangeCacheItem);
 
-    public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false, bool getItemsInGroup = false)
+    public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId,
+        int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false,
+        bool getItemsInGroup = false)
     {
         IEnumerable<FeedItem> changes;
 
@@ -516,7 +542,8 @@ public class PageCacheItem : IPersistable
 
             if (getQuestions)
             {
-                var allQuestions = GetAggregatedQuestions(userId, onlyVisible: true, fullList: true, pageId: Id);
+                var allQuestions = GetAggregatedQuestions(userId, onlyVisible: true, getQuestionsFromChildPages: true,
+                    pageId: Id);
                 var unsortedQuestionChanges = allQuestions
                     .Where(q => q != null && q.QuestionChangeCacheItems != null)
                     .SelectMany(q => q.QuestionChangeCacheItems)
@@ -536,7 +563,8 @@ public class PageCacheItem : IPersistable
 
             if (getQuestions)
             {
-                var allQuestions = GetAggregatedQuestions(userId, onlyVisible: true, fullList: false, pageId: Id);
+                var allQuestions = GetAggregatedQuestions(userId, onlyVisible: true, getQuestionsFromChildPages: false,
+                    pageId: Id);
                 var unsortedQuestionChanges = allQuestions
                     .Where(q => q != null && q.QuestionChangeCacheItems != null)
                     .SelectMany(q => q.QuestionChangeCacheItems)
@@ -584,7 +612,8 @@ public class PageCacheItem : IPersistable
                 continue;
             }
 
-            if (!getItemsInGroup && IsPartOfPageCreate(previousChange, c.PageChangeCacheItem) && previousChange?.PageId == visibleChanges.LastOrDefault().PageChangeCacheItem?.PageId)
+            if (!getItemsInGroup && IsPartOfPageCreate(previousChange, c.PageChangeCacheItem) &&
+                previousChange?.PageId == visibleChanges.LastOrDefault().PageChangeCacheItem?.PageId)
             {
                 visibleChanges.RemoveAt(visibleChanges.Count - 1);
             }
@@ -600,7 +629,8 @@ public class PageCacheItem : IPersistable
         return (pagedChanges, visibleChanges.Count());
     }
 
-    private FeedItem ToFeedItem(PageChangeCacheItem? pageChangeCacheItem = null, QuestionChangeCacheItem? questionChangeCacheItem = null)
+    private FeedItem ToFeedItem(PageChangeCacheItem? pageChangeCacheItem = null,
+        QuestionChangeCacheItem? questionChangeCacheItem = null)
     {
         if (pageChangeCacheItem != null)
             return new FeedItem
@@ -623,10 +653,14 @@ public class PageCacheItem : IPersistable
     private bool IsVisibleForUser(int userId, FeedItem feedItem)
     {
         if (feedItem.PageChangeCacheItem != null)
-            return feedItem.PageChangeCacheItem.Visibility != PageVisibility.Private || (feedItem.PageChangeCacheItem.AuthorId == userId || feedItem.PageChangeCacheItem.Page.CreatorId == userId);
+            return feedItem.PageChangeCacheItem.Visibility != PageVisibility.Private ||
+                   (feedItem.PageChangeCacheItem.AuthorId == userId ||
+                    feedItem.PageChangeCacheItem.Page.CreatorId == userId);
 
         if (feedItem.QuestionChangeCacheItem != null)
-            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Private || (feedItem.QuestionChangeCacheItem.AuthorId == userId || feedItem.QuestionChangeCacheItem.Question.CreatorId == userId);
+            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Private ||
+                   (feedItem.QuestionChangeCacheItem.AuthorId == userId ||
+                    feedItem.QuestionChangeCacheItem.Question.CreatorId == userId);
 
         return false;
     }
@@ -647,7 +681,8 @@ public class PageCacheItem : IPersistable
         return true;
     }
 
-    private bool IsDuplicateOfDelete(PageChangeCacheItem change, HashSet<int> pageChangeIds, HashSet<int> questionChangeIds)
+    private bool IsDuplicateOfDelete(PageChangeCacheItem change, HashSet<int> pageChangeIds,
+        HashSet<int> questionChangeIds)
     {
         var deleteChangeId = change.PageChangeData.DeleteData?.DeleteChangeId;
         if (deleteChangeId == null)
@@ -703,7 +738,8 @@ public class PageCacheItem : IPersistable
             {
                 if (previousCacheItem.IsGroup)
                 {
-                    var newGroupedCacheItems = new List<PageChangeCacheItem>(previousCacheItem.GroupedPageChangeCacheItems);
+                    var newGroupedCacheItems =
+                        new List<PageChangeCacheItem>(previousCacheItem.GroupedPageChangeCacheItems);
                     newCacheItem.IsPartOfGroup = true;
                     newGroupedCacheItems.Add(newCacheItem);
 
@@ -755,4 +791,3 @@ public class PageCacheItem : IPersistable
             .Any(descendant => descendant.Id == Id);
     }
 }
-

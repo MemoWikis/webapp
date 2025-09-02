@@ -22,7 +22,7 @@ public class RebusModule : Module
             .SingleInstance();
 
         // Register knowledge summary update service
-        builder.RegisterType<KnowledgeSummaryUpdateService>()
+        builder.RegisterType<KnowledgeSummaryUpdateDispatcher>()
             .AsSelf()
             .InstancePerLifetimeScope();
 

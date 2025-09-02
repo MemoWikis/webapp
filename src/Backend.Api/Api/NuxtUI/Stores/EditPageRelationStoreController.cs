@@ -11,7 +11,7 @@ public class EditPageRelationStoreController(
     UserWritingRepo _userWritingRepo,
     IWebHostEnvironment _webHostEnvironment,
     SearchResultBuilder _searchResultBuilder,
-    KnowledgeSummaryUpdateService _knowledgeSummaryUpdateService) : ApiBaseController
+    ModifyRelationsForPage _modifyRelationsForPage) : ApiBaseController
 {
     public record struct PersonalWikiData(
         SearchPageItem PersonalWiki,
@@ -137,8 +137,6 @@ public class EditPageRelationStoreController(
 
         var undoMovePageData = GetUndoMovePageData(relationToMove, request.NewParentId, request.TargetId);
 
-        var modifyRelationsForPage = new ModifyRelationsForPage(pageRepository, pageRelationRepo, _knowledgeSummaryUpdateService);
-
         switch (request.Position)
         {
             case TargetPosition.Before:
@@ -147,7 +145,7 @@ public class EditPageRelationStoreController(
                     request.TargetId,
                     request.NewParentId,
                     _sessionUser.UserId,
-                    modifyRelationsForPage);
+                    _modifyRelationsForPage);
                 break;
             case TargetPosition.After:
                 PageOrderer.MoveAfter(
@@ -155,14 +153,14 @@ public class EditPageRelationStoreController(
                     request.TargetId,
                     request.NewParentId,
                     _sessionUser.UserId,
-                    modifyRelationsForPage);
+                    _modifyRelationsForPage);
                 break;
             case TargetPosition.Inner:
                 PageOrderer.MoveIn(
                     relationToMove,
                     request.TargetId,
                     _sessionUser.UserId,
-                    modifyRelationsForPage,
+                    _modifyRelationsForPage,
                     _permissionCheck);
                 break;
             case TargetPosition.None:
@@ -224,9 +222,6 @@ public class EditPageRelationStoreController(
     {
         var personalWiki = _sessionUser.User.FirstWiki();
 
-        if (personalWiki == null)
-            return new PersonalWikiResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
-
         if (personalWiki.ChildRelations.Any(r => r.ChildId == id))
         {
             return new PersonalWikiResult
@@ -260,9 +255,6 @@ public class EditPageRelationStoreController(
     public RemoveFromPersonalWikiResult RemoveFromPersonalWiki([FromRoute] int id)
     {
         var personalWiki = _sessionUser.User.FirstWiki();
-
-        if (personalWiki == null)
-            return new RemoveFromPersonalWikiResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId != id))
         {

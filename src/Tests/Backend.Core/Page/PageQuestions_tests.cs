@@ -60,21 +60,21 @@
 
         var directQuestionsOnly = rootCacheItem!.GetAggregatedQuestions(
             userId,
-            fullList: false,
+            getQuestionsFromChildPages: false,
             pageId: rootPage.Id
         );
 
         // Get questions including child pages
         var allQuestionsIncludingChildren = rootCacheItem!.GetAggregatedQuestions(
             userId,
-            fullList: true
+            getQuestionsFromChildPages: true
         );
 
         // Get questions from child1 only
         var child1CacheItem = EntityCache.GetPage(childPage1);
         var child1QuestionsOnly = child1CacheItem!.GetAggregatedQuestions(
             userId,
-            fullList: false,
+            getQuestionsFromChildPages: false,
             pageId: childPage1.Id
         );
 
@@ -136,7 +136,7 @@
         var creatorQuestions = pageCacheItem!.GetAggregatedQuestions(
             creator.Id,
             onlyVisible: true,
-            fullList: false,
+            getQuestionsFromChildPages: false,
             pageId: page.Id
         );
 
@@ -144,7 +144,7 @@
         var otherUserQuestions = pageCacheItem!.GetAggregatedQuestions(
             otherUser.Id,
             onlyVisible: true,
-            fullList: false,
+            getQuestionsFromChildPages: false,
             pageId: page.Id
         );
 
@@ -152,7 +152,7 @@
         var allQuestions = pageCacheItem!.GetAggregatedQuestions(
             otherUser.Id,
             onlyVisible: false,
-            fullList: false,
+            getQuestionsFromChildPages: false,
             pageId: page.Id
         );
 

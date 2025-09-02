@@ -129,4 +129,48 @@ public static class SlidingCache
             user.RemoveKnowledgeSummary(pageId);
         }
     }
+
+    /// <summary>
+    /// Update a user's skill in cache if the user exists
+    /// </summary>
+    /// <param name="userId">User ID</param>
+    /// <param name="pageId">Page ID</param>
+    /// <param name="knowledgeSummary">Knowledge summary to update with</param>
+    /// <param name="userSkillService">Service to perform the update</param>
+    public static void UpdateUserSkill(int userId, int pageId, KnowledgeSummary knowledgeSummary, UserSkillService userSkillService)
+    {
+        var extendedUser = GetExtendedUserByIdNullable(userId);
+        if (extendedUser == null)
+            return;
+
+        var existingSkill = extendedUser.GetSkill(pageId);
+        if (existingSkill == null)
+            return;
+
+        userSkillService.UpdateUserSkill(existingSkill, knowledgeSummary);
+    }
+
+    /// <summary>
+    /// Update a user's knowledge summary in cache if the user exists
+    /// </summary>
+    /// <param name="userId">User ID</param>
+    /// <param name="pageId">Page ID</param>
+    /// <param name="knowledgeSummary">Knowledge summary to update with</param>
+    public static void UpdateKnowledgeSummary(int userId, int pageId, KnowledgeSummary knowledgeSummary)
+    {
+        var extendedUser = GetExtendedUserByIdNullable(userId);
+        if (extendedUser == null)
+            return;
+
+        var knowledgeEvaluationCacheItem = new KnowledgeEvaluationCacheItem
+        {
+            UserId = userId,
+            PageId = pageId,
+            KnowledgeSummary = knowledgeSummary,
+            DateCreated = DateTime.Now,
+            LastUpdatedAt = DateTime.Now
+        };
+        
+        extendedUser.AddOrUpdateKnowledgeSummary(knowledgeEvaluationCacheItem);
+    }
 }

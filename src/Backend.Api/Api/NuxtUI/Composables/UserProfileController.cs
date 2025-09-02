@@ -10,27 +10,13 @@ public class UserProfileController(
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public UpdateAboutMeResult UpdateAboutMe([FromRoute] int id, [FromBody] UpdateAboutMeRequest request)
+    public UpdateAboutMeResult UpdateAboutMe([FromBody] UpdateAboutMeRequest request)
     {
-        // Ensure user can only update their own profile
-        if (_sessionUser.UserId != id)
+        _userWritingRepo.ApplyChangeAndUpdate(_sessionUser.UserId, user =>
         {
-            return new UpdateAboutMeResult(false, "error.unauthorized");
-        }
+            user.AboutMeText = request.AboutMeText;
+        });
 
-        try
-        {
-            _userWritingRepo.ApplyChangeAndUpdate(id, user =>
-            {
-                user.AboutMeText = request.AboutMeText;
-            });
-
-            return new UpdateAboutMeResult(true, "");
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error updating AboutMeText for user {UserId}", id);
-            return new UpdateAboutMeResult(false, "error.user.updateFailed");
-        }
+        return new UpdateAboutMeResult(true, "");
     }
 }

@@ -41,11 +41,8 @@
         // Update all skills for the user
         var skills = extendedUser.GetAllSkills();
 
-        if (skills.Any())
-        {
-            foreach (var skill in skills)
-                UpdateSkill(skill.PageId, userId);
-        }
+        foreach (var skill in skills)
+            UpdateSkill(skill.PageId, userId);
     }
 
     public void UpdateKnowledgeSummariesByUser(int userId)
@@ -55,11 +52,8 @@
         // Update all knowledge summaries for the user
         var knowledgeSummaries = extendedUser.GetAllKnowledgeSummaries();
 
-        if (knowledgeSummaries.Any())
-        {
-            foreach (var knowledgeSummary in knowledgeSummaries)
-                UpdateKnowledgeSummary(knowledgeSummary.PageId, userId);
-        }
+        foreach (var knowledgeSummary in knowledgeSummaries)
+            UpdateKnowledgeSummary(knowledgeSummary.PageId, userId);
     }
 
     public void UpdateSkillForUserAndPage(int userId, int pageId)
@@ -81,15 +75,7 @@
             pageId,
             onlyValuated: false);
 
-        var extendedUser = SlidingCache.GetExtendedUserById(userId);
-
-        if (extendedUser != null)
-        {
-            // Update user skills in cache
-            var existingSkillFromCache = extendedUser.GetSkill(pageId);
-            if (existingSkillFromCache != null)
-                userSkillService.UpdateUserSkill(existingSkillFromCache, knowledgeSummary);
-        }
+        SlidingCache.UpdateUserSkill(userId, pageId, knowledgeSummary, userSkillService);
     }
 
     private void UpdateKnowledgeSummary(int pageId, int userId)
@@ -104,20 +90,7 @@
 
     public void UpdateKnowledgeSummary(int pageId, int userId, KnowledgeSummary knowledgeSummary)
     {
-        var extendedUser = SlidingCache.GetExtendedUserById(userId);
-
-        if (extendedUser != null)
-        {
-            var knowledgeEvaluationCacheItem = new KnowledgeEvaluationCacheItem
-            {
-                UserId = userId,
-                PageId = pageId,
-                KnowledgeSummary = knowledgeSummary,
-                DateCreated = DateTime.Now,
-                LastUpdatedAt = DateTime.Now
-            };
-            extendedUser.AddOrUpdateKnowledgeSummary(knowledgeEvaluationCacheItem);
-        }
+        SlidingCache.UpdateKnowledgeSummary(userId, pageId, knowledgeSummary);
     }
 
     public void RunForUser(int userId, bool forProfilePage = false)

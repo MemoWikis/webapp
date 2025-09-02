@@ -10,7 +10,7 @@ export interface UpdateAboutMeResult {
 export const useUserProfile = () => {
     const updateAboutMe = async (userId: number, aboutMeText: string): Promise<UpdateAboutMeResult> => {
         try {
-            const result = await $api<UpdateAboutMeResult>(`/apiVue/UserProfile/UpdateAboutMe/${userId}`, {
+            const result = await $api<UpdateAboutMeResult>(`/apiVue/UserProfile/UpdateAboutMe/`, {
                 method: 'POST',
                 mode: 'cors',
                 credentials: 'include',

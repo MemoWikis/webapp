@@ -1,39 +1,99 @@
 public class PopularityCalculator : IRegisterAsInstancePerLifetime
 {
-    public PopularityCalculator()
-    {
-    }
-
     /// <summary>
     /// Calculate popularity for a question based on specific point formula:
     /// Views: 1pt, Answers: 2pts each, TotalRelevancePersonalEntries: 5pts each
     /// </summary>
-    /// <param name="question">The question to calculate popularity for</param>
-    /// <returns>Popularity score as integer</returns>
     public int CalculateQuestionPopularity(QuestionCacheItem question)
     {
         if (question == null)
             return 0;
 
         // Formula: views(1pt) + answers(2pts each) + totalRelevancePersonalEntries(5pts each)
-        var popularity = question.TotalViews * 1 +                           // Views: 1 point each
-                        question.TotalAnswers() * 2 +                        // Answers: 2 points each
-                        question.TotalRelevancePersonalEntries * 5;          // TotalRelevancePersonalEntries: 5 points each
+        var popularity = question.TotalViews * 1 + 
+                         question.TotalAnswers() * 2 + 
+                         question.TotalRelevancePersonalEntries * 5;
 
-        return Math.Max(0, popularity); // Ensure non-negative
+        if (question.Visibility == QuestionVisibility.Public)
+            popularity *= 3;
+
+        return Math.Max(0, popularity);
     }
 
     /// <summary>
-    /// Calculate popularity for a page based on total view count
+    /// Calculate popularity for a page based on page views and normalized question popularity
     /// </summary>
-    /// <param name="page">The page to calculate popularity for</param>
-    /// <returns>Popularity score as integer</returns>
     public int CalculatePagePopularity(PageCacheItem page)
     {
-        if (page == null)
-            return 0;
+        var directQuestions = page.GetDirectQuestions(onlyVisible: false);
+        var allAggregatedQuestions = page.GetAllAggregatedQuestions();
 
-        // Use total view count as popularity
-        return Math.Max(0, page.TotalViews);
+        var normalizedDirectQuestionPopularity = CalculateDirectQuestionPopularity(directQuestions);
+        var normalizedIndirectQuestionPopularity = CalculateIndirectQuestionPopularity(directQuestions, allAggregatedQuestions);
+        var childPageViewPopularity = CalculateChildPageViewPopularity(page);
+
+        var totalPopularity = page.TotalViews + 
+                             normalizedDirectQuestionPopularity + 
+                             normalizedIndirectQuestionPopularity + 
+                             childPageViewPopularity;
+
+        return Math.Max(0, totalPopularity);
+    }
+
+    /// <summary>
+    /// Calculate normalized popularity from direct questions (higher weight)
+    /// </summary>
+    private int CalculateDirectQuestionPopularity(IList<QuestionCacheItem> directQuestions)
+    {
+        var directQuestionPopularity = 0;
+        
+        foreach (var question in directQuestions)
+        {
+            directQuestionPopularity += CalculateQuestionPopularity(question);
+        }
+
+        return directQuestionPopularity / 100;
+    }
+
+    /// <summary>
+    /// Calculate normalized popularity from indirect questions (lower weight)
+    /// </summary>
+    /// <param name="directQuestions">List of direct questions to exclude</param>
+    /// <param name="allAggregatedQuestions">List of all aggregated questions</param>
+    /// <returns>Normalized indirect question popularity</returns>
+    private int CalculateIndirectQuestionPopularity(IList<QuestionCacheItem> directQuestions, IList<QuestionCacheItem> allAggregatedQuestions)
+    {
+        var indirectQuestionPopularity = 0;
+        var directQuestionIds = directQuestions.Select(q => q.Id).ToHashSet();
+        
+        var indirectQuestions = allAggregatedQuestions.Where(q => !directQuestionIds.Contains(q.Id));
+        foreach (var question in indirectQuestions)
+        {
+            indirectQuestionPopularity += CalculateQuestionPopularity(question);
+        }
+
+        return indirectQuestionPopularity / 300;
+    }
+
+    /// <summary>
+    /// Calculate the popularity contribution from child page views
+    /// </summary>
+    /// <param name="page">The parent page</param>
+    /// <returns>Weighted child page view popularity</returns>
+    private int CalculateChildPageViewPopularity(PageCacheItem page)
+    {
+        var childPages = page.GetAllAggregatedPages(includingSelf: false);
+        var totalChildPopularity = 0;
+
+        foreach (var childPage in childPages.Values)
+        {
+            // Only count direct page views from children, not their questions
+            // to avoid exponential complexity
+            totalChildPopularity += childPage.TotalViews;
+        }
+
+        // Apply a factor to reduce child contribution (0.2 = 20% weight)
+        // This prevents child pages from overwhelming the parent's own popularity
+        return (int)(totalChildPopularity * 0.2);
     }
 }

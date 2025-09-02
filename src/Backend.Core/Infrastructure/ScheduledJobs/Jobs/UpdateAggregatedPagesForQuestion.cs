@@ -1,6 +1,6 @@
 ﻿using Quartz;
 
-public class UpdateAggregatedPagesForQuestion(PageRepository _pageRepository, KnowledgeSummaryUpdateService _knowledgeSummaryUpdateService) : IJob
+public class UpdateAggregatedPagesForQuestion(PageRepository _pageRepository, KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher) : IJob
 {
     public Task Execute(IJobExecutionContext context)
     {
@@ -17,7 +17,7 @@ public class UpdateAggregatedPagesForQuestion(PageRepository _pageRepository, Kn
         {
             page.UpdateCountQuestionsAggregated(userId);
             _pageRepository.Update(page);
-            _knowledgeSummaryUpdateService.SchedulePageUpdate(page.Id);
+            _knowledgeSummaryUpdateDispatcher.SchedulePageUpdateAsync(page.Id);
 
             Log.Information("Update Page from Update Question - {id}", page.Id);
         }
