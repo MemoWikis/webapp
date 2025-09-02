@@ -159,6 +159,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public int FirstWikiId => FirstWiki().Id;
     public PageCacheItem FirstWiki() => EntityCache.GetWikisByUserId(userId: Id).FirstOrDefault();
     public List<PageCacheItem> GetWikis() => EntityCache.GetWikisByUserId(userId: Id);
+    public List<PageCacheItem> GetPublicWikis() => EntityCache.GetWikisByUserId(userId: Id).Where(wiki => wiki.IsPublic).ToList();
 
     public List<PageCacheItem> GetFavorites()
     {

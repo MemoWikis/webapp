@@ -36,7 +36,7 @@ watch(selectedPageId, (id) => {
     disableAddButton.value = id <= 0
 })
 
-async function handleAddSkill() {
+async function clickAddSkill() {
     if (!userStore.isLoggedIn) {
         userStore.showLoginModal = true
         return
@@ -51,7 +51,7 @@ async function handleAddSkill() {
     loadingStore.startLoading()
 
     try {
-        const result = await addSkill(props.userId, selectedPageId.value)
+        const result = await addSkill(selectedPageId.value)
 
         if (result.success) {
             emit('skillAdded', selectedPageId.value)
@@ -79,7 +79,7 @@ function resetForm() {
     disableAddButton.value = true
 }
 
-function handleClose() {
+function close() {
     resetForm()
     emit('close')
 }
@@ -93,11 +93,11 @@ watch(() => props.show, (show) => {
 
 <template>
     <LazyModal
-        @close="handleClose"
+        @close="close"
         :show="show"
         v-if="show"
         :primary-btn-label="t('user.skills.addSkillModal.addButton')"
-        @primary-btn="handleAddSkill()"
+        @primary-btn="clickAddSkill()"
         :show-cancel-btn="true"
         :disable-primary-btn="disableAddButton">
 

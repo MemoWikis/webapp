@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using static MissionControlController;
 
 public class UserController(
     SessionUser _sessionUser,
@@ -16,7 +15,7 @@ public class UserController(
         bool IsCurrentUser,
         string MessageKey,
         NuxtErrorPageType ErrorCode,
-        [CanBeNull] IList<PageItem> Wikis, //temp for ui building
+        [CanBeNull] IList<PageItem> Wikis,
         [CanBeNull] IList<PageItem> Skills,
         [CanBeNull] IList<QuestionItem> Questions
     );
@@ -93,7 +92,7 @@ public class UserController(
         var allPagesCreatedByUser = EntityCache.GetAllPagesList()
             .Where(c => c.Creator != null && c.CreatorId == user.Id);
 
-        var publicWikis = user.GetWikis().Where(wiki => wiki.IsPublic);
+        var publicWikis = user.GetPublicWikis();
 
         var result = new GetResult
         {
@@ -137,14 +136,14 @@ public class UserController(
                 Rank = user.Rank
             },
             IsCurrentUser = isCurrentUser,
-            Wikis = GetWikis(publicWikis),
-            Skills = GetSkills(user.Id),
+            Wikis = MapWikis(publicWikis),
+            Skills = MapSkills(user.Id),
             Questions = GetQuestions(user.Id)
         };
         return result;
     }
 
-    private IList<PageItem> GetWikis(IEnumerable<PageCacheItem> wikis)
+    private IList<PageItem> MapWikis(IEnumerable<PageCacheItem> wikis)
     {
         return wikis.Select(wiki =>
                 new PageItem(
@@ -152,29 +151,13 @@ public class UserController(
                     wiki.Name,
                     new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
                     wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                    FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id, onlyValuated: true)),
+                    new KnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id, onlyValuated: true)),
                     _popularityCalculator.CalculatePagePopularity(wiki))
             )
             .ToList();
     }
 
-    private KnowledgeSummaryResponse FillKnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary)
-    {
-        return new KnowledgeSummaryResponse(
-            knowledgeSummary.NotLearned,
-            knowledgeSummary.NotLearnedPercentage,
-            knowledgeSummary.NeedsLearning,
-            knowledgeSummary.NeedsLearningPercentage,
-            knowledgeSummary.NeedsConsolidation,
-            knowledgeSummary.NeedsConsolidationPercentage,
-            knowledgeSummary.Solid,
-            knowledgeSummary.SolidPercentage,
-            knowledgeSummary.NotInWishknowledge,
-            knowledgeSummary.NotInWishknowledgePercentage,
-            knowledgeSummary.Total);
-    }
-
-    private IList<PageItem> GetSkills(int userId)
+    private IList<PageItem> MapSkills(int userId)
     {
         var extendedUserCacheItem = _extendedUserCache.GetUser(userId);
         var skillsWithPages = new List<PageItem>();
@@ -190,7 +173,7 @@ public class UserController(
                         page.Name,
                         new PageImageSettings(skill.PageId, _httpContextAccessor).GetUrl_128px(true).Url,
                         page.GetAggregatedPublicQuestions().Count,
-                        FillKnowledgeSummaryResponse(skill.KnowledgeSummary),
+                        new KnowledgeSummaryResponse(skill.KnowledgeSummary),
                         _popularityCalculator.CalculatePagePopularity(page),
                         page.Creator.Name,
                         IsPublic: page.IsPublic

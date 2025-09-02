@@ -66,7 +66,7 @@ public class UserSkillController(
                 page.Name,
                 new PageImageSettings(page.Id, _httpContextAccessor).GetUrl_128px(true).Url,
                 page.CountQuestions,
-                FillKnowledgeSummaryResponse(newSkill.KnowledgeSummary));
+                new KnowledgeSummaryResponse(newSkill.KnowledgeSummary));
 
             return new AddResult(true, "", addedSkillPageItem);
         }
@@ -93,21 +93,5 @@ public class UserSkillController(
         _userSkillService.RemoveUserSkill(_sessionUser.UserId, id);
 
         return new RemoveResult(true, "");
-    }
-
-    private KnowledgeSummaryResponse FillKnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary)
-    {
-        return new KnowledgeSummaryResponse(
-            knowledgeSummary.NotLearned,
-            knowledgeSummary.NotLearnedPercentage,
-            knowledgeSummary.NeedsLearning,
-            knowledgeSummary.NeedsLearningPercentage,
-            knowledgeSummary.NeedsConsolidation,
-            knowledgeSummary.NeedsConsolidationPercentage,
-            knowledgeSummary.Solid,
-            knowledgeSummary.SolidPercentage,
-            knowledgeSummary.NotInWishknowledge,
-            knowledgeSummary.NotInWishknowledgePercentage,
-            knowledgeSummary.Total);
     }
 }
