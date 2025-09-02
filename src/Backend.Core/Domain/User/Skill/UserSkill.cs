@@ -12,9 +12,4 @@ public class UserSkill : DomainEntity
     /// Example: { "NotLearned": 5, "NeedsLearning": 10, "NeedsConsolidation": 15, "Solid": 20, "Options": "standard" }
     /// </summary>
     public virtual string? EvaluationJson { get; set; }
-
-    /// <summary>
-    /// Last time the skill evaluation was recalculated based on new question performance
-    /// </summary>
-    public virtual DateTime? LastUpdatedAt { get; set; }
 }

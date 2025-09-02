@@ -14,15 +14,14 @@ internal class UpdateToVs287
                     `UserId` INT NOT NULL,
                     `PageId` INT NOT NULL,
                     `EvaluationJson` TEXT,
-                    `AddedAt` DATETIME NOT NULL,
-                    `LastUpdatedAt` DATETIME NULL,
                     `DateCreated` DATETIME NOT NULL,
                     `DateModified` DATETIME NOT NULL,
                     PRIMARY KEY (`Id`),
                     UNIQUE KEY `idx_userskill_user_page` (`UserId`, `PageId`),
                     INDEX `idx_userskill_userid` (`UserId`),
                     INDEX `idx_userskill_pageid` (`PageId`),
-                    INDEX `idx_userskill_addedat` (`AddedAt`)
+                    INDEX `idx_userskill_datecreated` (`DateCreated`),
+                    INDEX `idx_userskill_datemodified` (`DateModified`)
                   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
             ).ExecuteUpdate();
 

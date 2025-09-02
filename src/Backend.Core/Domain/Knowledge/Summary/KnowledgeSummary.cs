@@ -3,8 +3,6 @@
 [JsonObject(MemberSerialization.OptIn)]
 public class KnowledgeSummary
 {
-    public string Options = "standard";
-
     [JsonProperty("NotLearned")]
     public readonly int NotLearned = 0;
 
@@ -43,14 +41,13 @@ public class KnowledgeSummary
     [JsonProperty("KnowledgeStatusPointsTotal")]
     public double KnowledgeStatusPointsTotal { get; private set; }
 
-    public KnowledgeSummary(int notInWishKnowledge = 0, int notLearned = 0, int needsLearning = 0, int needsConsolidation = 0, int solid = 0, string options = "standard")
+    public KnowledgeSummary(int notInWishKnowledge = 0, int notLearned = 0, int needsLearning = 0, int needsConsolidation = 0, int solid = 0)
     {
         NotInWishknowledge = 0;
         NotLearned = notLearned + notInWishKnowledge;
         NeedsLearning = needsLearning;
         NeedsConsolidation = needsConsolidation;
         Solid = solid;
-        Options = options;
 
         PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
         {

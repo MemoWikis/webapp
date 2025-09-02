@@ -84,7 +84,7 @@ class UserSkills_tests : BaseTestHarness
             InitialLevel = "Basic", // Based on initial knowledge
             SolidQuestions = updatedSkill?.KnowledgeSummary?.Solid,
             TotalQuestions = updatedSkill?.KnowledgeSummary?.Total,
-            LastUpdatedExists = updatedSkill?.LastUpdatedAt != null
+            LastUpdatedExists = updatedSkill?.DateModified != DateTime.MinValue
         });
     }
 

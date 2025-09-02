@@ -28,8 +28,8 @@ public class PopularityCalculator : IRegisterAsInstancePerLifetime
         var directQuestions = page.GetDirectQuestions(onlyVisible: false);
         var allAggregatedQuestions = page.GetAllAggregatedQuestions();
 
-        var normalizedDirectQuestionPopularity = CalculateDirectQuestionPopularity(directQuestions);
-        var normalizedIndirectQuestionPopularity = CalculateIndirectQuestionPopularity(directQuestions, allAggregatedQuestions);
+        var normalizedDirectQuestionPopularity = CalculateDirectQuestionPopularityForPage(directQuestions);
+        var normalizedIndirectQuestionPopularity = CalculateIndirectQuestionPopularityForPage(directQuestions, allAggregatedQuestions);
         var childPageViewPopularity = CalculateChildPageViewPopularity(page);
 
         var totalPopularity = page.TotalViews + 
@@ -43,7 +43,7 @@ public class PopularityCalculator : IRegisterAsInstancePerLifetime
     /// <summary>
     /// Calculate normalized popularity from direct questions (higher weight)
     /// </summary>
-    private int CalculateDirectQuestionPopularity(IList<QuestionCacheItem> directQuestions)
+    private int CalculateDirectQuestionPopularityForPage(IList<QuestionCacheItem> directQuestions)
     {
         var directQuestionPopularity = 0;
         
@@ -61,7 +61,7 @@ public class PopularityCalculator : IRegisterAsInstancePerLifetime
     /// <param name="directQuestions">List of direct questions to exclude</param>
     /// <param name="allAggregatedQuestions">List of all aggregated questions</param>
     /// <returns>Normalized indirect question popularity</returns>
-    private int CalculateIndirectQuestionPopularity(IList<QuestionCacheItem> directQuestions, IList<QuestionCacheItem> allAggregatedQuestions)
+    private int CalculateIndirectQuestionPopularityForPage(IList<QuestionCacheItem> directQuestions, IList<QuestionCacheItem> allAggregatedQuestions)
     {
         var indirectQuestionPopularity = 0;
         var directQuestionIds = directQuestions.Select(q => q.Id).ToHashSet();

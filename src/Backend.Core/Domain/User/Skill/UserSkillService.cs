@@ -31,7 +31,7 @@ public class UserSkillService(UserSkillRepo _userSkillRepo, KnowledgeSummaryUpda
             PageId = pageId,
             EvaluationJson = JsonConvert.SerializeObject(knowledgeSummary),
             DateCreated = now,
-            LastUpdatedAt = now
+            DateModified = now
         };
 
         _userSkillRepo.Create(newSkill);
@@ -64,7 +64,7 @@ public class UserSkillService(UserSkillRepo _userSkillRepo, KnowledgeSummaryUpda
         var userId = knowledgeEvaluationCacheItem.UserId;
         // Update the cache item first with new evaluation
         knowledgeEvaluationCacheItem.KnowledgeSummary = knowledgeSummary;
-        knowledgeEvaluationCacheItem.LastUpdatedAt = DateTime.UtcNow;
+        knowledgeEvaluationCacheItem.DateModified = DateTime.UtcNow;
 
         var extendedUser = EntityCache.GetExtendedUserByIdNullable(userId);
         if (extendedUser != null)
@@ -76,7 +76,7 @@ public class UserSkillService(UserSkillRepo _userSkillRepo, KnowledgeSummaryUpda
         if (existingSkill != null)
         {
             existingSkill.EvaluationJson = JsonConvert.SerializeObject(knowledgeSummary);
-            existingSkill.LastUpdatedAt = knowledgeEvaluationCacheItem.LastUpdatedAt.Value;
+            // DateModified will be automatically set by the repository
 
             _userSkillRepo.Update(existingSkill);
         }

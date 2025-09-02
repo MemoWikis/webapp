@@ -31,7 +31,6 @@ public class ReputationCalc(
         /* Calculate Reputation for other things */
 
         result.ForPublicWishknowledge = result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
-        // result.ForUsersFollowingMe = _totalFollowers.Run(result.User.Id) * PointsPerUserFollowingMe;
 
         return result;
     }

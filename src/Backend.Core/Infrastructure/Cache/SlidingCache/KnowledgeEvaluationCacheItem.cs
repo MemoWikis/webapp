@@ -10,7 +10,7 @@ public class KnowledgeEvaluationCacheItem
     public int PageId { get; set; }
     public KnowledgeSummary KnowledgeSummary { get; set; }
     public DateTime DateCreated { get; set; }
-    public DateTime? LastUpdatedAt { get; set; }
+    public DateTime DateModified { get; set; }
 
     public KnowledgeEvaluationCacheItem()
     {
@@ -42,7 +42,7 @@ public class KnowledgeEvaluationCacheItem
             PageId = userSkill.PageId,
             KnowledgeSummary = knowledgeSummary,
             DateCreated = userSkill.DateCreated,
-            LastUpdatedAt = userSkill.LastUpdatedAt
+            DateModified = userSkill.DateModified
         };
     }
 }

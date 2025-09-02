@@ -6,7 +6,7 @@
 
         if (knowledgeEvaluationCacheItem != null && maxCacheAgeInMinutes > 0)
         {
-            if (knowledgeEvaluationCacheItem.LastUpdatedAt >= DateTime.UtcNow.AddMinutes(-maxCacheAgeInMinutes))
+            if (knowledgeEvaluationCacheItem.DateModified >= DateTime.UtcNow.AddMinutes(-maxCacheAgeInMinutes))
             {
                 var cachedKnowledgeSummary = knowledgeEvaluationCacheItem.KnowledgeSummary;
 

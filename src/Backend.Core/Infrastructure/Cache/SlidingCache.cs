@@ -168,7 +168,7 @@ public static class SlidingCache
             PageId = pageId,
             KnowledgeSummary = knowledgeSummary,
             DateCreated = DateTime.Now,
-            LastUpdatedAt = DateTime.Now
+            DateModified = DateTime.Now
         };
         
         extendedUser.AddOrUpdateKnowledgeSummary(knowledgeEvaluationCacheItem);
