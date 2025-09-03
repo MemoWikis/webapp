@@ -28,6 +28,10 @@
             "published": "La pregunta '{name}' se ha publicado con éxito.",
             "flashcardsAdded": "Se ha añadido una tarjeta | Se han añadido {count} tarjetas."
         },
+        "skill": {
+            "added": "'{name}' añadido a tus habilidades",
+            "removed": "'{name}' eliminado de tus habilidades"
+        },
         "user": {
             "profileUpdate": "Tus nuevos datos de perfil se han guardado correctamente.",
             "passwordChanged": "Tu contraseña se ha cambiado correctamente.",

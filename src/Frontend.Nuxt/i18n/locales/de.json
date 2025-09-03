@@ -28,6 +28,10 @@
             "published": "Die Frage '{name}' wurde erfolgreich veröffentlicht.",
             "flashcardsAdded": "Eine Karteikarte wurde hinzugefügt | {count} Karteikarten wurden hinzugefügt."
         },
+        "skill": {
+            "added": "'{name}' zu deinen Fertigkeiten hinzugefügt",
+            "removed": "'{name}' aus deinen Fertigkeiten entfernt"
+        },
         "user": {
             "profileUpdate": "Deine neuen Profildaten wurde erfolgreich gespeichert",
             "passwordChanged": "Dein Passwort wurde erfolgreich geändert.",

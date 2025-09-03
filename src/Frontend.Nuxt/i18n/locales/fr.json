@@ -28,6 +28,10 @@
             "published": "La question « {name} » est publiée !",
             "flashcardsAdded": "Une carte a été ajoutée | {count} cartes ont été ajoutées."
         },
+        "skill": {
+            "added": "« {name} » ajouté à tes compétences",
+            "removed": "« {name} » retiré de tes compétences"
+        },
         "user": {
             "profileUpdate": "Tes infos de profil sont mises à jour !",
             "passwordChanged": "Ton mot de passe est changé !",

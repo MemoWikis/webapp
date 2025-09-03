@@ -57,7 +57,7 @@ const addToSkills = async () => {
     if (result.success) {
         const data: SnackbarData = {
             type: 'success',
-            text: { message: t('success.skill.added') },
+            text: { message: t('success.skill.added', { name: pageStore.name }) },
         }
         snackbarStore.showSnackbar(data)
     } else {
@@ -67,6 +67,7 @@ const addToSkills = async () => {
         }
         snackbarStore.showSnackbar(data)
     }
+    checkIfSkill()
 }
 
 const removeFromSkills = async () => {
@@ -78,13 +79,19 @@ const removeFromSkills = async () => {
     const result = await removeSkill(pageStore.id)
 
     if (result.success) {
-        // Show success message or toast
-        console.log('Page removed from skills successfully')
+        const data: SnackbarData = {
+            type: 'success',
+            text: { message: t('success.skill.removed', { name: pageStore.name }) },
+        }
+        snackbarStore.showSnackbar(data)
     } else {
-        // Show error message
-        console.error('Failed to remove from skills:', result.errorMessageKey)
-        alert(`Error: ${t(result.errorMessageKey)}`)
+        const data: SnackbarData = {
+            type: 'error',
+            text: { message: t(result.errorMessageKey) },
+        }
+        snackbarStore.showSnackbar(data)
     }
+    checkIfSkill()
 }
 
 </script>

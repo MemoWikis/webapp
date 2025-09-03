@@ -28,6 +28,10 @@
             "published": "The question '{name}' has been successfully published.",
             "flashcardsAdded": "One flashcard was added | {count} flashcards were added."
         },
+        "skill": {
+            "added": "'{name}' added to your Skills",
+            "removed": "'{name}' removed from your Skills"
+        },
         "user": {
             "profileUpdate": "Your new profile data has been saved successfully",
             "passwordChanged": "Your password has been changed successfully.",
