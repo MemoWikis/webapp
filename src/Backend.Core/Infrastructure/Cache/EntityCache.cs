@@ -613,8 +613,6 @@ public class EntityCache
     }
 
     // Extended User Cache Methods - delegated to SlidingCache
-    public static ExtendedUserCacheItem GetExtendedUserById(int userId) =>
-        SlidingCache.GetExtendedUserById(userId);
 
     public static ExtendedUserCacheItem? GetExtendedUserByIdNullable(int userId) =>
         SlidingCache.GetExtendedUserByIdNullable(userId);
@@ -627,8 +625,6 @@ public class EntityCache
 
     public static ICollection<ExtendedUserCacheItem> GetAllExtendedUsers()
     {
-        // Note: Sliding cache doesn't support bulk retrieval by design
-        // Individual cache keys expire independently based on usage
-        return new List<ExtendedUserCacheItem>();
+        return SlidingCache.GetAllActiveExtendedUsers();
     }
 }

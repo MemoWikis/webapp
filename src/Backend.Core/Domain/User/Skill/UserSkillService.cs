@@ -115,9 +115,9 @@ public class UserSkillService(UserSkillRepo _userSkillRepo, KnowledgeSummaryUpda
 
     public IList<KnowledgeEvaluationCacheItem> GetUserSkills(int userId)
     {
-        // Try cache first
         var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
-        var cachedSkills = SlidingCache.GetExtendedUserById(userId)?.GetAllSkills();
+
+        var cachedSkills = extendedUser?.GetAllSkills();
 
         if (cachedSkills?.Any() == true)
         {

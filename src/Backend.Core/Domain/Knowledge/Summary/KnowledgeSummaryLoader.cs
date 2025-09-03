@@ -1,4 +1,4 @@
-﻿public class KnowledgeSummaryLoader(KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher) : IRegisterAsInstancePerLifetime
+﻿public class KnowledgeSummaryLoader(KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher, ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
     public KnowledgeSummary RunFromCache(int pageId, int userId, int maxCacheAgeInMinutes = 10)
     {
@@ -18,7 +18,7 @@
 
         var knowledgeSummary = Run(userId, pageId, onlyValuated: false);
 
-        SlidingCache.UpdateKnowledgeSummary(userId, pageId, knowledgeSummary);
+        SlidingCache.UpdateActiveKnowledgeSummary(userId, pageId, knowledgeSummary);
 
         return knowledgeSummary;
     }
@@ -39,6 +39,13 @@
     {
         if (userId <= 0 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
+
+        var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
+        if (extendedUser == null)
+        {
+            extendedUser = _extendedUserCache.CreateExtendedUserCacheItem(userId);
+            SlidingCache.AddOrUpdate(extendedUser);
+        }
 
         var questionValuations = SlidingCache.GetExtendedUserById(userId).GetAllQuestionValuations();
 

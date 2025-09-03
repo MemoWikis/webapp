@@ -1,0 +1,7 @@
+﻿{
+  NotLearned: 3,
+  Total: 3,
+  KnowledgeStatusPoints: 0.0001,
+  selectedQuestionCount: 3,
+  totalQuestionsCreated: 5
+}

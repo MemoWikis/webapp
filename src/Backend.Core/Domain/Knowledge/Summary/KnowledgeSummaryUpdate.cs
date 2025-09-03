@@ -1,6 +1,7 @@
 ﻿public class KnowledgeSummaryUpdate(
     KnowledgeSummaryLoader knowledgeSummaryLoader,
-    UserSkillService userSkillService) : IRegisterAsInstancePerLifetime
+    UserSkillService userSkillService,
+    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
     public void UpdateSkillsByPage(int pageId)
     {
@@ -34,7 +35,7 @@
         }
     }
 
-    public void UpdateSkillsByUser(int userId)
+    public void UpdateSkillsByActiveUser(int userId)
     {
         var extendedUser = SlidingCache.GetExtendedUserById(userId);
 
@@ -45,7 +46,7 @@
             UpdateSkill(skill.PageId, userId);
     }
 
-    public void UpdateKnowledgeSummariesByUser(int userId)
+    public void UpdateKnowledgeSummariesByActiveUser(int userId)
     {
         var extendedUser = SlidingCache.GetExtendedUserById(userId);
 
@@ -75,7 +76,7 @@
             pageId,
             onlyValuated: false);
 
-        SlidingCache.UpdateUserSkill(userId, pageId, knowledgeSummary, userSkillService);
+        SlidingCache.UpdateActiveUserSkill(userId, pageId, knowledgeSummary, userSkillService);
     }
 
     private void UpdateKnowledgeSummary(int pageId, int userId)
@@ -85,15 +86,15 @@
             pageId,
             onlyValuated: false);
 
-        SlidingCache.UpdateKnowledgeSummary(userId, pageId, knowledgeSummary);
+        SlidingCache.UpdateActiveKnowledgeSummary(userId, pageId, knowledgeSummary);
     }
 
     public void RunForUser(int userId, bool forProfilePage = false)
     {
         if (forProfilePage)
-            UpdateSkillsByUser(userId);
+            UpdateSkillsByActiveUser(userId);
         else
-            UpdateKnowledgeSummariesByUser(userId);
+            UpdateKnowledgeSummariesByActiveUser(userId);
     }
 
     public void RunForPage(int pageId, bool forProfilePage = false)

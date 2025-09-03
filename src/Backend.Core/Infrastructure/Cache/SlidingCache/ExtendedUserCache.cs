@@ -110,22 +110,22 @@ public class ExtendedUserCache(
     {
         lock ("2ba84bee-5294-420b-bd43-1decaa0d2d3e" + userId)
         {
-            var sessionUserCacheItem = GetItem(userId);
+            var extendedUserCacheItem = GetItem(userId);
 
-            if (sessionUserCacheItem != null)
+            if (extendedUserCacheItem != null)
             {
-                sessionUserCacheItem.PopulateSharedPages();
+                extendedUserCacheItem.PopulateSharedPages();
 
-                if (sessionUserCacheItem.RecentPages == null && _pageViewRepo != null)
-                    PopulateRecentPages(sessionUserCacheItem, _pageViewRepo);
+                if (extendedUserCacheItem.RecentPages == null && _pageViewRepo != null)
+                    PopulateRecentPages(extendedUserCacheItem, _pageViewRepo);
 
-                return sessionUserCacheItem;
+                return extendedUserCacheItem;
             }
 
             var cacheItem = CreateExtendedUserCacheItem(userId, _pageViewRepo);
             cacheItem.PopulateSharedPages();
 
-            AddToCache(cacheItem);
+            SlidingCache.AddOrUpdate(cacheItem);
             return cacheItem;
         }
     }
@@ -174,7 +174,7 @@ public class ExtendedUserCache(
         return sessionUserCacheItem;
     }
 
-    public ExtendedUserCacheItem CreateExtendedUserCacheItem(int userId, PageViewRepo? _pageViewRepo)
+    public ExtendedUserCacheItem CreateExtendedUserCacheItem(int userId, PageViewRepo? _pageViewRepo = null)
     {
         var cacheItem = CreateCacheItem(EntityCache.GetUserById(userId));
 
@@ -185,34 +185,36 @@ public class ExtendedUserCache(
         if (_pageViewRepo != null)
             PopulateRecentPages(cacheItem, _pageViewRepo);
 
+        AddToCache(cacheItem);
+
         return cacheItem;
     }
 
     private void PopulatePageValuations(ExtendedUserCacheItem cacheItem)
     {
         Log.Information("PopulatePageValuations: Starting for userId {UserId}", cacheItem.Id);
-        
+
         var pageValuations = pageValuationReadingRepository
             .GetByUser(cacheItem.Id, onlyActiveKnowledge: false);
-            
-        Log.Information("PopulatePageValuations: Found {Count} page valuations for userId {UserId}", 
+
+        Log.Information("PopulatePageValuations: Found {Count} page valuations for userId {UserId}",
             pageValuations?.Count() ?? 0, cacheItem.Id);
-        
+
         if (pageValuations != null && pageValuations.Any())
         {
             foreach (var pv in pageValuations.Take(5)) // Log first 5 for debugging
             {
-                Log.Information("PopulatePageValuations: Found PageValuation - UserId: {UserId}, PageId: {PageId}", 
+                Log.Information("PopulatePageValuations: Found PageValuation - UserId: {UserId}, PageId: {PageId}",
                     pv.UserId, pv.PageId);
             }
         }
-        
+
         cacheItem.PageValuations = new ConcurrentDictionary<int, PageValuation>(
-            pageValuations?.Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v)) ?? 
+            pageValuations?.Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v)) ??
             new List<KeyValuePair<int, PageValuation>>()
         );
-        
-        Log.Information("PopulatePageValuations: Completed for userId {UserId}, final count: {Count}", 
+
+        Log.Information("PopulatePageValuations: Completed for userId {UserId}, final count: {Count}",
             cacheItem.Id, cacheItem.PageValuations.Count);
     }
 

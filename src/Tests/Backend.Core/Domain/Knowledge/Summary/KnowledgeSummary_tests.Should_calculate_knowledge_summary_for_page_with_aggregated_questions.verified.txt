@@ -1,0 +1,8 @@
+﻿{
+  NotLearned: 1,
+  NeedsLearning: 1,
+  Solid: 1,
+  Total: 3,
+  KnowledgeStatusPoints: 0.3668,
+  KnowledgeStatusPointsTotal: 0.3668
+}

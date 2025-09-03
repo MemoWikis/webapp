@@ -1,0 +1,6 @@
+﻿{
+  NotLearned: 1,
+  NeedsConsolidation: 1,
+  Total: 2,
+  KnowledgeStatusPoints: 0.2501
+}

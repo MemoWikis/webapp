@@ -137,7 +137,7 @@ public static class SlidingCache
     /// <param name="pageId">Page ID</param>
     /// <param name="knowledgeSummary">Knowledge summary to update with</param>
     /// <param name="userSkillService">Service to perform the update</param>
-    public static void UpdateUserSkill(int userId, int pageId, KnowledgeSummary knowledgeSummary, UserSkillService userSkillService)
+    public static void UpdateActiveUserSkill(int userId, int pageId, KnowledgeSummary knowledgeSummary, UserSkillService userSkillService)
     {
         var extendedUser = GetExtendedUserByIdNullable(userId);
         if (extendedUser == null)
@@ -156,7 +156,7 @@ public static class SlidingCache
     /// <param name="userId">User ID</param>
     /// <param name="pageId">Page ID</param>
     /// <param name="knowledgeSummary">Knowledge summary to update with</param>
-    public static void UpdateKnowledgeSummary(int userId, int pageId, KnowledgeSummary knowledgeSummary)
+    public static void UpdateActiveKnowledgeSummary(int userId, int pageId, KnowledgeSummary knowledgeSummary)
     {
         var extendedUser = GetExtendedUserByIdNullable(userId);
         if (extendedUser == null)
@@ -170,7 +170,7 @@ public static class SlidingCache
             DateCreated = DateTime.Now,
             DateModified = DateTime.Now
         };
-        
+
         extendedUser.AddOrUpdateKnowledgeSummary(knowledgeEvaluationCacheItem);
     }
 }
