@@ -6,7 +6,7 @@ public class GraphService
     public static IList<PageCacheItem> Ascendants(int pageId) =>
         Ascendants(EntityCache.GetPage(pageId));
 
-    private static IList<PageCacheItem> Ascendants(PageCacheItem page)
+    public static IList<PageCacheItem> Ascendants(PageCacheItem page)
     {
         var allParents = new List<PageCacheItem>();
         var visitedIds = new HashSet<int>();

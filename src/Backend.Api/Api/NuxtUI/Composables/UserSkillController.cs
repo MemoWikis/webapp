@@ -16,7 +16,7 @@ public class UserSkillController(
 
     public readonly record struct CheckRequest(int UserId, int PageId);
 
-    [HttpGet]
+    [HttpPost]
     public bool Check([FromBody] CheckRequest request)
     {
         if (_sessionUser.UserId != request.UserId)

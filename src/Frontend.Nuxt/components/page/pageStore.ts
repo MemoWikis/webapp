@@ -167,7 +167,6 @@ export const usePageStore = defineStore('pageStore', () => {
 
     // Actions
     const setPage = (page: Page) => {
-        console.trace('setPage called with page:', page)
         shareToken.value = null
 
         if (page != null) {
