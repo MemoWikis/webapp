@@ -1,4 +1,4 @@
-﻿public class KnowledgeSummaryLoader(KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher, KnowledgeSummaryUpdate knowledgeSummaryUpdate) : IRegisterAsInstancePerLifetime
+﻿public class KnowledgeSummaryLoader(KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher) : IRegisterAsInstancePerLifetime
 {
     public KnowledgeSummary RunFromCache(int pageId, int userId, int maxCacheAgeInMinutes = 10)
     {
@@ -17,7 +17,8 @@
         }
 
         var knowledgeSummary = Run(userId, pageId, onlyValuated: false);
-        knowledgeSummaryUpdate.UpdateKnowledgeSummary(pageId, userId, knowledgeSummary);
+
+        SlidingCache.UpdateKnowledgeSummary(userId, pageId, knowledgeSummary);
 
         return knowledgeSummary;
     }

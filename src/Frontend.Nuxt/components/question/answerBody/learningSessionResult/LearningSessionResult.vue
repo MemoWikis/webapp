@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { useUserStore } from '~~/components/user/userStore'
-import { Question } from './QuestionDetail.vue'
+import { Question } from '~/types/learningSession'
 
 const userStore = useUserStore()
 const emit = defineEmits(['startNewSession'])

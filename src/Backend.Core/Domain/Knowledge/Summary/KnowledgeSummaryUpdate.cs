@@ -85,11 +85,6 @@
             pageId,
             onlyValuated: false);
 
-        UpdateKnowledgeSummary(pageId, userId, knowledgeSummary);
-    }
-
-    public void UpdateKnowledgeSummary(int pageId, int userId, KnowledgeSummary knowledgeSummary)
-    {
         SlidingCache.UpdateKnowledgeSummary(userId, pageId, knowledgeSummary);
     }
 

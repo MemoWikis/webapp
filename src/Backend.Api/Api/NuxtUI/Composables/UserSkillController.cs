@@ -10,8 +10,6 @@ public class UserSkillController(
         string ErrorMessageKey,
         PageItem? AddedSkill = null);
 
-    public readonly record struct RemoveRequest(int UserId, int PageId);
-
     public readonly record struct RemoveResult(
         bool Success,
         string ErrorMessageKey);
@@ -31,6 +29,9 @@ public class UserSkillController(
     public AddResult Add([FromRoute] int id)
     {
         if (!_sessionUser.IsLoggedIn)
+            throw new UnauthorizedAccessException(FrontendMessageKeys.Error.User.NotLoggedIn);
+
+        if (_sessionUser.IsLoggedIn)
             throw new UnauthorizedAccessException(FrontendMessageKeys.Error.User.NotLoggedIn);
 
         var page = EntityCache.GetPage(id);
