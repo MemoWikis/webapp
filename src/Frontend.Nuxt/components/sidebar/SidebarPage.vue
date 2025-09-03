@@ -53,4 +53,19 @@ const props = withDefaults(defineProps<Props>(), {
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.wiki-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .sidebar-link {
+        color: @memo-grey-dark;
+        text-decoration: none;
+
+        &:hover {
+            color: @memo-blue-link;
+        }
+    }
+}
 </style>

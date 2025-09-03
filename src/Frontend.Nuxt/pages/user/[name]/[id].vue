@@ -188,6 +188,16 @@ onMounted(() => {
 })
 const ariaId = useId()
 
+const showSkillCard = (skill: PageData) => {
+    if (profile.value?.isCurrentUser && !userStore.showAsVisitor) {
+        return true
+    }
+    else if (skill.knowledgebarData && skill.knowledgebarData.total > 0 && skill.isPublic) {
+        return true
+    }
+    return false
+}
+
 </script>
 
 <template>
@@ -207,8 +217,8 @@ const ariaId = useId()
                                 <template #popper="{ hide }">
                                     <div @click="userStore.toggleShowAsVisitor()" class="dropdown-row">
                                         <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-toggle-off" class="inactive toggle-icon" v-if="userStore.showAsVisitor" />
-                                            <font-awesome-icon icon="fa-solid fa-toggle-on" class="active toggle-icon" v-else />
+                                            <font-awesome-icon icon="fa-solid fa-toggle-on" class="active toggle-icon" v-if="userStore.showAsVisitor" />
+                                            <font-awesome-icon icon="fa-solid fa-toggle-off" class="inactive toggle-icon" v-else />
                                         </div>
                                         <div class="dropdown-label">
                                             {{ t('user.profile.showAsVisitor') }}
@@ -250,14 +260,14 @@ const ariaId = useId()
             <LayoutPanel v-if="hasSkills || profile.isCurrentUser && userStore.showAsVisitor" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)"
                 :labelTooltip="UserSection.SKILLS_SECTION.tooltipKey ? t(UserSection.SKILLS_SECTION.tooltipKey) : ''">
                 <template v-for="skill in profile.skills">
-                    <UserSkillCard :skill="skill" v-if="profile.isCurrentUser && userStore.showAsVisitor || (skill.knowledgebarData && skill.knowledgebarData.total > 0) && skill.isPublic" />
+                    <UserSkillCard :skill="skill" v-if="showSkillCard(skill)" />
                 </template>
 
                 <LayoutCard v-if="!hasSkills" :size="LayoutCardSize.Large">
                     {{ t('user.profile.noSkills') }}
                 </LayoutCard>
 
-                <LayoutCard v-if="profile.isCurrentUser && userStore.showAsVisitor" :size="LayoutCardSize.Small" @click="handleAddSkillClick" class="add-skill-card">
+                <LayoutCard v-if="profile.isCurrentUser && !userStore.showAsVisitor" :size="LayoutCardSize.Small" @click="handleAddSkillClick" class="add-skill-card">
                     <div class="add-skill-content">
                         <font-awesome-icon :icon="['fas', 'plus']" class="add-icon" />
                         <span>{{ t('user.skills.addSkill') }}</span>

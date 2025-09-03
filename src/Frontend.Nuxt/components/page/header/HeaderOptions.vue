@@ -11,6 +11,7 @@ import { useDeletePageStore } from '../delete/deletePageStore'
 import { useConvertStore } from '../convert/convertStore'
 import { useSharePageStore } from '../sharing/sharePageStore'
 import { useUserSkills } from '~~/composables/useUserSkills'
+import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 const userStore = useUserStore()
 const pageStore = usePageStore()
@@ -29,10 +30,12 @@ const isSkill = ref(false)
 
 const { t, localeProperties } = useI18n()
 
+const snackbarStore = useSnackbarStore()
+
 // Check if current page is already a skill
 const checkIfSkill = async () => {
     if (userStore.id && pageStore.id) {
-        const result = await checkSkill(userStore.id, pageStore.id)
+        const result = await checkSkill(pageStore.id)
         isSkill.value = result
     }
 }
@@ -49,20 +52,20 @@ const addToSkills = async () => {
         return
     }
 
-    try {
-        const result = await addSkill(pageStore.id)
+    const result = await addSkill(pageStore.id)
 
-        if (result.success) {
-            // Show success message or toast
-            console.log('Page added to skills successfully')
-        } else {
-            // Show error message
-            console.error('Failed to add to skills:', result.errorMessageKey)
-            alert(`Error: ${t(result.errorMessageKey)}`)
+    if (result.success) {
+        const data: SnackbarData = {
+            type: 'success',
+            text: { message: t('success.skill.added') },
         }
-    } catch (error) {
-        console.error('Error adding to skills:', error)
-        alert('Failed to add page to skills')
+        snackbarStore.showSnackbar(data)
+    } else {
+        const data: SnackbarData = {
+            type: 'error',
+            text: { message: t(result.errorMessageKey) },
+        }
+        snackbarStore.showSnackbar(data)
     }
 }
 
@@ -72,20 +75,15 @@ const removeFromSkills = async () => {
         return
     }
 
-    try {
-        const result = await removeSkill(userStore.id, pageStore.id)
+    const result = await removeSkill(pageStore.id)
 
-        if (result.success) {
-            // Show success message or toast
-            console.log('Page removed from skills successfully')
-        } else {
-            // Show error message
-            console.error('Failed to remove from skills:', result.errorMessageKey)
-            alert(`Error: ${t(result.errorMessageKey)}`)
-        }
-    } catch (error) {
-        console.error('Error removing from skills:', error)
-        alert('Failed to remove page from skills')
+    if (result.success) {
+        // Show success message or toast
+        console.log('Page removed from skills successfully')
+    } else {
+        // Show error message
+        console.error('Failed to remove from skills:', result.errorMessageKey)
+        alert(`Error: ${t(result.errorMessageKey)}`)
     }
 }
 

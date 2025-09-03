@@ -14,15 +14,14 @@ public class UserSkillController(
         bool Success,
         string ErrorMessageKey);
 
-    public readonly record struct CheckRequest(int UserId, int PageId);
 
-    [HttpPost]
-    public bool Check([FromBody] CheckRequest request)
+    [HttpGet]
+    public bool Check([FromRoute] int id)
     {
-        if (_sessionUser.UserId != request.UserId)
-            return false;
+        if (!_sessionUser.IsLoggedIn)
+            throw new UnauthorizedAccessException(FrontendMessageKeys.Error.User.NotLoggedIn);
 
-        return _extendedUserCache.GetUser(request.UserId).IsSkill(request.PageId);
+        return _extendedUserCache.GetUser(_sessionUser.UserId).IsSkill(id);
     }
 
     [HttpPost]
@@ -31,29 +30,18 @@ public class UserSkillController(
         if (!_sessionUser.IsLoggedIn)
             throw new UnauthorizedAccessException(FrontendMessageKeys.Error.User.NotLoggedIn);
 
-        if (_sessionUser.IsLoggedIn)
-            throw new UnauthorizedAccessException(FrontendMessageKeys.Error.User.NotLoggedIn);
-
         var page = EntityCache.GetPage(id);
-
         if (page == null)
-        {
-            return new AddResult(false, FrontendMessageKeys.Error.Page.NotFound, null);
-        }
+            throw new FileNotFoundException(FrontendMessageKeys.Error.Page.NotFound);
 
         if (!_permissionCheck.CanView(page))
-        {
-            return new AddResult(false, FrontendMessageKeys.Error.Page.NoRights, null);
-        }
+            throw new UnauthorizedAccessException(FrontendMessageKeys.Error.Page.NoRights);
 
         var extendedUserCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
 
         // Check if skill already exists
-        var existingSkill = extendedUserCacheItem.GetSkill(id);
-        if (existingSkill != null)
-        {
+        if (_extendedUserCache.GetUser(_sessionUser.UserId).IsSkill(id))
             return new AddResult(false, FrontendMessageKeys.Error.Skill.AlreadyExists, null);
-        }
 
         // Use UserSkillService to create the skill
         _userSkillService.CreateUserSkill(_sessionUser.UserId, id);

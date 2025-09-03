@@ -1,6 +1,5 @@
 import { PageData } from "./missionControl/pageData"
 
-
 export interface AddSkillResult {
     success: boolean
     errorMessageKey: string
@@ -18,7 +17,6 @@ export interface CheckSkillRequest {
 
 export const useUserSkills = () => {
     const addSkill = async (pageId: number): Promise<AddSkillResult> => {
-        try {
             const result = await $api<AddSkillResult>(`/apiVue/UserSkill/Add/${pageId}`, {
                 method: 'POST',
                 mode: 'cors',
@@ -26,18 +24,9 @@ export const useUserSkills = () => {
             })
             
             return result
-        } catch (error) {
-            console.error('Error adding skill:', error)
-            return {
-                success: false,
-                errorMessageKey: 'error.addSkill.failed',
-                addedSkill: null
-            }
-        }
     }
 
-    const removeSkill = async (userId: number, pageId: number): Promise<RemoveSkillResult> => {
-        try {
+    const removeSkill = async (pageId: number): Promise<RemoveSkillResult> => {
             const result = await $api<RemoveSkillResult>(`/apiVue/UserSkill/Remove/${pageId}`, {
                 method: 'POST',
                 mode: 'cors',
@@ -45,32 +34,16 @@ export const useUserSkills = () => {
             })
             
             return result
-        } catch (error) {
-            console.error('Error removing skill:', error)
-            return {
-                success: false,
-                errorMessageKey: 'error.removeSkill.failed'
-            }
-        }
     }
 
-    const checkSkill = async (userId: number, pageId: number): Promise<boolean> => {
-        try {
-            const result = await $api<boolean>(`/apiVue/UserSkill/Check/`, {
-                method: 'POST',
+    const checkSkill = async (pageId: number): Promise<boolean> => {
+            const result = await $api<boolean>(`/apiVue/UserSkill/Check/${pageId}`, {
+                method: 'GET',
                 mode: 'cors',
-                credentials: 'include',
-                body: {
-                    userId: userId,
-                    pageId: pageId
-                }
+                credentials: 'include'
             })
             
             return result
-        } catch (error) {
-            console.error('Error checking skill:', error)
-            return false
-        }
     }
 
     return {

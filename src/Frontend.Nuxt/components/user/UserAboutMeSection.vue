@@ -151,6 +151,10 @@ const flavorText = computed(() => {
 
 const { isMobile } = useDevice()
 
+const showFlavorText = computed(() => {
+    return noContent.value && (userStore.showAsVisitor || !isCurrentUser)
+})
+
 </script>
 
 <template>
@@ -166,8 +170,8 @@ const { isMobile } = useDevice()
                     </button>
                 </div>
             </bubble-menu>
-            <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed, 'show-flavorText': noContent && (userStore.showAsVisitor || !isCurrentUser), 'is-mobile': isMobile }" ref="editorRef" />
-            <div v-if="noContent && (userStore.showAsVisitor || !isCurrentUser)" class="about-me-text placeholder">{{ flavorText }}</div>
+            <editor-content v-if="editor" :editor="editor" class="about-me-text" :class="{ 'show-full': !collapsed, 'show-flavorText': showFlavorText, 'is-mobile': isMobile }" ref="editorRef" />
+            <div v-if="showFlavorText" class="about-me-text placeholder">{{ flavorText }}</div>
         </template>
 
         <div v-else v-html="aboutMe" class="about-me-text placeholder"></div>
