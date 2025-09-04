@@ -282,7 +282,7 @@ const showSkillCard = (skill: PageData) => {
             <LayoutPanel v-if="hasSkills || profile.isCurrentUser && userStore.showAsVisitor" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)"
                 :labelTooltip="UserSection.SKILLS_SECTION.tooltipKey ? t(UserSection.SKILLS_SECTION.tooltipKey) : ''">
                 <template v-for="skill in profile.skills">
-                    <UserSkillCard :skill="skill" :is-current-user="profile.isCurrentUser && !userStore.showAsVisitor" v-if="showSkillCard(skill)" @remove-skill="onRemoveSkill" />
+                    <UserSkillCard :skill="skill" :can-edit="profile.isCurrentUser && !userStore.showAsVisitor" v-if="showSkillCard(skill)" @remove-skill="onRemoveSkill" />
                 </template>
 
                 <LayoutCard v-if="!hasSkills" :size="LayoutCardSize.Large">

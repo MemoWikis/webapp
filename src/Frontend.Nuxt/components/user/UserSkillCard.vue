@@ -4,7 +4,7 @@ import { PageData } from '~/composables/missionControl/pageData'
 interface Props {
     skill: PageData
     size?: LayoutCardSize
-    isCurrentUser?: boolean
+    canEdit?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -22,8 +22,9 @@ const hasKnowledgebarData = computed(() => {
     return props.skill.knowledgebarData != null && props.skill.knowledgebarData.total > 0
 })
 const hover = ref(false)
+const { isMobile } = useDevice()
 const showDeleteButton = computed(() => {
-    return props.isCurrentUser && hover.value
+    return props.canEdit && (hover.value || isMobile)
 })
 </script>
 
