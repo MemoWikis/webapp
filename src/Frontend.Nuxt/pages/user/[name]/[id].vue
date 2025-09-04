@@ -9,6 +9,7 @@ import { PageData } from '~/composables/missionControl/pageData'
 import { color } from '~/constants/colors'
 import UserSection from '~/constants/userSections'
 import { Question } from '~~/components/layout/LayoutQuestionList.vue'
+import { useSnackbarStore, SnackbarData } from '~/components/snackBar/snackBarStore'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -16,6 +17,8 @@ const headers = useRequestHeaders(['cookie']) as HeadersInit
 const userStore = useUserStore()
 const { $logger, $urlHelper } = useNuxtApp()
 const { t } = useI18n()
+const { removeSkill } = useUserSkills()
+const snackbarStore = useSnackbarStore()
 
 interface Overview {
     activityPoints: {
@@ -150,7 +153,26 @@ function handleAddSkillClick() {
     showAddSkillModal.value = true
 }
 
-async function handleSkillAdded() {
+async function onSkillAdded() {
+    await refreshProfile()
+}
+
+async function onRemoveSkill(skill: PageData) {
+    const result = await removeSkill(skill.id)
+
+    if (result.success) {
+        const data: SnackbarData = {
+            type: 'success',
+            text: { message: t('success.skill.removed', { name: skill.name }) },
+        }
+        snackbarStore.showSnackbar(data)
+    } else {
+        const data: SnackbarData = {
+            type: 'error',
+            text: { message: t(result.errorMessageKey) },
+        }
+        snackbarStore.showSnackbar(data)
+    }
     await refreshProfile()
 }
 
@@ -260,7 +282,7 @@ const showSkillCard = (skill: PageData) => {
             <LayoutPanel v-if="hasSkills || profile.isCurrentUser && userStore.showAsVisitor" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)"
                 :labelTooltip="UserSection.SKILLS_SECTION.tooltipKey ? t(UserSection.SKILLS_SECTION.tooltipKey) : ''">
                 <template v-for="skill in profile.skills">
-                    <UserSkillCard :skill="skill" v-if="showSkillCard(skill)" />
+                    <UserSkillCard :skill="skill" :is-current-user="profile.isCurrentUser && !userStore.showAsVisitor" v-if="showSkillCard(skill)" @remove-skill="onRemoveSkill" />
                 </template>
 
                 <LayoutCard v-if="!hasSkills" :size="LayoutCardSize.Large">
@@ -297,7 +319,7 @@ const showSkillCard = (skill: PageData) => {
         <SidebarUser :user="profile.user" :has-wikis="hasWikis" :has-questions="hasQuestions" :show-skills="showSkills" :margin-top="sideBarMarginTop" />
 
         <!-- Add Skill Modal -->
-        <UserSkillsAddSkillModal v-if="profile?.user.id" :show="showAddSkillModal" :user-id="profile.user.id" @close="showAddSkillModal = false" @skill-added="handleSkillAdded" />
+        <UserSkillsAddSkillModal v-if="profile?.user.id" :show="showAddSkillModal" :user-id="profile.user.id" @close="showAddSkillModal = false" @skill-added="onSkillAdded" />
     </div>
 </template>
 

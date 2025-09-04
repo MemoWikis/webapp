@@ -1906,7 +1906,8 @@
         "by": "Par",
         "questionCount": "Nombre de questions",
         "private": "Les pages privées ne seront pas affichées sur votre profil public",
-        "noQuestions": "Les pages sans questions publiques ne seront pas affichées sur votre profil public"
+        "noQuestions": "Les pages sans questions publiques ne seront pas affichées sur votre profil public",
+        "deleteSkill": "Supprimer la compétence"
     },
     "userAboutMe": {
         "placeholder": "Parlez aux autres de vous...",

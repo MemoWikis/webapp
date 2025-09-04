@@ -1906,7 +1906,8 @@
         "by": "Von",
         "questionCount": "Anzahl Fragen",
         "private": "Private Seiten werden nicht in deinem öffentlichen Profil angezeigt",
-        "noQuestions": "Seiten ohne öffentliche Fragen werden nicht in deinem öffentlichen Profil angezeigt"
+        "noQuestions": "Seiten ohne öffentliche Fragen werden nicht in deinem öffentlichen Profil angezeigt",
+        "deleteSkill": "Skill entfernen"
     },
     "userAboutMe": {
         "placeholder": "Erzähle anderen etwas über dich...",

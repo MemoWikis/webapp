@@ -4,6 +4,7 @@ import { PageData } from '~/composables/missionControl/pageData'
 interface Props {
     skill: PageData
     size?: LayoutCardSize
+    isCurrentUser?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -13,16 +14,25 @@ const props = withDefaults(defineProps<Props>(), {
 const { t } = useI18n()
 const { $urlHelper } = useNuxtApp()
 
+const emit = defineEmits<{
+    removeSkill: [skill: PageData]
+}>()
+
 const hasKnowledgebarData = computed(() => {
     return props.skill.knowledgebarData != null && props.skill.knowledgebarData.total > 0
 })
-
-
+const hover = ref(false)
+const showDeleteButton = computed(() => {
+    return props.isCurrentUser && hover.value
+})
 </script>
 
 <template>
-    <LayoutCard :size="size" :url="$urlHelper.getPageUrl(skill.name, skill.id)">
+    <LayoutCard :size="size" :url="$urlHelper.getPageUrl(skill.name, skill.id)" @mouseover="hover = true" @mouseleave="hover = false">
         <div class="user-skill-card">
+            <div v-if="showDeleteButton" class="delete-button-container" v-tooltip="t('userSkillCard.deleteSkill')">
+                <font-awesome-icon icon="fa-solid fa-trash" class="delete-icon" @click.prevent.stop="$emit('removeSkill', skill)" />
+            </div>
             <div class="skill-image" v-if="skill.imgUrl">
                 <Image :src="skill.imgUrl" :alt="skill.name" />
             </div>
@@ -35,9 +45,7 @@ const hasKnowledgebarData = computed(() => {
                 <p class="creator">{{ t('userSkillCard.by') }}: {{ skill.creatorName }}</p>
                 <div class="knowledge-container" v-if="skill.questionCount > 0">
                     <p class="question-count">{{ t('userSkillCard.questionCount') }}: {{ skill.questionCount }}</p>
-                    <PageContentGridKnowledgebar class="skill-bar"
-                        v-if="hasKnowledgebarData"
-                        :knowledgebarData="props.skill.knowledgebarData" />
+                    <PageContentGridKnowledgebar class="skill-bar" v-if="hasKnowledgebarData" :knowledgebarData="props.skill.knowledgebarData" />
                 </div>
 
             </div>
@@ -54,6 +62,29 @@ const hasKnowledgebarData = computed(() => {
     gap: 2rem;
     width: 100%;
 
+    .delete-button-container {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        z-index: 10;
+        background: white;
+        border-radius: 36px;
+        padding: 12px;
+        height: 36px;
+        width: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: @memo-grey;
+        font-size: 1.2em;
+        transition: all 0.1s ease-in;
+
+        &:hover {
+            background: darken(@memo-grey-light, 5%);
+        }
+    }
+
     .skill-image {
         border-radius: 8px;
         overflow: hidden;
@@ -64,6 +95,7 @@ const hasKnowledgebarData = computed(() => {
         flex-direction: column;
         align-items: flex-start;
         width: 100%;
+        height: 100%;
 
         position: relative;
 

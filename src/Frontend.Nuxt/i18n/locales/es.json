@@ -1906,7 +1906,8 @@
         "by": "Por",
         "questionCount": "Cantidad de preguntas",
         "private": "Las páginas privadas no se mostrarán en tu perfil público",
-        "noQuestions": "Las páginas sin preguntas públicas no se mostrarán en tu perfil público"
+        "noQuestions": "Las páginas sin preguntas públicas no se mostrarán en tu perfil público",
+        "deleteSkill": "Eliminar habilidad"
     },
     "userAboutMe": {
         "placeholder": "Cuéntales a otros sobre ti...",
