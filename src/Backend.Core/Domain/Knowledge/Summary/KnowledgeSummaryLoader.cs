@@ -16,26 +16,26 @@
             }
         }
 
-        var knowledgeSummary = Run(userId, pageId, onlyValuated: false);
+        var knowledgeSummary = Run(userId, pageId, onlyInWishknowledge: false);
 
         SlidingCache.UpdateActiveKnowledgeSummary(userId, pageId, knowledgeSummary);
 
         return knowledgeSummary;
     }
 
-    public KnowledgeSummary Run(int userId, int pageId, bool onlyValuated = true)
+    public KnowledgeSummary Run(int userId, int pageId, bool onlyInWishknowledge = true)
     {
         var page = EntityCache.GetPage(pageId);
         if (page == null)
             return new KnowledgeSummary();
 
-        return Run(userId, page.GetAggregatedQuestions(userId).GetIds(), onlyValuated);
+        return Run(userId, page.GetAggregatedQuestions(userId).GetIds(), onlyInWishknowledge);
     }
 
     public KnowledgeSummary Run(
         int userId,
         IList<int>? questionIds = null,
-        bool onlyValuated = true)
+        bool onlyInWishknowledge = true)
     {
         if (userId <= 0 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
@@ -49,8 +49,9 @@
 
         var questionValuations = SlidingCache.GetExtendedUserById(userId).GetAllQuestionValuations();
 
-        if (onlyValuated)
+        if (onlyInWishknowledge)
             questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
+
         if (questionIds != null)
             questionValuations = questionValuations.Where(v => questionIds.Contains(v.Question.Id))
                 .ToList();
@@ -64,9 +65,8 @@
         var solid = questionValuations.Count(v => v.KnowledgeStatus == KnowledgeStatus.Solid);
         var notInWishknowledge = 0;
 
-        if (questionIds != null)
-            notInWishknowledge =
-                questionIds.Count - (notLearned + needsLearning + needsConsolidation + solid);
+        if (questionIds != null && !onlyInWishknowledge)
+            notInWishknowledge = questionIds.Count - (notLearned + needsLearning + needsConsolidation + solid);
 
         return new KnowledgeSummary(
             notLearned: notLearned,

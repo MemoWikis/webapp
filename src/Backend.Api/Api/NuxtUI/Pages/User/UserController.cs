@@ -151,7 +151,7 @@ public class UserController(
                     wiki.Name,
                     new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
                     wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                    new KnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id, onlyValuated: true)),
+                    new KnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id, onlyInWishknowledge: true)),
                     _popularityCalculator.CalculatePagePopularity(wiki))
             )
             .ToList();

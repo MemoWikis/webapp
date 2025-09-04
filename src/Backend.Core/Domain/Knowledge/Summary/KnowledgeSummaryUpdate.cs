@@ -74,7 +74,7 @@
         var knowledgeSummary = knowledgeSummaryLoader.Run(
             userId,
             pageId,
-            onlyValuated: false);
+            onlyInWishknowledge: false);
 
         SlidingCache.UpdateActiveUserSkill(userId, pageId, knowledgeSummary, userSkillService);
     }
@@ -84,7 +84,7 @@
         var knowledgeSummary = knowledgeSummaryLoader.Run(
             userId,
             pageId,
-            onlyValuated: false);
+            onlyInWishknowledge: false);
 
         SlidingCache.UpdateActiveKnowledgeSummary(userId, pageId, knowledgeSummary);
     }

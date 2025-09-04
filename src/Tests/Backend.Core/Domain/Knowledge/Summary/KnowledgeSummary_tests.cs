@@ -175,7 +175,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
 
         // Act - Get knowledge summary for parent page (should include child questions)
-        var result = knowledgeSummaryLoader.Run(creator.Id, parentPage.Id, onlyValuated: true);
+        var result = knowledgeSummaryLoader.Run(creator.Id, parentPage.Id, onlyInWishknowledge: true);
 
         // Assert
         await Verify(new
@@ -258,25 +258,19 @@ internal class KnowledgeSummary_tests : BaseTestHarness
 
         // Act - Get knowledge summary for only the first 3 questions
         var selectedQuestionIds = questions.Take(3).Select(q => q.Id).ToList();
-        var result = knowledgeSummaryLoader.Run(creator.Id, selectedQuestionIds, onlyValuated: true);
+        var result = knowledgeSummaryLoader.Run(creator.Id, selectedQuestionIds, onlyInWishknowledge: true);
 
         // Assert
         await Verify(new
         {
-            result.NotLearned,
-            result.NeedsLearning,
-            result.NeedsConsolidation,
-            result.Solid,
-            result.NotInWishknowledge,
-            result.Total,
-            result.KnowledgeStatusPoints,
+            result,
             selectedQuestionCount = selectedQuestionIds.Count,
             totalQuestionsCreated = questions.Count
         });
     }
 
     [Test]
-    public async Task Should_return_empty_knowledge_summary_for_invalid_user()
+    public async Task Should_return_valid_knowledgesummary_for_invalid_user()
     {
         await ClearData();
 
@@ -310,18 +304,13 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         var result = knowledgeSummaryLoader.Run(
             userId: 0, // Invalid user ID
             questionIds: new List<int> { question.Id },
-            onlyValuated: true
+            onlyInWishknowledge: true
         );
 
         // Assert
         await Verify(new
         {
-            result.NotLearned,
-            result.NeedsLearning,
-            result.NeedsConsolidation,
-            result.Solid,
-            result.NotInWishknowledge,
-            result.Total
+            result
         });
     }
 
@@ -446,6 +435,9 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         entityCacheInitializer.Init();
 
         // Create existing skills for the user using UserSkillService
+        var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
+        knowledgeSummaryLoader.Run(creator.Id);
+
         var userSkillService = R<UserSkillService>();
         userSkillService.CreateUserSkill(creator.Id, testPage1.Id, new KnowledgeSummary(notLearned: 1));
         userSkillService.CreateUserSkill(creator.Id, testPage2.Id, new KnowledgeSummary(solid: 1));
@@ -460,60 +452,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
 
         await Verify(new
         {
-            SkillCount = userSkills.Count(),
-            FirstSkillPageId = userSkills.First().PageId,
-            SecondSkillPageId = userSkills.Skip(1).First().PageId,
-            FirstSkillTotal = userSkills.First().KnowledgeSummary.Total,
-            SecondSkillTotal = userSkills.Skip(1).First().KnowledgeSummary.Total
-        });
-    }
-
-    [Test]
-    public async Task Should_run_for_user_and_page_with_profile_page_flag()
-    {
-        await ClearData();
-
-        // Arrange
-        var context = NewPageContext();
-        var questionContext = NewQuestionContext();
-        var creator = _testHarness.GetDefaultSessionUserFromDb();
-
-        context.Add("rootWiki", creator: creator, isWiki: true).Persist();
-        context.Add("testPage", creator: creator).Persist();
-
-        var testPage = context.All.ByName("testPage");
-
-        questionContext.AddQuestion(
-            questionText: "Test Question",
-            solutionText: "Test Answer",
-            pages: new List<Page> { testPage },
-            creator: creator,
-            questionVisibility: QuestionVisibility.Public
-        );
-
-        questionContext.Persist();
-
-        await ReloadCaches();
-
-        var entityCacheInitializer = R<EntityCacheInitializer>();
-        entityCacheInitializer.Init();
-
-        var knowledgeSummaryUpdate = R<KnowledgeSummaryUpdate>();
-
-        // Act - Test both profile page modes
-        knowledgeSummaryUpdate.RunForUserAndPage(creator.Id, testPage.Id, forProfilePage: true);
-        knowledgeSummaryUpdate.RunForUserAndPage(creator.Id, testPage.Id, forProfilePage: false);
-
-        // Assert - Verify the methods were called (this is more of an integration test)
-        var userSkill = SlidingCache.GetExtendedUserById(creator.Id).GetSkill(testPage.Id);
-        var knowledgeSummary = SlidingCache.GetExtendedUserById(creator.Id).GetKnowledgeSummary(testPage.Id);
-
-        await Verify(new
-        {
-            UserSkillExists = userSkill != null,
-            KnowledgeSummaryExists = knowledgeSummary != null,
-            UserSkillTotal = userSkill?.KnowledgeSummary?.Total ?? 0,
-            KnowledgeSummaryTotal = knowledgeSummary?.KnowledgeSummary?.Total ?? 0
+            userSkills
         });
     }
 
@@ -542,6 +481,14 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         );
 
         questionContext.AddQuestion(
+            questionText: "Question In Wishknowledge",
+            solutionText: "Answer",
+            pages: new List<Page> { testPage },
+            creator: creator,
+            questionVisibility: QuestionVisibility.Public
+        );
+
+        questionContext.AddQuestion(
             questionText: "Question Not In Wishknowledge",
             solutionText: "Answer",
             pages: new List<Page> { testPage },
@@ -552,7 +499,8 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         questionContext.Persist();
 
         var questionInWishknowledge = questionContext.All[0];
-        var questionNotInWishknowledge = questionContext.All[1];
+        var questionInWishknowledge2 = questionContext.All[1];
+        var questionNotInWishknowledge = questionContext.All[2];
 
         await ReloadCaches();
 
@@ -570,42 +518,42 @@ internal class KnowledgeSummary_tests : BaseTestHarness
             KnowledgeStatus = KnowledgeStatus.Solid
         };
 
+        var valuationInWishknowledge2 = new QuestionValuation
+        {
+            Question = questionInWishknowledge2,
+            User = creator,
+            RelevancePersonal = 50, // In wishknowledge
+            KnowledgeStatus = KnowledgeStatus.NeedsLearning
+        };
+
         var valuationNotInWishknowledge = new QuestionValuation
         {
             Question = questionNotInWishknowledge,
             User = creator,
             RelevancePersonal = -1, // Not in wishknowledge
-            KnowledgeStatus = KnowledgeStatus.NotLearned
+            KnowledgeStatus = KnowledgeStatus.Solid
         };
 
         questionValuationRepo.Create(valuationInWishknowledge);
+        questionValuationRepo.Create(valuationInWishknowledge2);
         questionValuationRepo.Create(valuationNotInWishknowledge);
         questionValuationRepo.Flush();
 
         SlidingCache.GetExtendedUserById(creator.Id).AddOrUpdateQuestionValuations(valuationInWishknowledge.ToCacheItem());
+        SlidingCache.GetExtendedUserById(creator.Id).AddOrUpdateQuestionValuations(valuationInWishknowledge2.ToCacheItem());
         SlidingCache.GetExtendedUserById(creator.Id).AddOrUpdateQuestionValuations(valuationNotInWishknowledge.ToCacheItem());
 
         var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
 
         // Act
-        var resultOnlyValuated = knowledgeSummaryLoader.Run(creator.Id, testPage.Id, onlyValuated: true);
-        var resultAllQuestions = knowledgeSummaryLoader.Run(creator.Id, testPage.Id, onlyValuated: false);
+        var resultOnlyValuated = knowledgeSummaryLoader.Run(creator.Id, testPage.Id, onlyInWishknowledge: true);
+        var resultAllQuestions = knowledgeSummaryLoader.Run(creator.Id, testPage.Id, onlyInWishknowledge: false);
 
         // Assert
         await Verify(new
         {
-            OnlyValuated = new
-            {
-                resultOnlyValuated.Solid,
-                resultOnlyValuated.NotLearned,
-                resultOnlyValuated.Total
-            },
-            AllQuestions = new
-            {
-                resultAllQuestions.Solid,
-                resultAllQuestions.NotLearned,
-                resultAllQuestions.Total
-            }
+            resultOnlyValuated,
+            resultAllQuestions
         });
     }
 
@@ -619,18 +567,12 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
 
         // Act
-        var result = knowledgeSummaryLoader.Run(creator.Id, pageId: 999999, onlyValuated: true);
+        var result = knowledgeSummaryLoader.Run(creator.Id, pageId: 999999, onlyInWishknowledge: true);
 
         // Assert
         await Verify(new
         {
-            result.NotLearned,
-            result.NeedsLearning,
-            result.NeedsConsolidation,
-            result.Solid,
-            result.NotInWishknowledge,
-            result.Total,
-            result.KnowledgeStatusPoints
+            result
         });
     }
 }

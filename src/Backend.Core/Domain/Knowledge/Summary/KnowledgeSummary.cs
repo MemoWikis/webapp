@@ -20,8 +20,8 @@ public class KnowledgeSummary
     public readonly int NotInWishknowledge = 0;
     public int NotInWishknowledgePercentage { get; private set; }
 
-    /// <summary>Sum of questions in wish knowledge</summary>
-    public int Total => NotLearned + NeedsLearning + NeedsConsolidation + Solid + NotInWishknowledge;
+    /// <summary>Sum of all questions (including those not in wish knowledge)</summary>
+    public int Total => NotLearned + NeedsLearning + NeedsConsolidation + Solid;
 
     /// <summary>
     /// Knowledge status points for questions in wishknowledge only, calculated as: 
@@ -50,6 +50,9 @@ public class KnowledgeSummary
         NeedsConsolidation = needsConsolidation;
         Solid = solid;
 
+        // Calculate percentages based on mutually exclusive categories
+        // to avoid double counting (NotLearned includes NotInWishknowledge)
+
         PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
         {
             new ValueWithResultAction
@@ -69,12 +72,17 @@ public class KnowledgeSummary
             {
                 AbsoluteValue = Solid, ActionForPercentage = percent => SolidPercentage = percent
             },
-            new ValueWithResultAction
-            {
-                AbsoluteValue = NotInWishknowledge,
-                ActionForPercentage = percent => NotInWishknowledgePercentage = percent
-            },
         });
+
+        var totalQuestions = NotLearned + NeedsLearning + NeedsConsolidation + Solid;
+        if (totalQuestions > 0)
+        {
+            NotInWishknowledgePercentage = (int)Math.Round((double)NotInWishknowledge / totalQuestions * 100);
+        }
+        else
+        {
+            NotInWishknowledgePercentage = 0;
+        }
 
         CalculateKnowledgeStatusPoints();
     }

@@ -62,7 +62,7 @@
                 wiki.Name,
                 new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
                 wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id, onlyValuated: true)),
+                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id, onlyInWishknowledge: true)),
                 _popularityCalculator.CalculatePagePopularity(wiki)))
             .ToList();
 
@@ -79,7 +79,7 @@
                 favorite.Name,
                 new PageImageSettings(favorite.Id, _httpContextAccessor).GetUrl_128px(true).Url,
                 favorite.GetCountQuestionsAggregated(_sessionUser.UserId),
-                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, favorite.Id, onlyValuated: true)),
+                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, favorite.Id, onlyInWishknowledge: true)),
                 _popularityCalculator.CalculatePagePopularity(favorite)))
             .ToList();
 

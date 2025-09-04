@@ -1,0 +1,30 @@
+﻿{
+  userSkills: [
+    {
+      Id: 1,
+      UserId: 1,
+      PageId: 3,
+      KnowledgeSummary: {
+        NotLearned: 1,
+        NotInWishknowledge: 1,
+        NotLearnedPercentage: 100,
+        NotInWishknowledgePercentage: 100,
+        Total: 1,
+        KnowledgeStatusPointsTotal: 0.0001
+      }
+    },
+    {
+      Id: 2,
+      UserId: 1,
+      PageId: 4,
+      KnowledgeSummary: {
+        NotLearned: 1,
+        NotInWishknowledge: 1,
+        NotLearnedPercentage: 100,
+        NotInWishknowledgePercentage: 100,
+        Total: 1,
+        KnowledgeStatusPointsTotal: 0.0001
+      }
+    }
+  ]
+}
