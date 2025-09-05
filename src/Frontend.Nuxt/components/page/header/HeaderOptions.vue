@@ -34,7 +34,7 @@ const snackbarStore = useSnackbarStore()
 
 // Check if current page is already a skill
 const checkIfSkill = async () => {
-    if (userStore.id && pageStore.id) {
+    if (userStore.isLoggedIn && userStore.id > 0 && pageStore.id) {
         const result = await checkSkill(pageStore.id)
         isSkill.value = result
     }
