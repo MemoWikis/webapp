@@ -26,7 +26,7 @@ public class PageDataManager(
         if (canView)
         {
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Page);
-            var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+            var knowledgeSummary = _knowledgeSummaryLoader.RunFromCache(id, _sessionUser.UserId);
 
             return CreatePageDataObject(id, page, imageMetaData, knowledgeSummary);
         }

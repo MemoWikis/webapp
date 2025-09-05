@@ -36,7 +36,7 @@
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var aggregatedPages = pageCacheItem.AggregatedPages(_permissionCheck)
+        var aggregatedPages = pageCacheItem.VisibleAggregatedPages(_permissionCheck)
             .Where(c => c.Value.Visibility == PageVisibility.Public);
         var publicAggregatedQuestions = pageCacheItem
             .GetAggregatedQuestions(_sessionUser.UserId, true, permissionCheck: _permissionCheck)
@@ -143,7 +143,7 @@
                     MessageKey = FrontendMessageKeys.Error.Page.RootPageMustBePublic
                 };
 
-            var aggregatedPages = pageCacheItem.AggregatedPages(_permissionCheck, false)
+            var aggregatedPages = pageCacheItem.VisibleAggregatedPages(_permissionCheck, false)
                 .Where(c => c.Value.Visibility == PageVisibility.Public);
 
             foreach (var c in aggregatedPages)

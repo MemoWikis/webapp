@@ -1,0 +1,15 @@
+﻿{
+  result: {
+    NotLearned: 1,
+    NeedsLearning: 1,
+    NeedsConsolidation: 1,
+    NotLearnedPercentage: 33,
+    NeedsLearningPercentage: 34,
+    NeedsConsolidationPercentage: 33,
+    Total: 3,
+    KnowledgeStatusPoints: 0.2001,
+    KnowledgeStatusPointsTotal: 0.2001
+  },
+  selectedQuestionCount: 3,
+  totalQuestionsCreated: 5
+}

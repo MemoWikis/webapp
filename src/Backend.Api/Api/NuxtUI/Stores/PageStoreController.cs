@@ -104,7 +104,7 @@ public class PageStoreController(
     public KnowledgeSummaryResult GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
         var sessionUserId = _sessionUser?.UserId ?? -1;
-        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, sessionUserId);
+        var knowledgeSummary = _knowledgeSummaryLoader.RunFromCache(pageId: id, sessionUserId, maxCacheAgeInMinutes: 0);
 
         return new KnowledgeSummaryResult
         {
@@ -256,14 +256,14 @@ public class PageStoreController(
 
     private List<DailyViews> GetQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, fullList: false,
+        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, getQuestionsFromChildPages: false,
             pageId: page.Id, permissionCheck: _permissionCheck);
         return GetQuestionViews(questions);
     }
 
     private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, fullList: true,
+        var questions = page.GetAggregatedQuestions(_sessionUser.UserId, onlyVisible: true, getQuestionsFromChildPages: true,
             pageId: page.Id, permissionCheck: _permissionCheck);
         return GetQuestionViews(questions);
     }

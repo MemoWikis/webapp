@@ -11,7 +11,9 @@ public class QuestionWritingRepo(
     ISession _nhibernateSession,
     SessionUser _sessionUser,
     PageChangeRepo _pageChangeRepo,
-    PageRepository _pageRepository) : RepositoryDbBase<Question>(_nhibernateSession)
+    PageRepository _pageRepository,
+    KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher,
+    UpdateAggregatedPagesService _updateAggregatedPagesService) : RepositoryDbBase<Question>(_nhibernateSession)
 {
     public override void Create(Question question)
     {
@@ -29,7 +31,7 @@ public class QuestionWritingRepo(
         {
             page.UpdateCountQuestionsAggregated(question.Creator.Id);
             _pageRepository.Update(page);
-            KnowledgeSummaryUpdate.ScheduleForPage(page.Id, _jobQueueRepo);
+            _knowledgeSummaryUpdateDispatcher.SchedulePageUpdateAsync(page.Id);
         }
 
         if (question.Visibility != QuestionVisibility.Private)
@@ -38,7 +40,7 @@ public class QuestionWritingRepo(
             _reputationUpdate.ForUser(question.Creator);
         }
 
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));        _questionChangeRepo.AddCreateEntry(question);
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question)); _questionChangeRepo.AddCreateEntry(question);
         new MeilisearchQuestionsIndexer().Create(question);
     }
 
@@ -59,7 +61,8 @@ public class QuestionWritingRepo(
     }
 
     public int DeleteAndGetChangeId(Question question, int userId)
-    {        base.Delete(question);
+    {
+        base.Delete(question);
         var changeId = _questionChangeRepo.AddDeleteEntry(question, userId);
         new MeilisearchQuestionsIndexer().Delete(question);
         return changeId;
@@ -102,8 +105,9 @@ public class QuestionWritingRepo(
         UpdateQuestionCacheItem(question, pagesToUpdateIds);
 
         updateQuestionCountForPage.Run(pagesToUpdate);
-        JobScheduler.StartImmediately_UpdateAggregatedPagesForQuestion(pagesToUpdateIds,
-            _sessionUser.UserId);        _questionChangeRepo.AddUpdateEntry(question);
+        _updateAggregatedPagesService.UpdateAggregatedPages(pagesToUpdateIds, _sessionUser.UserId);
+
+        _questionChangeRepo.AddUpdateEntry(question);
 
         new MeilisearchQuestionsIndexer().Update(question);
     }

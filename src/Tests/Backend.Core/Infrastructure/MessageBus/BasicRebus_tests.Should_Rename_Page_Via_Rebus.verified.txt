@@ -1,0 +1,4 @@
+﻿{
+  originalName: Before RebusNameChange,
+  updatedName: After RebusNameChange
+}

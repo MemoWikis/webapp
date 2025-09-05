@@ -28,6 +28,10 @@
             "published": "The question '{name}' has been successfully published.",
             "flashcardsAdded": "One flashcard was added | {count} flashcards were added."
         },
+        "skill": {
+            "added": "'{name}' added to your Skills",
+            "removed": "'{name}' removed from your Skills"
+        },
         "user": {
             "profileUpdate": "Your new profile data has been saved successfully",
             "passwordChanged": "Your password has been changed successfully.",
@@ -110,7 +114,8 @@
             "emailIsInvalid": "{email} is not a valid email address.",
             "passwordTooShort": "The password should be at least 5 characters long.",
             "loginFailed": "We couldn't log you in. Please check your email address and the password.",
-            "notFound": "The specified user was not found."
+            "notFound": "The specified user was not found.",
+            "updateFailed": "Profile data could not be saved."
         },
         "default": "Unfortunately, an unexpected error has occurred. Please try again later.",
         "route": {
@@ -145,6 +150,23 @@
         },
         "token": {
             "generation": "Could not generate share link. Please try again."
+        },
+        "unauthorized": "You are not authorized to perform this action.",
+        "pageNotFound": "The page was not found.",
+        "noPermission": "You do not have permission to view this page.",
+        "skill": {
+            "alreadyExists": "This skill is already in your list.",
+            "notFound": "This skill was not found in your list.",
+            "addFailed": "The skill could not be added.",
+            "removeFailed": "The skill could not be removed."
+        },
+        "skillAlreadyExists": "This skill is already in your list.",
+        "skillNotFound": "This skill was not found in your list.",
+        "addSkill": {
+            "failed": "The skill could not be added."
+        },
+        "removeSkill": {
+            "failed": "The skill could not be removed."
         }
     },
     "info": {
@@ -191,7 +213,7 @@
         "language": "Language",
         "fontSizeSample": "Aa",
         "yourProfilePage": "Your profile page",
-        "accountSettings": "Account settings",
+        "accountSettings": "Settings",
         "administrative": "Administrative",
         "questionCount": "0 questions | 1 question | {count} questions",
         "questionCountText": "No question | One question | {count} questions",
@@ -317,6 +339,8 @@
             "addParentPage": "Link parent page",
             "addChildPage": "Link subpage",
             "addToPersonalWiki": "Add to my Wiki",
+            "addToSkills": "Add to my Skills",
+            "removeFromSkills": "Remove from my Skills",
             "setToPrivate": "Set page to private",
             "publishPage": "Publish page",
             "convertToWiki": "Convert page into Wiki",
@@ -1223,7 +1247,24 @@
             "rank": "Rank",
             "viewAllUsers": "Go to the overview of all users",
             "toMyWiki": "Go to my Wiki",
-            "toUserWiki": "Go to {name}'s Wiki"
+            "toUserWiki": "Go to {name}'s Wiki",
+            "questions": "Questions",
+            "noQuestions": "No questions available",
+            "showAsVisitor": "Show as Visitor",
+            "stats": {
+                "reputation": "Reputation",
+                "rank": "Rank",
+                "createdPages": "Created Pages",
+                "createdWikis": "Created Wikis",
+                "createdQuestions": "Created Questions",
+                "tooltips": {
+                    "reputation": "Reputation is based on created questions, questions in others' wish knowledge, and public wish knowledge",
+                    "rank": "User ranking is based on reputation points",
+                    "createdPages": "Number of public pages that have been created",
+                    "createdWikis": "Number of public wikis that have been created",
+                    "createdQuestions": "Number of public questions that have been created"
+                }
+            }
         },
         "overview": {
             "reputation": {
@@ -1270,6 +1311,33 @@
                 "first": "First",
                 "last": "Last"
             }
+        },
+        "sidebar": {
+            "quickActions": "Quick Actions",
+            "stats": "Stats",
+            "skills": "Skills",
+            "wikis": "Wikis",
+            "questions": "Questions",
+            "tooltips": {
+                "skills": "Only public pages with answered and public questions are displayed",
+                "wikis": "Only public wikis are displayed",
+                "questions": "Only public questions from public pages are displayed"
+            }
+        },
+        "skills": {
+            "addSkill": "Add Skill",
+            "addSkillModal": {
+                "title": "Add Skill",
+                "searchLabel": "Search for a page:",
+                "searchPlaceholder": "Enter page name...",
+                "noResults": "No pages found",
+                "addButton": "Add Skill"
+            },
+            "error": {
+                "noPageSelected": "Please select a page",
+                "addFailed": "Could not add skill"
+            },
+            "questions": "Questions"
         },
         "tabs": {
             "overview": "Overview",
@@ -1707,6 +1775,7 @@
             "longestStreak": "Longest streak: {count} days"
         },
         "pageTable": {
+            "popularity": "Popularity",
             "name": "Name",
             "questions": "Questions",
             "knowledgeStatus": "Knowledge Status",
@@ -1825,5 +1894,32 @@
             "displayTextShort": "Source: BLAC",
             "displayTextFull": "The question, answer options and reference to sources are from the Common Question Catalog of the States (GFK) for the competence examination according to § 5 of the Chemical Prohibition Ordinance and are collected in <a href='http://blak-uis.server.de/servlet/is/2146/P-4a.pdf/' target='_blank'>this PDF</a>. The use of the question catalog is permitted in accordance with § 62 Para. 1 to 3 (prohibition of changes) and § 63 Para. 1 and 2 (source citation) of the Copyright Act. Author is the <a href='https://blac-info.server.de/servlet/is/2146/' target='_blank'>BLAC</a>."
         }
+    },
+    "layout": {
+        "questionList": {
+            "popularity": "Popularity",
+            "question": "Question",
+            "creationDate": "Creation Date",
+            "learnQuestion": "Learn Question"
+        }
+    },
+    "userSkillCard": {
+        "by": "By",
+        "questionCount": "Question count",
+        "private": "Private pages will not be shown on your public profile",
+        "noQuestions": "Pages without public questions will not be shown on your public profile",
+        "deleteSkill": "Delete skill"
+    },
+    "userAboutMe": {
+        "placeholder": "Tell others about yourself...",
+        "bold": "Bold",
+        "italic": "Italic",
+        "readMore": "Read more",
+        "placeholderText": "Tell others about yourself...",
+        "placeholderFlavorText1": "This user hasn't shared anything about themselves yet. 🤷‍♀️",
+        "placeholderFlavorText2": "Looks like this person is keeping their story a mystery for now! 🕵️",
+        "placeholderFlavorText3": "This user is probably too busy learning awesome stuff to write about themselves! 📚",
+        "placeholderFlavorText4": "Nothing here yet, but great things are surely coming! ✨",
+        "placeholderFlavorText5": "This space is waiting for some personal magic to happen! 🎭"
     }
 }

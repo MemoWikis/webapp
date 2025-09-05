@@ -6,6 +6,6 @@
     public PageKnowledgeBarModel(PageCacheItem page, int userId, KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
         Page = page;
-        PageKnowledgeSummary = knowledgeSummaryLoader.RunFromMemoryCache(page.Id, userId);
+        PageKnowledgeSummary = knowledgeSummaryLoader.RunFromCache(page.Id, userId);
     }
 }

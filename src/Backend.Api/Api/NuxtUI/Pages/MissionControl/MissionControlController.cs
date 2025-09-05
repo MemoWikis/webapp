@@ -1,31 +1,15 @@
 ﻿public class MissionControlController(
     SessionUser _sessionUser,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    IHttpContextAccessor _httpContextAccessor)
+    IHttpContextAccessor _httpContextAccessor,
+    PopularityCalculator _popularityCalculator)
     : ApiBaseController
 {
-    public readonly record struct PageItem(int Id, string Name, string ImgUrl, int? QuestionCount, KnowledgeSummaryResponse KnowledgebarData);
-
     public readonly record struct Activity(DateTime Day, int Count);
 
     public readonly record struct ActivityCalendar(IList<Activity> Activity);
 
     public readonly record struct GetAllResponse(IList<PageItem> Wikis, IList<PageItem> Favorites, KnowledgeSummaryResponse KnowledgeStatus, ActivityCalendar ActivityCalendar);
-
-    public readonly record struct KnowledgeSummaryResponse(
-        int NotLearned = 0,
-        int NotLearnedPercentage = 0,
-        int NeedsLearning = 0,
-        int NeedsLearningPercentage = 0,
-        int NeedsConsolidation = 0,
-        int NeedsConsolidationPercentage = 0,
-        int Solid = 0,
-        int SolidPercentage = 0,
-        int NotInWishknowledge = 0,
-        int NotInWishknowledgePercentage = 0,
-        int Total = 0,
-        double KnowledgeStatusPoints = 0.0,
-        double KnowledgeStatusPointsTotal = 0.0);
 
     [HttpGet]
     public GetAllResponse GetAll()
@@ -40,32 +24,13 @@
             );
         }
 
-        var knowledgeSummary = FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId));
+        var knowledgeSummary = new KnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId));
 
         return new GetAllResponse(
             GetWikis(),
             GetFavorites(),
             knowledgeSummary,
             GetActivityCalendar());
-    }
-
-    // wip because KnowledgeSummary is incomplete as response
-    private KnowledgeSummaryResponse FillKnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary)
-    {
-        return new KnowledgeSummaryResponse(
-            knowledgeSummary.NotLearned,
-            knowledgeSummary.NotLearnedPercentage,
-            knowledgeSummary.NeedsLearning,
-            knowledgeSummary.NeedsLearningPercentage,
-            knowledgeSummary.NeedsConsolidation,
-            knowledgeSummary.NeedsConsolidationPercentage,
-            knowledgeSummary.Solid,
-            knowledgeSummary.SolidPercentage,
-            knowledgeSummary.NotInWishknowledge,
-            knowledgeSummary.NotInWishknowledgePercentage,
-            knowledgeSummary.Total,
-            knowledgeSummary.KnowledgeStatusPoints,
-            knowledgeSummary.KnowledgeStatusPointsTotal);
     }
 
     private IList<PageItem> GetWikis()
@@ -78,7 +43,8 @@
                 wiki.Name,
                 new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
                 wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id))))
+                new KnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id, onlyInWishknowledge: true)),
+                _popularityCalculator.CalculatePagePopularity(wiki)))
             .ToList();
 
         return wikis;
@@ -89,12 +55,13 @@
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
 
         var favorites = userCacheItem.GetFavorites()
-            .Select(wiki => new PageItem(
-                wiki.Id,
-                wiki.Name,
-                new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
-                wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                FillKnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id))))
+            .Select(favorite => new PageItem(
+                favorite.Id,
+                favorite.Name,
+                new PageImageSettings(favorite.Id, _httpContextAccessor).GetUrl_128px(true).Url,
+                favorite.GetCountQuestionsAggregated(_sessionUser.UserId),
+                new KnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, favorite.Id, onlyInWishknowledge: true)),
+                _popularityCalculator.CalculatePagePopularity(favorite)))
             .ToList();
 
         return favorites;

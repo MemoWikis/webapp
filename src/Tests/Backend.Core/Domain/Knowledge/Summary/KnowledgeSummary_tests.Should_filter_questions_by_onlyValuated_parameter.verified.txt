@@ -1,0 +1,20 @@
+﻿{
+  resultOnlyValuated: {
+    NeedsLearning: 1,
+    Solid: 1,
+    NeedsLearningPercentage: 50,
+    SolidPercentage: 50,
+    Total: 2,
+    KnowledgeStatusPoints: 0.5501,
+    KnowledgeStatusPointsTotal: 0.5501
+  },
+  resultAllQuestions: {
+    NeedsLearning: 1,
+    Solid: 2,
+    NeedsLearningPercentage: 33,
+    SolidPercentage: 67,
+    Total: 3,
+    KnowledgeStatusPoints: 0.7001,
+    KnowledgeStatusPointsTotal: 0.7001
+  }
+}

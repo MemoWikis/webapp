@@ -18,7 +18,7 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
         });
     }
 
-    public void Update(Page page)
+    public void Update(Page page, bool checkDocumentExists = true)
     {
         var index = GetIndex();
         var searchPageMap = CreatePageMap(page);
@@ -30,8 +30,10 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
                     var pageExists = EntityCache.GetPage(page.Id) != null;
                     if (!pageExists)
                         return;
+
                     // Check if the document exists before updating
-                    await index.GetDocumentAsync<MeilisearchPageMap>(page.Id.ToString());
+                    if (checkDocumentExists)
+                        await index.GetDocumentAsync<MeilisearchPageMap>(page.Id.ToString());
 
                     // Document exists, proceed with update
                     var taskInfo = await index
@@ -66,7 +68,7 @@ internal class MeilisearchPageIndexer : MeilisearchIndexerBase
     {
         var pageMap = new MeilisearchPageMap
         {
-            CreatorName = page.Creator?.Name ?? "-",
+            CreatorName = page.Creator?.Name ?? "",
             DateCreated = page.DateCreated == DateTime.MinValue
                 ? DateTime.Now
                 : page.DateCreated,

@@ -1,0 +1,5 @@
+﻿{
+  NotLearned: 1,
+  NotInWishknowledge: 1,
+  Total: 2
+}

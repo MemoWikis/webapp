@@ -113,5 +113,8 @@ public class AutofacCoreModule : Autofac.Module
             .SingleInstance();
 
         builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
+        
+        // Register Rebus message bus
+        builder.RegisterModule(new RebusModule());
     }
 }

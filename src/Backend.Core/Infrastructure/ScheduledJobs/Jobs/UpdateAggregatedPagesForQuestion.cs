@@ -1,16 +1,7 @@
 ﻿using Quartz;
 
-public class UpdateAggregatedPagesForQuestion : IJob
+public class UpdateAggregatedPagesForQuestion(PageRepository _pageRepository, KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher) : IJob
 {
-    private readonly JobQueueRepo _jobQueueRepo;
-    private readonly PageRepository _pageRepository;
-
-    public UpdateAggregatedPagesForQuestion(JobQueueRepo jobQueueRepo, PageRepository pageRepository)
-    {
-        _jobQueueRepo = jobQueueRepo;
-        _pageRepository = pageRepository;
-    }
-
     public Task Execute(IJobExecutionContext context)
     {
         Log.Information("Job started - Update Aggregated Pages from Update Question");
@@ -22,12 +13,13 @@ public class UpdateAggregatedPagesForQuestion : IJob
         var aggregatedPagesToUpdate =
             PageAggregation.GetAggregatingAncestors(_pageRepository.GetByIds(pageIds), _pageRepository);
 
-        foreach (var pages in aggregatedPagesToUpdate)
+        foreach (var page in aggregatedPagesToUpdate)
         {
-            pages.UpdateCountQuestionsAggregated(userId);
-            _pageRepository.Update(pages);
-            KnowledgeSummaryUpdate.ScheduleForPage(pages.Id, _jobQueueRepo);
-            Log.Information("Update Page from Update Question - {id}", pages.Id);
+            page.UpdateCountQuestionsAggregated(userId);
+            _pageRepository.Update(page);
+            _knowledgeSummaryUpdateDispatcher.SchedulePageUpdateAsync(page.Id);
+
+            Log.Information("Update Page from Update Question - {id}", page.Id);
         }
 
         return Task.CompletedTask;

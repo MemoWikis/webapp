@@ -1,22 +1,12 @@
-﻿using NHibernate.Util;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
-public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
+public class ProbabilityUpdate_Question(
+    AnswerRepo _ansewRepo,
+    QuestionReadingRepo _questionReadingRepo,
+    QuestionWritingRepo _questionWritingRepo,
+    KnowledgeSummaryUpdateDispatcher _knowledgeSummaryUpdateDispatcher)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly AnswerRepo _ansewRepo;
-    private readonly JobQueueRepo _jobQueueRepo;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly QuestionWritingRepo _questionWritingRepo;
-
-    public ProbabilityUpdate_Question(AnswerRepo ansewRepo,
-        JobQueueRepo jobQueueRepo, QuestionReadingRepo questionReadingRepo,
-        QuestionWritingRepo questionWritingRepo)
-    {
-        _ansewRepo = ansewRepo;
-        _jobQueueRepo = jobQueueRepo;
-        _questionReadingRepo = questionReadingRepo;
-        _questionWritingRepo = questionWritingRepo;
-    }
     public void Run()
     {
         var sp = Stopwatch.StartNew();
@@ -35,8 +25,6 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
         question.CorrectnessProbabilityAnswerCount = answers.Count;
 
         _questionWritingRepo.UpdateFieldsOnly(question);
-
-        question.Pages
-            .ForEach(c => KnowledgeSummaryUpdate.ScheduleForPage(c.Id, _jobQueueRepo));
+        _knowledgeSummaryUpdateDispatcher.SchedulePageUpdatesAsync(question.Pages);
     }
 }

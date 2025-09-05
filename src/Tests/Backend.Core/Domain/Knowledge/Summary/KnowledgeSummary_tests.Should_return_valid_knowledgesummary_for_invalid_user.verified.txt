@@ -1,0 +1,10 @@
+﻿{
+  result: {
+    NotLearned: 1,
+    NotInWishknowledge: 1,
+    NotLearnedPercentage: 100,
+    NotInWishknowledgePercentage: 100,
+    Total: 1,
+    KnowledgeStatusPointsTotal: 0.0001
+  }
+}

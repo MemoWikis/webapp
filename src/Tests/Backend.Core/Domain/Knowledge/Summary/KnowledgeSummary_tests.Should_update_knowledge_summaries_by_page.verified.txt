@@ -1,0 +1,6 @@
+﻿{
+  CreatorSummaryExists: true,
+  OtherUserSummaryExists: true,
+  CreatorSummaryTotal: 1,
+  OtherUserSummaryTotal: 1
+}

@@ -327,6 +327,7 @@ convertStore.$onAction(({ name, after }) => {
 		})
 	}
 })
+
 </script>
 
 <template>
@@ -387,6 +388,20 @@ convertStore.$onAction(({ name, after }) => {
 			</template>
 		</VDropdown>
 
+	</div>
+	<div v-else-if="props.customBreadcrumbItems && props.customBreadcrumbItems.length > 0" id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth">
+		<template v-for="(item, index) in props.customBreadcrumbItems" :key="`custom-breadcrumb-${index}`">
+			<NuxtLink v-if="item.url" :to="item.url" class="breadcrumb-item" :class="{ 'no-pl': index === 0 }" v-tooltip="item.name"
+				:aria-label="item.name">
+				{{ item.name }}
+			</NuxtLink>
+			<div v-else class="breadcrumb-item no-pl">
+				{{ item.name }}
+			</div>
+			<div v-if="index < props.customBreadcrumbItems.length - 1">
+				<font-awesome-icon icon="fa-solid fa-chevron-right" />
+			</div>
+		</template>
 	</div>
 	<div v-else id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth">
 		<div class="breadcrumb-item no-pl">

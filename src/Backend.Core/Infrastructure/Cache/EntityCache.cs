@@ -135,7 +135,7 @@ public class EntityCache
     public static bool PageHasQuestion(int pageId) =>
         GetQuestionIdsForPage(pageId)?.Any() ?? false;
 
-    public static IList<QuestionCacheItem> GetQuestionsForPage(int pageId) => 
+    public static IList<QuestionCacheItem> GetQuestionsForPage(int pageId) =>
         GetQuestionsByIds(GetQuestionIdsForPage(pageId));
 
     public static List<int> GetQuestionIdsForPage(int pageId)
@@ -610,5 +610,21 @@ public class EntityCache
 
             AddOrUpdatePageShares(pageId, updatedShares);
         }
+    }
+
+    // Extended User Cache Methods - delegated to SlidingCache
+
+    public static ExtendedUserCacheItem? GetExtendedUserByIdNullable(int userId) =>
+        SlidingCache.GetExtendedUserByIdNullable(userId);
+
+    public static void AddOrUpdate(ExtendedUserCacheItem extendedUser) =>
+        SlidingCache.AddOrUpdate(extendedUser);
+
+    public static void Remove(ExtendedUserCacheItem extendedUser) =>
+        SlidingCache.Remove(extendedUser);
+
+    public static ICollection<ExtendedUserCacheItem> GetAllExtendedUsers()
+    {
+        return SlidingCache.GetAllActiveExtendedUsers();
     }
 }

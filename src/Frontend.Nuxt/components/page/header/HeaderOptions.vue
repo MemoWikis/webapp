@@ -10,6 +10,8 @@ import { useDeletePageStore } from '../delete/deletePageStore'
 
 import { useConvertStore } from '../convert/convertStore'
 import { useSharePageStore } from '../sharing/sharePageStore'
+import { useUserSkills } from '~~/composables/useUserSkills'
+import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 const userStore = useUserStore()
 const pageStore = usePageStore()
@@ -20,11 +22,77 @@ const deletePageStore = useDeletePageStore()
 const pageToPrivateStore = usePageToPrivateStore()
 const convertStore = useConvertStore()
 const sharePageStore = useSharePageStore()
+const { addSkill, removeSkill, checkSkill } = useUserSkills()
 
 const hoverLock = ref(false)
 const ariaId = useId()
+const isSkill = ref(false)
 
 const { t, localeProperties } = useI18n()
+
+const snackbarStore = useSnackbarStore()
+
+// Check if current page is already a skill
+const checkIfSkill = async () => {
+    if (userStore.id && pageStore.id) {
+        const result = await checkSkill(pageStore.id)
+        isSkill.value = result
+    }
+}
+
+// Check skill status when component mounts
+onMounted(checkIfSkill)
+
+// Also check when page changes
+watch(() => pageStore.id, checkIfSkill)
+
+const addToSkills = async () => {
+    if (!userStore.id || !userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+    }
+
+    const result = await addSkill(pageStore.id)
+
+    if (result.success) {
+        const data: SnackbarData = {
+            type: 'success',
+            text: { message: t('success.skill.added', { name: pageStore.name }) },
+        }
+        snackbarStore.showSnackbar(data)
+    } else {
+        const data: SnackbarData = {
+            type: 'error',
+            text: { message: t(result.errorMessageKey) },
+        }
+        snackbarStore.showSnackbar(data)
+    }
+    checkIfSkill()
+}
+
+const removeFromSkills = async () => {
+    if (!userStore.id || !userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+    }
+
+    const result = await removeSkill(pageStore.id)
+
+    if (result.success) {
+        const data: SnackbarData = {
+            type: 'success',
+            text: { message: t('success.skill.removed', { name: pageStore.name }) },
+        }
+        snackbarStore.showSnackbar(data)
+    } else {
+        const data: SnackbarData = {
+            type: 'error',
+            text: { message: t(result.errorMessageKey) },
+        }
+        snackbarStore.showSnackbar(data)
+    }
+    checkIfSkill()
+}
 
 </script>
 
@@ -93,6 +161,8 @@ const { t, localeProperties } = useI18n()
                         </div>
                     </div>
 
+                    <div class="dropdown-divider"></div>
+
                     <div v-if="!pageStore.isChildOfPersonalWiki && pageStore.id != userStore.personalWiki?.id" class="dropdown-row" @click="editPageRelationStore.addToPersonalWiki(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-layers>
@@ -106,52 +176,79 @@ const { t, localeProperties } = useI18n()
                         </div>
                     </div>
 
-                    <div v-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Public" class="dropdown-row" @click="pageToPrivateStore.openModal(pageStore.id); hide()">
+                    <div v-if="isSkill" class="dropdown-row" @click="removeFromSkills(); hide()">
                         <div class="dropdown-icon">
-                            <font-awesome-icon icon="fa-solid fa-lock" />
+                            <font-awesome-layers>
+                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
+
+                            </font-awesome-layers>
                         </div>
                         <div class="dropdown-label">
-                            {{ t('page.header.setToPrivate') }}
-                        </div>
-                    </div>
-                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Private" class="dropdown-row" @click="publishPageStore.openModal(pageStore.id); hide()">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon icon="fa-solid fa-unlock" />
-                        </div>
-                        <div class="dropdown-label">
-                            {{ t('page.header.publishPage') }}
+                            {{ t('page.header.removeFromSkills') }}
                         </div>
                     </div>
 
-                    <div v-if="pageStore.isOwnerOrAdmin() && !pageStore.isWiki" class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
+                    <div v-else class="dropdown-row" @click="addToSkills(); hide()">
                         <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fas', 'folder']" />
+                            <font-awesome-layers>
+                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
+
+                            </font-awesome-layers>
                         </div>
                         <div class="dropdown-label">
-                            {{ t('page.header.convertToWiki') }}
+                            {{ t('page.header.addToSkills') }}
                         </div>
                     </div>
-                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.isWiki" class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fas', 'file']" />
-                        </div>
-                        <div class="dropdown-label">
-                            {{ t('page.header.convertToPage') }}
-                        </div>
-                    </div>
-                    <template v-if="pageStore.canBeDeleted">
+
+                    <template v-if="pageStore.isOwnerOrAdmin()">
                         <div class="dropdown-divider"></div>
 
-                        <div class="dropdown-row"
-                            @click="deletePageStore.openModal(pageStore.id, true); hide()">
-
+                        <div v-if="pageStore.visibility === Visibility.Public" class="dropdown-row" @click="pageToPrivateStore.openModal(pageStore.id); hide()">
                             <div class="dropdown-icon">
-                                <font-awesome-icon icon="fa-solid fa-trash" />
+                                <font-awesome-icon icon="fa-solid fa-lock" />
                             </div>
                             <div class="dropdown-label">
-                                {{ t('page.header.deletePage') }}
+                                {{ t('page.header.setToPrivate') }}
                             </div>
                         </div>
+                        <div v-else-if="pageStore.visibility === Visibility.Private" class="dropdown-row" @click="publishPageStore.openModal(pageStore.id); hide()">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon icon="fa-solid fa-unlock" />
+                            </div>
+                            <div class="dropdown-label">
+                                {{ t('page.header.publishPage') }}
+                            </div>
+                        </div>
+
+                        <div v-if="pageStore.isWiki" class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fas', 'file']" />
+                            </div>
+                            <div class="dropdown-label">
+                                {{ t('page.header.convertToPage') }}
+                            </div>
+                        </div>
+                        <div v-else class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fas', 'folder']" />
+                            </div>
+                            <div class="dropdown-label">
+                                {{ t('page.header.convertToWiki') }}
+                            </div>
+                        </div>
+
+                        <template v-if="pageStore.canBeDeleted">
+                            <div class="dropdown-row"
+                                @click="deletePageStore.openModal(pageStore.id, true); hide()">
+
+                                <div class="dropdown-icon">
+                                    <font-awesome-icon icon="fa-solid fa-trash" />
+                                </div>
+                                <div class="dropdown-label">
+                                    {{ t('page.header.deletePage') }}
+                                </div>
+                            </div>
+                        </template>
                     </template>
                     <div class="dropdown-divider"></div>
 

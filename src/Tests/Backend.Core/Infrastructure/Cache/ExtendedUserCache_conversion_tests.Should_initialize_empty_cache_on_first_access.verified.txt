@@ -1,0 +1,4 @@
+﻿{
+  CollectionNotNull: true,
+  CollectionEmpty: true
+}

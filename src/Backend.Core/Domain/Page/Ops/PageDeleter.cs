@@ -9,10 +9,10 @@ public class PageDeleter(
     ExtendedUserCache _extendedUserCache,
     CrumbtrailService _crumbtrailService,
     PageRepository _pageRepo,
-    PageRelationRepo _pageRelationRepo,
     PermissionCheck _permissionCheck,
     PageToQuestionRepo _pageToQuestionRepo,
-    SharesRepository _sharesRepository) : IRegisterAsInstancePerLifetime
+    SharesRepository _sharesRepository,
+    ModifyRelationsForPage _modifyRelationsForPage) : IRegisterAsInstancePerLifetime
 {
     // Static dictionary to coordinate page deletions to prevent race conditions
     private static readonly ConcurrentDictionary<int, UserDeletionLock> _userPageDeletionLocks = new();
@@ -77,6 +77,7 @@ public class PageDeleter(
             GraphService.RemoveDeletedPageViewsFromAscendants(pageCacheItem.Id, pageCacheItem.TotalViews);
 
             DeleteRelations(pageCacheItem, userId);
+            SlidingCache.RemovePage(pageCacheItem.Id);
             EntityCache.Remove(pageCacheItem, userId);
         }
 
@@ -117,12 +118,10 @@ public class PageDeleter(
 
     private void DeleteRelations(PageCacheItem pageCacheItem, int userId)
     {
-        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepo, _pageRelationRepo);
-
         ModifyRelationsEntityCache.RemoveRelationsForPageDeleter(
             pageCacheItem,
             userId,
-            modifyRelationsForPage);
+            _modifyRelationsForPage);
     }
 
     private void DeleteImages(Page page)

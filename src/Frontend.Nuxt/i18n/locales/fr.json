@@ -28,6 +28,10 @@
             "published": "La question « {name} » est publiée !",
             "flashcardsAdded": "Une carte a été ajoutée | {count} cartes ont été ajoutées."
         },
+        "skill": {
+            "added": "« {name} » ajouté à tes compétences",
+            "removed": "« {name} » retiré de tes compétences"
+        },
         "user": {
             "profileUpdate": "Tes infos de profil sont mises à jour !",
             "passwordChanged": "Ton mot de passe est changé !",
@@ -110,7 +114,8 @@
             "emailIsInvalid": "{email} n’est pas une adresse valide.",
             "passwordTooShort": "Le mot de passe doit comporter au moins 5 caractères.",
             "loginFailed": "Connexion échouée. Vérifie ton adresse e-mail et ton mot de passe.",
-            "notFound": "L'utilisateur spécifié n'a pas été trouvé."
+            "notFound": "L'utilisateur spécifié n'a pas été trouvé.",
+            "updateFailed": "Les données du profil n'ont pas pu être sauvegardées."
         },
         "default": "Oups, une erreur inattendue est survenue. Réessaie plus tard.",
         "route": {
@@ -145,6 +150,23 @@
         },
         "token": {
             "generation": "Impossible de générer le lien de partage. Merci d'essayer à nouveau."
+        },
+        "unauthorized": "Vous n'êtes pas autorisé à effectuer cette action.",
+        "pageNotFound": "La page n'a pas été trouvée.",
+        "noPermission": "Vous n'avez pas la permission de voir cette page.",
+        "skill": {
+            "alreadyExists": "Cette compétence est déjà dans votre liste.",
+            "notFound": "Cette compétence n'a pas été trouvée dans votre liste.",
+            "addFailed": "La compétence n'a pas pu être ajoutée.",
+            "removeFailed": "La compétence n'a pas pu être supprimée."
+        },
+        "skillAlreadyExists": "Cette compétence est déjà dans votre liste.",
+        "skillNotFound": "Cette compétence n'a pas été trouvée dans votre liste.",
+        "addSkill": {
+            "failed": "La compétence n'a pas pu être ajoutée."
+        },
+        "removeSkill": {
+            "failed": "La compétence n'a pas pu être supprimée."
         }
     },
     "info": {
@@ -191,7 +213,7 @@
         "language": "Langue",
         "fontSizeSample": "Aa",
         "yourProfilePage": "Ta page de profil",
-        "accountSettings": "Paramètres du compte",
+        "accountSettings": "Paramètres",
         "administrative": "Administratif",
         "questionCount": "0 questions | 1 question | {count} questions",
         "questionCountText": "Aucune question | Une question | {count} questions",
@@ -317,6 +339,8 @@
             "addParentPage": "Lier une page parente",
             "addChildPage": "Lier une sous-page",
             "addToPersonalWiki": "Ajouter à mon wiki",
+            "addToSkills": "Ajouter à mes compétences",
+            "removeFromSkills": "Retirer de mes compétences",
             "setToPrivate": "Rendre cette page privée",
             "publishPage": "Publier la page",
             "convertToWiki": "Convertir la page en wiki",
@@ -1223,7 +1247,24 @@
             "rank": "Rang",
             "viewAllUsers": "Voir tous les utilisateurs",
             "toMyWiki": "Aller à mon wiki",
-            "toUserWiki": "Aller au wiki de {name}"
+            "toUserWiki": "Aller au wiki de {name}",
+            "questions": "Questions",
+            "noQuestions": "Aucune question disponible",
+            "showAsVisitor": "Afficher comme visiteur",
+            "stats": {
+                "reputation": "Réputation",
+                "rank": "Rang",
+                "createdPages": "Pages Créées",
+                "createdWikis": "Wikis Créés",
+                "createdQuestions": "Questions Créées",
+                "tooltips": {
+                    "reputation": "La réputation est basée sur les questions créées, les questions dans les connaissances souhaitées d'autrui et les connaissances souhaitées publiques",
+                    "rank": "Le classement des utilisateurs est basé sur les points de réputation",
+                    "createdPages": "Nombre de pages publiques qui ont été créées",
+                    "createdWikis": "Nombre de wikis publics qui ont été créés",
+                    "createdQuestions": "Nombre de questions publiques qui ont été créées"
+                }
+            }
         },
         "overview": {
             "reputation": {
@@ -1270,6 +1311,32 @@
                 "first": "Première",
                 "last": "Dernière"
             }
+        },
+        "sidebar": {
+            "stats": "Statistiques",
+            "skills": "Compétences",
+            "wikis": "Wikis",
+            "questions": "Questions",
+            "tooltips": {
+                "skills": "Seules les pages publiques avec des questions répondues et publiques sont affichées",
+                "wikis": "Seuls les wikis publics sont affichés",
+                "questions": "Seules les questions publiques de pages publiques sont affichées"
+            }
+        },
+        "skills": {
+            "addSkill": "Ajouter une Compétence",
+            "addSkillModal": {
+                "title": "Ajouter une Compétence",
+                "searchLabel": "Rechercher une page :",
+                "searchPlaceholder": "Entrez le nom de la page...",
+                "noResults": "Aucune page trouvée",
+                "addButton": "Ajouter la Compétence"
+            },
+            "error": {
+                "noPageSelected": "Veuillez sélectionner une page",
+                "addFailed": "Impossible d'ajouter la compétence"
+            },
+            "questions": "Questions"
         },
         "tabs": {
             "overview": "Aperçu",
@@ -1707,6 +1774,7 @@
             "longestStreak": "Plus longue série : {count} jours"
         },
         "pageTable": {
+            "popularity": "Popularité",
             "name": "Nom",
             "questions": "Questions",
             "knowledgeStatus": "Niveau de connaissance",
@@ -1825,5 +1893,32 @@
             "displayTextShort": "Source : BLAC",
             "displayTextFull": "La question, les options de réponse et la référence aux sources proviennent du Catalogue commun de questions des Länder (GFK) pour l'examen de compétence selon l'article 5 de l'ordonnance d'interdiction des produits chimiques et sont rassemblées dans <a href='http://blak-uis.server.de/servlet/is/2146/P-4a.pdf/' target='_blank'>ce PDF</a>. L'utilisation du catalogue de questions est autorisée conformément à l'article 62, alinéas 1 à 3 (interdiction de modification) et à l'article 63, alinéas 1 et 2 (citation de la source) de la loi sur le droit d'auteur. L'auteur est le <a href='https://blac-info.server.de/servlet/is/2146/' target='_blank'>BLAC</a>."
         }
+    },
+    "layout": {
+        "questionList": {
+            "popularity": "Popularité",
+            "question": "Question",
+            "creationDate": "Date de création",
+            "learnQuestion": "Apprendre la question"
+        }
+    },
+    "userSkillCard": {
+        "by": "Par",
+        "questionCount": "Nombre de questions",
+        "private": "Les pages privées ne seront pas affichées sur votre profil public",
+        "noQuestions": "Les pages sans questions publiques ne seront pas affichées sur votre profil public",
+        "deleteSkill": "Supprimer la compétence"
+    },
+    "userAboutMe": {
+        "placeholder": "Parlez aux autres de vous...",
+        "bold": "Gras",
+        "italic": "Italique",
+        "readMore": "Lire plus",
+        "placeholderText": "Parlez aux autres de vous...",
+        "placeholderFlavorText1": "Cette personne n'a encore rien partagé sur elle-même. 🤷‍♀️",
+        "placeholderFlavorText2": "On dirait que cette personne garde son histoire mystérieuse pour l'instant ! 🕵️",
+        "placeholderFlavorText3": "Cette personne est probablement trop occupée à apprendre des choses géniales ! 📚",
+        "placeholderFlavorText4": "Rien ici pour l'instant, mais de grandes choses arrivent sûrement ! ✨",
+        "placeholderFlavorText5": "Cet espace attend qu'un peu de magie personnelle arrive ! 🎭"
     }
 }

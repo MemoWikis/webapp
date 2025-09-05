@@ -28,6 +28,10 @@
             "published": "La pregunta '{name}' se ha publicado con éxito.",
             "flashcardsAdded": "Se ha añadido una tarjeta | Se han añadido {count} tarjetas."
         },
+        "skill": {
+            "added": "'{name}' añadido a tus habilidades",
+            "removed": "'{name}' eliminado de tus habilidades"
+        },
         "user": {
             "profileUpdate": "Tus nuevos datos de perfil se han guardado correctamente.",
             "passwordChanged": "Tu contraseña se ha cambiado correctamente.",
@@ -110,7 +114,8 @@
             "emailIsInvalid": "{email} no es una dirección de correo electrónico válida.",
             "passwordTooShort": "La contraseña debe tener al menos 5 caracteres.",
             "loginFailed": "No se ha podido iniciar sesión. Verifica tu correo electrónico y tu contraseña.",
-            "notFound": "No se encontró el usuario especificado."
+            "notFound": "No se encontró el usuario especificado.",
+            "updateFailed": "Los datos del perfil no pudieron guardarse."
         },
         "default": "Desafortunadamente, ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.",
         "route": {
@@ -145,6 +150,23 @@
         },
         "token": {
             "generation": "No se pudo generar el enlace para compartir. Por favor, inténtalo de nuevo."
+        },
+        "unauthorized": "No tienes autorización para realizar esta acción.",
+        "pageNotFound": "La página no fue encontrada.",
+        "noPermission": "No tienes permiso para ver esta página.",
+        "skill": {
+            "alreadyExists": "Esta habilidad ya está en tu lista.",
+            "notFound": "Esta habilidad no fue encontrada en tu lista.",
+            "addFailed": "La habilidad no pudo ser añadida.",
+            "removeFailed": "La habilidad no pudo ser eliminada."
+        },
+        "skillAlreadyExists": "Esta habilidad ya está en tu lista.",
+        "skillNotFound": "Esta habilidad no fue encontrada en tu lista.",
+        "addSkill": {
+            "failed": "La habilidad no pudo ser añadida."
+        },
+        "removeSkill": {
+            "failed": "La habilidad no pudo ser eliminada."
         }
     },
     "info": {
@@ -191,7 +213,7 @@
         "language": "Idioma",
         "fontSizeSample": "Aa",
         "yourProfilePage": "Tu página de perfil",
-        "accountSettings": "Configuración de cuenta",
+        "accountSettings": "Configuración",
         "administrative": "Administrativo",
         "questionCount": "0 preguntas | 1 pregunta | {count} preguntas",
         "questionCountText": "Ninguna pregunta | Una pregunta | {count} preguntas",
@@ -317,6 +339,8 @@
             "addParentPage": "Vincular página superior",
             "addChildPage": "Vincular subpágina",
             "addToPersonalWiki": "Añadir a mi Wiki",
+            "addToSkills": "Añadir a mis habilidades",
+            "removeFromSkills": "Eliminar de mis habilidades",
             "setToPrivate": "Establecer la página como privada",
             "publishPage": "Publicar página",
             "convertToWiki": "Convertir la página en Wiki",
@@ -1223,7 +1247,24 @@
             "rank": "Rango",
             "viewAllUsers": "Ver todos los usuarios",
             "toMyWiki": "Ir a mi Wiki",
-            "toUserWiki": "Ir al Wiki de {name}"
+            "toUserWiki": "Ir al Wiki de {name}",
+            "questions": "Preguntas",
+            "noQuestions": "No hay preguntas disponibles",
+            "showAsVisitor": "Mostrar como visitante",
+            "stats": {
+                "reputation": "Reputación",
+                "rank": "Rango",
+                "createdPages": "Páginas Creadas",
+                "createdWikis": "Wikis Creados",
+                "createdQuestions": "Preguntas Creadas",
+                "tooltips": {
+                    "reputation": "La reputación se basa en preguntas creadas, preguntas en el conocimiento deseado de otros y conocimiento deseado público",
+                    "rank": "El ranking de usuarios se basa en puntos de reputación",
+                    "createdPages": "Número de páginas públicas que han sido creadas",
+                    "createdWikis": "Número de wikis públicos que han sido creados",
+                    "createdQuestions": "Número de preguntas públicas que han sido creadas"
+                }
+            }
         },
         "overview": {
             "reputation": {
@@ -1270,6 +1311,32 @@
                 "first": "Primera",
                 "last": "Última"
             }
+        },
+        "sidebar": {
+            "stats": "Estadísticas",
+            "skills": "Habilidades",
+            "wikis": "Wikis",
+            "questions": "Preguntas",
+            "tooltips": {
+                "skills": "Solo se muestran páginas públicas con preguntas respondidas y públicas",
+                "wikis": "Solo se muestran wikis públicos",
+                "questions": "Solo se muestran preguntas públicas de páginas públicas"
+            }
+        },
+        "skills": {
+            "addSkill": "Agregar Habilidad",
+            "addSkillModal": {
+                "title": "Agregar Habilidad",
+                "searchLabel": "Buscar una página:",
+                "searchPlaceholder": "Ingrese nombre de página...",
+                "noResults": "No se encontraron páginas",
+                "addButton": "Agregar Habilidad"
+            },
+            "error": {
+                "noPageSelected": "Por favor seleccione una página",
+                "addFailed": "No se pudo agregar la habilidad"
+            },
+            "questions": "Preguntas"
         },
         "tabs": {
             "overview": "Resumen",
@@ -1707,6 +1774,7 @@
             "longestStreak": "Racha más larga: {count} días"
         },
         "pageTable": {
+            "popularity": "Popularidad",
             "name": "Nombre",
             "questions": "Preguntas",
             "knowledgeStatus": "Estado de conocimiento",
@@ -1825,5 +1893,32 @@
             "displayTextShort": "Fuente: BLAC",
             "displayTextFull": "La pregunta, las opciones de respuesta y la referencia a las fuentes provienen del Catálogo Común de Preguntas de los Länder (GFK) para el examen de competencia según § 5 de la Chemikalien-Verbotsverordnung y están recopiladas en <a href='http://blak-uis.server.de/servlet/is/2146/P-4a.pdf/' target='_blank'>este PDF</a>. El uso del catálogo de preguntas está permitido de acuerdo con § 62 Abs. 1 bis 3 (prohibición de cambios) y § 63 Abs. 1 y 2 (cita de fuente) del UrhG. El autor es <a href='https://blac-info.server.de/servlet/is/2146/' target='_blank'>BLAC</a>."
         }
+    },
+    "layout": {
+        "questionList": {
+            "popularity": "Popularidad",
+            "question": "Pregunta",
+            "creationDate": "Fecha de creación",
+            "learnQuestion": "Aprender pregunta"
+        }
+    },
+    "userSkillCard": {
+        "by": "Por",
+        "questionCount": "Cantidad de preguntas",
+        "private": "Las páginas privadas no se mostrarán en tu perfil público",
+        "noQuestions": "Las páginas sin preguntas públicas no se mostrarán en tu perfil público",
+        "deleteSkill": "Eliminar habilidad"
+    },
+    "userAboutMe": {
+        "placeholder": "Cuéntales a otros sobre ti...",
+        "bold": "Negrita",
+        "italic": "Cursiva",
+        "readMore": "Leer más",
+        "placeholderText": "Cuéntales a otros sobre ti...",
+        "placeholderFlavorText1": "Esta persona aún no ha compartido nada sobre sí misma. 🤷‍♀️",
+        "placeholderFlavorText2": "¡Parece que esta persona mantiene su historia en misterio por ahora! 🕵️",
+        "placeholderFlavorText3": "¡Esta persona probablemente está muy ocupada aprendiendo cosas increíbles! 📚",
+        "placeholderFlavorText4": "Nada aquí por ahora, ¡pero seguramente vienen cosas geniales! ✨",
+        "placeholderFlavorText5": "¡Este espacio está esperando que ocurra un poco de magia personal! 🎭"
     }
 }
