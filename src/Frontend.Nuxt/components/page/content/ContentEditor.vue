@@ -622,8 +622,8 @@ const createFlashcard = () => {
 
 .ProseMirror {
     .collaboration-cursor__caret {
-        border-left: 1px solid #0d0d0d;
-        border-right: 1px solid #0d0d0d;
+        border-left: 1px solid @memo-grey-darkest;
+        border-right: 1px solid @memo-grey-darkest;
         margin-left: -1px;
         margin-right: -1px;
         pointer-events: none;
