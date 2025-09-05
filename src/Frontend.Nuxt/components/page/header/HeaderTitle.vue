@@ -220,7 +220,7 @@ const ariaId2 = useId()
                 </LazyNuxtLink>
             </template>
 
-            <VDropdown :aria-id="ariaId2" :distance="6">
+            <VDropdown :aria-id="ariaId2" :distance="6" class="author-popper">
                 <div v-if="isMobile && groupedAuthors.length === 1 && mobileFirstAuthor && mobileFirstAuthor.id > 0" :to="$urlHelper.getUserUrl(mobileFirstAuthor.name, mobileFirstAuthor.id)" class="header-author-icon-link">
                     <Image :src="mobileFirstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon" :alt="t('page.header.authorProfilePicture', { name: mobileFirstAuthor.name })" />
                 </div>
@@ -317,37 +317,43 @@ const ariaId2 = useId()
         background: none;
     }
 
-    .additional-authors-btn {
-        border-radius: 10px;
-        min-width: 20px;
-        height: 20px;
-        line-height: 20px;
-        text-align: center;
+    .author-popper {
+        display: flex;
         justify-content: center;
         align-items: center;
-        display: inline-flex;
-        font-size: 10px;
-        font-weight: 700;
-        border: solid 1px @memo-grey-light;
-        padding: 0 2px;
-        background: none;
-        cursor: pointer;
-        transition: all .1s ease-in-out;
 
-        &.long {
-            padding: 0 4px;
-        }
-
-        &:hover {
-            background: @memo-blue;
-            color: white;
+        .additional-authors-btn {
+            border-radius: 10px;
+            min-width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: inline-flex;
+            font-size: 10px;
+            font-weight: 700;
+            border: solid 1px @memo-grey-light;
+            padding: 0 2px;
+            background: none;
+            cursor: pointer;
             transition: all .1s ease-in-out;
-            border: solid 1px @memo-blue;
-        }
 
-        span {
-            position: relative;
-            left: -1px;
+            &.long {
+                padding: 0 4px;
+            }
+
+            &:hover {
+                background: @memo-blue;
+                color: white;
+                transition: all .1s ease-in-out;
+                border: solid 1px @memo-blue;
+            }
+
+            span {
+                position: relative;
+                left: -1px;
+            }
         }
     }
 
