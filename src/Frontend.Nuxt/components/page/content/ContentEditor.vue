@@ -517,78 +517,7 @@ const createFlashcard = () => {
         }
     }
 
-    .collaboration-cursor__caret {
-        border-left: 1px solid #0d0d0d;
-        border-right: 1px solid #0d0d0d;
-        margin-left: -1px;
-        margin-right: -1px;
-        pointer-events: none;
-        position: relative;
-        word-break: normal;
-
-        .collaboration-cursor__label,
-        .collaboration-cursor__label-container {
-            border-radius: 4px 4px 4px 0;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 600;
-            left: -1px;
-            padding: 0 12px;
-            position: absolute;
-            user-select: none;
-            white-space: nowrap;
-            height: 28px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .collaboration-cursor__label-container {
-            top: -1.4em;
-            z-index: 2;
-            color: white;
-            box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
-        }
-
-        .collaboration-cursor__label {
-            top: 0px;
-            z-index: 3;
-            color: @memo-blue;
-        }
-
-        .collaboration-cursor__label-container::before {
-            border-radius: 4px 4px 4px 0;
-            content: '';
-            position: absolute;
-            top: 0px;
-            left: 2px;
-            width: calc(100% - 2px);
-            height: 100%;
-            background: white;
-            opacity: 1;
-            z-index: 3;
-        }
-
-        .collaboration-cursor__label-container::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: -2px;
-            width: 0;
-            height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid white;
-            transform: rotate(315deg);
-            z-index: 2;
-        }
-    }
-
     &.ProseMirror-focused {
-        .collaboration-cursor__caret {
-            opacity: 0.6;
-        }
 
         &:focus,
         &:focus-visible {
@@ -683,6 +612,87 @@ const createFlashcard = () => {
 
     .fa-wand-magic-sparkles {
         color: @memo-blue-link;
+    }
+}
+</style>
+
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.ProseMirror {
+    .collaboration-cursor__caret {
+        border-left: 1px solid #0d0d0d;
+        border-right: 1px solid #0d0d0d;
+        margin-left: -1px;
+        margin-right: -1px;
+        pointer-events: none;
+        position: relative;
+        word-break: normal;
+
+        .collaboration-cursor__label,
+        .collaboration-cursor__label-container {
+            border-radius: 4px 4px 4px 0;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            left: -1px;
+            padding: 0 12px;
+            position: absolute;
+            user-select: none;
+            white-space: nowrap;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .collaboration-cursor__label-container {
+            top: -1.4em;
+            z-index: 2;
+            color: white;
+            box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+        }
+
+        .collaboration-cursor__label {
+            top: 0px;
+            z-index: 3;
+            color: @memo-blue;
+        }
+
+        .collaboration-cursor__label-container::before {
+            border-radius: 4px 4px 4px 0;
+            content: '';
+            position: absolute;
+            top: 0px;
+            left: 2px;
+            width: calc(100% - 2px);
+            height: 100%;
+            background: white;
+            opacity: 1;
+            z-index: 3;
+        }
+
+        .collaboration-cursor__label-container::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: -2px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid white;
+            transform: rotate(315deg);
+            z-index: 2;
+        }
+    }
+
+    &.ProseMirror-focused {
+        .collaboration-cursor__caret {
+            opacity: 0.6;
+        }
     }
 }
 </style>
