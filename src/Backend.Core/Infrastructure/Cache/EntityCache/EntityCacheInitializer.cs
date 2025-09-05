@@ -19,7 +19,7 @@ public class EntityCacheInitializer(
         _stopWatch = Stopwatch.StartNew();
         _customMessage = customMessage;
 
-        Log.Information("EntityCache Start" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache Start" + _customMessage, _stopWatch.Elapsed);
 
         InitializeUsers();
         InitializePageRelations();
@@ -27,17 +27,17 @@ public class EntityCacheInitializer(
         InitializeQuestions();
         InitializeShareInfos();
 
-        Log.Information("EntityCache PutIntoCache" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache PutIntoCache" + _customMessage, _stopWatch.Elapsed);
         EntityCache.IsFirstStart = false;
     }
 
     private void InitializeUsers()
     {
         var allUsers = _userReadingRepo.GetAll();
-        Log.Information("EntityCache UsersLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache UsersLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
-        Log.Information("EntityCache UsersCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache UsersCached " + _customMessage, _stopWatch.Elapsed);
 
         MemoCache.Add(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
     }
@@ -45,30 +45,30 @@ public class EntityCacheInitializer(
     private void InitializePageRelations()
     {
         var allRelations = pageRelationRepo.GetAll();
-        Log.Information("EntityCache PageRelationsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache PageRelationsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
         var relations = PageRelationCache.ToPageRelationCache(allRelations).ToList();
         MemoCache.Add(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
-        Log.Information("EntityCache PageRelationsCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache PageRelationsCached " + _customMessage, _stopWatch.Elapsed);
     }
 
     private void InitializePages()
     {
         var allPages = pageRepository.GetAllEager();
-        Log.Information("EntityCache PagesLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache PagesLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
         var allPageViews = pageViewRepo.GetAllEager();
-        Log.Information("EntityCache PageViewsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
         var allPageChanges = pageChangeRepo.GetAll();
-        Log.Information("EntityCache PageChangesLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache PageChangesLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
         var pages = PageCacheItem.ToCachePages(allPages, allPageViews, allPageChanges).ToList();
-        Log.Information("EntityCache PagesCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache PagesCached " + _customMessage, _stopWatch.Elapsed);
 
         MemoCache.Add(EntityCache.CacheKeyPages, pages.ToConcurrentDictionary());
         EntityCache.AddViewsLast30DaysToPages(pageViewRepo, pages);
-        Log.Information("EntityCache PagesPutIntoForeverCache " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache PagesPutIntoForeverCache " + _customMessage, _stopWatch.Elapsed);
     }
 
     private void InitializeQuestions()
@@ -76,14 +76,14 @@ public class EntityCacheInitializer(
         var allQuestionChanges = _questionChangeRepo.GetAll();
 
         var allQuestions = _questionReadingRepo.GetAllEager();
-        Log.Information("EntityCache QuestionsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache QuestionsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
         var allQuestionViews = _questionViewRepository.GetAllEager();
-        Log.Information("EntityCache QuestionViewsLoadedFromRepo " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
         var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews, allQuestionChanges).ToList();
-        Log.Information("EntityCache QuestionsCached " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
-        Log.Information("EntityCache LoadAllEntities" + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache QuestionsCached " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache LoadAllEntities " + _customMessage, _stopWatch.Elapsed);
 
         MemoCache.Add(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
         MemoCache.Add(EntityCache.CacheKeyPageQuestionsList, EntityCache.GetPageQuestionsListForCacheInitializer(questions));
@@ -103,7 +103,7 @@ public class EntityCacheInitializer(
     private void InitializeShareInfos()
     {
         var allShareInfos = _sharesRepository.GetAllEager();
-        Log.Information("EntityCache ShareInfos Loaded " + _customMessage + "{Elapsed}", _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache ShareInfos Loaded " + _customMessage, _stopWatch.Elapsed);
 
         var shareCacheItems = allShareInfos.Select(ShareCacheItem.ToCacheItem).ToList();
         MemoCache.Add(EntityCache.CacheKeyPageShares, shareCacheItems.ToConcurrentDictionary());
