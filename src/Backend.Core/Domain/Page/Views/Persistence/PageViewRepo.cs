@@ -1,6 +1,5 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
-
 using System.Collections.Concurrent;
 
 public class PageViewRepo(
@@ -75,6 +74,15 @@ public class PageViewRepo(
         EntityCache.GetPage(pageId)?.AddPageView(pageView.DateOnly);
         GraphService.IncrementTotalViewsForAllAscendants(pageId);
 
+        // TODO: Add to mmap cache
+        // viewDataMmapCache.AppendPageView(new PageViewSummaryWithDate
+        // {
+        //     Count = 1,
+        //     DateOnly = pageView.DateOnly,
+        //     PageId = pageId,
+        //     DateCreated = pageView.DateCreated
+        // });
+
         AddToRecentPages(pageId, userId);
     }
 
@@ -90,10 +98,6 @@ public class PageViewRepo(
         if (userCacheItem.RecentPages != null)
             userCacheItem.RecentPages.VisitPage(pageId);
     }
-
-    public record struct PageViewSummaryWithId(Int64 Count, DateTime DateOnly, int PageId);
-
-    public record struct PageViewSummary(Int64 Count, DateTime DateOnly);
 
     public ConcurrentDictionary<DateTime, int> GetActiveUserCountForPastNDays(int days)
     {
@@ -123,7 +127,7 @@ public class PageViewRepo(
     public IList<PageViewSummaryWithId> GetAllEager()
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId
+        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as DateCreated
         FROM pageview 
         GROUP BY 
             Page_Id, 
@@ -131,6 +135,27 @@ public class PageViewRepo(
         ORDER BY 
             Page_Id, 
             DateOnly;");
+
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
+            .List<PageViewSummaryWithId>();
+
+        return result;
+    }
+
+    public IList<PageViewSummaryWithId> GetAllEagerSince(DateTime sinceDate)
+    {
+        var query = _session.CreateSQLQuery(@"
+        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as DateCreated
+        FROM pageview 
+        WHERE DateCreated > :sinceDate
+        GROUP BY 
+            Page_Id, 
+            DateOnly
+        ORDER BY 
+            Page_Id, 
+            DateOnly;");
+
+        query.SetParameter("sinceDate", sinceDate);
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
             .List<PageViewSummaryWithId>();
@@ -153,3 +178,7 @@ public class PageViewRepo(
         return query.List<int>();
     }
 }
+
+
+
+public record struct PageViewSummary(Int64 Count, DateTime DateOnly);

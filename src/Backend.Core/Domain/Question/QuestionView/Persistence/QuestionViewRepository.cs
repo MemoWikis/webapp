@@ -1,9 +1,10 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
+using MessagePack;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 
-public class QuestionViewRepository(ISession _session) : RepositoryDbBase<QuestionView>(_session)
+public class QuestionViewRepository(ISession _session, QuestionViewMmapCache questionViewMmapCache) : RepositoryDbBase<QuestionView>(_session)
 {
     public int GetViewCount(int questionId)
     {
@@ -97,12 +98,11 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
     }
 
     public record struct QuestionViewSummary(Int64 Count, DateTime DateOnly);
-    public record struct QuestionViewSummaryWithId(Int64 Count, DateTime DateOnly, int QuestionId);
 
     public IList<QuestionViewSummaryWithId> GetAllEager()
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId
+        SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId, MAX(DateCreated) as DateCreated
         FROM QuestionView 
         GROUP BY 
             QuestionId, 
@@ -115,5 +115,43 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .List<QuestionViewSummaryWithId>();
 
         return result;
+    }
+
+    public IList<QuestionViewSummaryWithId> GetAllEagerSince(DateTime sinceDate)
+    {
+        var query = _session.CreateSQLQuery(@"
+        SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId, MAX(DateCreated) as DateCreated
+        FROM QuestionView 
+        WHERE DateCreated > :sinceDate
+        GROUP BY 
+            QuestionId, 
+            DateOnly
+        ORDER BY 
+            QuestionId, 
+            DateOnly;");
+
+        query.SetParameter("sinceDate", sinceDate);
+
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryWithId)))
+            .List<QuestionViewSummaryWithId>();
+
+        return result;
+    }
+
+    public void AddView(int questionId, int userId)
+    {
+        var questionView = new QuestionView
+        {
+            QuestionId = questionId,
+            UserId = userId,
+            DateCreated = DateTime.UtcNow,
+            DateOnly = DateTime.UtcNow.Date
+        };
+
+        Create(questionView);
+
+        // TODO: Add to mmap cache
+        // questionViewMmapCache.AppendQuestionView(new QuestionViewSummaryWithId(
+        //     1, questionView.DateOnly, questionId, questionView.DateCreated));
     }
 }
