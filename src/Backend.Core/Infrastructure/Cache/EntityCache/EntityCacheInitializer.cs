@@ -103,7 +103,6 @@ public class EntityCacheInitializer(
 
             // TODO: Save to mmap cache in background
             _pageViewMmapCache.SaveAllPageViews(dbPageViews);
-            Log.Information("Would save {count} page views to mmap cache in background", dbPageViews.Count);
         }
 
         return allPageViews;
@@ -158,7 +157,6 @@ public class EntityCacheInitializer(
 
             // TODO: Save to mmap cache in background
             _questionViewMmapCache.SaveAllQuestionViews(dbQuestionViews);
-            Log.Information("Would save {count} question views to mmap cache in background", dbQuestionViews.Count);
         }
 
         return allQuestionViews;
