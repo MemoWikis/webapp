@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using System.Security;
-
+using System.Text.Json;
 public class VueMaintenanceController(
     SessionUser _sessionUser,
     ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll,
@@ -16,7 +16,10 @@ public class VueMaintenanceController(
     UserWritingRepo _userWritingRepo,
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
-    RelationErrors _relationErrors) : ApiBaseController
+    RelationErrors _relationErrors,
+    MmapCacheRefreshService _mmapCacheRefreshService,
+    PageViewMmapCache _pageViewMmapCache,
+    QuestionViewMmapCache _questionViewMmapCache) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -343,6 +346,51 @@ public class VueMaintenanceController(
         {
             Success = result.Success,
             Data = result.Message
+        };
+    }
+
+    // Mmap Cache Methods
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> RefreshMmapCaches()
+    {
+        await _mmapCacheRefreshService.TriggerManualRefresh();
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Mmap caches refreshed successfully"
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpPost]
+    public VueMaintenanceResult GetMmapCacheStatus()
+    {
+        var cacheDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "viewcache");
+        var pageViewsFile = Path.Combine(cacheDirectory, "pageviews.mmap");
+        var questionViewsFile = Path.Combine(cacheDirectory, "questionviews.mmap");
+
+        var status = new
+        {
+            pageViewsCache = new
+            {
+                exists = System.IO.File.Exists(pageViewsFile),
+                lastModified = System.IO.File.Exists(pageViewsFile) ? System.IO.File.GetLastWriteTime(pageViewsFile) : (DateTime?)null,
+                sizeBytes = System.IO.File.Exists(pageViewsFile) ? new FileInfo(pageViewsFile).Length : 0
+            },
+            questionViewsCache = new
+            {
+                exists = System.IO.File.Exists(questionViewsFile),
+                lastModified = System.IO.File.Exists(questionViewsFile) ? System.IO.File.GetLastWriteTime(questionViewsFile) : (DateTime?)null,
+                sizeBytes = System.IO.File.Exists(questionViewsFile) ? new FileInfo(questionViewsFile).Length : 0
+            }
+        };
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = JsonSerializer.Serialize(status)
         };
     }
 }

@@ -152,6 +152,10 @@ try
     var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
     entityCacheInitializer.Init();
 
+    // Start the mmap cache refresh service
+    var mmapCacheRefreshService = app.Services.GetRequiredService<MmapCacheRefreshService>();
+    _ = mmapCacheRefreshService.StartAsync(default);
+
     await JobScheduler.InitializeAsync();
 
     app.Run();

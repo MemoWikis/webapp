@@ -1814,7 +1814,16 @@
         },
         "cache": {
             "title": "Cache",
-            "clearCache": "Clear cache"
+            "clearCache": "Clear cache",
+            "refreshMmapCaches": "Refresh Mmap Caches"
+        },
+        "mmapCache": {
+            "title": "Mmap Cache Management",
+            "loadStatus": "Load Status",
+            "pageViews": "Page Views",
+            "questionViews": "Question Views",
+            "noPageViewsCacheFile": "No page views cache file found",
+            "noQuestionViewsCacheFile": "No question views cache file found"
         },
         "pages": {
             "title": "Pages",
