@@ -1,6 +1,5 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
-using MessagePack;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 
@@ -74,23 +73,6 @@ public class QuestionViewRepository(ISession _session, QuestionViewMmapCache que
         return result;
     }
 
-    public IList<QuestionViewSummary> GetViewsForPastNDaysByIds(int days, List<int> ids)
-    {
-        var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly 
-        FROM QuestionView 
-        WHERE QuestionId IN (:questionIds) AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
-        GROUP BY DateOnly");
-
-        query.SetParameterList("questionIds", ids);
-        query.SetParameter("days", days);
-
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummary)))
-            .List<QuestionViewSummary>();
-
-        return result;
-    }
-
     public void DeleteForQuestion(int questionId)
     {
         Session.CreateSQLQuery("DELETE FROM questionview WHERE QuestionId = :questionId")
@@ -136,22 +118,5 @@ public class QuestionViewRepository(ISession _session, QuestionViewMmapCache que
             .List<QuestionViewSummaryWithId>();
 
         return result;
-    }
-
-    public void AddView(int questionId, int userId)
-    {
-        var questionView = new QuestionView
-        {
-            QuestionId = questionId,
-            UserId = userId,
-            DateCreated = DateTime.UtcNow,
-            DateOnly = DateTime.UtcNow.Date
-        };
-
-        Create(questionView);
-
-        // TODO: Add to mmap cache
-        // questionViewMmapCache.AppendQuestionView(new QuestionViewSummaryWithId(
-        //     1, questionView.DateOnly, questionId, questionView.DateCreated));
     }
 }

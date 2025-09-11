@@ -132,8 +132,6 @@ public class EntityCacheInitializer(
 
             Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromMmap ({count} entries) " + _customMessage,
                 _stopWatch.Elapsed, cachedQuestionViews.Count);
-
-            // TODO: Load newer entries from database in backgroun
         }
         else
         {
@@ -142,7 +140,6 @@ public class EntityCacheInitializer(
             allQuestionViews.AddRange(dbQuestionViews);
             Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
-            // TODO: Save to mmap cache in background
             _questionViewMmapCache.SaveAllQuestionViews(dbQuestionViews);
         }
 
