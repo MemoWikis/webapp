@@ -170,7 +170,7 @@ public class MmapCacheRefreshService(
         try
         {
             // Update page views
-            var (cachedPageViews, _) = pageViewMmapCache.LoadPageViews();
+            var cachedPageViews = pageViewMmapCache.LoadPageViews();
             if (cachedPageViews.Any())
             {
                 UpdatePageViewsInEntityCache(cachedPageViews);
@@ -179,7 +179,7 @@ public class MmapCacheRefreshService(
             }
 
             // Update question views  
-            var (cachedQuestionViews, _) = questionViewMmapCache.LoadQuestionViews();
+            var cachedQuestionViews = questionViewMmapCache.LoadQuestionViews();
             if (cachedQuestionViews.Any())
             {
                 UpdateQuestionViewsInEntityCache(cachedQuestionViews);
@@ -251,5 +251,20 @@ public class MmapCacheRefreshService(
     {
         Log.Information("Manual mmap cache refresh triggered");
         await RefreshMmapCaches();
+    }
+
+    public void DeleteAllCacheFiles()
+    {
+        try
+        {
+            pageViewMmapCache.DeleteCacheFile();
+            questionViewMmapCache.DeleteCacheFile();
+            Log.Information("Deleted all mmap cache files");
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, "Failed to delete mmap cache files");
+            throw;
+        }
     }
 }

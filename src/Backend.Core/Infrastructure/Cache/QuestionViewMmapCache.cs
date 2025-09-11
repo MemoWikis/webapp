@@ -7,7 +7,7 @@ public record struct QuestionViewSummaryWithId(
     [property: Key(2)] int QuestionId, 
     [property: Key(3)] DateTime DateCreated);
 
-public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
+public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime
 {
     private readonly string _questionViewsFilePath;
     private readonly object _questionViewLock = new();
@@ -20,11 +20,11 @@ public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
         _questionViewsFilePath = Path.Combine(cacheDirectory, "questionviews.mmap");
     }
 
-    public (List<QuestionViewSummaryWithId> views, DateTime? lastEntryDate) LoadQuestionViews()
+    public List<QuestionViewSummaryWithId> LoadQuestionViews()
     {
         if (!File.Exists(_questionViewsFilePath))
         {
-            return (new List<QuestionViewSummaryWithId>(), null);
+            return new List<QuestionViewSummaryWithId>();
         }
 
         try
@@ -34,12 +34,8 @@ public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 using var fileStream = new FileStream(_questionViewsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 var views = MessagePackSerializer.Deserialize<List<QuestionViewSummaryWithId>>(fileStream);
 
-                var lastEntryDate = views.Any()
-                    ? views.Max(view => view.DateCreated)
-                    : (DateTime?)null;
-
-                Log.Information($"Loaded {views.Count} question views from mmap cache. Last entry: {lastEntryDate}");
-                return (views, lastEntryDate);
+                Log.Information($"Loaded {views.Count} question views from mmap cache");
+                return views;
             }
         }
         catch (Exception exception)
@@ -47,7 +43,7 @@ public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
             Log.Error(exception, "Failed to load question views from mmap cache");
             // Delete corrupted file
             File.Delete(_questionViewsFilePath);
-            return (new List<QuestionViewSummaryWithId>(), null);
+            return new List<QuestionViewSummaryWithId>();
         }
     }
 
@@ -73,7 +69,7 @@ public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 File.WriteAllBytes(tempFile, MessagePackSerializer.Serialize(existingViews));
                 File.Move(tempFile, _questionViewsFilePath, true);
 
-                Log.Debug("Appended question view to mmap cache: QuestionId={QuestionId}, DateOnly={DateOnly}, Total views: {Count}", 
+                Log.Debug("Appended question view to mmap cache: QuestionId={QuestionId}, DateOnly={DateOnly}, Total views: {Count}",
                     view.QuestionId, view.DateOnly, existingViews.Count);
             }
         }
@@ -112,7 +108,7 @@ public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 File.WriteAllBytes(tempFile, MessagePackSerializer.Serialize(existingViews));
                 File.Move(tempFile, _questionViewsFilePath, true);
 
-                Log.Information("Appended {AppendedCount} question views to mmap cache. Total views: {TotalCount}", 
+                Log.Information("Appended {AppendedCount} question views to mmap cache. Total views: {TotalCount}",
                     viewsList.Count, existingViews.Count);
             }
         }
@@ -141,7 +137,7 @@ public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
 
                 // Count views to be deleted
                 var viewsToDelete = existingViews.Count(v => v.QuestionId == questionId);
-                
+
                 if (viewsToDelete == 0)
                 {
                     Log.Debug("No question views found to delete for QuestionId={QuestionId}", questionId);
@@ -156,7 +152,7 @@ public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 File.WriteAllBytes(tempFile, MessagePackSerializer.Serialize(filteredViews));
                 File.Move(tempFile, _questionViewsFilePath, true);
 
-                Log.Information("Deleted {DeletedCount} question views for QuestionId={QuestionId}. Remaining views: {RemainingCount}", 
+                Log.Information("Deleted {DeletedCount} question views for QuestionId={QuestionId}. Remaining views: {RemainingCount}",
                     viewsToDelete, questionId, filteredViews.Count);
             }
         }
@@ -177,8 +173,11 @@ public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
         }
     }
 
-    public void Dispose()
+    public void DeleteCacheFile()
     {
-        // Nothing to dispose explicitly for now
+        lock (_questionViewLock)
+        {
+            File.Delete(_questionViewsFilePath);
+        }
     }
 }

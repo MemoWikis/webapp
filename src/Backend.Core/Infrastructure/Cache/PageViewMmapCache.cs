@@ -2,12 +2,12 @@ using MessagePack;
 
 [MessagePackObject]
 public record struct PageViewSummaryWithId(
-    [property: Key(0)] Int64 Count, 
-    [property: Key(1)] DateTime DateOnly, 
-    [property: Key(2)] int PageId, 
+    [property: Key(0)] Int64 Count,
+    [property: Key(1)] DateTime DateOnly,
+    [property: Key(2)] int PageId,
     [property: Key(3)] DateTime DateCreated);
 
-public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
+public class PageViewMmapCache : IRegisterAsInstancePerLifetime
 {
     private readonly string _pageViewsFilePath;
     private readonly object _pageViewLock = new();
@@ -20,26 +20,23 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
         _pageViewsFilePath = Path.Combine(cacheDirectory, "pageviews.mmap");
     }
 
-    public (List<PageViewSummaryWithId> views, DateTime? lastEntryDate) LoadPageViews()
+    public List<PageViewSummaryWithId> LoadPageViews()
     {
         if (!File.Exists(_pageViewsFilePath))
         {
-            return (new List<PageViewSummaryWithId>(), null);
+            return new List<PageViewSummaryWithId>();
         }
 
         try
         {
             lock (_pageViewLock)
             {
-                using var fileStream = new FileStream(_pageViewsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var fileStream =
+                    new FileStream(_pageViewsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 var views = MessagePackSerializer.Deserialize<List<PageViewSummaryWithId>>(fileStream);
 
-                var lastEntryDate = views.Any()
-                    ? views.Max(view => view.DateCreated)
-                    : (DateTime?)null;
-
-                Log.Information($"Loaded {views.Count} page views from mmap cache. Last entry: {lastEntryDate}");
-                return (views, lastEntryDate);
+                Log.Information($"Loaded {views.Count} page views from mmap cache");
+                return views;
             }
         }
         catch (Exception exception)
@@ -47,7 +44,7 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
             Log.Error(exception, "Failed to load page views from mmap cache");
             // Delete corrupted file
             File.Delete(_pageViewsFilePath);
-            return (new List<PageViewSummaryWithId>(), null);
+            return new List<PageViewSummaryWithId>();
         }
     }
 
@@ -61,7 +58,8 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 var existingViews = new List<PageViewSummaryWithId>();
                 if (File.Exists(_pageViewsFilePath))
                 {
-                    using var readStream = new FileStream(_pageViewsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using var readStream = new FileStream(_pageViewsFilePath, FileMode.Open, FileAccess.Read,
+                        FileShare.Read);
                     existingViews = MessagePackSerializer.Deserialize<List<PageViewSummaryWithId>>(readStream);
                 }
 
@@ -73,7 +71,8 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 File.WriteAllBytes(tempFile, MessagePackSerializer.Serialize(existingViews));
                 File.Move(tempFile, _pageViewsFilePath, true);
 
-                Log.Debug("Appended page view to mmap cache: PageId={PageId}, DateOnly={DateOnly}, Total views: {Count}", 
+                Log.Debug(
+                    "Appended page view to mmap cache: PageId={PageId}, DateOnly={DateOnly}, Total views: {Count}",
                     view.PageId, view.DateOnly, existingViews.Count);
             }
         }
@@ -100,7 +99,8 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 var existingViews = new List<PageViewSummaryWithId>();
                 if (File.Exists(_pageViewsFilePath))
                 {
-                    using var readStream = new FileStream(_pageViewsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using var readStream = new FileStream(_pageViewsFilePath, FileMode.Open, FileAccess.Read,
+                        FileShare.Read);
                     existingViews = MessagePackSerializer.Deserialize<List<PageViewSummaryWithId>>(readStream);
                 }
 
@@ -112,7 +112,7 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 File.WriteAllBytes(tempFile, MessagePackSerializer.Serialize(existingViews));
                 File.Move(tempFile, _pageViewsFilePath, true);
 
-                Log.Information("Appended {AppendedCount} page views to mmap cache. Total views: {TotalCount}", 
+                Log.Information("Appended {AppendedCount} page views to mmap cache. Total views: {TotalCount}",
                     viewsList.Count, existingViews.Count);
             }
         }
@@ -135,13 +135,14 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 }
 
                 // Load existing views
-                using var readStream = new FileStream(_pageViewsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var readStream =
+                    new FileStream(_pageViewsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 var existingViews = MessagePackSerializer.Deserialize<List<PageViewSummaryWithId>>(readStream);
                 readStream.Close();
 
                 // Count views to be deleted
                 var viewsToDelete = existingViews.Count(v => v.PageId == pageId);
-                
+
                 if (viewsToDelete == 0)
                 {
                     Log.Debug("No page views found to delete for PageId={PageId}", pageId);
@@ -156,7 +157,8 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
                 File.WriteAllBytes(tempFile, MessagePackSerializer.Serialize(filteredViews));
                 File.Move(tempFile, _pageViewsFilePath, true);
 
-                Log.Information("Deleted {DeletedCount} page views for PageId={PageId}. Remaining views: {RemainingCount}", 
+                Log.Information(
+                    "Deleted {DeletedCount} page views for PageId={PageId}. Remaining views: {RemainingCount}",
                     viewsToDelete, pageId, filteredViews.Count);
             }
         }
@@ -177,8 +179,11 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime, IDisposable
         }
     }
 
-    public void Dispose()
+    public void DeleteCacheFile()
     {
-        // Nothing to dispose explicitly for now
+        lock (_pageViewLock)
+        {
+            File.Delete(_pageViewsFilePath);
+        }
     }
 }

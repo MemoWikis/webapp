@@ -180,6 +180,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .WithUsername(TestConstants.MySqlUsername)
             .WithPassword(TestConstants.MySqlPassword)
             .WithDatabase(TestConstants.TestDbName)
+            .WithPortBinding(TestConstants.MySqlTestPort, 3306)  // Fixed port binding to avoid random ports
             // Use case-insensitive table names for Windows compatibility
             .WithCommand("mysqld", "--lower_case_table_names=1")
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
@@ -197,7 +198,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         // ------------------------------------------------------------
         _meilisearchContainer = new ContainerBuilder()
             .WithImage("getmeili/meilisearch:v1.5")
-            .WithPortBinding(7778, 7700)
+            .WithPortBinding(TestConstants.MeilisearchTestPort, 7700)
             .WithEnvironment("MEILI_MASTER_KEY", MeilisearchMasterKey)
             .WithEnvironment("MEILI_NO_ANALYTICS", "true")
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())

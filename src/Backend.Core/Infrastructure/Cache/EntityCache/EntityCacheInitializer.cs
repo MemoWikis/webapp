@@ -75,7 +75,7 @@ public class EntityCacheInitializer(
     private List<PageViewSummaryWithId> LoadPageViewsFromMmapOrDatabase()
     {
         // Load from mmap cache
-        var (cachedPageViews, lastPageViewDate) = _pageViewMmapCache.LoadPageViews();
+        var cachedPageViews = _pageViewMmapCache.LoadPageViews();
         var allPageViews = new List<PageViewSummaryWithId>();
 
         if (cachedPageViews.Any())
@@ -86,13 +86,6 @@ public class EntityCacheInitializer(
 
             Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromMmap ({count} entries) " + _customMessage,
                 _stopWatch.Elapsed, cachedPageViews.Count);
-
-            // TODO: Load newer entries from database in background
-            if (lastPageViewDate.HasValue)
-            {
-                Log.Information("Would load page views newer than {date} from database in background", lastPageViewDate.Value);
-                // Background sync placeholder
-            }
         }
         else
         {
@@ -101,7 +94,6 @@ public class EntityCacheInitializer(
             allPageViews.AddRange(dbPageViews);
             Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
-            // TODO: Save to mmap cache in background
             _pageViewMmapCache.SaveAllPageViews(dbPageViews);
         }
 
@@ -130,23 +122,18 @@ public class EntityCacheInitializer(
     private List<QuestionViewSummaryWithId> LoadQuestionViewsFromMmapOrDatabase()
     {
         // Load from mmap cache
-        var (cachedQuestionViews, lastQuestionViewDate) = _questionViewMmapCache.LoadQuestionViews();
+        var cachedQuestionViews = _questionViewMmapCache.LoadQuestionViews();
         var allQuestionViews = new List<QuestionViewSummaryWithId>();
-        
+
         if (cachedQuestionViews.Any())
         {
             // No conversion needed - same type
             allQuestionViews.AddRange(cachedQuestionViews);
-            
-            Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromMmap ({count} entries) " + _customMessage, 
+
+            Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromMmap ({count} entries) " + _customMessage,
                 _stopWatch.Elapsed, cachedQuestionViews.Count);
-            
-            // TODO: Load newer entries from database in background
-            if (lastQuestionViewDate.HasValue)
-            {
-                Log.Information("Would load question views newer than {date} from database in background", lastQuestionViewDate.Value);
-                // Background sync placeholder
-            }
+
+            // TODO: Load newer entries from database in backgroun
         }
         else
         {

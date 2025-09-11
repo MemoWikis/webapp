@@ -74,15 +74,6 @@ public class PageViewRepo(
         EntityCache.GetPage(pageId)?.AddPageView(pageView.DateOnly);
         GraphService.IncrementTotalViewsForAllAscendants(pageId);
 
-        // TODO: Add to mmap cache
-        // viewDataMmapCache.AppendPageView(new PageViewSummaryWithDate
-        // {
-        //     Count = 1,
-        //     DateOnly = pageView.DateOnly,
-        //     PageId = pageId,
-        //     DateCreated = pageView.DateCreated
-        // });
-
         AddToRecentPages(pageId, userId);
     }
 
