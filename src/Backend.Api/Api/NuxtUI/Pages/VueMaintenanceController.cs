@@ -18,8 +18,7 @@ public class VueMaintenanceController(
     IHttpContextAccessor _httpContextAccessor,
     RelationErrors _relationErrors,
     MmapCacheRefreshService _mmapCacheRefreshService,
-    PageViewMmapCache _pageViewMmapCache,
-    QuestionViewMmapCache _questionViewMmapCache) : ApiBaseController
+    MmapCacheStatusService _mmapCacheStatusService) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -367,30 +366,10 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult GetMmapCacheStatus()
     {
-        var cacheDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "viewcache");
-        var pageViewsFile = Path.Combine(cacheDirectory, "pageviews.mmap");
-        var questionViewsFile = Path.Combine(cacheDirectory, "questionviews.mmap");
-
-        var status = new
-        {
-            pageViewsCache = new
-            {
-                exists = System.IO.File.Exists(pageViewsFile),
-                lastModified = System.IO.File.Exists(pageViewsFile) ? System.IO.File.GetLastWriteTime(pageViewsFile) : (DateTime?)null,
-                sizeBytes = System.IO.File.Exists(pageViewsFile) ? new FileInfo(pageViewsFile).Length : 0
-            },
-            questionViewsCache = new
-            {
-                exists = System.IO.File.Exists(questionViewsFile),
-                lastModified = System.IO.File.Exists(questionViewsFile) ? System.IO.File.GetLastWriteTime(questionViewsFile) : (DateTime?)null,
-                sizeBytes = System.IO.File.Exists(questionViewsFile) ? new FileInfo(questionViewsFile).Length : 0
-            }
-        };
-
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = JsonSerializer.Serialize(status)
+            Data = _mmapCacheStatusService.GetCacheStatusAsJson()
         };
     }
 }
