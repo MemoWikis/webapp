@@ -146,7 +146,7 @@ public class QuestionCacheItem
         return Visibility != QuestionVisibility.Public;
     }
 
-    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null, AnswerRecord? answers = null)
+    public static QuestionCacheItem ToCacheQuestion(Question question, IEnumerable<QuestionViewSummaryWithId>? questionViews = null, IEnumerable<QuestionChange>? questionChanges = null, IList<int>? pageIds = null, AnswerRecord? answers = null)
     {
         var questionCacheItem = new QuestionCacheItem
         {
@@ -157,7 +157,7 @@ public class QuestionCacheItem
             SkipMigration = question.SkipMigration,
             Visibility = question.Visibility,
             TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries,
-            Pages = EntityCache.GetPages(question.Pages?.Select(c => c.Id)).ToList(),
+            Pages = EntityCache.GetPages(pageIds ?? new List<int>()).ToList(),
             CreatorId = question.Creator?.Id ?? -1,
             DateCreated = question.DateCreated,
             DateModified = question.DateModified,
@@ -260,33 +260,27 @@ public class QuestionCacheItem
 
     public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewSummaryWithId> questionViews, IList<QuestionChange> questionChanges, IList<Answer>? answers = null)
     {
-        var questionViewsByQuestionId = questionViews
-            .GroupBy(qv => qv.QuestionId)
-            .ToDictionary(g => g.Key, g => g.ToList());
+        // Create efficient lookups once
+        var questionViewsLookup = questionViews.ToLookup(questionView => questionView.QuestionId);
+        var questionChangesLookup = questionChanges.ToLookup(questionChange => questionChange.Question?.Id);
+        var answersLookup = answers?.ToLookup(answer => answer.Question?.Id ?? -1);
 
-        var questionChangesDictionary = questionChanges
-            .GroupBy(qc => qc.Question?.Id ?? -1)
-            .ToDictionary(g => g.Key, g => g.ToList());
+        // Materialize page IDs before parallel processing to avoid NHibernate concurrency issues
+        var questionPageIds = questions.ToDictionary(question => question.Id, question => question.Pages?.Select(page => page.Id).ToList() ?? new List<int>());
 
-        var answersDictionary = answers?
-            .GroupBy(a => a.Question?.Id ?? -1)
-            .ToDictionary(g => g.Key, AnswerCache.AnswersToAnswerRecord);
-
-        var result = questions.Select(q =>
+        // Parallel processing with shared lookups
+        return questions.AsParallel().Select(question =>
         {
-            questionViewsByQuestionId.TryGetValue(q.Id, out var questionViewsWithId);
-            questionChangesDictionary.TryGetValue(q.Id, out var questionChanges);
+            questionPageIds.TryGetValue(question.Id, out var pageIds);
 
-            if (answersDictionary != null)
+            if (answersLookup != null)
             {
-                answersDictionary.TryGetValue(q.Id, out var answersByQuestionId);
-                return ToCacheQuestion(q, questionViewsWithId, questionChanges, answers: answersByQuestionId);
+                var answersByQuestionId = AnswerCache.AnswersToAnswerRecord(answersLookup[question.Id]);
+                return ToCacheQuestion(question, questionViewsLookup[question.Id], questionChangesLookup[question.Id], pageIds, answersByQuestionId);
             }
 
-            return ToCacheQuestion(q, questionViewsWithId, questionChanges, answers: null);
+            return ToCacheQuestion(question, questionViewsLookup[question.Id], questionChangesLookup[question.Id], pageIds, null);
         });
-
-        return result;
     }
 
     public virtual int TotalAnswers()

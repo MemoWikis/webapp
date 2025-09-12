@@ -303,27 +303,24 @@ public class PageCacheItem : IPersistable
             : new List<PageCacheItem>();
     }
 
-    public static IEnumerable<PageCacheItem> ToCachePages(IEnumerable<Page> pages,
-        IList<PageViewSummaryWithId> views, IList<PageChange> changes)
+    public static IEnumerable<PageCacheItem> ToCachePages(
+        IEnumerable<Page> pages,
+        IList<PageViewSummaryWithId> views,
+        IList<PageChange> changes)
     {
-        var pageViewsDict = views
-            .GroupBy(cv => cv.PageId)
-            .ToDictionary(g => g.Key, g => g.ToList());
+        // Create efficient lookups once
+        var pageViewsLookup = views.ToLookup(pageView => pageView.PageId);
+        var pageChangesLookup = changes.ToLookup(pageChange => pageChange.Page?.Id);
 
-        var pageChangesDict = changes
-            .GroupBy(cc => cc.Page?.Id ?? -1)
-            .ToDictionary(g => g.Key, g => g.ToList());
-
-        return pages.Select(c =>
-        {
-            pageViewsDict.TryGetValue(c.Id, out var pageViews);
-            pageChangesDict.TryGetValue(c.Id, out var pageChanges);
-            return ToCachePage(c, pageViews, pageChanges);
-        });
+        // Parallel processing with shared lookups
+        return pages.AsParallel().Select(page =>
+            ToCachePage(page, pageViewsLookup[page.Id], pageChangesLookup[page.Id]));
     }
 
-    public static PageCacheItem ToCachePage(Page page, List<PageViewSummaryWithId>? views = null,
-        List<PageChange>? pageChanges = null)
+    public static PageCacheItem ToCachePage(
+        Page page,
+        IEnumerable<PageViewSummaryWithId>? views = null,
+        IEnumerable<PageChange>? pageChanges = null)
     {
         var creatorId = page.Creator == null ? -1 : page.Creator.Id;
         var parentRelations = EntityCache.GetParentRelationsByChildId(page.Id);
@@ -438,9 +435,9 @@ public class PageCacheItem : IPersistable
         return pageCacheItem;
     }
 
-    public static void SetPageViews(PageCacheItem pageCacheItem, List<PageViewSummaryWithId>? views = null)
+    public static void SetPageViews(PageCacheItem pageCacheItem, IEnumerable<PageViewSummaryWithId>? views = null)
     {
-        if (views == null || views.Count == 0)
+        if (views == null || !views.Any())
             return;
 
         pageCacheItem.TotalViews = (int)views.Sum(view => view.Count);

@@ -27,6 +27,8 @@ public class EntityCacheInitializer(
         InitializePageRelations();
         InitializePages();
         InitializeQuestions();
+        Log.Information("{Elapsed}" + " - EntityCache LoadAllEntities " + _customMessage, _stopWatch.Elapsed);
+
         InitializeShareInfos();
 
         Log.Information("{Elapsed}" + " - EntityCache PutIntoCache" + _customMessage, _stopWatch.Elapsed);
@@ -65,6 +67,7 @@ public class EntityCacheInitializer(
         Log.Information("{Elapsed}" + " - EntityCache PageChangesLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
         var pages = PageCacheItem.ToCachePages(allPages, allPageViews, allPageChanges).ToList();
+        // var pages = allPages.AsParallel().Select(p => PageCacheItem.ToCachePage(p)).ToList();
         Log.Information("{Elapsed}" + " - EntityCache PagesCached " + _customMessage, _stopWatch.Elapsed);
 
         MemoCache.Add(EntityCache.CacheKeyPages, pages.ToConcurrentDictionary());
@@ -110,8 +113,8 @@ public class EntityCacheInitializer(
         var allQuestionViews = LoadQuestionViewsFromMmapOrDatabase();
 
         var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews, allQuestionChanges).ToList();
+        // var questions = allQuestions.AsParallel().Select(q => QuestionCacheItem.ToCacheQuestion(q)).ToList();
         Log.Information("{Elapsed}" + " - EntityCache QuestionsCached " + _customMessage, _stopWatch.Elapsed);
-        Log.Information("{Elapsed}" + " - EntityCache LoadAllEntities " + _customMessage, _stopWatch.Elapsed);
 
         MemoCache.Add(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
         MemoCache.Add(EntityCache.CacheKeyPageQuestionsList, EntityCache.GetPageQuestionsListForCacheInitializer(questions));
