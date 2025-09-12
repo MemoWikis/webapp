@@ -11,9 +11,6 @@ public class MmapCacheRefreshService(
     QuestionViewRepository questionViewRepo)
     : BackgroundService, IRegisterAsInstancePerLifetime
 {
-    // Track first refresh after server restart
-    private static bool _hasPerformedFirstRefresh = false;
-    private static readonly object _firstRefreshLock = new();
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -37,17 +34,6 @@ public class MmapCacheRefreshService(
                 if (!stoppingToken.IsCancellationRequested)
                 {
                     await RefreshMmapCaches();
-
-                    // On first refresh after restart, update EntityCache views
-                    lock (_firstRefreshLock)
-                    {
-                        if (!_hasPerformedFirstRefresh)
-                        {
-                            Log.Information("First refresh after restart - updating EntityCache views from mmap cache");
-                            UpdateEntityCacheViewsFromMmap();
-                            _hasPerformedFirstRefresh = true;
-                        }
-                    }
                 }
             }
             catch (OperationCanceledException)
@@ -161,7 +147,8 @@ public class MmapCacheRefreshService(
 
     /// <summary>
     /// Update only the view-related data in existing EntityCache from mmap cache
-    /// Call this on first refresh after server restart to sync view data
+    /// NOTE: This is primarily used for testing since EntityCacheInitializer now loads 
+    /// today's views directly from the database during startup
     /// </summary>
     public void UpdateEntityCacheViewsFromMmap()
     {

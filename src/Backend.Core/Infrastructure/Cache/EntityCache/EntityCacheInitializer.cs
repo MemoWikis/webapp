@@ -88,11 +88,28 @@ public class EntityCacheInitializer(
         Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromMmap ({count} entries) " + _customMessage,
             _stopWatch.Elapsed, pageViews.Count);
 
+        // Load today's page views from database since the cache might not have today's views yet
+        var today = DateTime.UtcNow.Date;
+        var todaysPageViews = pageViewRepo.GetAllEagerSince(today);
+        
+        if (todaysPageViews.Any())
+        {
+            // Remove any existing entries for today from cache to avoid duplicates
+            pageViews.RemoveAll(view => view.DateOnly.Date == today);
+            
+            // Add today's views from database
+            pageViews.AddRange(todaysPageViews);
+            
+            Log.Information("{Elapsed}" + " - EntityCache TodaysPageViewsLoadedFromRepo ({count} entries) " + _customMessage,
+                _stopWatch.Elapsed, todaysPageViews.Count);
+        }
+
         return pageViews;
     }
 
     private List<PageViewSummaryWithId> LoadPageViewsFromDatabaseAndPersistToMmapCache()
     {
+        // Load all page views from database (this is the fallback when cache is empty)
         var dbPageViews = pageViewRepo.GetAllEager();
         Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
@@ -134,11 +151,28 @@ public class EntityCacheInitializer(
         Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromMmap ({count} entries) " + _customMessage,
             _stopWatch.Elapsed, questionViews.Count);
 
+        // Load today's question views from database since the cache might not have today's views yet
+        var today = DateTime.UtcNow.Date;
+        var todaysQuestionViews = _questionViewRepository.GetAllEagerSince(today);
+        
+        if (todaysQuestionViews.Any())
+        {
+            // Remove any existing entries for today from cache to avoid duplicates
+            questionViews.RemoveAll(view => view.DateOnly.Date == today);
+            
+            // Add today's views from database
+            questionViews.AddRange(todaysQuestionViews);
+            
+            Log.Information("{Elapsed}" + " - EntityCache TodaysQuestionViewsLoadedFromRepo ({count} entries) " + _customMessage,
+                _stopWatch.Elapsed, todaysQuestionViews.Count);
+        }
+
         return questionViews;
     }
 
     private List<QuestionViewSummaryWithId> LoadQuestionViewsFromDatabaseAndPersistToMmapCache()
     {
+        // Load all question views from database (this is the fallback when cache is empty)
         var dbQuestionViews = _questionViewRepository.GetAllEager();
         Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
 
