@@ -74,30 +74,30 @@ public class EntityCacheInitializer(
 
     private List<PageViewSummaryWithId> LoadPageViewsFromMmapOrDatabase()
     {
-        // Load from mmap cache
         var cachedPageViews = _pageViewMmapCache.LoadPageViews();
-        var allPageViews = new List<PageViewSummaryWithId>();
+        return cachedPageViews.Any() 
+            ? LoadPageViewsFromMmapCache(cachedPageViews)
+            : LoadPageViewsFromDatabaseAndPersistToMmapCache();
+    }
 
-        if (cachedPageViews.Any())
-        {
-            // Convert cached views to expected format
-            allPageViews.AddRange(cachedPageViews.Select(view => new PageViewSummaryWithId(
-                view.Count, view.DateOnly, view.PageId, view.DateCreated)));
+    private List<PageViewSummaryWithId> LoadPageViewsFromMmapCache(IEnumerable<PageViewSummaryWithId> cachedPageViews)
+    {
+        var pageViews = cachedPageViews.Select(view => new PageViewSummaryWithId(
+            view.Count, view.DateOnly, view.PageId, view.DateCreated)).ToList();
 
-            Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromMmap ({count} entries) " + _customMessage,
-                _stopWatch.Elapsed, cachedPageViews.Count);
-        }
-        else
-        {
-            // First time - load all from database
-            var dbPageViews = pageViewRepo.GetAllEager();
-            allPageViews.AddRange(dbPageViews);
-            Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromMmap ({count} entries) " + _customMessage,
+            _stopWatch.Elapsed, pageViews.Count);
 
-            _pageViewMmapCache.SaveAllPageViews(dbPageViews);
-        }
+        return pageViews;
+    }
 
-        return allPageViews;
+    private List<PageViewSummaryWithId> LoadPageViewsFromDatabaseAndPersistToMmapCache()
+    {
+        var dbPageViews = pageViewRepo.GetAllEager();
+        Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+
+        _pageViewMmapCache.SaveAllPageViews(dbPageViews);
+        return dbPageViews.ToList();
     }
 
     private void InitializeQuestions()
@@ -121,29 +121,29 @@ public class EntityCacheInitializer(
 
     private List<QuestionViewSummaryWithId> LoadQuestionViewsFromMmapOrDatabase()
     {
-        // Load from mmap cache
         var cachedQuestionViews = _questionViewMmapCache.LoadQuestionViews();
-        var allQuestionViews = new List<QuestionViewSummaryWithId>();
+        return cachedQuestionViews.Any() 
+            ? LoadQuestionViewsFromMmapCache(cachedQuestionViews)
+            : LoadQuestionViewsFromDatabaseAndPersistToMmapCache();
+    }
 
-        if (cachedQuestionViews.Any())
-        {
-            // No conversion needed - same type
-            allQuestionViews.AddRange(cachedQuestionViews);
+    private List<QuestionViewSummaryWithId> LoadQuestionViewsFromMmapCache(IEnumerable<QuestionViewSummaryWithId> cachedQuestionViews)
+    {
+        var questionViews = cachedQuestionViews.ToList();
 
-            Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromMmap ({count} entries) " + _customMessage,
-                _stopWatch.Elapsed, cachedQuestionViews.Count);
-        }
-        else
-        {
-            // First time - load all from database
-            var dbQuestionViews = _questionViewRepository.GetAllEager();
-            allQuestionViews.AddRange(dbQuestionViews);
-            Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromMmap ({count} entries) " + _customMessage,
+            _stopWatch.Elapsed, questionViews.Count);
 
-            _questionViewMmapCache.SaveAllQuestionViews(dbQuestionViews);
-        }
+        return questionViews;
+    }
 
-        return allQuestionViews;
+    private List<QuestionViewSummaryWithId> LoadQuestionViewsFromDatabaseAndPersistToMmapCache()
+    {
+        var dbQuestionViews = _questionViewRepository.GetAllEager();
+        Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+
+        _questionViewMmapCache.SaveAllQuestionViews(dbQuestionViews);
+        return dbQuestionViews.ToList();
     }
 
     private void InitializeQuestionReferences(IEnumerable<Question> allQuestions)

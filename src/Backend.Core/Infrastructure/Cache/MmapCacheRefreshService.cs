@@ -115,6 +115,7 @@ public class MmapCacheRefreshService(
             try
             {
                 var allPageViews = pageViewRepo.GetAllEager();
+                Log.Information("Refresh PageView pageViews loaded from db");
                 pageViewMmapCache.SaveAllPageViews(allPageViews);
 
                 stopwatch.Stop();
