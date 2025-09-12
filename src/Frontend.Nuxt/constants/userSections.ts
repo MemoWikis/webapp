@@ -27,11 +27,32 @@ const QUESTIONS_SECTION: UserSection = {
     tooltipKey: 'user.sidebar.tooltips.questions'
 }
 
+const SKILLS_PLACEHOLDER_SECTION: UserSection = {
+    id: 'Skills-placeholder',
+    translationKey: 'user.sidebar.skills',
+    tooltipKey: 'user.sidebar.tooltips.skills'
+}
+
+const WIKIS_PLACEHOLDER_SECTION: UserSection = {
+    id: 'Wikis-placeholder',
+    translationKey: 'user.sidebar.wikis',
+    tooltipKey: 'user.sidebar.tooltips.wikis'
+}
+
+const QUESTIONS_PLACEHOLDER_SECTION: UserSection = {
+    id: 'Questions-placeholder',
+    translationKey: 'user.sidebar.questions',
+    tooltipKey: 'user.sidebar.tooltips.questions'
+}
+
 const SECTIONS: UserSection[] = [
     STATS_SECTION,
     SKILLS_SECTION,
     WIKIS_SECTION,
     QUESTIONS_SECTION,
+    SKILLS_PLACEHOLDER_SECTION,
+    WIKIS_PLACEHOLDER_SECTION,
+    QUESTIONS_PLACEHOLDER_SECTION,
 ]
 
 export const USER_SECTIONS = SECTIONS
@@ -42,4 +63,7 @@ export default {
     SKILLS_SECTION,
     WIKIS_SECTION,
     QUESTIONS_SECTION,
+    SKILLS_PLACEHOLDER_SECTION,
+    WIKIS_PLACEHOLDER_SECTION,
+    QUESTIONS_PLACEHOLDER_SECTION,
 }

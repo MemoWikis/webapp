@@ -198,6 +198,10 @@ const { isMobile } = useDevice()
         color: @memo-grey-dark;
         font-style: italic;
         padding: 20px 0;
+
+        p {
+            margin-bottom: 0;
+        }
     }
 
     .pagination-container {

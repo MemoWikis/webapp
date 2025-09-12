@@ -152,7 +152,7 @@ const flavorText = computed(() => {
 const { isMobile } = useDevice()
 
 const showFlavorText = computed(() => {
-    return noContent.value && (userStore.showAsVisitor || !isCurrentUser)
+    return noContent.value && (userStore.showAsVisitor || !isCurrentUser.value)
 })
 
 </script>
