@@ -11,10 +11,11 @@ public class EntityCacheInitializer(
     QuestionChangeRepo _questionChangeRepo,
     SharesRepository _sharesRepository,
     PageViewMmapCache _pageViewMmapCache,
-    QuestionViewMmapCache _questionViewMmapCache) : IRegisterAsInstancePerLifetime
+    QuestionViewMmapCache _questionViewMmapCache,
+    MmapCacheRefreshService _mmapCacheRefreshService) : IRegisterAsInstancePerLifetime
 {
-    private Stopwatch _stopWatch;
-    private string _customMessage;
+    private Stopwatch _stopWatch = null!;
+    private string _customMessage = "";
 
     public void Init(string customMessage = "")
     {
@@ -31,6 +32,9 @@ public class EntityCacheInitializer(
 
         Log.Information("{Elapsed}" + " - EntityCache PutIntoCache" + _customMessage, _stopWatch.Elapsed);
         EntityCache.IsFirstStart = false;
+
+        // Start background loading of today's views after cache initialization
+        _mmapCacheRefreshService.LoadTodaysViewsInBackground();
     }
 
     private void InitializeUsers()
@@ -88,22 +92,7 @@ public class EntityCacheInitializer(
         Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromMmap ({count} entries) " + _customMessage,
             _stopWatch.Elapsed, pageViews.Count);
 
-        // Load today's page views from database since the cache might not have today's views yet
-        var today = DateTime.UtcNow.Date;
-        var todaysPageViews = pageViewRepo.GetAllEagerSince(today);
-        
-        if (todaysPageViews.Any())
-        {
-            // Remove any existing entries for today from cache to avoid duplicates
-            pageViews.RemoveAll(view => view.DateOnly.Date == today);
-            
-            // Add today's views from database
-            pageViews.AddRange(todaysPageViews);
-            
-            Log.Information("{Elapsed}" + " - EntityCache TodaysPageViewsLoadedFromRepo ({count} entries) " + _customMessage,
-                _stopWatch.Elapsed, todaysPageViews.Count);
-        }
-
+        // Return cached data immediately - today's views will be loaded in background
         return pageViews;
     }
 
@@ -151,22 +140,7 @@ public class EntityCacheInitializer(
         Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromMmap ({count} entries) " + _customMessage,
             _stopWatch.Elapsed, questionViews.Count);
 
-        // Load today's question views from database since the cache might not have today's views yet
-        var today = DateTime.UtcNow.Date;
-        var todaysQuestionViews = _questionViewRepository.GetAllEagerSince(today);
-        
-        if (todaysQuestionViews.Any())
-        {
-            // Remove any existing entries for today from cache to avoid duplicates
-            questionViews.RemoveAll(view => view.DateOnly.Date == today);
-            
-            // Add today's views from database
-            questionViews.AddRange(todaysQuestionViews);
-            
-            Log.Information("{Elapsed}" + " - EntityCache TodaysQuestionViewsLoadedFromRepo ({count} entries) " + _customMessage,
-                _stopWatch.Elapsed, todaysQuestionViews.Count);
-        }
-
+        // Return cached data immediately - today's views will be loaded in background
         return questionViews;
     }
 

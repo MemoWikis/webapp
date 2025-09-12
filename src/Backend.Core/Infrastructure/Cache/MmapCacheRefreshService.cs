@@ -2,7 +2,7 @@ using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 
 /// <summary>
-/// Background service that refreshes mmap cache files daily
+/// Background service that refreshes mmap cache files daily and handles startup view loading
 /// </summary>
 public class MmapCacheRefreshService(
     PageViewMmapCache pageViewMmapCache,
@@ -254,5 +254,45 @@ public class MmapCacheRefreshService(
             Log.Error(exception, "Failed to delete mmap cache files");
             throw;
         }
+    }
+
+    /// <summary>
+    /// Load today's views in background and update EntityCache (called during startup)
+    /// </summary>
+    public void LoadTodaysViewsInBackground()
+    {
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                // Small delay to ensure EntityCache is fully initialized
+                await Task.Delay(500);
+                
+                var today = DateTime.UtcNow.Date;
+                Log.Information("Background: Loading today's views from database");
+
+                // Load today's page views
+                var todaysPageViews = pageViewRepo.GetAllEagerSince(today);
+                if (todaysPageViews.Any())
+                {
+                    UpdatePageViewsInEntityCache(todaysPageViews.ToList());
+                    Log.Information("Background: Updated EntityCache with {count} page view entries for today", todaysPageViews.Count);
+                }
+
+                // Load today's question views
+                var todaysQuestionViews = questionViewRepo.GetAllEagerSince(today);
+                if (todaysQuestionViews.Any())
+                {
+                    UpdateQuestionViewsInEntityCache(todaysQuestionViews.ToList());
+                    Log.Information("Background: Updated EntityCache with {count} question view entries for today", todaysQuestionViews.Count);
+                }
+
+                Log.Information("Background: Completed loading today's views");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Background: Failed to load today's views");
+            }
+        });
     }
 }
