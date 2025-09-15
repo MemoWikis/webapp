@@ -1,73 +1,23 @@
-using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 
 /// <summary>
-/// Background service that refreshes mmap cache files daily and handles startup view loading
+/// Service for mmap cache operations and manual cache management
+/// Daily refresh is now handled by MmapCacheRefreshJob scheduled via JobScheduler
 /// </summary>
 public class MmapCacheRefreshService(
     PageViewMmapCache pageViewMmapCache,
     QuestionViewMmapCache questionViewMmapCache,
     PageViewRepo pageViewRepo,
     QuestionViewRepository questionViewRepo)
-    : BackgroundService, IRegisterAsInstancePerLifetime
+    : IRegisterAsInstancePerLifetime
 {
-
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        Log.Information("MmapCacheRefreshService started");
-
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            try
-            {
-                // Calculate next refresh time (daily at 2 AM)
-                var now = DateTime.Now;
-                var nextRun = GetNextRefreshTime(now);
-                var delay = nextRun - now;
-
-                Log.Information("Next mmap cache refresh scheduled for {NextRun} (in {DelayHours:F1} hours)",
-                    nextRun, delay.TotalHours);
-
-                // Wait until it's time to refresh
-                await Task.Delay(delay, stoppingToken);
-
-                if (!stoppingToken.IsCancellationRequested)
-                {
-                    await RefreshMmapCaches();
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                // Service is being stopped
-                Log.Information("MmapCacheRefreshService stopping");
-                break;
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception, "Error in MmapCacheRefreshService. Will retry at next scheduled time.");
-
-                // Wait 1 hour before retrying on error
-                await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
-            }
-        }
-    }
-
     /// <summary>
-    /// Calculate the next refresh time (daily at 2 AM)
+    /// Manually trigger a cache refresh (for testing or admin purposes)
     /// </summary>
-    private static DateTime GetNextRefreshTime(DateTime currentTime)
+    public async Task TriggerManualRefresh()
     {
-        var refreshHour = 2; // 2 AM
-        var today2Am = currentTime.Date.AddHours(refreshHour);
-
-        // If it's already past 2 AM today, schedule for tomorrow at 2 AM
-        if (currentTime >= today2Am)
-        {
-            return today2Am.AddDays(1);
-        }
-
-        // Otherwise, schedule for today at 2 AM
-        return today2Am;
+        Log.Information("Manual mmap cache refresh triggered");
+        await RefreshMmapCaches();
     }
 
     /// <summary>
@@ -230,15 +180,6 @@ public class MmapCacheRefreshService(
                     .ToList();
             }
         }
-    }
-
-    /// <summary>
-    /// Manually trigger a cache refresh (for testing or admin purposes)
-    /// </summary>
-    public async Task TriggerManualRefresh()
-    {
-        Log.Information("Manual mmap cache refresh triggered");
-        await RefreshMmapCaches();
     }
 
     public void DeleteAllCacheFiles()
