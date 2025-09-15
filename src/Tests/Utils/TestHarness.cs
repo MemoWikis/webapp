@@ -180,9 +180,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .WithUsername(TestConstants.MySqlUsername)
             .WithPassword(TestConstants.MySqlPassword)
             .WithDatabase(TestConstants.TestDbName)
-            .WithPortBinding(TestConstants.MySqlTestPort, 3306)  // Fixed port binding to avoid random ports
-            // Use case-insensitive table names for Windows compatibility
-            .WithCommand("mysqld", "--lower_case_table_names=1")
+            .WithPortBinding(TestConstants.MySqlTestPort, 3306) // Bind to a fixed port to avoid random ports
+            .WithCommand("mysqld", "--lower_case_table_names=1")  // Use case-insensitive table names for Windows compatibility
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithWaitStrategy(
                 Wait.ForUnixContainer()
@@ -388,7 +387,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public User GetDefaultSessionUserFromDb()
     {
         var userRepo = R<UserReadingRepo>();
-        return userRepo.GetById(DefaultSessionUserId) ?? throw new InvalidOperationException("Default session user not found in database");
+        return userRepo.GetById(DefaultSessionUserId) ??
+               throw new InvalidOperationException("Default session user not found in database");
     }
 
     /// <summary>
@@ -463,10 +463,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             "application/json");
 
         // Add cookies to the request
-        using var request = new HttpRequestMessage(HttpMethod.Post, uri)
-        {
-            Content = jsonContent
-        };
+        using var request = new HttpRequestMessage(HttpMethod.Post, uri) { Content = jsonContent };
 
         AddCookiesToRequest(request);
         var httpResponse = await Client.SendAsync(request);
@@ -494,10 +491,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     /// </summary>
     public async Task<TResult> ApiPostJson<TRequest, TResult>(string endpoint, TRequest requestBody)
     {
-        var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
+        var json = JsonSerializer.Serialize(requestBody,
+            new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
         using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
         {
@@ -516,10 +511,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     /// <summary>POST helper that returns the raw response for negative-case tests.</summary>
     public async Task<HttpResponseMessage> ApiCall<TRequest>(string endpoint, TRequest requestBody)
     {
-        var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
+        var json = JsonSerializer.Serialize(requestBody,
+            new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
         using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
         {

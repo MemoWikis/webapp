@@ -22,7 +22,7 @@ public class EntityCacheInitializer(
         _stopWatch = Stopwatch.StartNew();
         _customMessage = customMessage;
 
-        Log.Information("{Elapsed}" + " - EntityCache Start" + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache Start{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         InitializeUsers();
         InitializePageRelations();
@@ -30,7 +30,7 @@ public class EntityCacheInitializer(
         InitializeQuestions();
         InitializeShareInfos();
 
-        Log.Information("{Elapsed}" + " - EntityCache PutIntoCache" + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache PutIntoCache{CustomMessage}", _stopWatch.Elapsed, _customMessage);
         EntityCache.IsFirstStart = false;
 
         // Start background loading of today's views after cache initialization
@@ -40,10 +40,10 @@ public class EntityCacheInitializer(
     private void InitializeUsers()
     {
         var allUsers = _userReadingRepo.GetAll();
-        Log.Information("{Elapsed}" + " - EntityCache UsersLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache UsersLoadedFromRepo{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
-        Log.Information("{Elapsed}" + " - EntityCache UsersCached " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache UsersCached{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         MemoCache.Add(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
     }
@@ -51,29 +51,29 @@ public class EntityCacheInitializer(
     private void InitializePageRelations()
     {
         var allRelations = pageRelationRepo.GetAll();
-        Log.Information("{Elapsed}" + " - EntityCache PageRelationsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache PageRelationsLoadedFromRepo{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         var relations = PageRelationCache.ToPageRelationCache(allRelations).ToList();
         MemoCache.Add(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
-        Log.Information("{Elapsed}" + " - EntityCache PageRelationsCached " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache PageRelationsCached{CustomMessage}", _stopWatch.Elapsed, _customMessage);
     }
 
     private void InitializePages()
     {
         var allPages = pageRepository.GetAllEager();
-        Log.Information("{Elapsed}" + " - EntityCache PagesLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache PagesLoadedFromRepo{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         var allPageViews = LoadPageViewsFromMmapOrDatabase();
 
         var allPageChanges = pageChangeRepo.GetAll();
-        Log.Information("{Elapsed}" + " - EntityCache PageChangesLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache PageChangesLoadedFromRepo{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         var pages = PageCacheItem.ToCachePages(allPages, allPageViews, allPageChanges).ToList();
-        Log.Information("{Elapsed}" + " - EntityCache PagesCached " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache PagesCached{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         MemoCache.Add(EntityCache.CacheKeyPages, pages.ToConcurrentDictionary());
         EntityCache.AddViewsLast30DaysToPages(pageViewRepo, pages);
-        Log.Information("{Elapsed}" + " - EntityCache PagesPutIntoForeverCache " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache PagesPutIntoForeverCache{CustomMessage}", _stopWatch.Elapsed, _customMessage);
     }
 
     private List<PageViewSummaryWithId> LoadPageViewsFromMmapOrDatabase()
@@ -89,8 +89,8 @@ public class EntityCacheInitializer(
         var pageViews = cachedPageViews.Select(view => new PageViewSummaryWithId(
             view.Count, view.DateOnly, view.PageId, view.DateCreated)).ToList();
 
-        Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromMmap ({count} entries) " + _customMessage,
-            _stopWatch.Elapsed, pageViews.Count);
+        Log.Information("{Elapsed} - EntityCache PageViewsLoadedFromMmap ({Count} entries){CustomMessage}",
+            _stopWatch.Elapsed, pageViews.Count, _customMessage);
 
         // Return cached data immediately - today's views will be loaded in background
         return pageViews;
@@ -100,7 +100,7 @@ public class EntityCacheInitializer(
     {
         // Load all page views from database (this is the fallback when cache is empty)
         var dbPageViews = pageViewRepo.GetAllEager();
-        Log.Information("{Elapsed}" + " - EntityCache PageViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache PageViewsLoadedFromRepo{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         _pageViewMmapCache.SaveAllPageViews(dbPageViews);
         return dbPageViews.ToList();
@@ -111,13 +111,13 @@ public class EntityCacheInitializer(
         var allQuestionChanges = _questionChangeRepo.GetAll();
 
         var allQuestions = _questionReadingRepo.GetAllEager();
-        Log.Information("{Elapsed}" + " - EntityCache QuestionsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache QuestionsLoadedFromRepo{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         var allQuestionViews = LoadQuestionViewsFromMmapOrDatabase();
 
         var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews, allQuestionChanges).ToList();
-        Log.Information("{Elapsed}" + " - EntityCache QuestionsCached " + _customMessage, _stopWatch.Elapsed);
-        Log.Information("{Elapsed}" + " - EntityCache LoadAllEntities " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache QuestionsCached{CustomMessage}", _stopWatch.Elapsed, _customMessage);
+        Log.Information("{Elapsed} - EntityCache LoadAllEntities{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         MemoCache.Add(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
         MemoCache.Add(EntityCache.CacheKeyPageQuestionsList, EntityCache.GetPageQuestionsListForCacheInitializer(questions));
@@ -137,8 +137,8 @@ public class EntityCacheInitializer(
     {
         var questionViews = cachedQuestionViews.ToList();
 
-        Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromMmap ({count} entries) " + _customMessage,
-            _stopWatch.Elapsed, questionViews.Count);
+        Log.Information("{Elapsed} - EntityCache QuestionViewsLoadedFromMmap ({Count} entries){CustomMessage}",
+            _stopWatch.Elapsed, questionViews.Count, _customMessage);
 
         // Return cached data immediately - today's views will be loaded in background
         return questionViews;
@@ -148,7 +148,7 @@ public class EntityCacheInitializer(
     {
         // Load all question views from database (this is the fallback when cache is empty)
         var dbQuestionViews = _questionViewRepository.GetAllEager();
-        Log.Information("{Elapsed}" + " - EntityCache QuestionViewsLoadedFromRepo " + _customMessage, _stopWatch.Elapsed);
+        Log.Information("{Elapsed} - EntityCache QuestionViewsLoadedFromRepo{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         _questionViewMmapCache.SaveAllQuestionViews(dbQuestionViews);
         return dbQuestionViews.ToList();

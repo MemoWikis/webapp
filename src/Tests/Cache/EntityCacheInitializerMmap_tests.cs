@@ -78,7 +78,7 @@ internal class EntityCacheInitializerMmap_tests : BaseTestHarness
             Step1_LoadFromDatabase = new
             {
                 TotalViews = step1TotalViews,
-                MmapCacheFileExistedbeforeInit = mmapCacheFileExistedBeforeInit,
+                MmapCacheFileExistedBeforeInit = mmapCacheFileExistedBeforeInit,
                 MmmapcacheFileCreated = mmapCacheCreated
             },
             Step2_LoadFromMmapCache = new
