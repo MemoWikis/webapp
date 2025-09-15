@@ -63,7 +63,7 @@ internal class EntityCacheInitializerMmap_tests : BaseTestHarness
         });
 
         // Step 4: Run the scheduled refresh (this should update EntityCache)
-        await mmapCacheRefreshService.TriggerManualRefresh();
+        mmapCacheRefreshService.TriggerManualRefresh();
 
         // Force the first refresh behavior to update EntityCache
         mmapCacheRefreshService.UpdateEntityCacheViewsFromMmap();
@@ -167,7 +167,7 @@ internal class EntityCacheInitializerMmap_tests : BaseTestHarness
         var restartTotalViews = questionAfterRestart?.TotalViews;
 
         // Run refresh
-        await R<MmapCacheRefreshService>().TriggerManualRefresh();
+        R<MmapCacheRefreshService>().TriggerManualRefresh();
         R<MmapCacheRefreshService>().UpdateEntityCacheViewsFromMmap();
 
         // Collect final state

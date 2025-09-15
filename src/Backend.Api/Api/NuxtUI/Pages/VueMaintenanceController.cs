@@ -352,9 +352,9 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> RefreshMmapCaches()
+    public VueMaintenanceResult RefreshMmapCaches()
     {
-        await _mmapCacheRefreshService.TriggerManualRefresh();
+        _mmapCacheRefreshService.TriggerManualRefresh();
         return new VueMaintenanceResult
         {
             Success = true,

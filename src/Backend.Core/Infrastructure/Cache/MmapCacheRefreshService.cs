@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 /// <summary>
 /// Service for mmap cache operations and manual cache management
-/// Daily refresh is now handled by MmapCacheRefreshJob scheduled via JobScheduler
+/// Daily recreate is now handled by MmapCacheRefreshJob scheduled via JobScheduler
 /// </summary>
 public class MmapCacheRefreshService(
     PageViewMmapCache pageViewMmapCache,
@@ -12,87 +12,81 @@ public class MmapCacheRefreshService(
     : IRegisterAsInstancePerLifetime
 {
     /// <summary>
-    /// Manually trigger a cache refresh (for testing or admin purposes)
+    /// Manually trigger a cache recreate (for testing or admin purposes)
     /// </summary>
-    public async Task TriggerManualRefresh()
+    public void TriggerManualRefresh()
     {
-        Log.Information("Manual mmap cache refresh triggered");
-        await RefreshMmapCaches();
+        Log.Information("Manual mmap cache recreate triggered");
+        RecreateMmapCaches();
     }
 
     /// <summary>
     /// Refresh both PageView and QuestionView mmap caches from database
     /// </summary>
-    private async Task RefreshMmapCaches()
+    private void RecreateMmapCaches()
     {
         var stopwatch = Stopwatch.StartNew();
-        Log.Information("Starting daily mmap cache refresh");
+        Log.Information("Starting daily mmap cache recreate");
 
         // Refresh PageView mmap cache
-        await RefreshPageViewCache();
+        RecreatePageViewCache();
 
         // Refresh QuestionView mmap cache  
-        await RefreshQuestionViewCache();
+        RecreateQuestionViewCache();
 
         stopwatch.Stop();
-        Log.Information("Completed mmap cache refresh in {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
+        Log.Information("Completed mmap cache recreate in {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
     }
 
     /// <summary>
     /// Refresh PageView mmap cache from database
     /// </summary>
-    private async Task RefreshPageViewCache()
+    private void RecreatePageViewCache()
     {
-        await Task.Run(() =>
+        var stopwatch = Stopwatch.StartNew();
+        Log.Information("Refreshing PageView mmap cache from database");
+
+        try
         {
-            var stopwatch = Stopwatch.StartNew();
-            Log.Information("Refreshing PageView mmap cache from database");
+            var allPageViews = pageViewRepo.GetAllEager();
+            Log.Information("Refresh PageView pageViews loaded from db");
+            pageViewMmapCache.SaveAllPageViews(allPageViews);
 
-            try
-            {
-                var allPageViews = pageViewRepo.GetAllEager();
-                Log.Information("Refresh PageView pageViews loaded from db");
-                pageViewMmapCache.SaveAllPageViews(allPageViews);
-
-                stopwatch.Stop();
-                Log.Information("Refreshed PageView mmap cache with {Count} views in {ElapsedMs} ms",
-                    allPageViews.Count, stopwatch.ElapsedMilliseconds);
-            }
-            catch (Exception exception)
-            {
-                stopwatch.Stop();
-                Log.Error(exception, "Failed to refresh PageView mmap cache after {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
-                throw;
-            }
-        });
+            stopwatch.Stop();
+            Log.Information("Refreshed PageView mmap cache with {Count} views in {ElapsedMs} ms",
+                allPageViews.Count, stopwatch.ElapsedMilliseconds);
+        }
+        catch (Exception exception)
+        {
+            stopwatch.Stop();
+            Log.Error(exception, "Failed to recreate PageView mmap cache after {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
+            throw;
+        }
     }
 
     /// <summary>
     /// Refresh QuestionView mmap cache from database
     /// </summary>
-    private async Task RefreshQuestionViewCache()
+    private void RecreateQuestionViewCache()
     {
-        await Task.Run(() =>
+        var stopwatch = Stopwatch.StartNew();
+        Log.Information("Refreshing QuestionView mmap cache from database");
+
+        try
         {
-            var stopwatch = Stopwatch.StartNew();
-            Log.Information("Refreshing QuestionView mmap cache from database");
+            var allQuestionViews = questionViewRepo.GetAllEager();
+            questionViewMmapCache.SaveAllQuestionViews(allQuestionViews);
 
-            try
-            {
-                var allQuestionViews = questionViewRepo.GetAllEager();
-                questionViewMmapCache.SaveAllQuestionViews(allQuestionViews);
-
-                stopwatch.Stop();
-                Log.Information("Refreshed QuestionView mmap cache with {Count} views in {ElapsedMs} ms",
-                    allQuestionViews.Count, stopwatch.ElapsedMilliseconds);
-            }
-            catch (Exception exception)
-            {
-                stopwatch.Stop();
-                Log.Error(exception, "Failed to refresh QuestionView mmap cache after {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
-                throw;
-            }
-        });
+            stopwatch.Stop();
+            Log.Information("Refreshed QuestionView mmap cache with {Count} views in {ElapsedMs} ms",
+                allQuestionViews.Count, stopwatch.ElapsedMilliseconds);
+        }
+        catch (Exception exception)
+        {
+            stopwatch.Stop();
+            Log.Error(exception, "Failed to recreate QuestionView mmap cache after {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
+            throw;
+        }
     }
 
     /// <summary>
