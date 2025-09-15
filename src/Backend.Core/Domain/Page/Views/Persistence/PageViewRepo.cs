@@ -118,7 +118,7 @@ public class PageViewRepo(
     public IList<PageViewSummaryWithId> GetAllEager()
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as DateCreated
+        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
         FROM pageview 
         GROUP BY 
             Page_Id, 
@@ -136,9 +136,9 @@ public class PageViewRepo(
     public IList<PageViewSummaryWithId> GetAllEagerSince(DateTime sinceDate)
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as DateCreated
+        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
         FROM pageview 
-        WHERE DateCreated > :sinceDate
+        WHERE LastPageViewCreatedAt > :sinceDate
         GROUP BY 
             Page_Id, 
             DateOnly

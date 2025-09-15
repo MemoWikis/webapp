@@ -87,7 +87,7 @@ public class EntityCacheInitializer(
     private List<PageViewSummaryWithId> LoadPageViewsFromMmapCache(IEnumerable<PageViewSummaryWithId> cachedPageViews)
     {
         var pageViews = cachedPageViews.Select(view => new PageViewSummaryWithId(
-            view.Count, view.DateOnly, view.PageId, view.DateCreated)).ToList();
+            view.Count, view.DateOnly, view.PageId, view.LastPageViewCreatedAt)).ToList();
 
         Log.Information("{Elapsed} - EntityCache PageViewsLoadedFromMmap ({Count} entries){CustomMessage}",
             _stopWatch.Elapsed, pageViews.Count, _customMessage);

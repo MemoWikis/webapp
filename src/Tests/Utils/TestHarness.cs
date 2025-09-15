@@ -181,7 +181,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             .WithPassword(TestConstants.MySqlPassword)
             .WithDatabase(TestConstants.TestDbName)
             .WithPortBinding(TestConstants.MySqlTestPort, 3306) // Bind to a fixed port to avoid random ports
-            .WithCommand("mysqld", "--lower_case_table_names=1")  // Use case-insensitive table names for Windows compatibility
+            .WithCommand("mysqld",
+                "--lower_case_table_names=1") // Use case-insensitive table names for Windows compatibility
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithWaitStrategy(
                 Wait.ForUnixContainer()

@@ -142,7 +142,7 @@ public class MmapCacheRefreshService(
             {
                 // Convert to the format expected by SetPageViews
                 var viewSummaries = views.Select(v => new PageViewSummaryWithId(
-                    v.Count, v.DateOnly, v.PageId, v.DateCreated)).ToList();
+                    v.Count, v.DateOnly, v.PageId, v.LastPageViewCreatedAt)).ToList();
 
                 PageCacheItem.SetPageViews(pageCacheItem, viewSummaries);
             }

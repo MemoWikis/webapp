@@ -5,7 +5,7 @@ public record struct PageViewSummaryWithId(
     [property: Key(0)] Int64 Count,
     [property: Key(1)] DateTime DateOnly,
     [property: Key(2)] int PageId,
-    [property: Key(3)] DateTime DateCreated);
+    [property: Key(3)] DateTime LastPageViewCreatedAt);
 
 public class PageViewMmapCache : IRegisterAsInstancePerLifetime
 {
