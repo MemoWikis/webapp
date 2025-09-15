@@ -1249,7 +1249,9 @@
             "toMyWiki": "Aller à mon wiki",
             "toUserWiki": "Aller au wiki de {name}",
             "questions": "Questions",
-            "noQuestions": "Aucune question disponible",
+            "noQuestions": "{name} n'a pas encore créé de questions",
+            "noSkills": "{name} n'a pas encore partagé de compétences",
+            "noWikis": "{name} n'a pas encore créé de wikis",
             "showAsVisitor": "Afficher comme visiteur",
             "stats": {
                 "reputation": "Réputation",
@@ -1780,7 +1782,7 @@
             "knowledgeStatus": "Niveau de connaissance",
             "learnNow": "Apprendre maintenant",
             "noPages": "Pas de pages",
-            "noWikis": "Pas encore de Wiki créé",
+            "noWikis": "Vous n'avez pas de wikis publics",
             "noFavorites": "Pas encore de favoris"
         },
         "pageGrid": {

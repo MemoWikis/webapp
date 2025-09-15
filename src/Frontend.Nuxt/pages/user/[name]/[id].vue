@@ -279,15 +279,11 @@ const showSkillCard = (skill: PageData) => {
                 </LayoutCard>
             </LayoutPanel>
 
-            <LayoutPanel v-if="hasSkills || profile.isCurrentUser && userStore.showAsVisitor" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)"
+            <LayoutPanel v-if="hasSkills || (profile.isCurrentUser && !userStore.showAsVisitor)" :id="UserSection.SKILLS_SECTION.id" :title="t(UserSection.SKILLS_SECTION.translationKey)"
                 :labelTooltip="UserSection.SKILLS_SECTION.tooltipKey ? t(UserSection.SKILLS_SECTION.tooltipKey) : ''">
                 <template v-for="skill in profile.skills">
                     <UserSkillCard :skill="skill" :can-edit="profile.isCurrentUser && !userStore.showAsVisitor" v-if="showSkillCard(skill)" @remove-skill="onRemoveSkill" />
                 </template>
-
-                <LayoutCard v-if="!hasSkills" :size="LayoutCardSize.Large">
-                    {{ t('user.profile.noSkills') }}
-                </LayoutCard>
 
                 <LayoutCard v-if="profile.isCurrentUser && !userStore.showAsVisitor" :size="LayoutCardSize.Small" @click="handleAddSkillClick" class="add-skill-card">
                     <div class="add-skill-content">
@@ -298,25 +294,46 @@ const showSkillCard = (skill: PageData) => {
 
             </LayoutPanel>
 
-            <LayoutPanel v-if="hasWikis" :id="UserSection.WIKIS_SECTION.id" :title="t(UserSection.WIKIS_SECTION.translationKey)" :labelTooltip="UserSection.WIKIS_SECTION.tooltipKey ? t(UserSection.WIKIS_SECTION.tooltipKey) : ''">
+            <LayoutPanel v-if="hasWikis || (profile.isCurrentUser && !userStore.showAsVisitor)" :id="UserSection.WIKIS_SECTION.id" :title="t(UserSection.WIKIS_SECTION.translationKey)"
+                :labelTooltip="UserSection.WIKIS_SECTION.tooltipKey ? t(UserSection.WIKIS_SECTION.tooltipKey) : ''">
+
                 <MissionControlGrid v-if="isMobile" :pages="profile.wikis!" :no-pages-text="t('missionControl.pageTable.noWikis')" />
 
                 <LayoutCard v-else :no-padding="true">
                     <MissionControlTable :pages="profile.wikis!" :no-pages-text="t('missionControl.pageTable.noWikis')" />
                 </LayoutCard>
+
             </LayoutPanel>
 
-            <DevOnly>
-                <LayoutPanel v-if="hasQuestions" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)"
-                    :labelTooltip="UserSection.QUESTIONS_SECTION.tooltipKey ? t(UserSection.QUESTIONS_SECTION.tooltipKey) : ''">
-                    <LayoutCard :no-padding="true">
-                        <LayoutQuestionList :questions="profile.questions || []" :no-questions-text="t('user.profile.noQuestions')" />
-                    </LayoutCard>
-                </LayoutPanel>
-            </DevOnly>
+            <LayoutPanel v-if="hasQuestions || (profile.isCurrentUser && !userStore.showAsVisitor)" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)"
+                :labelTooltip="UserSection.QUESTIONS_SECTION.tooltipKey ? t(UserSection.QUESTIONS_SECTION.tooltipKey) : ''">
+                <LayoutCard :no-padding="true">
+                    <LayoutQuestionList :questions="profile.questions || []" :no-questions-text="t('user.profile.noQuestions')" />
+                </LayoutCard>
+            </LayoutPanel>
+
+
+            <LayoutPanel v-if="!hasSkills && (!profile.isCurrentUser || userStore.showAsVisitor)" :id="UserSection.SKILLS_PLACEHOLDER_SECTION.id" :title="t(UserSection.SKILLS_PLACEHOLDER_SECTION.translationKey)">
+                <LayoutCard :size="LayoutCardSize.Large" class="placeholder-card">
+                    {{ t('user.profile.noSkills', { name: profile.user.name }) }}
+                </LayoutCard>
+            </LayoutPanel>
+
+            <LayoutPanel v-if="!hasWikis && (!profile.isCurrentUser || userStore.showAsVisitor)" :id="UserSection.WIKIS_PLACEHOLDER_SECTION.id" :title="t(UserSection.WIKIS_PLACEHOLDER_SECTION.translationKey)">
+                <LayoutCard :size="LayoutCardSize.Large" class="placeholder-card">
+                    {{ t('user.profile.noWikis', { name: profile.user.name }) }}
+                </LayoutCard>
+            </LayoutPanel>
+
+            <LayoutPanel v-if="!hasQuestions && (!profile.isCurrentUser || userStore.showAsVisitor)" :id="UserSection.QUESTIONS_PLACEHOLDER_SECTION.id" :title="t(UserSection.QUESTIONS_PLACEHOLDER_SECTION.translationKey)">
+                <LayoutCard :size="LayoutCardSize.Large" class="placeholder-card">
+                    {{ t('user.profile.noQuestions', { name: profile.user.name }) }}
+                </LayoutCard>
+            </LayoutPanel>
         </div>
 
-        <SidebarUser :user="profile.user" :has-wikis="hasWikis" :has-questions="hasQuestions" :show-skills="showSkills" :margin-top="sideBarMarginTop" />
+        <SidebarUser :user="profile.user" :show-wikis="hasWikis || (profile.isCurrentUser && !userStore.showAsVisitor)" :show-questions="hasQuestions || (profile.isCurrentUser && !userStore.showAsVisitor)"
+            :show-skills="hasSkills || (profile.isCurrentUser && !userStore.showAsVisitor)" :margin-top="sideBarMarginTop" />
 
         <!-- Add Skill Modal -->
         <UserSkillsAddSkillModal v-if="profile?.user.id" :show="showAddSkillModal" :user-id="profile.user.id" @close="showAddSkillModal = false" @skill-added="onSkillAdded" />
@@ -393,8 +410,6 @@ const showSkillCard = (skill: PageData) => {
         }
     }
 }
-
-
 
 .divider {
     height: 1px;
@@ -502,6 +517,12 @@ const showSkillCard = (skill: PageData) => {
     }
 
 
+}
+
+.placeholder-card {
+    color: @memo-grey;
+    font-style: italic;
+    text-align: center;
 }
 </style>
 

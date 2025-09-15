@@ -10,28 +10,37 @@ interface Props {
         rank: number
     }
     showSkills?: boolean
-    hasWikis?: boolean
-    hasQuestions?: boolean
+    showWikis?: boolean
+    showQuestions?: boolean
     marginTop?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    hasWikis: false,
-    hasQuestions: false,
+    showSkills: false,
+    showWikis: false,
+    showQuestions: false,
     marginTop: 25
 })
 
 const getVisibleSections = computed(() => {
     const visibleSectionIds = ['Stats']
-    if (props.showSkills) {
+
+    // First, push sections that have content
+    if (props.showSkills)
         visibleSectionIds.push('Skills')
-    }
-    if (props.hasWikis) {
+    if (props.showWikis)
         visibleSectionIds.push('Wikis')
-    }
-    if (props.hasQuestions) {
+    if (props.showQuestions)
         visibleSectionIds.push('Questions')
-    }
+
+    // Then, push placeholder sections for empty ones
+    if (!props.showSkills)
+        visibleSectionIds.push('Skills-placeholder')
+    if (!props.showWikis)
+        visibleSectionIds.push('Wikis-placeholder')
+    if (!props.showQuestions)
+        visibleSectionIds.push('Questions-placeholder')
+
     return visibleSectionIds
 })
 </script>
