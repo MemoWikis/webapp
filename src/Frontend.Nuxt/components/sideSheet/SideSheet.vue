@@ -357,7 +357,7 @@ const handleClick = (key?: string) => {
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
                 <SideSheetSection class="no-b-padding" @mouseover="handleMouseOver">
                     <template #header>
-                        <NuxtLink :to="`/${t('url.missionControl')}`" class="mission-control-link">
+                        <NuxtLink :to="`/${t('url.missionControl')}`" class="mission-control-link" :prefetch-on="{ interaction: true, visibility: true }">
                             <div class="header-container no-hover">
                                 <template v-if="!collapsed">
                                     <div class="angle-icon-space"></div>

@@ -77,15 +77,21 @@ const setPage = async (type: SiteType | undefined | null = null) => {
 		siteType.value = type
 		if (type != SiteType.Page) {
 			await nextTick()
-			// Wait for navigation and DOM updates to complete
 			if (import.meta.client) {
-				await new Promise(resolve => requestAnimationFrame(() => {
-					requestAnimationFrame(resolve)
-				}))
-			}
+				await new Promise<void>((resolve) => {
+					const unsubscribe = useNuxtApp().hook('page:finish', () => {
+						// Clean up the hook after use
+						unsubscribe()
+						resolve()
+					})
 
-			// Additional delay to ensure page transition is complete
-			await new Promise(resolve => setTimeout(resolve, 150))
+					// Fallback timeout in case the hook doesn't fire
+					setTimeout(() => {
+						unsubscribe()
+						resolve()
+					}, 1000)
+				})
+			}
 
 			pageStore.clearPage()
 		}
