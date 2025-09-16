@@ -89,7 +89,7 @@ const setPage = async (type: SiteType | undefined | null = null) => {
 					setTimeout(() => {
 						unsubscribe()
 						resolve()
-					}, 1000)
+					}, 4000)
 				})
 			}
 
