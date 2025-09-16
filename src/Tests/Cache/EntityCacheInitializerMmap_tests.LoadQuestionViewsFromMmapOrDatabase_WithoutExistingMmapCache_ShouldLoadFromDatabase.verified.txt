@@ -1,0 +1,4 @@
+﻿{
+  TotalViews: 12,
+  MmapCacheCreated: true
+}

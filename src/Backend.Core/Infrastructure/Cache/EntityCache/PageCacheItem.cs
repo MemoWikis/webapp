@@ -304,7 +304,7 @@ public class PageCacheItem : IPersistable
     }
 
     public static IEnumerable<PageCacheItem> ToCachePages(IEnumerable<Page> pages,
-        IList<PageViewRepo.PageViewSummaryWithId> views, IList<PageChange> changes)
+        IList<PageViewSummaryWithId> views, IList<PageChange> changes)
     {
         var pageViewsDict = views
             .GroupBy(cv => cv.PageId)
@@ -322,7 +322,7 @@ public class PageCacheItem : IPersistable
         });
     }
 
-    public static PageCacheItem ToCachePage(Page page, List<PageViewRepo.PageViewSummaryWithId>? views = null,
+    public static PageCacheItem ToCachePage(Page page, List<PageViewSummaryWithId>? views = null,
         List<PageChange>? pageChanges = null)
     {
         var creatorId = page.Creator == null ? -1 : page.Creator.Id;
@@ -438,7 +438,7 @@ public class PageCacheItem : IPersistable
         return pageCacheItem;
     }
 
-    public static void SetPageViews(PageCacheItem pageCacheItem, List<PageViewRepo.PageViewSummaryWithId>? views = null)
+    public static void SetPageViews(PageCacheItem pageCacheItem, List<PageViewSummaryWithId>? views = null)
     {
         if (views == null || views.Count == 0)
             return;

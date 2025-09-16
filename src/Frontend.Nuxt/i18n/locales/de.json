@@ -1815,7 +1815,16 @@
         },
         "cache": {
             "title": "Cache",
-            "clearCache": "Cache leeren"
+            "clearCache": "Cache leeren",
+            "refreshMmapCaches": "Mmap-Caches aktualisieren"
+        },
+        "mmapCache": {
+            "title": "Mmap-Cache Verwaltung",
+            "loadStatus": "Status laden",
+            "pageViews": "Seitenaufrufe",
+            "questionViews": "Fragenaufrufe",
+            "noPageViewsCacheFile": "Keine Seitenaufrufe-Cache-Datei gefunden",
+            "noQuestionViewsCacheFile": "Keine Fragenaufrufe-Cache-Datei gefunden"
         },
         "pages": {
             "title": "Seiten",

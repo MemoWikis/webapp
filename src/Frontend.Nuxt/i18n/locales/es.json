@@ -1815,7 +1815,16 @@
         },
         "cache": {
             "title": "Caché",
-            "clearCache": "Limpiar caché"
+            "clearCache": "Limpiar caché",
+            "refreshMmapCaches": "Actualizar cachés Mmap"
+        },
+        "mmapCache": {
+            "title": "Gestión de Caché Mmap",
+            "loadStatus": "Cargar Estado",
+            "pageViews": "Vistas de Página",
+            "questionViews": "Vistas de Pregunta",
+            "noPageViewsCacheFile": "No se encontró archivo de caché de vistas de página",
+            "noQuestionViewsCacheFile": "No se encontró archivo de caché de vistas de pregunta"
         },
         "pages": {
             "title": "Páginas",

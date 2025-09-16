@@ -30,6 +30,7 @@ public static class JobScheduler
         //Schedule_KnowledgeReportCheck();
         //Schedule_RecalcTotalWishInOthersPeople();
         //Schedule_MailSender();
+        Schedule_MmapCacheRefresh();
     }
 
 
@@ -58,6 +59,16 @@ public static class JobScheduler
             TriggerBuilder.Create()
                 .WithSimpleSchedule(x => x.WithIntervalInSeconds(5)
                     .RepeatForever()).Build());
+    }
+
+    private static void Schedule_MmapCacheRefresh()
+    {
+        _scheduler.ScheduleJob(JobBuilder.Create<MmapCacheRefreshJob>().Build(),
+            TriggerBuilder.Create()
+                .WithDailyTimeIntervalSchedule(x =>
+                    x.StartingDailyAt(new TimeOfDay(2, 00))
+                        .OnEveryDay()
+                        .EndingDailyAfterCount(1)).Build());
     }
 
     //private static void Schedule_RecalcReputation()

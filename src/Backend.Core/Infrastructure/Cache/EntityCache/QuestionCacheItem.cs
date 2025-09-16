@@ -146,7 +146,7 @@ public class QuestionCacheItem
         return Visibility != QuestionVisibility.Public;
     }
 
-    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null, AnswerRecord? answers = null)
+    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null, AnswerRecord? answers = null)
     {
         var questionCacheItem = new QuestionCacheItem
         {
@@ -258,7 +258,7 @@ public class QuestionCacheItem
         return questionCacheItem;
     }
 
-    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewRepository.QuestionViewSummaryWithId> questionViews, IList<QuestionChange> questionChanges, IList<Answer>? answers = null)
+    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewSummaryWithId> questionViews, IList<QuestionChange> questionChanges, IList<Answer>? answers = null)
     {
         var questionViewsByQuestionId = questionViews
             .GroupBy(qv => qv.QuestionId)
@@ -282,6 +282,7 @@ public class QuestionCacheItem
                 answersDictionary.TryGetValue(q.Id, out var answersByQuestionId);
                 return ToCacheQuestion(q, questionViewsWithId, questionChanges, answers: answersByQuestionId);
             }
+
             return ToCacheQuestion(q, questionViewsWithId, questionChanges, answers: null);
         });
 
