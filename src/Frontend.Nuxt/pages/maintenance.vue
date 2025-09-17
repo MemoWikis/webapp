@@ -62,6 +62,14 @@ interface ActiveSessionsResponse {
     anonymousUserCount: number
 }
 
+interface JobStatusResponse {
+    jobId: string
+    status: string
+    message: string
+    progress: number
+    operationName: string
+}
+
 interface RelationErrorItem {
     parentId: number
     errors: any[]
@@ -113,32 +121,151 @@ const toolsMethods = ref<MethodData[]>([
 ])
 const resultMsg = ref('')
 const relationErrors = ref<RelationErrorItem[]>([])
+const runningJobs = ref<Map<string, string>>(new Map())
+const jobProgress = ref<Map<string, JobStatusResponse>>(new Map())
 
-async function handleClick(url: string) {
+const executeMaintenanceOperation = async (operationUrl: string) => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
 
-    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/${url}`, {
+    // RemoveAdminRights is handled synchronously
+    if (operationUrl === 'RemoveAdminRights') {
+        const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/${operationUrl}`, {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (result?.success) {
+            userStore.isAdmin = false
+            antiForgeryToken.value = undefined
+            await navigateTo('/')
+        }
+        return
+    }
+
+    // All other operations are handled as background jobs
+    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/${operationUrl}`, {
         body: data,
         method: 'POST',
         mode: 'cors',
         credentials: 'include'
     })
 
-    if (result?.success)
-        resultMsg.value = result.data
+    if (result?.success) {
+        const jobId = result.data
+        runningJobs.value.set(jobId, operationUrl)
+        resultMsg.value = `Job ${operationUrl} started. Checking status...`
+
+        // Start polling for status
+        await pollJobStatus(jobId)
+    }
+}
+
+const pollJobStatus = async (jobId: string) => {
+    const pollInterval = 2000 // 2 seconds
+    const maxPolls = 300 // Maximum 10 minutes
+    let pollCount = 0
+
+    const poll = async () => {
+        try {
+            const result = await $api<JobStatusResponse>(`/apiVue/VueMaintenance/GetJobStatus?jobId=${jobId}`, {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include'
+            })
+
+            if (result.status === 'completed') {
+                resultMsg.value = result.message
+                runningJobs.value.delete(jobId)
+                jobProgress.value.delete(jobId)
+            } else if (result.status === 'failed') {
+                resultMsg.value = `Job failed: ${result.message}`
+                runningJobs.value.delete(jobId)
+                jobProgress.value.delete(jobId)
+            } else if (result.status === 'running') {
+                jobProgress.value.set(jobId, result)
+                resultMsg.value = `${result.message} (${result.progress}%)`
+                pollCount++
+
+                if (pollCount < maxPolls) {
+                    setTimeout(poll, pollInterval)
+                } else {
+                    resultMsg.value = 'Job timeout - please check server logs'
+                    runningJobs.value.delete(jobId)
+                    jobProgress.value.delete(jobId)
+                }
+            } else if (result.status === 'not_found') {
+                resultMsg.value = 'Job not found - it may have completed or failed'
+                runningJobs.value.delete(jobId)
+                jobProgress.value.delete(jobId)
+            }
+        } catch (error) {
+            console.error('Error polling job status:', error)
+            runningJobs.value.delete(jobId)
+            jobProgress.value.delete(jobId)
+        }
+    }
+
+    await poll()
+}
+
+const checkForRunningJobs = async () => {
+    if (!isAdmin.value || !userStore.isAdmin) return
+
+    try {
+        const result = await $api<JobStatusResponse[]>('/apiVue/VueMaintenance/GetAllRunningJobs', {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (result && Array.isArray(result)) {
+            // Clear current running jobs and repopulate from backend
+            runningJobs.value.clear()
+            jobProgress.value.clear()
+
+            for (const job of result) {
+                runningJobs.value.set(job.jobId, job.operationName)
+                jobProgress.value.set(job.jobId, job)
+            }
+        }
+    } catch (error) {
+        console.error('Error checking for running jobs:', error)
+    }
 }
 
 const emit = defineEmits(['setBreadcrumb'])
+
+let jobPollingInterval: NodeJS.Timeout | null = null
 
 onBeforeMount(() => {
     if (!isAdmin.value && !userStore.isAdmin)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     emit('setBreadcrumb', [{ name: 'Maintenance', url: '/Maintenance' }])
+})
+
+onMounted(() => {
+    // Check for running jobs immediately
+    checkForRunningJobs()
+
+    // Set up periodic polling for running jobs every 5 seconds
+    jobPollingInterval = setInterval(() => {
+        checkForRunningJobs()
+    }, 5000)
+})
+
+onBeforeUnmount(() => {
+    // Clean up the polling interval
+    if (jobPollingInterval) {
+        clearInterval(jobPollingInterval)
+        jobPollingInterval = null
+    }
 })
 
 const userIdToDelete = ref(0)
@@ -245,16 +372,37 @@ async function healRelations(pageId: number) {
                     @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
                 {{ resultMsg }}
             </div>
+
+            <!-- Active Jobs Status Panel -->
+            <LayoutPanel v-if="runningJobs.size > 0" :title="$t('maintenance.activeJobs.title')" class="active-jobs-panel">
+                <LayoutCard v-for="[jobId, operationName] in runningJobs.entries()" :key="jobId" :size="LayoutCardSize.Medium">
+                    <div class="running-job">
+                        <h4>{{ operationName }}</h4>
+                        <div v-if="jobProgress.has(jobId)" class="job-progress">
+                            <div class="progress-info">
+                                <span>{{ jobProgress.get(jobId)?.message }}</span>
+                                <span class="progress-percentage">{{ jobProgress.get(jobId)?.progress }}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" :style="{ width: `${jobProgress.get(jobId)?.progress || 0}%` }"></div>
+                            </div>
+                        </div>
+                        <div v-else class="job-status">
+                            <span>{{ $t('maintenance.activeJobs.starting') }}</span>
+                        </div>
+                    </div>
+                </LayoutCard>
+            </LayoutPanel>
             <LayoutPanel :title="$t('maintenance.metrics.title')">
                 <NuxtLink to="/Metriken" class="memo-button btn btn-primary">
                     {{ $t('maintenance.metrics.viewOverview') }}
                 </NuxtLink>
             </LayoutPanel>
-            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods" @method-clicked="handleClick"
+            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods" @method-clicked="executeMaintenanceOperation"
                 :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods" @method-clicked="handleClick"
+            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods" @method-clicked="executeMaintenanceOperation"
                 :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="handleClick"
+            <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="executeMaintenanceOperation"
                 :icon="['fas', 'retweet']" />
             <LayoutPanel :title="$t('maintenance.relations.title')">
 
@@ -269,8 +417,8 @@ async function healRelations(pageId: number) {
                     {{ $t('maintenance.relations.noErrorsFound') }}
                 </div>
             </LayoutPanel>
-            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods" :description="$t('maintenance.meiliSearch.description')" @method-clicked="handleClick" :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="handleClick" :icon="['fas', 'retweet']">
+            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods" :description="$t('maintenance.meiliSearch.description')" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']">
                 <LayoutCard :size="LayoutCardSize.Tiny">
                     <div class="active-users-info">
                         <h4>{{ $t('maintenance.users.activeSessions') }}</h4>
@@ -293,8 +441,8 @@ async function healRelations(pageId: number) {
                 </LayoutCard>
 
             </MaintenanceSection>
-            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" @method-clicked="handleClick" :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" @method-clicked="handleClick" :icon="['fas', 'hammer']" />
+            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'hammer']" />
             <LayoutPanel :title="$t('maintenance.removeAdminRights.title')">
                 <button @click="removeAdminRights" class="memo-button btn btn-primary">
                     {{ $t('maintenance.removeAdminRights.button') }}
@@ -356,5 +504,51 @@ async function healRelations(pageId: number) {
 
 .found-errors-heading {
     margin-top: 48px;
+}
+
+.running-job {
+    padding: 16px;
+    border-left: 4px solid #007bff;
+    background-color: #f8f9fa;
+
+    h4 {
+        margin: 0 0 12px 0;
+        color: #495057;
+    }
+}
+
+.job-progress {
+    .progress-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .progress-percentage {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background-color: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+
+        .progress-fill {
+            height: 100%;
+            background-color: #007bff;
+            transition: width 0.3s ease;
+        }
+    }
+}
+
+.job-status {
+    font-size: 14px;
+    color: #6c757d;
+    font-style: italic;
 }
 </style>

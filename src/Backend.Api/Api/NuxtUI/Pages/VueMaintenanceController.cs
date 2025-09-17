@@ -22,6 +22,10 @@ public class VueMaintenanceController(
 
     public readonly record struct ActiveSessionsResponse(int LoggedInUserCount, int AnonymousUserCount);
 
+    public readonly record struct JobStatusResponse(string JobId, string Status, string Message, int Progress, string OperationName);
+
+    private static readonly Dictionary<string, JobStatusResponse> _jobStatuses = new();
+
     [AccessOnlyAsAdmin]
     [HttpGet]
     public VueMaintenanceResult Get()
@@ -47,25 +51,44 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult RecalculateAllKnowledgeItems()
     {
-        _probabilityUpdateValuationAll.Run();
-        _probabilityUpdateQuestion.Run();
+        var jobId = Guid.NewGuid().ToString();
+        
+        _ = Task.Run(() =>
+        {
+            try
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Starting knowledge items recalculation...", 0, "RecalculateAllKnowledgeItems");
+                
+                _probabilityUpdateValuationAll.Run();
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Updating question probabilities...", 25, "RecalculateAllKnowledgeItems");
+                
+                _probabilityUpdateQuestion.Run();
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Updating page probabilities...", 50, "RecalculateAllKnowledgeItems");
 
-        new ProbabilityUpdate_Page(
-                pageRepository,
-                _answerRepo)
-            .Run();
+                new ProbabilityUpdate_Page(
+                        pageRepository,
+                        _answerRepo)
+                    .Run();
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Initializing user probability updates...", 75, "RecalculateAllKnowledgeItems");
 
-        ProbabilityUpdate_User.Initialize(
-            _userReadingRepo,
-            _userWritingRepo,
-            _answerRepo);
+                ProbabilityUpdate_User.Initialize(
+                    _userReadingRepo,
+                    _userWritingRepo,
+                    _answerRepo);
 
-        ProbabilityUpdate_User.Instance.Run();
+                ProbabilityUpdate_User.Instance.Run();
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "completed", "Answer probabilities have been recalculated.", 100, "RecalculateAllKnowledgeItems");
+            }
+            catch (Exception ex)
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "failed", $"Error: {ex.Message}", 0, "RecalculateAllKnowledgeItems");
+            }
+        });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Answer probabilities have been recalculated."
+            Data = jobId
         };
     }
 
@@ -74,12 +97,28 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult CalcAggregatedValuesQuestions()
     {
-        _updateQuestionAnswerCounts.Run();
+        var jobId = Guid.NewGuid().ToString();
+        
+        _ = Task.Run(() =>
+        {
+            try
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Calculating aggregated values for questions...", 0, "CalcAggregatedValuesQuestions");
+                
+                _updateQuestionAnswerCounts.Run();
+                
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "completed", "Aggregated values have been updated.", 100, "CalcAggregatedValuesQuestions");
+            }
+            catch (Exception ex)
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "failed", $"Error: {ex.Message}", 0, "CalcAggregatedValuesQuestions");
+            }
+        });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Aggregated values have been updated."
+            Data = jobId
         };
     }
 
@@ -87,12 +126,28 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult UpdateUserReputationAndRankings()
     {
-        _userWritingRepo.ReputationUpdateForAll();
+        var jobId = Guid.NewGuid().ToString();
+        
+        _ = Task.Run(() =>
+        {
+            try
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Updating user reputation and rankings...", 0, "UpdateUserReputationAndRankings");
+                
+                _userWritingRepo.ReputationUpdateForAll();
+                
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "completed", "Reputation and rankings have been updated.", 100, "UpdateUserReputationAndRankings");
+            }
+            catch (Exception ex)
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "failed", $"Error: {ex.Message}", 0, "UpdateUserReputationAndRankings");
+            }
+        });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Reputation and rankings have been updated."
+            Data = jobId
         };
     }
 
@@ -126,14 +181,30 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> MeiliReIndexAllQuestions()
+    public VueMaintenanceResult MeiliReIndexAllQuestions()
     {
-        await _meilisearchReIndexAllQuestions.Run();
+        var jobId = Guid.NewGuid().ToString();
+        
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Re-indexing all questions...", 0, "MeiliReIndexAllQuestions");
+                
+                await _meilisearchReIndexAllQuestions.Run();
+                
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "completed", "Questions have been re-indexed.", 100, "MeiliReIndexAllQuestions");
+            }
+            catch (Exception ex)
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "failed", $"Error: {ex.Message}", 0, "MeiliReIndexAllQuestions");
+            }
+        });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Questions have been re-indexed."
+            Data = jobId
         };
     }
 
@@ -141,70 +212,150 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> MeiliReIndexAllQuestionsCache()
+    public VueMaintenanceResult MeiliReIndexAllQuestionsCache()
     {
-        await _meilisearchReIndexAllQuestions.RunCache();
+        var jobId = Guid.NewGuid().ToString();
+        
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Re-indexing all questions cache...", 0, "Reindex Questions Cache");
+                
+                await _meilisearchReIndexAllQuestions.RunCache();
+                
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "completed", "Questions have been re-indexed.", 100, "Reindex Questions Cache");
+            }
+            catch (Exception ex)
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "failed", $"Error: {ex.Message}", 0, "Reindex Questions Cache");
+            }
+        });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Questions have been re-indexed."
+            Data = jobId
         };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> MeiliReIndexAllPages()
+    public VueMaintenanceResult MeiliReIndexAllPages()
     {
-        await _meilisearchReIndexPages.Run();
+        var jobId = Guid.NewGuid().ToString();
+        
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Re-indexing all pages...", 0, "Reindex Pages");
+                
+                await _meilisearchReIndexPages.Run();
+                
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "completed", "Pages have been re-indexed.", 100, "Reindex Pages");
+            }
+            catch (Exception ex)
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "failed", $"Error: {ex.Message}", 0, "Reindex Pages");
+            }
+        });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Pages have been re-indexed."
+            Data = jobId
         };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> MeiliReIndexAllPagesCache()
+    public VueMaintenanceResult MeiliReIndexAllPagesCache()
     {
-        await _meilisearchReIndexPages.RunCache();
+        var jobId = Guid.NewGuid().ToString();
+        
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Re-indexing all pages cache...", 0, "Reindex Pages Cache");
+                
+                await _meilisearchReIndexPages.RunCache();
+                
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "completed", "Pages have been re-indexed.", 100, "Reindex Pages Cache");
+            }
+            catch (Exception ex)
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "failed", $"Error: {ex.Message}", 0, "Reindex Pages Cache");
+            }
+        });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Pages have been re-indexed."
+            Data = jobId
         };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> MeiliReIndexAllUsers()
+    public VueMaintenanceResult MeiliReIndexAllUsers()
     {
-        await _meilisearchReIndexUser.RunAll();
+        var jobId = Guid.NewGuid().ToString();
+        
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Re-indexing all users...", 0, "Reindex Users");
+                
+                await _meilisearchReIndexUser.RunAll();
+                
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "completed", "Users have been re-indexed.", 100, "Reindex Users");
+            }
+            catch (Exception ex)
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "failed", $"Error: {ex.Message}", 0, "Reindex Users");
+            }
+        });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Users have been re-indexed."
+            Data = jobId
         };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> MeiliReIndexAllUsersCache()
+    public VueMaintenanceResult MeiliReIndexAllUsersCache()
     {
-        await _meilisearchReIndexUser.RunAllCache();
+        var jobId = Guid.NewGuid().ToString();
+        
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "running", "Re-indexing all users cache...", 0, "Reindex Users Cache");
+                
+                await _meilisearchReIndexUser.RunAllCache();
+                
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "completed", "Users have been re-indexed.", 100, "Reindex Users Cache");
+            }
+            catch (Exception ex)
+            {
+                _jobStatuses[jobId] = new JobStatusResponse(jobId, "failed", $"Error: {ex.Message}", 0, "Reindex Users Cache");
+            }
+        });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Users have been re-indexed."
+            Data = jobId
         };
     }
 
@@ -285,6 +436,52 @@ public class VueMaintenanceController(
             Success = true,
             Data = "Started 100 test jobs."
         };
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpGet]
+    public JobStatusResponse GetJobStatus(string jobId)
+    {
+        if (_jobStatuses.TryGetValue(jobId, out var status))
+        {
+            // Clean up completed jobs after retrieval
+            if (status.Status == "completed" || status.Status == "failed")
+            {
+                _jobStatuses.Remove(jobId);
+            }
+            return status;
+        }
+        
+        return new JobStatusResponse(jobId, "not_found", "Job not found", 0, "Unknown");
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpGet]
+    public IEnumerable<JobStatusResponse> GetAllRunningJobs()
+    {
+        // Return only running jobs, clean up completed/failed ones
+        var runningJobs = new List<JobStatusResponse>();
+        var jobsToRemove = new List<string>();
+        
+        foreach (var kvp in _jobStatuses)
+        {
+            if (kvp.Value.Status == "completed" || kvp.Value.Status == "failed")
+            {
+                jobsToRemove.Add(kvp.Key);
+            }
+            else
+            {
+                runningJobs.Add(kvp.Value);
+            }
+        }
+        
+        // Clean up completed/failed jobs
+        foreach (var jobId in jobsToRemove)
+        {
+            _jobStatuses.Remove(jobId);
+        }
+        
+        return runningJobs;
     }
 
     [AccessOnlyAsAdmin]
