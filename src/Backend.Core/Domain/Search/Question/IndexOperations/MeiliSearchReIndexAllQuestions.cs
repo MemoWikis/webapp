@@ -15,17 +15,31 @@ public class MeilisearchReIndexAllQuestions(
         var allQuestionsFromDb = _questionReadingRepo.GetAll();
         var allValuations = _questionValuationReadingRepo.GetAll();
         var meiliSearchQuestions = new List<MeilisearchQuestionMap>();
+        
+        var totalQuestions = allQuestionsFromDb.Count;
+        var processedQuestions = 0;
 
         foreach (var question in allQuestionsFromDb)
         {
+            Log.Information("Meilisearch Reindex Question: {id}", question.Id);
             var questionValuations = allValuations
                 .Where(qv => qv.Question.Id == question.Id && qv.User != null)
                 .Select(qv => qv.ToCacheItem())
                 .ToList();
             meiliSearchQuestions.Add(
                 MeilisearchToQuestionMap.Run(question, questionValuations));
+                
+            processedQuestions++;
+            
+            // Log progress periodically
+            if (processedQuestions % 100 == 0 || processedQuestions == totalQuestions)
+            {
+                Log.Information("Processed {ProcessedQuestions}/{TotalQuestions} questions for reindexing", 
+                    processedQuestions, totalQuestions);
+            }
         }
 
+        Log.Information("Adding {Count} documents to MeiliSearch index", meiliSearchQuestions.Count);
         var index = _client.Index(MeilisearchIndices.Questions);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
         await index.AddDocumentsAsync(meiliSearchQuestions);
@@ -53,5 +67,6 @@ public class MeilisearchReIndexAllQuestions(
         var index = _client.Index(MeilisearchIndices.Questions);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
         await index.AddDocumentsAsync(meiliSearchQuestions);
+        Log.Information("Completed reindexing all questions");
     }
 }

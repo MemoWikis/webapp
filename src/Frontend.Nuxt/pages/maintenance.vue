@@ -62,11 +62,17 @@ interface ActiveSessionsResponse {
     anonymousUserCount: number
 }
 
+enum JobStatus {
+    Running = 0,
+    Completed = 1,
+    Failed = 2,
+    NotFound = 3
+}
+
 interface JobStatusResponse {
     jobId: string
-    status: string
+    status: JobStatus
     message: string
-    progress: number
     operationName: string
 }
 
@@ -81,6 +87,8 @@ interface RelationErrorsResponse {
     data: RelationErrorItem[]
 }
 
+const isAnalyzing = ref(false)
+
 const questionMethods = ref<MethodData[]>([
     { url: 'RecalculateAllKnowledgeItems', translationKey: 'maintenance.questions.recalculateAllKnowledgeItems' },
     { url: 'CalcAggregatedValuesQuestions', translationKey: 'maintenance.questions.calcAggregatedValues' }
@@ -91,12 +99,7 @@ const cacheMethods = ref<MethodData[]>([
 const pageMethods = ref<MethodData[]>([
     { url: 'UpdateCategoryAuthors', translationKey: 'maintenance.pages.updateCategoryAuthors' }
 ])
-const relationMethods = ref<MethodData[]>([])
 
-// Simple button for showing relation errors
-const showRelationErrorsButton = async () => {
-    await loadRelationErrors()
-}
 const meiliSearchMethods = ref<MethodData[]>([
     { url: 'MeiliReIndexAllQuestions', translationKey: 'maintenance.meiliSearch.questions' },
     { url: 'MeiliReIndexAllQuestionsCache', translationKey: 'maintenance.meiliSearch.questionsCache' },
@@ -117,12 +120,20 @@ const toolsMethods = ref<MethodData[]>([
     { url: 'ReloadListFromIgnoreCrawlers', translationKey: 'maintenance.tools.reloadIgnoreCrawlers' },
     { url: 'CleanUpWorkInProgressQuestions', translationKey: 'maintenance.tools.cleanupWorkInProgress' },
     { url: 'Start100TestJobs', translationKey: 'maintenance.tools.start100TestJobs' },
-
+    { url: 'PollingTest5s', translationKey: 'maintenance.tools.pollingTest5s' },
+    { url: 'PollingTest30s', translationKey: 'maintenance.tools.pollingTest30s' },
+    { url: 'PollingTest120s', translationKey: 'maintenance.tools.pollingTest120s' },
 ])
 const resultMsg = ref('')
 const relationErrors = ref<RelationErrorItem[]>([])
 const runningJobs = ref<Map<string, string>>(new Map())
 const jobProgress = ref<Map<string, JobStatusResponse>>(new Map())
+
+// Adaptive polling configuration
+const FAST_POLL_INTERVAL = 2000 // 2 seconds when jobs are active
+const SLOW_POLL_INTERVAL = 15000 // 15 seconds when no jobs are running
+const userStartedJob = ref(false) // Track if user manually started a job
+let currentPollInterval = SLOW_POLL_INTERVAL
 
 const executeMaintenanceOperation = async (operationUrl: string) => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
@@ -161,6 +172,12 @@ const executeMaintenanceOperation = async (operationUrl: string) => {
         runningJobs.value.set(jobId, operationUrl)
         resultMsg.value = `Job ${operationUrl} started. Checking status...`
 
+        // Mark that user manually started a job
+        userStartedJob.value = true
+
+        // Switch to fast polling since we have an active job
+        updatePollingInterval()
+
         // Start polling for status
         await pollJobStatus(jobId)
     }
@@ -179,17 +196,21 @@ const pollJobStatus = async (jobId: string) => {
                 credentials: 'include'
             })
 
-            if (result.status === 'completed') {
+            if (result.status === JobStatus.Completed) {
                 resultMsg.value = result.message
                 runningJobs.value.delete(jobId)
                 jobProgress.value.delete(jobId)
-            } else if (result.status === 'failed') {
+                // Job completed - stop individual polling, let background polling handle cleanup
+                return
+            } else if (result.status === JobStatus.Failed) {
                 resultMsg.value = `Job failed: ${result.message}`
                 runningJobs.value.delete(jobId)
                 jobProgress.value.delete(jobId)
-            } else if (result.status === 'running') {
+                // Job failed - stop individual polling, let background polling handle cleanup
+                return
+            } else if (result.status === JobStatus.Running) {
                 jobProgress.value.set(jobId, result)
-                resultMsg.value = `${result.message} (${result.progress}%)`
+                resultMsg.value = result.message
                 pollCount++
 
                 if (pollCount < maxPolls) {
@@ -198,16 +219,22 @@ const pollJobStatus = async (jobId: string) => {
                     resultMsg.value = 'Job timeout - please check server logs'
                     runningJobs.value.delete(jobId)
                     jobProgress.value.delete(jobId)
+                    // Job timed out - stop individual polling
+                    return
                 }
-            } else if (result.status === 'not_found') {
+            } else if (result.status === JobStatus.NotFound) {
                 resultMsg.value = 'Job not found - it may have completed or failed'
                 runningJobs.value.delete(jobId)
                 jobProgress.value.delete(jobId)
+                // Job not found - stop individual polling
+                return
             }
         } catch (error) {
             console.error('Error polling job status:', error)
             runningJobs.value.delete(jobId)
             jobProgress.value.delete(jobId)
+            // Error occurred - stop individual polling
+            return
         }
     }
 
@@ -225,6 +252,8 @@ const checkForRunningJobs = async () => {
         })
 
         if (result && Array.isArray(result)) {
+            const previousJobCount = runningJobs.value.size
+
             // Clear current running jobs and repopulate from backend
             runningJobs.value.clear()
             jobProgress.value.clear()
@@ -233,9 +262,43 @@ const checkForRunningJobs = async () => {
                 runningJobs.value.set(job.jobId, job.operationName)
                 jobProgress.value.set(job.jobId, job)
             }
+
+            // If this is the first call and we found jobs, switch to fast polling
+            if (previousJobCount === 0 && result.length > 0) {
+                userStartedJob.value = true
+            }
+
+            // Update polling interval based on job status
+            updatePollingInterval()
         }
     } catch (error) {
         console.error('Error checking for running jobs:', error)
+    }
+}
+
+const updatePollingInterval = () => {
+    const hasRunningJobs = runningJobs.value.size > 0
+    const shouldUseFastPolling = userStartedJob.value || hasRunningJobs
+
+    const newInterval = shouldUseFastPolling ? FAST_POLL_INTERVAL : SLOW_POLL_INTERVAL
+
+    if (newInterval !== currentPollInterval) {
+        currentPollInterval = newInterval
+
+        // Restart the polling interval with new timing
+        if (jobPollingInterval) {
+            clearInterval(jobPollingInterval)
+            jobPollingInterval = setInterval(() => {
+                checkForRunningJobs()
+            }, currentPollInterval)
+        }
+
+        console.log(`Polling interval changed to ${currentPollInterval}ms (${shouldUseFastPolling ? 'fast' : 'slow'} mode)`)
+    }
+
+    // Reset userStartedJob flag when no jobs are running
+    if (!hasRunningJobs) {
+        userStartedJob.value = false
     }
 }
 
@@ -254,10 +317,10 @@ onMounted(() => {
     // Check for running jobs immediately
     checkForRunningJobs()
 
-    // Set up periodic polling for running jobs every 5 seconds
+    // Set up periodic polling with adaptive interval
     jobPollingInterval = setInterval(() => {
         checkForRunningJobs()
-    }, 5000)
+    }, currentPollInterval)
 })
 
 onBeforeUnmount(() => {
@@ -312,23 +375,122 @@ async function removeAdminRights() {
 const relationErrorsLoaded = ref(false)
 
 async function loadRelationErrors() {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    if (isAnalyzing.value) {
+        return // Already analyzing
+    }
+
     try {
-        const result = await $api<RelationErrorsResponse>('/apiVue/VueMaintenance/ShowRelationErrors', {
+        isAnalyzing.value = true
+        // Step 1: Start the background analysis
+        resultMsg.value = 'Starting relation analysis...'
+        relationErrorsLoaded.value = false
+        relationErrors.value = []
+
+        const data = new FormData()
+        data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+        const startResult = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/StartRelationAnalysis`, {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (!startResult.success) {
+            resultMsg.value = 'Error starting analysis.'
+            return
+        }
+
+        const jobId = startResult.data
+        resultMsg.value = 'Analysis in progress...'
+
+        // Step 2: Poll for completion
+        let isComplete = false
+        let attempts = 0
+        const maxAttempts = 180 // 3 minutes max polling (2s intervals)
+
+        while (!isComplete && attempts < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, 2000)) // Wait 2 seconds
+            attempts++
+
+            try {
+                const statusResult = await $api<JobStatusResponse>(`/apiVue/VueMaintenance/GetJobStatus?jobId=${jobId}`, {
+                    method: 'GET',
+                    mode: 'cors',
+                    credentials: 'include'
+                })
+
+                if (statusResult.status === JobStatus.Completed) {
+                    isComplete = true
+                    resultMsg.value = 'Analysis completed. Loading results...'
+                } else if (statusResult.status === JobStatus.Failed) {
+                    resultMsg.value = `Analysis failed: ${statusResult.message}`
+                    return
+                } else if (statusResult.status === JobStatus.Running) {
+                    resultMsg.value = `Analysis in progress... ${statusResult.message}`
+                }
+            } catch (pollError) {
+                console.warn('Polling error:', pollError)
+                // Continue polling even if one request fails
+            }
+        }
+
+        if (!isComplete) {
+            resultMsg.value = 'Analysis timed out. Please try again.'
+            return
+        }
+
+        // Step 3: Fetch the cached results
+        const cachedResult = await $api<RelationErrorsResponse>('/apiVue/VueMaintenance/ShowRelationErrors', {
             method: 'GET',
             mode: 'cors',
             credentials: 'include'
         })
 
-        if (result.success) {
-            relationErrors.value = result.data
-            resultMsg.value = `Found ${result.data.length} pages with relation errors.`
+        if (cachedResult.success) {
+            relationErrors.value = cachedResult.data
+            resultMsg.value = `Found ${cachedResult.data.length} pages with relation errors.`
             relationErrorsLoaded.value = true
         } else {
-            resultMsg.value = 'Error loading relation errors.'
+            resultMsg.value = 'Error loading cached results.'
+        }
+
+    } catch (error) {
+        console.error('Error in relation analysis flow:', error)
+        resultMsg.value = 'Error during analysis flow.'
+    } finally {
+        isAnalyzing.value = false
+    }
+}
+
+async function clearRelationErrorsCache() {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    try {
+        const data = new FormData()
+        data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+        const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/ClearRelationErrorsCache`, {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (result.success) {
+            resultMsg.value = 'Cache cleared successfully.'
+            relationErrors.value = []
+            relationErrorsLoaded.value = false
+        } else {
+            resultMsg.value = 'Error clearing cache.'
         }
     } catch (error) {
-        console.error('Error loading relation errors:', error)
-        resultMsg.value = 'Error loading relation errors.'
+        console.error('Error clearing cache:', error)
+        resultMsg.value = 'Error clearing cache.'
     }
 }
 
@@ -374,21 +536,15 @@ async function healRelations(pageId: number) {
             </div>
 
             <!-- Active Jobs Status Panel -->
-            <LayoutPanel v-if="runningJobs.size > 0" :title="$t('maintenance.activeJobs.title')" class="active-jobs-panel">
-                <LayoutCard v-for="[jobId, operationName] in runningJobs.entries()" :key="jobId" :size="LayoutCardSize.Medium">
+            <LayoutPanel v-if="runningJobs.size > 0" title="Active Jobs" class="active-jobs-panel">
+                <LayoutCard v-for="[jobId, operationName] in runningJobs.entries()" :key="jobId" :size="LayoutCardSize.Small">
                     <div class="running-job">
                         <h4>{{ operationName }}</h4>
-                        <div v-if="jobProgress.has(jobId)" class="job-progress">
-                            <div class="progress-info">
-                                <span>{{ jobProgress.get(jobId)?.message }}</span>
-                                <span class="progress-percentage">{{ jobProgress.get(jobId)?.progress }}%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" :style="{ width: `${jobProgress.get(jobId)?.progress || 0}%` }"></div>
-                            </div>
+                        <div v-if="jobProgress.has(jobId)" class="job-status">
+                            <span>{{ jobProgress.get(jobId)?.message }}</span>
                         </div>
                         <div v-else class="job-status">
-                            <span>{{ $t('maintenance.activeJobs.starting') }}</span>
+                            <span>Starting...</span>
                         </div>
                     </div>
                 </LayoutCard>
@@ -405,13 +561,15 @@ async function healRelations(pageId: number) {
             <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="executeMaintenanceOperation"
                 :icon="['fas', 'retweet']" />
             <LayoutPanel :title="$t('maintenance.relations.title')">
-
                 <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
-                    <button @click="showRelationErrorsButton" class="memo-button btn btn-primary">
-                        {{ $t('maintenance.relations.showErrors') }}
+                    <button @click="loadRelationErrors" class="memo-button btn btn-primary" :disabled="isAnalyzing">
+                        <i v-if="isAnalyzing" class="fas fa-spinner fa-spin"></i>
+                        {{ isAnalyzing ? 'Analyzing...' : 'Analyze and Show' }}
+                    </button>
+                    <button @click="clearRelationErrorsCache" class="memo-button btn btn-secondary ms-2" :disabled="isAnalyzing">
+                        Clear Cache
                     </button>
                 </LayoutCard>
-
                 <MaintenanceRelationErrorCard v-for="errorItem in relationErrors" :key="errorItem.parentId" :error-item="errorItem" @heal-relations="healRelations" />
                 <div v-if="relationErrorsLoaded && relationErrors.length === 0" class="no-errors-message">
                     {{ $t('maintenance.relations.noErrorsFound') }}
@@ -508,47 +666,16 @@ async function healRelations(pageId: number) {
 
 .running-job {
     padding: 16px;
-    border-left: 4px solid #007bff;
-    background-color: #f8f9fa;
 
     h4 {
         margin: 0 0 12px 0;
-        color: #495057;
-    }
-}
-
-.job-progress {
-    .progress-info {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-        font-size: 14px;
-        color: #6c757d;
-    }
-
-    .progress-percentage {
-        font-weight: bold;
-        color: #007bff;
-    }
-
-    .progress-bar {
-        width: 100%;
-        height: 8px;
-        background-color: #e9ecef;
-        border-radius: 4px;
-        overflow: hidden;
-
-        .progress-fill {
-            height: 100%;
-            background-color: #007bff;
-            transition: width 0.3s ease;
-        }
+        color: @memo-grey-darker;
     }
 }
 
 .job-status {
     font-size: 14px;
-    color: #6c757d;
+    color: @memo-grey-darker;
     font-style: italic;
 }
 </style>

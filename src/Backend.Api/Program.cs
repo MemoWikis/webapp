@@ -51,6 +51,9 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddHostedService<MissingHttpVerbLogger>();
 
+    // Register maintenance job service as singleton since it needs to maintain state across requests
+    builder.Services.AddSingleton<IMaintenanceJobService, MaintenanceJobService>();
+    
     Settings.Initialize(builder.Configuration);
 
     if (Settings.UseRedisSession)

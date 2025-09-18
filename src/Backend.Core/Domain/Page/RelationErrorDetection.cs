@@ -5,6 +5,7 @@ public class RelationErrorDetection : IRegisterAsInstancePerLifetime
     /// </summary>
     public RelationErrorsResult GetErrors()
     {
+        Log.Information("Get Relation Errors - Start");
         var relationErrors = new List<RelationErrorItem>();
 
         try
@@ -15,6 +16,8 @@ public class RelationErrorDetection : IRegisterAsInstancePerLifetime
             foreach (var parentGroup in groupedByParent)
             {
                 var parentId = parentGroup.Key;
+                Log.Information("Get Relation Errors - Check page:{id}", parentId);
+
                 var parentPage = EntityCache.GetPage(parentId);
 
                 if (parentPage == null)
@@ -348,6 +351,13 @@ public class RelationErrorDetection : IRegisterAsInstancePerLifetime
 
         while (currentRelation != null)
         {
+            // Check if we've already visited this relation (cycle detection)
+            if (connectedRelations.Contains(currentRelation.ChildId))
+            {
+                // We've found a cycle, stop traversing this chain
+                break;
+            }
+
             connectedRelations.Add(currentRelation.ChildId);
 
             if (currentRelation.NextId.HasValue)
@@ -358,10 +368,6 @@ public class RelationErrorDetection : IRegisterAsInstancePerLifetime
             {
                 break;
             }
-
-            // Prevent infinite loops
-            if (connectedRelations.Count > relations.Count)
-                break;
         }
 
         // Find orphaned relations
