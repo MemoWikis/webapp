@@ -33,7 +33,7 @@ public class ShowRelationErrorsMaintenanceOperation : IMaintenanceOperation, IRe
             
             var errorCount = errors.Data?.Count ?? 0;
             var message = errorCount > 0 
-                ? $"Analysis complete. Found {errorCount} pages with relation errors. Use quick analysis to see details."
+                ? $"Analysis complete. Found {errorCount} pages with relation errors."
                 : "Analysis complete. No relation errors found.";
             
             _jobService.UpdateJobStatus(jobId, JobStatus.Completed, message, OperationName);

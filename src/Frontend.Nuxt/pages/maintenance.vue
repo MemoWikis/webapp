@@ -562,13 +562,15 @@ async function healRelations(pageId: number) {
                 :icon="['fas', 'retweet']" />
             <LayoutPanel :title="$t('maintenance.relations.title')">
                 <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
-                    <button @click="loadRelationErrors" class="memo-button btn btn-primary" :disabled="isAnalyzing">
-                        <i v-if="isAnalyzing" class="fas fa-spinner fa-spin"></i>
-                        {{ isAnalyzing ? 'Analyzing...' : 'Analyze and Show' }}
-                    </button>
-                    <button @click="clearRelationErrorsCache" class="memo-button btn btn-secondary ms-2" :disabled="isAnalyzing">
-                        Clear Cache
-                    </button>
+                    <div class="relation-errors-controls">
+                        <button @click="loadRelationErrors" class="memo-button btn btn-primary" :disabled="isAnalyzing">
+                            <i v-if="isAnalyzing" class="fas fa-spinner fa-spin"></i>
+                            {{ isAnalyzing ? 'Analyzing...' : 'Analyze and Show' }}
+                        </button>
+                        <button @click="clearRelationErrorsCache" class="memo-button btn btn-secondary ms-2" :disabled="isAnalyzing">
+                            Clear Cache
+                        </button>
+                    </div>
                 </LayoutCard>
                 <MaintenanceRelationErrorCard v-for="errorItem in relationErrors" :key="errorItem.parentId" :error-item="errorItem" @heal-relations="healRelations" />
                 <div v-if="relationErrorsLoaded && relationErrors.length === 0" class="no-errors-message">
@@ -677,5 +679,15 @@ async function healRelations(pageId: number) {
     font-size: 14px;
     color: @memo-grey-darker;
     font-style: italic;
+}
+
+.relation-errors-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+
+    .btn-secondary {
+        background-color: @memo-grey;
+    }
 }
 </style>
