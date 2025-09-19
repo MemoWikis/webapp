@@ -147,4 +147,58 @@ public static class JobScheduler
                 .Build(),
             TriggerBuilder.Create().StartNow().Build());
     }
+
+    public static void StartImmediately_RecalculateKnowledgeItems(string jobId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<RecalculateKnowledgeItemsJob>()
+                .UsingJobData("jobId", jobId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_CalcAggregatedValues(string jobId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<CalcAggregatedValuesJob>()
+                .UsingJobData("jobId", jobId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_UpdateUserReputation(string jobId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<UpdateUserReputationJob>()
+                .UsingJobData("jobId", jobId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_MeiliReIndexPages(string jobId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<MeiliReIndexPagesJob>()
+                .UsingJobData("jobId", jobId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_MeiliReIndexUsers(string jobId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<MeiliReIndexUsersJob>()
+                .UsingJobData("jobId", jobId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_RelationErrorAnalysis(string jobId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<RelationErrorAnalysis>()
+                .UsingJobData("jobId", jobId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
 }

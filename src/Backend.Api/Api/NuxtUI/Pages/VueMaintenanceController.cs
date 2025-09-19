@@ -7,13 +7,6 @@ public class VueMaintenanceController(
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
     RelationErrors _relationErrors,
-    RecalculateKnowledgeItemsMaintenanceOperation _recalculateKnowledgeItemsOperation,
-    CalcAggregatedValuesMaintenanceOperation _calcAggregatedValuesOperation,
-    UpdateUserReputationMaintenanceOperation _updateUserReputationOperation,
-    MeiliReIndexQuestionsMaintenanceOperation _meiliReIndexQuestionsOperation,
-    MeiliReIndexPagesMaintenanceOperation _meiliReIndexPagesOperation,
-    MeiliReIndexUsersMaintenanceOperation _meiliReIndexUsersOperation,
-    ShowRelationErrorsMaintenanceOperation _showRelationErrorsOperation,
     MeilisearchReIndexAllQuestions _meilisearchReIndexAllQuestions,
     MeilisearchReIndexPages _meilisearchReIndexPages,
     MeilisearchReIndexUser _meilisearchReIndexUser,
@@ -51,7 +44,7 @@ public class VueMaintenanceController(
     {
         var jobId = JobTracking.CreateJob("RecalculateKnowledgeItems");
 
-        _ = Task.Run(() => _recalculateKnowledgeItemsOperation.Run(jobId));
+        JobScheduler.StartImmediately_RecalculateKnowledgeItems(jobId);
 
         return new VueMaintenanceResult
         {
@@ -67,7 +60,7 @@ public class VueMaintenanceController(
     {
         var jobId = JobTracking.CreateJob("CalcAggregatedValues");
 
-        _ = Task.Run(() => _calcAggregatedValuesOperation.Run(jobId));
+        JobScheduler.StartImmediately_CalcAggregatedValues(jobId);
 
         return new VueMaintenanceResult
         {
@@ -82,7 +75,7 @@ public class VueMaintenanceController(
     {
         var jobId = JobTracking.CreateJob("UpdateUserReputation");
 
-        _ = Task.Run(() => _updateUserReputationOperation.Run(jobId));
+        JobScheduler.StartImmediately_UpdateUserReputation(jobId);
 
         return new VueMaintenanceResult
         {
@@ -167,7 +160,7 @@ public class VueMaintenanceController(
     {
         var jobId = JobTracking.CreateJob("MeiliReIndexPages");
 
-        _ = Task.Run(() => _meiliReIndexPagesOperation.Run(jobId));
+        JobScheduler.StartImmediately_MeiliReIndexPages(jobId);
 
         return new VueMaintenanceResult
         {
@@ -208,7 +201,7 @@ public class VueMaintenanceController(
     {
         var jobId = JobTracking.CreateJob("MeiliReIndexUsers");
 
-        _ = Task.Run(() => _meiliReIndexUsersOperation.Run(jobId));
+        JobScheduler.StartImmediately_MeiliReIndexUsers(jobId);
 
         return new VueMaintenanceResult
         {
@@ -488,12 +481,12 @@ public class VueMaintenanceController(
     public RelationErrorsResult ShowRelationErrors()
     {
         // First check if we have cached results from async analysis
-        if (ShowRelationErrorsMaintenanceOperation.HasCachedResults())
+        if (RelationErrorsCache.HasCachedResults())
         {
-            var cachedResults = ShowRelationErrorsMaintenanceOperation.GetCachedResults();
+            var cachedResults = RelationErrorsCache.GetCachedResults();
             if (cachedResults.HasValue)
             {
-                var cacheTime = ShowRelationErrorsMaintenanceOperation.GetCacheTimestamp();
+                var cacheTime = RelationErrorsCache.GetCacheTimestamp();
                 Log.Information("Returning cached relation errors from {CacheTime}", cacheTime);
                 return cachedResults.Value;
             }
@@ -509,9 +502,9 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult StartRelationAnalysis()
     {
-        var jobId = JobTracking.CreateJob("ShowRelationErrors");
+        var jobId = JobTracking.CreateJob("RelationErrorAnalysis");
 
-        _ = Task.Run(() => _showRelationErrorsOperation.Run(jobId));
+        JobScheduler.StartImmediately_RelationErrorAnalysis(jobId);
 
         return new VueMaintenanceResult
         {
@@ -525,7 +518,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult ClearRelationErrorsCache()
     {
-        ShowRelationErrorsMaintenanceOperation.ClearCache();
+        RelationErrorsCache.ClearCache();
         Log.Information("Relation errors cache cleared");
 
         return new VueMaintenanceResult
