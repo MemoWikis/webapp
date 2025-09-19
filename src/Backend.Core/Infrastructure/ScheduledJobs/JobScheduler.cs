@@ -138,4 +138,13 @@ public static class JobScheduler
                 .Build(),
             TriggerBuilder.Create().StartNow().Build());
     }
+
+    public static void StartImmediately_ReindexAllQuestions(string jobId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<MeiliReIndexQuestionsJob>()
+                .UsingJobData("jobId", jobId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
 }

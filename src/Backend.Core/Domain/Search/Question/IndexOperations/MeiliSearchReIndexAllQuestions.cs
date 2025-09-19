@@ -7,7 +7,7 @@ public class MeilisearchReIndexAllQuestions(
 {
     private readonly MeilisearchClient _client = new(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
 
-    public async Task Run()
+    public async Task Run(string? jobId = null)
     {
         var taskId = (await _client.DeleteIndexAsync(MeilisearchIndices.Questions)).TaskUid;
         await _client.WaitForTaskAsync(taskId);
@@ -15,28 +15,28 @@ public class MeilisearchReIndexAllQuestions(
         var allQuestionsFromDb = _questionReadingRepo.GetAll();
         var allValuations = _questionValuationReadingRepo.GetAll();
         var meiliSearchQuestions = new List<MeilisearchQuestionMap>();
-        
-        var totalQuestions = allQuestionsFromDb.Count;
-        var processedQuestions = 0;
 
+        var currentQuestionCount = 1;
+        var totalQuestions = allQuestionsFromDb.Count();
         foreach (var question in allQuestionsFromDb)
         {
             Log.Information("Meilisearch Reindex Question: {id}", question.Id);
+
             var questionValuations = allValuations
                 .Where(qv => qv.Question.Id == question.Id && qv.User != null)
                 .Select(qv => qv.ToCacheItem())
                 .ToList();
+
             meiliSearchQuestions.Add(
                 MeilisearchToQuestionMap.Run(question, questionValuations));
-                
-            processedQuestions++;
-            
-            // Log progress periodically
-            if (processedQuestions % 100 == 0 || processedQuestions == totalQuestions)
+
+            if (jobId != null)
             {
-                Log.Information("Processed {ProcessedQuestions}/{TotalQuestions} questions for reindexing", 
-                    processedQuestions, totalQuestions);
+                JobTracking.UpdateJobStatus(jobId, JobStatus.Running,
+                    $"Re-indexing question {currentQuestionCount} of {totalQuestions} (ID: {question.Id})...",
+                    "MeiliReIndexAllQuestions");
             }
+            currentQuestionCount++;
         }
 
         Log.Information("Adding {Count} documents to MeiliSearch index", meiliSearchQuestions.Count);
@@ -56,10 +56,13 @@ public class MeilisearchReIndexAllQuestions(
 
         foreach (var question in allQuestions)
         {
+            Log.Information("Meilisearch Reindex Cache Question: {id}", question.Id);
+
             var questionValuations = allValuations
                 .Where(qv => qv.Question.Id == question.Id && qv.User != null)
                 .Select(qv => qv.ToCacheItem())
                 .ToList();
+
             meiliSearchQuestions.Add(
                 MeilisearchToQuestionMap.Run(question, questionValuations));
         }

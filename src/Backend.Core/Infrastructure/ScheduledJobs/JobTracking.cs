@@ -8,21 +8,13 @@ public enum JobStatus
     NotFound
 }
 
-public interface IMaintenanceJobService
-{
-    string CreateJob(string operationName);
-    void UpdateJobStatus(string jobId, JobStatus status, string message, string operationName);
-    JobStatusResponse GetJobStatus(string jobId);
-    IEnumerable<JobStatusResponse> GetAllActiveJobs();
-}
-
-public class MaintenanceJobService : IMaintenanceJobService
+public static class JobTracking
 {
     // Using ConcurrentDictionary for thread safety since multiple background tasks might update jobs simultaneously
-    private readonly ConcurrentDictionary<string, JobWithTimestamp> _jobStatuses = new();
+    private static readonly ConcurrentDictionary<string, JobWithTimestamp> _jobStatuses = new();
     private const int COMPLETED_JOB_LINGER_SECONDS = 15;
 
-    public string CreateJob(string operationName)
+    public static string CreateJob(string operationName)
     {
         var jobId = Guid.NewGuid().ToString();
         var job = new JobStatusResponse(jobId, JobStatus.Running, $"Starting {operationName}...", operationName);
@@ -30,14 +22,14 @@ public class MaintenanceJobService : IMaintenanceJobService
         return jobId;
     }
 
-    public void UpdateJobStatus(string jobId, JobStatus status, string message, string operationName)
+    public static void UpdateJobStatus(string jobId, JobStatus status, string message, string operationName)
     {
         var job = new JobStatusResponse(jobId, status, message, operationName);
         var timestamp = (status == JobStatus.Completed || status == JobStatus.Failed) ? DateTime.UtcNow : DateTime.UtcNow;
         _jobStatuses[jobId] = new JobWithTimestamp(job, timestamp);
     }
 
-    public JobStatusResponse GetJobStatus(string jobId)
+    public static JobStatusResponse GetJobStatus(string jobId)
     {
         CleanupExpiredJobs();
         
@@ -49,7 +41,7 @@ public class MaintenanceJobService : IMaintenanceJobService
         return new JobStatusResponse(jobId, JobStatus.NotFound, "Job not found", "Unknown");
     }
 
-    public IEnumerable<JobStatusResponse> GetAllActiveJobs()
+    public static IEnumerable<JobStatusResponse> GetAllActiveJobs()
     {
         CleanupExpiredJobs();
         
@@ -59,7 +51,7 @@ public class MaintenanceJobService : IMaintenanceJobService
             .ToList();
     }
 
-    private void CleanupExpiredJobs()
+    private static void CleanupExpiredJobs()
     {
         var cutoffTime = DateTime.UtcNow.AddSeconds(-COMPLETED_JOB_LINGER_SECONDS);
         var jobsToRemove = new List<string>();
