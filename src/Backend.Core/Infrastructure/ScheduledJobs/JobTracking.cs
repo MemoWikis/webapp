@@ -51,6 +51,18 @@ public static class JobTracking
             .ToList();
     }
 
+    public static bool ClearJob(string jobId)
+    {
+        return _jobStatuses.TryRemove(jobId, out _);
+    }
+
+    public static int ClearAllJobs()
+    {
+        var count = _jobStatuses.Count;
+        _jobStatuses.Clear();
+        return count;
+    }
+
     private static void CleanupExpiredJobs()
     {
         var cutoffTime = DateTime.UtcNow.AddSeconds(-COMPLETED_JOB_LINGER_SECONDS);

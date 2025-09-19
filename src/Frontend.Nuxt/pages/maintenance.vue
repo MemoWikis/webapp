@@ -120,6 +120,7 @@ const toolsMethods = ref<MethodData[]>([
     { url: 'ReloadListFromIgnoreCrawlers', translationKey: 'maintenance.tools.reloadIgnoreCrawlers' },
     { url: 'CleanUpWorkInProgressQuestions', translationKey: 'maintenance.tools.cleanupWorkInProgress' },
     { url: 'Start100TestJobs', translationKey: 'maintenance.tools.start100TestJobs' },
+    { url: 'ClearAllJobs', translationKey: 'maintenance.tools.clearAllJobs' },
     { url: 'PollingTest5s', translationKey: 'maintenance.tools.pollingTest5s' },
     { url: 'PollingTest30s', translationKey: 'maintenance.tools.pollingTest30s' },
     { url: 'PollingTest120s', translationKey: 'maintenance.tools.pollingTest120s' },
@@ -175,104 +176,61 @@ const executeMaintenanceOperation = async (operationUrl: string) => {
         // Mark that user manually started a job
         userStartedJob.value = true
 
-        // Switch to fast polling since we have an active job
+        // Switch to fast polling and immediately check for updates
         updatePollingInterval()
 
-        // Start polling for status
-        await pollJobStatus(jobId)
+        // Immediately fetch all running jobs to get the latest status
+        await checkForRunningJobs()
     }
-}
-
-const pollJobStatus = async (jobId: string) => {
-    const pollInterval = 2000 // 2 seconds
-    const maxPolls = 300 // Maximum 10 minutes
-    let pollCount = 0
-
-    const poll = async () => {
-        try {
-            const result = await $api<JobStatusResponse>(`/apiVue/VueMaintenance/GetJobStatus?jobId=${jobId}`, {
-                method: 'GET',
-                mode: 'cors',
-                credentials: 'include'
-            })
-
-            if (result.status === JobStatus.Completed) {
-                resultMsg.value = result.message
-                runningJobs.value.delete(jobId)
-                jobProgress.value.delete(jobId)
-                // Job completed - stop individual polling, let background polling handle cleanup
-                return
-            } else if (result.status === JobStatus.Failed) {
-                resultMsg.value = `Job failed: ${result.message}`
-                runningJobs.value.delete(jobId)
-                jobProgress.value.delete(jobId)
-                // Job failed - stop individual polling, let background polling handle cleanup
-                return
-            } else if (result.status === JobStatus.Running) {
-                jobProgress.value.set(jobId, result)
-                resultMsg.value = result.message
-                pollCount++
-
-                if (pollCount < maxPolls) {
-                    setTimeout(poll, pollInterval)
-                } else {
-                    resultMsg.value = 'Job timeout - please check server logs'
-                    runningJobs.value.delete(jobId)
-                    jobProgress.value.delete(jobId)
-                    // Job timed out - stop individual polling
-                    return
-                }
-            } else if (result.status === JobStatus.NotFound) {
-                resultMsg.value = 'Job not found - it may have completed or failed'
-                runningJobs.value.delete(jobId)
-                jobProgress.value.delete(jobId)
-                // Job not found - stop individual polling
-                return
-            }
-        } catch (error) {
-            console.error('Error polling job status:', error)
-            runningJobs.value.delete(jobId)
-            jobProgress.value.delete(jobId)
-            // Error occurred - stop individual polling
-            return
-        }
-    }
-
-    await poll()
 }
 
 const checkForRunningJobs = async () => {
-    if (!isAdmin.value || !userStore.isAdmin) return
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        return
 
-    try {
-        const result = await $api<JobStatusResponse[]>('/apiVue/VueMaintenance/GetAllRunningJobs', {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include'
-        })
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
 
-        if (result && Array.isArray(result)) {
-            const previousJobCount = runningJobs.value.size
+    const result = await $api<JobStatusResponse[]>('/apiVue/VueMaintenance/GetAllRunningJobs', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: data
+    })
 
-            // Clear current running jobs and repopulate from backend
-            runningJobs.value.clear()
-            jobProgress.value.clear()
+    if (result && Array.isArray(result)) {
+        const previousJobCount = runningJobs.value.size
+        const previousJobs = new Map(runningJobs.value)
 
-            for (const job of result) {
-                runningJobs.value.set(job.jobId, job.operationName)
-                jobProgress.value.set(job.jobId, job)
+        // Clear current running jobs and repopulate from backend
+        runningJobs.value.clear()
+        jobProgress.value.clear()
+
+        for (const job of result) {
+            runningJobs.value.set(job.jobId, job.operationName)
+            jobProgress.value.set(job.jobId, job)
+
+            // Update result message with the latest job status
+            if (job.status === JobStatus.Running) {
+                resultMsg.value = job.message
             }
-
-            // If this is the first call and we found jobs, switch to fast polling
-            if (previousJobCount === 0 && result.length > 0) {
-                userStartedJob.value = true
-            }
-
-            // Update polling interval based on job status
-            updatePollingInterval()
         }
-    } catch (error) {
-        console.error('Error checking for running jobs:', error)
+
+        // Check for jobs that were in previous list but not in current (they completed/failed)
+        for (const [jobId, operationName] of previousJobs) {
+            if (!runningJobs.value.has(jobId)) {
+                // Job is no longer in the running list - it completed or failed
+                resultMsg.value = `Job ${operationName} completed`
+            }
+        }
+
+        // If this is the first call and we found jobs, switch to fast polling
+        if (previousJobCount === 0 && result.length > 0) {
+            userStartedJob.value = true
+        }
+
+        // Update polling interval based on job status
+        updatePollingInterval()
     }
 }
 
@@ -292,8 +250,6 @@ const updatePollingInterval = () => {
                 checkForRunningJobs()
             }, currentPollInterval)
         }
-
-        console.log(`Polling interval changed to ${currentPollInterval}ms (${shouldUseFastPolling ? 'fast' : 'slow'} mode)`)
     }
 
     // Reset userStartedJob flag when no jobs are running
@@ -373,6 +329,8 @@ async function removeAdminRights() {
 }
 
 const relationErrorsLoaded = ref(false)
+const relationAnalysisJobId = ref<string | null>(null)
+let stopRelationJobWatcher: (() => void) | null = null
 
 async function loadRelationErrors() {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
@@ -404,65 +362,75 @@ async function loadRelationErrors() {
             return
         }
 
-        const jobId = startResult.data
+        relationAnalysisJobId.value = startResult.data
         resultMsg.value = 'Analysis in progress...'
 
-        // Step 2: Poll for completion
-        let isComplete = false
-        let attempts = 0
-        const maxAttempts = 180 // 3 minutes max polling (2s intervals)
+        // Step 2: Set up watcher for job completion
+        if (stopRelationJobWatcher) {
+            stopRelationJobWatcher() // Stop any existing watcher
+        }
 
-        while (!isComplete && attempts < maxAttempts) {
-            await new Promise(resolve => setTimeout(resolve, 2000)) // Wait 2 seconds
-            attempts++
-
-            try {
-                const statusResult = await $api<JobStatusResponse>(`/apiVue/VueMaintenance/GetJobStatus?jobId=${jobId}`, {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'include'
-                })
-
-                if (statusResult.status === JobStatus.Completed) {
-                    isComplete = true
-                    resultMsg.value = 'Analysis completed. Loading results...'
-                } else if (statusResult.status === JobStatus.Failed) {
-                    resultMsg.value = `Analysis failed: ${statusResult.message}`
-                    return
-                } else if (statusResult.status === JobStatus.Running) {
-                    resultMsg.value = `Analysis in progress... ${statusResult.message}`
+        stopRelationJobWatcher = watch(jobProgress, (jobs) => {
+            if (relationAnalysisJobId.value && jobs.has(relationAnalysisJobId.value)) {
+                const job = jobs.get(relationAnalysisJobId.value)
+                if (job) {
+                    if (job.status === JobStatus.Completed) {
+                        resultMsg.value = 'Analysis completed. Fetching results...'
+                        fetchCachedRelationErrors()
+                    } else if (job.status === JobStatus.Failed) {
+                        resultMsg.value = `Analysis failed: ${job.message}`
+                        relationAnalysisJobId.value = null
+                        isAnalyzing.value = false
+                        if (stopRelationJobWatcher) {
+                            stopRelationJobWatcher()
+                            stopRelationJobWatcher = null
+                        }
+                    } else if (job.status === JobStatus.Running) {
+                        resultMsg.value = `Analysis in progress... ${job.message}`
+                    }
                 }
-            } catch (pollError) {
-                console.warn('Polling error:', pollError)
-                // Continue polling even if one request fails
             }
-        }
-
-        if (!isComplete) {
-            resultMsg.value = 'Analysis timed out. Please try again.'
-            return
-        }
-
-        // Step 3: Fetch the cached results
-        const cachedResult = await $api<RelationErrorsResponse>('/apiVue/VueMaintenance/ShowRelationErrors', {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include'
-        })
-
-        if (cachedResult.success) {
-            relationErrors.value = cachedResult.data
-            resultMsg.value = `Found ${cachedResult.data.length} pages with relation errors.`
-            relationErrorsLoaded.value = true
-        } else {
-            resultMsg.value = 'Error loading cached results.'
-        }
+        }, { deep: true })
 
     } catch (error) {
         console.error('Error in relation analysis flow:', error)
         resultMsg.value = 'Error during analysis flow.'
+        relationAnalysisJobId.value = null
+        if (stopRelationJobWatcher) {
+            stopRelationJobWatcher()
+            stopRelationJobWatcher = null
+        }
     } finally {
         isAnalyzing.value = false
+    }
+}
+
+const fetchCachedRelationErrors = async () => {
+
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        return
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    const cachedResult = await $api<RelationErrorsResponse>('/apiVue/VueMaintenance/GetRelationErrors', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: data
+    })
+
+    if (cachedResult.success) {
+        relationErrors.value = cachedResult.data
+        resultMsg.value = `Found ${cachedResult.data.length} pages with relation errors.`
+        relationErrorsLoaded.value = true
+    } else {
+        resultMsg.value = 'Error loading cached results.'
+    }
+
+    relationAnalysisJobId.value = null
+    if (stopRelationJobWatcher) {
+        stopRelationJobWatcher()
+        stopRelationJobWatcher = null
     }
 }
 
@@ -522,6 +490,31 @@ async function healRelations(pageId: number) {
         }
     }
 }
+
+const clearJob = async (jobId: string) => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('jobId', jobId)
+
+    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/ClearJob`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result.success) {
+        resultMsg.value = result.data
+        // Remove the job from local state immediately for responsive UI
+        runningJobs.value.delete(jobId)
+        jobProgress.value.delete(jobId)
+        // Also refresh the job list to sync with backend
+        await checkForRunningJobs()
+    }
+}
 </script>
 
 <template>
@@ -539,7 +532,12 @@ async function healRelations(pageId: number) {
             <LayoutPanel v-if="runningJobs.size > 0" title="Active Jobs" class="active-jobs-panel">
                 <LayoutCard v-for="[jobId, operationName] in runningJobs.entries()" :key="jobId" :size="LayoutCardSize.Small">
                     <div class="running-job">
-                        <h4>{{ operationName }}</h4>
+                        <div class="job-header">
+                            <h4>{{ operationName }}</h4>
+                            <button @click="clearJob(jobId)" class="clear-job-btn" title="Clear Job">
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                            </button>
+                        </div>
                         <div v-if="jobProgress.has(jobId)" class="job-status">
                             <span>{{ jobProgress.get(jobId)?.message }}</span>
                         </div>
@@ -672,6 +670,38 @@ async function healRelations(pageId: number) {
     h4 {
         margin: 0 0 12px 0;
         color: @memo-grey-darker;
+    }
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    h4 {
+        margin: 0;
+        color: @memo-grey-darker;
+    }
+}
+
+.clear-job-btn {
+    background: white;
+    border: none;
+    cursor: pointer;
+    color: @memo-grey;
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: 22px;
+    transition: all 0.2s ease;
+
+    &:hover {
+        color: @memo-wuwi-red;
+        background: brightness(0.95);
+    }
+
+    &:active {
+        background: brightness(0.9);
     }
 }
 

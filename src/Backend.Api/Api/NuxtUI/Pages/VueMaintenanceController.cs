@@ -425,17 +425,47 @@ public class VueMaintenanceController(
     }
 
     [AccessOnlyAsAdmin]
-    [HttpGet]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public JobStatusResponse GetJobStatus(string jobId)
     {
         return JobTracking.GetJobStatus(jobId);
     }
 
     [AccessOnlyAsAdmin]
-    [HttpGet]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public IEnumerable<JobStatusResponse> GetAllRunningJobs()
     {
         return JobTracking.GetAllActiveJobs();
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ClearJob([FromForm] string jobId)
+    {
+        var success = JobTracking.ClearJob(jobId);
+
+        return new VueMaintenanceResult
+        {
+            Success = success,
+            Data = success ? "Job cleared successfully." : "Job not found or could not be cleared."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ClearAllJobs()
+    {
+        var clearedCount = JobTracking.ClearAllJobs();
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = $"Cleared {clearedCount} job(s)."
+        };
     }
 
     [AccessOnlyAsAdmin]
@@ -477,7 +507,8 @@ public class VueMaintenanceController(
     }
 
     [AccessOnlyAsAdmin]
-    [HttpGet]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public RelationErrorsResult ShowRelationErrors()
     {
         // First check if we have cached results from async analysis
