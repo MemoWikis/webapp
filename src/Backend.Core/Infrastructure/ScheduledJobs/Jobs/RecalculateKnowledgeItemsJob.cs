@@ -31,14 +31,16 @@ public class RecalculateKnowledgeItemsJob : IJob
                 var answerRepo = scope.Resolve<AnswerRepo>();
                 var userReadingRepo = scope.Resolve<UserReadingRepo>();
                 var userWritingRepo = scope.Resolve<UserWritingRepo>();
-                
-                probabilityUpdateValuationAll.Run();
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Updating question probabilities...", OperationName);
-                
-                probabilityUpdateQuestion.Run();
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Updating page probabilities...", OperationName);
 
+                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Updating valuation for questions...", OperationName);
+                probabilityUpdateValuationAll.Run(jobId);
+
+                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Updating correctness probability for questions...", OperationName);
+                probabilityUpdateQuestion.Run(jobId);
+
+                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Updating page probabilities...", OperationName);
                 new ProbabilityUpdate_Page(pageRepository, answerRepo).Run();
+                
                 JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Initializing user probability updates...", OperationName);
 
                 ProbabilityUpdate_User.Initialize(userReadingRepo, userWritingRepo, answerRepo);

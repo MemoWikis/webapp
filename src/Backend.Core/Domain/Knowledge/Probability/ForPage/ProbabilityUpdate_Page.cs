@@ -5,12 +5,21 @@ public class ProbabilityUpdate_Page(
     PageRepository pageRepository,
     AnswerRepo answerRepo)
 {
-    public void Run()
+    public void Run(string? jobId = null)
     {
         var sp = Stopwatch.StartNew();
 
         foreach (var page in pageRepository.GetAll())
+        {
             Run(page);
+            if (jobId != null)
+            {
+                JobTracking.UpdateJobStatus(jobId, JobStatus.Running,
+                    $"Update page probability for ID {page.Id}...",
+                    "ProbabilityUpdate_Page");
+            }
+
+        }
 
         Log.Information("Calculated all page probabilities in {elapsed} ", sp.Elapsed);
     }

@@ -24,12 +24,21 @@ public class ProbabilityUpdate_User
     {
         _instance = new Lazy<ProbabilityUpdate_User>(() => new ProbabilityUpdate_User(userReadingRepo, userWritingRepo, answerRepo));
     }
-    public void Run()
+    public void Run(string? jobId = null)
     {
         var sp = Stopwatch.StartNew();
 
         foreach (var user in _userReadingRepo.GetAll())
+        {
             Run(user);
+            if (jobId != null)
+            {
+                JobTracking.UpdateJobStatus(jobId, JobStatus.Running,
+                    $"Update user probability for ID {user.Id}...",
+                    "ProbabilityUpdate_User");
+            }
+
+        }
 
         Log.Information("Calculated all user probabilities in {elapsed} ", sp.Elapsed);
     }
