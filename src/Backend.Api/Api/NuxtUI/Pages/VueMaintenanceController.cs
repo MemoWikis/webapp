@@ -509,7 +509,7 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public RelationErrorsResult ShowRelationErrors()
+    public RelationErrorsResult GetRelationErrors()
     {
         // First check if we have cached results from async analysis
         if (RelationErrorsCache.HasCachedResults())
