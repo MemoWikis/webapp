@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using System.Security;
-
+using System.Text.Json;
 public class VueMaintenanceController(
     SessionUser _sessionUser,
     UpdateWishcount _updateWishCount,
@@ -12,6 +12,8 @@ public class VueMaintenanceController(
     MeilisearchReIndexUser _meilisearchReIndexUser,
     UserWritingRepo _userWritingRepo,
     AnswerRepo _answerRepo) : ApiBaseController
+    MmapCacheRefreshService _mmapCacheRefreshService,
+    MmapCacheStatusService _mmapCacheStatusService) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -570,6 +572,31 @@ public class VueMaintenanceController(
         {
             Success = result.Success,
             Data = result.Message
+        };
+    }
+
+    // Mmap Cache Methods
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult RefreshMmapCaches()
+    {
+        _mmapCacheRefreshService.TriggerManualRefresh();
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Mmap caches refreshed successfully"
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpPost]
+    public VueMaintenanceResult GetMmapCacheStatus()
+    {
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = _mmapCacheStatusService.GetCacheStatusAsJson()
         };
     }
 }

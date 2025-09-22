@@ -1,0 +1,11 @@
+﻿{
+  InitialSetup: {
+    TotalViews: 12
+  },
+  AfterRestart: {
+    TotalViews: 12
+  },
+  AfterRefresh: {
+    TotalViews: 20
+  }
+}

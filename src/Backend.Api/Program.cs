@@ -152,7 +152,9 @@ try
     var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
     entityCacheInitializer.Init();
 
-    await JobScheduler.InitializeAsync();
+    // Start the JobScheduler with scheduled jobs (including mmap cache refresh)
+    var runningJobRepo = app.Services.GetRequiredService<RunningJobRepo>();
+    await JobScheduler.Start(runningJobRepo);
 
     app.Run();
 }

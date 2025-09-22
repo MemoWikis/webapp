@@ -1,0 +1,14 @@
+﻿{
+  Step1_LoadFromDatabase: {
+    TotalViews: 15,
+    MmapCacheFileExistedBeforeInit: false,
+    MmmapcacheFileCreated: true
+  },
+  Step2_LoadFromMmapCache: {
+    TotalViews: 15,
+    TotalDbViews: 18
+  },
+  Step3_AfterRefresh: {
+    TotalViews: 20
+  }
+}

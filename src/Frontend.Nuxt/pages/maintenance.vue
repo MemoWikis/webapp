@@ -95,6 +95,7 @@ const questionMethods = ref<MethodData[]>([
 ])
 const cacheMethods = ref<MethodData[]>([
     { url: 'ClearCache', translationKey: 'maintenance.cache.clearCache' },
+    { url: 'RefreshMmapCaches', translationKey: 'maintenance.cache.refreshMmapCaches' }
 ])
 const pageMethods = ref<MethodData[]>([
     { url: 'UpdateCategoryAuthors', translationKey: 'maintenance.pages.updateCategoryAuthors' }
@@ -487,7 +488,6 @@ async function healRelations(pageId: number) {
         resultMsg.value = result.data
         // Refresh relation errors if they are currently displayed
         if (relationErrors.value.length > 0) {
-            await loadRelationErrors()
         }
     }
 }
@@ -515,6 +515,44 @@ const clearJob = async (jobId: string) => {
         // Also refresh the job list to sync with backend
         await checkForRunningJobs()
     }
+}
+interface MmapCacheStatus {
+    exists: boolean
+    lastModified: string
+    sizeBytes: number
+}
+
+interface MmapCacheStatusData {
+    pageViewsCache: MmapCacheStatus
+    questionViewsCache: MmapCacheStatus
+}
+
+const mmapCacheStatus = ref<MmapCacheStatusData | null>(null)
+const mmapCacheStatusLoaded = ref(false)
+
+interface GetMmapCacheStatusResult {
+    success: boolean
+    data: string
+}
+
+const loadMmapCacheStatus = async () => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+    const result = await $api<GetMmapCacheStatusResult>(`/apiVue/VueMaintenance/GetMmapCacheStatus`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        mmapCacheStatus.value = JSON.parse(result.data) as MmapCacheStatusData
+    }
+    mmapCacheStatusLoaded.value = true
 }
 </script>
 
@@ -559,6 +597,36 @@ const clearJob = async (jobId: string) => {
                 :icon="['fas', 'retweet']" />
             <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="executeMaintenanceOperation"
                 :icon="['fas', 'retweet']" />
+
+            <LayoutPanel :title="$t('maintenance.mmapCache.title')">
+
+                <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
+                    <button @click="loadMmapCacheStatus" class="memo-button btn btn-primary">
+                        {{ $t('maintenance.mmapCache.loadStatus') }}
+                    </button>
+                </LayoutCard>
+                <template v-if="mmapCacheStatus">
+                    <LayoutCard :size="LayoutCardSize.Tiny" v-if="mmapCacheStatus.pageViewsCache" :title="$t('maintenance.mmapCache.pageViews')">
+                        <ul v-if="mmapCacheStatus.pageViewsCache.exists">
+                            <li>lastModified: <br /><b>{{ mmapCacheStatus.pageViewsCache.lastModified ? new Date(mmapCacheStatus.pageViewsCache.lastModified).toLocaleString() : 'N/A' }}</b></li>
+                            <li>sizeBytes: <br /><b>{{ mmapCacheStatus.pageViewsCache.sizeBytes }}</b></li>
+                        </ul>
+                        <span v-else>{{ $t('maintenance.mmapCache.noPageViewsCacheFile') }}</span>
+                    </LayoutCard>
+                    <LayoutCard :size="LayoutCardSize.Tiny" v-if="mmapCacheStatus.questionViewsCache" :title="$t('maintenance.mmapCache.questionViews')">
+                        <ul v-if="mmapCacheStatus.questionViewsCache.exists">
+                            <li>lastModified: <br /><b>{{ mmapCacheStatus.questionViewsCache.lastModified ? new Date(mmapCacheStatus.questionViewsCache.lastModified).toLocaleString() : 'N/A' }}</b></li>
+                            <li>sizeBytes: <br /><b>{{ mmapCacheStatus.questionViewsCache.sizeBytes }}</b></li>
+                        </ul>
+                        <span v-else>{{ $t('maintenance.mmapCache.noQuestionViewsCacheFile') }}</span>
+                    </LayoutCard>
+                </template>
+
+                <div v-else-if="mmapCacheStatusLoaded && mmapCacheStatus == null" class="no-errors-message">
+                    {{ $t('maintenance.relations.noErrorsFound') }}
+                </div>
+            </LayoutPanel>
+
             <LayoutPanel :title="$t('maintenance.relations.title')">
                 <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
                     <div class="relation-errors-controls">
@@ -673,6 +741,14 @@ const clearJob = async (jobId: string) => {
         color: @memo-grey-darker;
     }
 }
+.mmap-cache-controls {
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+
+    .memo-button {
+        margin-right: 0;
+    }
 
 .job-header {
     display: flex;

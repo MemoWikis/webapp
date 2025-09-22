@@ -3,7 +3,7 @@ using NHibernate.Criterion;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 
-public class QuestionViewRepository(ISession _session) : RepositoryDbBase<QuestionView>(_session)
+public class QuestionViewRepository(ISession _session, QuestionViewMmapCache questionViewMmapCache) : RepositoryDbBase<QuestionView>(_session)
 {
     public int GetViewCount(int questionId)
     {
@@ -73,23 +73,6 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
         return result;
     }
 
-    public IList<QuestionViewSummary> GetViewsForPastNDaysByIds(int days, List<int> ids)
-    {
-        var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly 
-        FROM QuestionView 
-        WHERE QuestionId IN (:questionIds) AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
-        GROUP BY DateOnly");
-
-        query.SetParameterList("questionIds", ids);
-        query.SetParameter("days", days);
-
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummary)))
-            .List<QuestionViewSummary>();
-
-        return result;
-    }
-
     public void DeleteForQuestion(int questionId)
     {
         Session.CreateSQLQuery("DELETE FROM questionview WHERE QuestionId = :questionId")
@@ -97,12 +80,11 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
     }
 
     public record struct QuestionViewSummary(Int64 Count, DateTime DateOnly);
-    public record struct QuestionViewSummaryWithId(Int64 Count, DateTime DateOnly, int QuestionId);
 
     public IList<QuestionViewSummaryWithId> GetAllEager()
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId
+        SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId, MAX(DateCreated) as DateCreated
         FROM QuestionView 
         GROUP BY 
             QuestionId, 
@@ -110,6 +92,27 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
         ORDER BY 
             QuestionId, 
             DateOnly;");
+
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryWithId)))
+            .List<QuestionViewSummaryWithId>();
+
+        return result;
+    }
+
+    public IList<QuestionViewSummaryWithId> GetAllEagerSince(DateTime sinceDate)
+    {
+        var query = _session.CreateSQLQuery(@"
+        SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId, MAX(DateCreated) as DateCreated
+        FROM QuestionView 
+        WHERE DateCreated > :sinceDate
+        GROUP BY 
+            QuestionId, 
+            DateOnly
+        ORDER BY 
+            QuestionId, 
+            DateOnly;");
+
+        query.SetParameter("sinceDate", sinceDate);
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryWithId)))
             .List<QuestionViewSummaryWithId>();
