@@ -15,7 +15,7 @@ internal class PageViews_tests : BaseTestHarness
         var yesterday = DateTime.Now.Date.AddDays(-1);
         var twoDaysAgo = DateTime.Now.Date.AddDays(-2);
 
-        var views = new List<PageViewRepo.PageViewSummaryWithId>
+        var views = new List<PageViewSummaryWithId>
         {
             new() { PageId = page.Id, DateOnly = yesterday, Count = 10 },
             new() { PageId = page.Id, DateOnly = twoDaysAgo, Count = 5 }
@@ -55,7 +55,7 @@ internal class PageViews_tests : BaseTestHarness
         var twoDaysAgo = DateTime.Now.Date.AddDays(-2);
         var outsideRange = DateTime.Now.Date.AddDays(-95); // This is outside the 90-day window
 
-        var views = new List<PageViewRepo.PageViewSummaryWithId>
+        var views = new List<PageViewSummaryWithId>
         {
             new() { PageId = page.Id, DateOnly = yesterday, Count = 10 },
             new() { PageId = page.Id, DateOnly = twoDaysAgo, Count = 5 },
