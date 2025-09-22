@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using System.Security;
-using System.Text.Json;
 public class VueMaintenanceController(
     SessionUser _sessionUser,
     UpdateWishcount _updateWishCount,
@@ -11,8 +10,7 @@ public class VueMaintenanceController(
     MeilisearchReIndexPages _meilisearchReIndexPages,
     MeilisearchReIndexUser _meilisearchReIndexUser,
     UserWritingRepo _userWritingRepo,
-    AnswerRepo _answerRepo) : ApiBaseController
-    MmapCacheRefreshService _mmapCacheRefreshService,
+    AnswerRepo _answerRepo,
     MmapCacheStatusService _mmapCacheStatusService) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
@@ -581,11 +579,14 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult RefreshMmapCaches()
     {
-        _mmapCacheRefreshService.TriggerManualRefresh();
+        var jobId = JobTracking.CreateJob("RefreshMmapCaches");
+
+        JobScheduler.StartImmediately_MmapCacheRefresh(jobId);
+
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = "Mmap caches refreshed successfully"
+            Data = jobId
         };
     }
 

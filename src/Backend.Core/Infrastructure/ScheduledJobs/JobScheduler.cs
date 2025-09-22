@@ -212,4 +212,13 @@ public static class JobScheduler
                 .Build(),
             TriggerBuilder.Create().StartNow().Build());
     }
+
+    public static void StartImmediately_MmapCacheRefresh(string jobId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<MmapCacheRefreshJob>()
+                .UsingJobData("jobId", jobId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
 }

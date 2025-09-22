@@ -741,6 +741,7 @@ const loadMmapCacheStatus = async () => {
         color: @memo-grey-darker;
     }
 }
+
 .mmap-cache-controls {
     padding: 15px;
     display: flex;
@@ -749,6 +750,7 @@ const loadMmapCacheStatus = async () => {
     .memo-button {
         margin-right: 0;
     }
+}
 
 .job-header {
     display: flex;

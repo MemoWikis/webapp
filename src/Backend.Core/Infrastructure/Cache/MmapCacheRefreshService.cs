@@ -14,22 +14,28 @@ public class MmapCacheRefreshService(
     /// <summary>
     /// Manually trigger a cache recreate (for testing or admin purposes)
     /// </summary>
-    public void TriggerManualRefresh()
+    public void TriggerManualRefresh(string? jobId = null)
     {
         Log.Information("Manual mmap cache recreate triggered");
-        RecreateMmapCaches();
+        RecreateMmapCaches(jobId);
     }
 
     /// <summary>
     /// Refresh both PageView and QuestionView mmap caches from database
     /// </summary>
-    private void RecreateMmapCaches()
+    private void RecreateMmapCaches(string? jobId = null)
     {
         var stopwatch = Stopwatch.StartNew();
         Log.Information("Starting daily mmap cache recreate");
 
+        if (jobId != null)
+            JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Refreshing PageView mmap cache...", "RefreshMmapCaches");
+
         // Refresh PageView mmap cache
         RecreatePageViewCache();
+
+        if (jobId != null)
+            JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Refreshing QuestionView mmap cache...", "RefreshMmapCaches");
 
         // Refresh QuestionView mmap cache  
         RecreateQuestionViewCache();
