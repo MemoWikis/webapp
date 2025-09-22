@@ -403,6 +403,7 @@ async function loadRelationErrors() {
     } finally {
         isAnalyzing.value = false
     }
+    checkForRunningJobs()
 }
 
 const fetchCachedRelationErrors = async () => {
