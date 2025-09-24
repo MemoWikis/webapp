@@ -13,22 +13,17 @@ public class MeilisearchReIndexAllQuestions(
         await _client.WaitForTaskAsync(taskId);
 
         var allQuestionsFromDb = _questionReadingRepo.GetAll();
-        var allValuations = _questionValuationReadingRepo.GetAll();
-        var meiliSearchQuestions = new List<MeilisearchQuestionMap>();
-
-        foreach (var question in allQuestionsFromDb)
-        {
-            var questionValuations = allValuations
-                .Where(qv => qv.Question.Id == question.Id && qv.User != null)
-                .Select(qv => qv.ToCacheItem())
-                .ToList();
-            meiliSearchQuestions.Add(
-                MeilisearchToQuestionMap.Run(question, questionValuations));
-        }
+        var meiliSearchQuestionsMap = allQuestionsFromDb.Select(MeilisearchToQuestionMap.Run);
 
         var index = _client.Index(MeilisearchIndices.Questions);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
-        await index.AddDocumentsAsync(meiliSearchQuestions);
+
+        await index.UpdateRankingRulesAsync(new string[]
+        {
+            "words", "exactness", "typo", "proximity", "attribute", "sort"
+        });
+
+        await index.AddDocumentsAsync(meiliSearchQuestionsMap);
     }
 
     public async Task RunCache()
@@ -37,21 +32,16 @@ public class MeilisearchReIndexAllQuestions(
         await _client.WaitForTaskAsync(taskId);
 
         var allQuestions = EntityCache.GetAllQuestions();
-        var allValuations = _questionValuationReadingRepo.GetAll();
-        var meiliSearchQuestions = new List<MeilisearchQuestionMap>();
-
-        foreach (var question in allQuestions)
-        {
-            var questionValuations = allValuations
-                .Where(qv => qv.Question.Id == question.Id && qv.User != null)
-                .Select(qv => qv.ToCacheItem())
-                .ToList();
-            meiliSearchQuestions.Add(
-                MeilisearchToQuestionMap.Run(question, questionValuations));
-        }
+        var meiliSearchQuestionsMap = allQuestions.Select(MeilisearchToQuestionMap.Run);
 
         var index = _client.Index(MeilisearchIndices.Questions);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
-        await index.AddDocumentsAsync(meiliSearchQuestions);
+
+        await index.UpdateRankingRulesAsync(new string[]
+        {
+            "words", "exactness", "typo", "proximity", "attribute", "sort"
+        });
+
+        await index.AddDocumentsAsync(meiliSearchQuestionsMap);
     }
 }

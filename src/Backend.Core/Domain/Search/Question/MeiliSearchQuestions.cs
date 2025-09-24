@@ -20,6 +20,7 @@ public class MeilisearchQuestions(PermissionCheck _permissionCheck) : Meilisearc
     {
         var sq = new SearchQuery
         {
+            Q = searchTerm,
             Limit = _count
         };
 

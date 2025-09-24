@@ -10,7 +10,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
     {
         var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
         var index = client.Index(MeilisearchIndices.Users);
-        
+
         _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index, languages));
 
         return _result;
@@ -20,6 +20,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
     {
         var sq = new SearchQuery
         {
+            Q = searchTerm,
             Limit = _count
         };
 
