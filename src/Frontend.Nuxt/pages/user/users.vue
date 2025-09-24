@@ -44,7 +44,7 @@ watch(totalUserCount, (val) => {
         userCount.value = val
 })
 const { $logger } = useNuxtApp()
-const selectedLanguages = ref<string[]>([locale.value])
+const selectedLanguages = ref<string[]>(locales.value.map(locale => locale.code))
 
 const { data: pageData, status, refresh } = await useFetch<GetResponse>('/apiVue/Users/Get', {
     query: {
@@ -183,7 +183,7 @@ const toggleLanguage = (code: string) => {
                                     <div class="select-label">
                                         <font-awesome-icon icon="fa-solid fa-language" />
                                         <div class="language-label">{{ t('usersOverview.contentLanguageLabel')
-                                        }}</div>
+                                            }}</div>
                                     </div>
 
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />

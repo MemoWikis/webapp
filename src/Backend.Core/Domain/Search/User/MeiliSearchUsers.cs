@@ -18,12 +18,9 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
 
     private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index, List<Language>? languages = null)
     {
-        var sq = new SearchQuery
-        {
-            Q = searchTerm,
-            Limit = _count
-        };
+        var finalResults = new List<MeiliSearchUserMap>();
 
+        // Search for users in specified languages first (if provided)
         if (languages != null && languages.Any())
         {
             var clauses = languages
@@ -31,12 +28,30 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
                 .Select(code => $"ContentLanguages = \"{code}\"")
                 .ToList();
 
-            sq.Filter = string.Join(" OR ", clauses);
+            var sqLanguageFiltered = new SearchQuery
+            {
+                Q = searchTerm,
+                Limit = _count,
+                Filter = string.Join(" OR ", clauses)
+            };
+            var languageResults = await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sqLanguageFiltered);
+            finalResults.AddRange(languageResults.Hits);
         }
 
-        var userMaps =
-            (await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq))
-            .Hits;
+        // Then search for all other users
+        var searchQuery = new SearchQuery
+        {
+            Q = searchTerm,
+            Limit = _count
+        };
+        var allResults = await index.SearchAsync<MeiliSearchUserMap>(searchTerm, searchQuery);
+
+        // Add results that aren't already in the list
+        var existingIds = finalResults.Select(result => result.Id).ToHashSet();
+        var additionalResults = allResults.Hits.Where(result => !existingIds.Contains(result.Id));
+        finalResults.AddRange(additionalResults);
+
+        var userMaps = finalResults;
 
         var userMapsSkip = userMaps
             .Skip(_count - 20) //skip 0
@@ -117,6 +132,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
             {
                 Log.Error("fail cast from ISearchable to SearchResult");
             }
+
             userMaps = searchResult.Hits.ToList();
         }
 

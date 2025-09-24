@@ -18,12 +18,9 @@ public class MeilisearchQuestions(PermissionCheck _permissionCheck) : Meilisearc
         List<Language>? languages = null
     )
     {
-        var sq = new SearchQuery
-        {
-            Q = searchTerm,
-            Limit = _count
-        };
+        var finalResults = new List<MeilisearchQuestionMap>();
 
+        // Search for questions in specified languages first (if provided)
         if (languages != null && languages.Any())
         {
             var clauses = languages
@@ -31,12 +28,30 @@ public class MeilisearchQuestions(PermissionCheck _permissionCheck) : Meilisearc
                 .Select(code => $"Language = \"{code}\"")
                 .ToList();
 
-            sq.Filter = string.Join(" OR ", clauses);
+            var sqLanguageFiltered = new SearchQuery
+            {
+                Q = searchTerm,
+                Limit = _count,
+                Filter = string.Join(" OR ", clauses)
+            };
+            var languageResults = await index.SearchAsync<MeilisearchQuestionMap>(searchTerm, sqLanguageFiltered);
+            finalResults.AddRange(languageResults.Hits);
         }
 
-        var questionMaps =
-            (await index.SearchAsync<MeilisearchQuestionMap>(searchTerm, sq))
-            .Hits;
+        // Then search for all other questions
+        var searchQuery = new SearchQuery
+        {
+            Q = searchTerm,
+            Limit = _count
+        };
+        var allResults = await index.SearchAsync<MeilisearchQuestionMap>(searchTerm, searchQuery);
+        
+        // Add results that aren't already in the list
+        var existingIds = finalResults.Select(result => result.Id).ToHashSet();
+        var additionalResults = allResults.Hits.Where(result => !existingIds.Contains(result.Id));
+        finalResults.AddRange(additionalResults);
+
+        var questionMaps = finalResults;
 
         var questionMapsSkip = questionMaps
             .Skip(_count - 20)
