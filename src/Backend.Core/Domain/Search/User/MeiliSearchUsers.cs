@@ -90,9 +90,14 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
         var userMaps = new List<MeiliSearchUserMap>();
         var count = 0;
         var languages = LanguageExtensions.GetLanguages(languageCodes);
+
         if (string.IsNullOrEmpty(searchTerm))
         {
-            userMaps = EntityCache.GetAllUsers().Where(u => LanguageExtensions.AnyLanguageIsInList(languages, u.ContentLanguages)).Select(ConvertToUserMap).ToList();
+            userMaps = EntityCache
+                .GetAllUsers()
+                .Where(user => AddToUserMap(user, languages))
+                .Select(ConvertToUserMap)
+                .ToList();
             count = userMaps.Count;
         }
         else
@@ -161,6 +166,15 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
         pager.TotalItems = count;
 
         return (userMapsOrdered, pager);
+    }
+
+    private bool AddToUserMap(UserCacheItem user, List<Language> languages)
+    {
+        if (languages.Any())
+            return LanguageExtensions.AnyLanguageIsInList(languages, user.ContentLanguages);
+
+        //Fallback if no languages are provided
+        return true;
     }
 
     private static MeiliSearchUserMap ConvertToUserMap(UserCacheItem user)

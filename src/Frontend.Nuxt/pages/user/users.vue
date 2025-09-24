@@ -4,7 +4,7 @@ import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { UserResult } from '~~/components/users/userResult'
 
-const { t, locales, locale } = useI18n()
+const { t, locales } = useI18n()
 const loadingStore = useLoadingStore()
 
 const userCount = ref(200)
@@ -40,22 +40,24 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
 })
 
 watch(totalUserCount, (val) => {
-    if (val)
+    if (val != null)
         userCount.value = val
 })
 const { $logger } = useNuxtApp()
 const selectedLanguages = ref<string[]>(locales.value.map(locale => locale.code))
+const debouncedSearchTerm = ref('')
 
-const { data: pageData, status, refresh } = await useFetch<GetResponse>('/apiVue/Users/Get', {
+const { data: pageData, status } = await useFetch<GetResponse>('/apiVue/Users/Get', {
     query: {
         page: currentPage,
         pageSize: usersPerPageCount,
         languages: selectedLanguages,
-        searchTerm: searchTerm,
+        searchTerm: debouncedSearchTerm,
         orderBy: orderBy
     },
     credentials: 'include',
     mode: 'cors',
+    watch: [debouncedSearchTerm, currentPage, orderBy, selectedLanguages],
     onRequest({ options }) {
         if (import.meta.server) {
             options.headers = new Headers(headers)
@@ -65,20 +67,38 @@ const { data: pageData, status, refresh } = await useFetch<GetResponse>('/apiVue
     onResponseError(context) {
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
     },
-    immediate: true
 })
 
-watch(selectedLanguages, () => refresh)
+// Manual debounce implementation
+let searchTimeout: NodeJS.Timeout | null = null
 
-watch(pageData, (e) => {
-    if (e != null) {
-        userCount.value = e.totalItems
+watch(searchTerm, (newValue) => {
+    if (searchTimeout) {
+        clearTimeout(searchTimeout)
+    }
+
+    searchTimeout = setTimeout(() => {
+        debouncedSearchTerm.value = newValue
+        currentPage.value = 1
+    }, 300)
+})
+
+watch(pageData, (pD) => {
+    if (pD == null || pD == undefined)
+        return
+    if (pD != null && pD.totalItems > 0) {
+        userCount.value = pD.totalItems
     }
 })
 
-watch(searchTerm, (e) => currentPage.value = 1)
+watch(searchTerm, () => {
+    currentPage.value = 1
+})
 
 watch(status, (s) => {
+    if (s == null || s == undefined)
+        return
+
     if (s === 'pending')
         loadingStore.startLoading()
     else loadingStore.stopLoading()
@@ -149,12 +169,12 @@ const toggleLanguage = (code: string) => {
             <h1>{{ t('usersOverview.title') }}</h1>
         </div>
 
-        <div class="row content" v-if="pageData">
-            <div class="col-xs-12 col-sm-12">
-                <div class="overline-s no-line" v-if="pageData.totalItems <= 0 && searchTerm.length > 0">
+        <div class="row content">
+            <div class="col-xs-12 col-sm-12 users-title">
+                <div class="overline-s no-line" v-if="pageData && pageData.totalItems != null && pageData.totalItems <= 0 && searchTerm.length > 0">
                     {{ t('usersOverview.search.noResults', { term: searchTerm }) }}
                 </div>
-                <div class="overline-s no-line" v-else-if="pageData.totalItems > 0 && searchTerm.length > 0">
+                <div class="overline-s no-line" v-else-if="pageData && pageData.totalItems != null && pageData.totalItems > 0 && searchTerm.length > 0">
                     {{ t('usersOverview.search.results', { term: searchTerm, count: pageData.totalItems }) }}
                 </div>
                 <div class="overline-s no-line" v-else>
@@ -244,67 +264,71 @@ const toggleLanguage = (code: string) => {
                 </div>
             </div>
 
-            <div class="row usercard-container">
-                <TransitionGroup name="usercard">
-                    <UsersCard v-for="u in pageData.users" :user="u" :key="u.id" />
-                </TransitionGroup>
-            </div>
+            <template v-if="pageData">
+                <div class="row usercard-container">
+                    <TransitionGroup name="usercard">
+                        <UsersCard v-for="u in pageData.users" :user="u" :key="u.id" />
+                    </TransitionGroup>
+                </div>
 
-            <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
-                <div class="empty-page">
-                    {{ t('usersOverview.search.noUserWithName', { term: searchTerm }) }}
+                <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
+                    <div class="empty-page">
+                        {{ t('usersOverview.search.noUserWithName', { term: searchTerm }) }}
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-xs-12" v-if="searchTerm.length === 0">
-                <div class="pagination hidden-xs">
-                    <vue-awesome-paginate v-if="currentPage > 0" :total-items="totalUserCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
-                        <template #first-page-button>
-                            <font-awesome-layers>
-                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
-                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
-                            </font-awesome-layers>
-                        </template>
-                        <template #prev-button>
-                            <font-awesome-icon :icon="['fas', 'chevron-left']" />
-                        </template>
-                        <template #next-button>
-                            <font-awesome-icon :icon="['fas', 'chevron-right']" />
-                        </template>
-                        <template #last-page-button>
-                            <font-awesome-layers>
-                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
-                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
-                            </font-awesome-layers>
-                        </template>
-                    </vue-awesome-paginate>
+                <div class="col-xs-12" v-if="searchTerm.length === 0 && pageData.users.length > 0">
+                    <div class="pagination hidden-xs">
+                        <vue-awesome-paginate v-if="currentPage > 0 && totalUserCount != null && totalUserCount > 0" :total-items="totalUserCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true"
+                            :show-breakpoint-buttons="false">
+                            <template #first-page-button>
+                                <font-awesome-layers>
+                                    <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                                    <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                                </font-awesome-layers>
+                            </template>
+                            <template #prev-button>
+                                <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                            </template>
+                            <template #next-button>
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                            </template>
+                            <template #last-page-button>
+                                <font-awesome-layers>
+                                    <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                                    <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                                </font-awesome-layers>
+                            </template>
+                        </vue-awesome-paginate>
+                    </div>
+                    <div class="pagination hidden-sm hidden-md hidden-lg">
+                        <vue-awesome-paginate v-if="currentPage > 0 && userCount != null && userCount > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true"
+                            :show-breakpoint-buttons="false">
+                            <template #first-page-button>
+                                <font-awesome-layers>
+                                    <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                                    <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                                </font-awesome-layers>
+                            </template>
+                            <template #prev-button>
+                                <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                            </template>
+                            <template #next-button>
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                            </template>
+                            <template #last-page-button>
+                                <font-awesome-layers>
+                                    <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                                    <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                                </font-awesome-layers>
+                            </template>
+                        </vue-awesome-paginate>
+                    </div>
                 </div>
-                <div class="pagination hidden-sm hidden-md hidden-lg">
-                    <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
-                        <template #first-page-button>
-                            <font-awesome-layers>
-                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
-                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
-                            </font-awesome-layers>
-                        </template>
-                        <template #prev-button>
-                            <font-awesome-icon :icon="['fas', 'chevron-left']" />
-                        </template>
-                        <template #next-button>
-                            <font-awesome-icon :icon="['fas', 'chevron-right']" />
-                        </template>
-                        <template #last-page-button>
-                            <font-awesome-layers>
-                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
-                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
-                            </font-awesome-layers>
-                        </template>
-                    </vue-awesome-paginate>
+                <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">
+                    {{ t('usersOverview.search.limitedResults') }}
                 </div>
-            </div>
-            <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">
-                {{ t('usersOverview.search.limitedResults') }}
-            </div>
+            </template>
         </div>
     </div>
 </template>
@@ -340,6 +364,10 @@ const toggleLanguage = (code: string) => {
         justify-content: center;
         width: 100%;
     }
+}
+
+.users-title {
+    min-height: 22px;
 }
 
 .users-options {
