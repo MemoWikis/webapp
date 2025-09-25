@@ -192,14 +192,24 @@ public class PageStoreController(
     [HttpPost]
     public void DeleteContentImages([FromBody] DeleteContentImagesRequest request)
     {
+        Log.Information("PageStoreController.DeleteContentImages: Deleting {ImageCount} content images for page {PageId}: {ImageUrls}", 
+            request.imageUrls.Length, request.id, string.Join(", ", request.imageUrls));
+
         var imageSettings = new PageContentImageSettings(request.id, _httpContextAccessor);
         var deleteImage = new DeleteImage();
 
         var filenames = new List<string>();
 
         foreach (var path in request.imageUrls)
-            filenames.Add(Path.GetFileName(path));
+        {
+            var filename = Path.GetFileName(path);
+            Log.Information("PageStoreController.DeleteContentImages: Processing image path {Path} -> filename {Filename}", path, filename);
+            filenames.Add(filename);
+        }
 
+        Log.Information("PageStoreController.DeleteContentImages: About to delete {FilenameCount} files: {Filenames}", 
+            filenames.Count, string.Join(", ", filenames));
+        
         deleteImage.Run(imageSettings.BasePath, filenames);
     }
 
@@ -323,5 +333,39 @@ public class PageStoreController(
             ? _permissionCheck.CanViewPage(id, shareToken)
             : _permissionCheck.CanViewPage(id);
         return canView && SharesService.IsShared(id);
+    }
+
+    public record struct DebugImageInfo(string FileName, long SizeBytes, DateTime LastModified, string FullPath);
+    
+    [HttpGet]
+    public DebugImageInfo[] DebugGetPageImages([FromRoute] int id)
+    {
+        Log.Information("PageStoreController.DebugGetPageImages: Checking images for page {PageId}", id);
+        
+        var imageSettings = new PageContentImageSettings(id, _httpContextAccessor);
+        var directory = Path.Combine(Settings.ImagePath, imageSettings.BasePath);
+        
+        if (!Directory.Exists(directory))
+        {
+            Log.Information("PageStoreController.DebugGetPageImages: Directory does not exist: {Directory}", directory);
+            return Array.Empty<DebugImageInfo>();
+        }
+        
+        var pattern = $"{id}_*";
+        var files = Directory.GetFiles(directory, pattern);
+        
+        Log.Information("PageStoreController.DebugGetPageImages: Found {FileCount} files with pattern {Pattern} in {Directory}", 
+            files.Length, pattern, directory);
+        
+        return files.Select(file => 
+        {
+            var fileInfo = new FileInfo(file);
+            return new DebugImageInfo(
+                Path.GetFileName(file),
+                fileInfo.Length,
+                fileInfo.LastWriteTime,
+                file
+            );
+        }).ToArray();
     }
 }

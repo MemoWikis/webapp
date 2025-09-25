@@ -232,24 +232,63 @@ const initEditor = () => {
             ] : [History]
         ],
         onTransaction({ transaction }) {
-            let clearDeleteImageSrcRef = true
-            const { selection, doc } = transaction
+            // NEW APPROACH: Precisely detect when image nodes are actually deleted
+            try {
+                if (transaction.steps.length > 0) {
+                    transaction.steps.forEach((step, stepIndex) => {
+                        if (step instanceof ReplaceStep) {
+                            console.log(`ContentEditor.onTransaction: ReplaceStep ${stepIndex} - from: ${step.from}, to: ${step.to}`)
 
-            const node = doc.nodeAt(selection.from)
-            if (node && node.type.name === 'uploadImage') {
-                deleteImageSrc.value = node.attrs.src
-                clearDeleteImageSrcRef = false
+                            // Get the content that was replaced/removed
+                            const oldDoc = transaction.before
+                            if (step.from < oldDoc.content.size && step.to <= oldDoc.content.size) {
+                                const removedSlice = oldDoc.slice(step.from, step.to)
+
+                                // Check if the removed content contains any uploadImage nodes
+                                removedSlice.content.descendants((node, pos) => {
+                                    if (node.type.name === 'uploadImage') {
+                                        const imageSrc = node.attrs.src
+                                        if (imageSrc && imageSrc.startsWith('/Images/')) {
+                                            console.log('ContentEditor.onTransaction: Detected actual deletion of image:', imageSrc)
+                                            pageStore.addImageUrlToDeleteList(imageSrc)
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            } catch (error) {
+                console.warn('ContentEditor.onTransaction: Error in precise image deletion detection:', error)
+
+                // FALLBACK: Use the old logic but make it more restrictive
+                let clearDeleteImageSrcRef = true
+                const { selection, doc } = transaction
+
+                const node = doc.nodeAt(selection.from)
+                if (node && node.type.name === 'uploadImage') {
+                    deleteImageSrc.value = node.attrs.src
+                    clearDeleteImageSrcRef = false
+                    console.log('ContentEditor.onTransaction: FALLBACK - Found uploadImage node at cursor:', deleteImageSrc.value)
+                }
+
+                const hasDeleted = transaction.steps.some(step =>
+                    step instanceof ReplaceStep || step instanceof ReplaceAroundStep
+                )
+
+                // IMPROVED: Only mark for deletion if the transaction was user-initiated (not from collaboration or auto-formatting)
+                const isUserInitiated = transaction.getMeta('addToHistory') !== false
+
+                console.log('ContentEditor.onTransaction: FALLBACK - hasDeleted:', hasDeleted, 'deleteImageSrc:', deleteImageSrc.value, 'isUserInitiated:', isUserInitiated)
+
+                if (hasDeleted && deleteImageSrc.value && isUserInitiated) {
+                    console.log('ContentEditor.onTransaction: FALLBACK - Adding image to delete list due to user deletion:', deleteImageSrc.value)
+                    pageStore.addImageUrlToDeleteList(deleteImageSrc.value)
+                }
+
+                if (clearDeleteImageSrcRef)
+                    deleteImageSrc.value = null
             }
-
-            const hasDeleted = transaction.steps.some(step =>
-                step instanceof ReplaceStep || step instanceof ReplaceAroundStep
-            )
-
-            if (hasDeleted && deleteImageSrc.value)
-                pageStore.addImageUrlToDeleteList(deleteImageSrc.value)
-
-            if (clearDeleteImageSrcRef)
-                deleteImageSrc.value = null
         },
         onUpdate({ editor, transaction }) {
             pageStore.contentHasChanged = providerContentLoaded.value
@@ -345,18 +384,32 @@ function updateHeadingIds() {
 }
 
 const checkContentImages = () => {
-    if (editor.value == null)
+    if (editor.value == null) {
+        console.log('ContentEditor.checkContentImages: Editor is null, skipping')
         return
+    }
 
+    console.log('ContentEditor.checkContentImages: Scanning document for images')
     const { state } = editor.value
     pageStore.uploadedImagesInContent = []
+
+    let imageCount = 0
     state.doc.descendants((node: any, pos: number) => {
         if (node.type.name === 'uploadImage') {
+            imageCount++
             const src = node.attrs.src
-            if (src.startsWith('/Images/'))
+            console.log('ContentEditor.checkContentImages: Found image node:', src, 'at position', pos)
+            if (src.startsWith('/Images/')) {
                 pageStore.uploadedImagesInContent.push(src)
+                console.log('ContentEditor.checkContentImages: Added to uploadedImagesInContent:', src)
+            } else {
+                console.log('ContentEditor.checkContentImages: Skipped image (not /Images/ path):', src)
+            }
         }
     })
+
+    console.log('ContentEditor.checkContentImages: Found', imageCount, 'total image nodes,', pageStore.uploadedImagesInContent.length, 'uploaded images')
+    console.log('ContentEditor.checkContentImages: uploadedImagesInContent:', pageStore.uploadedImagesInContent)
 
     pageStore.refreshDeleteImageList()
 }
@@ -405,21 +458,50 @@ const autoSave = () => {
     if (pageStore.visibility != Visibility.Private)
         return
 
+    console.log('ContentEditor.autoSave: Starting autosave timers for page', pageStore.id)
+
     if (autoSaveTimer.value)
         clearTimeout(autoSaveTimer.value)
 
-    if (deletePageContentImageTimer.value)
+    if (deletePageContentImageTimer.value) {
+        console.log('ContentEditor.autoSave: Clearing existing deletePageContentImageTimer')
         clearTimeout(deletePageContentImageTimer.value)
+    }
 
     autoSaveTimer.value = setTimeout(() => {
         if (editor.value) {
+            console.log('ContentEditor.autoSave: Executing saveContent after 3s idle')
             pageStore.saveContent()
         }
     }, 3000)
 
+    // TEMPORARILY DISABLED: Automatic deletion timer to prevent false deletions
+    // This was causing images to be deleted incorrectly after idle periods
     deletePageContentImageTimer.value = setTimeout(() => {
+        console.log('ContentEditor.autoSave: Automatic deletion timer triggered after 60s idle')
+        console.log('ContentEditor.autoSave: Current uploadedImagesMarkedForDeletion:', pageStore.uploadedImagesMarkedForDeletion)
+        console.log('ContentEditor.autoSave: Current uploadedImagesInContent:', pageStore.uploadedImagesInContent)
+
+        // Only proceed if there are actually images marked for deletion
+        if (pageStore.uploadedImagesMarkedForDeletion.length === 0) {
+            console.log('ContentEditor.autoSave: No images marked for deletion, skipping automatic cleanup')
+            return
+        }
+
+        // Check content images right before deletion to ensure accuracy
+        checkContentImages()
+
+        console.log('ContentEditor.autoSave: After checkContentImages - uploadedImagesMarkedForDeletion:', pageStore.uploadedImagesMarkedForDeletion)
+
+        // Final safety check
+        if (pageStore.uploadedImagesMarkedForDeletion.length === 0) {
+            console.log('ContentEditor.autoSave: No images marked for deletion after content check, skipping')
+            return
+        }
+
+        console.log('ContentEditor.autoSave: WARNING - About to delete images after automatic cleanup. This should be rare.')
         pageStore.deletePageContentImages()
-    }, 10000)
+    }, 60000)  // Increased to 60s and added more safety checks
 }
 
 const { isMobile } = useDevice()
