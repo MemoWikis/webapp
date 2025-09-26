@@ -14,7 +14,7 @@ public class MmapCacheRefreshService(
     /// <summary>
     /// Manually trigger a cache recreate (for testing or admin purposes)
     /// </summary>
-    public void TriggerManualRefresh(string? jobTrackingId = null)
+    public void Refresh(string? jobTrackingId = null)
     {
         Log.Information("Manual mmap cache recreate triggered");
         RecreateMmapCaches(jobTrackingId);

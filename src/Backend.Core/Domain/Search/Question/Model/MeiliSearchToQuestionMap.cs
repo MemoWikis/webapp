@@ -1,8 +1,7 @@
 ﻿public class MeilisearchToQuestionMap
 {
     public static MeilisearchQuestionMap Run(
-        Question question,
-        IList<QuestionValuationCacheItem> questionValuations)
+        Question question)
     {
         return new MeilisearchQuestionMap
         {
@@ -18,8 +17,7 @@
     }
 
     public static MeilisearchQuestionMap Run(
-        QuestionCacheItem question,
-        IList<QuestionValuationCacheItem> questionValuations)
+        QuestionCacheItem question)
     {
         return new MeilisearchQuestionMap
         {

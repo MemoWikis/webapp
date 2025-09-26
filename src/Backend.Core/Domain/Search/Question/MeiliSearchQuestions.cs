@@ -1,4 +1,5 @@
 ﻿using Meilisearch;
+using Index = Meilisearch.Index;
 
 public class MeilisearchQuestions(PermissionCheck _permissionCheck) : MeilisearchBase, IRegisterAsInstancePerLifetime
 {
@@ -13,29 +14,23 @@ public class MeilisearchQuestions(PermissionCheck _permissionCheck) : Meilisearc
     }
 
     private async Task<MeilisearchQuestionsResult> LoadSearchResults(
-        string searchTerm, 
-        Meilisearch.Index index, 
+        string searchTerm,
+        Meilisearch.Index index,
         List<Language>? languages = null
     )
     {
-        var sq = new SearchQuery
-        {
-            Limit = _count
-        };
+        var finalResults = new List<MeilisearchQuestionMap>();
 
-        if (languages != null && languages.Any())
-        {
-            var clauses = languages
-                .Select(lang => lang.GetCode())
-                .Select(code => $"Language = \"{code}\"")
-                .ToList();
+        // Search for questions in specified languages first (if provided)
+        await SearchQuestionsInSpecifiedLanguage(searchTerm, index, languages, finalResults);
 
-            sq.Filter = string.Join(" OR ", clauses);
-        }
+        // Then search for all other questions
+        ISearchable<MeilisearchQuestionMap> allResults = await SearchQuestionsInAllLanguages(searchTerm, index);
 
-        var questionMaps =
-            (await index.SearchAsync<MeilisearchQuestionMap>(searchTerm, sq))
-            .Hits;
+        // Add results that aren't already in the list
+        MergeNonDuplicateResults(finalResults, allResults);
+
+        var questionMaps = finalResults;
 
         var questionMapsSkip = questionMaps
             .Skip(_count - 20)
@@ -61,13 +56,52 @@ public class MeilisearchQuestions(PermissionCheck _permissionCheck) : Meilisearc
         return result;
     }
 
+    private static void MergeNonDuplicateResults(List<MeilisearchQuestionMap> finalResults, ISearchable<MeilisearchQuestionMap> allResults)
+    {
+        var existingIds = finalResults.Select(result => result.Id).ToHashSet();
+        var additionalResults = allResults.Hits.Where(result => !existingIds.Contains(result.Id));
+        finalResults.AddRange(additionalResults);
+    }
+
+    private async Task<ISearchable<MeilisearchQuestionMap>> SearchQuestionsInAllLanguages(string searchTerm, Index index)
+    {
+        var searchQuery = new SearchQuery
+        {
+            Q = searchTerm,
+            Limit = _count
+        };
+        var allResults = await index.SearchAsync<MeilisearchQuestionMap>(searchTerm, searchQuery);
+        return allResults;
+    }
+
+    private async Task SearchQuestionsInSpecifiedLanguage(string searchTerm, Index index, List<Language>? languages,
+        List<MeilisearchQuestionMap> finalResults)
+    {
+        if (languages != null && languages.Any())
+        {
+            var clauses = languages
+                .Select(lang => lang.GetCode())
+                .Select(code => $"Language = \"{code}\"")
+                .ToList();
+
+            var sqLanguageFiltered = new SearchQuery
+            {
+                Q = searchTerm,
+                Limit = _count,
+                Filter = string.Join(" OR ", clauses)
+            };
+            var languageResults = await index.SearchAsync<MeilisearchQuestionMap>(searchTerm, sqLanguageFiltered);
+            finalResults.AddRange(languageResults.Hits);
+        }
+    }
+
     private void AddDistinctQuestionsToResult(List<MeilisearchQuestionMap> questionMaps)
     {
         var questionsTemp = EntityCache.GetQuestionsByIds(
                 questionMaps.Select(c => c.Id))
             .Where(_permissionCheck.CanView)
             .ToList();
-        
+
         _questions.AddRange(questionsTemp);
         _questions = _questions
             .Distinct()

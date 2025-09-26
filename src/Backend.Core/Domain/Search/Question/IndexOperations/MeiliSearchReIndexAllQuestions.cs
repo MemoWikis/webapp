@@ -13,34 +13,31 @@ public class MeilisearchReIndexAllQuestions(
         await _client.WaitForTaskAsync(taskId);
 
         var allQuestionsFromDb = _questionReadingRepo.GetAll();
-        var allValuations = _questionValuationReadingRepo.GetAll();
         var meiliSearchQuestions = new List<MeilisearchQuestionMap>();
 
         var currentQuestionCount = 0;
         var totalQuestions = allQuestionsFromDb.Count();
+
         foreach (var question in allQuestionsFromDb)
         {
             currentQuestionCount++;
 
             Log.Information("Meilisearch Reindex Question: {id}", question.Id);
 
-            var questionValuations = allValuations
-                .Where(qv => qv.Question.Id == question.Id && qv.User != null)
-                .Select(qv => qv.ToCacheItem())
-                .ToList();
-
-            meiliSearchQuestions.Add(
-                MeilisearchToQuestionMap.Run(question, questionValuations));
+            meiliSearchQuestions.Add(MeilisearchToQuestionMap.Run(question));
 
             JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
                 $"Re-indexing question {currentQuestionCount} of {totalQuestions} (ID: {question.Id})...",
                 "MeiliReIndexAllQuestions");
         }
 
-        Log.Information("Adding {Count} documents to MeiliSearch index", meiliSearchQuestions.Count);
         var index = _client.Index(MeilisearchIndices.Questions);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
+
+        await index.UpdateRankingRulesAsync(MeilisearchSort.Default);
+
         await index.AddDocumentsAsync(meiliSearchQuestions);
+        Log.Information("Meilisearch Reindex Adding {Count} documents to MeiliSearch index", meiliSearchQuestions.Count);
     }
 
     public async Task RunCache()
@@ -49,25 +46,23 @@ public class MeilisearchReIndexAllQuestions(
         await _client.WaitForTaskAsync(taskId);
 
         var allQuestions = EntityCache.GetAllQuestions();
-        var allValuations = _questionValuationReadingRepo.GetAll();
         var meiliSearchQuestions = new List<MeilisearchQuestionMap>();
 
         foreach (var question in allQuestions)
         {
             Log.Information("Meilisearch Reindex Cache Question: {id}", question.Id);
 
-            var questionValuations = allValuations
-                .Where(qv => qv.Question.Id == question.Id && qv.User != null)
-                .Select(qv => qv.ToCacheItem())
-                .ToList();
-
             meiliSearchQuestions.Add(
-                MeilisearchToQuestionMap.Run(question, questionValuations));
+                MeilisearchToQuestionMap.Run(question));
         }
 
         var index = _client.Index(MeilisearchIndices.Questions);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
+
+        await index.UpdateRankingRulesAsync(MeilisearchSort.Default);
+
         await index.AddDocumentsAsync(meiliSearchQuestions);
-        Log.Information("Completed reindexing all questions");
+
+        Log.Information("Meilisearch Reindex Cache Adding {Count} documents to MeiliSearch index", meiliSearchQuestions.Count);
     }
 }

@@ -23,6 +23,8 @@ public class MeilisearchReIndexPages(PageRepository _pageRepository) : IRegister
         var index = _client.Index(MeilisearchIndices.Pages);
         await index.UpdateFilterableAttributesAsync(new[] { "Language", "CreatorName" });
 
+        await index.UpdateRankingRulesAsync(MeilisearchSort.Default);
+
         await index.AddDocumentsAsync(meiliSearchPageMaps);
     }
 
@@ -45,6 +47,8 @@ public class MeilisearchReIndexPages(PageRepository _pageRepository) : IRegister
 
         var index = _client.Index(MeilisearchIndices.Pages);
         await index.UpdateFilterableAttributesAsync(new[] { "Language", "CreatorName" });
+
+        await index.UpdateRankingRulesAsync(MeilisearchSort.Default);
 
         await index.AddDocumentsAsync(meiliSearchPageMaps);
     }
