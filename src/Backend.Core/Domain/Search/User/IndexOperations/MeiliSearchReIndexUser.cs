@@ -19,10 +19,7 @@ public class MeilisearchReIndexUser(UserReadingRepo _userReadingRepo) : IRegiste
         var index = _client.Index(MeilisearchIndices.Users);
         await index.UpdateFilterableAttributesAsync(new[] { "ContentLanguages" });
         
-        await index.UpdateRankingRulesAsync(new string[]
-        {
-            "words", "exactness", "typo", "proximity", "attribute", "sort"
-        });
+        await index.UpdateRankingRulesAsync(MeilisearchSort.Default);
         
         await index.AddDocumentsAsync(meiliSearchUserList);
     }
@@ -42,10 +39,7 @@ public class MeilisearchReIndexUser(UserReadingRepo _userReadingRepo) : IRegiste
         var index = _client.Index(MeilisearchIndices.Users);
         await index.UpdateFilterableAttributesAsync(new[] { "ContentLanguages" });
         
-        await index.UpdateRankingRulesAsync(new string[]
-        {
-            "words", "exactness", "typo", "proximity", "attribute", "sort"
-        });
+        await index.UpdateRankingRulesAsync(MeilisearchSort.Default);
         
         await index.AddDocumentsAsync(meiliSearchUserList);
     }

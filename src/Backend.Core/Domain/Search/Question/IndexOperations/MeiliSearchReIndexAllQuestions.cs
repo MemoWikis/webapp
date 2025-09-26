@@ -18,10 +18,7 @@ public class MeilisearchReIndexAllQuestions(
         var index = _client.Index(MeilisearchIndices.Questions);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
 
-        await index.UpdateRankingRulesAsync(new string[]
-        {
-            "words", "exactness", "typo", "proximity", "attribute", "sort"
-        });
+        await index.UpdateRankingRulesAsync(MeilisearchSort.Default);
 
         await index.AddDocumentsAsync(meiliSearchQuestionsMap);
     }
@@ -37,10 +34,7 @@ public class MeilisearchReIndexAllQuestions(
         var index = _client.Index(MeilisearchIndices.Questions);
         await index.UpdateFilterableAttributesAsync(new[] { "Language" });
 
-        await index.UpdateRankingRulesAsync(new string[]
-        {
-            "words", "exactness", "typo", "proximity", "attribute", "sort"
-        });
+        await index.UpdateRankingRulesAsync(MeilisearchSort.Default);
 
         await index.AddDocumentsAsync(meiliSearchQuestionsMap);
     }

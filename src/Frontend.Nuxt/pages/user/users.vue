@@ -39,9 +39,9 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
     default: () => null
 })
 
-watch(totalUserCount, (val) => {
-    if (val != null)
-        userCount.value = val
+watch(totalUserCount, (newTotalUserCount) => {
+    if (newTotalUserCount != null)
+        userCount.value = newTotalUserCount
 })
 const { $logger } = useNuxtApp()
 const selectedLanguages = ref<string[]>(locales.value.map(locale => locale.code))
@@ -72,22 +72,22 @@ const { data: pageData, status } = await useFetch<GetResponse>('/apiVue/Users/Ge
 // Manual debounce implementation
 let searchTimeout: NodeJS.Timeout | null = null
 
-watch(searchTerm, (newValue) => {
+watch(searchTerm, (newSearchTerm) => {
     if (searchTimeout) {
         clearTimeout(searchTimeout)
     }
 
     searchTimeout = setTimeout(() => {
-        debouncedSearchTerm.value = newValue
+        debouncedSearchTerm.value = newSearchTerm
         currentPage.value = 1
     }, 300)
 })
 
-watch(pageData, (pD) => {
-    if (pD == null || pD == undefined)
+watch(pageData, (newPageData) => {
+    if (newPageData == null || newPageData == undefined)
         return
-    if (pD != null && pD.totalItems > 0) {
-        userCount.value = pD.totalItems
+    if (newPageData != null && newPageData.totalItems > 0) {
+        userCount.value = newPageData.totalItems
     }
 })
 
@@ -95,11 +95,11 @@ watch(searchTerm, () => {
     currentPage.value = 1
 })
 
-watch(status, (s) => {
-    if (s == null || s == undefined)
+watch(status, (newStatus) => {
+    if (newStatus == null || newStatus == undefined)
         return
 
-    if (s === 'pending')
+    if (newStatus === 'pending')
         loadingStore.startLoading()
     else loadingStore.stopLoading()
 })
@@ -203,7 +203,7 @@ const toggleLanguage = (code: string) => {
                                     <div class="select-label">
                                         <font-awesome-icon icon="fa-solid fa-language" />
                                         <div class="language-label">{{ t('usersOverview.contentLanguageLabel')
-                                            }}</div>
+                                        }}</div>
                                     </div>
 
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
