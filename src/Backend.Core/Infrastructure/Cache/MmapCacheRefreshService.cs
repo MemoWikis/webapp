@@ -28,14 +28,14 @@ public class MmapCacheRefreshService(
         var stopwatch = Stopwatch.StartNew();
         Log.Information("Starting daily mmap cache recreate");
 
-        if (jobTrackingId != null)
-            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Refreshing PageView mmap cache...", "RefreshMmapCaches");
+        JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Refreshing PageView mmap cache...",
+            "RefreshMmapCaches");
 
         // Refresh PageView mmap cache
         RecreatePageViewCache();
 
-        if (jobTrackingId != null)
-            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Refreshing QuestionView mmap cache...", "RefreshMmapCaches");
+        JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Refreshing QuestionView mmap cache...",
+            "RefreshMmapCaches");
 
         // Refresh QuestionView mmap cache  
         RecreateQuestionViewCache();
@@ -65,7 +65,8 @@ public class MmapCacheRefreshService(
         catch (Exception exception)
         {
             stopwatch.Stop();
-            Log.Error(exception, "Failed to recreate PageView mmap cache after {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
+            Log.Error(exception, "Failed to recreate PageView mmap cache after {ElapsedMs} ms",
+                stopwatch.ElapsedMilliseconds);
             throw;
         }
     }
@@ -90,7 +91,8 @@ public class MmapCacheRefreshService(
         catch (Exception exception)
         {
             stopwatch.Stop();
-            Log.Error(exception, "Failed to recreate QuestionView mmap cache after {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
+            Log.Error(exception, "Failed to recreate QuestionView mmap cache after {ElapsedMs} ms",
+                stopwatch.ElapsedMilliseconds);
             throw;
         }
     }
@@ -126,7 +128,8 @@ public class MmapCacheRefreshService(
             }
 
             stopwatch.Stop();
-            Log.Information("Updated EntityCache views from mmap cache in {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
+            Log.Information("Updated EntityCache views from mmap cache in {ElapsedMs} ms",
+                stopwatch.ElapsedMilliseconds);
         }
         catch (Exception exception)
         {
@@ -157,7 +160,8 @@ public class MmapCacheRefreshService(
 
     private void UpdateQuestionViewsInEntityCache(List<QuestionViewSummaryWithId> questionViews)
     {
-        var questionViewsByQuestionId = questionViews.GroupBy(qv => qv.QuestionId).ToDictionary(g => g.Key, g => g.ToList());
+        var questionViewsByQuestionId =
+            questionViews.GroupBy(qv => qv.QuestionId).ToDictionary(g => g.Key, g => g.ToList());
 
         foreach (var (questionId, views) in questionViewsByQuestionId)
         {
@@ -217,7 +221,8 @@ public class MmapCacheRefreshService(
                 if (todaysPageViews.Any())
                 {
                     UpdatePageViewsInEntityCache(todaysPageViews.ToList());
-                    Log.Information("Background: Updated EntityCache with {count} page view entries for today", todaysPageViews.Count);
+                    Log.Information("Background: Updated EntityCache with {count} page view entries for today",
+                        todaysPageViews.Count);
                 }
 
                 // Load today's question views
@@ -225,7 +230,8 @@ public class MmapCacheRefreshService(
                 if (todaysQuestionViews.Any())
                 {
                     UpdateQuestionViewsInEntityCache(todaysQuestionViews.ToList());
-                    Log.Information("Background: Updated EntityCache with {count} question view entries for today", todaysQuestionViews.Count);
+                    Log.Information("Background: Updated EntityCache with {count} question view entries for today",
+                        todaysQuestionViews.Count);
                 }
 
                 Log.Information("Background: Completed loading today's views");

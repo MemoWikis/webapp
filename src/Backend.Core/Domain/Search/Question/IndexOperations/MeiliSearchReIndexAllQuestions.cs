@@ -16,10 +16,12 @@ public class MeilisearchReIndexAllQuestions(
         var allValuations = _questionValuationReadingRepo.GetAll();
         var meiliSearchQuestions = new List<MeilisearchQuestionMap>();
 
-        var currentQuestionCount = 1;
+        var currentQuestionCount = 0;
         var totalQuestions = allQuestionsFromDb.Count();
         foreach (var question in allQuestionsFromDb)
         {
+            currentQuestionCount++;
+
             Log.Information("Meilisearch Reindex Question: {id}", question.Id);
 
             var questionValuations = allValuations
@@ -30,14 +32,9 @@ public class MeilisearchReIndexAllQuestions(
             meiliSearchQuestions.Add(
                 MeilisearchToQuestionMap.Run(question, questionValuations));
 
-            if (jobTrackingId != null)
-            {
-                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                    $"Re-indexing question {currentQuestionCount} of {totalQuestions} (ID: {question.Id})...",
-                    "MeiliReIndexAllQuestions");
-            }
-
-            currentQuestionCount++;
+            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+                $"Re-indexing question {currentQuestionCount} of {totalQuestions} (ID: {question.Id})...",
+                "MeiliReIndexAllQuestions");
         }
 
         Log.Information("Adding {Count} documents to MeiliSearch index", meiliSearchQuestions.Count);

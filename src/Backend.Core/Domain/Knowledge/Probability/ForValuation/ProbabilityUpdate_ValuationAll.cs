@@ -30,12 +30,9 @@ public class ProbabilityUpdate_ValuationAll(
             var questionId = (int)item[0];
             var userId = (int)item[1];
 
-            if (jobTrackingId != null)
-            {
-                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                    $"Updating valuation for Question ID {questionId}, User ID {userId}...",
-                    "ProbabilityUpdate_ValuationAll");
-            }
+            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+                $"Updating valuation for Question ID {questionId}, User ID {userId}...",
+                "ProbabilityUpdate_ValuationAll");
 
             new ProbabilityUpdate_Valuation(_nhibernateSession,
                     _questionValuationReadingRepo,

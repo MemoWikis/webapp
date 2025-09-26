@@ -22,10 +22,13 @@ public static class JobTracking
         return jobTrackingId;
     }
 
-    public static void UpdateJobStatus(string jobTrackingId, JobStatus status, string message, string operationName)
+    public static void UpdateJobStatus(string? jobTrackingId, JobStatus status, string message, string operationName)
     {
+        if (jobTrackingId == null)
+            return;
+
         var job = new JobStatusResponse(jobTrackingId, status, message, operationName);
-        var timestamp = (status == JobStatus.Completed || status == JobStatus.Failed) ? DateTime.UtcNow : DateTime.UtcNow;
+        var timestamp = DateTime.UtcNow;
         _jobStatuses[jobTrackingId] = new JobWithTimestamp(job, timestamp);
     }
 

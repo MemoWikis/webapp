@@ -11,7 +11,10 @@ public class RecalculateKnowledgeItemsJob : IJob
         var jobTrackingId = dataMap.GetString("jobTrackingId");
 
         if (string.IsNullOrEmpty(jobTrackingId))
+        {
+            Log.Error("Job {OperationName} cannot execute: jobTrackingId is missing or empty", OperationName);
             return;
+        }
 
         await Run(jobTrackingId);
         Log.Information("Job ended - {OperationName}", OperationName);
@@ -39,7 +42,7 @@ public class RecalculateKnowledgeItemsJob : IJob
                 probabilityUpdateQuestion.Run(jobTrackingId);
 
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Updating page probabilities...", OperationName);
-                new ProbabilityUpdate_Page(pageRepository, answerRepo).Run();
+                new ProbabilityUpdate_Page(pageRepository, answerRepo).Run(jobTrackingId);
 
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Initializing user probability updates...", OperationName);
 
@@ -50,8 +53,8 @@ public class RecalculateKnowledgeItemsJob : IJob
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to execute {OperationName} with jobTrackingId {jobTrackingId}", OperationName, jobTrackingId);
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, $"Error: {ex.Message}", OperationName);
+                throw;
             }
 
             return Task.CompletedTask;

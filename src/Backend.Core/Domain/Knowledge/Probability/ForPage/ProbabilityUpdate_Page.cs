@@ -11,13 +11,10 @@ public class ProbabilityUpdate_Page(
         foreach (var page in pageRepository.GetAll())
         {
             Run(page);
-            if (jobTrackingId != null)
-            {
-                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                    $"Update page probability for ID {page.Id}...",
-                    "ProbabilityUpdate_Page");
-            }
 
+            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+                $"Update page probability for ID {page.Id}...",
+                "ProbabilityUpdate_Page");
         }
 
         Log.Information("Calculated all page probabilities in {elapsed} ", sp.Elapsed);

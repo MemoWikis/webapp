@@ -14,12 +14,10 @@ public class ProbabilityUpdate_Question(
         foreach (var question in _questionReadingRepo.GetAll())
         {
             Run(question);
-            if (jobTrackingId != null)
-            {
-                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                    $"Update question probability for ID {question.Id}...",
-                    "ProbabilityUpdate_Question");
-            }
+
+            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+                $"Update question probability for ID {question.Id}...",
+                "ProbabilityUpdate_Question");
         }
 
         Log.Information("Calculated all question probabilities in {elapsed} ", sp.Elapsed);

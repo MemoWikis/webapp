@@ -11,7 +11,10 @@ public class CalcAggregatedValuesJob : IJob
         var jobTrackingId = dataMap.GetString("jobTrackingId");
 
         if (string.IsNullOrEmpty(jobTrackingId))
+        {
+            Log.Error("Job {OperationName} cannot execute: jobTrackingId is missing or empty", OperationName);
             return;
+        }
 
         await Run(jobTrackingId);
         Log.Information("Job ended - {OperationName}", OperationName);
@@ -32,8 +35,8 @@ public class CalcAggregatedValuesJob : IJob
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to execute {OperationName} with jobTrackingId {jobTrackingId}", OperationName, jobTrackingId);
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, $"Error: {ex.Message}", OperationName);
+                throw;
             }
 
             return Task.CompletedTask;

@@ -47,8 +47,8 @@ public class MmapCacheRefreshJob : IJob
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to execute {OperationName} with jobTrackingId {jobTrackingId}", OperationName, jobTrackingId);
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, $"Error: {ex.Message}", OperationName);
+                throw;
             }
 
             return Task.CompletedTask;

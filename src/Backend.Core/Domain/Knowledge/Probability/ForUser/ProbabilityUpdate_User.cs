@@ -34,12 +34,10 @@ public class ProbabilityUpdate_User
         foreach (var user in _userReadingRepo.GetAll())
         {
             Run(user);
-            if (jobTrackingId != null)
-            {
-                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                    $"Update user probability for ID {user.Id}...",
-                    "ProbabilityUpdate_User");
-            }
+
+            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+                $"Update user probability for ID {user.Id}...",
+                "ProbabilityUpdate_User");
         }
 
         Log.Information("Calculated all user probabilities in {elapsed} ", sp.Elapsed);

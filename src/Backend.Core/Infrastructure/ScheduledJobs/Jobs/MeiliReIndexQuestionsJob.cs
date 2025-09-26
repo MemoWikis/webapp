@@ -11,7 +11,10 @@ public class MeiliReIndexQuestionsJob : IJob
         var jobTrackingId = dataMap.GetString("jobTrackingId");
 
         if (string.IsNullOrEmpty(jobTrackingId))
+        {
+            Log.Error("Job {OperationName} cannot execute: jobTrackingId is missing or empty", OperationName);
             return;
+        }
 
         await Run(jobTrackingId);
         Log.Information("Job ended - {OperationName}", OperationName);
