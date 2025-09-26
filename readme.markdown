@@ -134,4 +134,5 @@ docker-compose logs [service-name]`
 
 # ⚖️ License
 
-This software is free for non-commercial use; if you wish to use it commercially, please contact us for a license. See the full license details here: https://github.com/memoWikis/webapp/blob/master/licence.txt.
+This software is **free** for non-commercial use. You may use it within your business, as long as you do not charge others for it. See the full license details here: https://github.com/memoWikis/webapp/blob/master/licence.md.
+
