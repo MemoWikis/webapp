@@ -15,7 +15,7 @@ public class ProbabilityUpdate_ValuationAll(
     ExtendedUserCache _extendedUserCache)
     : IRegisterAsInstancePerLifetime
 {
-    public void Run(string? jobId = null)
+    public void Run(string? jobTrackingId = null)
     {
         var questionValuationRecords =
             _nhibernateSession.QueryOver<QuestionValuation>()
@@ -30,13 +30,13 @@ public class ProbabilityUpdate_ValuationAll(
             var questionId = (int)item[0];
             var userId = (int)item[1];
 
-            if (jobId != null)
+            if (jobTrackingId != null)
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running,
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
                     $"Updating valuation for Question ID {questionId}, User ID {userId}...",
                     "ProbabilityUpdate_ValuationAll");
             }
-            
+
             new ProbabilityUpdate_Valuation(_nhibernateSession,
                     _questionValuationReadingRepo,
                     _probabilityCalcSimple1,

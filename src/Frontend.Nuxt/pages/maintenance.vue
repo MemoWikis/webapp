@@ -70,7 +70,7 @@ enum JobStatus {
 }
 
 interface JobStatusResponse {
-    jobId: string
+    jobTrackingId: string
     status: JobStatus
     message: string
     operationName: string
@@ -170,8 +170,8 @@ const executeMaintenanceOperation = async (operationUrl: string) => {
     })
 
     if (result?.success) {
-        const jobId = result.data
-        runningJobs.value.set(jobId, operationUrl)
+        const jobTrackingId = result.data
+        runningJobs.value.set(jobTrackingId, operationUrl)
         resultMsg.value = `Job ${operationUrl} started. Checking status...`
 
         // Mark that user manually started a job
@@ -208,8 +208,8 @@ const checkForRunningJobs = async () => {
         jobProgress.value.clear()
 
         for (const job of result) {
-            runningJobs.value.set(job.jobId, job.operationName)
-            jobProgress.value.set(job.jobId, job)
+            runningJobs.value.set(job.jobTrackingId, job.operationName)
+            jobProgress.value.set(job.jobTrackingId, job)
 
             // Update result message with the latest job status
             if (job.status === JobStatus.Running) {
@@ -218,8 +218,8 @@ const checkForRunningJobs = async () => {
         }
 
         // Check for jobs that were in previous list but not in current (they completed/failed)
-        for (const [jobId, operationName] of previousJobs) {
-            if (!runningJobs.value.has(jobId)) {
+        for (const [jobTrackingId, operationName] of previousJobs) {
+            if (!runningJobs.value.has(jobTrackingId)) {
                 // Job is no longer in the running list - it completed or failed
                 resultMsg.value = `Job ${operationName} completed`
             }
@@ -330,7 +330,7 @@ async function removeAdminRights() {
 }
 
 const relationErrorsLoaded = ref(false)
-const relationAnalysisJobId = ref<string | null>(null)
+const relationAnalysisjobTrackingId = ref<string | null>(null)
 let stopRelationJobWatcher: (() => void) | null = null
 
 async function loadRelationErrors() {
@@ -363,7 +363,7 @@ async function loadRelationErrors() {
             return
         }
 
-        relationAnalysisJobId.value = startResult.data
+        relationAnalysisjobTrackingId.value = startResult.data
         resultMsg.value = 'Analysis in progress...'
 
         // Step 2: Set up watcher for job completion
@@ -372,15 +372,15 @@ async function loadRelationErrors() {
         }
 
         stopRelationJobWatcher = watch(jobProgress, (jobs) => {
-            if (relationAnalysisJobId.value && jobs.has(relationAnalysisJobId.value)) {
-                const job = jobs.get(relationAnalysisJobId.value)
+            if (relationAnalysisjobTrackingId.value && jobs.has(relationAnalysisjobTrackingId.value)) {
+                const job = jobs.get(relationAnalysisjobTrackingId.value)
                 if (job) {
                     if (job.status === JobStatus.Completed) {
                         resultMsg.value = 'Analysis completed. Fetching results...'
                         fetchCachedRelationErrors()
                     } else if (job.status === JobStatus.Failed) {
                         resultMsg.value = `Analysis failed: ${job.message}`
-                        relationAnalysisJobId.value = null
+                        relationAnalysisjobTrackingId.value = null
                         isAnalyzing.value = false
                         if (stopRelationJobWatcher) {
                             stopRelationJobWatcher()
@@ -396,7 +396,7 @@ async function loadRelationErrors() {
     } catch (error) {
         console.error('Error in relation analysis flow:', error)
         resultMsg.value = 'Error during analysis flow.'
-        relationAnalysisJobId.value = null
+        relationAnalysisjobTrackingId.value = null
         if (stopRelationJobWatcher) {
             stopRelationJobWatcher()
             stopRelationJobWatcher = null
@@ -429,7 +429,7 @@ const fetchCachedRelationErrors = async () => {
         resultMsg.value = 'Error loading cached results.'
     }
 
-    relationAnalysisJobId.value = null
+    relationAnalysisjobTrackingId.value = null
     if (stopRelationJobWatcher) {
         stopRelationJobWatcher()
         stopRelationJobWatcher = null
@@ -492,13 +492,13 @@ async function healRelations(pageId: number) {
     }
 }
 
-const clearJob = async (jobId: string) => {
+const clearJob = async (jobTrackingId: string) => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
-    data.append('jobId', jobId)
+    data.append('jobTrackingId', jobTrackingId)
 
     const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/ClearJob`, {
         body: data,
@@ -510,8 +510,8 @@ const clearJob = async (jobId: string) => {
     if (result.success) {
         resultMsg.value = result.data
         // Remove the job from local state immediately for responsive UI
-        runningJobs.value.delete(jobId)
-        jobProgress.value.delete(jobId)
+        runningJobs.value.delete(jobTrackingId)
+        jobProgress.value.delete(jobTrackingId)
         // Also refresh the job list to sync with backend
         await checkForRunningJobs()
     }
@@ -569,16 +569,16 @@ const loadMmapCacheStatus = async () => {
 
             <!-- Active Jobs Status Panel -->
             <LayoutPanel v-if="runningJobs.size > 0" title="Active Jobs" class="active-jobs-panel">
-                <LayoutCard v-for="[jobId, operationName] in runningJobs.entries()" :key="jobId" :size="LayoutCardSize.Small">
+                <LayoutCard v-for="[jobTrackingId, operationName] in runningJobs.entries()" :key="jobTrackingId" :size="LayoutCardSize.Small">
                     <div class="running-job">
                         <div class="job-header">
                             <h4>{{ operationName }}</h4>
-                            <button @click="clearJob(jobId)" class="clear-job-btn" title="Clear Job">
+                            <button @click="clearJob(jobTrackingId)" class="clear-job-btn" title="Clear Job">
                                 <font-awesome-icon icon="fa-solid fa-xmark" />
                             </button>
                         </div>
-                        <div v-if="jobProgress.has(jobId)" class="job-status">
-                            <span>{{ jobProgress.get(jobId)?.message }}</span>
+                        <div v-if="jobProgress.has(jobTrackingId)" class="job-status">
+                            <span>{{ jobProgress.get(jobTrackingId)?.message }}</span>
                         </div>
                         <div v-else class="job-status">
                             <span>Starting...</span>

@@ -14,28 +14,28 @@ public class MmapCacheRefreshService(
     /// <summary>
     /// Manually trigger a cache recreate (for testing or admin purposes)
     /// </summary>
-    public void TriggerManualRefresh(string? jobId = null)
+    public void TriggerManualRefresh(string? jobTrackingId = null)
     {
         Log.Information("Manual mmap cache recreate triggered");
-        RecreateMmapCaches(jobId);
+        RecreateMmapCaches(jobTrackingId);
     }
 
     /// <summary>
     /// Refresh both PageView and QuestionView mmap caches from database
     /// </summary>
-    private void RecreateMmapCaches(string? jobId = null)
+    private void RecreateMmapCaches(string? jobTrackingId = null)
     {
         var stopwatch = Stopwatch.StartNew();
         Log.Information("Starting daily mmap cache recreate");
 
-        if (jobId != null)
-            JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Refreshing PageView mmap cache...", "RefreshMmapCaches");
+        if (jobTrackingId != null)
+            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Refreshing PageView mmap cache...", "RefreshMmapCaches");
 
         // Refresh PageView mmap cache
         RecreatePageViewCache();
 
-        if (jobId != null)
-            JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Refreshing QuestionView mmap cache...", "RefreshMmapCaches");
+        if (jobTrackingId != null)
+            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Refreshing QuestionView mmap cache...", "RefreshMmapCaches");
 
         // Refresh QuestionView mmap cache  
         RecreateQuestionViewCache();
@@ -208,7 +208,7 @@ public class MmapCacheRefreshService(
             {
                 // Small delay to ensure EntityCache is fully initialized
                 await Task.Delay(500);
-                
+
                 var today = DateTime.UtcNow.Date;
                 Log.Information("Background: Loading today's views from database");
 

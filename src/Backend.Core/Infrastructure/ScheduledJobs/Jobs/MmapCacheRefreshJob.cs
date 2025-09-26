@@ -1,5 +1,4 @@
 using Quartz;
-using System.Diagnostics;
 
 public class MmapCacheRefreshJob : IJob
 {
@@ -15,11 +14,11 @@ public class MmapCacheRefreshJob : IJob
     public async Task Execute(IJobExecutionContext context)
     {
         var dataMap = context.JobDetail.JobDataMap;
-        var jobId = dataMap.GetString("jobId");
-        
-        if (string.IsNullOrEmpty(jobId))
+        var jobTrackingId = dataMap.GetString("jobTrackingId");
+
+        if (string.IsNullOrEmpty(jobTrackingId))
         {
-            // This is the scheduled daily job, no jobId tracking needed
+            // This is the scheduled daily job, no jobTrackingId tracking needed
             JobExecute.Run(scope =>
             {
                 _mmapCacheRefreshService.TriggerManualRefresh();
@@ -28,30 +27,30 @@ public class MmapCacheRefreshJob : IJob
         else
         {
             // This is a manually triggered job, use job tracking
-            await Run(jobId);
+            await Run(jobTrackingId);
         }
-        
+
         Log.Information("Job ended - {OperationName}", OperationName);
     }
 
-    private async Task Run(string jobId)
+    private async Task Run(string jobTrackingId)
     {
         await JobExecute.RunAsync(scope =>
         {
             try
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Starting mmap cache refresh...", OperationName);
-                
-                _mmapCacheRefreshService.TriggerManualRefresh(jobId);
-                
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Completed, "Mmap caches have been refreshed successfully.", OperationName);
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Starting mmap cache refresh...", OperationName);
+
+                _mmapCacheRefreshService.TriggerManualRefresh(jobTrackingId);
+
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Completed, "Mmap caches have been refreshed successfully.", OperationName);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to execute {OperationName} with jobId {JobId}", OperationName, jobId);
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Failed, $"Error: {ex.Message}", OperationName);
+                Log.Error(ex, "Failed to execute {OperationName} with jobTrackingId {jobTrackingId}", OperationName, jobTrackingId);
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, $"Error: {ex.Message}", OperationName);
             }
-            
+
             return Task.CompletedTask;
         }, OperationName);
     }

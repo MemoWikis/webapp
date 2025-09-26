@@ -42,14 +42,14 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult RecalculateAllKnowledgeItems()
     {
-        var jobId = JobTracking.CreateJob("RecalculateKnowledgeItems");
+        var jobTrackingId = JobTracking.CreateJob("RecalculateKnowledgeItems");
 
-        JobScheduler.StartImmediately_RecalculateKnowledgeItems(jobId);
+        JobScheduler.StartImmediately_RecalculateKnowledgeItems(jobTrackingId);
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
@@ -58,14 +58,14 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult CalcAggregatedValuesQuestions()
     {
-        var jobId = JobTracking.CreateJob("CalcAggregatedValues");
+        var jobTrackingId = JobTracking.CreateJob("CalcAggregatedValues");
 
-        JobScheduler.StartImmediately_CalcAggregatedValues(jobId);
+        JobScheduler.StartImmediately_CalcAggregatedValues(jobTrackingId);
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
@@ -73,14 +73,14 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult UpdateUserReputationAndRankings()
     {
-        var jobId = JobTracking.CreateJob("UpdateUserReputation");
+        var jobTrackingId = JobTracking.CreateJob("UpdateUserReputation");
 
-        JobScheduler.StartImmediately_UpdateUserReputation(jobId);
+        JobScheduler.StartImmediately_UpdateUserReputation(jobTrackingId);
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
@@ -116,14 +116,14 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult MeiliReIndexAllQuestions()
     {
-        var jobId = JobTracking.CreateJob("MeiliReIndexQuestions");
+        var jobTrackingId = JobTracking.CreateJob("MeiliReIndexQuestions");
 
-        JobScheduler.StartImmediately_ReindexAllQuestions(jobId);
+        JobScheduler.StartImmediately_ReindexAllQuestions(jobTrackingId);
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
@@ -158,14 +158,14 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult MeiliReIndexAllPages()
     {
-        var jobId = JobTracking.CreateJob("MeiliReIndexPages");
+        var jobTrackingId = JobTracking.CreateJob("MeiliReIndexPages");
 
-        JobScheduler.StartImmediately_MeiliReIndexPages(jobId);
+        JobScheduler.StartImmediately_MeiliReIndexPages(jobTrackingId);
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
@@ -199,14 +199,14 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult MeiliReIndexAllUsers()
     {
-        var jobId = JobTracking.CreateJob("MeiliReIndexUsers");
+        var jobTrackingId = JobTracking.CreateJob("MeiliReIndexUsers");
 
-        JobScheduler.StartImmediately_MeiliReIndexUsers(jobId);
+        JobScheduler.StartImmediately_MeiliReIndexUsers(jobTrackingId);
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
@@ -319,39 +319,39 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult PollingTest5s()
     {
-        var jobId = JobTracking.CreateJob("PollingTest5s");
+        var jobTrackingId = JobTracking.CreateJob("PollingTest5s");
 
         _ = Task.Run(async () =>
         {
             try
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Starting 5-second polling test...", "Polling Test 5s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Starting 5-second polling test...", "Polling Test 5s");
                 await Task.Delay(1000);
 
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Test running (20% complete)...", "Polling Test 5s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Test running (20% complete)...", "Polling Test 5s");
                 await Task.Delay(1000);
 
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Test running (40% complete)...", "Polling Test 5s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Test running (40% complete)...", "Polling Test 5s");
                 await Task.Delay(1000);
 
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Test running (60% complete)...", "Polling Test 5s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Test running (60% complete)...", "Polling Test 5s");
                 await Task.Delay(1000);
 
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Test running (80% complete)...", "Polling Test 5s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Test running (80% complete)...", "Polling Test 5s");
                 await Task.Delay(1000);
 
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Completed, "5-second polling test completed successfully!", "Polling Test 5s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Completed, "5-second polling test completed successfully!", "Polling Test 5s");
             }
             catch (Exception ex)
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Failed, $"Test failed: {ex.Message}", "Polling Test 5s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, $"Test failed: {ex.Message}", "Polling Test 5s");
             }
         });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
@@ -360,32 +360,32 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult PollingTest30s()
     {
-        var jobId = JobTracking.CreateJob("PollingTest30s");
+        var jobTrackingId = JobTracking.CreateJob("PollingTest30s");
 
         _ = Task.Run(async () =>
         {
             try
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Starting 30-second polling test...", "Polling Test 30s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Starting 30-second polling test...", "Polling Test 30s");
 
                 for (int i = 1; i <= 30; i++)
                 {
-                    JobTracking.UpdateJobStatus(jobId, JobStatus.Running, $"Test running ({i}/30 seconds)...", "Polling Test 30s");
+                    JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, $"Test running ({i}/30 seconds)...", "Polling Test 30s");
                     await Task.Delay(1000);
                 }
 
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Completed, "30-second polling test completed successfully!", "Polling Test 30s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Completed, "30-second polling test completed successfully!", "Polling Test 30s");
             }
             catch (Exception ex)
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Failed, $"Test failed: {ex.Message}", "Polling Test 30s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, $"Test failed: {ex.Message}", "Polling Test 30s");
             }
         });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
@@ -394,42 +394,42 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult PollingTest120s()
     {
-        var jobId = JobTracking.CreateJob("PollingTest120s");
+        var jobTrackingId = JobTracking.CreateJob("PollingTest120s");
 
         _ = Task.Run(async () =>
         {
             try
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Starting 120-second polling test...", "Polling Test 120s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Starting 120-second polling test...", "Polling Test 120s");
 
                 for (int i = 1; i <= 120; i++)
                 {
                     var phase = i <= 40 ? "Phase 1" : i <= 80 ? "Phase 2" : "Phase 3";
-                    JobTracking.UpdateJobStatus(jobId, JobStatus.Running, $"{phase}: Test running ({i}/120 seconds)...", "Polling Test 120s");
+                    JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, $"{phase}: Test running ({i}/120 seconds)...", "Polling Test 120s");
                     await Task.Delay(1000);
                 }
 
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Completed, "120-second polling test completed successfully!", "Polling Test 120s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Completed, "120-second polling test completed successfully!", "Polling Test 120s");
             }
             catch (Exception ex)
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Failed, $"Test failed: {ex.Message}", "Polling Test 120s");
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, $"Test failed: {ex.Message}", "Polling Test 120s");
             }
         });
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JobStatusResponse GetJobStatus(string jobId)
+    public JobStatusResponse GetJobStatus(string jobTrackingId)
     {
-        return JobTracking.GetJobStatus(jobId);
+        return JobTracking.GetJobStatus(jobTrackingId);
     }
 
     [AccessOnlyAsAdmin]
@@ -443,9 +443,9 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public VueMaintenanceResult ClearJob([FromForm] string jobId)
+    public VueMaintenanceResult ClearJob([FromForm] string jobTrackingId)
     {
-        var success = JobTracking.ClearJob(jobId);
+        var success = JobTracking.ClearJob(jobTrackingId);
 
         return new VueMaintenanceResult
         {
@@ -533,14 +533,14 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult StartRelationAnalysis()
     {
-        var jobId = JobTracking.CreateJob("RelationErrorAnalysis");
+        var jobTrackingId = JobTracking.CreateJob("RelationErrorAnalysis");
 
-        JobScheduler.StartImmediately_RelationErrorAnalysis(jobId);
+        JobScheduler.StartImmediately_RelationErrorAnalysis(jobTrackingId);
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 
@@ -579,14 +579,14 @@ public class VueMaintenanceController(
     [HttpPost]
     public VueMaintenanceResult RefreshMmapCaches()
     {
-        var jobId = JobTracking.CreateJob("RefreshMmapCaches");
+        var jobTrackingId = JobTracking.CreateJob("RefreshMmapCaches");
 
-        JobScheduler.StartImmediately_MmapCacheRefresh(jobId);
+        JobScheduler.StartImmediately_MmapCacheRefresh(jobTrackingId);
 
         return new VueMaintenanceResult
         {
             Success = true,
-            Data = jobId
+            Data = jobTrackingId
         };
     }
 

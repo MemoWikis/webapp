@@ -16,44 +16,44 @@ public static class JobTracking
 
     public static string CreateJob(string operationName)
     {
-        var jobId = Guid.NewGuid().ToString();
-        var job = new JobStatusResponse(jobId, JobStatus.Running, $"Starting {operationName}...", operationName);
-        _jobStatuses[jobId] = new JobWithTimestamp(job, DateTime.UtcNow);
-        return jobId;
+        var jobTrackingId = Guid.NewGuid().ToString();
+        var job = new JobStatusResponse(jobTrackingId, JobStatus.Running, $"Starting {operationName}...", operationName);
+        _jobStatuses[jobTrackingId] = new JobWithTimestamp(job, DateTime.UtcNow);
+        return jobTrackingId;
     }
 
-    public static void UpdateJobStatus(string jobId, JobStatus status, string message, string operationName)
+    public static void UpdateJobStatus(string jobTrackingId, JobStatus status, string message, string operationName)
     {
-        var job = new JobStatusResponse(jobId, status, message, operationName);
+        var job = new JobStatusResponse(jobTrackingId, status, message, operationName);
         var timestamp = (status == JobStatus.Completed || status == JobStatus.Failed) ? DateTime.UtcNow : DateTime.UtcNow;
-        _jobStatuses[jobId] = new JobWithTimestamp(job, timestamp);
+        _jobStatuses[jobTrackingId] = new JobWithTimestamp(job, timestamp);
     }
 
-    public static JobStatusResponse GetJobStatus(string jobId)
+    public static JobStatusResponse GetJobStatus(string jobTrackingId)
     {
         CleanupExpiredJobs();
-        
-        if (_jobStatuses.TryGetValue(jobId, out var jobWithTimestamp))
+
+        if (_jobStatuses.TryGetValue(jobTrackingId, out var jobWithTimestamp))
         {
             return jobWithTimestamp.Job;
         }
 
-        return new JobStatusResponse(jobId, JobStatus.NotFound, "Job not found", "Unknown");
+        return new JobStatusResponse(jobTrackingId, JobStatus.NotFound, "Job not found", "Unknown");
     }
 
     public static IEnumerable<JobStatusResponse> GetAllActiveJobs()
     {
         CleanupExpiredJobs();
-        
+
         // Return all jobs that haven't been cleaned up yet (including completed/failed jobs that are still lingering)
         return _jobStatuses.Values
             .Select(jobWithTimestamp => jobWithTimestamp.Job)
             .ToList();
     }
 
-    public static bool ClearJob(string jobId)
+    public static bool ClearJob(string jobTrackingId)
     {
-        return _jobStatuses.TryRemove(jobId, out _);
+        return _jobStatuses.TryRemove(jobTrackingId, out _);
     }
 
     public static int ClearAllJobs()
@@ -71,7 +71,7 @@ public static class JobTracking
         foreach (var keyValuePair in _jobStatuses)
         {
             var jobWithTimestamp = keyValuePair.Value;
-            
+
             // Remove completed/failed jobs that are older than the linger time
             if ((jobWithTimestamp.Job.Status == JobStatus.Completed || jobWithTimestamp.Job.Status == JobStatus.Failed) &&
                 jobWithTimestamp.CompletionTime < cutoffTime)
@@ -80,9 +80,9 @@ public static class JobTracking
             }
         }
 
-        foreach (var jobId in jobsToRemove)
+        foreach (var jobTrackingId in jobsToRemove)
         {
-            _jobStatuses.TryRemove(jobId, out _);
+            _jobStatuses.TryRemove(jobTrackingId, out _);
         }
     }
 
@@ -90,7 +90,7 @@ public static class JobTracking
 }
 
 public readonly record struct JobStatusResponse(
-    string JobId,
+    string JobTrackingId,
     JobStatus Status,
     string Message,
     string OperationName);

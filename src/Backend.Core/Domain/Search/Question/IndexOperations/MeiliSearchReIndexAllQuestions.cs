@@ -7,7 +7,7 @@ public class MeilisearchReIndexAllQuestions(
 {
     private readonly MeilisearchClient _client = new(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
 
-    public async Task Run(string? jobId = null)
+    public async Task Run(string? jobTrackingId = null)
     {
         var taskId = (await _client.DeleteIndexAsync(MeilisearchIndices.Questions)).TaskUid;
         await _client.WaitForTaskAsync(taskId);
@@ -30,12 +30,13 @@ public class MeilisearchReIndexAllQuestions(
             meiliSearchQuestions.Add(
                 MeilisearchToQuestionMap.Run(question, questionValuations));
 
-            if (jobId != null)
+            if (jobTrackingId != null)
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running,
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
                     $"Re-indexing question {currentQuestionCount} of {totalQuestions} (ID: {question.Id})...",
                     "MeiliReIndexAllQuestions");
             }
+
             currentQuestionCount++;
         }
 

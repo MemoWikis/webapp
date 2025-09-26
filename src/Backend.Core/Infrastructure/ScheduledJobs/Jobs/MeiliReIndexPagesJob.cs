@@ -8,32 +8,32 @@ public class MeiliReIndexPagesJob : IJob
     public async Task Execute(IJobExecutionContext context)
     {
         var dataMap = context.JobDetail.JobDataMap;
-        var jobId = dataMap.GetString("jobId");
-        
-        if (string.IsNullOrEmpty(jobId))
+        var jobTrackingId = dataMap.GetString("jobTrackingId");
+
+        if (string.IsNullOrEmpty(jobTrackingId))
             return;
 
-        await Run(jobId);
+        await Run(jobTrackingId);
         Log.Information("Job ended - {OperationName}", OperationName);
     }
 
-    private async Task Run(string jobId)
+    private async Task Run(string jobTrackingId)
     {
         await JobExecute.RunAsync(async scope =>
         {
             try
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running, "Re-indexing all pages...", OperationName);
-                
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Re-indexing all pages...", OperationName);
+
                 var meilisearchReIndexPages = scope.Resolve<MeilisearchReIndexPages>();
                 await meilisearchReIndexPages.Run();
-                
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Completed, "Pages have been re-indexed.", OperationName);
+
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Completed, "Pages have been re-indexed.", OperationName);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to execute {OperationName} with jobId {JobId}", OperationName, jobId);
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Failed, $"Error: {ex.Message}", OperationName);
+                Log.Error(ex, "Failed to execute {OperationName} with jobTrackingId {jobTrackingId}", OperationName, jobTrackingId);
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, $"Error: {ex.Message}", OperationName);
             }
         }, OperationName);
     }

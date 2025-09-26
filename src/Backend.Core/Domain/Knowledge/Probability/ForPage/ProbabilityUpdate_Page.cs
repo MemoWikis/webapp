@@ -1,20 +1,19 @@
-﻿using Serilog;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 public class ProbabilityUpdate_Page(
     PageRepository pageRepository,
     AnswerRepo answerRepo)
 {
-    public void Run(string? jobId = null)
+    public void Run(string? jobTrackingId = null)
     {
         var sp = Stopwatch.StartNew();
 
         foreach (var page in pageRepository.GetAll())
         {
             Run(page);
-            if (jobId != null)
+            if (jobTrackingId != null)
             {
-                JobTracking.UpdateJobStatus(jobId, JobStatus.Running,
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
                     $"Update page probability for ID {page.Id}...",
                     "ProbabilityUpdate_Page");
             }
