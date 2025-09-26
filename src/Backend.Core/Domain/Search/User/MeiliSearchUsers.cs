@@ -10,7 +10,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
     {
         var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
         var index = client.Index(MeilisearchIndices.Users);
-        
+
         _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index, languages));
 
         return _result;
@@ -18,24 +18,18 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
 
     private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index, List<Language>? languages = null)
     {
-        var sq = new SearchQuery
-        {
-            Limit = _count
-        };
+        var finalResults = new List<MeiliSearchUserMap>();
 
-        if (languages != null && languages.Any())
-        {
-            var clauses = languages
-                .Select(lang => lang.GetCode())
-                .Select(code => $"ContentLanguages = \"{code}\"")
-                .ToList();
+        // Search for users in specified languages first (if provided)
+        await SearchUsersInSpecifiedLanguage(searchTerm, index, languages, finalResults);
 
-            sq.Filter = string.Join(" OR ", clauses);
-        }
+        // Then search for all other users
+        var allResults = await SearchUsersInAllLanguages(searchTerm, index);
 
-        var userMaps =
-            (await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq))
-            .Hits;
+        // Add results that aren't already in the list
+        MergeNonDuplicateResults(finalResults, allResults);
+
+        var userMaps = finalResults;
 
         var userMapsSkip = userMaps
             .Skip(_count - 20) //skip 0
@@ -68,15 +62,59 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
             .ToList();
     }
 
+    private async Task SearchUsersInSpecifiedLanguage(string searchTerm, Meilisearch.Index index, List<Language>? languages,
+        List<MeiliSearchUserMap> finalResults)
+    {
+        if (languages != null && languages.Any())
+        {
+            var clauses = languages
+                .Select(lang => lang.GetCode())
+                .Select(code => $"ContentLanguages = \"{code}\"")
+                .ToList();
+
+            var sqLanguageFiltered = new SearchQuery
+            {
+                Q = searchTerm,
+                Limit = _count,
+                Filter = string.Join(" OR ", clauses)
+            };
+            var languageResults = await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sqLanguageFiltered);
+            finalResults.AddRange(languageResults.Hits);
+        }
+    }
+
+    private async Task<ISearchable<MeiliSearchUserMap>> SearchUsersInAllLanguages(string searchTerm, Meilisearch.Index index)
+    {
+        var searchQuery = new SearchQuery
+        {
+            Q = searchTerm,
+            Limit = _count
+        };
+        var allResults = await index.SearchAsync<MeiliSearchUserMap>(searchTerm, searchQuery);
+        return allResults;
+    }
+
+    private static void MergeNonDuplicateResults(List<MeiliSearchUserMap> finalResults, ISearchable<MeiliSearchUserMap> allResults)
+    {
+        var existingIds = finalResults.Select(result => result.Id).ToHashSet();
+        var additionalResults = allResults.Hits.Where(result => !existingIds.Contains(result.Id));
+        finalResults.AddRange(additionalResults);
+    }
+
     public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)>
         GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy, string[] languageCodes)
     {
         var userMaps = new List<MeiliSearchUserMap>();
         var count = 0;
         var languages = LanguageExtensions.GetLanguages(languageCodes);
+
         if (string.IsNullOrEmpty(searchTerm))
         {
-            userMaps = EntityCache.GetAllUsers().Where(u => LanguageExtensions.AnyLanguageIsInList(languages, u.ContentLanguages)).Select(ConvertToUserMap).ToList();
+            userMaps = EntityCache
+                .GetAllUsers()
+                .Where(user => AddToUserMap(user, languages))
+                .Select(ConvertToUserMap)
+                .ToList();
             count = userMaps.Count;
         }
         else
@@ -84,7 +122,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
             var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
             var index = client.Index(MeilisearchIndices.Users);
 
-            string filterString = null;
+            string? filterString = null;
 
             if (languages.Any())
             {
@@ -116,6 +154,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
             {
                 Log.Error("fail cast from ISearchable to SearchResult");
             }
+
             userMaps = searchResult.Hits.ToList();
         }
 
@@ -144,6 +183,15 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
         pager.TotalItems = count;
 
         return (userMapsOrdered, pager);
+    }
+
+    private bool AddToUserMap(UserCacheItem user, List<Language> languages)
+    {
+        if (languages.Any())
+            return LanguageExtensions.AnyLanguageIsInList(languages, user.ContentLanguages);
+
+        //Fallback if no languages are provided
+        return true;
     }
 
     private static MeiliSearchUserMap ConvertToUserMap(UserCacheItem user)

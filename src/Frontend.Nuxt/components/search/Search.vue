@@ -269,7 +269,7 @@ const questionsInOtherLanguages = computed(() => {
                             :item="p"
                             @click="selectItem(p)" />
 
-                        <div v-if="pagesInOtherLanguages.length > 0" class="searchBanner subBanner">
+                        <div v-if="pagesInOtherLanguages.length > 0" class="searchBanner" :class="{ 'subBanner': pagesInCurrentLanguage.length > 0 }">
                             <div>{{ t('search.pagesInOtherLanguages') }} </div>
                             <div>{{ t('search.results', { count: pagesInOtherLanguages.length }) }}</div>
                         </div>
@@ -295,7 +295,7 @@ const questionsInOtherLanguages = computed(() => {
                             @click="selectItem(q)"
                             v-tooltip="q.name" />
 
-                        <div v-if="questionsInOtherLanguages.length > 0" class="searchBanner">
+                        <div v-if="questionsInOtherLanguages.length > 0" class="searchBanner" :class="{ 'subBanner': questionsInCurrentLanguage.length > 0 }">
                             <div>{{ t('search.questionsInOtherLanguages') }} </div>
                             <div>{{ t('search.results', { count: questionsInOtherLanguages.length }) }}</div>
                         </div>

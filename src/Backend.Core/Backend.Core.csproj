@@ -33,7 +33,7 @@
 		<PackageReference Include="K4os.Hash.xxHash" Version="1.0.8" />
 		<PackageReference Include="Markdig" Version="0.41.0" />
 		<PackageReference Include="MeiliSearch" Version="0.16.0" />
-		<PackageReference Include="MessagePack" Version="2.5.140" />
+		<PackageReference Include="MessagePack" Version="2.5.187" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.4" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="8.8.0" />

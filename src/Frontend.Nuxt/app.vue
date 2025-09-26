@@ -280,10 +280,7 @@ watch(locale, () => {
 			<NuxtLayout>
 				<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :site="siteType"
-					:class="{
-						'window-loading': !windowLoaded,
-
-					}" />
+					:class="{ 'window-loading': !windowLoaded }" />
 			</NuxtLayout>
 
 			<template #error="{ error }">
