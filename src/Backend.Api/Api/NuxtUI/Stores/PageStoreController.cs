@@ -337,6 +337,50 @@ public class PageStoreController(
 
     public record struct DebugImageInfo(string FileName, long SizeBytes, DateTime LastModified, string FullPath);
     
+    public record struct VerifyImagesRequest(int PageId, string[] ImageUrls);
+    public record struct ImageVerificationResult(string Url, bool Exists, string Reason);
+    
+    [HttpPost]
+    public ImageVerificationResult[] VerifyImages([FromBody] VerifyImagesRequest request)
+    {
+        Log.Information("PageStoreController.VerifyImages: Verifying {ImageCount} images for page {PageId}: {ImageUrls}", 
+            request.ImageUrls.Length, request.PageId, string.Join(", ", request.ImageUrls));
+        
+        var results = new List<ImageVerificationResult>();
+        var imageSettings = new PageContentImageSettings(request.PageId, _httpContextAccessor);
+        
+        foreach (var imageUrl in request.ImageUrls)
+        {
+            try 
+            {
+                if (!imageUrl.StartsWith("/Images/"))
+                {
+                    results.Add(new ImageVerificationResult(imageUrl, false, "Not a server image URL"));
+                    continue;
+                }
+                
+                // Convert URL to file path
+                var relativePath = imageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
+                var fullPath = Path.Combine(Settings.ImagePath, relativePath.Substring("Images/".Length));
+                
+                var exists = System.IO.File.Exists(fullPath);
+                var reason = exists ? "File exists" : "File not found";
+                
+                Log.Information("PageStoreController.VerifyImages: {Url} -> {FullPath} -> {Exists} ({Reason})", 
+                    imageUrl, fullPath, exists, reason);
+                
+                results.Add(new ImageVerificationResult(imageUrl, exists, reason));
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("PageStoreController.VerifyImages: Error verifying {Url}: {Error}", imageUrl, ex.Message);
+                results.Add(new ImageVerificationResult(imageUrl, false, $"Error: {ex.Message}"));
+            }
+        }
+        
+        return results.ToArray();
+    }
+    
     [HttpGet]
     public DebugImageInfo[] DebugGetPageImages([FromRoute] int id)
     {

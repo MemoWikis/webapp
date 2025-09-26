@@ -383,7 +383,7 @@ function updateHeadingIds() {
     })
 }
 
-const checkContentImages = () => {
+const checkContentImages = async () => {
     if (editor.value == null) {
         console.log('ContentEditor.checkContentImages: Editor is null, skipping')
         return
@@ -394,24 +394,316 @@ const checkContentImages = () => {
     pageStore.uploadedImagesInContent = []
 
     let imageCount = 0
+    const imagesToVerify: { src: string, pos: number }[] = []
+    
+    // First pass: collect all image URLs from the document
     state.doc.descendants((node: any, pos: number) => {
         if (node.type.name === 'uploadImage') {
             imageCount++
             const src = node.attrs.src
             console.log('ContentEditor.checkContentImages: Found image node:', src, 'at position', pos)
             if (src.startsWith('/Images/')) {
-                pageStore.uploadedImagesInContent.push(src)
-                console.log('ContentEditor.checkContentImages: Added to uploadedImagesInContent:', src)
+                imagesToVerify.push({ src, pos })
             } else {
                 console.log('ContentEditor.checkContentImages: Skipped image (not /Images/ path):', src)
             }
         }
     })
 
-    console.log('ContentEditor.checkContentImages: Found', imageCount, 'total image nodes,', pageStore.uploadedImagesInContent.length, 'uploaded images')
-    console.log('ContentEditor.checkContentImages: uploadedImagesInContent:', pageStore.uploadedImagesInContent)
+    console.log('ContentEditor.checkContentImages: Found', imageCount, 'total image nodes,', imagesToVerify.length, 'images to verify')
+
+    // Second pass: verify each image actually exists on the server
+    const brokenImages = []
+    
+    if (imagesToVerify.length > 0) {
+        try {
+            console.log('ContentEditor.checkContentImages: Verifying', imagesToVerify.length, 'images via backend API')
+            const { $api } = useNuxtApp()
+            const verificationResults = await ($api as any)('/apiVue/PageStore/VerifyImages', {
+                method: 'POST',
+                body: {
+                    pageId: pageStore.id,
+                    imageUrls: imagesToVerify.map(img => img.src)
+                }
+            })
+            
+            for (let i = 0; i < imagesToVerify.length; i++) {
+                const { src, pos } = imagesToVerify[i]
+                const result = verificationResults[i]
+                
+                if (result && result.exists) {
+                    pageStore.uploadedImagesInContent.push(src)
+                    console.log('ContentEditor.checkContentImages: ✓ Image exists:', src)
+                } else {
+                    brokenImages.push({ src, pos })
+                    console.warn('ContentEditor.checkContentImages: ✗ Image missing:', src, result?.reason || 'Unknown reason')
+                }
+            }
+        } catch (error) {
+            console.warn('ContentEditor.checkContentImages: Backend verification failed, falling back to HEAD requests:', error)
+            
+            // Fallback to HEAD requests if backend API fails
+            for (const { src, pos } of imagesToVerify) {
+                try {
+                    const response = await fetch(src, { method: 'HEAD' })
+                    if (response.ok) {
+                        pageStore.uploadedImagesInContent.push(src)
+                        console.log('ContentEditor.checkContentImages: ✓ Image exists (HEAD):', src)
+                    } else {
+                        brokenImages.push({ src, pos })
+                        console.warn('ContentEditor.checkContentImages: ✗ Image missing (HEAD, HTTP', response.status, '):', src)
+                    }
+                } catch (headError) {
+                    brokenImages.push({ src, pos })
+                    console.warn('ContentEditor.checkContentImages: ✗ Image verification failed (HEAD):', src, headError)
+                }
+            }
+        }
+    }
+
+    // Handle broken images
+    if (brokenImages.length > 0) {
+        console.warn('ContentEditor.checkContentImages: Found', brokenImages.length, 'broken images:', brokenImages.map(img => img.src))
+        
+        await handleBrokenImages(brokenImages)
+    }
+
+    console.log('ContentEditor.checkContentImages: Final uploadedImagesInContent:', pageStore.uploadedImagesInContent)
+    console.log('ContentEditor.checkContentImages: Broken images found:', brokenImages.length)
 
     pageStore.refreshDeleteImageList()
+}
+
+const handleBrokenImages = async (brokenImages: { src: string, pos: number }[]) => {
+    if (!editor.value) return
+    
+    const { t } = useI18n()
+    console.log('ContentEditor.handleBrokenImages: Processing', brokenImages.length, 'broken images')
+    
+    // Group broken images by handling strategy
+    const imagesToRemove = []
+    const imagesToReplace = []
+    
+    for (const brokenImage of brokenImages) {
+        // Check if this is a recently uploaded image (might be recoverable)
+        const isRecentUpload = brokenImage.src.includes(`${pageStore.id}_`) && 
+                              pageStore.contentHasChanged // Content was modified in this session
+        
+        if (isRecentUpload) {
+            console.log('ContentEditor.handleBrokenImages: Recent upload, attempting recovery:', brokenImage.src)
+            // Try to recover recent uploads
+            imagesToReplace.push(brokenImage)
+        } else {
+            console.log('ContentEditor.handleBrokenImages: Old broken image, will remove:', brokenImage.src)
+            // Remove old broken images
+            imagesToRemove.push(brokenImage)
+        }
+    }
+    
+    // Remove broken images from document
+    if (imagesToRemove.length > 0) {
+        console.log('ContentEditor.handleBrokenImages: Removing', imagesToRemove.length, 'broken images from document')
+        
+        const { state, view } = editor.value
+        const tr = state.tr
+        
+        // Sort by position in reverse order to avoid position shifts
+        const sortedByPosition = imagesToRemove.sort((a, b) => b.pos - a.pos)
+        
+        for (const { pos } of sortedByPosition) {
+            const node = state.doc.nodeAt(pos)
+            if (node && node.type.name === 'uploadImage') {
+                const nodeEnd = pos + node.nodeSize
+                tr.delete(pos, nodeEnd)
+                console.log('ContentEditor.handleBrokenImages: Deleted node at position', pos)
+            }
+        }
+        
+        if (tr.docChanged) {
+            view.dispatch(tr)
+            console.log('ContentEditor.handleBrokenImages: Applied deletions to document')
+        }
+    }
+    
+    // Handle recent uploads - try to recover or replace with user-friendly message
+    if (imagesToReplace.length > 0) {
+        console.log('ContentEditor.handleBrokenImages: Processing', imagesToReplace.length, 'recent uploads')
+        
+        // Attempt recovery for recent uploads
+        const recoveryAttempts = await attemptImageRecovery(imagesToReplace)
+        
+        // Replace any remaining broken images with user-friendly message
+        const stillBroken = imagesToReplace.filter(img => 
+            !recoveryAttempts.some(recovery => recovery.originalSrc === img.src && recovery.success)
+        )
+        
+        if (stillBroken.length > 0) {
+            console.log('ContentEditor.handleBrokenImages: Replacing', stillBroken.length, 'unrecoverable images with placeholders')
+            
+            const { state, view } = editor.value
+            const tr = state.tr
+            
+            for (const { src, pos } of stillBroken) {
+                const node = state.doc.nodeAt(pos)
+                if (node && node.type.name === 'uploadImage') {
+                    // Create a more user-friendly error message
+                    const fileName = src.split('/').pop() || 'unknown'
+                    const errorText = `[📷 Missing Image: ${fileName}]\n\nThis image file is missing from the server. Please insert a new image to replace it.`
+                    
+                    // Create a paragraph with the error message
+                    const paragraphNode = state.schema.nodes.paragraph.create({}, state.schema.text(errorText))
+                    tr.replaceWith(pos, pos + node.nodeSize, paragraphNode)
+                    console.log('ContentEditor.handleBrokenImages: Replaced broken image with error message at position', pos)
+                }
+            }
+            
+            if (tr.docChanged) {
+                view.dispatch(tr)
+                console.log('ContentEditor.handleBrokenImages: Applied replacements to document')
+            }
+        }
+    }
+    
+    // Show user notification if any images were handled
+    if (brokenImages.length > 0) {
+        let message = ''
+        let notificationType: 'warning' | 'error' | 'success' = 'warning'
+        
+        if (imagesToRemove.length > 0 && imagesToReplace.length > 0) {
+            message = `Cleaned up ${imagesToRemove.length} broken image(s) and found ${imagesToReplace.length} recoverable image(s)`
+        } else if (imagesToRemove.length > 0) {
+            message = `Removed ${imagesToRemove.length} broken image(s) from document`
+            notificationType = 'success'
+        } else {
+            message = `Found ${imagesToReplace.length} missing image(s) - attempting recovery...`
+        }
+        
+        console.warn('ContentEditor.handleBrokenImages: User notification:', message)
+        
+        const snackbarData: SnackbarData = {
+            type: notificationType,
+            text: { message },
+            duration: 8000
+        }
+        snackbarStore.showSnackbar(snackbarData)
+    }
+}
+
+const attemptImageRecovery = async (brokenImages: { src: string, pos: number }[]) => {
+    console.log('ContentEditor.attemptImageRecovery: Attempting to recover', brokenImages.length, 'images')
+    
+    const results = []
+    
+    for (const { src, pos } of brokenImages) {
+        try {
+            // Strategy 1: Check if image exists in browser cache and can be re-uploaded
+            const cacheResult = await checkImageInCache(src)
+            if (cacheResult.exists && cacheResult.blob) {
+                console.log('ContentEditor.attemptImageRecovery: Found image in cache, attempting re-upload:', src)
+                const reuploadResult = await reuploadFromCache(src, cacheResult.blob)
+                
+                if (reuploadResult.success && reuploadResult.newSrc) {
+                    // Update the image src in the document
+                    await updateImageSrcInDocument(pos, reuploadResult.newSrc)
+                    results.push({ originalSrc: src, success: true, newSrc: reuploadResult.newSrc, method: 'cache' })
+                    continue
+                }
+            }
+            
+            // Strategy 2: Check if this was a recently uploaded temp image that can be recovered
+            // (This would require tracking temp images differently)
+            
+            // Strategy 3: Failed to recover
+            console.warn('ContentEditor.attemptImageRecovery: Could not recover image:', src)
+            results.push({ originalSrc: src, success: false, error: 'No recovery method available' })
+            
+        } catch (error) {
+            console.error('ContentEditor.attemptImageRecovery: Error recovering image:', src, error)
+            results.push({ originalSrc: src, success: false, error: error instanceof Error ? error.message : 'Unknown error' })
+        }
+    }
+    
+    // Show recovery results to user
+    const successful = results.filter(r => r.success).length
+    const failed = results.filter(r => !r.success).length
+    
+    if (successful > 0 || failed > 0) {
+        let message = ''
+        let type: 'success' | 'warning' | 'error' = 'success'
+        
+        if (successful > 0 && failed === 0) {
+            message = `✅ Successfully recovered ${successful} image(s)`
+            type = 'success'
+        } else if (successful > 0 && failed > 0) {
+            message = `⚠️ Recovered ${successful} image(s), ${failed} could not be recovered`
+            type = 'warning'
+        } else {
+            message = `❌ Could not recover ${failed} image(s) - please re-upload manually`
+            type = 'error'
+        }
+        
+        const snackbarData: SnackbarData = {
+            type,
+            text: { message },
+            duration: 6000
+        }
+        snackbarStore.showSnackbar(snackbarData)
+    }
+    
+    return results
+}
+
+const checkImageInCache = async (src: string) => {
+    try {
+        // Try to fetch from cache (this will work if image is in browser cache)
+        const response = await fetch(src, { cache: 'force-cache' })
+        if (response.ok) {
+            const blob = await response.blob()
+            return { exists: true, blob }
+        }
+    } catch (error) {
+        console.log('ContentEditor.checkImageInCache: Image not in cache:', src)
+    }
+    return { exists: false, blob: null }
+}
+
+const reuploadFromCache = async (originalSrc: string, blob: Blob): Promise<{ success: boolean, newSrc?: string, error?: string }> => {
+    try {
+        // Convert blob to file
+        const fileName = originalSrc.split('/').pop() || 'recovered-image.jpg'
+        const file = new File([blob], fileName, { type: blob.type })
+        
+        // Use the existing upload mechanism
+        const newSrc = await pageStore.uploadContentImage(file)
+        
+        console.log('ContentEditor.reuploadFromCache: Successfully re-uploaded:', originalSrc, '->', newSrc)
+        return { success: true, newSrc }
+        
+    } catch (error) {
+        console.error('ContentEditor.reuploadFromCache: Failed to re-upload:', originalSrc, error)
+        return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
+    }
+}
+
+const updateImageSrcInDocument = async (pos: number, newSrc: string) => {
+    if (!editor.value) return
+    
+    const { state, view } = editor.value
+    const node = state.doc.nodeAt(pos)
+    
+    if (node && node.type.name === 'uploadImage') {
+        const tr = state.tr
+        tr.setNodeMarkup(pos, null, { ...node.attrs, src: newSrc })
+        view.dispatch(tr)
+        console.log('ContentEditor.updateImageSrcInDocument: Updated image src at position', pos, 'to', newSrc)
+    }
+}
+
+// Wrapper for sync calls to checkContentImages
+const checkContentImagesSync = () => {
+    checkContentImages().catch(error => {
+        console.error('ContentEditor.checkContentImagesSync: Error checking content images:', error)
+    })
 }
 
 const loadingStore = useLoadingStore()
@@ -477,7 +769,7 @@ const autoSave = () => {
 
     // TEMPORARILY DISABLED: Automatic deletion timer to prevent false deletions
     // This was causing images to be deleted incorrectly after idle periods
-    deletePageContentImageTimer.value = setTimeout(() => {
+    deletePageContentImageTimer.value = setTimeout(async () => {
         console.log('ContentEditor.autoSave: Automatic deletion timer triggered after 60s idle')
         console.log('ContentEditor.autoSave: Current uploadedImagesMarkedForDeletion:', pageStore.uploadedImagesMarkedForDeletion)
         console.log('ContentEditor.autoSave: Current uploadedImagesInContent:', pageStore.uploadedImagesInContent)
@@ -489,10 +781,10 @@ const autoSave = () => {
         }
 
         // Check content images right before deletion to ensure accuracy
-        checkContentImages()
-
+        await checkContentImages()
+        
         console.log('ContentEditor.autoSave: After checkContentImages - uploadedImagesMarkedForDeletion:', pageStore.uploadedImagesMarkedForDeletion)
-
+        
         // Final safety check
         if (pageStore.uploadedImagesMarkedForDeletion.length === 0) {
             console.log('ContentEditor.autoSave: No images marked for deletion after content check, skipping')
@@ -526,7 +818,7 @@ const createFlashcard = () => {
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages" class="page-content-menubar">
+        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImagesSync" class="page-content-menubar">
             <template v-slot:start v-if="userStore.isAdmin">
                 <button class="menubar__button ai-create" @mousedown="createFlashcard">
                     <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
