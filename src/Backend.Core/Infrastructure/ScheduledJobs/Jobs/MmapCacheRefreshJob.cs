@@ -21,7 +21,7 @@ public class MmapCacheRefreshJob : IJob
             // This is the scheduled daily job, no jobTrackingId tracking needed
             JobExecute.Run(scope =>
             {
-                _mmapCacheRefreshService.TriggerManualRefresh();
+                _mmapCacheRefreshService.Refresh();
             }, "MmapCacheRefreshJob");
         }
         else
@@ -41,7 +41,7 @@ public class MmapCacheRefreshJob : IJob
             {
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Starting mmap cache refresh...", OperationName);
 
-                _mmapCacheRefreshService.TriggerManualRefresh(jobTrackingId);
+                _mmapCacheRefreshService.Refresh(jobTrackingId);
 
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Completed, "Mmap caches have been refreshed successfully.", OperationName);
             }
