@@ -149,4 +149,76 @@ public static class JobScheduler
                 .Build(),
             TriggerBuilder.Create().StartNow().Build());
     }
+
+    public static void StartImmediately_ReindexAllQuestions(string jobTrackingId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<MeiliReIndexQuestionsJob>()
+                .UsingJobData("jobTrackingId", jobTrackingId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_RecalculateKnowledgeItems(string jobTrackingId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<RecalculateKnowledgeItemsJob>()
+                .UsingJobData("jobTrackingId", jobTrackingId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_CalcAggregatedValues(string jobTrackingId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<CalcAggregatedValuesJob>()
+                .UsingJobData("jobTrackingId", jobTrackingId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_UpdateUserReputation(string jobTrackingId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<UpdateUserReputationJob>()
+                .UsingJobData("jobTrackingId", jobTrackingId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_MeiliReIndexPages(string jobTrackingId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<MeiliReIndexPagesJob>()
+                .UsingJobData("jobTrackingId", jobTrackingId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_MeiliReIndexUsers(string jobTrackingId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<MeiliReIndexUsersJob>()
+                .UsingJobData("jobTrackingId", jobTrackingId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_RelationErrorAnalysis(string jobTrackingId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<RelationErrorAnalysis>()
+                .UsingJobData("jobTrackingId", jobTrackingId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
+
+    public static void StartImmediately_MmapCacheRefresh(string jobTrackingId)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<MmapCacheRefreshJob>()
+                .UsingJobData("jobTrackingId", jobTrackingId)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
 }

@@ -62,6 +62,20 @@ interface ActiveSessionsResponse {
     anonymousUserCount: number
 }
 
+enum JobStatus {
+    Running = 0,
+    Completed = 1,
+    Failed = 2,
+    NotFound = 3
+}
+
+interface JobStatusResponse {
+    jobTrackingId: string
+    status: JobStatus
+    message: string
+    operationName: string
+}
+
 interface RelationErrorItem {
     parentId: number
     errors: any[]
@@ -72,6 +86,8 @@ interface RelationErrorsResponse {
     success: boolean
     data: RelationErrorItem[]
 }
+
+const isAnalyzing = ref(false)
 
 const questionMethods = ref<MethodData[]>([
     { url: 'RecalculateAllKnowledgeItems', translationKey: 'maintenance.questions.recalculateAllKnowledgeItems' },
@@ -84,12 +100,7 @@ const cacheMethods = ref<MethodData[]>([
 const pageMethods = ref<MethodData[]>([
     { url: 'UpdateCategoryAuthors', translationKey: 'maintenance.pages.updateCategoryAuthors' }
 ])
-const relationMethods = ref<MethodData[]>([])
 
-// Simple button for showing relation errors
-const showRelationErrorsButton = async () => {
-    await loadRelationErrors()
-}
 const meiliSearchMethods = ref<MethodData[]>([
     { url: 'MeiliReIndexAllQuestions', translationKey: 'maintenance.meiliSearch.questions' },
     { url: 'MeiliReIndexAllQuestionsCache', translationKey: 'maintenance.meiliSearch.questionsCache' },
@@ -110,36 +121,171 @@ const toolsMethods = ref<MethodData[]>([
     { url: 'ReloadListFromIgnoreCrawlers', translationKey: 'maintenance.tools.reloadIgnoreCrawlers' },
     { url: 'CleanUpWorkInProgressQuestions', translationKey: 'maintenance.tools.cleanupWorkInProgress' },
     { url: 'Start100TestJobs', translationKey: 'maintenance.tools.start100TestJobs' },
-
+    { url: 'ClearAllJobs', translationKey: 'maintenance.tools.clearAllJobs' },
+    { url: 'PollingTest5s', translationKey: 'maintenance.tools.pollingTest5s' },
+    { url: 'PollingTest30s', translationKey: 'maintenance.tools.pollingTest30s' },
+    { url: 'PollingTest120s', translationKey: 'maintenance.tools.pollingTest120s' },
 ])
 const resultMsg = ref('')
 const relationErrors = ref<RelationErrorItem[]>([])
+const runningJobs = ref<Map<string, string>>(new Map())
+const jobProgress = ref<Map<string, JobStatusResponse>>(new Map())
 
-async function handleClick(url: string) {
+// Adaptive polling configuration
+const FAST_POLL_INTERVAL = 2000 // 2 seconds when jobs are active
+const SLOW_POLL_INTERVAL = 15000 // 15 seconds when no jobs are running
+const userStartedJob = ref(false) // Track if user manually started a job
+let currentPollInterval = SLOW_POLL_INTERVAL
+
+const executeMaintenanceOperation = async (operationUrl: string) => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
 
-    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/${url}`, {
+    // RemoveAdminRights is handled synchronously
+    if (operationUrl === 'RemoveAdminRights') {
+        const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/${operationUrl}`, {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (result?.success) {
+            userStore.isAdmin = false
+            antiForgeryToken.value = undefined
+            await navigateTo('/')
+        }
+        return
+    }
+
+    // All other operations are handled as background jobs
+    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/${operationUrl}`, {
         body: data,
         method: 'POST',
         mode: 'cors',
         credentials: 'include'
     })
 
-    if (result?.success)
-        resultMsg.value = result.data
+    if (result?.success) {
+        const jobTrackingId = result.data
+        runningJobs.value.set(jobTrackingId, operationUrl)
+        resultMsg.value = `Job ${operationUrl} started. Checking status...`
+
+        // Mark that user manually started a job
+        userStartedJob.value = true
+
+        // Switch to fast polling and immediately check for updates
+        updatePollingInterval()
+
+        // Immediately fetch all running jobs to get the latest status
+        await checkForRunningJobs()
+    }
+}
+
+const checkForRunningJobs = async () => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        return
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+    const result = await $api<JobStatusResponse[]>('/apiVue/VueMaintenance/GetAllRunningJobs', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: data
+    })
+
+    if (result && Array.isArray(result)) {
+        const previousJobCount = runningJobs.value.size
+        const previousJobs = new Map(runningJobs.value)
+
+        // Clear current running jobs and repopulate from backend
+        runningJobs.value.clear()
+        jobProgress.value.clear()
+
+        for (const job of result) {
+            runningJobs.value.set(job.jobTrackingId, job.operationName)
+            jobProgress.value.set(job.jobTrackingId, job)
+
+            // Update result message with the latest job status
+            if (job.status === JobStatus.Running) {
+                resultMsg.value = job.message
+            }
+        }
+
+        // Check for jobs that were in previous list but not in current (they completed/failed)
+        for (const [jobTrackingId, operationName] of previousJobs) {
+            if (!runningJobs.value.has(jobTrackingId)) {
+                // Job is no longer in the running list - it completed or failed
+                resultMsg.value = `Job ${operationName} completed`
+            }
+        }
+
+        // If this is the first call and we found jobs, switch to fast polling
+        if (previousJobCount === 0 && result.length > 0) {
+            userStartedJob.value = true
+        }
+
+        // Update polling interval based on job status
+        updatePollingInterval()
+    }
+}
+
+const updatePollingInterval = () => {
+    const hasRunningJobs = runningJobs.value.size > 0
+    const shouldUseFastPolling = userStartedJob.value || hasRunningJobs
+
+    const newInterval = shouldUseFastPolling ? FAST_POLL_INTERVAL : SLOW_POLL_INTERVAL
+
+    if (newInterval !== currentPollInterval) {
+        currentPollInterval = newInterval
+
+        // Restart the polling interval with new timing
+        if (jobPollingInterval) {
+            clearInterval(jobPollingInterval)
+            jobPollingInterval = setInterval(() => {
+                checkForRunningJobs()
+            }, currentPollInterval)
+        }
+    }
+
+    // Reset userStartedJob flag when no jobs are running
+    if (!hasRunningJobs) {
+        userStartedJob.value = false
+    }
 }
 
 const emit = defineEmits(['setBreadcrumb'])
+
+let jobPollingInterval: NodeJS.Timeout | null = null
 
 onBeforeMount(() => {
     if (!isAdmin.value && !userStore.isAdmin)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     emit('setBreadcrumb', [{ name: 'Maintenance', url: '/Maintenance' }])
+})
+
+onMounted(() => {
+    // Check for running jobs immediately
+    checkForRunningJobs()
+
+    // Set up periodic polling with adaptive interval
+    jobPollingInterval = setInterval(() => {
+        checkForRunningJobs()
+    }, currentPollInterval)
+})
+
+onBeforeUnmount(() => {
+    // Clean up the polling interval
+    if (jobPollingInterval) {
+        clearInterval(jobPollingInterval)
+        jobPollingInterval = null
+    }
 })
 
 const userIdToDelete = ref(0)
@@ -184,25 +330,137 @@ async function removeAdminRights() {
 }
 
 const relationErrorsLoaded = ref(false)
+const relationAnalysisjobTrackingId = ref<string | null>(null)
+let stopRelationJobWatcher: (() => void) | null = null
 
 async function loadRelationErrors() {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    if (isAnalyzing.value) {
+        return // Already analyzing
+    }
+
     try {
-        const result = await $api<RelationErrorsResponse>('/apiVue/VueMaintenance/ShowRelationErrors', {
-            method: 'GET',
+        isAnalyzing.value = true
+        // Step 1: Start the background analysis
+        resultMsg.value = 'Starting relation analysis...'
+        relationErrorsLoaded.value = false
+        relationErrors.value = []
+
+        const data = new FormData()
+        data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+        const startResult = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/StartRelationAnalysis`, {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (!startResult.success) {
+            resultMsg.value = 'Error starting analysis.'
+            return
+        }
+
+        relationAnalysisjobTrackingId.value = startResult.data
+        resultMsg.value = 'Analysis in progress...'
+
+        // Step 2: Set up watcher for job completion
+        if (stopRelationJobWatcher) {
+            stopRelationJobWatcher() // Stop any existing watcher
+        }
+
+        stopRelationJobWatcher = watch(jobProgress, (jobs) => {
+            if (relationAnalysisjobTrackingId.value && jobs.has(relationAnalysisjobTrackingId.value)) {
+                const job = jobs.get(relationAnalysisjobTrackingId.value)
+                if (job) {
+                    if (job.status === JobStatus.Completed) {
+                        resultMsg.value = 'Analysis completed. Fetching results...'
+                        fetchCachedRelationErrors()
+                    } else if (job.status === JobStatus.Failed) {
+                        resultMsg.value = `Analysis failed: ${job.message}`
+                        relationAnalysisjobTrackingId.value = null
+                        isAnalyzing.value = false
+                        if (stopRelationJobWatcher) {
+                            stopRelationJobWatcher()
+                            stopRelationJobWatcher = null
+                        }
+                    } else if (job.status === JobStatus.Running) {
+                        resultMsg.value = `Analysis in progress... ${job.message}`
+                    }
+                }
+            }
+        }, { deep: true })
+
+    } catch (error) {
+        console.error('Error in relation analysis flow:', error)
+        resultMsg.value = 'Error during analysis flow.'
+        relationAnalysisjobTrackingId.value = null
+        if (stopRelationJobWatcher) {
+            stopRelationJobWatcher()
+            stopRelationJobWatcher = null
+        }
+    } finally {
+        isAnalyzing.value = false
+    }
+    checkForRunningJobs()
+}
+
+const fetchCachedRelationErrors = async () => {
+
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        return
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    const cachedResult = await $api<RelationErrorsResponse>('/apiVue/VueMaintenance/GetRelationErrors', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: data
+    })
+
+    if (cachedResult.success) {
+        relationErrors.value = cachedResult.data
+        resultMsg.value = `Found ${cachedResult.data.length} pages with relation errors.`
+        relationErrorsLoaded.value = true
+    } else {
+        resultMsg.value = 'Error loading cached results.'
+    }
+
+    relationAnalysisjobTrackingId.value = null
+    if (stopRelationJobWatcher) {
+        stopRelationJobWatcher()
+        stopRelationJobWatcher = null
+    }
+}
+
+async function clearRelationErrorsCache() {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    try {
+        const data = new FormData()
+        data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+        const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/ClearRelationErrorsCache`, {
+            body: data,
+            method: 'POST',
             mode: 'cors',
             credentials: 'include'
         })
 
         if (result.success) {
-            relationErrors.value = result.data
-            resultMsg.value = `Found ${result.data.length} pages with relation errors.`
-            relationErrorsLoaded.value = true
+            resultMsg.value = 'Cache cleared successfully.'
+            relationErrors.value = []
+            relationErrorsLoaded.value = false
         } else {
-            resultMsg.value = 'Error loading relation errors.'
+            resultMsg.value = 'Error clearing cache.'
         }
     } catch (error) {
-        console.error('Error loading relation errors:', error)
-        resultMsg.value = 'Error loading relation errors.'
+        console.error('Error clearing cache:', error)
+        resultMsg.value = 'Error clearing cache.'
     }
 }
 
@@ -234,6 +492,30 @@ async function healRelations(pageId: number) {
     }
 }
 
+const clearJob = async (jobTrackingId: string) => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('jobTrackingId', jobTrackingId)
+
+    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/ClearJob`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result.success) {
+        resultMsg.value = result.data
+        // Remove the job from local state immediately for responsive UI
+        runningJobs.value.delete(jobTrackingId)
+        jobProgress.value.delete(jobTrackingId)
+        // Also refresh the job list to sync with backend
+        await checkForRunningJobs()
+    }
+}
 interface MmapCacheStatus {
     exists: boolean
     lastModified: string
@@ -284,16 +566,36 @@ const loadMmapCacheStatus = async () => {
                     @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
                 {{ resultMsg }}
             </div>
+
+            <!-- Active Jobs Status Panel -->
+            <LayoutPanel v-if="runningJobs.size > 0" title="Active Jobs" class="active-jobs-panel">
+                <LayoutCard v-for="[jobTrackingId, operationName] in runningJobs.entries()" :key="jobTrackingId" :size="LayoutCardSize.Small">
+                    <div class="running-job">
+                        <div class="job-header">
+                            <h4>{{ operationName }}</h4>
+                            <button @click="clearJob(jobTrackingId)" class="clear-job-btn" title="Clear Job">
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                            </button>
+                        </div>
+                        <div v-if="jobProgress.has(jobTrackingId)" class="job-status">
+                            <span>{{ jobProgress.get(jobTrackingId)?.message }}</span>
+                        </div>
+                        <div v-else class="job-status">
+                            <span>Starting...</span>
+                        </div>
+                    </div>
+                </LayoutCard>
+            </LayoutPanel>
             <LayoutPanel :title="$t('maintenance.metrics.title')">
                 <NuxtLink to="/Metriken" class="memo-button btn btn-primary">
                     {{ $t('maintenance.metrics.viewOverview') }}
                 </NuxtLink>
             </LayoutPanel>
-            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods" @method-clicked="handleClick"
+            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods" @method-clicked="executeMaintenanceOperation"
                 :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods" @method-clicked="handleClick"
+            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods" @method-clicked="executeMaintenanceOperation"
                 :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="handleClick"
+            <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="executeMaintenanceOperation"
                 :icon="['fas', 'retweet']" />
 
             <LayoutPanel :title="$t('maintenance.mmapCache.title')">
@@ -326,20 +628,24 @@ const loadMmapCacheStatus = async () => {
             </LayoutPanel>
 
             <LayoutPanel :title="$t('maintenance.relations.title')">
-
                 <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
-                    <button @click="showRelationErrorsButton" class="memo-button btn btn-primary">
-                        {{ $t('maintenance.relations.showErrors') }}
-                    </button>
+                    <div class="relation-errors-controls">
+                        <button @click="loadRelationErrors" class="memo-button btn btn-primary" :disabled="isAnalyzing">
+                            <i v-if="isAnalyzing" class="fas fa-spinner fa-spin"></i>
+                            {{ isAnalyzing ? 'Analyzing...' : 'Analyze and Show' }}
+                        </button>
+                        <button @click="clearRelationErrorsCache" class="memo-button btn btn-secondary ms-2" :disabled="isAnalyzing">
+                            Clear Cache
+                        </button>
+                    </div>
                 </LayoutCard>
-
                 <MaintenanceRelationErrorCard v-for="errorItem in relationErrors" :key="errorItem.parentId" :error-item="errorItem" @heal-relations="healRelations" />
                 <div v-if="relationErrorsLoaded && relationErrors.length === 0" class="no-errors-message">
                     {{ $t('maintenance.relations.noErrorsFound') }}
                 </div>
             </LayoutPanel>
-            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods" :description="$t('maintenance.meiliSearch.description')" @method-clicked="handleClick" :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="handleClick" :icon="['fas', 'retweet']">
+            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods" :description="$t('maintenance.meiliSearch.description')" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']">
                 <LayoutCard :size="LayoutCardSize.Tiny">
                     <div class="active-users-info">
                         <h4>{{ $t('maintenance.users.activeSessions') }}</h4>
@@ -362,8 +668,8 @@ const loadMmapCacheStatus = async () => {
                 </LayoutCard>
 
             </MaintenanceSection>
-            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" @method-clicked="handleClick" :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" @method-clicked="handleClick" :icon="['fas', 'hammer']" />
+            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'hammer']" />
             <LayoutPanel :title="$t('maintenance.removeAdminRights.title')">
                 <button @click="removeAdminRights" class="memo-button btn btn-primary">
                     {{ $t('maintenance.removeAdminRights.button') }}
@@ -427,6 +733,15 @@ const loadMmapCacheStatus = async () => {
     margin-top: 48px;
 }
 
+.running-job {
+    padding: 16px;
+
+    h4 {
+        margin: 0 0 12px 0;
+        color: @memo-grey-darker;
+    }
+}
+
 .mmap-cache-controls {
     padding: 15px;
     display: flex;
@@ -434,6 +749,54 @@ const loadMmapCacheStatus = async () => {
 
     .memo-button {
         margin-right: 0;
+    }
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    h4 {
+        margin: 0;
+        color: @memo-grey-darker;
+    }
+}
+
+.clear-job-btn {
+    background: white;
+    border: none;
+    cursor: pointer;
+    color: @memo-grey;
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: 22px;
+    transition: all 0.2s ease;
+
+    &:hover {
+        color: @memo-wuwi-red;
+        background: brightness(0.95);
+    }
+
+    &:active {
+        background: brightness(0.9);
+    }
+}
+
+.job-status {
+    font-size: 14px;
+    color: @memo-grey-darker;
+    font-style: italic;
+}
+
+.relation-errors-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+
+    .btn-secondary {
+        background-color: @memo-grey;
     }
 }
 </style>
