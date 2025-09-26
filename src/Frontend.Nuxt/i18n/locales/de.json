@@ -1876,7 +1876,10 @@
             "throwException": "Exception werfen",
             "reloadIgnoreCrawlers": "Liste der ignorierten Crawler neu laden",
             "cleanupWorkInProgress": "In Bearbeitung befindliche Fragen bereinigen",
-            "start100TestJobs": "100 Test-Jobs starten"
+            "start100TestJobs": "100 Test-Jobs starten",
+            "pollingTest5s": "Polling-Test (5 Sekunden)",
+            "pollingTest30s": "Polling-Test (30 Sekunden)",
+            "pollingTest120s": "Polling-Test (120 Sekunden)"
         },
         "removeAdminRights": {
             "title": "Admin-Rechte entfernen",

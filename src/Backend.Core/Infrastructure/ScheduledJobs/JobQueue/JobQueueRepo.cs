@@ -1,7 +1,5 @@
 ﻿using NHibernate;
 using NHibernate.Transform;
-using NHibernate.Util;
-
 
 public class JobQueueRepo : RepositoryDb<JobQueue>
 {

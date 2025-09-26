@@ -138,7 +138,7 @@ public class PageViewRepo(
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
         FROM pageview 
-        WHERE LastPageViewCreatedAt > :sinceDate
+        WHERE DateCreated > :sinceDate
         GROUP BY 
             Page_Id, 
             DateOnly

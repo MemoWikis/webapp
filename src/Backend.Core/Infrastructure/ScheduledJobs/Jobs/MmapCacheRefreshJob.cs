@@ -1,22 +1,57 @@
 using Quartz;
-using System.Diagnostics;
 
 public class MmapCacheRefreshJob : IJob
 {
     private readonly MmapCacheRefreshService _mmapCacheRefreshService;
+
+    public string OperationName => "RefreshMmapCaches";
 
     public MmapCacheRefreshJob(MmapCacheRefreshService mmapCacheRefreshService)
     {
         _mmapCacheRefreshService = mmapCacheRefreshService;
     }
 
-    public Task Execute(IJobExecutionContext context)
+    public async Task Execute(IJobExecutionContext context)
     {
-        JobExecute.Run(scope =>
-        {
-            _mmapCacheRefreshService.TriggerManualRefresh();
-        }, "MmapCacheRefreshJob");
+        var dataMap = context.JobDetail.JobDataMap;
+        var jobTrackingId = dataMap.GetString("jobTrackingId");
 
-        return Task.CompletedTask;
+        if (string.IsNullOrEmpty(jobTrackingId))
+        {
+            // This is the scheduled daily job, no jobTrackingId tracking needed
+            JobExecute.Run(scope =>
+            {
+                _mmapCacheRefreshService.TriggerManualRefresh();
+            }, "MmapCacheRefreshJob");
+        }
+        else
+        {
+            // This is a manually triggered job, use job tracking
+            await Run(jobTrackingId);
+        }
+
+        Log.Information("Job ended - {OperationName}", OperationName);
+    }
+
+    private async Task Run(string jobTrackingId)
+    {
+        await JobExecute.RunAsync(scope =>
+        {
+            try
+            {
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Starting mmap cache refresh...", OperationName);
+
+                _mmapCacheRefreshService.TriggerManualRefresh(jobTrackingId);
+
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Completed, "Mmap caches have been refreshed successfully.", OperationName);
+            }
+            catch (Exception ex)
+            {
+                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, $"Error: {ex.Message}", OperationName);
+                throw;
+            }
+
+            return Task.CompletedTask;
+        }, OperationName);
     }
 }
