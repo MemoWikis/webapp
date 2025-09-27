@@ -1,13 +1,24 @@
-## Non-commercial Use
-The source code, its compilations, and any artifacts associated with the source code for the "memoWikis" application (Reference: [https://github.com/memowikis/webapp](https://github.com/memowikis/webapp)), as long as they are not subject to third-party rights, may be used unrestrictedly for non-commercial purposes.
+## ✨ TL;DR
+**This software is free.**  
+Free to use, change, build, and share for **non-commercial** purposes.  
+Businesses may use it **internally** for free. **No selling, no paid access.**
 
-## Commercial Use
-You may use or modify the software only for your own internal business purposes.  
-You may distribute the software or provide it to others only if you do so free of charge and for non-commercial purposes.  
+## What's covered
+This license applies to the source code in this repository and any software you or your organization build from it.
 
-You are not allowed to charge third parties for the use of the software.  
-If you need additional permissions or have further questions, please get in touch.
+## Non-commercial use (always free)
+- You may **use, modify, build, self-host, and share** the software for personal, educational, research, or non-profit purposes.  
+- You may **redistribute it for free**.  
+- You **must not charge** anyone for the software or for access to it.
+
+## Commercial use (free, internal only)
+- You may **use and modify** the software **inside your organization**.  
+- You may **not** sell, license, or offer the software (or access to it) **as a paid product or service**.  
+- If you share it outside your organization, it must be **free** and **non-commercial**.
+
+## Third-party rights
+If parts of the code or bundled assets belong to third parties, their terms still apply.
 
 ## Disclaimer
-The software is provided "as is" without any warranties.  
-The licensor is not liable for damages resulting from its use.
+The software is provided **"as is"**, without warranties of any kind.  
+The licensor **is not liable** for any damages resulting from its use.
