@@ -128,7 +128,7 @@ const ariaId2 = useId()
                         <div class="dropdown-icon">
                             <font-awesome-icon :icon="['fas', 'plus']" />
                         </div>
-                        <div class="dropdown-label">{{ t('page.grid.options.create') }}</div>
+                        <div class="dropdown-label">{{ t('page.grid.options.createSubpage') }}</div>
                     </div>
                     <div class="divider"></div>
 
