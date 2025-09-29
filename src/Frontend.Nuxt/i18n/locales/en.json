@@ -385,7 +385,7 @@
             },
             "options": {
                 "parentPages": "Parent pages",
-                "create": "Create subpage",
+                "createSubpage": "Create subpage",
                 "editLinks": "Edit links",
                 "linkParentPage": "Link parent page",
                 "link": "Link subpage",
