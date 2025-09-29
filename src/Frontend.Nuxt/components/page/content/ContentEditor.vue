@@ -138,7 +138,10 @@ const initProvider = () => {
                     recreate()
                 }
             }
-        }
+        },
+        onMessage: (message) => {
+            console.log('Hocuspocus message:', message)
+        },
     })
 }
 
@@ -232,6 +235,12 @@ const initEditor = () => {
             ] : [History]
         ],
         onTransaction({ transaction }) {
+            // Track activity for collaboration safety
+            if (transaction.docChanged) {
+                lastActivity.value = Date.now()
+            }
+
+            console.log(transaction)
             // NEW APPROACH: Precisely detect when image nodes are actually deleted
             try {
                 if (transaction.steps.length > 0) {
@@ -746,6 +755,40 @@ watch(() => userStore.isLoggedIn, (val) => recreate(val))
 
 const autoSaveTimer = ref()
 const deletePageContentImageTimer = ref()
+
+// Simple activity tracking for collaboration safety
+const lastActivity = ref(Date.now())
+const COLLABORATION_SAFETY_TIMEOUT = 30000 // 30 seconds
+
+function isSafeForAutosave() {
+    // Check if images are uploading
+    if (pageStore.uploadTrackingArray.length > 0) {
+        console.log('ContentEditor.isSafeForAutosave: Blocking - images uploading')
+        return false
+    }
+
+    // Check collaboration sync state
+    if (loadCollab.value && userStore.isLoggedIn && !isSynced.value) {
+        console.log('ContentEditor.isSafeForAutosave: Blocking - collaboration not synced')
+        return false
+    }
+
+    // Check if there has been recent activity from any user
+    if (editor.value && loadCollab.value && userStore.isLoggedIn) {
+        const collaborationState = editor.value.storage.collaborationCursor
+        const connectedUsers = Object.keys(collaborationState?.users || {})
+        const timeSinceLastActivity = Date.now() - lastActivity.value
+
+        // If other users are connected AND there has been recent activity, block autosave
+        if (connectedUsers.length > 1 && timeSinceLastActivity < COLLABORATION_SAFETY_TIMEOUT) {
+            console.log(`ContentEditor.isSafeForAutosave: Blocking - ${connectedUsers.length} users connected, activity ${Math.round(timeSinceLastActivity / 1000)}s ago`)
+            return false
+        }
+    }
+
+    return true
+}
+
 const autoSave = () => {
     if (pageStore.visibility != Visibility.Private)
         return
@@ -761,16 +804,22 @@ const autoSave = () => {
     }
 
     autoSaveTimer.value = setTimeout(() => {
-        if (editor.value) {
-            console.log('ContentEditor.autoSave: Executing saveContent after 3s idle')
+        if (editor.value && isSafeForAutosave()) {
+            console.log('ContentEditor.autoSave: Executing saveContent after 5s idle')
             pageStore.saveContent()
+        } else {
+            console.log('ContentEditor.autoSave: Skipping saveContent - not safe for autosave')
         }
-    }, 3000)
+    }, 5000)
 
-    // TEMPORARILY DISABLED: Automatic deletion timer to prevent false deletions
-    // This was causing images to be deleted incorrectly after idle periods
+    // Automatic deletion timer with collaboration safety
     deletePageContentImageTimer.value = setTimeout(async () => {
-        console.log('ContentEditor.autoSave: Automatic deletion timer triggered after 60s idle')
+        if (!isSafeForAutosave()) {
+            console.log('ContentEditor.autoSave: Skipping image cleanup - not safe for autosave')
+            return
+        }
+
+        console.log('ContentEditor.autoSave: Automatic deletion timer triggered after 10s idle')
         console.log('ContentEditor.autoSave: Current uploadedImagesMarkedForDeletion:', pageStore.uploadedImagesMarkedForDeletion)
         console.log('ContentEditor.autoSave: Current uploadedImagesInContent:', pageStore.uploadedImagesInContent)
 
@@ -793,7 +842,7 @@ const autoSave = () => {
 
         console.log('ContentEditor.autoSave: WARNING - About to delete images after automatic cleanup. This should be rare.')
         pageStore.deletePageContentImages()
-    }, 60000)  // Increased to 60s and added more safety checks
+    }, 30000)
 }
 
 const { isMobile } = useDevice()
