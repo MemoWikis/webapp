@@ -39,9 +39,10 @@ public class EntityCache
         ids.Select(id => GetUserById(id))
             .ToList();
 
-    public static void AddViewsLast30DaysToPages(PageViewRepo pageViewRepo, List<PageCacheItem> pageCacheItems)
+    public static void AddViewsLast30DaysToPages(List<PageViewSummaryWithId> allPageViews, List<PageCacheItem> pageCacheItems)
     {
-        var pagesViewsLast30Days = pageViewRepo.GetViewsForLastNDaysGroupByPageId(30);
+        var thirtyDaysAgo = DateTime.Now.AddDays(-30).Date;
+        var pagesViewsLast30Days = allPageViews.Where(view => view.DateOnly >= thirtyDaysAgo).ToList();
         foreach (var pageCacheItem in pageCacheItems)
         {
             var aggregatedPages = pageCacheItem.GetAllAggregatedPages()
@@ -56,7 +57,7 @@ public class EntityCache
                 .ToList();
 
             var pageViews30Days = pagesViewsLast30Days
-                .Where(view => (view.PageId == pageCacheItem.Id))
+                .Where(view => view.PageId == pageCacheItem.Id)
                 .GroupBy(view => view.DateOnly)
                 .Select(g => new { Date = g.Key, TotalCount = g.Sum(v => v.Count) })
                 .OrderBy(result => result.Date)
