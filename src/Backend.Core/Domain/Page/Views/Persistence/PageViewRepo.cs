@@ -117,6 +117,31 @@ public class PageViewRepo(
 
     public IList<PageViewSummaryWithId> GetAllEager()
     {
+        const int batchSize = 500000;
+        var allResults = new List<PageViewSummaryWithId>();
+        var offset = 0;
+        
+        Log.Information("Loading page views in batches of {BatchSize}", batchSize);
+        
+        while (true)
+        {
+            var batch = GetAllEagerBatch(offset, batchSize);
+            if (!batch.Any())
+                break;
+                
+            allResults.AddRange(batch);
+            offset += batchSize;
+            
+            Log.Information("Loaded batch with {Count} page views (total: {Total})", 
+                batch.Count, allResults.Count);
+        }
+        
+        Log.Information("Finished loading {Total} page views", allResults.Count);
+        return allResults;
+    }
+
+    private IList<PageViewSummaryWithId> GetAllEagerBatch(int offset, int batchSize)
+    {
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
         FROM pageview 
@@ -125,7 +150,12 @@ public class PageViewRepo(
             DateOnly
         ORDER BY 
             Page_Id, 
-            DateOnly;");
+            DateOnly
+        LIMIT :batchSize OFFSET :offset;");
+
+        query.SetParameter("batchSize", batchSize);
+        query.SetParameter("offset", offset);
+        query.SetTimeout(300); // 5 minutes timeout
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
             .List<PageViewSummaryWithId>();

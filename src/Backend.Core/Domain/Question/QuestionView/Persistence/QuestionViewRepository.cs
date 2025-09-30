@@ -83,6 +83,31 @@ public class QuestionViewRepository(ISession _session, QuestionViewMmapCache que
 
     public IList<QuestionViewSummaryWithId> GetAllEager()
     {
+        const int batchSize = 500000;
+        var allResults = new List<QuestionViewSummaryWithId>();
+        var offset = 0;
+        
+        Log.Information("Loading question views in batches of {BatchSize}", batchSize);
+        
+        while (true)
+        {
+            var batch = GetAllEagerBatch(offset, batchSize);
+            if (!batch.Any())
+                break;
+                
+            allResults.AddRange(batch);
+            offset += batchSize;
+            
+            Log.Information("Loaded batch with {Count} question views (total: {Total})", 
+                batch.Count, allResults.Count);
+        }
+        
+        Log.Information("Finished loading {Total} question views", allResults.Count);
+        return allResults;
+    }
+
+    private IList<QuestionViewSummaryWithId> GetAllEagerBatch(int offset, int batchSize)
+    {
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId, MAX(DateCreated) as DateCreated
         FROM QuestionView 
@@ -91,7 +116,12 @@ public class QuestionViewRepository(ISession _session, QuestionViewMmapCache que
             DateOnly
         ORDER BY 
             QuestionId, 
-            DateOnly;");
+            DateOnly
+        LIMIT :batchSize OFFSET :offset;");
+
+        query.SetParameter("batchSize", batchSize);
+        query.SetParameter("offset", offset);
+        query.SetTimeout(300); // 5 minutes timeout
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryWithId)))
             .List<QuestionViewSummaryWithId>();
