@@ -113,24 +113,38 @@ public class QuestionViewRepository(ISession _session, QuestionViewMmapCache que
 
     private IList<QuestionViewSummaryWithId> GetAllEagerBatchCursor(int? lastQuestionId, DateTime? lastDateOnly, int batchSize)
     {
-        var whereClause = "";
+        string sqlQuery;
+        
         if (lastQuestionId.HasValue && lastDateOnly.HasValue)
         {
-            whereClause = @"WHERE (QuestionId > :lastQuestionId) 
-                           OR (QuestionId = :lastQuestionId AND DateOnly > :lastDateOnly)";
+            sqlQuery = @"
+                SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId, MAX(DateCreated) as DateCreated
+                FROM QuestionView 
+                WHERE (QuestionId > :lastQuestionId) 
+                   OR (QuestionId = :lastQuestionId AND DateOnly > :lastDateOnly)
+                GROUP BY 
+                    QuestionId, 
+                    DateOnly
+                ORDER BY 
+                    QuestionId, 
+                    DateOnly
+                LIMIT :batchSize";
+        }
+        else
+        {
+            sqlQuery = @"
+                SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId, MAX(DateCreated) as DateCreated
+                FROM QuestionView 
+                GROUP BY 
+                    QuestionId, 
+                    DateOnly
+                ORDER BY 
+                    QuestionId, 
+                    DateOnly
+                LIMIT :batchSize";
         }
 
-        var query = _session.CreateSQLQuery($@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId, MAX(DateCreated) as DateCreated
-        FROM QuestionView 
-        {whereClause}
-        GROUP BY 
-            QuestionId, 
-            DateOnly
-        ORDER BY 
-            QuestionId, 
-            DateOnly
-        LIMIT :batchSize;");
+        var query = _session.CreateSQLQuery(sqlQuery);
 
         if (lastQuestionId.HasValue && lastDateOnly.HasValue)
         {
