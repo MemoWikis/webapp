@@ -83,7 +83,7 @@ public class QuestionViewRepository(ISession _session, QuestionViewMmapCache que
 
     public IList<QuestionViewSummaryWithId> GetAllEager()
     {
-        const int batchSize = 500000; // Reduced batch size for better reliability
+        const int batchSize = 500000;
         var allResults = new List<QuestionViewSummaryWithId>();
         int? lastQuestionId = null;
         DateTime? lastDateOnly = null;
