@@ -117,7 +117,7 @@ public class PageViewRepo(
 
     public IList<PageViewSummaryWithId> GetAllEager()
     {
-        const int batchSize = 500000;
+        const int batchSize = 100000; // Balanced for performance and stability
         var allResults = new List<PageViewSummaryWithId>();
         int? lastPageId = null;
         DateTime? lastDateOnly = null;
@@ -126,7 +126,7 @@ public class PageViewRepo(
         
         while (true)
         {
-            var batch = GetAllEagerBatchCursor(lastPageId, lastDateOnly, batchSize);
+            var batch = GetAllEagerBatchCursorWithRetry(lastPageId, lastDateOnly, batchSize);
             if (!batch.Any())
                 break;
                 
@@ -192,6 +192,46 @@ public class PageViewRepo(
             .List<PageViewSummaryWithId>();
 
         return result;
+    }
+
+    private IList<PageViewSummaryWithId> GetAllEagerBatchCursorWithRetry(int? lastPageId, DateTime? lastDateOnly, int batchSize)
+    {
+        const int maxRetries = 3;
+        const int retryDelayMs = 5000; // 5 seconds
+        
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        {
+            try
+            {
+                return GetAllEagerBatchCursor(lastPageId, lastDateOnly, batchSize);
+            }
+            catch (Exception ex) when (attempt < maxRetries && IsRetriableException(ex))
+            {
+                Log.Error(ex, "PageView batch query failed on attempt {Attempt}/{MaxRetries}. Retrying in {DelayMs}ms... Cursor: PageId={PageId}, DateOnly={DateOnly}", 
+                    attempt, maxRetries, retryDelayMs, lastPageId, lastDateOnly);
+                Thread.Sleep(retryDelayMs);
+            }
+        }
+        
+        // Final attempt without retry
+        try
+        {
+            return GetAllEagerBatchCursor(lastPageId, lastDateOnly, batchSize);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "PageView batch query failed after {MaxRetries} attempts. Cursor: PageId={PageId}, DateOnly={DateOnly}, BatchSize={BatchSize}", 
+                maxRetries, lastPageId, lastDateOnly, batchSize);
+            throw;
+        }
+    }
+
+    private static bool IsRetriableException(Exception ex)
+    {
+        return ex.Message.Contains("Connection reset by peer") ||
+               ex.Message.Contains("Reading from the stream has failed") ||
+               ex.Message.Contains("Fatal error encountered during data read") ||
+               ex.Message.Contains("timeout");
     }
 
     public IList<PageViewSummaryWithId> GetAllEagerSince(DateTime sinceDate)
