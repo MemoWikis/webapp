@@ -119,42 +119,59 @@ public class PageViewRepo(
     {
         const int batchSize = 500000;
         var allResults = new List<PageViewSummaryWithId>();
-        var offset = 0;
+        int? lastPageId = null;
+        DateTime? lastDateOnly = null;
         
-        Log.Information("Loading page views in batches of {BatchSize}", batchSize);
+        Log.Information("Loading page views in batches of {BatchSize} using cursor-based pagination", batchSize);
         
         while (true)
         {
-            var batch = GetAllEagerBatch(offset, batchSize);
+            var batch = GetAllEagerBatchCursor(lastPageId, lastDateOnly, batchSize);
             if (!batch.Any())
                 break;
                 
             allResults.AddRange(batch);
-            offset += batchSize;
             
-            Log.Information("Loaded batch with {Count} page views (total: {Total})", 
-                batch.Count, allResults.Count);
+            // Update cursor to the last item in this batch
+            var lastItem = batch.Last();
+            lastPageId = lastItem.PageId;
+            lastDateOnly = lastItem.DateOnly;
+            
+            Log.Information("Loaded batch with {Count} page views (total: {Total}), last cursor: PageId={PageId}, DateOnly={DateOnly}", 
+                batch.Count, allResults.Count, lastPageId, lastDateOnly);
         }
         
         Log.Information("Finished loading {Total} page views", allResults.Count);
         return allResults;
     }
 
-    private IList<PageViewSummaryWithId> GetAllEagerBatch(int offset, int batchSize)
+    private IList<PageViewSummaryWithId> GetAllEagerBatchCursor(int? lastPageId, DateTime? lastDateOnly, int batchSize)
     {
-        var query = _session.CreateSQLQuery(@"
+        var whereClause = "";
+        if (lastPageId.HasValue && lastDateOnly.HasValue)
+        {
+            whereClause = @"WHERE (Page_Id > :lastPageId) 
+                           OR (Page_Id = :lastPageId AND DateOnly > :lastDateOnly)";
+        }
+
+        var query = _session.CreateSQLQuery($@"
         SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
         FROM pageview 
+        {whereClause}
         GROUP BY 
             Page_Id, 
             DateOnly
         ORDER BY 
             Page_Id, 
             DateOnly
-        LIMIT :batchSize OFFSET :offset;");
+        LIMIT :batchSize;");
 
+        if (lastPageId.HasValue && lastDateOnly.HasValue)
+        {
+            query.SetParameter("lastPageId", lastPageId.Value);
+            query.SetParameter("lastDateOnly", lastDateOnly.Value);
+        }
         query.SetParameter("batchSize", batchSize);
-        query.SetParameter("offset", offset);
         query.SetTimeout(300); // 5 minutes timeout
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
