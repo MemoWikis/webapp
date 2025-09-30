@@ -83,44 +83,61 @@ public class QuestionViewRepository(ISession _session, QuestionViewMmapCache que
 
     public IList<QuestionViewSummaryWithId> GetAllEager()
     {
-        const int batchSize = 500000;
+        const int batchSize = 500000; // Reduced batch size for better reliability
         var allResults = new List<QuestionViewSummaryWithId>();
-        var offset = 0;
+        int? lastQuestionId = null;
+        DateTime? lastDateOnly = null;
         
-        Log.Information("Loading question views in batches of {BatchSize}", batchSize);
+        Log.Information("Loading question views in batches of {BatchSize} using cursor-based pagination", batchSize);
         
         while (true)
         {
-            var batch = GetAllEagerBatch(offset, batchSize);
+            var batch = GetAllEagerBatchCursor(lastQuestionId, lastDateOnly, batchSize);
             if (!batch.Any())
                 break;
                 
             allResults.AddRange(batch);
-            offset += batchSize;
             
-            Log.Information("Loaded batch with {Count} question views (total: {Total})", 
-                batch.Count, allResults.Count);
+            // Update cursor to the last item in this batch
+            var lastItem = batch.Last();
+            lastQuestionId = lastItem.QuestionId;
+            lastDateOnly = lastItem.DateOnly;
+            
+            Log.Information("Loaded batch with {Count} question views (total: {Total}), last cursor: QuestionId={QuestionId}, DateOnly={DateOnly}", 
+                batch.Count, allResults.Count, lastQuestionId, lastDateOnly);
         }
         
         Log.Information("Finished loading {Total} question views", allResults.Count);
         return allResults;
     }
 
-    private IList<QuestionViewSummaryWithId> GetAllEagerBatch(int offset, int batchSize)
+    private IList<QuestionViewSummaryWithId> GetAllEagerBatchCursor(int? lastQuestionId, DateTime? lastDateOnly, int batchSize)
     {
-        var query = _session.CreateSQLQuery(@"
+        var whereClause = "";
+        if (lastQuestionId.HasValue && lastDateOnly.HasValue)
+        {
+            whereClause = @"WHERE (QuestionId > :lastQuestionId) 
+                           OR (QuestionId = :lastQuestionId AND DateOnly > :lastDateOnly)";
+        }
+
+        var query = _session.CreateSQLQuery($@"
         SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId, MAX(DateCreated) as DateCreated
         FROM QuestionView 
+        {whereClause}
         GROUP BY 
             QuestionId, 
             DateOnly
         ORDER BY 
             QuestionId, 
             DateOnly
-        LIMIT :batchSize OFFSET :offset;");
+        LIMIT :batchSize;");
 
+        if (lastQuestionId.HasValue && lastDateOnly.HasValue)
+        {
+            query.SetParameter("lastQuestionId", lastQuestionId.Value);
+            query.SetParameter("lastDateOnly", lastDateOnly.Value);
+        }
         query.SetParameter("batchSize", batchSize);
-        query.SetParameter("offset", offset);
         query.SetTimeout(300); // 5 minutes timeout
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryWithId)))
