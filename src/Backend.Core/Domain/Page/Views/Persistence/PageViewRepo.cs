@@ -147,24 +147,38 @@ public class PageViewRepo(
 
     private IList<PageViewSummaryWithId> GetAllEagerBatchCursor(int? lastPageId, DateTime? lastDateOnly, int batchSize)
     {
-        var whereClause = "";
+        string sqlQuery;
+        
         if (lastPageId.HasValue && lastDateOnly.HasValue)
         {
-            whereClause = @"WHERE (Page_Id > :lastPageId) 
-                           OR (Page_Id = :lastPageId AND DateOnly > :lastDateOnly)";
+            sqlQuery = @"
+                SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
+                FROM pageview 
+                WHERE (Page_Id > :lastPageId) 
+                   OR (Page_Id = :lastPageId AND DateOnly > :lastDateOnly)
+                GROUP BY 
+                    Page_Id, 
+                    DateOnly
+                ORDER BY 
+                    Page_Id, 
+                    DateOnly
+                LIMIT :batchSize";
+        }
+        else
+        {
+            sqlQuery = @"
+                SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
+                FROM pageview 
+                GROUP BY 
+                    Page_Id, 
+                    DateOnly
+                ORDER BY 
+                    Page_Id, 
+                    DateOnly
+                LIMIT :batchSize";
         }
 
-        var query = _session.CreateSQLQuery($@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
-        FROM pageview 
-        {whereClause}
-        GROUP BY 
-            Page_Id, 
-            DateOnly
-        ORDER BY 
-            Page_Id, 
-            DateOnly
-        LIMIT :batchSize;");
+        var query = _session.CreateSQLQuery(sqlQuery);
 
         if (lastPageId.HasValue && lastDateOnly.HasValue)
         {
