@@ -14,7 +14,7 @@ public class PageViewMmapCache : IRegisterAsInstancePerLifetime
 
     public PageViewMmapCache()
     {
-        var cacheDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "viewcache");
+        var cacheDirectory = Settings.MmapCachePath;
         Directory.CreateDirectory(cacheDirectory);
 
         _pageViewsFilePath = Path.Combine(cacheDirectory, "pageviews.mmap");
