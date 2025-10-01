@@ -117,7 +117,7 @@ public class PageViewRepo(
 
     public IList<PageViewSummaryWithId> GetAllEager()
     {
-        const int batchSize = 100000; // Balanced for performance and stability
+        const int batchSize = 1000000;
         var allResults = new List<PageViewSummaryWithId>();
         int? lastPageId = null;
         DateTime? lastDateOnly = null;
