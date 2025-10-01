@@ -64,7 +64,7 @@ public static class JobScheduler
     private static void Schedule_MmapCacheRefresh()
     {
         var timeOfDay = Settings.Environment == "prod" ? new TimeOfDay(2, 00) : new TimeOfDay(3, 00);
-        var jobTrackingId = JobTracking.CreateJob("RefreshMmapCaches - Daily");
+        var jobTrackingId = "dailyRefresh";
 
         _scheduler.ScheduleJob(JobBuilder.Create<MmapCacheRefreshJob>()
                 .UsingJobData("jobTrackingId", jobTrackingId)
