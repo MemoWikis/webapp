@@ -8,12 +8,14 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ${HOST_IMAGE_PATH:-error}:${ABSOLUTE_IMAGE_PATH:-error}
+      - ${HOST_MMAP_CACHE_PATH:-error}:${ABSOLUTE_MMAP_CACHE_PATH:-error}
     networks:
       - environment-specific-network
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-stage}
       #Override appsettings:
       - Paths__AbsoluteImagePath=${ABSOLUTE_IMAGE_PATH:-/app/Images}
+      - Paths__AbsoluteMmapCachePath=${ABSOLUTE_MMAP_CACHE_PATH:-/app/MmapCache}
       - Paths__PageContentImages=${PAGE_CONTENT_IMAGE_FOLDER:-PageContent}
       - Paths__PageImages=${PAGE_IMAGE_FOLDER:-Page}
       - Paths__QuestionContentImages=${QUESTION_CONTENT_IMAGE_FOLDER:-QuestionContentImages}
@@ -71,6 +73,8 @@ networks:
 # LOM_EXPORT_PATH=<value>
 # HOST_IMAGE_PATH=C:/Projects/memucho/src/Backend.Api/Images
 # ABSOLUTE_IMAGE_PATH=/app/Images
+# HOST_MMAP_CACHE_PATH=C:/Projects/memucho/cache/mmap
+# ABSOLUTE_MMAP_CACHE_PATH=/app/MmapCache
 # SEQ_URL=http://host.docker.internal:5341
 # CANONICAL_HOST=<value>
 # CONNECTION_STRING=Server=host.docker.internal;Port=3306;Database=memucho;uid=root;pwd=XXXXXXXXXXXXXXXXXX

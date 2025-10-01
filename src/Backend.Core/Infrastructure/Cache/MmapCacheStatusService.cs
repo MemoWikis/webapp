@@ -8,7 +8,7 @@ public class MmapCacheStatusService : IRegisterAsInstancePerLifetime
 
     public MmapCacheStatusService()
     {
-        _cacheDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "viewcache");
+        _cacheDirectory = Settings.MmapCachePath;
         _pageViewsFile = Path.Combine(_cacheDirectory, "pageviews.mmap");
         _questionViewsFile = Path.Combine(_cacheDirectory, "questionviews.mmap");
     }
