@@ -33,7 +33,7 @@ public class MmapCacheRefreshJob : IJob
         Log.Information("Job ended - {OperationName}", OperationName);
     }
 
-    private async Task Run(string jobTrackingId)
+    private async Task Run(string? jobTrackingId = null)
     {
         await JobExecute.RunAsync(scope =>
         {
