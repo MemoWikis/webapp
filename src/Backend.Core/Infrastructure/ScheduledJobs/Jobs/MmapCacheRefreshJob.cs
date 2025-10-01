@@ -16,7 +16,7 @@ public class MmapCacheRefreshJob : IJob
         var dataMap = context.JobDetail.JobDataMap;
         var jobTrackingId = dataMap.GetString("jobTrackingId");
 
-        if (jobTrackingId == "dailyRefresh")
+        if (jobTrackingId == JobScheduler.MmapCacheDailyRefreshTrackingId)
         {
             // This is the scheduled daily job, no jobTrackingId tracking needed
             var dailyRefreshId = JobTracking.CreateJob("RefreshMmapCaches - Daily");
