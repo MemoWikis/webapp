@@ -23,3 +23,5 @@ appsettings.*.json
 /src/hocuspocus/node_modules/*
 /src/Docker/Dev/.env
 /src/Docker/Nuxt/.env
+/src/cache/mmap/pageviews.mmap
+/src/cache/mmap/questionviews.mmap

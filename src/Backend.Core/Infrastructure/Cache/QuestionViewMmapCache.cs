@@ -14,7 +14,7 @@ public class QuestionViewMmapCache : IRegisterAsInstancePerLifetime
 
     public QuestionViewMmapCache()
     {
-        var cacheDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "viewcache");
+        var cacheDirectory = Settings.MmapCachePath;
         Directory.CreateDirectory(cacheDirectory);
 
         _questionViewsFilePath = Path.Combine(cacheDirectory, "questionviews.mmap");

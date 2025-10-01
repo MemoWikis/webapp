@@ -117,20 +117,121 @@ public class PageViewRepo(
 
     public IList<PageViewSummaryWithId> GetAllEager()
     {
-        var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
-        FROM pageview 
-        GROUP BY 
-            Page_Id, 
-            DateOnly
-        ORDER BY 
-            Page_Id, 
-            DateOnly;");
+        const int batchSize = 1000000;
+        var allResults = new List<PageViewSummaryWithId>();
+        int? lastPageId = null;
+        DateTime? lastDateOnly = null;
+        
+        Log.Information("Loading page views in batches of {BatchSize} using cursor-based pagination", batchSize);
+        
+        while (true)
+        {
+            var batch = GetAllEagerBatchCursorWithRetry(lastPageId, lastDateOnly, batchSize);
+            if (!batch.Any())
+                break;
+                
+            allResults.AddRange(batch);
+            
+            // Update cursor to the last item in this batch
+            var lastItem = batch.Last();
+            lastPageId = lastItem.PageId;
+            lastDateOnly = lastItem.DateOnly;
+            
+            Log.Information("Loaded batch with {Count} page views (total: {Total}), last cursor: PageId={PageId}, DateOnly={DateOnly}", 
+                batch.Count, allResults.Count, lastPageId, lastDateOnly);
+        }
+        
+        Log.Information("Finished loading {Total} page views", allResults.Count);
+        return allResults;
+    }
+
+    private IList<PageViewSummaryWithId> GetAllEagerBatchCursor(int? lastPageId, DateTime? lastDateOnly, int batchSize)
+    {
+        string sqlQuery;
+        
+        if (lastPageId.HasValue && lastDateOnly.HasValue)
+        {
+            sqlQuery = @"
+                SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
+                FROM pageview 
+                WHERE (Page_Id > :lastPageId) 
+                   OR (Page_Id = :lastPageId AND DateOnly > :lastDateOnly)
+                GROUP BY 
+                    Page_Id, 
+                    DateOnly
+                ORDER BY 
+                    Page_Id, 
+                    DateOnly
+                LIMIT :batchSize";
+        }
+        else
+        {
+            sqlQuery = @"
+                SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId, MAX(DateCreated) as LastPageViewCreatedAt
+                FROM pageview 
+                GROUP BY 
+                    Page_Id, 
+                    DateOnly
+                ORDER BY 
+                    Page_Id, 
+                    DateOnly
+                LIMIT :batchSize";
+        }
+
+        var query = _session.CreateSQLQuery(sqlQuery);
+
+        if (lastPageId.HasValue && lastDateOnly.HasValue)
+        {
+            query.SetParameter("lastPageId", lastPageId.Value);
+            query.SetParameter("lastDateOnly", lastDateOnly.Value);
+        }
+        query.SetParameter("batchSize", batchSize);
+        query.SetTimeout(300); // 5 minutes timeout
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
             .List<PageViewSummaryWithId>();
 
         return result;
+    }
+
+    private IList<PageViewSummaryWithId> GetAllEagerBatchCursorWithRetry(int? lastPageId, DateTime? lastDateOnly, int batchSize)
+    {
+        const int maxRetries = 3;
+        const int retryDelayMs = 5000; // 5 seconds
+        
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        {
+            try
+            {
+                return GetAllEagerBatchCursor(lastPageId, lastDateOnly, batchSize);
+            }
+            catch (Exception ex) when (attempt < maxRetries && IsRetriableException(ex))
+            {
+                Log.Error(ex, "PageView batch query failed on attempt {Attempt}/{MaxRetries}. Retrying in {DelayMs}ms... Cursor: PageId={PageId}, DateOnly={DateOnly}", 
+                    attempt, maxRetries, retryDelayMs, lastPageId, lastDateOnly);
+                Thread.Sleep(retryDelayMs);
+            }
+        }
+        
+        // Final attempt without retry
+        try
+        {
+            return GetAllEagerBatchCursor(lastPageId, lastDateOnly, batchSize);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "PageView batch query failed after {MaxRetries} attempts. Cursor: PageId={PageId}, DateOnly={DateOnly}, BatchSize={BatchSize}", 
+                maxRetries, lastPageId, lastDateOnly, batchSize);
+            throw;
+        }
+    }
+
+    private static bool IsRetriableException(Exception ex)
+    {
+        return ex.Message.Contains("Connection reset by peer") ||
+               ex.Message.Contains("Reading from the stream has failed") ||
+               ex.Message.Contains("Fatal error encountered during data read") ||
+               ex.Message.Contains("timeout");
     }
 
     public IList<PageViewSummaryWithId> GetAllEagerSince(DateTime sinceDate)

@@ -4,6 +4,7 @@ using Quartz.Impl;
 public static class JobScheduler
 {
     private static IScheduler _scheduler = null!;
+    public static string MmapCacheDailyRefreshTrackingId = "mmapCacheDailyRefreshTrackingId";
 
     public static void Clear() => _scheduler.Clear();
 
@@ -63,10 +64,15 @@ public static class JobScheduler
 
     private static void Schedule_MmapCacheRefresh()
     {
-        _scheduler.ScheduleJob(JobBuilder.Create<MmapCacheRefreshJob>().Build(),
+        var timeOfDay = Settings.Environment == "prod" ? new TimeOfDay(2, 00) : new TimeOfDay(3, 00);
+        var jobTrackingId = MmapCacheDailyRefreshTrackingId;
+
+        _scheduler.ScheduleJob(JobBuilder.Create<MmapCacheRefreshJob>()
+                .UsingJobData("jobTrackingId", jobTrackingId)
+                .Build(),
             TriggerBuilder.Create()
                 .WithDailyTimeIntervalSchedule(x =>
-                    x.StartingDailyAt(new TimeOfDay(2, 00))
+                    x.StartingDailyAt(timeOfDay)
                         .OnEveryDay()
                         .EndingDailyAfterCount(1)).Build());
     }

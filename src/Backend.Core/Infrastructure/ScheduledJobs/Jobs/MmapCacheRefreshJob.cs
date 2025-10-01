@@ -16,13 +16,11 @@ public class MmapCacheRefreshJob : IJob
         var dataMap = context.JobDetail.JobDataMap;
         var jobTrackingId = dataMap.GetString("jobTrackingId");
 
-        if (string.IsNullOrEmpty(jobTrackingId))
+        if (jobTrackingId == JobScheduler.MmapCacheDailyRefreshTrackingId)
         {
             // This is the scheduled daily job, no jobTrackingId tracking needed
-            JobExecute.Run(scope =>
-            {
-                _mmapCacheRefreshService.Refresh();
-            }, "MmapCacheRefreshJob");
+            var dailyRefreshId = JobTracking.CreateJob("RefreshMmapCaches - Daily");
+            await Run(dailyRefreshId);
         }
         else
         {
@@ -33,7 +31,7 @@ public class MmapCacheRefreshJob : IJob
         Log.Information("Job ended - {OperationName}", OperationName);
     }
 
-    private async Task Run(string jobTrackingId)
+    private async Task Run(string? jobTrackingId = null)
     {
         await JobExecute.RunAsync(scope =>
         {

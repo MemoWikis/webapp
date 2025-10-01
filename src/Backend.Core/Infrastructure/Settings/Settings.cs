@@ -57,6 +57,11 @@ public class Settings
             ? Path.Combine(WebHostEnvironmentProvider.GetWebHostEnvironment().ContentRootPath, "Images")
             : _configuration["Paths:AbsoluteImagePath"])!;
 
+    public static string MmapCachePath =>
+        (string.IsNullOrEmpty(_configuration["Paths:AbsoluteMmapCachePath"])
+            ? Path.Combine(WebHostEnvironmentProvider.GetWebHostEnvironment().ContentRootPath, "viewcache")
+            : _configuration["Paths:AbsoluteMmapCachePath"])!;
+
     public static string PageContentImageBasePath => _configuration["Paths:PageContentImages"]!;
     public static string PageImageBasePath => _configuration["Paths:PageImages"]!;
     public static string QuestionContentImageBasePath => _configuration["Paths:QuestionContentImages"]!;
