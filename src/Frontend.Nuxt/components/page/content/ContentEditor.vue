@@ -235,13 +235,9 @@ const initEditor = () => {
             ] : [History]
         ],
         onTransaction({ transaction }) {
-            // Track activity for collaboration safety
-            if (transaction.docChanged) {
-                lastActivity.value = Date.now()
-            }
 
             console.log(transaction)
-            // NEW APPROACH: Precisely detect when image nodes are actually deleted
+            // IMPROVED APPROACH: Only detect actual image deletions, not modifications
             try {
                 if (transaction.steps.length > 0) {
                     transaction.steps.forEach((step, stepIndex) => {
@@ -250,17 +246,35 @@ const initEditor = () => {
 
                             // Get the content that was replaced/removed
                             const oldDoc = transaction.before
+                            const newDoc = transaction.doc
+
                             if (step.from < oldDoc.content.size && step.to <= oldDoc.content.size) {
                                 const removedSlice = oldDoc.slice(step.from, step.to)
+                                const insertedSlice = step.slice
 
-                                // Check if the removed content contains any uploadImage nodes
+                                // Find images that were removed
+                                const removedImages: string[] = []
                                 removedSlice.content.descendants((node, pos) => {
-                                    if (node.type.name === 'uploadImage') {
-                                        const imageSrc = node.attrs.src
-                                        if (imageSrc && imageSrc.startsWith('/Images/')) {
-                                            console.log('ContentEditor.onTransaction: Detected actual deletion of image:', imageSrc)
-                                            pageStore.addImageUrlToDeleteList(imageSrc)
-                                        }
+                                    if (node.type.name === 'uploadImage' && node.attrs.src?.startsWith('/Images/')) {
+                                        removedImages.push(node.attrs.src)
+                                    }
+                                })
+
+                                // Find images that were inserted in their place
+                                const insertedImages: string[] = []
+                                insertedSlice.content.descendants((node, pos) => {
+                                    if (node.type.name === 'uploadImage' && node.attrs.src?.startsWith('/Images/')) {
+                                        insertedImages.push(node.attrs.src)
+                                    }
+                                })
+
+                                // Only mark for deletion images that were removed but not re-inserted
+                                removedImages.forEach(imageSrc => {
+                                    if (!insertedImages.includes(imageSrc)) {
+                                        console.log('ContentEditor.onTransaction: Image actually deleted (not just modified):', imageSrc)
+                                        pageStore.addImageUrlToDeleteList(imageSrc)
+                                    } else {
+                                        console.log('ContentEditor.onTransaction: Image modified but not deleted:', imageSrc)
                                     }
                                 })
                             }
@@ -300,6 +314,7 @@ const initEditor = () => {
             }
         },
         onUpdate({ editor, transaction }) {
+            console.log(transaction)
             pageStore.contentHasChanged = providerContentLoaded.value
             if (editor.isEmpty)
                 pageStore.content = ''
@@ -633,8 +648,8 @@ const attemptImageRecovery = async (brokenImages: { src: string, pos: number }[]
     }
 
     // Show recovery results to user
-    const successful = results.filter(r => r.success).length
-    const failed = results.filter(r => !r.success).length
+    const successful = results.filter(result => result.success).length
+    const failed = results.filter(result => !result.success).length
 
     if (successful > 0 || failed > 0) {
         let message = ''
@@ -756,39 +771,6 @@ watch(() => userStore.isLoggedIn, (val) => recreate(val))
 const autoSaveTimer = ref()
 const deletePageContentImageTimer = ref()
 
-// Simple activity tracking for collaboration safety
-const lastActivity = ref(Date.now())
-const COLLABORATION_SAFETY_TIMEOUT = 30000 // 30 seconds
-
-function isSafeForAutosave() {
-    // Check if images are uploading
-    if (pageStore.uploadTrackingArray.length > 0) {
-        console.log('ContentEditor.isSafeForAutosave: Blocking - images uploading')
-        return false
-    }
-
-    // Check collaboration sync state
-    if (loadCollab.value && userStore.isLoggedIn && !isSynced.value) {
-        console.log('ContentEditor.isSafeForAutosave: Blocking - collaboration not synced')
-        return false
-    }
-
-    // Check if there has been recent activity from any user
-    if (editor.value && loadCollab.value && userStore.isLoggedIn) {
-        const collaborationState = editor.value.storage.collaborationCursor
-        const connectedUsers = Object.keys(collaborationState?.users || {})
-        const timeSinceLastActivity = Date.now() - lastActivity.value
-
-        // If other users are connected AND there has been recent activity, block autosave
-        if (connectedUsers.length > 1 && timeSinceLastActivity < COLLABORATION_SAFETY_TIMEOUT) {
-            console.log(`ContentEditor.isSafeForAutosave: Blocking - ${connectedUsers.length} users connected, activity ${Math.round(timeSinceLastActivity / 1000)}s ago`)
-            return false
-        }
-    }
-
-    return true
-}
-
 const autoSave = () => {
     if (pageStore.visibility != Visibility.Private)
         return
@@ -804,18 +786,29 @@ const autoSave = () => {
     }
 
     autoSaveTimer.value = setTimeout(() => {
-        if (editor.value && isSafeForAutosave()) {
-            console.log('ContentEditor.autoSave: Executing saveContent after 5s idle')
-            pageStore.saveContent()
-        } else {
-            console.log('ContentEditor.autoSave: Skipping saveContent - not safe for autosave')
+        if (editor.value) {
+            // Only delay if images are being uploaded
+            if (pageStore.uploadTrackingArray.length > 0) {
+                console.log('ContentEditor.autoSave: Delaying saveContent - images uploading')
+                // Retry in 2 seconds
+                setTimeout(() => {
+                    if (editor.value) {
+                        console.log('ContentEditor.autoSave: Executing saveContent after image upload delay')
+                        pageStore.saveContent()
+                    }
+                }, 2000)
+            } else {
+                console.log('ContentEditor.autoSave: Executing saveContent after 5s idle')
+                pageStore.saveContent()
+            }
         }
     }, 5000)
 
     // Automatic deletion timer with collaboration safety
     deletePageContentImageTimer.value = setTimeout(async () => {
-        if (!isSafeForAutosave()) {
-            console.log('ContentEditor.autoSave: Skipping image cleanup - not safe for autosave')
+        // Only delay if images are being uploaded
+        if (pageStore.uploadTrackingArray.length > 0) {
+            console.log('ContentEditor.autoSave: Delaying image cleanup - images uploading')
             return
         }
 
@@ -860,8 +853,6 @@ const createFlashcard = () => {
         pageStore.generateFlashcard(text)
     }
 }
-
-
 
 </script>
 
