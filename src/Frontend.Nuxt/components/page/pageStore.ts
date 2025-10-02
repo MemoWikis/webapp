@@ -144,8 +144,6 @@ export const usePageStore = defineStore('pageStore', () => {
     const gridItems = ref<GridPageItem[]>([])
     const isChildOfPersonalWiki = ref(false)
     const textIsHidden = ref(false)
-    const uploadedImagesInContent = ref<string[]>([])
-    const uploadedImagesMarkedForDeletion = ref<string[]>([])
     const uploadTrackingArray = ref<string[]>([])
     const viewsPast90DaysAggregatedPages = ref<ViewSummary[]>([])
     const viewsPast90DaysPage = ref<ViewSummary[]>([])
@@ -204,8 +202,6 @@ export const usePageStore = defineStore('pageStore', () => {
             gridItems.value = page.gridItems
             isChildOfPersonalWiki.value = page.isChildOfPersonalWiki
             textIsHidden.value = page.textIsHidden
-            uploadedImagesInContent.value = []
-            uploadedImagesMarkedForDeletion.value = []
 
             analyticsLoaded.value = false
             viewsPast90DaysAggregatedPages.value = []
@@ -398,8 +394,6 @@ export const usePageStore = defineStore('pageStore', () => {
         nameHasChanged.value = false
         content.value = initialContent.value
         contentHasChanged.value = false
-        uploadedImagesInContent.value = []
-        uploadedImagesMarkedForDeletion.value = []
     }
 
     const clearPage = () => {
@@ -541,73 +535,6 @@ export const usePageStore = defineStore('pageStore', () => {
         )
 
         return result
-    }
-
-    const addImageUrlToDeleteList = (url: string) => {
-        console.log('PageStore.addImageUrlToDeleteList: Adding image to delete list:', url, 'for page', id.value)
-        if (!uploadedImagesMarkedForDeletion.value.includes(url))
-            uploadedImagesMarkedForDeletion.value.push(url)
-    }
-
-    const refreshDeleteImageList = () => {
-        const imagesToKeep = uploadedImagesInContent.value
-        const originalDeleteList = [...uploadedImagesMarkedForDeletion.value]
-        
-        // The delete list should only contain images that are NOT in the current content
-        // Remove from delete list any images that are still in content (they should be kept)
-        uploadedImagesMarkedForDeletion.value =
-            uploadedImagesMarkedForDeletion.value.filter((url) =>
-                !imagesToKeep.includes(url)  // Keep in delete list only if NOT in content
-            )
-        
-        console.log('PageStore.refreshDeleteImageList: Images in content (to keep):', imagesToKeep)
-        console.log('PageStore.refreshDeleteImageList: Original delete list:', originalDeleteList)
-        console.log('PageStore.refreshDeleteImageList: Filtered delete list (images NOT in content):', uploadedImagesMarkedForDeletion.value)
-    }
-
-    const deletePageContentImages = async () => {
-        if (uploadedImagesMarkedForDeletion.value.length == 0) {
-            console.log('PageStore.deletePageContentImages: No images marked for deletion, skipping')
-            return
-        }
-
-        console.log('PageStore.deletePageContentImages: About to delete', uploadedImagesMarkedForDeletion.value.length, 'images for page', id.value)
-        console.log('PageStore.deletePageContentImages: Images to delete:', uploadedImagesMarkedForDeletion.value)
-        console.log('PageStore.deletePageContentImages: Images in content (should be kept):', uploadedImagesInContent.value)
-
-        // SAFETY CHECK: Don't delete images that are still in content
-        const imagesToActuallyDelete = uploadedImagesMarkedForDeletion.value.filter(url => 
-            !uploadedImagesInContent.value.includes(url)
-        )
-        
-        if (imagesToActuallyDelete.length === 0) {
-            console.log('PageStore.deletePageContentImages: All images marked for deletion are still in content, skipping deletion')
-            uploadedImagesMarkedForDeletion.value = []
-            return
-        }
-        
-        if (imagesToActuallyDelete.length !== uploadedImagesMarkedForDeletion.value.length) {
-            console.warn('PageStore.deletePageContentImages: Some images marked for deletion are still in content! Filtered from', uploadedImagesMarkedForDeletion.value.length, 'to', imagesToActuallyDelete.length)
-        }
-
-        const data = {
-            pageId: id.value,
-            imageUrls: imagesToActuallyDelete,
-        }
-        
-        try {
-            await $api<void>('/apiVue/PageStore/DeleteContentImages', {
-                body: data,
-                method: 'POST',
-                mode: 'cors',
-                credentials: 'include',
-            })
-            
-            console.log('PageStore.deletePageContentImages: Successfully deleted', imagesToActuallyDelete.length, 'images for page', id.value)
-            uploadedImagesMarkedForDeletion.value = []
-        } catch (error) {
-            console.error('PageStore.deletePageContentImages: Error deleting images:', error)
-        }
     }
 
     const waitUntilAllUploadsComplete = async () => {
@@ -786,8 +713,6 @@ export const usePageStore = defineStore('pageStore', () => {
         gridItems,
         isChildOfPersonalWiki,
         textIsHidden,
-        uploadedImagesInContent,
-        uploadedImagesMarkedForDeletion,
         uploadTrackingArray,
         viewsPast90DaysAggregatedPages,
         viewsPast90DaysPage,
@@ -821,9 +746,6 @@ export const usePageStore = defineStore('pageStore', () => {
         reloadGridItems,
         hideOrShowText,
         uploadContentImage,
-        addImageUrlToDeleteList,
-        refreshDeleteImageList,
-        deletePageContentImages,
         waitUntilAllUploadsComplete,
         getAnalyticsData,
         generateFlashcard,
