@@ -248,11 +248,12 @@ export const usePageStore = defineStore('pageStore', () => {
 
         const uploadId = nanoid(5)
         saveTrackingArray.value.push(uploadId)
-
+        
         const data = {
             id: id.value,
             content: content.value,
             shareToken: shareToken.value,
+            currentImages: currentImages.value,
         }
 
         const result = await $api<FetchResult<boolean>>(
@@ -543,6 +544,15 @@ export const usePageStore = defineStore('pageStore', () => {
         }
     }
 
+    // Current images will be set by the ContentEditor via setCurrentImages
+    const currentImages = ref<string[]>([]);
+    
+    const setCurrentImages = (images: string[]) => {
+        currentImages.value = images
+    }
+
+
+
     const getAnalyticsData = async () => {
         const data = await $api<GetPageAnalyticsResponse>(
             `/apiVue/PageStore/GetPageAnalytics/${id.value}`,
@@ -754,6 +764,7 @@ export const usePageStore = defineStore('pageStore', () => {
         setToken,
         updateIsShared,
         handleLoginReminder,
+        setCurrentImages,
         
         // Getters
         getPageName,

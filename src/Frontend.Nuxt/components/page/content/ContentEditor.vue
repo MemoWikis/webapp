@@ -139,9 +139,6 @@ const initProvider = () => {
                 }
             }
         },
-        onMessage: (message) => {
-            console.log('Hocuspocus message:', message)
-        },
     })
 }
 
@@ -232,9 +229,6 @@ const initEditor = () => {
                 }),
             ] : [History]
         ],
-        onTransaction({ transaction }) {
-            // Transaction handling can be added here if needed in the future
-        },
         onUpdate({ editor, transaction }) {
             pageStore.contentHasChanged = providerContentLoaded.value
             if (editor.isEmpty)
@@ -246,6 +240,15 @@ const initEditor = () => {
             if (contentArray)
                 outlineStore.setHeadings(contentArray)
 
+            // Extract current images from TipTap document nodes
+            const currentImages: string[] = []
+            editor.state.doc.descendants((node) => {
+                if (node.type.name === 'uploadImage' && node.attrs.src?.startsWith('/Images/PageContent/')) {
+                    currentImages.push(node.attrs.src)
+                }
+            })
+            pageStore.setCurrentImages(currentImages)
+
             if (editor.isActive('heading'))
                 updateHeadingIds()
 
@@ -254,10 +257,14 @@ const initEditor = () => {
             const isCollabTransaction = transaction.getMeta('y-sync$')?.isChangeOrigin === true ||
                 transaction.getMeta('addToHistory') === false
 
+
+
             if (pageStore.contentHasChanged && !isCollabTransaction)
                 autoSave()
 
             pageStore.text = editor.getText()
+
+
         },
         editorProps: {
             handlePaste: (view, pos, event) => {
