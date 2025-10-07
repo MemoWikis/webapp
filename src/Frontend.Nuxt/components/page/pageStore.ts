@@ -765,6 +765,7 @@ export const usePageStore = defineStore('pageStore', () => {
         updateIsShared,
         handleLoginReminder,
         setCurrentImages,
+        currentImages,
         
         // Getters
         getPageName,

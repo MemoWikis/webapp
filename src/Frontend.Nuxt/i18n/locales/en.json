@@ -19,7 +19,8 @@
                 "renewed": "The share link has been successfully renewed.",
                 "copied": "The share link has been copied to clipboard.",
                 "removed": "The share link has been successfully removed."
-            }
+            },
+            "savedWithImageRecovery": "Deleted images will be permanently removed in 24h."
         },
         "question": {
             "created": "Your question has been successfully created.",

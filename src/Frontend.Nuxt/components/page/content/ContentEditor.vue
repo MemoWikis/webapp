@@ -247,6 +247,15 @@ const initEditor = () => {
                     currentImages.push(node.attrs.src)
                 }
             })
+
+            // Check for deleted images and update tracked images
+            if (pageStore.currentImages.length > 0) {
+                const deletedImages = pageStore.currentImages.filter(img => !currentImages.includes(img))
+                if (deletedImages.length > 0) {
+                    hasDeletedImages.value = true
+                }
+            }
+
             pageStore.setCurrentImages(currentImages)
 
             if (editor.isActive('heading'))
@@ -257,14 +266,10 @@ const initEditor = () => {
             const isCollabTransaction = transaction.getMeta('y-sync$')?.isChangeOrigin === true ||
                 transaction.getMeta('addToHistory') === false
 
-
-
             if (pageStore.contentHasChanged && !isCollabTransaction)
                 autoSave()
 
             pageStore.text = editor.getText()
-
-
         },
         editorProps: {
             handlePaste: (view, pos, event) => {
@@ -307,7 +312,7 @@ const recreate = (login: boolean = false) => {
     initEditor()
 }
 
-function setHeadings() {
+const setHeadings = () => {
     const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
     if (contentArray)
         outlineStore.setHeadings(contentArray)
@@ -322,7 +327,7 @@ pageStore.$onAction(({ name, after }) => {
     })
 })
 
-function updateHeadingIds() {
+const updateHeadingIds = () => {
     if (editor.value == null)
         return
 
@@ -359,7 +364,7 @@ onMounted(() => {
     }
 })
 
-function updateCursorIndex() {
+const updateCursorIndex = () => {
     if (editor.value == null)
         return
 
@@ -377,6 +382,7 @@ onBeforeUnmount(() => {
 watch(() => userStore.isLoggedIn, (val) => recreate(val))
 
 const autoSaveTimer = ref()
+const hasDeletedImages = ref(false)
 
 const autoSave = () => {
     if (pageStore.visibility != Visibility.Private)
@@ -385,9 +391,19 @@ const autoSave = () => {
     if (autoSaveTimer.value)
         clearTimeout(autoSaveTimer.value)
 
-    autoSaveTimer.value = setTimeout(() => {
+    autoSaveTimer.value = setTimeout(async () => {
         if (editor.value) {
-            pageStore.saveContent()
+            await pageStore.saveContent()
+
+            // Show 24h recovery info if images were deleted
+            if (hasDeletedImages.value) {
+                snackbarStore.showSnackbar({
+                    type: 'info',
+                    text: { message: t('success.page.savedWithImageRecovery') },
+                    duration: 4000
+                })
+                hasDeletedImages.value = false // Reset after showing notification
+            }
         }
     }, 3000)
 }

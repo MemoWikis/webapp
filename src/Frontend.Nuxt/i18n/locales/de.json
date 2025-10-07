@@ -19,7 +19,8 @@
                 "renewed": "Der Freigabelink wurde erfolgreich erneuert.",
                 "copied": "Der Freigabelink wurde in die Zwischenablage kopiert.",
                 "removed": "Der Freigabelink wurde erfolgreich entfernt."
-            }
+            },
+            "savedWithImageRecovery": "Gelöschte Bilder werden in 24h endgültig entfernt."
         },
         "question": {
             "created": "Deine Frage wurde erfolgreich erstellt.",
