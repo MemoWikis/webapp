@@ -194,33 +194,6 @@ public class PageStoreController(
         return url;
     }
 
-    public record struct DeleteContentImagesRequest(int id, string[] imageUrls);
-
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public void DeleteContentImages([FromBody] DeleteContentImagesRequest request)
-    {
-        Log.Information("PageStoreController.DeleteContentImages: Deleting {ImageCount} content images for page {PageId}: {ImageUrls}", 
-            request.imageUrls.Length, request.id, string.Join(", ", request.imageUrls));
-
-        var imageSettings = new PageContentImageSettings(request.id, _httpContextAccessor);
-        var deleteImage = new DeleteImage();
-
-        var filenames = new List<string>();
-
-        foreach (var path in request.imageUrls)
-        {
-            var filename = Path.GetFileName(path);
-            Log.Information("PageStoreController.DeleteContentImages: Processing image path {Path} -> filename {Filename}", path, filename);
-            filenames.Add(filename);
-        }
-
-        Log.Information("PageStoreController.DeleteContentImages: About to delete {FilenameCount} files: {Filenames}", 
-            filenames.Count, string.Join(", ", filenames));
-        
-        deleteImage.Run(imageSettings.BasePath, filenames);
-    }
-
     public record struct PageAnalyticsResponse(
         List<DailyViews> ViewsPast90DaysAggregatedPages,
         List<DailyViews> ViewsPast90DaysPage,

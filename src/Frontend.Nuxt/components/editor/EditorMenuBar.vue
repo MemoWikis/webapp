@@ -240,11 +240,11 @@ const slots = useSlots()
                     <div class="menubar__divider"></div>
                 </div>
 
-                <button class="menubar__button" @mousedown="command('undo', $event)">
+                <button class="menubar__button" :class="{ 'disabled': !props.editor.can().undo() }" @mousedown="command('undo', $event)">
                     <font-awesome-icon icon="fa-solid fa-rotate-left" />
                 </button>
 
-                <button class="menubar__button" :class="{ 'last-btn': !slots.end }" @mousedown="command('redo', $event)">
+                <button class="menubar__button" :class="{ 'last-btn': !slots.end, 'disabled': !props.editor.can().redo() }" @mousedown="command('redo', $event)">
                     <font-awesome-icon icon="fa-solid fa-rotate-right" />
                 </button>
 
@@ -460,6 +460,11 @@ const slots = useSlots()
         &:hover {
             filter: brightness(0.85);
         }
+    }
+
+    &.disabled {
+        color: @memo-grey-light;
+        pointer-events: none;
     }
 }
 </style>
