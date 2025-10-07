@@ -227,4 +227,22 @@ public static class JobScheduler
                 .Build(),
             TriggerBuilder.Create().StartNow().Build());
     }
+
+    public static void ScheduleDelayedImageCleanup(int pageId, string[] imageUrls, TimeSpan delay)
+    {
+        var jobKey = new JobKey($"DelayedImageCleanup_Page_{pageId}_{DateTime.UtcNow.Ticks}", "ImageCleanup");
+        var job = JobBuilder.Create<DelayedImageCleanupJob>()
+            .WithIdentity(jobKey)
+            .UsingJobData("pageId", pageId)
+            .UsingJobData("imageUrlsToCheck", string.Join(",", imageUrls))
+            .UsingJobData("scheduledAt", DateTime.UtcNow.ToString("O"))
+            .Build();
+
+        var trigger = TriggerBuilder.Create()
+            .WithIdentity($"DelayedImageCleanupTrigger_Page_{pageId}_{DateTime.UtcNow.Ticks}", "ImageCleanup")
+            .StartAt(DateTimeOffset.Now.Add(delay))
+            .Build();
+
+        _scheduler.ScheduleJob(job, trigger);
+    }
 }

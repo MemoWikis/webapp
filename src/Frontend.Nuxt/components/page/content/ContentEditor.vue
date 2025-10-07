@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
-import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
+
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
@@ -34,7 +34,7 @@ import { HocuspocusProvider } from '@hocuspocus/provider'
 import { FontSize, useUserStore } from '~/components/user/userStore'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
-import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 const pageStore = usePageStore()
 const outlineStore = useOutlineStore()
@@ -58,8 +58,8 @@ const handleConnectionLost = () => {
     if (connectionLostHandled.value)
         return
 
-    const data: SnackbarData = {
-        type: 'error',
+    const data = {
+        type: 'error' as const,
         text: { message: t('error.collaboration.connectionLost') },
         duration: 8000
     }
@@ -138,11 +138,9 @@ const initProvider = () => {
                     recreate()
                 }
             }
-        }
+        },
     })
 }
-
-const deleteImageSrc = ref()
 
 const { t, locale } = useI18n()
 
@@ -231,26 +229,6 @@ const initEditor = () => {
                 }),
             ] : [History]
         ],
-        onTransaction({ transaction }) {
-            let clearDeleteImageSrcRef = true
-            const { selection, doc } = transaction
-
-            const node = doc.nodeAt(selection.from)
-            if (node && node.type.name === 'uploadImage') {
-                deleteImageSrc.value = node.attrs.src
-                clearDeleteImageSrcRef = false
-            }
-
-            const hasDeleted = transaction.steps.some(step =>
-                step instanceof ReplaceStep || step instanceof ReplaceAroundStep
-            )
-
-            if (hasDeleted && deleteImageSrc.value)
-                pageStore.addImageUrlToDeleteList(deleteImageSrc.value)
-
-            if (clearDeleteImageSrcRef)
-                deleteImageSrc.value = null
-        },
         onUpdate({ editor, transaction }) {
             pageStore.contentHasChanged = providerContentLoaded.value
             if (editor.isEmpty)
@@ -262,12 +240,33 @@ const initEditor = () => {
             if (contentArray)
                 outlineStore.setHeadings(contentArray)
 
+            // Extract current images from TipTap document nodes
+            const currentImages: string[] = []
+            editor.state.doc.descendants((node) => {
+                if (node.type.name === 'uploadImage' && node.attrs.src?.startsWith('/Images/PageContent/')) {
+                    currentImages.push(node.attrs.src)
+                }
+            })
+
+            // Check for deleted images and update tracked images
+            if (pageStore.currentImages.length > 0) {
+                const deletedImages = pageStore.currentImages.filter(img => !currentImages.includes(img))
+                if (deletedImages.length > 0) {
+                    hasDeletedImages.value = true
+                }
+            }
+
+            pageStore.setCurrentImages(currentImages)
+
             if (editor.isActive('heading'))
                 updateHeadingIds()
 
             updateCursorIndex()
 
-            if (pageStore.contentHasChanged)
+            const isCollabTransaction = transaction.getMeta('y-sync$')?.isChangeOrigin === true ||
+                transaction.getMeta('addToHistory') === false
+
+            if (pageStore.contentHasChanged && !isCollabTransaction)
                 autoSave()
 
             pageStore.text = editor.getText()
@@ -313,7 +312,7 @@ const recreate = (login: boolean = false) => {
     initEditor()
 }
 
-function setHeadings() {
+const setHeadings = () => {
     const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
     if (contentArray)
         outlineStore.setHeadings(contentArray)
@@ -328,7 +327,7 @@ pageStore.$onAction(({ name, after }) => {
     })
 })
 
-function updateHeadingIds() {
+const updateHeadingIds = () => {
     if (editor.value == null)
         return
 
@@ -342,23 +341,6 @@ function updateHeadingIds() {
             }
         }
     })
-}
-
-const checkContentImages = () => {
-    if (editor.value == null)
-        return
-
-    const { state } = editor.value
-    pageStore.uploadedImagesInContent = []
-    state.doc.descendants((node: any, pos: number) => {
-        if (node.type.name === 'uploadImage') {
-            const src = node.attrs.src
-            if (src.startsWith('/Images/'))
-                pageStore.uploadedImagesInContent.push(src)
-        }
-    })
-
-    pageStore.refreshDeleteImageList()
 }
 
 const loadingStore = useLoadingStore()
@@ -382,7 +364,7 @@ onMounted(() => {
     }
 })
 
-function updateCursorIndex() {
+const updateCursorIndex = () => {
     if (editor.value == null)
         return
 
@@ -400,7 +382,8 @@ onBeforeUnmount(() => {
 watch(() => userStore.isLoggedIn, (val) => recreate(val))
 
 const autoSaveTimer = ref()
-const deletePageContentImageTimer = ref()
+const hasDeletedImages = ref(false)
+
 const autoSave = () => {
     if (pageStore.visibility != Visibility.Private)
         return
@@ -408,18 +391,21 @@ const autoSave = () => {
     if (autoSaveTimer.value)
         clearTimeout(autoSaveTimer.value)
 
-    if (deletePageContentImageTimer.value)
-        clearTimeout(deletePageContentImageTimer.value)
-
-    autoSaveTimer.value = setTimeout(() => {
+    autoSaveTimer.value = setTimeout(async () => {
         if (editor.value) {
-            pageStore.saveContent()
+            await pageStore.saveContent()
+
+            // Show 24h recovery info if images were deleted
+            if (hasDeletedImages.value) {
+                snackbarStore.showSnackbar({
+                    type: 'info',
+                    text: { message: t('success.page.savedWithImageRecovery') },
+                    duration: 4000
+                })
+                hasDeletedImages.value = false // Reset after showing notification
+            }
         }
     }, 3000)
-
-    deletePageContentImageTimer.value = setTimeout(() => {
-        pageStore.deletePageContentImages()
-    }, 10000)
 }
 
 const { isMobile } = useDevice()
@@ -438,13 +424,11 @@ const createFlashcard = () => {
     }
 }
 
-
-
 </script>
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages" class="page-content-menubar">
+        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true" :is-page-content="true" class="page-content-menubar">
             <template v-slot:start v-if="userStore.isAdmin">
                 <button class="menubar__button ai-create" @mousedown="createFlashcard">
                     <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />

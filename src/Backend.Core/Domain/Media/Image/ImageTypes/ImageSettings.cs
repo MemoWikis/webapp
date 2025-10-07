@@ -20,11 +20,21 @@ public abstract class ImageSettings
     {
         var filesToDelete = Directory.GetFiles(Settings.ImagePath, Id + "_*");
 
+        Log.Information("ImageSettings.DeleteFiles: Found {FileCount} files to delete for ID {Id} with pattern {Pattern}", 
+            filesToDelete.Length, Id, Id + "_*");
+
         if (filesToDelete.Length > 33)
+        {
+            Log.Error("ImageSettings.DeleteFiles: Unexpected high amount of files ({FileCount}) for ID {Id}", 
+                filesToDelete.Length, Id);
             throw new Exception("unexpected high amount of files");
+        }
 
         foreach (var file in filesToDelete)
+        {
+            Log.Information("ImageSettings.DeleteFiles: Deleting file {FilePath} for ID {Id}", file, Id);
             File.Delete(file);
+        }
     }
 
     public IImageSettings InitByType(ImageMetaData imageMetaData, QuestionReadingRepo questionReadingRepo)

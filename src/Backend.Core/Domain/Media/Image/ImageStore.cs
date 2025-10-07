@@ -12,9 +12,13 @@ public class ImageStore(
         int userId,
         IImageSettings imageSettings)
     {
+        Log.Information("ImageStore.RunWikimedia: Processing wikimedia image {ImageWikiFileName} for type {ImageType}, ID {TypeId}, user {UserId}", 
+            imageWikiFileName, imageType, typeId, userId);
+        
         var wikiMetaData = WikiImageMetaLoader.Run(imageWikiFileName, 1024);
 
         imageSettings.Init(typeId);
+        Log.Information("ImageStore.RunWikimedia: About to delete old files for type {ImageType}, ID {TypeId}", imageType, typeId);
         imageSettings.DeleteFiles(); //old files..
 
         using (var stream = wikiMetaData.GetThumbImageStream())
@@ -89,17 +93,27 @@ public class ImageStore(
 
     public string RunPageContentUploadAndGetPath(IFormFile imageFile, int pageId, int userId, string licenseGiverName)
     {
+        Log.Information("ImageStore.RunPageContentUploadAndGetPath: Uploading page content image for page {PageId}, user {UserId}, file {FileName} ({FileSize} bytes)", 
+            pageId, userId, imageFile.FileName, imageFile.Length);
+        
         var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo)
             .Create<PageContentImageSettings>(pageId);
 
         imageSettings.Init(pageId);
 
         if (imageFile.Length == 0)
+        {
+            Log.Warning("ImageStore.RunPageContentUploadAndGetPath: Empty image file provided for page {PageId}", pageId);
             throw new Exception("imageFile is empty");
+        }
 
         using var stream = imageFile.OpenReadStream();
 
         var path = SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings);
+        
+        Log.Information("ImageStore.RunPageContentUploadAndGetPath: Successfully uploaded page content image for page {PageId}, returning path {Path}", 
+            pageId, path);
+        
         return path;
     }
 

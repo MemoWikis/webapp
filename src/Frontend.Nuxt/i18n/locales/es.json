@@ -19,7 +19,8 @@
                 "renewed": "El enlace de compartir ha sido renovado con éxito.",
                 "copied": "El enlace de compartir ha sido copiado al portapapeles.",
                 "removed": "El enlace de compartir ha sido eliminado con éxito."
-            }
+            },
+            "savedWithImageRecovery": "Las imágenes eliminadas se borrarán permanentemente en 24h."
         },
         "question": {
             "created": "Tu pregunta se ha creado con éxito.",

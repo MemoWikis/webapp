@@ -126,6 +126,7 @@ public class PageDeleter(
 
     private void DeleteImages(Page page)
     {
+        Log.Information("PageDeleter.DeleteImages: Deleting all images for page {PageId} '{PageName}'", page.Id, page.Name);
         var deleteImage = new DeleteImage();
         deleteImage.RemoveAllForPage(page.Id);
     }
