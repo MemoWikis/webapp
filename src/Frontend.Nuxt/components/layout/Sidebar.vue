@@ -43,6 +43,8 @@ const props = withDefaults(defineProps<Props>(), {
     align-items: stretch;
     flex-grow: 1;
     height: 100%;
+    width: 100%;
+    max-width: 338px;
 
     @media (max-width: 900px) {
         display: none;
