@@ -91,7 +91,7 @@ const backgroundColorStyle = computed(() => {
 
     &.size-small {
         @media (min-width: @screen-sm) {
-            width: calc(33.3333% - 0.666rem);
+            width: calc(33.3333% - 0.6667rem);
         }
 
         @media (min-width: 360px) and (max-width: 767px) {
@@ -133,11 +133,11 @@ const backgroundColorStyle = computed(() => {
 
     &.size-nano {
         @media (min-width: 768px) {
-            width: calc(16.6667% - 0.8333rem);
+            width: calc(16.6667% - 0.8334rem);
         }
 
         @media (max-width: 767px) {
-            width: calc(33.3333% - 0.666rem);
+            width: calc(33.3333% - 0.6667rem);
         }
     }
 
@@ -234,7 +234,7 @@ const backgroundColorStyle = computed(() => {
 
         &.size-micro {
             @media (max-width:1300px) {
-                width: calc(33.3333% - 0.666rem);
+                width: calc(33.3333% - 0.6667rem);
             }
 
             @media (max-width: 900px) {
@@ -244,7 +244,7 @@ const backgroundColorStyle = computed(() => {
 
         &.size-nano {
             @media (max-width:1300px) {
-                width: calc(33.3333% - 0.666rem);
+                width: calc(33.3333% - 0.6667rem);
             }
 
             @media (max-width: 900px) {
