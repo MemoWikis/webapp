@@ -178,28 +178,28 @@ export const useLearningSessionConfigurationStore = defineStore(
             },
         },
         actions: {
-            setCounter(e: QustionCounter) {
-                if (e != null) {
-                    this.questionFilterOptions.inWuwi.count = e.inWuwi
-                    this.questionFilterOptions.notInWuwi.count = e.notInWuwi
+            setCounter(questionCounter: QustionCounter) {
+                if (questionCounter != null) {
+                    this.questionFilterOptions.inWuwi.count = questionCounter.inWuwi ?? 0
+                    this.questionFilterOptions.notInWuwi.count = questionCounter.notInWuwi ?? 0
                     this.questionFilterOptions.createdByCurrentUser.count =
-                        e.createdByCurrentUser
+                        questionCounter.createdByCurrentUser ?? 0
                     this.questionFilterOptions.notCreatedByCurrentUser.count =
-                        e.notCreatedByCurrentUser
+                        questionCounter.notCreatedByCurrentUser ?? 0
                     this.questionFilterOptions.privateQuestions.count =
-                        e.private
-                    this.questionFilterOptions.publicQuestions.count = e.public
+                        questionCounter.private ?? 0
+                    this.questionFilterOptions.publicQuestions.count = questionCounter.public ?? 0
 
-                    this.knowledgeSummary.notLearned.count = e.notLearned
-                    this.knowledgeSummary.needsLearning.count = e.needsLearning
+                    this.knowledgeSummary.notLearned.count = questionCounter.notLearned ?? 0
+                    this.knowledgeSummary.needsLearning.count = questionCounter.needsLearning ?? 0
                     this.knowledgeSummary.needsConsolidation.count =
-                        e.needsConsolidation
-                    this.knowledgeSummary.solid.count = e.solid
+                        questionCounter.needsConsolidation ?? 0
+                    this.knowledgeSummary.solid.count = questionCounter.solid ?? 0
 
-                    this.maxSelectableQuestionCount = e.max as number
+                    this.maxSelectableQuestionCount = (questionCounter.max ?? 0) as number
 
                     if (!this.userHasChangedMaxCount)
-                        this.selectedQuestionCount = e.max as number
+                        this.selectedQuestionCount = (questionCounter.max ?? 0) as number
 
                     if (this.maxQuestionCountIsZero)
                         this.showSelectionError = true
