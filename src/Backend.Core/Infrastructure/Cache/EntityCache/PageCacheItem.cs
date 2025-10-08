@@ -220,7 +220,7 @@ public class PageCacheItem : IPersistable
                 .ToList();
         }
 
-        if (onlyVisible)
+        if (onlyVisible && !getQuestionsFromChildPages)
         {
             permissionCheck ??= new PermissionCheck(sessionlessUser);
             questions = questions.Where(permissionCheck.CanView).ToList();

@@ -3,7 +3,7 @@ public class QuestionCounterService(
     SessionUser _sessionUser,
     ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
-    public void Count(QuestionProperties questionProperties, QuestionCounter counter)
+    public void Count(QuestionProperties questionProperties, ref QuestionCounter counter)
     {
         if (questionProperties.NotLearned) 
             counter.NotLearned++;
@@ -64,7 +64,7 @@ public class QuestionCounterService(
                 questionCounter.Max++;
             }
 
-            Count(questionProperties, questionCounter);
+            Count(questionProperties, ref questionCounter);
         }
 
         return questionCounter;

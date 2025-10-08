@@ -98,18 +98,15 @@ export const useLearningSessionStore = defineStore("learningSessionStore", {
             return errorMsg
         },
         async startNewSession() {
-            const learningSessionConfigurationStore =
-                useLearningSessionConfigurationStore()
-            const config =
-                learningSessionConfigurationStore.buildSessionConfigJson()
+            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+            const config = learningSessionConfigurationStore.buildSessionConfigJson()
+            learningSessionConfigurationStore.getQuestionCount()
 
             return await this.loadLearningSession(config, "NewSession")
         },
         async startNewSessionWithJumpToQuestion(id: number) {
-            const learningSessionConfigurationStore =
-                useLearningSessionConfigurationStore()
-            const config =
-                learningSessionConfigurationStore.buildSessionConfigJson()
+            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+            const config = learningSessionConfigurationStore.buildSessionConfigJson()
             learningSessionConfigurationStore.getQuestionCount()
 
             return await this.loadLearningSession(
