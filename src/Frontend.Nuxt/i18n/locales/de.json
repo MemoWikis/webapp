@@ -1324,7 +1324,7 @@
             "tooltips": {
                 "skills": "Nur öffentliche Seiten mit beantworteten und öffentlichen Fragen werden angezeigt",
                 "wikis": "Es werden nur öffentliche Wikis angezeigt",
-                "pages": "Nur öffentliche Seiten werden angezeigt",
+                "pages": "Zeigt nur Seiten der höchsten Hierarchie (keine Unterseiten oder Wiki-Seiten)",
                 "questions": "Nur öffentliche Fragen von öffentlichen Seiten werden angezeigt"
             }
         },

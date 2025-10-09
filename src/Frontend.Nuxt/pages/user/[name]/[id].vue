@@ -265,23 +265,25 @@ const showSkillCard = (skill: PageData) => {
 
             <LayoutPanel :id="UserSection.STATS_SECTION.id" :title="t(UserSection.STATS_SECTION.translationKey)">
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.reputation" :label="t('user.profile.stats.reputation')" v-tooltip="t('user.profile.stats.tooltips.reputation')" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
+                    <LayoutCounter :value="profile.overview.reputation" :label="t('user.profile.stats.reputation')" :labelTooltip="t('user.profile.stats.tooltips.reputation')" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.rank" :label="t('user.profile.stats.rank')" v-tooltip="t('user.profile.stats.tooltips.rank')" :icon="['fas', 'crown']" :icon-color="color.memoYellow"
+                    <LayoutCounter :value="profile.overview.rank" :label="t('user.profile.stats.rank')" :labelTooltip="t('user.profile.stats.tooltips.rank')" :icon="['fas', 'crown']" :icon-color="color.memoYellow"
                         :url-value="`/${t('url.users')}`" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicPagesCount" :label="t('user.profile.stats.createdPages')" v-tooltip="t('user.profile.stats.tooltips.createdPages', { userName: profile.user.name })" :icon="['fas', 'file-lines']" />
-                </LayoutCard>
-                <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicWikisCount" :label="t('user.profile.stats.createdWikis')" v-tooltip="t('user.profile.stats.tooltips.createdWikis')"
+                    <LayoutCounter :value="profile.overview.publicPagesCount" :label="t('user.profile.stats.createdPages')" :labelTooltip="t('user.profile.stats.tooltips.createdPages', { userName: profile.user.name })"
                         :icon="['fas', 'file-lines']" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicQuestionsCount" :label="t('user.profile.stats.createdQuestions')" v-tooltip="t('user.profile.stats.tooltips.createdQuestions')" :icon="['fas', 'circle-question']" />
+                    <LayoutCounter :value="profile.overview.publicWikisCount" :label="t('user.profile.stats.createdWikis')" :labelTooltip="t('user.profile.stats.tooltips.createdWikis', { userName: profile.user.name })"
+                        :icon="['fas', 'file-lines']" />
+                </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Small">
+                    <LayoutCounter :value="profile.overview.publicQuestionsCount" :label="t('user.profile.stats.createdQuestions')" :labelTooltip="t('user.profile.stats.tooltips.createdQuestions', { userName: profile.user.name })"
+                        :icon="['fas', 'circle-question']" />
                 </LayoutCard>
             </LayoutPanel>
 
