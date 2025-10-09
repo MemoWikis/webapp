@@ -11,6 +11,7 @@ interface Props {
     }
     showSkills?: boolean
     showWikis?: boolean
+    showPages?: boolean
     showQuestions?: boolean
     marginTop?: number
 }
@@ -18,6 +19,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     showSkills: false,
     showWikis: false,
+    showPages: false,
     showQuestions: false,
     marginTop: 25
 })
@@ -30,6 +32,8 @@ const getVisibleSections = computed(() => {
         visibleSectionIds.push('Skills')
     if (props.showWikis)
         visibleSectionIds.push('Wikis')
+    if (props.showPages)
+        visibleSectionIds.push('Pages')
     if (props.showQuestions)
         visibleSectionIds.push('Questions')
 
@@ -38,6 +42,8 @@ const getVisibleSections = computed(() => {
         visibleSectionIds.push('Skills-placeholder')
     if (!props.showWikis)
         visibleSectionIds.push('Wikis-placeholder')
+    if (!props.showPages)
+        visibleSectionIds.push('Pages-placeholder')
     if (!props.showQuestions)
         visibleSectionIds.push('Questions-placeholder')
 
