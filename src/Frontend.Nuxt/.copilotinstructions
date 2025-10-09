@@ -13,6 +13,13 @@ When working with translations in this memoWikis frontend project:
 
 4. **Maintain consistency** across all language files (de.json, en.json, fr.json, es.json)
 
+5. **Personalized translations**:
+   - For user-specific content, use parameter interpolation to make text more personal and clear
+   - Pattern: Instead of generic "Number of public wikis created" → "Public wikis by {userName}"
+   - German example: "Anzahl der öffentlichen Wikis, die erstellt wurden" → "Von {userName} öffentliche Wikis"
+   - Always update all language files consistently when implementing personalized text
+   - Pass parameters in Vue templates: `t('translation.key', { userName: user.name })`
+
 ## Project Context
 This is a Nuxt.js frontend for memoWikis, a wiki-based learning platform. The i18n files are located in `i18n/locales/` and contain UI text translations.
 

@@ -1263,8 +1263,8 @@
                 "tooltips": {
                     "reputation": "La réputation est basée sur les questions créées, les questions dans les connaissances souhaitées d'autrui et les connaissances souhaitées publiques",
                     "rank": "Le classement des utilisateurs est basé sur les points de réputation",
-                    "createdPages": "Nombre de pages publiques qui ont été créées",
-                    "createdWikis": "Nombre de wikis publics qui ont été créés",
+                    "createdPages": "Pages publiques de {userName}",
+                    "createdWikis": "Wikis publics de {userName}",
                     "createdQuestions": "Nombre de questions publiques qui ont été créées"
                 }
             }

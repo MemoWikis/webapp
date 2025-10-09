@@ -274,10 +274,11 @@ const showSkillCard = (skill: PageData) => {
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicPagesCount" :label="t('user.profile.stats.createdPages')" v-tooltip="t('user.profile.stats.tooltips.createdPages')" :icon="['fas', 'file-lines']" />
+                    <LayoutCounter :value="profile.overview.publicPagesCount" :label="t('user.profile.stats.createdPages')" v-tooltip="t('user.profile.stats.tooltips.createdPages', { userName: profile.user.name })" :icon="['fas', 'file-lines']" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicWikisCount" :label="t('user.profile.stats.createdWikis')" v-tooltip="t('user.profile.stats.tooltips.createdWikis')" :icon="['fas', 'file-lines']" />
+                    <LayoutCounter :value="profile.overview.publicWikisCount" :label="t('user.profile.stats.createdWikis')" v-tooltip="t('user.profile.stats.tooltips.createdWikis')"
+                        :icon="['fas', 'file-lines']" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
                     <LayoutCounter :value="profile.overview.publicQuestionsCount" :label="t('user.profile.stats.createdQuestions')" v-tooltip="t('user.profile.stats.tooltips.createdQuestions')" :icon="['fas', 'circle-question']" />

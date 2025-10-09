@@ -1263,8 +1263,8 @@
                 "tooltips": {
                     "reputation": "Reputation is based on created questions, questions in others' wish knowledge, and public wish knowledge",
                     "rank": "User ranking is based on reputation points",
-                    "createdPages": "Number of public pages that have been created",
-                    "createdWikis": "Number of public wikis that have been created",
+                    "createdPages": "Public pages by {userName}",
+                    "createdWikis": "Public wikis by {userName}",
                     "createdQuestions": "Number of public questions that have been created"
                 }
             }
