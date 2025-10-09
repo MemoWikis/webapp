@@ -43,20 +43,36 @@ public static class UserPageItemMapper
         var user = EntityCache.GetUserById(userId);
         var userWikiIds = userWikis.Select(w => w.Id).ToHashSet();
         
+        // Get all descendants of user's wikis to exclude them
+        var userWikiDescendantIds = new HashSet<int>();
+        foreach (var wiki in userWikis)
+        {
+            var descendants = GraphService.Descendants(wiki.Id);
+            foreach (var descendant in descendants)
+            {
+                userWikiDescendantIds.Add(descendant.Id);
+            }
+        }
+        
         var publicPagesCreatedByUser = EntityCache.GetAllPagesList()
             .Where(page => page.Creator != null 
                        && page.CreatorId == userId 
                        && page.Visibility == PageVisibility.Public
                        && !userWikiIds.Contains(page.Id)  // Exclude pages that are user's own wikis
-                       && !page.Parents().Any(parent => userWikiIds.Contains(parent.Id))) // Exclude pages under user's own wikis
+                       && !userWikiDescendantIds.Contains(page.Id)) // Exclude all descendants of user's wikis
             .Where(permissionCheck.CanView)
             .ToList();
 
         // Filter out child pages when their parent is also created by the same user and in the list
+        // Use GraphService to get proper ascendants for each page
         var pageIds = publicPagesCreatedByUser.Select(p => p.Id).ToHashSet();
         var filteredPages = publicPagesCreatedByUser
-            .Where(page => !page.Parents().Any(parent => 
-                parent.CreatorId == userId && pageIds.Contains(parent.Id)))
+            .Where(page => 
+            {
+                var ascendants = GraphService.Ascendants(page.Id);
+                return !ascendants.Any(ascendant => 
+                    ascendant.CreatorId == userId && pageIds.Contains(ascendant.Id));
+            })
             .ToList();
 
         return filteredPages.Select(page =>
