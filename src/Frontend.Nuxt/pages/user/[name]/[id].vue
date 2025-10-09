@@ -56,6 +56,7 @@ interface ProfileData {
     messageKey?: string
     errorCode?: ErrorCode
     wikis?: PageData[]
+    pages?: PageData[]
     skills?: PageData[]
     questions?: Question[]
 }
@@ -137,6 +138,10 @@ const hasWikis = computed(() => {
 
 const hasSkills = computed(() => {
     return profile.value?.skills && profile.value.skills.length > 0 && profile.value.skills.some(skill => skill.isPublic && skill.knowledgebarData?.total > 0)
+})
+
+const hasPages = computed(() => {
+    return profile.value?.pages && profile.value.pages.length > 0
 })
 
 const hasQuestions = computed(() => {
@@ -260,22 +265,25 @@ const showSkillCard = (skill: PageData) => {
 
             <LayoutPanel :id="UserSection.STATS_SECTION.id" :title="t(UserSection.STATS_SECTION.translationKey)">
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.reputation" :label="t('user.profile.stats.reputation')" v-tooltip="t('user.profile.stats.tooltips.reputation')" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
+                    <LayoutCounter :value="profile.overview.reputation" :label="t('user.profile.stats.reputation')" :labelTooltip="t('user.profile.stats.tooltips.reputation')" :icon="['fas', 'star']" :icon-color="color.memoYellow" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.rank" :label="t('user.profile.stats.rank')" v-tooltip="t('user.profile.stats.tooltips.rank')" :icon="['fas', 'crown']" :icon-color="color.memoYellow"
+                    <LayoutCounter :value="profile.overview.rank" :label="t('user.profile.stats.rank')" :labelTooltip="t('user.profile.stats.tooltips.rank')" :icon="['fas', 'crown']" :icon-color="color.memoYellow"
                         :url-value="`/${t('url.users')}`" />
                 </LayoutCard>
 
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicPagesCount" :label="t('user.profile.stats.createdPages')" v-tooltip="t('user.profile.stats.tooltips.createdPages')" :icon="['fas', 'file-lines']" />
+                    <LayoutCounter :value="profile.overview.publicPagesCount" :label="t('user.profile.stats.createdPages')" :labelTooltip="t('user.profile.stats.tooltips.createdPages', { userName: profile.user.name })"
+                        :icon="['fas', 'file-lines']" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicWikisCount" :label="t('user.profile.stats.createdWikis')" v-tooltip="t('user.profile.stats.tooltips.createdWikis')" :icon="['fas', 'file-lines']" />
+                    <LayoutCounter :value="profile.overview.publicWikisCount" :label="t('user.profile.stats.createdWikis')" :labelTooltip="t('user.profile.stats.tooltips.createdWikis', { userName: profile.user.name })"
+                        :icon="['fas', 'file-lines']" />
                 </LayoutCard>
                 <LayoutCard :size="LayoutCardSize.Small">
-                    <LayoutCounter :value="profile.overview.publicQuestionsCount" :label="t('user.profile.stats.createdQuestions')" v-tooltip="t('user.profile.stats.tooltips.createdQuestions')" :icon="['fas', 'circle-question']" />
+                    <LayoutCounter :value="profile.overview.publicQuestionsCount" :label="t('user.profile.stats.createdQuestions')" :labelTooltip="t('user.profile.stats.tooltips.createdQuestions', { userName: profile.user.name })"
+                        :icon="['fas', 'circle-question']" />
                 </LayoutCard>
             </LayoutPanel>
 
@@ -305,13 +313,23 @@ const showSkillCard = (skill: PageData) => {
 
             </LayoutPanel>
 
+            <LayoutPanel v-if="hasPages || (profile.isCurrentUser && !userStore.showAsVisitor)" :id="UserSection.PAGES_SECTION.id" :title="t(UserSection.PAGES_SECTION.translationKey)"
+                :labelTooltip="UserSection.PAGES_SECTION.tooltipKey ? t(UserSection.PAGES_SECTION.tooltipKey) : ''">
+
+                <MissionControlGrid v-if="isMobile" :pages="profile.pages!" :no-pages-text="t('missionControl.pageTable.noPages')" />
+
+                <LayoutCard v-else :no-padding="true">
+                    <MissionControlTable :pages="profile.pages!" :no-pages-text="t('missionControl.pageTable.noPages')" />
+                </LayoutCard>
+
+            </LayoutPanel>
+
             <LayoutPanel v-if="hasQuestions || (profile.isCurrentUser && !userStore.showAsVisitor)" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)"
                 :labelTooltip="UserSection.QUESTIONS_SECTION.tooltipKey ? t(UserSection.QUESTIONS_SECTION.tooltipKey) : ''">
                 <LayoutCard :no-padding="true">
                     <LayoutQuestionList :questions="profile.questions || []" :no-questions-text="t('user.profile.noQuestions')" />
                 </LayoutCard>
             </LayoutPanel>
-
 
             <LayoutPanel v-if="!hasSkills && (!profile.isCurrentUser || userStore.showAsVisitor)" :id="UserSection.SKILLS_PLACEHOLDER_SECTION.id" :title="t(UserSection.SKILLS_PLACEHOLDER_SECTION.translationKey)">
                 <LayoutCard :size="LayoutCardSize.Large" class="placeholder-card">
@@ -325,6 +343,12 @@ const showSkillCard = (skill: PageData) => {
                 </LayoutCard>
             </LayoutPanel>
 
+            <LayoutPanel v-if="!hasPages && (!profile.isCurrentUser || userStore.showAsVisitor)" :id="UserSection.PAGES_PLACEHOLDER_SECTION.id" :title="t(UserSection.PAGES_PLACEHOLDER_SECTION.translationKey)">
+                <LayoutCard :size="LayoutCardSize.Large" class="placeholder-card">
+                    {{ t('user.profile.noPages', { name: profile.user.name }) }}
+                </LayoutCard>
+            </LayoutPanel>
+
             <LayoutPanel v-if="!hasQuestions && (!profile.isCurrentUser || userStore.showAsVisitor)" :id="UserSection.QUESTIONS_PLACEHOLDER_SECTION.id" :title="t(UserSection.QUESTIONS_PLACEHOLDER_SECTION.translationKey)">
                 <LayoutCard :size="LayoutCardSize.Large" class="placeholder-card">
                     {{ t('user.profile.noQuestions', { name: profile.user.name }) }}
@@ -332,8 +356,8 @@ const showSkillCard = (skill: PageData) => {
             </LayoutPanel>
         </div>
 
-        <SidebarUser :user="profile.user" :show-wikis="hasWikis || (profile.isCurrentUser && !userStore.showAsVisitor)" :show-questions="hasQuestions || (profile.isCurrentUser && !userStore.showAsVisitor)"
-            :show-skills="hasSkills || (profile.isCurrentUser && !userStore.showAsVisitor)" :margin-top="sideBarMarginTop" />
+        <SidebarUser :user="profile.user" :show-wikis="hasWikis || (profile.isCurrentUser && !userStore.showAsVisitor)" :show-pages="hasPages || (profile.isCurrentUser && !userStore.showAsVisitor)"
+            :show-questions="hasQuestions || (profile.isCurrentUser && !userStore.showAsVisitor)" :show-skills="hasSkills || (profile.isCurrentUser && !userStore.showAsVisitor)" :margin-top="sideBarMarginTop" />
 
         <!-- Add Skill Modal -->
         <UserSkillsAddSkillModal v-if="profile?.user.id" :show="showAddSkillModal" :user-id="profile.user.id" @close="showAddSkillModal = false" @skill-added="onSkillAdded" />

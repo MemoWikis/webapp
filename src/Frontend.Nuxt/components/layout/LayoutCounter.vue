@@ -26,11 +26,11 @@ const formattedValue = computed(() => {
 
 <template>
     <div class="layout-counter">
-        <div class="counter-header" v-tooltip="labelTooltip">
+        <div class="counter-header">
             <div v-if="icon" class="counter-icon">
                 <font-awesome-icon :icon="icon" :style="{ color: iconColor }" />
             </div>
-            <div class="counter-label">{{ label }}</div>
+            <div class="counter-label" v-tooltip="labelTooltip">{{ label }}</div>
         </div>
         <NuxtLink class="link-to-all-users" :to="props.urlValue" v-if="props.urlValue">
             <div class="counter-value" :style="{ color: color }">{{ formattedValue }}</div>

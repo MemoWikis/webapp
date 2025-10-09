@@ -1252,6 +1252,7 @@
             "noQuestions": "{name} aún no ha creado ninguna pregunta",
             "noSkills": "{name} aún no ha compartido ninguna habilidad",
             "noWikis": "{name} aún no ha creado ningún wiki",
+            "noPages": "{name} aún no ha creado ninguna página",
             "showAsVisitor": "Mostrar como visitante",
             "stats": {
                 "reputation": "Reputación",
@@ -1262,9 +1263,9 @@
                 "tooltips": {
                     "reputation": "La reputación se basa en preguntas creadas, preguntas en el conocimiento deseado de otros y conocimiento deseado público",
                     "rank": "El ranking de usuarios se basa en puntos de reputación",
-                    "createdPages": "Número de páginas públicas que han sido creadas",
+                    "createdPages": "Páginas públicas de {userName}",
                     "createdWikis": "Número de wikis públicos que han sido creados",
-                    "createdQuestions": "Número de preguntas públicas que han sido creadas"
+                    "createdQuestions": "Número de preguntas públicas que han been creadas"
                 }
             }
         },
@@ -1318,10 +1319,12 @@
             "stats": "Estadísticas",
             "skills": "Habilidades",
             "wikis": "Wikis",
+            "pages": "Páginas",
             "questions": "Preguntas",
             "tooltips": {
                 "skills": "Solo se muestran páginas públicas con preguntas respondidas y públicas",
                 "wikis": "Solo se muestran wikis públicos",
+                "pages": "Muestra solo páginas del nivel jerárquico más alto (no subpáginas o páginas de wiki)",
                 "questions": "Solo se muestran preguntas públicas de páginas públicas"
             }
         },
