@@ -58,7 +58,7 @@ const knowledgeStatusItems = computed(() => {
 })
 
 const emit = defineEmits<{
-    (e: 'actionClick', itemClass: string): void
+    (e: 'actionClick', type: KnowledgeSummaryType): void
 }>()
 </script>
 
@@ -78,7 +78,7 @@ const emit = defineEmits<{
                     <span v-if="item.percentage !== null" class="percentage">({{ item.percentage }}%)</span>
                 </div>
                 <div class="status-actions" v-if="props.showActions">
-                    <button class="play-button" @click="$emit('actionClick', item.class)">
+                    <button class="play-button" @click="$emit('actionClick', item.type)">
                         <font-awesome-icon :icon="props.actionIcon" />
                     </button>
                 </div>

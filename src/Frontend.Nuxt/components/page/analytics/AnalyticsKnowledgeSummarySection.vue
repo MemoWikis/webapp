@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import { usePageStore } from '~/components/page/pageStore'
 import { useLearningSessionConfigurationStore } from '../learning/learningSessionConfigurationStore'
+import { KnowledgeSummaryType } from '~/composables/knowledgeSummary'
+import { useLearningSessionStore } from '../learning/learningSessionStore'
+import { useTabsStore, Tab } from '../tabs/tabsStore'
 
 const pageStore = usePageStore()
 
 const { t } = useI18n()
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+const learningSessionStore = useLearningSessionStore()
+const tabsStore = useTabsStore()
 
-const handleActionClick = (itemClass: string) => {
-    console.log(`Action clicked for status: ${itemClass}`)
-    // Implement the logic to handle the action click, e.g., start a learning session
-    // learningSessionConfigurationStore.setInitialFilterByKnowledgeStatus(itemClass)
+const onActionClick = async (type: KnowledgeSummaryType) => {
+    learningSessionConfigurationStore.selectKnowledgeSummaryByType(type)
+    await nextTick()
+    learningSessionStore.startNewSession()
+    tabsStore.activeTab = Tab.Learning
 }
 
 </script>
@@ -22,7 +28,7 @@ const handleActionClick = (itemClass: string) => {
             <div v-if="pageStore.knowledgeSummary.total > 0">
                 <div class="knowledgesummary-content">
                     <SharedKnowledgeSummaryPie :knowledge-summary="pageStore.knowledgeSummary" />
-                    <SharedKnowledgeSummary :knowledge-summary="pageStore.knowledgeSummary" :show-actions="true" :action-icon="'fa-solid fa-play'" @action-click="handleActionClick" />
+                    <SharedKnowledgeSummary :knowledge-summary="pageStore.knowledgeSummary" :show-actions="true" :action-icon="'fa-solid fa-play'" @action-click="onActionClick" />
                 </div>
             </div>
 

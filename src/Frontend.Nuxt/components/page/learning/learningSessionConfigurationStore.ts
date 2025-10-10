@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useUserStore } from '../../user/userStore'
 import { usePageStore } from '../pageStore'
 import { useLearningSessionStore } from './learningSessionStore'
+import { KnowledgeSummaryType } from '~/composables/knowledgeSummary'
 import _ from 'underscore'
 
 export interface QustionCounter {
@@ -572,6 +573,31 @@ export const useLearningSessionConfigurationStore = defineStore(
                 this.testOptions[key] = val
                 this.activeCustomSettings = true
                 this.lazyLoadCustomSession()
+            },
+            selectKnowledgeSummaryByType(type: KnowledgeSummaryType) {
+                // First, unselect all knowledge summaries
+                for (const key in this.knowledgeSummary) {
+                    this.knowledgeSummary[key].isSelected = false
+                }
+                
+                // Map the KnowledgeSummaryType to the corresponding key in knowledgeSummary
+                const typeToKeyMap: { [key in KnowledgeSummaryType]: string } = {
+                    [KnowledgeSummaryType.Solid]: 'solid',
+                    [KnowledgeSummaryType.NeedsConsolidation]: 'needsConsolidation',
+                    [KnowledgeSummaryType.NeedsLearning]: 'needsLearning',
+                    [KnowledgeSummaryType.NotLearned]: 'notLearned'
+                }
+                
+                const targetKey = typeToKeyMap[type]
+                
+                // Select the matching knowledge summary
+                if (this.knowledgeSummary[targetKey]) {
+                    this.knowledgeSummary[targetKey].isSelected = true
+                }
+                
+                // Update the selection state
+                this.checkKnowledgeSummarySelection()
+                this.activeCustomSettings = true
             },
         },
     }
