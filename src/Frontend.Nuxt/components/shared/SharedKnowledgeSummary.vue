@@ -1,38 +1,65 @@
 <script lang="ts" setup>
+import { KnowledgeSummaryType } from '~/composables/knowledgeSummary'
 
 interface Props {
     knowledgeSummary: KnowledgeSummary
+    showActions?: boolean
+    actionIcon?: string
+    showNotInWishknowledge?: boolean
 }
 
 const props = defineProps<Props>()
 const { t } = useI18n()
 
-const knowledgeStatusItems = computed(() => [
-    {
-        label: t('knowledgeStatus.solid'),
-        value: props.knowledgeSummary.solid,
-        percentage: props.knowledgeSummary.solidPercentage,
-        class: 'solid'
-    },
-    {
-        label: t('knowledgeStatus.needsConsolidation'),
-        value: props.knowledgeSummary.needsConsolidation,
-        percentage: props.knowledgeSummary.needsConsolidationPercentage,
-        class: 'needsConsolidation'
-    },
-    {
-        label: t('knowledgeStatus.needsLearning'),
-        value: props.knowledgeSummary.needsLearning,
-        percentage: props.knowledgeSummary.needsLearningPercentage,
-        class: 'needsLearning'
-    },
-    {
-        label: t('knowledgeStatus.notLearned'),
-        value: props.knowledgeSummary.notLearned,
-        percentage: props.knowledgeSummary.notLearnedPercentage,
-        class: 'notLearned'
-    }
-])
+const knowledgeStatusItems = computed(() => {
+    const items = [
+        {
+            label: t('knowledgeStatus.solid'),
+            value: props.knowledgeSummary.solid,
+            percentage: props.knowledgeSummary.solidPercentage,
+            class: 'solid',
+            type: KnowledgeSummaryType.Solid
+        },
+        {
+            label: t('knowledgeStatus.needsConsolidation'),
+            value: props.knowledgeSummary.needsConsolidation,
+            percentage: props.knowledgeSummary.needsConsolidationPercentage,
+            class: 'needsConsolidation',
+            type: KnowledgeSummaryType.NeedsConsolidation
+        },
+        {
+            label: t('knowledgeStatus.needsLearning'),
+            value: props.knowledgeSummary.needsLearning,
+            percentage: props.knowledgeSummary.needsLearningPercentage,
+            class: 'needsLearning',
+            type: KnowledgeSummaryType.NeedsLearning
+        },
+        {
+            label: t('knowledgeStatus.notLearned'),
+            value: props.knowledgeSummary.notLearned,
+            percentage: props.knowledgeSummary.notLearnedPercentage,
+            class: 'notLearned',
+            type: KnowledgeSummaryType.NotLearned
+        }
+    ]
+
+    // Add notInWishknowledge item if showNotInWishknowledge prop is true
+    // if (props.showNotInWishknowledge) {
+    //     items.push({
+    //         label: t('knowledgeStatus.notInWishknowledge'),
+    //         value: 0, // This would need to come from backend data
+    //         percentage: 0, // This would need to come from backend data  
+    //         class: 'notInWishknowledge',
+    //         type: KnowledgeSummaryType.NotInWishknowledge
+    //     })
+    // }
+
+    return items
+})
+
+const emit = defineEmits<{
+    (e: 'actionClick', itemClass: string): void
+}>()
 </script>
 
 <template>
@@ -45,10 +72,18 @@ const knowledgeStatusItems = computed(() => [
                 <span class="status-dot" :class="`dot-${item.class}`"></span>
                 <span class="status-label">{{ item.label }}</span>
             </div>
-            <div class="status-value">
-                <span class="value">{{ item.value }}</span>
-                <span v-if="item.percentage !== null" class="percentage">({{ item.percentage }}%)</span>
+            <div class="status-details">
+                <div class="status-value">
+                    <span class="value">{{ item.value }}</span>
+                    <span v-if="item.percentage !== null" class="percentage">({{ item.percentage }}%)</span>
+                </div>
+                <div class="status-actions" v-if="props.showActions">
+                    <button class="play-button" @click="$emit('actionClick', item.class)">
+                        <font-awesome-icon :icon="props.actionIcon" />
+                    </button>
+                </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -95,6 +130,10 @@ const knowledgeStatusItems = computed(() => [
                 }
 
                 &.dot-notLearned {
+                    background-color: @memo-grey-dark;
+                }
+
+                &.dot-notInWishknowledge {
                     background-color: @memo-grey-light;
                 }
             }
@@ -105,17 +144,56 @@ const knowledgeStatusItems = computed(() => [
             }
         }
 
-        .status-value {
-            font-size: 14px;
+        .status-details {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: flex-end;
 
-            .value {
-                font-weight: 600;
-                color: @memo-grey-darker;
+            .status-value {
+                font-size: 14px;
+
+                .value {
+                    font-weight: 600;
+                    color: @memo-grey-darker;
+                }
+
+                .percentage {
+                    margin-left: 4px;
+                    color: @memo-grey-dark;
+                }
+
+
             }
 
-            .percentage {
-                margin-left: 4px;
-                color: @memo-grey-dark;
+            .status-actions {
+                margin-left: 16px;
+
+                .play-button {
+                    background: white;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 24px;
+                    color: @memo-grey-dark;
+                    font-size: 16px;
+                    padding: 4px;
+                    height: 24px;
+                    width: 24px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding-left: 6px;
+
+                    &:hover {
+                        color: @memo-grey-darker;
+                        background: darken(white, 5%);
+                    }
+
+                    &:focus {
+                        outline: 2px solid @memo-blue;
+                        outline-offset: 2px;
+                    }
+                }
             }
         }
     }

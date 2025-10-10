@@ -1,5 +1,13 @@
 import { ChartData } from '~/components/chart/chartData'
 
+export enum KnowledgeSummaryType {
+    Solid = 'solid',
+    NeedsConsolidation = 'needsConsolidation',
+    NeedsLearning = 'needsLearning',
+    NotLearned = 'notLearned',
+    // NotInWishknowledge = 'notInWishknowledge'
+}
+
 export interface KnowledgeSummary {
     total: number
 

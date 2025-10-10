@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { usePageStore } from '~/components/page/pageStore'
+import { useLearningSessionConfigurationStore } from '../learning/learningSessionConfigurationStore'
 
 const pageStore = usePageStore()
 
 const { t } = useI18n()
+
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+
+const handleActionClick = (itemClass: string) => {
+    console.log(`Action clicked for status: ${itemClass}`)
+    // Implement the logic to handle the action click, e.g., start a learning session
+    // learningSessionConfigurationStore.setInitialFilterByKnowledgeStatus(itemClass)
+}
 
 </script>
 
@@ -13,7 +22,7 @@ const { t } = useI18n()
             <div v-if="pageStore.knowledgeSummary.total > 0">
                 <div class="knowledgesummary-content">
                     <SharedKnowledgeSummaryPie :knowledge-summary="pageStore.knowledgeSummary" />
-                    <SharedKnowledgeSummary :knowledge-summary="pageStore.knowledgeSummary" />
+                    <SharedKnowledgeSummary :knowledge-summary="pageStore.knowledgeSummary" :show-actions="true" :action-icon="'fa-solid fa-play'" @action-click="handleActionClick" />
                 </div>
             </div>
 
