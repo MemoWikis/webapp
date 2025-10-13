@@ -19,7 +19,8 @@
                 "renewed": "Le lien de partage a été renouvelé avec succès.",
                 "copied": "Le lien de partage a été copié dans le presse-papiers.",
                 "removed": "Le lien de partage a été supprimé avec succès."
-            }
+            },
+            "savedWithImageRecovery": "Les images supprimées seront définitivement effacées dans 24h."
         },
         "question": {
             "created": "Ta question est créée !",

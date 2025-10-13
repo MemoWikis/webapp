@@ -144,8 +144,6 @@ export const usePageStore = defineStore('pageStore', () => {
     const gridItems = ref<GridPageItem[]>([])
     const isChildOfPersonalWiki = ref(false)
     const textIsHidden = ref(false)
-    const uploadedImagesInContent = ref<string[]>([])
-    const uploadedImagesMarkedForDeletion = ref<string[]>([])
     const uploadTrackingArray = ref<string[]>([])
     const viewsPast90DaysAggregatedPages = ref<ViewSummary[]>([])
     const viewsPast90DaysPage = ref<ViewSummary[]>([])
@@ -204,8 +202,6 @@ export const usePageStore = defineStore('pageStore', () => {
             gridItems.value = page.gridItems
             isChildOfPersonalWiki.value = page.isChildOfPersonalWiki
             textIsHidden.value = page.textIsHidden
-            uploadedImagesInContent.value = []
-            uploadedImagesMarkedForDeletion.value = []
 
             analyticsLoaded.value = false
             viewsPast90DaysAggregatedPages.value = []
@@ -252,11 +248,12 @@ export const usePageStore = defineStore('pageStore', () => {
 
         const uploadId = nanoid(5)
         saveTrackingArray.value.push(uploadId)
-
+        
         const data = {
             id: id.value,
             content: content.value,
             shareToken: shareToken.value,
+            currentImages: currentImages.value,
         }
 
         const result = await $api<FetchResult<boolean>>(
@@ -398,8 +395,6 @@ export const usePageStore = defineStore('pageStore', () => {
         nameHasChanged.value = false
         content.value = initialContent.value
         contentHasChanged.value = false
-        uploadedImagesInContent.value = []
-        uploadedImagesMarkedForDeletion.value = []
     }
 
     const clearPage = () => {
@@ -543,40 +538,20 @@ export const usePageStore = defineStore('pageStore', () => {
         return result
     }
 
-    const addImageUrlToDeleteList = (url: string) => {
-        if (!uploadedImagesMarkedForDeletion.value.includes(url))
-            uploadedImagesMarkedForDeletion.value.push(url)
-    }
-
-    const refreshDeleteImageList = () => {
-        const imagesToKeep = uploadedImagesInContent.value
-        uploadedImagesMarkedForDeletion.value =
-            uploadedImagesMarkedForDeletion.value.filter((url) =>
-                imagesToKeep.includes(url)
-            )
-    }
-
-    const deletePageContentImages = async () => {
-        if (uploadedImagesMarkedForDeletion.value.length == 0) return
-
-        const data = {
-            pageId: id.value,
-            imageUrls: uploadedImagesMarkedForDeletion.value,
-        }
-        await $api<void>('/apiVue/PageStore/DeleteContentImages', {
-            body: data,
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-        })
-        uploadedImagesMarkedForDeletion.value = []
-    }
-
     const waitUntilAllUploadsComplete = async () => {
         while (uploadTrackingArray.value.length > 0) {
             await new Promise((resolve) => setTimeout(resolve, 100))
         }
     }
+
+    // Current images will be set by the ContentEditor via setCurrentImages
+    const currentImages = ref<string[]>([]);
+    
+    const setCurrentImages = (images: string[]) => {
+        currentImages.value = images
+    }
+
+
 
     const getAnalyticsData = async () => {
         const data = await $api<GetPageAnalyticsResponse>(
@@ -748,8 +723,6 @@ export const usePageStore = defineStore('pageStore', () => {
         gridItems,
         isChildOfPersonalWiki,
         textIsHidden,
-        uploadedImagesInContent,
-        uploadedImagesMarkedForDeletion,
         uploadTrackingArray,
         viewsPast90DaysAggregatedPages,
         viewsPast90DaysPage,
@@ -783,9 +756,6 @@ export const usePageStore = defineStore('pageStore', () => {
         reloadGridItems,
         hideOrShowText,
         uploadContentImage,
-        addImageUrlToDeleteList,
-        refreshDeleteImageList,
-        deletePageContentImages,
         waitUntilAllUploadsComplete,
         getAnalyticsData,
         generateFlashcard,
@@ -794,6 +764,8 @@ export const usePageStore = defineStore('pageStore', () => {
         setToken,
         updateIsShared,
         handleLoginReminder,
+        setCurrentImages,
+        currentImages,
         
         // Getters
         getPageName,

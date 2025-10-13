@@ -56,6 +56,11 @@ public class PageCacheItem : IPersistable
     public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
     public virtual bool IsWiki { get; set; }
     public virtual string Language { get; set; } = "en";
+    
+    /// <summary>
+    /// Current images in the page content - used for delayed cleanup to allow undo/revert
+    /// </summary>
+    public virtual string[] CurrentImageUrls { get; set; } = Array.Empty<string>();
 
     public virtual List<DailyViews> GetViewsOfPast90Days()
     {
@@ -353,7 +358,8 @@ public class PageCacheItem : IPersistable
             AuthorIds = page.AuthorIdsInts ?? [creatorId],
             TextIsHidden = page.TextIsHidden,
             IsWiki = page.IsWiki,
-            Language = page.Language
+            Language = page.Language,
+            CurrentImageUrls = Array.Empty<string>() // Will be populated on first content save
         };
 
         if (EntityCache.IsFirstStart)

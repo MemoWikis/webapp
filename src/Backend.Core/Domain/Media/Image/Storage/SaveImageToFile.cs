@@ -8,8 +8,12 @@ public class SaveImageToFile
 
         var oldImages = Directory.GetFiles(directory, $"{imageSettings.Id}_*");
 
+        Log.Information("SaveImageToFile.RemoveExistingAndSaveAllSizes: Removing {OldImageCount} existing images for ID {Id} in {Directory}", 
+            oldImages.Length, imageSettings.Id, directory);
+
         foreach (var file in oldImages)
         {
+            Log.Information("SaveImageToFile.RemoveExistingAndSaveAllSizes: Deleting existing file {FilePath}", file);
             File.Delete(file);
         }
 
@@ -77,6 +81,10 @@ public class SaveImageToFile
         {
             var guid = Guid.NewGuid();
             var filename = $"{imageSettings.ServerPathAndId()}_{guid}.jpg";
+            
+            Log.Information("SaveImageToFile.SaveContentImageAndGetPath: Saving new content image for ID {Id} with GUID {Guid} to {Filename}", 
+                imageSettings.Id, guid, filename);
+            
             using (var fileStream = File.OpenWrite(filename))
             {
                 image.Encode(fileStream, SKEncodedImageFormat.Jpeg, 100);
@@ -88,10 +96,15 @@ public class SaveImageToFile
                     imageSettings.BasePath,
                     $"{imageSettings.Id}_{guid}.jpg")
                 .NormalizePathSeparators();
-            if (File.Exists(path))
-                return $"/Images/{imageSettings.BasePath}/{imageSettings.Id}_{guid}.jpg";
-
-            return $"/Images/${imageSettings.BaseDummyUrl}";
+            
+            var returnUrl = File.Exists(path) 
+                ? $"/Images/{imageSettings.BasePath}/{imageSettings.Id}_{guid}.jpg"
+                : $"/Images/${imageSettings.BaseDummyUrl}";
+            
+            Log.Information("SaveImageToFile.SaveContentImageAndGetPath: Returning URL {ReturnUrl} for path {Path} (exists: {FileExists})", 
+                returnUrl, path, File.Exists(path));
+            
+            return returnUrl;
         }
     }
 
