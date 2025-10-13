@@ -53,7 +53,7 @@ public class PageStoreController(
         _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
 
         // Schedule delayed cleanup for removed images (24h delay to allow undo/revert)
-        ScheduleDelayedImageCleanup(request.Id, previousImages, request.CurrentImages);
+        ImageCleanup.Schedule(request.Id, previousImages, request.CurrentImages);
 
         return new SaveResult { Success = true };
     }
@@ -314,18 +314,5 @@ public class PageStoreController(
             ? _permissionCheck.CanViewPage(id, shareToken)
             : _permissionCheck.CanViewPage(id);
         return canView && SharesService.IsShared(id);
-    }
 
-    private void ScheduleDelayedImageCleanup(int pageId, string[] previousImages, string[] currentImages)
-    {
-        var previousImageSet = previousImages.ToHashSet();
-        var currentImageSet = currentImages.ToHashSet();
-        var removedImages = previousImageSet.Except(currentImageSet).ToArray();
-
-        if (removedImages.Length > 0)
-        {
-            var delay = Settings.Environment == "develop" ? TimeSpan.FromMinutes(5) : TimeSpan.FromHours(24);
-            JobScheduler.ScheduleDelayedImageCleanup(pageId, removedImages, delay);
-        }
     }
-}
