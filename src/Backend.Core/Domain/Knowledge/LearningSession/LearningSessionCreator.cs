@@ -130,7 +130,7 @@ public class LearningSessionCreator(
             userQuestionValuations
         );
 
-        _questionCounterService.Count(questionProperties, ref learningSession.QuestionCounter);
+        _questionCounterService.Count(questionProperties, learningSession.QuestionCounter);
 
         if (questionProperties.AddToLearningSession)
         {
