@@ -1263,9 +1263,9 @@
                 "tooltips": {
                     "reputation": "La reputación se basa en preguntas creadas, preguntas en el conocimiento deseado de otros y conocimiento deseado público",
                     "rank": "El ranking de usuarios se basa en puntos de reputación",
-                    "createdPages": "Páginas públicas de {userName}",
-                    "createdWikis": "Número de wikis públicos que han sido creados",
-                    "createdQuestions": "Número de preguntas públicas que han been creadas"
+                    "createdPages": "Páginas públicas creadas por: {userName}",
+                    "createdWikis": "Wikis públicos creados por: {userName}",
+                    "createdQuestions": "Número de preguntas públicas que han sido creadas"
                 }
             }
         },

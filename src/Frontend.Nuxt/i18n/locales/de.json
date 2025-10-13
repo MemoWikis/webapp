@@ -1263,8 +1263,8 @@
                 "tooltips": {
                     "reputation": "Reputation basiert auf erstellten Fragen, Fragen im Wunsch-Wissen anderer und öffentlichem Wunsch-Wissen",
                     "rank": "Rang basiert auf Reputationspunkten",
-                    "createdPages": "Von {userName} öffentliche Seiten",
-                    "createdWikis": "Von {userName} öffentliche Wikis",
+                    "createdPages": "Öffentliche Seiten erstellt von: {userName}",
+                    "createdWikis": "Öffentliche Wikis erstellt von: {userName}",
                     "createdQuestions": "Anzahl der öffentlichen Fragen, die erstellt wurden"
                 }
             }
