@@ -56,6 +56,7 @@ interface ProfileData {
     messageKey?: string
     errorCode?: ErrorCode
     wikis?: PageData[]
+    pages?: PageData[]
     skills?: PageData[]
     questions?: Question[]
 }
@@ -137,6 +138,10 @@ const hasWikis = computed(() => {
 
 const hasSkills = computed(() => {
     return profile.value?.skills && profile.value.skills.length > 0 && profile.value.skills.some(skill => skill.isPublic && skill.knowledgebarData?.total > 0)
+})
+
+const hasPages = computed(() => {
+    return profile.value?.pages && profile.value.pages.length > 0
 })
 
 const hasQuestions = computed(() => {
@@ -305,13 +310,23 @@ const showSkillCard = (skill: PageData) => {
 
             </LayoutPanel>
 
+            <LayoutPanel v-if="hasPages || (profile.isCurrentUser && !userStore.showAsVisitor)" :id="UserSection.PAGES_SECTION.id" :title="t(UserSection.PAGES_SECTION.translationKey)"
+                :labelTooltip="UserSection.PAGES_SECTION.tooltipKey ? t(UserSection.PAGES_SECTION.tooltipKey) : ''">
+
+                <MissionControlGrid v-if="isMobile" :pages="profile.pages!" :no-pages-text="t('missionControl.pageTable.noPages')" />
+
+                <LayoutCard v-else :no-padding="true">
+                    <MissionControlTable :pages="profile.pages!" :no-pages-text="t('missionControl.pageTable.noPages')" />
+                </LayoutCard>
+
+            </LayoutPanel>
+
             <LayoutPanel v-if="hasQuestions || (profile.isCurrentUser && !userStore.showAsVisitor)" :id="UserSection.QUESTIONS_SECTION.id" :title="t(UserSection.QUESTIONS_SECTION.translationKey)"
                 :labelTooltip="UserSection.QUESTIONS_SECTION.tooltipKey ? t(UserSection.QUESTIONS_SECTION.tooltipKey) : ''">
                 <LayoutCard :no-padding="true">
                     <LayoutQuestionList :questions="profile.questions || []" :no-questions-text="t('user.profile.noQuestions')" />
                 </LayoutCard>
             </LayoutPanel>
-
 
             <LayoutPanel v-if="!hasSkills && (!profile.isCurrentUser || userStore.showAsVisitor)" :id="UserSection.SKILLS_PLACEHOLDER_SECTION.id" :title="t(UserSection.SKILLS_PLACEHOLDER_SECTION.translationKey)">
                 <LayoutCard :size="LayoutCardSize.Large" class="placeholder-card">
@@ -325,6 +340,12 @@ const showSkillCard = (skill: PageData) => {
                 </LayoutCard>
             </LayoutPanel>
 
+            <LayoutPanel v-if="!hasPages && (!profile.isCurrentUser || userStore.showAsVisitor)" :id="UserSection.PAGES_PLACEHOLDER_SECTION.id" :title="t(UserSection.PAGES_PLACEHOLDER_SECTION.translationKey)">
+                <LayoutCard :size="LayoutCardSize.Large" class="placeholder-card">
+                    {{ t('user.profile.noPages', { name: profile.user.name }) }}
+                </LayoutCard>
+            </LayoutPanel>
+
             <LayoutPanel v-if="!hasQuestions && (!profile.isCurrentUser || userStore.showAsVisitor)" :id="UserSection.QUESTIONS_PLACEHOLDER_SECTION.id" :title="t(UserSection.QUESTIONS_PLACEHOLDER_SECTION.translationKey)">
                 <LayoutCard :size="LayoutCardSize.Large" class="placeholder-card">
                     {{ t('user.profile.noQuestions', { name: profile.user.name }) }}
@@ -332,8 +353,8 @@ const showSkillCard = (skill: PageData) => {
             </LayoutPanel>
         </div>
 
-        <SidebarUser :user="profile.user" :show-wikis="hasWikis || (profile.isCurrentUser && !userStore.showAsVisitor)" :show-questions="hasQuestions || (profile.isCurrentUser && !userStore.showAsVisitor)"
-            :show-skills="hasSkills || (profile.isCurrentUser && !userStore.showAsVisitor)" :margin-top="sideBarMarginTop" />
+        <SidebarUser :user="profile.user" :show-wikis="hasWikis || (profile.isCurrentUser && !userStore.showAsVisitor)" :show-pages="hasPages || (profile.isCurrentUser && !userStore.showAsVisitor)"
+            :show-questions="hasQuestions || (profile.isCurrentUser && !userStore.showAsVisitor)" :show-skills="hasSkills || (profile.isCurrentUser && !userStore.showAsVisitor)" :margin-top="sideBarMarginTop" />
 
         <!-- Add Skill Modal -->
         <UserSkillsAddSkillModal v-if="profile?.user.id" :show="showAddSkillModal" :user-id="profile.user.id" @close="showAddSkillModal = false" @skill-added="onSkillAdded" />

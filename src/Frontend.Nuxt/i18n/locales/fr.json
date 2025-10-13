@@ -1253,6 +1253,7 @@
             "noQuestions": "{name} n'a pas encore créé de questions",
             "noSkills": "{name} n'a pas encore partagé de compétences",
             "noWikis": "{name} n'a pas encore créé de wikis",
+            "noPages": "{name} n'a pas encore créé de pages",
             "showAsVisitor": "Afficher comme visiteur",
             "stats": {
                 "reputation": "Réputation",
@@ -1319,10 +1320,12 @@
             "stats": "Statistiques",
             "skills": "Compétences",
             "wikis": "Wikis",
+            "pages": "Pages",
             "questions": "Questions",
             "tooltips": {
                 "skills": "Seules les pages publiques avec des questions répondues et publiques sont affichées",
                 "wikis": "Seuls les wikis publics sont affichés",
+                "pages": "Seules les pages publiques sont affichées",
                 "questions": "Seules les questions publiques de pages publiques sont affichées"
             }
         },
