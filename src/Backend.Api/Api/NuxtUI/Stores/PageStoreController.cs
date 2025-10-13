@@ -43,7 +43,7 @@ public class PageStoreController(
 
         // Store previous images for comparison
         var previousImages = pageCacheItem.CurrentImageUrls ?? Array.Empty<string>();
-        
+
         pageCacheItem.Content = request.Content;
         pageCacheItem.CurrentImageUrls = request.CurrentImages;
         page.Content = request.Content;
@@ -314,40 +314,6 @@ public class PageStoreController(
             ? _permissionCheck.CanViewPage(id, shareToken)
             : _permissionCheck.CanViewPage(id);
         return canView && SharesService.IsShared(id);
-    }
-
-    public record struct DebugImageInfo(string FileName, long SizeBytes, DateTime LastModified, string FullPath);
-    
-    [HttpGet]
-    public DebugImageInfo[] DebugGetPageImages([FromRoute] int id)
-    {
-        Log.Information("PageStoreController.DebugGetPageImages: Checking images for page {PageId}", id);
-        
-        var imageSettings = new PageContentImageSettings(id, _httpContextAccessor);
-        var directory = Path.Combine(Settings.ImagePath, imageSettings.BasePath);
-        
-        if (!Directory.Exists(directory))
-        {
-            Log.Information("PageStoreController.DebugGetPageImages: Directory does not exist: {Directory}", directory);
-            return Array.Empty<DebugImageInfo>();
-        }
-        
-        var pattern = $"{id}_*";
-        var files = Directory.GetFiles(directory, pattern);
-        
-        Log.Information("PageStoreController.DebugGetPageImages: Found {FileCount} files with pattern {Pattern} in {Directory}", 
-            files.Length, pattern, directory);
-        
-        return files.Select(file => 
-        {
-            var fileInfo = new FileInfo(file);
-            return new DebugImageInfo(
-                Path.GetFileName(file),
-                fileInfo.Length,
-                fileInfo.LastWriteTime,
-                file
-            );
-        }).ToArray();
     }
 
     private void ScheduleDelayedImageCleanup(int pageId, string[] previousImages, string[] currentImages)
