@@ -1264,8 +1264,8 @@
                 "tooltips": {
                     "reputation": "Reputation is based on created questions, questions in others' wish knowledge, and public wish knowledge",
                     "rank": "User ranking is based on reputation points",
-                    "createdPages": "Number of public pages that have been created",
-                    "createdWikis": "Number of public wikis that have been created",
+                    "createdPages": "Public pages created by: {userName}",
+                    "createdWikis": "Public wikis created by: {userName}",
                     "createdQuestions": "Number of public questions that have been created"
                 }
             }
@@ -1326,7 +1326,7 @@
             "tooltips": {
                 "skills": "Only public pages with answered and public questions are displayed",
                 "wikis": "Only public wikis are displayed",
-                "pages": "Only public pages are displayed",
+                "pages": "Only top-level pages – without sub- or wiki pages",
                 "questions": "Only public questions from public pages are displayed"
             }
         },

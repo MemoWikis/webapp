@@ -10,40 +10,46 @@ public readonly record struct UserPageItem(
     [CanBeNull] string CreatorName = "",
     [CanBeNull] bool IsPublic = false);
 
-public static class UserPageItemMapper
+public class UserPageItemMapper(
+    SessionUser sessionUser,
+    IHttpContextAccessor httpContextAccessor,
+    KnowledgeSummaryLoader knowledgeSummaryLoader,
+    PopularityCalculator popularityCalculator,
+    PermissionCheck permissionCheck,
+    ExtendedUserCache extendedUserCache) : IRegisterAsInstancePerLifetime
 {
-    public static IList<UserPageItem> MapWikis(
-        IEnumerable<PageCacheItem> wikis,
-        SessionUser sessionUser,
-        IHttpContextAccessor httpContextAccessor,
-        KnowledgeSummaryLoader knowledgeSummaryLoader,
-        PopularityCalculator popularityCalculator)
+    public IList<UserPageItem> MapWikis(IEnumerable<PageCacheItem> wikis)
     {
-        return wikis.Select(wiki =>
-                new UserPageItem(
-                    wiki.Id,
-                    wiki.Name,
-                    new PageImageSettings(wiki.Id, httpContextAccessor).GetUrl_128px(true).Url,
-                    wiki.GetCountQuestionsAggregated(sessionUser.UserId),
-                    new KnowledgeSummaryResponse(knowledgeSummaryLoader.Run(sessionUser.UserId, wiki.Id, onlyInWishknowledge: true)),
-                    popularityCalculator.CalculatePagePopularity(wiki))
-            )
-            .ToList();
+        return wikis.Select(CreateUserPageItemFromWiki).ToList();
     }
 
-    public static IList<UserPageItem> MapPages(
+    private UserPageItem CreateUserPageItemFromWiki(PageCacheItem wiki)
+    {
+        return new UserPageItem(
+            wiki.Id,
+            wiki.Name,
+            new PageImageSettings(wiki.Id, httpContextAccessor).GetUrl_128px(true).Url,
+            wiki.GetCountQuestionsAggregated(sessionUser.UserId),
+            new KnowledgeSummaryResponse(knowledgeSummaryLoader.Run(sessionUser.UserId, wiki.Id, onlyInWishknowledge: true)),
+            popularityCalculator.CalculatePagePopularity(wiki));
+    }
+
+    public IList<UserPageItem> MapPages(
         int userId,
-        IEnumerable<PageCacheItem> userWikis,
-        SessionUser sessionUser,
-        IHttpContextAccessor httpContextAccessor,
-        KnowledgeSummaryLoader knowledgeSummaryLoader,
-        PopularityCalculator popularityCalculator,
-        PermissionCheck permissionCheck)
+        IEnumerable<PageCacheItem> userWikis)
     {
         var user = EntityCache.GetUserById(userId);
         var userWikiIds = userWikis.Select(w => w.Id).ToHashSet();
         
-        // Get all descendants of user's wikis to exclude them
+        var userWikiDescendantIds = GetUserWikiDescendantIds(userWikis);
+        var publicPagesCreatedByUser = GetPublicPagesCreatedByUser(userId, userWikiIds, userWikiDescendantIds);
+        var filteredPages = FilterOutChildPagesWithParentsInList(publicPagesCreatedByUser, userId);
+
+        return filteredPages.Select(CreateUserPageItemFromPage).ToList();
+    }
+
+    private HashSet<int> GetUserWikiDescendantIds(IEnumerable<PageCacheItem> userWikis)
+    {
         var userWikiDescendantIds = new HashSet<int>();
         foreach (var wiki in userWikis)
         {
@@ -53,20 +59,25 @@ public static class UserPageItemMapper
                 userWikiDescendantIds.Add(descendant.Id);
             }
         }
-        
-        var publicPagesCreatedByUser = EntityCache.GetAllPagesList()
+        return userWikiDescendantIds;
+    }
+
+    private List<PageCacheItem> GetPublicPagesCreatedByUser(int userId, HashSet<int> userWikiIds, HashSet<int> userWikiDescendantIds)
+    {
+        return EntityCache.GetAllPagesList()
             .Where(page => page.Creator != null 
                        && page.CreatorId == userId 
                        && page.Visibility == PageVisibility.Public
-                       && !userWikiIds.Contains(page.Id)  // Exclude pages that are user's own wikis
-                       && !userWikiDescendantIds.Contains(page.Id)) // Exclude all descendants of user's wikis
+                       && !userWikiIds.Contains(page.Id)
+                       && !userWikiDescendantIds.Contains(page.Id))
             .Where(permissionCheck.CanView)
             .ToList();
+    }
 
-        // Filter out child pages when their parent is also created by the same user and in the list
-        // Use GraphService to get proper ascendants for each page
-        var pageIds = publicPagesCreatedByUser.Select(p => p.Id).ToHashSet();
-        var filteredPages = publicPagesCreatedByUser
+    private List<PageCacheItem> FilterOutChildPagesWithParentsInList(List<PageCacheItem> pages, int userId)
+    {
+        var pageIds = pages.Select(p => p.Id).ToHashSet();
+        return pages
             .Where(page => 
             {
                 var ascendants = GraphService.Ascendants(page.Id);
@@ -74,51 +85,42 @@ public static class UserPageItemMapper
                     ascendant.CreatorId == userId && pageIds.Contains(ascendant.Id));
             })
             .ToList();
+    }
 
-        return filteredPages.Select(page =>
-                new UserPageItem(
-                    page.Id,
-                    page.Name,
-                    new PageImageSettings(page.Id, httpContextAccessor).GetUrl_128px(true).Url,
-                    page.GetCountQuestionsAggregated(sessionUser.UserId),
-                    new KnowledgeSummaryResponse(knowledgeSummaryLoader.Run(sessionUser.UserId, page.Id, onlyInWishknowledge: true)),
-                    popularityCalculator.CalculatePagePopularity(page),
-                    page.Creator.Name,
-                    IsPublic: page.IsPublic)
-            )
+    private UserPageItem CreateUserPageItemFromPage(PageCacheItem page)
+    {
+        return new UserPageItem(
+            page.Id,
+            page.Name,
+            new PageImageSettings(page.Id, httpContextAccessor).GetUrl_128px(true).Url,
+            page.GetCountQuestionsAggregated(sessionUser.UserId),
+            new KnowledgeSummaryResponse(knowledgeSummaryLoader.Run(sessionUser.UserId, page.Id, onlyInWishknowledge: true)),
+            popularityCalculator.CalculatePagePopularity(page),
+            page.Creator.Name,
+            IsPublic: page.IsPublic);
+    }
+
+    public IList<UserPageItem> MapSkills(int userId)
+    {
+        var extendedUserCacheItem = extendedUserCache.GetUser(userId);
+        
+        return extendedUserCacheItem.GetAllSkills()
+            .Select(skill => (skill, page: EntityCache.GetPage(skill.PageId)))
+            .Where(item => permissionCheck.CanView(item.page))
+            .Select(item => CreateUserPageItemFromSkill(item.skill, item.page))
             .ToList();
     }
 
-    public static IList<UserPageItem> MapSkills(
-        int userId,
-        ExtendedUserCache extendedUserCache,
-        IHttpContextAccessor httpContextAccessor,
-        PopularityCalculator popularityCalculator,
-        PermissionCheck permissionCheck)
+    private UserPageItem CreateUserPageItemFromSkill(KnowledgeEvaluationCacheItem skill, PageCacheItem page)
     {
-        var extendedUserCacheItem = extendedUserCache.GetUser(userId);
-        var skillsWithPages = new List<UserPageItem>();
-
-        foreach (var skill in extendedUserCacheItem.GetAllSkills())
-        {
-            var page = EntityCache.GetPage(skill.PageId);
-            if (permissionCheck.CanView(page))
-            {
-                skillsWithPages.Add(
-                    new UserPageItem(
-                        skill.PageId,
-                        page.Name,
-                        new PageImageSettings(skill.PageId, httpContextAccessor).GetUrl_128px(true).Url,
-                        page.GetAggregatedPublicQuestions().Count,
-                        new KnowledgeSummaryResponse(skill.KnowledgeSummary),
-                        popularityCalculator.CalculatePagePopularity(page),
-                        page.Creator.Name,
-                        IsPublic: page.IsPublic
-                    )
-                );
-            }
-        }
-
-        return skillsWithPages;
+        return new UserPageItem(
+            skill.PageId,
+            page.Name,
+            new PageImageSettings(skill.PageId, httpContextAccessor).GetUrl_128px(true).Url,
+            page.GetAggregatedPublicQuestions().Count,
+            new KnowledgeSummaryResponse(skill.KnowledgeSummary),
+            popularityCalculator.CalculatePagePopularity(page),
+            page.Creator.Name,
+            IsPublic: page.IsPublic);
     }
 }

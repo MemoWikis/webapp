@@ -1264,8 +1264,8 @@
                 "tooltips": {
                     "reputation": "La réputation est basée sur les questions créées, les questions dans les connaissances souhaitées d'autrui et les connaissances souhaitées publiques",
                     "rank": "Le classement des utilisateurs est basé sur les points de réputation",
-                    "createdPages": "Nombre de pages publiques qui ont été créées",
-                    "createdWikis": "Nombre de wikis publics qui ont été créés",
+                    "createdPages": "Pages publiques créées par : {userName}",
+                    "createdWikis": "Wikis publics créés par : {userName}",
                     "createdQuestions": "Nombre de questions publiques qui ont été créées"
                 }
             }
@@ -1325,7 +1325,7 @@
             "tooltips": {
                 "skills": "Seules les pages publiques avec des questions répondues et publiques sont affichées",
                 "wikis": "Seuls les wikis publics sont affichés",
-                "pages": "Seules les pages publiques sont affichées",
+                "pages": "Seulement les pages du niveau supérieur – sans sous-pages ou pages de wiki",
                 "questions": "Seules les questions publiques de pages publiques sont affichées"
             }
         },
