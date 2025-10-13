@@ -52,7 +52,6 @@ public class PageStoreController(
         LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
         _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
 
-        // Schedule delayed cleanup for removed images (24h delay to allow undo/revert)
         ImageCleanup.Schedule(request.Id, previousImages, request.CurrentImages);
 
         return new SaveResult { Success = true };
@@ -316,3 +315,4 @@ public class PageStoreController(
         return canView && SharesService.IsShared(id);
 
     }
+}
