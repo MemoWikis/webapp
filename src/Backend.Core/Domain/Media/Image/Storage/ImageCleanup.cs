@@ -50,7 +50,7 @@
 
         if (!Directory.Exists(directory))
         {
-            Log.Information("ImageCleanup.Run: Directory {Directory} does not exist, cleanup complete",
+            Log.Error("ImageCleanup.Run: Directory {Directory} does not exist, cleanup complete",
                 directory);
             return;
         }
