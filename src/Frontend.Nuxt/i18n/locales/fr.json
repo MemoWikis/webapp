@@ -1324,7 +1324,7 @@
             "tooltips": {
                 "skills": "Seules les pages publiques avec des questions répondues et publiques sont affichées",
                 "wikis": "Seuls les wikis publics sont affichés",
-                "pages": "Affiche uniquement les pages du niveau hiérarchique le plus élevé (pas de sous-pages ou pages de wiki)",
+                "pages": "Seulement les pages du niveau supérieur – sans sous-pages ou pages de wiki",
                 "questions": "Seules les questions publiques de pages publiques sont affichées"
             }
         },

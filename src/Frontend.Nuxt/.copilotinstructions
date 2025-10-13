@@ -23,10 +23,11 @@ When working with translations in this memoWikis frontend project:
 6. **Section tooltips for content filtering**:
    - Add explanatory tooltips to content sections that filter or exclude certain items
    - Pattern: Explain what's shown AND what's excluded for clarity
-   - Example: "Shows only highest hierarchy level pages (no subpages or wiki pages)"
-   - German example: "Zeigt nur Seiten der höchsten Hierarchie (keine Unterseiten oder Wiki-Seiten)"
-   - Use concise, user-friendly language that explains the filtering logic
-   - Structure: What's shown + (What's excluded) format works well
+   - Example: "Only top-level pages – without sub- or wiki pages"
+   - German example: "Nur Seiten der obersten Ebene – ohne Unter- oder Wiki-Seiten"
+   - Use simple, clear language that users can easily understand
+   - Prefer "top-level/obersten Ebene" over "highest hierarchy/höchsten Hierarchie"
+   - Structure: Brief description + em dash + exclusions works well for clarity
 
 ## Project Context
 This is a Nuxt.js frontend for memoWikis, a wiki-based learning platform. The i18n files are located in `i18n/locales/` and contain UI text translations.

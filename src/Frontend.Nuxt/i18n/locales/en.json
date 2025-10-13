@@ -1325,7 +1325,7 @@
             "tooltips": {
                 "skills": "Only public pages with answered and public questions are displayed",
                 "wikis": "Only public wikis are displayed",
-                "pages": "Shows only highest hierarchy level pages (no subpages or wiki pages)",
+                "pages": "Only top-level pages – without sub- or wiki pages",
                 "questions": "Only public questions from public pages are displayed"
             }
         },
