@@ -6,8 +6,8 @@ public class UserController(
     ReputationCalc _reputationCalc,
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
-    KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    PopularityCalculator _popularityCalculator) : ApiBaseController
+    PopularityCalculator _popularityCalculator,
+    UserPageItemMapper _userPageItemMapper) : ApiBaseController
 {
     public readonly record struct GetResult(
         User User,
@@ -128,9 +128,9 @@ public class UserController(
                 Rank = user.Rank
             },
             IsCurrentUser = isCurrentUser,
-            Wikis = UserPageItemMapper.MapWikis(publicWikis, _sessionUser, _httpContextAccessor, _knowledgeSummaryLoader, _popularityCalculator),
-            Pages = UserPageItemMapper.MapPages(user.Id, publicWikis, _sessionUser, _httpContextAccessor, _knowledgeSummaryLoader, _popularityCalculator, _permissionCheck),
-            Skills = UserPageItemMapper.MapSkills(user.Id, _extendedUserCache, _httpContextAccessor, _popularityCalculator, _permissionCheck),
+            Wikis = _userPageItemMapper.MapWikis(publicWikis),
+            Pages = _userPageItemMapper.MapPages(user.Id, publicWikis),
+            Skills = _userPageItemMapper.MapSkills(user.Id),
             Questions = GetQuestions(user.Id)
         };
         return result;
