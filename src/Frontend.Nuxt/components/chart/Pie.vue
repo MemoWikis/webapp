@@ -106,6 +106,10 @@ onBeforeMount(() => {
     fill: @memo-grey-light;
 }
 
+.svg-color-notInWishknowledge {
+    fill: @memo-grey;
+}
+
 .svg-color-needsLearning {
     fill: @memo-salmon;
 }

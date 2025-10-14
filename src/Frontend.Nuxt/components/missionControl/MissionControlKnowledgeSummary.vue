@@ -9,7 +9,7 @@ defineProps<Props>()
 
 <template>
     <div class="knowledge-summary">
-        <SharedKnowledgeSummaryPie :knowledgeSummary="knowledgeStatus" />
+        <SharedKnowledgeSummaryPie :knowledge-summary="knowledgeStatus" />
         <SharedKnowledgeSummary :knowledge-summary="knowledgeStatus" />
     </div>
 </template>

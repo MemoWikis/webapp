@@ -585,17 +585,30 @@ export const useLearningSessionConfigurationStore = defineStore(
                     [KnowledgeSummaryType.Solid]: 'solid',
                     [KnowledgeSummaryType.NeedsConsolidation]: 'needsConsolidation',
                     [KnowledgeSummaryType.NeedsLearning]: 'needsLearning',
-                    [KnowledgeSummaryType.NotLearned]: 'notLearned'
+                    [KnowledgeSummaryType.NotLearned]: 'notLearned',
+                    [KnowledgeSummaryType.NotInWishknowledge]: 'notInWishknowledge',
                 }
                 
                 const targetKey = typeToKeyMap[type]
                 
-                // Select the matching knowledge summary
-                if (this.knowledgeSummary[targetKey]) {
-                    this.knowledgeSummary[targetKey].isSelected = true
+                if (targetKey === KnowledgeSummaryType.NotInWishknowledge) {
+                    for (const key in this.knowledgeSummary) {
+                        this.knowledgeSummary[key].isSelected = true
+                    }
+                    this.questionFilterOptions.inWuwi.isSelected = false
+                    this.questionFilterOptions.notInWuwi.isSelected = true
+
+                } else {
+                    this.questionFilterOptions.inWuwi.isSelected = true
+                    this.questionFilterOptions.notInWuwi.isSelected = false
+
+                    if (this.knowledgeSummary[targetKey]) {
+                        this.knowledgeSummary[targetKey].isSelected = true
+                    }
                 }
                 
                 // Update the selection state
+                this.checkQuestionFilterSelection()
                 this.checkKnowledgeSummarySelection()
                 this.activeCustomSettings = true
             },

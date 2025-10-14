@@ -5,7 +5,7 @@ export enum KnowledgeSummaryType {
     NeedsConsolidation = 'needsConsolidation',
     NeedsLearning = 'needsLearning',
     NotLearned = 'notLearned',
-    // NotInWishknowledge = 'notInWishknowledge'
+    NotInWishknowledge = 'notInWishknowledge'
 }
 
 export interface KnowledgeSummary {
@@ -25,6 +25,9 @@ export interface KnowledgeSummary {
 
     knowledgeStatusPoints: number
     knowledgeStatusPointsTotal: number
+
+    notInWishknowledge: number
+    notInWishknowledgePercentage: number
 }
 
 export interface KnowledgeSummarySlim {
@@ -32,17 +35,18 @@ export interface KnowledgeSummarySlim {
     needsConsolidation: number
     needsLearning: number
     notLearned: number
+    notInWishknowledge?: number
 }
 
 type KnowledgeSummaryInput = KnowledgeSummary | KnowledgeSummarySlim
 
 export const convertKnowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummaryInput): ChartData[] => {
-    const knowledgeStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
+    const knowledgeStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned', 'notInWishknowledge'] as const
     const chartData: ChartData[] = []
     
     for (const statusClass of knowledgeStatusOrder) {
         const value = knowledgeSummary[statusClass]
-        if (value > 0) {
+        if (value && value > 0) {
             chartData.push({
                 value,
                 class: statusClass

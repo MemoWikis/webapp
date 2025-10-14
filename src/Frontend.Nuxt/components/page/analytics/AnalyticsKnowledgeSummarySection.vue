@@ -28,7 +28,7 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
             <div v-if="pageStore.knowledgeSummary.total > 0">
                 <div class="knowledgesummary-content">
                     <SharedKnowledgeSummaryPie :knowledge-summary="pageStore.knowledgeSummary" />
-                    <SharedKnowledgeSummary :knowledge-summary="pageStore.knowledgeSummary" :show-actions="true" :action-icon="'fa-solid fa-play'" @action-click="onActionClick" />
+                    <SharedKnowledgeSummary :knowledge-summary="pageStore.knowledgeSummary" :show-actions="true" :action-icon="'fa-solid fa-play'" @action-click="onActionClick" :show-not-in-wishknowledge="true" />
                 </div>
             </div>
 

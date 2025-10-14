@@ -43,16 +43,15 @@ const knowledgeStatusItems = computed(() => {
         }
     ]
 
-    // Add notInWishknowledge item if showNotInWishknowledge prop is true
-    // if (props.showNotInWishknowledge) {
-    //     items.push({
-    //         label: t('knowledgeStatus.notInWishknowledge'),
-    //         value: 0, // This would need to come from backend data
-    //         percentage: 0, // This would need to come from backend data  
-    //         class: 'notInWishknowledge',
-    //         type: KnowledgeSummaryType.NotInWishknowledge
-    //     })
-    // }
+    if (props.showNotInWishknowledge) {
+        items.push({
+            label: t('knowledgeStatus.notInWishknowledge'),
+            value: props.knowledgeSummary.notInWishknowledge,
+            percentage: props.knowledgeSummary.notInWishknowledgePercentage,
+            class: 'notInWishknowledge',
+            type: KnowledgeSummaryType.NotInWishknowledge
+        })
+    }
 
     return items
 })
