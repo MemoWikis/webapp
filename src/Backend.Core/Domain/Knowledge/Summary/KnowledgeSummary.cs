@@ -4,18 +4,26 @@
 public class KnowledgeSummary
 {
     [JsonProperty("NotLearned")] public readonly int NotLearned = 0;
+    public readonly int NotLearnedInWishknowledge = 0;
 
     public int NotLearnedPercentage { get; private set; }
+    public int NotLearnedPercentageInWishknowledge { get; private set; }
 
     [JsonProperty("NeedsLearning")] public readonly int NeedsLearning = 0;
+    public readonly int NeedsLearningInWishknowledge = 0;
 
     public int NeedsLearningPercentage { get; private set; }
+    public int NeedsLearningPercentageInWishknowledge { get; private set; }
 
     [JsonProperty("NeedsConsolidation")] public readonly int NeedsConsolidation = 0;
+    public readonly int NeedsConsolidationInWishknowledge = 0;
     public int NeedsConsolidationPercentage { get; private set; }
+    public int NeedsConsolidationPercentageInWishknowledge { get; private set; }
 
     [JsonProperty("Solid")] public readonly int Solid = 0;
+    public readonly int SolidInWishknowledge = 0;
     public int SolidPercentage { get; private set; }
+    public int SolidPercentageInWishknowledge { get; private set; }
 
     public readonly int NotInWishknowledge = 0;
     public int NotInWishknowledgePercentage { get; private set; }
@@ -38,20 +46,31 @@ public class KnowledgeSummary
     public double KnowledgeStatusPointsTotal { get; private set; }
 
     public KnowledgeSummary(
-        int notInWishKnowledge = 0,
         int notLearned = 0,
         int needsLearning = 0,
         int needsConsolidation = 0,
-        int solid = 0)
+        int solid = 0,
+        int notLearnedInWishknowledge = 0,
+        int needsLearningInWishknowledge = 0,
+        int needsConsolidationInWishknowledge = 0,
+        int solidInWishknowledge = 0)
     {
-        NotInWishknowledge = notInWishKnowledge;
-        NotLearned = notLearned + notInWishKnowledge;
+        NotLearned = notLearned;
+        NotLearnedInWishknowledge = notLearnedInWishknowledge;
         NeedsLearning = needsLearning;
+        NeedsLearningInWishknowledge = needsLearningInWishknowledge;
         NeedsConsolidation = needsConsolidation;
+        NeedsConsolidationInWishknowledge = needsConsolidationInWishknowledge;
         Solid = solid;
+        SolidInWishknowledge = solidInWishknowledge;
+        
+        // Calculate NotInWishknowledge as the difference between total and wishknowledge counts
+        var totalQuestionsCount = NotLearned + NeedsLearning + NeedsConsolidation + Solid;
+        var wishknowledgeQuestionsCount = NotLearnedInWishknowledge + NeedsLearningInWishknowledge + NeedsConsolidationInWishknowledge + SolidInWishknowledge;
+        NotInWishknowledge = totalQuestionsCount - wishknowledgeQuestionsCount;
 
         // Calculate percentages based on mutually exclusive categories
-        // to avoid double counting (NotLearned includes NotInWishknowledge)
+        // to avoid double counting (NotLearned, Solid, NeedsConsolidation and NeedsLearning include NotInWishknowledge)
 
         PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
         {
@@ -74,6 +93,28 @@ public class KnowledgeSummary
             },
         });
 
+        // Calculate percentages for InWishknowledge variants
+        PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
+        {
+            new ValueWithResultAction
+            {
+                AbsoluteValue = NotLearnedInWishknowledge, ActionForPercentage = percent => NotLearnedPercentageInWishknowledge = percent
+            },
+            new ValueWithResultAction
+            {
+                AbsoluteValue = NeedsLearningInWishknowledge, ActionForPercentage = percent => NeedsLearningPercentageInWishknowledge = percent
+            },
+            new ValueWithResultAction
+            {
+                AbsoluteValue = NeedsConsolidationInWishknowledge,
+                ActionForPercentage = percent => NeedsConsolidationPercentageInWishknowledge = percent
+            },
+            new ValueWithResultAction
+            {
+                AbsoluteValue = SolidInWishknowledge, ActionForPercentage = percent => SolidPercentageInWishknowledge = percent
+            },
+        });
+
         var totalQuestions = NotLearned + NeedsLearning + NeedsConsolidation + Solid;
         if (totalQuestions > 0)
         {
@@ -89,10 +130,12 @@ public class KnowledgeSummary
 
     private void CalculateKnowledgeStatusPoints()
     {
-        var weightedScore = (Solid * 1.0) + (NeedsConsolidation * 0.5) + (NeedsLearning * 0.1);
+        // Calculate weighted scores for both wishknowledge and total
+        var weightedScoreInWishknowledge = (SolidInWishknowledge * 1.0) + (NeedsConsolidationInWishknowledge * 0.5) + (NeedsLearningInWishknowledge * 0.1);
+        var weightedScoreTotal = (Solid * 1.0) + (NeedsConsolidation * 0.5) + (NeedsLearning * 0.1);
 
         // Calculate rating for wishknowledge questions only
-        var wishknowledgeQuestions = Solid + NeedsConsolidation + NeedsLearning + (NotLearned - NotInWishknowledge);
+        var wishknowledgeQuestions = SolidInWishknowledge + NeedsConsolidationInWishknowledge + NeedsLearningInWishknowledge + NotLearnedInWishknowledge;
 
         if (wishknowledgeQuestions == 0)
         {
@@ -101,7 +144,7 @@ public class KnowledgeSummary
         else
         {
             // Add small baseline value to prioritize pages with questions over pages without questions
-            KnowledgeStatusPoints = Math.Round((weightedScore / wishknowledgeQuestions) + 0.0001, 4);
+            KnowledgeStatusPoints = Math.Round((weightedScoreInWishknowledge / wishknowledgeQuestions) + 0.0001, 4);
         }
 
         // Calculate rating for all questions including those not in wishknowledge
@@ -114,7 +157,7 @@ public class KnowledgeSummary
         else
         {
             // Add small baseline value to prioritize pages with questions over pages without questions
-            KnowledgeStatusPointsTotal = Math.Round((weightedScore / totalQuestions) + 0.0001, 4);
+            KnowledgeStatusPointsTotal = Math.Round((weightedScoreTotal / totalQuestions) + 0.0001, 4);
         }
     }
 }

@@ -590,7 +590,6 @@ export const useLearningSessionConfigurationStore = defineStore(
                 }
                 
                 const targetKey = typeToKeyMap[type]
-                
                 if (targetKey === KnowledgeSummaryType.NotInWishknowledge) {
                     for (const key in this.knowledgeSummary) {
                         this.knowledgeSummary[key].isSelected = true

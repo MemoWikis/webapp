@@ -439,8 +439,8 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         knowledgeSummaryLoader.Run(creator.Id);
 
         var userSkillService = R<UserSkillService>();
-        userSkillService.CreateUserSkill(creator.Id, testPage1.Id, new KnowledgeSummary(notLearned: 1));
-        userSkillService.CreateUserSkill(creator.Id, testPage2.Id, new KnowledgeSummary(solid: 1));
+        userSkillService.CreateUserSkill(creator.Id, testPage1.Id, new KnowledgeSummary(notLearned: 1, notLearnedInWishknowledge: 1));
+        userSkillService.CreateUserSkill(creator.Id, testPage2.Id, new KnowledgeSummary(solid: 1, solidInWishknowledge: 1));
 
         var knowledgeSummaryUpdate = R<KnowledgeSummaryUpdate>();
 

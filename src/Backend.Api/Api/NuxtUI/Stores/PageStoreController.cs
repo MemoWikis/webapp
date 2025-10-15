@@ -94,25 +94,13 @@ public class PageStoreController(
         return "";
     }
 
-    public readonly record struct KnowledgeSummaryResult(
-        int NotLearned,
-        int NeedsLearning,
-        int NeedsConsolidation,
-        int Solid);
-
     [HttpGet]
-    public KnowledgeSummaryResult GetUpdatedKnowledgeSummary([FromRoute] int id)
+    public KnowledgeSummary GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
         var sessionUserId = _sessionUser?.UserId ?? -1;
         var knowledgeSummary = _knowledgeSummaryLoader.RunFromCache(pageId: id, sessionUserId, maxCacheAgeInMinutes: 0);
 
-        return new KnowledgeSummaryResult
-        {
-            NotLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
-            NeedsLearning = knowledgeSummary.NeedsLearning,
-            NeedsConsolidation = knowledgeSummary.NeedsConsolidation,
-            Solid = knowledgeSummary.Solid,
-        };
+        return knowledgeSummary;
     }
 
     public readonly record struct GridPageItem(

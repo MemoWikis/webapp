@@ -37,7 +37,9 @@
         int Solid,
         double SolidPercentage,
         int NotLearned,
-        double NotLearnedPercentage
+        double NotLearnedPercentage,
+        int NotInWishknowledge,
+        double NotInWishknowledgePercentage
     );
 
     public GridPageItem[] GetChildren(int id)
@@ -54,7 +56,8 @@
 
         return new GridPageItem
         {
-            Id = page.Id,            Name = page.Name,
+            Id = page.Id,
+            Name = page.Name,
             QuestionCount = page.GetAggregatedQuestions(_sessionUser.UserId, permissionCheck: _permissionCheck).Count,
             ChildrenCount = page.VisibleChildrenCount(_permissionCheck, _sessionUser.UserId),
             ImageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Page).Url,
@@ -86,7 +89,9 @@
             Solid = knowledgeBarSummary.Solid,
             SolidPercentage = knowledgeBarSummary.SolidPercentage,
             NotLearned = knowledgeBarSummary.NotLearned,
-            NotLearnedPercentage = knowledgeBarSummary.NotLearnedPercentage
+            NotLearnedPercentage = knowledgeBarSummary.NotLearnedPercentage,
+            NotInWishknowledge = knowledgeBarSummary.NotInWishknowledge,
+            NotInWishknowledgePercentage = knowledgeBarSummary.NotInWishknowledgePercentage
         };
     }
 

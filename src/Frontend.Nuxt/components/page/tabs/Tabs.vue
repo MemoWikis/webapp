@@ -10,7 +10,7 @@ const pageStore = usePageStore()
 const { isMobile } = useDevice()
 
 const chartData = computed((): ChartData[] => {
-	return convertKnowledgeSummaryToChartData(pageStore.knowledgeSummarySlim)
+	return convertKnowledgeSummaryToChartData(pageStore.knowledgeSummary)
 })
 
 const { t } = useI18n()
@@ -25,6 +25,8 @@ function getTooltipLabel(key: string, count: number) {
 			return t('knowledgeStatus.needsLearningCount', count)
 		case 'notLearned':
 			return t('knowledgeStatus.notLearnedCount', count)
+		case 'notInWishknowledge':
+			return t('knowledgeStatus.notInWishknowledgeCount', count)
 	}
 }
 

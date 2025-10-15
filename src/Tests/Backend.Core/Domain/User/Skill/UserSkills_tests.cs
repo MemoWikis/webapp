@@ -17,11 +17,14 @@ class UserSkills_tests : BaseTestHarness
         var page = context.All.ByName("testPage");
 
         var knowledgeSummary = new KnowledgeSummary(
-            notInWishKnowledge: 0,
             notLearned: 5,
             needsLearning: 10,
             needsConsolidation: 15,
-            solid: 20
+            solid: 20,
+            notLearnedInWishknowledge: 0,
+            needsLearningInWishknowledge: 0,
+            needsConsolidationInWishknowledge: 0,
+            solidInWishknowledge: 0
         );
 
         // Act
@@ -60,7 +63,11 @@ class UserSkills_tests : BaseTestHarness
             notLearned: 10,
             needsLearning: 5,
             needsConsolidation: 0,
-            solid: 0
+            solid: 0,
+            notLearnedInWishknowledge: 10,
+            needsLearningInWishknowledge: 5,
+            needsConsolidationInWishknowledge: 0,
+            solidInWishknowledge: 0
         );
         userSkillService.CalculateAndUpdateUserSkill(creator.Id, page.Id, initialKnowledge);
 
@@ -69,7 +76,11 @@ class UserSkills_tests : BaseTestHarness
             notLearned: 2,
             needsLearning: 3,
             needsConsolidation: 8,
-            solid: 12
+            solid: 12,
+            notLearnedInWishknowledge: 2,
+            needsLearningInWishknowledge: 3,
+            needsConsolidationInWishknowledge: 8,
+            solidInWishknowledge: 12
         );
         userSkillService.CalculateAndUpdateUserSkill(creator.Id, page.Id, improvedKnowledge);
 
@@ -109,9 +120,9 @@ class UserSkills_tests : BaseTestHarness
         var page3 = context.All.ByName("page3");
 
         // Add multiple skills with different performance levels
-        userSkillService.CalculateAndUpdateUserSkill(creator.Id, page1.Id, new KnowledgeSummary(solid: 25)); // Expert
-        userSkillService.CalculateAndUpdateUserSkill(creator.Id, page2.Id, new KnowledgeSummary(needsConsolidation: 10, solid: 5)); // Intermediate
-        userSkillService.CalculateAndUpdateUserSkill(creator.Id, page3.Id, new KnowledgeSummary(notLearned: 20)); // Beginner
+        userSkillService.CalculateAndUpdateUserSkill(creator.Id, page1.Id, new KnowledgeSummary(solid: 25, solidInWishknowledge: 25)); // Expert
+        userSkillService.CalculateAndUpdateUserSkill(creator.Id, page2.Id, new KnowledgeSummary(needsConsolidation: 10, solid: 5, needsConsolidationInWishknowledge: 10, solidInWishknowledge: 5)); // Intermediate
+        userSkillService.CalculateAndUpdateUserSkill(creator.Id, page3.Id, new KnowledgeSummary(notLearned: 20, notLearnedInWishknowledge: 20)); // Beginner
 
         // Act
         var allSkills = userSkillService.GetUserSkills(creator.Id);
@@ -155,7 +166,9 @@ class UserSkills_tests : BaseTestHarness
         // Act
         userSkillService.CalculateAndUpdateUserSkill(creator.Id, page.Id, new KnowledgeSummary(
             needsConsolidation: 8,
-            solid: 15
+            solid: 15,
+            needsConsolidationInWishknowledge: 8,
+            solidInWishknowledge: 15
         ));
 
         // Assert
@@ -187,7 +200,7 @@ class UserSkills_tests : BaseTestHarness
         var page = context.All.ByName("testPage");
 
         // Create skill first
-        userSkillService.CalculateAndUpdateUserSkill(creator.Id, page.Id, new KnowledgeSummary(solid: 10));
+        userSkillService.CalculateAndUpdateUserSkill(creator.Id, page.Id, new KnowledgeSummary(solid: 10, solidInWishknowledge: 10));
 
         // Verify it exists
         var skillBeforeRemoval = userSkillService.GetUserSkill(creator.Id, page.Id);
@@ -246,7 +259,10 @@ class UserSkills_tests : BaseTestHarness
                 var knowledgeSummary = new KnowledgeSummary(
                     solid: user.Id * 2, // Different performance per user
                     needsConsolidation: page.Id * 3,
-                    needsLearning: 5
+                    needsLearning: 5,
+                    solidInWishknowledge: user.Id * 2,
+                    needsConsolidationInWishknowledge: page.Id * 3,
+                    needsLearningInWishknowledge: 5
                 );
                 userSkillService.CalculateAndUpdateUserSkill(user.Id, page.Id, knowledgeSummary);
             }

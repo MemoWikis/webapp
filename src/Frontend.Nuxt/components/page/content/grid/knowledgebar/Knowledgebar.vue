@@ -17,7 +17,7 @@ function setKnowledgebarData() {
 
     knowledgebarTooltipData.value = []
     for (const [key, value] of Object.entries(props.knowledgebarData)) {
-        if (key === 'solid' || key === 'needsConsolidation' || key === 'needsLearning' || key === 'notLearned')
+        if (key === 'solid' || key === 'needsConsolidation' || key === 'needsLearning' || key === 'notLearned' || key === 'notInWishknowledge')
             knowledgebarTooltipData.value.push({
                 value: value,
                 class: key,
@@ -38,6 +38,8 @@ function getTooltipLabel(key: string, count: number) {
             return t('knowledgeStatus.needsLearningCount', count)
         case 'notLearned':
             return t('knowledgeStatus.notLearnedCount', count)
+        case 'notInWishknowledge':
+            return t('knowledgeStatus.notInWishknowledgeCount', count)
     }
 }
 
@@ -61,6 +63,9 @@ const ariaId = useId()
             </div>
             <div v-if="knowledgebarData.notLearnedPercentage > 0" class="not-learned"
                 :style="{ 'width': knowledgebarData.notLearnedPercentage + '%' }">
+            </div>
+            <div v-if="knowledgebarData.notInWishknowledgePercentage > 0" class="not-in-wish-knowledge"
+                :style="{ 'width': knowledgebarData.notInWishknowledgePercentage + '%' }">
             </div>
         </div>
         <template #popper>
