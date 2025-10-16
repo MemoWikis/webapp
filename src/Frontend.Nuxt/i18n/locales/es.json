@@ -849,7 +849,9 @@
         "needsLearning": "Necesita aprendizaje",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Aún no aprendido",
-        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
+        "notInWishknowledge": "No en conocimiento deseado",
+        "notInWishknowledgeCount": "@:knowledgeStatus.notInWishknowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
         "inWuwi": "En Conocimiento deseado",

@@ -93,6 +93,10 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
                 &.color-solid {
                     background: @memo-green;
                 }
+
+                &.color-notInWishknowledge {
+                    background: @memo-grey-dark;
+                }
             }
 
             .knowledgesummary-label {

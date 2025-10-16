@@ -381,6 +381,10 @@ const { suppressScrollX } = useScrollbarSuppression(
 		&.color-solid {
 			background: @memo-green;
 		}
+
+		&.color-notInWishknowledge {
+			background: @memo-grey-dark;
+		}
 	}
 }
 </style>

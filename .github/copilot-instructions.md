@@ -20,6 +20,7 @@
 - `subpage`: subpage is a synonym for childpage and only used in user interface
 - `wiki`: is a special kind of a page
 - `orphaned page`: a page that does not have a parent page or wiki
+- `wishknowledge`: knowledge that a user specifically wants to learn or has marked as desired to learn
 
 # Frontend and Translations
 - refer to the .copilotinstructions file in `../src/Frontend.Nuxt` for frontend specific instructions

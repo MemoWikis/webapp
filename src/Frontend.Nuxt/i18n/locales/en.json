@@ -849,7 +849,9 @@
         "needsLearning": "Should be learned",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Not learned yet",
-        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
+        "notInWishknowledge": "Not in wishknowledge",
+        "notInWishknowledgeCount": "@:knowledgeStatus.notInWishknowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
         "inWuwi": "In Wish-Knowledge",
@@ -1260,7 +1262,7 @@
                 "createdWikis": "Created Wikis",
                 "createdQuestions": "Created Questions",
                 "tooltips": {
-                    "reputation": "Reputation is based on created questions, questions in others' wish knowledge, and public wish knowledge",
+                    "reputation": "Reputation is based on created questions, questions in others' wishknowledge, and public wishknowledge",
                     "rank": "User ranking is based on reputation points",
                     "createdPages": "Number of public pages that have been created",
                     "createdWikis": "Number of public wikis that have been created",
