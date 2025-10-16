@@ -19,7 +19,8 @@
                 "renewed": "The share link has been successfully renewed.",
                 "copied": "The share link has been copied to clipboard.",
                 "removed": "The share link has been successfully removed."
-            }
+            },
+            "savedWithImageRecovery": "Deleted images will be permanently removed in 24h."
         },
         "question": {
             "created": "Your question has been successfully created.",
@@ -1254,6 +1255,7 @@
             "noQuestions": "{name} hasn't created any questions yet",
             "noSkills": "{name} hasn't shared any skills yet",
             "noWikis": "{name} hasn't created any wikis yet",
+            "noPages": "{name} hasn't created any pages yet",
             "showAsVisitor": "Show as Visitor",
             "stats": {
                 "reputation": "Reputation",
@@ -1264,8 +1266,8 @@
                 "tooltips": {
                     "reputation": "Reputation is based on created questions, questions in others' wishknowledge, and public wishknowledge",
                     "rank": "User ranking is based on reputation points",
-                    "createdPages": "Number of public pages that have been created",
-                    "createdWikis": "Number of public wikis that have been created",
+                    "createdPages": "Public pages created by: {userName}",
+                    "createdWikis": "Public wikis created by: {userName}",
                     "createdQuestions": "Number of public questions that have been created"
                 }
             }
@@ -1321,10 +1323,12 @@
             "stats": "Stats",
             "skills": "Skills",
             "wikis": "Wikis",
+            "pages": "Pages",
             "questions": "Questions",
             "tooltips": {
                 "skills": "Only public pages with answered and public questions are displayed",
                 "wikis": "Only public wikis are displayed",
+                "pages": "Only top-level pages – without sub- or wiki pages",
                 "questions": "Only public questions from public pages are displayed"
             }
         },

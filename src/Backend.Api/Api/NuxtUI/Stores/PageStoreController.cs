@@ -16,7 +16,8 @@ public class PageStoreController(
     public readonly record struct SaveContentRequest(
         int Id,
         string Content,
-        [CanBeNull] string ShareToken);
+        [CanBeNull] string ShareToken,
+        string[] CurrentImages);
 
     public readonly record struct SaveResult(bool Success, string MessageKey);
 
@@ -40,12 +41,18 @@ public class PageStoreController(
         if (page == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
+        // Store previous images for comparison
+        var previousImages = pageCacheItem.CurrentImageUrls ?? Array.Empty<string>();
+
         pageCacheItem.Content = request.Content;
+        pageCacheItem.CurrentImageUrls = request.CurrentImages;
         page.Content = request.Content;
 
         EntityCache.AddOrUpdate(pageCacheItem);
         LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
         _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
+
+        ImageCleanup.Schedule(request.Id, previousImages, request.CurrentImages);
 
         return new SaveResult { Success = true };
     }
@@ -174,23 +181,6 @@ public class PageStoreController(
         return url;
     }
 
-    public record struct DeleteContentImagesRequest(int id, string[] imageUrls);
-
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public void DeleteContentImages([FromBody] DeleteContentImagesRequest request)
-    {
-        var imageSettings = new PageContentImageSettings(request.id, _httpContextAccessor);
-        var deleteImage = new DeleteImage();
-
-        var filenames = new List<string>();
-
-        foreach (var path in request.imageUrls)
-            filenames.Add(Path.GetFileName(path));
-
-        deleteImage.Run(imageSettings.BasePath, filenames);
-    }
-
     public record struct PageAnalyticsResponse(
         List<DailyViews> ViewsPast90DaysAggregatedPages,
         List<DailyViews> ViewsPast90DaysPage,
@@ -311,5 +301,6 @@ public class PageStoreController(
             ? _permissionCheck.CanViewPage(id, shareToken)
             : _permissionCheck.CanViewPage(id);
         return canView && SharesService.IsShared(id);
+
     }
 }

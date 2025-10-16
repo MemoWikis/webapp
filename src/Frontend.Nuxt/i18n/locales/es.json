@@ -19,7 +19,8 @@
                 "renewed": "El enlace de compartir ha sido renovado con éxito.",
                 "copied": "El enlace de compartir ha sido copiado al portapapeles.",
                 "removed": "El enlace de compartir ha sido eliminado con éxito."
-            }
+            },
+            "savedWithImageRecovery": "Las imágenes eliminadas se borrarán permanentemente en 24h."
         },
         "question": {
             "created": "Tu pregunta se ha creado con éxito.",
@@ -1254,6 +1255,7 @@
             "noQuestions": "{name} aún no ha creado ninguna pregunta",
             "noSkills": "{name} aún no ha compartido ninguna habilidad",
             "noWikis": "{name} aún no ha creado ningún wiki",
+            "noPages": "{name} aún no ha creado ninguna página",
             "showAsVisitor": "Mostrar como visitante",
             "stats": {
                 "reputation": "Reputación",
@@ -1264,8 +1266,8 @@
                 "tooltips": {
                     "reputation": "La reputación se basa en preguntas creadas, preguntas en el conocimiento deseado de otros y conocimiento deseado público",
                     "rank": "El ranking de usuarios se basa en puntos de reputación",
-                    "createdPages": "Número de páginas públicas que han sido creadas",
-                    "createdWikis": "Número de wikis públicos que han sido creados",
+                    "createdPages": "Páginas públicas creadas por: {userName}",
+                    "createdWikis": "Wikis públicos creados por: {userName}",
                     "createdQuestions": "Número de preguntas públicas que han sido creadas"
                 }
             }
@@ -1320,10 +1322,12 @@
             "stats": "Estadísticas",
             "skills": "Habilidades",
             "wikis": "Wikis",
+            "pages": "Páginas",
             "questions": "Preguntas",
             "tooltips": {
                 "skills": "Solo se muestran páginas públicas con preguntas respondidas y públicas",
                 "wikis": "Solo se muestran wikis públicos",
+                "pages": "Solo páginas del nivel superior – sin subpáginas o páginas de wiki",
                 "questions": "Solo se muestran preguntas públicas de páginas públicas"
             }
         },

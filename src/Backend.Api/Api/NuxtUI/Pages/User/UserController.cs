@@ -6,8 +6,8 @@ public class UserController(
     ReputationCalc _reputationCalc,
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
-    KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    PopularityCalculator _popularityCalculator) : ApiBaseController
+    PopularityCalculator _popularityCalculator,
+    UserPageItemMapper _userPageItemMapper) : ApiBaseController
 {
     public readonly record struct GetResult(
         User User,
@@ -15,8 +15,9 @@ public class UserController(
         bool IsCurrentUser,
         string MessageKey,
         NuxtErrorPageType ErrorCode,
-        [CanBeNull] IList<PageItem> Wikis,
-        [CanBeNull] IList<PageItem> Skills,
+        [CanBeNull] IList<UserPageItem> Wikis,
+        [CanBeNull] IList<UserPageItem> Pages,
+        [CanBeNull] IList<UserPageItem> Skills,
         [CanBeNull] IList<QuestionItem> Questions
     );
 
@@ -48,16 +49,6 @@ public class UserController(
         int QuestionsCreated,
         int PublicWishknowledges);
 
-    public readonly record struct PageItem(
-        int Id,
-        string Name,
-        string ImgUrl,
-        int? QuestionCount,
-        KnowledgeSummaryResponse KnowledgebarData,
-        int Popularity,
-        [CanBeNull] string CreatorName = "",
-        [CanBeNull] bool IsPublic = false);
-
     public readonly record struct QuestionItem(
         int Id,
         string Title,
@@ -78,6 +69,7 @@ public class UserController(
             {
                 ErrorCode = NuxtErrorPageType.NotFound,
                 MessageKey = FrontendMessageKeys.Error.User.NotFound,
+                Pages = null,
                 Skills = null,
                 Questions = null
             };
@@ -136,54 +128,15 @@ public class UserController(
                 Rank = user.Rank
             },
             IsCurrentUser = isCurrentUser,
-            Wikis = MapWikis(publicWikis),
-            Skills = MapSkills(user.Id),
+            Wikis = _userPageItemMapper.MapWikis(publicWikis),
+            Pages = _userPageItemMapper.MapPages(user.Id, publicWikis),
+            Skills = _userPageItemMapper.MapSkills(user.Id),
             Questions = GetQuestions(user.Id)
         };
         return result;
     }
 
-    private IList<PageItem> MapWikis(IEnumerable<PageCacheItem> wikis)
-    {
-        return wikis.Select(wiki =>
-                new PageItem(
-                    wiki.Id,
-                    wiki.Name,
-                    new PageImageSettings(wiki.Id, _httpContextAccessor).GetUrl_128px(true).Url,
-                    wiki.GetCountQuestionsAggregated(_sessionUser.UserId),
-                    new KnowledgeSummaryResponse(_knowledgeSummaryLoader.Run(_sessionUser.UserId, wiki.Id, onlyInWishknowledge: true)),
-                    _popularityCalculator.CalculatePagePopularity(wiki))
-            )
-            .ToList();
-    }
 
-    private IList<PageItem> MapSkills(int userId)
-    {
-        var extendedUserCacheItem = _extendedUserCache.GetUser(userId);
-        var skillsWithPages = new List<PageItem>();
-
-        foreach (var skill in extendedUserCacheItem.GetAllSkills())
-        {
-            var page = EntityCache.GetPage(skill.PageId);
-            if (_permissionCheck.CanView(page))
-            {
-                skillsWithPages.Add(
-                    new PageItem(
-                        skill.PageId,
-                        page.Name,
-                        new PageImageSettings(skill.PageId, _httpContextAccessor).GetUrl_128px(true).Url,
-                        page.GetAggregatedPublicQuestions().Count,
-                        new KnowledgeSummaryResponse(skill.KnowledgeSummary),
-                        _popularityCalculator.CalculatePagePopularity(page),
-                        page.Creator.Name,
-                        IsPublic: page.IsPublic
-                    )
-                );
-            }
-        }
-
-        return skillsWithPages;
-    }
 
     private IList<QuestionItem> GetQuestions(int userId)
     {

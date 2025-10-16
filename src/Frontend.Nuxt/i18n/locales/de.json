@@ -19,7 +19,8 @@
                 "renewed": "Der Freigabelink wurde erfolgreich erneuert.",
                 "copied": "Der Freigabelink wurde in die Zwischenablage kopiert.",
                 "removed": "Der Freigabelink wurde erfolgreich entfernt."
-            }
+            },
+            "savedWithImageRecovery": "Gelöschte Bilder werden in 24h endgültig entfernt."
         },
         "question": {
             "created": "Deine Frage wurde erfolgreich erstellt.",
@@ -1254,6 +1255,7 @@
             "noQuestions": "{name} hat noch keine Fragen erstellt",
             "noSkills": "{name} hat noch keine Skills geteilt",
             "noWikis": "{name} hat noch keine Wikis erstellt",
+            "noPages": "{name} hat noch keine Seiten erstellt",
             "showAsVisitor": "Als Besucher anzeigen",
             "stats": {
                 "reputation": "Reputation",
@@ -1264,8 +1266,8 @@
                 "tooltips": {
                     "reputation": "Reputation basiert auf erstellten Fragen, Fragen im Wunsch-Wissen anderer und öffentlichem Wunsch-Wissen",
                     "rank": "Rang basiert auf Reputationspunkten",
-                    "createdPages": "Anzahl der öffentlichen Seiten, die erstellt wurden",
-                    "createdWikis": "Anzahl der öffentlichen Wikis, die erstellt wurden",
+                    "createdPages": "Öffentliche Seiten erstellt von: {userName}",
+                    "createdWikis": "Öffentliche Wikis erstellt von: {userName}",
                     "createdQuestions": "Anzahl der öffentlichen Fragen, die erstellt wurden"
                 }
             }
@@ -1320,10 +1322,12 @@
             "stats": "Statistiken",
             "skills": "Skills",
             "wikis": "Wikis",
+            "pages": "Seiten",
             "questions": "Fragen",
             "tooltips": {
                 "skills": "Nur öffentliche Seiten mit beantworteten und öffentlichen Fragen werden angezeigt",
                 "wikis": "Es werden nur öffentliche Wikis angezeigt",
+                "pages": "Nur Seiten der obersten Ebene – ohne Unter- oder Wiki-Seiten",
                 "questions": "Nur öffentliche Fragen von öffentlichen Seiten werden angezeigt"
             }
         },

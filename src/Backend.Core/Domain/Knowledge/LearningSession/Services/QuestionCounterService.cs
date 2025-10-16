@@ -5,34 +5,34 @@ public class QuestionCounterService(
 {
     public void Count(QuestionProperties questionProperties, QuestionCounter counter)
     {
-        if (questionProperties.NotLearned) 
+        if (questionProperties.NotLearned)
             counter.NotLearned++;
 
-        if (questionProperties.NeedsLearning) 
+        if (questionProperties.NeedsLearning)
             counter.NeedsLearning++;
 
-        if (questionProperties.NeedsConsolidation) 
+        if (questionProperties.NeedsConsolidation)
             counter.NeedsConsolidation++;
 
-        if (questionProperties.Solid) 
+        if (questionProperties.Solid)
             counter.Solid++;
 
-        if (questionProperties.InWishKnowledge) 
+        if (questionProperties.InWishKnowledge)
             counter.InWishKnowledge++;
 
-        if (questionProperties.NotInWishKnowledge) 
+        if (questionProperties.NotInWishKnowledge)
             counter.NotInWishKnowledge++;
 
-        if (questionProperties.CreatedByCurrentUser) 
+        if (questionProperties.CreatedByCurrentUser)
             counter.CreatedByCurrentUser++;
 
-        if (questionProperties.NotCreatedByCurrentUser) 
+        if (questionProperties.NotCreatedByCurrentUser)
             counter.NotCreatedByCurrentUser++;
 
-        if (questionProperties.Public) 
+        if (questionProperties.Public)
             counter.Public++;
 
-        if (questionProperties.Private) 
+        if (questionProperties.Private)
             counter.Private++;
     }
 

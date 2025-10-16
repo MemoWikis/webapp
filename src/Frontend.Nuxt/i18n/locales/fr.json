@@ -19,7 +19,8 @@
                 "renewed": "Le lien de partage a été renouvelé avec succès.",
                 "copied": "Le lien de partage a été copié dans le presse-papiers.",
                 "removed": "Le lien de partage a été supprimé avec succès."
-            }
+            },
+            "savedWithImageRecovery": "Les images supprimées seront définitivement effacées dans 24h."
         },
         "question": {
             "created": "Ta question est créée !",
@@ -1254,6 +1255,7 @@
             "noQuestions": "{name} n'a pas encore créé de questions",
             "noSkills": "{name} n'a pas encore partagé de compétences",
             "noWikis": "{name} n'a pas encore créé de wikis",
+            "noPages": "{name} n'a pas encore créé de pages",
             "showAsVisitor": "Afficher comme visiteur",
             "stats": {
                 "reputation": "Réputation",
@@ -1264,8 +1266,8 @@
                 "tooltips": {
                     "reputation": "La réputation est basée sur les questions créées, les questions dans les connaissances souhaitées d'autrui et les connaissances souhaitées publiques",
                     "rank": "Le classement des utilisateurs est basé sur les points de réputation",
-                    "createdPages": "Nombre de pages publiques qui ont été créées",
-                    "createdWikis": "Nombre de wikis publics qui ont été créés",
+                    "createdPages": "Pages publiques créées par : {userName}",
+                    "createdWikis": "Wikis publics créés par : {userName}",
                     "createdQuestions": "Nombre de questions publiques qui ont été créées"
                 }
             }
@@ -1320,10 +1322,12 @@
             "stats": "Statistiques",
             "skills": "Compétences",
             "wikis": "Wikis",
+            "pages": "Pages",
             "questions": "Questions",
             "tooltips": {
                 "skills": "Seules les pages publiques avec des questions répondues et publiques sont affichées",
                 "wikis": "Seuls les wikis publics sont affichés",
+                "pages": "Seulement les pages du niveau supérieur – sans sous-pages ou pages de wiki",
                 "questions": "Seules les questions publiques de pages publiques sont affichées"
             }
         },
