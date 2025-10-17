@@ -11,13 +11,6 @@ const { t } = useI18n()
 const pieData = computed(() => {
     return convertKnowledgeSummaryToChartData(props.knowledgeSummary)
 })
-
-const totalQuestions = computed(() => {
-    return props.knowledgeSummary.solid +
-        props.knowledgeSummary.needsConsolidation +
-        props.knowledgeSummary.needsLearning +
-        props.knowledgeSummary.notLearned
-})
 </script>
 
 <template>
@@ -26,8 +19,8 @@ const totalQuestions = computed(() => {
             <ChartPie :data="pieData" :width="150" :height="150" :single-color="true" />
         </div>
         <div class="total-questions">
-            <span class="count">{{ totalQuestions }}</span>
-            <span class="total-questions-label">{{ t('label.questionCountAsText', totalQuestions) }}</span>
+            <span class="count">{{ props.knowledgeSummary.totalCount }}</span>
+            <span class="total-questions-label">{{ t('label.questionCountAsText', props.knowledgeSummary.totalCount) }}</span>
         </div>
     </div>
 </template>

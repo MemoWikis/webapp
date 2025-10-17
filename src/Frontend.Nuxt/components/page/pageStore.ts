@@ -40,17 +40,64 @@ export class Page {
         needsLearning: 0,
         notLearned: 0,
 
-        total: 0,
+        totalCount: 0,
 
         solidPercentage: 0,
         needsConsolidationPercentage: 0,
         needsLearningPercentage: 0,
         notLearnedPercentage: 0,
 
+        inWishknowledge: {
+            solid: 0,
+            needsConsolidation: 0,
+            needsLearning: 0,
+            notLearned: 0,
+            solidPercentage: 0,
+            needsConsolidationPercentage: 0,
+            needsLearningPercentage: 0,
+            notLearnedPercentage: 0,
+            solidPercentageOfTotal: 0,
+            needsConsolidationPercentageOfTotal: 0,
+            needsLearningPercentageOfTotal: 0,
+            notLearnedPercentageOfTotal: 0,
+            total: 0
+        },
+
+        notInWishknowledge: {
+            solid: 0,
+            needsConsolidation: 0,
+            needsLearning: 0,
+            notLearned: 0,
+            solidPercentage: 0,
+            needsConsolidationPercentage: 0,
+            needsLearningPercentage: 0,
+            notLearnedPercentage: 0,
+            solidPercentageOfTotal: 0,
+            needsConsolidationPercentageOfTotal: 0,
+            needsLearningPercentageOfTotal: 0,
+            notLearnedPercentageOfTotal: 0,
+            total: 0
+        },
+
+        totalDetailed: {
+            solid: 0,
+            needsConsolidation: 0,
+            needsLearning: 0,
+            notLearned: 0,
+            solidPercentage: 0,
+            needsConsolidationPercentage: 0,
+            needsLearningPercentage: 0,
+            notLearnedPercentage: 0,
+            solidPercentageOfTotal: 0,
+            needsConsolidationPercentageOfTotal: 0,
+            needsLearningPercentageOfTotal: 0,
+            notLearnedPercentageOfTotal: 0,
+            total: 0
+        },
+
         knowledgeStatusPoints: 0,
         knowledgeStatusPointsTotal: 0,
 
-        notInWishknowledge: 0,
         notInWishknowledgePercentage: 0,
     }
     gridItems: GridPageItem[] = []

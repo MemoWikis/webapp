@@ -1,4 +1,4 @@
-public readonly record struct KnowledgeSummaryResponse(
+public readonly record struct KnowledgeStatusCountsResponse(
     int NotLearned = 0,
     int NotLearnedPercentage = 0,
     int NeedsLearning = 0,
@@ -7,26 +7,47 @@ public readonly record struct KnowledgeSummaryResponse(
     int NeedsConsolidationPercentage = 0,
     int Solid = 0,
     int SolidPercentage = 0,
-    int NotInWishknowledge = 0,
+    int NotLearnedPercentageOfTotal = 0,
+    int NeedsLearningPercentageOfTotal = 0,
+    int NeedsConsolidationPercentageOfTotal = 0,
+    int SolidPercentageOfTotal = 0,
+    int Total = 0)
+{
+    public KnowledgeStatusCountsResponse(KnowledgeStatusCounts knowledgeStatusCounts) : this(
+        knowledgeStatusCounts.NotLearned,
+        knowledgeStatusCounts.NotLearnedPercentage,
+        knowledgeStatusCounts.NeedsLearning,
+        knowledgeStatusCounts.NeedsLearningPercentage,
+        knowledgeStatusCounts.NeedsConsolidation,
+        knowledgeStatusCounts.NeedsConsolidationPercentage,
+        knowledgeStatusCounts.Solid,
+        knowledgeStatusCounts.SolidPercentage,
+        knowledgeStatusCounts.NotLearnedPercentageOfTotal,
+        knowledgeStatusCounts.NeedsLearningPercentageOfTotal,
+        knowledgeStatusCounts.NeedsConsolidationPercentageOfTotal,
+        knowledgeStatusCounts.SolidPercentageOfTotal,
+        knowledgeStatusCounts.Total)
+    {
+    }
+}
+
+public readonly record struct KnowledgeSummaryResponse(
     int NotInWishknowledgePercentage = 0,
     int Total = 0,
     double KnowledgeStatusPoints = 0.0,
-    double KnowledgeStatusPointsTotal = 0.0)
+    double KnowledgeStatusPointsTotal = 0.0,
+    KnowledgeStatusCountsResponse InWishknowledge = new KnowledgeStatusCountsResponse(),
+    KnowledgeStatusCountsResponse NotInWishknowledge = new KnowledgeStatusCountsResponse(),
+    KnowledgeStatusCountsResponse TotalDetailed = new KnowledgeStatusCountsResponse())
 {
     public KnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary) : this(
-        knowledgeSummary.NotLearned,
-        knowledgeSummary.NotLearnedPercentage,
-        knowledgeSummary.NeedsLearning,
-        knowledgeSummary.NeedsLearningPercentage,
-        knowledgeSummary.NeedsConsolidation,
-        knowledgeSummary.NeedsConsolidationPercentage,
-        knowledgeSummary.Solid,
-        knowledgeSummary.SolidPercentage,
-        knowledgeSummary.NotInWishknowledge,
         knowledgeSummary.NotInWishknowledgePercentage,
-        knowledgeSummary.Total,
+        knowledgeSummary.TotalCount,
         knowledgeSummary.KnowledgeStatusPoints,
-        knowledgeSummary.KnowledgeStatusPointsTotal)
+        knowledgeSummary.KnowledgeStatusPointsTotal,
+        new KnowledgeStatusCountsResponse(knowledgeSummary.InWishknowledge),
+        new KnowledgeStatusCountsResponse(knowledgeSummary.NotInWishknowledge),
+        new KnowledgeStatusCountsResponse(knowledgeSummary.Total))
     {
     }
 };

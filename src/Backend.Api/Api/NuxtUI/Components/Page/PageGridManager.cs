@@ -28,18 +28,29 @@
         string ImgUrl
     );
 
+    public readonly record struct KnowledgeStatusCounts(
+        int NotLearned,
+        int NotLearnedPercentage,
+        int NeedsLearning,
+        int NeedsLearningPercentage,
+        int NeedsConsolidation,
+        int NeedsConsolidationPercentage,
+        int Solid,
+        int SolidPercentage,
+        int NotLearnedPercentageOfTotal,
+        int NeedsLearningPercentageOfTotal,
+        int NeedsConsolidationPercentageOfTotal,
+        int SolidPercentageOfTotal,
+        int Total
+    );
+
     public readonly record struct KnowledgebarData(
         int Total,
-        int NeedsLearning,
-        double NeedsLearningPercentage,
-        int NeedsConsolidation,
-        double NeedsConsolidationPercentage,
-        int Solid,
-        double SolidPercentage,
-        int NotLearned,
-        double NotLearnedPercentage,
-        int NotInWishknowledge,
-        double NotInWishknowledgePercentage
+        double KnowledgeStatusPoints,
+        double KnowledgeStatusPointsTotal,
+        int NotInWishknowledgePercentage,
+        KnowledgeStatusCounts InWishknowledge,
+        KnowledgeStatusCounts NotInWishknowledge
     );
 
     public GridPageItem[] GetChildren(int id)
@@ -81,17 +92,38 @@
 
         return new KnowledgebarData
         {
-            Total = knowledgeBarSummary.Total,
-            NeedsLearning = knowledgeBarSummary.NeedsLearning,
-            NeedsLearningPercentage = knowledgeBarSummary.NeedsLearningPercentage,
-            NeedsConsolidation = knowledgeBarSummary.NeedsConsolidation,
-            NeedsConsolidationPercentage = knowledgeBarSummary.NeedsConsolidationPercentage,
-            Solid = knowledgeBarSummary.Solid,
-            SolidPercentage = knowledgeBarSummary.SolidPercentage,
-            NotLearned = knowledgeBarSummary.NotLearned,
-            NotLearnedPercentage = knowledgeBarSummary.NotLearnedPercentage,
-            NotInWishknowledge = knowledgeBarSummary.NotInWishknowledge,
-            NotInWishknowledgePercentage = knowledgeBarSummary.NotInWishknowledgePercentage
+            Total = knowledgeBarSummary.TotalCount,
+            KnowledgeStatusPoints = knowledgeBarSummary.KnowledgeStatusPoints,
+            KnowledgeStatusPointsTotal = knowledgeBarSummary.KnowledgeStatusPointsTotal,
+            NotInWishknowledgePercentage = knowledgeBarSummary.NotInWishknowledgePercentage,
+            InWishknowledge = new KnowledgeStatusCounts(
+                NotLearned: knowledgeBarSummary.InWishknowledge.NotLearned,
+                NotLearnedPercentage: knowledgeBarSummary.InWishknowledge.NotLearnedPercentage,
+                NeedsLearning: knowledgeBarSummary.InWishknowledge.NeedsLearning,
+                NeedsLearningPercentage: knowledgeBarSummary.InWishknowledge.NeedsLearningPercentage,
+                NeedsConsolidation: knowledgeBarSummary.InWishknowledge.NeedsConsolidation,
+                NeedsConsolidationPercentage: knowledgeBarSummary.InWishknowledge.NeedsConsolidationPercentage,
+                Solid: knowledgeBarSummary.InWishknowledge.Solid,
+                SolidPercentage: knowledgeBarSummary.InWishknowledge.SolidPercentage,
+                NotLearnedPercentageOfTotal: knowledgeBarSummary.InWishknowledge.NotLearnedPercentageOfTotal,
+                NeedsLearningPercentageOfTotal: knowledgeBarSummary.InWishknowledge.NeedsLearningPercentageOfTotal,
+                NeedsConsolidationPercentageOfTotal: knowledgeBarSummary.InWishknowledge.NeedsConsolidationPercentageOfTotal,
+                SolidPercentageOfTotal: knowledgeBarSummary.InWishknowledge.SolidPercentageOfTotal,
+                Total: knowledgeBarSummary.InWishknowledge.Total),
+            NotInWishknowledge = new KnowledgeStatusCounts(
+                NotLearned: knowledgeBarSummary.NotInWishknowledge.NotLearned,
+                NotLearnedPercentage: knowledgeBarSummary.NotInWishknowledge.NotLearnedPercentage,
+                NeedsLearning: knowledgeBarSummary.NotInWishknowledge.NeedsLearning,
+                NeedsLearningPercentage: knowledgeBarSummary.NotInWishknowledge.NeedsLearningPercentage,
+                NeedsConsolidation: knowledgeBarSummary.NotInWishknowledge.NeedsConsolidation,
+                NeedsConsolidationPercentage: knowledgeBarSummary.NotInWishknowledge.NeedsConsolidationPercentage,
+                Solid: knowledgeBarSummary.NotInWishknowledge.Solid,
+                SolidPercentage: knowledgeBarSummary.NotInWishknowledge.SolidPercentage,
+                NotLearnedPercentageOfTotal: knowledgeBarSummary.NotInWishknowledge.NotLearnedPercentageOfTotal,
+                NeedsLearningPercentageOfTotal: knowledgeBarSummary.NotInWishknowledge.NeedsLearningPercentageOfTotal,
+                NeedsConsolidationPercentageOfTotal: knowledgeBarSummary.NotInWishknowledge.NeedsConsolidationPercentageOfTotal,
+                SolidPercentageOfTotal: knowledgeBarSummary.NotInWishknowledge.SolidPercentageOfTotal,
+                Total: knowledgeBarSummary.NotInWishknowledge.Total)
         };
     }
 

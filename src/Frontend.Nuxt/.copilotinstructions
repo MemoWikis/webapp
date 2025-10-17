@@ -9,6 +9,7 @@ When working with translations in this memoWikis frontend project:
 2. **Key General terminology**:
    - Casual, friendly tone across all languages
    - "wishknowledge" - knowledge that a user specifically wants to learn or has marked as desired to learn (use as one word, not "wish knowledge")
+   - "wuwi" - abbreviation for "Wunschwissen" (wishknowledge), acceptable in backend code, comments, CSS classes, and non-user-facing contexts
 
 3. **Complete guidelines**: `../../prompts/` (translation-glossary.md, translation-instructions.md, translation-qa.md, ui-text-de-updated.md)
 

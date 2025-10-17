@@ -49,10 +49,8 @@ internal class KnowledgeSummary_tests : BaseTestHarness
 
         // Create knowledge summaries in cache
         var knowledgeSummary = new KnowledgeSummary(
-            notLearned: 1,
-            needsLearning: 0,
-            needsConsolidation: 1,
-            solid: 0
+            notLearnedNotInWishknowledge: 1,
+            needsConsolidationNotInWishknowledge: 1
         );
 
         SlidingCache.UpdateActiveKnowledgeSummary(creator.Id, testPage.Id, knowledgeSummary);
@@ -65,11 +63,9 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         // Assert
         await Verify(new
         {
-            result.NotLearned,
-            result.NeedsLearning,
-            result.NeedsConsolidation,
-            result.Solid,
-            result.Total,
+            result.InWishknowledge,
+            result.NotInWishknowledge,
+            totalCount = result.TotalCount,
             result.KnowledgeStatusPoints
         });
     }
@@ -180,12 +176,9 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         // Assert
         await Verify(new
         {
-            result.NotLearned,
-            result.NeedsLearning,
-            result.NeedsConsolidation,
-            result.Solid,
+            result.InWishknowledge,
             result.NotInWishknowledge,
-            result.Total,
+            totalCount = result.TotalCount,
             result.KnowledgeStatusPoints,
             result.KnowledgeStatusPointsTotal
         });
@@ -389,8 +382,8 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             CreatorSummaryExists = updatedSummary1 != null,
             OtherUserSummaryExists = updatedSummary2 != null,
-            CreatorSummaryTotal = updatedSummary1?.KnowledgeSummary?.Total ?? 0,
-            OtherUserSummaryTotal = updatedSummary2?.KnowledgeSummary?.Total ?? 0
+            CreatorSummaryTotal = updatedSummary1?.KnowledgeSummary?.TotalCount ?? 0,
+            OtherUserSummaryTotal = updatedSummary2?.KnowledgeSummary?.TotalCount ?? 0
         });
     }
 
@@ -439,8 +432,8 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         knowledgeSummaryLoader.Run(creator.Id);
 
         var userSkillService = R<UserSkillService>();
-        userSkillService.CreateUserSkill(creator.Id, testPage1.Id, new KnowledgeSummary(notLearned: 1, notLearnedInWishknowledge: 1));
-        userSkillService.CreateUserSkill(creator.Id, testPage2.Id, new KnowledgeSummary(solid: 1, solidInWishknowledge: 1));
+        userSkillService.CreateUserSkill(creator.Id, testPage1.Id, new KnowledgeSummary(notLearnedInWishknowledge: 1));
+        userSkillService.CreateUserSkill(creator.Id, testPage2.Id, new KnowledgeSummary(solidInWishknowledge: 1));
 
         var knowledgeSummaryUpdate = R<KnowledgeSummaryUpdate>();
 

@@ -38,7 +38,7 @@
         bool onlyInWishknowledge = true)
     {
         if (userId <= 0 && questionIds != null)
-            return new KnowledgeSummary(notLearned: questionIds.Count);
+            return new KnowledgeSummary(notLearnedInWishknowledge: questionIds.Count);
 
         EnsureExtendedUserExists(userId);
         var allQuestionValuations = GetFilteredQuestionValuations(userId, questionIds);
@@ -46,15 +46,24 @@
         var wishknowledgeCounts = CalculateWishknowledgeStatusCounts(allQuestionValuations);
         var adjustedTotalCounts = AdjustForQuestionsWithoutKnowledgeStatus(totalCounts, questionIds, onlyInWishknowledge);
 
+        // Calculate NotInWishknowledge counts by subtracting wishknowledge from total
+        var notInWishknowledgeCounts = new KnowledgeStatusCounts
+        {
+            NotLearned = adjustedTotalCounts.NotLearned - wishknowledgeCounts.NotLearned,
+            NeedsLearning = adjustedTotalCounts.NeedsLearning - wishknowledgeCounts.NeedsLearning,
+            NeedsConsolidation = adjustedTotalCounts.NeedsConsolidation - wishknowledgeCounts.NeedsConsolidation,
+            Solid = adjustedTotalCounts.Solid - wishknowledgeCounts.Solid
+        };
+
         return new KnowledgeSummary(
-            notLearned: adjustedTotalCounts.NotLearned,
-            needsLearning: adjustedTotalCounts.NeedsLearning,
-            needsConsolidation: adjustedTotalCounts.NeedsConsolidation,
-            solid: adjustedTotalCounts.Solid,
             notLearnedInWishknowledge: wishknowledgeCounts.NotLearned,
             needsLearningInWishknowledge: wishknowledgeCounts.NeedsLearning,
             needsConsolidationInWishknowledge: wishknowledgeCounts.NeedsConsolidation,
-            solidInWishknowledge: wishknowledgeCounts.Solid);
+            solidInWishknowledge: wishknowledgeCounts.Solid,
+            notLearnedNotInWishknowledge: notInWishknowledgeCounts.NotLearned,
+            needsLearningNotInWishknowledge: notInWishknowledgeCounts.NeedsLearning,
+            needsConsolidationNotInWishknowledge: notInWishknowledgeCounts.NeedsConsolidation,
+            solidNotInWishknowledge: notInWishknowledgeCounts.Solid);
     }
 
     private void EnsureExtendedUserExists(int userId)

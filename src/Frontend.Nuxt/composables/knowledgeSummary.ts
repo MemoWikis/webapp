@@ -1,32 +1,58 @@
 import { ChartData } from '~/components/chart/chartData'
 
 export enum KnowledgeSummaryType {
-    Solid = 'solid',
-    NeedsConsolidation = 'needsConsolidation',
-    NeedsLearning = 'needsLearning',
-    NotLearned = 'notLearned',
-    NotInWishknowledge = 'notInWishknowledge'
+    // Wuwi (wishknowledge) types
+    SolidWuwi = 'solidWuwi',
+    NeedsConsolidationWuwi = 'needsConsolidationWuwi',
+    NeedsLearningWuwi = 'needsLearningWuwi',
+    NotLearnedWuwi = 'notLearnedWuwi',
+    
+    // Not in wuwi types
+    SolidNotInWuwi = 'solidNotInWuwi',
+    NeedsConsolidationNotInWuwi = 'needsConsolidationNotInWuwi',
+    NeedsLearningNotInWuwi = 'needsLearningNotInWuwi',
+    NotLearnedNotInWuwi = 'notLearnedNotInWuwi'
+}
+
+export interface KnowledgeStatusCounts {
+    notLearned: number
+    needsLearning: number
+    needsConsolidation: number
+    solid: number
+    // Percentages relative to this group total (adds up to 100% within this group)
+    notLearnedPercentage: number
+    needsLearningPercentage: number
+    needsConsolidationPercentage: number
+    solidPercentage: number
+    // Percentages relative to grand total (InWishknowledge + NotInWishknowledge)
+    notLearnedPercentageOfTotal: number
+    needsLearningPercentageOfTotal: number
+    needsConsolidationPercentageOfTotal: number
+    solidPercentageOfTotal: number
+    total: number
 }
 
 export interface KnowledgeSummary {
-    total: number
+    totalCount: number
 
+    // Legacy properties for backward compatibility
     needsLearning: number
     needsLearningPercentage: number
-
     needsConsolidation: number
     needsConsolidationPercentage: number
-
     solid: number
     solidPercentage: number
-
     notLearned: number
     notLearnedPercentage: number
+
+    // New nested structure
+    inWishknowledge: KnowledgeStatusCounts
+    notInWishknowledge: KnowledgeStatusCounts
+    totalDetailed: KnowledgeStatusCounts
 
     knowledgeStatusPoints: number
     knowledgeStatusPointsTotal: number
 
-    notInWishknowledge: number
     notInWishknowledgePercentage: number
 }
 
@@ -35,20 +61,174 @@ export interface KnowledgeSummarySlim {
     needsConsolidation: number
     needsLearning: number
     notLearned: number
-    notInWishknowledge?: number
+    inWishknowledge?: KnowledgeStatusCounts
+    notInWishknowledge?: KnowledgeStatusCounts
 }
 
 type KnowledgeSummaryInput = KnowledgeSummary | KnowledgeSummarySlim
 
+/**
+ * Converts knowledge summary to chart data showing both wuwi and not-in-wuwi sections
+ * (uses the new nested structure to distinguish between wishknowledge and non-wishknowledge)
+ */
 export const convertKnowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummaryInput): ChartData[] => {
-    const knowledgeStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned', 'notInWishknowledge'] as const
     const chartData: ChartData[] = []
     
-    for (const statusClass of knowledgeStatusOrder) {
-        const value = knowledgeSummary[statusClass]
+    // Add wuwi (wishknowledge) categories first
+    if ('inWishknowledge' in knowledgeSummary && knowledgeSummary.inWishknowledge) {
+        const wuwiStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
+        
+        for (const statusClass of wuwiStatusOrder) {
+            const value = knowledgeSummary.inWishknowledge[statusClass]
+            if (value && value > 0) {
+                chartData.push({
+                    value,
+                    class: `${statusClass}Wuwi`
+                })
+            }
+        }
+    }
+    
+    // Add not-in-wuwi (not in wishknowledge) categories
+    if ('notInWishknowledge' in knowledgeSummary && knowledgeSummary.notInWishknowledge) {
+        const notInWuwiStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
+        
+        for (const statusClass of notInWuwiStatusOrder) {
+            const value = knowledgeSummary.notInWishknowledge[statusClass]
+            if (value && value > 0) {
+                chartData.push({
+                    value,
+                    class: `${statusClass}NotInWuwi`
+                })
+            }
+        }
+    }
+    
+    return chartData
+}
+
+/**
+ * Converts knowledge summary to chart data using only wishknowledge counts
+ * (excludes questions not in wishknowledge)
+ */
+export const convertWishknowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummary): ChartData[] => {
+    const wishknowledgeStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
+    const chartData: ChartData[] = []
+    
+    for (const statusClass of wishknowledgeStatusOrder) {
+        const value = knowledgeSummary.inWishknowledge[statusClass]
         if (value && value > 0) {
             chartData.push({
                 value,
+                class: statusClass
+            })
+        }
+    }
+    
+    return chartData
+}
+
+/**
+ * Converts knowledge summary to chart data using only non-wishknowledge counts
+ */
+export const convertNotInWishknowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummary): ChartData[] => {
+    const statusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
+    const chartData: ChartData[] = []
+    
+    for (const statusClass of statusOrder) {
+        const value = knowledgeSummary.notInWishknowledge[statusClass]
+        if (value && value > 0) {
+            chartData.push({
+                value,
+                class: statusClass
+            })
+        }
+    }
+    
+    return chartData
+}
+
+/**
+ * Converts knowledge summary to chart data using percentages of total
+ * (shows actual proportions relative to all questions)
+ */
+export const convertKnowledgeSummaryToTotalPercentageChartData = (knowledgeSummary: KnowledgeSummary): ChartData[] => {
+    const chartData: ChartData[] = []
+    
+    // Add wuwi (wishknowledge) categories with their percentage of total
+    if (knowledgeSummary.inWishknowledge) {
+        const wuwiStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
+        
+        for (const statusClass of wuwiStatusOrder) {
+            const value = knowledgeSummary.inWishknowledge[`${statusClass}PercentageOfTotal`] || 0
+            if (value > 0) {
+                chartData.push({
+                    value,
+                    class: `${statusClass}Wuwi`
+                })
+            }
+        }
+    }
+    
+    // Add not-in-wuwi categories with their percentage of total
+    if (knowledgeSummary.notInWishknowledge) {
+        const notInWuwiStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
+        
+        for (const statusClass of notInWuwiStatusOrder) {
+            const value = knowledgeSummary.notInWishknowledge[`${statusClass}PercentageOfTotal`] || 0
+            if (value > 0) {
+                chartData.push({
+                    value,
+                    class: `${statusClass}NotInWuwi`
+                })
+            }
+        }
+    }
+    
+    return chartData
+}
+
+/**
+ * Gets the percentage of total for a specific knowledge status and category
+ */
+export const getKnowledgeStatusPercentageOfTotal = (
+    knowledgeSummary: KnowledgeSummary, 
+    status: 'solid' | 'needsConsolidation' | 'needsLearning' | 'notLearned',
+    category: 'inWishknowledge' | 'notInWishknowledge'
+): number => {
+    const categoryData = knowledgeSummary[category]
+    if (!categoryData) return 0
+    
+    return categoryData[`${status}PercentageOfTotal`] || 0
+}
+/**
+ * Converts knowledge summary to chart data using total counts (legacy behavior)
+ * (combines wuwi and not-in-wuwi into single categories)
+ */
+export const convertKnowledgeSummaryToTotalChartData = (knowledgeSummary: KnowledgeSummaryInput): ChartData[] => {
+    const chartData: ChartData[] = []
+    const statusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
+    
+    // Calculate totals by combining wuwi and not-in-wuwi
+    for (const statusClass of statusOrder) {
+        let totalValue = 0
+        
+        if ('inWishknowledge' in knowledgeSummary && knowledgeSummary.inWishknowledge) {
+            totalValue += knowledgeSummary.inWishknowledge[statusClass] || 0
+        }
+        
+        if ('notInWishknowledge' in knowledgeSummary && knowledgeSummary.notInWishknowledge) {
+            totalValue += knowledgeSummary.notInWishknowledge[statusClass] || 0
+        }
+        
+        // Fallback to legacy properties if nested structure not available
+        if (totalValue === 0 && knowledgeSummary[statusClass]) {
+            totalValue = knowledgeSummary[statusClass]
+        }
+        
+        if (totalValue > 0) {
+            chartData.push({
+                value: totalValue,
                 class: statusClass
             })
         }

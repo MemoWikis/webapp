@@ -21,6 +21,7 @@
 - `wiki`: is a special kind of a page
 - `orphaned page`: a page that does not have a parent page or wiki
 - `wishknowledge`: knowledge that a user specifically wants to learn or has marked as desired to learn
+- `wuwi`: abbreviation for "Wunschwissen" (wishknowledge), can be used in backend code, comments, and non-user-facing texts
 
 # Frontend and Translations
 - refer to the .copilotinstructions file in `../src/Frontend.Nuxt` for frontend specific instructions

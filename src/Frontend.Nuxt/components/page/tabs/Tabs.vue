@@ -17,6 +17,7 @@ const { t } = useI18n()
 
 function getTooltipLabel(key: string, count: number) {
 	switch (key) {
+		// Legacy cases
 		case 'solid':
 			return t('knowledgeStatus.solidCount', count)
 		case 'needsConsolidation':
@@ -27,6 +28,26 @@ function getTooltipLabel(key: string, count: number) {
 			return t('knowledgeStatus.notLearnedCount', count)
 		case 'notInWishknowledge':
 			return t('knowledgeStatus.notInWishknowledgeCount', count)
+
+		// Wuwi (wishknowledge) cases
+		case 'solidWuwi':
+			return t('knowledgeStatus.solidCount', count) + ' (Wunschwissen)'
+		case 'needsConsolidationWuwi':
+			return t('knowledgeStatus.needsConsolidationCount', count) + ' (Wunschwissen)'
+		case 'needsLearningWuwi':
+			return t('knowledgeStatus.needsLearningCount', count) + ' (Wunschwissen)'
+		case 'notLearnedWuwi':
+			return t('knowledgeStatus.notLearnedCount', count) + ' (Wunschwissen)'
+
+		// Not in wuwi cases
+		case 'solidNotInWuwi':
+			return t('knowledgeStatus.solidCount', count) + ' (Nicht im Wunschwissen)'
+		case 'needsConsolidationNotInWuwi':
+			return t('knowledgeStatus.needsConsolidationCount', count) + ' (Nicht im Wunschwissen)'
+		case 'needsLearningNotInWuwi':
+			return t('knowledgeStatus.needsLearningCount', count) + ' (Nicht im Wunschwissen)'
+		case 'notLearnedNotInWuwi':
+			return t('knowledgeStatus.notLearnedCount', count) + ' (Nicht im Wunschwissen)'
 	}
 }
 

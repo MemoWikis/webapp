@@ -580,28 +580,46 @@ export const useLearningSessionConfigurationStore = defineStore(
                     this.knowledgeSummary[key].isSelected = false
                 }
                 
-                // Map the KnowledgeSummaryType to the corresponding key in knowledgeSummary
-                const typeToKeyMap: { [key in KnowledgeSummaryType]: string } = {
-                    [KnowledgeSummaryType.Solid]: 'solid',
-                    [KnowledgeSummaryType.NeedsConsolidation]: 'needsConsolidation',
-                    [KnowledgeSummaryType.NeedsLearning]: 'needsLearning',
-                    [KnowledgeSummaryType.NotLearned]: 'notLearned',
-                    [KnowledgeSummaryType.NotInWishknowledge]: 'notInWishknowledge',
+                // Map the new KnowledgeSummaryType enum values to the corresponding keys
+                const typeToKeyMap: { [key in KnowledgeSummaryType]?: string } = {
+                    // Wuwi (wishknowledge) types - use inWuwi filter
+                    [KnowledgeSummaryType.SolidWuwi]: 'solid',
+                    [KnowledgeSummaryType.NeedsConsolidationWuwi]: 'needsConsolidation',
+                    [KnowledgeSummaryType.NeedsLearningWuwi]: 'needsLearning',
+                    [KnowledgeSummaryType.NotLearnedWuwi]: 'notLearned',
+                    
+                    // Not in wuwi types - use notInWuwi filter
+                    [KnowledgeSummaryType.SolidNotInWuwi]: 'solid',
+                    [KnowledgeSummaryType.NeedsConsolidationNotInWuwi]: 'needsConsolidation',
+                    [KnowledgeSummaryType.NeedsLearningNotInWuwi]: 'needsLearning',
+                    [KnowledgeSummaryType.NotLearnedNotInWuwi]: 'notLearned',
                 }
                 
                 const targetKey = typeToKeyMap[type]
-                if (targetKey === KnowledgeSummaryType.NotInWishknowledge) {
-                    for (const key in this.knowledgeSummary) {
-                        this.knowledgeSummary[key].isSelected = true
-                    }
-                    this.questionFilterOptions.inWuwi.isSelected = false
-                    this.questionFilterOptions.notInWuwi.isSelected = true
-
-                } else {
+                
+                // Handle wuwi types (in wishknowledge)
+                if (type === KnowledgeSummaryType.SolidWuwi || 
+                    type === KnowledgeSummaryType.NeedsConsolidationWuwi ||
+                    type === KnowledgeSummaryType.NeedsLearningWuwi ||
+                    type === KnowledgeSummaryType.NotLearnedWuwi) {
+                    
                     this.questionFilterOptions.inWuwi.isSelected = true
                     this.questionFilterOptions.notInWuwi.isSelected = false
-
-                    if (this.knowledgeSummary[targetKey]) {
+                    
+                    if (targetKey && this.knowledgeSummary[targetKey]) {
+                        this.knowledgeSummary[targetKey].isSelected = true
+                    }
+                }
+                // Handle not in wuwi types
+                else if (type === KnowledgeSummaryType.SolidNotInWuwi || 
+                         type === KnowledgeSummaryType.NeedsConsolidationNotInWuwi ||
+                         type === KnowledgeSummaryType.NeedsLearningNotInWuwi ||
+                         type === KnowledgeSummaryType.NotLearnedNotInWuwi) {
+                    
+                    this.questionFilterOptions.inWuwi.isSelected = false
+                    this.questionFilterOptions.notInWuwi.isSelected = true
+                    
+                    if (targetKey && this.knowledgeSummary[targetKey]) {
                         this.knowledgeSummary[targetKey].isSelected = true
                     }
                 }

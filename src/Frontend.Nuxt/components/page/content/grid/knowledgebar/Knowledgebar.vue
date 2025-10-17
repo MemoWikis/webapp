@@ -14,15 +14,46 @@ interface KnowledgebarTooltipData {
 const knowledgebarTooltipData = ref<KnowledgebarTooltipData[]>([])
 
 function setKnowledgebarData() {
-
     knowledgebarTooltipData.value = []
-    for (const [key, value] of Object.entries(props.knowledgebarData)) {
-        if (key === 'solid' || key === 'needsConsolidation' || key === 'needsLearning' || key === 'notLearned' || key === 'notInWishknowledge')
-            knowledgebarTooltipData.value.push({
-                value: value,
-                class: key,
-            })
+
+    // Add wuwi (wishknowledge) items
+    if (props.knowledgebarData.inWishknowledge) {
+        const wuwiItems = [
+            { key: 'solidWuwi', value: props.knowledgebarData.inWishknowledge.solid },
+            { key: 'needsConsolidationWuwi', value: props.knowledgebarData.inWishknowledge.needsConsolidation },
+            { key: 'needsLearningWuwi', value: props.knowledgebarData.inWishknowledge.needsLearning },
+            { key: 'notLearnedWuwi', value: props.knowledgebarData.inWishknowledge.notLearned }
+        ]
+
+        for (const item of wuwiItems) {
+            if (item.value > 0) {
+                knowledgebarTooltipData.value.push({
+                    value: item.value,
+                    class: item.key,
+                })
+            }
+        }
     }
+
+    // Add notInWuwi (not in wishknowledge) items
+    if (props.knowledgebarData.notInWishknowledge) {
+        const notInWuwiItems = [
+            { key: 'solidNotInWuwi', value: props.knowledgebarData.notInWishknowledge.solid },
+            { key: 'needsConsolidationNotInWuwi', value: props.knowledgebarData.notInWishknowledge.needsConsolidation },
+            { key: 'needsLearningNotInWuwi', value: props.knowledgebarData.notInWishknowledge.needsLearning },
+            { key: 'notLearnedNotInWuwi', value: props.knowledgebarData.notInWishknowledge.notLearned }
+        ]
+
+        for (const item of notInWuwiItems) {
+            if (item.value > 0) {
+                knowledgebarTooltipData.value.push({
+                    value: item.value,
+                    class: item.key,
+                })
+            }
+        }
+    }
+
     knowledgebarTooltipData.value = knowledgebarTooltipData.value.slice().reverse()
 }
 
@@ -30,6 +61,27 @@ const { t } = useI18n()
 
 function getTooltipLabel(key: string, count: number) {
     switch (key) {
+        // Wuwi (wishknowledge) categories
+        case 'solidWuwi':
+            return t('knowledgeStatus.solidCount', count) + ' (Wunschwissen)'
+        case 'needsConsolidationWuwi':
+            return t('knowledgeStatus.needsConsolidationCount', count) + ' (Wunschwissen)'
+        case 'needsLearningWuwi':
+            return t('knowledgeStatus.needsLearningCount', count) + ' (Wunschwissen)'
+        case 'notLearnedWuwi':
+            return t('knowledgeStatus.notLearnedCount', count) + ' (Wunschwissen)'
+
+        // Not in wuwi (not in wishknowledge) categories
+        case 'solidNotInWuwi':
+            return t('knowledgeStatus.solidCount', count) + ' (Nicht im Wunschwissen)'
+        case 'needsConsolidationNotInWuwi':
+            return t('knowledgeStatus.needsConsolidationCount', count) + ' (Nicht im Wunschwissen)'
+        case 'needsLearningNotInWuwi':
+            return t('knowledgeStatus.needsLearningCount', count) + ' (Nicht im Wunschwissen)'
+        case 'notLearnedNotInWuwi':
+            return t('knowledgeStatus.notLearnedCount', count) + ' (Nicht im Wunschwissen)'
+
+        // Legacy cases (for backward compatibility)
         case 'solid':
             return t('knowledgeStatus.solidCount', count)
         case 'needsConsolidation':
@@ -52,20 +104,32 @@ const ariaId = useId()
 <template>
     <VTooltip :aria-id="ariaId" class="tooltip-container">
         <div class="knowledgebar">
-            <div v-if="knowledgebarData.solidPercentage > 0" class="solid-knowledge"
-                :style="{ 'width': knowledgebarData.solidPercentage + '%' }">
+            <!-- Wuwi (wishknowledge) sections -->
+            <div v-if="knowledgebarData.inWishknowledge?.solidPercentage > 0" class="solid-knowledge wuwi"
+                :style="{ 'width': knowledgebarData.inWishknowledge.solidPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.needsConsolidationPercentage > 0" class="needs-consolidation"
-                :style="{ 'width': knowledgebarData.needsConsolidationPercentage + '%' }">
+            <div v-if="knowledgebarData.inWishknowledge?.needsConsolidationPercentage > 0" class="needs-consolidation wuwi"
+                :style="{ 'width': knowledgebarData.inWishknowledge.needsConsolidationPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.needsLearningPercentage > 0" class="needs-learning"
-                :style="{ 'width': knowledgebarData.needsLearningPercentage + '%' }">
+            <div v-if="knowledgebarData.inWishknowledge?.needsLearningPercentage > 0" class="needs-learning wuwi"
+                :style="{ 'width': knowledgebarData.inWishknowledge.needsLearningPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.notLearnedPercentage > 0" class="not-learned"
-                :style="{ 'width': knowledgebarData.notLearnedPercentage + '%' }">
+            <div v-if="knowledgebarData.inWishknowledge?.notLearnedPercentage > 0" class="not-learned wuwi"
+                :style="{ 'width': knowledgebarData.inWishknowledge.notLearnedPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.notInWishknowledgePercentage > 0" class="not-in-wish-knowledge"
-                :style="{ 'width': knowledgebarData.notInWishknowledgePercentage + '%' }">
+
+            <!-- Not in wuwi (not in wishknowledge) sections -->
+            <div v-if="knowledgebarData.notInWishknowledge?.solidPercentage > 0" class="solid-knowledge not-in-wuwi"
+                :style="{ 'width': knowledgebarData.notInWishknowledge.solidPercentage + '%' }">
+            </div>
+            <div v-if="knowledgebarData.notInWishknowledge?.needsConsolidationPercentage > 0" class="needs-consolidation not-in-wuwi"
+                :style="{ 'width': knowledgebarData.notInWishknowledge.needsConsolidationPercentage + '%' }">
+            </div>
+            <div v-if="knowledgebarData.notInWishknowledge?.needsLearningPercentage > 0" class="needs-learning not-in-wuwi"
+                :style="{ 'width': knowledgebarData.notInWishknowledge.needsLearningPercentage + '%' }">
+            </div>
+            <div v-if="knowledgebarData.notInWishknowledge?.notLearnedPercentage > 0" class="not-learned not-in-wuwi"
+                :style="{ 'width': knowledgebarData.notInWishknowledge.notLearnedPercentage + '%' }">
             </div>
         </div>
         <template #popper>
@@ -107,18 +171,54 @@ const ariaId = useId()
 
     .needs-learning {
         background-color: @needs-learning-color;
+
+        &.not-in-wuwi {
+            opacity: 0.6;
+            background: repeating-linear-gradient(45deg,
+                    @needs-learning-color,
+                    @needs-learning-color 2px,
+                    fadeout(@needs-learning-color, 30%) 2px,
+                    fadeout(@needs-learning-color, 30%) 4px);
+        }
     }
 
     .needs-consolidation {
         background-color: @needs-consolidation-color;
+
+        &.not-in-wuwi {
+            opacity: 0.6;
+            background: repeating-linear-gradient(45deg,
+                    @needs-consolidation-color,
+                    @needs-consolidation-color 2px,
+                    fadeout(@needs-consolidation-color, 30%) 2px,
+                    fadeout(@needs-consolidation-color, 30%) 4px);
+        }
     }
 
     .solid-knowledge {
         background-color: @solid-knowledge-color;
+
+        &.not-in-wuwi {
+            opacity: 0.6;
+            background: repeating-linear-gradient(45deg,
+                    @solid-knowledge-color,
+                    @solid-knowledge-color 2px,
+                    fadeout(@solid-knowledge-color, 30%) 2px,
+                    fadeout(@solid-knowledge-color, 30%) 4px);
+        }
     }
 
     .not-learned {
         background-color: @not-learned-color;
+
+        &.not-in-wuwi {
+            opacity: 0.6;
+            background: repeating-linear-gradient(45deg,
+                    @not-learned-color,
+                    @not-learned-color 2px,
+                    fadeout(@not-learned-color, 30%) 2px,
+                    fadeout(@not-learned-color, 30%) 4px);
+        }
     }
 
     .not-in-wish-knowledge {
@@ -139,6 +239,7 @@ const ariaId = useId()
         margin-right: 4px;
         border-radius: 50%;
 
+        // Legacy colors
         &.color-notLearned {
             background: @memo-grey-light;
         }
@@ -157,6 +258,56 @@ const ariaId = useId()
 
         &.color-notInWishknowledge {
             background: @memo-grey-dark;
+        }
+
+        // Wuwi (wishknowledge) colors - solid colors
+        &.color-solidWuwi {
+            background: @memo-green;
+        }
+
+        &.color-needsConsolidationWuwi {
+            background: @memo-yellow;
+        }
+
+        &.color-needsLearningWuwi {
+            background: @memo-salmon;
+        }
+
+        &.color-notLearnedWuwi {
+            background: @memo-grey-light;
+        }
+
+        // Not in wuwi colors - striped patterns
+        &.color-solidNotInWuwi {
+            background: repeating-linear-gradient(45deg,
+                    @memo-green,
+                    @memo-green 2px,
+                    fadeout(@memo-green, 50%) 2px,
+                    fadeout(@memo-green, 50%) 4px);
+        }
+
+        &.color-needsConsolidationNotInWuwi {
+            background: repeating-linear-gradient(45deg,
+                    @memo-yellow,
+                    @memo-yellow 2px,
+                    fadeout(@memo-yellow, 50%) 2px,
+                    fadeout(@memo-yellow, 50%) 4px);
+        }
+
+        &.color-needsLearningNotInWuwi {
+            background: repeating-linear-gradient(45deg,
+                    @memo-salmon,
+                    @memo-salmon 2px,
+                    fadeout(@memo-salmon, 50%) 2px,
+                    fadeout(@memo-salmon, 50%) 4px);
+        }
+
+        &.color-notLearnedNotInWuwi {
+            background: repeating-linear-gradient(45deg,
+                    @memo-grey-light,
+                    @memo-grey-light 2px,
+                    fadeout(@memo-grey-light, 50%) 2px,
+                    fadeout(@memo-grey-light, 50%) 4px);
         }
     }
 }

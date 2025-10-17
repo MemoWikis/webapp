@@ -13,6 +13,9 @@ const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 
+const showInWuwi = ref(true)
+const showSum = ref(true)
+
 const onActionClick = async (type: KnowledgeSummaryType) => {
     learningSessionConfigurationStore.selectKnowledgeSummaryByType(type)
     await nextTick()
@@ -24,11 +27,39 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
 
 <template>
     <div class="knowledgesummary-section">
+
         <div class="knowledgesummary-container">
-            <div v-if="pageStore.knowledgeSummary.total > 0">
+            <div v-if="pageStore.knowledgeSummary.totalCount > 0">
+                <div class="toggle-container">
+                    <label class="toggle-label">
+                        <input
+                            type="checkbox"
+                            v-model="showSum"
+                            class="toggle-checkbox" />
+                        <span class="toggle-text">show Sum</span>
+                    </label>
+
+                </div>
+
+                <div class="toggle-container" v-if="!showSum">
+                    <label class="toggle-label">
+                        <input
+                            type="checkbox"
+                            v-model="showInWuwi"
+                            class="toggle-checkbox" />
+                        <span class="toggle-text">show NotInWuwi</span>
+                    </label>
+                </div>
+
                 <div class="knowledgesummary-content">
                     <SharedKnowledgeSummaryPie :knowledge-summary="pageStore.knowledgeSummary" />
-                    <SharedKnowledgeSummary :knowledge-summary="pageStore.knowledgeSummary" :show-actions="true" :action-icon="'fa-solid fa-play'" @action-click="onActionClick" :show-not-in-wishknowledge="true" />
+                    <SharedKnowledgeSummary
+                        :knowledge-summary="pageStore.knowledgeSummary"
+                        :show-actions="true"
+                        :action-icon="'fa-solid fa-play'"
+                        @action-click="onActionClick"
+                        :show-not-in-wishknowledge="showInWuwi"
+                        :show-sum="showSum" />
                 </div>
             </div>
 
@@ -59,6 +90,26 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
     }
 
     .knowledgesummary-container {
+
+        .toggle-container {
+            padding: 16px 20px 0 20px;
+
+            .toggle-label {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                font-size: 14px;
+                color: @memo-grey-dark;
+
+                .toggle-checkbox {
+                    margin-right: 8px;
+                }
+
+                .toggle-text {
+                    user-select: none;
+                }
+            }
+        }
 
         .knowledgesummary-sub-label {
             font-size: 1.6rem;

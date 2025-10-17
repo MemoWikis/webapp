@@ -121,4 +121,38 @@ onBeforeMount(() => {
 .svg-color-solid {
     fill: @memo-green;
 }
+
+// Wuwi (wishknowledge) colors - solid colors
+.svg-color-solidWuwi {
+    fill: @memo-green;
+}
+
+.svg-color-needsConsolidationWuwi {
+    fill: @memo-yellow;
+}
+
+.svg-color-needsLearningWuwi {
+    fill: @memo-salmon;
+}
+
+.svg-color-notLearnedWuwi {
+    fill: @memo-grey-light;
+}
+
+// Not in wuwi colors - slightly different shades
+.svg-color-solidNotInWuwi {
+    fill: fadeout(@memo-green, 30%);
+}
+
+.svg-color-needsConsolidationNotInWuwi {
+    fill: fadeout(@memo-yellow, 30%);
+}
+
+.svg-color-needsLearningNotInWuwi {
+    fill: fadeout(@memo-salmon, 30%);
+}
+
+.svg-color-notLearnedNotInWuwi {
+    fill: fadeout(@memo-grey-light, 30%);
+}
 </style>
