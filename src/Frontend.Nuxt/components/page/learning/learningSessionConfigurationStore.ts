@@ -206,6 +206,27 @@ export const useLearningSessionConfigurationStore = defineStore(
                     else this.showSelectionError = false
                 }
             },
+            migrateOldPropertyNames(sessionConfig: any) {
+                // Migration: handle old property names
+                if (sessionConfig.questionFilterOptions) {
+                    if (sessionConfig.questionFilterOptions.inWuwi) {
+                        sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWuwi
+                        delete sessionConfig.questionFilterOptions.inWuwi
+                    }
+                    if (sessionConfig.questionFilterOptions.inWishknowledge) {
+                        sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWishknowledge
+                        delete sessionConfig.questionFilterOptions.inWishknowledge
+                    }
+                    if (sessionConfig.questionFilterOptions.notInWuwi) {
+                        sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWuwi
+                        delete sessionConfig.questionFilterOptions.notInWuwi
+                    }
+                    if (sessionConfig.questionFilterOptions.notInWishknowledge) {
+                        sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWishknowledge
+                        delete sessionConfig.questionFilterOptions.notInWishknowledge
+                    }
+                }
+            },
             async loadSessionFromLocalStorage() {
                 const preLoadJson = this.buildSessionConfigJson()
                 const userStore = useUserStore()
@@ -220,17 +241,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                 if (storedSession != null) {
                     const sessionConfig = JSON.parse(storedSession)
 
-                    // Migration: handle old property names
-                    if (sessionConfig.questionFilterOptions) {
-                        if (sessionConfig.questionFilterOptions.inWuwi) {
-                            sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWuwi
-                            delete sessionConfig.questionFilterOptions.inWuwi
-                        }
-                        if (sessionConfig.questionFilterOptions.notInWuwi) {
-                            sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWuwi
-                            delete sessionConfig.questionFilterOptions.notInWuwi
-                        }
-                    }
+                    this.migrateOldPropertyNames(sessionConfig)
 
                     if (userStore.isLoggedIn) {
                         this.knowledgeSummary = sessionConfig.knowledgeSummary
