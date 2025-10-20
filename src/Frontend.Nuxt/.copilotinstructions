@@ -27,7 +27,7 @@ When working with translations in this memoWikis frontend project:
    - German example: "Nur Seiten der obersten Ebene – ohne Unter- oder Wiki-Seiten"
    - Use simple, clear language that users can easily understand
    - Prefer "top-level/obersten Ebene" over "highest hierarchy/höchsten Hierarchie"
-   - Structure: Brief description + em dash + exclusions works well for clarity
+   - Structure: Brief description + exclusions works well for clarity, do not use "em-dash"
 
 ## Project Context
 This is a Nuxt.js frontend for memoWikis, a wiki-based learning platform. The i18n files are located in `i18n/locales/` and contain UI text translations.
