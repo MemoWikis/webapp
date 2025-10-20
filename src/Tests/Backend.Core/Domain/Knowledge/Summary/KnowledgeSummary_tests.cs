@@ -129,7 +129,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        // Add questions to wishknowledge with different statuses
+        // Add questions to wishKnowledge with different statuses
         var questionInKnowledge = R<QuestionInKnowledge>();
         questionInKnowledge.Pin(parentQuestion1.Id, creator.Id);
         questionInKnowledge.Pin(parentQuestion2.Id, creator.Id);
@@ -142,7 +142,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = parentQuestion1,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.NotLearned
         };
 
@@ -150,7 +150,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = parentQuestion2,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.Solid
         };
 
@@ -158,7 +158,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = childQuestion,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.NeedsLearning
         };
 
@@ -244,7 +244,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
             {
                 Question = questions[i],
                 User = creator,
-                RelevancePersonal = 50, // In wishknowledge
+                RelevancePersonal = 50, // In wishKnowledge
                 KnowledgeStatus = knowledgeStatuses[i]
             };
 
@@ -355,7 +355,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = question,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.NotLearned
         };
 
@@ -363,7 +363,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = question,
             User = otherUser,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.Solid
         };
 
@@ -507,14 +507,14 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        // Create valuations - one in wishknowledge, one not
+        // Create valuations - one in wishKnowledge, one not
         var questionValuationRepo = R<QuestionValuationWritingRepo>();
 
         var valuationInWishKnowledge = new QuestionValuation
         {
             Question = questionInWishKnowledge,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.Solid
         };
 
@@ -522,7 +522,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = questionInWishKnowledge2,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.NeedsLearning
         };
 
@@ -530,7 +530,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = questionNotInWishKnowledge,
             User = creator,
-            RelevancePersonal = -1, // Not in wishknowledge
+            RelevancePersonal = -1, // Not in wishKnowledge
             KnowledgeStatus = KnowledgeStatus.Solid
         };
 

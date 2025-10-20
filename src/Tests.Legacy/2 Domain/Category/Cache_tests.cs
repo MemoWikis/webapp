@@ -147,7 +147,7 @@ class User_entity_cache_tests : BaseTest
     }
 
     [Test]
-    public void Test_next_parent_in_wishknowledge()
+    public void Test_next_parent_in_wishKnowledge()
     {
         var user = ContextCategory.New().AddCaseThreeToCache();
         SessionUser.Login(user);
