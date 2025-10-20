@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-[DebuggerDisplay("QuestionId={Question.Id}, IsInWuwi: {IsInWishKnowledge()}")]
+[DebuggerDisplay("QuestionId={Question.Id}, IsInWishknowledge: {IsInWishKnowledge()}")]
 public class QuestionValuation : IPersistable, WithDateCreated
 {
     public virtual int Id { get; set; }

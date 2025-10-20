@@ -38,14 +38,14 @@ public class KnowledgeSummary
     public double KnowledgeStatusPointsTotal { get; private set; }
 
     public KnowledgeSummary(
-        int notInWishKnowledge = 0,
+        int notInWishknowledge = 0,
         int notLearned = 0,
         int needsLearning = 0,
         int needsConsolidation = 0,
         int solid = 0)
     {
-        NotInWishknowledge = notInWishKnowledge;
-        NotLearned = notLearned + notInWishKnowledge;
+        NotInWishknowledge = notInWishknowledge;
+        NotLearned = notLearned + notInWishknowledge;
         NeedsLearning = needsLearning;
         NeedsConsolidation = needsConsolidation;
         Solid = solid;

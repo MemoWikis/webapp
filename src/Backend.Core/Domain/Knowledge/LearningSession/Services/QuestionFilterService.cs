@@ -258,7 +258,7 @@ public class QuestionFilterService(
         }
         else
         {
-            questionProperties.NotInWishKnowledge = true;
+            questionProperties.NotInWishknowledge = true;
 
             if (!config.NotWishKnowledge && config.InWishKnowledge)
             {

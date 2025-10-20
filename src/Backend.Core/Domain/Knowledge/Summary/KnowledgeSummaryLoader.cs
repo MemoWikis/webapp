@@ -38,7 +38,7 @@
         bool onlyInWishknowledge = true)
     {
         if (userId <= 0 && questionIds != null)
-            return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
+            return new KnowledgeSummary(notInWishknowledge: questionIds.Count);
 
         var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
         if (extendedUser == null)
@@ -73,6 +73,6 @@
             needsLearning: needsLearning,
             needsConsolidation: needsConsolidation,
             solid: solid,
-            notInWishKnowledge: notInWishknowledge);
+            notInWishknowledge: notInWishknowledge);
     }
 }

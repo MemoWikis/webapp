@@ -3,8 +3,8 @@
     LearningSessionCreator _learningSessionCreator) : ApiBaseController
 {
     public record struct GetCountResult(
-        int InWuwi,
-        int NotInWuwi,
+        int InWishknowledge,
+        int NotInWishknowledge,
         int CreatedByCurrentUser,
         int NotCreatedByCurrentUser,
         int Private,
@@ -25,7 +25,7 @@
 
         return new GetCountResult(
             questionCounter.InWishKnowledge,
-            questionCounter.NotInWishKnowledge,
+            questionCounter.NotInWishknowledge,
             questionCounter.CreatedByCurrentUser,
             questionCounter.NotCreatedByCurrentUser,
             questionCounter.Private,

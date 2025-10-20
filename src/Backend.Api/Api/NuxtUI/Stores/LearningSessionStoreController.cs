@@ -30,8 +30,8 @@
         public RepetitionType Repetition { get; init; } = RepetitionType.None;
 
         // Filter-Flags (alle default true)
-        public bool InWuwi { get; init; } = true;
-        public bool NotInWuwi { get; init; } = true;
+        public bool InWishknowledge { get; init; } = true;
+        public bool NotInWishknowledge { get; init; } = true;
         public bool CreatedByCurrentUser { get; init; } = true;
         public bool NotCreatedByCurrentUser { get; init; } = true;
         public bool PrivateQuestions { get; init; } = true;
@@ -240,8 +240,8 @@ public static class LearningSessionConfigMapping
             QuestionOrder = _request.QuestionOrder,
             AnswerHelp = _request.AnswerHelp,
             Repetition = _request.Repetition,
-            InWishKnowledge = _request.InWuwi,
-            NotWishKnowledge = _request.NotInWuwi,
+            InWishKnowledge = _request.InWishknowledge,
+            NotWishKnowledge = _request.NotInWishknowledge,
             CreatedByCurrentUser = _request.CreatedByCurrentUser,
             NotCreatedByCurrentUser = _request.NotCreatedByCurrentUser,
             PrivateQuestions = _request.PrivateQuestions,

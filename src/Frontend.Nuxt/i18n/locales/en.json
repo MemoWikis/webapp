@@ -62,7 +62,7 @@
             "loopLink": "Pages cannot be assigned to themselves",
             "isAlreadyLinkedAsChild": "This page is already linked as a subpage.",
             "isNotAChild": "This page is already not a subpage",
-            "isLinkedInNonWuwi": "You have already linked this page outside of your Wish-Knowledge. Please disable 'Show only your Wish-Knowledge' and add this page to your Wish-Knowledge.",
+            "isLinkedInNonWishknowledge": "You have already linked this page outside of your Wish-Knowledge. Please disable 'Show only your Wish-Knowledge' and add this page to your Wish-Knowledge.",
             "childIsParent": "Parent pages cannot be assigned as subpages.",
             "nameIsTaken": " is already taken, please choose another name!",
             "nameIsForbidden": " is forbidden, please choose another name!",
@@ -91,7 +91,7 @@
             "missingAnswer": "The answer to the question is missing.",
             "save": "Your question could not be saved.",
             "creation": "Your question could not be created.",
-            "isInWuwi": "The question cannot be deleted, it is {count}x part of other users' Wish-Knowledge. Please contact us if you believe this question should still be deleted.",
+            "isInWishknowledge": "The question cannot be deleted, it is {count}x part of other users' Wish-Knowledge. Please contact us if you believe this question should still be deleted.",
             "rights": "You do not have permission to do that.",
             "errorOnDelete": "An error occurred! References to the question (study sessions, appointments, Wish-Knowledge entries...) may have been partially deleted.",
             "couldNotAddFlashcards": "The flashcards could not be added.",
@@ -853,8 +853,8 @@
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
     },
     "questionFilterOptions": {
-        "inWuwi": "In Wish-Knowledge",
-        "notInWuwi": "Not in Wish-Knowledge",
+        "inWishknowledge": "In Wish-Knowledge",
+        "notInWishknowledge": "Not in Wish-Knowledge",
         "createdByCurrentUser": "Created by me",
         "notCreatedByCurrentUser": "Not created by me",
         "private": "Private questions",

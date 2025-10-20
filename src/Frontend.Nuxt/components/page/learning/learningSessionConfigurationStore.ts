@@ -6,12 +6,12 @@ import _ from 'underscore'
 
 export interface QustionCounter {
     createdByCurrentUser: number
-    inWuwi: number
+    inWishknowledge: number
     max: number
     needsConsolidation: number
     needsLearning: number
     notCreatedByCurrentUser: number
-    notInWuwi: number
+    notInWishknowledge: number
     notLearned: number
     private: number
     public: number
@@ -20,16 +20,16 @@ export interface QustionCounter {
 
 export class SessionConfig {
     questionFilterOptions: { [key: string]: any } = {
-        inWuwi: {
+        inWishknowledge: {
             count: 0,
-            label: 'questionFilterOptions.inWuwi',
+            label: 'questionFilterOptions.inWishknowledge',
             icon: 'fa-solid fa-heart',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
-        notInWuwi: {
+        notInWishknowledge: {
             count: 0,
-            label: 'questionFilterOptions.notInWuwi',
+            label: 'questionFilterOptions.notInWishknowledge',
             icon: 'fa-regular fa-heart',
             isSelected: true,
             questionIds: [],
@@ -180,8 +180,8 @@ export const useLearningSessionConfigurationStore = defineStore(
         actions: {
             setCounter(questionCounter: QustionCounter) {
                 if (questionCounter != null) {
-                    this.questionFilterOptions.inWuwi.count = questionCounter.inWuwi ?? 0
-                    this.questionFilterOptions.notInWuwi.count = questionCounter.notInWuwi ?? 0
+                    this.questionFilterOptions.inWishknowledge.count = questionCounter.inWishknowledge ?? 0
+                    this.questionFilterOptions.notInWishknowledge.count = questionCounter.notInWishknowledge ?? 0
                     this.questionFilterOptions.createdByCurrentUser.count =
                         questionCounter.createdByCurrentUser ?? 0
                     this.questionFilterOptions.notCreatedByCurrentUser.count =
@@ -425,8 +425,8 @@ export const useLearningSessionConfigurationStore = defineStore(
                     pageId: pageStore.id,
                     maxQuestionCount: this.selectedQuestionCount,
 
-                    inWuwi: this.questionFilterOptions.inWuwi.isSelected,
-                    notInWuwi: this.questionFilterOptions.notInWuwi.isSelected,
+                    inWishknowledge: this.questionFilterOptions.inWishknowledge.isSelected,
+                    notInWishknowledge: this.questionFilterOptions.notInWishknowledge.isSelected,
                     createdByCurrentUser:
                         this.questionFilterOptions.createdByCurrentUser
                             .isSelected,
