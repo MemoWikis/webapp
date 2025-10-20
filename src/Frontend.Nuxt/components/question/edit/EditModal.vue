@@ -174,7 +174,7 @@ function getData() {
         QuestionId: editQuestionStore.id,
     }
     const createData = {
-        AddToWishknowledge: addToWuwi.value,
+        AddToWishKnowledge: addToWuwi.value,
     }
     const visibility = isPrivate.value ? 1 : 0
 

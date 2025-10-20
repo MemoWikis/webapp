@@ -16,7 +16,7 @@ public class UserMap : ClassMap<User>
         Map(x => x.AllowsSupportiveLogin);
         Map(x => x.ShowWishKnowledge);
         Map(x => x.KnowledgeReportInterval).CustomType<UserSettingNotificationInterval>();
-        Map(x => x.TotalInOthersWishknowledge);
+        Map(x => x.TotalInOthersWishKnowledge);
         Map(x => x.FollowerCount);
         Map(x => x.LearningSessionOptions);
         Map(x => x.StripeId);

@@ -45,9 +45,9 @@ public class UserController(
 
     public readonly record struct ActivityPoints(
         int Total,
-        int QuestionsInOtherWishknowledges,
+        int QuestionsInOtherWishKnowledges,
         int QuestionsCreated,
-        int PublicWishknowledges);
+        int PublicWishKnowledges);
 
     public readonly record struct QuestionItem(
         int Id,
@@ -107,10 +107,10 @@ public class UserController(
                 ActivityPoints = new ActivityPoints
                 {
                     Total = reputation.TotalReputation,
-                    QuestionsInOtherWishknowledges =
-                        reputation.ForQuestionsInOtherWishknowledge,
+                    QuestionsInOtherWishKnowledges =
+                        reputation.ForQuestionsInOtherWishKnowledge,
                     QuestionsCreated = reputation.ForQuestionsCreated,
-                    PublicWishknowledges = reputation.ForPublicWishknowledge
+                    PublicWishKnowledges = reputation.ForPublicWishKnowledge
                 },
                 PublicQuestionsCount =
                     allQuestionsCreatedByUser.Count(q =>
@@ -193,7 +193,7 @@ public class UserController(
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
                 .Where(question => _permissionCheck.CanView(question)
-                                   && question.IsInWishknowledge(id, _extendedUserCache)
+                                   && question.IsInWishKnowledge(id, _extendedUserCache)
                                    && question.PagesVisibleToCurrentUser(_permissionCheck)
                                        .Any());
 

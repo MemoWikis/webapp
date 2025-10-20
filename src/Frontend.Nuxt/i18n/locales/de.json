@@ -62,7 +62,7 @@
             "loopLink": "Seiten können sich nicht selbst untergeordnet werden",
             "isAlreadyLinkedAsChild": "Diese Seite ist schon untergeordnet.",
             "isNotAChild": "Diese Seite ist bereits keine Unterseite",
-            "isLinkedInNonWishknowledge": "Du hast die Seite bereits außerhalb deines Wunschwissens untergeordnet. Bitte schalte 'Zeige nur dein Wunschwissen' aus und füge diese Seite deinem Wunschwissen hinzu.",
+            "isLinkedInNonWishKnowledge": "Du hast die Seite bereits außerhalb deines Wunschwissens untergeordnet. Bitte schalte 'Zeige nur dein Wunschwissen' aus und füge diese Seite deinem Wunschwissen hinzu.",
             "childIsParent": "Übergeordnete Seiten können nicht untergeordnet werden.",
             "nameIsTaken": " ist bereits vergeben, bitte wähle einen anderen Namen!",
             "nameIsForbidden": " ist verboten, bitte wähle einen anderen Namen!",
@@ -91,7 +91,7 @@
             "missingAnswer": "Die Antwort zur Frage fehlt.",
             "save": "Deine Frage konnte nicht gespeichert werden.",
             "creation": "Deine Frage konnte nicht erstellt werden.",
-            "isInWishknowledge": "Die Frage kann nicht gelöscht werden, sie ist {count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.",
+            "isInWishKnowledge": "Die Frage kann nicht gelöscht werden, sie ist {count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.",
             "rights": "Dir fehlt die Berechtigung dazu.",
             "errorOnDelete": "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
             "couldNotAddFlashcards": "Die Karteikarten konnten nicht hinzugefügt werden.",
@@ -853,8 +853,8 @@
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
     },
     "questionFilterOptions": {
-        "inWishknowledge": "Im Wunschwissen",
-        "notInWishknowledge": "Nicht im Wunschwissen",
+        "inWishKnowledge": "Im Wunschwissen",
+        "notInWishKnowledge": "Nicht im Wunschwissen",
         "createdByCurrentUser": "Von mir erstellt",
         "notCreatedByCurrentUser": "Nicht von mir erstellt",
         "private": "Private Fragen",
@@ -1152,7 +1152,7 @@
                 "notLoggedIn": "beträgt die Wahrscheinlichkeit, dass du die Frage richtig beantwortest. Melde dich an, damit wir deine individuelle Wahrscheinlichkeit berechnen können."
             },
             "status": {
-                "notInWishknowledge": "Nicht im Wunschwissen",
+                "notInWishKnowledge": "Nicht im Wunschwissen",
                 "solid": "Sicheres Wissen",
                 "needsConsolidation": "Zu festigen",
                 "needsLearning": "Zu lernen",
@@ -1274,9 +1274,9 @@
             "reputation": {
                 "title": "Reputationspunkte",
                 "total": "gesamt",
-                "questionsInOtherWishknowledges": "Eigene Fragen im Wunschwissen anderer",
+                "questionsInOtherWishKnowledges": "Eigene Fragen im Wunschwissen anderer",
                 "questionsCreated": "Erstellte Fragen",
-                "publicWishknowledges": "Veröffentlichung des eigenes Wunschwissen",
+                "publicWishKnowledges": "Veröffentlichung des eigenes Wunschwissen",
                 "learnMore": "Erfahre mehr über Reputationspunkte"
             },
             "content": {
@@ -1286,12 +1286,12 @@
                 "privateQuestions": "Private Fragen",
                 "privatePages": "Private Seiten"
             },
-            "wishknowledge": {
+            "wishKnowledge": {
                 "title": "Im Wunschwissen",
                 "questions": "Fragen"
             }
         },
-        "wishknowledge": {
+        "wishKnowledge": {
             "private": {
                 "own": "Dein Wunschwissen ist nicht öffentlich.",
                 "change": "Ändern",
@@ -1346,7 +1346,7 @@
         },
         "tabs": {
             "overview": "Übersicht",
-            "wishknowledge": "Wunschwissen",
+            "wishKnowledge": "Wunschwissen",
             "settings": "Einstellungen"
         },
         "membership": {
@@ -1379,7 +1379,7 @@
                         "publicContent": "Unbeschränkt öffentliche Inhalte (ansehen, erstellen und lernen)",
                         "privatePages": "{count} private Seiten",
                         "privateQuestions": "{count} private Fragen",
-                        "wishknowledge": "max {count} Fragen im Wunschwissen"
+                        "wishKnowledge": "max {count} Fragen im Wunschwissen"
                     }
                 },
                 "plus": {
@@ -1390,7 +1390,7 @@
                         "support": "Du unterstützt uns :-)",
                         "unlimitedPages": "Unbeschränkt private Seiten",
                         "unlimitedQuestions": "Unbeschränkt private Fragen",
-                        "unlimitedWishknowledge": "Unbeschränktes Wunschwissen"
+                        "unlimitedWishKnowledge": "Unbeschränktes Wunschwissen"
                     }
                 },
                 "team": {
@@ -1497,7 +1497,7 @@
             "label": "Sortieren nach:",
             "options": {
                 "rank": "Rang",
-                "wishknowledge": "Wunschwissen",
+                "wishKnowledge": "Wunschwissen",
                 "notSelected": "Nicht ausgewählt"
             }
         },
@@ -1508,8 +1508,8 @@
         "card": {
             "reputation": "Reputation: {points} (Rang {rank})",
             "created": "Erstellt: {questions} Fragen / {pages} Seiten",
-            "wishknowledge": "Wunschwissen: {questions} Fragen / {pages} Seiten",
-            "privateWishknowledge": "{name}s Wunschwissen ist privat",
+            "wishKnowledge": "Wunschwissen: {questions} Fragen / {pages} Seiten",
+            "privateWishKnowledge": "{name}s Wunschwissen ist privat",
             "toWiki": "Zu {name}s Wiki",
             "rank": "Rang",
             "createdTitle": "Erstellt",
@@ -1674,8 +1674,8 @@
     },
     "pin": {
         "tooltips": {
-            "removeFromWishknowledge": "Aus deinem Wunschwissen entfernen",
-            "addToWishknowledge": "Zu deinem Wunschwissen hinzufügen"
+            "removeFromWishKnowledge": "Aus deinem Wunschwissen entfernen",
+            "addToWishKnowledge": "Zu deinem Wunschwissen hinzufügen"
         },
         "labels": {
             "add": "Hinzufügen"

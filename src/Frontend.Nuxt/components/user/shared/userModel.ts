@@ -27,8 +27,8 @@ export interface UserModel {
     forQuestionsCreated: number = 0
     forQuestionsInOtherWishKnowledge: number = 0
     forUsersFollowingMe: number = 0
-    forPublicWishknowledge: number = 0
+    forPublicWishKnowledge: number = 0
     TotalReputation() {
-        return this.forQuestionsCreated + this.forQuestionsInOtherWishKnowledge + this.forUsersFollowingMe + this.forPublicWishknowledge
+        return this.forQuestionsCreated + this.forQuestionsInOtherWishKnowledge + this.forUsersFollowingMe + this.forPublicWishKnowledge
     }
   }

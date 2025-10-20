@@ -177,7 +177,7 @@ function editQuestion() {
     editQuestionStore.editQuestion(props.question.id, props.question.sessionIndex)
 }
 
-const isInWishknowledge = ref(false)
+const isInWishKnowledge = ref(false)
 const hasPersonalAnswer = ref(false)
 
 watch(() => props.sessionIndex, (val) => {
@@ -210,9 +210,9 @@ function setKnowledgebarData() {
 
 function setWuwiState(state: PinState) {
     if (state === PinState.Added)
-        isInWishknowledge.value = true
+        isInWishKnowledge.value = true
     else if (state === PinState.NotAdded)
-        isInWishknowledge.value = false
+        isInWishKnowledge.value = false
 }
 watch(currentKnowledgeStatus, () => {
     setKnowledgebarData()
@@ -221,7 +221,7 @@ const showLock = ref(false)
 onBeforeMount(() => {
     showLock.value = props.question.visibility != Visibility.Public
 
-    isInWishknowledge.value = props.question.isInWishknowledge
+    isInWishKnowledge.value = props.question.isInWishKnowledge
     hasPersonalAnswer.value = props.question.hasPersonalAnswer
     currentKnowledgeStatus.value = props.question.knowledgeStatus
 })
@@ -311,7 +311,7 @@ const { $urlHelper } = useNuxtApp()
                                     <font-awesome-icon icon="fa-solid fa-angle-down" class="rotateIcon"
                                         :class="{ open: showFullQuestion }" />
                                 </div>
-                                <QuestionPin :is-in-wishknowledge="isInWishknowledge" :question-id="props.question.id"
+                                <QuestionPin :is-in-wishknowledge="isInWishKnowledge" :question-id="props.question.id"
                                     class="iconContainer" @set-wuwi-state="setWuwiState" />
                                 <div class="go-to-question iconContainer">
                                     <font-awesome-icon icon="fa-solid fa-play"

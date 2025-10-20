@@ -129,7 +129,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        // Add questions to wishknowledge with different statuses
+        // Add questions to wishKnowledge with different statuses
         var questionInKnowledge = R<QuestionInKnowledge>();
         questionInKnowledge.Pin(parentQuestion1.Id, creator.Id);
         questionInKnowledge.Pin(parentQuestion2.Id, creator.Id);
@@ -142,7 +142,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = parentQuestion1,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.NotLearned
         };
 
@@ -150,7 +150,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = parentQuestion2,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.Solid
         };
 
@@ -158,7 +158,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = childQuestion,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.NeedsLearning
         };
 
@@ -175,7 +175,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
 
         // Act - Get knowledge summary for parent page (should include child questions)
-        var result = knowledgeSummaryLoader.Run(creator.Id, parentPage.Id, onlyInWishknowledge: true);
+        var result = knowledgeSummaryLoader.Run(creator.Id, parentPage.Id, onlyInWishKnowledge: true);
 
         // Assert
         await Verify(new
@@ -184,7 +184,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
             result.NeedsLearning,
             result.NeedsConsolidation,
             result.Solid,
-            result.NotInWishknowledge,
+            result.NotInWishKnowledge,
             result.Total,
             result.KnowledgeStatusPoints,
             result.KnowledgeStatusPointsTotal
@@ -244,7 +244,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
             {
                 Question = questions[i],
                 User = creator,
-                RelevancePersonal = 50, // In wishknowledge
+                RelevancePersonal = 50, // In wishKnowledge
                 KnowledgeStatus = knowledgeStatuses[i]
             };
 
@@ -258,7 +258,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
 
         // Act - Get knowledge summary for only the first 3 questions
         var selectedQuestionIds = questions.Take(3).Select(q => q.Id).ToList();
-        var result = knowledgeSummaryLoader.Run(creator.Id, selectedQuestionIds, onlyInWishknowledge: true);
+        var result = knowledgeSummaryLoader.Run(creator.Id, selectedQuestionIds, onlyInWishKnowledge: true);
 
         // Assert
         await Verify(new
@@ -304,7 +304,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         var result = knowledgeSummaryLoader.Run(
             userId: 0, // Invalid user ID
             questionIds: new List<int> { question.Id },
-            onlyInWishknowledge: true
+            onlyInWishKnowledge: true
         );
 
         // Assert
@@ -355,7 +355,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = question,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.NotLearned
         };
 
@@ -363,7 +363,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         {
             Question = question,
             User = otherUser,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.Solid
         };
 
@@ -473,7 +473,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
 
         // Create questions
         questionContext.AddQuestion(
-            questionText: "Question In Wishknowledge",
+            questionText: "Question In WishKnowledge",
             solutionText: "Answer",
             pages: new List<Page> { testPage },
             creator: creator,
@@ -481,7 +481,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         );
 
         questionContext.AddQuestion(
-            questionText: "Question In Wishknowledge",
+            questionText: "Question In WishKnowledge",
             solutionText: "Answer",
             pages: new List<Page> { testPage },
             creator: creator,
@@ -489,7 +489,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         );
 
         questionContext.AddQuestion(
-            questionText: "Question Not In Wishknowledge",
+            questionText: "Question Not In WishKnowledge",
             solutionText: "Answer",
             pages: new List<Page> { testPage },
             creator: creator,
@@ -498,56 +498,56 @@ internal class KnowledgeSummary_tests : BaseTestHarness
 
         questionContext.Persist();
 
-        var questionInWishknowledge = questionContext.All[0];
-        var questionInWishknowledge2 = questionContext.All[1];
-        var questionNotInWishknowledge = questionContext.All[2];
+        var questionInWishKnowledge = questionContext.All[0];
+        var questionInWishKnowledge2 = questionContext.All[1];
+        var questionNotInWishKnowledge = questionContext.All[2];
 
         await ReloadCaches();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        // Create valuations - one in wishknowledge, one not
+        // Create valuations - one in wishKnowledge, one not
         var questionValuationRepo = R<QuestionValuationWritingRepo>();
 
-        var valuationInWishknowledge = new QuestionValuation
+        var valuationInWishKnowledge = new QuestionValuation
         {
-            Question = questionInWishknowledge,
+            Question = questionInWishKnowledge,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.Solid
         };
 
-        var valuationInWishknowledge2 = new QuestionValuation
+        var valuationInWishKnowledge2 = new QuestionValuation
         {
-            Question = questionInWishknowledge2,
+            Question = questionInWishKnowledge2,
             User = creator,
-            RelevancePersonal = 50, // In wishknowledge
+            RelevancePersonal = 50, // In wishKnowledge
             KnowledgeStatus = KnowledgeStatus.NeedsLearning
         };
 
-        var valuationNotInWishknowledge = new QuestionValuation
+        var valuationNotInWishKnowledge = new QuestionValuation
         {
-            Question = questionNotInWishknowledge,
+            Question = questionNotInWishKnowledge,
             User = creator,
-            RelevancePersonal = -1, // Not in wishknowledge
+            RelevancePersonal = -1, // Not in wishKnowledge
             KnowledgeStatus = KnowledgeStatus.Solid
         };
 
-        questionValuationRepo.Create(valuationInWishknowledge);
-        questionValuationRepo.Create(valuationInWishknowledge2);
-        questionValuationRepo.Create(valuationNotInWishknowledge);
+        questionValuationRepo.Create(valuationInWishKnowledge);
+        questionValuationRepo.Create(valuationInWishKnowledge2);
+        questionValuationRepo.Create(valuationNotInWishKnowledge);
         questionValuationRepo.Flush();
 
-        SlidingCache.GetExtendedUserById(creator.Id).AddOrUpdateQuestionValuations(valuationInWishknowledge.ToCacheItem());
-        SlidingCache.GetExtendedUserById(creator.Id).AddOrUpdateQuestionValuations(valuationInWishknowledge2.ToCacheItem());
-        SlidingCache.GetExtendedUserById(creator.Id).AddOrUpdateQuestionValuations(valuationNotInWishknowledge.ToCacheItem());
+        SlidingCache.GetExtendedUserById(creator.Id).AddOrUpdateQuestionValuations(valuationInWishKnowledge.ToCacheItem());
+        SlidingCache.GetExtendedUserById(creator.Id).AddOrUpdateQuestionValuations(valuationInWishKnowledge2.ToCacheItem());
+        SlidingCache.GetExtendedUserById(creator.Id).AddOrUpdateQuestionValuations(valuationNotInWishKnowledge.ToCacheItem());
 
         var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
 
         // Act
-        var resultOnlyValuated = knowledgeSummaryLoader.Run(creator.Id, testPage.Id, onlyInWishknowledge: true);
-        var resultAllQuestions = knowledgeSummaryLoader.Run(creator.Id, testPage.Id, onlyInWishknowledge: false);
+        var resultOnlyValuated = knowledgeSummaryLoader.Run(creator.Id, testPage.Id, onlyInWishKnowledge: true);
+        var resultAllQuestions = knowledgeSummaryLoader.Run(creator.Id, testPage.Id, onlyInWishKnowledge: false);
 
         // Assert
         await Verify(new
@@ -567,7 +567,7 @@ internal class KnowledgeSummary_tests : BaseTestHarness
         var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
 
         // Act
-        var result = knowledgeSummaryLoader.Run(creator.Id, pageId: 999999, onlyInWishknowledge: true);
+        var result = knowledgeSummaryLoader.Run(creator.Id, pageId: 999999, onlyInWishKnowledge: true);
 
         // Assert
         await Verify(new

@@ -6,12 +6,12 @@ import _ from 'underscore'
 
 export interface QustionCounter {
     createdByCurrentUser: number
-    inWishknowledge: number
+    inWishKnowledge: number
     max: number
     needsConsolidation: number
     needsLearning: number
     notCreatedByCurrentUser: number
-    notInWishknowledge: number
+    notInWishKnowledge: number
     notLearned: number
     private: number
     public: number
@@ -20,16 +20,16 @@ export interface QustionCounter {
 
 export class SessionConfig {
     questionFilterOptions: { [key: string]: any } = {
-        inWishknowledge: {
+        inWishKnowledge: {
             count: 0,
-            label: 'questionFilterOptions.inWishknowledge',
+            label: 'questionFilterOptions.inWishKnowledge',
             icon: 'fa-solid fa-heart',
             isSelected: true,
             questionIds: [],
         } as { [key: string]: number | string | boolean | number[] },
-        notInWishknowledge: {
+        notInWishKnowledge: {
             count: 0,
-            label: 'questionFilterOptions.notInWishknowledge',
+            label: 'questionFilterOptions.notInWishKnowledge',
             icon: 'fa-regular fa-heart',
             isSelected: true,
             questionIds: [],
@@ -180,8 +180,8 @@ export const useLearningSessionConfigurationStore = defineStore(
         actions: {
             setCounter(questionCounter: QustionCounter) {
                 if (questionCounter != null) {
-                    this.questionFilterOptions.inWishknowledge.count = questionCounter.inWishknowledge ?? 0
-                    this.questionFilterOptions.notInWishknowledge.count = questionCounter.notInWishknowledge ?? 0
+                    this.questionFilterOptions.inWishKnowledge.count = questionCounter.inWishKnowledge ?? 0
+                    this.questionFilterOptions.notInWishKnowledge.count = questionCounter.notInWishKnowledge ?? 0
                     this.questionFilterOptions.createdByCurrentUser.count =
                         questionCounter.createdByCurrentUser ?? 0
                     this.questionFilterOptions.notCreatedByCurrentUser.count =
@@ -223,11 +223,11 @@ export const useLearningSessionConfigurationStore = defineStore(
                     // Migration: handle old property names
                     if (sessionConfig.questionFilterOptions) {
                         if (sessionConfig.questionFilterOptions.inWuwi) {
-                            sessionConfig.questionFilterOptions.inWishknowledge = sessionConfig.questionFilterOptions.inWuwi
+                            sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWuwi
                             delete sessionConfig.questionFilterOptions.inWuwi
                         }
                         if (sessionConfig.questionFilterOptions.notInWuwi) {
-                            sessionConfig.questionFilterOptions.notInWishknowledge = sessionConfig.questionFilterOptions.notInWuwi
+                            sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWuwi
                             delete sessionConfig.questionFilterOptions.notInWuwi
                         }
                     }
@@ -434,8 +434,8 @@ export const useLearningSessionConfigurationStore = defineStore(
                     pageId: pageStore.id,
                     maxQuestionCount: this.selectedQuestionCount,
 
-                    inWishknowledge: this.questionFilterOptions.inWishknowledge.isSelected,
-                    notInWishknowledge: this.questionFilterOptions.notInWishknowledge.isSelected,
+                    inWishKnowledge: this.questionFilterOptions.inWishKnowledge.isSelected,
+                    notInWishKnowledge: this.questionFilterOptions.notInWishKnowledge.isSelected,
                     createdByCurrentUser:
                         this.questionFilterOptions.createdByCurrentUser
                             .isSelected,

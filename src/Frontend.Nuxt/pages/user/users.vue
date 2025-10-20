@@ -120,7 +120,7 @@ const getSelectedOrderLabel = computed(() => {
         case SearchUsersOrderBy.Rank:
             return t('usersOverview.sort.options.rank')
         case SearchUsersOrderBy.WishCount:
-            return t('usersOverview.sort.options.wishknowledge')
+            return t('usersOverview.sort.options.wishKnowledge')
         default:
             return t('usersOverview.sort.options.notSelected')
     }

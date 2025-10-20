@@ -12,7 +12,7 @@
         CorrectWrongOrNotAnswered NotAnswered,
         string PageName,
         int PageId,
-        bool InWishknowledge,
+        bool InWishKnowledge,
         TinyQuestion[] Questions);
 
     public record struct CorrectWrongOrNotAnswered(int Percentage, int Count);
@@ -82,7 +82,7 @@
             ),
             PageName: learningSession.Config.GetPage().Name,
             PageId: learningSession.Config.GetPage().Id,
-            InWishknowledge: learningSession.Config.InWishknowledge,
+            InWishKnowledge: learningSession.Config.InWishKnowledge,
             Questions: tinyQuestions
         );
     }

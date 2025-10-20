@@ -38,7 +38,7 @@ public class ExtendedUserCache(
         return EntityCache.GetExtendedUserByIdNullable(userId) != null;
     }
 
-    public bool IsQuestionInWishknowledge(int userId, int questionId)
+    public bool IsQuestionInWishKnowledge(int userId, int questionId)
     {
         var cacheItem = GetItem(userId);
 
@@ -50,7 +50,7 @@ public class ExtendedUserCache(
         if (!hasQuestionValuation)
             return false;
 
-        return cacheItem.QuestionValuations[questionId].IsInWishknowledge;
+        return cacheItem.QuestionValuations[questionId].IsInWishKnowledge;
     }
 
     public IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) =>

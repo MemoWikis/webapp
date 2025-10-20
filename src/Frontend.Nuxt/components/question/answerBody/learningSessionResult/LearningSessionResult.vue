@@ -27,7 +27,7 @@ interface LearningSessionResult {
     questions: Question[]
     pageName: string
     pageId: number
-    inWishknowledge: boolean
+    inWishKnowledge: boolean
 }
 const { $logger } = useNuxtApp()
 
@@ -109,7 +109,7 @@ const { t } = useI18n()
                 </div>
 
                 <div class="buttonRow">
-                    <template v-if="!userStore.isLoggedIn || !learningSessionResult.inWishknowledge">
+                    <template v-if="!userStore.isLoggedIn || !learningSessionResult.inWishKnowledge">
 
                         <button @click="emit('startNewSession')" class="btn btn-primary nextLearningSession memo-button"
                             style="padding-right: 10px">

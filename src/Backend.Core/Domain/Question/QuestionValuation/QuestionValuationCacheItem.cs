@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-[DebuggerDisplay("QuestionId={Question.Id}, IsInWishknowledge: {IsInWishknowledge}")]
+[DebuggerDisplay("QuestionId={Question.Id}, IsInWishKnowledge: {IsInWishKnowledge}")]
 public class QuestionValuationCacheItem
 {
     public int Id;
@@ -14,18 +14,18 @@ public class QuestionValuationCacheItem
 
     public KnowledgeStatus KnowledgeStatus;
 
-    public bool IsInWishknowledge;
+    public bool IsInWishKnowledge;
 
     public static QuestionValuationCacheItem ToCacheItem(QuestionValuation questionValuation)
     {
-        var val = questionValuation.IsInWishknowledge();
+        var val = questionValuation.IsInWishKnowledge();
         return new QuestionValuationCacheItem
         {
             CorrectnessProbability = questionValuation.CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = questionValuation.CorrectnessProbabilityAnswerCount,
             DateCreated = questionValuation.DateCreated,
             Id = questionValuation.Id,
-            IsInWishknowledge = questionValuation.IsInWishknowledge(),
+            IsInWishKnowledge = questionValuation.IsInWishKnowledge(),
             KnowledgeStatus = questionValuation.KnowledgeStatus,
             Question = EntityCache.GetQuestionById(questionValuation.Question.Id),
             User = EntityCache.GetUserById(questionValuation.User.Id)

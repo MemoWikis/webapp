@@ -63,7 +63,7 @@ public class QestionValuation_persistence_tests : BaseTest
         Resolve<QuestionValuationRepo>().Create(
             new List<QuestionValuation> { questionValuation1, questionValuation2, questionValuation3, questionValuation4, questionValuation5});
 
-        Assert.That(Resolve<QuestionValuationRepo>().GetActiveInWishknowledge(
+        Assert.That(Resolve<QuestionValuationRepo>().GetActiveInWishKnowledge(
             new[] { context.All[0].Id, context.All[1].Id, context.All[2].Id }, user1.Id).Count, Is.EqualTo(2));
     }
 }

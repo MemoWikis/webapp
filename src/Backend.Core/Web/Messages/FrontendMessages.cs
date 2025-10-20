@@ -49,7 +49,7 @@
             public static readonly string LoopLink = "error.page.loopLink";
             public static readonly string IsAlreadyLinkedAsChild = "error.page.isAlreadyLinkedAsChild";
             public static readonly string IsNotAChild = "error.page.isNotAChild";
-            public static readonly string IsLinkedInNonWishknowledge = "error.page.isLinkedInNonWishknowledge";
+            public static readonly string IsLinkedInNonWishKnowledge = "error.page.isLinkedInNonWishKnowledge";
             public static readonly string ChildIsParent = "error.page.childIsParent";
             public static readonly string NameIsTaken = "error.page.nameIsTaken";
             public static readonly string NameIsForbidden = "error.page.nameIsForbidden";
@@ -75,7 +75,7 @@
             public static readonly string MissingAnswer = "error.question.missingAnswer";
             public static readonly string Save = "error.question.save";
             public static readonly string Creation = "error.question.creation";
-            public static readonly string IsInWishknowledge = "error.question.isInWishknowledge";
+            public static readonly string IsInWishKnowledge = "error.question.isInWishKnowledge";
             public static readonly string Rights = "error.question.rights";
             public static readonly string ErrorOnDelete = "error.question.errorOnDelete";
             public static readonly string NoRights = "error.question.noRights";

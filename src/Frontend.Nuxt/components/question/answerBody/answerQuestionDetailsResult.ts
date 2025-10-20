@@ -14,7 +14,7 @@ export interface AnswerQuestionDetailsResult {
     overallAnswerCount: number
     overallAnsweredCorrectly: number
     overallAnsweredWrongly: number
-    isInWishknowledge: boolean
+    isInWishKnowledge: boolean
     pages: PageItem[]
 
     visibility: Visibility

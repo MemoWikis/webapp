@@ -27,7 +27,7 @@ class Delete_question : BaseTest
     }
 
     [Test]
-    public void Dont_delete_question_while_it_is_in_other_users_wishknowledge()
+    public void Dont_delete_question_while_it_is_in_other_users_wishKnowledge()
     {
         var userReadingRepo = R<UserReadingRepo>();
         var userWritingRepo = R<UserWritingRepo>();
@@ -42,7 +42,7 @@ class Delete_question : BaseTest
                 R<CategoryRepository>())
             .PersistImmediately()
             .AddQuestion(creator: user1)
-            .AddToWishknowledge(user2, LifetimeScope.Resolve<QuestionInKnowledge>());
+            .AddToWishKnowledge(user2, LifetimeScope.Resolve<QuestionInKnowledge>());
         var question1 = contextQuestion.All[0];
 
         RecycleContainer();

@@ -29,7 +29,7 @@ const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const loadingStore = useLoadingStore()
 
 const flashCardEditor = ref()
-const addToWishknowledge = ref(true)
+const addToWishKnowledge = ref(true)
 const questionJson = ref(null as null | JSONContent)
 const questionHtml = ref('')
 const flashCardAnswer = ref('')
@@ -174,7 +174,7 @@ async function addFlashcard() {
         TextHtml: questionHtml.value,
         Answer: flashCardAnswer.value,
         Visibility: isPrivate.value ? 1 : 0,
-        AddToWishknowledge: addToWishknowledge.value,
+        AddToWishKnowledge: addToWishKnowledge.value,
         LastIndex: learningSessionStore.lastIndexInQuestionList,
         SessionConfig: sessionConfigJson.value,
         uploadedImagesMarkedForDeletion: editQuestionStore.uploadedImagesMarkedForDeletion,
@@ -255,13 +255,13 @@ const ariaId = useId()
                 {{ t('page.questionsSection.quickCreateQuestion.title') }}
                 <span>({{ t('page.questionsSection.quickCreateQuestion.flashcard') }})</span>
             </div>
-            <div class="heart-container wuwi-red" @click="addToWishknowledge = !addToWishknowledge">
+            <div class="heart-container wuwi-red" @click="addToWishKnowledge = !addToWishKnowledge">
                 <div>
-                    <font-awesome-icon icon="fa-solid fa-heart" v-if="addToWishknowledge" />
+                    <font-awesome-icon icon="fa-solid fa-heart" v-if="addToWishKnowledge" />
                     <font-awesome-icon icon="fa-regular fa-heart" v-else />
                 </div>
                 <div class="Text">
-                    <span v-if="addToWishknowledge">{{
+                    <span v-if="addToWishKnowledge">{{
                         t('page.questionsSection.quickCreateQuestion.wishKnowledge.added') }}</span>
                     <span v-else class="wuwi-grey">{{ t('page.questionsSection.quickCreateQuestion.wishKnowledge.add')
                         }}</span>

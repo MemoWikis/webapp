@@ -141,8 +141,8 @@ public class PageDataManager(
                 NeedsLearningPercentage: knowledgeSummary.NeedsLearningPercentage,
                 NotLearned: knowledgeSummary.NotLearned,
                 NotLearnedPercentage: knowledgeSummary.NotLearnedPercentage,
-                NotInWishknowledge: knowledgeSummary.NotInWishknowledge,
-                NotInWishknowledgePercentage: knowledgeSummary.NotInWishknowledgePercentage,
+                NotInWishKnowledge: knowledgeSummary.NotInWishKnowledge,
+                NotInWishKnowledgePercentage: knowledgeSummary.NotInWishKnowledgePercentage,
                 Total: knowledgeSummary.Total),
             GridItems = new PageGridManager(
                 _permissionCheck,
@@ -189,8 +189,8 @@ public class PageDataManager(
         int NeedsLearningPercentage,
         int NotLearned,
         int NotLearnedPercentage,
-        int NotInWishknowledge,
-        int NotInWishknowledgePercentage,
+        int NotInWishKnowledge,
+        int NotInWishKnowledgePercentage,
         int Total);
 
     public record struct PageDataResult(

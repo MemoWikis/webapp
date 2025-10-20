@@ -31,7 +31,7 @@ await commentsStore.loadFirst(props.id)
 
 const visibility = ref<Visibility>(Visibility.Public)
 const personalProbability = ref(0)
-const personalProbabilityText = ref(t('questionLandingPage.probability.status.notInWishknowledge'))
+const personalProbabilityText = ref(t('questionLandingPage.probability.status.notInWishKnowledge'))
 const personalColor = ref(color.memoGreyLight)
 const avgProbability = ref(0)
 const personalAnswerCount = ref(0)
@@ -46,7 +46,7 @@ const overallAnsweredWrongly = ref(0)
 const allAnswerCount = ref('0')
 const allCorrectAnswers = ref('0')
 const allWrongAnswers = ref('0')
-const isInWishknowledge = ref(false)
+const isInWishKnowledge = ref(false)
 const arcSvg = ref<any>({})
 const personalCounterSvg = ref<any>({})
 const overallCounterSvg = ref<any>({})
@@ -760,7 +760,7 @@ async function initData(model: AnswerQuestionDetailsResult) {
     //     return
 
     personalProbability.value = model.personalProbability
-    isInWishknowledge.value = model.isInWishknowledge
+    isInWishKnowledge.value = model.isInWishKnowledge
     avgProbability.value = model.avgProbability
 
     personalAnswerCount.value = model.personalAnswerCount
@@ -1015,7 +1015,7 @@ const activityPointsStore = useActivityPointsStore()
                                     ref="semiPie"
                                     width="200"
                                     height="130"
-                                    :class="{ 'isInWishknowledge': isInWishknowledge }"></svg>
+                                    :class="{ 'isInWishKnowledge': isInWishKnowledge }"></svg>
                             </div>
                             <div id="probabilityText">
                                 <div v-if="userStore.isLoggedIn" style="">
@@ -1444,7 +1444,7 @@ const activityPointsStore = useActivityPointsStore()
                                     }
                                 }
 
-                                &.isInWishknowledge {
+                                &.isInWishKnowledge {
 
                                     svg {
                                         width: 100px;

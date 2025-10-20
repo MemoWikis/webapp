@@ -17,7 +17,7 @@ class UserSkills_tests : BaseTestHarness
         var page = context.All.ByName("testPage");
 
         var knowledgeSummary = new KnowledgeSummary(
-            notInWishknowledge: 0,
+            notInWishKnowledge: 0,
             notLearned: 5,
             needsLearning: 10,
             needsConsolidation: 15,

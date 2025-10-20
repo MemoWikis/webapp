@@ -43,7 +43,7 @@ public class QuestionLandingPageController(
         string PrimaryPageName,
         string Solution,
         bool IsCreator,
-        bool IsInWishknowledge,
+        bool IsInWishKnowledge,
         Guid QuestionViewGuid,
         bool IsLastStep,
         string ImgUrl,
@@ -121,8 +121,8 @@ public class QuestionLandingPageController(
                 PrimaryPageName = primaryPage?.Name,
                 Solution = question.Solution,
                 IsCreator = question.Creator.Id == _sessionUser.UserId,
-                IsInWishknowledge = _sessionUser.IsLoggedIn &&
-                                    question.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+                IsInWishKnowledge = _sessionUser.IsLoggedIn &&
+                                    question.IsInWishKnowledge(_sessionUser.UserId, _extendedUserCache),
                 QuestionViewGuid = Guid.NewGuid(),
                 IsLastStep = true,
                 ImgUrl = GetQuestionImageFrontendData.Run(question,
@@ -205,8 +205,8 @@ public class QuestionLandingPageController(
             OverallAnswerCount: history.TimesAnsweredTotal,
             OverallAnsweredCorrectly: history.TimesAnsweredCorrect,
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
-            IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
-                .IsInWishknowledge,
+            IsInWishKnowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
+                .IsInWishKnowledge,
             Pages: question.PagesVisibleToCurrentUser(_permissionCheck).Select(t =>
                 new AnswerQuestionDetailsPageItem(
                     Id: t.Id,
@@ -231,7 +231,7 @@ public class QuestionLandingPageController(
             ),
             CreationDate: question.DateCreated,
             TotalViewCount: question.TotalViews,
-            WishknowledgeCount: question.TotalRelevancePersonalEntries,
+            WishKnowledgeCount: question.TotalRelevancePersonalEntries,
             LicenseId: question.License.Id
         );
         return result;

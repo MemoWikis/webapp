@@ -61,7 +61,7 @@ export const solidKnowledgeColor = memoGreen
 export const consolidationColor = memoYellow
 export const learningColor = memoSalmon
 export const notLearnedColor = memoGreyLight
-export const notInWishknowledgeColor = memoGreyLight
+export const notInWishKnowledgeColor = memoGreyLight
 
 export const color = {
     memoGreen,
@@ -112,7 +112,7 @@ export const color = {
     consolidationColor,
     learningColor,
     notLearnedColor,
-    notInWishknowledgeColor,
+    notInWishKnowledgeColor,
     lightPurple,
     middlePurple,
     darkPurple,

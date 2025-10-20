@@ -51,8 +51,8 @@ public class AnswerQuestionDetailsController(
             OverallAnswerCount: history.TimesAnsweredTotal,
             OverallAnsweredCorrectly: history.TimesAnsweredCorrect,
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
-            IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
-                .IsInWishknowledge,
+            IsInWishKnowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
+                .IsInWishKnowledge,
             Pages: question.PagesVisibleToCurrentUser(_permissionCheck).Select(t =>
                 new AnswerQuestionDetailsPageItem(
                     Id: t.Id,
@@ -77,7 +77,7 @@ public class AnswerQuestionDetailsController(
             ),
             CreationDate: question.DateCreated,
             TotalViewCount: _questionViewRepository.GetViewCount(question.Id),
-            WishknowledgeCount: question.TotalRelevancePersonalEntries,
+            WishKnowledgeCount: question.TotalRelevancePersonalEntries,
             LicenseId: question.License.Id
         );
         return result;

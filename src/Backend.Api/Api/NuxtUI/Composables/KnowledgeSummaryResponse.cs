@@ -7,8 +7,8 @@ public readonly record struct KnowledgeSummaryResponse(
     int NeedsConsolidationPercentage = 0,
     int Solid = 0,
     int SolidPercentage = 0,
-    int NotInWishknowledge = 0,
-    int NotInWishknowledgePercentage = 0,
+    int NotInWishKnowledge = 0,
+    int NotInWishKnowledgePercentage = 0,
     int Total = 0,
     double KnowledgeStatusPoints = 0.0,
     double KnowledgeStatusPointsTotal = 0.0)
@@ -22,8 +22,8 @@ public readonly record struct KnowledgeSummaryResponse(
         knowledgeSummary.NeedsConsolidationPercentage,
         knowledgeSummary.Solid,
         knowledgeSummary.SolidPercentage,
-        knowledgeSummary.NotInWishknowledge,
-        knowledgeSummary.NotInWishknowledgePercentage,
+        knowledgeSummary.NotInWishKnowledge,
+        knowledgeSummary.NotInWishKnowledgePercentage,
         knowledgeSummary.Total,
         knowledgeSummary.KnowledgeStatusPoints,
         knowledgeSummary.KnowledgeStatusPointsTotal)
