@@ -3,15 +3,15 @@
     public UserTinyModel User;
 
     public int ForQuestionsCreated;
-    public int ForQuestionsInOtherWishknowledge;
+    public int ForQuestionsInOtherWishKnowledge;
 
     public int ForUsersFollowingMe;
 
-    public int ForPublicWishknowledge;
+    public int ForPublicWishKnowledge;
 
     public int TotalReputation =>
         ForQuestionsCreated +
-        ForQuestionsInOtherWishknowledge +
+        ForQuestionsInOtherWishKnowledge +
         ForUsersFollowingMe + 
-        ForPublicWishknowledge;
+        ForPublicWishKnowledge;
 }

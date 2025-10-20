@@ -164,12 +164,12 @@ class User_entity_cache_tests : BaseTest
         var x1 = EntityCache.GetAllCategories().ByName("X1");
         var h = EntityCache.GetAllCategories().ByName("H");
 
-        var nextParetFromE = UserEntityCache.GetNextParentInWishknowledge(e.Id);
-        var nextParetFromD = UserEntityCache.GetNextParentInWishknowledge(d.Id);
-        var nextParetFromC = UserEntityCache.GetNextParentInWishknowledge(c.Id);
-        var nextParetFromX1 = UserEntityCache.GetNextParentInWishknowledge(x1.Id);
-        var nextParetFromH = UserEntityCache.GetNextParentInWishknowledge(x1.Id);
-        var nextParentFromNoParent = UserEntityCache.GetNextParentInWishknowledge(noParent.Id);
+        var nextParetFromE = UserEntityCache.GetNextParentInWishKnowledge(e.Id);
+        var nextParetFromD = UserEntityCache.GetNextParentInWishKnowledge(d.Id);
+        var nextParetFromC = UserEntityCache.GetNextParentInWishKnowledge(c.Id);
+        var nextParetFromX1 = UserEntityCache.GetNextParentInWishKnowledge(x1.Id);
+        var nextParetFromH = UserEntityCache.GetNextParentInWishKnowledge(x1.Id);
+        var nextParentFromNoParent = UserEntityCache.GetNextParentInWishKnowledge(noParent.Id);
 
         Assert.That(nextParetFromX1.Name, Is.EqualTo("X3"));
         Assert.That(nextParetFromE.Name, Is.EqualTo("X"));

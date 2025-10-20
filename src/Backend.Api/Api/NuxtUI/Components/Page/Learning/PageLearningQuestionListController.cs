@@ -19,7 +19,7 @@ public class PageLearningQuestionListController(
         int CorrectnessProbability,
         string LinkToQuestion,
         string ImageData,
-        bool IsInWishknowledge,
+        bool IsInWishKnowledge,
         bool HasPersonalAnswer,
         int LearningSessionStepCount,
         string LinkToComment,
@@ -103,7 +103,7 @@ public class PageLearningQuestionListController(
             if (hasUserValuation)
             {
                 question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
-                question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishknowledge;
+                question.IsInWishKnowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
                 question.HasPersonalAnswer =
                     userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
             }
@@ -153,8 +153,8 @@ public class PageLearningQuestionListController(
                     : KnowledgeStatus.NotLearned,
             Visibility = question.Visibility,
             SessionIndex = sessionIndex,
-            IsInWishknowledge = hasUserValuation &&
-                                    userQuestionValuation[question.Id].IsInWishknowledge,
+            IsInWishKnowledge = hasUserValuation &&
+                                    userQuestionValuation[question.Id].IsInWishKnowledge,
             HasPersonalAnswer = false // Or replicate any personal-answer logic if needed
         };
     }

@@ -17,41 +17,41 @@ public class KnowledgeSummary
     [JsonProperty("Solid")] public readonly int Solid = 0;
     public int SolidPercentage { get; private set; }
 
-    public readonly int NotInWishknowledge = 0;
-    public int NotInWishknowledgePercentage { get; private set; }
+    public readonly int NotInWishKnowledge = 0;
+    public int NotInWishKnowledgePercentage { get; private set; }
 
     /// <summary>Sum of all questions (including those not in wish knowledge)</summary>
     public int Total => NotLearned + NeedsLearning + NeedsConsolidation + Solid;
 
     /// <summary>
     /// Knowledge status points for questions in wishknowledge only, calculated as: 
-    /// ((solidKnowledge * 1) + (needsConsolidation * 0.5) + (needsLearning * 0.1)) / (solidKnowledge + needsConsolidation + needsLearning + notLearnedInWishknowledge)
+    /// ((solidKnowledge * 1) + (needsConsolidation * 0.5) + (needsLearning * 0.1)) / (solidKnowledge + needsConsolidation + needsLearning + notLearnedInWishKnowledge)
     /// </summary>
     [JsonProperty("KnowledgeStatusPoints")]
     public double KnowledgeStatusPoints { get; private set; }
 
     /// <summary>
     /// Knowledge status points for all questions including those not in wishknowledge, calculated as: 
-    /// ((solidKnowledge * 1) + (needsConsolidation * 0.5) + (needsLearning * 0.1)) / (solidKnowledge + needsConsolidation + needsLearning + notLearned + notInWishknowledge)
+    /// ((solidKnowledge * 1) + (needsConsolidation * 0.5) + (needsLearning * 0.1)) / (solidKnowledge + needsConsolidation + needsLearning + notLearned + notInWishKnowledge)
     /// </summary>
     [JsonProperty("KnowledgeStatusPointsTotal")]
     public double KnowledgeStatusPointsTotal { get; private set; }
 
     public KnowledgeSummary(
-        int notInWishknowledge = 0,
+        int notInWishKnowledge = 0,
         int notLearned = 0,
         int needsLearning = 0,
         int needsConsolidation = 0,
         int solid = 0)
     {
-        NotInWishknowledge = notInWishknowledge;
-        NotLearned = notLearned + notInWishknowledge;
+        NotInWishKnowledge = notInWishKnowledge;
+        NotLearned = notLearned + notInWishKnowledge;
         NeedsLearning = needsLearning;
         NeedsConsolidation = needsConsolidation;
         Solid = solid;
 
         // Calculate percentages based on mutually exclusive categories
-        // to avoid double counting (NotLearned includes NotInWishknowledge)
+        // to avoid double counting (NotLearned includes NotInWishKnowledge)
 
         PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
         {
@@ -77,11 +77,11 @@ public class KnowledgeSummary
         var totalQuestions = NotLearned + NeedsLearning + NeedsConsolidation + Solid;
         if (totalQuestions > 0)
         {
-            NotInWishknowledgePercentage = (int)Math.Round((double)NotInWishknowledge / totalQuestions * 100);
+            NotInWishKnowledgePercentage = (int)Math.Round((double)NotInWishKnowledge / totalQuestions * 100);
         }
         else
         {
-            NotInWishknowledgePercentage = 0;
+            NotInWishKnowledgePercentage = 0;
         }
 
         CalculateKnowledgeStatusPoints();
@@ -92,7 +92,7 @@ public class KnowledgeSummary
         var weightedScore = (Solid * 1.0) + (NeedsConsolidation * 0.5) + (NeedsLearning * 0.1);
 
         // Calculate rating for wishknowledge questions only
-        var wishknowledgeQuestions = Solid + NeedsConsolidation + NeedsLearning + (NotLearned - NotInWishknowledge);
+        var wishknowledgeQuestions = Solid + NeedsConsolidation + NeedsLearning + (NotLearned - NotInWishKnowledge);
 
         if (wishknowledgeQuestions == 0)
         {

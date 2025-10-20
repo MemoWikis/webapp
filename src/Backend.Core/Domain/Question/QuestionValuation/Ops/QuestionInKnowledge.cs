@@ -41,7 +41,7 @@ public class QuestionInKnowledge(
         _nhibernateSession.Flush();
     }
 
-    private void ChangeTotalInOthersWishknowledge(
+    private void ChangeTotalInOthersWishKnowledge(
         bool isIncrement,
         int userId,
         QuestionCacheItem question)
@@ -53,7 +53,7 @@ public class QuestionInKnowledge(
 
         _nhibernateSession
             .CreateSQLQuery(
-                @"Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge " + sign +
+                @"Update user Set TotalInOthersWishKnowledge = TotalInOthersWishKnowledge " + sign +
                 " 1 where id = " +
                 question.Creator.Id + ";")
             .ExecuteUpdate();
@@ -62,7 +62,7 @@ public class QuestionInKnowledge(
     private void UpdateRelevancePersonal(int questionId, int userId, int relevance = 50)
     {
         var question = EntityCache.GetQuestionById(questionId);
-        ChangeTotalInOthersWishknowledge(relevance == 50, userId, question);
+        ChangeTotalInOthersWishKnowledge(relevance == 50, userId, question);
         CreateOrUpdateValuation(questionId, userId, relevance);
 
         SetUserWishCountQuestions(userId);
@@ -123,7 +123,7 @@ public class QuestionInKnowledge(
         foreach (var question in questions)
         {
             var totalRelevancePersonalEntriesCount =
-                questionValuations.Count(v => v.Question.Id == question.Id && v.IsInWishknowledge);
+                questionValuations.Count(v => v.Question.Id == question.Id && v.IsInWishKnowledge);
             question.TotalRelevancePersonalEntries = totalRelevancePersonalEntriesCount;
         }
     }

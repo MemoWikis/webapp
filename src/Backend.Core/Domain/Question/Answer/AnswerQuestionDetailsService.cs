@@ -10,7 +10,7 @@
     int OverallAnswerCount,
     int OverallAnsweredCorrectly,
     int OverallAnsweredWrongly,
-    bool IsInWishknowledge,
+    bool IsInWishKnowledge,
     AnswerQuestionDetailsPageItem[] Pages,
     QuestionVisibility Visibility,
     long DateNow,
@@ -18,7 +18,7 @@
     MacroCreator Creator,
     DateTime CreationDate,
     int TotalViewCount,
-    int WishknowledgeCount,
+    int WishKnowledgeCount,
     int LicenseId);
 
 public record struct MacroCreator(int Id, string Name);

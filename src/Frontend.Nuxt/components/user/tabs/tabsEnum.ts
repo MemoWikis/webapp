@@ -1,6 +1,6 @@
 export enum Tab {
     Overview,
-    Wishknowledge,
+    WishKnowledge,
     Badges,
     Settings
 }

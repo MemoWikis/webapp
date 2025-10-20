@@ -113,7 +113,7 @@ public class ContextQuestion
         return this;
     }
 
-    public ContextQuestion AddToWishknowledge(User user, QuestionInKnowledge questionInKnowledge)
+    public ContextQuestion AddToWishKnowledge(User user, QuestionInKnowledge questionInKnowledge)
     {
         var lastQuestion = All.Last();
         questionInKnowledge.Pin(lastQuestion.Id, user.Id);
@@ -227,11 +227,11 @@ public class ContextQuestion
 
             if (i == 0)
             {
-                questionValuation.IsInWishknowledge = false;
+                questionValuation.IsInWishKnowledge = false;
             }
             else
             {
-                questionValuation.IsInWishknowledge = rand.Next(-1, 2) != -1;
+                questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
             }
 
             //questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);

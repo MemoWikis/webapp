@@ -4,8 +4,8 @@
     public bool NeedsLearning;
     public bool NeedsConsolidation;
     public bool Solid;
-    public bool InWishknowledge;
-    public bool NotInWishknowledge;
+    public bool InWishKnowledge;
+    public bool NotInWishKnowledge;
     public bool CreatedByCurrentUser;
     public bool NotCreatedByCurrentUser;
     public bool Private;

@@ -23,7 +23,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public virtual string RecentlyUsedRelationTargetPages { get; set; }
     public string StripeId { get; set; }
     public DateTime? SubscriptionStartDate { get; set; }
-    public int TotalInOthersWishknowledge { get; set; }
+    public int TotalInOthersWishKnowledge { get; set; }
     public virtual string WidgetHostsSpaceSeparated { get; set; }
     public int Id { get; set; }
     public string Name { get; set; }
@@ -69,7 +69,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         RecentlyUsedRelationTargetPages = user.RecentlyUsedRelationTargetPages;
         WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated;
         CorrectnessProbability = user.CorrectnessProbability;
-        TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
+        TotalInOthersWishKnowledge = user.TotalInOthersWishKnowledge;
         StripeId = user.StripeId;
         EndDate = user.EndDate;
         SubscriptionStartDate = user.SubscriptionStartDate;
@@ -104,7 +104,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         RecentlyUsedRelationTargetPages = user.RecentlyUsedRelationTargetPages;
         WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated;
         CorrectnessProbability = user.CorrectnessProbability;
-        TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
+        TotalInOthersWishKnowledge = user.TotalInOthersWishKnowledge;
         StripeId = user.StripeId;
         EndDate = user.EndDate;
         SubscriptionStartDate = user.SubscriptionStartDate;

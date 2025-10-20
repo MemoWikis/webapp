@@ -247,20 +247,20 @@ public class QuestionFilterService(
         LearningSessionConfig config,
         QuestionProperties questionProperties)
     {
-        if (questionValuation is { IsInWishknowledge: true })
+        if (questionValuation is { IsInWishKnowledge: true })
         {
-            questionProperties.InWishknowledge = true;
+            questionProperties.InWishKnowledge = true;
 
-            if (!config.InWishknowledge && config.NotWishKnowledge)
+            if (!config.InWishKnowledge && config.NotWishKnowledge)
             {
                 questionProperties.AddToLearningSession = false;
             }
         }
         else
         {
-            questionProperties.NotInWishknowledge = true;
+            questionProperties.NotInWishKnowledge = true;
 
-            if (!config.NotWishKnowledge && config.InWishknowledge)
+            if (!config.NotWishKnowledge && config.InWishKnowledge)
             {
                 questionProperties.AddToLearningSession = false;
             }

@@ -17,7 +17,7 @@ export enum Type {
 export interface BasicLimits {
     maxPrivatePageCount: number
     maxPrivateQuestionCount: number
-    maxWishknowledgeCount: number
+    maxWishKnowledgeCount: number
 }
 
 export const plans = (limit: BasicLimits) => {
@@ -39,7 +39,7 @@ export const plans = (limit: BasicLimits) => {
                     count: limit.maxPrivateQuestionCount,
                 }),
                 $i18n.t("user.membership.plans.basic.list.wishknowledge", {
-                    count: limit.maxWishknowledgeCount,
+                    count: limit.maxWishKnowledgeCount,
                 }),
             ],
         } as Plan,
@@ -53,7 +53,7 @@ export const plans = (limit: BasicLimits) => {
                 $i18n.t("user.membership.plans.plus.list.unlimitedPages"),
                 $i18n.t("user.membership.plans.plus.list.unlimitedQuestions"),
                 $i18n.t(
-                    "user.membership.plans.plus.list.unlimitedWishknowledge"
+                    "user.membership.plans.plus.list.unlimitedWishKnowledge"
                 ),
             ],
         } as Plan,

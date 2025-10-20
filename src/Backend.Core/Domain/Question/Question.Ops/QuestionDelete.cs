@@ -15,7 +15,7 @@
         if (!canBeDeletedResult.Yes)
         {
             throw new Exception("Question cannot be deleted: Question is " +
-                                canBeDeletedResult.WuwiCount + "x in Wishknowledge");
+                                canBeDeletedResult.WuwiCount + "x in WishKnowledge");
         }
         var parentIds = questionCacheItem.Pages.Select(c => c.Id).ToList();
 

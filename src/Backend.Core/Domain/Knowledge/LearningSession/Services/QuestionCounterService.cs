@@ -17,11 +17,11 @@ public class QuestionCounterService(
         if (questionProperties.Solid)
             counter.Solid++;
 
-        if (questionProperties.InWishknowledge)
-            counter.InWishknowledge++;
+        if (questionProperties.InWishKnowledge)
+            counter.InWishKnowledge++;
 
-        if (questionProperties.NotInWishknowledge)
-            counter.NotInWishknowledge++;
+        if (questionProperties.NotInWishKnowledge)
+            counter.NotInWishKnowledge++;
 
         if (questionProperties.CreatedByCurrentUser)
             counter.CreatedByCurrentUser++;
@@ -75,7 +75,7 @@ public class QuestionCounterService(
         return new QuestionCounter
         {
             Max = questionCount,
-            NotInWishknowledge = questionCount,
+            NotInWishKnowledge = questionCount,
             NotCreatedByCurrentUser = questionCount,
             NotLearned = questionCount,
             Public = questionCount

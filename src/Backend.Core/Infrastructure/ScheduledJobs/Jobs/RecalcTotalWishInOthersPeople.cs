@@ -24,7 +24,7 @@ public class RecalcTotalWishInOthersPeople : IJob
             var report = GetReport();
 
             _nhibernateSession.CreateSQLQuery(
-                @"UPDATE user SET TotalInOthersWishknowledge = (
+                @"UPDATE user SET TotalInOthersWishKnowledge = (
                         SELECT count(*) FROM questionvaluation qv
                         JOIN question q
                         ON qv.Questionid = q.Id
@@ -52,7 +52,7 @@ public class RecalcTotalWishInOthersPeople : IJob
         foreach (var userId in userIds)
         {
             var userTotalWishKnowledgeInOtherPoeple = _nhibernateSession
-                .CreateSQLQuery(@"Select TotalInOthersWishknowledge From User where Id = :userId ")
+                .CreateSQLQuery(@"Select TotalInOthersWishKnowledge From User where Id = :userId ")
                 .SetParameter("userId", userId)
                 .UniqueResult<int>();
 
@@ -70,7 +70,7 @@ public class RecalcTotalWishInOthersPeople : IJob
         }
 
         return counter +
-               " Zahlen unterscheiden sich bei der User Tabelle mit der Spalte TotalInOthersWishknowledge, von dem Join über die entsprechenden Tabellen und dauerte ";
+               " Zahlen unterscheiden sich bei der User Tabelle mit der Spalte TotalInOthersWishKnowledge, von dem Join über die entsprechenden Tabellen und dauerte ";
     }
 
     private void SendMail(string to, string name, string report)

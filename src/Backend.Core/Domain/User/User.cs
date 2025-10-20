@@ -37,7 +37,7 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string Salt { get; set; }
     public virtual string StripeId { get; set; }
     public virtual DateTime? SubscriptionStartDate { get; set; }
-    public virtual int TotalInOthersWishknowledge { get; set; }
+    public virtual int TotalInOthersWishKnowledge { get; set; }
     public virtual string WidgetHostsSpaceSeparated { get; set; }
     public virtual int WishCountQuestions { get; set; }
     public virtual int WishCountSets { get; set; }

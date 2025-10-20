@@ -37,14 +37,14 @@ const emit = defineEmits(['setTab'])
                             </div>
                         </button>
 
-                        <button class="tab" @click="emit('setTab', Tab.Wishknowledge)">
+                        <button class="tab" @click="emit('setTab', Tab.WishKnowledge)">
 
-                            <div class="tab-label active" v-if="props.tab === Tab.Wishknowledge">
+                            <div class="tab-label active" v-if="props.tab === Tab.WishKnowledge">
                                 {{ t('user.tabs.wishknowledge') }}</div>
-                            <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Wishknowledge }">
+                            <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.WishKnowledge }">
                                 {{ t('user.tabs.wishknowledge') }}</div>
 
-                            <div class="active-tab" v-if="props.tab === Tab.Wishknowledge"></div>
+                            <div class="active-tab" v-if="props.tab === Tab.WishKnowledge"></div>
                             <div class="inactive-tab" v-else>
                                 <div class="tab-border"></div>
                             </div>
@@ -75,15 +75,15 @@ const emit = defineEmits(['setTab'])
                     </div>
                 </button>
 
-                <button class="tab" @click="emit('setTab', Tab.Wishknowledge)">
+                <button class="tab" @click="emit('setTab', Tab.WishKnowledge)">
 
-                    <div class="tab-label active" v-if="props.tab === Tab.Wishknowledge">
+                    <div class="tab-label active" v-if="props.tab === Tab.WishKnowledge">
                         {{ t('user.tabs.wishknowledge') }}</div>
-                    <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.Wishknowledge }"
+                    <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.WishKnowledge }"
                         ref="wishknowledgeLabelEl">
                         {{ t('user.tabs.wishknowledge') }}</div>
 
-                    <div class="active-tab" v-if="props.tab === Tab.Wishknowledge"></div>
+                    <div class="active-tab" v-if="props.tab === Tab.WishKnowledge"></div>
                     <div class="inactive-tab" v-else>
                         <div class="tab-border"></div>
                     </div>

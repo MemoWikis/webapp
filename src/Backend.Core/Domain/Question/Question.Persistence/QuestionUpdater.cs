@@ -70,7 +70,7 @@ public class QuestionUpdater(
         string SolutionMetadataJson,
         int Visibility,
         string SolutionType,
-        bool AddToWishknowledge,
+        bool AddToWishKnowledge,
         int SessionIndex,
         int LicenseId,
         string ReferencesJson,

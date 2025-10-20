@@ -52,7 +52,7 @@ const getCountryCode = (language: string) => {
                         }) }}
                     </div>
                     <div v-else class="inactive "><font-awesome-icon icon="fa-solid fa-lock" />
-                        {{ t('usersOverview.card.privateWishknowledge', { name: props.user.name }) }}
+                        {{ t('usersOverview.card.privateWishKnowledge', { name: props.user.name }) }}
                     </div>
 
                     <div class="mb-8">
@@ -108,7 +108,7 @@ const getCountryCode = (language: string) => {
                     <div v-else class="inactive mb-8 user-body-element">
                         <div class="user-body-card">
                             <font-awesome-icon icon="fa-solid fa-lock" />
-                            {{ t('usersOverview.card.privateWishknowledge', { name: props.user.name }) }}
+                            {{ t('usersOverview.card.privateWishKnowledge', { name: props.user.name }) }}
                         </div>
 
                     </div>

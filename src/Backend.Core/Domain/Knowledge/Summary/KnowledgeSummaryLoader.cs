@@ -16,29 +16,29 @@
             }
         }
 
-        var knowledgeSummary = Run(userId, pageId, onlyInWishknowledge: false);
+        var knowledgeSummary = Run(userId, pageId, onlyInWishKnowledge: false);
 
         SlidingCache.UpdateActiveKnowledgeSummary(userId, pageId, knowledgeSummary);
 
         return knowledgeSummary;
     }
 
-    public KnowledgeSummary Run(int userId, int pageId, bool onlyInWishknowledge = true)
+    public KnowledgeSummary Run(int userId, int pageId, bool onlyInWishKnowledge = true)
     {
         var page = EntityCache.GetPage(pageId);
         if (page == null)
             return new KnowledgeSummary();
 
-        return Run(userId, page.GetAggregatedQuestions(userId).GetIds(), onlyInWishknowledge);
+        return Run(userId, page.GetAggregatedQuestions(userId).GetIds(), onlyInWishKnowledge);
     }
 
     public KnowledgeSummary Run(
         int userId,
         IList<int>? questionIds = null,
-        bool onlyInWishknowledge = true)
+        bool onlyInWishKnowledge = true)
     {
         if (userId <= 0 && questionIds != null)
-            return new KnowledgeSummary(notInWishknowledge: questionIds.Count);
+            return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
 
         var extendedUser = SlidingCache.GetExtendedUserByIdNullable(userId);
         if (extendedUser == null)
@@ -49,8 +49,8 @@
 
         var questionValuations = SlidingCache.GetExtendedUserById(userId).GetAllQuestionValuations();
 
-        if (onlyInWishknowledge)
-            questionValuations = questionValuations.Where(v => v.IsInWishknowledge).ToList();
+        if (onlyInWishKnowledge)
+            questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
 
         if (questionIds != null)
             questionValuations = questionValuations.Where(v => questionIds.Contains(v.Question.Id))
@@ -63,16 +63,16 @@
         var needsConsolidation =
             questionValuations.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation);
         var solid = questionValuations.Count(v => v.KnowledgeStatus == KnowledgeStatus.Solid);
-        var notInWishknowledge = 0;
+        var notInWishKnowledge = 0;
 
-        if (questionIds != null && !onlyInWishknowledge)
-            notInWishknowledge = questionIds.Count - (notLearned + needsLearning + needsConsolidation + solid);
+        if (questionIds != null && !onlyInWishKnowledge)
+            notInWishKnowledge = questionIds.Count - (notLearned + needsLearning + needsConsolidation + solid);
 
         return new KnowledgeSummary(
             notLearned: notLearned,
             needsLearning: needsLearning,
             needsConsolidation: needsConsolidation,
             solid: solid,
-            notInWishknowledge: notInWishknowledge);
+            notInWishKnowledge: notInWishKnowledge);
     }
 }

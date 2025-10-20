@@ -42,7 +42,7 @@ class Delete_question : BaseTest
                 R<CategoryRepository>())
             .PersistImmediately()
             .AddQuestion(creator: user1)
-            .AddToWishknowledge(user2, LifetimeScope.Resolve<QuestionInKnowledge>());
+            .AddToWishKnowledge(user2, LifetimeScope.Resolve<QuestionInKnowledge>());
         var question1 = contextQuestion.All[0];
 
         RecycleContainer();

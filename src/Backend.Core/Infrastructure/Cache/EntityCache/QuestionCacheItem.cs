@@ -136,9 +136,9 @@ public class QuestionCacheItem
 
     public virtual IEnumerable<PageCacheItem> PublicPages() => Pages.Where(p => p.IsPublic);
 
-    public virtual bool IsInWishknowledge(int userId, ExtendedUserCache extendedUserCache)
+    public virtual bool IsInWishKnowledge(int userId, ExtendedUserCache extendedUserCache)
     {
-        return extendedUserCache.IsQuestionInWishknowledge(userId, Id);
+        return extendedUserCache.IsQuestionInWishKnowledge(userId, Id);
     }
 
     public virtual bool IsPrivate()

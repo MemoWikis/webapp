@@ -115,7 +115,7 @@ public class PageStoreController(
 
         return new KnowledgeSummaryResult
         {
-            NotLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
+            NotLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishKnowledge,
             NeedsLearning = knowledgeSummary.NeedsLearning,
             NeedsConsolidation = knowledgeSummary.NeedsConsolidation,
             Solid = knowledgeSummary.Solid,

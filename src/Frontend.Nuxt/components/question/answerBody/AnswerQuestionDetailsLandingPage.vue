@@ -20,7 +20,7 @@ onMounted(() => {
     dom.watch()
     initData(props.model)
 })
-const personalProbabilityText = ref(t('questionLandingPage.probability.status.notInWishknowledge'))
+const personalProbabilityText = ref(t('questionLandingPage.probability.status.notInWishKnowledge'))
 
 const arcSvg = ref<any>({})
 const personalCounterSvg = ref<any>({})
@@ -528,7 +528,7 @@ function initData(e: AnswerQuestionDetailsResult) {
                         <div id="semiPieSection">
                             <div id="semiPieChart" style="min-height:130px">
                                 <svg class="semiPieSvgContainer" ref="semiPie" width="200" height="130"
-                                    :class="{ 'isInWishknowledge': model.isInWishknowledge }">
+                                    :class="{ 'isInWishKnowledge': model.isInWishKnowledge }">
                                 </svg>
                             </div>
                             <div id="probabilityText">
@@ -944,7 +944,7 @@ function initData(e: AnswerQuestionDetailsResult) {
                                     }
                                 }
 
-                                &.isInWishknowledge {
+                                &.isInWishKnowledge {
 
                                     svg {
                                         width: 100px;

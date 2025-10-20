@@ -88,8 +88,8 @@ public class AnswerBodyController(
             PrimaryPageName: primaryPage?.Name,
             Solution: question.Solution,
             IsCreator: question.Creator.Id == _sessionUser.UserId,
-            IsInWishknowledge: _sessionUser.IsLoggedIn &&
-                               question.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+            IsInWishKnowledge: _sessionUser.IsLoggedIn &&
+                               question.IsInWishKnowledge(_sessionUser.UserId, _extendedUserCache),
             QuestionViewGuid: Guid.NewGuid(),
             IsLastStep: learningSession.Steps.Last() == step,
             IsPrivate: question.IsPrivate());
@@ -189,7 +189,7 @@ public class AnswerBodyController(
         string? PrimaryPageName,
         string Solution,
         bool IsCreator,
-        bool IsInWishknowledge,
+        bool IsInWishKnowledge,
         Guid QuestionViewGuid,
         bool IsLastStep,
         bool IsPrivate);
