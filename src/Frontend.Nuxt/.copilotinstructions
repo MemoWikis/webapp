@@ -41,6 +41,7 @@ This is a Nuxt.js frontend for memoWikis, a wiki-based learning platform. The i1
 - use arrow functions const foo () => {} instead of function foo() {}
 - use composables if possible and if it would make sense
 - do not import from 'vue' in .vue files since most of it is auto-imported through nuxt
+- "Wuwi", "WuWi", "Wishknowledge", "WishKnowledge", "Wunschwissen" mean the same, but only use Wishknowledge as the term
 
 ## Component Structure
 - Keep components focused and single-responsibility
