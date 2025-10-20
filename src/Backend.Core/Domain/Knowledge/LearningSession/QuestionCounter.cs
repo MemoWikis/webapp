@@ -1,6 +1,6 @@
 ﻿public class QuestionCounter
 {
-    public int InWishKnowledge { get; set; } = 0;
+    public int InWishknowledge { get; set; } = 0;
     public int NotInWishknowledge { get; set; } = 0;
     public int CreatedByCurrentUser { get; set; } = 0;
     public int NotCreatedByCurrentUser { get; set; } = 0;

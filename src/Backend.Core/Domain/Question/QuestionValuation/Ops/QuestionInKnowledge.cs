@@ -123,7 +123,7 @@ public class QuestionInKnowledge(
         foreach (var question in questions)
         {
             var totalRelevancePersonalEntriesCount =
-                questionValuations.Count(v => v.Question.Id == question.Id && v.IsInWishKnowledge);
+                questionValuations.Count(v => v.Question.Id == question.Id && v.IsInWishknowledge);
             question.TotalRelevancePersonalEntries = totalRelevancePersonalEntriesCount;
         }
     }

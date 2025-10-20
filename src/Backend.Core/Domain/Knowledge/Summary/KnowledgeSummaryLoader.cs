@@ -50,7 +50,7 @@
         var questionValuations = SlidingCache.GetExtendedUserById(userId).GetAllQuestionValuations();
 
         if (onlyInWishknowledge)
-            questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
+            questionValuations = questionValuations.Where(v => v.IsInWishknowledge).ToList();
 
         if (questionIds != null)
             questionValuations = questionValuations.Where(v => questionIds.Contains(v.Question.Id))

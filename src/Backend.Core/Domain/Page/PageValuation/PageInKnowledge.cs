@@ -14,7 +14,7 @@ public class PageInKnowledge(
 
         var evaluatedPages = _extendedUserCache
             .GetPageValuations(userId)
-            .Where(v => v.IsInWishKnowledge());
+            .Where(v => v.IsInWishknowledge());
 
         if (exceptPageId != -1)
             evaluatedPages = evaluatedPages.Where(v => v.PageId != exceptPageId);

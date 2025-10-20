@@ -227,11 +227,11 @@ public class ContextQuestion
 
             if (i == 0)
             {
-                questionValuation.IsInWishKnowledge = false;
+                questionValuation.IsInWishknowledge = false;
             }
             else
             {
-                questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
+                questionValuation.IsInWishknowledge = rand.Next(-1, 2) != -1;
             }
 
             //questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);

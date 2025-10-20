@@ -50,7 +50,7 @@ public class ExtendedUserCache(
         if (!hasQuestionValuation)
             return false;
 
-        return cacheItem.QuestionValuations[questionId].IsInWishKnowledge;
+        return cacheItem.QuestionValuations[questionId].IsInWishknowledge;
     }
 
     public IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) =>

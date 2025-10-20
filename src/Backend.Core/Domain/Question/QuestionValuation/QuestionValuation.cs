@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-[DebuggerDisplay("QuestionId={Question.Id}, IsInWishknowledge: {IsInWishKnowledge()}")]
+[DebuggerDisplay("QuestionId={Question.Id}, IsInWishknowledge: {IsInWishknowledge()}")]
 public class QuestionValuation : IPersistable, WithDateCreated
 {
     public virtual int Id { get; set; }
@@ -21,7 +21,7 @@ public class QuestionValuation : IPersistable, WithDateCreated
 
     public virtual bool IsSetQuality() { return Quality != -1; }
     public virtual bool IsSetRelevanceForAll() { return RelevanceForAll != -1; }
-    public virtual bool IsInWishKnowledge() { return RelevancePersonal > -1; }
+    public virtual bool IsInWishknowledge() { return RelevancePersonal > -1; }
 
     public QuestionValuation()
     {
@@ -39,7 +39,7 @@ public class QuestionValuation : IPersistable, WithDateCreated
             CorrectnessProbability = CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = CorrectnessProbabilityAnswerCount,
             KnowledgeStatus = KnowledgeStatus,
-            IsInWishKnowledge = IsInWishKnowledge(),
+            IsInWishknowledge = IsInWishknowledge(),
             DateCreated = DateCreated,
             Question = QuestionCacheItem.ToCacheQuestion(Question),
         };

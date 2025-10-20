@@ -38,7 +38,7 @@ class Get_wuwi_from_category : BaseTest
 
         var wuwis = userCacheItem.QuestionValuations
             .Select(qv => qv.Value)
-            .Where(qv=> qv.IsInWishKnowledge && qv.Question.Categories.Any(c=> c.Id == categoryId) )
+            .Where(qv=> qv.IsInWishknowledge && qv.Question.Categories.Any(c=> c.Id == categoryId) )
             .ToList();
 
         var wuwisFromLearningSession = Resolve<LearningSessionCreator>().BuildLearningSession(new LearningSessionConfig
