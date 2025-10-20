@@ -62,7 +62,7 @@
             "loopLink": "Una página no puede subordinarse a sí misma.",
             "isAlreadyLinkedAsChild": "Esta página ya está vinculada como subpágina.",
             "isNotAChild": "Esta página ya no es una subpágina.",
-            "isLinkedInNonWuwi": "Ya has vinculado esta página fuera de tu Conocimiento deseado. Desactiva «Mostrar solo tu Conocimiento deseado» y añádela a tu Conocimiento deseado.",
+            "isLinkedInNonWishknowledge": "Ya has vinculado esta página fuera de tu Conocimiento deseado. Desactiva «Mostrar solo tu Conocimiento deseado» y añádela a tu Conocimiento deseado.",
             "childIsParent": "No se puede asignar una página superior como subpágina.",
             "nameIsTaken": " ya está en uso, por favor elige otro nombre.",
             "nameIsForbidden": " está prohibido, por favor elige otro nombre.",
@@ -91,7 +91,7 @@
             "missingAnswer": "Falta la respuesta a la pregunta.",
             "save": "No se pudo guardar tu pregunta.",
             "creation": "No se pudo crear tu pregunta.",
-            "isInWuwi": "No se puede eliminar la pregunta porque aparece {count} vez/veces en el Conocimiento deseado de otros usuarios. Contáctanos si crees que debería eliminarse igualmente.",
+            "isInWishknowledge": "No se puede eliminar la pregunta porque aparece {count} vez/veces en el Conocimiento deseado de otros usuarios. Contáctanos si crees que debería eliminarse igualmente.",
             "rights": "No tienes permiso para hacer eso.",
             "errorOnDelete": "Ha ocurrido un error. Puede que haya referencias parciales a la pregunta (sesiones de aprendizaje, citas, entradas de Conocimiento deseado...).",
             "couldNotAddFlashcards": "No se pudieron añadir las tarjetas.",
@@ -853,8 +853,8 @@
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
     },
     "questionFilterOptions": {
-        "inWuwi": "En Conocimiento deseado",
-        "notInWuwi": "No en Conocimiento deseado",
+        "inWishknowledge": "En Conocimiento deseado",
+        "notInWishknowledge": "No en Conocimiento deseado",
         "createdByCurrentUser": "Creadas por mí",
         "notCreatedByCurrentUser": "No creadas por mí",
         "private": "Preguntas privadas",

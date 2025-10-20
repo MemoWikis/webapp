@@ -62,7 +62,7 @@
             "loopLink": "Les pages ne peuvent pas se référencer elles-mêmes comme sous-pages.",
             "isAlreadyLinkedAsChild": "Cette page est déjà liée comme sous-page.",
             "isNotAChild": "Cette page n’est déjà plus une sous-page.",
-            "isLinkedInNonWuwi": "Cette page est déjà liée en dehors de tes Connaissances souhaitées. Désactive « Afficher uniquement tes Connaissances souhaitées » pour l’ajouter.",
+            "isLinkedInNonWishknowledge": "Cette page est déjà liée en dehors de tes Connaissances souhaitées. Désactive « Afficher uniquement tes Connaissances souhaitées » pour l’ajouter.",
             "childIsParent": "Impossible d’ajouter une page parente comme sous-page.",
             "nameIsTaken": " est déjà pris, choisis un autre nom !",
             "nameIsForbidden": " est interdit, choisis un autre nom !",
@@ -91,7 +91,7 @@
             "missingAnswer": "Il manque la réponse de la question.",
             "save": "Ta question n’a pas pu être enregistrée.",
             "creation": "Impossible de créer la question.",
-            "isInWuwi": "Impossible de la supprimer, elle est présente {count} fois dans les Connaissances souhaitées d’autres utilisateurs. Contacte-nous si tu penses qu’elle devrait quand même être retirée.",
+            "isInWishknowledge": "Impossible de la supprimer, elle est présente {count} fois dans les Connaissances souhaitées d’autres utilisateurs. Contacte-nous si tu penses qu’elle devrait quand même être retirée.",
             "rights": "Tu n’as pas l’autorisation de faire ça.",
             "errorOnDelete": "Oups, un problème est survenu ! Les références à la question (sessions d’apprentissage, etc.) ont peut-être été partiellement supprimées.",
             "couldNotAddFlashcards": "Impossible d’ajouter ces cartes.",
@@ -853,8 +853,8 @@
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
     },
     "questionFilterOptions": {
-        "inWuwi": "Dans les Connaissances souhaitées",
-        "notInWuwi": "Pas dans les Connaissances souhaitées",
+        "inWishknowledge": "Dans les Connaissances souhaitées",
+        "notInWishknowledge": "Pas dans les Connaissances souhaitées",
         "createdByCurrentUser": "Créées par moi",
         "notCreatedByCurrentUser": "Pas créées par moi",
         "private": "Questions privées",

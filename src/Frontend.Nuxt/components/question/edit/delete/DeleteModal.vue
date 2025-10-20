@@ -42,7 +42,7 @@ async function getDeleteDetails(id: number) {
         name.value = result.questionTitle
         if (result.canNotBeDeleted) {
             if (result.wuwiCount > 0)
-                errorMsg.value = t('error.question.isInWuwi', result.wuwiCount)
+                errorMsg.value = t('error.question.isInWishknowledge', result.wuwiCount)
             else
                 errorMsg.value = t('error.question.rights')
             showErrorMsg.value = true

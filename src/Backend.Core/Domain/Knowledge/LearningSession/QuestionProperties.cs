@@ -5,7 +5,7 @@
     public bool NeedsConsolidation;
     public bool Solid;
     public bool InWishKnowledge;
-    public bool NotInWishKnowledge;
+    public bool NotInWishknowledge;
     public bool CreatedByCurrentUser;
     public bool NotCreatedByCurrentUser;
     public bool Private;

@@ -62,7 +62,7 @@
             "loopLink": "Seiten können sich nicht selbst untergeordnet werden",
             "isAlreadyLinkedAsChild": "Diese Seite ist schon untergeordnet.",
             "isNotAChild": "Diese Seite ist bereits keine Unterseite",
-            "isLinkedInNonWuwi": "Du hast die Seite bereits außerhalb deines Wunschwissens untergeordnet. Bitte schalte 'Zeige nur dein Wunschwissen' aus und füge diese Seite deinem Wunschwissen hinzu.",
+            "isLinkedInNonWishknowledge": "Du hast die Seite bereits außerhalb deines Wunschwissens untergeordnet. Bitte schalte 'Zeige nur dein Wunschwissen' aus und füge diese Seite deinem Wunschwissen hinzu.",
             "childIsParent": "Übergeordnete Seiten können nicht untergeordnet werden.",
             "nameIsTaken": " ist bereits vergeben, bitte wähle einen anderen Namen!",
             "nameIsForbidden": " ist verboten, bitte wähle einen anderen Namen!",
@@ -91,7 +91,7 @@
             "missingAnswer": "Die Antwort zur Frage fehlt.",
             "save": "Deine Frage konnte nicht gespeichert werden.",
             "creation": "Deine Frage konnte nicht erstellt werden.",
-            "isInWuwi": "Die Frage kann nicht gelöscht werden, sie ist {count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.",
+            "isInWishknowledge": "Die Frage kann nicht gelöscht werden, sie ist {count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.",
             "rights": "Dir fehlt die Berechtigung dazu.",
             "errorOnDelete": "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
             "couldNotAddFlashcards": "Die Karteikarten konnten nicht hinzugefügt werden.",
@@ -853,8 +853,8 @@
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
     },
     "questionFilterOptions": {
-        "inWuwi": "Im Wunschwissen",
-        "notInWuwi": "Nicht im Wunschwissen",
+        "inWishknowledge": "Im Wunschwissen",
+        "notInWishknowledge": "Nicht im Wunschwissen",
         "createdByCurrentUser": "Von mir erstellt",
         "notCreatedByCurrentUser": "Nicht von mir erstellt",
         "private": "Private Fragen",
