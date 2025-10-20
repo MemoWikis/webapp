@@ -220,15 +220,24 @@ export const useLearningSessionConfigurationStore = defineStore(
                 if (storedSession != null) {
                     const sessionConfig = JSON.parse(storedSession)
 
+                    // Migration: handle old property names
+                    if (sessionConfig.questionFilterOptions) {
+                        if (sessionConfig.questionFilterOptions.inWuwi) {
+                            sessionConfig.questionFilterOptions.inWishknowledge = sessionConfig.questionFilterOptions.inWuwi
+                            delete sessionConfig.questionFilterOptions.inWuwi
+                        }
+                        if (sessionConfig.questionFilterOptions.notInWuwi) {
+                            sessionConfig.questionFilterOptions.notInWishknowledge = sessionConfig.questionFilterOptions.notInWuwi
+                            delete sessionConfig.questionFilterOptions.notInWuwi
+                        }
+                    }
+
                     if (userStore.isLoggedIn) {
                         this.knowledgeSummary = sessionConfig.knowledgeSummary
-                        this.questionFilterOptions =
-                            sessionConfig.questionFilterOptions
+                        this.questionFilterOptions = sessionConfig.questionFilterOptions
                     }
-                    this.userHasChangedMaxCount =
-                        sessionConfig.userHasChangedMaxCount
-                    this.selectedQuestionCount =
-                        sessionConfig.selectedQuestionCount as number
+                    this.userHasChangedMaxCount = sessionConfig.userHasChangedMaxCount
+                    this.selectedQuestionCount = sessionConfig.selectedQuestionCount as number
                     this.isTestMode = sessionConfig.isTestMode
                     this.isPracticeMode = sessionConfig.isPracticeMode
                     this.testOptions = sessionConfig.testOptions
