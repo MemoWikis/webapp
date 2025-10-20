@@ -14,7 +14,7 @@ This license applies to the source code in this repository and any software you 
 ## Commercial use (free, internal only)
 - You may **use and modify** the software **inside your organization**.  
 - You may **not** sell, license, or offer the software (or access to it) **as a paid product or service**.  
-- If you share it outside your organization, it must be **free** and **non-commercial**.
+- If you share it outside your organization, it must be **free** and **non-commercial**. You're allowed to charge for hosting and customization, extensions, and extended usage, though.
 
 ## Third-party rights
 If parts of the code or bundled assets belong to third parties, their terms still apply.
