@@ -168,7 +168,7 @@ public class QuestionController(
             OverallAnsweredCorrectly: history.TimesAnsweredCorrect,
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
             IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
-                .IsInWishKnowledge,
+                .IsInWishknowledge,
             Pages: question.PagesVisibleToCurrentUser(_permissionCheck).Select(t =>
                 new AnswerQuestionDetailsPageItem(
                     Id: t.Id,
@@ -256,7 +256,7 @@ public class QuestionController(
         if (userQuestionValuation != null && userQuestionValuation.ContainsKey(q.Id))
         {
             question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
-            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
+            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishknowledge;
             question.HasPersonalAnswer =
                 userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
         }

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-[DebuggerDisplay("PageId={PageId} IsInWishknowledge: {IsInWishKnowledge()}")]
+[DebuggerDisplay("PageId={PageId} IsInWishknowledge: {IsInWishknowledge()}")]
 public class PageValuation : DomainEntity
 {
     public virtual int UserId { get; set; }
@@ -18,5 +18,5 @@ public class PageValuation : DomainEntity
         RelevancePersonal = -1;
     }
 
-    public virtual bool IsInWishKnowledge() { return RelevancePersonal > 0; }
+    public virtual bool IsInWishknowledge() { return RelevancePersonal > 0; }
 }

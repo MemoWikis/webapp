@@ -12,7 +12,7 @@
 
     public bool IsAnonymous() => CurrentUserId < 0;
 
-    public bool InWishKnowledge { get; set; } = true;
+    public bool InWishknowledge { get; set; } = true;
     public bool NotWishKnowledge { get; set; } = true;
     public bool CreatedByCurrentUser { get; set; } = true;
     public bool NotCreatedByCurrentUser { get; set; } = true;

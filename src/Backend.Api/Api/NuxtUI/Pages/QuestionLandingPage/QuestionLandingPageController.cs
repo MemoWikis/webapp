@@ -206,7 +206,7 @@ public class QuestionLandingPageController(
             OverallAnsweredCorrectly: history.TimesAnsweredCorrect,
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
             IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
-                .IsInWishKnowledge,
+                .IsInWishknowledge,
             Pages: question.PagesVisibleToCurrentUser(_permissionCheck).Select(t =>
                 new AnswerQuestionDetailsPageItem(
                     Id: t.Id,

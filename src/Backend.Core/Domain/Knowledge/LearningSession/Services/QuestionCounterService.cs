@@ -17,8 +17,8 @@ public class QuestionCounterService(
         if (questionProperties.Solid)
             counter.Solid++;
 
-        if (questionProperties.InWishKnowledge)
-            counter.InWishKnowledge++;
+        if (questionProperties.InWishknowledge)
+            counter.InWishknowledge++;
 
         if (questionProperties.NotInWishknowledge)
             counter.NotInWishknowledge++;

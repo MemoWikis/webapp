@@ -240,7 +240,7 @@ public static class LearningSessionConfigMapping
             QuestionOrder = _request.QuestionOrder,
             AnswerHelp = _request.AnswerHelp,
             Repetition = _request.Repetition,
-            InWishKnowledge = _request.InWishknowledge,
+            InWishknowledge = _request.InWishknowledge,
             NotWishKnowledge = _request.NotInWishknowledge,
             CreatedByCurrentUser = _request.CreatedByCurrentUser,
             NotCreatedByCurrentUser = _request.NotCreatedByCurrentUser,
