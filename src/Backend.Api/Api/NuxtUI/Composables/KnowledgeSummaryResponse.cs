@@ -40,7 +40,6 @@ public readonly record struct KnowledgeSummaryResponse(
     KnowledgeStatusCountsResponse TotalDetailed = new KnowledgeStatusCountsResponse())
 {
     public KnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary) : this(
-        knowledgeSummary.NotInWishKnowledgePercentage,
         knowledgeSummary.TotalCount,
         knowledgeSummary.KnowledgeStatusPoints,
         knowledgeSummary.KnowledgeStatusPointsTotal,

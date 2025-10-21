@@ -1076,7 +1076,7 @@
             "password": "Passwort",
             "deleteProfile": "Profil löschen",
             "settings": "Einstellungen",
-            "showWuwi": "Wunschwissen anzeigen",
+            "showWishKnowledge": "Wunschwissen anzeigen",
             "supportLogin": "Support Login",
             "membership": "Mitgliedschaft",
             "notifications": "Benachrichtigungen",
@@ -1113,7 +1113,7 @@
             "contactReason": "damit wir Dein wertvolles Wissen sichern und Dein Profil für Dich entfernen können."
         },
         "wuwi": {
-            "showWuwi": "Wunschwissen zeigen",
+            "showWishKnowledge": "Wunschwissen zeigen",
             "explanation": "Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind (außer private Fragen). Antwortstatistiken werden nicht angezeigt."
         },
         "supportLogin": {

@@ -8,7 +8,7 @@
         string QuestionTitle,
         int TotalAnswers,
         bool CanNotBeDeleted,
-        int WuwiCount,
+        int WishKnowledgeCount,
         bool HasRights);
 
     [HttpGet]
@@ -22,7 +22,7 @@
             QuestionTitle: question.Text.TruncateAtWord(90),
             TotalAnswers: question.TotalAnswers(),
             CanNotBeDeleted: !canBeDeleted.Yes,
-            WuwiCount: canBeDeleted.WuwiCount,
+            WishKnowledgeCount: canBeDeleted.WishKnowledgeCount,
             HasRights: canBeDeleted.HasRights
         );
     }

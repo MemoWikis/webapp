@@ -29,24 +29,24 @@ function getTooltipLabel(key: string, count: number) {
 		case 'notInWishKnowledge':
 			return t('knowledgeStatus.notInWishKnowledgeCount', count)
 
-		// Wuwi (wishknowledge) cases
-		case 'solidWuwi':
+		// WishKnowledge (wishknowledge) cases
+		case 'solidWishKnowledge':
 			return t('knowledgeStatus.solidCount', count) + ' (Wunschwissen)'
-		case 'needsConsolidationWuwi':
+		case 'needsConsolidationWishKnowledge':
 			return t('knowledgeStatus.needsConsolidationCount', count) + ' (Wunschwissen)'
-		case 'needsLearningWuwi':
+		case 'needsLearningWishKnowledge':
 			return t('knowledgeStatus.needsLearningCount', count) + ' (Wunschwissen)'
-		case 'notLearnedWuwi':
+		case 'notLearnedWishKnowledge':
 			return t('knowledgeStatus.notLearnedCount', count) + ' (Wunschwissen)'
 
 		// Not in wuwi cases
-		case 'solidNotInWuwi':
+		case 'solidNotInWishKnowledge':
 			return t('knowledgeStatus.solidCount', count) + ' (Nicht im Wunschwissen)'
-		case 'needsConsolidationNotInWuwi':
+		case 'needsConsolidationNotInWishKnowledge':
 			return t('knowledgeStatus.needsConsolidationCount', count) + ' (Nicht im Wunschwissen)'
-		case 'needsLearningNotInWuwi':
+		case 'needsLearningNotInWishKnowledge':
 			return t('knowledgeStatus.needsLearningCount', count) + ' (Nicht im Wunschwissen)'
-		case 'notLearnedNotInWuwi':
+		case 'notLearnedNotInWishKnowledge':
 			return t('knowledgeStatus.notLearnedCount', count) + ' (Nicht im Wunschwissen)'
 	}
 }

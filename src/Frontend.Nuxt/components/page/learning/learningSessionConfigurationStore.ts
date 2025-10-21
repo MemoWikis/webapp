@@ -210,20 +210,20 @@ export const useLearningSessionConfigurationStore = defineStore(
             migrateOldPropertyNames(sessionConfig: any) {
                 // Migration: handle old property names
                 if (sessionConfig.questionFilterOptions) {
-                    if (sessionConfig.questionFilterOptions.inWuwi) {
-                        sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWuwi
-                        delete sessionConfig.questionFilterOptions.inWuwi
-                    }
                     if (sessionConfig.questionFilterOptions.inWishKnowledge) {
                         sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWishKnowledge
                         delete sessionConfig.questionFilterOptions.inWishKnowledge
                     }
-                    if (sessionConfig.questionFilterOptions.notInWuwi) {
-                        sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWuwi
-                        delete sessionConfig.questionFilterOptions.notInWuwi
+                    if (sessionConfig.questionFilterOptions.inWishknowledge) {
+                        sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWishknowledge
+                        delete sessionConfig.questionFilterOptions.inWishKnowledge
                     }
                     if (sessionConfig.questionFilterOptions.notInWishKnowledge) {
                         sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWishKnowledge
+                        delete sessionConfig.questionFilterOptions.notInWishKnowledge
+                    }
+                    if (sessionConfig.questionFilterOptions.notInWishKnowledge) {
+                        sessionConfig.questionFilterOptions.notInWishknowledge = sessionConfig.questionFilterOptions.notInWishknowledge
                         delete sessionConfig.questionFilterOptions.notInWishKnowledge
                     }
                 }
@@ -602,42 +602,42 @@ export const useLearningSessionConfigurationStore = defineStore(
                 
                 // Map the new KnowledgeSummaryType enum values to the corresponding keys
                 const typeToKeyMap: { [key in KnowledgeSummaryType]?: string } = {
-                    // Wuwi (wishknowledge) types - use inWuwi filter
-                    [KnowledgeSummaryType.SolidWuwi]: 'solid',
-                    [KnowledgeSummaryType.NeedsConsolidationWuwi]: 'needsConsolidation',
-                    [KnowledgeSummaryType.NeedsLearningWuwi]: 'needsLearning',
-                    [KnowledgeSummaryType.NotLearnedWuwi]: 'notLearned',
+                    // WishKnowledge (wishknowledge) types - use inWishKnowledge filter
+                    [KnowledgeSummaryType.SolidWishKnowledge]: 'solid',
+                    [KnowledgeSummaryType.NeedsConsolidationWishKnowledge]: 'needsConsolidation',
+                    [KnowledgeSummaryType.NeedsLearningWishKnowledge]: 'needsLearning',
+                    [KnowledgeSummaryType.NotLearnedWishKnowledge]: 'notLearned',
                     
-                    // Not in wuwi types - use notInWuwi filter
-                    [KnowledgeSummaryType.SolidNotInWuwi]: 'solid',
-                    [KnowledgeSummaryType.NeedsConsolidationNotInWuwi]: 'needsConsolidation',
-                    [KnowledgeSummaryType.NeedsLearningNotInWuwi]: 'needsLearning',
-                    [KnowledgeSummaryType.NotLearnedNotInWuwi]: 'notLearned',
+                    // Not in wuwi types - use notInWishKnowledge filter
+                    [KnowledgeSummaryType.SolidNotInWishKnowledge]: 'solid',
+                    [KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge]: 'needsConsolidation',
+                    [KnowledgeSummaryType.NeedsLearningNotInWishKnowledge]: 'needsLearning',
+                    [KnowledgeSummaryType.NotLearnedNotInWishKnowledge]: 'notLearned',
                 }
                 
                 const targetKey = typeToKeyMap[type]
                 
                 // Handle wuwi types (in wishknowledge)
-                if (type === KnowledgeSummaryType.SolidWuwi || 
-                    type === KnowledgeSummaryType.NeedsConsolidationWuwi ||
-                    type === KnowledgeSummaryType.NeedsLearningWuwi ||
-                    type === KnowledgeSummaryType.NotLearnedWuwi) {
+                if (type === KnowledgeSummaryType.SolidWishKnowledge || 
+                    type === KnowledgeSummaryType.NeedsConsolidationWishKnowledge ||
+                    type === KnowledgeSummaryType.NeedsLearningWishKnowledge ||
+                    type === KnowledgeSummaryType.NotLearnedWishKnowledge) {
                     
-                    this.questionFilterOptions.inWuwi.isSelected = true
-                    this.questionFilterOptions.notInWuwi.isSelected = false
+                    this.questionFilterOptions.inWishKnowledge.isSelected = true
+                    this.questionFilterOptions.notInWishKnowledge.isSelected = false
                     
                     if (targetKey && this.knowledgeSummary[targetKey]) {
                         this.knowledgeSummary[targetKey].isSelected = true
                     }
                 }
                 // Handle not in wuwi types
-                else if (type === KnowledgeSummaryType.SolidNotInWuwi || 
-                         type === KnowledgeSummaryType.NeedsConsolidationNotInWuwi ||
-                         type === KnowledgeSummaryType.NeedsLearningNotInWuwi ||
-                         type === KnowledgeSummaryType.NotLearnedNotInWuwi) {
+                else if (type === KnowledgeSummaryType.SolidNotInWishKnowledge || 
+                         type === KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge ||
+                         type === KnowledgeSummaryType.NeedsLearningNotInWishKnowledge ||
+                         type === KnowledgeSummaryType.NotLearnedNotInWishKnowledge) {
                     
-                    this.questionFilterOptions.inWuwi.isSelected = false
-                    this.questionFilterOptions.notInWuwi.isSelected = true
+                    this.questionFilterOptions.inWishKnowledge.isSelected = false
+                    this.questionFilterOptions.notInWishKnowledge.isSelected = true
                     
                     if (targetKey && this.knowledgeSummary[targetKey]) {
                         this.knowledgeSummary[targetKey].isSelected = true

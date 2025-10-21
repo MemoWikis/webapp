@@ -122,37 +122,37 @@ onBeforeMount(() => {
     fill: @memo-green;
 }
 
-// Wuwi (wishknowledge) colors - solid colors
-.svg-color-solidWuwi {
+// WishKnowledge (wishknowledge) colors - solid colors
+.svg-color-solidWishKnowledge {
     fill: @memo-green;
 }
 
-.svg-color-needsConsolidationWuwi {
+.svg-color-needsConsolidationWishKnowledge {
     fill: @memo-yellow;
 }
 
-.svg-color-needsLearningWuwi {
+.svg-color-needsLearningWishKnowledge {
     fill: @memo-salmon;
 }
 
-.svg-color-notLearnedWuwi {
+.svg-color-notLearnedWishKnowledge {
     fill: @memo-grey-light;
 }
 
 // Not in wuwi colors - slightly different shades
-.svg-color-solidNotInWuwi {
+.svg-color-solidNotInWishKnowledge {
     fill: fadeout(@memo-green, 30%);
 }
 
-.svg-color-needsConsolidationNotInWuwi {
+.svg-color-needsConsolidationNotInWishKnowledge {
     fill: fadeout(@memo-yellow, 30%);
 }
 
-.svg-color-needsLearningNotInWuwi {
+.svg-color-needsLearningNotInWishKnowledge {
     fill: fadeout(@memo-salmon, 30%);
 }
 
-.svg-color-notLearnedNotInWuwi {
+.svg-color-notLearnedNotInWishKnowledge {
     fill: fadeout(@memo-grey-light, 30%);
 }
 </style>

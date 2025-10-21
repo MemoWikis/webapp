@@ -5,7 +5,7 @@ export interface UserResult {
     rank: number
     createdQuestionsCount: number
     createdPagesCount: number
-    showWuwi: boolean
+    showWishKnowledge: boolean
     wuwiQuestionsCount: number
     wuwiPagesCount: number
     imgUrl: string

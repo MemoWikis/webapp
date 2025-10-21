@@ -45,7 +45,7 @@ const getCountryCode = (language: string) => {
                             pages: props.user.createdPagesCount
                         }) }}
                     </div>
-                    <div v-if="props.user.showWuwi" class="mb-8">
+                    <div v-if="props.user.showWishKnowledge" class="mb-8">
                         {{ t('usersOverview.card.wishknowledge', {
                             questions: props.user.wuwiQuestionsCount,
                             pages: props.user.wuwiPagesCount
@@ -96,7 +96,7 @@ const getCountryCode = (language: string) => {
                         </div>
 
                     </div>
-                    <div v-if="props.user.showWuwi" class="mb-8 user-body-element">
+                    <div v-if="props.user.showWishKnowledge" class="mb-8 user-body-element">
                         <div class="user-body-card">
                             {{ t('usersOverview.card.wishknowledge', {
                                 questions: props.user.wuwiQuestionsCount,

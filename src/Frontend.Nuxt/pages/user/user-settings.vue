@@ -25,7 +25,7 @@ interface User {
     imageUrl: string
     reputationPoints: number
     rank: number
-    showWuwi: boolean
+    showWishKnowledge: boolean
 }
 interface ProfileData {
     user: User

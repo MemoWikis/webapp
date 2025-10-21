@@ -7,7 +7,7 @@ namespace TrueOrFalse.Tests;
 class Get_wuwi_from_category : BaseTest
 {
     [Test]
-    public void GetWuwiSession()
+    public void GetWishKnowledgeSession()
     {
         var questionwriterRepo = R<QuestionWritingRepo>(); 
         var userReadingRepo = R<UserReadingRepo>();
@@ -21,7 +21,7 @@ class Get_wuwi_from_category : BaseTest
             questionwriterRepo);
 
         var questionValuationRepo = R<QuestionValuationRepo>();
-        ContextQuestion.SetWuwi(20,
+        ContextQuestion.SetWishKnowledge(20,
             R<CategoryValuationReadingRepo>(),
             answerRepo,
             answerQuestion,

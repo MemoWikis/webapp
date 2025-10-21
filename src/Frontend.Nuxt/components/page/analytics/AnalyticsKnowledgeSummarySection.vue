@@ -13,7 +13,7 @@ const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 
-const showInWuwi = ref(true)
+const showInWishKnowledge = ref(true)
 const showSum = ref(true)
 
 const onActionClick = async (type: KnowledgeSummaryType) => {
@@ -45,9 +45,9 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
                     <label class="toggle-label">
                         <input
                             type="checkbox"
-                            v-model="showInWuwi"
+                            v-model="showInWishKnowledge"
                             class="toggle-checkbox" />
-                        <span class="toggle-text">show NotInWuwi</span>
+                        <span class="toggle-text">show NotInWishKnowledge</span>
                     </label>
                 </div>
 
@@ -58,7 +58,7 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
                         :show-actions="true"
                         :action-icon="'fa-solid fa-play'"
                         @action-click="onActionClick"
-                        :show-not-in-wishknowledge="showInWuwi"
+                        :show-not-in-wishknowledge="showInWishKnowledge"
                         :show-sum="showSum" />
                 </div>
             </div>

@@ -23,7 +23,7 @@ const editQuestionStore = useEditQuestionStore()
 const pageStore = usePageStore()
 const visibility = ref(Visibility.Public)
 const solutionType = ref(SolutionType.Text)
-const addToWuwi = ref(true)
+const addToWishKnowledge = ref(true)
 const alertStore = useAlertStore()
 const { t } = useI18n()
 
@@ -174,7 +174,7 @@ function getData() {
         QuestionId: editQuestionStore.id,
     }
     const createData = {
-        AddToWishKnowledge: addToWuwi.value,
+        AddToWishKnowledge: addToWishKnowledge.value,
     }
     const visibility = isPrivate.value ? 1 : 0
 
@@ -430,10 +430,10 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         </div>
                     </div>
 
-                    <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi"
+                    <div class="heart-container wuwi-red" @click="addToWishKnowledge = !addToWishKnowledge"
                         v-if="!editQuestionStore.edit">
                         <div>
-                            <font-awesome-icon v-if="addToWuwi" icon="fa-solid fa-heart" />
+                            <font-awesome-icon v-if="addToWishKnowledge" icon="fa-solid fa-heart" />
                             <font-awesome-icon v-else icon="fa-regular fa-heart" />
                         </div>
                     </div>

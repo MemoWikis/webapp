@@ -1076,7 +1076,7 @@
             "password": "Mot de passe",
             "deleteProfile": "Supprimer le profil",
             "settings": "Paramètres",
-            "showWuwi": "Afficher les Connaissances souhaitées",
+            "showWishKnowledge": "Afficher les Connaissances souhaitées",
             "supportLogin": "Connexion Support",
             "membership": "Adhésion",
             "notifications": "Notifications",
@@ -1113,7 +1113,7 @@
             "contactReason": "afin qu’on sauvegarde tes données et qu’on le supprime pour toi."
         },
         "wuwi": {
-            "showWuwi": "Rendre mes Connaissances souhaitées visibles",
+            "showWishKnowledge": "Rendre mes Connaissances souhaitées visibles",
             "explanation": "Si tu coches, il sera visible publiquement quelles questions sont dans tes Connaissances souhaitées (sauf tes questions privées). Les stats de réponses ne s’affichent pas."
         },
         "supportLogin": {

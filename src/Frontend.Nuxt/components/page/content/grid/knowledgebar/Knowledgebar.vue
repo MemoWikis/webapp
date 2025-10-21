@@ -19,10 +19,10 @@ function setKnowledgebarData() {
     // Add wuwi (wishknowledge) items
     if (props.knowledgebarData.inWishKnowledge) {
         const wuwiItems = [
-            { key: 'solidWuwi', value: props.knowledgebarData.inWishKnowledge.solid },
-            { key: 'needsConsolidationWuwi', value: props.knowledgebarData.inWishKnowledge.needsConsolidation },
-            { key: 'needsLearningWuwi', value: props.knowledgebarData.inWishKnowledge.needsLearning },
-            { key: 'notLearnedWuwi', value: props.knowledgebarData.inWishKnowledge.notLearned }
+            { key: 'solidWishKnowledge', value: props.knowledgebarData.inWishKnowledge.solid },
+            { key: 'needsConsolidationWishKnowledge', value: props.knowledgebarData.inWishKnowledge.needsConsolidation },
+            { key: 'needsLearningWishKnowledge', value: props.knowledgebarData.inWishKnowledge.needsLearning },
+            { key: 'notLearnedWishKnowledge', value: props.knowledgebarData.inWishKnowledge.notLearned }
         ]
 
         for (const item of wuwiItems) {
@@ -35,16 +35,16 @@ function setKnowledgebarData() {
         }
     }
 
-    // Add notInWuwi (not in wishknowledge) items
+    // Add notInWishKnowledge (not in wishknowledge) items
     if (props.knowledgebarData.notInWishKnowledge) {
-        const notInWuwiItems = [
-            { key: 'solidNotInWuwi', value: props.knowledgebarData.notInWishKnowledge.solid },
-            { key: 'needsConsolidationNotInWuwi', value: props.knowledgebarData.notInWishKnowledge.needsConsolidation },
-            { key: 'needsLearningNotInWuwi', value: props.knowledgebarData.notInWishKnowledge.needsLearning },
-            { key: 'notLearnedNotInWuwi', value: props.knowledgebarData.notInWishKnowledge.notLearned }
+        const notInWishKnowledgeItems = [
+            { key: 'solidNotInWishKnowledge', value: props.knowledgebarData.notInWishKnowledge.solid },
+            { key: 'needsConsolidationNotInWishKnowledge', value: props.knowledgebarData.notInWishKnowledge.needsConsolidation },
+            { key: 'needsLearningNotInWishKnowledge', value: props.knowledgebarData.notInWishKnowledge.needsLearning },
+            { key: 'notLearnedNotInWishKnowledge', value: props.knowledgebarData.notInWishKnowledge.notLearned }
         ]
 
-        for (const item of notInWuwiItems) {
+        for (const item of notInWishKnowledgeItems) {
             if (item.value > 0) {
                 knowledgebarTooltipData.value.push({
                     value: item.value,
@@ -61,24 +61,24 @@ const { t } = useI18n()
 
 function getTooltipLabel(key: string, count: number) {
     switch (key) {
-        // Wuwi (wishknowledge) categories
-        case 'solidWuwi':
+        // WishKnowledge (wishknowledge) categories
+        case 'solidWishKnowledge':
             return t('knowledgeStatus.solidCount', count) + ' (Wunschwissen)'
-        case 'needsConsolidationWuwi':
+        case 'needsConsolidationWishKnowledge':
             return t('knowledgeStatus.needsConsolidationCount', count) + ' (Wunschwissen)'
-        case 'needsLearningWuwi':
+        case 'needsLearningWishKnowledge':
             return t('knowledgeStatus.needsLearningCount', count) + ' (Wunschwissen)'
-        case 'notLearnedWuwi':
+        case 'notLearnedWishKnowledge':
             return t('knowledgeStatus.notLearnedCount', count) + ' (Wunschwissen)'
 
         // Not in wuwi (not in wishknowledge) categories
-        case 'solidNotInWuwi':
+        case 'solidNotInWishKnowledge':
             return t('knowledgeStatus.solidCount', count) + ' (Nicht im Wunschwissen)'
-        case 'needsConsolidationNotInWuwi':
+        case 'needsConsolidationNotInWishKnowledge':
             return t('knowledgeStatus.needsConsolidationCount', count) + ' (Nicht im Wunschwissen)'
-        case 'needsLearningNotInWuwi':
+        case 'needsLearningNotInWishKnowledge':
             return t('knowledgeStatus.needsLearningCount', count) + ' (Nicht im Wunschwissen)'
-        case 'notLearnedNotInWuwi':
+        case 'notLearnedNotInWishKnowledge':
             return t('knowledgeStatus.notLearnedCount', count) + ' (Nicht im Wunschwissen)'
 
         // Legacy cases (for backward compatibility)
@@ -104,7 +104,7 @@ const ariaId = useId()
 <template>
     <VTooltip :aria-id="ariaId" class="tooltip-container">
         <div class="knowledgebar">
-            <!-- Wuwi (wishknowledge) sections -->
+            <!-- WishKnowledge (wishknowledge) sections -->
             <div v-if="knowledgebarData.inWishKnowledge?.solidPercentage > 0" class="solid-knowledge wuwi"
                 :style="{ 'width': knowledgebarData.inWishKnowledge.solidPercentage + '%' }">
             </div>
@@ -260,25 +260,25 @@ const ariaId = useId()
             background: @memo-grey-dark;
         }
 
-        // Wuwi (wishknowledge) colors - solid colors
-        &.color-solidWuwi {
+        // WishKnowledge (wishknowledge) colors - solid colors
+        &.color-solidWishKnowledge {
             background: @memo-green;
         }
 
-        &.color-needsConsolidationWuwi {
+        &.color-needsConsolidationWishKnowledge {
             background: @memo-yellow;
         }
 
-        &.color-needsLearningWuwi {
+        &.color-needsLearningWishKnowledge {
             background: @memo-salmon;
         }
 
-        &.color-notLearnedWuwi {
+        &.color-notLearnedWishKnowledge {
             background: @memo-grey-light;
         }
 
         // Not in wuwi colors - striped patterns
-        &.color-solidNotInWuwi {
+        &.color-solidNotInWishKnowledge {
             background: repeating-linear-gradient(45deg,
                     @memo-green,
                     @memo-green 2px,
@@ -286,7 +286,7 @@ const ariaId = useId()
                     fadeout(@memo-green, 50%) 4px);
         }
 
-        &.color-needsConsolidationNotInWuwi {
+        &.color-needsConsolidationNotInWishKnowledge {
             background: repeating-linear-gradient(45deg,
                     @memo-yellow,
                     @memo-yellow 2px,
@@ -294,7 +294,7 @@ const ariaId = useId()
                     fadeout(@memo-yellow, 50%) 4px);
         }
 
-        &.color-needsLearningNotInWuwi {
+        &.color-needsLearningNotInWishKnowledge {
             background: repeating-linear-gradient(45deg,
                     @memo-salmon,
                     @memo-salmon 2px,
@@ -302,7 +302,7 @@ const ariaId = useId()
                     fadeout(@memo-salmon, 50%) 4px);
         }
 
-        &.color-notLearnedNotInWuwi {
+        &.color-notLearnedNotInWishKnowledge {
             background: repeating-linear-gradient(45deg,
                     @memo-grey-light,
                     @memo-grey-light 2px,

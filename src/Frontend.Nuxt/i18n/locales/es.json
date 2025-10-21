@@ -1076,7 +1076,7 @@
             "password": "Contraseña",
             "deleteProfile": "Eliminar perfil",
             "settings": "Configuración",
-            "showWuwi": "Mostrar Conocimiento deseado",
+            "showWishKnowledge": "Mostrar Conocimiento deseado",
             "supportLogin": "Inicio de sesión de soporte",
             "membership": "Membresía",
             "notifications": "Notificaciones",
@@ -1113,7 +1113,7 @@
             "contactReason": "para que podamos conservar tu valioso contenido y eliminar tu perfil por ti."
         },
         "wuwi": {
-            "showWuwi": "Mostrar Conocimiento deseado",
+            "showWishKnowledge": "Mostrar Conocimiento deseado",
             "explanation": "Si seleccionas esto, será visible públicamente qué preguntas están en tu Conocimiento deseado (excepto preguntas privadas). No se muestran estadísticas de respuestas."
         },
         "supportLogin": {

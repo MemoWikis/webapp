@@ -208,7 +208,7 @@ function setKnowledgebarData() {
     }
 }
 
-function setWuwiState(state: PinState) {
+function setWishKnowledgeState(state: PinState) {
     if (state === PinState.Added)
         isInWishKnowledge.value = true
     else if (state === PinState.NotAdded)
@@ -312,7 +312,7 @@ const { $urlHelper } = useNuxtApp()
                                         :class="{ open: showFullQuestion }" />
                                 </div>
                                 <QuestionPin :is-in-wishknowledge="isInWishKnowledge" :question-id="props.question.id"
-                                    class="iconContainer" @set-wuwi-state="setWuwiState" />
+                                    class="iconContainer" @set-wuwi-state="setWishKnowledgeState" />
                                 <div class="go-to-question iconContainer">
                                     <font-awesome-icon icon="fa-solid fa-play"
                                         :class="{ 'activeQ': props.question.id === learningSessionStore.currentStep?.id }"

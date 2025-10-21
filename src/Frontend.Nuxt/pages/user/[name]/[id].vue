@@ -45,7 +45,7 @@ interface User {
     imageUrl: string
     reputationPoints: number
     rank: number
-    showWuwi: boolean
+    showWishKnowledge: boolean
     aboutMeText?: string
 }
 

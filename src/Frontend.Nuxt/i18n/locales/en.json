@@ -1076,7 +1076,7 @@
             "password": "Password",
             "deleteProfile": "Delete profile",
             "settings": "Settings",
-            "showWuwi": "Show Wish-Knowledge",
+            "showWishKnowledge": "Show Wish-Knowledge",
             "supportLogin": "Support login",
             "membership": "Membership",
             "notifications": "Notifications",
@@ -1113,7 +1113,7 @@
             "contactReason": "so that we can secure your valuable knowledge and remove your profile for you."
         },
         "wuwi": {
-            "showWuwi": "Show Wish-Knowledge",
+            "showWishKnowledge": "Show Wish-Knowledge",
             "explanation": "If selected, it is publicly visible which questions are in your Wish-Knowledge (except private questions). No answer statistics are displayed."
         },
         "supportLogin": {

@@ -15,10 +15,10 @@
         string Name,
         int Rank,
         int ReputationPoints,
-        bool ShowWuwi,
+        bool ShowWishKnowledge,
         int WikiId,
-        int WuwiQuestionsCount,
-        int WuwiPagesCount,
+        int WishKnowledgeQuestionsCount,
+        int WishKnowledgePagesCount,
         List<string> ContentLanguages);
 
     public readonly record struct UsersResult(IEnumerable<UserResult> Users, int TotalItems);
@@ -79,9 +79,9 @@
             Rank = user.ReputationPos,
             CreatedQuestionsCount = _userSummary.GetCreatedQuestionCount(user.Id, _sessionUser.UserId == user.Id),
             CreatedPagesCount = _userSummary.GetCreatedPagesCount(user.Id, _sessionUser.UserId == user.Id),
-            ShowWuwi = user.ShowWishKnowledge,
-            WuwiQuestionsCount = wishQuestionCount,
-            WuwiPagesCount = pagesWithWishQuestionCount,
+            ShowWishKnowledge = user.ShowWishKnowledge,
+            WishKnowledgeQuestionsCount = wishQuestionCount,
+            WishKnowledgePagesCount = pagesWithWishQuestionCount,
             ImgUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                 .GetUrl_128px_square(user)
                 .Url,

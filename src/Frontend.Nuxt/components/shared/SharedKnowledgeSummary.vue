@@ -23,28 +23,28 @@ const knowledgeStatusItems = computed(() => {
                 value: props.knowledgeSummary.totalDetailed.solid,
                 percentage: props.knowledgeSummary.totalDetailed.solidPercentage,
                 class: 'solid',
-                type: KnowledgeSummaryType.SolidWuwi // Using Wuwi type as default for totals
+                type: KnowledgeSummaryType.SolidWishKnowledge // Using WishKnowledge type as default for totals
             },
             {
                 label: t('knowledgeStatus.needsConsolidation'),
                 value: props.knowledgeSummary.totalDetailed.needsConsolidation,
                 percentage: props.knowledgeSummary.totalDetailed.needsConsolidationPercentage,
                 class: 'needsConsolidation',
-                type: KnowledgeSummaryType.NeedsConsolidationWuwi
+                type: KnowledgeSummaryType.NeedsConsolidationWishKnowledge
             },
             {
                 label: t('knowledgeStatus.needsLearning'),
                 value: props.knowledgeSummary.totalDetailed.needsLearning,
                 percentage: props.knowledgeSummary.totalDetailed.needsLearningPercentage,
                 class: 'needsLearning',
-                type: KnowledgeSummaryType.NeedsLearningWuwi
+                type: KnowledgeSummaryType.NeedsLearningWishKnowledge
             },
             {
                 label: t('knowledgeStatus.notLearned'),
                 value: props.knowledgeSummary.totalDetailed.notLearned,
                 percentage: props.knowledgeSummary.totalDetailed.notLearnedPercentage,
                 class: 'notLearned',
-                type: KnowledgeSummaryType.NotLearnedWuwi
+                type: KnowledgeSummaryType.NotLearnedWishKnowledge
             }
         )
     }
@@ -52,7 +52,7 @@ const knowledgeStatusItems = computed(() => {
     return items
 })
 
-const knowledgeStatusItemsInWuwi = computed(() => {
+const knowledgeStatusItemsInWishKnowledge = computed(() => {
     const items = []
 
     // InWishKnowledge items (wuwi)
@@ -63,35 +63,35 @@ const knowledgeStatusItemsInWuwi = computed(() => {
                 value: props.knowledgeSummary.inWishKnowledge.solid,
                 percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.solidPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.solidPercentage,
                 class: 'solid',
-                type: KnowledgeSummaryType.SolidWuwi
+                type: KnowledgeSummaryType.SolidWishKnowledge
             },
             {
                 label: t('knowledgeStatus.needsConsolidation'),
                 value: props.knowledgeSummary.inWishKnowledge.needsConsolidation,
                 percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.needsConsolidationPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.needsConsolidationPercentage,
                 class: 'needsConsolidation',
-                type: KnowledgeSummaryType.NeedsConsolidationWuwi
+                type: KnowledgeSummaryType.NeedsConsolidationWishKnowledge
             },
             {
                 label: t('knowledgeStatus.needsLearning'),
                 value: props.knowledgeSummary.inWishKnowledge.needsLearning,
                 percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.needsLearningPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.needsLearningPercentage,
                 class: 'needsLearning',
-                type: KnowledgeSummaryType.NeedsLearningWuwi
+                type: KnowledgeSummaryType.NeedsLearningWishKnowledge
             },
             {
                 label: t('knowledgeStatus.notLearned'),
                 value: props.knowledgeSummary.inWishKnowledge.notLearned,
                 percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.notLearnedPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.notLearnedPercentage,
                 class: 'notLearned',
-                type: KnowledgeSummaryType.NotLearnedWuwi
+                type: KnowledgeSummaryType.NotLearnedWishKnowledge
             }
         )
     }
     return items
 })
 
-const knowledgeStatusItemsNotInWuwi = computed(() => {
+const knowledgeStatusItemsNotInWishKnowledge = computed(() => {
     const items = []
     if (props.showNotInWishKnowledge && props.knowledgeSummary.notInWishKnowledge) {
         items.push(
@@ -99,29 +99,29 @@ const knowledgeStatusItemsNotInWuwi = computed(() => {
                 label: t('knowledgeStatus.solid'),
                 value: props.knowledgeSummary.notInWishKnowledge.solid,
                 percentage: props.knowledgeSummary.notInWishKnowledge.solidPercentageOfTotal,
-                class: 'solid notInWuwi',
-                type: KnowledgeSummaryType.SolidNotInWuwi
+                class: 'solid notInWishKnowledge',
+                type: KnowledgeSummaryType.SolidNotInWishKnowledge
             },
             {
                 label: t('knowledgeStatus.needsConsolidation'),
                 value: props.knowledgeSummary.notInWishKnowledge.needsConsolidation,
                 percentage: props.knowledgeSummary.notInWishKnowledge.needsConsolidationPercentageOfTotal,
-                class: 'needsConsolidation notInWuwi',
-                type: KnowledgeSummaryType.NeedsConsolidationNotInWuwi
+                class: 'needsConsolidation notInWishKnowledge',
+                type: KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge
             },
             {
                 label: t('knowledgeStatus.needsLearning'),
                 value: props.knowledgeSummary.notInWishKnowledge.needsLearning,
                 percentage: props.knowledgeSummary.notInWishKnowledge.needsLearningPercentageOfTotal,
-                class: 'needsLearning notInWuwi',
-                type: KnowledgeSummaryType.NeedsLearningNotInWuwi
+                class: 'needsLearning notInWishKnowledge',
+                type: KnowledgeSummaryType.NeedsLearningNotInWishKnowledge
             },
             {
                 label: t('knowledgeStatus.notLearned'),
                 value: props.knowledgeSummary.notInWishKnowledge.notLearned,
                 percentage: props.knowledgeSummary.notInWishKnowledge.notLearnedPercentageOfTotal,
-                class: 'notLearned notInWuwi',
-                type: KnowledgeSummaryType.NotLearnedNotInWuwi
+                class: 'notLearned notInWishKnowledge',
+                type: KnowledgeSummaryType.NotLearnedNotInWishKnowledge
             }
         )
     }
@@ -165,7 +165,7 @@ const emit = defineEmits<{
             <div class="summary-details">
                 <h4>{{ t('label.inWishKnowledge') }}</h4>
                 <div
-                    v-for="(item, index) in knowledgeStatusItemsInWuwi"
+                    v-for="(item, index) in knowledgeStatusItemsInWishKnowledge"
                     :key="index"
                     class="status-item">
                     <div class="status-info">
@@ -189,7 +189,7 @@ const emit = defineEmits<{
             <div class="summary-details" v-if="props.showNotInWishKnowledge">
                 <h4>{{ t('label.notInWishKnowledge') }}</h4>
                 <div
-                    v-for="(item, index) in knowledgeStatusItemsNotInWuwi"
+                    v-for="(item, index) in knowledgeStatusItemsNotInWishKnowledge"
                     :key="index"
                     class="status-item">
                     <div class="status-info">
@@ -275,19 +275,19 @@ const emit = defineEmits<{
                 }
 
                 // Styling for not-in-wuwi items (faded/striped)
-                &.dot-solid.dot-notInWuwi {
+                &.dot-solid.dot-notInWishKnowledge {
                     background-color: fade(@memo-green, 50%);
                 }
 
-                &.dot-needsConsolidation.dot-notInWuwi {
+                &.dot-needsConsolidation.dot-notInWishKnowledge {
                     background-color: fade(@memo-yellow, 50%);
                 }
 
-                &.dot-needsLearning.dot-notInWuwi {
+                &.dot-needsLearning.dot-notInWishKnowledge {
                     background-color: fade(@memo-salmon, 50%);
                 }
 
-                &.dot-notLearned.dot-notInWuwi {
+                &.dot-notLearned.dot-notInWishKnowledge {
                     background-color: fade(@memo-grey-dark, 50%);
                 }
             }
