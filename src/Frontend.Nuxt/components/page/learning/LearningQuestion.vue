@@ -311,7 +311,7 @@ const { $urlHelper } = useNuxtApp()
                                     <font-awesome-icon icon="fa-solid fa-angle-down" class="rotateIcon"
                                         :class="{ open: showFullQuestion }" />
                                 </div>
-                                <QuestionPin :is-ine="isInWishKnowledge" :question-id="props.question.id"
+                                <QuestionPin :is-in-wish-knowledge="isInWishKnowledge" :question-id="props.question.id"
                                     class="iconContainer" @set-wish-knowledge-state="setWishKnowledgeState" />
                                 <div class="go-to-question iconContainer">
                                     <font-awesome-icon icon="fa-solid fa-play"
