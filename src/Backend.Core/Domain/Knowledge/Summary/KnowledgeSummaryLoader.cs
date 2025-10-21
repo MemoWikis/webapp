@@ -79,7 +79,7 @@
     private List<QuestionValuationCacheItem> GetFilteredQuestionValuations(int userId, IList<int>? questionIds)
     {
         var allQuestionValuations = SlidingCache.GetExtendedUserById(userId).GetAllQuestionValuations();
-        
+
         if (questionIds != null)
             allQuestionValuations = allQuestionValuations.Where(valuation => questionIds.Contains(valuation.Question.Id)).ToList();
 
@@ -100,7 +100,7 @@
     private KnowledgeStatusCounts CalculateWishKnowledgeStatusCounts(List<QuestionValuationCacheItem> questionValuations)
     {
         var wishKnowledgeQuestionValuations = questionValuations.Where(valuation => valuation.IsInWishKnowledge).ToList();
-        
+
         return new KnowledgeStatusCounts
         {
             NotLearned = wishKnowledgeQuestionValuations.Count(valuation => valuation.KnowledgeStatus == KnowledgeStatus.NotLearned),
@@ -111,14 +111,15 @@
     }
 
     private KnowledgeStatusCounts AdjustForQuestionsWithoutKnowledgeStatus(
-        KnowledgeStatusCounts totalCounts, 
-        IList<int>? questionIds, 
+        KnowledgeStatusCounts totalCounts,
+        IList<int>? questionIds,
         bool onlyInWishKnowledge)
     {
+        if (questionIds != null && !onlyInWishKnowledge)
         {
             var questionsWithKnowledgeStatus = totalCounts.NotLearned + totalCounts.NeedsLearning + totalCounts.NeedsConsolidation + totalCounts.Solid;
             var questionsWithoutKnowledgeStatus = questionIds.Count - questionsWithKnowledgeStatus;
-            
+
             if (questionsWithoutKnowledgeStatus > 0)
             {
                 totalCounts.NotLearned += questionsWithoutKnowledgeStatus;
