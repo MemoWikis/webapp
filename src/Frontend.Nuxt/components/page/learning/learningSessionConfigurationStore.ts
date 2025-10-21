@@ -210,21 +210,21 @@ export const useLearningSessionConfigurationStore = defineStore(
             migrateOldPropertyNames(sessionConfig: any) {
                 // Migration: handle old property names
                 if (sessionConfig.questionFilterOptions) {
-                    if (sessionConfig.questionFilterOptions.inWishKnowledge) {
-                        sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWishKnowledge
-                        delete sessionConfig.questionFilterOptions.inWishKnowledge
+                    if (sessionConfig.questionFilterOptions.inWuwi) {
+                        sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWuwi
+                        delete sessionConfig.questionFilterOptions.inWuwi
                     }
                     if (sessionConfig.questionFilterOptions.inWishknowledge) {
                         sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWishknowledge
-                        delete sessionConfig.questionFilterOptions.inWishKnowledge
+                        delete sessionConfig.questionFilterOptions.inWishknowledge
                     }
-                    if (sessionConfig.questionFilterOptions.notInWishKnowledge) {
-                        sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWishKnowledge
-                        delete sessionConfig.questionFilterOptions.notInWishKnowledge
+                    if (sessionConfig.questionFilterOptions.notInWuwi) {
+                        sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWuwi
+                        delete sessionConfig.questionFilterOptions.notInWuwi
                     }
-                    if (sessionConfig.questionFilterOptions.notInWishKnowledge) {
-                        sessionConfig.questionFilterOptions.notInWishknowledge = sessionConfig.questionFilterOptions.notInWishknowledge
-                        delete sessionConfig.questionFilterOptions.notInWishKnowledge
+                    if (sessionConfig.questionFilterOptions.notInWishknowledge) {
+                        sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWishknowledge
+                        delete sessionConfig.questionFilterOptions.notInWishknowledge
                     }
                 }
             },
@@ -241,7 +241,7 @@ export const useLearningSessionConfigurationStore = defineStore(
 
                 if (storedSession != null) {
                     const sessionConfig = JSON.parse(storedSession)
-
+                    console.log('Loaded session config from localStorage:', sessionConfig)
                     this.migrateOldPropertyNames(sessionConfig)
 
                     if (userStore.isLoggedIn) {
@@ -602,13 +602,13 @@ export const useLearningSessionConfigurationStore = defineStore(
                 
                 // Map the new KnowledgeSummaryType enum values to the corresponding keys
                 const typeToKeyMap: { [key in KnowledgeSummaryType]?: string } = {
-                    // WishKnowledge (wishknowledge) types - use inWishKnowledge filter
+                    // WishKnowledge (wishKnowledge) types - use inWishKnowledge filter
                     [KnowledgeSummaryType.SolidWishKnowledge]: 'solid',
                     [KnowledgeSummaryType.NeedsConsolidationWishKnowledge]: 'needsConsolidation',
                     [KnowledgeSummaryType.NeedsLearningWishKnowledge]: 'needsLearning',
                     [KnowledgeSummaryType.NotLearnedWishKnowledge]: 'notLearned',
                     
-                    // Not in wuwi types - use notInWishKnowledge filter
+                    // Not in wishKnowledge types - use notInWishKnowledge filter
                     [KnowledgeSummaryType.SolidNotInWishKnowledge]: 'solid',
                     [KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge]: 'needsConsolidation',
                     [KnowledgeSummaryType.NeedsLearningNotInWishKnowledge]: 'needsLearning',
@@ -617,7 +617,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                 
                 const targetKey = typeToKeyMap[type]
                 
-                // Handle wuwi types (in wishknowledge)
+                // Handle wishKnowledge types (in wishKnowledge)
                 if (type === KnowledgeSummaryType.SolidWishKnowledge || 
                     type === KnowledgeSummaryType.NeedsConsolidationWishKnowledge ||
                     type === KnowledgeSummaryType.NeedsLearningWishKnowledge ||
@@ -630,7 +630,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                         this.knowledgeSummary[targetKey].isSelected = true
                     }
                 }
-                // Handle not in wuwi types
+                // Handle not in wishKnowledge types
                 else if (type === KnowledgeSummaryType.SolidNotInWishKnowledge || 
                          type === KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge ||
                          type === KnowledgeSummaryType.NeedsLearningNotInWishKnowledge ||

@@ -31,7 +31,7 @@ interface Overview {
     privateQuestionsCount: number
     publicPagesCount: number
     privatePagesCount: number
-    wuwiCount: number
+    wishKnowledgeCount: number
     publicWikisCount: number
     reputation: number
     rank: number
@@ -465,7 +465,7 @@ const showSkillCard = (skill: PageData) => {
     }
 }
 
-.wuwi-is-hidden {
+.wish-knowledge-is-hidden {
     border: solid 1px @memo-grey-lighter;
     padding: 20px;
     width: 100%;

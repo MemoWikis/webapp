@@ -664,10 +664,10 @@ const ariaId2 = useId()
                             </div>
                             <div class="checkbox-label">
                                 <div class="overline-s no-line">
-                                    {{ t('settings.wuwi.showWishKnowledge') }}
+                                    {{ t('settings.wishKnowledge.showWishKnowledge') }}
                                 </div>
                                 <p>
-                                    {{ t('settings.wuwi.explanation') }}
+                                    {{ t('settings.wishKnowledge.explanation') }}
                                 </p>
                             </div>
                         </label>
@@ -790,7 +790,7 @@ const ariaId2 = useId()
 
                         <p>
                             {{ t('settings.knowledgeReport.description') }}
-                            <font-awesome-icon icon="fa-solid fa-heart" class="wuwi-icon" />
+                            <font-awesome-icon icon="fa-solid fa-heart" class="wish-knowledge-icon" />
                             {{ t('settings.knowledgeReport.additionalInfo') }}
                         </p>
                     </div>
@@ -841,7 +841,7 @@ const ariaId2 = useId()
 
             &.not-verified {
                 svg {
-                    color: @memo-wuwi-red;
+                    color: @memo-wish-knowledge-red;
                 }
             }
         }
@@ -1071,8 +1071,8 @@ const ariaId2 = useId()
         padding-top: 50px;
     }
 
-    .wuwi-icon {
-        color: @memo-wuwi-red;
+    .wish-knowledge-icon {
+        color: @memo-wish-knowledge-red;
     }
 
     .settings-content {

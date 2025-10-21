@@ -430,7 +430,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         </div>
                     </div>
 
-                    <div class="heart-container wuwi-red" @click="addToWishKnowledge = !addToWishKnowledge"
+                    <div class="heart-container wish-knowledge-red" @click="addToWishKnowledge = !addToWishKnowledge"
                         v-if="!editQuestionStore.edit">
                         <div>
                             <font-awesome-icon v-if="addToWishKnowledge" icon="fa-solid fa-heart" />
@@ -570,7 +570,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
             width: 100px;
             margin-right: -22px;
             cursor: pointer;
-            color: @memo-wuwi-red;
+            color: @memo-wish-knowledge-red;
             font-size: 22px;
         }
 

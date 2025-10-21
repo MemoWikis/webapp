@@ -43,23 +43,23 @@
         EnsureExtendedUserExists(userId);
         var allQuestionValuations = GetFilteredQuestionValuations(userId, questionIds);
         var totalCounts = CalculateTotalKnowledgeStatusCounts(allQuestionValuations);
-        var wishknowledgeCounts = CalculateWishKnowledgeStatusCounts(allQuestionValuations);
+        var wishKnowledgeCounts = CalculateWishKnowledgeStatusCounts(allQuestionValuations);
         var adjustedTotalCounts = AdjustForQuestionsWithoutKnowledgeStatus(totalCounts, questionIds, onlyInWishKnowledge);
 
-        // Calculate NotInWishKnowledge counts by subtracting wishknowledge from total
+        // Calculate NotInWishKnowledge counts by subtracting wishKnowledge from total
         var notInWishKnowledgeCounts = new KnowledgeStatusCounts
         {
-            NotLearned = adjustedTotalCounts.NotLearned - wishknowledgeCounts.NotLearned,
-            NeedsLearning = adjustedTotalCounts.NeedsLearning - wishknowledgeCounts.NeedsLearning,
-            NeedsConsolidation = adjustedTotalCounts.NeedsConsolidation - wishknowledgeCounts.NeedsConsolidation,
-            Solid = adjustedTotalCounts.Solid - wishknowledgeCounts.Solid
+            NotLearned = adjustedTotalCounts.NotLearned - wishKnowledgeCounts.NotLearned,
+            NeedsLearning = adjustedTotalCounts.NeedsLearning - wishKnowledgeCounts.NeedsLearning,
+            NeedsConsolidation = adjustedTotalCounts.NeedsConsolidation - wishKnowledgeCounts.NeedsConsolidation,
+            Solid = adjustedTotalCounts.Solid - wishKnowledgeCounts.Solid
         };
 
         return new KnowledgeSummary(
-            notLearnedInWishKnowledge: wishknowledgeCounts.NotLearned,
-            needsLearningInWishKnowledge: wishknowledgeCounts.NeedsLearning,
-            needsConsolidationInWishKnowledge: wishknowledgeCounts.NeedsConsolidation,
-            solidInWishKnowledge: wishknowledgeCounts.Solid,
+            notLearnedInWishKnowledge: wishKnowledgeCounts.NotLearned,
+            needsLearningInWishKnowledge: wishKnowledgeCounts.NeedsLearning,
+            needsConsolidationInWishKnowledge: wishKnowledgeCounts.NeedsConsolidation,
+            solidInWishKnowledge: wishKnowledgeCounts.Solid,
             notLearnedNotInWishKnowledge: notInWishKnowledgeCounts.NotLearned,
             needsLearningNotInWishKnowledge: notInWishKnowledgeCounts.NeedsLearning,
             needsConsolidationNotInWishKnowledge: notInWishKnowledgeCounts.NeedsConsolidation,
@@ -99,14 +99,14 @@
 
     private KnowledgeStatusCounts CalculateWishKnowledgeStatusCounts(List<QuestionValuationCacheItem> questionValuations)
     {
-        var wishknowledgeQuestionValuations = questionValuations.Where(valuation => valuation.IsInWishKnowledge).ToList();
+        var wishKnowledgeQuestionValuations = questionValuations.Where(valuation => valuation.IsInWishKnowledge).ToList();
         
         return new KnowledgeStatusCounts
         {
-            NotLearned = wishknowledgeQuestionValuations.Count(valuation => valuation.KnowledgeStatus == KnowledgeStatus.NotLearned),
-            NeedsLearning = wishknowledgeQuestionValuations.Count(valuation => valuation.KnowledgeStatus == KnowledgeStatus.NeedsLearning),
-            NeedsConsolidation = wishknowledgeQuestionValuations.Count(valuation => valuation.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation),
-            Solid = wishknowledgeQuestionValuations.Count(valuation => valuation.KnowledgeStatus == KnowledgeStatus.Solid)
+            NotLearned = wishKnowledgeQuestionValuations.Count(valuation => valuation.KnowledgeStatus == KnowledgeStatus.NotLearned),
+            NeedsLearning = wishKnowledgeQuestionValuations.Count(valuation => valuation.KnowledgeStatus == KnowledgeStatus.NeedsLearning),
+            NeedsConsolidation = wishKnowledgeQuestionValuations.Count(valuation => valuation.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation),
+            Solid = wishKnowledgeQuestionValuations.Count(valuation => valuation.KnowledgeStatus == KnowledgeStatus.Solid)
         };
     }
 

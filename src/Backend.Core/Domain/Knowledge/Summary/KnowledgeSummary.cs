@@ -129,14 +129,14 @@ public class KnowledgeSummary
     public int TotalCount => InWishKnowledge.Total + NotInWishKnowledge.Total;
 
     /// <summary>
-    /// Knowledge status points for questions in wishknowledge only, calculated as: 
+    /// Knowledge status points for questions in wishKnowledge only, calculated as: 
     /// ((solidKnowledge * 1) + (needsConsolidation * 0.5) + (needsLearning * 0.1)) / (solidKnowledge + needsConsolidation + needsLearning + notLearnedInWishKnowledge)
     /// </summary>
     [JsonProperty("KnowledgeStatusPoints")]
     public double KnowledgeStatusPoints { get; private set; }
 
     /// <summary>
-    /// Knowledge status points for all questions including those not in wishknowledge, calculated as: 
+    /// Knowledge status points for all questions including those not in wishKnowledge, calculated as: 
     /// ((solidKnowledge * 1) + (needsConsolidation * 0.5) + (needsLearning * 0.1)) / (solidKnowledge + needsConsolidation + needsLearning + notLearned + notInWishKnowledge)
     /// </summary>
     [JsonProperty("KnowledgeStatusPointsTotal")]
@@ -181,27 +181,27 @@ public class KnowledgeSummary
 
     private void CalculateKnowledgeStatusPoints()
     {
-        // Calculate weighted scores for both wishknowledge and total
+        // Calculate weighted scores for both wishKnowledge and total
         var weightedScoreInWishKnowledge = (InWishKnowledge.Solid * 1.0) + (InWishKnowledge.NeedsConsolidation * 0.5) + (InWishKnowledge.NeedsLearning * 0.1);
         var totalSolid = InWishKnowledge.Solid + NotInWishKnowledge.Solid;
         var totalNeedsConsolidation = InWishKnowledge.NeedsConsolidation + NotInWishKnowledge.NeedsConsolidation;
         var totalNeedsLearning = InWishKnowledge.NeedsLearning + NotInWishKnowledge.NeedsLearning;
         var weightedScoreTotal = (totalSolid * 1.0) + (totalNeedsConsolidation * 0.5) + (totalNeedsLearning * 0.1);
 
-        // Calculate rating for wishknowledge questions only
-        var wishknowledgeQuestions = InWishKnowledge.Total;
+        // Calculate rating for wishKnowledge questions only
+        var wishKnowledgeQuestions = InWishKnowledge.Total;
 
-        if (wishknowledgeQuestions == 0)
+        if (wishKnowledgeQuestions == 0)
         {
             KnowledgeStatusPoints = 0;
         }
         else
         {
             // Add small baseline value to prioritize pages with questions over pages without questions
-            KnowledgeStatusPoints = Math.Round((weightedScoreInWishKnowledge / wishknowledgeQuestions) + 0.0001, 4);
+            KnowledgeStatusPoints = Math.Round((weightedScoreInWishKnowledge / wishKnowledgeQuestions) + 0.0001, 4);
         }
 
-        // Calculate rating for all questions including those not in wishknowledge
+        // Calculate rating for all questions including those not in wishKnowledge
         var totalQuestions = TotalCount;
 
         if (totalQuestions == 0)

@@ -139,7 +139,7 @@ const { t } = useI18n()
 }
 
 .error {
-    color: @memo-wuwi-red;
+    color: @memo-wish-knowledge-red;
 }
 
 .cancel-alert {

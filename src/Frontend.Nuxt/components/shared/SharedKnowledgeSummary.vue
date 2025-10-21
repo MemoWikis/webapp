@@ -55,7 +55,7 @@ const knowledgeStatusItems = computed(() => {
 const knowledgeStatusItemsInWishKnowledge = computed(() => {
     const items = []
 
-    // InWishKnowledge items (wuwi)
+    // InWishKnowledge items (wishKnowledge)
     if (props.knowledgeSummary.inWishKnowledge) {
         items.push(
             {
@@ -274,7 +274,7 @@ const emit = defineEmits<{
                     background-color: @memo-grey-light;
                 }
 
-                // Styling for not-in-wuwi items (faded/striped)
+                // Styling for not-in-wishKnowledge items (faded/striped)
                 &.dot-solid.dot-notInWishKnowledge {
                     background-color: fade(@memo-green, 50%);
                 }

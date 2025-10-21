@@ -29,7 +29,7 @@ function getTooltipLabel(key: string, count: number) {
 		case 'notInWishKnowledge':
 			return t('knowledgeStatus.notInWishKnowledgeCount', count)
 
-		// WishKnowledge (wishknowledge) cases
+		// WishKnowledge (wishKnowledge) cases
 		case 'solidWishKnowledge':
 			return t('knowledgeStatus.solidCount', count) + ' (Wunschwissen)'
 		case 'needsConsolidationWishKnowledge':
@@ -39,7 +39,7 @@ function getTooltipLabel(key: string, count: number) {
 		case 'notLearnedWishKnowledge':
 			return t('knowledgeStatus.notLearnedCount', count) + ' (Wunschwissen)'
 
-		// Not in wuwi cases
+		// Not in wishKnowledge cases
 		case 'solidNotInWishKnowledge':
 			return t('knowledgeStatus.solidCount', count) + ' (Nicht im Wunschwissen)'
 		case 'needsConsolidationNotInWishKnowledge':

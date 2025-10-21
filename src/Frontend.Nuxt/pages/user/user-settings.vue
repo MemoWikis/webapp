@@ -136,7 +136,7 @@ userStore.$onAction(({ name, after }) => {
     padding: 50px 20px;
 
     h1 {
-        color: @memo-wuwi-red;
+        color: @memo-wish-knowledge-red;
         margin-bottom: 20px;
     }
 

@@ -6,8 +6,8 @@ export interface UserResult {
     createdQuestionsCount: number
     createdPagesCount: number
     showWishKnowledge: boolean
-    wuwiQuestionsCount: number
-    wuwiPagesCount: number
+    wishKnowledgeQuestionsCount: number
+    wishKnowledgePagesCount: number
     imgUrl: string
     wikiId: number
     contentLanguages: string[]

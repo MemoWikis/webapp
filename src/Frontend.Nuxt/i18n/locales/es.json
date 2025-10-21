@@ -39,7 +39,7 @@
             "passwordReset": "Tu contraseña se ha restablecido.",
             "passwordVerificationMailSent": "¡Correo de verificación enviado! Por favor, revisa tu bandeja de entrada.",
             "supportLoginUpdated": "Los datos de tu inicio de sesión de soporte se han actualizado correctamente.",
-            "wuwiVisibilityUpdated": "Tu configuración de Conocimiento deseado se ha actualizado correctamente.",
+            "wishKnowledgeVisibilityUpdated": "Tu configuración de Conocimiento deseado se ha actualizado correctamente.",
             "deleted": "Tu cuenta ha sido eliminada con éxito."
         },
         "collaboration": {
@@ -1112,7 +1112,7 @@
             "notPossible": "Lamentablemente no es posible que elimines tu perfil por tu cuenta. Escríbenos un breve correo a",
             "contactReason": "para que podamos conservar tu valioso contenido y eliminar tu perfil por ti."
         },
-        "wuwi": {
+        "wishKnowledge": {
             "showWishKnowledge": "Mostrar Conocimiento deseado",
             "explanation": "Si seleccionas esto, será visible públicamente qué preguntas están en tu Conocimiento deseado (excepto preguntas privadas). No se muestran estadísticas de respuestas."
         },

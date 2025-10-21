@@ -39,7 +39,7 @@
             "passwordReset": "Dein Passwort wurde zurückgesetzt.",
             "passwordVerificationMailSent": "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang.",
             "supportLoginUpdated": "Deine Support-Login-Daten wurden erfolgreich aktualisiert.",
-            "wuwiVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert.",
+            "wishKnowledgeVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert.",
             "deleted": "Dein Account wurde erfolgreich gelöscht."
         },
         "collaboration": {
@@ -1112,7 +1112,7 @@
             "notPossible": "Leider ist es nicht möglich, Dein Profil eigenständig zu löschen. Schreib uns deshalb bitte eine kurze E-Mail an",
             "contactReason": "damit wir Dein wertvolles Wissen sichern und Dein Profil für Dich entfernen können."
         },
-        "wuwi": {
+        "wishKnowledge": {
             "showWishKnowledge": "Wunschwissen zeigen",
             "explanation": "Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind (außer private Fragen). Antwortstatistiken werden nicht angezeigt."
         },

@@ -40,9 +40,9 @@ const emit = defineEmits(['setTab'])
                         <button class="tab" @click="emit('setTab', Tab.WishKnowledge)">
 
                             <div class="tab-label active" v-if="props.tab === Tab.WishKnowledge">
-                                {{ t('user.tabs.wishknowledge') }}</div>
+                                {{ t('user.tabs.wishKnowledge') }}</div>
                             <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.WishKnowledge }">
-                                {{ t('user.tabs.wishknowledge') }}</div>
+                                {{ t('user.tabs.wishKnowledge') }}</div>
 
                             <div class="active-tab" v-if="props.tab === Tab.WishKnowledge"></div>
                             <div class="inactive-tab" v-else>
@@ -78,10 +78,10 @@ const emit = defineEmits(['setTab'])
                 <button class="tab" @click="emit('setTab', Tab.WishKnowledge)">
 
                     <div class="tab-label active" v-if="props.tab === Tab.WishKnowledge">
-                        {{ t('user.tabs.wishknowledge') }}</div>
+                        {{ t('user.tabs.wishKnowledge') }}</div>
                     <div class="tab-label" :class="{ 'invisible-tab': props.tab === Tab.WishKnowledge }"
-                        ref="wishknowledgeLabelEl">
-                        {{ t('user.tabs.wishknowledge') }}</div>
+                        ref="wishKnowledgeLabelEl">
+                        {{ t('user.tabs.wishKnowledge') }}</div>
 
                     <div class="active-tab" v-if="props.tab === Tab.WishKnowledge"></div>
                     <div class="inactive-tab" v-else>

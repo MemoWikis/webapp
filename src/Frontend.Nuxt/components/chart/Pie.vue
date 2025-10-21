@@ -122,7 +122,7 @@ onBeforeMount(() => {
     fill: @memo-green;
 }
 
-// WishKnowledge (wishknowledge) colors - solid colors
+// WishKnowledge (wishKnowledge) colors - solid colors
 .svg-color-solidWishKnowledge {
     fill: @memo-green;
 }
@@ -139,7 +139,7 @@ onBeforeMount(() => {
     fill: @memo-grey-light;
 }
 
-// Not in wuwi colors - slightly different shades
+// Not in wishKnowledge colors - slightly different shades
 .svg-color-solidNotInWishKnowledge {
     fill: fadeout(@memo-green, 30%);
 }

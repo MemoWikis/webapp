@@ -39,7 +39,7 @@
             "passwordReset": "Ton mot de passe a été réinitialisé !",
             "passwordVerificationMailSent": "E-mail de vérification envoyé ! Vérifie ta boîte de réception.",
             "supportLoginUpdated": "Tes infos de connexion au support sont à jour !",
-            "wuwiVisibilityUpdated": "Tes paramètres de Connaissances souhaitées sont à jour !",
+            "wishKnowledgeVisibilityUpdated": "Tes paramètres de Connaissances souhaitées sont à jour !",
             "deleted": "Ton compte a été supprimé !"
         },
         "collaboration": {
@@ -1112,7 +1112,7 @@
             "notPossible": "Désolé, tu ne peux pas supprimer ton profil toi-même. Envoie-nous un e-mail à :",
             "contactReason": "afin qu’on sauvegarde tes données et qu’on le supprime pour toi."
         },
-        "wuwi": {
+        "wishKnowledge": {
             "showWishKnowledge": "Rendre mes Connaissances souhaitées visibles",
             "explanation": "Si tu coches, il sera visible publiquement quelles questions sont dans tes Connaissances souhaitées (sauf tes questions privées). Les stats de réponses ne s’affichent pas."
         },
