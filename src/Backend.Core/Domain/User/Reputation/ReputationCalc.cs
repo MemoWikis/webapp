@@ -5,8 +5,8 @@ public class ReputationCalc(
     UserReadingRepo userReadingRepo) : IRegisterAsInstancePerLifetime
 {
     public const int PointsPerQuestionCreated = 1; //excluding private questions
-    public const int PointsPerQuestionInOtherWishknowledge = 5;
-    public const int PointsForPublicWishknowledge = 30;
+    public const int PointsPerQuestionInOtherWishKnowledge = 5;
+    public const int PointsForPublicWishKnowledge = 30;
 
     public ReputationCalcResult Run(UserCacheItem user)
     {
@@ -23,14 +23,14 @@ public class ReputationCalc(
 
         /*Calculate Reputation for Questions, Sets, Pages in other user's wish knowledge */
 
-        var countQuestionsInOtherWishknowledge = userReadingRepo.GetByIds(user.Id);
-        result.ForQuestionsInOtherWishknowledge =
-            countQuestionsInOtherWishknowledge[0].TotalInOthersWishknowledge *
-            PointsPerQuestionInOtherWishknowledge;
+        var countQuestionsInOtherWishKnowledge = userReadingRepo.GetByIds(user.Id);
+        result.ForQuestionsInOtherWishKnowledge =
+            countQuestionsInOtherWishKnowledge[0].TotalInOthersWishKnowledge *
+            PointsPerQuestionInOtherWishKnowledge;
 
         /* Calculate Reputation for other things */
 
-        result.ForPublicWishknowledge = result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
+        result.ForPublicWishKnowledge = result.User.ShowWishKnowledge ? PointsForPublicWishKnowledge : 0;
 
         return result;
     }
@@ -50,13 +50,13 @@ public class ReputationCalc(
 
         /*Calculate Reputation for Questions, Sets, Pages in other user's wish knowledge */
 
-        result.ForQuestionsInOtherWishknowledge =
-            user.TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
+        result.ForQuestionsInOtherWishKnowledge =
+            user.TotalInOthersWishKnowledge * PointsPerQuestionInOtherWishKnowledge;
 
         /* Calculate Reputation for other things */
 
-        result.ForPublicWishknowledge =
-            result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
+        result.ForPublicWishKnowledge =
+            result.User.ShowWishKnowledge ? PointsForPublicWishKnowledge : 0;
 
         return result;
     }

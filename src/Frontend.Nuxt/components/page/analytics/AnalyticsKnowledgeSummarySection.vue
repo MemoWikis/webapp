@@ -145,7 +145,7 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
                     background: @memo-green;
                 }
 
-                &.color-notInWishknowledge {
+                &.color-notInWishKnowledge {
                     background: @memo-grey-dark;
                 }
             }

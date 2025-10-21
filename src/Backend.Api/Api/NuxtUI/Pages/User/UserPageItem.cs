@@ -30,7 +30,7 @@ public class UserPageItemMapper(
             wiki.Name,
             new PageImageSettings(wiki.Id, httpContextAccessor).GetUrl_128px(true).Url,
             wiki.GetCountQuestionsAggregated(sessionUser.UserId),
-            new KnowledgeSummaryResponse(knowledgeSummaryLoader.Run(sessionUser.UserId, wiki.Id, onlyInWishknowledge: true)),
+            new KnowledgeSummaryResponse(knowledgeSummaryLoader.Run(sessionUser.UserId, wiki.Id, onlyInWishKnowledge: true)),
             popularityCalculator.CalculatePagePopularity(wiki));
     }
 
@@ -94,7 +94,7 @@ public class UserPageItemMapper(
             page.Name,
             new PageImageSettings(page.Id, httpContextAccessor).GetUrl_128px(true).Url,
             page.GetCountQuestionsAggregated(sessionUser.UserId),
-            new KnowledgeSummaryResponse(knowledgeSummaryLoader.Run(sessionUser.UserId, page.Id, onlyInWishknowledge: true)),
+            new KnowledgeSummaryResponse(knowledgeSummaryLoader.Run(sessionUser.UserId, page.Id, onlyInWishKnowledge: true)),
             popularityCalculator.CalculatePagePopularity(page),
             page.Creator.Name,
             IsPublic: page.IsPublic);

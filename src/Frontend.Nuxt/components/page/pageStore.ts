@@ -47,7 +47,7 @@ export class Page {
         needsLearningPercentage: 0,
         notLearnedPercentage: 0,
 
-        inWishknowledge: {
+        inWishKnowledge: {
             solid: 0,
             needsConsolidation: 0,
             needsLearning: 0,
@@ -63,7 +63,7 @@ export class Page {
             total: 0
         },
 
-        notInWishknowledge: {
+        notInWishKnowledge: {
             solid: 0,
             needsConsolidation: 0,
             needsLearning: 0,
@@ -98,7 +98,7 @@ export class Page {
         knowledgeStatusPoints: 0,
         knowledgeStatusPointsTotal: 0,
 
-        notInWishknowledgePercentage: 0,
+        notInWishKnowledgePercentage: 0,
     }
     gridItems: GridPageItem[] = []
     isChildOfPersonalWiki: boolean = false

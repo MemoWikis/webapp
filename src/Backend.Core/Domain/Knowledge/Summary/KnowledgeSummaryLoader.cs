@@ -16,38 +16,38 @@
             }
         }
 
-        var knowledgeSummary = Run(userId, pageId, onlyInWishknowledge: false);
+        var knowledgeSummary = Run(userId, pageId, onlyInWishKnowledge: false);
 
         SlidingCache.UpdateActiveKnowledgeSummary(userId, pageId, knowledgeSummary);
 
         return knowledgeSummary;
     }
 
-    public KnowledgeSummary Run(int userId, int pageId, bool onlyInWishknowledge = true)
+    public KnowledgeSummary Run(int userId, int pageId, bool onlyInWishKnowledge = true)
     {
         var page = EntityCache.GetPage(pageId);
         if (page == null)
             return new KnowledgeSummary();
 
-        return Run(userId, page.GetAggregatedQuestions(userId).GetIds(), onlyInWishknowledge);
+        return Run(userId, page.GetAggregatedQuestions(userId).GetIds(), onlyInWishKnowledge);
     }
 
     public KnowledgeSummary Run(
         int userId,
         IList<int>? questionIds = null,
-        bool onlyInWishknowledge = true)
+        bool onlyInWishKnowledge = true)
     {
         if (userId <= 0 && questionIds != null)
-            return new KnowledgeSummary(notLearnedInWishknowledge: questionIds.Count);
+            return new KnowledgeSummary(notLearnedInWishKnowledge: questionIds.Count);
 
         EnsureExtendedUserExists(userId);
         var allQuestionValuations = GetFilteredQuestionValuations(userId, questionIds);
         var totalCounts = CalculateTotalKnowledgeStatusCounts(allQuestionValuations);
-        var wishknowledgeCounts = CalculateWishknowledgeStatusCounts(allQuestionValuations);
-        var adjustedTotalCounts = AdjustForQuestionsWithoutKnowledgeStatus(totalCounts, questionIds, onlyInWishknowledge);
+        var wishknowledgeCounts = CalculateWishKnowledgeStatusCounts(allQuestionValuations);
+        var adjustedTotalCounts = AdjustForQuestionsWithoutKnowledgeStatus(totalCounts, questionIds, onlyInWishKnowledge);
 
-        // Calculate NotInWishknowledge counts by subtracting wishknowledge from total
-        var notInWishknowledgeCounts = new KnowledgeStatusCounts
+        // Calculate NotInWishKnowledge counts by subtracting wishknowledge from total
+        var notInWishKnowledgeCounts = new KnowledgeStatusCounts
         {
             NotLearned = adjustedTotalCounts.NotLearned - wishknowledgeCounts.NotLearned,
             NeedsLearning = adjustedTotalCounts.NeedsLearning - wishknowledgeCounts.NeedsLearning,
@@ -56,14 +56,14 @@
         };
 
         return new KnowledgeSummary(
-            notLearnedInWishknowledge: wishknowledgeCounts.NotLearned,
-            needsLearningInWishknowledge: wishknowledgeCounts.NeedsLearning,
-            needsConsolidationInWishknowledge: wishknowledgeCounts.NeedsConsolidation,
-            solidInWishknowledge: wishknowledgeCounts.Solid,
-            notLearnedNotInWishknowledge: notInWishknowledgeCounts.NotLearned,
-            needsLearningNotInWishknowledge: notInWishknowledgeCounts.NeedsLearning,
-            needsConsolidationNotInWishknowledge: notInWishknowledgeCounts.NeedsConsolidation,
-            solidNotInWishknowledge: notInWishknowledgeCounts.Solid);
+            notLearnedInWishKnowledge: wishknowledgeCounts.NotLearned,
+            needsLearningInWishKnowledge: wishknowledgeCounts.NeedsLearning,
+            needsConsolidationInWishKnowledge: wishknowledgeCounts.NeedsConsolidation,
+            solidInWishKnowledge: wishknowledgeCounts.Solid,
+            notLearnedNotInWishKnowledge: notInWishKnowledgeCounts.NotLearned,
+            needsLearningNotInWishKnowledge: notInWishKnowledgeCounts.NeedsLearning,
+            needsConsolidationNotInWishKnowledge: notInWishKnowledgeCounts.NeedsConsolidation,
+            solidNotInWishKnowledge: notInWishKnowledgeCounts.Solid);
     }
 
     private void EnsureExtendedUserExists(int userId)
@@ -97,7 +97,7 @@
         };
     }
 
-    private KnowledgeStatusCounts CalculateWishknowledgeStatusCounts(List<QuestionValuationCacheItem> questionValuations)
+    private KnowledgeStatusCounts CalculateWishKnowledgeStatusCounts(List<QuestionValuationCacheItem> questionValuations)
     {
         var wishknowledgeQuestionValuations = questionValuations.Where(valuation => valuation.IsInWishKnowledge).ToList();
         
@@ -113,9 +113,8 @@
     private KnowledgeStatusCounts AdjustForQuestionsWithoutKnowledgeStatus(
         KnowledgeStatusCounts totalCounts, 
         IList<int>? questionIds, 
-        bool onlyInWishknowledge)
+        bool onlyInWishKnowledge)
     {
-        if (questionIds != null && !onlyInWishknowledge)
         {
             var questionsWithKnowledgeStatus = totalCounts.NotLearned + totalCounts.NeedsLearning + totalCounts.NeedsConsolidation + totalCounts.Solid;
             var questionsWithoutKnowledgeStatus = questionIds.Count - questionsWithKnowledgeStatus;

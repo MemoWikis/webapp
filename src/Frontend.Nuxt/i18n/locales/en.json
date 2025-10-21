@@ -62,7 +62,7 @@
             "loopLink": "Pages cannot be assigned to themselves",
             "isAlreadyLinkedAsChild": "This page is already linked as a subpage.",
             "isNotAChild": "This page is already not a subpage",
-            "isLinkedInNonWuwi": "You have already linked this page outside of your Wish-Knowledge. Please disable 'Show only your Wish-Knowledge' and add this page to your Wish-Knowledge.",
+            "isLinkedInNonWishKnowledge": "You have already linked this page outside of your Wish-Knowledge. Please disable 'Show only your Wish-Knowledge' and add this page to your Wish-Knowledge.",
             "childIsParent": "Parent pages cannot be assigned as subpages.",
             "nameIsTaken": " is already taken, please choose another name!",
             "nameIsForbidden": " is forbidden, please choose another name!",
@@ -91,7 +91,7 @@
             "missingAnswer": "The answer to the question is missing.",
             "save": "Your question could not be saved.",
             "creation": "Your question could not be created.",
-            "isInWuwi": "The question cannot be deleted, it is {count}x part of other users' Wish-Knowledge. Please contact us if you believe this question should still be deleted.",
+            "isInWishKnowledge": "The question cannot be deleted, it is {count}x part of other users' Wish-Knowledge. Please contact us if you believe this question should still be deleted.",
             "rights": "You do not have permission to do that.",
             "errorOnDelete": "An error occurred! References to the question (study sessions, appointments, Wish-Knowledge entries...) may have been partially deleted.",
             "couldNotAddFlashcards": "The flashcards could not be added.",
@@ -851,12 +851,12 @@
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Not learned yet",
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
-        "notInWishknowledge": "Not in wishknowledge",
-        "notInWishknowledgeCount": "@:knowledgeStatus.notInWishknowledge : @:label.questionCount"
+        "notInWishKnowledge": "Not in wishknowledge",
+        "notInWishKnowledgeCount": "@:knowledgeStatus.notInWishKnowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
-        "inWuwi": "In Wish-Knowledge",
-        "notInWuwi": "Not in Wish-Knowledge",
+        "inWishKnowledge": "In Wish-Knowledge",
+        "notInWishKnowledge": "Not in Wish-Knowledge",
         "createdByCurrentUser": "Created by me",
         "notCreatedByCurrentUser": "Not created by me",
         "private": "Private questions",
@@ -1154,7 +1154,7 @@
                 "notLoggedIn": "This is the probability that you will answer the question correctly. Log in so we can calculate your personal probability."
             },
             "status": {
-                "notInWishknowledge": "Not in Wish-Knowledge",
+                "notInWishKnowledge": "Not in Wish-Knowledge",
                 "solid": "Solid knowledge",
                 "needsConsolidation": "Needs consolidation",
                 "needsLearning": "Needs learning",
@@ -1276,9 +1276,9 @@
             "reputation": {
                 "title": "Reputation points",
                 "total": "total",
-                "questionsInOtherWishknowledges": "Own questions in others' Wish-Knowledge",
+                "questionsInOtherWishKnowledges": "Own questions in others' Wish-Knowledge",
                 "questionsCreated": "Created questions",
-                "publicWishknowledges": "Publication of your own Wish-Knowledge",
+                "publicWishKnowledges": "Publication of your own Wish-Knowledge",
                 "learnMore": "Learn more about reputation points"
             },
             "content": {
@@ -1288,12 +1288,12 @@
                 "privateQuestions": "Private questions",
                 "privatePages": "Private pages"
             },
-            "wishknowledge": {
+            "wishKnowledge": {
                 "title": "In Wish-Knowledge",
                 "questions": "Questions"
             }
         },
-        "wishknowledge": {
+        "wishKnowledge": {
             "private": {
                 "own": "Your Wish-Knowledge is not public.",
                 "change": "Change",
@@ -1349,7 +1349,7 @@
         },
         "tabs": {
             "overview": "Overview",
-            "wishknowledge": "Wish-Knowledge",
+            "wishKnowledge": "Wish-Knowledge",
             "settings": "Settings"
         },
         "membership": {
@@ -1382,7 +1382,7 @@
                         "publicContent": "Unlimited public content (view, create and learn)",
                         "privatePages": "{count} private pages",
                         "privateQuestions": "{count} private questions",
-                        "wishknowledge": "max. {count} questions in Wish-Knowledge"
+                        "wishKnowledge": "max. {count} questions in Wish-Knowledge"
                     }
                 },
                 "plus": {
@@ -1393,7 +1393,7 @@
                         "support": "You support us :-)",
                         "unlimitedPages": "Unlimited private pages",
                         "unlimitedQuestions": "Unlimited private questions",
-                        "unlimitedWishknowledge": "Unlimited Wish-Knowledge"
+                        "unlimitedWishKnowledge": "Unlimited Wish-Knowledge"
                     }
                 },
                 "team": {
@@ -1500,7 +1500,7 @@
             "label": "Sort by:",
             "options": {
                 "rank": "Rank",
-                "wishknowledge": "Wish-Knowledge",
+                "wishKnowledge": "Wish-Knowledge",
                 "notSelected": "Not selected"
             }
         },
@@ -1511,8 +1511,8 @@
         "card": {
             "reputation": "Reputation: {points} (Rank {rank})",
             "created": "Created: {questions} questions / {pages} pages",
-            "wishknowledge": "Wish-Knowledge: {questions} questions / {pages} pages",
-            "privateWishknowledge": "{name}'s Wish-Knowledge is private",
+            "wishKnowledge": "Wish-Knowledge: {questions} questions / {pages} pages",
+            "privateWishKnowledge": "{name}'s Wish-Knowledge is private",
             "toWiki": "Go to {name}'s Wiki",
             "rank": "Rank",
             "createdTitle": "Created",
@@ -1677,8 +1677,8 @@
     },
     "pin": {
         "tooltips": {
-            "removeFromWishknowledge": "Remove from your Wunschwissen",
-            "addToWishknowledge": "Add to your Wunschwissen"
+            "removeFromWishKnowledge": "Remove from your Wunschwissen",
+            "addToWishKnowledge": "Add to your Wunschwissen"
         },
         "labels": {
             "add": "Add"

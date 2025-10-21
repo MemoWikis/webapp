@@ -166,7 +166,7 @@ export default <RouterConfig>{
             name: 'userWuwiPage',
             path: '/Nutzer/:name/:id/Wunschwissen',
             component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Wishknowledge },
+            props: { tab: UserTab.WishKnowledge },
             meta: {
                 key: (route) => `/${route.params.name}/${route.params.id}`,
             },

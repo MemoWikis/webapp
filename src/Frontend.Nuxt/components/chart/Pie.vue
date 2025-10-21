@@ -106,7 +106,7 @@ onBeforeMount(() => {
     fill: @memo-grey-light;
 }
 
-.svg-color-notInWishknowledge {
+.svg-color-notInWishKnowledge {
     fill: @memo-grey;
 }
 

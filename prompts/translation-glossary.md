@@ -25,6 +25,7 @@ This glossary ensures consistent terminology across all German translations in t
 | Lernen | learning | |
 | Wissensstand | knowledge status | |
 | Lernaktivität | learning activity | |
+| Wunschwissen | wishknowledge | |
 
 ### User Interface
 | German | Consistent Translation | Notes |

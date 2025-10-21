@@ -27,7 +27,7 @@ public class QuestionEditModalController(
         string SolutionMetadataJson,
         int Visibility,
         SolutionType SolutionType,
-        bool? AddToWishknowledge,
+        bool? AddToWishKnowledge,
         int SessionIndex,
         int LicenseId,
         string ReferencesJson,
@@ -94,7 +94,7 @@ public class QuestionEditModalController(
             request.SessionIndex,
             request.SessionConfig);
 
-        if (request.AddToWishknowledge != null && (bool)request.AddToWishknowledge)
+        if (request.AddToWishKnowledge != null && (bool)request.AddToWishKnowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         return new CreateResult { Success = true, Data = LoadQuestion(question.Id) };
@@ -265,7 +265,7 @@ public class QuestionEditModalController(
         if (userQuestionValuation.ContainsKey(q.Id) && user != null)
         {
             question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
-            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
+            question.IsInWishKnowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
             question.HasPersonalAnswer =
                 userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
         }

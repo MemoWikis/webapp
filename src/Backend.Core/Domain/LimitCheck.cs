@@ -7,7 +7,7 @@
     public readonly record struct BasicLimits(
         int MaxPrivatePageCount,
         int MaxPrivateQuestionCount,
-        int MaxWishknowledgeCount,
+        int MaxWishKnowledgeCount,
         bool TestToBeDeleted = true);
 
     public static BasicLimits GetBasicLimits()
@@ -16,7 +16,7 @@
         {
             MaxPrivatePageCount = _privatePagesQuantity,
             MaxPrivateQuestionCount = _privateQuestionsQuantity,
-            MaxWishknowledgeCount = _wishCountKnowledge,
+            MaxWishKnowledgeCount = _wishCountKnowledge,
             TestToBeDeleted = true
         };
     }

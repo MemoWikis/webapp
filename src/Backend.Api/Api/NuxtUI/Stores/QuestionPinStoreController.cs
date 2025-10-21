@@ -37,7 +37,7 @@
         }
 
         var success = EntityCache.GetQuestion(id)
-            .IsInWishknowledge(_sessionUser.UserId, _extendedUserCache);
+            .IsInWishKnowledge(_sessionUser.UserId, _extendedUserCache);
         return new PinResult
             { Success = success, MessageKey = success ? null : FrontendMessageKeys.Error.Default };
     }
@@ -64,7 +64,7 @@
         }
 
         var success = !EntityCache.GetQuestion(id)
-            .IsInWishknowledge(_sessionUser.UserId, _extendedUserCache);
+            .IsInWishKnowledge(_sessionUser.UserId, _extendedUserCache);
         return new PinResult
             { Success = success, MessageKey = success ? null : FrontendMessageKeys.Error.Default };
     }

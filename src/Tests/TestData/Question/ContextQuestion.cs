@@ -95,7 +95,7 @@
         return this;
     }
 
-    public ContextQuestion AddToWishknowledge(User user, QuestionInKnowledge questionInKnowledge)
+    public ContextQuestion AddToWishKnowledge(User user, QuestionInKnowledge questionInKnowledge)
     {
         var lastQuestion = All.Last();
         questionInKnowledge.Pin(lastQuestion.Id, user.Id);

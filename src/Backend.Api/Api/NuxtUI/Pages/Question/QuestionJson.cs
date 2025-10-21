@@ -7,7 +7,7 @@ public class Question
     public int CorrectnessProbability { get; set; }
     public string LinkToQuestion { get; set; }
     public string ImageData { get; set; }
-    public bool IsInWishknowledge { get; set; }
+    public bool IsInWishKnowledge { get; set; }
     public bool HasPersonalAnswer { get; set; }
     public int LearningSessionStepCount { get; set; }
     public string LinkToComment { get; set; }

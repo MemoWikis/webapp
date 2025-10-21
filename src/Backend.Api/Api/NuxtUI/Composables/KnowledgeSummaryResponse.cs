@@ -32,21 +32,20 @@ public readonly record struct KnowledgeStatusCountsResponse(
 }
 
 public readonly record struct KnowledgeSummaryResponse(
-    int NotInWishknowledgePercentage = 0,
     int Total = 0,
     double KnowledgeStatusPoints = 0.0,
     double KnowledgeStatusPointsTotal = 0.0,
-    KnowledgeStatusCountsResponse InWishknowledge = new KnowledgeStatusCountsResponse(),
-    KnowledgeStatusCountsResponse NotInWishknowledge = new KnowledgeStatusCountsResponse(),
+    KnowledgeStatusCountsResponse InWishKnowledge = new KnowledgeStatusCountsResponse(),
+    KnowledgeStatusCountsResponse NotInWishKnowledge = new KnowledgeStatusCountsResponse(),
     KnowledgeStatusCountsResponse TotalDetailed = new KnowledgeStatusCountsResponse())
 {
     public KnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary) : this(
-        knowledgeSummary.NotInWishknowledgePercentage,
+        knowledgeSummary.NotInWishKnowledgePercentage,
         knowledgeSummary.TotalCount,
         knowledgeSummary.KnowledgeStatusPoints,
         knowledgeSummary.KnowledgeStatusPointsTotal,
-        new KnowledgeStatusCountsResponse(knowledgeSummary.InWishknowledge),
-        new KnowledgeStatusCountsResponse(knowledgeSummary.NotInWishknowledge),
+        new KnowledgeStatusCountsResponse(knowledgeSummary.InWishKnowledge),
+        new KnowledgeStatusCountsResponse(knowledgeSummary.NotInWishKnowledge),
         new KnowledgeStatusCountsResponse(knowledgeSummary.Total))
     {
     }

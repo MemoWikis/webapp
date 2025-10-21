@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-[DebuggerDisplay("PageId={PageId} IsInWuwi: {IsInWishKnowledge()}")]
+[DebuggerDisplay("PageId={PageId} IsInWishKnowledge: {IsInWishKnowledge()}")]
 public class PageValuation : DomainEntity
 {
     public virtual int UserId { get; set; }

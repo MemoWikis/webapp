@@ -44,7 +44,7 @@ public class QuestionLoader(
         {
             question.CorrectnessProbability =
                 userQuestionValuation[q.Id].CorrectnessProbability;
-            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
+            question.IsInWishKnowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
             question.HasPersonalAnswer =
                 userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
         }

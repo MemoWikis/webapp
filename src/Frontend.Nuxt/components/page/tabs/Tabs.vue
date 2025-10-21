@@ -26,8 +26,8 @@ function getTooltipLabel(key: string, count: number) {
 			return t('knowledgeStatus.needsLearningCount', count)
 		case 'notLearned':
 			return t('knowledgeStatus.notLearnedCount', count)
-		case 'notInWishknowledge':
-			return t('knowledgeStatus.notInWishknowledgeCount', count)
+		case 'notInWishKnowledge':
+			return t('knowledgeStatus.notInWishKnowledgeCount', count)
 
 		// Wuwi (wishknowledge) cases
 		case 'solidWuwi':
@@ -403,7 +403,7 @@ const { suppressScrollX } = useScrollbarSuppression(
 			background: @memo-green;
 		}
 
-		&.color-notInWishknowledge {
+		&.color-notInWishKnowledge {
 			background: @memo-grey-dark;
 		}
 	}

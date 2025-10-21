@@ -14,7 +14,7 @@ export interface AnswerBodyModel {
     solution: string
 
     isCreator: boolean
-    isInWishknowledge: boolean
+    isInWishKnowledge: boolean
 
     questionViewGuid: number
     isLastStep: boolean

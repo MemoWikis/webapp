@@ -35,7 +35,7 @@ public class QuestionController(
         string PrimaryPageName,
         string Solution,
         bool IsCreator,
-        bool IsInWishknowledge,
+        bool IsInWishKnowledge,
         Guid QuestionViewGuid,
         bool IsLastStep);
 
@@ -88,8 +88,8 @@ public class QuestionController(
                     PrimaryPageName = primaryPage?.Name,
                     Solution = question.Solution,
                     IsCreator = question.Creator.Id == _sessionUser.UserId,
-                    IsInWishknowledge = _sessionUser.IsLoggedIn &&
-                                        question.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+                    IsInWishKnowledge = _sessionUser.IsLoggedIn &&
+                                        question.IsInWishKnowledge(_sessionUser.UserId, _extendedUserCache),
                     QuestionViewGuid = Guid.NewGuid(),
                     IsLastStep = true
                 },
@@ -167,7 +167,7 @@ public class QuestionController(
             OverallAnswerCount: history.TimesAnsweredTotal,
             OverallAnsweredCorrectly: history.TimesAnsweredCorrect,
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
-            IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
+            IsInWishKnowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
                 .IsInWishKnowledge,
             Pages: question.PagesVisibleToCurrentUser(_permissionCheck).Select(t =>
                 new AnswerQuestionDetailsPageItem(
@@ -193,7 +193,7 @@ public class QuestionController(
             ),
             CreationDate: question.DateCreated,
             TotalViewCount: question.TotalViews,
-            WishknowledgeCount: question.TotalRelevancePersonalEntries,
+            WishKnowledgeCount: question.TotalRelevancePersonalEntries,
             LicenseId: question.License.Id
         );
         return result;
@@ -205,7 +205,7 @@ public class QuestionController(
         int CorrectnessProbability,
         string LinkToQuestion,
         string ImageData,
-        bool IsInWishknowledge,
+        bool IsInWishKnowledge,
         bool HasPersonalAnswer,
         int LearningSessionStepCount,
         string LinkToComment,
@@ -256,7 +256,7 @@ public class QuestionController(
         if (userQuestionValuation != null && userQuestionValuation.ContainsKey(q.Id))
         {
             question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
-            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
+            question.IsInWishKnowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
             question.HasPersonalAnswer =
                 userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
         }

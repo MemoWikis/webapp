@@ -5,7 +5,7 @@ interface Props {
     knowledgeSummary: KnowledgeSummary
     showActions?: boolean
     actionIcon?: string
-    showNotInWishknowledge?: boolean
+    showNotInWishKnowledge?: boolean
     showSum?: boolean
 }
 
@@ -55,34 +55,34 @@ const knowledgeStatusItems = computed(() => {
 const knowledgeStatusItemsInWuwi = computed(() => {
     const items = []
 
-    // InWishknowledge items (wuwi)
-    if (props.knowledgeSummary.inWishknowledge) {
+    // InWishKnowledge items (wuwi)
+    if (props.knowledgeSummary.inWishKnowledge) {
         items.push(
             {
                 label: t('knowledgeStatus.solid'),
-                value: props.knowledgeSummary.inWishknowledge.solid,
-                percentage: props.showNotInWishknowledge ? props.knowledgeSummary.inWishknowledge.solidPercentageOfTotal : props.knowledgeSummary.inWishknowledge.solidPercentage,
+                value: props.knowledgeSummary.inWishKnowledge.solid,
+                percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.solidPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.solidPercentage,
                 class: 'solid',
                 type: KnowledgeSummaryType.SolidWuwi
             },
             {
                 label: t('knowledgeStatus.needsConsolidation'),
-                value: props.knowledgeSummary.inWishknowledge.needsConsolidation,
-                percentage: props.showNotInWishknowledge ? props.knowledgeSummary.inWishknowledge.needsConsolidationPercentageOfTotal : props.knowledgeSummary.inWishknowledge.needsConsolidationPercentage,
+                value: props.knowledgeSummary.inWishKnowledge.needsConsolidation,
+                percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.needsConsolidationPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.needsConsolidationPercentage,
                 class: 'needsConsolidation',
                 type: KnowledgeSummaryType.NeedsConsolidationWuwi
             },
             {
                 label: t('knowledgeStatus.needsLearning'),
-                value: props.knowledgeSummary.inWishknowledge.needsLearning,
-                percentage: props.showNotInWishknowledge ? props.knowledgeSummary.inWishknowledge.needsLearningPercentageOfTotal : props.knowledgeSummary.inWishknowledge.needsLearningPercentage,
+                value: props.knowledgeSummary.inWishKnowledge.needsLearning,
+                percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.needsLearningPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.needsLearningPercentage,
                 class: 'needsLearning',
                 type: KnowledgeSummaryType.NeedsLearningWuwi
             },
             {
                 label: t('knowledgeStatus.notLearned'),
-                value: props.knowledgeSummary.inWishknowledge.notLearned,
-                percentage: props.showNotInWishknowledge ? props.knowledgeSummary.inWishknowledge.notLearnedPercentageOfTotal : props.knowledgeSummary.inWishknowledge.notLearnedPercentage,
+                value: props.knowledgeSummary.inWishKnowledge.notLearned,
+                percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.notLearnedPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.notLearnedPercentage,
                 class: 'notLearned',
                 type: KnowledgeSummaryType.NotLearnedWuwi
             }
@@ -93,33 +93,33 @@ const knowledgeStatusItemsInWuwi = computed(() => {
 
 const knowledgeStatusItemsNotInWuwi = computed(() => {
     const items = []
-    if (props.showNotInWishknowledge && props.knowledgeSummary.notInWishknowledge) {
+    if (props.showNotInWishKnowledge && props.knowledgeSummary.notInWishKnowledge) {
         items.push(
             {
                 label: t('knowledgeStatus.solid'),
-                value: props.knowledgeSummary.notInWishknowledge.solid,
-                percentage: props.knowledgeSummary.notInWishknowledge.solidPercentageOfTotal,
+                value: props.knowledgeSummary.notInWishKnowledge.solid,
+                percentage: props.knowledgeSummary.notInWishKnowledge.solidPercentageOfTotal,
                 class: 'solid notInWuwi',
                 type: KnowledgeSummaryType.SolidNotInWuwi
             },
             {
                 label: t('knowledgeStatus.needsConsolidation'),
-                value: props.knowledgeSummary.notInWishknowledge.needsConsolidation,
-                percentage: props.knowledgeSummary.notInWishknowledge.needsConsolidationPercentageOfTotal,
+                value: props.knowledgeSummary.notInWishKnowledge.needsConsolidation,
+                percentage: props.knowledgeSummary.notInWishKnowledge.needsConsolidationPercentageOfTotal,
                 class: 'needsConsolidation notInWuwi',
                 type: KnowledgeSummaryType.NeedsConsolidationNotInWuwi
             },
             {
                 label: t('knowledgeStatus.needsLearning'),
-                value: props.knowledgeSummary.notInWishknowledge.needsLearning,
-                percentage: props.knowledgeSummary.notInWishknowledge.needsLearningPercentageOfTotal,
+                value: props.knowledgeSummary.notInWishKnowledge.needsLearning,
+                percentage: props.knowledgeSummary.notInWishKnowledge.needsLearningPercentageOfTotal,
                 class: 'needsLearning notInWuwi',
                 type: KnowledgeSummaryType.NeedsLearningNotInWuwi
             },
             {
                 label: t('knowledgeStatus.notLearned'),
-                value: props.knowledgeSummary.notInWishknowledge.notLearned,
-                percentage: props.knowledgeSummary.notInWishknowledge.notLearnedPercentageOfTotal,
+                value: props.knowledgeSummary.notInWishKnowledge.notLearned,
+                percentage: props.knowledgeSummary.notInWishKnowledge.notLearnedPercentageOfTotal,
                 class: 'notLearned notInWuwi',
                 type: KnowledgeSummaryType.NotLearnedNotInWuwi
             }
@@ -163,7 +163,7 @@ const emit = defineEmits<{
         </div>
         <template v-else>
             <div class="summary-details">
-                <h4>{{ t('label.inWishknowledge') }}</h4>
+                <h4>{{ t('label.inWishKnowledge') }}</h4>
                 <div
                     v-for="(item, index) in knowledgeStatusItemsInWuwi"
                     :key="index"
@@ -186,8 +186,8 @@ const emit = defineEmits<{
 
                 </div>
             </div>
-            <div class="summary-details" v-if="props.showNotInWishknowledge">
-                <h4>{{ t('label.notInWishknowledge') }}</h4>
+            <div class="summary-details" v-if="props.showNotInWishKnowledge">
+                <h4>{{ t('label.notInWishKnowledge') }}</h4>
                 <div
                     v-for="(item, index) in knowledgeStatusItemsNotInWuwi"
                     :key="index"
@@ -270,7 +270,7 @@ const emit = defineEmits<{
                     background-color: @memo-grey-dark;
                 }
 
-                &.dot-notInWishknowledge {
+                &.dot-notInWishKnowledge {
                     background-color: @memo-grey-light;
                 }
 

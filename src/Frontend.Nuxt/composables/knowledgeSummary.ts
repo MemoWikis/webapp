@@ -24,7 +24,7 @@ export interface KnowledgeStatusCounts {
     needsLearningPercentage: number
     needsConsolidationPercentage: number
     solidPercentage: number
-    // Percentages relative to grand total (InWishknowledge + NotInWishknowledge)
+    // Percentages relative to grand total (InWishKnowledge + NotInWishKnowledge)
     notLearnedPercentageOfTotal: number
     needsLearningPercentageOfTotal: number
     needsConsolidationPercentageOfTotal: number
@@ -46,14 +46,14 @@ export interface KnowledgeSummary {
     notLearnedPercentage: number
 
     // New nested structure
-    inWishknowledge: KnowledgeStatusCounts
-    notInWishknowledge: KnowledgeStatusCounts
+    inWishKnowledge: KnowledgeStatusCounts
+    notInWishKnowledge: KnowledgeStatusCounts
     totalDetailed: KnowledgeStatusCounts
 
     knowledgeStatusPoints: number
     knowledgeStatusPointsTotal: number
 
-    notInWishknowledgePercentage: number
+    notInWishKnowledgePercentage: number
 }
 
 export interface KnowledgeSummarySlim {
@@ -61,8 +61,8 @@ export interface KnowledgeSummarySlim {
     needsConsolidation: number
     needsLearning: number
     notLearned: number
-    inWishknowledge?: KnowledgeStatusCounts
-    notInWishknowledge?: KnowledgeStatusCounts
+    inWishKnowledge?: KnowledgeStatusCounts
+    notInWishKnowledge?: KnowledgeStatusCounts
 }
 
 type KnowledgeSummaryInput = KnowledgeSummary | KnowledgeSummarySlim
@@ -75,11 +75,11 @@ export const convertKnowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSu
     const chartData: ChartData[] = []
     
     // Add wuwi (wishknowledge) categories first
-    if ('inWishknowledge' in knowledgeSummary && knowledgeSummary.inWishknowledge) {
+    if ('inWishKnowledge' in knowledgeSummary && knowledgeSummary.inWishKnowledge) {
         const wuwiStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
         
         for (const statusClass of wuwiStatusOrder) {
-            const value = knowledgeSummary.inWishknowledge[statusClass]
+            const value = knowledgeSummary.inWishKnowledge[statusClass]
             if (value && value > 0) {
                 chartData.push({
                     value,
@@ -90,11 +90,11 @@ export const convertKnowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSu
     }
     
     // Add not-in-wuwi (not in wishknowledge) categories
-    if ('notInWishknowledge' in knowledgeSummary && knowledgeSummary.notInWishknowledge) {
+    if ('notInWishKnowledge' in knowledgeSummary && knowledgeSummary.notInWishKnowledge) {
         const notInWuwiStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
         
         for (const statusClass of notInWuwiStatusOrder) {
-            const value = knowledgeSummary.notInWishknowledge[statusClass]
+            const value = knowledgeSummary.notInWishKnowledge[statusClass]
             if (value && value > 0) {
                 chartData.push({
                     value,
@@ -111,12 +111,12 @@ export const convertKnowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSu
  * Converts knowledge summary to chart data using only wishknowledge counts
  * (excludes questions not in wishknowledge)
  */
-export const convertWishknowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummary): ChartData[] => {
+export const convertWishKnowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummary): ChartData[] => {
     const wishknowledgeStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
     const chartData: ChartData[] = []
     
     for (const statusClass of wishknowledgeStatusOrder) {
-        const value = knowledgeSummary.inWishknowledge[statusClass]
+        const value = knowledgeSummary.inWishKnowledge[statusClass]
         if (value && value > 0) {
             chartData.push({
                 value,
@@ -131,12 +131,12 @@ export const convertWishknowledgeSummaryToChartData = (knowledgeSummary: Knowled
 /**
  * Converts knowledge summary to chart data using only non-wishknowledge counts
  */
-export const convertNotInWishknowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummary): ChartData[] => {
+export const convertNotInWishKnowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummary): ChartData[] => {
     const statusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
     const chartData: ChartData[] = []
     
     for (const statusClass of statusOrder) {
-        const value = knowledgeSummary.notInWishknowledge[statusClass]
+        const value = knowledgeSummary.notInWishKnowledge[statusClass]
         if (value && value > 0) {
             chartData.push({
                 value,
@@ -156,11 +156,11 @@ export const convertKnowledgeSummaryToTotalPercentageChartData = (knowledgeSumma
     const chartData: ChartData[] = []
     
     // Add wuwi (wishknowledge) categories with their percentage of total
-    if (knowledgeSummary.inWishknowledge) {
+    if (knowledgeSummary.inWishKnowledge) {
         const wuwiStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
         
         for (const statusClass of wuwiStatusOrder) {
-            const value = knowledgeSummary.inWishknowledge[`${statusClass}PercentageOfTotal`] || 0
+            const value = knowledgeSummary.inWishKnowledge[`${statusClass}PercentageOfTotal`] || 0
             if (value > 0) {
                 chartData.push({
                     value,
@@ -171,11 +171,11 @@ export const convertKnowledgeSummaryToTotalPercentageChartData = (knowledgeSumma
     }
     
     // Add not-in-wuwi categories with their percentage of total
-    if (knowledgeSummary.notInWishknowledge) {
+    if (knowledgeSummary.notInWishKnowledge) {
         const notInWuwiStatusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
         
         for (const statusClass of notInWuwiStatusOrder) {
-            const value = knowledgeSummary.notInWishknowledge[`${statusClass}PercentageOfTotal`] || 0
+            const value = knowledgeSummary.notInWishKnowledge[`${statusClass}PercentageOfTotal`] || 0
             if (value > 0) {
                 chartData.push({
                     value,
@@ -194,7 +194,7 @@ export const convertKnowledgeSummaryToTotalPercentageChartData = (knowledgeSumma
 export const getKnowledgeStatusPercentageOfTotal = (
     knowledgeSummary: KnowledgeSummary, 
     status: 'solid' | 'needsConsolidation' | 'needsLearning' | 'notLearned',
-    category: 'inWishknowledge' | 'notInWishknowledge'
+    category: 'inWishKnowledge' | 'notInWishKnowledge'
 ): number => {
     const categoryData = knowledgeSummary[category]
     if (!categoryData) return 0
@@ -213,12 +213,12 @@ export const convertKnowledgeSummaryToTotalChartData = (knowledgeSummary: Knowle
     for (const statusClass of statusOrder) {
         let totalValue = 0
         
-        if ('inWishknowledge' in knowledgeSummary && knowledgeSummary.inWishknowledge) {
-            totalValue += knowledgeSummary.inWishknowledge[statusClass] || 0
+        if ('inWishKnowledge' in knowledgeSummary && knowledgeSummary.inWishKnowledge) {
+            totalValue += knowledgeSummary.inWishKnowledge[statusClass] || 0
         }
         
-        if ('notInWishknowledge' in knowledgeSummary && knowledgeSummary.notInWishknowledge) {
-            totalValue += knowledgeSummary.notInWishknowledge[statusClass] || 0
+        if ('notInWishKnowledge' in knowledgeSummary && knowledgeSummary.notInWishKnowledge) {
+            totalValue += knowledgeSummary.notInWishKnowledge[statusClass] || 0
         }
         
         // Fallback to legacy properties if nested structure not available

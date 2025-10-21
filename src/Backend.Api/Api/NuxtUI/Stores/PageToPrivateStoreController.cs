@@ -190,13 +190,13 @@
         foreach (var questionId in json.questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
-            var otherUsersHaveQuestionInWuwi =
+            var otherUsersHaveQuestionInWishKnowledge =
                 questionCacheItem.TotalRelevancePersonalEntries >
-                (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache)
+                (questionCacheItem.IsInWishKnowledge(_sessionUser.UserId, _extendedUserCache)
                     ? 1
                     : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId &&
-                 !otherUsersHaveQuestionInWuwi) ||
+                 !otherUsersHaveQuestionInWishKnowledge) ||
                 _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Private;

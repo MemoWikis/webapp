@@ -93,15 +93,15 @@
                        StringUtils.PluralSuffix(user.WishCountSets, "s");
 
         var knowledgeSummary = _knowledgeSummaryLoader.Run(user.Id);
-        // Combined values from InWishknowledge and NotInWishknowledge
-        KnowledgeSolid = (knowledgeSummary.InWishknowledge.Solid + knowledgeSummary.NotInWishknowledge.Solid).ToString();
-        KnowledgeSolidPercentage = knowledgeSummary.InWishknowledge.SolidPercentage.ToString();
-        KnowledgeNeedsConsolidation = (knowledgeSummary.InWishknowledge.NeedsConsolidation + knowledgeSummary.NotInWishknowledge.NeedsConsolidation).ToString();
-        KnowledgeNeedsConsolidationPercentage = knowledgeSummary.InWishknowledge.NeedsConsolidationPercentage.ToString();
-        KnowledgeNeedsLearning = (knowledgeSummary.InWishknowledge.NeedsLearning + knowledgeSummary.NotInWishknowledge.NeedsLearning).ToString();
-        KnowledgeNeedsLearningPercentage = knowledgeSummary.InWishknowledge.NeedsLearningPercentage.ToString();
-        KnowledgeNotLearned = (knowledgeSummary.InWishknowledge.NotLearned + knowledgeSummary.NotInWishknowledge.NotLearned).ToString();
-        KnowledgeNotLearnedPercentage = knowledgeSummary.InWishknowledge.NotLearnedPercentage.ToString();
+        // Combined values from InWishKnowledge and NotInWishKnowledge
+        KnowledgeSolid = (knowledgeSummary.InWishKnowledge.Solid + knowledgeSummary.NotInWishKnowledge.Solid).ToString();
+        KnowledgeSolidPercentage = knowledgeSummary.InWishKnowledge.SolidPercentage.ToString();
+        KnowledgeNeedsConsolidation = (knowledgeSummary.InWishKnowledge.NeedsConsolidation + knowledgeSummary.NotInWishKnowledge.NeedsConsolidation).ToString();
+        KnowledgeNeedsConsolidationPercentage = knowledgeSummary.InWishKnowledge.NeedsConsolidationPercentage.ToString();
+        KnowledgeNeedsLearning = (knowledgeSummary.InWishKnowledge.NeedsLearning + knowledgeSummary.NotInWishKnowledge.NeedsLearning).ToString();
+        KnowledgeNeedsLearningPercentage = knowledgeSummary.InWishKnowledge.NeedsLearningPercentage.ToString();
+        KnowledgeNotLearned = (knowledgeSummary.InWishKnowledge.NotLearned + knowledgeSummary.NotInWishKnowledge.NotLearned).ToString();
+        KnowledgeNotLearnedPercentage = knowledgeSummary.InWishKnowledge.NotLearnedPercentage.ToString();
 
         /* User's stats about recent learning behaviour */
 

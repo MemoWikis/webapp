@@ -174,7 +174,7 @@
         int needsLearning = 2;
         int needsConsolidation = 1;
         int solid = 4;
-        int notInWishknowledge = 0;
+        int notInWishKnowledge = 0;
 
         var valuesWithActions = new List<ValueWithResultAction>
         {
@@ -182,7 +182,7 @@
             new() { AbsoluteValue = needsLearning, ActionForPercentage = _ => {} },
             new() { AbsoluteValue = needsConsolidation, ActionForPercentage = _ => {} },
             new() { AbsoluteValue = solid, ActionForPercentage = _ => {} },
-            new() { AbsoluteValue = notInWishknowledge, ActionForPercentage = _ => {} }
+            new() { AbsoluteValue = notInWishKnowledge, ActionForPercentage = _ => {} }
         };
 
         // Act
@@ -198,7 +198,7 @@
                 needsLearning,
                 needsConsolidation,
                 solid,
-                notInWishknowledge
+                notInWishKnowledge
             },
             percentages,
             sum = percentages.Sum(),

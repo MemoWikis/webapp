@@ -62,7 +62,7 @@
             "loopLink": "Les pages ne peuvent pas se référencer elles-mêmes comme sous-pages.",
             "isAlreadyLinkedAsChild": "Cette page est déjà liée comme sous-page.",
             "isNotAChild": "Cette page n’est déjà plus une sous-page.",
-            "isLinkedInNonWuwi": "Cette page est déjà liée en dehors de tes Connaissances souhaitées. Désactive « Afficher uniquement tes Connaissances souhaitées » pour l’ajouter.",
+            "isLinkedInNonWishKnowledge": "Cette page est déjà liée en dehors de tes Connaissances souhaitées. Désactive « Afficher uniquement tes Connaissances souhaitées » pour l’ajouter.",
             "childIsParent": "Impossible d’ajouter une page parente comme sous-page.",
             "nameIsTaken": " est déjà pris, choisis un autre nom !",
             "nameIsForbidden": " est interdit, choisis un autre nom !",
@@ -91,7 +91,7 @@
             "missingAnswer": "Il manque la réponse de la question.",
             "save": "Ta question n’a pas pu être enregistrée.",
             "creation": "Impossible de créer la question.",
-            "isInWuwi": "Impossible de la supprimer, elle est présente {count} fois dans les Connaissances souhaitées d’autres utilisateurs. Contacte-nous si tu penses qu’elle devrait quand même être retirée.",
+            "isInWishKnowledge": "Impossible de la supprimer, elle est présente {count} fois dans les Connaissances souhaitées d’autres utilisateurs. Contacte-nous si tu penses qu’elle devrait quand même être retirée.",
             "rights": "Tu n’as pas l’autorisation de faire ça.",
             "errorOnDelete": "Oups, un problème est survenu ! Les références à la question (sessions d’apprentissage, etc.) ont peut-être été partiellement supprimées.",
             "couldNotAddFlashcards": "Impossible d’ajouter ces cartes.",
@@ -851,12 +851,12 @@
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Pas encore apprise",
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
-        "notInWishknowledge": "Pas dans les Connaissances souhaitées",
-        "notInWishknowledgeCount": "@:knowledgeStatus.notInWishknowledge : @:label.questionCount"
+        "notInWishKnowledge": "Pas dans les Connaissances souhaitées",
+        "notInWishKnowledgeCount": "@:knowledgeStatus.notInWishKnowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
-        "inWuwi": "Dans les Connaissances souhaitées",
-        "notInWuwi": "Pas dans les Connaissances souhaitées",
+        "inWishKnowledge": "Dans les Connaissances souhaitées",
+        "notInWishKnowledge": "Pas dans les Connaissances souhaitées",
         "createdByCurrentUser": "Créées par moi",
         "notCreatedByCurrentUser": "Pas créées par moi",
         "private": "Questions privées",
@@ -1154,7 +1154,7 @@
                 "notLoggedIn": "C’est la chance de bonne réponse. Connecte-toi pour ton pourcentage personnalisé."
             },
             "status": {
-                "notInWishknowledge": "Pas dans les Connaissances souhaitées",
+                "notInWishKnowledge": "Pas dans les Connaissances souhaitées",
                 "solid": "Bien maîtrisée",
                 "needsConsolidation": "À consolider",
                 "needsLearning": "À apprendre",
@@ -1276,9 +1276,9 @@
             "reputation": {
                 "title": "Points de réputation",
                 "total": "total",
-                "questionsInOtherWishknowledges": "Tes propres questions dans les Connaissances souhaitées d’autrui",
+                "questionsInOtherWishKnowledges": "Tes propres questions dans les Connaissances souhaitées d’autrui",
                 "questionsCreated": "Questions créées",
-                "publicWishknowledges": "Publication de tes propres Connaissances souhaitées",
+                "publicWishKnowledges": "Publication de tes propres Connaissances souhaitées",
                 "learnMore": "En savoir plus sur la réputation"
             },
             "content": {
@@ -1288,12 +1288,12 @@
                 "privateQuestions": "Questions privées",
                 "privatePages": "Pages privées"
             },
-            "wishknowledge": {
+            "wishKnowledge": {
                 "title": "Dans les Connaissances souhaitées",
                 "questions": "Questions"
             }
         },
-        "wishknowledge": {
+        "wishKnowledge": {
             "private": {
                 "own": "Tes Connaissances souhaitées ne sont pas publiques.",
                 "change": "Modifier",
@@ -1348,7 +1348,7 @@
         },
         "tabs": {
             "overview": "Aperçu",
-            "wishknowledge": "Connaissances souhaitées",
+            "wishKnowledge": "Connaissances souhaitées",
             "settings": "Paramètres"
         },
         "membership": {
@@ -1381,7 +1381,7 @@
                         "publicContent": "Contenu public illimité (créer, voir, apprendre)",
                         "privatePages": "{count} pages privées",
                         "privateQuestions": "{count} questions privées",
-                        "wishknowledge": "max {count} questions dans tes Connaissances souhaitées"
+                        "wishKnowledge": "max {count} questions dans tes Connaissances souhaitées"
                     }
                 },
                 "plus": {
@@ -1392,7 +1392,7 @@
                         "support": "Merci pour ton soutien !",
                         "unlimitedPages": "Pages privées illimitées",
                         "unlimitedQuestions": "Questions privées illimitées",
-                        "unlimitedWishknowledge": "Connaissances souhaitées illimitées"
+                        "unlimitedWishKnowledge": "Connaissances souhaitées illimitées"
                     }
                 },
                 "team": {
@@ -1499,7 +1499,7 @@
             "label": "Trier par :",
             "options": {
                 "rank": "Rang",
-                "wishknowledge": "Connaissances souhaitées",
+                "wishKnowledge": "Connaissances souhaitées",
                 "notSelected": "Non sélectionné"
             }
         },
@@ -1510,8 +1510,8 @@
         "card": {
             "reputation": "Réputation : {points} (rang {rank})",
             "created": "Créé : {questions} questions / {pages} pages",
-            "wishknowledge": "Connaissances souhaitées : {questions} questions / {pages} pages",
-            "privateWishknowledge": "Les Connaissances souhaitées de {name} sont privées",
+            "wishKnowledge": "Connaissances souhaitées : {questions} questions / {pages} pages",
+            "privateWishKnowledge": "Les Connaissances souhaitées de {name} sont privées",
             "toWiki": "Aller au wiki de {name}",
             "rank": "Rang",
             "createdTitle": "Créé",
@@ -1676,8 +1676,8 @@
     },
     "pin": {
         "tooltips": {
-            "removeFromWishknowledge": "Retirer de tes Connaissances souhaitées",
-            "addToWishknowledge": "Ajouter à tes Connaissances souhaitées"
+            "removeFromWishKnowledge": "Retirer de tes Connaissances souhaitées",
+            "addToWishKnowledge": "Ajouter à tes Connaissances souhaitées"
         },
         "labels": {
             "add": "Ajouter"

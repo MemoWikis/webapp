@@ -17,12 +17,12 @@ function setKnowledgebarData() {
     knowledgebarTooltipData.value = []
 
     // Add wuwi (wishknowledge) items
-    if (props.knowledgebarData.inWishknowledge) {
+    if (props.knowledgebarData.inWishKnowledge) {
         const wuwiItems = [
-            { key: 'solidWuwi', value: props.knowledgebarData.inWishknowledge.solid },
-            { key: 'needsConsolidationWuwi', value: props.knowledgebarData.inWishknowledge.needsConsolidation },
-            { key: 'needsLearningWuwi', value: props.knowledgebarData.inWishknowledge.needsLearning },
-            { key: 'notLearnedWuwi', value: props.knowledgebarData.inWishknowledge.notLearned }
+            { key: 'solidWuwi', value: props.knowledgebarData.inWishKnowledge.solid },
+            { key: 'needsConsolidationWuwi', value: props.knowledgebarData.inWishKnowledge.needsConsolidation },
+            { key: 'needsLearningWuwi', value: props.knowledgebarData.inWishKnowledge.needsLearning },
+            { key: 'notLearnedWuwi', value: props.knowledgebarData.inWishKnowledge.notLearned }
         ]
 
         for (const item of wuwiItems) {
@@ -36,12 +36,12 @@ function setKnowledgebarData() {
     }
 
     // Add notInWuwi (not in wishknowledge) items
-    if (props.knowledgebarData.notInWishknowledge) {
+    if (props.knowledgebarData.notInWishKnowledge) {
         const notInWuwiItems = [
-            { key: 'solidNotInWuwi', value: props.knowledgebarData.notInWishknowledge.solid },
-            { key: 'needsConsolidationNotInWuwi', value: props.knowledgebarData.notInWishknowledge.needsConsolidation },
-            { key: 'needsLearningNotInWuwi', value: props.knowledgebarData.notInWishknowledge.needsLearning },
-            { key: 'notLearnedNotInWuwi', value: props.knowledgebarData.notInWishknowledge.notLearned }
+            { key: 'solidNotInWuwi', value: props.knowledgebarData.notInWishKnowledge.solid },
+            { key: 'needsConsolidationNotInWuwi', value: props.knowledgebarData.notInWishKnowledge.needsConsolidation },
+            { key: 'needsLearningNotInWuwi', value: props.knowledgebarData.notInWishKnowledge.needsLearning },
+            { key: 'notLearnedNotInWuwi', value: props.knowledgebarData.notInWishKnowledge.notLearned }
         ]
 
         for (const item of notInWuwiItems) {
@@ -90,8 +90,8 @@ function getTooltipLabel(key: string, count: number) {
             return t('knowledgeStatus.needsLearningCount', count)
         case 'notLearned':
             return t('knowledgeStatus.notLearnedCount', count)
-        case 'notInWishknowledge':
-            return t('knowledgeStatus.notInWishknowledgeCount', count)
+        case 'notInWishKnowledge':
+            return t('knowledgeStatus.notInWishKnowledgeCount', count)
     }
 }
 
@@ -105,31 +105,31 @@ const ariaId = useId()
     <VTooltip :aria-id="ariaId" class="tooltip-container">
         <div class="knowledgebar">
             <!-- Wuwi (wishknowledge) sections -->
-            <div v-if="knowledgebarData.inWishknowledge?.solidPercentage > 0" class="solid-knowledge wuwi"
-                :style="{ 'width': knowledgebarData.inWishknowledge.solidPercentage + '%' }">
+            <div v-if="knowledgebarData.inWishKnowledge?.solidPercentage > 0" class="solid-knowledge wuwi"
+                :style="{ 'width': knowledgebarData.inWishKnowledge.solidPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.inWishknowledge?.needsConsolidationPercentage > 0" class="needs-consolidation wuwi"
-                :style="{ 'width': knowledgebarData.inWishknowledge.needsConsolidationPercentage + '%' }">
+            <div v-if="knowledgebarData.inWishKnowledge?.needsConsolidationPercentage > 0" class="needs-consolidation wuwi"
+                :style="{ 'width': knowledgebarData.inWishKnowledge.needsConsolidationPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.inWishknowledge?.needsLearningPercentage > 0" class="needs-learning wuwi"
-                :style="{ 'width': knowledgebarData.inWishknowledge.needsLearningPercentage + '%' }">
+            <div v-if="knowledgebarData.inWishKnowledge?.needsLearningPercentage > 0" class="needs-learning wuwi"
+                :style="{ 'width': knowledgebarData.inWishKnowledge.needsLearningPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.inWishknowledge?.notLearnedPercentage > 0" class="not-learned wuwi"
-                :style="{ 'width': knowledgebarData.inWishknowledge.notLearnedPercentage + '%' }">
+            <div v-if="knowledgebarData.inWishKnowledge?.notLearnedPercentage > 0" class="not-learned wuwi"
+                :style="{ 'width': knowledgebarData.inWishKnowledge.notLearnedPercentage + '%' }">
             </div>
 
             <!-- Not in wuwi (not in wishknowledge) sections -->
-            <div v-if="knowledgebarData.notInWishknowledge?.solidPercentage > 0" class="solid-knowledge not-in-wuwi"
-                :style="{ 'width': knowledgebarData.notInWishknowledge.solidPercentage + '%' }">
+            <div v-if="knowledgebarData.notInWishKnowledge?.solidPercentage > 0" class="solid-knowledge not-in-wuwi"
+                :style="{ 'width': knowledgebarData.notInWishKnowledge.solidPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.notInWishknowledge?.needsConsolidationPercentage > 0" class="needs-consolidation not-in-wuwi"
-                :style="{ 'width': knowledgebarData.notInWishknowledge.needsConsolidationPercentage + '%' }">
+            <div v-if="knowledgebarData.notInWishKnowledge?.needsConsolidationPercentage > 0" class="needs-consolidation not-in-wuwi"
+                :style="{ 'width': knowledgebarData.notInWishKnowledge.needsConsolidationPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.notInWishknowledge?.needsLearningPercentage > 0" class="needs-learning not-in-wuwi"
-                :style="{ 'width': knowledgebarData.notInWishknowledge.needsLearningPercentage + '%' }">
+            <div v-if="knowledgebarData.notInWishKnowledge?.needsLearningPercentage > 0" class="needs-learning not-in-wuwi"
+                :style="{ 'width': knowledgebarData.notInWishKnowledge.needsLearningPercentage + '%' }">
             </div>
-            <div v-if="knowledgebarData.notInWishknowledge?.notLearnedPercentage > 0" class="not-learned not-in-wuwi"
-                :style="{ 'width': knowledgebarData.notInWishknowledge.notLearnedPercentage + '%' }">
+            <div v-if="knowledgebarData.notInWishKnowledge?.notLearnedPercentage > 0" class="not-learned not-in-wuwi"
+                :style="{ 'width': knowledgebarData.notInWishKnowledge.notLearnedPercentage + '%' }">
             </div>
         </div>
         <template #popper>
@@ -256,7 +256,7 @@ const ariaId = useId()
             background: @memo-green;
         }
 
-        &.color-notInWishknowledge {
+        &.color-notInWishKnowledge {
             background: @memo-grey-dark;
         }
 

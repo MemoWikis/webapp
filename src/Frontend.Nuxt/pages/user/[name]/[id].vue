@@ -23,9 +23,9 @@ const snackbarStore = useSnackbarStore()
 interface Overview {
     activityPoints: {
         total: number
-        questionsInOtherWishknowledges: number
+        questionsInOtherWishKnowledges: number
         questionsCreated: number
-        publicWishknowledges: number
+        publicWishKnowledges: number
     }
     publicQuestionsCount: number
     privateQuestionsCount: number

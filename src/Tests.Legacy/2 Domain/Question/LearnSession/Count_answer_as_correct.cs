@@ -82,7 +82,7 @@ class Count_answer_as_correct : BaseTest
         {
             CurrentUserId = lastUserCacheItem.Id,
             IsInTestMode = true,
-            InWuwi = true,
+            InWishKnowledge = true,
             MaxQuestionCount = 5,
             CategoryId = 1
         }; 
@@ -116,7 +116,7 @@ class Count_answer_as_correct : BaseTest
         {
             CurrentUserId = ((UserCacheItem)lastUserCacheItem).Id,
             IsInTestMode = false,
-            InWuwi = true,
+            InWishKnowledge = true,
             MaxQuestionCount = 5,
             CategoryId = 1
         }; 

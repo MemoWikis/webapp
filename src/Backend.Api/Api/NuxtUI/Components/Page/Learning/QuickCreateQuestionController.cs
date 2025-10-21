@@ -20,7 +20,7 @@ public class QuickCreateQuestionController(
         string TextHtml,
         string Answer,
         int Visibility,
-        bool AddToWishknowledge,
+        bool AddToWishKnowledge,
         int LastIndex,
         LearningSessionConfig SessionConfig,
         string[] UploadedImagesMarkedForDeletion,
@@ -80,7 +80,7 @@ public class QuickCreateQuestionController(
 
         _questionWritingRepo.Create(question);
 
-        if (request.AddToWishknowledge)
+        if (request.AddToWishKnowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         if (request.UploadedImagesInContent.Length > 0)

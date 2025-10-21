@@ -5,7 +5,7 @@ export interface QuestionListItem {
     hasPersonalAnswer: boolean
     id: number
     imageData: string
-    isInWishknowledge: boolean
+    isInWishKnowledge: boolean
     learningSessionStepCount: number
     linkToComment: string
     linkToDeleteQuestion: string
