@@ -15,34 +15,33 @@ const { t } = useI18n()
 const knowledgeStatusItems = computed(() => {
     const items = []
 
-    // Use backend's calculated totals
-    if (props.knowledgeSummary.totalDetailed) {
+    if (props.knowledgeSummary.total) {
         items.push(
             {
                 label: t('knowledgeStatus.solid'),
-                value: props.knowledgeSummary.totalDetailed.solid,
-                percentage: props.knowledgeSummary.totalDetailed.solidPercentage,
+                value: props.knowledgeSummary.total.solid,
+                percentage: props.knowledgeSummary.total.solidPercentage,
                 class: 'solid',
-                type: KnowledgeSummaryType.SolidWishKnowledge // Using WishKnowledge type as default for totals
+                type: KnowledgeSummaryType.SolidWishKnowledge
             },
             {
                 label: t('knowledgeStatus.needsConsolidation'),
-                value: props.knowledgeSummary.totalDetailed.needsConsolidation,
-                percentage: props.knowledgeSummary.totalDetailed.needsConsolidationPercentage,
+                value: props.knowledgeSummary.total.needsConsolidation,
+                percentage: props.knowledgeSummary.total.needsConsolidationPercentage,
                 class: 'needsConsolidation',
                 type: KnowledgeSummaryType.NeedsConsolidationWishKnowledge
             },
             {
                 label: t('knowledgeStatus.needsLearning'),
-                value: props.knowledgeSummary.totalDetailed.needsLearning,
-                percentage: props.knowledgeSummary.totalDetailed.needsLearningPercentage,
+                value: props.knowledgeSummary.total.needsLearning,
+                percentage: props.knowledgeSummary.total.needsLearningPercentage,
                 class: 'needsLearning',
                 type: KnowledgeSummaryType.NeedsLearningWishKnowledge
             },
             {
                 label: t('knowledgeStatus.notLearned'),
-                value: props.knowledgeSummary.totalDetailed.notLearned,
-                percentage: props.knowledgeSummary.totalDetailed.notLearnedPercentage,
+                value: props.knowledgeSummary.total.notLearned,
+                percentage: props.knowledgeSummary.total.notLearnedPercentage,
                 class: 'notLearned',
                 type: KnowledgeSummaryType.NotLearnedWishKnowledge
             }
@@ -93,7 +92,7 @@ const knowledgeStatusItemsInWishKnowledge = computed(() => {
 
 const knowledgeStatusItemsNotInWishKnowledge = computed(() => {
     const items = []
-    if (props.showNotInWishKnowledge && props.knowledgeSummary.notInWishKnowledge) {
+    if (props.knowledgeSummary.notInWishKnowledge) {
         items.push(
             {
                 label: t('knowledgeStatus.solid'),
@@ -132,17 +131,23 @@ const knowledgeStatusItemsNotInWishKnowledge = computed(() => {
 const emit = defineEmits<{
     (e: 'actionClick', type: KnowledgeSummaryType): void
 }>()
+
+const getTotalTooltipHtml = (index: number) => {
+
+
+    return '<font-awesome-icon icon="fa-solid fa-heart" /> InWishknowledge (' + knowledgeStatusItemsInWishKnowledge.value[index].value + ') ' + 'NotInWishknowledge ( ' + knowledgeStatusItemsNotInWishKnowledge.value[index].value + ')'
+}
 </script>
 
 <template>
-
     <div class="summary-details-container">
         <div class="summary-details" v-if="props.showSum">
-            <h4>{{ t('label.Sum') }}</h4>
+            <!-- <h4>{{ t('label.Sum') }}</h4> -->
             <div
                 v-for="(item, index) in knowledgeStatusItems"
                 :key="index"
-                class="status-item">
+                class="status-item"
+                v-tooltip="{ content: getTotalTooltipHtml(index), html: true }">
                 <div class="status-info">
                     <span class="status-dot" :class="'dot-' + item.class.replace(' ', ' dot-')"></span>
                     <span class="status-label">{{ item.label }}</span>
@@ -163,7 +168,7 @@ const emit = defineEmits<{
         </div>
         <template v-else>
             <div class="summary-details">
-                <h4>{{ t('label.inWishKnowledge') }}</h4>
+                <!-- <h4>{{ t('label.inWishKnowledge') }}</h4> -->
                 <div
                     v-for="(item, index) in knowledgeStatusItemsInWishKnowledge"
                     :key="index"
@@ -187,7 +192,7 @@ const emit = defineEmits<{
                 </div>
             </div>
             <div class="summary-details" v-if="props.showNotInWishKnowledge">
-                <h4>{{ t('label.notInWishKnowledge') }}</h4>
+                <!-- <h4>{{ t('label.notInWishKnowledge') }}</h4> -->
                 <div
                     v-for="(item, index) in knowledgeStatusItemsNotInWishKnowledge"
                     :key="index"

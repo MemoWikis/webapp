@@ -29,43 +29,31 @@ export interface KnowledgeStatusCounts {
     needsLearningPercentageOfTotal: number
     needsConsolidationPercentageOfTotal: number
     solidPercentageOfTotal: number
-    total: number
 }
 
 export interface KnowledgeSummary {
     totalCount: number
 
-    // Legacy properties for backward compatibility
-    needsLearning: number
-    needsLearningPercentage: number
-    needsConsolidation: number
-    needsConsolidationPercentage: number
-    solid: number
-    solidPercentage: number
-    notLearned: number
-    notLearnedPercentage: number
-
     // New nested structure
     inWishKnowledge: KnowledgeStatusCounts
     notInWishKnowledge: KnowledgeStatusCounts
-    totalDetailed: KnowledgeStatusCounts
+    total: KnowledgeStatusCounts
 
     knowledgeStatusPoints: number
     knowledgeStatusPointsTotal: number
-
-    notInWishKnowledgePercentage: number
 }
 
-export interface KnowledgeSummarySlim {
-    solid: number
-    needsConsolidation: number
-    needsLearning: number
-    notLearned: number
-    inWishKnowledge?: KnowledgeStatusCounts
-    notInWishKnowledge?: KnowledgeStatusCounts
-}
+// export interface KnowledgeSummarySlim {
+//     solid: number
+//     needsConsolidation: number
+//     needsLearning: number
+//     notLearned: number
+//     inWishKnowledge?: KnowledgeStatusCounts
+//     notInWishKnowledge?: KnowledgeStatusCounts
+// }
 
-type KnowledgeSummaryInput = KnowledgeSummary | KnowledgeSummarySlim
+// type KnowledgeSummaryInput = KnowledgeSummary | KnowledgeSummarySlim
+type KnowledgeSummaryInput = KnowledgeSummary
 
 /**
  * Converts knowledge summary to chart data showing both wishKnowledge and not-in-wishKnowledge sections
@@ -202,37 +190,31 @@ export const getKnowledgeStatusPercentageOfTotal = (
     return categoryData[`${status}PercentageOfTotal`] || 0
 }
 /**
- * Converts knowledge summary to chart data using total counts (legacy behavior)
- * (combines wishKnowledge and not-in-wishKnowledge into single categories)
+ * Converts KnowledgeStatusCounts directly to chart data
+ * (efficient method that works with any KnowledgeStatusCounts object)
  */
-export const convertKnowledgeSummaryToTotalChartData = (knowledgeSummary: KnowledgeSummaryInput): ChartData[] => {
+export const convertKnowledgeStatusCountsToChartData = (statusCounts: KnowledgeStatusCounts): ChartData[] => {
     const chartData: ChartData[] = []
     const statusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
     
-    // Calculate totals by combining wishKnowledge and not-in-wishKnowledge
     for (const statusClass of statusOrder) {
-        let totalValue = 0
-        
-        if ('inWishKnowledge' in knowledgeSummary && knowledgeSummary.inWishKnowledge) {
-            totalValue += knowledgeSummary.inWishKnowledge[statusClass] || 0
-        }
-        
-        if ('notInWishKnowledge' in knowledgeSummary && knowledgeSummary.notInWishKnowledge) {
-            totalValue += knowledgeSummary.notInWishKnowledge[statusClass] || 0
-        }
-        
-        // Fallback to legacy properties if nested structure not available
-        if (totalValue === 0 && knowledgeSummary[statusClass]) {
-            totalValue = knowledgeSummary[statusClass]
-        }
-        
-        if (totalValue > 0) {
+        const value = statusCounts[statusClass]
+        if (value > 0) {
             chartData.push({
-                value: totalValue,
+                value,
                 class: statusClass
             })
         }
     }
     
     return chartData
+}
+
+/**
+ * Converts knowledge summary to chart data using total counts (legacy behavior)
+ * (combines wishKnowledge and not-in-wishKnowledge into single categories)
+ */
+export const convertKnowledgeSummaryToTotalChartData = (knowledgeSummary: KnowledgeSummaryInput): ChartData[] => {
+    // Use the efficient method with the total counts
+    return convertKnowledgeStatusCountsToChartData(knowledgeSummary.total)
 }

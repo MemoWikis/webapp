@@ -13,8 +13,6 @@ const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 
-const showInWishKnowledge = ref(true)
-const showSum = ref(true)
 
 const onActionClick = async (type: KnowledgeSummaryType) => {
     learningSessionConfigurationStore.selectKnowledgeSummaryByType(type)
@@ -30,36 +28,15 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
 
         <div class="knowledgesummary-container">
             <div v-if="pageStore.knowledgeSummary.totalCount > 0">
-                <div class="toggle-container">
-                    <label class="toggle-label">
-                        <input
-                            type="checkbox"
-                            v-model="showSum"
-                            class="toggle-checkbox" />
-                        <span class="toggle-text">show Sum</span>
-                    </label>
-
-                </div>
-
-                <div class="toggle-container" v-if="!showSum">
-                    <label class="toggle-label">
-                        <input
-                            type="checkbox"
-                            v-model="showInWishKnowledge"
-                            class="toggle-checkbox" />
-                        <span class="toggle-text">show NotInWishKnowledge</span>
-                    </label>
-                </div>
-
                 <div class="knowledgesummary-content">
-                    <SharedKnowledgeSummaryPie :knowledge-summary="pageStore.knowledgeSummary" />
+                    <SharedKnowledgeSummaryPie :knowledge-status-counts="pageStore.knowledgeSummary.total" :total-count="pageStore.knowledgeSummary.totalCount" />
                     <SharedKnowledgeSummary
                         :knowledge-summary="pageStore.knowledgeSummary"
                         :show-actions="true"
                         :action-icon="'fa-solid fa-play'"
                         @action-click="onActionClick"
-                        :show-not-in-wish-knowledge="showInWishKnowledge"
-                        :show-sum="showSum" />
+                        :show-not-in-wish-knowledge="false"
+                        :show-sum="true" />
                 </div>
             </div>
 

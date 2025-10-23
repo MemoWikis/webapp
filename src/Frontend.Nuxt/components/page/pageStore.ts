@@ -35,17 +35,8 @@ export class Page {
     pageItem: PageItem | null = null
     metaDescription: string = ''
     knowledgeSummary: KnowledgeSummary = {
-        solid: 0,
-        needsConsolidation: 0,
-        needsLearning: 0,
-        notLearned: 0,
 
         totalCount: 0,
-
-        solidPercentage: 0,
-        needsConsolidationPercentage: 0,
-        needsLearningPercentage: 0,
-        notLearnedPercentage: 0,
 
         inWishKnowledge: {
             solid: 0,
@@ -60,7 +51,6 @@ export class Page {
             needsConsolidationPercentageOfTotal: 0,
             needsLearningPercentageOfTotal: 0,
             notLearnedPercentageOfTotal: 0,
-            total: 0
         },
 
         notInWishKnowledge: {
@@ -76,10 +66,9 @@ export class Page {
             needsConsolidationPercentageOfTotal: 0,
             needsLearningPercentageOfTotal: 0,
             notLearnedPercentageOfTotal: 0,
-            total: 0
         },
 
-        totalDetailed: {
+        total: {
             solid: 0,
             needsConsolidation: 0,
             needsLearning: 0,
@@ -92,13 +81,10 @@ export class Page {
             needsConsolidationPercentageOfTotal: 0,
             needsLearningPercentageOfTotal: 0,
             notLearnedPercentageOfTotal: 0,
-            total: 0
         },
 
         knowledgeStatusPoints: 0,
         knowledgeStatusPointsTotal: 0,
-
-        notInWishKnowledgePercentage: 0,
     }
     gridItems: GridPageItem[] = []
     isChildOfPersonalWiki: boolean = false

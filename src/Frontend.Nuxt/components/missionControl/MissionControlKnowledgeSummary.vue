@@ -3,14 +3,18 @@
 interface Props {
     knowledgeStatus: KnowledgeSummary
 }
+const sumWishKnowledge = computed(() => {
+    const inWishKnowledge = props.knowledgeStatus.inWishKnowledge
+    return inWishKnowledge.solid + inWishKnowledge.needsConsolidation + inWishKnowledge.needsLearning + inWishKnowledge.notLearned
+})
 
-defineProps<Props>()
+const props = defineProps<Props>()
 </script>
 
 <template>
     <div class="knowledge-summary">
-        <SharedKnowledgeSummaryPie :knowledge-summary="knowledgeStatus" />
-        <SharedKnowledgeSummary :knowledge-summary="knowledgeStatus" />
+        <SharedKnowledgeSummaryPie :knowledge-status-counts="props.knowledgeStatus.inWishKnowledge" :total-count="sumWishKnowledge" />
+        <SharedKnowledgeSummary :knowledge-summary="props.knowledgeStatus" :show-not-in-wish-knowledge="false" :show-sum="false" />
     </div>
 </template>
 

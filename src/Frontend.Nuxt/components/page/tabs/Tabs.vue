@@ -10,7 +10,7 @@ const pageStore = usePageStore()
 const { isMobile } = useDevice()
 
 const chartData = computed((): ChartData[] => {
-	return convertKnowledgeSummaryToChartData(pageStore.knowledgeSummary)
+	return convertKnowledgeStatusCountsToChartData(pageStore.knowledgeSummary.total)
 })
 
 const { t } = useI18n()

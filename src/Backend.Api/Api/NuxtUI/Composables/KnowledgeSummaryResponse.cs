@@ -10,8 +10,7 @@ public readonly record struct KnowledgeStatusCountsResponse(
     int NotLearnedPercentageOfTotal = 0,
     int NeedsLearningPercentageOfTotal = 0,
     int NeedsConsolidationPercentageOfTotal = 0,
-    int SolidPercentageOfTotal = 0,
-    int Total = 0)
+    int SolidPercentageOfTotal = 0)
 {
     public KnowledgeStatusCountsResponse(KnowledgeStatusCounts knowledgeStatusCounts) : this(
         knowledgeStatusCounts.NotLearned,
@@ -25,27 +24,26 @@ public readonly record struct KnowledgeStatusCountsResponse(
         knowledgeStatusCounts.NotLearnedPercentageOfTotal,
         knowledgeStatusCounts.NeedsLearningPercentageOfTotal,
         knowledgeStatusCounts.NeedsConsolidationPercentageOfTotal,
-        knowledgeStatusCounts.SolidPercentageOfTotal,
-        knowledgeStatusCounts.Total)
+        knowledgeStatusCounts.SolidPercentageOfTotal)
     {
     }
 }
 
 public readonly record struct KnowledgeSummaryResponse(
-    int Total = 0,
+    int TotalCount = 0,
     double KnowledgeStatusPoints = 0.0,
     double KnowledgeStatusPointsTotal = 0.0,
     KnowledgeStatusCountsResponse InWishKnowledge = new KnowledgeStatusCountsResponse(),
     KnowledgeStatusCountsResponse NotInWishKnowledge = new KnowledgeStatusCountsResponse(),
-    KnowledgeStatusCountsResponse TotalDetailed = new KnowledgeStatusCountsResponse())
+    KnowledgeStatusCountsResponse Total = new KnowledgeStatusCountsResponse())
 {
     public KnowledgeSummaryResponse(KnowledgeSummary knowledgeSummary) : this(
-        knowledgeSummary.TotalCount,
-        knowledgeSummary.KnowledgeStatusPoints,
-        knowledgeSummary.KnowledgeStatusPointsTotal,
-        new KnowledgeStatusCountsResponse(knowledgeSummary.InWishKnowledge),
-        new KnowledgeStatusCountsResponse(knowledgeSummary.NotInWishKnowledge),
-        new KnowledgeStatusCountsResponse(knowledgeSummary.Total))
+        TotalCount: knowledgeSummary.TotalCount,
+        KnowledgeStatusPoints: knowledgeSummary.KnowledgeStatusPoints,
+        KnowledgeStatusPointsTotal: knowledgeSummary.KnowledgeStatusPointsTotal,
+        InWishKnowledge: new KnowledgeStatusCountsResponse(knowledgeSummary.InWishKnowledge),
+        NotInWishKnowledge: new KnowledgeStatusCountsResponse(knowledgeSummary.NotInWishKnowledge),
+        Total: new KnowledgeStatusCountsResponse(knowledgeSummary.Total))
     {
     }
 };

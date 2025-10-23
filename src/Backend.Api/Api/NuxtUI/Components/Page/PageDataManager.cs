@@ -149,8 +149,7 @@ public class PageDataManager(
                     knowledgeSummary.InWishKnowledge.NotLearnedPercentageOfTotal,
                     knowledgeSummary.InWishKnowledge.NeedsLearningPercentageOfTotal,
                     knowledgeSummary.InWishKnowledge.NeedsConsolidationPercentageOfTotal,
-                    knowledgeSummary.InWishKnowledge.SolidPercentageOfTotal,
-                    knowledgeSummary.InWishKnowledge.Total),
+                    knowledgeSummary.InWishKnowledge.SolidPercentageOfTotal),
                 new KnowledgeStatusCountsResponse(
                     knowledgeSummary.NotInWishKnowledge.NotLearned,
                     knowledgeSummary.NotInWishKnowledge.NotLearnedPercentage,
@@ -163,8 +162,7 @@ public class PageDataManager(
                     knowledgeSummary.NotInWishKnowledge.NotLearnedPercentageOfTotal,
                     knowledgeSummary.NotInWishKnowledge.NeedsLearningPercentageOfTotal,
                     knowledgeSummary.NotInWishKnowledge.NeedsConsolidationPercentageOfTotal,
-                    knowledgeSummary.NotInWishKnowledge.SolidPercentageOfTotal,
-                    knowledgeSummary.NotInWishKnowledge.Total),
+                    knowledgeSummary.NotInWishKnowledge.SolidPercentageOfTotal),
                 new KnowledgeStatusCountsResponse(
                     knowledgeSummary.Total.NotLearned,
                     knowledgeSummary.Total.NotLearnedPercentage,
@@ -177,8 +175,7 @@ public class PageDataManager(
                     knowledgeSummary.Total.NotLearnedPercentageOfTotal,
                     knowledgeSummary.Total.NeedsLearningPercentageOfTotal,
                     knowledgeSummary.Total.NeedsConsolidationPercentageOfTotal,
-                    knowledgeSummary.Total.SolidPercentageOfTotal,
-                    knowledgeSummary.Total.Total)),
+                    knowledgeSummary.Total.SolidPercentageOfTotal)),
             GridItems = new PageGridManager(
                 _permissionCheck,
                 _sessionUser,
@@ -227,17 +224,16 @@ public class PageDataManager(
         int NotLearnedPercentageOfTotal,
         int NeedsLearningPercentageOfTotal,
         int NeedsConsolidationPercentageOfTotal,
-        int SolidPercentageOfTotal,
-        int Total);
+        int SolidPercentageOfTotal);
 
     public record struct KnowledgeSummaryResponse(
         int NotInWishKnowledgePercentage,
-        int Total,
+        int TotalCount,
         double KnowledgeStatusPoints,
         double KnowledgeStatusPointsTotal,
         KnowledgeStatusCountsResponse InWishKnowledge,
         KnowledgeStatusCountsResponse NotInWishKnowledge,
-        KnowledgeStatusCountsResponse TotalDetailed);
+        KnowledgeStatusCountsResponse Total);
 
     public record struct PageDataResult(
         bool CanAccess,
