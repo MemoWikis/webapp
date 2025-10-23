@@ -22,7 +22,8 @@ public class MeilisearchQuestions(PermissionCheck _permissionCheck) : Meilisearc
         var finalResults = new List<MeilisearchQuestionMap>();
 
         // Search for questions in specified languages first (if provided)
-        await SearchQuestionsInSpecifiedLanguage(searchTerm, index, languages, finalResults);
+        // Questions do not have a language identifier yet
+        // await SearchQuestionsInSpecifiedLanguage(searchTerm, index, languages, finalResults);
 
         // Then search for all other questions
         ISearchable<MeilisearchQuestionMap> allResults = await SearchQuestionsInAllLanguages(searchTerm, index);
