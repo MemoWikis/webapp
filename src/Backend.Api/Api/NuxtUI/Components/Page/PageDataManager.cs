@@ -1,14 +1,34 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
+#nullable enable
 
-public class PageDataManager(
-    SessionUser _sessionUser,
-    PermissionCheck _permissionCheck,
-    KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo)
+public class PageDataManager
 {
+    private readonly SessionUser _sessionUser;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+
+    public PageDataManager(
+        SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        QuestionReadingRepo questionReadingRepo)
+    {
+        _sessionUser = sessionUser;
+        _permissionCheck = permissionCheck;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _questionReadingRepo = questionReadingRepo;
+    }
+
     public PageDataResult GetPageData(int id, [CanBeNull] string token = null, [CanBeNull] int? userId = null)
     {
         var page = EntityCache.GetPage(id);
@@ -52,8 +72,7 @@ public class PageDataManager(
             Id = page.Id,
             Name = page.Name,
             QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId, permissionCheck: _permissionCheck),
-            ImageUrl = new PageImageSettings(page.Id,
-                    _httpContextAccessor)
+            ImageUrl = new PageImageSettings(page.Id, _httpContextAccessor)
                 .GetUrl_128px(true)
                 .Url,
             MiniImageUrl = new ImageFrontendData(
@@ -132,50 +151,7 @@ public class PageDataManager(
                     ? null
                     : Regex.Replace(page.Content, "<.*?>", ""))
                 .Truncate(250, true),
-            KnowledgeSummary = new KnowledgeSummaryResponse(
-                knowledgeSummary.NotInWishKnowledgePercentage,
-                knowledgeSummary.TotalCount,
-                knowledgeSummary.KnowledgeStatusPoints,
-                knowledgeSummary.KnowledgeStatusPointsTotal,
-                new KnowledgeStatusCountsResponse(
-                    knowledgeSummary.InWishKnowledge.NotLearned,
-                    knowledgeSummary.InWishKnowledge.NotLearnedPercentage,
-                    knowledgeSummary.InWishKnowledge.NeedsLearning,
-                    knowledgeSummary.InWishKnowledge.NeedsLearningPercentage,
-                    knowledgeSummary.InWishKnowledge.NeedsConsolidation,
-                    knowledgeSummary.InWishKnowledge.NeedsConsolidationPercentage,
-                    knowledgeSummary.InWishKnowledge.Solid,
-                    knowledgeSummary.InWishKnowledge.SolidPercentage,
-                    knowledgeSummary.InWishKnowledge.NotLearnedPercentageOfTotal,
-                    knowledgeSummary.InWishKnowledge.NeedsLearningPercentageOfTotal,
-                    knowledgeSummary.InWishKnowledge.NeedsConsolidationPercentageOfTotal,
-                    knowledgeSummary.InWishKnowledge.SolidPercentageOfTotal),
-                new KnowledgeStatusCountsResponse(
-                    knowledgeSummary.NotInWishKnowledge.NotLearned,
-                    knowledgeSummary.NotInWishKnowledge.NotLearnedPercentage,
-                    knowledgeSummary.NotInWishKnowledge.NeedsLearning,
-                    knowledgeSummary.NotInWishKnowledge.NeedsLearningPercentage,
-                    knowledgeSummary.NotInWishKnowledge.NeedsConsolidation,
-                    knowledgeSummary.NotInWishKnowledge.NeedsConsolidationPercentage,
-                    knowledgeSummary.NotInWishKnowledge.Solid,
-                    knowledgeSummary.NotInWishKnowledge.SolidPercentage,
-                    knowledgeSummary.NotInWishKnowledge.NotLearnedPercentageOfTotal,
-                    knowledgeSummary.NotInWishKnowledge.NeedsLearningPercentageOfTotal,
-                    knowledgeSummary.NotInWishKnowledge.NeedsConsolidationPercentageOfTotal,
-                    knowledgeSummary.NotInWishKnowledge.SolidPercentageOfTotal),
-                new KnowledgeStatusCountsResponse(
-                    knowledgeSummary.Total.NotLearned,
-                    knowledgeSummary.Total.NotLearnedPercentage,
-                    knowledgeSummary.Total.NeedsLearning,
-                    knowledgeSummary.Total.NeedsLearningPercentage,
-                    knowledgeSummary.Total.NeedsConsolidation,
-                    knowledgeSummary.Total.NeedsConsolidationPercentage,
-                    knowledgeSummary.Total.Solid,
-                    knowledgeSummary.Total.SolidPercentage,
-                    knowledgeSummary.Total.NotLearnedPercentageOfTotal,
-                    knowledgeSummary.Total.NeedsLearningPercentageOfTotal,
-                    knowledgeSummary.Total.NeedsConsolidationPercentageOfTotal,
-                    knowledgeSummary.Total.SolidPercentageOfTotal)),
+            KnowledgeSummary = new KnowledgeSummaryResponse(knowledgeSummary),
             GridItems = new PageGridManager(
                 _permissionCheck,
                 _sessionUser,
@@ -224,16 +200,48 @@ public class PageDataManager(
         int NotLearnedPercentageOfTotal,
         int NeedsLearningPercentageOfTotal,
         int NeedsConsolidationPercentageOfTotal,
-        int SolidPercentageOfTotal);
+        int SolidPercentageOfTotal,
+        int? NotInWishKnowledgeCount,
+        int? NotInWishKnowledgePercentage)
+    {
+        public KnowledgeStatusCountsResponse(KnowledgeStatusCounts k) : this(
+            k.NotLearned,
+            k.NotLearnedPercentage,
+            k.NeedsLearning,
+            k.NeedsLearningPercentage,
+            k.NeedsConsolidation,
+            k.NeedsConsolidationPercentage,
+            k.Solid,
+            k.SolidPercentage,
+            k.NotLearnedPercentageOfTotal,
+            k.NeedsLearningPercentageOfTotal,
+            k.NeedsConsolidationPercentageOfTotal,
+            k.SolidPercentageOfTotal,
+            k.NotInWishKnowledgeCount,
+            k.NotInWishKnowledgePercentage)
+        {
+        }
+    }
 
     public record struct KnowledgeSummaryResponse(
-        int NotInWishKnowledgePercentage,
-        int TotalCount,
-        double KnowledgeStatusPoints,
-        double KnowledgeStatusPointsTotal,
-        KnowledgeStatusCountsResponse InWishKnowledge,
-        KnowledgeStatusCountsResponse NotInWishKnowledge,
-        KnowledgeStatusCountsResponse Total);
+        int TotalCount = 0,
+        double KnowledgeStatusPoints = 0.0,
+        double KnowledgeStatusPointsTotal = 0.0,
+        KnowledgeStatusCountsResponse InWishKnowledge = new KnowledgeStatusCountsResponse(),
+        KnowledgeStatusCountsResponse NotInWishKnowledge = new KnowledgeStatusCountsResponse(),
+        KnowledgeStatusCountsResponse Total = new KnowledgeStatusCountsResponse())
+    {
+        public KnowledgeSummaryResponse(KnowledgeSummary k)
+            : this(
+                TotalCount: k.TotalCount,
+                KnowledgeStatusPoints: k.KnowledgeStatusPoints,
+                KnowledgeStatusPointsTotal: k.KnowledgeStatusPointsTotal,
+                InWishKnowledge: new KnowledgeStatusCountsResponse(k.InWishKnowledge),
+                NotInWishKnowledge: new KnowledgeStatusCountsResponse(k.NotInWishKnowledge),
+                Total: new KnowledgeStatusCountsResponse(k.Total))
+        {
+        }
+    }
 
     public record struct PageDataResult(
         bool CanAccess,

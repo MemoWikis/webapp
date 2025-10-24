@@ -10,7 +10,9 @@ public readonly record struct KnowledgeStatusCountsResponse(
     int NotLearnedPercentageOfTotal = 0,
     int NeedsLearningPercentageOfTotal = 0,
     int NeedsConsolidationPercentageOfTotal = 0,
-    int SolidPercentageOfTotal = 0)
+    int SolidPercentageOfTotal = 0,
+    int? NotInWishKnowledgeCount = null,
+    int? NotInWishKnowledgePercentage = null)
 {
     public KnowledgeStatusCountsResponse(KnowledgeStatusCounts knowledgeStatusCounts) : this(
         knowledgeStatusCounts.NotLearned,
@@ -24,7 +26,9 @@ public readonly record struct KnowledgeStatusCountsResponse(
         knowledgeStatusCounts.NotLearnedPercentageOfTotal,
         knowledgeStatusCounts.NeedsLearningPercentageOfTotal,
         knowledgeStatusCounts.NeedsConsolidationPercentageOfTotal,
-        knowledgeStatusCounts.SolidPercentageOfTotal)
+        knowledgeStatusCounts.SolidPercentageOfTotal,
+        knowledgeStatusCounts.NotInWishKnowledgeCount,
+        knowledgeStatusCounts.NotInWishKnowledgePercentage)
     {
     }
 }

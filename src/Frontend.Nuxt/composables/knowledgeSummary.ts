@@ -11,7 +11,10 @@ export enum KnowledgeSummaryType {
     SolidNotInWishKnowledge = 'solidNotInWishKnowledge',
     NeedsConsolidationNotInWishKnowledge = 'needsConsolidationNotInWishKnowledge',
     NeedsLearningNotInWishKnowledge = 'needsLearningNotInWishKnowledge',
-    NotLearnedNotInWishKnowledge = 'notLearnedNotInWishKnowledge'
+    NotLearnedNotInWishKnowledge = 'notLearnedNotInWishKnowledge',
+
+    // Note: 'NotInWishKnowledge' type for aggregated slice is not included here
+    NotInWishKnowledge = 'notInWishKnowledgeCount'
 }
 
 export interface KnowledgeStatusCounts {
@@ -29,6 +32,9 @@ export interface KnowledgeStatusCounts {
     needsLearningPercentageOfTotal: number
     needsConsolidationPercentageOfTotal: number
     solidPercentageOfTotal: number
+    // Aggregated not-in-wish-knowledge data (only present in Total object)
+    notInWishKnowledgeCount?: number
+    notInWishKnowledgePercentage?: number
 }
 
 export interface KnowledgeSummary {
@@ -43,23 +49,11 @@ export interface KnowledgeSummary {
     knowledgeStatusPointsTotal: number
 }
 
-// export interface KnowledgeSummarySlim {
-//     solid: number
-//     needsConsolidation: number
-//     needsLearning: number
-//     notLearned: number
-//     inWishKnowledge?: KnowledgeStatusCounts
-//     notInWishKnowledge?: KnowledgeStatusCounts
-// }
-
-// type KnowledgeSummaryInput = KnowledgeSummary | KnowledgeSummarySlim
-type KnowledgeSummaryInput = KnowledgeSummary
-
 /**
  * Converts knowledge summary to chart data showing both wishKnowledge and not-in-wishKnowledge sections
  * (uses the new nested structure to distinguish between wishKnowledge and non-wishKnowledge)
  */
-export const convertKnowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummaryInput): ChartData[] => {
+export const convertKnowledgeSummaryToChartData = (knowledgeSummary: KnowledgeSummary): ChartData[] => {
     const chartData: ChartData[] = []
     
     // Add wishKnowledge (wishKnowledge) categories first
@@ -196,7 +190,8 @@ export const getKnowledgeStatusPercentageOfTotal = (
 export const convertKnowledgeStatusCountsToChartData = (statusCounts: KnowledgeStatusCounts): ChartData[] => {
     const chartData: ChartData[] = []
     const statusOrder = ['solid', 'needsConsolidation', 'needsLearning', 'notLearned'] as const
-    
+
+    // Add in-wish-knowledge status items
     for (const statusClass of statusOrder) {
         const value = statusCounts[statusClass]
         if (value > 0) {
@@ -206,7 +201,15 @@ export const convertKnowledgeStatusCountsToChartData = (statusCounts: KnowledgeS
             })
         }
     }
-    
+
+    // Add aggregated not-in-wish-knowledge slice if available
+    if (statusCounts.notInWishKnowledgeCount && statusCounts.notInWishKnowledgeCount > 0) {
+        chartData.push({
+            value: statusCounts.notInWishKnowledgeCount,
+            class: 'notInWishKnowledge'
+        })
+    }
+
     return chartData
 }
 
@@ -214,7 +217,7 @@ export const convertKnowledgeStatusCountsToChartData = (statusCounts: KnowledgeS
  * Converts knowledge summary to chart data using total counts (legacy behavior)
  * (combines wishKnowledge and not-in-wishKnowledge into single categories)
  */
-export const convertKnowledgeSummaryToTotalChartData = (knowledgeSummary: KnowledgeSummaryInput): ChartData[] => {
-    // Use the efficient method with the total counts
+export const convertKnowledgeSummaryToTotalChartData = (knowledgeSummary: KnowledgeSummary): ChartData[] => {
+    // Use the efficient method with the backend-calculated total that includes aggregated not-in-wish-knowledge
     return convertKnowledgeStatusCountsToChartData(knowledgeSummary.total)
 }

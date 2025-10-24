@@ -14,7 +14,7 @@ const props = defineProps<Props>()
 <template>
     <div class="knowledge-summary">
         <SharedKnowledgeSummaryPie :knowledge-status-counts="props.knowledgeStatus.inWishKnowledge" :total-count="sumWishKnowledge" />
-        <SharedKnowledgeSummary :knowledge-summary="props.knowledgeStatus" :show-not-in-wish-knowledge="false" :show-sum="false" />
+        <SharedKnowledgeSummary :knowledge-summary="props.knowledgeStatus" :use-total="false" />
     </div>
 </template>
 
@@ -49,8 +49,7 @@ const props = defineProps<Props>()
             align-items: center;
             min-width: unset;
             flex-wrap: wrap;
-            justify-content: center;
-        }
+            justify-content: center;     }
     }
 }
 </style>

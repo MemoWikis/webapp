@@ -630,6 +630,16 @@ export const useLearningSessionConfigurationStore = defineStore(
                         this.knowledgeSummary[targetKey].isSelected = true
                     }
                 }
+                // Handle aggregated NotInWishKnowledge type
+                else if (type === KnowledgeSummaryType.NotInWishKnowledge) {
+                    // For aggregated NotInWish: select all knowledge statuses but only notInWishKnowledge filter
+                    for (const key in this.knowledgeSummary) {
+                        this.knowledgeSummary[key].isSelected = true
+                    }
+                    // Set question filters to only include notInWishKnowledge
+                    this.questionFilterOptions.inWishKnowledge.isSelected = false
+                    this.questionFilterOptions.notInWishKnowledge.isSelected = true
+                }
                 // Handle not in wishKnowledge types
                 else if (type === KnowledgeSummaryType.SolidNotInWishKnowledge || 
                          type === KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge ||

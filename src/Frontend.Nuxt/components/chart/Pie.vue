@@ -103,56 +103,22 @@ onBeforeMount(() => {
 }
 
 .svg-color-notLearned {
-    fill: @memo-grey-light;
+    fill: @not-learned-color;
 }
 
 .svg-color-notInWishKnowledge {
-    fill: @memo-grey;
+    fill: @not-in-wish-knowledge-color;
 }
 
 .svg-color-needsLearning {
-    fill: @memo-salmon;
+    fill: @needs-learning-color;
 }
 
 .svg-color-needsConsolidation {
-    fill: @memo-yellow;
+    fill: @needs-consolidation-color;
 }
 
 .svg-color-solid {
-    fill: @memo-green;
-}
-
-// WishKnowledge (wishKnowledge) colors - solid colors
-.svg-color-solidWishKnowledge {
-    fill: @memo-green;
-}
-
-.svg-color-needsConsolidationWishKnowledge {
-    fill: @memo-yellow;
-}
-
-.svg-color-needsLearningWishKnowledge {
-    fill: @memo-salmon;
-}
-
-.svg-color-notLearnedWishKnowledge {
-    fill: @memo-grey-light;
-}
-
-// Not in wishKnowledge colors - slightly different shades
-.svg-color-solidNotInWishKnowledge {
-    fill: fadeout(@memo-green, 30%);
-}
-
-.svg-color-needsConsolidationNotInWishKnowledge {
-    fill: fadeout(@memo-yellow, 30%);
-}
-
-.svg-color-needsLearningNotInWishKnowledge {
-    fill: fadeout(@memo-salmon, 30%);
-}
-
-.svg-color-notLearnedNotInWishKnowledge {
-    fill: fadeout(@memo-grey-light, 30%);
+    fill: @solid-knowledge-color;
 }
 </style>

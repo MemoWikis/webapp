@@ -45,12 +45,13 @@
     );
 
     public readonly record struct KnowledgebarData(
-        int Total,
+        int TotalCount,
         double KnowledgeStatusPoints,
         double KnowledgeStatusPointsTotal,
         int NotInWishKnowledgePercentage,
         KnowledgeStatusCounts InWishKnowledge,
-        KnowledgeStatusCounts NotInWishKnowledge
+        KnowledgeStatusCounts NotInWishKnowledge,
+        KnowledgeStatusCounts Total
     );
 
     public GridPageItem[] GetChildren(int id)
@@ -92,7 +93,7 @@
 
         return new KnowledgebarData
         {
-            Total = knowledgeBarSummary.TotalCount,
+            TotalCount = knowledgeBarSummary.TotalCount,
             KnowledgeStatusPoints = knowledgeBarSummary.KnowledgeStatusPoints,
             KnowledgeStatusPointsTotal = knowledgeBarSummary.KnowledgeStatusPointsTotal,
             NotInWishKnowledgePercentage = knowledgeBarSummary.NotInWishKnowledgePercentage,
@@ -123,7 +124,21 @@
                 NeedsLearningPercentageOfTotal: knowledgeBarSummary.NotInWishKnowledge.NeedsLearningPercentageOfTotal,
                 NeedsConsolidationPercentageOfTotal: knowledgeBarSummary.NotInWishKnowledge.NeedsConsolidationPercentageOfTotal,
                 SolidPercentageOfTotal: knowledgeBarSummary.NotInWishKnowledge.SolidPercentageOfTotal,
-                Total: knowledgeBarSummary.NotInWishKnowledge.Total)
+                Total: knowledgeBarSummary.NotInWishKnowledge.Total),
+            Total = new KnowledgeStatusCounts(
+                NotLearned: knowledgeBarSummary.Total.NotLearned,
+                NotLearnedPercentage: knowledgeBarSummary.Total.NotLearnedPercentage,
+                NeedsLearning: knowledgeBarSummary.Total.NeedsLearning,
+                NeedsLearningPercentage: knowledgeBarSummary.Total.NeedsLearningPercentage,
+                NeedsConsolidation: knowledgeBarSummary.Total.NeedsConsolidation,
+                NeedsConsolidationPercentage: knowledgeBarSummary.Total.NeedsConsolidationPercentage,
+                Solid: knowledgeBarSummary.Total.Solid,
+                SolidPercentage: knowledgeBarSummary.Total.SolidPercentage,
+                NotLearnedPercentageOfTotal: knowledgeBarSummary.Total.NotLearnedPercentageOfTotal,
+                NeedsLearningPercentageOfTotal: knowledgeBarSummary.Total.NeedsLearningPercentageOfTotal,
+                NeedsConsolidationPercentageOfTotal: knowledgeBarSummary.Total.NeedsConsolidationPercentageOfTotal,
+                SolidPercentageOfTotal: knowledgeBarSummary.Total.SolidPercentageOfTotal,
+                Total: knowledgeBarSummary.Total.Total)
         };
     }
 

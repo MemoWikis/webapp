@@ -35,8 +35,7 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
                         :show-actions="true"
                         :action-icon="'fa-solid fa-play'"
                         @action-click="onActionClick"
-                        :show-not-in-wish-knowledge="false"
-                        :show-sum="true" />
+                        :use-total="true" />
                 </div>
             </div>
 

@@ -3,8 +3,11 @@ import { KnowledgeSummary } from '~/composables/knowledgeSummary'
 
 interface Props {
     knowledgebarData: KnowledgeSummary
+    useTotal?: boolean
 }
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+    useTotal: true
+})
 
 interface KnowledgebarTooltipData {
     value: number
@@ -50,6 +53,8 @@ function getTooltipLabel(key: string, count: number) {
             return t('knowledgeStatus.needsLearningCount', count)
         case 'notLearned':
             return t('knowledgeStatus.notLearnedCount', count)
+        case 'notInWishKnowledge':
+            return t('knowledgeStatus.notInWishKnowledgeCount', count)
     }
 }
 
@@ -63,63 +68,63 @@ const ariaId = useId()
     <VTooltip :aria-id="ariaId" class="tooltip-container">
         <div class="knowledgebar">
             <!-- Total sections using backend-calculated totals -->
-            <div v-if="knowledgebarData.total?.solidPercentage > 0" class="solid-knowledge total"
-                :style="{ 'width': knowledgebarData.total.solidPercentage + '%' }">
-            </div>
-            <div v-if="knowledgebarData.total?.needsConsolidationPercentage > 0" class="needs-consolidation total"
-                :style="{ 'width': knowledgebarData.total.needsConsolidationPercentage + '%' }">
-            </div>
-            <div v-if="knowledgebarData.total?.needsLearningPercentage > 0" class="needs-learning total"
-                :style="{ 'width': knowledgebarData.total.needsLearningPercentage + '%' }">
-            </div>
-            <div v-if="knowledgebarData.total?.notLearnedPercentage > 0" class="not-learned total"
-                :style="{ 'width': knowledgebarData.total.notLearnedPercentage + '%' }">
-            </div>
+            <template v-if="props.useTotal">
+                <div v-if="knowledgebarData.total?.solidPercentage > 0" class="solid-knowledge total"
+                    :style="{ 'width': knowledgebarData.total.solidPercentage + '%' }">
+                </div>
+                <div v-if="knowledgebarData.total?.needsConsolidationPercentage > 0" class="needs-consolidation total"
+                    :style="{ 'width': knowledgebarData.total.needsConsolidationPercentage + '%' }">
+                </div>
+                <div v-if="knowledgebarData.total?.needsLearningPercentage > 0" class="needs-learning total"
+                    :style="{ 'width': knowledgebarData.total.needsLearningPercentage + '%' }">
+                </div>
+                <div v-if="knowledgebarData.total?.notLearnedPercentage > 0" class="not-learned total"
+                    :style="{ 'width': knowledgebarData.total.notLearnedPercentage + '%' }">
+                </div>
+                <div v-if="knowledgebarData.total?.notInWishKnowledgePercentage && knowledgebarData.total.notInWishKnowledgePercentage > 0" class="not-in-wish-knowledge total"
+                    :style="{ 'width': knowledgebarData.total.notInWishKnowledgePercentage + '%' }">
+                </div>
+            </template>
+            <template v-else>
+                <div v-if="knowledgebarData.inWishKnowledge?.solidPercentage > 0" class="solid-knowledge total"
+                    :style="{ 'width': knowledgebarData.inWishKnowledge.solidPercentage + '%' }">
+                </div>
+                <div v-if="knowledgebarData.inWishKnowledge?.needsConsolidationPercentage > 0" class="needs-consolidation total"
+                    :style="{ 'width': knowledgebarData.inWishKnowledge.needsConsolidationPercentage + '%' }">
+                </div>
+                <div v-if="knowledgebarData.inWishKnowledge?.needsLearningPercentage > 0" class="needs-learning total"
+                    :style="{ 'width': knowledgebarData.inWishKnowledge.needsLearningPercentage + '%' }">
+                </div>
+                <div v-if="knowledgebarData.inWishKnowledge?.notLearnedPercentage > 0" class="not-learned total"
+                    :style="{ 'width': knowledgebarData.inWishKnowledge.notLearnedPercentage + '%' }">
+                </div>
+            </template>
         </div>
         <template #popper>
-            <!-- Two-section tooltip with breakdown -->
             <b>{{ t('page.grid.knowledgeStatus.title') }}</b>
 
-            <!-- In Wish Knowledge Section -->
-            <div class="tooltip-section">
-                <h4>{{ t('label.inWishKnowledge') }}</h4>
-                <div v-if="knowledgebarData.inWishKnowledge?.solid > 0" class="knowledgesummary-info">
-                    <div class="color-container color-solid"></div>
-                    <div>{{ getTooltipLabel('solid', knowledgebarData.inWishKnowledge.solid) }}</div>
-                </div>
-                <div v-if="knowledgebarData.inWishKnowledge?.needsConsolidation > 0" class="knowledgesummary-info">
-                    <div class="color-container color-needsConsolidation"></div>
-                    <div>{{ getTooltipLabel('needsConsolidation', knowledgebarData.inWishKnowledge.needsConsolidation) }}</div>
-                </div>
-                <div v-if="knowledgebarData.inWishKnowledge?.needsLearning > 0" class="knowledgesummary-info">
-                    <div class="color-container color-needsLearning"></div>
-                    <div>{{ getTooltipLabel('needsLearning', knowledgebarData.inWishKnowledge.needsLearning) }}</div>
-                </div>
-                <div v-if="knowledgebarData.inWishKnowledge?.notLearned > 0" class="knowledgesummary-info">
-                    <div class="color-container color-notLearned"></div>
-                    <div>{{ getTooltipLabel('notLearned', knowledgebarData.inWishKnowledge.notLearned) }}</div>
-                </div>
+            <!-- Individual status items -->
+            <div v-if="knowledgebarData.inWishKnowledge?.solid > 0" class="knowledgesummary-info">
+                <div class="color-container color-solid"></div>
+                <div>{{ getTooltipLabel('solid', props.useTotal ? knowledgebarData.inWishKnowledge.solid : knowledgebarData.inWishKnowledge.solid) }}</div>
+            </div>
+            <div v-if="knowledgebarData.inWishKnowledge?.needsConsolidation > 0" class="knowledgesummary-info">
+                <div class="color-container color-needsConsolidation"></div>
+                <div>{{ getTooltipLabel('needsConsolidation', props.useTotal ? knowledgebarData.inWishKnowledge.needsConsolidation : knowledgebarData.inWishKnowledge.needsConsolidation) }}</div>
+            </div>
+            <div v-if="knowledgebarData.inWishKnowledge?.needsLearning > 0" class="knowledgesummary-info">
+                <div class="color-container color-needsLearning"></div>
+                <div>{{ getTooltipLabel('needsLearning', props.useTotal ? knowledgebarData.inWishKnowledge.needsLearning : knowledgebarData.inWishKnowledge.needsLearning) }}</div>
+            </div>
+            <div v-if="knowledgebarData.inWishKnowledge?.notLearned > 0" class="knowledgesummary-info">
+                <div class="color-container color-notLearned"></div>
+                <div>{{ getTooltipLabel('notLearned', props.useTotal ? knowledgebarData.inWishKnowledge.notLearned : knowledgebarData.inWishKnowledge.notLearned) }}</div>
             </div>
 
-            <!-- Not in Wish Knowledge Section -->
-            <div class="tooltip-section" v-if="knowledgebarData.notInWishKnowledge">
-                <h4>{{ t('label.notInWishKnowledge') }}</h4>
-                <div v-if="knowledgebarData.notInWishKnowledge?.solid > 0" class="knowledgesummary-info">
-                    <div class="color-container color-solid-striped"></div>
-                    <div>{{ getTooltipLabel('solid', knowledgebarData.notInWishKnowledge.solid) }}</div>
-                </div>
-                <div v-if="knowledgebarData.notInWishKnowledge?.needsConsolidation > 0" class="knowledgesummary-info">
-                    <div class="color-container color-needsConsolidation-striped"></div>
-                    <div>{{ getTooltipLabel('needsConsolidation', knowledgebarData.notInWishKnowledge.needsConsolidation) }}</div>
-                </div>
-                <div v-if="knowledgebarData.notInWishKnowledge?.needsLearning > 0" class="knowledgesummary-info">
-                    <div class="color-container color-needsLearning-striped"></div>
-                    <div>{{ getTooltipLabel('needsLearning', knowledgebarData.notInWishKnowledge.needsLearning) }}</div>
-                </div>
-                <div v-if="knowledgebarData.notInWishKnowledge?.notLearned > 0" class="knowledgesummary-info">
-                    <div class="color-container color-notLearned-striped"></div>
-                    <div>{{ getTooltipLabel('notLearned', knowledgebarData.notInWishKnowledge.notLearned) }}</div>
-                </div>
+            <!-- NotInWish knowledge items - only show when useTotal is true -->
+            <div v-if="props.useTotal && knowledgebarData.total?.notInWishKnowledgeCount && knowledgebarData.total.notInWishKnowledgeCount > 0" class="knowledgesummary-info">
+                <div class="color-container color-notInWishKnowledge"></div>
+                <div>{{ t('knowledgeStatus.notInWishKnowledgeCount', knowledgebarData.total.notInWishKnowledgeCount) }}</div>
             </div>
         </template>
     </VTooltip>
@@ -150,54 +155,18 @@ const ariaId = useId()
 
     .needs-learning {
         background-color: @needs-learning-color;
-
-        &.not-in-wishKnowledge {
-            opacity: 0.6;
-            background: repeating-linear-gradient(45deg,
-                    @needs-learning-color,
-                    @needs-learning-color 2px,
-                    fadeout(@needs-learning-color, 30%) 2px,
-                    fadeout(@needs-learning-color, 30%) 4px);
-        }
     }
 
     .needs-consolidation {
         background-color: @needs-consolidation-color;
-
-        &.not-in-wishKnowledge {
-            opacity: 0.6;
-            background: repeating-linear-gradient(45deg,
-                    @needs-consolidation-color,
-                    @needs-consolidation-color 2px,
-                    fadeout(@needs-consolidation-color, 30%) 2px,
-                    fadeout(@needs-consolidation-color, 30%) 4px);
-        }
     }
 
     .solid-knowledge {
         background-color: @solid-knowledge-color;
-
-        &.not-in-wishKnowledge {
-            opacity: 0.6;
-            background: repeating-linear-gradient(45deg,
-                    @solid-knowledge-color,
-                    @solid-knowledge-color 2px,
-                    fadeout(@solid-knowledge-color, 30%) 2px,
-                    fadeout(@solid-knowledge-color, 30%) 4px);
-        }
     }
 
     .not-learned {
         background-color: @not-learned-color;
-
-        &.not-in-wishKnowledge {
-            opacity: 0.6;
-            background: repeating-linear-gradient(45deg,
-                    @not-learned-color,
-                    @not-learned-color 2px,
-                    fadeout(@not-learned-color, 30%) 2px,
-                    fadeout(@not-learned-color, 30%) 4px);
-        }
     }
 
     .not-in-wish-knowledge {
@@ -233,9 +202,9 @@ const ariaId = useId()
         margin-right: 4px;
         border-radius: 50%;
 
-        // Legacy colors
+        /* Legacy colors */
         &.color-notLearned {
-            background: @memo-grey-light;
+            background: @memo-grey-dark;
         }
 
         &.color-needsLearning {
@@ -251,90 +220,7 @@ const ariaId = useId()
         }
 
         &.color-notInWishKnowledge {
-            background: @memo-grey-dark;
-        }
-
-        // WishKnowledge (wishKnowledge) colors - solid colors
-        &.color-solidWishKnowledge {
-            background: @memo-green;
-        }
-
-        &.color-needsConsolidationWishKnowledge {
-            background: @memo-yellow;
-        }
-
-        &.color-needsLearningWishKnowledge {
-            background: @memo-salmon;
-        }
-
-        &.color-notLearnedWishKnowledge {
             background: @memo-grey-light;
-        }
-
-        // Not in wishKnowledge colors - striped patterns
-        &.color-solidNotInWishKnowledge {
-            background: repeating-linear-gradient(45deg,
-                    @memo-green,
-                    @memo-green 2px,
-                    fadeout(@memo-green, 50%) 2px,
-                    fadeout(@memo-green, 50%) 4px);
-        }
-
-        &.color-needsConsolidationNotInWishKnowledge {
-            background: repeating-linear-gradient(45deg,
-                    @memo-yellow,
-                    @memo-yellow 2px,
-                    fadeout(@memo-yellow, 50%) 2px,
-                    fadeout(@memo-yellow, 50%) 4px);
-        }
-
-        &.color-needsLearningNotInWishKnowledge {
-            background: repeating-linear-gradient(45deg,
-                    @memo-salmon,
-                    @memo-salmon 2px,
-                    fadeout(@memo-salmon, 50%) 2px,
-                    fadeout(@memo-salmon, 50%) 4px);
-        }
-
-        &.color-notLearnedNotInWishKnowledge {
-            background: repeating-linear-gradient(45deg,
-                    @memo-grey-light,
-                    @memo-grey-light 2px,
-                    fadeout(@memo-grey-light, 50%) 2px,
-                    fadeout(@memo-grey-light, 50%) 4px);
-        }
-
-        // Striped colors for two-section tooltip
-        &.color-solid-striped {
-            background: repeating-linear-gradient(45deg,
-                    @memo-green,
-                    @memo-green 2px,
-                    fadeout(@memo-green, 50%) 2px,
-                    fadeout(@memo-green, 50%) 4px);
-        }
-
-        &.color-needsConsolidation-striped {
-            background: repeating-linear-gradient(45deg,
-                    @memo-yellow,
-                    @memo-yellow 2px,
-                    fadeout(@memo-yellow, 50%) 2px,
-                    fadeout(@memo-yellow, 50%) 4px);
-        }
-
-        &.color-needsLearning-striped {
-            background: repeating-linear-gradient(45deg,
-                    @memo-salmon,
-                    @memo-salmon 2px,
-                    fadeout(@memo-salmon, 50%) 2px,
-                    fadeout(@memo-salmon, 50%) 4px);
-        }
-
-        &.color-notLearned-striped {
-            background: repeating-linear-gradient(45deg,
-                    @memo-grey-light,
-                    @memo-grey-light 2px,
-                    fadeout(@memo-grey-light, 50%) 2px,
-                    fadeout(@memo-grey-light, 50%) 4px);
         }
     }
 }

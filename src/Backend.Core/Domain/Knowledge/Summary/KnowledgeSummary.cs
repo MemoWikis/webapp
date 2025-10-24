@@ -41,23 +41,34 @@ public class KnowledgeStatusCounts
     [JsonProperty("SolidPercentageOfTotal")]
     public int SolidPercentageOfTotal { get; private set; }
 
+    // Aggregated not-in-wish-knowledge data for Total object
+    [JsonProperty("NotInWishKnowledgeCount")]
+    public int? NotInWishKnowledgeCount { get; private set; }
+    
+    [JsonProperty("NotInWishKnowledgePercentage")]
+    public int? NotInWishKnowledgePercentage { get; private set; }
+
     public KnowledgeStatusCounts(
         int notLearned = 0,
         int needsLearning = 0,
         int needsConsolidation = 0,
-        int solid = 0)
+        int solid = 0,
+        int? notInWishKnowledgeCount = null,
+        int? notInWishKnowledgePercentage = null)
     {
         NotLearned = notLearned;
         NeedsLearning = needsLearning;
         NeedsConsolidation = needsConsolidation;
         Solid = solid;
+        NotInWishKnowledgeCount = notInWishKnowledgeCount;
+        NotInWishKnowledgePercentage = notInWishKnowledgePercentage;
 
         CalculatePercentages();
     }
 
     private void CalculatePercentages()
     {
-        PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
+        var valueWithResultActions = new List<ValueWithResultAction>
         {
             new ValueWithResultAction
             {
@@ -75,8 +86,20 @@ public class KnowledgeStatusCounts
             new ValueWithResultAction
             {
                 AbsoluteValue = Solid, ActionForPercentage = percent => SolidPercentage = percent
-            },
-        });
+            }
+        };
+
+        // Only include NotInWishKnowledge percentage calculation if the count is not null
+        if (NotInWishKnowledgeCount.HasValue)
+        {
+            valueWithResultActions.Add(new ValueWithResultAction
+            {
+                AbsoluteValue = NotInWishKnowledgeCount.Value, 
+                ActionForPercentage = percent => NotInWishKnowledgePercentage = percent
+            });
+        }
+
+        PercentageShares.FromAbsoluteShares(valueWithResultActions);
     }
 
     public void CalculatePercentagesOfTotal(int grandTotal)
@@ -156,20 +179,29 @@ public class KnowledgeSummary
             notLearnedInWishKnowledge,
             needsLearningInWishKnowledge,
             needsConsolidationInWishKnowledge,
-            solidInWishKnowledge);
+            solidInWishKnowledge,
+            notInWishKnowledgeCount: null,
+            notInWishKnowledgePercentage: null);
 
         NotInWishKnowledge = new KnowledgeStatusCounts(
             notLearnedNotInWishKnowledge,
             needsLearningNotInWishKnowledge,
             needsConsolidationNotInWishKnowledge,
-            solidNotInWishKnowledge);
+            solidNotInWishKnowledge,
+            notInWishKnowledgeCount: null,
+            notInWishKnowledgePercentage: null);
 
-        // Create Total with combined counts
+        // Calculate the actual NotInWish totals for the Total object
+        var notInWishTotal = notLearnedNotInWishKnowledge + needsLearningNotInWishKnowledge + needsConsolidationNotInWishKnowledge + solidNotInWishKnowledge;
+
+        // Create Total with InWish knowledge detailed breakdown + aggregated NotInWish total
         Total = new KnowledgeStatusCounts(
-            notLearnedInWishKnowledge + notLearnedNotInWishKnowledge,
-            needsLearningInWishKnowledge + needsLearningNotInWishKnowledge,
-            needsConsolidationInWishKnowledge + needsConsolidationNotInWishKnowledge,
-            solidInWishKnowledge + solidNotInWishKnowledge);
+            notLearnedInWishKnowledge,  // Only InWish NotLearned
+            needsLearningInWishKnowledge,  // Only InWish NeedsLearning
+            needsConsolidationInWishKnowledge,  // Only InWish NeedsConsolidation
+            solidInWishKnowledge,  // Only InWish Solid
+            notInWishKnowledgeCount: notInWishTotal,  // All NotInWish statuses combined
+            notInWishKnowledgePercentage: null); // Will be calculated by CalculatePercentages()
 
         // Calculate percentages relative to grand total for both groups
         var grandTotal = TotalCount;

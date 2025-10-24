@@ -5,8 +5,7 @@ interface Props {
     knowledgeSummary: KnowledgeSummary
     showActions?: boolean
     actionIcon?: string
-    showNotInWishKnowledge?: boolean
-    showSum?: boolean
+    useTotal?: boolean
 }
 
 const props = defineProps<Props>()
@@ -16,6 +15,7 @@ const knowledgeStatusItems = computed(() => {
     const items = []
 
     if (props.knowledgeSummary.total) {
+        console.log('Adding total knowledge status items', props.knowledgeSummary.total)
         items.push(
             {
                 label: t('knowledgeStatus.solid'),
@@ -44,6 +44,13 @@ const knowledgeStatusItems = computed(() => {
                 percentage: props.knowledgeSummary.total.notLearnedPercentage,
                 class: 'notLearned',
                 type: KnowledgeSummaryType.NotLearnedWishKnowledge
+            },
+            {
+                label: t('knowledgeStatus.notInWishKnowledge'),
+                value: props.knowledgeSummary.total.notInWishKnowledgeCount,
+                percentage: props.knowledgeSummary.total.notInWishKnowledgePercentage,
+                class: 'notInWishKnowledge',
+                type: KnowledgeSummaryType.NotInWishKnowledge
             }
         )
     }
@@ -60,28 +67,28 @@ const knowledgeStatusItemsInWishKnowledge = computed(() => {
             {
                 label: t('knowledgeStatus.solid'),
                 value: props.knowledgeSummary.inWishKnowledge.solid,
-                percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.solidPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.solidPercentage,
+                percentage: props.knowledgeSummary.inWishKnowledge.solidPercentage,
                 class: 'solid',
                 type: KnowledgeSummaryType.SolidWishKnowledge
             },
             {
                 label: t('knowledgeStatus.needsConsolidation'),
                 value: props.knowledgeSummary.inWishKnowledge.needsConsolidation,
-                percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.needsConsolidationPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.needsConsolidationPercentage,
+                percentage: props.knowledgeSummary.inWishKnowledge.needsConsolidationPercentage,
                 class: 'needsConsolidation',
                 type: KnowledgeSummaryType.NeedsConsolidationWishKnowledge
             },
             {
                 label: t('knowledgeStatus.needsLearning'),
                 value: props.knowledgeSummary.inWishKnowledge.needsLearning,
-                percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.needsLearningPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.needsLearningPercentage,
+                percentage: props.knowledgeSummary.inWishKnowledge.needsLearningPercentage,
                 class: 'needsLearning',
                 type: KnowledgeSummaryType.NeedsLearningWishKnowledge
             },
             {
                 label: t('knowledgeStatus.notLearned'),
                 value: props.knowledgeSummary.inWishKnowledge.notLearned,
-                percentage: props.showNotInWishKnowledge ? props.knowledgeSummary.inWishKnowledge.notLearnedPercentageOfTotal : props.knowledgeSummary.inWishKnowledge.notLearnedPercentage,
+                percentage: props.knowledgeSummary.inWishKnowledge.notLearnedPercentage,
                 class: 'notLearned',
                 type: KnowledgeSummaryType.NotLearnedWishKnowledge
             }
@@ -90,64 +97,21 @@ const knowledgeStatusItemsInWishKnowledge = computed(() => {
     return items
 })
 
-const knowledgeStatusItemsNotInWishKnowledge = computed(() => {
-    const items = []
-    if (props.knowledgeSummary.notInWishKnowledge) {
-        items.push(
-            {
-                label: t('knowledgeStatus.solid'),
-                value: props.knowledgeSummary.notInWishKnowledge.solid,
-                percentage: props.knowledgeSummary.notInWishKnowledge.solidPercentageOfTotal,
-                class: 'solid notInWishKnowledge',
-                type: KnowledgeSummaryType.SolidNotInWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.needsConsolidation'),
-                value: props.knowledgeSummary.notInWishKnowledge.needsConsolidation,
-                percentage: props.knowledgeSummary.notInWishKnowledge.needsConsolidationPercentageOfTotal,
-                class: 'needsConsolidation notInWishKnowledge',
-                type: KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.needsLearning'),
-                value: props.knowledgeSummary.notInWishKnowledge.needsLearning,
-                percentage: props.knowledgeSummary.notInWishKnowledge.needsLearningPercentageOfTotal,
-                class: 'needsLearning notInWishKnowledge',
-                type: KnowledgeSummaryType.NeedsLearningNotInWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.notLearned'),
-                value: props.knowledgeSummary.notInWishKnowledge.notLearned,
-                percentage: props.knowledgeSummary.notInWishKnowledge.notLearnedPercentageOfTotal,
-                class: 'notLearned notInWishKnowledge',
-                type: KnowledgeSummaryType.NotLearnedNotInWishKnowledge
-            }
-        )
-    }
 
-    return items
-})
 
 const emit = defineEmits<{
     (e: 'actionClick', type: KnowledgeSummaryType): void
 }>()
 
-const getTotalTooltipHtml = (index: number) => {
-
-
-    return '<font-awesome-icon icon="fa-solid fa-heart" /> InWishknowledge (' + knowledgeStatusItemsInWishKnowledge.value[index].value + ') ' + 'NotInWishknowledge ( ' + knowledgeStatusItemsNotInWishKnowledge.value[index].value + ')'
-}
 </script>
 
 <template>
     <div class="summary-details-container">
-        <div class="summary-details" v-if="props.showSum">
-            <!-- <h4>{{ t('label.Sum') }}</h4> -->
+        <div class="summary-details" v-if="props.useTotal">
             <div
                 v-for="(item, index) in knowledgeStatusItems"
                 :key="index"
-                class="status-item"
-                v-tooltip="{ content: getTotalTooltipHtml(index), html: true }">
+                class="status-item">
                 <div class="status-info">
                     <span class="status-dot" :class="'dot-' + item.class.replace(' ', ' dot-')"></span>
                     <span class="status-label">{{ item.label }}</span>
@@ -171,30 +135,6 @@ const getTotalTooltipHtml = (index: number) => {
                 <!-- <h4>{{ t('label.inWishKnowledge') }}</h4> -->
                 <div
                     v-for="(item, index) in knowledgeStatusItemsInWishKnowledge"
-                    :key="index"
-                    class="status-item">
-                    <div class="status-info">
-                        <span class="status-dot" :class="'dot-' + item.class.replace(' ', ' dot-')"></span>
-                        <span class="status-label">{{ item.label }}</span>
-                    </div>
-                    <div class="status-details">
-                        <div class="status-value">
-                            <span class="value">{{ item.value }}</span>
-                            <span v-if="item.percentage !== null" class="percentage">({{ item.percentage }}%)</span>
-                        </div>
-                        <div class="status-actions" v-if="props.showActions">
-                            <button class="play-button" @click="$emit('actionClick', item.type)">
-                                <font-awesome-icon :icon="props.actionIcon" />
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="summary-details" v-if="props.showNotInWishKnowledge">
-                <!-- <h4>{{ t('label.notInWishKnowledge') }}</h4> -->
-                <div
-                    v-for="(item, index) in knowledgeStatusItemsNotInWishKnowledge"
                     :key="index"
                     class="status-item">
                     <div class="status-info">
@@ -260,40 +200,23 @@ const getTotalTooltipHtml = (index: number) => {
                 min-width: 12px;
 
                 &.dot-solid {
-                    background-color: @memo-green;
+                    background-color: @solid-knowledge-color;
                 }
 
                 &.dot-needsConsolidation {
-                    background-color: @memo-yellow;
+                    background-color: @needs-consolidation-color;
                 }
 
                 &.dot-needsLearning {
-                    background-color: @memo-salmon;
+                    background-color: @needs-learning-color;
                 }
 
                 &.dot-notLearned {
-                    background-color: @memo-grey-dark;
+                    background-color: @not-learned-color;
                 }
 
                 &.dot-notInWishKnowledge {
-                    background-color: @memo-grey-light;
-                }
-
-                // Styling for not-in-wishKnowledge items (faded/striped)
-                &.dot-solid.dot-notInWishKnowledge {
-                    background-color: fade(@memo-green, 50%);
-                }
-
-                &.dot-needsConsolidation.dot-notInWishKnowledge {
-                    background-color: fade(@memo-yellow, 50%);
-                }
-
-                &.dot-needsLearning.dot-notInWishKnowledge {
-                    background-color: fade(@memo-salmon, 50%);
-                }
-
-                &.dot-notLearned.dot-notInWishKnowledge {
-                    background-color: fade(@memo-grey-dark, 50%);
+                    background-color: @not-in-wish-knowledge-color;
                 }
             }
 
@@ -321,8 +244,6 @@ const getTotalTooltipHtml = (index: number) => {
                     margin-left: 4px;
                     color: @memo-grey-dark;
                 }
-
-
             }
 
             .status-actions {
