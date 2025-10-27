@@ -19,99 +19,56 @@ interface KnowledgeItem {
 
 const { t } = useI18n()
 
+const knowledgeTypeDefinitions = [
+    { key: 'solid', sharedClass: 'solid', translationKey: 'knowledgeStatus.solidCount' },
+    { key: 'needsConsolidation', sharedClass: 'needs-consolidation', translationKey: 'knowledgeStatus.needsConsolidationCount' },
+    { key: 'needsLearning', sharedClass: 'needs-learning', translationKey: 'knowledgeStatus.needsLearningCount' },
+    { key: 'notLearned', sharedClass: 'not-learned', translationKey: 'knowledgeStatus.notLearnedCount' }
+]
+
 const knowledgeItems = computed<KnowledgeItem[]>(() => {
     const items: KnowledgeItem[] = []
 
     if (props.useTotal && props.knowledgebarData.total) {
-        const totalItems = [
-            {
-                key: 'solid',
-                value: props.knowledgebarData.inWishKnowledge?.solid || 0,
-                percentage: props.knowledgebarData.total.solidPercentage,
-                sharedClass: 'solid',
-                translationKey: 'knowledgeStatus.solidCount'
-            },
-            {
-                key: 'needsConsolidation',
-                value: props.knowledgebarData.inWishKnowledge?.needsConsolidation || 0,
-                percentage: props.knowledgebarData.total.needsConsolidationPercentage,
-                sharedClass: 'needs-consolidation',
-                translationKey: 'knowledgeStatus.needsConsolidationCount'
-            },
-            {
-                key: 'needsLearning',
-                value: props.knowledgebarData.inWishKnowledge?.needsLearning || 0,
-                percentage: props.knowledgebarData.total.needsLearningPercentage,
-                sharedClass: 'needs-learning',
-                translationKey: 'knowledgeStatus.needsLearningCount'
-            },
-            {
-                key: 'notLearned',
-                value: props.knowledgebarData.inWishKnowledge?.notLearned || 0,
-                percentage: props.knowledgebarData.total.notLearnedPercentage,
-                sharedClass: 'not-learned',
-                translationKey: 'knowledgeStatus.notLearnedCount'
-            },
-            {
+        // Build items from total data
+        for (const definition of knowledgeTypeDefinitions) {
+            const value = props.knowledgebarData.inWishKnowledge?.[definition.key as keyof typeof props.knowledgebarData.inWishKnowledge] || 0
+            const percentage = props.knowledgebarData.total[`${definition.key}Percentage` as keyof typeof props.knowledgebarData.total]
+            
+            if (percentage && percentage > 0) {
+                items.push({
+                    key: definition.key,
+                    value: value as number,
+                    percentage: percentage as number,
+                    sharedClass: definition.sharedClass,
+                    translationKey: definition.translationKey
+                })
+            }
+        }
+        
+        // Add notInWishKnowledge if present
+        if (props.knowledgebarData.total.notInWishKnowledgePercentage && props.knowledgebarData.total.notInWishKnowledgePercentage > 0) {
+            items.push({
                 key: 'notInWishKnowledge',
                 value: props.knowledgebarData.total.notInWishKnowledgeCount || 0,
                 percentage: props.knowledgebarData.total.notInWishKnowledgePercentage,
                 sharedClass: 'not-in-wish-knowledge',
                 translationKey: 'knowledgeStatus.notInWishKnowledgeCount'
-            }
-        ]
-
-        for (const item of totalItems) {
-            if (item.percentage && item.percentage > 0) {
-                items.push({
-                    key: item.key,
-                    value: item.value,
-                    percentage: item.percentage,
-                    sharedClass: item.sharedClass,
-                    translationKey: item.translationKey
-                })
-            }
+            })
         }
     } else if (props.knowledgebarData.inWishKnowledge) {
-        const inWishItems = [
-            {
-                key: 'solid',
-                value: props.knowledgebarData.inWishKnowledge.solid,
-                percentage: props.knowledgebarData.inWishKnowledge.solidPercentage,
-                sharedClass: 'solid',
-                translationKey: 'knowledgeStatus.solidCount'
-            },
-            {
-                key: 'needsConsolidation',
-                value: props.knowledgebarData.inWishKnowledge.needsConsolidation,
-                percentage: props.knowledgebarData.inWishKnowledge.needsConsolidationPercentage,
-                sharedClass: 'needs-consolidation',
-                translationKey: 'knowledgeStatus.needsConsolidationCount'
-            },
-            {
-                key: 'needsLearning',
-                value: props.knowledgebarData.inWishKnowledge.needsLearning,
-                percentage: props.knowledgebarData.inWishKnowledge.needsLearningPercentage,
-                sharedClass: 'needs-learning',
-                translationKey: 'knowledgeStatus.needsLearningCount'
-            },
-            {
-                key: 'notLearned',
-                value: props.knowledgebarData.inWishKnowledge.notLearned,
-                percentage: props.knowledgebarData.inWishKnowledge.notLearnedPercentage,
-                sharedClass: 'not-learned',
-                translationKey: 'knowledgeStatus.notLearnedCount'
-            }
-        ]
-
-        for (const item of inWishItems) {
-            if (item.percentage && item.percentage > 0) {
+        // Build items from inWishKnowledge data
+        for (const definition of knowledgeTypeDefinitions) {
+            const value = props.knowledgebarData.inWishKnowledge[definition.key as keyof typeof props.knowledgebarData.inWishKnowledge]
+            const percentage = props.knowledgebarData.inWishKnowledge[`${definition.key}Percentage` as keyof typeof props.knowledgebarData.inWishKnowledge]
+            
+            if (percentage && percentage > 0) {
                 items.push({
-                    key: item.key,
-                    value: item.value,
-                    percentage: item.percentage,
-                    sharedClass: item.sharedClass,
-                    translationKey: item.translationKey
+                    key: definition.key,
+                    value: value as number,
+                    percentage: percentage as number,
+                    sharedClass: definition.sharedClass,
+                    translationKey: definition.translationKey
                 })
             }
         }

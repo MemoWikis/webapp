@@ -11,47 +11,59 @@ interface Props {
 const props = defineProps<Props>()
 const { t } = useI18n()
 
+const knowledgeTypeDefinitions = [
+    { 
+        key: 'solid',
+        labelKey: 'knowledgeStatus.solid',
+        class: 'solid',
+        type: KnowledgeSummaryType.SolidWishKnowledge
+    },
+    { 
+        key: 'needsConsolidation',
+        labelKey: 'knowledgeStatus.needsConsolidation',
+        class: 'needsConsolidation',
+        type: KnowledgeSummaryType.NeedsConsolidationWishKnowledge
+    },
+    { 
+        key: 'needsLearning',
+        labelKey: 'knowledgeStatus.needsLearning',
+        class: 'needsLearning',
+        type: KnowledgeSummaryType.NeedsLearningWishKnowledge
+    },
+    { 
+        key: 'notLearned',
+        labelKey: 'knowledgeStatus.notLearned',
+        class: 'notLearned',
+        type: KnowledgeSummaryType.NotLearnedWishKnowledge
+    }
+]
+
 const knowledgeStatusItems = computed(() => {
     const items = []
 
     if (props.knowledgeSummary.total) {
-        items.push(
-            {
-                label: t('knowledgeStatus.solid'),
-                value: props.knowledgeSummary.total.solid,
-                percentage: props.knowledgeSummary.total.solidPercentage,
-                class: 'solid',
-                type: KnowledgeSummaryType.SolidWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.needsConsolidation'),
-                value: props.knowledgeSummary.total.needsConsolidation,
-                percentage: props.knowledgeSummary.total.needsConsolidationPercentage,
-                class: 'needsConsolidation',
-                type: KnowledgeSummaryType.NeedsConsolidationWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.needsLearning'),
-                value: props.knowledgeSummary.total.needsLearning,
-                percentage: props.knowledgeSummary.total.needsLearningPercentage,
-                class: 'needsLearning',
-                type: KnowledgeSummaryType.NeedsLearningWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.notLearned'),
-                value: props.knowledgeSummary.total.notLearned,
-                percentage: props.knowledgeSummary.total.notLearnedPercentage,
-                class: 'notLearned',
-                type: KnowledgeSummaryType.NotLearnedWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.notInWishKnowledge'),
-                value: props.knowledgeSummary.total.notInWishKnowledgeCount,
-                percentage: props.knowledgeSummary.total.notInWishKnowledgePercentage,
-                class: 'notInWishKnowledge',
-                type: KnowledgeSummaryType.NotInWishKnowledge
-            }
-        )
+        // Add regular knowledge items
+        for (const definition of knowledgeTypeDefinitions) {
+            const value = props.knowledgeSummary.total[definition.key as keyof typeof props.knowledgeSummary.total]
+            const percentage = props.knowledgeSummary.total[`${definition.key}Percentage` as keyof typeof props.knowledgeSummary.total]
+            
+            items.push({
+                label: t(definition.labelKey),
+                value,
+                percentage,
+                class: definition.class,
+                type: definition.type
+            })
+        }
+        
+        // Add notInWishKnowledge item
+        items.push({
+            label: t('knowledgeStatus.notInWishKnowledge'),
+            value: props.knowledgeSummary.total.notInWishKnowledgeCount,
+            percentage: props.knowledgeSummary.total.notInWishKnowledgePercentage,
+            class: 'notInWishKnowledge',
+            type: KnowledgeSummaryType.NotInWishKnowledge
+        })
     }
 
     return items
@@ -61,36 +73,18 @@ const knowledgeStatusItemsInWishKnowledge = computed(() => {
     const items = []
 
     if (props.knowledgeSummary.inWishKnowledge) {
-        items.push(
-            {
-                label: t('knowledgeStatus.solid'),
-                value: props.knowledgeSummary.inWishKnowledge.solid,
-                percentage: props.knowledgeSummary.inWishKnowledge.solidPercentage,
-                class: 'solid',
-                type: KnowledgeSummaryType.SolidWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.needsConsolidation'),
-                value: props.knowledgeSummary.inWishKnowledge.needsConsolidation,
-                percentage: props.knowledgeSummary.inWishKnowledge.needsConsolidationPercentage,
-                class: 'needsConsolidation',
-                type: KnowledgeSummaryType.NeedsConsolidationWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.needsLearning'),
-                value: props.knowledgeSummary.inWishKnowledge.needsLearning,
-                percentage: props.knowledgeSummary.inWishKnowledge.needsLearningPercentage,
-                class: 'needsLearning',
-                type: KnowledgeSummaryType.NeedsLearningWishKnowledge
-            },
-            {
-                label: t('knowledgeStatus.notLearned'),
-                value: props.knowledgeSummary.inWishKnowledge.notLearned,
-                percentage: props.knowledgeSummary.inWishKnowledge.notLearnedPercentage,
-                class: 'notLearned',
-                type: KnowledgeSummaryType.NotLearnedWishKnowledge
-            }
-        )
+        for (const definition of knowledgeTypeDefinitions) {
+            const value = props.knowledgeSummary.inWishKnowledge[definition.key as keyof typeof props.knowledgeSummary.inWishKnowledge]
+            const percentage = props.knowledgeSummary.inWishKnowledge[`${definition.key}Percentage` as keyof typeof props.knowledgeSummary.inWishKnowledge]
+            
+            items.push({
+                label: t(definition.labelKey),
+                value,
+                percentage,
+                class: definition.class,
+                type: definition.type
+            })
+        }
     }
     return items
 })
