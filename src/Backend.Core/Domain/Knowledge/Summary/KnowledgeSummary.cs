@@ -137,14 +137,12 @@ public class KnowledgeSummary
         }
     }
 
-    // New nested structure
     [JsonProperty("InWishKnowledge")]
     public readonly KnowledgeStatusCounts InWishKnowledge;
     
     [JsonProperty("NotInWishKnowledge")]
     public readonly KnowledgeStatusCounts NotInWishKnowledge;
 
-    // Total of InWishKnowledge + NotInWishKnowledge
     [JsonProperty("Total")]
     public readonly KnowledgeStatusCounts Total;
 
@@ -191,19 +189,16 @@ public class KnowledgeSummary
             notInWishKnowledgeCount: null,
             notInWishKnowledgePercentage: null);
 
-        // Calculate the actual NotInWish totals for the Total object
         var notInWishTotal = notLearnedNotInWishKnowledge + needsLearningNotInWishKnowledge + needsConsolidationNotInWishKnowledge + solidNotInWishKnowledge;
 
-        // Create Total with InWish knowledge detailed breakdown + aggregated NotInWish total
         Total = new KnowledgeStatusCounts(
-            notLearnedInWishKnowledge,  // Only InWish NotLearned
-            needsLearningInWishKnowledge,  // Only InWish NeedsLearning
-            needsConsolidationInWishKnowledge,  // Only InWish NeedsConsolidation
-            solidInWishKnowledge,  // Only InWish Solid
-            notInWishKnowledgeCount: notInWishTotal,  // All NotInWish statuses combined
-            notInWishKnowledgePercentage: null); // Will be calculated by CalculatePercentages()
+            notLearnedInWishKnowledge,
+            needsLearningInWishKnowledge,
+            needsConsolidationInWishKnowledge,
+            solidInWishKnowledge,
+            notInWishKnowledgeCount: notInWishTotal,
+            notInWishKnowledgePercentage: null);
 
-        // Calculate percentages relative to grand total for both groups
         var grandTotal = TotalCount;
         InWishKnowledge.CalculatePercentagesOfTotal(grandTotal);
         NotInWishKnowledge.CalculatePercentagesOfTotal(grandTotal);
@@ -213,14 +208,12 @@ public class KnowledgeSummary
 
     private void CalculateKnowledgeStatusPoints()
     {
-        // Calculate weighted scores for both wishKnowledge and total
         var weightedScoreInWishKnowledge = (InWishKnowledge.Solid * 1.0) + (InWishKnowledge.NeedsConsolidation * 0.5) + (InWishKnowledge.NeedsLearning * 0.1);
         var totalSolid = InWishKnowledge.Solid + NotInWishKnowledge.Solid;
         var totalNeedsConsolidation = InWishKnowledge.NeedsConsolidation + NotInWishKnowledge.NeedsConsolidation;
         var totalNeedsLearning = InWishKnowledge.NeedsLearning + NotInWishKnowledge.NeedsLearning;
         var weightedScoreTotal = (totalSolid * 1.0) + (totalNeedsConsolidation * 0.5) + (totalNeedsLearning * 0.1);
 
-        // Calculate rating for wishKnowledge questions only
         var wishKnowledgeQuestions = InWishKnowledge.Total;
 
         if (wishKnowledgeQuestions == 0)
@@ -229,11 +222,9 @@ public class KnowledgeSummary
         }
         else
         {
-            // Add small baseline value to prioritize pages with questions over pages without questions
             KnowledgeStatusPoints = Math.Round((weightedScoreInWishKnowledge / wishKnowledgeQuestions) + 0.0001, 4);
         }
 
-        // Calculate rating for all questions including those not in wishKnowledge
         var totalQuestions = TotalCount;
 
         if (totalQuestions == 0)
@@ -242,7 +233,6 @@ public class KnowledgeSummary
         }
         else
         {
-            // Add small baseline value to prioritize pages with questions over pages without questions
             KnowledgeStatusPointsTotal = Math.Round((weightedScoreTotal / totalQuestions) + 0.0001, 4);
         }
     }

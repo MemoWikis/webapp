@@ -608,7 +608,6 @@ export const useLearningSessionConfigurationStore = defineStore(
                     [KnowledgeSummaryType.NeedsLearningWishKnowledge]: 'needsLearning',
                     [KnowledgeSummaryType.NotLearnedWishKnowledge]: 'notLearned',
                     
-                    // Not in wishKnowledge types - use notInWishKnowledge filter
                     [KnowledgeSummaryType.SolidNotInWishKnowledge]: 'solid',
                     [KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge]: 'needsConsolidation',
                     [KnowledgeSummaryType.NeedsLearningNotInWishKnowledge]: 'needsLearning',
@@ -617,7 +616,6 @@ export const useLearningSessionConfigurationStore = defineStore(
                 
                 const targetKey = typeToKeyMap[type]
                 
-                // Handle wishKnowledge types (in wishKnowledge)
                 if (type === KnowledgeSummaryType.SolidWishKnowledge || 
                     type === KnowledgeSummaryType.NeedsConsolidationWishKnowledge ||
                     type === KnowledgeSummaryType.NeedsLearningWishKnowledge ||
@@ -630,17 +628,13 @@ export const useLearningSessionConfigurationStore = defineStore(
                         this.knowledgeSummary[targetKey].isSelected = true
                     }
                 }
-                // Handle aggregated NotInWishKnowledge type
                 else if (type === KnowledgeSummaryType.NotInWishKnowledge) {
-                    // For aggregated NotInWish: select all knowledge statuses but only notInWishKnowledge filter
                     for (const key in this.knowledgeSummary) {
                         this.knowledgeSummary[key].isSelected = true
                     }
-                    // Set question filters to only include notInWishKnowledge
                     this.questionFilterOptions.inWishKnowledge.isSelected = false
                     this.questionFilterOptions.notInWishKnowledge.isSelected = true
                 }
-                // Handle not in wishKnowledge types
                 else if (type === KnowledgeSummaryType.SolidNotInWishKnowledge || 
                          type === KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge ||
                          type === KnowledgeSummaryType.NeedsLearningNotInWishKnowledge ||
@@ -654,7 +648,6 @@ export const useLearningSessionConfigurationStore = defineStore(
                     }
                 }
                 
-                // Update the selection state
                 this.checkQuestionFilterSelection()
                 this.checkKnowledgeSummarySelection()
                 this.activeCustomSettings = true

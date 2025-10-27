@@ -15,7 +15,6 @@ const knowledgeStatusItems = computed(() => {
     const items = []
 
     if (props.knowledgeSummary.total) {
-        console.log('Adding total knowledge status items', props.knowledgeSummary.total)
         items.push(
             {
                 label: t('knowledgeStatus.solid'),
@@ -61,7 +60,6 @@ const knowledgeStatusItems = computed(() => {
 const knowledgeStatusItemsInWishKnowledge = computed(() => {
     const items = []
 
-    // InWishKnowledge items (wishKnowledge)
     if (props.knowledgeSummary.inWishKnowledge) {
         items.push(
             {
@@ -132,7 +130,6 @@ const emit = defineEmits<{
         </div>
         <template v-else>
             <div class="summary-details">
-                <!-- <h4>{{ t('label.inWishKnowledge') }}</h4> -->
                 <div
                     v-for="(item, index) in knowledgeStatusItemsInWishKnowledge"
                     :key="index"

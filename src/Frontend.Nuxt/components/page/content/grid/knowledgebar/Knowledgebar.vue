@@ -9,57 +9,130 @@ const props = withDefaults(defineProps<Props>(), {
     useTotal: true
 })
 
-interface KnowledgebarTooltipData {
+interface KnowledgeItem {
+    key: string
     value: number
-    class: string
+    percentage: number
+    sharedClass: string
+    translationKey: string
 }
 
-const knowledgebarTooltipData = ref<KnowledgebarTooltipData[]>([])
+const { t } = useI18n()
 
-function setKnowledgebarData() {
-    knowledgebarTooltipData.value = []
+const knowledgeItems = computed<KnowledgeItem[]>(() => {
+    const items: KnowledgeItem[] = []
 
-    // Use total data for the knowledge bar
-    if (props.knowledgebarData.total) {
+    if (props.useTotal && props.knowledgebarData.total) {
         const totalItems = [
-            { key: 'solid', value: props.knowledgebarData.total.solid },
-            { key: 'needsConsolidation', value: props.knowledgebarData.total.needsConsolidation },
-            { key: 'needsLearning', value: props.knowledgebarData.total.needsLearning },
-            { key: 'notLearned', value: props.knowledgebarData.total.notLearned }
+            {
+                key: 'solid',
+                value: props.knowledgebarData.inWishKnowledge?.solid || 0,
+                percentage: props.knowledgebarData.total.solidPercentage,
+                sharedClass: 'solid',
+                translationKey: 'knowledgeStatus.solidCount'
+            },
+            {
+                key: 'needsConsolidation',
+                value: props.knowledgebarData.inWishKnowledge?.needsConsolidation || 0,
+                percentage: props.knowledgebarData.total.needsConsolidationPercentage,
+                sharedClass: 'needs-consolidation',
+                translationKey: 'knowledgeStatus.needsConsolidationCount'
+            },
+            {
+                key: 'needsLearning',
+                value: props.knowledgebarData.inWishKnowledge?.needsLearning || 0,
+                percentage: props.knowledgebarData.total.needsLearningPercentage,
+                sharedClass: 'needs-learning',
+                translationKey: 'knowledgeStatus.needsLearningCount'
+            },
+            {
+                key: 'notLearned',
+                value: props.knowledgebarData.inWishKnowledge?.notLearned || 0,
+                percentage: props.knowledgebarData.total.notLearnedPercentage,
+                sharedClass: 'not-learned',
+                translationKey: 'knowledgeStatus.notLearnedCount'
+            },
+            {
+                key: 'notInWishKnowledge',
+                value: props.knowledgebarData.total.notInWishKnowledgeCount || 0,
+                percentage: props.knowledgebarData.total.notInWishKnowledgePercentage,
+                sharedClass: 'not-in-wish-knowledge',
+                translationKey: 'knowledgeStatus.notInWishKnowledgeCount'
+            }
         ]
 
         for (const item of totalItems) {
-            if (item.value > 0) {
-                knowledgebarTooltipData.value.push({
+            if (item.percentage && item.percentage > 0) {
+                items.push({
+                    key: item.key,
                     value: item.value,
-                    class: item.key,
+                    percentage: item.percentage,
+                    sharedClass: item.sharedClass,
+                    translationKey: item.translationKey
+                })
+            }
+        }
+    } else if (props.knowledgebarData.inWishKnowledge) {
+        const inWishItems = [
+            {
+                key: 'solid',
+                value: props.knowledgebarData.inWishKnowledge.solid,
+                percentage: props.knowledgebarData.inWishKnowledge.solidPercentage,
+                sharedClass: 'solid',
+                translationKey: 'knowledgeStatus.solidCount'
+            },
+            {
+                key: 'needsConsolidation',
+                value: props.knowledgebarData.inWishKnowledge.needsConsolidation,
+                percentage: props.knowledgebarData.inWishKnowledge.needsConsolidationPercentage,
+                sharedClass: 'needs-consolidation',
+                translationKey: 'knowledgeStatus.needsConsolidationCount'
+            },
+            {
+                key: 'needsLearning',
+                value: props.knowledgebarData.inWishKnowledge.needsLearning,
+                percentage: props.knowledgebarData.inWishKnowledge.needsLearningPercentage,
+                sharedClass: 'needs-learning',
+                translationKey: 'knowledgeStatus.needsLearningCount'
+            },
+            {
+                key: 'notLearned',
+                value: props.knowledgebarData.inWishKnowledge.notLearned,
+                percentage: props.knowledgebarData.inWishKnowledge.notLearnedPercentage,
+                sharedClass: 'not-learned',
+                translationKey: 'knowledgeStatus.notLearnedCount'
+            }
+        ]
+
+        for (const item of inWishItems) {
+            if (item.percentage && item.percentage > 0) {
+                items.push({
+                    key: item.key,
+                    value: item.value,
+                    percentage: item.percentage,
+                    sharedClass: item.sharedClass,
+                    translationKey: item.translationKey
                 })
             }
         }
     }
 
-    knowledgebarTooltipData.value = knowledgebarTooltipData.value.slice().reverse()
-}
+    return items
+})
 
-const { t } = useI18n()
+const barSegments = computed(() => knowledgeItems.value.map(item => ({
+    key: item.key,
+    percentage: item.percentage,
+    cssClass: `${item.sharedClass} total`
+})))
 
-function getTooltipLabel(key: string, count: number) {
-    switch (key) {
-        case 'solid':
-            return t('knowledgeStatus.solidCount', count)
-        case 'needsConsolidation':
-            return t('knowledgeStatus.needsConsolidationCount', count)
-        case 'needsLearning':
-            return t('knowledgeStatus.needsLearningCount', count)
-        case 'notLearned':
-            return t('knowledgeStatus.notLearnedCount', count)
-        case 'notInWishKnowledge':
-            return t('knowledgeStatus.notInWishKnowledgeCount', count)
-    }
-}
+const tooltipItems = computed(() => knowledgeItems.value.filter(item => item.value > 0).map(item => ({
+    key: item.key,
+    value: item.value,
+    colorClass: item.sharedClass,
+    translationKey: item.translationKey
+})))
 
-onBeforeMount(() => setKnowledgebarData())
-watch(() => props.knowledgebarData, () => setKnowledgebarData(), { deep: true })
 const ariaId = useId()
 
 </script>
@@ -67,64 +140,16 @@ const ariaId = useId()
 <template>
     <VTooltip :aria-id="ariaId" class="tooltip-container">
         <div class="knowledgebar">
-            <!-- Total sections using backend-calculated totals -->
-            <template v-if="props.useTotal">
-                <div v-if="knowledgebarData.total?.solidPercentage > 0" class="solid-knowledge total"
-                    :style="{ 'width': knowledgebarData.total.solidPercentage + '%' }">
-                </div>
-                <div v-if="knowledgebarData.total?.needsConsolidationPercentage > 0" class="needs-consolidation total"
-                    :style="{ 'width': knowledgebarData.total.needsConsolidationPercentage + '%' }">
-                </div>
-                <div v-if="knowledgebarData.total?.needsLearningPercentage > 0" class="needs-learning total"
-                    :style="{ 'width': knowledgebarData.total.needsLearningPercentage + '%' }">
-                </div>
-                <div v-if="knowledgebarData.total?.notLearnedPercentage > 0" class="not-learned total"
-                    :style="{ 'width': knowledgebarData.total.notLearnedPercentage + '%' }">
-                </div>
-                <div v-if="knowledgebarData.total?.notInWishKnowledgePercentage && knowledgebarData.total.notInWishKnowledgePercentage > 0" class="not-in-wish-knowledge total"
-                    :style="{ 'width': knowledgebarData.total.notInWishKnowledgePercentage + '%' }">
-                </div>
-            </template>
-            <template v-else>
-                <div v-if="knowledgebarData.inWishKnowledge?.solidPercentage > 0" class="solid-knowledge total"
-                    :style="{ 'width': knowledgebarData.inWishKnowledge.solidPercentage + '%' }">
-                </div>
-                <div v-if="knowledgebarData.inWishKnowledge?.needsConsolidationPercentage > 0" class="needs-consolidation total"
-                    :style="{ 'width': knowledgebarData.inWishKnowledge.needsConsolidationPercentage + '%' }">
-                </div>
-                <div v-if="knowledgebarData.inWishKnowledge?.needsLearningPercentage > 0" class="needs-learning total"
-                    :style="{ 'width': knowledgebarData.inWishKnowledge.needsLearningPercentage + '%' }">
-                </div>
-                <div v-if="knowledgebarData.inWishKnowledge?.notLearnedPercentage > 0" class="not-learned total"
-                    :style="{ 'width': knowledgebarData.inWishKnowledge.notLearnedPercentage + '%' }">
-                </div>
-            </template>
+            <div v-for="segment in barSegments" :key="segment.key" :class="segment.cssClass"
+                :style="{ 'width': segment.percentage + '%' }">
+            </div>
         </div>
         <template #popper>
             <b>{{ t('page.grid.knowledgeStatus.title') }}</b>
 
-            <!-- Individual status items -->
-            <div v-if="knowledgebarData.inWishKnowledge?.solid > 0" class="knowledgesummary-info">
-                <div class="color-container color-solid"></div>
-                <div>{{ getTooltipLabel('solid', props.useTotal ? knowledgebarData.inWishKnowledge.solid : knowledgebarData.inWishKnowledge.solid) }}</div>
-            </div>
-            <div v-if="knowledgebarData.inWishKnowledge?.needsConsolidation > 0" class="knowledgesummary-info">
-                <div class="color-container color-needsConsolidation"></div>
-                <div>{{ getTooltipLabel('needsConsolidation', props.useTotal ? knowledgebarData.inWishKnowledge.needsConsolidation : knowledgebarData.inWishKnowledge.needsConsolidation) }}</div>
-            </div>
-            <div v-if="knowledgebarData.inWishKnowledge?.needsLearning > 0" class="knowledgesummary-info">
-                <div class="color-container color-needsLearning"></div>
-                <div>{{ getTooltipLabel('needsLearning', props.useTotal ? knowledgebarData.inWishKnowledge.needsLearning : knowledgebarData.inWishKnowledge.needsLearning) }}</div>
-            </div>
-            <div v-if="knowledgebarData.inWishKnowledge?.notLearned > 0" class="knowledgesummary-info">
-                <div class="color-container color-notLearned"></div>
-                <div>{{ getTooltipLabel('notLearned', props.useTotal ? knowledgebarData.inWishKnowledge.notLearned : knowledgebarData.inWishKnowledge.notLearned) }}</div>
-            </div>
-
-            <!-- NotInWish knowledge items - only show when useTotal is true -->
-            <div v-if="props.useTotal && knowledgebarData.total?.notInWishKnowledgeCount && knowledgebarData.total.notInWishKnowledgeCount > 0" class="knowledgesummary-info">
-                <div class="color-container color-notInWishKnowledge"></div>
-                <div>{{ t('knowledgeStatus.notInWishKnowledgeCount', knowledgebarData.total.notInWishKnowledgeCount) }}</div>
+            <div v-for="item in tooltipItems" :key="item.key" class="knowledgesummary-info">
+                <div class="color-container" :class="item.colorClass"></div>
+                <div>{{ t(item.translationKey, item.value) }}</div>
             </div>
         </template>
     </VTooltip>
@@ -144,7 +169,7 @@ const ariaId = useId()
 
     cursor: help;
 
-    .solid-knowledge,
+    .solid,
     .needs-learning,
     .needs-consolidation,
     .not-learned,
@@ -161,7 +186,7 @@ const ariaId = useId()
         background-color: @needs-consolidation-color;
     }
 
-    .solid-knowledge {
+    .solid {
         background-color: @solid-knowledge-color;
     }
 
@@ -202,24 +227,23 @@ const ariaId = useId()
         margin-right: 4px;
         border-radius: 50%;
 
-        /* Legacy colors */
-        &.color-notLearned {
+        &.not-learned {
             background: @memo-grey-dark;
         }
 
-        &.color-needsLearning {
+        &.needs-learning {
             background: @memo-salmon;
         }
 
-        &.color-needsConsolidation {
+        &.needs-consolidation {
             background: @memo-yellow;
         }
 
-        &.color-solid {
+        &.solid {
             background: @memo-green;
         }
 
-        &.color-notInWishKnowledge {
+        &.not-in-wish-knowledge {
             background: @memo-grey-light;
         }
     }
