@@ -12,25 +12,25 @@ const props = defineProps<Props>()
 const { t } = useI18n()
 
 const knowledgeTypeDefinitions = [
-    { 
+    {
         key: 'solid',
         labelKey: 'knowledgeStatus.solid',
         class: 'solid',
         type: KnowledgeSummaryType.SolidWishKnowledge
     },
-    { 
+    {
         key: 'needsConsolidation',
         labelKey: 'knowledgeStatus.needsConsolidation',
         class: 'needsConsolidation',
         type: KnowledgeSummaryType.NeedsConsolidationWishKnowledge
     },
-    { 
+    {
         key: 'needsLearning',
         labelKey: 'knowledgeStatus.needsLearning',
         class: 'needsLearning',
         type: KnowledgeSummaryType.NeedsLearningWishKnowledge
     },
-    { 
+    {
         key: 'notLearned',
         labelKey: 'knowledgeStatus.notLearned',
         class: 'notLearned',
@@ -46,7 +46,7 @@ const knowledgeStatusItems = computed(() => {
         for (const definition of knowledgeTypeDefinitions) {
             const value = props.knowledgeSummary.total[definition.key as keyof typeof props.knowledgeSummary.total]
             const percentage = props.knowledgeSummary.total[`${definition.key}Percentage` as keyof typeof props.knowledgeSummary.total]
-            
+
             items.push({
                 label: t(definition.labelKey),
                 value,
@@ -55,7 +55,7 @@ const knowledgeStatusItems = computed(() => {
                 type: definition.type
             })
         }
-        
+
         // Add notInWishKnowledge item
         items.push({
             label: t('knowledgeStatus.notInWishKnowledge'),
@@ -76,7 +76,7 @@ const knowledgeStatusItemsInWishKnowledge = computed(() => {
         for (const definition of knowledgeTypeDefinitions) {
             const value = props.knowledgeSummary.inWishKnowledge[definition.key as keyof typeof props.knowledgeSummary.inWishKnowledge]
             const percentage = props.knowledgeSummary.inWishKnowledge[`${definition.key}Percentage` as keyof typeof props.knowledgeSummary.inWishKnowledge]
-            
+
             items.push({
                 label: t(definition.labelKey),
                 value,

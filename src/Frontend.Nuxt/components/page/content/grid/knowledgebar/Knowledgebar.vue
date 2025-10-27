@@ -34,7 +34,7 @@ const knowledgeItems = computed<KnowledgeItem[]>(() => {
         for (const definition of knowledgeTypeDefinitions) {
             const value = props.knowledgebarData.inWishKnowledge?.[definition.key as keyof typeof props.knowledgebarData.inWishKnowledge] || 0
             const percentage = props.knowledgebarData.total[`${definition.key}Percentage` as keyof typeof props.knowledgebarData.total]
-            
+
             if (percentage && percentage > 0) {
                 items.push({
                     key: definition.key,
@@ -45,7 +45,7 @@ const knowledgeItems = computed<KnowledgeItem[]>(() => {
                 })
             }
         }
-        
+
         // Add notInWishKnowledge if present
         if (props.knowledgebarData.total.notInWishKnowledgePercentage && props.knowledgebarData.total.notInWishKnowledgePercentage > 0) {
             items.push({
@@ -61,7 +61,7 @@ const knowledgeItems = computed<KnowledgeItem[]>(() => {
         for (const definition of knowledgeTypeDefinitions) {
             const value = props.knowledgebarData.inWishKnowledge[definition.key as keyof typeof props.knowledgebarData.inWishKnowledge]
             const percentage = props.knowledgebarData.inWishKnowledge[`${definition.key}Percentage` as keyof typeof props.knowledgebarData.inWishKnowledge]
-            
+
             if (percentage && percentage > 0) {
                 items.push({
                     key: definition.key,
