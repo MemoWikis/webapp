@@ -662,6 +662,81 @@ public class VueMaintenanceController(
     }
 
     [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> GetQuartzJobs()
+    {
+        try
+        {
+            var quartzJobs = await JobScheduler.GetQuartzJobsInfo();
+            return new VueMaintenanceResult
+            {
+                Success = true,
+                Data = Newtonsoft.Json.JsonConvert.SerializeObject(quartzJobs)
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error getting Quartz jobs");
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = $"Error: {ex.Message}"
+            };
+        }
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> InterruptQuartzJob([FromForm] string jobName, [FromForm] string jobGroup = null)
+    {
+        try
+        {
+            var success = await JobScheduler.InterruptJob(jobName, jobGroup);
+            return new VueMaintenanceResult
+            {
+                Success = success,
+                Data = success ? $"Job '{jobName}' interrupted successfully." : $"Failed to interrupt job '{jobName}'."
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error interrupting Quartz job {JobName}", jobName);
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = $"Error: {ex.Message}"
+            };
+        }
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> DeleteQuartzJob([FromForm] string jobName, [FromForm] string jobGroup = null)
+    {
+        try
+        {
+            var success = await JobScheduler.DeleteJob(jobName, jobGroup);
+            return new VueMaintenanceResult
+            {
+                Success = success,
+                Data = success ? $"Job '{jobName}' deleted successfully." : $"Failed to delete job '{jobName}'."
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error deleting Quartz job {JobName}", jobName);
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = $"Error: {ex.Message}"
+            };
+        }
+    }
+
+    [AccessOnlyAsAdmin]
     [HttpGet]
     public ActiveSessionsResponse GetActiveSessions()
     {

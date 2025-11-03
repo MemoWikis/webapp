@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Backend.Core.Infrastructure.Persistence.Session;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using MySql.Data.MySqlClient;
@@ -70,12 +71,21 @@ public class SessionFactory
 
     public static ISessionFactory CreateSessionFactory()
     {
+        var connectionString = ConnectionStringHelper.EnsureTimeoutSettings(Settings.ConnectionString);
+        
         var sessionFactory = Fluently.Configure()
             .Database(
                 MySQLConfiguration.Standard
-                    .ConnectionString(Settings.ConnectionString)
+                    .ConnectionString(connectionString)
+                    .QuerySubstitutions("true 1, false 0")
+                    .ShowSql()
             )
             .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>())
+            .ExposeConfiguration(cfg =>
+            {
+                // Set global command timeout to 5 minutes (300 seconds)
+                cfg.SetProperty(NHibernate.Cfg.Environment.CommandTimeout, "300");
+            })
             .BuildSessionFactory();
 
         return sessionFactory;

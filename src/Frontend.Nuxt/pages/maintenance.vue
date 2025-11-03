@@ -93,16 +93,16 @@ interface VueMaintenanceResult {
 }
 
 interface JobSystemStatusResponse {
-    InMemoryJobs: InMemoryJobResponse[]
-    DatabaseJobs: DatabaseJobResponse[]
-    Summary: JobSummaryResponse
+    inMemoryJobs: InMemoryJobResponse[]
+    databaseJobs: DatabaseJobResponse[]
+    summary: JobSummaryResponse
 }
 
 interface InMemoryJobResponse {
-    JobTrackingId: string
-    Status: string
-    Message: string
-    OperationName: string
+    jobTrackingId: string
+    status: string
+    message: string
+    operationName: string
 }
 
 interface DatabaseJobResponse {
@@ -115,12 +115,12 @@ interface DatabaseJobResponse {
 }
 
 interface JobSummaryResponse {
-    TotalInMemory: number
-    TotalInDatabase: number
-    RunningInMemory: number
-    CompletedInMemory: number
-    FailedInMemory: number
-    StuckInDatabase: number
+    totalInMemory: number
+    totalInDatabase: number
+    runningInMemory: number
+    completedInMemory: number
+    failedInMemory: number
+    stuckInDatabase: number
 }
 
 const isAnalyzing = ref(false)
@@ -601,103 +601,40 @@ const loadMmapCacheStatus = async () => {
     mmapCacheStatusLoaded.value = true
 }
 
-const loadJobSystemStatus = async () => {
-    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
-        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
-
-    const data = new FormData()
-    data.append('__RequestVerificationToken', antiForgeryToken.value)
-
-    const result = await $api<JobSystemStatusResponse>(`/apiVue/VueMaintenance/GetJobSystemStatus`, {
-        body: data,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include'
-    })
-
-    if (result) {
-        jobSystemStatus.value = result
-        jobStatusLoaded.value = true
-        if (result.Summary) {
-            const summary = result.Summary
-            resultMsg.value = `Job system status loaded. In-memory: ${summary.TotalInMemory}, Database: ${summary.TotalInDatabase} (${summary.StuckInDatabase} stuck)`
-        } else {
-            resultMsg.value = `Job system status loaded.`
-        }
-    } else {
-        resultMsg.value = `Failed to load job system status.`
-    }
-}
-
-const loadDatabaseJobs = async () => {
-    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
-        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
-
-    const data = new FormData()
-    data.append('__RequestVerificationToken', antiForgeryToken.value)
-
-    const result = await $api<DatabaseJobResponse[]>(`/apiVue/VueMaintenance/GetDatabaseRunningJobs`, {
-        body: data,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include'
-    })
-
-    if (result) {
-        databaseJobs.value = result
-        const stuckCount = result.filter(job => job && job.isStuck).length
-        resultMsg.value = `Database jobs loaded: ${result.length} total, ${stuckCount} potentially stuck`
-    } else {
-        resultMsg.value = `Failed to load database jobs.`
-    }
-}
-
-const clearDatabaseJobs = async () => {
-    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
-        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
-
-    const data = new FormData()
-    data.append('__RequestVerificationToken', antiForgeryToken.value)
-
-    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearDatabaseJobs`, {
-        body: data,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include'
-    })
-
-    if (result?.success) {
-        resultMsg.value = result.data
-        // Clear the local database jobs array
-        databaseJobs.value = []
-        // Also refresh the job system status to update counts
-        await loadJobSystemStatus()
-    } else {
-        resultMsg.value = 'Failed to clear database jobs.'
-    }
-}
-
 const clearStuckJobs = async () => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
-    const data = new FormData()
-    data.append('__RequestVerificationToken', antiForgeryToken.value)
-    data.append('maxHours', '2') // Clear jobs older than 2 hours
+    const stuckJobs = databaseJobs.value.filter(job => job.isStuck)
+    resultMsg.value = `Clearing ${stuckJobs.length} stuck jobs...`
 
-    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearStuckJobs`, {
-        body: data,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include'
-    })
+    try {
+        // Step 1: Try to interrupt all stuck jobs in Quartz first
+        const interruptPromises = stuckJobs.map(job => interruptQuartzJobByName(job.name))
+        await Promise.allSettled(interruptPromises)
 
-    if (result?.success) {
-        resultMsg.value = result.data
-        // Refresh both database jobs and job system status
-        await Promise.all([loadDatabaseJobs(), loadJobSystemStatus()])
-    } else {
-        resultMsg.value = 'Failed to clear stuck jobs.'
+        // Step 2: Clear stuck jobs from database (jobs older than 2 hours)
+        const data = new FormData()
+        data.append('__RequestVerificationToken', antiForgeryToken.value)
+        data.append('maxHours', '2')
+
+        const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearStuckJobs`, {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (result?.success) {
+            resultMsg.value = `✅ Cleared stuck jobs successfully (Quartz + Database): ${result.data}`
+            // Refresh all job information
+            await loadQuartzJobs()
+        } else {
+            resultMsg.value = `⚠️ Failed to clear stuck jobs from database: ${result?.data || 'Unknown error'}`
+        }
+    } catch (error) {
+        console.error('Error clearing stuck jobs:', error)
+        resultMsg.value = `❌ Error clearing stuck jobs: ${error}`
     }
 }
 
@@ -705,23 +642,41 @@ const clearJobById = async (jobId: number) => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
-    const data = new FormData()
-    data.append('__RequestVerificationToken', antiForgeryToken.value)
-    data.append('jobId', jobId.toString())
+    // Find the job name from the database jobs
+    const job = databaseJobs.value.find(j => j.id === jobId)
+    if (!job) {
+        resultMsg.value = `Job with ID ${jobId} not found.`
+        return
+    }
 
-    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearJobById`, {
-        body: data,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include'
-    })
+    resultMsg.value = `Clearing job "${job.name}" (ID: ${jobId})...`
 
-    if (result?.success) {
-        resultMsg.value = result.data
-        // Refresh both database jobs and job system status
-        await Promise.all([loadDatabaseJobs(), loadJobSystemStatus()])
-    } else {
-        resultMsg.value = 'Failed to clear job.'
+    try {
+        // Step 1: Try to interrupt the Quartz job first (graceful cancellation)
+        await interruptQuartzJobByName(job.name)
+
+        // Step 2: Clear the database entry
+        const data = new FormData()
+        data.append('__RequestVerificationToken', antiForgeryToken.value)
+        data.append('jobId', jobId.toString())
+
+        const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearJobById`, {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (result?.success) {
+            resultMsg.value = `✅ Job "${job.name}" cleared successfully (Quartz + Database)`
+            // Refresh all job information
+            await loadQuartzJobs()
+        } else {
+            resultMsg.value = `⚠️ Database clear failed for job "${job.name}": ${result?.data || 'Unknown error'}`
+        }
+    } catch (error) {
+        console.error('Error clearing job:', error)
+        resultMsg.value = `❌ Error clearing job "${job.name}": ${error}`
     }
 }
 
@@ -729,11 +684,75 @@ const clearJobsByIds = async (jobIds: number[]) => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
+    const jobsToClear = databaseJobs.value.filter(job => jobIds.includes(job.id))
+    resultMsg.value = `Clearing ${jobsToClear.length} selected jobs...`
+
+    try {
+        // Step 1: Try to interrupt all selected jobs in Quartz first
+        const interruptPromises = jobsToClear.map(job => interruptQuartzJobByName(job.name))
+        await Promise.allSettled(interruptPromises)
+
+        // Step 2: Clear selected jobs from database
+        const data = new FormData()
+        data.append('__RequestVerificationToken', antiForgeryToken.value)
+        data.append('jobIds', jobIds.join(','))
+
+        const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearJobsByIds`, {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        if (result?.success) {
+            resultMsg.value = `✅ Cleared selected jobs successfully (Quartz + Database): ${result.data}`
+            // Refresh all job information
+            await loadQuartzJobs()
+        } else {
+            resultMsg.value = `⚠️ Failed to clear selected jobs from database: ${result?.data || 'Unknown error'}`
+        }
+    } catch (error) {
+        console.error('Error clearing selected jobs:', error)
+        resultMsg.value = `❌ Error clearing selected jobs: ${error}`
+    }
+}
+
+const quartzJobs = ref<any[]>([])
+const quartzJobsLoaded = ref(false)
+
+const loadQuartzJobs = async () => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
-    data.append('jobIds', jobIds.join(','))
 
-    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearJobsByIds`, {
+    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/GetQuartzJobs`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        quartzJobs.value = JSON.parse(result.data)
+        quartzJobsLoaded.value = true
+        resultMsg.value = `Loaded ${quartzJobs.value.length} Quartz jobs.`
+    } else {
+        resultMsg.value = 'Failed to load Quartz jobs.'
+    }
+}
+
+const interruptQuartzJob = async (jobName: string, jobGroup?: string) => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('jobName', jobName)
+    if (jobGroup) data.append('jobGroup', jobGroup)
+
+    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/InterruptQuartzJob`, {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -742,11 +761,64 @@ const clearJobsByIds = async (jobIds: number[]) => {
 
     if (result?.success) {
         resultMsg.value = result.data
-        // Refresh both database jobs and job system status
-        await Promise.all([loadDatabaseJobs(), loadJobSystemStatus()])
+        // Refresh jobs list
+        await loadQuartzJobs()
     } else {
-        resultMsg.value = 'Failed to clear selected jobs.'
+        resultMsg.value = 'Failed to interrupt Quartz job.'
     }
+}
+
+const interruptQuartzJobByName = async (jobName: string) => {
+    try {
+        if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+            return false
+
+        const data = new FormData()
+        data.append('__RequestVerificationToken', antiForgeryToken.value)
+        data.append('jobName', jobName)
+
+        const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/InterruptQuartzJob`, {
+            body: data,
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include'
+        })
+
+        return result?.success || false
+    } catch (error) {
+        console.warn(`Failed to interrupt Quartz job "${jobName}":`, error)
+        return false
+    }
+}
+
+const deleteQuartzJob = async (jobName: string, jobGroup?: string) => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('jobName', jobName)
+    if (jobGroup) data.append('jobGroup', jobGroup)
+
+    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/DeleteQuartzJob`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        resultMsg.value = result.data
+        // Refresh jobs list
+        await loadQuartzJobs()
+    } else {
+        resultMsg.value = 'Failed to delete Quartz job.'
+    }
+}
+
+const formatDuration = (duration: string): string => {
+    // Simple duration formatter - you can enhance this
+    return duration || 'N/A'
 }
 </script>
 
@@ -783,49 +855,34 @@ const clearJobsByIds = async (jobIds: number[]) => {
 
             <!-- Job System Status Panel -->
             <LayoutPanel title="Job System Status">
-                <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
-                    <div class="job-management-controls">
-                        <button @click="loadJobSystemStatus" class="memo-button btn btn-primary">
-                            Load Job System Status
-                        </button>
-                        <button @click="loadDatabaseJobs" class="memo-button btn btn-secondary ms-2">
-                            Check Database Jobs
-                        </button>
-                        <button @click="clearDatabaseJobs" class="memo-button btn btn-warning ms-2"
-                            :disabled="databaseJobs.length === 0"
-                            title="Clear all database running jobs">
-                            Clear Database Jobs
-                        </button>
-                    </div>
-                </LayoutCard>
 
-                <template v-if="jobStatusLoaded && jobSystemStatus && jobSystemStatus.Summary">
+                <template v-if="jobStatusLoaded && jobSystemStatus && jobSystemStatus.summary">
                     <LayoutCard :size="LayoutCardSize.Medium" class="job-summary-card">
                         <h4>Summary</h4>
                         <div class="job-stats">
                             <div class="stat-item">
                                 <span class="stat-label">In-Memory Jobs:</span>
-                                <span class="stat-value">{{ jobSystemStatus.Summary.TotalInMemory }}</span>
+                                <span class="stat-value">{{ jobSystemStatus.summary.totalInMemory }}</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Running:</span>
-                                <span class="stat-value running">{{ jobSystemStatus.Summary.RunningInMemory }}</span>
+                                <span class="stat-value running">{{ jobSystemStatus.summary.runningInMemory }}</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Completed:</span>
-                                <span class="stat-value completed">{{ jobSystemStatus.Summary.CompletedInMemory }}</span>
+                                <span class="stat-value completed">{{ jobSystemStatus.summary.completedInMemory }}</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Failed:</span>
-                                <span class="stat-value failed">{{ jobSystemStatus.Summary.FailedInMemory }}</span>
+                                <span class="stat-value failed">{{ jobSystemStatus.summary.failedInMemory }}</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Database Jobs:</span>
-                                <span class="stat-value">{{ jobSystemStatus.Summary.TotalInDatabase }}</span>
+                                <span class="stat-value">{{ jobSystemStatus.summary.totalInDatabase }}</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Stuck:</span>
-                                <span class="stat-value stuck">{{ jobSystemStatus.Summary.StuckInDatabase }}</span>
+                                <span class="stat-value stuck">{{ jobSystemStatus.summary.stuckInDatabase }}</span>
                             </div>
                         </div>
                     </LayoutCard>
@@ -842,7 +899,7 @@ const clearJobsByIds = async (jobIds: number[]) => {
                                 <button @click="clearJobsByIds(databaseJobs.filter(job => job.isStuck).map(job => job.id))"
                                     class="memo-button btn btn-danger btn-sm ms-2"
                                     :disabled="!databaseJobs.some(job => job.isStuck)">
-                                    Clear All Stuck
+                                    Clear All Stuck (Quartz + DB)
                                 </button>
                             </div>
                         </div>
@@ -862,7 +919,7 @@ const clearJobsByIds = async (jobIds: number[]) => {
                                 </div>
                                 <button @click="clearJobById(job.id)"
                                     class="memo-button btn btn-outline-danger btn-sm">
-                                    Clear This Job
+                                    Clear Job (Quartz + DB)
                                 </button>
                             </div>
                         </div>
@@ -873,6 +930,60 @@ const clearJobsByIds = async (jobIds: number[]) => {
                         </details>
                     </LayoutCard>
                 </template>
+            </LayoutPanel>
+
+            <!-- Quartz Jobs Panel -->
+            <LayoutPanel title="Quartz Scheduler Jobs">
+                <LayoutCard :size="LayoutCardSize.Large">
+                    <div class="quartz-jobs-header">
+                        <h4>Quartz Job Management</h4>
+                        <button @click="loadQuartzJobs" class="memo-button btn btn-primary">
+                            Load Quartz Jobs
+                        </button>
+                    </div>
+
+                    <template v-if="quartzJobsLoaded && quartzJobs.length > 0">
+                        <div class="quartz-jobs-list">
+                            <div v-for="job in quartzJobs" :key="job.JobKey" class="quartz-job-item" :class="{ 'executing-job': job.IsExecuting }">
+                                <div class="job-info">
+                                    <div class="job-name">
+                                        <strong>{{ job.JobName }}</strong>
+                                        <span v-if="job.IsExecuting" class="executing-badge">⚡ RUNNING</span>
+                                        <span class="job-type">{{ job.JobType }}</span>
+                                    </div>
+                                    <div class="job-details">
+                                        <span>Key: {{ job.JobKey }}</span>
+                                        <span>Group: {{ job.JobGroup }}</span>
+                                        <span v-if="job.IsExecuting && job.RunTime">Runtime: {{ formatDuration(job.RunTime) }}</span>
+                                        <span v-if="job.FireTime">Fire Time: {{ new Date(job.FireTime).toLocaleString() }}</span>
+                                    </div>
+                                </div>
+                                <div class="job-actions">
+                                    <button v-if="job.IsExecuting"
+                                        @click="interruptQuartzJob(job.JobName, job.JobGroup)"
+                                        class="memo-button btn btn-warning btn-sm">
+                                        Interrupt
+                                    </button>
+                                    <button @click="deleteQuartzJob(job.JobName, job.JobGroup)"
+                                        class="memo-button btn btn-danger btn-sm ms-1">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template v-else-if="quartzJobsLoaded && quartzJobs.length === 0">
+                        <p class="no-jobs-message">No Quartz jobs found.</p>
+                    </template>
+
+                    <template v-if="quartzJobsLoaded">
+                        <details class="raw-json-details">
+                            <summary>Show Raw Quartz Jobs JSON</summary>
+                            <pre class="job-json">{{ JSON.stringify(quartzJobs, null, 2) }}</pre>
+                        </details>
+                    </template>
+                </LayoutCard>
             </LayoutPanel>
 
             <LayoutPanel :title="$t('maintenance.metrics.title')">
@@ -1191,8 +1302,6 @@ const clearJobsByIds = async (jobIds: number[]) => {
 }
 
 .job-json {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
     border-radius: 4px;
     padding: 12px;
     font-family: 'Courier New', monospace;
@@ -1265,7 +1374,6 @@ const clearJobsByIds = async (jobIds: number[]) => {
             color: @memo-grey-darker;
 
             span {
-                background: #f8f9fa;
                 padding: 2px 6px;
                 border-radius: 3px;
             }
@@ -1286,5 +1394,88 @@ const clearJobsByIds = async (jobIds: number[]) => {
             color: @memo-blue;
         }
     }
+}
+
+.quartz-jobs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    h4 {
+        margin: 0;
+    }
+}
+
+.quartz-jobs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.quartz-job-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    background-color: #fff;
+
+    &.executing-job {
+        border-left: 4px solid #17a2b8;
+        background-color: #e6f3ff;
+    }
+
+    .job-info {
+        flex: 1;
+
+        .job-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+
+            .executing-badge {
+                font-size: 12px;
+                color: #17a2b8;
+                font-weight: bold;
+            }
+
+            .job-type {
+                font-size: 11px;
+                color: @memo-grey;
+                padding: 2px 6px;
+                border-radius: 3px;
+            }
+        }
+
+        .job-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 12px;
+            color: @memo-grey-darker;
+
+            span {
+                padding: 2px 6px;
+                border-radius: 3px;
+            }
+        }
+    }
+
+    .job-actions {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+    }
+}
+
+.no-jobs-message {
+    text-align: center;
+    color: @memo-grey;
+    font-style: italic;
+    margin: 20px 0;
 }
 </style>

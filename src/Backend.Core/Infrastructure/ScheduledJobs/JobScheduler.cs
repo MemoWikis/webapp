@@ -1,5 +1,6 @@
 ﻿using Quartz;
 using Quartz.Impl;
+using Quartz.Impl.Matchers;
 
 public static class JobScheduler
 {
@@ -245,4 +246,139 @@ public static class JobScheduler
 
         _scheduler.ScheduleJob(job, trigger);
     }
+
+    // Quartz Job Management Methods
+    public static async Task<IReadOnlyCollection<IJobExecutionContext>> GetCurrentlyExecutingJobs()
+    {
+        return await _scheduler.GetCurrentlyExecutingJobs();
+    }
+
+    public static async Task<bool> InterruptJob(JobKey jobKey)
+    {
+        try
+        {
+            var result = await _scheduler.Interrupt(jobKey);
+            Log.Information("Interrupted job {JobKey}: {Success}", jobKey, result);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error interrupting job {JobKey}", jobKey);
+            return false;
+        }
+    }
+
+    public static async Task<bool> InterruptJob(string jobName, string? groupName = null)
+    {
+        var jobKey = new JobKey(jobName, groupName ?? "DEFAULT");
+        return await InterruptJob(jobKey);
+    }
+
+    public static async Task<bool> DeleteJob(JobKey jobKey)
+    {
+        try
+        {
+            var result = await _scheduler.DeleteJob(jobKey);
+            Log.Information("Deleted job {JobKey}: {Success}", jobKey, result);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error deleting job {JobKey}", jobKey);
+            return false;
+        }
+    }
+
+    public static async Task<bool> DeleteJob(string jobName, string? groupName = null)
+    {
+        var jobKey = new JobKey(jobName, groupName ?? "DEFAULT");
+        return await DeleteJob(jobKey);
+    }
+
+    public static async Task<IReadOnlyCollection<JobKey>> GetAllJobKeys()
+    {
+        try
+        {
+            var groupNames = await _scheduler.GetJobGroupNames();
+            var allJobKeys = new List<JobKey>();
+            
+            foreach (var groupName in groupNames)
+            {
+                var jobKeys = await _scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(groupName));
+                allJobKeys.AddRange(jobKeys);
+            }
+            
+            return allJobKeys.AsReadOnly();
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error getting job keys");
+            return new List<JobKey>().AsReadOnly();
+        }
+    }
+
+    public static async Task<List<QuartzJobInfo>> GetQuartzJobsInfo()
+    {
+        try
+        {
+            var executingJobs = await GetCurrentlyExecutingJobs();
+            var allJobKeys = await GetAllJobKeys();
+            var jobInfos = new List<QuartzJobInfo>();
+
+            // Add currently executing jobs
+            foreach (var executingJob in executingJobs)
+            {
+                jobInfos.Add(new QuartzJobInfo
+                {
+                    JobKey = executingJob.JobDetail.Key.ToString(),
+                    JobName = executingJob.JobDetail.Key.Name,
+                    JobGroup = executingJob.JobDetail.Key.Group,
+                    JobType = executingJob.JobDetail.JobType.Name,
+                    IsExecuting = true,
+                    FireTime = executingJob.FireTimeUtc,
+                    RunTime = executingJob.JobRunTime
+                });
+            }
+
+            // Add scheduled but not executing jobs
+            foreach (var jobKey in allJobKeys)
+            {
+                if (!jobInfos.Any(j => j.JobKey == jobKey.ToString()))
+                {
+                    var jobDetail = await _scheduler.GetJobDetail(jobKey);
+                    if (jobDetail != null)
+                    {
+                        jobInfos.Add(new QuartzJobInfo
+                        {
+                            JobKey = jobKey.ToString(),
+                            JobName = jobKey.Name,
+                            JobGroup = jobKey.Group,
+                            JobType = jobDetail.JobType.Name,
+                            IsExecuting = false,
+                            FireTime = null,
+                            RunTime = TimeSpan.Zero
+                        });
+                    }
+                }
+            }
+
+            return jobInfos;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error getting Quartz job info");
+            return new List<QuartzJobInfo>();
+        }
+    }
+}
+
+public class QuartzJobInfo
+{
+    public string JobKey { get; set; } = string.Empty;
+    public string JobName { get; set; } = string.Empty;
+    public string JobGroup { get; set; } = string.Empty;
+    public string JobType { get; set; } = string.Empty;
+    public bool IsExecuting { get; set; }
+    public DateTimeOffset? FireTime { get; set; }
+    public TimeSpan RunTime { get; set; }
 }
