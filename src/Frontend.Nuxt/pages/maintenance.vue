@@ -87,6 +87,42 @@ interface RelationErrorsResponse {
     data: RelationErrorItem[]
 }
 
+interface VueMaintenanceResult {
+    success: boolean
+    data: string
+}
+
+interface JobSystemStatusResponse {
+    InMemoryJobs: InMemoryJobResponse[]
+    DatabaseJobs: DatabaseJobResponse[]
+    Summary: JobSummaryResponse
+}
+
+interface InMemoryJobResponse {
+    JobTrackingId: string
+    Status: string
+    Message: string
+    OperationName: string
+}
+
+interface DatabaseJobResponse {
+    id: number
+    name: string
+    startedAt: string
+    duration: string
+    isStuck: boolean
+    durationHours: number
+}
+
+interface JobSummaryResponse {
+    TotalInMemory: number
+    TotalInDatabase: number
+    RunningInMemory: number
+    CompletedInMemory: number
+    FailedInMemory: number
+    StuckInDatabase: number
+}
+
 const isAnalyzing = ref(false)
 
 const questionMethods = ref<MethodData[]>([
@@ -98,7 +134,7 @@ const cacheMethods = ref<MethodData[]>([
     { url: 'RefreshMmapCaches', translationKey: 'maintenance.cache.refreshMmapCaches' }
 ])
 const pageMethods = ref<MethodData[]>([
-    { url: 'UpdateCategoryAuthors', translationKey: 'maintenance.pages.updateCategoryAuthors' }
+    // { url: 'UpdateCategoryAuthors', translationKey: 'maintenance.pages.updateCategoryAuthors' } might not be used anymore????
 ])
 
 const meiliSearchMethods = ref<MethodData[]>([
@@ -122,6 +158,8 @@ const toolsMethods = ref<MethodData[]>([
     { url: 'CleanUpWorkInProgressQuestions', translationKey: 'maintenance.tools.cleanupWorkInProgress' },
     { url: 'Start100TestJobs', translationKey: 'maintenance.tools.start100TestJobs' },
     { url: 'ClearAllJobs', translationKey: 'maintenance.tools.clearAllJobs' },
+    { url: 'ClearStuckJobs', translationKey: 'maintenance.tools.clearStuckJobs' },
+    { url: 'ClearDatabaseJobs', translationKey: 'maintenance.tools.clearDatabaseJobs' },
     { url: 'PollingTest5s', translationKey: 'maintenance.tools.pollingTest5s' },
     { url: 'PollingTest30s', translationKey: 'maintenance.tools.pollingTest30s' },
     { url: 'PollingTest120s', translationKey: 'maintenance.tools.pollingTest120s' },
@@ -130,6 +168,9 @@ const resultMsg = ref('')
 const relationErrors = ref<RelationErrorItem[]>([])
 const runningJobs = ref<Map<string, string>>(new Map())
 const jobProgress = ref<Map<string, JobStatusResponse>>(new Map())
+const jobSystemStatus = ref<JobSystemStatusResponse | null>(null)
+const databaseJobs = ref<DatabaseJobResponse[]>([])
+const jobStatusLoaded = ref(false)
 
 // Adaptive polling configuration
 const FAST_POLL_INTERVAL = 2000 // 2 seconds when jobs are active
@@ -143,6 +184,11 @@ const executeMaintenanceOperation = async (operationUrl: string) => {
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+    // Add default parameter for ClearStuckJobs (2 hours)
+    if (operationUrl === 'ClearStuckJobs') {
+        data.append('maxHours', '2')
+    }
 
     // RemoveAdminRights is handled synchronously
     if (operationUrl === 'RemoveAdminRights') {
@@ -554,6 +600,154 @@ const loadMmapCacheStatus = async () => {
     }
     mmapCacheStatusLoaded.value = true
 }
+
+const loadJobSystemStatus = async () => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+    const result = await $api<JobSystemStatusResponse>(`/apiVue/VueMaintenance/GetJobSystemStatus`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result) {
+        jobSystemStatus.value = result
+        jobStatusLoaded.value = true
+        if (result.Summary) {
+            const summary = result.Summary
+            resultMsg.value = `Job system status loaded. In-memory: ${summary.TotalInMemory}, Database: ${summary.TotalInDatabase} (${summary.StuckInDatabase} stuck)`
+        } else {
+            resultMsg.value = `Job system status loaded.`
+        }
+    } else {
+        resultMsg.value = `Failed to load job system status.`
+    }
+}
+
+const loadDatabaseJobs = async () => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+    const result = await $api<DatabaseJobResponse[]>(`/apiVue/VueMaintenance/GetDatabaseRunningJobs`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result) {
+        databaseJobs.value = result
+        const stuckCount = result.filter(job => job && job.isStuck).length
+        resultMsg.value = `Database jobs loaded: ${result.length} total, ${stuckCount} potentially stuck`
+    } else {
+        resultMsg.value = `Failed to load database jobs.`
+    }
+}
+
+const clearDatabaseJobs = async () => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+
+    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearDatabaseJobs`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        resultMsg.value = result.data
+        // Clear the local database jobs array
+        databaseJobs.value = []
+        // Also refresh the job system status to update counts
+        await loadJobSystemStatus()
+    } else {
+        resultMsg.value = 'Failed to clear database jobs.'
+    }
+}
+
+const clearStuckJobs = async () => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('maxHours', '2') // Clear jobs older than 2 hours
+
+    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearStuckJobs`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        resultMsg.value = result.data
+        // Refresh both database jobs and job system status
+        await Promise.all([loadDatabaseJobs(), loadJobSystemStatus()])
+    } else {
+        resultMsg.value = 'Failed to clear stuck jobs.'
+    }
+}
+
+const clearJobById = async (jobId: number) => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('jobId', jobId.toString())
+
+    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearJobById`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        resultMsg.value = result.data
+        // Refresh both database jobs and job system status
+        await Promise.all([loadDatabaseJobs(), loadJobSystemStatus()])
+    } else {
+        resultMsg.value = 'Failed to clear job.'
+    }
+}
+
+const clearJobsByIds = async (jobIds: number[]) => {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('jobIds', jobIds.join(','))
+
+    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/ClearJobsByIds`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        resultMsg.value = result.data
+        // Refresh both database jobs and job system status
+        await Promise.all([loadDatabaseJobs(), loadJobSystemStatus()])
+    } else {
+        resultMsg.value = 'Failed to clear selected jobs.'
+    }
+}
 </script>
 
 <template>
@@ -586,17 +780,109 @@ const loadMmapCacheStatus = async () => {
                     </div>
                 </LayoutCard>
             </LayoutPanel>
+
+            <!-- Job System Status Panel -->
+            <LayoutPanel title="Job System Status">
+                <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
+                    <div class="job-management-controls">
+                        <button @click="loadJobSystemStatus" class="memo-button btn btn-primary">
+                            Load Job System Status
+                        </button>
+                        <button @click="loadDatabaseJobs" class="memo-button btn btn-secondary ms-2">
+                            Check Database Jobs
+                        </button>
+                        <button @click="clearDatabaseJobs" class="memo-button btn btn-warning ms-2"
+                            :disabled="databaseJobs.length === 0"
+                            title="Clear all database running jobs">
+                            Clear Database Jobs
+                        </button>
+                    </div>
+                </LayoutCard>
+
+                <template v-if="jobStatusLoaded && jobSystemStatus && jobSystemStatus.Summary">
+                    <LayoutCard :size="LayoutCardSize.Medium" class="job-summary-card">
+                        <h4>Summary</h4>
+                        <div class="job-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">In-Memory Jobs:</span>
+                                <span class="stat-value">{{ jobSystemStatus.Summary.TotalInMemory }}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Running:</span>
+                                <span class="stat-value running">{{ jobSystemStatus.Summary.RunningInMemory }}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Completed:</span>
+                                <span class="stat-value completed">{{ jobSystemStatus.Summary.CompletedInMemory }}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Failed:</span>
+                                <span class="stat-value failed">{{ jobSystemStatus.Summary.FailedInMemory }}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Database Jobs:</span>
+                                <span class="stat-value">{{ jobSystemStatus.Summary.TotalInDatabase }}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Stuck:</span>
+                                <span class="stat-value stuck">{{ jobSystemStatus.Summary.StuckInDatabase }}</span>
+                            </div>
+                        </div>
+                    </LayoutCard>
+                </template>
+
+                <template v-if="databaseJobs.length > 0">
+                    <LayoutCard :size="LayoutCardSize.Large">
+                        <div class="database-jobs-header">
+                            <h4>Database Running Jobs ({{ databaseJobs.length }})</h4>
+                            <div class="bulk-actions">
+                                <button @click="clearStuckJobs" class="memo-button btn btn-warning btn-sm">
+                                    Clear Stuck Only (>2h)
+                                </button>
+                                <button @click="clearJobsByIds(databaseJobs.filter(job => job.isStuck).map(job => job.id))"
+                                    class="memo-button btn btn-danger btn-sm ms-2"
+                                    :disabled="!databaseJobs.some(job => job.isStuck)">
+                                    Clear All Stuck
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="database-jobs-list">
+                            <div v-for="job in databaseJobs" :key="job.id" class="database-job-item" :class="{ 'stuck-job': job.isStuck }">
+                                <div class="job-info">
+                                    <div class="job-name">
+                                        <strong>{{ job.name }}</strong>
+                                        <span v-if="job.isStuck" class="stuck-badge">⚠️ STUCK</span>
+                                    </div>
+                                    <div class="job-details">
+                                        <span>ID: {{ job.id }}</span>
+                                        <span>Started: {{ job.startedAt }}</span>
+                                        <span>Duration: {{ job.duration }} ({{ job.durationHours }}h)</span>
+                                    </div>
+                                </div>
+                                <button @click="clearJobById(job.id)"
+                                    class="memo-button btn btn-outline-danger btn-sm">
+                                    Clear This Job
+                                </button>
+                            </div>
+                        </div>
+
+                        <details class="raw-json-details">
+                            <summary>Show Raw JSON</summary>
+                            <pre class="job-json">{{ JSON.stringify(databaseJobs, null, 2) }}</pre>
+                        </details>
+                    </LayoutCard>
+                </template>
+            </LayoutPanel>
+
             <LayoutPanel :title="$t('maintenance.metrics.title')">
                 <NuxtLink to="/Metriken" class="memo-button btn btn-primary">
                     {{ $t('maintenance.metrics.viewOverview') }}
                 </NuxtLink>
             </LayoutPanel>
-            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods" @method-clicked="executeMaintenanceOperation"
-                :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods" @method-clicked="executeMaintenanceOperation"
-                :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="executeMaintenanceOperation"
-                :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
 
             <LayoutPanel :title="$t('maintenance.mmapCache.title')">
 
@@ -797,6 +1083,208 @@ const loadMmapCacheStatus = async () => {
 
     .btn-secondary {
         background-color: @memo-grey;
+    }
+}
+
+.job-management-controls {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+
+    .memo-button {
+        margin-right: 0;
+    }
+}
+
+.job-summary-card {
+    .job-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        padding: 15px;
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: @memo-grey-light;
+
+            .stat-label {
+                font-size: 12px;
+                color: @memo-grey-darker;
+                margin-bottom: 5px;
+            }
+
+            .stat-value {
+                font-size: 18px;
+                font-weight: bold;
+
+                &.running {
+                    color: #3498db;
+                }
+
+                &.completed {
+                    color: #27ae60;
+                }
+
+                &.failed {
+                    color: #e74c3c;
+                }
+
+                &.stuck {
+                    color: #f39c12;
+                }
+            }
+        }
+    }
+}
+
+.database-job {
+    padding: 12px;
+
+    &.stuck-job {
+        border-left: 4px solid #f39c12;
+        background-color: #fef9e7;
+    }
+
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+
+        h4 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+
+            .duration {
+                font-family: monospace;
+                background: @memo-grey-light;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-size: 12px;
+            }
+
+            .stuck-indicator {
+                color: #f39c12;
+                font-weight: bold;
+                font-size: 12px;
+            }
+        }
+    }
+
+    .job-details {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 12px;
+        color: @memo-grey-darker;
+    }
+}
+
+.job-json {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.database-jobs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    h4 {
+        margin: 0;
+    }
+
+    .bulk-actions {
+        display: flex;
+        gap: 8px;
+    }
+}
+
+.database-jobs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.database-job-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    background-color: #fff;
+
+    &.stuck-job {
+        border-left: 4px solid #f39c12;
+        background-color: #fef9e7;
+    }
+
+    .job-info {
+        flex: 1;
+
+        .job-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+
+            .stuck-badge {
+                font-size: 12px;
+                color: #f39c12;
+                font-weight: bold;
+            }
+        }
+
+        .job-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 12px;
+            color: @memo-grey-darker;
+
+            span {
+                background: #f8f9fa;
+                padding: 2px 6px;
+                border-radius: 3px;
+            }
+        }
+    }
+}
+
+.raw-json-details {
+    margin-top: 16px;
+
+    summary {
+        cursor: pointer;
+        font-size: 14px;
+        color: @memo-grey-darker;
+        margin-bottom: 8px;
+
+        &:hover {
+            color: @memo-blue;
+        }
     }
 }
 </style>

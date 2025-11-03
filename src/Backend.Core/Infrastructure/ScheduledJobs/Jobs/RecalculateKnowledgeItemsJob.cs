@@ -16,14 +16,18 @@ public class RecalculateKnowledgeItemsJob : IJob
             return;
         }
 
+        Log.Information("Starting job execution - {OperationName} with jobTrackingId: {jobTrackingId}", OperationName, jobTrackingId);
         await Run(jobTrackingId);
         Log.Information("Job ended - {OperationName}", OperationName);
     }
 
     private async Task Run(string jobTrackingId)
     {
+        Log.Information("RecalculateKnowledgeItemsJob.Run called with jobTrackingId: {jobTrackingId}", jobTrackingId);
+        
         await JobExecute.RunAsync(scope =>
         {
+            Log.Information("Inside JobExecute.RunAsync lambda for RecalculateKnowledgeItems");
             try
             {
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Starting knowledge items recalculation...", OperationName);
