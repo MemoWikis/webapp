@@ -727,17 +727,53 @@ const loadQuartzJobs = async () => {
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
 
-    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/GetQuartzJobs`, {
+    // Load Quartz jobs
+    const quartzResult = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/GetQuartzJobs`, {
         body: data,
         method: 'POST',
         mode: 'cors',
         credentials: 'include'
     })
 
-    if (result?.success) {
-        quartzJobs.value = JSON.parse(result.data)
+    // Load complete job system status (in-memory + database jobs)
+    const jobSystemResult = await $api<JobSystemStatusResponse>('/apiVue/VueMaintenance/GetJobSystemStatus', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: data
+    })
+
+    if (quartzResult?.success) {
+        quartzJobs.value = JSON.parse(quartzResult.data)
         quartzJobsLoaded.value = true
-        resultMsg.value = `Loaded ${quartzJobs.value.length} Quartz jobs.`
+
+        // Update job system status (includes both in-memory and database jobs)
+        if (jobSystemResult) {
+            jobSystemStatus.value = jobSystemResult
+            jobStatusLoaded.value = true
+
+            // Update running jobs from in-memory jobs
+            runningJobs.value.clear()
+            jobProgress.value.clear()
+
+            for (const job of jobSystemResult.inMemoryJobs) {
+                runningJobs.value.set(job.jobTrackingId, job.operationName)
+                jobProgress.value.set(job.jobTrackingId, {
+                    jobTrackingId: job.jobTrackingId,
+                    status: parseInt(job.status) as JobStatus,
+                    message: job.message,
+                    operationName: job.operationName
+                })
+            }
+
+            // Update database jobs reference
+            databaseJobs.value = jobSystemResult.databaseJobs
+
+            const totalJobs = jobSystemResult.inMemoryJobs.length + jobSystemResult.databaseJobs.length
+            resultMsg.value = `Loaded ${quartzJobs.value.length} Quartz jobs, ${jobSystemResult.inMemoryJobs.length} in-memory jobs, and ${jobSystemResult.databaseJobs.length} database jobs (${totalJobs} total active jobs).`
+        } else {
+            resultMsg.value = `Loaded ${quartzJobs.value.length} Quartz jobs.`
+        }
     } else {
         resultMsg.value = 'Failed to load Quartz jobs.'
     }
@@ -918,7 +954,7 @@ const formatDuration = (duration: string): string => {
                                     </div>
                                 </div>
                                 <button @click="clearJobById(job.id)"
-                                    class="memo-button btn btn-outline-danger btn-sm">
+                                    class="memo-button btn btn-warning btn-sm">
                                     Clear Job (Quartz + DB)
                                 </button>
                             </div>

@@ -370,6 +370,40 @@ public static class JobScheduler
             return new List<QuartzJobInfo>();
         }
     }
+
+    // Job-specific interrupt methods
+    public static void InterruptRecalculateKnowledgeItems()
+    {
+        RecalculateKnowledgeItemsJob.RequestInterrupt();
+        Log.Information("Interrupt requested for RecalculateKnowledgeItemsJob");
+    }
+
+    public static void InterruptCalcAggregatedValues()
+    {
+        CalcAggregatedValuesJob.RequestInterrupt();
+        Log.Information("Interrupt requested for CalcAggregatedValuesJob");
+    }
+
+    public static void InterruptUpdateUserReputation()
+    {
+        UpdateUserReputationJob.RequestInterrupt();
+        Log.Information("Interrupt requested for UpdateUserReputationJob");
+    }
+
+    public static void InterruptRelationErrorAnalysis()
+    {
+        RelationErrorAnalysis.RequestInterrupt();
+        Log.Information("Interrupt requested for RelationErrorAnalysis");
+    }
+
+    public static void ResetAllJobInterrupts()
+    {
+        RecalculateKnowledgeItemsJob.ResetInterrupt();
+        CalcAggregatedValuesJob.ResetInterrupt();
+        UpdateUserReputationJob.ResetInterrupt();
+        RelationErrorAnalysis.ResetInterrupt();
+        Log.Information("Reset interrupt flags for all interruptable jobs");
+    }
 }
 
 public class QuartzJobInfo
