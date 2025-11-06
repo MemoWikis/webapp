@@ -24,7 +24,7 @@ public class ProbabilityUpdate_ValuationAll(
                 .List<object[]>();
 
         var totalItems = questionValuationRecords.Count;
-        var batchSize = 9999; // Process 10000 items at a time (smaller batches for better memory management)
+        var batchSize = 10000; // Process 10000 items at a time (smaller batches for better memory management)
         var processedCount = 0;
 
         Log.Information("Starting valuation probability update for {0} question-user pairs in batches of {1}", totalItems, batchSize);
