@@ -297,18 +297,6 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public VueMaintenanceResult CleanUpWorkInProgressQuestions()
-    {
-        return new VueMaintenanceResult
-        {
-            Success = true,
-            Data = "Job: 'Cleanup work in progress' is being executed."
-        };
-    }
-
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
     public VueMaintenanceResult ReloadListFromIgnoreCrawlers()
     {
         if (_httpContextAccessor.HttpContext.Request.IsLocal())
@@ -476,7 +464,7 @@ public class VueMaintenanceController(
     {
         var inMemoryJobs = JobTracking.GetAllActiveJobs().ToList();
         var dbJobs = _runningJobRepo.GetAllRunningJobs();
-        
+
         var inMemoryJobResponses = inMemoryJobs.Select(job => new InMemoryJobResponse(
             job.JobTrackingId,
             job.Status.ToString(),
@@ -484,7 +472,8 @@ public class VueMaintenanceController(
             job.OperationName
         )).ToList();
 
-        var databaseJobResponses = dbJobs.Select(job => {
+        var databaseJobResponses = dbJobs.Select(job =>
+        {
             var duration = DateTimeX.Now() - job.StartAt;
             return new DatabaseJobResponse(
                 job.Id,
@@ -542,8 +531,9 @@ public class VueMaintenanceController(
     public List<DatabaseJobResponse> GetDatabaseRunningJobs()
     {
         var jobs = _runningJobRepo.GetAllRunningJobs();
-        
-        return jobs.Select(job => {
+
+        return jobs.Select(job =>
+        {
             var duration = DateTimeX.Now() - job.StartAt;
             return new DatabaseJobResponse(
                 job.Id,

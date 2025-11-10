@@ -155,11 +155,7 @@ const miscMethods = ref<MethodData[]>([
 const toolsMethods = ref<MethodData[]>([
     { url: 'Throw500', translationKey: 'maintenance.tools.throwException' },
     { url: 'ReloadListFromIgnoreCrawlers', translationKey: 'maintenance.tools.reloadIgnoreCrawlers' },
-    { url: 'CleanUpWorkInProgressQuestions', translationKey: 'maintenance.tools.cleanupWorkInProgress' },
     { url: 'Start100TestJobs', translationKey: 'maintenance.tools.start100TestJobs' },
-    { url: 'ClearAllJobs', translationKey: 'maintenance.tools.clearAllJobs' },
-    { url: 'ClearStuckJobs', translationKey: 'maintenance.tools.clearStuckJobs' },
-    { url: 'ClearDatabaseJobs', translationKey: 'maintenance.tools.clearDatabaseJobs' },
     { url: 'PollingTest5s', translationKey: 'maintenance.tools.pollingTest5s' },
     { url: 'PollingTest30s', translationKey: 'maintenance.tools.pollingTest30s' },
     { url: 'PollingTest120s', translationKey: 'maintenance.tools.pollingTest120s' },
