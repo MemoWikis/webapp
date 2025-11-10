@@ -1029,7 +1029,7 @@ const formatDuration = (duration: string): string => {
             </LayoutPanel>
             <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
             <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.pages.title')" :methods="pageMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.pages.title')" v-if="pageMethods.length > 0" :methods="pageMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
 
             <LayoutPanel :title="$t('maintenance.mmapCache.title')">
 
