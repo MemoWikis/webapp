@@ -702,31 +702,6 @@ public class VueMaintenanceController(
     }
 
     [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public async Task<VueMaintenanceResult> DeleteQuartzJob([FromForm] string jobName, [FromForm] string jobGroup = null)
-    {
-        try
-        {
-            var success = await JobScheduler.DeleteJob(jobName, jobGroup);
-            return new VueMaintenanceResult
-            {
-                Success = success,
-                Data = success ? $"Job '{jobName}' deleted successfully." : $"Failed to delete job '{jobName}'."
-            };
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error deleting Quartz job {JobName}", jobName);
-            return new VueMaintenanceResult
-            {
-                Success = false,
-                Data = $"Error: {ex.Message}"
-            };
-        }
-    }
-
-    [AccessOnlyAsAdmin]
     [HttpGet]
     public ActiveSessionsResponse GetActiveSessions()
     {

@@ -775,6 +775,10 @@ const loadQuartzJobs = async () => {
     }
 }
 
+onMounted(() => {
+    loadQuartzJobs()
+})
+
 const interruptQuartzJob = async (jobName: string, jobGroup?: string) => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
@@ -820,31 +824,6 @@ const interruptQuartzJobByName = async (jobName: string) => {
     } catch (error) {
         console.warn(`Failed to interrupt Quartz job "${jobName}":`, error)
         return false
-    }
-}
-
-const deleteQuartzJob = async (jobName: string, jobGroup?: string) => {
-    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
-        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
-
-    const data = new FormData()
-    data.append('__RequestVerificationToken', antiForgeryToken.value)
-    data.append('jobName', jobName)
-    if (jobGroup) data.append('jobGroup', jobGroup)
-
-    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/DeleteQuartzJob`, {
-        body: data,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include'
-    })
-
-    if (result?.success) {
-        resultMsg.value = result.data
-        // Refresh jobs list
-        await loadQuartzJobs()
-    } else {
-        resultMsg.value = 'Failed to delete Quartz job.'
     }
 }
 
@@ -995,10 +974,6 @@ const formatDuration = (duration: string): string => {
                                         @click="interruptQuartzJob(job.JobName, job.JobGroup)"
                                         class="memo-button btn btn-warning btn-sm">
                                         Interrupt
-                                    </button>
-                                    <button @click="deleteQuartzJob(job.JobName, job.JobGroup)"
-                                        class="memo-button btn btn-danger btn-sm ms-1">
-                                        Delete
                                     </button>
                                 </div>
                             </div>

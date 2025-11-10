@@ -288,13 +288,6 @@ public static class JobScheduler
             return false;
         }
     }
-
-    public static async Task<bool> DeleteJob(string jobName, string? groupName = null)
-    {
-        var jobKey = new JobKey(jobName, groupName ?? "DEFAULT");
-        return await DeleteJob(jobKey);
-    }
-
     public static async Task<IReadOnlyCollection<JobKey>> GetAllJobKeys()
     {
         try
