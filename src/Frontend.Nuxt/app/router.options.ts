@@ -41,6 +41,11 @@ export default <RouterConfig>{
                 import('~/pages/mission-control/mission-control.vue'),
         },
         {
+            name: 'learningPage',
+            path: '/Mission-Control/Learning',
+            component: () => import('~/pages/mission-control/learning.vue'),
+        },
+        {
             name: 'termsPageDE',
             path: '/AGB',
             component: () => import('~/pages/terms/terms-de.vue'),

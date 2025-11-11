@@ -2,13 +2,11 @@
 import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
-import { usePageStore } from '../pageStore'
 import { Tab, useTabsStore } from '../tabs/tabsStore'
 
 const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-const pageStore = usePageStore()
 const tabsStore = useTabsStore()
 
 const route = useRoute()
@@ -113,11 +111,6 @@ function calculateProgress() {
     answeredWidth.value = `width: ${progressPercentage.value}%`
     unansweredWidth.value = `width: ${100 - progressPercentage.value}%`
 }
-
-watch(() => pageStore.questionCount, (count) => {
-    if (count > 0)
-        learningSessionConfigurationStore.showFilter = true
-})
 
 function stepBack() {
     if (learningSessionStore.currentStep?.index === 0 || learningSessionStore.currentStep?.index == null)
