@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    <Learning />
+    <PageLearning />
 </template>

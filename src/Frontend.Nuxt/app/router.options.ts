@@ -42,7 +42,7 @@ export default <RouterConfig>{
         },
         {
             name: 'learningPage',
-            path: '/Mission-Control/Learning',
+            path: '/MissionControl/Learning',
             component: () => import('~/pages/mission-control/learning.vue'),
         },
         {

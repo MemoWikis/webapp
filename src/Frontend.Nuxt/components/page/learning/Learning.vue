@@ -175,7 +175,7 @@ function stepForward() {
         </div>
 
         <div class="col-xs-12" id="QuestionListContainer" v-show="!learningSessionStore.showResult">
-            <PageLearningQuestionsSection />
+            <!-- <PageLearningQuestionsSection /> -->
         </div>
 
         <ClientOnly>

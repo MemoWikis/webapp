@@ -150,7 +150,8 @@ public class LearningSessionCreator(
 
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
-        var allQuestions = GetAllQuestionsForPage(config.PageId);
+        var allQuestions = config.PageId > 0 ? GetAllQuestionsForPage(config.PageId) : GetAllWishknowledgeQuestionsFromUser(_sessionUser.UserId);
+
         return BuildLearningSession(config, allQuestions);
     }
 
@@ -268,6 +269,19 @@ public class LearningSessionCreator(
             .Where(questionId => questionId.Id > 0)
             .Where(_permissionCheck.CanView)
             .ToList();
+    }
+
+    private IList<QuestionCacheItem> GetAllWishknowledgeQuestionsFromUser(int userId)
+    {
+        var user = _extendedUserCache.GetUser(userId);
+        var wishknowledgeQuestionIds = user.QuestionValuations
+            .Where(questionValuation => questionValuation.Value.IsInWishKnowledge)
+            .Select(questionValuation => questionValuation.Key)
+            .ToList();
+
+        var questions = EntityCache.GetQuestionsByIds(wishknowledgeQuestionIds);
+
+        return questions;
     }
 
     private IList<KnowledgeSummaryDetail> BuildKnowledgeSummaryDetails(
