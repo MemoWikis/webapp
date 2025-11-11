@@ -15,235 +15,246 @@ public class ProbabilityUpdate_ValuationAll(
 {
     public void Run(string? jobTrackingId = null)
     {
-        var questionValuationRecords =
-            _nhibernateSession.QueryOver<QuestionValuation>()
-                .Where(qv => qv.User != null && qv.Question != null)
-                .Select(
-                    qv => qv.Question.Id,
-                    qv => qv.User.Id)
-                .List<object[]>();
-
+        var questionValuationRecords = GetQuestionValuationRecords();
         var totalItems = questionValuationRecords.Count;
-        var batchSize = 10000; // Process 10000 items at a time (smaller batches for better memory management)
+        var batchSize = 10000;
         var processedCount = 0;
 
         Log.Information("Starting valuation probability update for {0} question-user pairs in batches of {1}", totalItems, batchSize);
 
-        // Pre-load all users and questions to avoid N+1 queries
+        var preloadedData = PreloadData(questionValuationRecords, jobTrackingId);
+
+        for (int i = 0; i < totalItems; i += batchSize)
+        {
+            var batch = questionValuationRecords.Skip(i).Take(batchSize).ToList();
+            var batchNumber = (i / batchSize) + 1;
+            var totalBatches = (int)Math.Ceiling((double)totalItems / batchSize);
+
+            processedCount += ProcessBatch(batch, batchNumber, totalBatches, processedCount, totalItems, preloadedData, jobTrackingId);
+        }
+
+        Log.Information("Completed all valuation probability updates - processed {0} items", totalItems);
+    }
+
+    private List<object[]> GetQuestionValuationRecords()
+    {
+        return _nhibernateSession.QueryOver<QuestionValuation>()
+            .Where(questionValuation => questionValuation.User != null && questionValuation.Question != null)
+            .Select(
+                questionValuation => questionValuation.Question.Id,
+                questionValuation => questionValuation.User.Id)
+            .List<object[]>().ToList();
+    }
+
+    private PreloadedData PreloadData(List<object[]> questionValuationRecords, string? jobTrackingId)
+    {
         JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Pre-loading users and questions data...", "ProbabilityUpdate_ValuationAll");
         
         var uniqueUserIds = questionValuationRecords.Select(item => (int)item[1]).Distinct().ToList();
         var uniqueQuestionIds = questionValuationRecords.Select(item => (int)item[0]).Distinct().ToList();
         
-        var userLookup = _userReadingRepo.GetByIds(uniqueUserIds.ToArray()).ToDictionary(u => u.Id, u => u);
+        var userLookup = _userReadingRepo.GetByIds(uniqueUserIds.ToArray()).ToDictionary(user => user.Id, user => user);
         
-        // Pre-load actual Question entities and QuestionCacheItems
-        var questionEntities = _questionReadingRepo.GetByIds(uniqueQuestionIds.ToArray()).ToDictionary(q => q.Id, q => q);
-        var questionCacheItemLookup = uniqueQuestionIds.ToDictionary(id => id, id => EntityCache.GetQuestion(id));
+        var questionEntities = _questionReadingRepo.GetByIds(uniqueQuestionIds.ToArray()).ToDictionary(question => question.Id, question => question);
+        var questionCacheItemLookup = uniqueQuestionIds
+            .ToDictionary(questionId => questionId, questionId => EntityCache.GetQuestion(questionId))
+            .Where(keyValuePair => keyValuePair.Value != null)
+            .ToDictionary(keyValuePair => keyValuePair.Key, keyValuePair => keyValuePair.Value!);
         
         Log.Information("Pre-loaded {0} users and {1} questions for processing", userLookup.Count, questionCacheItemLookup.Count);
 
-        for (int i = 0; i < totalItems; i += batchSize)
+        return new PreloadedData
         {
-            var batch = questionValuationRecords.Skip(i).Take(batchSize).ToList();
-            var currentBatchSize = batch.Count();
-            var batchNumber = (i / batchSize) + 1;
-            var totalBatches = (int)Math.Ceiling((double)totalItems / batchSize);
+            UserLookup = userLookup,
+            QuestionEntities = questionEntities,
+            QuestionCacheItemLookup = questionCacheItemLookup
+        };
+    }
 
+    private int ProcessBatch(List<object[]> batch, int batchNumber, int totalBatches, int processedCount, int totalItems, PreloadedData preloadedData, string? jobTrackingId)
+    {
+        var currentBatchSize = batch.Count();
+
+        JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+            $"Processing batch {batchNumber}/{totalBatches} ({currentBatchSize} items)...",
+            "ProbabilityUpdate_ValuationAll");
+
+        using var transaction = _nhibernateSession.BeginTransaction();
+        try
+        {
+            var batchData = PreloadBatchData(batch, batchNumber, totalBatches, jobTrackingId);
+            
+            var batchStopwatch = System.Diagnostics.Stopwatch.StartNew();
+            var valuationsToSave = new List<QuestionValuation>();
+            var cacheItemsToUpdate = new List<QuestionValuationCacheItem>();
+            var itemsProcessedInBatch = 0;
+            
             JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                $"Processing batch {batchNumber}/{totalBatches} ({currentBatchSize} items)...",
+                $"Batch {batchNumber}/{totalBatches}: Processing {currentBatchSize} items...",
+                "ProbabilityUpdate_ValuationAll");
+            
+            foreach (var item in batch)
+            {
+                var questionId = (int)item[0];
+                var userId = (int)item[1];
+
+                itemsProcessedInBatch++;
+                
+                if (itemsProcessedInBatch % 10 == 1 || itemsProcessedInBatch == 1)
+                {
+                    var overallProcessed = processedCount + itemsProcessedInBatch;
+                    var overallPercentage = (overallProcessed * 100.0) / totalItems;
+                    
+                    JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+                        $"Batch {batchNumber}/{totalBatches}: Processing item {itemsProcessedInBatch}/{currentBatchSize} | Q:{questionId} U:{userId} | Overall: {overallProcessed:N0}/{totalItems:N0} ({overallPercentage:F1}%)",
+                        "ProbabilityUpdate_ValuationAll");
+                }
+
+                var itemResult = ProcessSingleValuationItem(questionId, userId, preloadedData, batchData);
+                if (itemResult != null)
+                {
+                    valuationsToSave.Add(itemResult.QuestionValuation);
+                    cacheItemsToUpdate.Add(itemResult.CacheItem);
+                }
+
+                if (itemsProcessedInBatch % 50 == 0)
+                {
+                    var batchPercentage = (itemsProcessedInBatch * 100.0) / currentBatchSize;
+                    var overallProcessed = processedCount + itemsProcessedInBatch;
+                    var overallPercentage = (overallProcessed * 100.0) / totalItems;
+                    
+                    JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+                        $"Batch {batchNumber}/{totalBatches}: {itemsProcessedInBatch}/{currentBatchSize} ({batchPercentage:F1}%) completed | Overall: {overallProcessed:N0}/{totalItems:N0} ({overallPercentage:F1}%)",
+                        "ProbabilityUpdate_ValuationAll");
+                }
+            }
+
+            batchStopwatch.Stop();
+            
+            Log.Information("Total batch processing time for batch {0}: {1}ms", batchNumber, batchStopwatch.ElapsedMilliseconds);
+
+            SaveBatchResults(valuationsToSave, cacheItemsToUpdate, batchNumber, jobTrackingId);
+
+            transaction.Commit();
+            
+            var percentage = ((processedCount + currentBatchSize) * 100.0) / totalItems;
+            
+            JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+                $"✅ Batch {batchNumber}/{totalBatches} complete ({batchStopwatch.ElapsedMilliseconds}ms) - Overall: {processedCount + currentBatchSize:N0}/{totalItems:N0} ({percentage:F1}%)",
                 "ProbabilityUpdate_ValuationAll");
 
-            // Process batch within a transaction
-            using var transaction = _nhibernateSession.BeginTransaction();
-            try
-            {
-                // Pre-load existing QuestionValuations for this batch to avoid N+1 queries
-                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                    $"Batch {batchNumber}/{totalBatches}: Pre-loading existing valuations...",
-                    "ProbabilityUpdate_ValuationAll");
+            Log.Information("Completed batch {batchNumber}/{totalBatches} - Processed {processedCount + currentBatchSize}/{totalItems} valuations ({percentage:F1}%)",
+                batchNumber, totalBatches, processedCount + currentBatchSize, totalItems, percentage);
                 
-                var batchQuestionIds = batch.Select(item => (int)item[0]).ToList();
-                var batchUserIds = batch.Select(item => (int)item[1]).ToList();
-                
-                var existingValuations = _nhibernateSession.QueryOver<QuestionValuation>()
-                    .WhereRestrictionOn(qv => qv.Question.Id).IsIn(batchQuestionIds.ToArray())
-                    .AndRestrictionOn(qv => qv.User.Id).IsIn(batchUserIds.ToArray())
-                    .List<QuestionValuation>()
-                    .ToDictionary(qv => $"{qv.Question.Id}_{qv.User.Id}", qv => qv);
-
-                // Pre-load all answers for this batch to avoid N+1 queries in probability calculation
-                var answerLoadStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                var batchAnswers = _nhibernateSession.QueryOver<Answer>()
-                    .WhereRestrictionOn(a => a.Question.Id).IsIn(batchQuestionIds.ToArray())
-                    .AndRestrictionOn(a => a.UserId).IsIn(batchUserIds.ToArray())
-                    .And(a => a.AnswerredCorrectly != AnswerCorrectness.IsView) // Exclude solution views
-                    .List<Answer>();
-                var answersLookup = batchAnswers
-                    .GroupBy(a => $"{a.Question.Id}_{a.UserId}")
-                    .ToDictionary(g => g.Key, g => g.ToList());
-                answerLoadStopwatch.Stop();
-                Log.Information("Pre-loaded {0} answers for batch {1} in {2}ms", batchAnswers.Count, batchNumber, answerLoadStopwatch.ElapsedMilliseconds);
-
-                var valuationsToSave = new List<QuestionValuation>();
-                var cacheItemsToUpdate = new List<QuestionValuationCacheItem>();
-                var itemsProcessedInBatch = 0;
-                
-                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                    $"Batch {batchNumber}/{totalBatches}: Processing {currentBatchSize} items...",
-                    "ProbabilityUpdate_ValuationAll");
-                
-                var batchStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                var lookupTime = TimeSpan.Zero;
-                var probabilityCalcTime = TimeSpan.Zero;
-                var cacheUpdateTime = TimeSpan.Zero;
-                
-                foreach (var item in batch)
-                {
-                    var questionId = (int)item[0];
-                    var userId = (int)item[1];
-
-                    itemsProcessedInBatch++;
-                    
-                    // Update progress at the start of processing each item (every 10 items to avoid spam)
-                    if (itemsProcessedInBatch % 10 == 1 || itemsProcessedInBatch == 1)
-                    {
-                        var batchPercentage = (itemsProcessedInBatch * 100.0) / currentBatchSize;
-                        var overallProcessed = processedCount + itemsProcessedInBatch;
-                        var overallPercentage = (overallProcessed * 100.0) / totalItems;
-                        
-                        JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                            $"Batch {batchNumber}/{totalBatches}: Processing item {itemsProcessedInBatch}/{currentBatchSize} | Q:{questionId} U:{userId} | Overall: {overallProcessed:N0}/{totalItems:N0} ({overallPercentage:F1}%)",
-                            "ProbabilityUpdate_ValuationAll");
-                    }
-
-                    // Track data lookup time
-                    var lookupStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                    
-                    // Use pre-loaded data instead of fetching from repositories
-                    if (questionCacheItemLookup.TryGetValue(questionId, out var questionCacheItem) && 
-                        userLookup.TryGetValue(userId, out var user) &&
-                        questionEntities.TryGetValue(questionId, out var questionEntity) &&
-                        questionCacheItem != null && user != null && questionEntity != null)
-                    {
-                        // Get existing valuation from pre-loaded data or create new one
-                        var valuationKey = $"{questionId}_{userId}";
-                        var questionValuation = existingValuations.TryGetValue(valuationKey, out var existing) 
-                            ? existing 
-                            : new QuestionValuation
-                            {
-                                Question = questionEntity, // Use pre-loaded Question entity
-                                User = user
-                            };
-
-                        lookupStopwatch.Stop();
-                        lookupTime += lookupStopwatch.Elapsed;
-                        Log.Information("Lookup time for Q:{0} U:{1}: {2}ms", questionId, userId, lookupStopwatch.ElapsedMilliseconds);
-
-                        // Track probability calculation time
-                        var probabilityStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                        
-                        // Update valuation probability using pre-loaded answers (fast method)
-                        var userCacheItem = EntityCache.GetUserById(user.Id);
-                        var answersKey = $"{questionId}_{userId}";
-                        var answers = answersLookup.TryGetValue(answersKey, out var answerList) 
-                            ? answerList 
-                            : new List<Answer>();
-                        var probabilityResult = _probabilityCalcSimple1
-                            .Run(answers, questionCacheItem, userCacheItem);
-
-                        questionValuation.CorrectnessProbability = probabilityResult.Probability;
-                        questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
-                        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
-                        
-                        probabilityStopwatch.Stop();
-                        probabilityCalcTime += probabilityStopwatch.Elapsed;
-                        Log.Information("Probability calculation time for Q:{0} U:{1}: {2}ms", questionId, userId, probabilityStopwatch.ElapsedMilliseconds);
-                        
-                        // Track cache update time
-                        var cacheStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                        
-                        // Add to batch collections instead of saving immediately
-                        valuationsToSave.Add(questionValuation);
-                        cacheItemsToUpdate.Add(questionValuation.ToCacheItem());
-                        
-                        cacheStopwatch.Stop();
-                        cacheUpdateTime += cacheStopwatch.Elapsed;
-                        Log.Information("Cache update time for Q:{0} U:{1}: {2}ms", questionId, userId, cacheStopwatch.ElapsedMilliseconds);
-                    }
-                    else
-                    {
-                        lookupStopwatch.Stop();
-                        lookupTime += lookupStopwatch.Elapsed;
-                        Log.Warning("Skipping valuation for questionId {questionId}, userId {userId} - data not found in cache", questionId, userId);
-                    }
-
-                    // Update progress every 50 items for more frequent updates
-                    if (itemsProcessedInBatch % 50 == 0)
-                    {
-                        var batchPercentage = (itemsProcessedInBatch * 100.0) / currentBatchSize;
-                        var overallProcessed = processedCount + itemsProcessedInBatch;
-                        var overallPercentage = (overallProcessed * 100.0) / totalItems;
-                        
-                        JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                            $"Batch {batchNumber}/{totalBatches}: {itemsProcessedInBatch}/{currentBatchSize} ({batchPercentage:F1}%) completed | Overall: {overallProcessed:N0}/{totalItems:N0} ({overallPercentage:F1}%)",
-                            "ProbabilityUpdate_ValuationAll");
-                    }
-                }
-
-                batchStopwatch.Stop();
-                
-                // Simple timing logs for performance analysis
-                Log.Information("Lookup time for batch {0}: {1}ms", batchNumber, lookupTime.TotalMilliseconds);
-                Log.Information("Probability calculation time for batch {0}: {1}ms", batchNumber, probabilityCalcTime.TotalMilliseconds);
-                Log.Information("Cache update time for batch {0}: {1}ms", batchNumber, cacheUpdateTime.TotalMilliseconds);
-                Log.Information("Total batch processing time for batch {0}: {1}ms", batchNumber, batchStopwatch.ElapsedMilliseconds);
-
-                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                    $"Batch {batchNumber}/{totalBatches}: Processing complete ({batchStopwatch.ElapsedMilliseconds}ms) - Saving {valuationsToSave.Count} valuations...",
-                    "ProbabilityUpdate_ValuationAll");
-
-                // Batch save all valuations at once
-                var saveStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                BatchSaveValuations(valuationsToSave);
-                saveStopwatch.Stop();
-                Log.Information("Database save time for batch {0}: {1}ms", batchNumber, saveStopwatch.ElapsedMilliseconds);
-                
-                // Batch update cache
-                var cacheUpdateStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                foreach (var cacheItem in cacheItemsToUpdate)
-                {
-                    _extendedUserCache.AddOrUpdate(cacheItem);
-                }
-                cacheUpdateStopwatch.Stop();
-                Log.Information("Cache update time for batch {0}: {1}ms", batchNumber, cacheUpdateStopwatch.ElapsedMilliseconds);
-
-                var commitStopwatch = System.Diagnostics.Stopwatch.StartNew();
-                transaction.Commit();
-                commitStopwatch.Stop();
-                Log.Information("Transaction commit time for batch {0}: {1}ms", batchNumber, commitStopwatch.ElapsedMilliseconds);
-                
-                processedCount += currentBatchSize;
-
-                var percentage = (processedCount * 100.0) / totalItems;
-                var totalBatchTime = batchStopwatch.ElapsedMilliseconds + saveStopwatch.ElapsedMilliseconds + cacheUpdateStopwatch.ElapsedMilliseconds + commitStopwatch.ElapsedMilliseconds;
-                
-                JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                    $"✅ Batch {batchNumber}/{totalBatches} complete ({totalBatchTime}ms) - Overall: {processedCount:N0}/{totalItems:N0} ({percentage:F1}%)",
-                    "ProbabilityUpdate_ValuationAll");
-
-                Log.Information("Completed batch {batchNumber}/{totalBatches} - Processed {processedCount}/{totalItems} valuations ({percentage:F1}%)",
-                    batchNumber, totalBatches, processedCount, totalItems, percentage);
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                Log.Error(ex, "Error processing valuation batch {batchNumber} - rolling back batch", (i / batchSize) + 1);
-                throw;
-            }
+            return currentBatchSize;
         }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+            Log.Error(ex, "Error processing valuation batch {batchNumber} - rolling back batch", batchNumber);
+            throw;
+        }
+    }
 
-        Log.Information("Completed all valuation probability updates - processed {0} items", totalItems);
+    private BatchData PreloadBatchData(List<object[]> batch, int batchNumber, int totalBatches, string? jobTrackingId)
+    {
+        JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+            $"Batch {batchNumber}/{totalBatches}: Pre-loading existing valuations...",
+            "ProbabilityUpdate_ValuationAll");
+        
+        var batchQuestionIds = batch.Select(item => (int)item[0]).ToList();
+        var batchUserIds = batch.Select(item => (int)item[1]).ToList();
+        
+        var existingValuations = _nhibernateSession.QueryOver<QuestionValuation>()
+            .WhereRestrictionOn(questionValuation => questionValuation.Question.Id).IsIn(batchQuestionIds.ToArray())
+            .AndRestrictionOn(questionValuation => questionValuation.User.Id).IsIn(batchUserIds.ToArray())
+            .List<QuestionValuation>()
+            .ToDictionary(questionValuation => $"{questionValuation.Question.Id}_{questionValuation.User.Id}", questionValuation => questionValuation);
+
+        var batchAnswers = _nhibernateSession.QueryOver<Answer>()
+            .WhereRestrictionOn(answer => answer.Question.Id).IsIn(batchQuestionIds.ToArray())
+            .AndRestrictionOn(answer => answer.UserId).IsIn(batchUserIds.ToArray())
+            .And(answer => answer.AnswerredCorrectly != AnswerCorrectness.IsView)
+            .List<Answer>();
+        var answersLookup = batchAnswers
+            .GroupBy(answer => $"{answer.Question.Id}_{answer.UserId}")
+            .ToDictionary(group => group.Key, group => group.ToList());
+
+        Log.Information("Pre-loaded {0} existing valuations and {1} answers for batch {2}", existingValuations.Count, batchAnswers.Count, batchNumber);
+
+        return new BatchData
+        {
+            ExistingValuations = existingValuations,
+            AnswersLookup = answersLookup
+        };
+    }
+
+
+
+    private ValuationItemResult? ProcessSingleValuationItem(int questionId, int userId, PreloadedData preloadedData, BatchData batchData)
+    {
+        if (preloadedData.QuestionCacheItemLookup.TryGetValue(questionId, out var questionCacheItem) && 
+            preloadedData.UserLookup.TryGetValue(userId, out var user) &&
+            preloadedData.QuestionEntities.TryGetValue(questionId, out var questionEntity) &&
+            questionCacheItem != null && user != null && questionEntity != null)
+        {
+            var valuationKey = $"{questionId}_{userId}";
+            var questionValuation = batchData.ExistingValuations.TryGetValue(valuationKey, out var existingValuation) 
+                ? existingValuation 
+                : new QuestionValuation
+                {
+                    Question = questionEntity,
+                    User = user
+                };
+
+            CalculateValuationProbability(questionValuation, questionId, userId, questionCacheItem, user, batchData);
+            
+            return new ValuationItemResult
+            {
+                QuestionValuation = questionValuation,
+                CacheItem = questionValuation.ToCacheItem()
+            };
+        }
+        else
+        {
+            Log.Warning("Skipping valuation for questionId {questionId}, userId {userId} - data not found in cache", questionId, userId);
+            return null;
+        }
+    }
+
+    private void CalculateValuationProbability(QuestionValuation questionValuation, int questionId, int userId, QuestionCacheItem questionCacheItem, User user, BatchData batchData)
+    {
+        var userCacheItem = EntityCache.GetUserById(user.Id);
+        var answersKey = $"{questionId}_{userId}";
+        var answers = batchData.AnswersLookup.TryGetValue(answersKey, out var answerList) 
+            ? answerList 
+            : new List<Answer>();
+        var probabilityResult = _probabilityCalcSimple1
+            .Run(answers, questionCacheItem, userCacheItem);
+
+        questionValuation.CorrectnessProbability = probabilityResult.Probability;
+        questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
+        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
+    }
+
+    private void SaveBatchResults(List<QuestionValuation> valuationsToSave, List<QuestionValuationCacheItem> cacheItemsToUpdate, int batchNumber, string? jobTrackingId)
+    {
+        JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
+            $"Batch {batchNumber}: Processing complete - Saving {valuationsToSave.Count} valuations...",
+            "ProbabilityUpdate_ValuationAll");
+
+        var saveStopwatch = System.Diagnostics.Stopwatch.StartNew();
+        BatchSaveValuations(valuationsToSave);
+        saveStopwatch.Stop();
+        Log.Information("Database save time for batch {0}: {1}ms", batchNumber, saveStopwatch.ElapsedMilliseconds);
+        
+        var cacheUpdateStopwatch = System.Diagnostics.Stopwatch.StartNew();
+        foreach (var cacheItem in cacheItemsToUpdate)
+        {
+            _extendedUserCache.AddOrUpdate(cacheItem);
+        }
+        cacheUpdateStopwatch.Stop();
+        Log.Information("Cache update time for batch {0}: {1}ms", batchNumber, cacheUpdateStopwatch.ElapsedMilliseconds);
     }
 
     private void BatchSaveValuations(List<QuestionValuation> valuations)
@@ -251,15 +262,34 @@ public class ProbabilityUpdate_ValuationAll(
         if (valuations == null || valuations.Count == 0)
             return;
 
-        // Use NHibernate bulk operations for maximum performance
         foreach (var valuation in valuations)
         {
             _nhibernateSession.SaveOrUpdate(valuation);
         }
         
-        // Flush changes to database
         _nhibernateSession.Flush();
         
         Log.Debug("Batch saved {count} question valuations", valuations.Count);
+    }
+
+    public record PreloadedData
+    {
+        public Dictionary<int, User> UserLookup { get; init; } = new();
+        public Dictionary<int, Question> QuestionEntities { get; init; } = new();
+        public Dictionary<int, QuestionCacheItem> QuestionCacheItemLookup { get; init; } = new();
+    }
+
+    public record BatchData
+    {
+        public Dictionary<string, QuestionValuation> ExistingValuations { get; init; } = new();
+        public Dictionary<string, List<Answer>> AnswersLookup { get; init; } = new();
+    }
+
+
+
+    public record ValuationItemResult
+    {
+        public QuestionValuation QuestionValuation { get; init; } = null!;
+        public QuestionValuationCacheItem CacheItem { get; init; } = null!;
     }
 }

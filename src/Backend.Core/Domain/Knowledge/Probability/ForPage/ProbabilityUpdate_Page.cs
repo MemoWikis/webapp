@@ -9,7 +9,7 @@ public class ProbabilityUpdate_Page(
         var sp = Stopwatch.StartNew();
         var allPages = pageRepository.GetAll().ToList();
         var totalPages = allPages.Count;
-        var batchSize = 500; // Process 500 pages at a time
+        var batchSize = 500;
         var processedCount = 0;
 
         Log.Information("Starting page probability update for {totalPages} pages in batches of {batchSize}", totalPages, batchSize);
@@ -18,19 +18,18 @@ public class ProbabilityUpdate_Page(
         {
             var batch = allPages.Skip(i).Take(batchSize).ToList();
             var currentBatchSize = batch.Count();
+            var batchNumber = (i / batchSize) + 1;
+            var totalBatches = (int)Math.Ceiling((double)totalPages / batchSize);
 
-            // Pre-load all answers for this batch to avoid N+1 queries
-            var pageIds = batch.Select(p => p.Id).ToList();
+            var pageIds = batch.Select(page => page.Id).ToList();
             var batchAnswers = GetAnswersForPages(pageIds);
 
-            // Process batch with pre-loaded answers
             foreach (var page in batch)
             {
                 var answers = batchAnswers.TryGetValue(page.Id, out var pageAnswers) 
                     ? pageAnswers 
                     : new List<Answer>();
                 
-                // Update page probability using pre-loaded answers
                 page.CorrectnessProbability = ProbabilityCalc_Page.Run(answers);
                 page.CorrectnessProbabilityAnswerCount = answers.Count;
 
@@ -43,11 +42,11 @@ public class ProbabilityUpdate_Page(
             var percentage = (processedCount * 100.0) / totalPages;
             
             JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running,
-                $"Processed {processedCount:N0}/{totalPages:N0} pages ({percentage:F1}%) - Batch {(i / batchSize) + 1} complete",
+                $"Processed {processedCount:N0}/{totalPages:N0} pages ({percentage:F1}%) - Batch {batchNumber} complete",
                 "ProbabilityUpdate_Page");
 
             Log.Information("Completed page batch {batchNumber}/{totalBatches} - Processed {processedCount}/{totalPages} pages ({percentage:F1}%) in {elapsed}", 
-                (i / batchSize) + 1, (int)Math.Ceiling((double)totalPages / batchSize), processedCount, totalPages, percentage, sp.Elapsed);
+                batchNumber, totalBatches, processedCount, totalPages, percentage, sp.Elapsed);
         }
 
         Log.Information("Calculated all page probabilities in {elapsed} - processed {totalPages} pages", sp.Elapsed, totalPages);
@@ -58,30 +57,27 @@ public class ProbabilityUpdate_Page(
         if (!pageIds.Any())
             return new Dictionary<int, List<Answer>>();
 
-        // Create a batch query to get answers for multiple pages at once
-        // This replaces N individual GetByPages calls with 1 batch query
         var pageIdsArray = pageIds.ToArray();
-        var pageIdsString = string.Join(",", pageIdsArray);
         
-        var query = $@"
+        var query = @"
             SELECT ah.Id FROM answer ah
             LEFT JOIN question q ON q.Id = ah.QuestionId
             LEFT JOIN pages_to_questions cq ON cq.Question_id = q.Id
-            WHERE cq.Page_id IN ({pageIdsString})
-            AND ah.AnswerredCorrectly != {(int)AnswerCorrectness.IsView}";
+            WHERE cq.Page_id IN (:pageIds)
+            AND ah.AnswerredCorrectly != :excludeViewCorrectness";
 
         var answerIds = answerRepo.Session.CreateSQLQuery(query)
+            .SetParameterList("pageIds", pageIdsArray)
+            .SetParameter("excludeViewCorrectness", (int)AnswerCorrectness.IsView)
             .List<int>()
             .ToList();
 
-        // Get the actual Answer objects
         var answers = answerIds.Any() 
             ? answerRepo.Session.QueryOver<Answer>()
-                .WhereRestrictionOn(a => a.Id).IsIn(answerIds.ToArray())
+                .WhereRestrictionOn(answer => answer.Id).IsIn(answerIds.ToArray())
                 .List<Answer>()
             : new List<Answer>();
 
-        // Group answers by page ID for fast lookup
         var result = new Dictionary<int, List<Answer>>();
         
         foreach (var answer in answers)
