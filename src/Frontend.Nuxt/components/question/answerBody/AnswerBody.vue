@@ -18,8 +18,10 @@ const { $urlHelper } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 
-// Check if we're in wishknowledge mode (mission-control/learning route)
-const isWishknowledgeMode = computed(() => route.path.startsWith('/mission-control/learning'))
+interface Props {
+    isWishknowledgeMode?: boolean
+}
+const props = defineProps<Props>()
 
 commentsStore.loadComments()
 
@@ -30,7 +32,7 @@ const attachQuestionIdToUrl = async () => {
     if (!tabsStore.isLearning || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0)
         return
 
-    if (isWishknowledgeMode.value) {
+    if (props.isWishknowledgeMode) {
         // Wishknowledge mode: simple path structure
         const newPath = `/mission-control/learning/${answerBodyLogic.answerBodyModel.value.id}`
         if (newPath !== route.path) {
@@ -65,7 +67,7 @@ watch(() => answerBodyLogic.answerBodyModel.value?.id, (newId, oldId) => {
 })
 watch(() => pageStore.id, (newId, oldId) => {
     // Only apply page change logic when not in wishknowledge mode
-    if (!isWishknowledgeMode.value && newId !== oldId && answerBodyLogic.currentRequest.value) {
+    if (!props.isWishknowledgeMode && newId !== oldId && answerBodyLogic.currentRequest.value) {
         answerBodyLogic.currentRequest.value.abort()
         answerBodyLogic.currentRequest.value = null
     }
@@ -104,7 +106,7 @@ onMounted(() => {
 
 watch(() => pageStore.id, () => {
     // Only reset results on page change when not in wishknowledge mode
-    if (!isWishknowledgeMode.value) {
+    if (!props.isWishknowledgeMode) {
         learningSessionStore.showResult = false
     }
 })
@@ -210,7 +212,7 @@ const handleStartNewSession = () => answerBodyLogic.startNewSession()
         <QuestionAnswerBodyAnswerQuestionDetails :id="answerBodyLogic.answerBodyModel.value.id" />
     </div>
     <div v-else-if="learningSessionStore.showResult === true">
-        <QuestionAnswerBodyLearningSessionResult @start-new-session="handleStartNewSession" />
+        <QuestionAnswerBodyLearningSessionResult @start-new-session="handleStartNewSession" :is-wishknowledge-mode="isWishknowledgeMode" />
     </div>
 </template>
 

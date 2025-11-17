@@ -16,10 +16,9 @@ const alertStore = useAlertStore()
 const route = useRoute()
 const { t } = useI18n()
 
-// Check if we're in wishknowledge mode
-const isWishknowledgeMode = computed(() => true)
 interface Props {
     expandQuestion: boolean
+    isWishknowledgeMode?: boolean
 }
 const props = defineProps<Props>()
 
@@ -32,7 +31,7 @@ async function loadQuestions(page: number) {
         loadingStore.startLoading()
 
     let result
-    if (isWishknowledgeMode.value) {
+    if (props.isWishknowledgeMode) {
         // Use wishknowledge-specific API endpoint
         result = await $api<any>('/apiVue/WishknowledgeLearningQuestionList/LoadQuestions/', {
             method: 'POST',
@@ -130,7 +129,7 @@ async function loadNewQuestion(index: number) {
     loadingStore.startLoading()
 
     let result
-    if (isWishknowledgeMode.value) {
+    if (props.isWishknowledgeMode) {
         result = await $api<any>(`/apiVue/WishknowledgeLearningQuestionList/LoadNewQuestion/${index}`, {
             method: 'GET',
             mode: 'cors',
@@ -164,7 +163,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
         return loadNewQuestion(startIndex)
     }
 
-    if (isWishknowledgeMode.value) {
+    if (props.isWishknowledgeMode) {
         // For wishknowledge mode, load questions one by one
         for (let i = startIndex; i <= endIndex; i++) {
             await loadNewQuestion(i)

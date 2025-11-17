@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    <PageLearning />
+    <PageLearning :is-wishknowledge-mode="true" />
 </template>

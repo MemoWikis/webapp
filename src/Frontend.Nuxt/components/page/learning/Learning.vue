@@ -9,6 +9,12 @@ const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const tabsStore = useTabsStore()
 
+interface Props {
+    isWishknowledgeMode?: boolean
+}
+
+const props = defineProps<Props>()
+
 const route = useRoute()
 const openFilter = ref(true)
 const expiryDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
@@ -179,11 +185,11 @@ function stepForward() {
         </div>
 
         <div class="col-xs-12">
-            <QuestionAnswerBody />
+            <QuestionAnswerBody :is-wishknowledge-mode="props.isWishknowledgeMode" />
         </div>
 
         <div class="col-xs-12" id="QuestionListContainer" v-show="!learningSessionStore.showResult">
-            <PageLearningQuestionsSection />
+            <PageLearningQuestionsSection :is-wishknowledge-mode="props.isWishknowledgeMode" />
         </div>
 
         <ClientOnly>
