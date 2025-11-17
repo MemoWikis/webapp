@@ -30,7 +30,7 @@
     [HttpGet]
     public LearningSessionResult Get() => GetLearningSessionResult();
 
-    [HttpGet("GetForWishknowledge")]
+    [HttpGet]
     public LearningSessionResult GetForWishknowledge() => GetLearningSessionResultForWishknowledge();
 
     private LearningSessionResult GetLearningSessionResult()
@@ -40,7 +40,7 @@
         {
             throw new Exception(FrontendMessageKeys.Error.Default);
         }
-        
+
         var model = new global::LearningSessionResult(learningSession);
         var tinyQuestions = model.AnsweredStepsGrouped
             .Where(g => g.First().Question.Id != 0)
@@ -97,7 +97,7 @@
         {
             throw new Exception(FrontendMessageKeys.Error.Default);
         }
-        
+
         var model = new global::LearningSessionResult(learningSession);
         var tinyQuestions = model.AnsweredStepsGrouped
             .Where(g => g.First().Question.Id != 0)

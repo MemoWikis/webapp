@@ -13,8 +13,11 @@ const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const editQuestionStore = useEditQuestionStore()
 const route = useRoute()
 
-// Check if we're in wishknowledge mode
-const isWishknowledgeMode = computed(() => true)
+interface Props {
+    isWishknowledgeMode?: boolean
+}
+
+const props = defineProps<Props>()
 
 const openFilter = ref(false)
 const filterOpened = useCookie('show-bottom-dropdown')
@@ -26,7 +29,7 @@ onBeforeMount(() => {
 
     // For wishknowledge mode, show filter if user has wishknowledge questions
     // For page mode, use pageStore.questionCount
-    if (isWishknowledgeMode.value) {
+    if (props.isWishknowledgeMode) {
         // For wishknowledge, we'll show the filter if the user is logged in
         learningSessionConfigurationStore.showFilter = userStore.isLoggedIn
     } else {
@@ -36,14 +39,14 @@ onBeforeMount(() => {
 
 watch(() => pageStore.questionCount, (count) => {
     // Only apply page question count logic when not in wishknowledge mode
-    if (!isWishknowledgeMode.value) {
+    if (!props.isWishknowledgeMode) {
         learningSessionConfigurationStore.showFilter = count > 0
     }
 })
 
 // For wishknowledge mode, show filter based on whether there are learning session steps
 watch(() => learningSessionStore.steps.length, (count) => {
-    if (isWishknowledgeMode.value && userStore.isLoggedIn) {
+    if (props.isWishknowledgeMode && userStore.isLoggedIn) {
         learningSessionConfigurationStore.showFilter = count > 0
     }
 })
@@ -141,7 +144,7 @@ const { t } = useI18n()
                 </div>
             </div>
 
-            <PageLearningQuestionList :expand-question="questionsExpanded" />
+            <PageLearningQuestionList :expand-question="questionsExpanded" :is-wishknowledge-mode="props.isWishknowledgeMode" />
 
         </div>
     </div>

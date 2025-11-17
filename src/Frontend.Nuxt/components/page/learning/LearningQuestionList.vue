@@ -13,7 +13,6 @@ const loadingStore = useLoadingStore()
 const pageStore = usePageStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const alertStore = useAlertStore()
-const route = useRoute()
 const { t } = useI18n()
 
 interface Props {
@@ -205,7 +204,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
                 :expand-question="props.expandQuestion" :key="`${index}-${q.id}`" />
 
             <!-- Only show QuickCreateQuestion in page mode, not in wishknowledge mode -->
-            <PageLearningQuickCreateQuestion v-if="!isWishknowledgeMode" @new-question-created="loadNewQuestion" />
+            <PageLearningQuickCreateQuestion v-if="!props.isWishknowledgeMode" @new-question-created="loadNewQuestion" />
 
             <div id="QuestionListPagination" class="pagination" v-show="questions.length > 0">
 
