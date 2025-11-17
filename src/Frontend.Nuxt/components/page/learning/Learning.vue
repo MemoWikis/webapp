@@ -20,13 +20,21 @@ onBeforeMount(async () => {
     alertOnMounted.value = false
     alertOnMountedMsg.value = ''
 
+    // Check if we're in wishknowledge mode
+    const isWishknowledgeMode = route.path.startsWith('/mission-control/learning')
+
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
     await learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
-    if (route.query.inWuWi === 'true') {
+    if (route.query.inWuWi === 'true' || isWishknowledgeMode) {
         learningSessionConfigurationStore.questionFilterOptions.inWishKnowledge.isSelected = true
         learningSessionConfigurationStore.questionFilterOptions.notInWishKnowledge.isSelected = false
         learningSessionConfigurationStore.checkQuestionFilterSelection()
+    }
+
+    // For wishknowledge mode, get question count with pageId = 0
+    if (isWishknowledgeMode) {
+        await learningSessionConfigurationStore.getQuestionCount(0)
     }
 
     if (route.params.questionId != null)
@@ -175,7 +183,7 @@ function stepForward() {
         </div>
 
         <div class="col-xs-12" id="QuestionListContainer" v-show="!learningSessionStore.showResult">
-            <!-- <PageLearningQuestionsSection /> -->
+            <PageLearningQuestionsSection />
         </div>
 
         <ClientOnly>

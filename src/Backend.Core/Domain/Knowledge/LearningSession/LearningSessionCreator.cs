@@ -151,6 +151,7 @@ public class LearningSessionCreator(
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
         var allQuestions = config.PageId > 0 ? GetAllQuestionsForPage(config.PageId) : GetAllWishknowledgeQuestionsFromUser(_sessionUser.UserId);
+        // var allQuestions = config.PageId == 10943 ? GetAllWishknowledgeQuestionsFromUser(_sessionUser.UserId) : GetAllQuestionsForPage(config.PageId);
 
         return BuildLearningSession(config, allQuestions);
     }

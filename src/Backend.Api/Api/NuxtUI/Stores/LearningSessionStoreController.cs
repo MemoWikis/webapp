@@ -48,7 +48,7 @@
     {
         var config = learningSessionConfigRequest.ToEntity();
 
-        if (config == null || config.PageId < 1 || !_permissionCheck.CanViewPage(config.PageId))
+        if (config == null || config.PageId > 0 && !_permissionCheck.CanViewPage(config.PageId))
             return new LearningSessionResponse
             {
                 MessageKey = FrontendMessageKeys.Error.Default,

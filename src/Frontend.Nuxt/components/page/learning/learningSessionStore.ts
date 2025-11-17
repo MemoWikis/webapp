@@ -99,15 +99,35 @@ export const useLearningSessionStore = defineStore("learningSessionStore", {
         },
         async startNewSession() {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-            const config = learningSessionConfigurationStore.buildSessionConfigJson()
-            learningSessionConfigurationStore.getQuestionCount()
+            const route = useRoute()
+            const isWishknowledgeMode = route.path.startsWith('/mission-control/learning')
+            
+            const config = learningSessionConfigurationStore.buildSessionConfigJson(
+                isWishknowledgeMode ? 0 : undefined
+            )
+            
+            if (isWishknowledgeMode) {
+                learningSessionConfigurationStore.getQuestionCount(0)
+            } else {
+                learningSessionConfigurationStore.getQuestionCount()
+            }
 
             return await this.loadLearningSession(config, "NewSession")
         },
         async startNewSessionWithJumpToQuestion(id: number) {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-            const config = learningSessionConfigurationStore.buildSessionConfigJson()
-            learningSessionConfigurationStore.getQuestionCount()
+            const route = useRoute()
+            const isWishknowledgeMode = route.path.startsWith('/mission-control/learning')
+            
+            const config = learningSessionConfigurationStore.buildSessionConfigJson(
+                isWishknowledgeMode ? 0 : undefined
+            )
+            
+            if (isWishknowledgeMode) {
+                learningSessionConfigurationStore.getQuestionCount(0)
+            } else {
+                learningSessionConfigurationStore.getQuestionCount()
+            }
 
             return await this.loadLearningSession(
                 { config: config, id: id },

@@ -18,6 +18,9 @@ const { $urlHelper } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 
+// Check if we're in wishknowledge mode (mission-control/learning route)
+const isWishknowledgeMode = computed(() => route.path.startsWith('/mission-control/learning'))
+
 commentsStore.loadComments()
 
 // Use the main composable that orchestrates all functionality
@@ -27,23 +30,32 @@ const attachQuestionIdToUrl = async () => {
     if (!tabsStore.isLearning || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0)
         return
 
-    const pathSegments = window.location.pathname
-        .split('/')
-        .filter(segment => segment.length > 0)
-
-    const currentPageId = pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))
-        ? parseInt(pathSegments[1])
-        : null
-
-    if (currentPageId === pageStore.id) {
-        const newPath = $urlHelper.getPageUrlWithQuestionId(
-            pageStore.name,
-            pageStore.id,
-            answerBodyLogic.answerBodyModel.value.id
-        )
-
-        if (newPath !== window.location.pathname) {
+    if (isWishknowledgeMode.value) {
+        // Wishknowledge mode: simple path structure
+        const newPath = `/mission-control/learning/${answerBodyLogic.answerBodyModel.value.id}`
+        if (newPath !== route.path) {
             router.push(newPath)
+        }
+    } else {
+        // Page-based mode: original logic
+        const pathSegments = window.location.pathname
+            .split('/')
+            .filter(segment => segment.length > 0)
+
+        const currentPageId = pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))
+            ? parseInt(pathSegments[1])
+            : null
+
+        if (currentPageId === pageStore.id) {
+            const newPath = $urlHelper.getPageUrlWithQuestionId(
+                pageStore.name,
+                pageStore.id,
+                answerBodyLogic.answerBodyModel.value.id
+            )
+
+            if (newPath !== window.location.pathname) {
+                router.push(newPath)
+            }
         }
     }
 }
@@ -52,7 +64,8 @@ watch(() => answerBodyLogic.answerBodyModel.value?.id, (newId, oldId) => {
         attachQuestionIdToUrl()
 })
 watch(() => pageStore.id, (newId, oldId) => {
-    if (newId !== oldId && answerBodyLogic.currentRequest.value) {
+    // Only apply page change logic when not in wishknowledge mode
+    if (!isWishknowledgeMode.value && newId !== oldId && answerBodyLogic.currentRequest.value) {
         answerBodyLogic.currentRequest.value.abort()
         answerBodyLogic.currentRequest.value = null
     }
@@ -89,7 +102,12 @@ onMounted(() => {
     watch(() => userStore.isLoggedIn, () => learningSessionStore.startNewSession())
 })
 
-watch(() => pageStore.id, () => learningSessionStore.showResult = false)
+watch(() => pageStore.id, () => {
+    // Only reset results on page change when not in wishknowledge mode
+    if (!isWishknowledgeMode.value) {
+        learningSessionStore.showResult = false
+    }
+})
 
 publishQuestionStore.$onAction(({ name, after }) => {
     if (name === 'confirmPublish') {

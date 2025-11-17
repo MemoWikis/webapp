@@ -11,6 +11,10 @@ const pageStore = usePageStore()
 const userStore = useUserStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const editQuestionStore = useEditQuestionStore()
+const route = useRoute()
+
+// Check if we're in wishknowledge mode
+const isWishknowledgeMode = computed(() => true)
 
 const openFilter = ref(false)
 const filterOpened = useCookie('show-bottom-dropdown')
@@ -20,17 +24,28 @@ onBeforeMount(() => {
     else if (filterOpened.value?.toString() === 'true')
         openFilter.value = true
 
-    if (pageStore.questionCount > 0)
-        learningSessionConfigurationStore.showFilter = true
-    else
-        learningSessionConfigurationStore.showFilter = false
+    // For wishknowledge mode, show filter if user has wishknowledge questions
+    // For page mode, use pageStore.questionCount
+    if (isWishknowledgeMode.value) {
+        // For wishknowledge, we'll show the filter if the user is logged in
+        learningSessionConfigurationStore.showFilter = userStore.isLoggedIn
+    } else {
+        learningSessionConfigurationStore.showFilter = pageStore.questionCount > 0
+    }
 })
 
 watch(() => pageStore.questionCount, (count) => {
-    if (count > 0)
-        learningSessionConfigurationStore.showFilter = true
-    else
-        learningSessionConfigurationStore.showFilter = false
+    // Only apply page question count logic when not in wishknowledge mode
+    if (!isWishknowledgeMode.value) {
+        learningSessionConfigurationStore.showFilter = count > 0
+    }
+})
+
+// For wishknowledge mode, show filter based on whether there are learning session steps
+watch(() => learningSessionStore.steps.length, (count) => {
+    if (isWishknowledgeMode.value && userStore.isLoggedIn) {
+        learningSessionConfigurationStore.showFilter = count > 0
+    }
 })
 const questionsExpanded = ref(false)
 

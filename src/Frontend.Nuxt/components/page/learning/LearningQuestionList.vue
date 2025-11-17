@@ -13,8 +13,11 @@ const loadingStore = useLoadingStore()
 const pageStore = usePageStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const alertStore = useAlertStore()
+const route = useRoute()
 const { t } = useI18n()
 
+// Check if we're in wishknowledge mode
+const isWishknowledgeMode = computed(() => true)
 interface Props {
     expandQuestion: boolean
 }
@@ -28,19 +31,38 @@ async function loadQuestions(page: number) {
     if (tabsStore.activeTab === Tab.Learning)
         loadingStore.startLoading()
 
-    const result = await $api<any>('/apiVue/PageLearningQuestionList/LoadQuestions/', {
-        method: 'POST',
-        body: {
-            itemCountPerPage: itemCountPerPage.value,
-            pageNumber: page,
-            pageId: pageStore.id
-        },
-        mode: 'cors',
-        credentials: 'include',
-        onResponseError(context) {
-            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-        },
-    })
+    let result
+    if (isWishknowledgeMode.value) {
+        // Use wishknowledge-specific API endpoint
+        result = await $api<any>('/apiVue/WishknowledgeLearningQuestionList/LoadQuestions/', {
+            method: 'POST',
+            body: {
+                itemCountPerPage: itemCountPerPage.value,
+                pageNumber: page
+            },
+            mode: 'cors',
+            credentials: 'include',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+            },
+        })
+    } else {
+        // Use page-based API endpoint
+        result = await $api<any>('/apiVue/PageLearningQuestionList/LoadQuestions/', {
+            method: 'POST',
+            body: {
+                itemCountPerPage: itemCountPerPage.value,
+                pageNumber: page,
+                pageId: pageStore.id
+            },
+            mode: 'cors',
+            credentials: 'include',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+            },
+        })
+    }
+
     if (result) {
         questions.value = result
         learningSessionStore.lastIndexInQuestionList = result.length > 0 ? questions.value[questions.value.length - 1].sessionIndex : 0
@@ -107,13 +129,25 @@ deleteQuestionStore.$onAction(({ name, after }) => {
 async function loadNewQuestion(index: number) {
     loadingStore.startLoading()
 
-    const result = await $api<FetchResult<QuestionListItem>>(`/apiVue/PageLearningQuestionList/LoadNewQuestion/${index}`, {
-        mode: 'cors',
-        credentials: 'include',
-        onResponseError(context) {
-            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-        },
-    })
+    let result
+    if (isWishknowledgeMode.value) {
+        result = await $api<any>(`/apiVue/WishknowledgeLearningQuestionList/LoadNewQuestion/${index}`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+            },
+        })
+    } else {
+        result = await $api<FetchResult<QuestionListItem>>(`/apiVue/PageLearningQuestionList/LoadNewQuestion/${index}`, {
+            mode: 'cors',
+            credentials: 'include',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+            },
+        })
+    }
     loadingStore.stopLoading()
 
     if (result.success === true) {
@@ -129,6 +163,15 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
     if (startIndex === endIndex) {
         return loadNewQuestion(startIndex)
     }
+
+    if (isWishknowledgeMode.value) {
+        // For wishknowledge mode, load questions one by one
+        for (let i = startIndex; i <= endIndex; i++) {
+            await loadNewQuestion(i)
+        }
+        return
+    }
+
     loadingStore.startLoading()
 
     const result = await $api<FetchResult<QuestionListItem[]>>(`/apiVue/PageLearningQuestionList/LoadNewQuestions/`, {
@@ -162,7 +205,8 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
                 :is-last-item="index === (questions.length - 1)" :session-index="q.sessionIndex"
                 :expand-question="props.expandQuestion" :key="`${index}-${q.id}`" />
 
-            <PageLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
+            <!-- Only show QuickCreateQuestion in page mode, not in wishknowledge mode -->
+            <PageLearningQuickCreateQuestion v-if="!isWishknowledgeMode" @new-question-created="loadNewQuestion" />
 
             <div id="QuestionListPagination" class="pagination" v-show="questions.length > 0">
 
