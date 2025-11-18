@@ -41,8 +41,23 @@ export default <RouterConfig>{
                 import('~/pages/mission-control/mission-control.vue'),
         },
         {
-            name: 'learningPage',
+            name: 'learningPageDE',
+            path: '/Mission-Control/Lernen',
+            component: () => import('~/pages/mission-control/learning.vue'),
+        },
+        {
+            name: 'learningPageEN',
             path: '/MissionControl/Learning',
+            component: () => import('~/pages/mission-control/learning.vue'),
+        },
+        {
+            name: 'learningPageFR',
+            path: '/TableauDeBord/Apprentissage',
+            component: () => import('~/pages/mission-control/learning.vue'),
+        },
+        {
+            name: 'learningPageES',
+            path: '/PanelDeControl/Aprendizaje',
             component: () => import('~/pages/mission-control/learning.vue'),
         },
         {

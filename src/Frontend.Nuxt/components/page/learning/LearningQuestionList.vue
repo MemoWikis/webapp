@@ -91,7 +91,7 @@ onBeforeMount(() => {
 })
 
 const currentPage = ref(1)
-watch(currentPage, (p) => loadQuestions(p))
+watch(currentPage, (page) => loadQuestions(page))
 
 learningSessionStore.$onAction(({ name, after }) => {
     if (name === 'addNewQuestionToList')
@@ -106,9 +106,9 @@ learningSessionStore.$onAction(({ name, after }) => {
 
     if (name === 'updateQuestionList')
         after((updatedQuestion) => {
-            questions.value.forEach((q) => {
-                if (q.id === updatedQuestion.id) {
-                    q = updatedQuestion
+            questions.value.forEach((question) => {
+                if (question.id === updatedQuestion.id) {
+                    question = updatedQuestion
                 }
             })
         })
@@ -127,25 +127,15 @@ deleteQuestionStore.$onAction(({ name, after }) => {
 async function loadNewQuestion(index: number) {
     loadingStore.startLoading()
 
-    let result
-    if (props.isWishknowledgeMode) {
-        result = await $api<any>(`/apiVue/WishknowledgeLearningQuestionList/LoadNewQuestion/${index}`, {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            onResponseError(context) {
-                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-            },
-        })
-    } else {
-        result = await $api<FetchResult<QuestionListItem>>(`/apiVue/PageLearningQuestionList/LoadNewQuestion/${index}`, {
-            mode: 'cors',
-            credentials: 'include',
-            onResponseError(context) {
-                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-            },
-        })
-    }
+    const url = props.isWishknowledgeMode ? `/apiVue/WishknowledgeLearningQuestionList/LoadNewQuestion/${index}` : `/apiVue/PageLearningQuestionList/LoadNewQuestion/${index}`
+
+    const result = await $api<FetchResult<QuestionListItem>>(url, {
+        mode: 'cors',
+        credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
+    })
     loadingStore.stopLoading()
 
     if (result.success === true) {
