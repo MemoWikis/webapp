@@ -1,22 +1,16 @@
 <script lang="ts" setup>
-import { KnowledgeSummary } from '~/composables/knowledgeSummary'
+import { KnowledgeStatusCounts } from '~/composables/knowledgeSummary'
 
 interface Props {
-    knowledgeSummary: KnowledgeSummary
+    knowledgeStatusCounts: KnowledgeStatusCounts
+    totalCount: number
 }
 
 const props = defineProps<Props>()
 const { t } = useI18n()
 
 const pieData = computed(() => {
-    return convertKnowledgeSummaryToChartData(props.knowledgeSummary)
-})
-
-const totalQuestions = computed(() => {
-    return props.knowledgeSummary.solid +
-        props.knowledgeSummary.needsConsolidation +
-        props.knowledgeSummary.needsLearning +
-        props.knowledgeSummary.notLearned
+    return convertKnowledgeStatusCountsToChartData(props.knowledgeStatusCounts)
 })
 </script>
 
@@ -26,8 +20,8 @@ const totalQuestions = computed(() => {
             <ChartPie :data="pieData" :width="150" :height="150" :single-color="true" />
         </div>
         <div class="total-questions">
-            <span class="count">{{ totalQuestions }}</span>
-            <span class="total-questions-label">{{ t('label.questionCountAsText', totalQuestions) }}</span>
+            <span class="count">{{ props.totalCount }}</span>
+            <span class="total-questions-label">{{ t('label.questionCountAsText', props.totalCount) }}</span>
         </div>
     </div>
 </template>

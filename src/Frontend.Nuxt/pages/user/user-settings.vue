@@ -25,7 +25,7 @@ interface User {
     imageUrl: string
     reputationPoints: number
     rank: number
-    showWuwi: boolean
+    showWishKnowledge: boolean
 }
 interface ProfileData {
     user: User
@@ -136,7 +136,7 @@ userStore.$onAction(({ name, after }) => {
     padding: 50px 20px;
 
     h1 {
-        color: @memo-wuwi-red;
+        color: @memo-wish-knowledge-red;
         margin-bottom: 20px;
     }
 

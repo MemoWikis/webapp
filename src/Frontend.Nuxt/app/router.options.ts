@@ -183,7 +183,7 @@ export default <RouterConfig>{
             component: () => import('~/pages/user/[name]/[id].vue'),
         },
         {
-            name: 'userWuwiPage',
+            name: 'userWishKnowledgePage',
             path: '/Nutzer/:name/:id/Wunschwissen',
             component: () => import('~/pages/user/[name]/[id].vue'),
             props: { tab: UserTab.WishKnowledge },

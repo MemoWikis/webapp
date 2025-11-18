@@ -103,18 +103,22 @@ onBeforeMount(() => {
 }
 
 .svg-color-notLearned {
-    fill: @memo-grey-light;
+    fill: @not-learned-color;
+}
+
+.svg-color-notInWishKnowledge {
+    fill: @not-in-wish-knowledge-color;
 }
 
 .svg-color-needsLearning {
-    fill: @memo-salmon;
+    fill: @needs-learning-color;
 }
 
 .svg-color-needsConsolidation {
-    fill: @memo-yellow;
+    fill: @needs-consolidation-color;
 }
 
 .svg-color-solid {
-    fill: @memo-green;
+    fill: @solid-knowledge-color;
 }
 </style>

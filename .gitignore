@@ -25,3 +25,5 @@ appsettings.*.json
 /src/Docker/Nuxt/.env
 /src/cache/mmap/pageviews.mmap
 /src/cache/mmap/questionviews.mmap
+/src/Backend.Api/viewcache/pageviews.mmap
+/src/Backend.Api/viewcache/questionviews.mmap

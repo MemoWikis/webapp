@@ -39,7 +39,7 @@
             "passwordReset": "Your password has been reset.",
             "passwordVerificationMailSent": "Verification email sent! Please check your inbox.",
             "supportLoginUpdated": "Your support login data has been successfully updated.",
-            "wuwiVisibilityUpdated": "Your Wish-Knowledge settings have been successfully updated.",
+            "wishKnowledgeVisibilityUpdated": "Your Wish-Knowledge settings have been successfully updated.",
             "deleted": "Your account has been successfully deleted."
         },
         "collaboration": {
@@ -850,7 +850,9 @@
         "needsLearning": "Should be learned",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Not learned yet",
-        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
+        "notInWishKnowledge": "Not in wishKnowledge",
+        "notInWishKnowledgeCount": "@:knowledgeStatus.notInWishKnowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
         "inWishKnowledge": "In Wish-Knowledge",
@@ -1074,7 +1076,7 @@
             "password": "Password",
             "deleteProfile": "Delete profile",
             "settings": "Settings",
-            "showWuwi": "Show Wish-Knowledge",
+            "showWishKnowledge": "Show Wish-Knowledge",
             "supportLogin": "Support login",
             "membership": "Membership",
             "notifications": "Notifications",
@@ -1110,8 +1112,8 @@
             "notPossible": "Unfortunately, it is not possible to delete your profile on your own. Therefore, please write us a short email at",
             "contactReason": "so that we can secure your valuable knowledge and remove your profile for you."
         },
-        "wuwi": {
-            "showWuwi": "Show Wish-Knowledge",
+        "wishKnowledge": {
+            "showWishKnowledge": "Show Wish-Knowledge",
             "explanation": "If selected, it is publicly visible which questions are in your Wish-Knowledge (except private questions). No answer statistics are displayed."
         },
         "supportLogin": {
@@ -1262,7 +1264,7 @@
                 "createdWikis": "Created Wikis",
                 "createdQuestions": "Created Questions",
                 "tooltips": {
-                    "reputation": "Reputation is based on created questions, questions in others' wish knowledge, and public wish knowledge",
+                    "reputation": "Reputation is based on created questions, questions in others' wishKnowledge, and public wishKnowledge",
                     "rank": "User ranking is based on reputation points",
                     "createdPages": "Public pages created by: {userName}",
                     "createdWikis": "Public wikis created by: {userName}",

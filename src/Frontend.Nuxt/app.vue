@@ -206,6 +206,8 @@ const clearErrorAndStatusCode = () => {
 	clearError()
 }
 
+const runtimeConfig = useRuntimeConfig()
+
 const logError = (error: any) => {
 
 	const errorObject = {
@@ -214,8 +216,12 @@ const logError = (error: any) => {
 		location: window.location.href,
 		userAgent: navigator.userAgent,
 	}
-
+	if (runtimeConfig.public.environment === 'development') {
+		console.debug('Error log:', errorObject)
+	}
+	
 	$logger.error('Nuxt non Fatal Error', [errorObject])
+
 
 	const nuxtError = error as NuxtError
 
@@ -227,6 +233,7 @@ const logError = (error: any) => {
 
 	if (import.meta.client) {
 		const alertStore = useAlertStore()
+
 		alertStore.openAlert(AlertType.Error, { text: null, customDetails: error, texts: [t('error.api.body.title'), t('error.api.body.suggestion')] }, t('label.reloadPage'), true, t('error.api.title'), 'reloadPage', t('label.back'))
 
 		alertStore.$onAction(({ name, after }) => {

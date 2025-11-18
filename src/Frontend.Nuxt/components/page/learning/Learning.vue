@@ -26,20 +26,17 @@ onBeforeMount(async () => {
     alertOnMounted.value = false
     alertOnMountedMsg.value = ''
 
-    // Check if we're in wishknowledge mode
-    const isWishknowledgeMode = route.path.startsWith('/mission-control/learning')
-
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
     await learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
-    if (route.query.inWuWi === 'true' || isWishknowledgeMode) {
+    if (route.query.inWuWi === 'true' || props.isWishknowledgeMode) {
         learningSessionConfigurationStore.questionFilterOptions.inWishKnowledge.isSelected = true
         learningSessionConfigurationStore.questionFilterOptions.notInWishKnowledge.isSelected = false
         learningSessionConfigurationStore.checkQuestionFilterSelection()
     }
 
     // For wishknowledge mode, get question count with pageId = 0
-    if (isWishknowledgeMode) {
+    if (props.isWishknowledgeMode) {
         await learningSessionConfigurationStore.getQuestionCount(0)
     }
 

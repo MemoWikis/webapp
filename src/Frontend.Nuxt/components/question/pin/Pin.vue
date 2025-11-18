@@ -31,7 +31,7 @@ onBeforeMount(() => {
 })
 
 const showLabel = ref(false)
-const emit = defineEmits(['set-wuwi-state'])
+const emit = defineEmits(['set-wish-knowledge-state'])
 
 onMounted(() => {
     pinStore.$onAction(({ after }) => {
@@ -40,7 +40,7 @@ onMounted(() => {
             if (result.success) {
                 pinState.value = result.data?.state
                     ; (function emitToParentQuestionRow() {
-                        emit('set-wuwi-state', result.data?.state)
+                        emit('set-wish-knowledge-state', result.data?.state)
                     })()
             } else {
                 if (isActivePin.value) {
@@ -98,7 +98,7 @@ function unpin() {
 @import (reference) '~~/assets/includes/imports.less';
 
 .pin-icon {
-    color: @memo-wuwi-red;
+    color: @memo-wish-knowledge-red;
 }
 
 .pin-label {
@@ -108,6 +108,6 @@ function unpin() {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: @memo-wuwi-red;
+    color: @memo-wish-knowledge-red;
 }
 </style>

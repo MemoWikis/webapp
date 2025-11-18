@@ -31,7 +31,7 @@ interface Overview {
     privateQuestionsCount: number
     publicPagesCount: number
     privatePagesCount: number
-    wuwiCount: number
+    wishKnowledgeCount: number
     publicWikisCount: number
     reputation: number
     rank: number
@@ -45,7 +45,7 @@ interface User {
     imageUrl: string
     reputationPoints: number
     rank: number
-    showWuwi: boolean
+    showWishKnowledge: boolean
     aboutMeText?: string
 }
 
@@ -137,7 +137,7 @@ const hasWikis = computed(() => {
 })
 
 const hasSkills = computed(() => {
-    return profile.value?.skills && profile.value.skills.length > 0 && profile.value.skills.some(skill => skill.isPublic && skill.knowledgebarData?.total > 0)
+    return profile.value?.skills && profile.value.skills.length > 0 && profile.value.skills.some(skill => skill.isPublic && skill.knowledgebarData?.totalCount > 0)
 })
 
 const hasPages = computed(() => {
@@ -219,7 +219,7 @@ const showSkillCard = (skill: PageData) => {
     if (profile.value?.isCurrentUser && !userStore.showAsVisitor) {
         return true
     }
-    else if (skill.knowledgebarData && skill.knowledgebarData.total > 0 && skill.isPublic) {
+    else if (skill.knowledgebarData && skill.knowledgebarData.totalCount > 0 && skill.isPublic) {
         return true
     }
     return false
@@ -465,7 +465,7 @@ const showSkillCard = (skill: PageData) => {
     }
 }
 
-.wuwi-is-hidden {
+.wish-knowledge-is-hidden {
     border: solid 1px @memo-grey-lighter;
     padding: 20px;
     width: 100%;

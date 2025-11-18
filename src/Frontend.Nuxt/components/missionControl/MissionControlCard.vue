@@ -45,7 +45,7 @@ const { $urlHelper } = useNuxtApp()
                 <div class="page-details-action" v-if="page.questionCount > 0">
                     <NuxtLink
                         v-if="page.questionCount > 0"
-                        :to="{ path: $urlHelper.getPageUrl(page.name, page.id, Tab.Learning), query: { inWuWi: (page.knowledgebarData != null).toString() } }"
+                        :to="{ path: $urlHelper.getPageUrl(page.name, page.id, Tab.Learning), query: { inWishKnowledge: (page.knowledgebarData != null).toString() } }"
                         class="action-button"
                         :title="t('missionControl.pageTable.learnNow')"
                         v-tooltip="t('missionControl.pageTable.learnNow')">
