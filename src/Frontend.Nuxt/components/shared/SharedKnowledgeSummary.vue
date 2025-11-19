@@ -147,6 +147,9 @@ const emit = defineEmits<{
                 </div>
             </div>
         </template>
+
+        <!-- Slot for additional actions -->
+        <slot />
     </div>
 </template>
 

@@ -10,7 +10,7 @@ const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const tabsStore = useTabsStore()
 
 interface Props {
-    isWishknowledgeMode?: boolean
+    allWishknowledgeMode?: boolean
 }
 
 const props = defineProps<Props>()
@@ -29,28 +29,28 @@ onBeforeMount(async () => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
     await learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
-    if (route.query.inWuWi === 'true' || props.isWishknowledgeMode) {
+    if (route.query.inWuWi === 'true' || props.allWishknowledgeMode) {
         learningSessionConfigurationStore.questionFilterOptions.inWishKnowledge.isSelected = true
         learningSessionConfigurationStore.questionFilterOptions.notInWishKnowledge.isSelected = false
         learningSessionConfigurationStore.checkQuestionFilterSelection()
     }
 
-    // For wishknowledge mode, get question count with pageId = 0
-    if (props.isWishknowledgeMode) {
-        await learningSessionConfigurationStore.getQuestionCount(0)
-    }
-
-    if (route.params.questionId != null)
+    if ((route.params.questionId != null && !props.allWishknowledgeMode) && learningSessionStore.currentStep?.id != parseInt(route.params.questionId?.toString()))
         mountNewQuestion()
-    else
-        await learningSessionStore.startNewSession()
+})
+
+onMounted(async () => {
+    if (props.allWishknowledgeMode && import.meta.client)
+        await learningSessionStore.startNewSession(true)
 })
 
 const mountNewQuestion = async () => {
     if (route.params.questionId == null)
         return
+
     const questionId = parseInt(route.params.questionId.toString())
-    const errorMsg = await learningSessionStore.startNewSessionWithJumpToQuestion(questionId)
+
+    const errorMsg = await learningSessionStore.startNewSessionWithJumpToQuestion(questionId, props.allWishknowledgeMode)
     if (errorMsg) {
         if (import.meta.server) {
             alertOnMounted.value = true
@@ -182,11 +182,11 @@ function stepForward() {
         </div>
 
         <div class="col-xs-12">
-            <QuestionAnswerBody :is-wishknowledge-mode="props.isWishknowledgeMode" />
+            <QuestionAnswerBody :all-wishknowledge-mode="props.allWishknowledgeMode" />
         </div>
 
         <div class="col-xs-12" id="QuestionListContainer" v-show="!learningSessionStore.showResult">
-            <PageLearningQuestionsSection :is-wishknowledge-mode="props.isWishknowledgeMode" />
+            <PageLearningQuestionsSection :all-wishknowledge-mode="props.allWishknowledgeMode" />
         </div>
 
         <ClientOnly>
@@ -230,8 +230,6 @@ function stepForward() {
 
     .step-count {
         display: flex;
-        // padding-left: 10px;
-        // padding-right: 15px;
         margin-right: 15px;
         flex-wrap: nowrap;
         align-items: center;

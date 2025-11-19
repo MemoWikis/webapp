@@ -8,7 +8,7 @@ const emit = defineEmits(['startNewSession'])
 const route = useRoute()
 
 interface Props {
-    isWishknowledgeMode?: boolean
+    allWishknowledgeMode?: boolean
 }
 
 const props = defineProps<Props>()
@@ -42,7 +42,7 @@ const learningSessionResult = ref<LearningSessionResult>()
 
 onMounted(async () => {
     // Use appropriate API endpoint based on mode
-    const apiEndpoint = props.isWishknowledgeMode
+    const apiEndpoint = props.allWishknowledgeMode
         ? '/apiVue/VueLearningSessionResult/GetForWishknowledge'
         : '/apiVue/VueLearningSessionResult/Get'
 

@@ -42,22 +42,22 @@ export default <RouterConfig>{
         },
         {
             name: 'learningPageDE',
-            path: '/Mission-Control/Lernen',
+            path: '/Mission-Control/Lernen/:questionId(\\d+)?',
             component: () => import('~/pages/mission-control/learning.vue'),
         },
         {
             name: 'learningPageEN',
-            path: '/MissionControl/Learning',
+            path: '/MissionControl/Learning/:questionId(\\d+)?',
             component: () => import('~/pages/mission-control/learning.vue'),
         },
         {
             name: 'learningPageFR',
-            path: '/TableauDeBord/Apprentissage',
+            path: '/TableauDeBord/Apprentissage/:questionId(\\d+)?',
             component: () => import('~/pages/mission-control/learning.vue'),
         },
         {
             name: 'learningPageES',
-            path: '/PanelDeControl/Aprendizaje',
+            path: '/PanelDeControl/Aprendizaje/:questionId(\\d+)?',
             component: () => import('~/pages/mission-control/learning.vue'),
         },
         {

@@ -59,7 +59,59 @@ public class LearningSessionCreator(
             result.MessageKey = FrontendMessageKeys.Info.Question.NotInFilter;
         }
 
-        result = _resultService.FillLearningSessionResult(learningSession, result);
+        if (learningSession != null)
+        {
+            result = _resultService.FillLearningSessionResult(learningSession, result);
+        }
+        return result;
+    }
+
+    public LearningSessionResultStep GetLearningSessionResultForWishknowledge(
+        LearningSessionConfig config,
+        int questionId)
+    {
+        var result = new LearningSessionResultStep();
+
+        // Ensure we have a valid user ID for wishknowledge
+        var userId = config.CurrentUserId > 0 ? config.CurrentUserId : _sessionUser.UserId;
+        if (userId <= 0)
+        {
+            result.MessageKey = FrontendMessageKeys.Error.User.NotLoggedIn;
+            return result;
+        }
+
+        // Validate question access for wishknowledge
+        var (isValid, messageKey) = _resultService.ValidateWishknowledgeQuestionAccess(userId, questionId);
+        if (!isValid)
+        {
+            result.MessageKey = messageKey;
+            return result;
+        }
+
+        // Get all wishknowledge questions for the user
+        var allQuestions = GetAllWishknowledgeQuestionsFromUser(userId);
+        var learningSession = GetLearningSession(config, questionId, allQuestions);
+
+        if (!learningSession.Steps.Any())
+        {
+            return result;
+        }
+
+        // Load specific question or set appropriate message
+        if (learningSession.Steps.Any(s => s.Question.Id == questionId))
+        {
+            var questionIndex = learningSession.Steps.FindIndex(s => s.Question.Id == questionId);
+            learningSession.LoadSpecificQuestion(questionIndex);
+        }
+        else if (result.MessageKey == null)
+        {
+            result.MessageKey = FrontendMessageKeys.Info.Question.NotInFilter;
+        }
+
+        if (learningSession != null)
+        {
+            result = _resultService.FillLearningSessionResult(learningSession, result);
+        }
         return result;
     }
 
@@ -69,7 +121,12 @@ public class LearningSessionCreator(
         var learningSession = _learningSessionCache.GetLearningSession();
         learningSession?.LoadSpecificQuestion(index);
 
-        return _resultService.FillLearningSessionResult(learningSession, result);
+        if (learningSession != null)
+        {
+            return _resultService.FillLearningSessionResult(learningSession, result);
+        }
+        
+        return result;
     }
 
     public LearningSession LoadDefaultSessionIntoCache(int pageId, int userId = 0)
@@ -151,8 +208,6 @@ public class LearningSessionCreator(
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
         var allQuestions = config.PageId > 0 ? GetAllQuestionsForPage(config.PageId) : GetAllWishknowledgeQuestionsFromUser(_sessionUser.UserId);
-        // var allQuestions = config.PageId == 10943 ? GetAllWishknowledgeQuestionsFromUser(_sessionUser.UserId) : GetAllQuestionsForPage(config.PageId);
-
         return BuildLearningSession(config, allQuestions);
     }
 
@@ -243,6 +298,25 @@ public class LearningSessionCreator(
 
         // Insert the specific question at a random position
         var specificQuestion = EntityCache.GetQuestion(questionId);
+        if (specificQuestion == null)
+        {
+            // If specific question not found, just return the limited questions
+            var fallbackQuestions = _questionSortingService.SortQuestions(
+                limitedQuestions,
+                config,
+                knowledgeSummaryDetails);
+            
+            var fallbackSteps = fallbackQuestions
+                .Distinct()
+                .Select(q => new LearningSessionStep(q))
+                .ToList();
+
+            return new LearningSession(fallbackSteps, config)
+            {
+                QuestionCounter = questionCounter
+            };
+        }
+        
         var finalQuestions = InsertSpecificQuestionRandomly(limitedQuestions, specificQuestion);
 
         // Sort the final list
@@ -265,8 +339,13 @@ public class LearningSessionCreator(
 
     private IList<QuestionCacheItem> GetAllQuestionsForPage(int pageId)
     {
-        return EntityCache.GetPage(pageId)
-            .GetAggregatedQuestions(_sessionUser.UserId, permissionCheck: _permissionCheck)
+        var page = EntityCache.GetPage(pageId);
+        if (page == null)
+        {
+            return new List<QuestionCacheItem>();
+        }
+        
+        return page.GetAggregatedQuestions(_sessionUser.UserId, permissionCheck: _permissionCheck)
             .Where(questionId => questionId.Id > 0)
             .Where(_permissionCheck.CanView)
             .ToList();

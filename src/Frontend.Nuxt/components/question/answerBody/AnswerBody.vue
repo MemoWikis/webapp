@@ -19,25 +19,30 @@ const router = useRouter()
 const route = useRoute()
 
 interface Props {
-    isWishknowledgeMode?: boolean
+    allWishknowledgeMode?: boolean
 }
 const props = defineProps<Props>()
 
-commentsStore.loadComments()
+onMounted(() => {
+    commentsStore.loadComments()
+})
 
 // Use the main composable that orchestrates all functionality
-const answerBodyLogic = useAnswerBodyLogic()
+const answerBodyLogic = useAnswerBodyLogic(props.allWishknowledgeMode)
 
 const attachQuestionIdToUrl = async () => {
-    if (!tabsStore.isLearning || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0)
+    if (!tabsStore.isLearning && !props.allWishknowledgeMode || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0)
         return
 
-    if (props.isWishknowledgeMode) {
-        // Wishknowledge mode: simple path structure
-        const newPath = `/mission-control/learning/${answerBodyLogic.answerBodyModel.value.id}`
-        if (newPath !== route.path) {
-            router.push(newPath)
-        }
+    if (props.allWishknowledgeMode) {
+
+        // will be fixed later
+        // await router.replace({
+        //     params: {
+        //         ...route.params,
+        //         questionId: answerBodyLogic.answerBodyModel.value.id,
+        //     },
+        // })
     } else {
         // Page-based mode: original logic
         const pathSegments = window.location.pathname
@@ -61,20 +66,22 @@ const attachQuestionIdToUrl = async () => {
         }
     }
 }
+
 watch(() => answerBodyLogic.answerBodyModel.value?.id, (newId, oldId) => {
     if (newId !== oldId && newId)
         attachQuestionIdToUrl()
 })
+
 watch(() => pageStore.id, (newId, oldId) => {
     // Only apply page change logic when not in wishknowledge mode
-    if (!props.isWishknowledgeMode && newId !== oldId && answerBodyLogic.currentRequest.value) {
+    if (!props.allWishknowledgeMode && newId !== oldId && answerBodyLogic.currentRequest.value) {
         answerBodyLogic.currentRequest.value.abort()
         answerBodyLogic.currentRequest.value = null
     }
 })
 
 watch(() => tabsStore.activeTab, () => {
-    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString())))
+    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString())) && props.allWishknowledgeMode)
         attachQuestionIdToUrl()
 })
 
@@ -104,9 +111,17 @@ onMounted(() => {
     watch(() => userStore.isLoggedIn, () => learningSessionStore.startNewSession())
 })
 
+onMounted(() => {
+
+    if (props.allWishknowledgeMode && answerBodyLogic.currentRequest.value) {
+        answerBodyLogic.currentRequest.value.abort()
+        answerBodyLogic.currentRequest.value = null
+    }
+})
+
 watch(() => pageStore.id, () => {
     // Only reset results on page change when not in wishknowledge mode
-    if (!props.isWishknowledgeMode) {
+    if (!props.allWishknowledgeMode) {
         learningSessionStore.showResult = false
     }
 })
@@ -212,7 +227,7 @@ const handleStartNewSession = () => answerBodyLogic.startNewSession()
         <QuestionAnswerBodyAnswerQuestionDetails :id="answerBodyLogic.answerBodyModel.value.id" />
     </div>
     <div v-else-if="learningSessionStore.showResult === true">
-        <QuestionAnswerBodyLearningSessionResult @start-new-session="handleStartNewSession" :is-wishknowledge-mode="isWishknowledgeMode" />
+        <QuestionAnswerBodyLearningSessionResult @start-new-session="handleStartNewSession" :all-wishknowledge-mode="allWishknowledgeMode" />
     </div>
 </template>
 

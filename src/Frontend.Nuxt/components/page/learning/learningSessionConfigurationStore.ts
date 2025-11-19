@@ -241,7 +241,6 @@ export const useLearningSessionConfigurationStore = defineStore(
 
                 if (storedSession != null) {
                     const sessionConfig = JSON.parse(storedSession)
-                    console.log('Loaded session config from localStorage:', sessionConfig)
                     this.migrateOldPropertyNames(sessionConfig)
 
                     if (userStore.isLoggedIn) {

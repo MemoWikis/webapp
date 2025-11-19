@@ -17,7 +17,7 @@ const { t } = useI18n()
 
 interface Props {
     expandQuestion: boolean
-    isWishknowledgeMode?: boolean
+    allWishknowledgeMode?: boolean
 }
 const props = defineProps<Props>()
 
@@ -30,7 +30,7 @@ async function loadQuestions(page: number) {
         loadingStore.startLoading()
 
     let result
-    if (props.isWishknowledgeMode) {
+    if (props.allWishknowledgeMode) {
         // Use wishknowledge-specific API endpoint
         result = await $api<any>('/apiVue/WishknowledgeLearningQuestionList/LoadQuestions/', {
             method: 'POST',
@@ -127,7 +127,7 @@ deleteQuestionStore.$onAction(({ name, after }) => {
 async function loadNewQuestion(index: number) {
     loadingStore.startLoading()
 
-    const url = props.isWishknowledgeMode ? `/apiVue/WishknowledgeLearningQuestionList/LoadNewQuestion/${index}` : `/apiVue/PageLearningQuestionList/LoadNewQuestion/${index}`
+    const url = props.allWishknowledgeMode ? `/apiVue/WishknowledgeLearningQuestionList/LoadNewQuestion/${index}` : `/apiVue/PageLearningQuestionList/LoadNewQuestion/${index}`
 
     const result = await $api<FetchResult<QuestionListItem>>(url, {
         mode: 'cors',
@@ -152,7 +152,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
         return loadNewQuestion(startIndex)
     }
 
-    if (props.isWishknowledgeMode) {
+    if (props.allWishknowledgeMode) {
         // For wishknowledge mode, load questions one by one
         for (let i = startIndex; i <= endIndex; i++) {
             await loadNewQuestion(i)
@@ -194,7 +194,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
                 :expand-question="props.expandQuestion" :key="`${index}-${q.id}`" />
 
             <!-- Only show QuickCreateQuestion in page mode, not in wishknowledge mode -->
-            <PageLearningQuickCreateQuestion v-if="!props.isWishknowledgeMode" @new-question-created="loadNewQuestion" />
+            <PageLearningQuickCreateQuestion v-if="!props.allWishknowledgeMode" @new-question-created="loadNewQuestion" />
 
             <div id="QuestionListPagination" class="pagination" v-show="questions.length > 0">
 
