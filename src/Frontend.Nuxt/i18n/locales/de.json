@@ -231,6 +231,14 @@
         "edit": "Bearbeiten",
         "save": "Speichern"
     },
+    "learning": {
+        "wishknowledge": {
+            "title": "Wunschwissen lernen",
+            "heading": "Dein Wunschwissen lernen",
+            "questionsAvailable": "Fragen verfügbar",
+            "loginRequired": "Bitte melde dich an, um auf deine Wunschwissen-Fragen zuzugreifen und mit dem Lernen zu beginnen."
+        }
+    },
     "register": {
         "title": "Registrieren",
         "description": "Dein Wiki ist noch einen Klick entfernt.",

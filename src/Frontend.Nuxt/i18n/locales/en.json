@@ -231,6 +231,14 @@
         "edit": "Edit",
         "save": "Save"
     },
+    "learning": {
+        "wishknowledge": {
+            "title": "Wishknowledge Learning",
+            "heading": "Learning Your Wishknowledge",
+            "questionsAvailable": "questions available",
+            "loginRequired": "Please log in to access your wishknowledge questions and start learning."
+        }
+    },
     "register": {
         "title": "Register",
         "description": "Your Wiki is just one click away.",

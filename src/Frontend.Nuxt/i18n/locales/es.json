@@ -231,6 +231,14 @@
         "edit": "Editar",
         "save": "Guardar"
     },
+    "learning": {
+        "wishknowledge": {
+            "title": "Aprendizaje de conocimientos deseados",
+            "heading": "Aprender tus conocimientos deseados",
+            "questionsAvailable": "preguntas disponibles",
+            "loginRequired": "Por favor, inicia sesión para acceder a tus preguntas de conocimientos deseados y comenzar a aprender."
+        }
+    },
     "register": {
         "title": "Registro",
         "description": "Tu Wiki está a un clic.",

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { SiteType } from '~/components/shared/siteEnum'
 import { useLearningSessionConfigurationStore } from '~/components/page/learning/learningSessionConfigurationStore'
+import { useUserStore } from '~/components/user/userStore'
+
+const userStore = useUserStore()
 
 const emit = defineEmits(['setPage'])
 emit('setPage', SiteType.AllWishknowledgeLearning)
@@ -19,12 +22,14 @@ const fetchWishknowledgeCount = async () => {
         await learningSessionConfigurationStore.getQuestionCount(0)
         wishknowledgeQuestionCount.value = learningSessionConfigurationStore.maxSelectableQuestionCount
     } catch (error) {
-        console.error('Failed to fetch wishknowledge question count:', error)
         wishknowledgeQuestionCount.value = 0
     }
 }
 onMounted(async () => {
-    await fetchWishknowledgeCount()
+    if (userStore.isLoggedIn)
+        await fetchWishknowledgeCount()
+    else
+        userStore.openLoginModal()
 })
 
 definePageMeta({
@@ -37,13 +42,16 @@ definePageMeta({
         <div class="mission-control-content">
             <div class="mission-control-header" ref="missionControlHeader">
                 <h1>{{ t('learning.wishknowledge.heading', 'Learning Your Wishknowledge') }}</h1>
-                <div v-if="wishknowledgeQuestionCount > 0" class="question-count-info">
+                <div v-if="userStore.isLoggedIn && wishknowledgeQuestionCount > 0" class="question-count-info">
                     {{ wishknowledgeQuestionCount }} {{ t('learning.wishknowledge.questionsAvailable', 'questions available') }}
                 </div>
             </div>
 
             <div class="learning-content">
-                <PageLearning :all-wishknowledge-mode="true" />
+                <PageLearning v-if="userStore.isLoggedIn" :all-wishknowledge-mode="true" />
+                <div v-else class="alert alert-info">
+                    <p>{{ t('learning.wishknowledge.loginRequired', 'Please log in to access your wishknowledge questions and start learning.') }}</p>
+                </div>
             </div>
         </div>
 

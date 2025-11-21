@@ -231,6 +231,14 @@
         "edit": "Modifier",
         "save": "Enregistrer"
     },
+    "learning": {
+        "wishknowledge": {
+            "title": "Apprentissage des connaissances souhaitées",
+            "heading": "Apprendre vos connaissances souhaitées",
+            "questionsAvailable": "questions disponibles",
+            "loginRequired": "Veuillez vous connecter pour accéder à vos questions de connaissances souhaitées et commencer à apprendre."
+        }
+    },
     "register": {
         "title": "Inscris-toi",
         "description": "Ton wiki est à un clic.",
