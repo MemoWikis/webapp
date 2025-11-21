@@ -1665,6 +1665,7 @@
             "register": "Registro",
             "messages": "Mensajes",
             "missionControl": "Mission Control",
+            "allWishknowledgeLearning": "Aprendizaje de conocimiento deseado",
             "error": "Error",
             "resetPassword": "Restablecer contraseña",
             "confirmEmail": "Confirmar correo",
@@ -1732,6 +1733,7 @@
     },
     "missionControl": {
         "heading": "Panel de control",
+        "learnAll": "Aprende tu conocimiento deseado",
         "sections": {
             "wikis": "Mis Wikis",
             "recentActivity": "Actividad reciente",

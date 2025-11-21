@@ -1666,6 +1666,7 @@
             "register": "Register",
             "messages": "Messages",
             "missionControl": "Mission Control",
+            "allWishknowledgeLearning": "Learning Wishknowledge",
             "error": "Error",
             "resetPassword": "Reset password",
             "confirmEmail": "Email confirmation",
@@ -1733,6 +1734,7 @@
     },
     "missionControl": {
         "heading": "Mission Control",
+        "learnAll": "Learn your wishknowledge",
         "sections": {
             "wikis": "My Wikis",
             "recentActivity": "Recent Activity",

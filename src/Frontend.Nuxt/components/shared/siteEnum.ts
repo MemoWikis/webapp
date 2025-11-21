@@ -13,4 +13,5 @@ export enum SiteType {
     ConfirmEmail,
     Metrics,
     MissionControl,
+    AllWishknowledgeLearning
 }

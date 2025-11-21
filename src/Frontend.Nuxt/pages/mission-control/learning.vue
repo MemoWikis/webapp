@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 import { SiteType } from '~/components/shared/siteEnum'
-import { useUserStore } from '~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from '~/components/page/learning/learningSessionConfigurationStore'
 
-const userStore = useUserStore()
-
 const emit = defineEmits(['setPage'])
-emit('setPage', SiteType.MissionControl)
+emit('setPage', SiteType.AllWishknowledgeLearning)
 
 const { t } = useI18n()
 
@@ -14,12 +11,10 @@ useHead({
     title: t('learning.wishknowledge.title', 'Wishknowledge Learning')
 })
 
-// Get wishknowledge question count via API
 const wishknowledgeQuestionCount = ref(0)
 
 const fetchWishknowledgeCount = async () => {
     try {
-        // Use the same API that gets the question count for wishknowledge (pageId = 0)
         const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
         await learningSessionConfigurationStore.getQuestionCount(0)
         wishknowledgeQuestionCount.value = learningSessionConfigurationStore.maxSelectableQuestionCount
@@ -28,42 +23,8 @@ const fetchWishknowledgeCount = async () => {
         wishknowledgeQuestionCount.value = 0
     }
 }
-
-const missionControlHeader = ref()
-const missionControlHeaderHeight = ref(123) // Default height
-
-const sideBarMarginTop = computed(() => {
-    const defaultHeaderHeight = 123
-    if (missionControlHeaderHeight.value > defaultHeaderHeight) {
-        return missionControlHeaderHeight.value - defaultHeaderHeight + 25
-    }
-    return 25 // Default margin top if no header is available
-})
-
-// Set up component initialization
 onMounted(async () => {
-    // Fetch wishknowledge question count
     await fetchWishknowledgeCount()
-
-    // Watch for header height changes
-    if (missionControlHeader.value) {
-        // Initial height measurement
-        missionControlHeaderHeight.value = missionControlHeader.value.offsetHeight
-
-        // Set up ResizeObserver to watch for height changes
-        const resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                missionControlHeaderHeight.value = entry.contentRect.height
-            }
-        })
-
-        resizeObserver.observe(missionControlHeader.value)
-
-        // Cleanup on unmount
-        onUnmounted(() => {
-            resizeObserver.disconnect()
-        })
-    }
 })
 
 definePageMeta({

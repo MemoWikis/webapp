@@ -89,8 +89,6 @@ const knowledgeStatusItemsInWishKnowledge = computed(() => {
     return items
 })
 
-
-
 const emit = defineEmits<{
     (e: 'actionClick', type: KnowledgeSummaryType): void
 }>()
@@ -161,14 +159,21 @@ const emit = defineEmits<{
     justify-content: space-between;
     gap: 1rem 4rem;
     flex-wrap: wrap;
+    flex-direction: column;
 
     h4 {
         margin-top: 0;
     }
 }
 
-.summary-details {
-    padding: 20px 0;
+.summary-details,
+:slotted(.summary-details) {
+    padding: 0;
+    padding-top: 20px;
+
+    &:last-of-type {
+        padding-bottom: 20px;
+    }
 
     .status-item {
         display: flex;
@@ -211,6 +216,10 @@ const emit = defineEmits<{
 
                 &.dot-notInWishKnowledge {
                     background-color: @not-in-wish-knowledge-color;
+                }
+
+                &.dot-all {
+                    display: none;
                 }
             }
 

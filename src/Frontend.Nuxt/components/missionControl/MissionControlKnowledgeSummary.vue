@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useLearningSessionConfigurationStore } from '../page/learning/learningSessionConfigurationStore'
+const { locale } = useI18n()
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 
@@ -18,7 +19,16 @@ const navigateToLearning = async () => {
 
     learningSessionConfigurationStore.saveSessionConfig()
     await nextTick()
-    navigateTo({ name: 'learningPageEN' })
+
+    const routeNames = {
+        de: 'learningPageDE',
+        en: 'learningPageEN',
+        fr: 'learningPageFR',
+        es: 'learningPageES'
+    }
+    const routeName = routeNames[locale.value as keyof typeof routeNames] || 'learningPageEN'
+
+    await navigateTo({ name: routeName })
 }
 
 const onActionClick = async (type: KnowledgeSummaryType) => {
@@ -27,11 +37,7 @@ const onActionClick = async (type: KnowledgeSummaryType) => {
 }
 
 const learnAllWishknowledge = async () => {
-    // Select all knowledge summary types
-    learningSessionConfigurationStore.selectKnowledgeSummaryByType(KnowledgeSummaryType.SolidWishKnowledge)
-    learningSessionConfigurationStore.selectKnowledgeSummaryByType(KnowledgeSummaryType.NeedsConsolidationWishKnowledge)
-    learningSessionConfigurationStore.selectKnowledgeSummaryByType(KnowledgeSummaryType.NeedsLearningWishKnowledge)
-    learningSessionConfigurationStore.selectKnowledgeSummaryByType(KnowledgeSummaryType.NotLearnedWishKnowledge)
+    learningSessionConfigurationStore.selectAllKnowledgeSummary()
     await navigateToLearning()
 }
 
@@ -48,11 +54,11 @@ const learnAllWishknowledge = async () => {
             @action-click="onActionClick">
 
             <!-- Additional action for selecting all knowledge types -->
-            <div class="all-action-container">
+            <div class="summary-details">
                 <div class="status-item">
                     <div class="status-info">
                         <span class="status-dot dot-all"></span>
-                        <span class="status-label">{{ $t('knowledgeStatus.all') }}</span>
+                        <span class="status-label">{{ $t('missionControl.learnAll') }}</span>
                     </div>
                     <div class="status-details">
                         <div class="status-value">
@@ -107,86 +113,15 @@ const learnAllWishknowledge = async () => {
         }
     }
 
-    .all-action-container {
+    .summary-details {
         border-top: 1px solid @memo-grey-light;
-        padding-top: 12px;
-        margin-top: 12px;
 
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 4rem;
+        .status-dot.dot-all {
+            background: linear-gradient(45deg, @solid-knowledge-color 25%, @needs-consolidation-color 25%, @needs-consolidation-color 50%, @needs-learning-color 50%, @needs-learning-color 75%, @not-learned-color 75%);
+        }
 
-            .status-info {
-                display: flex;
-                align-items: center;
-                min-width: 140px;
-
-                .status-dot {
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 50%;
-                    margin-right: 8px;
-                    min-width: 12px;
-
-                    &.dot-all {
-                        background: linear-gradient(45deg, @solid-knowledge-color 25%, @needs-consolidation-color 25%, @needs-consolidation-color 50%, @needs-learning-color 50%, @needs-learning-color 75%, @not-learned-color 75%);
-                    }
-                }
-
-                .status-label {
-                    font-size: 14px;
-                    color: @memo-grey-dark;
-                    font-weight: 600;
-                }
-            }
-
-            .status-details {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                justify-content: flex-end;
-
-                .status-value {
-                    font-size: 14px;
-
-                    .value {
-                        font-weight: 600;
-                        color: @memo-grey-darker;
-                    }
-                }
-
-                .status-actions {
-                    margin-left: 16px;
-
-                    .play-button {
-                        background: white;
-                        border: none;
-                        cursor: pointer;
-                        border-radius: 24px;
-                        color: @memo-grey-dark;
-                        font-size: 16px;
-                        padding: 4px;
-                        height: 24px;
-                        width: 24px;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        padding-left: 6px;
-
-                        &:hover {
-                            color: @memo-grey-darker;
-                            background: darken(white, 5%);
-                        }
-
-                        &:focus {
-                            outline: 2px solid @memo-blue;
-                            outline-offset: 2px;
-                        }
-                    }
-                }
-            }
+        .status-label {
+            font-weight: 600;
         }
     }
 }
