@@ -726,6 +726,28 @@
                 "message": {
                     "noFlashcards": "Oops! Du hast keine Karteikarten."
                 }
+            },
+            "createPage": {
+                "title": "Seite mit KI erstellen",
+                "buttonTitle": "Mit KI erstellen",
+                "buttonTitleMobile": "KI",
+                "promptLabel": "Beschreibe, worum es auf der Seite gehen soll",
+                "promptPlaceholder": "z.B. Erkläre die Grundlagen der Photosynthese...",
+                "difficultyLabel": "Schwierigkeitsgrad",
+                "difficulty": {
+                    "eli5": "Einfach",
+                    "beginner": "Anfänger",
+                    "intermediate": "Mittel",
+                    "advanced": "Fortgeschritten",
+                    "academic": "Akademisch"
+                },
+                "button": {
+                    "generate": "Generieren",
+                    "create": "Seite erstellen"
+                },
+                "generating": "Seite wird generiert...",
+                "preview": "Vorschau",
+                "success": "Die Seite wurde erfolgreich erstellt."
             }
         },
         "relationEdit": {

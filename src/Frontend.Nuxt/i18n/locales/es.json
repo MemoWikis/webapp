@@ -726,6 +726,28 @@
                 "message": {
                     "noFlashcards": "¡Vaya! No hay tarjetas."
                 }
+            },
+            "createPage": {
+                "title": "Crear página con IA",
+                "buttonTitle": "Crear con IA",
+                "buttonTitleMobile": "IA",
+                "promptLabel": "Describe de qué tratará la página",
+                "promptPlaceholder": "Ej.: Explica los fundamentos de la fotosíntesis...",
+                "difficultyLabel": "Nivel de dificultad",
+                "difficulty": {
+                    "eli5": "Simple",
+                    "beginner": "Principiante",
+                    "intermediate": "Intermedio",
+                    "advanced": "Avanzado",
+                    "academic": "Académico"
+                },
+                "button": {
+                    "generate": "Generar",
+                    "create": "Crear página"
+                },
+                "generating": "Generando página...",
+                "preview": "Vista previa",
+                "success": "La página se ha creado correctamente."
             }
         },
         "relationEdit": {

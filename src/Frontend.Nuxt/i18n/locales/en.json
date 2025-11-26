@@ -726,6 +726,28 @@
                 "message": {
                     "noFlashcards": "Oops! You have no flashcards."
                 }
+            },
+            "createPage": {
+                "title": "Create page with AI",
+                "buttonTitle": "Create with AI",
+                "buttonTitleMobile": "AI",
+                "promptLabel": "Describe what the page should be about",
+                "promptPlaceholder": "e.g. Explain the basics of photosynthesis...",
+                "difficultyLabel": "Difficulty level",
+                "difficulty": {
+                    "eli5": "Simple",
+                    "beginner": "Beginner",
+                    "intermediate": "Intermediate",
+                    "advanced": "Advanced",
+                    "academic": "Academic"
+                },
+                "button": {
+                    "generate": "Generate",
+                    "create": "Create page"
+                },
+                "generating": "Generating page...",
+                "preview": "Preview",
+                "success": "The page was successfully created."
             }
         },
         "relationEdit": {

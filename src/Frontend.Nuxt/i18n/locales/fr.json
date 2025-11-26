@@ -726,6 +726,28 @@
                 "message": {
                     "noFlashcards": "Oups ! Tu n’as aucune carte."
                 }
+            },
+            "createPage": {
+                "title": "Créer une page avec l'IA",
+                "buttonTitle": "Créer une page avec l'IA",
+                "buttonTitleMobile": "Page IA",
+                "promptLabel": "Décrivez le contenu de la page",
+                "promptPlaceholder": "Par exemple : Une page sur la photosynthèse avec les concepts principaux et les processus",
+                "difficultyLabel": "Niveau de difficulté",
+                "difficulty": {
+                    "eli5": "Très simple",
+                    "beginner": "Débutant",
+                    "intermediate": "Intermédiaire",
+                    "advanced": "Avancé",
+                    "academic": "Académique"
+                },
+                "button": {
+                    "generate": "Générer un aperçu",
+                    "create": "Créer la page"
+                },
+                "generating": "Génération en cours...",
+                "preview": "Aperçu",
+                "success": "Page créée avec succès !"
             }
         },
         "relationEdit": {

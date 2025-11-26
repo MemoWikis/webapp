@@ -42,7 +42,7 @@ const snackbarStore = useSnackbarStore()
 
 const lowlight = createLowlight(all)
 const userStore = useUserStore()
-const doc = new Y.Doc()
+let doc = new Y.Doc()
 const config = useRuntimeConfig()
 
 const providerContentLoaded = ref(false)
@@ -300,6 +300,9 @@ watch(locale, () => {
 const recreate = (login: boolean = false) => {
     provider.value?.destroy()
     editor.value?.destroy()
+
+    // Create a fresh Y.Doc to avoid merging with old content
+    doc = new Y.Doc()
 
     if (login)
         loadCollab.value = true
