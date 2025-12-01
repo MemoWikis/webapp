@@ -7,6 +7,13 @@ public class AiCreatePageController(
     public readonly record struct GenerateRequest(
         string Prompt,
         int DifficultyLevel,
+        int ContentLength,
+        int ParentId);
+
+    public readonly record struct GenerateFromUrlRequest(
+        string Url,
+        int DifficultyLevel,
+        int ContentLength,
         int ParentId);
 
     public readonly record struct GeneratedPageData(
@@ -33,16 +40,59 @@ public class AiCreatePageController(
         }
 
         var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
+        var contentLength = (AiPageGenerator.ContentLength)request.ContentLength;
         
         var result = await _aiPageGenerator.Generate(
             request.Prompt,
             difficultyLevel,
+            contentLength,
             _sessionUser.UserId,
             request.ParentId);
 
         if (result == null)
         {
             return new GenerateResponse(false, null, FrontendMessageKeys.Error.Default);
+        }
+
+        return new GenerateResponse(
+            true,
+            new GeneratedPageData(result.Value.Title, result.Value.HtmlContent));
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public async Task<GenerateResponse> GenerateFromUrl([FromBody] GenerateFromUrlRequest request)
+    {
+        if (!_sessionUser.IsLoggedIn)
+        {
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.User.NotLoggedIn);
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Url))
+        {
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Default);
+        }
+
+        // Validate URL format
+        if (!Uri.TryCreate(request.Url, UriKind.Absolute, out var uri) ||
+            (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+        {
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Ai.InvalidUrl);
+        }
+
+        var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
+        var contentLength = (AiPageGenerator.ContentLength)request.ContentLength;
+        
+        var result = await _aiPageGenerator.GenerateFromUrl(
+            request.Url,
+            difficultyLevel,
+            contentLength,
+            _sessionUser.UserId,
+            request.ParentId);
+
+        if (result == null)
+        {
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Ai.UrlFetchFailed);
         }
 
         return new GenerateResponse(

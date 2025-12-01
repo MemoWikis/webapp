@@ -8,6 +8,17 @@ export enum DifficultyLevel {
     Academic = 5
 }
 
+export enum ContentLength {
+    Short = 1,
+    Medium = 2,
+    Long = 3
+}
+
+export enum InputMode {
+    Prompt = 'prompt',
+    Url = 'url'
+}
+
 export interface GeneratedPageContent {
     title: string
     htmlContent: string
@@ -16,8 +27,11 @@ export interface GeneratedPageContent {
 export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     const showModal = ref(false)
     const isGenerating = ref(false)
+    const inputMode = ref<InputMode>(InputMode.Prompt)
     const prompt = ref('')
+    const url = ref('')
     const difficultyLevel = ref<DifficultyLevel>(DifficultyLevel.Intermediate)
+    const contentLength = ref<ContentLength>(ContentLength.Medium)
     const generatedContent = ref<GeneratedPageContent | null>(null)
     const parentId = ref(0)
     const errorMessage = ref('')
@@ -25,8 +39,11 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     function openModal(newParentId: number) {
         parentId.value = newParentId
         showModal.value = true
+        inputMode.value = InputMode.Prompt
         prompt.value = ''
+        url.value = ''
         difficultyLevel.value = DifficultyLevel.Intermediate
+        contentLength.value = ContentLength.Medium
         generatedContent.value = null
         errorMessage.value = ''
     }
@@ -34,12 +51,26 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     function closeModal() {
         showModal.value = false
         prompt.value = ''
+        url.value = ''
         generatedContent.value = null
         errorMessage.value = ''
     }
 
+    function isValidUrl(urlString: string): boolean {
+        try {
+            const parsedUrl = new URL(urlString)
+            return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:'
+        } catch {
+            return false
+        }
+    }
+
     async function generatePage() {
-        if (!prompt.value.trim()) {
+        if (inputMode.value === InputMode.Prompt && !prompt.value.trim()) {
+            return
+        }
+        if (inputMode.value === InputMode.Url && !isValidUrl(url.value.trim())) {
+            errorMessage.value = 'error.ai.invalidUrl'
             return
         }
 
@@ -53,13 +84,27 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         }
 
         try {
-            const result = await $api<GeneratePageResponse>('/apiVue/AiCreatePage/Generate', {
-                method: 'POST',
-                body: {
+            const endpoint = inputMode.value === InputMode.Url 
+                ? '/apiVue/AiCreatePage/GenerateFromUrl'
+                : '/apiVue/AiCreatePage/Generate'
+            
+            const body = inputMode.value === InputMode.Url
+                ? {
+                    url: url.value.trim(),
+                    difficultyLevel: difficultyLevel.value,
+                    contentLength: contentLength.value,
+                    parentId: parentId.value
+                }
+                : {
                     prompt: prompt.value,
                     difficultyLevel: difficultyLevel.value,
+                    contentLength: contentLength.value,
                     parentId: parentId.value
-                },
+                }
+
+            const result = await $api<GeneratePageResponse>(endpoint, {
+                method: 'POST',
+                body,
                 mode: 'cors',
                 credentials: 'include'
             })
@@ -112,14 +157,18 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     return {
         showModal,
         isGenerating,
+        inputMode,
         prompt,
+        url,
         difficultyLevel,
+        contentLength,
         generatedContent,
         parentId,
         errorMessage,
         openModal,
         closeModal,
         generatePage,
-        createPage
+        createPage,
+        isValidUrl
     }
 })

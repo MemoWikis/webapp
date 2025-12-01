@@ -741,8 +741,15 @@
                     "advanced": "Avanzado",
                     "academic": "Académico"
                 },
+                "lengthLabel": "Longitud del contenido",
+                "length": {
+                    "short": "Corto",
+                    "medium": "Medio",
+                    "long": "Detallado"
+                },
                 "button": {
                     "generate": "Generar",
+                    "regenerate": "Regenerar",
                     "create": "Crear página"
                 },
                 "generating": "Generando página...",

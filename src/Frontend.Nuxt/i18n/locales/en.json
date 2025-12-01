@@ -144,7 +144,9 @@
         },
         "ai": {
             "generateFlashcards": "Flashcards could not be created.",
-            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit is reached! Since the page is private, no flashcards have been created."
+            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit is reached! Since the page is private, no flashcards have been created.",
+            "invalidUrl": "Please enter a valid URL (starting with http:// or https://).",
+            "urlFetchFailed": "Could not fetch content from the URL. Please check the URL and try again."
         },
         "loading": {
             "shares": "Could not load sharing information."
@@ -731,8 +733,13 @@
                 "title": "Create page with AI",
                 "buttonTitle": "Create with AI",
                 "buttonTitleMobile": "AI",
+                "modePrompt": "Describe",
+                "modeUrl": "From URL",
                 "promptLabel": "Describe what the page should be about",
                 "promptPlaceholder": "e.g. Explain the basics of photosynthesis...",
+                "urlLabel": "Enter a URL to create a page from",
+                "urlPlaceholder": "e.g. https://en.wikipedia.org/wiki/Photosynthesis",
+                "urlHint": "Works with Wikipedia, GitHub docs, and other websites",
                 "difficultyLabel": "Difficulty level",
                 "difficulty": {
                     "eli5": "Simple",
@@ -741,8 +748,15 @@
                     "advanced": "Advanced",
                     "academic": "Academic"
                 },
+                "lengthLabel": "Content length",
+                "length": {
+                    "short": "Short",
+                    "medium": "Medium",
+                    "long": "Detailed"
+                },
                 "button": {
                     "generate": "Generate",
+                    "regenerate": "Regenerate",
                     "create": "Create page"
                 },
                 "generating": "Generating page...",

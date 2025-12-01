@@ -144,7 +144,9 @@
         },
         "ai": {
             "generateFlashcards": "Es konnten keine Karteikarten erstellt werden.",
-            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt."
+            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt.",
+            "invalidUrl": "Bitte gib eine gültige URL ein (beginnend mit http:// oder https://).",
+            "urlFetchFailed": "Der Inhalt der URL konnte nicht abgerufen werden. Bitte überprüfe die URL und versuche es erneut."
         },
         "loading": {
             "shares": "Die Freigabeinformationen konnten nicht geladen werden."
@@ -731,8 +733,13 @@
                 "title": "Seite mit KI erstellen",
                 "buttonTitle": "Mit KI erstellen",
                 "buttonTitleMobile": "KI",
+                "modePrompt": "Beschreiben",
+                "modeUrl": "Von URL",
                 "promptLabel": "Beschreibe, worum es auf der Seite gehen soll",
                 "promptPlaceholder": "z.B. Erkläre die Grundlagen der Photosynthese...",
+                "urlLabel": "Gib eine URL ein, um eine Seite zu erstellen",
+                "urlPlaceholder": "z.B. https://de.wikipedia.org/wiki/Photosynthese",
+                "urlHint": "Funktioniert mit Wikipedia, GitHub Docs und anderen Webseiten",
                 "difficultyLabel": "Schwierigkeitsgrad",
                 "difficulty": {
                     "eli5": "Einfach",
@@ -741,8 +748,15 @@
                     "advanced": "Fortgeschritten",
                     "academic": "Akademisch"
                 },
+                "lengthLabel": "Inhaltslänge",
+                "length": {
+                    "short": "Kurz",
+                    "medium": "Mittel",
+                    "long": "Ausführlich"
+                },
                 "button": {
                     "generate": "Generieren",
+                    "regenerate": "Neu generieren",
                     "create": "Seite erstellen"
                 },
                 "generating": "Seite wird generiert...",
