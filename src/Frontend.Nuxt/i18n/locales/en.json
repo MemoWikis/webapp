@@ -739,14 +739,14 @@
                 "promptPlaceholder": "e.g. Explain the basics of photosynthesis...",
                 "urlLabel": "Enter a URL to create a page from",
                 "urlPlaceholder": "e.g. https://en.wikipedia.org/wiki/Photosynthesis",
-                "urlHint": "Works with Wikipedia, GitHub docs, and other websites",
-                "difficultyLabel": "Difficulty level",
-                "difficulty": {
-                    "eli5": "Simple",
-                    "beginner": "Beginner",
-                    "intermediate": "Intermediate",
-                    "advanced": "Advanced",
-                    "academic": "Academic"
+                "urlHint": "Works best with Wikipedia, GitHub, and static documentation sites. Some sites with bot protection may not work.",
+                "detailLabel": "Detail level",
+                "detail": {
+                    "overview": "Overview",
+                    "basic": "Basic",
+                    "standard": "Standard",
+                    "detailed": "Detailed",
+                    "comprehensive": "Comprehensive"
                 },
                 "lengthLabel": "Content length",
                 "length": {
@@ -761,7 +761,8 @@
                 },
                 "generating": "Generating page...",
                 "preview": "Preview",
-                "success": "The page was successfully created."
+                "success": "The page was successfully created.",
+                "createAsWiki": "Create as Wiki"
             }
         },
         "relationEdit": {
@@ -773,6 +774,7 @@
             },
             "button": {
                 "createPage": "Create page",
+                "createWithAi": "Create with AI instead",
                 "movePage": "Move page",
                 "linkPage": "Link page"
             },

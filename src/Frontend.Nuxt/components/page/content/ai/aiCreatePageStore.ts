@@ -35,6 +35,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     const generatedContent = ref<GeneratedPageContent | null>(null)
     const parentId = ref(0)
     const errorMessage = ref('')
+    const createAsWiki = ref(false)
 
     function openModal(newParentId: number) {
         parentId.value = newParentId
@@ -46,6 +47,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         contentLength.value = ContentLength.Medium
         generatedContent.value = null
         errorMessage.value = ''
+        createAsWiki.value = false
     }
 
     function closeModal() {
@@ -54,6 +56,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         url.value = ''
         generatedContent.value = null
         errorMessage.value = ''
+        createAsWiki.value = false
     }
 
     function isValidUrl(urlString: string): boolean {
@@ -138,7 +141,8 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
                 body: {
                     title: generatedContent.value.title,
                     htmlContent: generatedContent.value.htmlContent,
-                    parentId: parentId.value
+                    parentId: parentId.value,
+                    isWiki: createAsWiki.value
                 },
                 mode: 'cors',
                 credentials: 'include'
@@ -165,6 +169,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         generatedContent,
         parentId,
         errorMessage,
+        createAsWiki,
         openModal,
         closeModal,
         generatePage,

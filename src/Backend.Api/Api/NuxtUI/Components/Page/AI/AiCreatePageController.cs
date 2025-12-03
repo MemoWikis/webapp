@@ -2,7 +2,8 @@ public class AiCreatePageController(
     SessionUser _sessionUser,
     PageCreator _pageCreator,
     AiPageGenerator _aiPageGenerator,
-    PageRepository _pageRepository) : ApiBaseController
+    PageRepository _pageRepository,
+    PermissionCheck _permissionCheck) : ApiBaseController
 {
     public readonly record struct GenerateRequest(
         string Prompt,
@@ -37,6 +38,12 @@ public class AiCreatePageController(
         if (string.IsNullOrWhiteSpace(request.Prompt))
         {
             return new GenerateResponse(false, null, FrontendMessageKeys.Error.Default);
+        }
+
+        // Check if user can edit the parent page (if specified)
+        if (request.ParentId > 0 && !_permissionCheck.CanEditPage(request.ParentId))
+        {
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Page.NoRights);
         }
 
         var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
@@ -80,6 +87,12 @@ public class AiCreatePageController(
             return new GenerateResponse(false, null, FrontendMessageKeys.Error.Ai.InvalidUrl);
         }
 
+        // Check if user can edit the parent page (if specified)
+        if (request.ParentId > 0 && !_permissionCheck.CanEditPage(request.ParentId))
+        {
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Page.NoRights);
+        }
+
         var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
         var contentLength = (AiPageGenerator.ContentLength)request.ContentLength;
         
@@ -103,7 +116,8 @@ public class AiCreatePageController(
     public readonly record struct CreateRequest(
         string Title,
         string HtmlContent,
-        int ParentId);
+        int ParentId,
+        bool IsWiki = false);
 
     public readonly record struct CreateResponse(
         bool Success,
@@ -122,6 +136,12 @@ public class AiCreatePageController(
         if (string.IsNullOrWhiteSpace(request.Title))
         {
             return new CreateResponse(false, null, FrontendMessageKeys.Error.Default);
+        }
+
+        // Check if user can edit the parent page (if specified)
+        if (request.ParentId > 0 && !_permissionCheck.CanEditPage(request.ParentId))
+        {
+            return new CreateResponse(false, null, FrontendMessageKeys.Error.Page.NoRights);
         }
 
         // Check if user can create a private page
@@ -147,6 +167,13 @@ public class AiCreatePageController(
         {
             pageCacheItem.Content = request.HtmlContent;
             page.Content = request.HtmlContent;
+            
+            // Set as wiki if requested
+            if (request.IsWiki)
+            {
+                pageCacheItem.IsWiki = true;
+                page.IsWiki = true;
+            }
             
             EntityCache.AddOrUpdate(pageCacheItem);
             _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);

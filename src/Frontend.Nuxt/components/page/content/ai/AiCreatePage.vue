@@ -9,13 +9,15 @@ const userStore = useUserStore()
 const snackbarStore = useSnackbarStore()
 const pageStore = usePageStore()
 const { t } = useI18n()
+const { isMobile } = useDevice()
+const detailDropdownAriaId = useId()
 
-const difficultyLabels = computed(() => ({
-    [DifficultyLevel.ELI5]: t('page.ai.createPage.difficulty.eli5'),
-    [DifficultyLevel.Beginner]: t('page.ai.createPage.difficulty.beginner'),
-    [DifficultyLevel.Intermediate]: t('page.ai.createPage.difficulty.intermediate'),
-    [DifficultyLevel.Advanced]: t('page.ai.createPage.difficulty.advanced'),
-    [DifficultyLevel.Academic]: t('page.ai.createPage.difficulty.academic')
+const detailLabels = computed(() => ({
+    [DifficultyLevel.ELI5]: t('page.ai.createPage.detail.overview'),
+    [DifficultyLevel.Beginner]: t('page.ai.createPage.detail.basic'),
+    [DifficultyLevel.Intermediate]: t('page.ai.createPage.detail.standard'),
+    [DifficultyLevel.Advanced]: t('page.ai.createPage.detail.detailed'),
+    [DifficultyLevel.Academic]: t('page.ai.createPage.detail.comprehensive')
 }))
 
 const contentLengthLabels = computed(() => ({
@@ -24,8 +26,8 @@ const contentLengthLabels = computed(() => ({
     [ContentLength.Long]: t('page.ai.createPage.length.long')
 }))
 
-const currentDifficultyLabel = computed(() => {
-    return difficultyLabels.value[aiCreatePageStore.difficultyLevel]
+const currentDetailLabel = computed(() => {
+    return detailLabels.value[aiCreatePageStore.difficultyLevel]
 })
 
 const currentContentLengthLabel = computed(() => {
@@ -97,6 +99,18 @@ async function handleCreate() {
             </h4>
         </template>
 
+        <template #footer-text>
+            <div class="wiki-toggle">
+                <label class="wiki-toggle-label" @click="aiCreatePageStore.createAsWiki = !aiCreatePageStore.createAsWiki">
+                    <span class="toggle-checkbox">
+                        <font-awesome-icon v-if="aiCreatePageStore.createAsWiki" :icon="['fas', 'square-check']" class="checked" />
+                        <font-awesome-icon v-else :icon="['far', 'square']" />
+                    </span>
+                    <span>{{ t('page.ai.createPage.createAsWiki') }}</span>
+                </label>
+            </div>
+        </template>
+
         <template #body>
             <div id="AiCreatePage">
                 <!-- Input Mode Toggle -->
@@ -146,50 +160,83 @@ async function handleCreate() {
                     <small class="url-hint">{{ t('page.ai.createPage.urlHint') }}</small>
                 </div>
 
-                <!-- Difficulty Slider Section -->
-                <div class="form-group difficulty-section">
-                    <label>{{ t('page.ai.createPage.difficultyLabel') }}</label>
-                    <div class="difficulty-slider-container">
+                <!-- Detail Level Section -->
+                <div class="form-group detail-section">
+                    <label>{{ t('page.ai.createPage.detailLabel') }}</label>
+
+                    <!-- Desktop: Slider -->
+                    <div v-if="!isMobile" class="detail-slider-container">
                         <input
                             type="range"
                             min="1"
                             max="5"
                             v-model.number="aiCreatePageStore.difficultyLevel"
-                            class="difficulty-slider"
+                            class="detail-slider"
                             :disabled="aiCreatePageStore.isGenerating" />
-                        <div class="difficulty-labels">
-                            <span class="difficulty-label-left">{{ t('page.ai.createPage.difficulty.eli5') }}</span>
-                            <span class="difficulty-label-current">{{ currentDifficultyLabel }}</span>
-                            <span class="difficulty-label-right">{{ t('page.ai.createPage.difficulty.academic') }}</span>
+                        <div class="detail-labels">
+                            <span class="detail-label-left">{{ t('page.ai.createPage.detail.overview') }}</span>
+                            <span class="detail-label-current">{{ currentDetailLabel }}</span>
+                            <span class="detail-label-right">{{ t('page.ai.createPage.detail.comprehensive') }}</span>
                         </div>
                     </div>
+
+                    <!-- Mobile: Dropdown -->
+                    <VDropdown v-else :aria-id="detailDropdownAriaId" :distance="0" class="detail-dropdown">
+                        <div class="detail-select">
+                            <span>{{ currentDetailLabel }}</span>
+                            <font-awesome-icon :icon="['fas', 'chevron-down']" />
+                        </div>
+
+                        <template #popper="{ hide }">
+                            <div class="detail-dropdown-menu detail-dropdown-popper">
+                                <div
+                                    class="dropdown-row"
+                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.ELI5 }"
+                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.ELI5; hide()">
+                                    {{ t('page.ai.createPage.detail.overview') }}
+                                </div>
+                                <div
+                                    class="dropdown-row"
+                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Beginner }"
+                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Beginner; hide()">
+                                    {{ t('page.ai.createPage.detail.basic') }}
+                                </div>
+                                <div
+                                    class="dropdown-row"
+                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Intermediate }"
+                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Intermediate; hide()">
+                                    {{ t('page.ai.createPage.detail.standard') }}
+                                </div>
+                                <div
+                                    class="dropdown-row"
+                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Advanced }"
+                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Advanced; hide()">
+                                    {{ t('page.ai.createPage.detail.detailed') }}
+                                </div>
+                                <div
+                                    class="dropdown-row"
+                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Academic }"
+                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Academic; hide()">
+                                    {{ t('page.ai.createPage.detail.comprehensive') }}
+                                </div>
+                            </div>
+                        </template>
+                    </VDropdown>
                 </div>
 
                 <!-- Content Length Section -->
                 <div class="form-group length-section">
                     <label>{{ t('page.ai.createPage.lengthLabel') }}</label>
                     <div class="length-toggle">
-                        <button
-                            type="button"
-                            class="length-btn"
-                            :class="{ active: aiCreatePageStore.contentLength === ContentLength.Short }"
-                            @click="aiCreatePageStore.contentLength = ContentLength.Short"
+                        <button type="button" class="length-btn" :class="{ active: aiCreatePageStore.contentLength === ContentLength.Short }" @click="aiCreatePageStore.contentLength = ContentLength.Short"
                             :disabled="aiCreatePageStore.isGenerating">
                             {{ t('page.ai.createPage.length.short') }}
                         </button>
-                        <button
-                            type="button"
-                            class="length-btn"
-                            :class="{ active: aiCreatePageStore.contentLength === ContentLength.Medium }"
-                            @click="aiCreatePageStore.contentLength = ContentLength.Medium"
+                        <button type="button" class="length-btn" :class="{ active: aiCreatePageStore.contentLength === ContentLength.Medium }" @click="aiCreatePageStore.contentLength = ContentLength.Medium"
                             :disabled="aiCreatePageStore.isGenerating">
                             {{ t('page.ai.createPage.length.medium') }}
                         </button>
-                        <button
-                            type="button"
-                            class="length-btn"
-                            :class="{ active: aiCreatePageStore.contentLength === ContentLength.Long }"
-                            @click="aiCreatePageStore.contentLength = ContentLength.Long"
+                        <button type="button" class="length-btn" :class="{ active: aiCreatePageStore.contentLength === ContentLength.Long }" @click="aiCreatePageStore.contentLength = ContentLength.Long"
                             :disabled="aiCreatePageStore.isGenerating">
                             {{ t('page.ai.createPage.length.long') }}
                         </button>
@@ -211,12 +258,7 @@ async function handleCreate() {
                 <div v-if="aiCreatePageStore.generatedContent" class="preview-section">
                     <div class="preview-title">
                         <span>{{ t('page.ai.createPage.preview') }}</span>
-                        <button
-                            type="button"
-                            class="regenerate-btn"
-                            @click="handleGenerate"
-                            :disabled="aiCreatePageStore.isGenerating"
-                            :title="t('page.ai.createPage.button.regenerate')">
+                        <button type="button" class="regenerate-btn" @click="handleGenerate" :disabled="aiCreatePageStore.isGenerating" :title="t('page.ai.createPage.button.regenerate')">
                             <font-awesome-icon :icon="['fas', 'rotate']" :spin="aiCreatePageStore.isGenerating" />
                         </button>
                     </div>
@@ -254,15 +296,26 @@ async function handleCreate() {
             font-weight: 500;
             transition: all 0.2s ease;
 
-            &:hover:not(:disabled) {
-                border-color: @memo-blue;
-                color: @memo-blue;
+            &:hover {
+                filter: brightness(0.95);
+            }
+
+            &:active {
+                filter: brightness(0.9);
             }
 
             &.active {
                 background: @memo-blue;
                 border-color: @memo-blue;
                 color: white;
+
+                &:hover {
+                    filter: brightness(0.85);
+                }
+
+                &:active {
+                    filter: brightness(0.7);
+                }
             }
 
             &:disabled {
@@ -288,20 +341,22 @@ async function handleCreate() {
         min-height: 100px;
         border-radius: 0px;
         padding: 12px;
+        border-color: @memo-grey-lighter;
 
         &:focus {
-            border-color: @memo-blue;
+            border-color: @memo-green;
             outline: none;
         }
     }
 
     .url-input {
         width: 100%;
-        border-radius: 0px;
-        padding: 12px;
+        border-radius: 24px;
+        padding: 12px 16px;
+        border-color: @memo-grey-lighter;
 
         &:focus {
-            border-color: @memo-blue;
+            border-color: @memo-green;
             outline: none;
         }
     }
@@ -313,12 +368,12 @@ async function handleCreate() {
         font-size: 12px;
     }
 
-    .difficulty-section {
-        .difficulty-slider-container {
+    .detail-section {
+        .detail-slider-container {
             padding: 0 8px;
         }
 
-        .difficulty-slider {
+        .detail-slider {
             width: 100%;
             height: 8px;
             -webkit-appearance: none;
@@ -351,16 +406,40 @@ async function handleCreate() {
             }
         }
 
-        .difficulty-labels {
+        .detail-labels {
             display: flex;
             justify-content: space-between;
             margin-top: 8px;
             font-size: 12px;
             color: @memo-grey-dark;
 
-            .difficulty-label-current {
+            * {
+                width: 90px;
+            }
+
+            .detail-label-current {
+                text-align: center;
                 font-weight: 600;
                 color: @memo-blue;
+            }
+        }
+
+        .detail-select {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid @memo-grey-lighter;
+            border-radius: 0px;
+            background: white;
+            font-size: 14px;
+            font-weight: 500;
+            color: inherit;
+            cursor: pointer;
+
+            &:hover {
+                border-color: @memo-blue;
             }
         }
     }
@@ -373,7 +452,7 @@ async function handleCreate() {
             .length-btn {
                 flex: 1;
                 padding: 10px 16px;
-                border: 1px solid @memo-grey-light;
+                border: 1px solid @memo-grey-lighter;
                 background: white;
                 border-radius: 0px;
                 cursor: pointer;
@@ -381,15 +460,26 @@ async function handleCreate() {
                 font-size: 14px;
                 transition: all 0.2s ease;
 
-                &:hover:not(:disabled) {
-                    border-color: @memo-blue;
-                    color: @memo-blue;
+                &:hover {
+                    filter: brightness(0.95);
+                }
+
+                &:active {
+                    filter: brightness(0.9);
                 }
 
                 &.active {
                     background: @memo-blue;
                     border-color: @memo-blue;
                     color: white;
+
+                    &:hover {
+                        filter: brightness(0.85);
+                    }
+
+                    &:active {
+                        filter: brightness(0.7);
+                    }
                 }
 
                 &:disabled {
@@ -443,7 +533,7 @@ async function handleCreate() {
                 &:hover:not(:disabled) {
                     border-color: @memo-grey;
                     color: @memo-grey;
-                    background: @memo-grey-lightest;
+                    background: @memo-grey-lighter;
                 }
 
                 &:disabled {
@@ -456,7 +546,7 @@ async function handleCreate() {
         .preview-header {
             padding: 16px;
             border-bottom: 1px solid @memo-grey-light;
-            background: @memo-grey-lightest;
+            background: @memo-grey-lighter;
         }
 
         .preview-content {
@@ -497,5 +587,51 @@ async function handleCreate() {
     .header-icon {
         color: @memo-blue;
     }
+}
+
+.wiki-toggle {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+
+    .wiki-toggle-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        color: @memo-grey-dark;
+        user-select: none;
+
+        &:hover {
+            color: @memo-blue;
+        }
+
+        .toggle-checkbox {
+            font-size: 18px;
+            color: @memo-grey-dark;
+
+            .checked {
+                color: @memo-blue;
+            }
+        }
+    }
+}
+</style>
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.detail-dropdown-popper {
+    width: calc(100vw - 80px);
+
+    .dropdown-row {
+        &.active {
+            background: @memo-grey-lightest;
+            color: @memo-grey-darker;
+            font-weight: 600;
+        }
+    }
+
 }
 </style>

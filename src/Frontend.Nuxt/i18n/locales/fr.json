@@ -731,15 +731,20 @@
                 "title": "Créer une page avec l'IA",
                 "buttonTitle": "Créer une page avec l'IA",
                 "buttonTitleMobile": "Page IA",
+                "modePrompt": "Texte",
+                "modeUrl": "URL",
                 "promptLabel": "Décrivez le contenu de la page",
                 "promptPlaceholder": "Par exemple : Une page sur la photosynthèse avec les concepts principaux et les processus",
-                "difficultyLabel": "Niveau de difficulté",
-                "difficulty": {
-                    "eli5": "Très simple",
-                    "beginner": "Débutant",
-                    "intermediate": "Intermédiaire",
-                    "advanced": "Avancé",
-                    "academic": "Académique"
+                "urlLabel": "URL pour créer la page",
+                "urlPlaceholder": "Par exemple : https://fr.wikipedia.org/wiki/Photosynthèse",
+                "urlHint": "Fonctionne mieux avec Wikipedia, GitHub et les sites de documentation statiques. Certains sites avec protection anti-bots peuvent ne pas fonctionner.",
+                "detailLabel": "Niveau de détail",
+                "detail": {
+                    "overview": "Aperçu",
+                    "basic": "Basique",
+                    "standard": "Standard",
+                    "detailed": "Détaillé",
+                    "comprehensive": "Complet"
                 },
                 "lengthLabel": "Longueur du contenu",
                 "length": {
@@ -754,7 +759,8 @@
                 },
                 "generating": "Génération en cours...",
                 "preview": "Aperçu",
-                "success": "Page créée avec succès !"
+                "success": "Page créée avec succès !",
+                "createAsWiki": "Créer comme Wiki"
             }
         },
         "relationEdit": {
@@ -766,6 +772,7 @@
             },
             "button": {
                 "createPage": "Créer une page",
+                "createWithAi": "Créer avec l'IA",
                 "movePage": "Déplacer la page",
                 "linkPage": "Lier la page"
             },
