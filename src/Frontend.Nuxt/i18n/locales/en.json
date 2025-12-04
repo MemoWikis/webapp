@@ -740,13 +740,13 @@
                 "urlLabel": "Enter a URL to create a page from",
                 "urlPlaceholder": "e.g. https://en.wikipedia.org/wiki/Photosynthesis",
                 "urlHint": "Works best with Wikipedia, GitHub, and static documentation sites. Some sites with bot protection may not work.",
-                "detailLabel": "Detail level",
-                "detail": {
-                    "overview": "Overview",
+                "complexityLabel": "Complexity level",
+                "complexity": {
+                    "simple": "Simple",
                     "basic": "Basic",
                     "standard": "Standard",
-                    "detailed": "Detailed",
-                    "comprehensive": "Comprehensive"
+                    "advanced": "Advanced",
+                    "expert": "Expert"
                 },
                 "lengthLabel": "Content length",
                 "length": {
@@ -757,12 +757,24 @@
                 "button": {
                     "generate": "Generate",
                     "regenerate": "Regenerate",
-                    "create": "Create page"
+                    "create": "Create page",
+                    "createWiki": "Create wiki"
                 },
                 "generating": "Generating page...",
+                "generatingWiki": "Generating wiki with subpages...",
                 "preview": "Preview",
+                "previewWiki": "Wiki preview",
                 "success": "The page was successfully created.",
-                "createAsWiki": "Create as Wiki"
+                "successWiki": "The wiki with all subpages was successfully created.",
+                "createAsWiki": "Create as Wiki",
+                "typePage": "Single page",
+                "typeWiki": "Wiki with subpages",
+                "wikiMain": "Main page",
+                "subpageCount": "{count} subpages",
+                "source": {
+                    "aiGenerated": "AI-generated",
+                    "label": "Source:"
+                }
             }
         },
         "relationEdit": {

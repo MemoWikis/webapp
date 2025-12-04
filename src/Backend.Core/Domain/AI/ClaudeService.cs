@@ -8,7 +8,8 @@ public static class ClaudeService
 
     private static readonly HttpClient httpClient = new HttpClient
     {
-        BaseAddress = new Uri("https://api.anthropic.com")
+        BaseAddress = new Uri("https://api.anthropic.com"),
+        Timeout = TimeSpan.FromMinutes(5)
     };
 
     static ClaudeService()

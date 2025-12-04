@@ -740,13 +740,13 @@
                 "urlLabel": "Gib eine URL ein, um eine Seite zu erstellen",
                 "urlPlaceholder": "z.B. https://de.wikipedia.org/wiki/Photosynthese",
                 "urlHint": "Funktioniert am besten mit Wikipedia, GitHub und statischen Dokumentationsseiten. Einige Seiten mit Bot-Schutz funktionieren möglicherweise nicht.",
-                "detailLabel": "Detailgrad",
-                "detail": {
-                    "overview": "Überblick",
-                    "basic": "Grundlagen",
+                "complexityLabel": "Komplexität",
+                "complexity": {
+                    "simple": "Einfach",
+                    "basic": "Grundlegend",
                     "standard": "Standard",
-                    "detailed": "Detailliert",
-                    "comprehensive": "Umfassend"
+                    "advanced": "Fortgeschritten",
+                    "expert": "Experte"
                 },
                 "lengthLabel": "Inhaltslänge",
                 "length": {
@@ -757,12 +757,24 @@
                 "button": {
                     "generate": "Generieren",
                     "regenerate": "Neu generieren",
-                    "create": "Seite erstellen"
+                    "create": "Seite erstellen",
+                    "createWiki": "Wiki erstellen"
                 },
                 "generating": "Seite wird generiert...",
+                "generatingWiki": "Wiki mit Unterseiten wird generiert...",
                 "preview": "Vorschau",
+                "previewWiki": "Wiki-Vorschau",
                 "success": "Die Seite wurde erfolgreich erstellt.",
-                "createAsWiki": "Als Wiki erstellen"
+                "successWiki": "Das Wiki mit allen Unterseiten wurde erfolgreich erstellt.",
+                "createAsWiki": "Als Wiki erstellen",
+                "typePage": "Einzelne Seite",
+                "typeWiki": "Wiki mit Unterseiten",
+                "wikiMain": "Hauptseite",
+                "subpageCount": "{count} Unterseiten",
+                "source": {
+                    "aiGenerated": "KI-generiert",
+                    "label": "Quelle:"
+                }
             }
         },
         "relationEdit": {

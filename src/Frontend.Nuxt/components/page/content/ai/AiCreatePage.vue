@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { VueElement } from 'vue'
 import { DifficultyLevel, ContentLength, InputMode, useAiCreatePageStore } from './aiCreatePageStore'
 import { useUserStore } from '~/components/user/userStore'
 import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
@@ -12,12 +13,23 @@ const { t } = useI18n()
 const { isMobile } = useDevice()
 const detailDropdownAriaId = useId()
 
-const detailLabels = computed(() => ({
-    [DifficultyLevel.ELI5]: t('page.ai.createPage.detail.overview'),
-    [DifficultyLevel.Beginner]: t('page.ai.createPage.detail.basic'),
-    [DifficultyLevel.Intermediate]: t('page.ai.createPage.detail.standard'),
-    [DifficultyLevel.Advanced]: t('page.ai.createPage.detail.detailed'),
-    [DifficultyLevel.Academic]: t('page.ai.createPage.detail.comprehensive')
+const promptTextArea = ref<HTMLTextAreaElement>()
+const minTextAreaHeight = 100
+
+function resizeTextArea() {
+    const element = promptTextArea.value
+    if (element) {
+        element.style.height = `${minTextAreaHeight}px`
+        element.style.height = `${Math.max(element.scrollHeight, minTextAreaHeight)}px`
+    }
+}
+
+const complexityLabels = computed(() => ({
+    [DifficultyLevel.ELI5]: t('page.ai.createPage.complexity.simple'),
+    [DifficultyLevel.Beginner]: t('page.ai.createPage.complexity.basic'),
+    [DifficultyLevel.Intermediate]: t('page.ai.createPage.complexity.standard'),
+    [DifficultyLevel.Advanced]: t('page.ai.createPage.complexity.advanced'),
+    [DifficultyLevel.Academic]: t('page.ai.createPage.complexity.expert')
 }))
 
 const contentLengthLabels = computed(() => ({
@@ -26,12 +38,17 @@ const contentLengthLabels = computed(() => ({
     [ContentLength.Long]: t('page.ai.createPage.length.long')
 }))
 
-const currentDetailLabel = computed(() => {
-    return detailLabels.value[aiCreatePageStore.difficultyLevel]
+const currentComplexityLabel = computed(() => {
+    return complexityLabels.value[aiCreatePageStore.difficultyLevel]
 })
 
 const currentContentLengthLabel = computed(() => {
     return contentLengthLabels.value[aiCreatePageStore.contentLength]
+})
+
+// Wiki with subpages is generated when: createAsWiki is checked AND content length is Long
+const shouldGenerateWikiWithSubpages = computed(() => {
+    return aiCreatePageStore.createAsWiki && aiCreatePageStore.contentLength === ContentLength.Long
 })
 
 const canGenerate = computed(() => {
@@ -43,8 +60,37 @@ const canGenerate = computed(() => {
     return aiCreatePageStore.prompt.trim().length > 0
 })
 
+const hasGeneratedContent = computed(() => {
+    if (shouldGenerateWikiWithSubpages.value) {
+        return aiCreatePageStore.generatedWikiContent !== null
+    }
+    return aiCreatePageStore.generatedContent !== null
+})
+
 const canCreate = computed(() => {
-    return aiCreatePageStore.generatedContent !== null && !aiCreatePageStore.isGenerating
+    return hasGeneratedContent.value && !aiCreatePageStore.isGenerating
+})
+
+const primaryButtonLabel = computed(() => {
+    if (hasGeneratedContent.value) {
+        return shouldGenerateWikiWithSubpages.value
+            ? t('page.ai.createPage.button.createWiki')
+            : t('page.ai.createPage.button.create')
+    }
+    return t('page.ai.createPage.button.generate')
+})
+
+const currentPreviewContent = computed(() => {
+    if (shouldGenerateWikiWithSubpages.value && aiCreatePageStore.generatedWikiContent) {
+        if (aiCreatePageStore.selectedSubpageIndex !== null && aiCreatePageStore.generatedWikiContent.subpages[aiCreatePageStore.selectedSubpageIndex]) {
+            return aiCreatePageStore.generatedWikiContent.subpages[aiCreatePageStore.selectedSubpageIndex]
+        }
+        return {
+            title: aiCreatePageStore.generatedWikiContent.title,
+            htmlContent: aiCreatePageStore.generatedWikiContent.htmlContent
+        }
+    }
+    return aiCreatePageStore.generatedContent
 })
 
 async function handleGenerate() {
@@ -52,7 +98,7 @@ async function handleGenerate() {
         userStore.openLoginModal()
         return
     }
-    await aiCreatePageStore.generatePage()
+    await aiCreatePageStore.generatePage(shouldGenerateWikiWithSubpages.value)
 }
 
 async function handleCreate() {
@@ -61,25 +107,51 @@ async function handleCreate() {
         return
     }
 
-    const result = await aiCreatePageStore.createPage()
-    if (result.success && result.pageId) {
-        const data: SnackbarData = {
-            type: 'success',
-            text: { message: t('page.ai.createPage.success') },
-            dismissible: true
+    if (shouldGenerateWikiWithSubpages.value) {
+        const result = await aiCreatePageStore.createWiki()
+        if (result.success && result.wikiId) {
+            const data: SnackbarData = {
+                type: 'success',
+                text: { message: t('page.ai.createPage.successWiki') },
+                dismissible: true
+            }
+            snackbarStore.showSnackbar(data)
+            pageStore.reloadGridItems()
+        } else if (result.messageKey) {
+            const data: SnackbarData = {
+                type: 'error',
+                text: { message: t(result.messageKey) },
+                dismissible: true
+            }
+            snackbarStore.showSnackbar(data)
         }
-        snackbarStore.showSnackbar(data)
-
-        // Reload the grid to show the new page
-        pageStore.reloadGridItems()
-    } else if (result.messageKey) {
-        const data: SnackbarData = {
-            type: 'error',
-            text: { message: t(result.messageKey) },
-            dismissible: true
+    } else {
+        const result = await aiCreatePageStore.createPage()
+        if (result.success && result.pageId) {
+            const data: SnackbarData = {
+                type: 'success',
+                text: { message: t('page.ai.createPage.success') },
+                dismissible: true
+            }
+            snackbarStore.showSnackbar(data)
+            pageStore.reloadGridItems()
+        } else if (result.messageKey) {
+            const data: SnackbarData = {
+                type: 'error',
+                text: { message: t(result.messageKey) },
+                dismissible: true
+            }
+            snackbarStore.showSnackbar(data)
         }
-        snackbarStore.showSnackbar(data)
     }
+}
+
+function selectWikiOverview() {
+    aiCreatePageStore.selectedSubpageIndex = null
+}
+
+function selectSubpage(index: number) {
+    aiCreatePageStore.selectedSubpageIndex = index
 }
 </script>
 
@@ -87,28 +159,16 @@ async function handleCreate() {
     <LazyModal
         :show="aiCreatePageStore.showModal"
         @close="aiCreatePageStore.closeModal()"
-        :primary-btn-label="aiCreatePageStore.generatedContent ? t('page.ai.createPage.button.create') : t('page.ai.createPage.button.generate')"
-        @primary-btn="aiCreatePageStore.generatedContent ? handleCreate() : handleGenerate()"
+        :primary-btn-label="primaryButtonLabel"
+        @primary-btn="hasGeneratedContent ? handleCreate() : handleGenerate()"
         :show-cancel-btn="true"
-        :disabled="aiCreatePageStore.generatedContent ? !canCreate : !canGenerate"
+        :disabled="hasGeneratedContent ? !canCreate : !canGenerate"
         content-class="ai-create-page-modal">
         <template #header>
             <h4 class="modal-title">
                 <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" class="header-icon" />
                 {{ t('page.ai.createPage.title') }}
             </h4>
-        </template>
-
-        <template #footer-text>
-            <div class="wiki-toggle">
-                <label class="wiki-toggle-label" @click="aiCreatePageStore.createAsWiki = !aiCreatePageStore.createAsWiki">
-                    <span class="toggle-checkbox">
-                        <font-awesome-icon v-if="aiCreatePageStore.createAsWiki" :icon="['fas', 'square-check']" class="checked" />
-                        <font-awesome-icon v-else :icon="['far', 'square']" />
-                    </span>
-                    <span>{{ t('page.ai.createPage.createAsWiki') }}</span>
-                </label>
-            </div>
         </template>
 
         <template #body>
@@ -135,15 +195,27 @@ async function handleCreate() {
                     </button>
                 </div>
 
+                <!-- Create as Wiki Toggle -->
+                <div class="wiki-toggle">
+                    <label class="wiki-toggle-label" @click="aiCreatePageStore.createAsWiki = !aiCreatePageStore.createAsWiki">
+                        <span class="toggle-checkbox">
+                            <font-awesome-icon v-if="aiCreatePageStore.createAsWiki" :icon="['fas', 'square-check']" class="checked" />
+                            <font-awesome-icon v-else :icon="['far', 'square']" />
+                        </span>
+                        <span>{{ t('page.ai.createPage.createAsWiki') }}</span>
+                    </label>
+                </div>
+
                 <!-- Prompt Input Section -->
                 <div v-if="aiCreatePageStore.inputMode === InputMode.Prompt" class="form-group">
                     <label for="prompt-input">{{ t('page.ai.createPage.promptLabel') }}</label>
                     <textarea
                         id="prompt-input"
+                        ref="promptTextArea"
                         v-model="aiCreatePageStore.prompt"
                         class="form-control prompt-textarea"
                         :placeholder="t('page.ai.createPage.promptPlaceholder')"
-                        rows="4"
+                        @input="resizeTextArea()"
                         :disabled="aiCreatePageStore.isGenerating"></textarea>
                 </div>
 
@@ -160,9 +232,9 @@ async function handleCreate() {
                     <small class="url-hint">{{ t('page.ai.createPage.urlHint') }}</small>
                 </div>
 
-                <!-- Detail Level Section -->
+                <!-- Complexity Level Section -->
                 <div class="form-group detail-section">
-                    <label>{{ t('page.ai.createPage.detailLabel') }}</label>
+                    <label>{{ t('page.ai.createPage.complexityLabel') }}</label>
 
                     <!-- Desktop: Slider -->
                     <div v-if="!isMobile" class="detail-slider-container">
@@ -174,16 +246,16 @@ async function handleCreate() {
                             class="detail-slider"
                             :disabled="aiCreatePageStore.isGenerating" />
                         <div class="detail-labels">
-                            <span class="detail-label-left">{{ t('page.ai.createPage.detail.overview') }}</span>
-                            <span class="detail-label-current">{{ currentDetailLabel }}</span>
-                            <span class="detail-label-right">{{ t('page.ai.createPage.detail.comprehensive') }}</span>
+                            <span class="detail-label-left">{{ t('page.ai.createPage.complexity.simple') }}</span>
+                            <span class="detail-label-current">{{ currentComplexityLabel }}</span>
+                            <span class="detail-label-right">{{ t('page.ai.createPage.complexity.expert') }}</span>
                         </div>
                     </div>
 
                     <!-- Mobile: Dropdown -->
                     <VDropdown v-else :aria-id="detailDropdownAriaId" :distance="0" class="detail-dropdown">
                         <div class="detail-select">
-                            <span>{{ currentDetailLabel }}</span>
+                            <span>{{ currentComplexityLabel }}</span>
                             <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
 
@@ -193,31 +265,31 @@ async function handleCreate() {
                                     class="dropdown-row"
                                     :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.ELI5 }"
                                     @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.ELI5; hide()">
-                                    {{ t('page.ai.createPage.detail.overview') }}
+                                    {{ t('page.ai.createPage.complexity.simple') }}
                                 </div>
                                 <div
                                     class="dropdown-row"
                                     :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Beginner }"
                                     @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Beginner; hide()">
-                                    {{ t('page.ai.createPage.detail.basic') }}
+                                    {{ t('page.ai.createPage.complexity.basic') }}
                                 </div>
                                 <div
                                     class="dropdown-row"
                                     :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Intermediate }"
                                     @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Intermediate; hide()">
-                                    {{ t('page.ai.createPage.detail.standard') }}
+                                    {{ t('page.ai.createPage.complexity.standard') }}
                                 </div>
                                 <div
                                     class="dropdown-row"
                                     :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Advanced }"
                                     @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Advanced; hide()">
-                                    {{ t('page.ai.createPage.detail.detailed') }}
+                                    {{ t('page.ai.createPage.complexity.advanced') }}
                                 </div>
                                 <div
                                     class="dropdown-row"
                                     :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Academic }"
                                     @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Academic; hide()">
-                                    {{ t('page.ai.createPage.detail.comprehensive') }}
+                                    {{ t('page.ai.createPage.complexity.expert') }}
                                 </div>
                             </div>
                         </template>
@@ -246,7 +318,7 @@ async function handleCreate() {
                 <!-- Loading State -->
                 <div v-if="aiCreatePageStore.isGenerating" class="generating-state">
                     <font-awesome-icon :icon="['fas', 'spinner']" spin />
-                    <span>{{ t('page.ai.createPage.generating') }}</span>
+                    <span>{{ shouldGenerateWikiWithSubpages ? t('page.ai.createPage.generatingWiki') : t('page.ai.createPage.generating') }}</span>
                 </div>
 
                 <!-- Error Message -->
@@ -254,8 +326,8 @@ async function handleCreate() {
                     {{ t(aiCreatePageStore.errorMessage) }}
                 </div>
 
-                <!-- Preview Section -->
-                <div v-if="aiCreatePageStore.generatedContent" class="preview-section">
+                <!-- Single Page Preview Section -->
+                <div v-if="aiCreatePageStore.generatedContent && !shouldGenerateWikiWithSubpages" class="preview-section">
                     <div class="preview-title">
                         <span>{{ t('page.ai.createPage.preview') }}</span>
                         <button type="button" class="regenerate-btn" @click="handleGenerate" :disabled="aiCreatePageStore.isGenerating" :title="t('page.ai.createPage.button.regenerate')">
@@ -266,6 +338,51 @@ async function handleCreate() {
                         <strong>{{ aiCreatePageStore.generatedContent.title }}</strong>
                     </div>
                     <div class="preview-content" v-html="aiCreatePageStore.generatedContent.htmlContent"></div>
+                    <div class="preview-source-info">
+                        <span class="ai-badge">
+                            <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
+                            {{ t('page.ai.createPage.source.aiGenerated') }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Wiki with Subpages Preview Section -->
+                <div v-if="aiCreatePageStore.generatedWikiContent && shouldGenerateWikiWithSubpages" class="preview-section wiki-preview">
+                    <div class="preview-title">
+                        <span>{{ t('page.ai.createPage.previewWiki') }}</span>
+                        <button type="button" class="regenerate-btn" @click="handleGenerate" :disabled="aiCreatePageStore.isGenerating" :title="t('page.ai.createPage.button.regenerate')">
+                            <font-awesome-icon :icon="['fas', 'rotate']" :spin="aiCreatePageStore.isGenerating" />
+                        </button>
+                    </div>
+
+                    <!-- Wiki Structure Navigation -->
+                    <div class="wiki-structure">
+                        <div class="wiki-nav-item wiki-main" :class="{ active: aiCreatePageStore.selectedSubpageIndex === null }" @click="selectWikiOverview()">
+                            <font-awesome-icon :icon="['fas', 'book']" class="nav-icon" />
+                            <span class="nav-title">{{ aiCreatePageStore.generatedWikiContent.title }}</span>
+                            <span class="nav-badge">{{ t('page.ai.createPage.wikiMain') }}</span>
+                        </div>
+                        <div v-for="(subpage, index) in aiCreatePageStore.generatedWikiContent.subpages" :key="index" class="wiki-nav-item wiki-subpage" :class="{ active: aiCreatePageStore.selectedSubpageIndex === index }"
+                            @click="selectSubpage(index)">
+                            <font-awesome-icon :icon="['fas', 'file-alt']" class="nav-icon" />
+                            <span class="nav-title">{{ subpage.title }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Selected Content Preview -->
+                    <div v-if="currentPreviewContent" class="preview-header">
+                        <strong>{{ currentPreviewContent.title }}</strong>
+                    </div>
+                    <div v-if="currentPreviewContent" class="preview-content" v-html="currentPreviewContent.htmlContent"></div>
+                    <div class="preview-source-info">
+                        <span class="ai-badge">
+                            <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
+                            {{ t('page.ai.createPage.source.aiGenerated') }}
+                        </span>
+                        <span class="subpage-count">
+                            {{ t('page.ai.createPage.subpageCount', { count: aiCreatePageStore.generatedWikiContent.subpages.length }) }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </template>
@@ -337,11 +454,14 @@ async function handleCreate() {
 
     .prompt-textarea {
         width: 100%;
-        resize: vertical;
+        resize: none;
         min-height: 100px;
+        height: 100px;
+        overflow: hidden;
         border-radius: 0px;
         padding: 12px;
         border-color: @memo-grey-lighter;
+        box-shadow: none;
 
         &:focus {
             border-color: @memo-green;
@@ -354,6 +474,7 @@ async function handleCreate() {
         border-radius: 24px;
         padding: 12px 16px;
         border-color: @memo-grey-lighter;
+        box-shadow: none;
 
         &:focus {
             border-color: @memo-green;
@@ -382,6 +503,7 @@ async function handleCreate() {
             border-radius: 4px;
             outline: none;
             cursor: pointer;
+            user-select: none;
 
             &::-webkit-slider-thumb {
                 -webkit-appearance: none;
@@ -389,7 +511,7 @@ async function handleCreate() {
                 width: 20px;
                 height: 20px;
                 background: white;
-                border: 2px solid @memo-blue;
+                border: 1px solid @memo-grey-lighter;
                 border-radius: 50%;
                 cursor: pointer;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -414,13 +536,17 @@ async function handleCreate() {
             color: @memo-grey-dark;
 
             * {
-                width: 90px;
+                width: 33.3333%;
             }
 
             .detail-label-current {
                 text-align: center;
                 font-weight: 600;
                 color: @memo-blue;
+            }
+
+            .detail-label-right {
+                text-align: right;
             }
         }
 
@@ -502,8 +628,7 @@ async function handleCreate() {
 
     .preview-section {
         margin-top: 24px;
-        border: 1px solid @memo-grey-light;
-        border-radius: 8px;
+        border: 1px solid @memo-grey-lighter;
         overflow: hidden;
 
         .preview-title {
@@ -575,6 +700,103 @@ async function handleCreate() {
                 padding-left: 24px;
             }
         }
+
+        .preview-source-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+            border-top: 1px solid @memo-grey-light;
+            font-size: 13px;
+            color: @memo-grey-dark;
+
+            .ai-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 4px 10px;
+                background: linear-gradient(135deg, @memo-blue 0%, #4a90d9 100%);
+                color: white;
+                border-radius: 12px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+
+            .subpage-count {
+                margin-left: auto;
+                font-size: 12px;
+                color: @memo-grey-dark;
+            }
+        }
+
+        // Wiki structure navigation
+        .wiki-structure {
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            border-bottom: 1px solid @memo-grey-light;
+            max-height: 200px;
+            overflow-y: auto;
+
+            .wiki-nav-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 12px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                background: white;
+                border: 0.5px solid @memo-grey-lighter;
+                border-left: none;
+                border-right: none;
+
+                &:hover {
+                    background: fade(@memo-blue, 10%);
+                    border-color: @memo-blue;
+                }
+
+                &.active {
+                    background: @memo-grey-lighter;
+                    // border-color: @memo-blue;
+                    // color: white;
+
+                    .nav-badge {
+                        background: @memo-grey;
+                        color: white;
+                    }
+                }
+
+                .nav-icon {
+                    font-size: 14px;
+                    color: @memo-grey-dark;
+                    width: 16px;
+                    text-align: center;
+                }
+
+                .nav-title {
+                    flex: 1;
+                    font-size: 14px;
+                    font-weight: 500;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .nav-badge {
+                    font-size: 11px;
+                    padding: 2px 8px;
+                    background: @memo-grey-lighter;
+                    border-radius: 10px;
+                    color: @memo-grey-dark;
+                }
+
+                &.wiki-subpage {
+                    margin-left: 20px;
+                }
+            }
+        }
     }
 }
 
@@ -592,7 +814,7 @@ async function handleCreate() {
 .wiki-toggle {
     display: flex;
     align-items: center;
-    margin-top: 12px;
+    margin-bottom: 16px;
 
     .wiki-toggle-label {
         display: flex;

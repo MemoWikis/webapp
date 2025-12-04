@@ -738,13 +738,13 @@
                 "urlLabel": "URL para crear la página",
                 "urlPlaceholder": "Ej.: https://es.wikipedia.org/wiki/Fotosíntesis",
                 "urlHint": "Funciona mejor con Wikipedia, GitHub y sitios de documentación estáticos. Algunos sitios con protección anti-bots pueden no funcionar.",
-                "detailLabel": "Nivel de detalle",
-                "detail": {
-                    "overview": "Resumen",
+                "complexityLabel": "Nivel de complejidad",
+                "complexity": {
+                    "simple": "Simple",
                     "basic": "Básico",
                     "standard": "Estándar",
-                    "detailed": "Detallado",
-                    "comprehensive": "Exhaustivo"
+                    "advanced": "Avanzado",
+                    "expert": "Experto"
                 },
                 "lengthLabel": "Longitud del contenido",
                 "length": {
@@ -755,12 +755,24 @@
                 "button": {
                     "generate": "Generar",
                     "regenerate": "Regenerar",
-                    "create": "Crear página"
+                    "create": "Crear página",
+                    "createWiki": "Crear wiki"
                 },
                 "generating": "Generando página...",
+                "generatingWiki": "Generando wiki con subpáginas...",
                 "preview": "Vista previa",
+                "previewWiki": "Vista previa del wiki",
                 "success": "La página se ha creado correctamente.",
-                "createAsWiki": "Crear como Wiki"
+                "successWiki": "El wiki con todas las subpáginas se ha creado correctamente.",
+                "createAsWiki": "Crear como Wiki",
+                "typePage": "Página única",
+                "typeWiki": "Wiki con subpáginas",
+                "wikiMain": "Página principal",
+                "subpageCount": "{count} subpáginas",
+                "source": {
+                    "aiGenerated": "Generado por IA",
+                    "label": "Fuente:"
+                }
             }
         },
         "relationEdit": {
