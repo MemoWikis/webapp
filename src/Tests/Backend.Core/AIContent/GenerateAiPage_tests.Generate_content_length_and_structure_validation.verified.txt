@@ -1,0 +1,19 @@
+﻿{
+  ShortContent: {
+    Generated: true,
+    HasTitle: true,
+    AiConfirmsIsShort: true
+  },
+  LongContent: {
+    Generated: true,
+    HasTitle: true,
+    AiConfirmsIsLong: true
+  },
+  HtmlStructure: {
+    ContainsParagraphs: true,
+    DoesNotContainH1: true,
+    H2TagsBalanced: true,
+    NoImages: true,
+    NoScriptTags: true
+  }
+}

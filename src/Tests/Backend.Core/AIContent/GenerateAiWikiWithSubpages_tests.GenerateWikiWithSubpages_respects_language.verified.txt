@@ -1,0 +1,16 @@
+﻿{
+  German: {
+    Generated: true,
+    HasSubpages: true,
+    AiConfirmsTitleIsGerman: true,
+    AiConfirmsContentIsGerman: true,
+    AiConfirmsSubpagesAreGerman: true
+  },
+  French: {
+    Generated: true,
+    HasSubpages: true,
+    AiConfirmsTitleIsFrench: true,
+    AiConfirmsContentIsFrench: true,
+    AiConfirmsSubpagesAreFrench: true
+  }
+}

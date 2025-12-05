@@ -1,0 +1,14 @@
+﻿{
+  WikiGenerated: true,
+  HasTitle: true,
+  HasMainContent: true,
+  HasSubpages: true,
+  AllSubpagesHaveTitles: true,
+  AllSubpagesHaveContent: true,
+  AiValidation: {
+    TitleIsRelevant: true,
+    MainContentIsOverview: true,
+    SubpagesAreRelevant: true,
+    SubpagesAreDifferentTopics: true
+  }
+}

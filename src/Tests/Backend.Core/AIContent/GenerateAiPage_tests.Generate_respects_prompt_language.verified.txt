@@ -1,0 +1,14 @@
+﻿{
+  German: {
+    Generated: true,
+    AiConfirmsLanguage: true
+  },
+  French: {
+    Generated: true,
+    AiConfirmsLanguage: true
+  },
+  English: {
+    Generated: true,
+    AiConfirmsLanguage: true
+  }
+}
