@@ -47,7 +47,7 @@ const { $logger } = useNuxtApp()
 const selectedLanguages = ref<string[]>(locales.value.map(locale => locale.code))
 const debouncedSearchTerm = ref('')
 
-const { data: pageData, status } = await useFetch<GetResponse>('/apiVue/Users/Get', {
+const { data: pageData, status, refresh } = await useFetch<GetResponse>('/apiVue/Users/Get', {
     query: {
         page: currentPage,
         pageSize: usersPerPageCount,
@@ -161,6 +161,18 @@ const toggleLanguage = (code: string) => {
     }
     currentPage.value = 1
 }
+
+watch(selectedLanguages, () => {
+    if (searchTimeout) {
+        clearTimeout(searchTimeout)
+    }
+
+    searchTimeout = setTimeout(() => {
+        if (currentPage.value !== 1)
+            currentPage.value = 1
+        else refresh()
+    }, 300)
+}, { deep: true })
 </script>
 
 <template>
@@ -203,7 +215,7 @@ const toggleLanguage = (code: string) => {
                                     <div class="select-label">
                                         <font-awesome-icon icon="fa-solid fa-language" />
                                         <div class="language-label">{{ t('usersOverview.contentLanguageLabel')
-                                        }}</div>
+                                            }}</div>
                                     </div>
 
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
@@ -211,7 +223,7 @@ const toggleLanguage = (code: string) => {
                                 </div>
 
                                 <template #popper>
-                                    <div class="dropdown-row select-row" v-for="locale in locales"
+                                    <div class="language-select-row dropdown-row select-row" v-for="locale in locales"
                                         :key="locale.code">
                                         <div class="language-checkbox" @click="toggleLanguage(locale.code)"
                                             @keydown.space.prevent="toggleLanguage(locale.code)"
@@ -220,9 +232,12 @@ const toggleLanguage = (code: string) => {
                                             role="checkbox"
                                             :aria-checked="selectedLanguages.includes(locale.code)"
                                             tabindex="0">
+
                                             <font-awesome-icon
                                                 :icon="selectedLanguages.includes(locale.code) ? 'fa-solid fa-square-check' : 'fa-regular fa-square'"
                                                 class="checkbox-icon" />
+                                            <CircleFlags :country="getCountryCode(locale.code)" class="country-flag" />
+
                                             <span class="checkbox-text">{{ locale.name }}</span>
                                         </div>
                                     </div>
@@ -254,7 +269,7 @@ const toggleLanguage = (code: string) => {
                                         @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
                                         :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
                                         <div class="dropdown-label select-option">
-                                            {{ t('usersOverview.sort.options.wishknowledge') }}
+                                            {{ t('usersOverview.sort.options.wishKnowledge') }}
                                         </div>
                                     </div>
                                 </template>
@@ -510,7 +525,7 @@ const toggleLanguage = (code: string) => {
 
 .v-popper--theme-dropdown {
     .v-popper__inner {
-        .dropdown-row {
+        .language-select-row {
 
             .select-option {
                 min-width: 110px;
@@ -555,10 +570,19 @@ const toggleLanguage = (code: string) => {
 
 .language-checkbox {
     cursor: pointer;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: center;
 
     .checkbox-icon {
         margin-right: 8px;
         color: @memo-grey-dark;
+    }
+
+    .country-flag {
+        width: 15px;
+        height: 15px;
     }
 
     &.active {

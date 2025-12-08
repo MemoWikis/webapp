@@ -27,7 +27,7 @@
     public async Task<UsersResult> Get(
         int page,
         int pageSize,
-        string[] languages,
+        [FromQuery(Name = "languages")] string[] languages,
         string searchTerm = "",
         SearchUsersOrderBy orderBy = SearchUsersOrderBy.Rank)
     {
@@ -65,8 +65,9 @@
             var valuations = new QuestionValuationCache(_extendedUserCache)
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
-            var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
-                .Where(_permissionCheck.CanView);
+            //var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
+            //    .Where(_permissionCheck.CanView);
+            var wishQuestions = EntityCache.GetQuestionsByIds(valuations);
             wishQuestionCount = wishQuestions.Count();
             pagesWithWishQuestionCount = wishQuestions.QuestionsInPages().Count();
         }

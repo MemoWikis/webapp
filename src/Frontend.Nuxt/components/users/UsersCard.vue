@@ -8,13 +8,6 @@ interface Props {
 const props = defineProps<Props>()
 const { $urlHelper } = useNuxtApp()
 const { t } = useI18n()
-
-const getCountryCode = (language: string) => {
-    if (language === "en")
-        return "gb"
-    else return language
-
-}
 </script>
 
 <template>
@@ -46,7 +39,7 @@ const getCountryCode = (language: string) => {
                         }) }}
                     </div>
                     <div v-if="props.user.showWuwi" class="mb-8">
-                        {{ t('usersOverview.card.wishknowledge', {
+                        {{ t('usersOverview.card.wishKnowledge', {
                             questions: props.user.wuwiQuestionsCount,
                             pages: props.user.wuwiPagesCount
                         }) }}
@@ -69,8 +62,6 @@ const getCountryCode = (language: string) => {
                             {{ t('usersOverview.card.toWiki', { name: props.user.name }) }}
                         </NuxtLink>
                     </div>
-
-
 
                 </div>
 
