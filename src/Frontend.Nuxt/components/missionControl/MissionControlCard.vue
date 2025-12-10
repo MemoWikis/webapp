@@ -29,7 +29,7 @@ const { $urlHelper } = useNuxtApp()
                 :customStyle="'object-fit: cover; height: 100%; width: 100%;'" />
         </div>
         <div class="page-content">
-            <NuxtLink :navigateTo="$urlHelper.getPageUrl(props.page.name, props.page.id)">
+            <NuxtLink :to="$urlHelper.getPageUrl(props.page.name, props.page.id)">
                 <h3 class="page-title">{{ page.name }}</h3>
             </NuxtLink>
             <div class="page-details" v-if="page.questionCount > 0">
