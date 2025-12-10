@@ -28,22 +28,26 @@ public class MeilisearchPages(PermissionCheck _permissionCheck, int _size = 5)
     {
         var finalResults = new List<MeilisearchPageMap>();
 
-        // Search for pages in specified languages first (if provided)
-        await SearchPagesInSpecifiedLanguage(searchTerm, index, languages, finalResults);
+        // Search for pages in specified languages (if provided)
+        var languageResults = await SearchPagesInSpecifiedLanguage(searchTerm, index, languages);
 
-        // Then search for all other pages
+        // Search for all other pages
         var allResults = await SearchPagesInAllLanguages(searchTerm, index);
 
-        // Add results that aren't already in the list
-        MergeNonDuplicateResults(finalResults, allResults);
+        // Merge results while preserving MeiliSearch relevance order
+        MergeResultsPreservingRelevance(finalResults, languageResults, allResults);
 
-        // Sort results to prioritize user's own pages first (if user is logged in)
+        // Sort results to prioritize user's own pages first while preserving MeiliSearch order within each group
         if (!string.IsNullOrEmpty(_currentUserName))
         {
-            finalResults = finalResults
-                .OrderByDescending(result => result.CreatorName == _currentUserName)
-                .ThenBy(result => result.Id)
+            var userResults = finalResults
+                .Where(result => result.CreatorName == _currentUserName)
                 .ToList();
+            var otherResults = finalResults
+                .Where(result => result.CreatorName != _currentUserName)
+                .ToList();
+            
+            finalResults = userResults.Concat(otherResults).ToList();
         }
 
         FilterCacheItems(finalResults);
@@ -66,8 +70,7 @@ public class MeilisearchPages(PermissionCheck _permissionCheck, int _size = 5)
         return result;
     }
 
-    private async Task SearchPagesInSpecifiedLanguage(string searchTerm, Meilisearch.Index index, List<Language>? languages,
-        List<MeilisearchPageMap> finalResults)
+    private async Task<ISearchable<MeilisearchPageMap>?> SearchPagesInSpecifiedLanguage(string searchTerm, Meilisearch.Index index, List<Language>? languages)
     {
         if (languages != null && languages.Any())
         {
@@ -79,12 +82,13 @@ public class MeilisearchPages(PermissionCheck _permissionCheck, int _size = 5)
             var sqBoosted = new SearchQuery
             {
                 Q = searchTerm,
-                Limit = _count,
+                Limit = _count * 2, // Get more results to avoid drowning out good matches
                 Filter = string.Join(" OR ", clauses)
             };
             var resBoosted = await index.SearchAsync<MeilisearchPageMap>(searchTerm, sqBoosted);
-            finalResults.AddRange(resBoosted.Hits);
+            return resBoosted;
         }
+        return null;
     }
 
     private async Task<ISearchable<MeilisearchPageMap>> SearchPagesInAllLanguages(string searchTerm, Meilisearch.Index index)
@@ -98,11 +102,30 @@ public class MeilisearchPages(PermissionCheck _permissionCheck, int _size = 5)
         return allResults;
     }
 
-    private static void MergeNonDuplicateResults(List<MeilisearchPageMap> finalResults, ISearchable<MeilisearchPageMap> allResults)
+    private static void MergeResultsPreservingRelevance(List<MeilisearchPageMap> finalResults, ISearchable<MeilisearchPageMap>? languageResults, ISearchable<MeilisearchPageMap> allResults)
     {
-        var existingIds = finalResults.Select(result => result.Id).ToHashSet();
-        var additionalResults = allResults.Hits.Where(result => !existingIds.Contains(result.Id));
-        finalResults.AddRange(additionalResults);
+        var seenIds = new HashSet<int>();
+        
+        // Add language-specific results first (if any), preserving their MeiliSearch order
+        if (languageResults != null)
+        {
+            foreach (var result in languageResults.Hits)
+            {
+                if (seenIds.Add(result.Id))
+                {
+                    finalResults.Add(result);
+                }
+            }
+        }
+        
+        // Add remaining results from all languages search, preserving MeiliSearch order
+        foreach (var result in allResults.Hits)
+        {
+            if (seenIds.Add(result.Id))
+            {
+                finalResults.Add(result);
+            }
+        }
     }
 
     private void FilterCacheItems(List<MeilisearchPageMap> pageMaps)
