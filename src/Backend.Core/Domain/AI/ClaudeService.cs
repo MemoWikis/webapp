@@ -4,11 +4,12 @@ using static AiFlashCard;
 
 public static class ClaudeService
 {
-    private const string ClaudeSonnetModel = "claude-3-5-sonnet-20241022";
+    private static readonly string ClaudeSonnetModel = Settings.AnthropicModel;
 
     private static readonly HttpClient httpClient = new HttpClient
     {
-        BaseAddress = new Uri("https://api.anthropic.com")
+        BaseAddress = new Uri("https://api.anthropic.com"),
+        Timeout = TimeSpan.FromMinutes(5)
     };
 
     static ClaudeService()

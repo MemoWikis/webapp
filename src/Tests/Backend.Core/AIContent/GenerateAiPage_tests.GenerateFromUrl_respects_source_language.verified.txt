@@ -1,0 +1,15 @@
+﻿{
+  FrenchWikipedia: {
+    Generated: true,
+    AiConfirmsIsFrench: true,
+    AiConfirmsTopicRelevant: true
+  },
+  EnglishWikipedia: {
+    Generated: true,
+    AiConfirmsIsEnglish: true,
+    AiConfirmsTopicRelevant: true
+  },
+  InvalidUrl: {
+    ReturnsNull: true
+  }
+}

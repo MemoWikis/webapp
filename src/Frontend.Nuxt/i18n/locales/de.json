@@ -144,7 +144,9 @@
         },
         "ai": {
             "generateFlashcards": "Es konnten keine Karteikarten erstellt werden.",
-            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt."
+            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt.",
+            "invalidUrl": "Bitte gib eine gültige URL ein (beginnend mit http:// oder https://).",
+            "urlFetchFailed": "Der Inhalt der URL konnte nicht abgerufen werden. Bitte überprüfe die URL und versuche es erneut."
         },
         "loading": {
             "shares": "Die Freigabeinformationen konnten nicht geladen werden."
@@ -735,6 +737,53 @@
                 "message": {
                     "noFlashcards": "Oops! Du hast keine Karteikarten."
                 }
+            },
+            "createPage": {
+                "title": "Seite mit KI erstellen",
+                "buttonTitle": "Mit KI erstellen",
+                "buttonTitleMobile": "KI",
+                "modePrompt": "Beschreiben",
+                "modeUrl": "Von URL",
+                "promptLabel": "Beschreibe, worum es auf der Seite gehen soll",
+                "promptPlaceholder": "z.B. Erkläre die Grundlagen der Photosynthese...",
+                "urlLabel": "Gib eine URL ein, um eine Seite zu erstellen",
+                "urlPlaceholder": "z.B. https://de.wikipedia.org/wiki/Photosynthese",
+                "urlHint": "Funktioniert am besten mit Wikipedia, GitHub und statischen Dokumentationsseiten. Einige Seiten mit Bot-Schutz funktionieren möglicherweise nicht.",
+                "complexityLabel": "Komplexität",
+                "complexity": {
+                    "simple": "Einfach",
+                    "basic": "Grundlegend",
+                    "standard": "Standard",
+                    "advanced": "Fortgeschritten",
+                    "expert": "Experte"
+                },
+                "lengthLabel": "Inhaltslänge",
+                "length": {
+                    "short": "Kurz",
+                    "medium": "Mittel",
+                    "long": "Ausführlich"
+                },
+                "button": {
+                    "generate": "Generieren",
+                    "regenerate": "Neu generieren",
+                    "create": "Seite erstellen",
+                    "createWiki": "Wiki erstellen"
+                },
+                "generating": "Seite wird generiert...",
+                "generatingWiki": "Wiki mit Unterseiten wird generiert...",
+                "preview": "Vorschau",
+                "previewWiki": "Wiki-Vorschau",
+                "success": "Die Seite wurde erfolgreich erstellt.",
+                "successWiki": "Das Wiki mit allen Unterseiten wurde erfolgreich erstellt.",
+                "createAsWiki": "Als Wiki erstellen",
+                "typePage": "Einzelne Seite",
+                "typeWiki": "Wiki mit Unterseiten",
+                "wikiMain": "Hauptseite",
+                "subpageCount": "{count} Unterseiten",
+                "source": {
+                    "aiGenerated": "KI-generiert",
+                    "label": "Quelle:"
+                }
             }
         },
         "relationEdit": {
@@ -746,6 +795,7 @@
             },
             "button": {
                 "createPage": "Seite erstellen",
+                "createWithAi": "Stattdessen mit KI erstellen",
                 "movePage": "Seite verschieben",
                 "linkPage": "Seite verknüpfen"
             },

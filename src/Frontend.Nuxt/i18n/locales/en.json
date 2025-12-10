@@ -144,7 +144,9 @@
         },
         "ai": {
             "generateFlashcards": "Flashcards could not be created.",
-            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit is reached! Since the page is private, no flashcards have been created."
+            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit is reached! Since the page is private, no flashcards have been created.",
+            "invalidUrl": "Please enter a valid URL (starting with http:// or https://).",
+            "urlFetchFailed": "Could not fetch content from the URL. Please check the URL and try again."
         },
         "loading": {
             "shares": "Could not load sharing information."
@@ -735,6 +737,53 @@
                 "message": {
                     "noFlashcards": "Oops! You have no flashcards."
                 }
+            },
+            "createPage": {
+                "title": "Create page with AI",
+                "buttonTitle": "Create with AI",
+                "buttonTitleMobile": "AI",
+                "modePrompt": "Describe",
+                "modeUrl": "From URL",
+                "promptLabel": "Describe what the page should be about",
+                "promptPlaceholder": "e.g. Explain the basics of photosynthesis...",
+                "urlLabel": "Enter a URL to create a page from",
+                "urlPlaceholder": "e.g. https://en.wikipedia.org/wiki/Photosynthesis",
+                "urlHint": "Works best with Wikipedia, GitHub, and static documentation sites. Some sites with bot protection may not work.",
+                "complexityLabel": "Complexity level",
+                "complexity": {
+                    "simple": "Simple",
+                    "basic": "Basic",
+                    "standard": "Standard",
+                    "advanced": "Advanced",
+                    "expert": "Expert"
+                },
+                "lengthLabel": "Content length",
+                "length": {
+                    "short": "Short",
+                    "medium": "Medium",
+                    "long": "Detailed"
+                },
+                "button": {
+                    "generate": "Generate",
+                    "regenerate": "Regenerate",
+                    "create": "Create page",
+                    "createWiki": "Create wiki"
+                },
+                "generating": "Generating page...",
+                "generatingWiki": "Generating wiki with subpages...",
+                "preview": "Preview",
+                "previewWiki": "Wiki preview",
+                "success": "The page was successfully created.",
+                "successWiki": "The wiki with all subpages was successfully created.",
+                "createAsWiki": "Create as Wiki",
+                "typePage": "Single page",
+                "typeWiki": "Wiki with subpages",
+                "wikiMain": "Main page",
+                "subpageCount": "{count} subpages",
+                "source": {
+                    "aiGenerated": "AI-generated",
+                    "label": "Source:"
+                }
             }
         },
         "relationEdit": {
@@ -746,6 +795,7 @@
             },
             "button": {
                 "createPage": "Create page",
+                "createWithAi": "Create with AI instead",
                 "movePage": "Move page",
                 "linkPage": "Link page"
             },

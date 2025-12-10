@@ -129,6 +129,9 @@
 
             public static readonly string NoFlashcardsCreatedCauseLimitAndPageIsPrivate =
                 "error.ai.noFlashcardsCreatedCauseLimitAndPageIsPrivate";
+            
+            public static readonly string InvalidUrl = "error.ai.invalidUrl";
+            public static readonly string UrlFetchFailed = "error.ai.urlFetchFailed";
         }
 
         public static class Skill

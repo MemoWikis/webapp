@@ -5,12 +5,14 @@ import { useUserStore } from '~~/components/user/userStore'
 import { usePageStore } from '../pageStore'
 import { debounce } from 'underscore'
 import { FullSearch, PageItem, SearchType } from '~~/components/search/searchHelper'
+import { useAiCreatePageStore } from '../content/ai/aiCreatePageStore'
 '~~/components/alert/alertStore'
 
 const loadingStore = useLoadingStore()
 const userStore = useUserStore()
 const editPageRelationStore = useEditPageRelationStore()
 const pageStore = usePageStore()
+const aiCreatePageStore = useAiCreatePageStore()
 const { t, locale } = useI18n()
 
 const name = ref('')
@@ -344,6 +346,11 @@ watch(() => editPageRelationStore.showModal, (val) => {
         privatePageLimitReached.value = false
     }
 })
+
+function openAiCreatePage() {
+    editPageRelationStore.showModal = false
+    aiCreatePageStore.openModal(editPageRelationStore.parentId)
+}
 </script>
 
 <template>
@@ -376,6 +383,12 @@ watch(() => editPageRelationStore.showModal, (val) => {
                         <small class="form-text text-muted"></small>
                     </div>
                 </form>
+                <div class="ai-create-option">
+                    <button class="btn btn-link ai-create-btn" @click="openAiCreatePage">
+                        <font-awesome-icon icon="fa-solid fa-wand-magic-sparkles" />
+                        {{ t('page.relationEdit.button.createWithAi') }}
+                    </button>
+                </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
                     <NuxtLink :href="existingPageUrl" class="alert-link">{{ forbbidenPageName }}</NuxtLink>
                     {{ errorMsg }}

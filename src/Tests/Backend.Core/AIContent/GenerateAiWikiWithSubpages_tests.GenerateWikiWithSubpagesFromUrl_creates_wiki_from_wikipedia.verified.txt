@@ -1,0 +1,11 @@
+﻿{
+  WikiGenerated: true,
+  HasTitle: true,
+  HasMainContent: true,
+  HasSubpages: true,
+  AiValidation: {
+    TitleIsRelevant: true,
+    ContentIsAboutWWII: true,
+    SubpagesAreWWIITopics: true
+  }
+}

@@ -735,6 +735,53 @@
                 "message": {
                     "noFlashcards": "Oups ! Tu n’as aucune carte."
                 }
+            },
+            "createPage": {
+                "title": "Créer une page avec l'IA",
+                "buttonTitle": "Créer une page avec l'IA",
+                "buttonTitleMobile": "Page IA",
+                "modePrompt": "Texte",
+                "modeUrl": "URL",
+                "promptLabel": "Décrivez le contenu de la page",
+                "promptPlaceholder": "Par exemple : Une page sur la photosynthèse avec les concepts principaux et les processus",
+                "urlLabel": "URL pour créer la page",
+                "urlPlaceholder": "Par exemple : https://fr.wikipedia.org/wiki/Photosynthèse",
+                "urlHint": "Fonctionne mieux avec Wikipedia, GitHub et les sites de documentation statiques. Certains sites avec protection anti-bots peuvent ne pas fonctionner.",
+                "complexityLabel": "Niveau de complexité",
+                "complexity": {
+                    "simple": "Simple",
+                    "basic": "Basique",
+                    "standard": "Standard",
+                    "advanced": "Avancé",
+                    "expert": "Expert"
+                },
+                "lengthLabel": "Longueur du contenu",
+                "length": {
+                    "short": "Court",
+                    "medium": "Moyen",
+                    "long": "Détaillé"
+                },
+                "button": {
+                    "generate": "Générer un aperçu",
+                    "regenerate": "Régénérer",
+                    "create": "Créer la page",
+                    "createWiki": "Créer le wiki"
+                },
+                "generating": "Génération en cours...",
+                "generatingWiki": "Génération du wiki avec sous-pages...",
+                "preview": "Aperçu",
+                "previewWiki": "Aperçu du wiki",
+                "success": "Page créée avec succès !",
+                "successWiki": "Le wiki avec toutes les sous-pages a été créé avec succès.",
+                "createAsWiki": "Créer comme Wiki",
+                "typePage": "Page unique",
+                "typeWiki": "Wiki avec sous-pages",
+                "wikiMain": "Page principale",
+                "subpageCount": "{count} sous-pages",
+                "source": {
+                    "aiGenerated": "Généré par IA",
+                    "label": "Source :"
+                }
             }
         },
         "relationEdit": {
@@ -746,6 +793,7 @@
             },
             "button": {
                 "createPage": "Créer une page",
+                "createWithAi": "Créer avec l'IA",
                 "movePage": "Déplacer la page",
                 "linkPage": "Lier la page"
             },
