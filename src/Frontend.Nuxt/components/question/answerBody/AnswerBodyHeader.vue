@@ -32,7 +32,7 @@ const publishQuestionStore = usePublishQuestionStore()
                     <QuestionPin
                         :question-id="answerBodyModel.id"
                         :key="answerBodyModel.id"
-                        :is-in-wishknowledge="answerBodyModel.isInWishKnowledge" />
+                        :is-in-wish-knowledge="answerBodyModel.isInWishKnowledge" />
                 </div>
             </div>
             <QuestionAnswerBodyOptions

@@ -30,7 +30,7 @@
 
         if (!withinLimit && logExceedance)
         {
-            LogExceededLimit("question in wishknowledge");
+            LogExceededLimit("question in wishKnowledge");
         }
 
         return withinLimit;

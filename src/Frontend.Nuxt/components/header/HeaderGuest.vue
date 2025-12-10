@@ -269,7 +269,7 @@ const { sideSheetOpen } = useSideSheetState()
                     }
 
                     .badge-header {
-                        background-color: @memo-wuwi-red;
+                        background-color: @memo-wish-knowledge-red;
                         width: 19px;
                         margin-top: 3px;
                         left: 11px;

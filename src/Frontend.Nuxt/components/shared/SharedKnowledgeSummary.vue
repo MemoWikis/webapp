@@ -1,60 +1,168 @@
 <script lang="ts" setup>
+import { KnowledgeSummaryType } from '~/composables/knowledgeSummary'
 
 interface Props {
     knowledgeSummary: KnowledgeSummary
+    showActions?: boolean
+    actionIcon?: string
+    useTotal?: boolean
 }
 
 const props = defineProps<Props>()
 const { t } = useI18n()
 
-const knowledgeStatusItems = computed(() => [
+const knowledgeTypeDefinitions = [
     {
-        label: t('knowledgeStatus.solid'),
-        value: props.knowledgeSummary.solid,
-        percentage: props.knowledgeSummary.solidPercentage,
-        class: 'solid'
+        key: 'solid',
+        labelKey: 'knowledgeStatus.solid',
+        class: 'solid',
+        type: KnowledgeSummaryType.SolidWishKnowledge
     },
     {
-        label: t('knowledgeStatus.needsConsolidation'),
-        value: props.knowledgeSummary.needsConsolidation,
-        percentage: props.knowledgeSummary.needsConsolidationPercentage,
-        class: 'needsConsolidation'
+        key: 'needsConsolidation',
+        labelKey: 'knowledgeStatus.needsConsolidation',
+        class: 'needsConsolidation',
+        type: KnowledgeSummaryType.NeedsConsolidationWishKnowledge
     },
     {
-        label: t('knowledgeStatus.needsLearning'),
-        value: props.knowledgeSummary.needsLearning,
-        percentage: props.knowledgeSummary.needsLearningPercentage,
-        class: 'needsLearning'
+        key: 'needsLearning',
+        labelKey: 'knowledgeStatus.needsLearning',
+        class: 'needsLearning',
+        type: KnowledgeSummaryType.NeedsLearningWishKnowledge
     },
     {
-        label: t('knowledgeStatus.notLearned'),
-        value: props.knowledgeSummary.notLearned,
-        percentage: props.knowledgeSummary.notLearnedPercentage,
-        class: 'notLearned'
+        key: 'notLearned',
+        labelKey: 'knowledgeStatus.notLearned',
+        class: 'notLearned',
+        type: KnowledgeSummaryType.NotLearnedWishKnowledge
     }
-])
+]
+
+const knowledgeStatusItems = computed(() => {
+    const items = []
+
+    if (props.knowledgeSummary.total) {
+        // Add regular knowledge items
+        for (const definition of knowledgeTypeDefinitions) {
+            const value = props.knowledgeSummary.total[definition.key as keyof typeof props.knowledgeSummary.total]
+            const percentage = props.knowledgeSummary.total[`${definition.key}Percentage` as keyof typeof props.knowledgeSummary.total]
+
+            items.push({
+                label: t(definition.labelKey),
+                value,
+                percentage,
+                class: definition.class,
+                type: definition.type
+            })
+        }
+
+        // Add notInWishKnowledge item
+        items.push({
+            label: t('knowledgeStatus.notInWishKnowledge'),
+            value: props.knowledgeSummary.total.notInWishKnowledgeCount,
+            percentage: props.knowledgeSummary.total.notInWishKnowledgePercentage,
+            class: 'notInWishKnowledge',
+            type: KnowledgeSummaryType.NotInWishKnowledge
+        })
+    }
+
+    return items
+})
+
+const knowledgeStatusItemsInWishKnowledge = computed(() => {
+    const items = []
+
+    if (props.knowledgeSummary.inWishKnowledge) {
+        for (const definition of knowledgeTypeDefinitions) {
+            const value = props.knowledgeSummary.inWishKnowledge[definition.key as keyof typeof props.knowledgeSummary.inWishKnowledge]
+            const percentage = props.knowledgeSummary.inWishKnowledge[`${definition.key}Percentage` as keyof typeof props.knowledgeSummary.inWishKnowledge]
+
+            items.push({
+                label: t(definition.labelKey),
+                value,
+                percentage,
+                class: definition.class,
+                type: definition.type
+            })
+        }
+    }
+    return items
+})
+
+
+
+const emit = defineEmits<{
+    (e: 'actionClick', type: KnowledgeSummaryType): void
+}>()
+
 </script>
 
 <template>
-    <div class="summary-details">
-        <div
-            v-for="(item, index) in knowledgeStatusItems"
-            :key="index"
-            class="status-item">
-            <div class="status-info">
-                <span class="status-dot" :class="`dot-${item.class}`"></span>
-                <span class="status-label">{{ item.label }}</span>
-            </div>
-            <div class="status-value">
-                <span class="value">{{ item.value }}</span>
-                <span v-if="item.percentage !== null" class="percentage">({{ item.percentage }}%)</span>
+    <div class="summary-details-container">
+        <div class="summary-details" v-if="props.useTotal">
+            <div
+                v-for="(item, index) in knowledgeStatusItems"
+                :key="index"
+                class="status-item">
+                <div class="status-info">
+                    <span class="status-dot" :class="'dot-' + item.class.replace(' ', ' dot-')"></span>
+                    <span class="status-label">{{ item.label }}</span>
+                </div>
+                <div class="status-details">
+                    <div class="status-value">
+                        <span class="value">{{ item.value }}</span>
+                        <span v-if="item.percentage !== null" class="percentage">({{ item.percentage }}%)</span>
+                    </div>
+                    <div class="status-actions" v-if="props.showActions">
+                        <button class="play-button" @click="$emit('actionClick', item.type)">
+                            <font-awesome-icon :icon="props.actionIcon" />
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
+        <template v-else>
+            <div class="summary-details">
+                <div
+                    v-for="(item, index) in knowledgeStatusItemsInWishKnowledge"
+                    :key="index"
+                    class="status-item">
+                    <div class="status-info">
+                        <span class="status-dot" :class="'dot-' + item.class.replace(' ', ' dot-')"></span>
+                        <span class="status-label">{{ item.label }}</span>
+                    </div>
+                    <div class="status-details">
+                        <div class="status-value">
+                            <span class="value">{{ item.value }}</span>
+                            <span v-if="item.percentage !== null" class="percentage">({{ item.percentage }}%)</span>
+                        </div>
+                        <div class="status-actions" v-if="props.showActions">
+                            <button class="play-button" @click="$emit('actionClick', item.type)">
+                                <font-awesome-icon :icon="props.actionIcon" />
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </template>
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.summary-details-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem 4rem;
+    flex-wrap: wrap;
+
+    h4 {
+        margin-top: 0;
+    }
+}
 
 .summary-details {
     padding: 20px 0;
@@ -83,19 +191,23 @@ const knowledgeStatusItems = computed(() => [
                 min-width: 12px;
 
                 &.dot-solid {
-                    background-color: @memo-green;
+                    background-color: @solid-knowledge-color;
                 }
 
                 &.dot-needsConsolidation {
-                    background-color: @memo-yellow;
+                    background-color: @needs-consolidation-color;
                 }
 
                 &.dot-needsLearning {
-                    background-color: @memo-salmon;
+                    background-color: @needs-learning-color;
                 }
 
                 &.dot-notLearned {
-                    background-color: @memo-grey-light;
+                    background-color: @not-learned-color;
+                }
+
+                &.dot-notInWishKnowledge {
+                    background-color: @not-in-wish-knowledge-color;
                 }
             }
 
@@ -105,17 +217,54 @@ const knowledgeStatusItems = computed(() => [
             }
         }
 
-        .status-value {
-            font-size: 14px;
+        .status-details {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: flex-end;
 
-            .value {
-                font-weight: 600;
-                color: @memo-grey-darker;
+            .status-value {
+                font-size: 14px;
+
+                .value {
+                    font-weight: 600;
+                    color: @memo-grey-darker;
+                }
+
+                .percentage {
+                    margin-left: 4px;
+                    color: @memo-grey-dark;
+                }
             }
 
-            .percentage {
-                margin-left: 4px;
-                color: @memo-grey-dark;
+            .status-actions {
+                margin-left: 16px;
+
+                .play-button {
+                    background: white;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 24px;
+                    color: @memo-grey-dark;
+                    font-size: 16px;
+                    padding: 4px;
+                    height: 24px;
+                    width: 24px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding-left: 6px;
+
+                    &:hover {
+                        color: @memo-grey-darker;
+                        background: darken(white, 5%);
+                    }
+
+                    &:focus {
+                        outline: 2px solid @memo-blue;
+                        outline-offset: 2px;
+                    }
+                }
             }
         }
     }

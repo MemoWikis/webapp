@@ -26,6 +26,6 @@ export interface AnswerQuestionDetailsResult {
     }
     creationDate: Date
     totalViewCount: number
-    wishknowledgeCount: number
+    wishKnowledgeCount: number
     licenseId: number
 }

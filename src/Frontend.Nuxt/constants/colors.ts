@@ -6,7 +6,7 @@ export const memoBlue = "#003264"
 export const memoBlueLighter = "#1964c8"
 export const memoBlueLink = "#0065CA"
 export const memoBlueLightTransparent = "#0065ca1A"
-export const memoWuwiRed = "#FF001F"
+export const memoWishKnowledgeRed = "#FF001F"
 export const memoGreyLighter = "#EFEFEF"
 export const memoGreyLight = "#DDDDDD"
 export const memoGrey = "#999999"
@@ -69,7 +69,7 @@ export const color = {
     memoBlueLighter,
     memoBlueLink,
     memoBlueLightTransparent,
-    memoWuwiRed,
+    memoWishKnowledgeRed,
     memoGreyLighter,
     memoGreyLight,
     memoGrey,

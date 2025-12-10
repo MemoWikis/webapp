@@ -3,46 +3,93 @@ import { KnowledgeSummary } from '~/composables/knowledgeSummary'
 
 interface Props {
     knowledgebarData: KnowledgeSummary
+    useTotal?: boolean
 }
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+    useTotal: true
+})
 
-interface KnowledgebarTooltipData {
+interface KnowledgeItem {
+    key: string
     value: number
-    class: string
-}
-
-const knowledgebarTooltipData = ref<KnowledgebarTooltipData[]>([])
-
-function setKnowledgebarData() {
-
-    knowledgebarTooltipData.value = []
-    for (const [key, value] of Object.entries(props.knowledgebarData)) {
-        if (key === 'solid' || key === 'needsConsolidation' || key === 'needsLearning' || key === 'notLearned')
-            knowledgebarTooltipData.value.push({
-                value: value,
-                class: key,
-            })
-    }
-    knowledgebarTooltipData.value = knowledgebarTooltipData.value.slice().reverse()
+    percentage: number
+    sharedClass: string
+    translationKey: string
 }
 
 const { t } = useI18n()
 
-function getTooltipLabel(key: string, count: number) {
-    switch (key) {
-        case 'solid':
-            return t('knowledgeStatus.solidCount', count)
-        case 'needsConsolidation':
-            return t('knowledgeStatus.needsConsolidationCount', count)
-        case 'needsLearning':
-            return t('knowledgeStatus.needsLearningCount', count)
-        case 'notLearned':
-            return t('knowledgeStatus.notLearnedCount', count)
-    }
-}
+const knowledgeTypeDefinitions = [
+    { key: 'solid', sharedClass: 'solid', translationKey: 'knowledgeStatus.solidCount' },
+    { key: 'needsConsolidation', sharedClass: 'needs-consolidation', translationKey: 'knowledgeStatus.needsConsolidationCount' },
+    { key: 'needsLearning', sharedClass: 'needs-learning', translationKey: 'knowledgeStatus.needsLearningCount' },
+    { key: 'notLearned', sharedClass: 'not-learned', translationKey: 'knowledgeStatus.notLearnedCount' }
+]
 
-onBeforeMount(() => setKnowledgebarData())
-watch(() => props.knowledgebarData, () => setKnowledgebarData(), { deep: true })
+const knowledgeItems = computed<KnowledgeItem[]>(() => {
+    const items: KnowledgeItem[] = []
+
+    if (props.useTotal && props.knowledgebarData.total) {
+        // Build items from total data
+        for (const definition of knowledgeTypeDefinitions) {
+            const value = props.knowledgebarData.inWishKnowledge?.[definition.key as keyof typeof props.knowledgebarData.inWishKnowledge] || 0
+            const percentage = props.knowledgebarData.total[`${definition.key}Percentage` as keyof typeof props.knowledgebarData.total]
+
+            if (percentage && percentage > 0) {
+                items.push({
+                    key: definition.key,
+                    value: value as number,
+                    percentage: percentage as number,
+                    sharedClass: definition.sharedClass,
+                    translationKey: definition.translationKey
+                })
+            }
+        }
+
+        // Add notInWishKnowledge if present
+        if (props.knowledgebarData.total.notInWishKnowledgePercentage && props.knowledgebarData.total.notInWishKnowledgePercentage > 0) {
+            items.push({
+                key: 'notInWishKnowledge',
+                value: props.knowledgebarData.total.notInWishKnowledgeCount || 0,
+                percentage: props.knowledgebarData.total.notInWishKnowledgePercentage,
+                sharedClass: 'not-in-wish-knowledge',
+                translationKey: 'knowledgeStatus.notInWishKnowledgeCount'
+            })
+        }
+    } else if (props.knowledgebarData.inWishKnowledge) {
+        // Build items from inWishKnowledge data
+        for (const definition of knowledgeTypeDefinitions) {
+            const value = props.knowledgebarData.inWishKnowledge[definition.key as keyof typeof props.knowledgebarData.inWishKnowledge]
+            const percentage = props.knowledgebarData.inWishKnowledge[`${definition.key}Percentage` as keyof typeof props.knowledgebarData.inWishKnowledge]
+
+            if (percentage && percentage > 0) {
+                items.push({
+                    key: definition.key,
+                    value: value as number,
+                    percentage: percentage as number,
+                    sharedClass: definition.sharedClass,
+                    translationKey: definition.translationKey
+                })
+            }
+        }
+    }
+
+    return items
+})
+
+const barSegments = computed(() => knowledgeItems.value.map(item => ({
+    key: item.key,
+    percentage: item.percentage,
+    cssClass: `${item.sharedClass} total`
+})))
+
+const tooltipItems = computed(() => knowledgeItems.value.filter(item => item.value > 0).map(item => ({
+    key: item.key,
+    value: item.value,
+    colorClass: item.sharedClass,
+    translationKey: item.translationKey
+})))
+
 const ariaId = useId()
 
 </script>
@@ -50,28 +97,16 @@ const ariaId = useId()
 <template>
     <VTooltip :aria-id="ariaId" class="tooltip-container">
         <div class="knowledgebar">
-            <div v-if="knowledgebarData.solidPercentage > 0" class="solid-knowledge"
-                :style="{ 'width': knowledgebarData.solidPercentage + '%' }">
-            </div>
-            <div v-if="knowledgebarData.needsConsolidationPercentage > 0" class="needs-consolidation"
-                :style="{ 'width': knowledgebarData.needsConsolidationPercentage + '%' }">
-            </div>
-            <div v-if="knowledgebarData.needsLearningPercentage > 0" class="needs-learning"
-                :style="{ 'width': knowledgebarData.needsLearningPercentage + '%' }">
-            </div>
-            <div v-if="knowledgebarData.notLearnedPercentage > 0" class="not-learned"
-                :style="{ 'width': knowledgebarData.notLearnedPercentage + '%' }">
+            <div v-for="segment in barSegments" :key="segment.key" :class="segment.cssClass"
+                :style="{ 'width': segment.percentage + '%' }">
             </div>
         </div>
         <template #popper>
             <b>{{ t('page.grid.knowledgeStatus.title') }}</b>
-            <div v-for="d in knowledgebarTooltipData" v-if="knowledgebarTooltipData.some(d => d.value > 0)"
-                class="knowledgesummary-info">
-                <div class="color-container" :class="`color-${d.class}`"></div>
-                <div>{{ getTooltipLabel(d.class!, d.value) }}</div>
-            </div>
-            <div v-else>
-                {{ t('page.grid.knowledgeStatus.noQuestions') }}
+
+            <div v-for="item in tooltipItems" :key="item.key" class="knowledgesummary-info">
+                <div class="color-container" :class="item.colorClass"></div>
+                <div>{{ t(item.translationKey, item.value) }}</div>
             </div>
         </template>
     </VTooltip>
@@ -91,7 +126,7 @@ const ariaId = useId()
 
     cursor: help;
 
-    .solid-knowledge,
+    .solid,
     .needs-learning,
     .needs-consolidation,
     .not-learned,
@@ -108,7 +143,7 @@ const ariaId = useId()
         background-color: @needs-consolidation-color;
     }
 
-    .solid-knowledge {
+    .solid {
         background-color: @solid-knowledge-color;
     }
 
@@ -118,6 +153,21 @@ const ariaId = useId()
 
     .not-in-wish-knowledge {
         background-color: @not-in-wish-knowledge-color;
+    }
+}
+
+.tooltip-section {
+    margin-bottom: 8px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    h4 {
+        margin: 4px 0 4px 0;
+        font-size: 12px;
+        font-weight: 600;
+        color: #666;
     }
 }
 
@@ -134,20 +184,24 @@ const ariaId = useId()
         margin-right: 4px;
         border-radius: 50%;
 
-        &.color-notLearned {
-            background: @memo-grey-light;
+        &.not-learned {
+            background: @memo-grey-dark;
         }
 
-        &.color-needsLearning {
+        &.needs-learning {
             background: @memo-salmon;
         }
 
-        &.color-needsConsolidation {
+        &.needs-consolidation {
             background: @memo-yellow;
         }
 
-        &.color-solid {
+        &.solid {
             background: @memo-green;
+        }
+
+        &.not-in-wish-knowledge {
+            background: @memo-grey-light;
         }
     }
 }

@@ -4,10 +4,10 @@ using NUnit.Framework;
 
 namespace TrueOrFalse.Tests;
 
-class Get_wuwi_from_category : BaseTest
+class Get_wishKnowledge_from_category : BaseTest
 {
     [Test]
-    public void GetWuwiSession()
+    public void GetWishKnowledgeSession()
     {
         var questionwriterRepo = R<QuestionWritingRepo>(); 
         var userReadingRepo = R<UserReadingRepo>();
@@ -21,7 +21,7 @@ class Get_wuwi_from_category : BaseTest
             questionwriterRepo);
 
         var questionValuationRepo = R<QuestionValuationRepo>();
-        ContextQuestion.SetWuwi(20,
+        ContextQuestion.SetWishKnowledge(20,
             R<CategoryValuationReadingRepo>(),
             answerRepo,
             answerQuestion,
@@ -36,14 +36,14 @@ class Get_wuwi_from_category : BaseTest
             Resolve<CategoryValuationReadingRepo>(), userReadingRepo, questionValuationRepo)
             .First(uci => uci.Name == "Daniel" );
 
-        var wuwis = userCacheItem.QuestionValuations
+        var wishKnowledges = userCacheItem.QuestionValuations
             .Select(qv => qv.Value)
             .Where(qv=> qv.IsInWishKnowledge && qv.Question.Categories.Any(c=> c.Id == categoryId) )
             .ToList();
 
-        var wuwisFromLearningSession = Resolve<LearningSessionCreator>().BuildLearningSession(new LearningSessionConfig
+        var wishKnowledgesFromLearningSession = Resolve<LearningSessionCreator>().BuildLearningSession(new LearningSessionConfig
             { InWishKnowledge = true, CategoryId = categoryId, CurrentUserId = userCacheItem.Id});
 
-        Assert.That(wuwisFromLearningSession.Steps.Count, Is.EqualTo(wuwis.Count));
+        Assert.That(wishKnowledgesFromLearningSession.Steps.Count, Is.EqualTo(wishKnowledges.Count));
     }
 }

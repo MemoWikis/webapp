@@ -20,7 +20,7 @@ interface DeleteDetails {
     questionTitle: string
     totalAnswers: number
     canNotBeDeleted: boolean
-    wuwiCount: number
+    wishKnowledgeCount: number
     hasRights: boolean
 }
 const { $logger } = useNuxtApp()
@@ -41,8 +41,8 @@ async function getDeleteDetails(id: number) {
     if (result) {
         name.value = result.questionTitle
         if (result.canNotBeDeleted) {
-            if (result.wuwiCount > 0)
-                errorMsg.value = t('error.question.isInWishKnowledge', result.wuwiCount)
+            if (result.wishKnowledgeCount > 0)
+                errorMsg.value = t('error.question.isInWishKnowledge', result.wishKnowledgeCount)
             else
                 errorMsg.value = t('error.question.rights')
             showErrorMsg.value = true

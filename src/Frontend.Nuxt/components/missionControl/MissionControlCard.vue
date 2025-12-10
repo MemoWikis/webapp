@@ -29,7 +29,7 @@ const { $urlHelper } = useNuxtApp()
                 :customStyle="'object-fit: cover; height: 100%; width: 100%;'" />
         </div>
         <div class="page-content">
-            <NuxtLink :navigateTo="$urlHelper.getPageUrl(props.page.name, props.page.id)">
+            <NuxtLink :to="$urlHelper.getPageUrl(props.page.name, props.page.id)">
                 <h3 class="page-title">{{ page.name }}</h3>
             </NuxtLink>
             <div class="page-details" v-if="page.questionCount > 0">
@@ -45,7 +45,7 @@ const { $urlHelper } = useNuxtApp()
                 <div class="page-details-action" v-if="page.questionCount > 0">
                     <NuxtLink
                         v-if="page.questionCount > 0"
-                        :to="{ path: $urlHelper.getPageUrl(page.name, page.id, Tab.Learning), query: { inWuWi: (page.knowledgebarData != null).toString() } }"
+                        :to="{ path: $urlHelper.getPageUrl(page.name, page.id, Tab.Learning), query: { inWishKnowledge: (page.knowledgebarData != null).toString() } }"
                         class="action-button"
                         :title="t('missionControl.pageTable.learnNow')"
                         v-tooltip="t('missionControl.pageTable.learnNow')">

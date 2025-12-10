@@ -39,13 +39,13 @@ const { t } = useI18n()
             <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" v-else>
                 <button
                     id="btnRightAnswer"
-                    class="btn btn-warning memo-button"
+                    class="btn btn-correct memo-button"
                     @click="emit('answerFlashcard', true)">
                     {{ t('answerbody.flashcardKnew') }}
                 </button>
                 <button
                     id="btnWrongAnswer"
-                    class="btn btn-warning memo-button"
+                    class="btn btn-wrong memo-button"
                     @click="emit('answerFlashcard', false)">
                     {{ t('answerbody.flashcardDidNotKnow') }}
                 </button>
@@ -130,6 +130,8 @@ const { t } = useI18n()
 </template>
 
 <style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
 .ButtonGroup {
     display: flex;
     justify-content: flex-start;
@@ -151,5 +153,13 @@ const { t } = useI18n()
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+.btn-correct {
+    background-color: @solid-knowledge-color;
+}
+
+.btn-wrong {
+    background-color: @needs-learning-color;
 }
 </style>

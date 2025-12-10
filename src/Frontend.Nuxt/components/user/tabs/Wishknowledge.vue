@@ -55,12 +55,12 @@ const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
-    <div class="wuwi-partial">
-        <h4>{{ t('user.wishknowledge.questions.title', { count: props.questions?.length || 0 }) }}</h4>
+    <div class="wish-knowledge-partial">
+        <h4>{{ t('user.wishKnowledge.questions.title', { count: props.questions?.length || 0 }) }}</h4>
         <div class="search-section" v-if="(props.questions ?? []).length > 0">
             <div class="search-container">
                 <input type="text" v-model="searchQuestion" class="search-input"
-                    :placeholder="t('user.wishknowledge.questions.search')" />
+                    :placeholder="t('user.wishKnowledge.questions.search')" />
                 <div class="search-icon reset-icon" v-if="searchQuestion.length > 0" @click="searchQuestion = ''">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
@@ -69,41 +69,41 @@ const { $urlHelper } = useNuxtApp()
                 </div>
             </div>
         </div>
-        <div class="wuwi-list">
-            <div v-for="q in filteredQuestionsOnPage" class="wuwi-link">
+        <div class="wish-knowledge-list">
+            <div v-for="q in filteredQuestionsOnPage" class="wish-knowledge-link">
                 <NuxtLink :to="`${$urlHelper.getPageUrl(q.primaryPageName, q.primaryPageId)}/Lernen/${q.id}`">
                     {{ q.title }}
                 </NuxtLink>
             </div>
             <div v-if="filteredQuestions?.length === 0 && searchQuestion.length > 0" class="search-error">
-                {{ t('user.wishknowledge.questions.noResults', { term: searchQuestion }) }}
+                {{ t('user.wishKnowledge.questions.noResults', { term: searchQuestion }) }}
             </div>
         </div>
         <div class="pagination">
             <vue-awesome-paginate v-if="filteredQuestions" :total-items="filteredQuestions?.length"
                 :items-per-page="questionsPerPage" :max-pages-shown="5" v-model="currentQuestionPage"
                 :show-ending-buttons="false" :show-breakpoint-buttons="false"
-                :prev-button-content="t('user.wishknowledge.pagination.previous')"
-                :next-button-content="t('user.wishknowledge.pagination.next')"
-                :first-page-content="t('user.wishknowledge.pagination.first')"
-                :last-page-content="t('user.wishknowledge.pagination.last')" class="hidden-xs" />
+                :prev-button-content="t('user.wishKnowledge.pagination.previous')"
+                :next-button-content="t('user.wishKnowledge.pagination.next')"
+                :first-page-content="t('user.wishKnowledge.pagination.first')"
+                :last-page-content="t('user.wishKnowledge.pagination.last')" class="hidden-xs" />
 
             <vue-awesome-paginate v-if="filteredQuestions" :total-items="filteredQuestions?.length"
                 :items-per-page="questionsPerPage" :max-pages-shown="3" v-model="currentQuestionPage"
                 :show-ending-buttons="false" :show-breakpoint-buttons="false"
-                :prev-button-content="t('user.wishknowledge.pagination.previous')"
-                :next-button-content="t('user.wishknowledge.pagination.next')" class="hidden-sm hidden-lg hidden-md" />
+                :prev-button-content="t('user.wishKnowledge.pagination.previous')"
+                :next-button-content="t('user.wishKnowledge.pagination.next')" class="hidden-sm hidden-lg hidden-md" />
         </div>
     </div>
 
     <div class="divider"></div>
 
-    <div class="wuwi-partial">
-        <h4>{{ t('user.wishknowledge.pages.title', { count: props.pages?.length || 0 }) }}</h4>
+    <div class="wish-knowledge-partial">
+        <h4>{{ t('user.wishKnowledge.pages.title', { count: props.pages?.length || 0 }) }}</h4>
         <div class="search-section" v-if="(props.pages ?? []).length > 0">
             <div class="search-container">
                 <input type="text" v-model="searchPage" class="search-input"
-                    :placeholder="t('user.wishknowledge.pages.search')" />
+                    :placeholder="t('user.wishKnowledge.pages.search')" />
                 <div class="search-icon reset-icon" v-if="searchPage.length > 0" @click="searchPage = ''">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
@@ -112,33 +112,33 @@ const { $urlHelper } = useNuxtApp()
                 </div>
             </div>
         </div>
-        <div class="wuwi-list">
-            <div v-for="f in filteredPagesOnPage" class="wuwi-link">
+        <div class="wish-knowledge-list">
+            <div v-for="f in filteredPagesOnPage" class="wish-knowledge-link">
                 <NuxtLink :to="`/${f.name}/${f.id}/`">
                     {{ f.name }}
                 </NuxtLink>
-                <span> {{ t('user.wishknowledge.pages.withQuestions', { count: f.questionCount }) }}</span>
+                <span> {{ t('user.wishKnowledge.pages.withQuestions', { count: f.questionCount }) }}</span>
             </div>
             <div v-if="filteredPages?.length === 0 && searchPage.length > 0" class="search-error">
-                {{ t('user.wishknowledge.pages.noResults', { term: searchPage }) }}
+                {{ t('user.wishKnowledge.pages.noResults', { term: searchPage }) }}
             </div>
         </div>
         <div class="pagination">
             <vue-awesome-paginate v-if="filteredPages" :total-items="filteredPages?.length"
                 :items-per-page="pagesPerPage" :max-pages-shown="5" v-model="currentPagePage"
                 :show-ending-buttons="false" :show-breakpoint-buttons="false"
-                :prev-button-content="t('user.wishknowledge.pagination.previous')"
-                :next-button-content="t('user.wishknowledge.pagination.next')"
-                :first-page-content="t('user.wishknowledge.pagination.first')"
-                :last-page-content="t('user.wishknowledge.pagination.last')" class="hidden-xs" />
+                :prev-button-content="t('user.wishKnowledge.pagination.previous')"
+                :next-button-content="t('user.wishKnowledge.pagination.next')"
+                :first-page-content="t('user.wishKnowledge.pagination.first')"
+                :last-page-content="t('user.wishKnowledge.pagination.last')" class="hidden-xs" />
 
             <vue-awesome-paginate v-if="filteredPages" :total-items="filteredPages?.length"
                 :items-per-page="pagesPerPage" :max-pages-shown="3" v-model="currentPagePage"
                 :show-ending-buttons="false" :show-breakpoint-buttons="false"
-                :prev-button-content="t('user.wishknowledge.pagination.previous')"
-                :next-button-content="t('user.wishknowledge.pagination.next')"
-                :first-page-content="t('user.wishknowledge.pagination.first')"
-                :last-page-content="t('user.wishknowledge.pagination.last')" class="hidden-sm hidden-md hidden-lg" />
+                :prev-button-content="t('user.wishKnowledge.pagination.previous')"
+                :next-button-content="t('user.wishKnowledge.pagination.next')"
+                :first-page-content="t('user.wishKnowledge.pagination.first')"
+                :last-page-content="t('user.wishKnowledge.pagination.last')" class="hidden-sm hidden-md hidden-lg" />
         </div>
     </div>
 </template>
@@ -153,7 +153,7 @@ const { $urlHelper } = useNuxtApp()
     margin-bottom: 10px;
 }
 
-.wuwi-partial {
+.wish-knowledge-partial {
     padding-top: 20px;
     padding-bottom: 20px;
 
@@ -213,12 +213,12 @@ const { $urlHelper } = useNuxtApp()
 
 }
 
-.wuwi-partial,
-.wuwi-list {
+.wish-knowledge-partial,
+.wish-knowledge-list {
     display: flex;
     flex-direction: column;
 
-    .wuwi-link {
+    .wish-knowledge-link {
         overflow-wrap: break-word;
         margin-bottom: 12px;
         font-size: 18px;

@@ -103,13 +103,13 @@ const emit = defineEmits(['add-answer'])
     }
 
     del {
-        // background: fade(@memo-wuwi-red, 10%);
+        // background: fade(@memo-wish-knowledge-red, 10%);
         text-decoration: line-through;
         border-radius: 4px;
-        color: @memo-wuwi-red;
+        color: @memo-wish-knowledge-red;
 
         img {
-            border: solid 4px @memo-wuwi-red;
+            border: solid 4px @memo-wish-knowledge-red;
         }
     }
 }

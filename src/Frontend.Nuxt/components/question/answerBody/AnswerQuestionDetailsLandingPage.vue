@@ -600,10 +600,10 @@ function initData(e: AnswerQuestionDetailsResult) {
             </div>
 
             <div class="questionDetailsFooterPartialRight">
-                <div class="wishknowledgeCount">
+                <div class="wishKnowledgeCount">
                     <font-awesome-icon icon="fa-solid fa-heart" />
                     <span class="detail-label">
-                        {{ model.wishknowledgeCount }}
+                        {{ model.wishKnowledgeCount }}
                     </span>
                 </div>
 
@@ -1018,7 +1018,7 @@ function initData(e: AnswerQuestionDetailsResult) {
         padding-right: 4px;
         align-items: center;
 
-        .wishknowledgeCount,
+        .wishKnowledgeCount,
         .viewCount,
         .commentCount {
             padding: 0 8px;

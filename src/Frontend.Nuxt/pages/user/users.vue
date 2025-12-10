@@ -254,7 +254,7 @@ const toggleLanguage = (code: string) => {
                                         @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
                                         :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
                                         <div class="dropdown-label select-option">
-                                            {{ t('usersOverview.sort.options.wishknowledge') }}
+                                            {{ t('usersOverview.sort.options.wishKnowledge') }}
                                         </div>
                                     </div>
                                 </template>

@@ -39,7 +39,7 @@
             "passwordReset": "Dein Passwort wurde zurückgesetzt.",
             "passwordVerificationMailSent": "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang.",
             "supportLoginUpdated": "Deine Support-Login-Daten wurden erfolgreich aktualisiert.",
-            "wuwiVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert.",
+            "wishKnowledgeVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert.",
             "deleted": "Dein Account wurde erfolgreich gelöscht."
         },
         "collaboration": {
@@ -850,7 +850,9 @@
         "needsLearning": "Solltest du lernen",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Noch nicht gelernt",
-        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
+        "notInWishKnowledge": "Nicht im Wunschwissen",
+        "notInWishKnowledgeCount": "@:knowledgeStatus.notInWishKnowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
         "inWishKnowledge": "Im Wunschwissen",
@@ -1074,7 +1076,7 @@
             "password": "Passwort",
             "deleteProfile": "Profil löschen",
             "settings": "Einstellungen",
-            "showWuwi": "Wunschwissen anzeigen",
+            "showWishKnowledge": "Wunschwissen anzeigen",
             "supportLogin": "Support Login",
             "membership": "Mitgliedschaft",
             "notifications": "Benachrichtigungen",
@@ -1110,8 +1112,8 @@
             "notPossible": "Leider ist es nicht möglich, Dein Profil eigenständig zu löschen. Schreib uns deshalb bitte eine kurze E-Mail an",
             "contactReason": "damit wir Dein wertvolles Wissen sichern und Dein Profil für Dich entfernen können."
         },
-        "wuwi": {
-            "showWuwi": "Wunschwissen zeigen",
+        "wishKnowledge": {
+            "showWishKnowledge": "Wunschwissen zeigen",
             "explanation": "Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind (außer private Fragen). Antwortstatistiken werden nicht angezeigt."
         },
         "supportLogin": {

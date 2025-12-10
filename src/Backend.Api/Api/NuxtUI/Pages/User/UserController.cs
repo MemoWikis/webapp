@@ -29,7 +29,7 @@ public class UserController(
         string ImageUrl,
         int ReputationPoints,
         int Rank,
-        bool ShowWuwi,
+        bool ShowWishKnowledge,
         [CanBeNull] string AboutMeText);
 
     public readonly record struct Overview(
@@ -38,7 +38,7 @@ public class UserController(
         int PrivateQuestionsCount,
         int PublicPagesCount,
         int PrivatePagesCount,
-        int WuwiCount,
+        int WishKnowledgeCount,
         int PublicWikisCount,
         int Reputation,
         int Rank);
@@ -99,7 +99,7 @@ public class UserController(
                     .Url,
                 ReputationPoints = reputation.TotalReputation,
                 Rank = user.ReputationPos,
-                ShowWuwi = user.ShowWishKnowledge,
+                ShowWishKnowledge = user.ShowWishKnowledge,
                 AboutMeText = user.AboutMeText
             },
             Overview = new Overview
@@ -122,7 +122,7 @@ public class UserController(
                     allPagesCreatedByUser.Count(c => c.Visibility == PageVisibility.Public),
                 PrivatePagesCount =
                     allPagesCreatedByUser.Count(c => c.Visibility != PageVisibility.Public),
-                WuwiCount = user.WishCountQuestions,
+                WishKnowledgeCount = user.WishCountQuestions,
                 PublicWikisCount = publicWikis.Count(),
                 Reputation = reputation.TotalReputation,
                 Rank = user.Rank
@@ -168,21 +168,21 @@ public class UserController(
         return questionItems;
     }
 
-    public readonly record struct WuwiResult(WuwiQuestion[] Questions, WuwiPage[] Pages);
+    public readonly record struct WishKnowledgeResult(WishKnowledgeQuestion[] Questions, WishKnowledgePage[] Pages);
 
-    public readonly record struct WuwiQuestion(
+    public readonly record struct WishKnowledgeQuestion(
         string Title,
         string PrimaryPageName,
         int? PrimaryPageId,
         int Id);
 
-    public readonly record struct WuwiPage(
+    public readonly record struct WishKnowledgePage(
         string Name,
         int Id,
         int QuestionCount);
 
     [HttpGet]
-    public WuwiResult? GetWuwi([FromRoute] int id)
+    public WishKnowledgeResult? GetWishKnowledge([FromRoute] int id)
     {
         var user = EntityCache.GetUserById(id);
 
@@ -197,9 +197,9 @@ public class UserController(
                                    && question.PagesVisibleToCurrentUser(_permissionCheck)
                                        .Any());
 
-            return new WuwiResult
+            return new WishKnowledgeResult
             {
-                Questions = wishQuestions.Select(q => new WuwiQuestion
+                Questions = wishQuestions.Select(q => new WishKnowledgeQuestion
                 {
                     Title = q.GetShortTitle(200),
                     PrimaryPageName = q.PagesVisibleToCurrentUser(_permissionCheck)
@@ -210,7 +210,7 @@ public class UserController(
                 }).ToArray(),
                 Pages = wishQuestions.QuestionsInPages()
                     .Where(t => _permissionCheck.CanView(t.PageCacheItem)).Select(t =>
-                        new WuwiPage
+                        new WishKnowledgePage
                         {
                             Name = t.PageCacheItem.Name,
                             Id = t.PageCacheItem.Id,
