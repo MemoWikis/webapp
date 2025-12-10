@@ -13,7 +13,7 @@ import { useActivityPointsStore } from '~/components/activityPoints/activityPoin
 import { usePageStore } from '~/components/page/pageStore'
 import { hydrateFigcaptions } from '~/components/shared/figureExtension'
 
-export const useAnswerBodyLogic = () => {
+export const useAnswerBodyLogic = (allWishknowledgeMode: boolean = false) => {
     const { $logger } = useNuxtApp()
     
     // Store instances
@@ -203,7 +203,7 @@ export const useAnswerBodyLogic = () => {
 
     const startNewSession = () => {
         learningSessionStore.showResult = false
-        learningSessionStore.startNewSession()
+        learningSessionStore.startNewSession(allWishknowledgeMode)
     }
 
     return {

@@ -5,9 +5,9 @@ export interface UserResult {
     rank: number
     createdQuestionsCount: number
     createdPagesCount: number
-    showWuwi: boolean
-    wuwiQuestionsCount: number
-    wuwiPagesCount: number
+    showWishKnowledge: boolean
+    wishKnowledgeQuestionsCount: number
+    wishKnowledgePagesCount: number
     imgUrl: string
     wikiId: number
     contentLanguages: string[]

@@ -35,17 +35,53 @@ export class Page {
     pageItem: PageItem | null = null
     metaDescription: string = ''
     knowledgeSummary: KnowledgeSummary = {
-        solid: 0,
-        needsConsolidation: 0,
-        needsLearning: 0,
-        notLearned: 0,
 
-        total: 0,
+        totalCount: 0,
 
-        solidPercentage: 0,
-        needsConsolidationPercentage: 0,
-        needsLearningPercentage: 0,
-        notLearnedPercentage: 0,
+        inWishKnowledge: {
+            solid: 0,
+            needsConsolidation: 0,
+            needsLearning: 0,
+            notLearned: 0,
+            solidPercentage: 0,
+            needsConsolidationPercentage: 0,
+            needsLearningPercentage: 0,
+            notLearnedPercentage: 0,
+            solidPercentageOfTotal: 0,
+            needsConsolidationPercentageOfTotal: 0,
+            needsLearningPercentageOfTotal: 0,
+            notLearnedPercentageOfTotal: 0,
+        },
+
+        notInWishKnowledge: {
+            solid: 0,
+            needsConsolidation: 0,
+            needsLearning: 0,
+            notLearned: 0,
+            solidPercentage: 0,
+            needsConsolidationPercentage: 0,
+            needsLearningPercentage: 0,
+            notLearnedPercentage: 0,
+            solidPercentageOfTotal: 0,
+            needsConsolidationPercentageOfTotal: 0,
+            needsLearningPercentageOfTotal: 0,
+            notLearnedPercentageOfTotal: 0,
+        },
+
+        total: {
+            solid: 0,
+            needsConsolidation: 0,
+            needsLearning: 0,
+            notLearned: 0,
+            solidPercentage: 0,
+            needsConsolidationPercentage: 0,
+            needsLearningPercentage: 0,
+            notLearnedPercentage: 0,
+            solidPercentageOfTotal: 0,
+            needsConsolidationPercentageOfTotal: 0,
+            needsLearningPercentageOfTotal: 0,
+            notLearnedPercentageOfTotal: 0,
+        },
 
         knowledgeStatusPoints: 0,
         knowledgeStatusPointsTotal: 0,
@@ -140,7 +176,6 @@ export const usePageStore = defineStore('pageStore', () => {
     const authors = ref<Author[]>([])
     const searchPageItem = ref<PageItem | null>(null)
     const knowledgeSummary = ref<KnowledgeSummary>({} as KnowledgeSummary)
-    const knowledgeSummarySlim = ref<KnowledgeSummarySlim>({} as KnowledgeSummarySlim)
     const gridItems = ref<GridPageItem[]>([])
     const isChildOfPersonalWiki = ref(false)
     const textIsHidden = ref(false)
@@ -198,7 +233,6 @@ export const usePageStore = defineStore('pageStore', () => {
             searchPageItem.value = page.pageItem
 
             knowledgeSummary.value = page.knowledgeSummary
-            setKnowledgeSummarySlim(page.knowledgeSummary)
             gridItems.value = page.gridItems
             isChildOfPersonalWiki.value = page.isChildOfPersonalWiki
             textIsHidden.value = page.textIsHidden
@@ -224,14 +258,6 @@ export const usePageStore = defineStore('pageStore', () => {
         }
     }
 
-    const setKnowledgeSummarySlim = (knowledgeSummaryData: KnowledgeSummary) => {
-        knowledgeSummarySlim.value = {
-            solid: knowledgeSummaryData.solid,
-            needsConsolidation: knowledgeSummaryData.needsConsolidation,
-            needsLearning: knowledgeSummaryData.needsLearning,
-            notLearned: knowledgeSummaryData.notLearned,
-        }
-    }
 
     const saveContent = async () => {
         const userStore = useUserStore()
@@ -430,7 +456,7 @@ export const usePageStore = defineStore('pageStore', () => {
     }
 
     const reloadKnowledgeSummary = async () => {
-        knowledgeSummarySlim.value = await $api<KnowledgeSummarySlim>(
+        knowledgeSummary.value = await $api<KnowledgeSummary>(
             `/apiVue/PageStore/GetUpdatedKnowledgeSummary/${id.value}`,
             {
                 method: 'GET',
@@ -719,7 +745,6 @@ export const usePageStore = defineStore('pageStore', () => {
         authors,
         searchPageItem,
         knowledgeSummary,
-        knowledgeSummarySlim,
         gridItems,
         isChildOfPersonalWiki,
         textIsHidden,
@@ -744,7 +769,6 @@ export const usePageStore = defineStore('pageStore', () => {
         
         // Actions
         setPage,
-        setKnowledgeSummarySlim,
         saveContent,
         saveName,
         waitUntilAllSavingsComplete,

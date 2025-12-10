@@ -3,7 +3,20 @@ using Quartz;
 
 public class CalcAggregatedValuesJob : IJob
 {
+    private static volatile bool _interrupted = false;
+    
     public string OperationName => "CalcAggregatedValues";
+    
+    public static void RequestInterrupt()
+    {
+        _interrupted = true;
+        Log.Information("Interrupt requested for {JobName}", nameof(CalcAggregatedValuesJob));
+    }
+    
+    public static void ResetInterrupt()
+    {
+        _interrupted = false;
+    }
 
     public async Task Execute(IJobExecutionContext context)
     {
@@ -28,8 +41,22 @@ public class CalcAggregatedValuesJob : IJob
             {
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Calculating aggregated values for questions...", OperationName);
 
+                if (_interrupted)
+                {
+                    Log.Information("Job {OperationName} was interrupted before starting", OperationName);
+                    JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, "Job was interrupted", OperationName);
+                    return Task.CompletedTask;
+                }
+
                 var updateQuestionAnswerCounts = scope.Resolve<UpdateQuestionAnswerCounts>();
                 updateQuestionAnswerCounts.Run();
+
+                if (_interrupted)
+                {
+                    Log.Information("Job {OperationName} was interrupted after aggregated values calculation", OperationName);
+                    JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Failed, "Job was interrupted", OperationName);
+                    return Task.CompletedTask;
+                }
 
                 JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Completed, "Aggregated values have been updated.", OperationName);
             }

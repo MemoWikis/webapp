@@ -248,6 +248,9 @@ const setPageTitle = () => {
 		case SiteType.Metrics:
 			pageTitle.value = t('breadcrumb.titles.metrics')
 			break
+		case SiteType.AllWishknowledgeLearning:
+			pageTitle.value = t('breadcrumb.titles.allWishknowledgeLearning')
+			break
 	}
 }
 

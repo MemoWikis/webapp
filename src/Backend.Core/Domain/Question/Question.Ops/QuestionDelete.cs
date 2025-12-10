@@ -15,7 +15,7 @@
         if (!canBeDeletedResult.Yes)
         {
             throw new Exception("Question cannot be deleted: Question is " +
-                                canBeDeletedResult.WuwiCount + "x in WishKnowledge");
+                                canBeDeletedResult.WishKnowledgeCount + "x in WishKnowledge");
         }
         var parentIds = questionCacheItem.Pages.Select(c => c.Id).ToList();
 
@@ -36,15 +36,15 @@
         {
             if (!_sessionUser.IsInstallationAdmin)
             {
-                var howOftenInOtherPeopleWuwi =
-                    _questionValuationReadingRepo.HowOftenInOtherPeoplesWuwi(currentUserId,
+                var howOftenInOtherPeopleWishKnowledge =
+                    _questionValuationReadingRepo.HowOftenInOtherPeoplesWishKnowledge(currentUserId,
                         question.Id);
-                if (howOftenInOtherPeopleWuwi > 0)
+                if (howOftenInOtherPeopleWishKnowledge > 0)
                 {
                     return new CanBeDeletedResult
                     {
                         Yes = false,
-                        WuwiCount = howOftenInOtherPeopleWuwi
+                        WishKnowledgeCount = howOftenInOtherPeopleWishKnowledge
                     };
                 }
             }
@@ -62,7 +62,7 @@
     public class CanBeDeletedResult
     {
         public bool Yes;
-        public int WuwiCount;
+        public int WishKnowledgeCount;
         public bool HasRights = true;
     }
 }

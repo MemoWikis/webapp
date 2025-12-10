@@ -39,7 +39,7 @@
             "passwordReset": "Dein Passwort wurde zurückgesetzt.",
             "passwordVerificationMailSent": "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang.",
             "supportLoginUpdated": "Deine Support-Login-Daten wurden erfolgreich aktualisiert.",
-            "wuwiVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert.",
+            "wishKnowledgeVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert.",
             "deleted": "Dein Account wurde erfolgreich gelöscht."
         },
         "collaboration": {
@@ -232,6 +232,14 @@
         "cancel": "Abbrechen",
         "edit": "Bearbeiten",
         "save": "Speichern"
+    },
+    "learning": {
+        "wishknowledge": {
+            "title": "Wunschwissen lernen",
+            "heading": "Dein Wunschwissen lernen",
+            "questionsAvailable": "Fragen verfügbar",
+            "loginRequired": "Bitte melde dich an, um auf deine Wunschwissen-Fragen zuzugreifen und mit dem Lernen zu beginnen."
+        }
     },
     "register": {
         "title": "Registrieren",
@@ -457,6 +465,7 @@
             "question": "Frage",
             "questions": "Fragen",
             "onThisPage": "auf dieser Seite",
+            "fromYourWishknowledge": "aus deinen Wunschwissen-Fragen",
             "addQuestion": "Frage hinzufügen",
             "collapseAllQuestions": "Alle Fragen zuklappen",
             "expandAllQuestions": "Alle Fragen erweitern",
@@ -900,7 +909,9 @@
         "needsLearning": "Solltest du lernen",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Noch nicht gelernt",
-        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
+        "notInWishKnowledge": "Nicht im Wunschwissen",
+        "notInWishKnowledgeCount": "@:knowledgeStatus.notInWishKnowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
         "inWishKnowledge": "Im Wunschwissen",
@@ -1124,7 +1135,7 @@
             "password": "Passwort",
             "deleteProfile": "Profil löschen",
             "settings": "Einstellungen",
-            "showWuwi": "Wunschwissen anzeigen",
+            "showWishKnowledge": "Wunschwissen anzeigen",
             "supportLogin": "Support Login",
             "membership": "Mitgliedschaft",
             "notifications": "Benachrichtigungen",
@@ -1160,8 +1171,8 @@
             "notPossible": "Leider ist es nicht möglich, Dein Profil eigenständig zu löschen. Schreib uns deshalb bitte eine kurze E-Mail an",
             "contactReason": "damit wir Dein wertvolles Wissen sichern und Dein Profil für Dich entfernen können."
         },
-        "wuwi": {
-            "showWuwi": "Wunschwissen zeigen",
+        "wishKnowledge": {
+            "showWishKnowledge": "Wunschwissen zeigen",
             "explanation": "Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind (außer private Fragen). Antwortstatistiken werden nicht angezeigt."
         },
         "supportLogin": {
@@ -1712,6 +1723,7 @@
             "register": "Registrieren",
             "messages": "Nachrichten",
             "missionControl": "Mission Control",
+            "allWishknowledgeLearning": "Wunschwissen lernen",
             "error": "Fehler",
             "resetPassword": "Passwort zurücksetzen",
             "confirmEmail": "E-Mail Bestätigung",
@@ -1779,6 +1791,7 @@
     },
     "missionControl": {
         "heading": "Mission Control",
+        "learnAll": "Lerne dein Wunschwissen",
         "sections": {
             "wikis": "Meine Wikis",
             "recentActivity": "Neueste Aktivitäten",

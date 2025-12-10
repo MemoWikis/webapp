@@ -11,11 +11,39 @@ public class VueMaintenanceController(
     MeilisearchReIndexUser _meilisearchReIndexUser,
     UserWritingRepo _userWritingRepo,
     AnswerRepo _answerRepo,
+    RunningJobRepo _runningJobRepo,
     MmapCacheStatusService _mmapCacheStatusService) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
     public readonly record struct ActiveSessionsResponse(int LoggedInUserCount, int AnonymousUserCount);
+
+    public readonly record struct JobSystemStatusResponse(
+        List<InMemoryJobResponse> InMemoryJobs,
+        List<DatabaseJobResponse> DatabaseJobs,
+        JobSummaryResponse Summary);
+
+    public readonly record struct InMemoryJobResponse(
+        string JobTrackingId,
+        string Status,
+        string Message,
+        string OperationName);
+
+    public readonly record struct DatabaseJobResponse(
+        int Id,
+        string Name,
+        string StartedAt,
+        string Duration,
+        bool IsStuck,
+        double DurationHours);
+
+    public readonly record struct JobSummaryResponse(
+        int TotalInMemory,
+        int TotalInDatabase,
+        int RunningInMemory,
+        int CompletedInMemory,
+        int FailedInMemory,
+        int StuckInDatabase);
 
     [AccessOnlyAsAdmin]
     [HttpGet]
@@ -98,6 +126,7 @@ public class VueMaintenanceController(
         };
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public VueMaintenanceResult DeleteUser([FromForm] int userId)
@@ -268,18 +297,6 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public VueMaintenanceResult CleanUpWorkInProgressQuestions()
-    {
-        return new VueMaintenanceResult
-        {
-            Success = true,
-            Data = "Job: 'Cleanup work in progress' is being executed."
-        };
-    }
-
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
     public VueMaintenanceResult ReloadListFromIgnoreCrawlers()
     {
         if (_httpContextAccessor.HttpContext.Request.IsLocal())
@@ -443,6 +460,46 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
+    public JobSystemStatusResponse GetJobSystemStatus()
+    {
+        var inMemoryJobs = JobTracking.GetAllActiveJobs().ToList();
+        var dbJobs = _runningJobRepo.GetAllRunningJobs();
+
+        var inMemoryJobResponses = inMemoryJobs.Select(job => new InMemoryJobResponse(
+            job.JobTrackingId,
+            job.Status.ToString(),
+            job.Message,
+            job.OperationName
+        )).ToList();
+
+        var databaseJobResponses = dbJobs.Select(job =>
+        {
+            var duration = DateTimeX.Now() - job.StartAt;
+            return new DatabaseJobResponse(
+                job.Id,
+                job.Name,
+                job.StartAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                duration.ToString(@"dd\.hh\:mm\:ss"),
+                duration.TotalHours > 2,
+                Math.Round(duration.TotalHours, 1)
+            );
+        }).ToList();
+
+        var summary = new JobSummaryResponse(
+            inMemoryJobs.Count,
+            dbJobs.Count,
+            inMemoryJobs.Count(j => j.Status == JobStatus.Running),
+            inMemoryJobs.Count(j => j.Status == JobStatus.Completed),
+            inMemoryJobs.Count(j => j.Status == JobStatus.Failed),
+            dbJobs.Count(j => (DateTimeX.Now() - j.StartAt).TotalHours > 2)
+        );
+
+        return new JobSystemStatusResponse(inMemoryJobResponses, databaseJobResponses, summary);
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
     public VueMaintenanceResult ClearJob([FromForm] string jobTrackingId)
     {
         var success = JobTracking.ClearJob(jobTrackingId);
@@ -466,6 +523,182 @@ public class VueMaintenanceController(
             Success = true,
             Data = $"Cleared {clearedCount} job(s)."
         };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public List<DatabaseJobResponse> GetDatabaseRunningJobs()
+    {
+        var jobs = _runningJobRepo.GetAllRunningJobs();
+
+        return jobs.Select(job =>
+        {
+            var duration = DateTimeX.Now() - job.StartAt;
+            return new DatabaseJobResponse(
+                job.Id,
+                job.Name,
+                job.StartAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                duration.ToString(@"dd\.hh\:mm\:ss"),
+                duration.TotalHours > 2,
+                Math.Round(duration.TotalHours, 1)
+            );
+        }).ToList();
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ClearStuckJobs([FromForm] double maxHours = 2.0)
+    {
+        try
+        {
+            _runningJobRepo.RemoveStuckJobs(maxHours);
+            return new VueMaintenanceResult
+            {
+                Success = true,
+                Data = $"Cleared jobs running longer than {maxHours} hours."
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error clearing stuck jobs");
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = $"Error: {ex.Message}"
+            };
+        }
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ClearDatabaseJobs()
+    {
+        try
+        {
+            _runningJobRepo.TruncateTable();
+            return new VueMaintenanceResult
+            {
+                Success = true,
+                Data = "All database running jobs cleared."
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error clearing database jobs");
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = $"Error: {ex.Message}"
+            };
+        }
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ClearJobById([FromForm] int jobId)
+    {
+        try
+        {
+            _runningJobRepo.RemoveJobById(jobId);
+            return new VueMaintenanceResult
+            {
+                Success = true,
+                Data = $"Job with ID {jobId} has been cleared."
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error clearing job by ID {JobId}", jobId);
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = $"Error: {ex.Message}"
+            };
+        }
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ClearJobsByIds([FromForm] string jobIds)
+    {
+        try
+        {
+            // Parse comma-separated job IDs
+            var ids = jobIds.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(id => int.Parse(id.Trim()))
+                            .ToList();
+
+            var removedCount = _runningJobRepo.RemoveJobsByIds(ids);
+            return new VueMaintenanceResult
+            {
+                Success = true,
+                Data = $"Removed {removedCount} job(s) out of {ids.Count} requested."
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error clearing jobs by IDs {JobIds}", jobIds);
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = $"Error: {ex.Message}"
+            };
+        }
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> GetQuartzJobs()
+    {
+        try
+        {
+            var quartzJobs = await JobScheduler.GetQuartzJobsInfo();
+            return new VueMaintenanceResult
+            {
+                Success = true,
+                Data = Newtonsoft.Json.JsonConvert.SerializeObject(quartzJobs)
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error getting Quartz jobs");
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = $"Error: {ex.Message}"
+            };
+        }
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> InterruptQuartzJob([FromForm] string jobName, [FromForm] string jobGroup = null)
+    {
+        try
+        {
+            var success = await JobScheduler.InterruptJob(jobName, jobGroup);
+            return new VueMaintenanceResult
+            {
+                Success = success,
+                Data = success ? $"Job '{jobName}' interrupted successfully." : $"Failed to interrupt job '{jobName}'."
+            };
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error interrupting Quartz job {JobName}", jobName);
+            return new VueMaintenanceResult
+            {
+                Success = false,
+                Data = $"Error: {ex.Message}"
+            };
+        }
     }
 
     [AccessOnlyAsAdmin]

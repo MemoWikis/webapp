@@ -10,13 +10,14 @@ const pageStore = usePageStore()
 const { isMobile } = useDevice()
 
 const chartData = computed((): ChartData[] => {
-	return convertKnowledgeSummaryToChartData(pageStore.knowledgeSummarySlim)
+	return convertKnowledgeStatusCountsToChartData(pageStore.knowledgeSummary.total)
 })
 
 const { t } = useI18n()
 
 function getTooltipLabel(key: string, count: number) {
 	switch (key) {
+		// Legacy cases
 		case 'solid':
 			return t('knowledgeStatus.solidCount', count)
 		case 'needsConsolidation':
@@ -25,6 +26,28 @@ function getTooltipLabel(key: string, count: number) {
 			return t('knowledgeStatus.needsLearningCount', count)
 		case 'notLearned':
 			return t('knowledgeStatus.notLearnedCount', count)
+		case 'notInWishKnowledge':
+			return t('knowledgeStatus.notInWishKnowledgeCount', count)
+
+		// WishKnowledge (wishKnowledge) cases
+		case 'solidWishKnowledge':
+			return t('knowledgeStatus.solidCount', count) + ' (Wunschwissen)'
+		case 'needsConsolidationWishKnowledge':
+			return t('knowledgeStatus.needsConsolidationCount', count) + ' (Wunschwissen)'
+		case 'needsLearningWishKnowledge':
+			return t('knowledgeStatus.needsLearningCount', count) + ' (Wunschwissen)'
+		case 'notLearnedWishKnowledge':
+			return t('knowledgeStatus.notLearnedCount', count) + ' (Wunschwissen)'
+
+		// Not in wishKnowledge cases
+		case 'solidNotInWishKnowledge':
+			return t('knowledgeStatus.solidCount', count) + ' (Nicht im Wunschwissen)'
+		case 'needsConsolidationNotInWishKnowledge':
+			return t('knowledgeStatus.needsConsolidationCount', count) + ' (Nicht im Wunschwissen)'
+		case 'needsLearningNotInWishKnowledge':
+			return t('knowledgeStatus.needsLearningCount', count) + ' (Nicht im Wunschwissen)'
+		case 'notLearnedNotInWishKnowledge':
+			return t('knowledgeStatus.notLearnedCount', count) + ' (Nicht im Wunschwissen)'
 	}
 }
 
@@ -117,22 +140,24 @@ const { suppressScrollX } = useScrollbarSuppression(
 						</template>
 						<Suspense>
 							<template #default>
-								<VTooltip :aria-id="ariaId" class="tooltip-container">
-									<div class="pie-container">
-										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
-									</div>
-									<template #popper>
-										<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
-										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
-											class="knowledgesummary-info">
-											<div class="color-container" :class="`color-${d.class}`"></div>
-											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+								<div class="tooltip-container">
+									<VTooltip :aria-id="ariaId">
+										<div class="pie-container">
+											<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 										</div>
-										<div v-else>
-											{{ t('page.tabs.knowledgeStatus.noQuestionAnswered') }}
-										</div>
-									</template>
-								</VTooltip>
+										<template #popper>
+											<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
+											<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
+												class="knowledgesummary-info">
+												<div class="color-container" :class="`color-${d.class}`"></div>
+												<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+											</div>
+											<div v-else>
+												{{ t('page.tabs.knowledgeStatus.noQuestionAnswered') }}
+											</div>
+										</template>
+									</VTooltip>
+								</div>
 							</template>
 							<template #fallback>
 								<div class="pie-container">
@@ -147,22 +172,25 @@ const { suppressScrollX } = useScrollbarSuppression(
 						</template>
 						<Suspense>
 							<template #default>
-								<VTooltip :aria-id="ariaId2" class="tooltip-container">
-									<div class="pie-container">
-										<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
-									</div>
-									<template #popper>
-										<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
-										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
-											class="knowledgesummary-info">
-											<div class="color-container" :class="`color-${d.class}`"></div>
-											<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+								<div class="tooltip-container">
+									<VTooltip :aria-id="ariaId2">
+										<div class="pie-container">
+											<ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 										</div>
-										<div v-else>
-											{{ t('page.tabs.knowledgeStatus.noQuestionAnswered') }}
-										</div>
-									</template>
-								</VTooltip>
+										<template #popper>
+											<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
+											<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
+												class="knowledgesummary-info">
+												<div class="color-container" :class="`color-${d.class}`"></div>
+												<div>{{ getTooltipLabel(d.class!, d.value) }}</div>
+											</div>
+											<div v-else>
+												{{ t('page.tabs.knowledgeStatus.noQuestionAnswered') }}
+											</div>
+										</template>
+									</VTooltip>
+								</div>
+
 							</template>
 							<template #fallback>
 								<div class="pie-container">
@@ -365,7 +393,7 @@ const { suppressScrollX } = useScrollbarSuppression(
 		border-radius: 50%;
 
 		&.color-notLearned {
-			background: @memo-grey-light;
+			background: @memo-grey-dark;
 		}
 
 		&.color-needsLearning {
@@ -378,6 +406,10 @@ const { suppressScrollX } = useScrollbarSuppression(
 
 		&.color-solid {
 			background: @memo-green;
+		}
+
+		&.color-notInWishKnowledge {
+			background: @memo-grey-light;
 		}
 	}
 }

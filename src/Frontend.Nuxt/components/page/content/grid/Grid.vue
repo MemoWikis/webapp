@@ -172,7 +172,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
         after((result) => {
 
             if (result.oldParentId === pageStore.id) {
-                const index = pageStore.gridItems.findIndex(c => c.id === result.movePage.id)
+                const index = pageStore.gridItems.findIndex(gridItem => gridItem.id === result.movePage.id)
                 if (index !== -1) {
                     pageStore.gridItems.splice(index, 1)
                 }

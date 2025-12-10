@@ -778,7 +778,7 @@ async function initData(model: AnswerQuestionDetailsResult) {
     creator.value = model.creator
     creationDate.value = model.creationDate
     totalViewCount.value = model.totalViewCount
-    wishknowledgeCount.value = model.wishknowledgeCount
+    wishKnowledgeCount.value = model.wishKnowledgeCount
     licenseId.value = model.licenseId
     knowledgeStatus.value = model.knowledgeStatus
 
@@ -902,7 +902,7 @@ const creator = ref({
     id: 0
 })
 const creationDate = ref<Date | string>()
-const wishknowledgeCount = ref(0)
+const wishKnowledgeCount = ref(0)
 const totalViewCount = ref(0)
 const licenseId = ref(1) // Default to CC BY 4.0
 
@@ -1092,10 +1092,10 @@ const activityPointsStore = useActivityPointsStore()
                 </div>
             </div>
             <div class="questionDetailsFooterPartialRight">
-                <div class="wishknowledgeCount">
+                <div class="wishKnowledgeCount">
                     <font-awesome-icon icon="fa-solid fa-heart" />
                     <span class="detail-label">
-                        {{ wishknowledgeCount }}
+                        {{ wishKnowledgeCount }}
                     </span>
                 </div>
 
@@ -1526,7 +1526,7 @@ const activityPointsStore = useActivityPointsStore()
         height: 100%;
         flex-wrap: wrap;
 
-        .wishknowledgeCount,
+        .wishKnowledgeCount,
         .viewCount,
         .commentCount {
             display: flex;
