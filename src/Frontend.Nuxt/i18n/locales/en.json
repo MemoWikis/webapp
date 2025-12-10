@@ -231,6 +231,14 @@
         "edit": "Edit",
         "save": "Save"
     },
+    "learning": {
+        "wishknowledge": {
+            "title": "Wishknowledge Learning",
+            "heading": "Learning Your Wishknowledge",
+            "questionsAvailable": "questions available",
+            "loginRequired": "Please log in to access your wishknowledge questions and start learning."
+        }
+    },
     "register": {
         "title": "Register",
         "description": "Your Wiki is just one click away.",
@@ -455,6 +463,7 @@
             "question": "question",
             "questions": "questions",
             "onThisPage": "on this page",
+            "fromYourWishknowledge": "from your wishknowledge questions",
             "addQuestion": "Add question",
             "collapseAllQuestions": "Collapse all questions",
             "expandAllQuestions": "Expand all questions",
@@ -1665,6 +1674,7 @@
             "register": "Register",
             "messages": "Messages",
             "missionControl": "Mission Control",
+            "allWishknowledgeLearning": "Learning Wishknowledge",
             "error": "Error",
             "resetPassword": "Reset password",
             "confirmEmail": "Email confirmation",
@@ -1732,6 +1742,7 @@
     },
     "missionControl": {
         "heading": "Mission Control",
+        "learnAll": "Learn your wishknowledge",
         "sections": {
             "wikis": "My Wikis",
             "recentActivity": "Recent Activity",

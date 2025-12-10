@@ -11,6 +11,13 @@ const pageStore = usePageStore()
 const userStore = useUserStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const editQuestionStore = useEditQuestionStore()
+const route = useRoute()
+
+interface Props {
+    allWishknowledgeMode?: boolean
+}
+
+const props = defineProps<Props>()
 
 const openFilter = ref(false)
 const filterOpened = useCookie('show-bottom-dropdown')
@@ -20,17 +27,28 @@ onBeforeMount(() => {
     else if (filterOpened.value?.toString() === 'true')
         openFilter.value = true
 
-    if (pageStore.questionCount > 0)
-        learningSessionConfigurationStore.showFilter = true
-    else
-        learningSessionConfigurationStore.showFilter = false
+    // For wishknowledge mode, show filter if user has wishknowledge questions
+    // For page mode, use pageStore.questionCount
+    if (props.allWishknowledgeMode) {
+        // For wishknowledge, we'll show the filter if the user is logged in
+        learningSessionConfigurationStore.showFilter = userStore.isLoggedIn
+    } else {
+        learningSessionConfigurationStore.showFilter = pageStore.questionCount > 0
+    }
 })
 
 watch(() => pageStore.questionCount, (count) => {
-    if (count > 0)
-        learningSessionConfigurationStore.showFilter = true
-    else
-        learningSessionConfigurationStore.showFilter = false
+    // Only apply page question count logic when not in wishknowledge mode
+    if (!props.allWishknowledgeMode) {
+        learningSessionConfigurationStore.showFilter = count > 0
+    }
+})
+
+// For wishknowledge mode, show filter based on whether there are learning session steps
+watch(() => learningSessionStore.steps.length, (count) => {
+    if (props.allWishknowledgeMode && userStore.isLoggedIn) {
+        learningSessionConfigurationStore.showFilter = count > 0
+    }
 })
 const questionsExpanded = ref(false)
 
@@ -58,12 +76,25 @@ const { t } = useI18n()
                         <div class="drop-down-question-sort">
                             <div class="session-config-header">
                                 <span class="hidden-xs">{{ t('page.questionsSection.youAreLearning') }}&nbsp;</span>
-                                <b v-if="learningSessionStore.steps.length === pageStore.questionCount">{{ t('page.questionsSection.all') }}&nbsp;</b>
-                                <b v-else>{{ learningSessionStore.steps.length }}&nbsp;</b>
-                                <template v-if="learningSessionStore.steps.length === 1"> {{ t('page.questionsSection.question') }}&nbsp;</template>
-                                <template v-else>{{ t('page.questionsSection.questions') }}&nbsp;</template>
-                                <span class="hidden-xs">{{ t('page.questionsSection.onThisPage') }}</span>
-                                ({{ pageStore.questionCount }})
+
+                                <template v-if="props.allWishknowledgeMode">
+                                    <!-- Wishknowledge mode text -->
+                                    <b>{{ learningSessionStore.steps.length }}&nbsp;</b>
+                                    <template v-if="learningSessionStore.steps.length === 1"> {{ t('page.questionsSection.question') }}&nbsp;</template>
+                                    <template v-else>{{ t('page.questionsSection.questions') }}&nbsp;</template>
+                                    <span class="hidden-xs">{{ t('page.questionsSection.fromYourWishknowledge', 'from your saved questions') }}</span>
+                                    ({{ learningSessionConfigurationStore.maxSelectableQuestionCount || 0 }})
+                                </template>
+
+                                <template v-else>
+                                    <!-- Regular page mode text -->
+                                    <b v-if="learningSessionStore.steps.length === pageStore.questionCount">{{ t('page.questionsSection.all') }}&nbsp;</b>
+                                    <b v-else>{{ learningSessionStore.steps.length }}&nbsp;</b>
+                                    <template v-if="learningSessionStore.steps.length === 1"> {{ t('page.questionsSection.question') }}&nbsp;</template>
+                                    <template v-else>{{ t('page.questionsSection.questions') }}&nbsp;</template>
+                                    <span class="hidden-xs">{{ t('page.questionsSection.onThisPage') }}</span>
+                                    ({{ pageStore.questionCount }})
+                                </template>
                             </div>
 
                             <div id="ButtonAndDropdown">
@@ -126,7 +157,7 @@ const { t } = useI18n()
                 </div>
             </div>
 
-            <PageLearningQuestionList :expand-question="questionsExpanded" />
+            <PageLearningQuestionList :expand-question="questionsExpanded" :all-wishknowledge-mode="props.allWishknowledgeMode" />
 
         </div>
     </div>

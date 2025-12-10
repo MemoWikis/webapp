@@ -231,6 +231,14 @@
         "edit": "Editar",
         "save": "Guardar"
     },
+    "learning": {
+        "wishknowledge": {
+            "title": "Aprendizaje de conocimientos deseados",
+            "heading": "Aprender tus conocimientos deseados",
+            "questionsAvailable": "preguntas disponibles",
+            "loginRequired": "Por favor, inicia sesión para acceder a tus preguntas de conocimientos deseados y comenzar a aprender."
+        }
+    },
     "register": {
         "title": "Registro",
         "description": "Tu Wiki está a un clic.",
@@ -455,6 +463,7 @@
             "question": "pregunta",
             "questions": "preguntas",
             "onThisPage": "en esta página",
+            "fromYourWishknowledge": "de tus preguntas de conocimiento deseado",
             "addQuestion": "Añadir pregunta",
             "collapseAllQuestions": "Contraer todas las preguntas",
             "expandAllQuestions": "Expandir todas las preguntas",
@@ -1664,6 +1673,7 @@
             "register": "Registro",
             "messages": "Mensajes",
             "missionControl": "Mission Control",
+            "allWishknowledgeLearning": "Aprendizaje de conocimiento deseado",
             "error": "Error",
             "resetPassword": "Restablecer contraseña",
             "confirmEmail": "Confirmar correo",
@@ -1731,6 +1741,7 @@
     },
     "missionControl": {
         "heading": "Panel de control",
+        "learnAll": "Aprende tu conocimiento deseado",
         "sections": {
             "wikis": "Mis Wikis",
             "recentActivity": "Actividad reciente",

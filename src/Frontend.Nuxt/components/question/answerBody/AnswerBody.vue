@@ -18,48 +18,70 @@ const { $urlHelper } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 
-commentsStore.loadComments()
+interface Props {
+    allWishknowledgeMode?: boolean
+}
+const props = defineProps<Props>()
+
+onMounted(() => {
+    commentsStore.loadComments()
+})
 
 // Use the main composable that orchestrates all functionality
-const answerBodyLogic = useAnswerBodyLogic()
+const answerBodyLogic = useAnswerBodyLogic(props.allWishknowledgeMode)
 
 const attachQuestionIdToUrl = async () => {
-    if (!tabsStore.isLearning || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0)
+    if (!tabsStore.isLearning && !props.allWishknowledgeMode || !answerBodyLogic.answerBodyModel.value?.id || answerBodyLogic.answerBodyModel.value.id <= 0)
         return
 
-    const pathSegments = window.location.pathname
-        .split('/')
-        .filter(segment => segment.length > 0)
+    if (props.allWishknowledgeMode) {
 
-    const currentPageId = pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))
-        ? parseInt(pathSegments[1])
-        : null
+        // will be fixed later
+        // await router.replace({
+        //     params: {
+        //         ...route.params,
+        //         questionId: answerBodyLogic.answerBodyModel.value.id,
+        //     },
+        // })
+    } else {
+        // Page-based mode: original logic
+        const pathSegments = window.location.pathname
+            .split('/')
+            .filter(segment => segment.length > 0)
 
-    if (currentPageId === pageStore.id) {
-        const newPath = $urlHelper.getPageUrlWithQuestionId(
-            pageStore.name,
-            pageStore.id,
-            answerBodyLogic.answerBodyModel.value.id
-        )
+        const currentPageId = pathSegments.length >= 2 && !isNaN(parseInt(pathSegments[1]))
+            ? parseInt(pathSegments[1])
+            : null
 
-        if (newPath !== window.location.pathname) {
-            router.push(newPath)
+        if (currentPageId === pageStore.id) {
+            const newPath = $urlHelper.getPageUrlWithQuestionId(
+                pageStore.name,
+                pageStore.id,
+                answerBodyLogic.answerBodyModel.value.id
+            )
+
+            if (newPath !== window.location.pathname) {
+                router.push(newPath)
+            }
         }
     }
 }
+
 watch(() => answerBodyLogic.answerBodyModel.value?.id, (newId, oldId) => {
     if (newId !== oldId && newId)
         attachQuestionIdToUrl()
 })
+
 watch(() => pageStore.id, (newId, oldId) => {
-    if (newId !== oldId && answerBodyLogic.currentRequest.value) {
+    // Only apply page change logic when not in wishknowledge mode
+    if (!props.allWishknowledgeMode && newId !== oldId && answerBodyLogic.currentRequest.value) {
         answerBodyLogic.currentRequest.value.abort()
         answerBodyLogic.currentRequest.value = null
     }
 })
 
 watch(() => tabsStore.activeTab, () => {
-    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString())))
+    if (tabsStore.isLearning && isNaN(parseInt(route.params.questionId?.toString())) && props.allWishknowledgeMode)
         attachQuestionIdToUrl()
 })
 
@@ -89,7 +111,20 @@ onMounted(() => {
     watch(() => userStore.isLoggedIn, () => learningSessionStore.startNewSession())
 })
 
-watch(() => pageStore.id, () => learningSessionStore.showResult = false)
+onMounted(() => {
+
+    if (props.allWishknowledgeMode && answerBodyLogic.currentRequest.value) {
+        answerBodyLogic.currentRequest.value.abort()
+        answerBodyLogic.currentRequest.value = null
+    }
+})
+
+watch(() => pageStore.id, () => {
+    // Only reset results on page change when not in wishknowledge mode
+    if (!props.allWishknowledgeMode) {
+        learningSessionStore.showResult = false
+    }
+})
 
 publishQuestionStore.$onAction(({ name, after }) => {
     if (name === 'confirmPublish') {
@@ -192,7 +227,7 @@ const handleStartNewSession = () => answerBodyLogic.startNewSession()
         <QuestionAnswerBodyAnswerQuestionDetails :id="answerBodyLogic.answerBodyModel.value.id" />
     </div>
     <div v-else-if="learningSessionStore.showResult === true">
-        <QuestionAnswerBodyLearningSessionResult @start-new-session="handleStartNewSession" />
+        <QuestionAnswerBodyLearningSessionResult @start-new-session="handleStartNewSession" :all-wishknowledge-mode="allWishknowledgeMode" />
     </div>
 </template>
 

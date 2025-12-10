@@ -241,7 +241,6 @@ export const useLearningSessionConfigurationStore = defineStore(
 
                 if (storedSession != null) {
                     const sessionConfig = JSON.parse(storedSession)
-                    console.log('Loaded session config from localStorage:', sessionConfig)
                     this.migrateOldPropertyNames(sessionConfig)
 
                     if (userStore.isLoggedIn) {
@@ -261,9 +260,16 @@ export const useLearningSessionConfigurationStore = defineStore(
                 if (preLoadJson != postLoadJson)
                     this.activeCustomSettings = true
             },
-            async getQuestionCount() {
+            async getQuestionCount(pageId?: number) {
                 const pageStore = usePageStore()
-                const sessionJson = this.buildSessionConfigJson(pageStore.id)
+                let targetPageId = pageId
+                
+                if (targetPageId === undefined) {
+                    // If no pageId provided, use pageStore.id if valid, otherwise 0 (wishknowledge)
+                    targetPageId = pageStore.id > 0 ? pageStore.id : 0
+                }
+                
+                const sessionJson = this.buildSessionConfigJson(targetPageId)
                 const count = await $api<QustionCounter>(
                     `/apiVue/LearningSessionConfigurationStore/GetCount/`,
                     {
@@ -442,8 +448,16 @@ export const useLearningSessionConfigurationStore = defineStore(
                 const userStore = useUserStore()
 
                 const json: { [key: string]: any } = {}
+                
+                // Determine the pageId to use
+                let effectivePageId = id
+                if (id === 0) {
+                    // If id is 0, check if we have a valid pageStore.id, otherwise use 0 (wishknowledge mode)
+                    effectivePageId = pageStore.id > 0 ? pageStore.id : 0
+                }
+
                 const base: { [key: string]: any } = {
-                    pageId: pageStore.id,
+                    pageId: effectivePageId,
                     maxQuestionCount: this.selectedQuestionCount,
 
                     inWishKnowledge: this.questionFilterOptions.inWishKnowledge.isSelected,
@@ -466,6 +480,12 @@ export const useLearningSessionConfigurationStore = defineStore(
                         this.knowledgeSummary.needsConsolidation.isSelected,
                     solid: this.knowledgeSummary.solid.isSelected,
                     isInLearningTab: isInLearningTab,
+                }
+
+                // For wishknowledge mode (pageId = 0), force certain settings
+                if (effectivePageId === 0) {
+                    base.inWishKnowledge = true
+                    base.notInWishKnowledge = false
                 }
 
                 Object.keys(base).forEach((key) => (json[key] = base[key]))
@@ -538,7 +558,8 @@ export const useLearningSessionConfigurationStore = defineStore(
                     new SessionConfig().questionFilterOptions
                 this.checkQuestionFilterSelection()
                 this.checkKnowledgeSummarySelection()
-                this.selectedQuestionCount = pageStore.questionCount
+                // Use pageStore.questionCount if available, otherwise use a default value
+                this.selectedQuestionCount = pageStore.questionCount > 0 ? pageStore.questionCount : 20
                 this.userHasChangedMaxCount = false
                 this.isTestMode = !userStore.isLoggedIn
                 this.testOptions = {

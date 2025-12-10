@@ -231,6 +231,14 @@
         "edit": "Bearbeiten",
         "save": "Speichern"
     },
+    "learning": {
+        "wishknowledge": {
+            "title": "Wunschwissen lernen",
+            "heading": "Dein Wunschwissen lernen",
+            "questionsAvailable": "Fragen verfügbar",
+            "loginRequired": "Bitte melde dich an, um auf deine Wunschwissen-Fragen zuzugreifen und mit dem Lernen zu beginnen."
+        }
+    },
     "register": {
         "title": "Registrieren",
         "description": "Dein Wiki ist noch einen Klick entfernt.",
@@ -455,6 +463,7 @@
             "question": "Frage",
             "questions": "Fragen",
             "onThisPage": "auf dieser Seite",
+            "fromYourWishknowledge": "aus deinen Wunschwissen-Fragen",
             "addQuestion": "Frage hinzufügen",
             "collapseAllQuestions": "Alle Fragen zuklappen",
             "expandAllQuestions": "Alle Fragen erweitern",
@@ -1664,6 +1673,7 @@
             "register": "Registrieren",
             "messages": "Nachrichten",
             "missionControl": "Mission Control",
+            "allWishknowledgeLearning": "Wunschwissen lernen",
             "error": "Fehler",
             "resetPassword": "Passwort zurücksetzen",
             "confirmEmail": "E-Mail Bestätigung",
@@ -1731,6 +1741,7 @@
     },
     "missionControl": {
         "heading": "Mission Control",
+        "learnAll": "Lerne dein Wunschwissen",
         "sections": {
             "wikis": "Meine Wikis",
             "recentActivity": "Neueste Aktivitäten",

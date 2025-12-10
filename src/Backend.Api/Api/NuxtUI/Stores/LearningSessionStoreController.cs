@@ -48,12 +48,35 @@
     {
         var config = learningSessionConfigRequest.ToEntity();
 
-        if (config == null || config.PageId < 1 || !_permissionCheck.CanViewPage(config.PageId))
+        if (config == null || config.PageId > 0 && !_permissionCheck.CanViewPage(config.PageId))
             return new LearningSessionResponse
             {
                 MessageKey = FrontendMessageKeys.Error.Default,
                 Success = false
             };
+
+        var data = _learningSessionCreator.GetLearningSessionResult(config);
+        return new LearningSessionResponse
+        {
+            MessageKey = data.MessageKey,
+            ActiveQuestionCount = data.ActiveQuestionCount,
+            AnswerHelp = data.AnswerHelp,
+            CurrentStep = data.CurrentStep,
+            Index = data.Index,
+            IsInTestMode = data.IsInTestMode,
+            Steps = data.Steps,
+            Success = true
+        };
+    }
+
+    [HttpPost]
+    public LearningSessionResponse NewWishknowledgeSession([FromBody] LearningSessionConfigRequest request)
+    {
+        // Use the existing mapping but force wishknowledge mode
+        var config = request.ToEntity();
+        config.PageId = 0; // Force wishknowledge mode
+        config.InWishKnowledge = true; // Always true for wishknowledge
+        config.NotWishKnowledge = false; // Always false for wishknowledge
 
         var data = _learningSessionCreator.GetLearningSessionResult(config);
         return new LearningSessionResponse
@@ -77,7 +100,7 @@
     public LearningSessionResponse NewSessionWithJumpToQuestion(
         [FromBody] NewSessionWithJumpToQuestionData data)
     {
-        if (data.Config == null || data.Config.PageId < 1 || !_permissionCheck.CanViewPage(data.Config.PageId))
+        if (data.Config == null || data.Config.PageId > 0 && !_permissionCheck.CanViewPage(data.Config.PageId))
             return new LearningSessionResponse
             {
                 MessageKey = FrontendMessageKeys.Error.Default,
@@ -85,6 +108,37 @@
             };
 
         var resultData = _learningSessionCreator.GetLearningSessionResult(data.Config, data.Id);
+        return new LearningSessionResponse
+        {
+            MessageKey = resultData.MessageKey,
+            ActiveQuestionCount = resultData.ActiveQuestionCount,
+            AnswerHelp = resultData.AnswerHelp,
+            CurrentStep = resultData.CurrentStep,
+            Index = resultData.Index,
+            IsInTestMode = resultData.IsInTestMode,
+            Steps = resultData.Steps,
+            Success = true
+        };
+    }
+
+    [HttpPost]
+    public LearningSessionResponse NewWishknowledgeSessionWithJumpToQuestion(
+        [FromBody] NewSessionWithJumpToQuestionData data)
+    {
+        // Ensure we're in wishknowledge mode by setting PageId to 0
+        if (data.Config != null)
+        {
+            data.Config.PageId = 0;
+        }
+
+        if (data.Config == null)
+            return new LearningSessionResponse
+            {
+                MessageKey = FrontendMessageKeys.Error.Default,
+                Success = false
+            };
+
+        var resultData = _learningSessionCreator.GetLearningSessionResultForWishknowledge(data.Config, data.Id);
         return new LearningSessionResponse
         {
             MessageKey = resultData.MessageKey,
