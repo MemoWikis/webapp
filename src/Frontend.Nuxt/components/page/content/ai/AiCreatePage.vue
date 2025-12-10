@@ -499,7 +499,7 @@ function selectSubpage(index: number) {
             height: 8px;
             -webkit-appearance: none;
             appearance: none;
-            background: linear-gradient(to right, @memo-green, @memo-yellow, @memo-wuwi-red);
+            background: linear-gradient(to right, @memo-green, @memo-yellow, @memo-wish-knowledge-red);
             border-radius: 4px;
             outline: none;
             cursor: pointer;
