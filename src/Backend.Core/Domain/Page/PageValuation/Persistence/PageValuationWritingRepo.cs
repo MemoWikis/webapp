@@ -9,10 +9,11 @@ public class PageValuationWritingRepo(ISession _session, KnowledgeSummaryLoader 
     private void UpdateKnowledgeSummary(PageValuation pageValuation)
     {
         var knowledgeSummary = _knowledgeSummaryLoader.Run(pageValuation.UserId, pageValuation.PageId, false);
-        pageValuation.CountNotLearned = knowledgeSummary.NotLearned;
-        pageValuation.CountNeedsLearning = knowledgeSummary.NeedsLearning;
-        pageValuation.CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;
-        pageValuation.CountSolid = knowledgeSummary.Solid;
+        // Combined results from InWishKnowledge and NotInWishKnowledge
+        pageValuation.CountNotLearned = knowledgeSummary.InWishKnowledge.NotLearned + knowledgeSummary.NotInWishKnowledge.NotLearned;
+        pageValuation.CountNeedsLearning = knowledgeSummary.InWishKnowledge.NeedsLearning + knowledgeSummary.NotInWishKnowledge.NeedsLearning;
+        pageValuation.CountNeedsConsolidation = knowledgeSummary.InWishKnowledge.NeedsConsolidation + knowledgeSummary.NotInWishKnowledge.NeedsConsolidation;
+        pageValuation.CountSolid = knowledgeSummary.InWishKnowledge.Solid + knowledgeSummary.NotInWishKnowledge.Solid;
     }
 
     public void Update(PageValuation pageValuation)

@@ -255,7 +255,7 @@ const ariaId = useId()
                 {{ t('page.questionsSection.quickCreateQuestion.title') }}
                 <span>({{ t('page.questionsSection.quickCreateQuestion.flashcard') }})</span>
             </div>
-            <div class="heart-container wuwi-red" @click="addToWishKnowledge = !addToWishKnowledge">
+            <div class="heart-container wish-knowledge-red" @click="addToWishKnowledge = !addToWishKnowledge">
                 <div>
                     <font-awesome-icon icon="fa-solid fa-heart" v-if="addToWishKnowledge" />
                     <font-awesome-icon icon="fa-regular fa-heart" v-else />
@@ -263,8 +263,8 @@ const ariaId = useId()
                 <div class="Text">
                     <span v-if="addToWishKnowledge">{{
                         t('page.questionsSection.quickCreateQuestion.wishKnowledge.added') }}</span>
-                    <span v-else class="wuwi-grey">{{ t('page.questionsSection.quickCreateQuestion.wishKnowledge.add')
-                        }}</span>
+                    <span v-else class="wish-knowledge-grey">{{ t('page.questionsSection.quickCreateQuestion.wishKnowledge.add')
+                    }}</span>
                 </div>
             </div>
         </div>
@@ -301,10 +301,10 @@ const ariaId = useId()
                                             <ul>
                                                 <li>{{
                                                     t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.onlyYou')
-                                                    }}</li>
+                                                }}</li>
                                                 <li>{{
                                                     t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.noOneElse')
-                                                    }}</li>
+                                                }}</li>
                                             </ul>
                                         </template>
                                     </VTooltip>
@@ -395,7 +395,7 @@ const ariaId = useId()
                 font-weight: 600 !important;
                 text-transform: uppercase !important;
                 letter-spacing: 0.1em;
-                color: @memo-wuwi-red !important;
+                color: @memo-wish-knowledge-red !important;
             }
         }
     }
@@ -452,11 +452,11 @@ const ariaId = useId()
         }
     }
 
-    .wuwi-red {
+    .wish-knowledge-red {
         color: rgb(255, 0, 31);
     }
 
-    .wuwi-grey {
+    .wish-knowledge-grey {
         color: @memo-grey-dark;
     }
 }

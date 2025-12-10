@@ -19,7 +19,7 @@ const emit = defineEmits<{
 }>()
 
 const hasKnowledgebarData = computed(() => {
-    return props.skill.knowledgebarData != null && props.skill.knowledgebarData.total > 0
+    return props.skill.knowledgebarData != null && props.skill.knowledgebarData.totalCount > 0
 })
 const hover = ref(false)
 const { isMobile } = useDevice()

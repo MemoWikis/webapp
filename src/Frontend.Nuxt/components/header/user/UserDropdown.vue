@@ -216,7 +216,7 @@ const settingsUrl = computed(() => {
         width: 100%;
 
         .unread-msg-badge {
-            background: @memo-wuwi-red;
+            background: @memo-wish-knowledge-red;
             height: 12px;
             width: 12px;
             border-radius: 12px;
@@ -266,7 +266,7 @@ const settingsUrl = computed(() => {
                 margin-left: 8px;
 
                 &.red-badge {
-                    background: @memo-wuwi-red;
+                    background: @memo-wish-knowledge-red;
                     color: white;
                 }
             }

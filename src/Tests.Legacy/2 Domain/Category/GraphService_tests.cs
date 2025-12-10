@@ -125,7 +125,7 @@ class GraphService_tests : BaseTest
     }
 
     [Test]
-    public void Should_get_parents_after_wuwi_toggle()
+    public void Should_get_parents_after_wishKnowledge_toggle()
     {
         var context = ContextCategory.New();
 

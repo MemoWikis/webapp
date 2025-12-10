@@ -5,7 +5,7 @@ export enum Content {
     DeleteProfile,
 
     //Settings
-    ShowWuwi,
+    ShowWishKnowledge,
     SupportLogin,
     Membership,
 

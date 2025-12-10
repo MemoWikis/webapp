@@ -28,7 +28,7 @@ const currentPassword = ref<string>('')
 const newPassword = ref<string>('')
 const repeatedPassword = ref<string>('')
 
-const showWuwi = ref(false)
+const showWishKnowledge = ref(false)
 const allowSupportLogin = ref(false)
 const postingDate = ref<Date>(new Date())
 
@@ -267,13 +267,13 @@ async function deleteProfile() {
     }
 }
 
-async function saveWuwiVisibility() {
+async function saveWishKnowledgeVisibility() {
 
-    const result = await $api<DefaultResult>('/apiVue/VueUserSettings/ChangeWuwiVisibility', {
+    const result = await $api<DefaultResult>('/apiVue/VueUserSettings/ChangeWishKnowledgeVisibility', {
         mode: 'cors',
         method: 'POST',
         body: {
-            showWuwi: showWuwi.value
+            showWishKnowledge: showWishKnowledge.value
         },
         credentials: 'include'
     })
@@ -370,8 +370,8 @@ const getSelectedSettingsPageLabel = computed(() => {
             return t('settings.navigation.password')
         case Content.DeleteProfile:
             return t('settings.navigation.deleteProfile')
-        case Content.ShowWuwi:
-            return t('settings.navigation.showWuwi')
+        case Content.ShowWishKnowledge:
+            return t('settings.navigation.showWishKnowledge')
         case Content.SupportLogin:
             return t('settings.navigation.supportLogin')
         case Content.Membership:
@@ -408,8 +408,8 @@ const ariaId2 = useId()
 
             <div class="divider"></div>
             <div class="overline-s no-line">{{ t('settings.navigation.settings') }}</div>
-            <button @click="activeContent = Content.ShowWuwi"
-                :class="{ 'active': activeContent === Content.ShowWuwi }">{{ t('settings.navigation.showWuwi') }}</button>
+            <button @click="activeContent = Content.ShowWishKnowledge"
+                :class="{ 'active': activeContent === Content.ShowWishKnowledge }">{{ t('settings.navigation.showWishKnowledge') }}</button>
             <button @click="activeContent = Content.SupportLogin"
                 :class="{ 'active': activeContent === Content.SupportLogin }">{{ t('settings.navigation.supportLogin') }}</button>
             <button @click="activeContent = Content.Membership"
@@ -458,10 +458,10 @@ const ariaId2 = useId()
                             <div class="dropdown-row group-label">
                                 {{ t('settings.navigation.settings') }}
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; hide()"
-                                :class="{ 'active': activeContent === Content.ShowWuwi }">
+                            <div class="dropdown-row select-row" @click="activeContent = Content.ShowWishKnowledge; hide()"
+                                :class="{ 'active': activeContent === Content.ShowWishKnowledge }">
                                 <div class="dropdown-label select-option">
-                                    {{ t('settings.navigation.showWuwi') }}
+                                    {{ t('settings.navigation.showWishKnowledge') }}
                                 </div>
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; hide()"
@@ -650,7 +650,7 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent === Content.ShowWuwi" class="content">
+                <div v-else-if="activeContent === Content.ShowWishKnowledge" class="content">
                     <div class="settings-section" v-if="showAlert">
                         <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
@@ -658,23 +658,23 @@ const ariaId2 = useId()
                     <div class="settings-section">
                         <label class="checkbox-section">
                             <div class="checkbox-container">
-                                <input type="checkbox" name="answer" :value="true" v-model="showWuwi" class="hidden" />
-                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWuwi" class="checkbox-icon" />
+                                <input type="checkbox" name="answer" :value="true" v-model="showWishKnowledge" class="hidden" />
+                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWishKnowledge" class="checkbox-icon" />
                                 <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
                             </div>
                             <div class="checkbox-label">
                                 <div class="overline-s no-line">
-                                    {{ t('settings.wuwi.showWuwi') }}
+                                    {{ t('settings.wishKnowledge.showWishKnowledge') }}
                                 </div>
                                 <p>
-                                    {{ t('settings.wuwi.explanation') }}
+                                    {{ t('settings.wishKnowledge.explanation') }}
                                 </p>
                             </div>
                         </label>
                     </div>
 
                     <div class="settings-section">
-                        <button class="memo-button btn btn-primary" @click="saveWuwiVisibility()">
+                        <button class="memo-button btn btn-primary" @click="saveWishKnowledgeVisibility()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             {{ t('settings.button.save') }}
                         </button>
@@ -790,7 +790,7 @@ const ariaId2 = useId()
 
                         <p>
                             {{ t('settings.knowledgeReport.description') }}
-                            <font-awesome-icon icon="fa-solid fa-heart" class="wuwi-icon" />
+                            <font-awesome-icon icon="fa-solid fa-heart" class="wish-knowledge-icon" />
                             {{ t('settings.knowledgeReport.additionalInfo') }}
                         </p>
                     </div>
@@ -841,7 +841,7 @@ const ariaId2 = useId()
 
             &.not-verified {
                 svg {
-                    color: @memo-wuwi-red;
+                    color: @memo-wish-knowledge-red;
                 }
             }
         }
@@ -1071,8 +1071,8 @@ const ariaId2 = useId()
         padding-top: 50px;
     }
 
-    .wuwi-icon {
-        color: @memo-wuwi-red;
+    .wish-knowledge-icon {
+        color: @memo-wish-knowledge-red;
     }
 
     .settings-content {

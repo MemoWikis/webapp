@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useUserStore } from '../../user/userStore'
 import { usePageStore } from '../pageStore'
 import { useLearningSessionStore } from './learningSessionStore'
+import { KnowledgeSummaryType } from '~/composables/knowledgeSummary'
 import _ from 'underscore'
 
 export interface QustionCounter {
@@ -240,7 +241,7 @@ export const useLearningSessionConfigurationStore = defineStore(
 
                 if (storedSession != null) {
                     const sessionConfig = JSON.parse(storedSession)
-
+                    console.log('Loaded session config from localStorage:', sessionConfig)
                     this.migrateOldPropertyNames(sessionConfig)
 
                     if (userStore.isLoggedIn) {
@@ -592,6 +593,64 @@ export const useLearningSessionConfigurationStore = defineStore(
                 this.testOptions[key] = val
                 this.activeCustomSettings = true
                 this.lazyLoadCustomSession()
+            },
+            selectKnowledgeSummaryByType(type: KnowledgeSummaryType) {
+                // First, unselect all knowledge summaries
+                for (const key in this.knowledgeSummary) {
+                    this.knowledgeSummary[key].isSelected = false
+                }
+                
+                // Map the new KnowledgeSummaryType enum values to the corresponding keys
+                const typeToKeyMap: { [key in KnowledgeSummaryType]?: string } = {
+                    // WishKnowledge (wishKnowledge) types - use inWishKnowledge filter
+                    [KnowledgeSummaryType.SolidWishKnowledge]: 'solid',
+                    [KnowledgeSummaryType.NeedsConsolidationWishKnowledge]: 'needsConsolidation',
+                    [KnowledgeSummaryType.NeedsLearningWishKnowledge]: 'needsLearning',
+                    [KnowledgeSummaryType.NotLearnedWishKnowledge]: 'notLearned',
+                    
+                    [KnowledgeSummaryType.SolidNotInWishKnowledge]: 'solid',
+                    [KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge]: 'needsConsolidation',
+                    [KnowledgeSummaryType.NeedsLearningNotInWishKnowledge]: 'needsLearning',
+                    [KnowledgeSummaryType.NotLearnedNotInWishKnowledge]: 'notLearned',
+                }
+                
+                const targetKey = typeToKeyMap[type]
+                
+                if (type === KnowledgeSummaryType.SolidWishKnowledge || 
+                    type === KnowledgeSummaryType.NeedsConsolidationWishKnowledge ||
+                    type === KnowledgeSummaryType.NeedsLearningWishKnowledge ||
+                    type === KnowledgeSummaryType.NotLearnedWishKnowledge) {
+                    
+                    this.questionFilterOptions.inWishKnowledge.isSelected = true
+                    this.questionFilterOptions.notInWishKnowledge.isSelected = false
+                    
+                    if (targetKey && this.knowledgeSummary[targetKey]) {
+                        this.knowledgeSummary[targetKey].isSelected = true
+                    }
+                }
+                else if (type === KnowledgeSummaryType.NotInWishKnowledge) {
+                    for (const key in this.knowledgeSummary) {
+                        this.knowledgeSummary[key].isSelected = true
+                    }
+                    this.questionFilterOptions.inWishKnowledge.isSelected = false
+                    this.questionFilterOptions.notInWishKnowledge.isSelected = true
+                }
+                else if (type === KnowledgeSummaryType.SolidNotInWishKnowledge || 
+                         type === KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge ||
+                         type === KnowledgeSummaryType.NeedsLearningNotInWishKnowledge ||
+                         type === KnowledgeSummaryType.NotLearnedNotInWishKnowledge) {
+                    
+                    this.questionFilterOptions.inWishKnowledge.isSelected = false
+                    this.questionFilterOptions.notInWishKnowledge.isSelected = true
+                    
+                    if (targetKey && this.knowledgeSummary[targetKey]) {
+                        this.knowledgeSummary[targetKey].isSelected = true
+                    }
+                }
+                
+                this.checkQuestionFilterSelection()
+                this.checkKnowledgeSummarySelection()
+                this.activeCustomSettings = true
             },
         },
     }

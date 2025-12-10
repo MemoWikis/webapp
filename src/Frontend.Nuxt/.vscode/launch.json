@@ -1,46 +1,47 @@
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "chrome",
-      "request": "launch",
-      "name": "client: chrome",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "server: nuxt",
-      "program": "${workspaceFolder}/node_modules/nuxi/bin/nuxi.mjs",
-      "args": [
-        "dev",
-      ],
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "server: nuxtprod",
-      "program": "${workspaceFolder}/.output/server/index.mjs",
-      "args": [
-        "start",
-      ],
-    }
-  ],
-  "compounds": [
-    {
-      "name": "fullstack: nuxt dev",
-      "configurations": [
-        "server: nuxt",
-        "client: chrome"
-      ]
-    },
-	{
-		"name": "fullstack: nuxt prod",
-		"configurations": [
-		  "server: nuxtprod",
-		  "client: chrome"
-		]
-	  }
-  ]
-}
+// {
+//   "version": "0.2.0",
+//   "configurations": [
+//     {
+//       "type": "chrome",
+//       "request": "launch",
+//       "name": "client: chrome",
+//       "url": "http://localhost:3000",
+//       "webRoot": "${workspaceFolder}"
+//     },
+//     {
+//       "type": "node",
+//       "request": "launch",
+//       "name": "server: nuxt debug",
+//       "program": "${workspaceFolder}/node_modules/npm/bin/npm-cli.js",
+//       "args": [
+//         "run",
+//         "debug"
+//       ],
+//     },
+//     {
+//       "type": "node",
+//       "request": "launch",
+//       "name": "server: nuxtprod",
+//       "program": "${workspaceFolder}/.output/server/index.mjs",
+//       "args": [
+//         "start",
+//       ],
+//     }
+//   ],
+//   "compounds": [
+//     {
+//       "name": "fullstack: nuxt dev",
+//       "configurations": [
+//         "server: nuxt",
+//         "client: chrome"
+//       ]
+//     },
+// 	{
+// 		"name": "fullstack: nuxt prod",
+// 		"configurations": [
+// 		  "server: nuxtprod",
+// 		  "client: chrome"
+// 		]
+// 	  }
+//   ]
+// }

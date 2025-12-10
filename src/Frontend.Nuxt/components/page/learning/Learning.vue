@@ -25,7 +25,7 @@ onBeforeMount(async () => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
     await learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
-    if (route.query.inWuWi === 'true') {
+    if (route.query.inWishKnowledge === 'true') {
         learningSessionConfigurationStore.questionFilterOptions.inWishKnowledge.isSelected = true
         learningSessionConfigurationStore.questionFilterOptions.notInWishKnowledge.isSelected = false
         learningSessionConfigurationStore.checkQuestionFilterSelection()

@@ -187,7 +187,7 @@ public class ContextQuestion
         }
     }
 
-    public static List<SessionUserCacheItem> SetWuwi(int amountQuestion,
+    public static List<SessionUserCacheItem> SetWishKnowledge(int amountQuestion,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,

@@ -1,14 +1,34 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
+#nullable enable
 
-public class PageDataManager(
-    SessionUser _sessionUser,
-    PermissionCheck _permissionCheck,
-    KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo)
+public class PageDataManager
 {
+    private readonly SessionUser _sessionUser;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+
+    public PageDataManager(
+        SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        QuestionReadingRepo questionReadingRepo)
+    {
+        _sessionUser = sessionUser;
+        _permissionCheck = permissionCheck;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _questionReadingRepo = questionReadingRepo;
+    }
+
     public PageDataResult GetPageData(int id, [CanBeNull] string token = null, [CanBeNull] int? userId = null)
     {
         var page = EntityCache.GetPage(id);
@@ -52,8 +72,7 @@ public class PageDataManager(
             Id = page.Id,
             Name = page.Name,
             QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId, permissionCheck: _permissionCheck),
-            ImageUrl = new PageImageSettings(page.Id,
-                    _httpContextAccessor)
+            ImageUrl = new PageImageSettings(page.Id, _httpContextAccessor)
                 .GetUrl_128px(true)
                 .Url,
             MiniImageUrl = new ImageFrontendData(
@@ -132,18 +151,7 @@ public class PageDataManager(
                     ? null
                     : Regex.Replace(page.Content, "<.*?>", ""))
                 .Truncate(250, true),
-            KnowledgeSummary = new KnowledgeSummaryResponse(
-                Solid: knowledgeSummary.Solid,
-                SolidPercentage: knowledgeSummary.SolidPercentage,
-                NeedsConsolidation: knowledgeSummary.NeedsConsolidation,
-                NeedsConsolidationPercentage: knowledgeSummary.NeedsConsolidationPercentage,
-                NeedsLearning: knowledgeSummary.NeedsLearning,
-                NeedsLearningPercentage: knowledgeSummary.NeedsLearningPercentage,
-                NotLearned: knowledgeSummary.NotLearned,
-                NotLearnedPercentage: knowledgeSummary.NotLearnedPercentage,
-                NotInWishKnowledge: knowledgeSummary.NotInWishKnowledge,
-                NotInWishKnowledgePercentage: knowledgeSummary.NotInWishKnowledgePercentage,
-                Total: knowledgeSummary.Total),
+            KnowledgeSummary = new KnowledgeSummaryResponse(knowledgeSummary),
             GridItems = new PageGridManager(
                 _permissionCheck,
                 _sessionUser,
@@ -180,18 +188,60 @@ public class PageDataManager(
         public string ImgUrl { get; set; }
     }
 
-    public record struct KnowledgeSummaryResponse(
-        int Solid,
-        int SolidPercentage,
-        int NeedsConsolidation,
-        int NeedsConsolidationPercentage,
-        int NeedsLearning,
-        int NeedsLearningPercentage,
+    public record struct KnowledgeStatusCountsResponse(
         int NotLearned,
         int NotLearnedPercentage,
-        int NotInWishKnowledge,
-        int NotInWishKnowledgePercentage,
-        int Total);
+        int NeedsLearning,
+        int NeedsLearningPercentage,
+        int NeedsConsolidation,
+        int NeedsConsolidationPercentage,
+        int Solid,
+        int SolidPercentage,
+        int NotLearnedPercentageOfTotal,
+        int NeedsLearningPercentageOfTotal,
+        int NeedsConsolidationPercentageOfTotal,
+        int SolidPercentageOfTotal,
+        int? NotInWishKnowledgeCount,
+        int? NotInWishKnowledgePercentage)
+    {
+        public KnowledgeStatusCountsResponse(KnowledgeStatusCounts k) : this(
+            k.NotLearned,
+            k.NotLearnedPercentage,
+            k.NeedsLearning,
+            k.NeedsLearningPercentage,
+            k.NeedsConsolidation,
+            k.NeedsConsolidationPercentage,
+            k.Solid,
+            k.SolidPercentage,
+            k.NotLearnedPercentageOfTotal,
+            k.NeedsLearningPercentageOfTotal,
+            k.NeedsConsolidationPercentageOfTotal,
+            k.SolidPercentageOfTotal,
+            k.NotInWishKnowledgeCount,
+            k.NotInWishKnowledgePercentage)
+        {
+        }
+    }
+
+    public record struct KnowledgeSummaryResponse(
+        int TotalCount = 0,
+        double KnowledgeStatusPoints = 0.0,
+        double KnowledgeStatusPointsTotal = 0.0,
+        KnowledgeStatusCountsResponse InWishKnowledge = new KnowledgeStatusCountsResponse(),
+        KnowledgeStatusCountsResponse NotInWishKnowledge = new KnowledgeStatusCountsResponse(),
+        KnowledgeStatusCountsResponse Total = new KnowledgeStatusCountsResponse())
+    {
+        public KnowledgeSummaryResponse(KnowledgeSummary k)
+            : this(
+                TotalCount: k.TotalCount,
+                KnowledgeStatusPoints: k.KnowledgeStatusPoints,
+                KnowledgeStatusPointsTotal: k.KnowledgeStatusPointsTotal,
+                InWishKnowledge: new KnowledgeStatusCountsResponse(k.InWishKnowledge),
+                NotInWishKnowledge: new KnowledgeStatusCountsResponse(k.NotInWishKnowledge),
+                Total: new KnowledgeStatusCountsResponse(k.Total))
+        {
+        }
+    }
 
     public record struct PageDataResult(
         bool CanAccess,

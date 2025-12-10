@@ -39,7 +39,7 @@
             "passwordReset": "Ton mot de passe a été réinitialisé !",
             "passwordVerificationMailSent": "E-mail de vérification envoyé ! Vérifie ta boîte de réception.",
             "supportLoginUpdated": "Tes infos de connexion au support sont à jour !",
-            "wuwiVisibilityUpdated": "Tes paramètres de Connaissances souhaitées sont à jour !",
+            "wishKnowledgeVisibilityUpdated": "Tes paramètres de Connaissances souhaitées sont à jour !",
             "deleted": "Ton compte a été supprimé !"
         },
         "collaboration": {
@@ -850,7 +850,9 @@
         "needsLearning": "À apprendre",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Pas encore apprise",
-        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
+        "notInWishKnowledge": "Pas dans les Connaissances souhaitées",
+        "notInWishKnowledgeCount": "@:knowledgeStatus.notInWishKnowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
         "inWishKnowledge": "Dans les Connaissances souhaitées",
@@ -1074,7 +1076,7 @@
             "password": "Mot de passe",
             "deleteProfile": "Supprimer le profil",
             "settings": "Paramètres",
-            "showWuwi": "Afficher les Connaissances souhaitées",
+            "showWishKnowledge": "Afficher les Connaissances souhaitées",
             "supportLogin": "Connexion Support",
             "membership": "Adhésion",
             "notifications": "Notifications",
@@ -1110,8 +1112,8 @@
             "notPossible": "Désolé, tu ne peux pas supprimer ton profil toi-même. Envoie-nous un e-mail à :",
             "contactReason": "afin qu’on sauvegarde tes données et qu’on le supprime pour toi."
         },
-        "wuwi": {
-            "showWuwi": "Rendre mes Connaissances souhaitées visibles",
+        "wishKnowledge": {
+            "showWishKnowledge": "Rendre mes Connaissances souhaitées visibles",
             "explanation": "Si tu coches, il sera visible publiquement quelles questions sont dans tes Connaissances souhaitées (sauf tes questions privées). Les stats de réponses ne s’affichent pas."
         },
         "supportLogin": {

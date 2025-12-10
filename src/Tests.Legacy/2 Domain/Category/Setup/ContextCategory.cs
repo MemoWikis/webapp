@@ -162,7 +162,7 @@ public class ContextCategory: BaseTest
         return this;
     }
 
-    public User AddCaseThreeToCache(bool withWuwi = true, ContextUser contextUser = null)
+    public User AddCaseThreeToCache(bool withWishKnowledge = true, ContextUser contextUser = null)
     {
         //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
         var rootElement = Add("A").Persist().All.First();

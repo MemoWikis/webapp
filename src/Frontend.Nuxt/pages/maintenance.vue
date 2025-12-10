@@ -775,7 +775,7 @@ const loadMmapCacheStatus = async () => {
     transition: all 0.2s ease;
 
     &:hover {
-        color: @memo-wuwi-red;
+        color: @memo-wish-knowledge-red;
         background: brightness(0.95);
     }
 

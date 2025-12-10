@@ -153,7 +153,7 @@ const groupedErrors = computed(() => {
 
             .table-item {
                 &.selected {
-                    // background-color: fade(@memo-wuwi-red, 10%);
+                    // background-color: fade(@memo-wish-knowledge-red, 10%);
                     background-color: @memo-grey-lighter;
                 }
             }
