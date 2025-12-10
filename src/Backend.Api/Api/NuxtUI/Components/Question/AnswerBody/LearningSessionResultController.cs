@@ -30,6 +30,9 @@
     [HttpGet]
     public LearningSessionResult Get() => GetLearningSessionResult();
 
+    [HttpGet]
+    public LearningSessionResult GetForWishknowledge() => GetLearningSessionResultForWishknowledge();
+
     private LearningSessionResult GetLearningSessionResult()
     {
         var learningSession = _learningSessionCache.GetLearningSession();
@@ -37,7 +40,7 @@
         {
             throw new Exception(FrontendMessageKeys.Error.Default);
         }
-        
+
         var model = new global::LearningSessionResult(learningSession);
         var tinyQuestions = model.AnsweredStepsGrouped
             .Where(g => g.First().Question.Id != 0)
@@ -83,6 +86,63 @@
             PageName: learningSession.Config.GetPage().Name,
             PageId: learningSession.Config.GetPage().Id,
             InWishKnowledge: learningSession.Config.InWishKnowledge,
+            Questions: tinyQuestions
+        );
+    }
+
+    private LearningSessionResult GetLearningSessionResultForWishknowledge()
+    {
+        var learningSession = _learningSessionCache.GetLearningSession();
+        if (learningSession == null)
+        {
+            throw new Exception(FrontendMessageKeys.Error.Default);
+        }
+
+        var model = new global::LearningSessionResult(learningSession);
+        var tinyQuestions = model.AnsweredStepsGrouped
+            .Where(g => g.First().Question.Id != 0)
+            .Select(g =>
+            {
+                var question = g.First().Question;
+                return new TinyQuestion(
+                    CorrectAnswerHtml: GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml(),
+                    Id: question.Id,
+                    ImgUrl: GetQuestionImageFrontendData.Run(
+                            question,
+                            _imageMetaDataReadingRepo,
+                            _httpContextAccessor,
+                            _questionReadingRepo)
+                        .GetImageUrl(128, true).Url,
+                    Title: question.GetShortTitle(),
+                    SessionAnswers: g.Select(s => new SessionAnswer(
+                        AnswerState: s.AnswerState,
+                        AnswerAsHtml: Question.AnswersAsHtml(s.Answer, question.SolutionType)
+                    )).ToArray(),
+                    SolutionType: question.SolutionType
+                );
+            }).ToArray();
+
+        return new LearningSessionResult(
+            UniqueQuestionCount: model.NumberUniqueQuestions,
+            Correct: new CorrectWrongOrNotAnswered(
+                Percentage: model.NumberCorrectPercentage,
+                Count: model.NumberCorrectAnswers
+            ),
+            CorrectAfterRepetition: new CorrectWrongOrNotAnswered(
+                Percentage: model.NumberCorrectAfterRepetitionPercentage,
+                Count: model.NumberCorrectAfterRepetitionAnswers
+            ),
+            Wrong: new CorrectWrongOrNotAnswered(
+                Percentage: model.NumberWrongAnswersPercentage,
+                Count: model.NumberWrongAnswers
+            ),
+            NotAnswered: new CorrectWrongOrNotAnswered(
+                Percentage: model.NumberNotAnsweredPercentage,
+                Count: model.NumberNotAnswered
+            ),
+            PageName: "", // No page name for wishknowledge mode
+            PageId: 0, // No page ID for wishknowledge mode
+            InWishKnowledge: true, // Always true for wishknowledge mode
             Questions: tinyQuestions
         );
     }

@@ -39,7 +39,7 @@
             "passwordReset": "Tu contraseña se ha restablecido.",
             "passwordVerificationMailSent": "¡Correo de verificación enviado! Por favor, revisa tu bandeja de entrada.",
             "supportLoginUpdated": "Los datos de tu inicio de sesión de soporte se han actualizado correctamente.",
-            "wuwiVisibilityUpdated": "Tu configuración de Conocimiento deseado se ha actualizado correctamente.",
+            "wishKnowledgeVisibilityUpdated": "Tu configuración de Conocimiento deseado se ha actualizado correctamente.",
             "deleted": "Tu cuenta ha sido eliminada con éxito."
         },
         "collaboration": {
@@ -230,6 +230,14 @@
         "cancel": "Cancelar",
         "edit": "Editar",
         "save": "Guardar"
+    },
+    "learning": {
+        "wishknowledge": {
+            "title": "Aprendizaje de conocimientos deseados",
+            "heading": "Aprender tus conocimientos deseados",
+            "questionsAvailable": "preguntas disponibles",
+            "loginRequired": "Por favor, inicia sesión para acceder a tus preguntas de conocimientos deseados y comenzar a aprender."
+        }
     },
     "register": {
         "title": "Registro",
@@ -455,6 +463,7 @@
             "question": "pregunta",
             "questions": "preguntas",
             "onThisPage": "en esta página",
+            "fromYourWishknowledge": "de tus preguntas de conocimiento deseado",
             "addQuestion": "Añadir pregunta",
             "collapseAllQuestions": "Contraer todas las preguntas",
             "expandAllQuestions": "Expandir todas las preguntas",
@@ -726,6 +735,53 @@
                 "message": {
                     "noFlashcards": "¡Vaya! No hay tarjetas."
                 }
+            },
+            "createPage": {
+                "title": "Crear página con IA",
+                "buttonTitle": "Crear con IA",
+                "buttonTitleMobile": "IA",
+                "modePrompt": "Texto",
+                "modeUrl": "URL",
+                "promptLabel": "Describe de qué tratará la página",
+                "promptPlaceholder": "Ej.: Explica los fundamentos de la fotosíntesis...",
+                "urlLabel": "URL para crear la página",
+                "urlPlaceholder": "Ej.: https://es.wikipedia.org/wiki/Fotosíntesis",
+                "urlHint": "Funciona mejor con Wikipedia, GitHub y sitios de documentación estáticos. Algunos sitios con protección anti-bots pueden no funcionar.",
+                "complexityLabel": "Nivel de complejidad",
+                "complexity": {
+                    "simple": "Simple",
+                    "basic": "Básico",
+                    "standard": "Estándar",
+                    "advanced": "Avanzado",
+                    "expert": "Experto"
+                },
+                "lengthLabel": "Longitud del contenido",
+                "length": {
+                    "short": "Corto",
+                    "medium": "Medio",
+                    "long": "Detallado"
+                },
+                "button": {
+                    "generate": "Generar",
+                    "regenerate": "Regenerar",
+                    "create": "Crear página",
+                    "createWiki": "Crear wiki"
+                },
+                "generating": "Generando página...",
+                "generatingWiki": "Generando wiki con subpáginas...",
+                "preview": "Vista previa",
+                "previewWiki": "Vista previa del wiki",
+                "success": "La página se ha creado correctamente.",
+                "successWiki": "El wiki con todas las subpáginas se ha creado correctamente.",
+                "createAsWiki": "Crear como Wiki",
+                "typePage": "Página única",
+                "typeWiki": "Wiki con subpáginas",
+                "wikiMain": "Página principal",
+                "subpageCount": "{count} subpáginas",
+                "source": {
+                    "aiGenerated": "Generado por IA",
+                    "label": "Fuente:"
+                }
             }
         },
         "relationEdit": {
@@ -737,6 +793,7 @@
             },
             "button": {
                 "createPage": "Crear página",
+                "createWithAi": "Crear con IA en su lugar",
                 "movePage": "Mover página",
                 "linkPage": "Vincular página"
             },
@@ -850,7 +907,9 @@
         "needsLearning": "Necesita aprendizaje",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Aún no aprendido",
-        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
+        "notInWishKnowledge": "No en conocimiento deseado",
+        "notInWishKnowledgeCount": "@:knowledgeStatus.notInWishKnowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
         "inWishKnowledge": "En Conocimiento deseado",
@@ -1074,7 +1133,7 @@
             "password": "Contraseña",
             "deleteProfile": "Eliminar perfil",
             "settings": "Configuración",
-            "showWuwi": "Mostrar Conocimiento deseado",
+            "showWishKnowledge": "Mostrar Conocimiento deseado",
             "supportLogin": "Inicio de sesión de soporte",
             "membership": "Membresía",
             "notifications": "Notificaciones",
@@ -1110,8 +1169,8 @@
             "notPossible": "Lamentablemente no es posible que elimines tu perfil por tu cuenta. Escríbenos un breve correo a",
             "contactReason": "para que podamos conservar tu valioso contenido y eliminar tu perfil por ti."
         },
-        "wuwi": {
-            "showWuwi": "Mostrar Conocimiento deseado",
+        "wishKnowledge": {
+            "showWishKnowledge": "Mostrar Conocimiento deseado",
             "explanation": "Si seleccionas esto, será visible públicamente qué preguntas están en tu Conocimiento deseado (excepto preguntas privadas). No se muestran estadísticas de respuestas."
         },
         "supportLogin": {
@@ -1662,6 +1721,7 @@
             "register": "Registro",
             "messages": "Mensajes",
             "missionControl": "Mission Control",
+            "allWishknowledgeLearning": "Aprendizaje de conocimiento deseado",
             "error": "Error",
             "resetPassword": "Restablecer contraseña",
             "confirmEmail": "Confirmar correo",
@@ -1729,6 +1789,7 @@
     },
     "missionControl": {
         "heading": "Panel de control",
+        "learnAll": "Aprende tu conocimiento deseado",
         "sections": {
             "wikis": "Mis Wikis",
             "recentActivity": "Actividad reciente",

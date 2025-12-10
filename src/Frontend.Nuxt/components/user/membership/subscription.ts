@@ -38,7 +38,7 @@ export const plans = (limit: BasicLimits) => {
                 $i18n.t("user.membership.plans.basic.list.privateQuestions", {
                     count: limit.maxPrivateQuestionCount,
                 }),
-                $i18n.t("user.membership.plans.basic.list.wishknowledge", {
+                $i18n.t("user.membership.plans.basic.list.wishKnowledge", {
                     count: limit.maxWishKnowledgeCount,
                 }),
             ],

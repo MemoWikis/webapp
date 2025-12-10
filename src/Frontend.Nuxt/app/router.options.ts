@@ -41,6 +41,26 @@ export default <RouterConfig>{
                 import('~/pages/mission-control/mission-control.vue'),
         },
         {
+            name: 'learningPageDE',
+            path: '/Mission-Control/Lernen/:questionId(\\d+)?',
+            component: () => import('~/pages/mission-control/learning.vue'),
+        },
+        {
+            name: 'learningPageEN',
+            path: '/MissionControl/Learning/:questionId(\\d+)?',
+            component: () => import('~/pages/mission-control/learning.vue'),
+        },
+        {
+            name: 'learningPageFR',
+            path: '/TableauDeBord/Apprentissage/:questionId(\\d+)?',
+            component: () => import('~/pages/mission-control/learning.vue'),
+        },
+        {
+            name: 'learningPageES',
+            path: '/PanelDeControl/Aprendizaje/:questionId(\\d+)?',
+            component: () => import('~/pages/mission-control/learning.vue'),
+        },
+        {
             name: 'termsPageDE',
             path: '/AGB',
             component: () => import('~/pages/terms/terms-de.vue'),
@@ -163,7 +183,7 @@ export default <RouterConfig>{
             component: () => import('~/pages/user/[name]/[id].vue'),
         },
         {
-            name: 'userWuwiPage',
+            name: 'userWishKnowledgePage',
             path: '/Nutzer/:name/:id/Wunschwissen',
             component: () => import('~/pages/user/[name]/[id].vue'),
             props: { tab: UserTab.WishKnowledge },

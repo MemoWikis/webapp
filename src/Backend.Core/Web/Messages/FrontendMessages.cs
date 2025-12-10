@@ -25,7 +25,7 @@
             public static readonly string PasswordReset = "success.user.passwordReset";
             public static readonly string VerificationMailRequestSent = "success.user.passwordVerificationMailSent";
             public static readonly string SupportLoginUpdated = "success.user.supportLoginUpdated";
-            public static readonly string WuwiVisibilityUpdated = "success.user.wuwiVisibilityUpdated";
+            public static readonly string WishKnowledgeVisibilityUpdated = "success.user.wishKnowledgeVisibilityUpdated";
         }
     }
 
@@ -129,6 +129,9 @@
 
             public static readonly string NoFlashcardsCreatedCauseLimitAndPageIsPrivate =
                 "error.ai.noFlashcardsCreatedCauseLimitAndPageIsPrivate";
+            
+            public static readonly string InvalidUrl = "error.ai.invalidUrl";
+            public static readonly string UrlFetchFailed = "error.ai.urlFetchFailed";
         }
 
         public static class Skill

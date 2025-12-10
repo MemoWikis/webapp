@@ -1,0 +1,20 @@
+﻿{
+  WikiCreation: {
+    Success: true,
+    HasValidId: true,
+    Name: AI Generated Wiki,
+    IsWiki: true,
+    ContentContainsOverview: true,
+    Visibility: Private
+  },
+  SubpagesCreation: {
+    Count: 3,
+    AllExistInDb: true,
+    AllHaveHtmlContent: true
+  },
+  ParentChildRelationships: {
+    WikiChildCount: 3,
+    AllSubpagesHaveOneParent: true,
+    FirstSubpageHasWikiAsAncestor: true
+  }
+}

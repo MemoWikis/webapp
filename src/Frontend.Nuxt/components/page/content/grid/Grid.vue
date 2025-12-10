@@ -9,6 +9,7 @@ import { usePublishPageStore } from '~/components/page/publish/publishPageStore'
 import { usePageToPrivateStore } from '~/components/page/toPrivate/pageToPrivateStore'
 import { useDeletePageStore } from '~/components/page/delete/deletePageStore'
 import { TargetPosition, useDragStore } from '~/components/shared/dragStore'
+import { useAiCreatePageStore } from '~/components/page/content/ai/aiCreatePageStore'
 
 const pageStore = usePageStore()
 const editPageRelationStore = useEditPageRelationStore()
@@ -18,6 +19,7 @@ const publishPageStore = usePublishPageStore()
 const pageToPrivateStore = usePageToPrivateStore()
 const deletePageStore = useDeletePageStore()
 const dragStore = useDragStore()
+const aiCreatePageStore = useAiCreatePageStore()
 
 interface Props {
     children: GridPageItem[]
@@ -48,6 +50,14 @@ function addPage(newPage: boolean) {
         pagesToFilter: pagesToFilter.value,
     }
     editPageRelationStore.openModal(parent)
+}
+
+function openAiCreatePage() {
+    if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+    }
+    aiCreatePageStore.openModal(pageStore.id)
 }
 
 editPageRelationStore.$onAction(({ after, name }) => {
@@ -162,7 +172,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
         after((result) => {
 
             if (result.oldParentId === pageStore.id) {
-                const index = pageStore.gridItems.findIndex(c => c.id === result.movePage.id)
+                const index = pageStore.gridItems.findIndex(gridItem => gridItem.id === result.movePage.id)
                 if (index !== -1) {
                     pageStore.gridItems.splice(index, 1)
                 }
@@ -203,6 +213,11 @@ editPageRelationStore.$onAction(({ name, after }) => {
                                 <font-awesome-icon :icon="['fas', 'link']" />
                             </button>
                         </div>
+                        <div class="grid-option">
+                            <button @click="openAiCreatePage()" :title="t('page.ai.createPage.buttonTitle')">
+                                <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -239,6 +254,15 @@ editPageRelationStore.$onAction(({ name, after }) => {
                             <font-awesome-icon :icon="['fas', 'link']" />
                             <span class="button-label" :class="{ 'is-mobile': isMobile }">
                                 {{ isMobile ? t('page.grid.linkChildPageMobile') : t('page.grid.linkChildPage') }}
+                            </span>
+                        </button>
+                    </div>
+                    <div class="grid-divider" :class="{ 'is-mobile': isMobile }"></div>
+                    <div class="grid-option overline-m no-line no-margin">
+                        <button @click="openAiCreatePage()">
+                            <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
+                            <span class="button-label" :class="{ 'is-mobile': isMobile }">
+                                {{ isMobile ? t('page.ai.createPage.buttonTitleMobile') : t('page.ai.createPage.buttonTitle') }}
                             </span>
                         </button>
                     </div>

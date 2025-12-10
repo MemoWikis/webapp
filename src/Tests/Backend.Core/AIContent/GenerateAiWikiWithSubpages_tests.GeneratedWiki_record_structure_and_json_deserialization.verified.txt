@@ -1,0 +1,16 @@
+﻿{
+  RecordStructure: {
+    Title: Main Wiki,
+    HtmlContent: <p>Overview</p>,
+    SubpageCount: 2,
+    FirstSubpageTitle: Subpage 1,
+    SecondSubpageTitle: Subpage 2
+  },
+  JsonDeserialization: {
+    Title: Test Wiki,
+    ContentContainsOverview: true,
+    SubpageCount: 2,
+    FirstSubpageTitle: First Subpage,
+    SecondSubpageTitle: Second Subpage
+  }
+}

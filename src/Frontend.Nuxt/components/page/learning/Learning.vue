@@ -2,14 +2,18 @@
 import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
-import { usePageStore } from '../pageStore'
 import { Tab, useTabsStore } from '../tabs/tabsStore'
 
 const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-const pageStore = usePageStore()
 const tabsStore = useTabsStore()
+
+interface Props {
+    allWishknowledgeMode?: boolean
+}
+
+const props = defineProps<Props>()
 
 const route = useRoute()
 const openFilter = ref(true)
@@ -25,23 +29,28 @@ onBeforeMount(async () => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
     await learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
-    if (route.query.inWuWi === 'true') {
+    if (route.query.inWuWi === 'true' || props.allWishknowledgeMode) {
         learningSessionConfigurationStore.questionFilterOptions.inWishKnowledge.isSelected = true
         learningSessionConfigurationStore.questionFilterOptions.notInWishKnowledge.isSelected = false
         learningSessionConfigurationStore.checkQuestionFilterSelection()
     }
 
-    if (route.params.questionId != null)
+    if ((route.params.questionId != null && !props.allWishknowledgeMode) && learningSessionStore.currentStep?.id != parseInt(route.params.questionId?.toString()))
         mountNewQuestion()
-    else
-        await learningSessionStore.startNewSession()
+})
+
+onMounted(async () => {
+    if (props.allWishknowledgeMode && import.meta.client)
+        await learningSessionStore.startNewSession(true)
 })
 
 const mountNewQuestion = async () => {
     if (route.params.questionId == null)
         return
+
     const questionId = parseInt(route.params.questionId.toString())
-    const errorMsg = await learningSessionStore.startNewSessionWithJumpToQuestion(questionId)
+
+    const errorMsg = await learningSessionStore.startNewSessionWithJumpToQuestion(questionId, props.allWishknowledgeMode)
     if (errorMsg) {
         if (import.meta.server) {
             alertOnMounted.value = true
@@ -114,11 +123,6 @@ function calculateProgress() {
     unansweredWidth.value = `width: ${100 - progressPercentage.value}%`
 }
 
-watch(() => pageStore.questionCount, (count) => {
-    if (count > 0)
-        learningSessionConfigurationStore.showFilter = true
-})
-
 function stepBack() {
     if (learningSessionStore.currentStep?.index === 0 || learningSessionStore.currentStep?.index == null)
         return
@@ -178,11 +182,11 @@ function stepForward() {
         </div>
 
         <div class="col-xs-12">
-            <QuestionAnswerBody />
+            <QuestionAnswerBody :all-wishknowledge-mode="props.allWishknowledgeMode" />
         </div>
 
         <div class="col-xs-12" id="QuestionListContainer" v-show="!learningSessionStore.showResult">
-            <PageLearningQuestionsSection />
+            <PageLearningQuestionsSection :all-wishknowledge-mode="props.allWishknowledgeMode" />
         </div>
 
         <ClientOnly>
@@ -226,8 +230,6 @@ function stepForward() {
 
     .step-count {
         display: flex;
-        // padding-left: 10px;
-        // padding-right: 15px;
         margin-right: 15px;
         flex-wrap: nowrap;
         align-items: center;

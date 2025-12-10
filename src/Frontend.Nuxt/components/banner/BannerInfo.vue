@@ -138,7 +138,7 @@ watch(showBanner, (val) => {
                         }
 
                         font-size: 20px;
-                        color: @memo-wuwi-red;
+                        color: @memo-wish-knowledge-red;
                     }
 
                     @media (max-width: 767px) {

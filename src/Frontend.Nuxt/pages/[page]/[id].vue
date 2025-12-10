@@ -6,6 +6,7 @@ import { SiteType } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useConvertStore } from '~/components/page/convert/convertStore'
+import { useLearningSessionConfigurationStore } from '~/components/page/learning/learningSessionConfigurationStore'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -13,6 +14,7 @@ const tabsStore = useTabsStore()
 const pageStore = usePageStore()
 const loadingStore = useLoadingStore()
 const convertStore = useConvertStore()
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 
 interface Props {
     tab?: Tab,
@@ -199,6 +201,18 @@ convertStore.$onAction(({ name, after }) => {
     }
 })
 
+watch(() => pageStore.questionCount, (count) => {
+    if (tabsStore.activeTab == Tab.Learning && count > 0)
+        learningSessionConfigurationStore.showFilter = true
+})
+
+const learningTabLoaded = ref(false)
+watch(() => tabsStore.activeTab, (tab) => {
+    if (tab === Tab.Learning) {
+        learningTabLoaded.value = true
+    }
+})
+
 </script>
 
 <template>
@@ -247,6 +261,7 @@ convertStore.$onAction(({ name, after }) => {
                     <PageToPrivateModal />
                     <PageDeleteModal />
                     <PageLearningAiCreateFlashCard />
+                    <PageContentAiCreatePage />
                     <PageSharingModal />
                     <LicenseLinkModal />
                 </ClientOnly>

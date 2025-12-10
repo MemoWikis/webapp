@@ -39,7 +39,7 @@
             "passwordReset": "Dein Passwort wurde zurückgesetzt.",
             "passwordVerificationMailSent": "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang.",
             "supportLoginUpdated": "Deine Support-Login-Daten wurden erfolgreich aktualisiert.",
-            "wuwiVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert.",
+            "wishKnowledgeVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert.",
             "deleted": "Dein Account wurde erfolgreich gelöscht."
         },
         "collaboration": {
@@ -144,7 +144,9 @@
         },
         "ai": {
             "generateFlashcards": "Es konnten keine Karteikarten erstellt werden.",
-            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt."
+            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt.",
+            "invalidUrl": "Bitte gib eine gültige URL ein (beginnend mit http:// oder https://).",
+            "urlFetchFailed": "Der Inhalt der URL konnte nicht abgerufen werden. Bitte überprüfe die URL und versuche es erneut."
         },
         "loading": {
             "shares": "Die Freigabeinformationen konnten nicht geladen werden."
@@ -230,6 +232,14 @@
         "cancel": "Abbrechen",
         "edit": "Bearbeiten",
         "save": "Speichern"
+    },
+    "learning": {
+        "wishknowledge": {
+            "title": "Wunschwissen lernen",
+            "heading": "Dein Wunschwissen lernen",
+            "questionsAvailable": "Fragen verfügbar",
+            "loginRequired": "Bitte melde dich an, um auf deine Wunschwissen-Fragen zuzugreifen und mit dem Lernen zu beginnen."
+        }
     },
     "register": {
         "title": "Registrieren",
@@ -455,6 +465,7 @@
             "question": "Frage",
             "questions": "Fragen",
             "onThisPage": "auf dieser Seite",
+            "fromYourWishknowledge": "aus deinen Wunschwissen-Fragen",
             "addQuestion": "Frage hinzufügen",
             "collapseAllQuestions": "Alle Fragen zuklappen",
             "expandAllQuestions": "Alle Fragen erweitern",
@@ -726,6 +737,53 @@
                 "message": {
                     "noFlashcards": "Oops! Du hast keine Karteikarten."
                 }
+            },
+            "createPage": {
+                "title": "Seite mit KI erstellen",
+                "buttonTitle": "Mit KI erstellen",
+                "buttonTitleMobile": "KI",
+                "modePrompt": "Beschreiben",
+                "modeUrl": "Von URL",
+                "promptLabel": "Beschreibe, worum es auf der Seite gehen soll",
+                "promptPlaceholder": "z.B. Erkläre die Grundlagen der Photosynthese...",
+                "urlLabel": "Gib eine URL ein, um eine Seite zu erstellen",
+                "urlPlaceholder": "z.B. https://de.wikipedia.org/wiki/Photosynthese",
+                "urlHint": "Funktioniert am besten mit Wikipedia, GitHub und statischen Dokumentationsseiten. Einige Seiten mit Bot-Schutz funktionieren möglicherweise nicht.",
+                "complexityLabel": "Komplexität",
+                "complexity": {
+                    "simple": "Einfach",
+                    "basic": "Grundlegend",
+                    "standard": "Standard",
+                    "advanced": "Fortgeschritten",
+                    "expert": "Experte"
+                },
+                "lengthLabel": "Inhaltslänge",
+                "length": {
+                    "short": "Kurz",
+                    "medium": "Mittel",
+                    "long": "Ausführlich"
+                },
+                "button": {
+                    "generate": "Generieren",
+                    "regenerate": "Neu generieren",
+                    "create": "Seite erstellen",
+                    "createWiki": "Wiki erstellen"
+                },
+                "generating": "Seite wird generiert...",
+                "generatingWiki": "Wiki mit Unterseiten wird generiert...",
+                "preview": "Vorschau",
+                "previewWiki": "Wiki-Vorschau",
+                "success": "Die Seite wurde erfolgreich erstellt.",
+                "successWiki": "Das Wiki mit allen Unterseiten wurde erfolgreich erstellt.",
+                "createAsWiki": "Als Wiki erstellen",
+                "typePage": "Einzelne Seite",
+                "typeWiki": "Wiki mit Unterseiten",
+                "wikiMain": "Hauptseite",
+                "subpageCount": "{count} Unterseiten",
+                "source": {
+                    "aiGenerated": "KI-generiert",
+                    "label": "Quelle:"
+                }
             }
         },
         "relationEdit": {
@@ -737,6 +795,7 @@
             },
             "button": {
                 "createPage": "Seite erstellen",
+                "createWithAi": "Stattdessen mit KI erstellen",
                 "movePage": "Seite verschieben",
                 "linkPage": "Seite verknüpfen"
             },
@@ -850,7 +909,9 @@
         "needsLearning": "Solltest du lernen",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Noch nicht gelernt",
-        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
+        "notInWishKnowledge": "Nicht im Wunschwissen",
+        "notInWishKnowledgeCount": "@:knowledgeStatus.notInWishKnowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
         "inWishKnowledge": "Im Wunschwissen",
@@ -1074,7 +1135,7 @@
             "password": "Passwort",
             "deleteProfile": "Profil löschen",
             "settings": "Einstellungen",
-            "showWuwi": "Wunschwissen anzeigen",
+            "showWishKnowledge": "Wunschwissen anzeigen",
             "supportLogin": "Support Login",
             "membership": "Mitgliedschaft",
             "notifications": "Benachrichtigungen",
@@ -1110,8 +1171,8 @@
             "notPossible": "Leider ist es nicht möglich, Dein Profil eigenständig zu löschen. Schreib uns deshalb bitte eine kurze E-Mail an",
             "contactReason": "damit wir Dein wertvolles Wissen sichern und Dein Profil für Dich entfernen können."
         },
-        "wuwi": {
-            "showWuwi": "Wunschwissen zeigen",
+        "wishKnowledge": {
+            "showWishKnowledge": "Wunschwissen zeigen",
             "explanation": "Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind (außer private Fragen). Antwortstatistiken werden nicht angezeigt."
         },
         "supportLogin": {
@@ -1662,6 +1723,7 @@
             "register": "Registrieren",
             "messages": "Nachrichten",
             "missionControl": "Mission Control",
+            "allWishknowledgeLearning": "Wunschwissen lernen",
             "error": "Fehler",
             "resetPassword": "Passwort zurücksetzen",
             "confirmEmail": "E-Mail Bestätigung",
@@ -1729,6 +1791,7 @@
     },
     "missionControl": {
         "heading": "Mission Control",
+        "learnAll": "Lerne dein Wunschwissen",
         "sections": {
             "wikis": "Meine Wikis",
             "recentActivity": "Neueste Aktivitäten",

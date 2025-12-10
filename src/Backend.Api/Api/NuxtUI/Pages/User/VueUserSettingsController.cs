@@ -207,29 +207,29 @@ public class VueUserSettingsController(
         };
     }
 
-    public readonly record struct ChangeWuwiVisibilityJsonResult(bool Success, string Message);
+    public readonly record struct ChangeWishKnowledgeVisibilityJsonResult(bool Success, string Message);
 
-    public class ChangeWuwiVisibilityJson
+    public class ChangeWishKnowledgeVisibilityJson
     {
-        public bool showWuwi { get; set; }
+        public bool showWishKnowledge { get; set; }
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public ChangeWuwiVisibilityJsonResult ChangeWuwiVisibility(
-        [FromBody] ChangeWuwiVisibilityJson json)
+    public ChangeWishKnowledgeVisibilityJsonResult ChangeWishKnowledgeVisibility(
+        [FromBody] ChangeWishKnowledgeVisibilityJson json)
     {
-        _sessionUser.User.ShowWishKnowledge = json.showWuwi;
+        _sessionUser.User.ShowWishKnowledge = json.showWishKnowledge;
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
         _reputationUpdate.ForUser(_sessionUser
             .User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
-        return new ChangeWuwiVisibilityJsonResult
+        return new ChangeWishKnowledgeVisibilityJsonResult
         {
             Success = true,
-            Message = FrontendMessageKeys.Success.User.WuwiVisibilityUpdated
+            Message = FrontendMessageKeys.Success.User.WishKnowledgeVisibilityUpdated
         };
     }
 

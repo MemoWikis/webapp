@@ -5,6 +5,13 @@ import { Question } from '~/types/learningSession'
 
 const userStore = useUserStore()
 const emit = defineEmits(['startNewSession'])
+const route = useRoute()
+
+interface Props {
+    allWishknowledgeMode?: boolean
+}
+
+const props = defineProps<Props>()
 
 interface LearningSessionResult {
     correct: {
@@ -34,7 +41,12 @@ const { $logger } = useNuxtApp()
 const learningSessionResult = ref<LearningSessionResult>()
 
 onMounted(async () => {
-    learningSessionResult.value = await $api<LearningSessionResult>('/apiVue/VueLearningSessionResult/Get', {
+    // Use appropriate API endpoint based on mode
+    const apiEndpoint = props.allWishknowledgeMode
+        ? '/apiVue/VueLearningSessionResult/GetForWishknowledge'
+        : '/apiVue/VueLearningSessionResult/Get'
+
+    learningSessionResult.value = await $api<LearningSessionResult>(apiEndpoint, {
         credentials: 'include',
         mode: 'cors',
         onResponseError(context) {

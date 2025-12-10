@@ -9,7 +9,7 @@ public class QuestionValuationReadingRepo : RepositoryDb<QuestionValuation>
        
     }
 
-    public int HowOftenInOtherPeoplesWuwi(int userId, int questionId)
+    public int HowOftenInOtherPeoplesWishKnowledge(int userId, int questionId)
     {
         return _session
             .QueryOver<QuestionValuation>()

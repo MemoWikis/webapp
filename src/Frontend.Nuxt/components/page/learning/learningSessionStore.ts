@@ -97,21 +97,39 @@ export const useLearningSessionStore = defineStore("learningSessionStore", {
                 : null
             return errorMsg
         },
-        async startNewSession() {
+        async startNewSession(allWishknowledgeMode: boolean = false) {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-            const config = learningSessionConfigurationStore.buildSessionConfigJson()
-            learningSessionConfigurationStore.getQuestionCount()
+            
+            const config = learningSessionConfigurationStore.buildSessionConfigJson(
+                allWishknowledgeMode ? 0 : undefined
+            )
+            
+            if (allWishknowledgeMode) {
+                learningSessionConfigurationStore.getQuestionCount(0)
+            } else {
+                learningSessionConfigurationStore.getQuestionCount()
+            }
 
-            return await this.loadLearningSession(config, "NewSession")
+            const apiEndpoint = allWishknowledgeMode ? "NewWishknowledgeSession" : "NewSession"
+            return await this.loadLearningSession(config, apiEndpoint)
         },
-        async startNewSessionWithJumpToQuestion(id: number) {
+        async startNewSessionWithJumpToQuestion(id: number, allWishknowledgeMode: boolean = false) {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-            const config = learningSessionConfigurationStore.buildSessionConfigJson()
-            learningSessionConfigurationStore.getQuestionCount()
+            
+            const config = learningSessionConfigurationStore.buildSessionConfigJson(
+                allWishknowledgeMode ? 0 : undefined
+            )
+            
+            if (allWishknowledgeMode) {
+                learningSessionConfigurationStore.getQuestionCount(0)
+            } else {
+                learningSessionConfigurationStore.getQuestionCount()
+            }
 
+            const apiEndpoint = allWishknowledgeMode ? "NewWishknowledgeSessionWithJumpToQuestion" : "NewSessionWithJumpToQuestion"
             return await this.loadLearningSession(
                 { config: config, id: id },
-                "NewSessionWithJumpToQuestion"
+                apiEndpoint
             )
         },
         handleQuestionNotInSessionAlert(id: number, msg: string) {
@@ -134,8 +152,13 @@ export const useLearningSessionStore = defineStore("learningSessionStore", {
                         ) {
                             learningSessionConfigurationStore.resetData()
                             learningSessionConfigurationStore.saveSessionConfig()
-                            learningSessionConfigurationStore.getQuestionCount()
-                            this.startNewSessionWithJumpToQuestion(id)
+                            const isWishknowledge = learningSessionConfigurationStore.pageId === 0
+                            if (isWishknowledge) {
+                                learningSessionConfigurationStore.getQuestionCount(0)
+                            } else {
+                                learningSessionConfigurationStore.getQuestionCount()
+                            }
+                            this.startNewSessionWithJumpToQuestion(id, isWishknowledge)
                         } else {
                             // this.startNewSession()
                         }

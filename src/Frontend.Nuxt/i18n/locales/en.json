@@ -39,7 +39,7 @@
             "passwordReset": "Your password has been reset.",
             "passwordVerificationMailSent": "Verification email sent! Please check your inbox.",
             "supportLoginUpdated": "Your support login data has been successfully updated.",
-            "wuwiVisibilityUpdated": "Your Wish-Knowledge settings have been successfully updated.",
+            "wishKnowledgeVisibilityUpdated": "Your Wish-Knowledge settings have been successfully updated.",
             "deleted": "Your account has been successfully deleted."
         },
         "collaboration": {
@@ -144,7 +144,9 @@
         },
         "ai": {
             "generateFlashcards": "Flashcards could not be created.",
-            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit is reached! Since the page is private, no flashcards have been created."
+            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit is reached! Since the page is private, no flashcards have been created.",
+            "invalidUrl": "Please enter a valid URL (starting with http:// or https://).",
+            "urlFetchFailed": "Could not fetch content from the URL. Please check the URL and try again."
         },
         "loading": {
             "shares": "Could not load sharing information."
@@ -230,6 +232,14 @@
         "cancel": "Cancel",
         "edit": "Edit",
         "save": "Save"
+    },
+    "learning": {
+        "wishknowledge": {
+            "title": "Wishknowledge Learning",
+            "heading": "Learning Your Wishknowledge",
+            "questionsAvailable": "questions available",
+            "loginRequired": "Please log in to access your wishknowledge questions and start learning."
+        }
     },
     "register": {
         "title": "Register",
@@ -455,6 +465,7 @@
             "question": "question",
             "questions": "questions",
             "onThisPage": "on this page",
+            "fromYourWishknowledge": "from your wishknowledge questions",
             "addQuestion": "Add question",
             "collapseAllQuestions": "Collapse all questions",
             "expandAllQuestions": "Expand all questions",
@@ -726,6 +737,53 @@
                 "message": {
                     "noFlashcards": "Oops! You have no flashcards."
                 }
+            },
+            "createPage": {
+                "title": "Create page with AI",
+                "buttonTitle": "Create with AI",
+                "buttonTitleMobile": "AI",
+                "modePrompt": "Describe",
+                "modeUrl": "From URL",
+                "promptLabel": "Describe what the page should be about",
+                "promptPlaceholder": "e.g. Explain the basics of photosynthesis...",
+                "urlLabel": "Enter a URL to create a page from",
+                "urlPlaceholder": "e.g. https://en.wikipedia.org/wiki/Photosynthesis",
+                "urlHint": "Works best with Wikipedia, GitHub, and static documentation sites. Some sites with bot protection may not work.",
+                "complexityLabel": "Complexity level",
+                "complexity": {
+                    "simple": "Simple",
+                    "basic": "Basic",
+                    "standard": "Standard",
+                    "advanced": "Advanced",
+                    "expert": "Expert"
+                },
+                "lengthLabel": "Content length",
+                "length": {
+                    "short": "Short",
+                    "medium": "Medium",
+                    "long": "Detailed"
+                },
+                "button": {
+                    "generate": "Generate",
+                    "regenerate": "Regenerate",
+                    "create": "Create page",
+                    "createWiki": "Create wiki"
+                },
+                "generating": "Generating page...",
+                "generatingWiki": "Generating wiki with subpages...",
+                "preview": "Preview",
+                "previewWiki": "Wiki preview",
+                "success": "The page was successfully created.",
+                "successWiki": "The wiki with all subpages was successfully created.",
+                "createAsWiki": "Create as Wiki",
+                "typePage": "Single page",
+                "typeWiki": "Wiki with subpages",
+                "wikiMain": "Main page",
+                "subpageCount": "{count} subpages",
+                "source": {
+                    "aiGenerated": "AI-generated",
+                    "label": "Source:"
+                }
             }
         },
         "relationEdit": {
@@ -737,6 +795,7 @@
             },
             "button": {
                 "createPage": "Create page",
+                "createWithAi": "Create with AI instead",
                 "movePage": "Move page",
                 "linkPage": "Link page"
             },
@@ -850,7 +909,9 @@
         "needsLearning": "Should be learned",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Not learned yet",
-        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount",
+        "notInWishKnowledge": "Not in wishKnowledge",
+        "notInWishKnowledgeCount": "@:knowledgeStatus.notInWishKnowledge : @:label.questionCount"
     },
     "questionFilterOptions": {
         "inWishKnowledge": "In Wish-Knowledge",
@@ -1074,7 +1135,7 @@
             "password": "Password",
             "deleteProfile": "Delete profile",
             "settings": "Settings",
-            "showWuwi": "Show Wish-Knowledge",
+            "showWishKnowledge": "Show Wish-Knowledge",
             "supportLogin": "Support login",
             "membership": "Membership",
             "notifications": "Notifications",
@@ -1110,8 +1171,8 @@
             "notPossible": "Unfortunately, it is not possible to delete your profile on your own. Therefore, please write us a short email at",
             "contactReason": "so that we can secure your valuable knowledge and remove your profile for you."
         },
-        "wuwi": {
-            "showWuwi": "Show Wish-Knowledge",
+        "wishKnowledge": {
+            "showWishKnowledge": "Show Wish-Knowledge",
             "explanation": "If selected, it is publicly visible which questions are in your Wish-Knowledge (except private questions). No answer statistics are displayed."
         },
         "supportLogin": {
@@ -1262,7 +1323,7 @@
                 "createdWikis": "Created Wikis",
                 "createdQuestions": "Created Questions",
                 "tooltips": {
-                    "reputation": "Reputation is based on created questions, questions in others' wish knowledge, and public wish knowledge",
+                    "reputation": "Reputation is based on created questions, questions in others' wishKnowledge, and public wishKnowledge",
                     "rank": "User ranking is based on reputation points",
                     "createdPages": "Public pages created by: {userName}",
                     "createdWikis": "Public wikis created by: {userName}",
@@ -1663,6 +1724,7 @@
             "register": "Register",
             "messages": "Messages",
             "missionControl": "Mission Control",
+            "allWishknowledgeLearning": "Learning Wishknowledge",
             "error": "Error",
             "resetPassword": "Reset password",
             "confirmEmail": "Email confirmation",
@@ -1730,6 +1792,7 @@
     },
     "missionControl": {
         "heading": "Mission Control",
+        "learnAll": "Learn your wishknowledge",
         "sections": {
             "wikis": "My Wikis",
             "recentActivity": "Recent Activity",

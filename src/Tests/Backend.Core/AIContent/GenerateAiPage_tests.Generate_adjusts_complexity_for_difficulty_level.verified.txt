@@ -1,0 +1,10 @@
+﻿{
+  ELI5: {
+    Generated: true,
+    AiConfirmsSimpleLanguage: true
+  },
+  Academic: {
+    Generated: true,
+    AiConfirmsAdvancedLanguage: true
+  }
+}
