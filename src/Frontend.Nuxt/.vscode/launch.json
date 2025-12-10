@@ -11,11 +11,10 @@
 //     {
 //       "type": "node",
 //       "request": "launch",
-//       "name": "server: nuxt debug",
-//       "program": "${workspaceFolder}/node_modules/npm/bin/npm-cli.js",
+//       "name": "server: nuxt",
+//       "program": "${workspaceFolder}/node_modules/nuxi/bin/nuxi.mjs",
 //       "args": [
-//         "run",
-//         "debug"
+//         "dev",
 //       ],
 //     },
 //     {
@@ -44,4 +43,5 @@
 // 		]
 // 	  }
 //   ]
+// }
 // }

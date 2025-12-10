@@ -91,9 +91,6 @@ public class ExtendedUserCache(
         var cacheItem = GetItem(user.Id);
         if (cacheItem != null)
             cacheItem.Populate(user);
-
-        if (cacheItem == null)
-            Log.Error($"should not be null {user.Id}");
     }
 
     public void Remove(User user) => Remove(user.Id);
