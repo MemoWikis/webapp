@@ -62,6 +62,7 @@ const showCreatorName = computed(() => {
                     v-if="props.item.type === 'PageItem'"
                     :breadcrumbPath="(props.item as PageItem).breadcrumbPath || []"
                     :itemName="props.item.name" />
+                <div v-if="props.item.type === 'UserItem'" class="search-user-id">{{ t('search.userId', { id: (props.item as UserItem).id }) }}</div>
                 <div class="search-result-label body-m">{{ props.item.name }}</div>
             </div>
             <div class="search-result-sub-label body-s">
@@ -117,6 +118,11 @@ const showCreatorName = computed(() => {
         flex-direction: column;
         overflow: hidden;
         margin-bottom: 4px;
+
+        .search-user-id {
+            font-size: 0.85em;
+            color: @memo-grey;
+        }
     }
 
     .search-result-label {
