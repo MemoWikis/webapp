@@ -263,7 +263,8 @@
         "showUserResults": "Alle anzeigen ({count})",
         "noResults": "Keine Ergebnisse gefunden",
         "inYourLanguage": "in deiner Sprache",
-        "createdBy": "erstellt von: {creator}"
+        "createdBy": "erstellt von: {creator}",
+        "userId": "Id: {id}"
     },
     "sideSheet": {
         "missionControl": "Mission Control",

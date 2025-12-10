@@ -29,6 +29,12 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
         // Add results that aren't already in the list
         MergeNonDuplicateResults(finalResults, allResults);
 
+        // If searching by numeric ID, prepend exact ID match to the top
+        if (IsNumericSearchTerm(searchTerm) && int.TryParse(searchTerm, out var userId))
+        {
+            PrependExactIdMatch(finalResults, userId);
+        }
+
         var userMaps = finalResults;
 
         var userMapsSkip = userMaps
@@ -53,7 +59,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
 
     private void AddUsers(List<MeiliSearchUserMap> userMaps)
     {
-        var ids = userMaps.Select(c => c.Id);
+        var ids = userMaps.Where(c => c.Id > 0).Select(c => c.Id);
         var usersTemp = EntityCache.GetUsersByIds(ids)
             .ToList();
         _users.AddRange(usersTemp);
@@ -101,6 +107,24 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
         finalResults.AddRange(additionalResults);
     }
 
+    private static bool IsNumericSearchTerm(string searchTerm)
+    {
+        return !string.IsNullOrEmpty(searchTerm) && searchTerm.All(char.IsDigit);
+    }
+
+    private static void PrependExactIdMatch(List<MeiliSearchUserMap> results, int userId)
+    {
+        var user = EntityCache.GetUserByIdNullable(userId);
+        if (user != null)
+        {
+            // Remove if already in list to avoid duplicates
+            results.RemoveAll(result => result.Id == userId);
+
+            // Insert at the beginning
+            results.Insert(0, ConvertToUserMap(user));
+        }
+    }
+
     public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)>
         GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy, string[] languageCodes)
     {
@@ -119,43 +143,62 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
         }
         else
         {
-            var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
-            var index = client.Index(MeilisearchIndices.Users);
-
-            string? filterString = null;
-
-            if (languages.Any())
+            // Check if the search term is purely numeric (searching by ID)
+            if (IsNumericSearchTerm(searchTerm) && int.TryParse(searchTerm, out var userId))
             {
-                var clauses = languages
-                    .Select(lang => lang.GetCode()) // "German", "English", etc.
-                    .Select(code => $"ContentLanguages = \"{code}\"")
-                    .ToList();
+                // For numeric search, try exact ID match first
+                var exactMatchUser = EntityCache.GetUserByIdNullable(userId);
+                if (exactMatchUser != null)
+                {
+                    var matchesLanguageFilter = !languages.Any() || LanguageExtensions.AnyLanguageIsInList(languages, exactMatchUser.ContentLanguages);
 
-                filterString = string.Join(" OR ", clauses);
-            }
-
-            // Create the search query
-            var sq = new SearchQuery
-            {
-                // The search text
-                Q = searchTerm,
-                // Limit how many hits we fetch
-                Limit = 100,
-                // Add the filter (only if we have at least one language selected)
-                Filter = filterString
-            };
-
-            var searchResult = await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq);
-            if (searchResult is SearchResult<MeiliSearchUserMap> result)
-            {
-                count = result.EstimatedTotalHits;
+                    if (matchesLanguageFilter)
+                    {
+                        userMaps.Add(ConvertToUserMap(exactMatchUser));
+                        count = 1;
+                    }
+                }
             }
             else
             {
-                Log.Error("fail cast from ISearchable to SearchResult");
-            }
+                var client = new MeilisearchClient(Settings.MeilisearchUrl, Settings.MeilisearchMasterKey);
+                var index = client.Index(MeilisearchIndices.Users);
 
-            userMaps = searchResult.Hits.ToList();
+                string? filterString = null;
+
+                if (languages.Any())
+                {
+                    var clauses = languages
+                        .Select(lang => lang.GetCode()) // "German", "English", etc.
+                        .Select(code => $"ContentLanguages = \"{code}\"")
+                        .ToList();
+
+                    filterString = string.Join(" OR ", clauses);
+                }
+
+                // Create the search query
+                var sq = new SearchQuery
+                {
+                    // The search text
+                    Q = searchTerm,
+                    // Limit how many hits we fetch
+                    Limit = 100,
+                    // Add the filter (only if we have at least one language selected)
+                    Filter = filterString
+                };
+
+                var searchResult = await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq);
+                if (searchResult is SearchResult<MeiliSearchUserMap> result)
+                {
+                    count = result.EstimatedTotalHits;
+                }
+                else
+                {
+                    Log.Error("fail cast from ISearchable to SearchResult");
+                }
+
+                userMaps = searchResult.Hits.ToList();
+            }
         }
 
         var userMapsOrdered = new List<MeiliSearchUserMap>();
