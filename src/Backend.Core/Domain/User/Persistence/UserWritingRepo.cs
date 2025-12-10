@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using ISession = NHibernate.ISession;
+﻿using ISession = NHibernate.ISession;
 
 public class UserWritingRepo(
     ISession _session,
@@ -45,7 +44,7 @@ public class UserWritingRepo(
     public void DeleteFromAllTables(int userId)
     {
         var user = _repo.GetById(userId) ?? throw new Exception("user not found");
-        
+
         new MeilisearchUsersIndexer().Delete(user);
 
         Log.Information($"Starting deletion of user {userId} and related data.");
@@ -176,8 +175,9 @@ public class UserWritingRepo(
         Log.Information("user update {Id} {Email}", user.Id, user.EmailAddress);
 
         _repo.Update(user);
-        _extendedUserCache.Update(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
+        _extendedUserCache.Update(user);
+
         new MeilisearchUsersIndexer().Update(user);
     }
 

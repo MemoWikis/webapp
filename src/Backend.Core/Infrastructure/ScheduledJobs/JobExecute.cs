@@ -18,7 +18,10 @@ public class JobExecute
             Settings.UseWebConfig = true;
 
             if (IsJobRunning(jobName, scope))
+            {
+                Log.Information("Job {jobName} is already running, skipping execution", jobName);
                 return;
+            }
 
             try
             {
