@@ -68,6 +68,7 @@ public class MeilisearchUsers : MeilisearchBase, IRegisterAsInstancePerLifetime
             .ToList();
     }
 
+
     private async Task SearchUsersInSpecifiedLanguage(string searchTerm, Meilisearch.Index index, List<Language>? languages,
         List<MeiliSearchUserMap> finalResults)
     {
