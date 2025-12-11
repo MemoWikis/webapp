@@ -37,13 +37,14 @@ onBeforeMount(async () => {
 
     if ((route.params.questionId != null && !props.allWishknowledgeMode) && learningSessionStore.currentStep?.id != parseInt(route.params.questionId?.toString()))
         mountNewQuestion()
+    else if (!props.allWishknowledgeMode)
+        await learningSessionStore.startNewSession(false)
 })
 
 onMounted(async () => {
     if (import.meta.client) {
         if (props.allWishknowledgeMode)
             await learningSessionStore.startNewSession(true)
-        else await learningSessionStore.startNewSession(false)
     }
 })
 
