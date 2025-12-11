@@ -102,12 +102,12 @@ public class PageStoreController(
     }
 
     [HttpGet]
-    public KnowledgeSummary GetUpdatedKnowledgeSummary([FromRoute] int id)
+    public KnowledgeSummaryResponse GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
         var sessionUserId = _sessionUser?.UserId ?? -1;
         var knowledgeSummary = _knowledgeSummaryLoader.RunFromCache(pageId: id, sessionUserId, maxCacheAgeInMinutes: 0);
 
-        return knowledgeSummary;
+        return new KnowledgeSummaryResponse(knowledgeSummary);
     }
 
     public readonly record struct GridPageItem(
