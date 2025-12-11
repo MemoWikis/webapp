@@ -95,8 +95,7 @@ public class PageStoreController(
     public string GetPageImageUrl([FromRoute] int id)
     {
         if (_permissionCheck.CanViewPage(id))
-            return new PageImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true)
-                .Url;
+            return new PageImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url;
 
         return "";
     }
