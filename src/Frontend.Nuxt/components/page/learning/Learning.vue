@@ -40,8 +40,11 @@ onBeforeMount(async () => {
 })
 
 onMounted(async () => {
-    if (props.allWishknowledgeMode && import.meta.client)
-        await learningSessionStore.startNewSession(true)
+    if (import.meta.client) {
+        if (props.allWishknowledgeMode)
+            await learningSessionStore.startNewSession(true)
+        else await learningSessionStore.startNewSession(false)
+    }
 })
 
 const mountNewQuestion = async () => {
