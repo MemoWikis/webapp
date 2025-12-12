@@ -487,4 +487,8 @@ h4 {
         filter: brightness(0.7);
     }
 }
+
+#PageContentPlaceholder {
+    padding-bottom: 20px;
+}
 </style>
