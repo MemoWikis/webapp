@@ -125,9 +125,9 @@ const { isMobile } = useDevice()
                                         :height="40"
                                         :customStyle="'object-fit: cover; border-radius: 6px;'" />
                                 </div>
-                                <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)" class="page-link">
+                                <LazyNuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)" class="page-link">
                                     {{ page.name }}
-                                </NuxtLink>
+                                </LazyNuxtLink>
                             </div>
                         </td>
                         <td class="question-count-cell">
@@ -139,14 +139,15 @@ const { isMobile } = useDevice()
                                 :knowledgebarData="page.knowledgebarData" />
                         </td>
                         <td class="actions-cell">
-                            <NuxtLink
+                            <!-- Lazy loading links fixes preloading learning sessions, since this button can appear multiple times on the same page -->
+                            <LazyNuxtLink
                                 v-if="page.questionCount > 0"
                                 :to="{ path: $urlHelper.getPageUrl(page.name, page.id, Tab.Learning), query: { inWishKnowledge: (page.knowledgebarData != null).toString() } }"
                                 class="action-button"
                                 :title="t('missionControl.pageTable.learnNow')"
                                 v-tooltip="t('missionControl.pageTable.learnNow')">
                                 <font-awesome-icon :icon="['fas', 'play']" />
-                            </NuxtLink>
+                            </LazyNuxtLink>
                         </td>
                     </tr>
                 </tbody>
