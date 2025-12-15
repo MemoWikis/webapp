@@ -12,7 +12,8 @@ public class EntityCacheInitializer(
     SharesRepository _sharesRepository,
     PageViewMmapCache _pageViewMmapCache,
     QuestionViewMmapCache _questionViewMmapCache,
-    MmapCacheRefreshService _mmapCacheRefreshService) : IRegisterAsInstancePerLifetime
+    MmapCacheRefreshService _mmapCacheRefreshService,
+    AiModelWhitelistRepo _aiModelWhitelistRepo) : IRegisterAsInstancePerLifetime
 {
     private Stopwatch _stopWatch = null!;
     private string _customMessage = "";
@@ -29,12 +30,29 @@ public class EntityCacheInitializer(
         InitializePages();
         InitializeQuestions();
         InitializeShareInfos();
+        InitializeAiModels();
 
         Log.Information("{Elapsed} - EntityCache PutIntoCache{CustomMessage}", _stopWatch.Elapsed, _customMessage);
         EntityCache.IsFirstStart = false;
 
         // Start background loading of today's views after cache initialization
         _mmapCacheRefreshService.LoadTodaysViewsInBackground();
+    }
+
+    private void InitializeAiModels()
+    {
+        Log.Information("{Elapsed} - EntityCache Start InitAiModels{CustomMessage}", _stopWatch.Elapsed, _customMessage);
+
+        try
+        {
+            _aiModelWhitelistRepo.InitializeCache();
+            Log.Information("{Elapsed} - EntityCache AiModelsCached{CustomMessage}", _stopWatch.Elapsed, _customMessage);
+        }
+        catch (Exception ex)
+        {
+            // Don't fail startup if AI models table doesn't exist yet (e.g., before migration runs)
+            Log.Warning(ex, "{Elapsed} - EntityCache AiModels initialization skipped (table may not exist){CustomMessage}", _stopWatch.Elapsed, _customMessage);
+        }
     }
 
     private void InitializeUsers()

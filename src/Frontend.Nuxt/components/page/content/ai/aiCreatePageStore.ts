@@ -35,6 +35,13 @@ export interface GeneratedWikiContent {
     subpages: GeneratedSubpage[]
 }
 
+export interface AiModel {
+    id: string
+    displayName: string
+    provider: string
+    isDefault: boolean
+}
+
 export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     const showModal = ref(false)
     const isGenerating = ref(false)
@@ -49,6 +56,46 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     const errorMessage = ref('')
     const createAsWiki = ref(false)
     const selectedSubpageIndex = ref<number | null>(null)
+    
+    // AI Model selection
+    const availableModels = ref<AiModel[]>([])
+    const selectedModelId = ref<string>('')
+    const isLoadingModels = ref(false)
+
+    async function fetchModels() {
+        if (availableModels.value.length > 0) {
+            return // Already loaded
+        }
+        
+        isLoadingModels.value = true
+        try {
+            interface GetModelsResponse {
+                success: boolean
+                models: AiModel[]
+            }
+            
+            const result = await $api<GetModelsResponse>('/apiVue/AiCreatePage/GetModels', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include'
+            })
+            
+            if (result.success && result.models) {
+                availableModels.value = result.models
+                // Set default model
+                const defaultModel = result.models.find(m => m.isDefault)
+                if (defaultModel) {
+                    selectedModelId.value = defaultModel.id
+                } else if (result.models.length > 0) {
+                    selectedModelId.value = result.models[0].id
+                }
+            }
+        } catch (error) {
+            console.error('Failed to fetch AI models:', error)
+        } finally {
+            isLoadingModels.value = false
+        }
+    }
 
     function openModal(newParentId: number) {
         parentId.value = newParentId
@@ -63,6 +110,9 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         errorMessage.value = ''
         createAsWiki.value = false
         selectedSubpageIndex.value = null
+        
+        // Fetch available models when opening modal
+        fetchModels()
     }
 
     function closeModal() {
@@ -275,11 +325,15 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         errorMessage,
         createAsWiki,
         selectedSubpageIndex,
+        availableModels,
+        selectedModelId,
+        isLoadingModels,
         openModal,
         closeModal,
         generatePage,
         createPage,
         createWiki,
-        isValidUrl
+        isValidUrl,
+        fetchModels
     }
 })

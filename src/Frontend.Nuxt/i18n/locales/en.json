@@ -750,6 +750,8 @@
                 "urlLabel": "Enter a URL to create a page from",
                 "urlPlaceholder": "e.g. https://en.wikipedia.org/wiki/Photosynthesis",
                 "urlHint": "Works best with Wikipedia, GitHub, and static documentation sites. Some sites with bot protection may not work.",
+                "modelLabel": "AI Model",
+                "loadingModels": "Loading models...",
                 "complexityLabel": "Complexity level",
                 "complexity": {
                     "simple": "Simple",

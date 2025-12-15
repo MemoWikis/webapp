@@ -46,6 +46,21 @@ const currentContentLengthLabel = computed(() => {
     return contentLengthLabels.value[aiCreatePageStore.contentLength]
 })
 
+// Group models by provider for the dropdown
+const groupedModels = computed(() => {
+    const groups: { name: string; models: typeof aiCreatePageStore.availableModels }[] = []
+    const providers = new Set(aiCreatePageStore.availableModels.map(m => m.provider))
+
+    for (const provider of providers) {
+        groups.push({
+            name: provider,
+            models: aiCreatePageStore.availableModels.filter(m => m.provider === provider)
+        })
+    }
+
+    return groups
+})
+
 // Wiki with subpages is generated when: createAsWiki is checked AND content length is Long
 const shouldGenerateWikiWithSubpages = computed(() => {
     return aiCreatePageStore.createAsWiki && aiCreatePageStore.contentLength === ContentLength.Long
@@ -204,6 +219,30 @@ function selectSubpage(index: number) {
                         </span>
                         <span>{{ t('page.ai.createPage.createAsWiki') }}</span>
                     </label>
+                </div>
+
+                <!-- AI Model Selection -->
+                <div class="form-group model-section">
+                    <label>{{ t('page.ai.createPage.modelLabel') }}</label>
+                    <select
+                        v-model="aiCreatePageStore.selectedModelId"
+                        class="form-control model-select"
+                        :disabled="aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels">
+                        <option v-if="aiCreatePageStore.isLoadingModels" value="" disabled>
+                            {{ t('page.ai.createPage.loadingModels') }}
+                        </option>
+                        <optgroup
+                            v-for="provider in groupedModels"
+                            :key="provider.name"
+                            :label="provider.name">
+                            <option
+                                v-for="model in provider.models"
+                                :key="model.id"
+                                :value="model.id">
+                                {{ model.displayName }}
+                            </option>
+                        </optgroup>
+                    </select>
                 </div>
 
                 <!-- Prompt Input Section -->
@@ -487,6 +526,38 @@ function selectSubpage(index: number) {
         margin-top: 8px;
         color: @memo-grey-dark;
         font-size: 12px;
+    }
+
+    .model-section {
+        .model-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid @memo-grey-lighter;
+            border-radius: 0px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+
+            &:focus {
+                border-color: @memo-green;
+                outline: none;
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                background: @memo-grey-lighter;
+            }
+
+            optgroup {
+                font-weight: 600;
+                color: @memo-grey-dark;
+            }
+
+            option {
+                padding: 8px;
+            }
+        }
     }
 
     .detail-section {

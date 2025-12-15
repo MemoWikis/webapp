@@ -12,7 +12,9 @@ public class VueMaintenanceController(
     UserWritingRepo _userWritingRepo,
     AnswerRepo _answerRepo,
     RunningJobRepo _runningJobRepo,
-    MmapCacheStatusService _mmapCacheStatusService) : ApiBaseController
+    MmapCacheStatusService _mmapCacheStatusService,
+    AiModelRegistry _aiModelRegistry,
+    AiModelWhitelistRepo _aiModelWhitelistRepo) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -832,5 +834,192 @@ public class VueMaintenanceController(
             Success = true,
             Data = _mmapCacheStatusService.GetCacheStatusAsJson()
         };
+    }
+
+    // AI Model Management
+
+    // Section 1: Whitelisted models
+    public readonly record struct WhitelistedModel(
+        int Id,
+        string Provider,
+        string ModelId,
+        decimal TokenCostMultiplier);
+
+    public readonly record struct GetWhitelistedModelsResponse(
+        bool Success,
+        List<WhitelistedModel> Models);
+
+    // Section 2: All available models grouped by provider
+    public readonly record struct AvailableModel(
+        string ModelId,
+        bool IsWhitelisted);
+
+    public readonly record struct ProviderModels(
+        string ProviderName,
+        List<AvailableModel> Models);
+
+    public readonly record struct GetAllProviderModelsResponse(
+        bool Success,
+        List<ProviderModels> Providers,
+        string Error);
+
+
+
+    /// <summary>
+    /// Get all whitelisted models for display
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [HttpGet]
+    public GetWhitelistedModelsResponse GetWhitelistedAiModels()
+    {
+        var whitelisted = _aiModelWhitelistRepo.GetAllFromDb()
+            .Select(model => new WhitelistedModel(
+                model.Id,
+                model.Provider.ToString(),
+                model.ModelId,
+                model.TokenCostMultiplier))
+            .ToList();
+
+        return new GetWhitelistedModelsResponse(true, whitelisted);
+    }
+
+    /// <summary>
+    /// Fetch all models from all providers, grouped by provider with whitelist status
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<GetAllProviderModelsResponse> FetchAllProviderModels()
+    {
+        var whitelistedIds = _aiModelWhitelistRepo.GetAllFromDb()
+            .Select(model => model.ModelId)
+            .ToHashSet();
+
+        var providers = new List<ProviderModels>();
+
+        // Fetch Anthropic models
+        var anthropicModels = await _aiModelRegistry.FetchAnthropicModelsAsync();
+        if (anthropicModels.Any())
+        {
+            providers.Add(new ProviderModels(
+                "Anthropic",
+                anthropicModels
+                    .Select(model => new AvailableModel(
+                        model.ModelId,
+                        whitelistedIds.Contains(model.ModelId)))
+                    .ToList()));
+        }
+
+        // Fetch OpenAI models
+        var openAiModels = await _aiModelRegistry.FetchOpenAiModelsAsync();
+        if (openAiModels.Any())
+        {
+            providers.Add(new ProviderModels(
+                "OpenAI",
+                openAiModels
+                    .Select(model => new AvailableModel(
+                        model.ModelId,
+                        whitelistedIds.Contains(model.ModelId)))
+                    .ToList()));
+        }
+
+        return new GetAllProviderModelsResponse(true, providers, null);
+    }
+
+    /// <summary>
+    /// Add a model to the whitelist
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult AddToWhitelist([FromForm] string modelId, [FromForm] string modelProvider)
+    {
+        if (!Enum.TryParse<AiModelProvider>(modelProvider, out var provider))
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Invalid provider" };
+        }
+
+        var existing = _aiModelWhitelistRepo.GetByModelId(modelId);
+        if (existing != null)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Model already whitelisted" };
+        }
+
+        var maxSortOrder = _aiModelWhitelistRepo.GetAllFromDb()
+            .Select(model => model.SortOrder)
+            .DefaultIfEmpty(-1)
+            .Max();
+
+        var model = new AiModelWhitelist
+        {
+            ModelId = modelId,
+            Provider = provider,
+            TokenCostMultiplier = 1.0m,
+            IsEnabled = true,
+            IsDefault = false,
+            SortOrder = maxSortOrder + 1
+        };
+
+        _aiModelWhitelistRepo.SaveModel(model);
+        return new VueMaintenanceResult { Success = true, Data = "Model added to whitelist" };
+    }
+
+    /// <summary>
+    /// Remove a model from the whitelist by ID
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult RemoveFromWhitelist([FromForm] int id)
+    {
+        _aiModelWhitelistRepo.DeleteModel(id);
+        return new VueMaintenanceResult { Success = true, Data = "Model removed from whitelist" };
+    }
+
+    /// <summary>
+    /// Remove a model from the whitelist by ModelId and Provider (for toggle from available list)
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult RemoveFromWhitelist([FromForm] string modelId, [FromForm] string modelProvider)
+    {
+        if (!Enum.TryParse<AiModelProvider>(modelProvider, out var provider))
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Invalid provider" };
+        }
+
+        var model = _aiModelWhitelistRepo.GetByModelId(modelId);
+        if (model == null)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Model not found in whitelist" };
+        }
+
+        if (model.Provider != provider)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Provider mismatch" };
+        }
+
+        _aiModelWhitelistRepo.DeleteModel(model.Id);
+        return new VueMaintenanceResult { Success = true, Data = "Model removed from whitelist" };
+    }
+
+    /// <summary>
+    /// Update token cost multiplier for a whitelisted model
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult UpdateWhitelistCostRate([FromForm] int id, [FromForm] decimal tokenCostMultiplier)
+    {
+        var model = _aiModelWhitelistRepo.GetById(id);
+        if (model == null)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Model not found" };
+        }
+
+        model.TokenCostMultiplier = tokenCostMultiplier;
+        _aiModelWhitelistRepo.Update(model);
+        return new VueMaintenanceResult { Success = true, Data = "Cost rate updated" };
     }
 }

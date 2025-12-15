@@ -3,8 +3,36 @@ public class AiCreatePageController(
     PageCreator _pageCreator,
     AiPageGenerator _aiPageGenerator,
     PageRepository _pageRepository,
-    PermissionCheck _permissionCheck) : ApiBaseController
+    PermissionCheck _permissionCheck,
+    AiModelRegistry _aiModelRegistry) : ApiBaseController
 {
+    public readonly record struct AiModelItem(
+        string ModelId,
+        string Provider,
+        decimal TokenCostMultiplier,
+        bool IsDefault);
+
+    public readonly record struct GetModelsResponse(
+        bool Success,
+        List<AiModelItem> Models);
+
+    [HttpGet]
+    public GetModelsResponse GetModels()
+    {
+        // Uses cache if available, falls back to DB
+        var enabledModels = _aiModelRegistry.GetEnabledModels();
+
+        var models = enabledModels
+            .Select(model => new AiModelItem(
+                model.ModelId,
+                model.Provider.ToString(),
+                model.TokenCostMultiplier,
+                model.IsDefault))
+            .ToList();
+
+        return new GetModelsResponse(true, models);
+    }
+
     public readonly record struct GenerateRequest(
         string Prompt,
         int DifficultyLevel,
@@ -240,7 +268,7 @@ public class AiCreatePageController(
         }
 
         var subpages = result.Value.Subpages
-            .Select(s => new GeneratedSubpageData(s.Title, s.HtmlContent))
+            .Select(subpage => new GeneratedSubpageData(subpage.Title, subpage.HtmlContent))
             .ToList();
 
         return new GenerateWikiResponse(
@@ -289,7 +317,7 @@ public class AiCreatePageController(
         }
 
         var subpages = result.Value.Subpages
-            .Select(s => new GeneratedSubpageData(s.Title, s.HtmlContent))
+            .Select(subpage => new GeneratedSubpageData(subpage.Title, subpage.HtmlContent))
             .ToList();
 
         return new GenerateWikiResponse(
