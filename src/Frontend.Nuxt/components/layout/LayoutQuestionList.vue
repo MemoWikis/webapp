@@ -83,7 +83,6 @@ const formatDate = (dateString: string): string => {
 
 const learnQuestion = (question: Question) => {
     // TODO: Implement navigation to question learning
-    console.log('Learning question:', question.id)
 }
 
 const { isMobile } = useDevice()
