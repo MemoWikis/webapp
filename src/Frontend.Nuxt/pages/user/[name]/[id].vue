@@ -106,8 +106,11 @@ function handleBreadcrumb() {
     }
 }
 
-onMounted(() => {
+onBeforeMount(() => {
     emit('setPage', SiteType.User)
+})
+
+onMounted(() => {
     handleBreadcrumb()
 })
 

@@ -106,8 +106,12 @@ watch(status, (newStatus) => {
 
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
-onMounted(() => {
+onBeforeMount(() => {
     emit('setPage', SiteType.Default)
+
+})
+
+onMounted(() => {
     const breadcrumbItem: BreadcrumbItem = {
         name: t('usersOverview.title'),
         url: t('url.users')
@@ -215,7 +219,7 @@ watch(selectedLanguages, () => {
                                     <div class="select-label">
                                         <font-awesome-icon icon="fa-solid fa-language" />
                                         <div class="language-label">{{ t('usersOverview.contentLanguageLabel')
-                                            }}</div>
+                                        }}</div>
                                     </div>
 
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />

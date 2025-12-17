@@ -216,10 +216,11 @@ const logError = (error: any) => {
 		location: window.location.href,
 		userAgent: navigator.userAgent,
 	}
+
 	if (runtimeConfig.public.environment === 'development') {
 		console.debug('Error log:', errorObject)
 	}
-	
+
 	$logger.error('Nuxt non Fatal Error', [errorObject])
 
 

@@ -111,7 +111,6 @@ function setFlashcardContent() {
             solution: editor.value.getHTML(),
             solutionIsValid: editor.value.state.doc.textContent.length > 0
         }
-        console.log('Flashcard content set:', content)
         emit('setFlashcardContent', content)
     }
 }
