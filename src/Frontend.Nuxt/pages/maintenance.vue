@@ -837,11 +837,13 @@ interface WhitelistedModel {
     id: number
     provider: string
     modelId: string
+    displayName: string
     tokenCostMultiplier: number
 }
 
 interface AvailableModel {
     modelId: string
+    displayName: string
     isWhitelisted: boolean
 }
 
@@ -867,6 +869,7 @@ const fetchingModels = ref(false)
 const showDeleteConfirmModal = ref(false)
 const modelToDelete = ref<WhitelistedModel | null>(null)
 const editingCostRate = ref<{ id: number, value: number } | null>(null)
+const editingDisplayName = ref<{ id: number, value: string } | null>(null)
 
 const loadWhitelistedModels = async () => {
     const result = await $api<GetWhitelistedModelsResponse>('/apiVue/VueMaintenance/GetWhitelistedAiModels', {
@@ -930,7 +933,9 @@ const executeDelete = async () => {
     })
 
     if (result?.success) {
+        // Remove from whitelisted models
         whitelistedModels.value = whitelistedModels.value.filter(model => model.id !== modelToDelete.value!.id)
+
         // Also update the provider models list if loaded
         providerModels.value.forEach(provider => {
             const model = provider.models.find(model => model.modelId === modelToDelete.value!.modelId)
@@ -967,6 +972,7 @@ const saveCostRate = async () => {
     })
 
     if (result?.success) {
+        // Find the model in the flat list
         const model = whitelistedModels.value.find(model => model.id === editingCostRate.value!.id)
         if (model) {
             model.tokenCostMultiplier = editingCostRate.value.value
@@ -981,6 +987,42 @@ const saveCostRate = async () => {
 
 const cancelEditCostRate = () => {
     editingCostRate.value = null
+}
+
+const startEditDisplayName = (model: WhitelistedModel) => {
+    editingDisplayName.value = { id: model.id, value: model.displayName }
+}
+
+const saveDisplayName = async () => {
+    if (!antiForgeryToken.value || !editingDisplayName.value) return
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('id', editingDisplayName.value.id.toString())
+    data.append('displayName', editingDisplayName.value.value)
+
+    const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/UpdateWhitelistDisplayName', {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        const model = whitelistedModels.value.find(model => model.id === editingDisplayName.value!.id)
+        if (model) {
+            model.displayName = editingDisplayName.value.value
+        }
+        resultMsg.value = 'Display name updated'
+    } else {
+        resultMsg.value = `Error: ${result?.data || 'Unknown error'}`
+    }
+
+    editingDisplayName.value = null
+}
+
+const cancelEditDisplayName = () => {
+    editingDisplayName.value = null
 }
 
 const toggleWhitelist = async (providerName: string, model: AvailableModel) => {
@@ -1002,8 +1044,9 @@ const toggleWhitelist = async (providerName: string, model: AvailableModel) => {
 
         if (result?.success) {
             model.isWhitelisted = false
+            // Remove from whitelisted models list
             whitelistedModels.value = whitelistedModels.value.filter(whitelistedModel => whitelistedModel.modelId !== model.modelId)
-            resultMsg.value = `${model.modelId} removed from whitelist`
+            resultMsg.value = `${model.displayName} removed from whitelist`
         } else {
             resultMsg.value = `Error: ${result?.data || 'Unknown error'}`
         }
@@ -1013,6 +1056,7 @@ const toggleWhitelist = async (providerName: string, model: AvailableModel) => {
         data.append('__RequestVerificationToken', antiForgeryToken.value)
         data.append('modelId', model.modelId)
         data.append('modelProvider', providerName)
+        data.append('displayName', model.displayName)
 
         const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/AddToWhitelist', {
             body: data,
@@ -1024,7 +1068,7 @@ const toggleWhitelist = async (providerName: string, model: AvailableModel) => {
         if (result?.success) {
             model.isWhitelisted = true
             await loadWhitelistedModels() // Reload to get the new ID
-            resultMsg.value = `${model.modelId} added to whitelist`
+            resultMsg.value = `${model.displayName} added to whitelist`
         } else {
             resultMsg.value = `Error: ${result?.data || 'Unknown error'}`
         }
@@ -1219,7 +1263,8 @@ onMounted(() => {
                             <thead>
                                 <tr>
                                     <th>Provider</th>
-                                    <th>Model</th>
+                                    <th>Display Name</th>
+                                    <th>Model ID</th>
                                     <th>Cost Rate</th>
                                     <th>Actions</th>
                                 </tr>
@@ -1228,6 +1273,27 @@ onMounted(() => {
                                 <tr v-for="model in whitelistedModels" :key="model.id">
                                     <td>
                                         <span class="provider-badge" :class="model.provider.toLowerCase()">{{ model.provider }}</span>
+                                    </td>
+                                    <td>
+                                        <template v-if="editingDisplayName?.id === model.id">
+                                            <div class="display-name-edit">
+                                                <input
+                                                    v-model="editingDisplayName.value"
+                                                    type="text"
+                                                    class="display-name-input" />
+                                                <button @click="saveDisplayName" class="btn-icon btn-save" title="Save">
+                                                    <font-awesome-icon icon="fa-solid fa-check" />
+                                                </button>
+                                                <button @click="cancelEditDisplayName" class="btn-icon btn-cancel" title="Cancel">
+                                                    <font-awesome-icon icon="fa-solid fa-times" />
+                                                </button>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <span class="display-name" @click="startEditDisplayName(model)" title="Click to edit">
+                                                {{ model.displayName || '(no name)' }}
+                                            </span>
+                                        </template>
                                     </td>
                                     <td class="model-id-cell">{{ model.modelId }}</td>
                                     <td>
@@ -1287,12 +1353,14 @@ onMounted(() => {
                             <table class="provider-models-table">
                                 <thead>
                                     <tr>
-                                        <th>Model</th>
+                                        <th>Display Name</th>
+                                        <th>Model ID</th>
                                         <th>Whitelisted</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="model in provider.models" :key="model.modelId" :class="{ 'whitelisted-row': model.isWhitelisted }">
+                                        <td>{{ model.displayName }}</td>
                                         <td class="model-id-cell">{{ model.modelId }}</td>
                                         <td>
                                             <label class="toggle-switch">
@@ -1317,7 +1385,7 @@ onMounted(() => {
                 <div v-if="showDeleteConfirmModal" class="modal-overlay" @click.self="cancelDelete">
                     <div class="confirm-modal">
                         <h4>Confirm Delete</h4>
-                        <p>Are you sure you want to remove <strong>{{ modelToDelete?.modelId }}</strong> from the whitelist?</p>
+                        <p>Are you sure you want to remove <strong>{{ modelToDelete?.displayName }}</strong> ({{ modelToDelete?.modelId }}) from the whitelist?</p>
                         <div class="modal-actions">
                             <button @click="executeDelete" class="memo-button btn btn-danger">Delete</button>
                             <button @click="cancelDelete" class="memo-button btn btn-secondary">Cancel</button>
@@ -1894,6 +1962,31 @@ onMounted(() => {
     }
 }
 
+.display-name {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+
+    &:hover {
+        background-color: #dee2e6;
+    }
+}
+
+.display-name-edit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .display-name-input {
+        width: 180px;
+        padding: 4px 8px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 13px;
+    }
+}
+
 .btn-icon {
     background: none;
     border: none;
@@ -1943,6 +2036,22 @@ onMounted(() => {
             color: @memo-grey;
             font-weight: normal;
         }
+    }
+}
+
+.display-name-group {
+    margin-bottom: 16px;
+    margin-left: 16px;
+
+    .display-name-header {
+        font-size: 14px;
+        font-weight: 600;
+        color: @memo-grey-dark;
+        margin-bottom: 8px;
+        padding: 6px 12px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        border-left: 3px solid @memo-blue;
     }
 }
 

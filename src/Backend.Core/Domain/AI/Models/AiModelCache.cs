@@ -31,8 +31,7 @@ public static class AiModelCache
     public static List<AiModelWhitelist> GetAll()
     {
         return Models?.Values
-            .OrderBy(x => x.SortOrder)
-            .ThenBy(x => x.Provider)
+            .OrderBy(x => x.Provider)
             .ToList() ?? new List<AiModelWhitelist>();
     }
 
@@ -43,8 +42,7 @@ public static class AiModelCache
     {
         return Models?.Values
             .Where(x => x.IsEnabled)
-            .OrderBy(x => x.SortOrder)
-            .ThenBy(x => x.Provider)
+            .OrderBy(x => x.Provider)
             .ToList() ?? new List<AiModelWhitelist>();
     }
 
@@ -67,14 +65,6 @@ public static class AiModelCache
     }
 
     /// <summary>
-    /// Get the default model
-    /// </summary>
-    public static AiModelWhitelist? GetDefault()
-    {
-        return Models?.Values.FirstOrDefault(x => x.IsDefault && x.IsEnabled);
-    }
-
-    /// <summary>
     /// Add or update a model in cache
     /// </summary>
     public static void AddOrUpdate(AiModelWhitelist model)
@@ -88,18 +78,6 @@ public static class AiModelCache
     public static void Remove(int id)
     {
         Models?.TryRemove(id, out _);
-    }
-
-    /// <summary>
-    /// Clear the default flag on all models in cache
-    /// </summary>
-    public static void ClearDefaultFlag()
-    {
-        if (Models == null) return;
-        foreach (var model in Models.Values.Where(m => m.IsDefault))
-        {
-            model.IsDefault = false;
-        }
     }
 
     /// <summary>

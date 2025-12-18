@@ -55,6 +55,16 @@ public class User : DomainEntity, IUserTinyModel
 
     public virtual string? FavoriteIds { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
+    
+    /// <summary>
+    /// Remaining tokens from subscription for current period (resets to 100k each period)
+    /// </summary>
+    public virtual int SubscriptionTokensBalance { get; set; } = 100000;
+    
+    /// <summary>
+    /// Purchased tokens that don't expire
+    /// </summary>
+    public virtual int PaidTokensBalance { get; set; } = 0;
 
     public virtual IList<string> WidgetHosts()
     {

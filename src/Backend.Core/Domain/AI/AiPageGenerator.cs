@@ -1,11 +1,13 @@
 using System.Text.Json;
 
-public class AiPageGenerator(AiUsageLogRepo _aiUsageLogRepo, WebContentFetcher _webContentFetcher) : IRegisterAsInstancePerLifetime
+public class AiPageGenerator(
+    AiUsageLogRepo _aiUsageLogRepo,
+    WebContentFetcher _webContentFetcher) : IRegisterAsInstancePerLifetime
 {
     public record struct GeneratedPage(string Title, string HtmlContent);
-    
+
     public record struct GeneratedSubpage(string Title, string HtmlContent);
-    
+
     public record struct GeneratedWiki(string Title, string HtmlContent, List<GeneratedSubpage> Subpages);
 
     public enum DifficultyLevel
@@ -163,7 +165,7 @@ public class AiPageGenerator(AiUsageLogRepo _aiUsageLogRepo, WebContentFetcher _
         int pageId)
     {
         var fetchedContent = await _webContentFetcher.FetchAndExtract(url);
-        
+
         if (fetchedContent == null)
         {
             Log.Warning("Failed to fetch content from URL: {Url}", url);
@@ -176,9 +178,9 @@ public class AiPageGenerator(AiUsageLogRepo _aiUsageLogRepo, WebContentFetcher _
             fetchedContent.Value.Url,
             difficultyLevel,
             contentLength);
-        
+
         var result = await ExecuteGeneration(prompt, userId, pageId);
-        
+
         return result;
     }
 
@@ -303,7 +305,7 @@ public class AiPageGenerator(AiUsageLogRepo _aiUsageLogRepo, WebContentFetcher _
         int pageId)
     {
         var fetchedContent = await _webContentFetcher.FetchAndExtract(url);
-        
+
         if (fetchedContent == null)
         {
             Log.Warning("Failed to fetch content from URL for wiki generation: {Url}", url);
@@ -315,7 +317,7 @@ public class AiPageGenerator(AiUsageLogRepo _aiUsageLogRepo, WebContentFetcher _
             fetchedContent.Value.TextContent,
             fetchedContent.Value.Url,
             difficultyLevel);
-        
+
         return await ExecuteWikiGeneration(prompt, userId, pageId);
     }
 
@@ -334,7 +336,7 @@ public class AiPageGenerator(AiUsageLogRepo _aiUsageLogRepo, WebContentFetcher _
             try
             {
                 var text = response.Content[0].Text.Trim();
-                
+
                 // Remove potential code block markers
                 if (text.StartsWith("```json"))
                 {
@@ -354,7 +356,7 @@ public class AiPageGenerator(AiUsageLogRepo _aiUsageLogRepo, WebContentFetcher _
                 {
                     PropertyNameCaseInsensitive = true
                 });
-                
+
                 return generatedWiki;
             }
             catch (JsonException exception)
@@ -382,7 +384,7 @@ public class AiPageGenerator(AiUsageLogRepo _aiUsageLogRepo, WebContentFetcher _
             try
             {
                 var text = response.Content[0].Text.Trim();
-                
+
                 // Remove potential code block markers
                 if (text.StartsWith("```json"))
                 {
@@ -402,7 +404,7 @@ public class AiPageGenerator(AiUsageLogRepo _aiUsageLogRepo, WebContentFetcher _
                 {
                     PropertyNameCaseInsensitive = true
                 });
-                
+
                 return generatedPage;
             }
             catch (JsonException exception)

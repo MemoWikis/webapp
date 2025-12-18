@@ -23,8 +23,7 @@ public class AiModelWhitelistRepo(ISession _session) : RepositoryDbBase<AiModelW
     public List<AiModelWhitelist> GetAllFromDb()
     {
         return _session.QueryOver<AiModelWhitelist>()
-            .OrderBy(x => x.SortOrder).Asc
-            .ThenBy(x => x.Provider).Asc
+            .OrderBy(x => x.Provider).Asc
             .List()
             .ToList();
     }
@@ -39,7 +38,6 @@ public class AiModelWhitelistRepo(ISession _session) : RepositoryDbBase<AiModelW
 
         return _session.QueryOver<AiModelWhitelist>()
             .Where(x => x.IsEnabled)
-            .OrderBy(x => x.SortOrder).Asc
             .ThenBy(x => x.Provider).Asc
             .List()
             .ToList();
@@ -59,48 +57,6 @@ public class AiModelWhitelistRepo(ISession _session) : RepositoryDbBase<AiModelW
     }
 
     /// <summary>
-    /// Get default model. Uses cache if available.
-    /// </summary>
-    public AiModelWhitelist? GetDefault()
-    {
-        if (AiModelCache.IsInitialized)
-            return AiModelCache.GetDefault();
-
-        return _session.QueryOver<AiModelWhitelist>()
-            .Where(x => x.IsDefault && x.IsEnabled)
-            .SingleOrDefault();
-    }
-
-    /// <summary>
-    /// Set a model as default (clears previous default)
-    /// </summary>
-    public void SetDefault(int id)
-    {
-        // Clear existing default in DB
-        var currentDefault = _session.QueryOver<AiModelWhitelist>()
-            .Where(x => x.IsDefault)
-            .SingleOrDefault();
-
-        if (currentDefault != null)
-        {
-            currentDefault.IsDefault = false;
-            Update(currentDefault);
-            AiModelCache.AddOrUpdate(currentDefault);
-        }
-
-        // Set new default
-        var newDefault = GetById(id);
-        if (newDefault != null)
-        {
-            newDefault.IsDefault = true;
-            Update(newDefault);
-            AiModelCache.AddOrUpdate(newDefault);
-        }
-
-        Flush();
-    }
-
-    /// <summary>
     /// Save or update a model (creates if ModelId doesn't exist, updates if it does)
     /// </summary>
     public void SaveModel(AiModelWhitelist model)
@@ -114,7 +70,6 @@ public class AiModelWhitelistRepo(ISession _session) : RepositoryDbBase<AiModelW
             existing.Provider = model.Provider;
             existing.TokenCostMultiplier = model.TokenCostMultiplier;
             existing.IsEnabled = model.IsEnabled;
-            existing.SortOrder = model.SortOrder;
             Update(existing);
             Flush();
             AiModelCache.AddOrUpdate(existing);

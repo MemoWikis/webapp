@@ -132,6 +132,7 @@
             
             public static readonly string InvalidUrl = "error.ai.invalidUrl";
             public static readonly string UrlFetchFailed = "error.ai.urlFetchFailed";
+            public static readonly string InsufficientTokens = "error.ai.insufficientTokens";
         }
 
         public static class Skill

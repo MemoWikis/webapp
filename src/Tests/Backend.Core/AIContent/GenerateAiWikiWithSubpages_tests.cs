@@ -100,7 +100,7 @@ class GenerateAiWikiWithSubpages_tests : BaseTestHarness
 
         // Use AI to validate the wiki structure and content
         var hasRelevantTitle = await AskClaude($"Is this title related to the Solar System or space/astronomy? Title: {result?.Title}");
-        
+
         var mainContentIsOverview = await AskClaude($@"Is this content an overview/introduction to the Solar System (not detailed about one specific planet)?
             Content: {result?.HtmlContent}");
 
@@ -199,7 +199,7 @@ class GenerateAiWikiWithSubpages_tests : BaseTestHarness
         // Use AI to validate content relevance
         var titleIsRelevant = await AskClaude($"Is this title related to World War II or WWII? Title: {result?.Title}");
         var contentIsAboutWWII = await AskClaude($"Is this content about World War II (1939-1945, Hitler, Allies, Axis, etc.)? Content: {result?.HtmlContent}");
-        
+
         var subpageTitles = string.Join(", ", result?.Subpages.Select(s => s.Title) ?? []);
         var subpagesAreWWIITopics = await AskClaude($@"Are these subpage titles all related to World War II topics (battles, countries, leaders, events, etc.)?
             Subpage titles: {subpageTitles}");
@@ -270,7 +270,7 @@ class GenerateAiWikiWithSubpages_tests : BaseTestHarness
         {
             var subpageResult = pageCreator.Create(subpageTitle, wikiId, sessionUser);
             var subpageId = subpageResult.Data.Id;
-            
+
             var subpageCacheItem = EntityCache.GetPage(subpageId);
             var subpagePage = pageRepository.GetByIdEager(subpageId);
 

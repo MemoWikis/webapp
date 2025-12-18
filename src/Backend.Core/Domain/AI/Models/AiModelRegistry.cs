@@ -41,16 +41,6 @@ public class AiModelRegistry : IRegisterAsInstancePerLifetime
         return _whitelistRepo.GetAll();
     }
 
-    /// <summary>
-    /// Get the default model (from cache)
-    /// </summary>
-    public AiModelWhitelist? GetDefaultModel()
-    {
-        if (AiModelCache.IsInitialized)
-            return AiModelCache.GetDefault();
-
-        return _whitelistRepo.GetDefault();
-    }
 
     /// <summary>
     /// Get model by ID (from cache)

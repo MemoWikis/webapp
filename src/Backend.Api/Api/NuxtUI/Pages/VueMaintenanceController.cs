@@ -838,20 +838,22 @@ public class VueMaintenanceController(
 
     // AI Model Management
 
-    // Section 1: Whitelisted models
+    // Section 1: Whitelisted models - flat list per provider
     public readonly record struct WhitelistedModel(
         int Id,
         string Provider,
         string ModelId,
+        string DisplayName,
         decimal TokenCostMultiplier);
 
     public readonly record struct GetWhitelistedModelsResponse(
         bool Success,
         List<WhitelistedModel> Models);
 
-    // Section 2: All available models grouped by provider
+    // Section 2: All available models grouped by provider only
     public readonly record struct AvailableModel(
         string ModelId,
+        string DisplayName,
         bool IsWhitelisted);
 
     public readonly record struct ProviderModels(
@@ -872,19 +874,22 @@ public class VueMaintenanceController(
     [HttpGet]
     public GetWhitelistedModelsResponse GetWhitelistedAiModels()
     {
-        var whitelisted = _aiModelWhitelistRepo.GetAllFromDb()
+        var allWhitelisted = _aiModelWhitelistRepo.GetAllFromDb();
+
+        var models = allWhitelisted
             .Select(model => new WhitelistedModel(
                 model.Id,
                 model.Provider.ToString(),
                 model.ModelId,
+                model.DisplayName,
                 model.TokenCostMultiplier))
             .ToList();
 
-        return new GetWhitelistedModelsResponse(true, whitelisted);
+        return new GetWhitelistedModelsResponse(true, models);
     }
 
     /// <summary>
-    /// Fetch all models from all providers, grouped by provider with whitelist status
+    /// Fetch all models from all providers with whitelist status
     /// </summary>
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
@@ -901,26 +906,28 @@ public class VueMaintenanceController(
         var anthropicModels = await _aiModelRegistry.FetchAnthropicModelsAsync();
         if (anthropicModels.Any())
         {
-            providers.Add(new ProviderModels(
-                "Anthropic",
-                anthropicModels
-                    .Select(model => new AvailableModel(
-                        model.ModelId,
-                        whitelistedIds.Contains(model.ModelId)))
-                    .ToList()));
+            var models = anthropicModels
+                .Select(model => new AvailableModel(
+                    model.ModelId,
+                    model.DisplayName,
+                    whitelistedIds.Contains(model.ModelId)))
+                .ToList();
+
+            providers.Add(new ProviderModels("Anthropic", models));
         }
 
         // Fetch OpenAI models
         var openAiModels = await _aiModelRegistry.FetchOpenAiModelsAsync();
         if (openAiModels.Any())
         {
-            providers.Add(new ProviderModels(
-                "OpenAI",
-                openAiModels
-                    .Select(model => new AvailableModel(
-                        model.ModelId,
-                        whitelistedIds.Contains(model.ModelId)))
-                    .ToList()));
+            var models = openAiModels
+                .Select(model => new AvailableModel(
+                    model.ModelId,
+                    model.DisplayName,
+                    whitelistedIds.Contains(model.ModelId)))
+                .ToList();
+
+            providers.Add(new ProviderModels("OpenAI", models));
         }
 
         return new GetAllProviderModelsResponse(true, providers, null);
@@ -932,7 +939,10 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public VueMaintenanceResult AddToWhitelist([FromForm] string modelId, [FromForm] string modelProvider)
+    public VueMaintenanceResult AddToWhitelist(
+        [FromForm] string modelId,
+        [FromForm] string modelProvider,
+        [FromForm] string displayName)
     {
         if (!Enum.TryParse<AiModelProvider>(modelProvider, out var provider))
         {
@@ -945,19 +955,13 @@ public class VueMaintenanceController(
             return new VueMaintenanceResult { Success = false, Data = "Model already whitelisted" };
         }
 
-        var maxSortOrder = _aiModelWhitelistRepo.GetAllFromDb()
-            .Select(model => model.SortOrder)
-            .DefaultIfEmpty(-1)
-            .Max();
-
         var model = new AiModelWhitelist
         {
             ModelId = modelId,
+            DisplayName = displayName ?? modelId,
             Provider = provider,
             TokenCostMultiplier = 1.0m,
-            IsEnabled = true,
-            IsDefault = false,
-            SortOrder = maxSortOrder + 1
+            IsEnabled = true
         };
 
         _aiModelWhitelistRepo.SaveModel(model);
@@ -1020,6 +1024,29 @@ public class VueMaintenanceController(
 
         model.TokenCostMultiplier = tokenCostMultiplier;
         _aiModelWhitelistRepo.Update(model);
+        _aiModelWhitelistRepo.Flush();
+        AiModelCache.AddOrUpdate(model);
         return new VueMaintenanceResult { Success = true, Data = "Cost rate updated" };
+    }
+
+    /// <summary>
+    /// Update display name for a whitelisted model
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult UpdateWhitelistDisplayName([FromForm] int id, [FromForm] string displayName)
+    {
+        var model = _aiModelWhitelistRepo.GetById(id);
+        if (model == null)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Model not found" };
+        }
+
+        model.DisplayName = displayName;
+        _aiModelWhitelistRepo.Update(model);
+        _aiModelWhitelistRepo.Flush();
+        AiModelCache.AddOrUpdate(model);
+        return new VueMaintenanceResult { Success = true, Data = "Display name updated" };
     }
 }

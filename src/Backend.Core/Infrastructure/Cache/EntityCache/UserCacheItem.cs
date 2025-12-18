@@ -49,6 +49,16 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public MonthlyTokenUsage? MonthlyTokenUsage { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
     public virtual List<Language> ContentLanguages { get; set; } = new List<Language>();
+    
+    /// <summary>
+    /// Remaining tokens from subscription for current period
+    /// </summary>
+    public int SubscriptionTokensBalance { get; set; } = 100000;
+    
+    /// <summary>
+    /// Purchased tokens that don't expire
+    /// </summary>
+    public int PaidTokensBalance { get; set; } = 0;
 
     public void Populate(User user)
     {
@@ -80,6 +90,8 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         DateCreated = user.DateCreated;
         UiLanguage = user.UiLanguage;
         AboutMeText = user.AboutMeText;
+        SubscriptionTokensBalance = user.SubscriptionTokensBalance;
+        PaidTokensBalance = user.PaidTokensBalance;
 
         if (!String.IsNullOrEmpty(user.FavoriteIds))
             FavoriteIds = user.FavoriteIds.Split(',').Select(int.Parse).ToList();
@@ -119,6 +131,8 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
         UiLanguage = user.UiLanguage;
         AboutMeText = user.AboutMeText;
+        SubscriptionTokensBalance = user.SubscriptionTokensBalance;
+        PaidTokensBalance = user.PaidTokensBalance;
     }
 
     public static UserCacheItem ToCacheUser(User user)

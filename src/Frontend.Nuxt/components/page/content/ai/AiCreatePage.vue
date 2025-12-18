@@ -49,16 +49,26 @@ const currentContentLengthLabel = computed(() => {
 // Group models by provider for the dropdown
 const groupedModels = computed(() => {
     const groups: { name: string; models: typeof aiCreatePageStore.availableModels }[] = []
-    const providers = new Set(aiCreatePageStore.availableModels.map(m => m.provider))
+    const providers = new Set(aiCreatePageStore.availableModels.map(model => model.provider))
 
     for (const provider of providers) {
         groups.push({
             name: provider,
-            models: aiCreatePageStore.availableModels.filter(m => m.provider === provider)
+            models: aiCreatePageStore.availableModels.filter(model => model.provider === provider)
         })
     }
 
     return groups
+})
+
+const selectedModelCostMultiplier = computed(() => {
+    const model = aiCreatePageStore.availableModels.find(model => model.modelId === aiCreatePageStore.selectedModelId)
+    return model?.tokenCostMultiplier ?? 1
+})
+
+const selectedModelDisplayName = computed(() => {
+    const model = aiCreatePageStore.availableModels.find(model => model.modelId === aiCreatePageStore.selectedModelId)
+    return model?.displayName ?? ''
 })
 
 // Wiki with subpages is generated when: createAsWiki is checked AND content length is Long
@@ -224,50 +234,42 @@ function selectSubpage(index: number) {
                 <!-- AI Model Selection -->
                 <div class="form-group model-section">
                     <label>{{ t('page.ai.createPage.modelLabel') }}</label>
-                    <select
-                        v-model="aiCreatePageStore.selectedModelId"
-                        class="form-control model-select"
-                        :disabled="aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels">
-                        <option v-if="aiCreatePageStore.isLoadingModels" value="" disabled>
-                            {{ t('page.ai.createPage.loadingModels') }}
-                        </option>
-                        <optgroup
-                            v-for="provider in groupedModels"
-                            :key="provider.name"
-                            :label="provider.name">
-                            <option
-                                v-for="model in provider.models"
-                                :key="model.id"
-                                :value="model.id">
-                                {{ model.displayName }}
-                            </option>
-                        </optgroup>
-                    </select>
+                    <VDropdown :distance="0" class="model-dropdown">
+                        <div class="model-select" :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
+                            <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels') }}</span>
+                            <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }} ({{ selectedModelCostMultiplier }}x)</span>
+                            <font-awesome-icon :icon="['fas', 'chevron-down']" />
+                        </div>
+
+                        <template #popper="{ hide }">
+                            <div class="model-dropdown-menu model-dropdown-popper">
+                                <template v-for="provider in groupedModels" :key="provider.name">
+                                    <div class="provider-header">{{ provider.name }}</div>
+                                    <div
+                                        v-for="model in provider.models"
+                                        :key="model.modelId"
+                                        class="dropdown-row ai-model-option"
+                                        :class="{ active: aiCreatePageStore.selectedModelId === model.modelId }"
+                                        @click="aiCreatePageStore.selectedModelId = model.modelId; hide()">
+                                        <span>{{ model.displayName }}</span> <span class="token-cost-multiplier">{{ model.tokenCostMultiplier }}x</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </VDropdown>
                 </div>
 
                 <!-- Prompt Input Section -->
                 <div v-if="aiCreatePageStore.inputMode === InputMode.Prompt" class="form-group">
                     <label for="prompt-input">{{ t('page.ai.createPage.promptLabel') }}</label>
-                    <textarea
-                        id="prompt-input"
-                        ref="promptTextArea"
-                        v-model="aiCreatePageStore.prompt"
-                        class="form-control prompt-textarea"
-                        :placeholder="t('page.ai.createPage.promptPlaceholder')"
-                        @input="resizeTextArea()"
+                    <textarea id="prompt-input" ref="promptTextArea" v-model="aiCreatePageStore.prompt" class="form-control prompt-textarea" :placeholder="t('page.ai.createPage.promptPlaceholder')" @input="resizeTextArea()"
                         :disabled="aiCreatePageStore.isGenerating"></textarea>
                 </div>
 
                 <!-- URL Input Section -->
                 <div v-else class="form-group">
                     <label for="url-input">{{ t('page.ai.createPage.urlLabel') }}</label>
-                    <input
-                        id="url-input"
-                        type="url"
-                        v-model="aiCreatePageStore.url"
-                        class="form-control url-input"
-                        :placeholder="t('page.ai.createPage.urlPlaceholder')"
-                        :disabled="aiCreatePageStore.isGenerating" />
+                    <input id="url-input" type="url" v-model="aiCreatePageStore.url" class="form-control url-input" :placeholder="t('page.ai.createPage.urlPlaceholder')" :disabled="aiCreatePageStore.isGenerating" />
                     <small class="url-hint">{{ t('page.ai.createPage.urlHint') }}</small>
                 </div>
 
@@ -277,13 +279,7 @@ function selectSubpage(index: number) {
 
                     <!-- Desktop: Slider -->
                     <div v-if="!isMobile" class="detail-slider-container">
-                        <input
-                            type="range"
-                            min="1"
-                            max="5"
-                            v-model.number="aiCreatePageStore.difficultyLevel"
-                            class="detail-slider"
-                            :disabled="aiCreatePageStore.isGenerating" />
+                        <input type="range" min="1" max="5" v-model.number="aiCreatePageStore.difficultyLevel" class="detail-slider" :disabled="aiCreatePageStore.isGenerating" />
                         <div class="detail-labels">
                             <span class="detail-label-left">{{ t('page.ai.createPage.complexity.simple') }}</span>
                             <span class="detail-label-current">{{ currentComplexityLabel }}</span>
@@ -529,33 +525,32 @@ function selectSubpage(index: number) {
     }
 
     .model-section {
-        .model-select {
+        .model-dropdown {
             width: 100%;
-            padding: 10px 12px;
+        }
+
+        .model-select {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px;
             border: 1px solid @memo-grey-lighter;
             border-radius: 0px;
             background: white;
             font-size: 14px;
+            font-weight: 500;
+            color: inherit;
             cursor: pointer;
 
-            &:focus {
-                border-color: @memo-green;
-                outline: none;
+            &:hover:not(.disabled) {
+                border-color: @memo-blue;
             }
 
-            &:disabled {
+            &.disabled {
                 opacity: 0.6;
                 cursor: not-allowed;
                 background: @memo-grey-lighter;
-            }
-
-            optgroup {
-                font-weight: 600;
-                color: @memo-grey-dark;
-            }
-
-            option {
-                padding: 8px;
             }
         }
     }
@@ -915,6 +910,17 @@ function selectSubpage(index: number) {
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
+.ai-model-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .token-cost-multiplier {
+        font-size: 12px;
+        color: @memo-grey;
+    }
+}
+
 .detail-dropdown-popper {
     width: calc(100vw - 80px);
 
@@ -925,6 +931,38 @@ function selectSubpage(index: number) {
             font-weight: 600;
         }
     }
+}
 
+.model-dropdown-popper {
+    width: 100%;
+    min-width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+
+    .provider-header {
+        padding: 8px 12px;
+        font-weight: 600;
+        color: @memo-grey-dark;
+        background: @memo-grey-lighter;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .dropdown-row {
+        padding: 10px 16px;
+        cursor: pointer;
+        transition: background 0.15s ease;
+
+        &:hover {
+            background: fade(@memo-blue, 10%);
+        }
+
+        &.active {
+            background: @memo-grey-lightest;
+            color: @memo-grey-darker;
+            font-weight: 600;
+        }
+    }
 }
 </style>

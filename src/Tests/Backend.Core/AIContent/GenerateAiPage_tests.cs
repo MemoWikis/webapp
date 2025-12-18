@@ -180,7 +180,7 @@ class GenerateAiPage_tests : BaseTestHarness
         // Use AI to validate languages and content relevance
         var frenchIsFrench = await AskClaude($"Is this text written in French? Title: {frenchResult?.Title} Content: {frenchResult?.HtmlContent}");
         var englishIsEnglish = await AskClaude($"Is this text written in English? Title: {englishResult?.Title} Content: {englishResult?.HtmlContent}");
-        
+
         var frenchIsAboutPhotosynthesis = await AskClaude($"Is this content about photosynthesis (plants, light, chlorophyll, energy)? Content: {frenchResult?.HtmlContent}");
         var englishIsAboutPhotosynthesis = await AskClaude($"Is this content about photosynthesis (plants, light, chlorophyll, energy)? Content: {englishResult?.HtmlContent}");
 

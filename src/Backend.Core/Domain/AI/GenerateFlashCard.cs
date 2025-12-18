@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.RegularExpressions;
 
-public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePerLifetime
+public class AiFlashCard(
+    AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePerLifetime
 {
     public record struct FlashCard(string Front, string Back);
 
@@ -130,11 +131,32 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
 
     public async Task<List<FlashCard>> Generate(string promptContent, AiModel model, int userId, int pageId)
     {
-        return model switch
+        var result = model switch
         {
             AiModel.ChatGPT => await ChatGPTService.GenerateFlashcardsAsync(promptContent),
-            AiModel.Claude => await ClaudeService.GenerateFlashcardsAsync(promptContent, userId, pageId, _aiUsageLogRepo),
+            AiModel.Claude => await GenerateFlashcardsWithTokenDeduction(promptContent, userId, pageId),
             _ => throw new ArgumentOutOfRangeException(nameof(model), model, null)
         };
+
+        return result;
+    }
+
+    private async Task<List<FlashCard>> GenerateFlashcardsWithTokenDeduction(string promptContent, int userId, int pageId)
+    {
+        var response = await ClaudeService.GetClaudeResponse(promptContent);
+
+        if (response != null)
+        {
+            _aiUsageLogRepo.AddUsage(response, userId, pageId);
+        }
+
+        if (response is { Role: "assistant", Content.Count: > 0 }
+            && !string.IsNullOrWhiteSpace(response.Content[0].Text))
+        {
+            var flashCards = JsonSerializer.Deserialize<List<FlashCard>>(response.Content[0].Text);
+            return flashCards ?? new List<FlashCard>();
+        }
+
+        return new List<FlashCard>();
     }
 }

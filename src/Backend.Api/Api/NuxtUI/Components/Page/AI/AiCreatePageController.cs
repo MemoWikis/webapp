@@ -8,9 +8,9 @@ public class AiCreatePageController(
 {
     public readonly record struct AiModelItem(
         string ModelId,
+        string DisplayName,
         string Provider,
-        decimal TokenCostMultiplier,
-        bool IsDefault);
+        decimal TokenCostMultiplier);
 
     public readonly record struct GetModelsResponse(
         bool Success,
@@ -25,9 +25,9 @@ public class AiCreatePageController(
         var models = enabledModels
             .Select(model => new AiModelItem(
                 model.ModelId,
+                model.DisplayName,
                 model.Provider.ToString(),
-                model.TokenCostMultiplier,
-                model.IsDefault))
+                model.TokenCostMultiplier))
             .ToList();
 
         return new GetModelsResponse(true, models);
@@ -100,7 +100,7 @@ public class AiCreatePageController(
 
         var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
         var contentLength = (AiPageGenerator.ContentLength)request.ContentLength;
-        
+
         var result = await _aiPageGenerator.Generate(
             request.Prompt,
             difficultyLevel,
@@ -147,7 +147,7 @@ public class AiCreatePageController(
 
         var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
         var contentLength = (AiPageGenerator.ContentLength)request.ContentLength;
-        
+
         var result = await _aiPageGenerator.GenerateFromUrl(
             request.Url,
             difficultyLevel,
@@ -205,7 +205,7 @@ public class AiCreatePageController(
 
         // Create the page using the existing PageCreator
         var createResult = _pageCreator.Create(request.Title, request.ParentId, _sessionUser);
-        
+
         if (!createResult.Success)
         {
             return new CreateResponse(false, null, createResult.MessageKey);
@@ -214,19 +214,19 @@ public class AiCreatePageController(
         // Update the page content with the generated HTML
         var pageCacheItem = EntityCache.GetPage(createResult.Data.Id);
         var page = _pageRepository.GetByIdEager(createResult.Data.Id);
-        
+
         if (pageCacheItem != null && page != null)
         {
             pageCacheItem.Content = request.HtmlContent;
             page.Content = request.HtmlContent;
-            
+
             // Set as wiki if requested
             if (request.IsWiki)
             {
                 pageCacheItem.IsWiki = true;
                 page.IsWiki = true;
             }
-            
+
             EntityCache.AddOrUpdate(pageCacheItem);
             _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
         }
@@ -255,7 +255,7 @@ public class AiCreatePageController(
         }
 
         var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
-        
+
         var result = await _aiPageGenerator.GenerateWikiWithSubpages(
             request.Prompt,
             difficultyLevel,
@@ -304,7 +304,7 @@ public class AiCreatePageController(
         }
 
         var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
-        
+
         var result = await _aiPageGenerator.GenerateWikiWithSubpagesFromUrl(
             request.Url,
             difficultyLevel,
@@ -370,7 +370,7 @@ public class AiCreatePageController(
 
         // Create the wiki
         var wikiResult = _pageCreator.Create(request.Title, request.ParentId, _sessionUser);
-        
+
         if (!wikiResult.Success)
         {
             return new CreateWikiResponse(false, null, null, wikiResult.MessageKey);
@@ -379,14 +379,14 @@ public class AiCreatePageController(
         var wikiId = wikiResult.Data.Id;
         var wikiCacheItem = EntityCache.GetPage(wikiId);
         var wikiPage = _pageRepository.GetByIdEager(wikiId);
-        
+
         if (wikiCacheItem != null && wikiPage != null)
         {
             wikiCacheItem.Content = request.HtmlContent;
             wikiCacheItem.IsWiki = true;
             wikiPage.Content = request.HtmlContent;
             wikiPage.IsWiki = true;
-            
+
             EntityCache.AddOrUpdate(wikiCacheItem);
             _pageRepository.Update(wikiPage, _sessionUser.UserId, type: PageChangeType.Text);
         }
@@ -396,22 +396,22 @@ public class AiCreatePageController(
         foreach (var subpage in request.Subpages)
         {
             var subpageResult = _pageCreator.Create(subpage.Title, wikiId, _sessionUser);
-            
+
             if (subpageResult.Success)
             {
                 var subpageId = subpageResult.Data.Id;
                 var subpageCacheItem = EntityCache.GetPage(subpageId);
                 var subpagePage = _pageRepository.GetByIdEager(subpageId);
-                
+
                 if (subpageCacheItem != null && subpagePage != null)
                 {
                     subpageCacheItem.Content = subpage.HtmlContent;
                     subpagePage.Content = subpage.HtmlContent;
-                    
+
                     EntityCache.AddOrUpdate(subpageCacheItem);
                     _pageRepository.Update(subpagePage, _sessionUser.UserId, type: PageChangeType.Text);
                 }
-                
+
                 subpageIds.Add(subpageId);
             }
         }

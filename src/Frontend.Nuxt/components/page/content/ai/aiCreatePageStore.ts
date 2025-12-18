@@ -36,9 +36,10 @@ export interface GeneratedWikiContent {
 }
 
 export interface AiModel {
-    id: string
+    modelId: string
     displayName: string
     provider: string
+    tokenCostMultiplier: number
     isDefault: boolean
 }
 
@@ -83,11 +84,11 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
             if (result.success && result.models) {
                 availableModels.value = result.models
                 // Set default model
-                const defaultModel = result.models.find(m => m.isDefault)
+                const defaultModel = result.models.find(model => model.isDefault)
                 if (defaultModel) {
-                    selectedModelId.value = defaultModel.id
+                    selectedModelId.value = defaultModel.modelId
                 } else if (result.models.length > 0) {
-                    selectedModelId.value = result.models[0].id
+                    selectedModelId.value = result.models[0].modelId
                 }
             }
         } catch (error) {
