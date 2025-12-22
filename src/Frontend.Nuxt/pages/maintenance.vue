@@ -350,6 +350,46 @@ async function deleteUser() {
         resultMsg.value = result.data
 }
 
+// Token Management
+const tokenUserId = ref(0)
+const tokenAmount = ref(0)
+const tokenType = ref<'subscription' | 'paid'>('subscription')
+
+async function addTokensToUser() {
+    if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
+        throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    if (tokenUserId.value <= 0) {
+        resultMsg.value = 'Please enter a valid user ID'
+        return
+    }
+
+    if (tokenAmount.value <= 0) {
+        resultMsg.value = 'Please enter a valid amount greater than 0'
+        return
+    }
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('userId', tokenUserId.value.toString())
+    data.append('amount', tokenAmount.value.toString())
+    data.append('tokenType', tokenType.value)
+
+    const result = await $api<VueMaintenanceResult>(`/apiVue/VueMaintenance/AddTokensToUser`, {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result.success) {
+        resultMsg.value = result.data
+        tokenAmount.value = 0
+    } else {
+        resultMsg.value = `Error: ${result.data}`
+    }
+}
+
 async function removeAdminRights() {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
@@ -1465,6 +1505,31 @@ onMounted(() => {
                         </div>
                     </div>
                 </LayoutCard>
+                <LayoutCard :size="LayoutCardSize.Small">
+                    <div class="token-management-container">
+                        <h4>Add Tokens to User</h4>
+                        <div class="token-management-form">
+                            <div class="form-group">
+                                <label>User ID:</label>
+                                <input v-model.number="tokenUserId" type="number" placeholder="User ID" />
+                            </div>
+                            <div class="form-group">
+                                <label>Amount:</label>
+                                <input v-model.number="tokenAmount" type="number" placeholder="Token amount" />
+                            </div>
+                            <div class="form-group">
+                                <label>Token Type:</label>
+                                <select v-model="tokenType">
+                                    <option value="subscription">Subscription Tokens</option>
+                                    <option value="paid">Paid Tokens</option>
+                                </select>
+                            </div>
+                            <button @click="addTokensToUser" class="memo-button btn btn-primary">
+                                Add Tokens
+                            </button>
+                        </div>
+                    </div>
+                </LayoutCard>
 
             </MaintenanceSection>
             <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
@@ -1508,6 +1573,33 @@ onMounted(() => {
             border: solid 1px @memo-grey-light;
             padding: 7px;
             margin-right: 8px;
+        }
+    }
+}
+
+.token-management-container {
+    padding: 15px;
+
+    .token-management-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            label {
+                min-width: 100px;
+            }
+
+            input,
+            select {
+                border: solid 1px @memo-grey-light;
+                padding: 7px;
+                min-width: 200px;
+            }
         }
     }
 }

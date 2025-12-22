@@ -748,6 +748,9 @@
                 "urlLabel": "URL pour créer la page",
                 "urlPlaceholder": "Par exemple : https://fr.wikipedia.org/wiki/Photosynthèse",
                 "urlHint": "Fonctionne mieux avec Wikipedia, GitHub et les sites de documentation statiques. Certains sites avec protection anti-bots peuvent ne pas fonctionner.",
+                "modelLabel": "Modèle IA",
+                "loadingModels": "Chargement des modèles...",
+                "tokenBalance": "Solde de jetons",
                 "complexityLabel": "Niveau de complexité",
                 "complexity": {
                     "simple": "Simple",

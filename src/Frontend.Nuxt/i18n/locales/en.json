@@ -752,6 +752,7 @@
                 "urlHint": "Works best with Wikipedia, GitHub, and static documentation sites. Some sites with bot protection may not work.",
                 "modelLabel": "AI Model",
                 "loadingModels": "Loading models...",
+                "tokenBalance": "Token Balance",
                 "complexityLabel": "Complexity level",
                 "complexity": {
                     "simple": "Simple",

@@ -86,8 +86,8 @@ class GenerateAiWikiWithSubpages_tests : BaseTestHarness
     {
         // Arrange
         var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var webContentFetcher = R<WebContentFetcher>();
-        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, webContentFetcher);
+        var aiModelRegistry = R<AiModelRegistry>();
+        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, aiModelRegistry);
 
         var prompt = "Create a comprehensive wiki about the Solar System";
 
@@ -134,8 +134,8 @@ class GenerateAiWikiWithSubpages_tests : BaseTestHarness
     {
         // Arrange
         var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var webContentFetcher = R<WebContentFetcher>();
-        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, webContentFetcher);
+        var aiModelRegistry = R<AiModelRegistry>();
+        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, aiModelRegistry);
 
         var germanPrompt = "Erstelle ein umfassendes Wiki über die Geschichte Deutschlands";
         var frenchPrompt = "Créer un wiki complet sur l'histoire de France";
@@ -184,17 +184,25 @@ class GenerateAiWikiWithSubpages_tests : BaseTestHarness
     {
         // Arrange
         var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiModelRegistry = R<AiModelRegistry>();
         var webContentFetcher = R<WebContentFetcher>();
-        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, webContentFetcher);
+        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, aiModelRegistry);
 
         var url = "https://en.wikipedia.org/wiki/World_War_II";
 
+        // Fetch content first (as controller now does)
+        var fetchedContent = await webContentFetcher.FetchAndExtract(url);
+
         // Act
-        var result = await aiPageGenerator.GenerateWikiWithSubpagesFromUrl(
-            url,
-            AiPageGenerator.DifficultyLevel.Intermediate,
-            DefaultUserId,
-            DefaultPageId);
+        var result = fetchedContent != null
+            ? await aiPageGenerator.GenerateWikiFromContent(
+                fetchedContent.Value.Title,
+                fetchedContent.Value.TextContent,
+                fetchedContent.Value.Url,
+                AiPageGenerator.DifficultyLevel.Intermediate,
+                DefaultUserId,
+                DefaultPageId)
+            : null;
 
         // Use AI to validate content relevance
         var titleIsRelevant = await AskClaude($"Is this title related to World War II or WWII? Title: {result?.Title}");
@@ -206,6 +214,7 @@ class GenerateAiWikiWithSubpages_tests : BaseTestHarness
 
         await Verify(new
         {
+            ContentFetched = fetchedContent != null,
             WikiGenerated = result != null,
             HasTitle = !string.IsNullOrEmpty(result?.Title),
             HasMainContent = !string.IsNullOrEmpty(result?.HtmlContent),

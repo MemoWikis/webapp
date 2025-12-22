@@ -11,7 +11,8 @@ public class PageStoreController(
     QuestionReadingRepo _questionReadingRepo,
     PageUpdater _pageUpdater,
     ImageStore _imageStore,
-    AiUsageLogRepo _aiUsageLogRepo) : ApiBaseController
+    AiUsageLogRepo _aiUsageLogRepo,
+    TokenDeductionService _tokenDeductionService) : ApiBaseController
 {
     public readonly record struct SaveContentRequest(
         int Id,
@@ -253,6 +254,12 @@ public class PageStoreController(
     {
         if (!_permissionCheck.CanViewPage(request.PageId) || !_sessionUser.IsLoggedIn)
             return null;
+
+        // Check if user has enough tokens for flashcard generation
+        if (!_tokenDeductionService.CanAffordTokens(_sessionUser.UserId, request.Text, TokenDeductionService.GenerationType.Flashcards))
+        {
+            return new GenerateFlashCardResponse(new List<AiFlashCard.FlashCard>(), FrontendMessageKeys.Error.Ai.InsufficientTokens);
+        }
 
         var limitCheck = new LimitCheck(_sessionUser);
 

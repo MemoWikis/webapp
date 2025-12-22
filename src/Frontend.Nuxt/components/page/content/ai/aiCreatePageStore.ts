@@ -180,13 +180,15 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
                 url: url.value.trim(),
                 difficultyLevel: difficultyLevel.value,
                 contentLength: contentLength.value,
-                parentId: parentId.value
+                parentId: parentId.value,
+                modelId: selectedModelId.value || undefined
             }
             : {
                 prompt: prompt.value,
                 difficultyLevel: difficultyLevel.value,
                 contentLength: contentLength.value,
-                parentId: parentId.value
+                parentId: parentId.value,
+                modelId: selectedModelId.value || undefined
             }
 
         const result = await $api<GeneratePageResponse>(endpoint, {
@@ -218,12 +220,14 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
             ? {
                 url: url.value.trim(),
                 difficultyLevel: difficultyLevel.value,
-                parentId: parentId.value
+                parentId: parentId.value,
+                modelId: selectedModelId.value || undefined
             }
             : {
                 prompt: prompt.value,
                 difficultyLevel: difficultyLevel.value,
-                parentId: parentId.value
+                parentId: parentId.value,
+                modelId: selectedModelId.value || undefined
             }
 
         const result = await $api<GenerateWikiResponse>(endpoint, {

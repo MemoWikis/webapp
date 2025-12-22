@@ -4,7 +4,9 @@ public class AiCreatePageController(
     AiPageGenerator _aiPageGenerator,
     PageRepository _pageRepository,
     PermissionCheck _permissionCheck,
-    AiModelRegistry _aiModelRegistry) : ApiBaseController
+    AiModelRegistry _aiModelRegistry,
+    TokenDeductionService _tokenDeductionService,
+    WebContentFetcher _webContentFetcher) : ApiBaseController
 {
     public readonly record struct AiModelItem(
         string ModelId,
@@ -37,23 +39,27 @@ public class AiCreatePageController(
         string Prompt,
         int DifficultyLevel,
         int ContentLength,
-        int ParentId);
+        int ParentId,
+        string ModelId = "");
 
     public readonly record struct GenerateFromUrlRequest(
         string Url,
         int DifficultyLevel,
         int ContentLength,
-        int ParentId);
+        int ParentId,
+        string ModelId = "");
 
     public readonly record struct GenerateWikiRequest(
         string Prompt,
         int DifficultyLevel,
-        int ParentId);
+        int ParentId,
+        string ModelId = "");
 
     public readonly record struct GenerateWikiFromUrlRequest(
         string Url,
         int DifficultyLevel,
-        int ParentId);
+        int ParentId,
+        string ModelId = "");
 
     public readonly record struct GeneratedPageData(
         string Title,
@@ -92,6 +98,21 @@ public class AiCreatePageController(
             return new GenerateResponse(false, null, FrontendMessageKeys.Error.Default);
         }
 
+        // Map content length to generation type for token estimation
+        var generationType = request.ContentLength switch
+        {
+            1 => TokenDeductionService.GenerationType.PageShort,
+            2 => TokenDeductionService.GenerationType.PageMedium,
+            3 => TokenDeductionService.GenerationType.PageLong,
+            _ => TokenDeductionService.GenerationType.PageMedium
+        };
+
+        // Check if user has enough tokens (considering the model's cost multiplier)
+        if (!_tokenDeductionService.CanAffordTokens(_sessionUser.UserId, request.ModelId, request.Prompt, generationType))
+        {
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Ai.InsufficientTokens);
+        }
+
         // Check if user can edit the parent page (if specified)
         if (request.ParentId > 0 && !_permissionCheck.CanEditPage(request.ParentId))
         {
@@ -106,7 +127,8 @@ public class AiCreatePageController(
             difficultyLevel,
             contentLength,
             _sessionUser.UserId,
-            request.ParentId);
+            request.ParentId,
+            request.ModelId);
 
         if (result == null)
         {
@@ -145,19 +167,52 @@ public class AiCreatePageController(
             return new GenerateResponse(false, null, FrontendMessageKeys.Error.Page.NoRights);
         }
 
+        // Fetch content first to get accurate token count
+        var fetchedContent = await _webContentFetcher.FetchAndExtract(request.Url);
+        if (fetchedContent == null)
+        {
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Ai.UrlFetchFailed);
+        }
+
         var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
         var contentLength = (AiPageGenerator.ContentLength)request.ContentLength;
 
-        var result = await _aiPageGenerator.GenerateFromUrl(
-            request.Url,
+        // Build prompt to calculate actual token cost
+        var prompt = AiPageGenerator.GetUrlPrompt(
+            fetchedContent.Value.Title,
+            fetchedContent.Value.TextContent,
+            fetchedContent.Value.Url,
+            difficultyLevel,
+            contentLength);
+
+        // Map content length to generation type for output estimation
+        var generationType = request.ContentLength switch
+        {
+            1 => TokenDeductionService.GenerationType.PageShort,
+            2 => TokenDeductionService.GenerationType.PageMedium,
+            3 => TokenDeductionService.GenerationType.PageLong,
+            _ => TokenDeductionService.GenerationType.PageMedium
+        };
+
+        // Check affordability with actual prompt size
+        if (!_tokenDeductionService.CanAffordTokens(_sessionUser.UserId, request.ModelId, prompt, generationType))
+        {
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Ai.InsufficientTokens);
+        }
+
+        var result = await _aiPageGenerator.GenerateFromContent(
+            fetchedContent.Value.Title,
+            fetchedContent.Value.TextContent,
+            fetchedContent.Value.Url,
             difficultyLevel,
             contentLength,
             _sessionUser.UserId,
-            request.ParentId);
+            request.ParentId,
+            request.ModelId);
 
         if (result == null)
         {
-            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Ai.UrlFetchFailed);
+            return new GenerateResponse(false, null, FrontendMessageKeys.Error.Default);
         }
 
         return new GenerateResponse(
@@ -248,6 +303,12 @@ public class AiCreatePageController(
             return new GenerateWikiResponse(false, null, FrontendMessageKeys.Error.Default);
         }
 
+        // Check if user has enough tokens (wiki with subpages uses more tokens)
+        if (!_tokenDeductionService.CanAffordTokens(_sessionUser.UserId, request.ModelId, request.Prompt, TokenDeductionService.GenerationType.WikiWithSubpages))
+        {
+            return new GenerateWikiResponse(false, null, FrontendMessageKeys.Error.Ai.InsufficientTokens);
+        }
+
         // Check if user can edit the parent page (if specified)
         if (request.ParentId > 0 && !_permissionCheck.CanEditPage(request.ParentId))
         {
@@ -260,7 +321,8 @@ public class AiCreatePageController(
             request.Prompt,
             difficultyLevel,
             _sessionUser.UserId,
-            request.ParentId);
+            request.ParentId,
+            request.ModelId);
 
         if (result == null)
         {
@@ -303,17 +365,40 @@ public class AiCreatePageController(
             return new GenerateWikiResponse(false, null, FrontendMessageKeys.Error.Page.NoRights);
         }
 
+        // Fetch content first to get accurate token count
+        var fetchedContent = await _webContentFetcher.FetchAndExtract(request.Url);
+        if (fetchedContent == null)
+        {
+            return new GenerateWikiResponse(false, null, FrontendMessageKeys.Error.Ai.UrlFetchFailed);
+        }
+
         var difficultyLevel = (AiPageGenerator.DifficultyLevel)request.DifficultyLevel;
 
-        var result = await _aiPageGenerator.GenerateWikiWithSubpagesFromUrl(
-            request.Url,
+        // Build prompt to calculate actual token cost
+        var prompt = AiPageGenerator.GetWikiWithSubpagesFromUrlPrompt(
+            fetchedContent.Value.Title,
+            fetchedContent.Value.TextContent,
+            fetchedContent.Value.Url,
+            difficultyLevel);
+
+        // Check affordability with actual prompt size
+        if (!_tokenDeductionService.CanAffordTokens(_sessionUser.UserId, request.ModelId, prompt, TokenDeductionService.GenerationType.WikiWithSubpages))
+        {
+            return new GenerateWikiResponse(false, null, FrontendMessageKeys.Error.Ai.InsufficientTokens);
+        }
+
+        var result = await _aiPageGenerator.GenerateWikiFromContent(
+            fetchedContent.Value.Title,
+            fetchedContent.Value.TextContent,
+            fetchedContent.Value.Url,
             difficultyLevel,
             _sessionUser.UserId,
-            request.ParentId);
+            request.ParentId,
+            request.ModelId);
 
         if (result == null)
         {
-            return new GenerateWikiResponse(false, null, FrontendMessageKeys.Error.Ai.UrlFetchFailed);
+            return new GenerateWikiResponse(false, null, FrontendMessageKeys.Error.Default);
         }
 
         var subpages = result.Value.Subpages

@@ -93,7 +93,7 @@ public class Settings
     public static string OpenAIModel => _configuration["OpenAI:Model"]!;
     public static string AnthropicApiKey => _configuration["Anthropic:ApiKey"]!;
     public static string AnthropicModel => _configuration["Anthropic:Model"]!;
-    public static string AnthropicFallbackModel => _configuration["Anthropic:FallbackModel"] ?? "claude-3-5-sonnet-latest";
+    public static string AnthropicFallbackModel => _configuration["Anthropic:FallbackModel"] ?? "claude-sonnet-4-20250514";
     public static string AnthropicVersion => _configuration["Anthropic:Version"]!;
 
     public static int FeaturedPageRootId => int.Parse(_configuration["FeaturedPage:RootId"]!);

@@ -2,7 +2,7 @@ using System.Text.Json;
 
 public class AiPageGenerator(
     AiUsageLogRepo _aiUsageLogRepo,
-    WebContentFetcher _webContentFetcher) : IRegisterAsInstancePerLifetime
+    AiModelRegistry _aiModelRegistry) : IRegisterAsInstancePerLifetime
 {
     public record struct GeneratedPage(string Title, string HtmlContent);
 
@@ -151,37 +151,30 @@ public class AiPageGenerator(
         DifficultyLevel difficultyLevel,
         ContentLength contentLength,
         int userId,
-        int pageId)
+        int pageId,
+        string modelId = "")
     {
         var prompt = GetPrompt(userPrompt, difficultyLevel, contentLength);
-        return await ExecuteGeneration(prompt, userId, pageId);
+        return await ExecuteGeneration(prompt, userId, pageId, modelId);
     }
 
-    public async Task<GeneratedPage?> GenerateFromUrl(
-        string url,
+    /// <summary>
+    /// Generates a page from pre-fetched web content.
+    /// Use WebContentFetcher.FetchAndExtract first to get the content, 
+    /// then check affordability with actual content size before calling this method.
+    /// </summary>
+    public async Task<GeneratedPage?> GenerateFromContent(
+        string pageTitle,
+        string pageContent,
+        string sourceUrl,
         DifficultyLevel difficultyLevel,
         ContentLength contentLength,
         int userId,
-        int pageId)
+        int pageId,
+        string modelId = "")
     {
-        var fetchedContent = await _webContentFetcher.FetchAndExtract(url);
-
-        if (fetchedContent == null)
-        {
-            Log.Warning("Failed to fetch content from URL: {Url}", url);
-            return null;
-        }
-
-        var prompt = GetUrlPrompt(
-            fetchedContent.Value.Title,
-            fetchedContent.Value.TextContent,
-            fetchedContent.Value.Url,
-            difficultyLevel,
-            contentLength);
-
-        var result = await ExecuteGeneration(prompt, userId, pageId);
-
-        return result;
+        var prompt = GetUrlPrompt(pageTitle, pageContent, sourceUrl, difficultyLevel, contentLength);
+        return await ExecuteGeneration(prompt, userId, pageId, modelId);
     }
 
     public static string GetWikiWithSubpagesPrompt(string userPrompt, DifficultyLevel difficultyLevel)
@@ -292,128 +285,148 @@ public class AiPageGenerator(
         string userPrompt,
         DifficultyLevel difficultyLevel,
         int userId,
-        int pageId)
+        int pageId,
+        string modelId = "")
     {
         var prompt = GetWikiWithSubpagesPrompt(userPrompt, difficultyLevel);
-        return await ExecuteWikiGeneration(prompt, userId, pageId);
+        return await ExecuteWikiGeneration(prompt, userId, pageId, modelId);
     }
 
-    public async Task<GeneratedWiki?> GenerateWikiWithSubpagesFromUrl(
-        string url,
+    /// <summary>
+    /// Generates a wiki with subpages from pre-fetched web content.
+    /// Use WebContentFetcher.FetchAndExtract first to get the content, 
+    /// then check affordability with actual content size before calling this method.
+    /// </summary>
+    public async Task<GeneratedWiki?> GenerateWikiFromContent(
+        string pageTitle,
+        string pageContent,
+        string sourceUrl,
         DifficultyLevel difficultyLevel,
         int userId,
-        int pageId)
+        int pageId,
+        string modelId = "")
     {
-        var fetchedContent = await _webContentFetcher.FetchAndExtract(url);
+        var prompt = GetWikiWithSubpagesFromUrlPrompt(pageTitle, pageContent, sourceUrl, difficultyLevel);
+        return await ExecuteWikiGeneration(prompt, userId, pageId, modelId);
+    }
 
-        if (fetchedContent == null)
+    private async Task<GeneratedWiki?> ExecuteWikiGeneration(string prompt, int userId, int pageId, string modelId = "")
+    {
+        var (responseText, inputTokens, outputTokens, actualModel) = await GetAiResponse(prompt, modelId);
+
+        if (string.IsNullOrWhiteSpace(responseText))
         {
-            Log.Warning("Failed to fetch content from URL for wiki generation: {Url}", url);
             return null;
         }
 
-        var prompt = GetWikiWithSubpagesFromUrlPrompt(
-            fetchedContent.Value.Title,
-            fetchedContent.Value.TextContent,
-            fetchedContent.Value.Url,
-            difficultyLevel);
+        // Log usage
+        _aiUsageLogRepo.AddUsage(userId, pageId, inputTokens, outputTokens, actualModel);
 
-        return await ExecuteWikiGeneration(prompt, userId, pageId);
+        try
+        {
+            var text = CleanJsonResponse(responseText);
+
+            var generatedWiki = JsonSerializer.Deserialize<GeneratedWiki>(text, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            return generatedWiki;
+        }
+        catch (JsonException exception)
+        {
+            Log.Error(exception, "Failed to parse AI response for wiki generation");
+            return null;
+        }
     }
 
-    private async Task<GeneratedWiki?> ExecuteWikiGeneration(string prompt, int userId, int pageId)
+    private async Task<GeneratedPage?> ExecuteGeneration(string prompt, int userId, int pageId, string modelId = "")
     {
-        var response = await ClaudeService.GetClaudeResponse(prompt);
+        var (responseText, inputTokens, outputTokens, actualModel) = await GetAiResponse(prompt, modelId);
 
-        if (response != null)
+        if (string.IsNullOrWhiteSpace(responseText))
         {
-            _aiUsageLogRepo.AddUsage(response, userId, pageId);
+            return null;
         }
 
-        if (response is { Role: "assistant", Content.Count: > 0 }
-            && !string.IsNullOrWhiteSpace(response.Content[0].Text))
+        // Log usage
+        _aiUsageLogRepo.AddUsage(userId, pageId, inputTokens, outputTokens, actualModel);
+
+        try
         {
-            try
+            var text = CleanJsonResponse(responseText);
+
+            var generatedPage = JsonSerializer.Deserialize<GeneratedPage>(text, new JsonSerializerOptions
             {
-                var text = response.Content[0].Text.Trim();
+                PropertyNameCaseInsensitive = true
+            });
 
-                // Remove potential code block markers
-                if (text.StartsWith("```json"))
-                {
-                    text = text.Substring(7);
-                }
-                if (text.StartsWith("```"))
-                {
-                    text = text.Substring(3);
-                }
-                if (text.EndsWith("```"))
-                {
-                    text = text.Substring(0, text.Length - 3);
-                }
-                text = text.Trim();
-
-                var generatedWiki = JsonSerializer.Deserialize<GeneratedWiki>(text, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-
-                return generatedWiki;
-            }
-            catch (JsonException exception)
-            {
-                Log.Error(exception, "Failed to parse AI response for wiki generation");
-                return null;
-            }
+            return generatedPage;
         }
-
-        return null;
+        catch (JsonException exception)
+        {
+            Log.Error(exception, "Failed to parse AI response for page generation");
+            return null;
+        }
     }
 
-    private async Task<GeneratedPage?> ExecuteGeneration(string prompt, int userId, int pageId)
+    /// <summary>
+    /// Gets AI response from the appropriate provider based on the model ID.
+    /// Returns (responseText, inputTokens, outputTokens, modelUsed).
+    /// </summary>
+    private async Task<(string? responseText, int inputTokens, int outputTokens, string modelUsed)> GetAiResponse(string prompt, string modelId)
     {
-        var response = await ClaudeService.GetClaudeResponse(prompt);
+        var model = _aiModelRegistry.GetModel(modelId);
+        var provider = model?.Provider ?? AiModelProvider.Anthropic;
+        var actualModelId = !string.IsNullOrEmpty(modelId) ? modelId : 
+            (provider == AiModelProvider.OpenAI ? Settings.OpenAIModel : Settings.AnthropicModel);
 
-        if (response != null)
+        if (provider == AiModelProvider.OpenAI)
         {
-            _aiUsageLogRepo.AddUsage(response, userId, pageId);
+            var chatGptResponse = await ChatGPTService.GetChatGptResponse(prompt, actualModelId);
+            if (chatGptResponse == null)
+            {
+                return (null, 0, 0, actualModelId);
+            }
+            return (chatGptResponse.Text, chatGptResponse.InputTokens, chatGptResponse.OutputTokens, chatGptResponse.Model);
         }
-
-        if (response is { Role: "assistant", Content.Count: > 0 }
-            && !string.IsNullOrWhiteSpace(response.Content[0].Text))
+        else
         {
-            try
+            // Default to Anthropic/Claude
+            var claudeResponse = await ClaudeService.GetClaudeResponse(prompt, actualModelId);
+            if (claudeResponse == null || claudeResponse.Content.Count == 0 || string.IsNullOrWhiteSpace(claudeResponse.Content[0].Text))
             {
-                var text = response.Content[0].Text.Trim();
-
-                // Remove potential code block markers
-                if (text.StartsWith("```json"))
-                {
-                    text = text.Substring(7);
-                }
-                if (text.StartsWith("```"))
-                {
-                    text = text.Substring(3);
-                }
-                if (text.EndsWith("```"))
-                {
-                    text = text.Substring(0, text.Length - 3);
-                }
-                text = text.Trim();
-
-                var generatedPage = JsonSerializer.Deserialize<GeneratedPage>(text, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-
-                return generatedPage;
+                return (null, 0, 0, actualModelId);
             }
-            catch (JsonException exception)
-            {
-                Log.Error(exception, "Failed to parse AI response for page generation");
-                return null;
-            }
+            return (
+                claudeResponse.Content[0].Text,
+                claudeResponse.Usage?.InputTokens ?? 0,
+                claudeResponse.Usage?.OutputTokens ?? 0,
+                claudeResponse.Model ?? actualModelId
+            );
         }
+    }
 
-        return null;
+    /// <summary>
+    /// Removes code block markers from JSON response
+    /// </summary>
+    private static string CleanJsonResponse(string text)
+    {
+        text = text.Trim();
+        
+        if (text.StartsWith("```json"))
+        {
+            text = text.Substring(7);
+        }
+        if (text.StartsWith("```"))
+        {
+            text = text.Substring(3);
+        }
+        if (text.EndsWith("```"))
+        {
+            text = text.Substring(0, text.Length - 3);
+        }
+        
+        return text.Trim();
     }
 }

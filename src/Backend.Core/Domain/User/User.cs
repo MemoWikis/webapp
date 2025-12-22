@@ -57,9 +57,9 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string UiLanguage { get; set; } = "en";
     
     /// <summary>
-    /// Remaining tokens from subscription for current period (resets to 100k each period)
+    /// Remaining tokens from subscription for current period
     /// </summary>
-    public virtual int SubscriptionTokensBalance { get; set; } = 100000;
+    public virtual int SubscriptionTokensBalance { get; set; } = 0;
     
     /// <summary>
     /// Purchased tokens that don't expire

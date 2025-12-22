@@ -310,6 +310,7 @@ class GenerateFlashCards_tests : BaseTestHarness
         var pageUpdater = R<PageUpdater>();
         var imageStore = R<ImageStore>();
         var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var tokenDeductionService = R<TokenDeductionService>();
 
         return new PageStoreController(
             sessionUser,
@@ -321,7 +322,8 @@ class GenerateFlashCards_tests : BaseTestHarness
             questionReadingRepo,
             pageUpdater,
             imageStore,
-            aiUsageLogRepo);
+            aiUsageLogRepo,
+            tokenDeductionService);
     }
 }
 

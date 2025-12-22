@@ -20,8 +20,8 @@ class GenerateAiPage_tests : BaseTestHarness
     {
         // Arrange
         var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var webContentFetcher = R<WebContentFetcher>();
-        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, webContentFetcher);
+        var aiModelRegistry = R<AiModelRegistry>();
+        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, aiModelRegistry);
 
         var prompt = "Explain the water cycle";
 
@@ -82,8 +82,8 @@ class GenerateAiPage_tests : BaseTestHarness
     {
         // Arrange
         var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var webContentFetcher = R<WebContentFetcher>();
-        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, webContentFetcher);
+        var aiModelRegistry = R<AiModelRegistry>();
+        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, aiModelRegistry);
 
         // Test with different language prompts
         var germanPrompt = "Erstelle eine Lernseite über die Grundlagen der deutschen Grammatik";
@@ -121,8 +121,8 @@ class GenerateAiPage_tests : BaseTestHarness
     {
         // Arrange
         var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var webContentFetcher = R<WebContentFetcher>();
-        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, webContentFetcher);
+        var aiModelRegistry = R<AiModelRegistry>();
+        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, aiModelRegistry);
 
         var prompt = "Explain quantum physics";
 
@@ -156,26 +156,42 @@ class GenerateAiPage_tests : BaseTestHarness
     {
         // Arrange
         var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiModelRegistry = R<AiModelRegistry>();
         var webContentFetcher = R<WebContentFetcher>();
-        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, webContentFetcher);
+        var aiPageGenerator = new AiPageGenerator(aiUsageLogRepo, aiModelRegistry);
 
         // Use French and English Wikipedia to test language matching
         var frenchUrl = "https://fr.wikipedia.org/wiki/Photosynthèse";
         var englishUrl = "https://en.wikipedia.org/wiki/Photosynthesis";
         var invalidUrl = "https://this-domain-definitely-does-not-exist-12345.com/page";
 
+        // Fetch content first (as controller now does)
+        var frenchContent = await webContentFetcher.FetchAndExtract(frenchUrl);
+        var englishContent = await webContentFetcher.FetchAndExtract(englishUrl);
+        var invalidContent = await webContentFetcher.FetchAndExtract(invalidUrl);
+
         // Act
-        var frenchResult = await aiPageGenerator.GenerateFromUrl(
-            frenchUrl, AiPageGenerator.DifficultyLevel.Intermediate,
-            AiPageGenerator.ContentLength.Medium, DefaultUserId, DefaultPageId);
+        var frenchResult = frenchContent != null
+            ? await aiPageGenerator.GenerateFromContent(
+                frenchContent.Value.Title, frenchContent.Value.TextContent, frenchContent.Value.Url,
+                AiPageGenerator.DifficultyLevel.Intermediate, AiPageGenerator.ContentLength.Medium,
+                DefaultUserId, DefaultPageId)
+            : null;
 
-        var englishResult = await aiPageGenerator.GenerateFromUrl(
-            englishUrl, AiPageGenerator.DifficultyLevel.Intermediate,
-            AiPageGenerator.ContentLength.Medium, DefaultUserId, DefaultPageId);
+        var englishResult = englishContent != null
+            ? await aiPageGenerator.GenerateFromContent(
+                englishContent.Value.Title, englishContent.Value.TextContent, englishContent.Value.Url,
+                AiPageGenerator.DifficultyLevel.Intermediate, AiPageGenerator.ContentLength.Medium,
+                DefaultUserId, DefaultPageId)
+            : null;
 
-        var invalidResult = await aiPageGenerator.GenerateFromUrl(
-            invalidUrl, AiPageGenerator.DifficultyLevel.Intermediate,
-            AiPageGenerator.ContentLength.Medium, DefaultUserId, DefaultPageId);
+        // Invalid URL should fail at fetch stage
+        var invalidResult = invalidContent != null
+            ? await aiPageGenerator.GenerateFromContent(
+                invalidContent.Value.Title, invalidContent.Value.TextContent, invalidContent.Value.Url,
+                AiPageGenerator.DifficultyLevel.Intermediate, AiPageGenerator.ContentLength.Medium,
+                DefaultUserId, DefaultPageId)
+            : null;
 
         // Use AI to validate languages and content relevance
         var frenchIsFrench = await AskClaude($"Is this text written in French? Title: {frenchResult?.Title} Content: {frenchResult?.HtmlContent}");
@@ -188,18 +204,21 @@ class GenerateAiPage_tests : BaseTestHarness
         {
             FrenchWikipedia = new
             {
+                ContentFetched = frenchContent != null,
                 Generated = frenchResult != null,
                 AiConfirmsIsFrench = frenchIsFrench,
                 AiConfirmsTopicRelevant = frenchIsAboutPhotosynthesis
             },
             EnglishWikipedia = new
             {
+                ContentFetched = englishContent != null,
                 Generated = englishResult != null,
                 AiConfirmsIsEnglish = englishIsEnglish,
                 AiConfirmsTopicRelevant = englishIsAboutPhotosynthesis
             },
             InvalidUrl = new
             {
+                FetchFailed = invalidContent == null,
                 ReturnsNull = invalidResult == null
             }
         });

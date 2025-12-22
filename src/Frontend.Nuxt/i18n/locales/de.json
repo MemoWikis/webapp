@@ -752,6 +752,7 @@
                 "urlHint": "Funktioniert am besten mit Wikipedia, GitHub und statischen Dokumentationsseiten. Einige Seiten mit Bot-Schutz funktionieren möglicherweise nicht.",
                 "modelLabel": "KI-Modell",
                 "loadingModels": "Modelle werden geladen...",
+                "tokenBalance": "Token-Guthaben",
                 "complexityLabel": "Komplexität",
                 "complexity": {
                     "simple": "Einfach",

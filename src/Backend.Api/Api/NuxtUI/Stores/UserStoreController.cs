@@ -14,7 +14,8 @@ public class UserStoreController(
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo,
-    UserUiLanguage _userUiLanguage) : ApiBaseController
+    UserUiLanguage _userUiLanguage,
+    TokenDeductionService _tokenDeductionService) : ApiBaseController
 {
     public readonly record struct LoginResponse(
         FrontEndUserData.CurrentUserData Data,
@@ -203,5 +204,22 @@ public class UserStoreController(
     public void AddShareToken([FromBody] AddShareTokenRequest request)
     {
         _sessionUser.AddShareToken(request.PageId, request.ShareToken);
+    }
+
+    public readonly record struct GetTokenBalanceResponse(
+        bool Success,
+        int TotalBalance);
+
+    [HttpGet]
+    [AccessOnlyAsLoggedIn]
+    public GetTokenBalanceResponse GetTokenBalance()
+    {
+        if (!_sessionUser.IsLoggedIn)
+        {
+            return new GetTokenBalanceResponse(false, 0);
+        }
+
+        var balance = _tokenDeductionService.GetTotalTokenBalance(_sessionUser.UserId);
+        return new GetTokenBalanceResponse(true, balance);
     }
 }

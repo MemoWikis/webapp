@@ -69,7 +69,9 @@ export const useUserStore = defineStore('userStore', {
             fontSize: FontSize.Medium,
             uiLanguage: 'en' as 'de' | 'en' | 'fr' | 'es',
             showLoginReminder: false,
-            showAsVisitor: false
+            showAsVisitor: false,
+            tokenBalance: null as number | null,
+            isLoadingTokenBalance: false
         }
     },
     actions: {
@@ -304,6 +306,34 @@ export const useUserStore = defineStore('userStore', {
         },
         toggleShowAsVisitor() {
             this.showAsVisitor = !this.showAsVisitor
+        },
+        async fetchTokenBalance() {
+            if (!this.isLoggedIn) {
+                this.tokenBalance = null
+                return
+            }
+
+            this.isLoadingTokenBalance = true
+            try {
+                interface GetTokenBalanceResponse {
+                    success: boolean
+                    totalBalance: number
+                }
+
+                const result = await $api<GetTokenBalanceResponse>('/apiVue/UserStore/GetTokenBalance', {
+                    method: 'GET',
+                    mode: 'cors',
+                    credentials: 'include'
+                })
+
+                if (result.success) {
+                    this.tokenBalance = result.totalBalance
+                }
+            } catch (error) {
+                console.error('Failed to fetch token balance:', error)
+            } finally {
+                this.isLoadingTokenBalance = false
+            }
         }
     },
     getters: {

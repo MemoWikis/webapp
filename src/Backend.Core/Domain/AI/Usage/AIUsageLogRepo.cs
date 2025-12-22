@@ -1,7 +1,7 @@
 ﻿using NHibernate;
 using System.Collections.Concurrent;
 
-public class AiUsageLogRepo(ISession _session) : RepositoryDbBase<AiUsageLog>(_session)
+public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeductionService) : RepositoryDbBase<AiUsageLog>(_session)
 {
     public void AddUsage(AnthropicApiResponse response, int userId, int pageId)
     {
@@ -15,6 +15,9 @@ public class AiUsageLogRepo(ISession _session) : RepositoryDbBase<AiUsageLog>(_s
             Model = response.Model
         };
         base.Create(aiUsageLog);
+
+        // Deduct tokens from user balance (with model-aware multiplier)
+        _tokenDeductionService.DeductTokens(userId, response.Model, response.Usage.InputTokens, response.Usage.OutputTokens);
     }
 
     public void AddUsage(int userId, int pageId, int tokenIn, int tokenOut, string model)
@@ -30,6 +33,9 @@ public class AiUsageLogRepo(ISession _session) : RepositoryDbBase<AiUsageLog>(_s
         };
 
         base.Create(aiUsageLog);
+
+        // Deduct tokens from user balance (with model-aware multiplier)
+        _tokenDeductionService.DeductTokens(userId, model, tokenIn, tokenOut);
     }
 
     public ConcurrentDictionary<DateTime, int> GetTokenUsageForUserFromPastNDays(int userId, int days)

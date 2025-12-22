@@ -10,6 +10,7 @@ public class VueMaintenanceController(
     MeilisearchReIndexPages _meilisearchReIndexPages,
     MeilisearchReIndexUser _meilisearchReIndexUser,
     UserWritingRepo _userWritingRepo,
+    UserReadingRepo _userReadingRepo,
     AnswerRepo _answerRepo,
     RunningJobRepo _runningJobRepo,
     MmapCacheStatusService _mmapCacheStatusService,
@@ -139,6 +140,58 @@ public class VueMaintenanceController(
         {
             Success = true,
             Data = "The user has been deleted."
+        };
+    }
+
+    /// <summary>
+    /// Add tokens to a user's balance (subscription or paid)
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult AddTokensToUser(
+        [FromForm] int userId,
+        [FromForm] int amount,
+        [FromForm] string tokenType)
+    {
+        var user = _userReadingRepo.GetById(userId);
+        if (user == null)
+        {
+            return new VueMaintenanceResult { Success = false, Data = $"User with ID {userId} not found" };
+        }
+
+        if (amount <= 0)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Amount must be greater than 0" };
+        }
+
+        if (tokenType == "subscription")
+        {
+            user.SubscriptionTokensBalance += amount;
+        }
+        else if (tokenType == "paid")
+        {
+            user.PaidTokensBalance += amount;
+        }
+        else
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Invalid token type. Use 'subscription' or 'paid'" };
+        }
+
+        _userWritingRepo.Update(user);
+
+        // Update the cache
+        var userCacheItem = EntityCache.GetUserByIdNullable(userId);
+        if (userCacheItem != null)
+        {
+            userCacheItem.SubscriptionTokensBalance = user.SubscriptionTokensBalance;
+            userCacheItem.PaidTokensBalance = user.PaidTokensBalance;
+        }
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = $"Added {amount} {tokenType} tokens to user {user.Name} (ID: {userId}). New balance: Subscription={user.SubscriptionTokensBalance}, Paid={user.PaidTokensBalance}"
         };
     }
 

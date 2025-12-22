@@ -234,29 +234,50 @@ function selectSubpage(index: number) {
                 <!-- AI Model Selection -->
                 <div class="form-group model-section">
                     <label>{{ t('page.ai.createPage.modelLabel') }}</label>
-                    <VDropdown :distance="0" class="model-dropdown">
-                        <div class="model-select" :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
-                            <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels') }}</span>
-                            <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }} ({{ selectedModelCostMultiplier }}x)</span>
-                            <font-awesome-icon :icon="['fas', 'chevron-down']" />
-                        </div>
-
-                        <template #popper="{ hide }">
-                            <div class="model-dropdown-menu model-dropdown-popper">
-                                <template v-for="provider in groupedModels" :key="provider.name">
-                                    <div class="provider-header">{{ provider.name }}</div>
-                                    <div
-                                        v-for="model in provider.models"
-                                        :key="model.modelId"
-                                        class="dropdown-row ai-model-option"
-                                        :class="{ active: aiCreatePageStore.selectedModelId === model.modelId }"
-                                        @click="aiCreatePageStore.selectedModelId = model.modelId; hide()">
-                                        <span>{{ model.displayName }}</span> <span class="token-cost-multiplier">{{ model.tokenCostMultiplier }}x</span>
-                                    </div>
-                                </template>
+                    <div class="model-row">
+                        <VDropdown :distance="0" class="model-dropdown">
+                            <div class="model-select" :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
+                                <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels') }}</span>
+                                <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }} ({{ selectedModelCostMultiplier }}x)</span>
+                                <font-awesome-icon :icon="['fas', 'chevron-down']" />
                             </div>
-                        </template>
-                    </VDropdown>
+
+                            <template #popper="{ hide }">
+                                <div class="model-dropdown-menu model-dropdown-popper">
+                                    <template v-for="provider in groupedModels" :key="provider.name">
+                                        <div class="provider-header">{{ provider.name }}</div>
+                                        <div
+                                            v-for="model in provider.models"
+                                            :key="model.modelId"
+                                            class="dropdown-row ai-model-option"
+                                            :class="{ active: aiCreatePageStore.selectedModelId === model.modelId }"
+                                            @click="aiCreatePageStore.selectedModelId = model.modelId; hide()">
+                                            <span>{{ model.displayName }}</span> <span class="token-cost-multiplier">{{ model.tokenCostMultiplier }}x</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </VDropdown>
+
+                        <VDropdown :distance="4" placement="bottom-end" class="token-balance-dropdown">
+                            <button type="button" class="token-balance-btn" :title="t('page.ai.createPage.tokenBalance')" @click="userStore.fetchTokenBalance()">
+                                <font-awesome-icon :icon="['fas', 'coins']" />
+                            </button>
+
+                            <template #popper>
+                                <div class="token-balance-popper">
+                                    <div class="token-balance-header">{{ t('page.ai.createPage.tokenBalance') }}</div>
+                                    <div class="token-balance-value">
+                                        <span v-if="userStore.isLoadingTokenBalance">...</span>
+                                        <span v-else-if="userStore.tokenBalance !== null">
+                                            {{ userStore.tokenBalance.toLocaleString() }}
+                                        </span>
+                                        <span v-else>—</span>
+                                    </div>
+                                </div>
+                            </template>
+                        </VDropdown>
+                    </div>
                 </div>
 
                 <!-- Prompt Input Section -->
@@ -525,8 +546,14 @@ function selectSubpage(index: number) {
     }
 
     .model-section {
+        .model-row {
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+        }
+
         .model-dropdown {
-            width: 100%;
+            flex: 1;
         }
 
         .model-select {
@@ -534,6 +561,7 @@ function selectSubpage(index: number) {
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            height: 100%;
             padding: 12px;
             border: 1px solid @memo-grey-lighter;
             border-radius: 0px;
@@ -551,6 +579,41 @@ function selectSubpage(index: number) {
                 opacity: 0.6;
                 cursor: not-allowed;
                 background: @memo-grey-lighter;
+            }
+        }
+
+        .token-balance-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            padding: 8px;
+            border: 1px solid @memo-grey-lighter;
+            background: white;
+            cursor: pointer;
+            color: @memo-grey-dark;
+            transition: all 0.2s ease;
+
+            &:hover {
+                border-color: @memo-blue;
+                color: @memo-blue;
+            }
+        }
+
+        .token-balance-popper {
+            padding: 12px 16px;
+            min-width: 140px;
+
+            .token-balance-header {
+                font-size: 12px;
+                color: @memo-grey-dark;
+                margin-bottom: 4px;
+            }
+
+            .token-balance-value {
+                font-size: 18px;
+                font-weight: 600;
+                color: @memo-blue;
             }
         }
     }

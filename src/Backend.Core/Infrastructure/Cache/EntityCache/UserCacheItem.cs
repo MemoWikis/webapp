@@ -53,7 +53,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     /// <summary>
     /// Remaining tokens from subscription for current period
     /// </summary>
-    public int SubscriptionTokensBalance { get; set; } = 100000;
+    public int SubscriptionTokensBalance { get; set; } = 0;
     
     /// <summary>
     /// Purchased tokens that don't expire
