@@ -239,6 +239,59 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
 
         return user.SubscriptionTokensBalance + user.PaidTokensBalance;
     }
+
+    /// <summary>
+    /// Grants initial subscription tokens to a new subscriber.
+    /// Should be called when a user first subscribes.
+    /// </summary>
+    public void GrantInitialSubscriptionTokens(int userId, int amount = 100000)
+    {
+        const string updateHql = @"
+            UPDATE User 
+            SET SubscriptionTokensBalance = SubscriptionTokensBalance + :amount
+            WHERE Id = :userId";
+
+        _session.CreateQuery(updateHql)
+            .SetParameter("amount", amount)
+            .SetParameter("userId", userId)
+            .ExecuteUpdate();
+
+        // Update cache
+        var userCacheItem = EntityCache.GetUserByIdNullable(userId);
+        if (userCacheItem != null)
+        {
+            userCacheItem.SubscriptionTokensBalance += amount;
+        }
+
+        Log.Information("Granted {Amount} initial subscription tokens to user {UserId}", amount, userId);
+    }
+
+    /// <summary>
+    /// Refreshes subscription tokens to the monthly amount.
+    /// Called on each successful monthly payment renewal.
+    /// Resets balance to the specified amount (does not accumulate).
+    /// </summary>
+    public void RefreshMonthlySubscriptionTokens(int userId, int amount = 100000)
+    {
+        const string updateHql = @"
+            UPDATE User 
+            SET SubscriptionTokensBalance = :amount
+            WHERE Id = :userId";
+
+        _session.CreateQuery(updateHql)
+            .SetParameter("amount", amount)
+            .SetParameter("userId", userId)
+            .ExecuteUpdate();
+
+        // Update cache
+        var userCacheItem = EntityCache.GetUserByIdNullable(userId);
+        if (userCacheItem != null)
+        {
+            userCacheItem.SubscriptionTokensBalance = amount;
+        }
+
+        Log.Information("Refreshed subscription tokens to {Amount} for user {UserId}", amount, userId);
+    }
 }
 
 public record struct TokenDeductionResult(

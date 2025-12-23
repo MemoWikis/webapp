@@ -7,13 +7,16 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 {
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
+    private readonly TokenDeductionService _tokenDeductionService;
     private readonly DateTime MaxValueMysql = new(9999, 12, 31, 23, 59, 59);
 
     public WebhookEventHandler(UserReadingRepo userReadingRepo,
-        UserWritingRepo userWritingRepo)
+        UserWritingRepo userWritingRepo,
+        TokenDeductionService tokenDeductionService)
     {
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
+        _tokenDeductionService = tokenDeductionService;
     }
 
     public async Task<IActionResult> Create(HttpRequest request)
@@ -197,9 +200,19 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 
     private void SetNewSubscriptionDate(User user, DateTime? date, string log, bool intentSucceeded = false)
     {
-        if (user.SubscriptionStartDate == null && intentSucceeded)
+        if (intentSucceeded)
         {
-            user.SubscriptionStartDate = DateTime.Now;
+            if (user.SubscriptionStartDate == null)
+            {
+                // First subscription - set start date and grant initial tokens
+                user.SubscriptionStartDate = DateTime.Now;
+                _tokenDeductionService.GrantInitialSubscriptionTokens(user.Id);
+            }
+            else
+            {
+                // Renewal - refresh monthly tokens
+                _tokenDeductionService.RefreshMonthlySubscriptionTokens(user.Id);
+            }
         }
 
         user.EndDate = date;

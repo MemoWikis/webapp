@@ -183,10 +183,7 @@ function selectSubpage(index: number) {
 <template>
     <LazyModal
         :show="aiCreatePageStore.showModal"
-        @close="aiCreatePageStore.closeModal()"
-        :primary-btn-label="primaryButtonLabel"
-        @primary-btn="hasGeneratedContent ? handleCreate() : handleGenerate()"
-        :show-cancel-btn="true"
+        :show-cancel-btn="false"
         :disabled="hasGeneratedContent ? !canCreate : !canGenerate"
         content-class="ai-create-page-modal">
         <template #header>
@@ -218,66 +215,6 @@ function selectSubpage(index: number) {
                         <font-awesome-icon :icon="['fas', 'link']" />
                         {{ t('page.ai.createPage.modeUrl') }}
                     </button>
-                </div>
-
-                <!-- Create as Wiki Toggle -->
-                <div class="wiki-toggle">
-                    <label class="wiki-toggle-label" @click="aiCreatePageStore.createAsWiki = !aiCreatePageStore.createAsWiki">
-                        <span class="toggle-checkbox">
-                            <font-awesome-icon v-if="aiCreatePageStore.createAsWiki" :icon="['fas', 'square-check']" class="checked" />
-                            <font-awesome-icon v-else :icon="['far', 'square']" />
-                        </span>
-                        <span>{{ t('page.ai.createPage.createAsWiki') }}</span>
-                    </label>
-                </div>
-
-                <!-- AI Model Selection -->
-                <div class="form-group model-section">
-                    <label>{{ t('page.ai.createPage.modelLabel') }}</label>
-                    <div class="model-row">
-                        <VDropdown :distance="0" class="model-dropdown">
-                            <div class="model-select" :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
-                                <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels') }}</span>
-                                <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }} ({{ selectedModelCostMultiplier }}x)</span>
-                                <font-awesome-icon :icon="['fas', 'chevron-down']" />
-                            </div>
-
-                            <template #popper="{ hide }">
-                                <div class="model-dropdown-menu model-dropdown-popper">
-                                    <template v-for="provider in groupedModels" :key="provider.name">
-                                        <div class="provider-header">{{ provider.name }}</div>
-                                        <div
-                                            v-for="model in provider.models"
-                                            :key="model.modelId"
-                                            class="dropdown-row ai-model-option"
-                                            :class="{ active: aiCreatePageStore.selectedModelId === model.modelId }"
-                                            @click="aiCreatePageStore.selectedModelId = model.modelId; hide()">
-                                            <span>{{ model.displayName }}</span> <span class="token-cost-multiplier">{{ model.tokenCostMultiplier }}x</span>
-                                        </div>
-                                    </template>
-                                </div>
-                            </template>
-                        </VDropdown>
-
-                        <VDropdown :distance="4" placement="bottom-end" class="token-balance-dropdown">
-                            <button type="button" class="token-balance-btn" :title="t('page.ai.createPage.tokenBalance')" @click="userStore.fetchTokenBalance()">
-                                <font-awesome-icon :icon="['fas', 'coins']" />
-                            </button>
-
-                            <template #popper>
-                                <div class="token-balance-popper">
-                                    <div class="token-balance-header">{{ t('page.ai.createPage.tokenBalance') }}</div>
-                                    <div class="token-balance-value">
-                                        <span v-if="userStore.isLoadingTokenBalance">...</span>
-                                        <span v-else-if="userStore.tokenBalance !== null">
-                                            {{ userStore.tokenBalance.toLocaleString() }}
-                                        </span>
-                                        <span v-else>—</span>
-                                    </div>
-                                </div>
-                            </template>
-                        </VDropdown>
-                    </div>
                 </div>
 
                 <!-- Prompt Input Section -->
@@ -442,6 +379,68 @@ function selectSubpage(index: number) {
                 </div>
             </div>
         </template>
+
+        <template #footer>
+            <div class="ai-create-page-footer">
+                <!-- AI Model Selection -->
+                <div class="ai-model-selection">
+                    <VDropdown :distance="2" class="model-dropdown" placement="top-start">
+                        <div class="model-select" :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
+                            <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels') }}</span>
+                            <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }}</span>
+                            <font-awesome-icon :icon="['fas', 'chevron-down']" />
+                        </div>
+
+                        <template #popper="{ hide }">
+                            <div class="model-dropdown-menu model-dropdown-popper">
+                                <template v-for="provider in groupedModels" :key="provider.name">
+                                    <div class="provider-header">{{ provider.name }}</div>
+                                    <div
+                                        v-for="model in provider.models"
+                                        :key="model.modelId"
+                                        class="dropdown-row ai-model-option"
+                                        :class="{ active: aiCreatePageStore.selectedModelId === model.modelId }"
+                                        @click="aiCreatePageStore.selectedModelId = model.modelId; hide()">
+                                        <span>{{ model.displayName }}</span> <span class="token-cost-multiplier">{{ model.tokenCostMultiplier }}x</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </VDropdown>
+
+                    <VDropdown :distance="2" placement="top" class="token-balance-dropdown">
+                        <div class="token-balance-btn" :title="t('page.ai.createPage.tokenBalance')" @click="userStore.fetchTokenBalance()">
+                            <font-awesome-icon :icon="['fas', 'coins']" />
+                        </div>
+
+                        <template #popper>
+                            <div class="token-balance-popper">
+                                <div class="token-balance-header">{{ t('page.ai.createPage.tokenBalance') }}</div>
+                                <div class="token-balance-value">
+                                    <span v-if="userStore.isLoadingTokenBalance">...</span>
+                                    <span v-else-if="userStore.tokenBalance !== null">
+                                        {{ userStore.tokenBalance.toLocaleString() }}
+                                    </span>
+                                    <span v-else>—</span>
+                                </div>
+                            </div>
+                        </template>
+                    </VDropdown>
+                </div>
+                <div class="buttons">
+                    <div class="wiki-toggle">
+                        <label class="wiki-toggle-label" @click="aiCreatePageStore.createAsWiki = !aiCreatePageStore.createAsWiki">
+                            <span class="toggle-checkbox">
+                                <font-awesome-icon v-if="aiCreatePageStore.createAsWiki" :icon="['fas', 'square-check']" class="checked" />
+                                <font-awesome-icon v-else :icon="['far', 'square']" />
+                            </span>
+                            <span>{{ t('page.ai.createPage.createAsWiki') }}</span>
+                        </label>
+                    </div>
+                    <div class="memo-button btn btn-primary" role="button" @click="hasGeneratedContent ? handleCreate() : handleGenerate()">{{ primaryButtonLabel }}</div>
+                </div>
+            </div>
+        </template>
     </LazyModal>
 </template>
 
@@ -462,7 +461,7 @@ function selectSubpage(index: number) {
             justify-content: center;
             gap: 8px;
             padding: 12px 16px;
-            border: 1px solid @memo-grey-light;
+            border: 1px solid @memo-grey-lighter;
             background: white;
             border-radius: 0px;
             cursor: pointer;
@@ -478,9 +477,9 @@ function selectSubpage(index: number) {
             }
 
             &.active {
-                background: @memo-blue;
-                border-color: @memo-blue;
-                color: white;
+                border-color: @memo-grey-light;
+                font-weight: 600;
+                color: @memo-blue;
 
                 &:hover {
                     filter: brightness(0.85);
@@ -554,67 +553,6 @@ function selectSubpage(index: number) {
 
         .model-dropdown {
             flex: 1;
-        }
-
-        .model-select {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            padding: 12px;
-            border: 1px solid @memo-grey-lighter;
-            border-radius: 0px;
-            background: white;
-            font-size: 14px;
-            font-weight: 500;
-            color: inherit;
-            cursor: pointer;
-
-            &:hover:not(.disabled) {
-                border-color: @memo-blue;
-            }
-
-            &.disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-                background: @memo-grey-lighter;
-            }
-        }
-
-        .token-balance-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 44px;
-            padding: 8px;
-            border: 1px solid @memo-grey-lighter;
-            background: white;
-            cursor: pointer;
-            color: @memo-grey-dark;
-            transition: all 0.2s ease;
-
-            &:hover {
-                border-color: @memo-blue;
-                color: @memo-blue;
-            }
-        }
-
-        .token-balance-popper {
-            padding: 12px 16px;
-            min-width: 140px;
-
-            .token-balance-header {
-                font-size: 12px;
-                color: @memo-grey-dark;
-                margin-bottom: 4px;
-            }
-
-            .token-balance-value {
-                font-size: 18px;
-                font-weight: 600;
-                color: @memo-blue;
-            }
         }
     }
 
@@ -694,7 +632,7 @@ function selectSubpage(index: number) {
             cursor: pointer;
 
             &:hover {
-                border-color: @memo-blue;
+                filter: brightness(0.95);
             }
         }
     }
@@ -724,9 +662,9 @@ function selectSubpage(index: number) {
                 }
 
                 &.active {
-                    background: @memo-blue;
-                    border-color: @memo-blue;
-                    color: white;
+                    border-color: @memo-grey-light;
+                    font-weight: 600;
+                    color: @memo-blue;
 
                     &:hover {
                         filter: brightness(0.85);
@@ -943,7 +881,6 @@ function selectSubpage(index: number) {
 .wiki-toggle {
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
 
     .wiki-toggle-label {
         display: flex;
@@ -953,6 +890,7 @@ function selectSubpage(index: number) {
         font-size: 14px;
         color: @memo-grey-dark;
         user-select: none;
+        margin-bottom: 0px;
 
         &:hover {
             color: @memo-blue;
@@ -963,9 +901,60 @@ function selectSubpage(index: number) {
             color: @memo-grey-dark;
 
             .checked {
+                color: @memo-blue-link;
+            }
+        }
+    }
+}
+
+.ai-create-page-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .ai-model-selection {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+
+        color: @memo-grey-light;
+
+        * {
+            color: @memo-grey-dark;
+            cursor: pointer;
+            user-select: none;
+
+            &:hover {
+                filter: brightness(0.9);
+            }
+        }
+
+        .model-select {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .token-balance-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 8px;
+            cursor: pointer;
+            color: @memo-grey-dark;
+            transition: all 0.2s ease;
+            height: 46px;
+            width: 46px;
+
+            &:hover {
                 color: @memo-blue;
             }
         }
+    }
+
+    .buttons {
+        display: flex;
+        gap: 12px;
     }
 }
 </style>
@@ -990,7 +979,7 @@ function selectSubpage(index: number) {
     .dropdown-row {
         &.active {
             background: @memo-grey-lightest;
-            color: @memo-grey-darker;
+            color: @memo-blue-link;
             font-weight: 600;
         }
     }
@@ -1002,8 +991,11 @@ function selectSubpage(index: number) {
     max-height: 400px;
     overflow-y: auto;
 
+    margin-top: -12px;
+    margin-bottom: -12px;
+
     .provider-header {
-        padding: 8px 12px;
+        padding: 12px;
         font-weight: 600;
         color: @memo-grey-dark;
         background: @memo-grey-lighter;
@@ -1026,6 +1018,23 @@ function selectSubpage(index: number) {
             color: @memo-grey-darker;
             font-weight: 600;
         }
+    }
+}
+
+.token-balance-popper {
+    padding: 12px 16px;
+    min-width: 140px;
+
+    .token-balance-header {
+        font-size: 12px;
+        color: @memo-grey-dark;
+        margin-bottom: 4px;
+    }
+
+    .token-balance-value {
+        font-size: 18px;
+        font-weight: 600;
+        color: @memo-blue;
     }
 }
 </style>
