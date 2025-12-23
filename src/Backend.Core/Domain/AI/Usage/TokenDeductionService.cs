@@ -12,11 +12,11 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     {
         /// <summary>Short page content - ~500 output tokens</summary>
         PageShort,
-        /// <summary>Medium page content - ~1500 output tokens</summary>
+        /// <summary>Medium page content - ~1000 output tokens</summary>
         PageMedium,
-        /// <summary>Detailed/long page content - ~3000 output tokens</summary>
+        /// <summary>Detailed/long page content - ~2000 output tokens</summary>
         PageLong,
-        /// <summary>Wiki with subpages - ~8000 output tokens</summary>
+        /// <summary>Wiki with subpages - ~4000 output tokens</summary>
         WikiWithSubpages,
         /// <summary>Flashcard generation - ~800 output tokens (for ~3-5 cards)</summary>
         Flashcards
@@ -30,11 +30,11 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         return generationType switch
         {
             GenerationType.PageShort => 500,
-            GenerationType.PageMedium => 1500,
-            GenerationType.PageLong => 3000,
-            GenerationType.WikiWithSubpages => 8000,
+            GenerationType.PageMedium => 1000,
+            GenerationType.PageLong => 2000,
+            GenerationType.WikiWithSubpages => 4000,
             GenerationType.Flashcards => 800,
-            _ => 1500
+            _ => 1000
         };
     }
 
@@ -123,11 +123,11 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         var tokenCostMultiplier = _aiModelRegistry.GetTokenCostMultiplier(modelId);
         var totalTokens = inputTokens + outputTokens;
         var adjustedTokens = (int)Math.Ceiling(totalTokens * tokenCostMultiplier);
-        
+
         Log.Information(
             "TokenDeduction: Model {ModelId} with multiplier {Multiplier}x - Raw tokens: {RawTokens}, Adjusted: {AdjustedTokens}",
             modelId, tokenCostMultiplier, totalTokens, adjustedTokens);
-        
+
         return DeductTokensInternal(userId, adjustedTokens);
     }
 
