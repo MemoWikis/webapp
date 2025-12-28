@@ -21,6 +21,10 @@ We view wikis as excellent knowledge-management tools, yet we’ve always believ
     - [4. Run the Nuxt Frontend (Nuxt 3)](#4-run-the-nuxt-frontend-nuxt-3)
     - [5. Launch the .NET Backend Debug Session](#5-launch-the-net-backend-debug-session)
       - [Additional Tips](#additional-tips)
+  - [Common Tasks](#common-tasks)
+    - [Recreate Development Database](#recreate-development-database)
+      - [On Windows (PowerShell):](#on-windows-powershell-1)
+      - [On Linux / macOS (Bash):](#on-linux--macos-bash-1)
 - [⚖️ License](#️-license)
 
 # Hosting
@@ -130,7 +134,33 @@ docker-compose ps
      `bash
 docker-compose logs [service-name]`
 - Nuxt Configuration: For frontend customizations, review the `nuxt.config.ts` file in the `Frontend.Nuxt` folder.
-  
+
+## Common Tasks
+
+### Recreate Development Database
+
+To apply a new version of the SQL schema after you've completed the initial setup:
+
+> [!IMPORTANT]
+> **Precondition:** You must have completed the [Setup](#setup) steps above and have Docker services running.
+
+#### On Windows (PowerShell):
+```powershell
+cd ./src/Docker/Dev; `
+docker-compose down; `
+Remove-Item -Recurse -Force C:\mysql-data\development; `
+docker-compose up -d
+```
+
+#### On Linux / macOS (Bash):
+```bash
+cd ./Docker/Dev
+docker-compose down
+sudo rm -rf /var/lib/mysql/development  # Adjust path if you use a different volume mount
+docker-compose up -d
+```
+
+The MySQL container will automatically execute the `schema.sql` file from the `./Docker/Dev/mysql-init/` directory during initialization.
 
 # ⚖️ License
 
