@@ -1,4 +1,6 @@
-﻿[TestFixture]
+﻿using Serilog;
+
+[TestFixture]
 internal class BaseTestHarness : IDisposable, IAsyncDisposable
 {
     protected bool _useTinyScenario = false;
@@ -24,6 +26,8 @@ internal class BaseTestHarness : IDisposable, IAsyncDisposable
 
     private async Task CreateTestHarness()
     {
+        Settings.IsRunningTests = true;
+
         if (_useTinyScenario)
             _testHarness = await TestHarness.CreateWithTinyScenario();
         else
