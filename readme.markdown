@@ -25,6 +25,7 @@ We view wikis as excellent knowledge-management tools, yet we’ve always believ
     - [Recreate Development Database](#recreate-development-database)
       - [On Windows (PowerShell):](#on-windows-powershell-1)
       - [On Linux / macOS (Bash):](#on-linux--macos-bash-1)
+    - [Update the schema.sql File](#update-the-schemasql-file)
 - [⚖️ License](#️-license)
 
 # Hosting
@@ -161,6 +162,28 @@ docker-compose up -d
 ```
 
 The MySQL container will automatically execute the `schema.sql` file from the `./Docker/Dev/mysql-init/` directory during initialization.
+
+### Update the schema.sql File
+
+The `schema.sql` file can be generated from the test suite:
+
+1. **Run the test that creates the database dump:**
+   
+   Execute the test `ScenarioBuilderTests.Deterministic_Tiny_Scenario()` in your test runner.
+
+2. **Copy the generated dump file:**
+   
+   After the test runs, a SQL dump file will be created in:
+   ```
+   /Tests/TestData/Dumps/memowikis-test-scenario_tiny.sql
+   ```
+
+3. **Replace and rename the database:**
+   
+   Copy the dump file to `./Docker/Dev/mysql-init/schema.sql` and update the database name inside the file from `memoWikisTest` to `memoWikis_dev`.
+
+> [!TIP]
+> The database name in the SQL file must match the `MYSQL_DATABASE` value in your `.env` file (default: `memoWikis_dev`).
 
 # ⚖️ License
 
