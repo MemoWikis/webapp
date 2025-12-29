@@ -7,12 +7,13 @@
 # C#
 
 - Do not use namespaces in C#.
-- I prefer Verify() for Tests
+- Prefer Verify() for Tests
 - Use _testHarness.ApiCall("apiVue/{controller}/{action}") to do apicalls, do not init/resolve controllers in tests
 
 # Unit Tests
 
 - For API calls use Testharness.ApiCall(..)
+
 # Glossar
 
 - `page`: a page
@@ -24,5 +25,5 @@
 - `wuwi`: abbreviation for "Wunschwissen" (wishknowledge), can be used in backend code, comments, and non-user-facing texts
 
 # Frontend and Translations
-- refer to the .copilotinstructions file in `../src/Frontend.Nuxt` for frontend specific instructions
 
+- refer to the .copilotinstructions file in `../src/Frontend.Nuxt` for frontend specific instructions

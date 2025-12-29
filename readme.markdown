@@ -145,6 +145,9 @@ To apply a new version of the SQL schema after you've completed the initial setu
 > [!IMPORTANT]
 > **Precondition:** You must have completed the [Setup](#setup) steps above and have Docker services running.
 
+> [!TIP]
+> **GitHub Copilot Users:** You can use the `reset-dev-database` skill in Copilot by typing `reset dev db`. This automated skill will copy the test scenario SQL dump, update the database name, and reinitialize the MySQL container for you.
+
 #### On Windows (PowerShell):
 ```powershell
 cd ./src/Docker/Dev; `
