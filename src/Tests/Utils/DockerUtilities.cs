@@ -305,10 +305,13 @@ internal class DockerUtilities
         string containerIdentifier = await GetMySqlContainerIdAsync();
         string containerTempPath = "/tmp/testdump.sql";
 
-        // Create dump inside the container
+        // Flush MySQL data to ensure all data is written to disk before dumping
+        await FlushMySqlDataAsync(containerIdentifier);
+
+        // Create dump inside the container using root user (test user lacks RELOAD/FLUSH_TABLES privileges)
         await ExecuteDockerCommandAsync(
-            $"exec {containerIdentifier} sh -c \"mysqldump -u {TestConstants.MySqlUsername} -p{TestConstants.MySqlPassword} " +
-            $"--databases {TestConstants.TestDbName} --routines --events --single-transaction --quick > {containerTempPath}\"");
+            $"exec {containerIdentifier} sh -c \"mysqldump -u root -p{TestConstants.MySqlPassword} " +
+            $"--databases {TestConstants.TestDbName} --routines --events --single-transaction --quick --flush-logs > {containerTempPath}\"");
 
         // Copy dump from container to host
         await ExecuteDockerCommandAsync($"cp {containerIdentifier}:{containerTempPath} {hostFilePath}");
@@ -325,8 +328,8 @@ internal class DockerUtilities
         // Copy file into container
         await ExecuteDockerCommandAsync($"cp {hostFilePath} {containerIdentifier}:{containerTempPath}");
 
-        // Import into MySQL
+        // Import into MySQL using root user (for consistency with export)
         await ExecuteDockerCommandAsync(
-            $"exec {containerIdentifier} sh -c \"mysql -u {TestConstants.MySqlUsername} -p{TestConstants.MySqlPassword} < {containerTempPath}\"");
+            $"exec {containerIdentifier} sh -c \"mysql -u root -p{TestConstants.MySqlPassword} < {containerTempPath}\"");
     }
 }

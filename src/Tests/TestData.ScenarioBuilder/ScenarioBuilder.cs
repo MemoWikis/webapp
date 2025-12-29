@@ -16,7 +16,6 @@ public sealed class ScenarioBuilder
     private readonly Dictionary<int, List<Page>> _pagesPerUser = new();
     private readonly Dictionary<int, List<Question>> _questionsPerUser = new();
 
-
     public ScenarioBuilder(TestHarness testHarness, ScenarioConfiguration configuration, PerformanceLogger performanceLogger)
     {
         _testHarness = testHarness;
@@ -49,7 +48,7 @@ public sealed class ScenarioBuilder
         var userWritingRepository = _testHarness.R<UserWritingRepo>();
         var contextUser = ContextUser.New(userWritingRepository);
 
-        _users.AddRange(new[]
+        var allPossibleUsers = new[]
         {
             new User
             {
@@ -62,7 +61,7 @@ public sealed class ScenarioBuilder
             {
                 Name = "ContentCreator",
                 EmailAddress = "content.creator@example.com",
-                IsEmailConfirmed= true,
+                IsEmailConfirmed = true,
                 DateCreated = _configuration.Now.AddMonths(-2)
             },
             new User
@@ -72,7 +71,10 @@ public sealed class ScenarioBuilder
                 IsEmailConfirmed = true,
                 DateCreated = _configuration.Now.AddMonths(-3)
             }
-        });
+        };
+
+        var usersToCreate = allPossibleUsers.Take(_configuration.UserCount).ToArray();
+        _users.AddRange(usersToCreate);
 
         foreach (var user in _users)
         {

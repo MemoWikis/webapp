@@ -31,6 +31,19 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
 
     private void AddUpdateOrCreateEntry(PageRepository pageRepository, Page page, int authorId, PageChangeType pageChangeType, bool imageWasUpdated = false)
     {
+        var pageCacheItem = EntityCache.GetPage(page);
+        
+        page.AuthorIds ??= "";
+        
+        if (AuthorWorthyChangeCheck(pageChangeType) && authorId > 0 && page.AuthorIdsInts.All(id => id != authorId))
+        {
+            var newAuthorIds = page.AuthorIdsInts.ToList();
+            newAuthorIds.Add(authorId);
+            page.AuthorIds = string.Join(",", newAuthorIds.Distinct());
+            pageCacheItem.AuthorIds = page.AuthorIdsInts.Distinct().ToArray();
+            EntityCache.AddOrUpdate(pageCacheItem);
+        }
+
         var pageChange = new PageChange
         {
             Page = page,
@@ -38,24 +51,6 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             AuthorId = authorId,
             DataVersion = 2
         };
-        var pageCacheItem = EntityCache.GetPage(page);
-        var pc = page.GetPageCacheItem();
-        if (page.AuthorIds == null)
-        {
-            page.AuthorIds = "";
-        }
-        else if (AuthorWorthyChangeCheck(pageChangeType) && authorId > 0 && page.AuthorIdsInts.All(id => id != authorId))
-        {
-            var newAuthorIds = page.AuthorIdsInts.ToList();
-            newAuthorIds.Add(authorId);
-            page.AuthorIds = string.Join(",", newAuthorIds.Distinct());
-            pageCacheItem.AuthorIds = page.AuthorIdsInts.Distinct().ToArray();
-            //the line should not be needed
-            EntityCache.AddOrUpdate(pageCacheItem);
-
-            var meilisearchDocumentCheck = pageChangeType != PageChangeType.Create;
-            pageRepository.Update(page, meilisearchDocumentCheck: meilisearchDocumentCheck);
-        }
 
         var parentIds = pageCacheItem.ParentRelations.Any()
             ? GetParentIds(pageCacheItem.ParentRelations)
