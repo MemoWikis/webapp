@@ -55,18 +55,6 @@ public class User : DomainEntity, IUserTinyModel
 
     public virtual string? FavoriteIds { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
-
-    public virtual IList<string> WidgetHosts()
-    {
-        if (IsNullOrEmpty(WidgetHostsSpaceSeparated))
-        {
-            return new List<string>();
-        }
-
-        return WidgetHostsSpaceSeparated
-            .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Trim()).ToList();
-    }
 }
 
 public class FacebookUserCreateParameter
