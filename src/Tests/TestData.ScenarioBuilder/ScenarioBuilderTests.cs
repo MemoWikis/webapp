@@ -5,6 +5,11 @@
 [Category(TestCategories.ScenarioBuild)]
 internal class ScenarioBuilderTests : BaseTestHarness
 {
+    public ScenarioBuilderTests()
+    {
+        _skipDefaultUsers = true;
+    }
+
     [Test]
     public async Task Micro_Scenario()
     {

@@ -4,6 +4,7 @@
 internal class BaseTestHarness : IDisposable, IAsyncDisposable
 {
     protected bool _useTinyScenario = false;
+    protected bool _skipDefaultUsers = false;
 
     protected TestHarness _testHarness = null!; // Will be set in OneTimeSetUp
 
@@ -31,7 +32,7 @@ internal class BaseTestHarness : IDisposable, IAsyncDisposable
         if (_useTinyScenario)
             _testHarness = await TestHarness.CreateWithTinyScenario();
         else
-            _testHarness = await TestHarness.CreateAsync();
+            _testHarness = await TestHarness.CreateAsync(skipDefaultUsers: _skipDefaultUsers);
     }
 
     protected ContextPage NewPageContext(bool addContextUser = true)

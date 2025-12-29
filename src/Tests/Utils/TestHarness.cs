@@ -42,6 +42,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     // Configuration options
     private readonly bool _enablePerformanceLogging;
     private readonly string? _dumpTagToLoad;
+    private readonly bool _skipDefaultUsers;
     private Stopwatch? _stopwatch;
 
     private bool _isDisposed;
@@ -136,7 +137,8 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     public static async Task<TestHarness> CreateAsync(
         bool enablePerfLogging = false,
         string? prebuiltDbImage = null,
-        string? dumpTagToLoad = null)
+        string? dumpTagToLoad = null,
+        bool skipDefaultUsers = false)
     {
         // Load prebuilt database image if specified
         if (!string.IsNullOrWhiteSpace(prebuiltDbImage))
@@ -144,7 +146,7 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
             await DockerUtilities.LoadDockerImageAsync(prebuiltDbImage);
         }
 
-        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage, dumpTagToLoad);
+        var harness = new TestHarness(enablePerfLogging, prebuiltDbImage, dumpTagToLoad, skipDefaultUsers);
         await harness.InitAsync();
         return harness;
     }
@@ -158,10 +160,11 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
     // --------------------------------------------------------------------
     // Constructor
     // --------------------------------------------------------------------
-    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage, string? dumpTagToLoad)
+    private TestHarness(bool enablePerfLogging, string? prebuiltDbImage, string? dumpTagToLoad, bool skipDefaultUsers)
     {
         _enablePerformanceLogging = enablePerfLogging;
         _dumpTagToLoad = dumpTagToLoad;
+        _skipDefaultUsers = skipDefaultUsers;
         _stopwatch = Stopwatch.StartNew();
 
         // ------------------------------------------------------------
@@ -221,8 +224,11 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         var fakeHttpContext = A.Fake<HttpContext>();
         var testSession = new TestSession();
 
-        // Set user ID in session (default session user)
-        testSession.SetInt32("userId", DefaultSessionUserId);
+        // Only set user ID in session if not skipping default users
+        if (!_skipDefaultUsers)
+        {
+            testSession.SetInt32("userId", DefaultSessionUserId);
+        }
 
         // Configure fake HTTP context
         A.CallTo(() => fakeHttpContext.Session).Returns(testSession);
@@ -356,16 +362,20 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         // Reset date/time handling and prepare test user session
         DateTimeX.ResetOffset();
 
-        // Create users individually if they don't exist to avoid duplicates
-        var userRepo = _lifetimeScope!.Resolve<UserReadingRepo>();
-        var sessionUserExists = userRepo.GetById(DefaultSessionUserId) != null;
-        var testUserExists = userRepo.GetById(DefaultTestUserId) != null;
+        // Only create default users if not skipped
+        if (!_skipDefaultUsers)
+        {
+            // Create users individually if they don't exist to avoid duplicates
+            var userRepo = _lifetimeScope!.Resolve<UserReadingRepo>();
+            var sessionUserExists = userRepo.GetById(DefaultSessionUserId) != null;
+            var testUserExists = userRepo.GetById(DefaultTestUserId) != null;
 
-        if (!sessionUserExists)
-            SetSessionUserInDatabase();
+            if (!sessionUserExists)
+                SetSessionUserInDatabase();
 
-        if (!testUserExists)
-            CreateTestUser();
+            if (!testUserExists)
+                CreateTestUser();
+        }
 
         // Initialize background job scheduler
         await JobScheduler.InitializeAsync();

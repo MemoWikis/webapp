@@ -1,25 +1,25 @@
 ﻿{
   allUsers: {
-    Count: 3,
+    Count: 1,
     First: {
       ActivityLevel: 0,
       ActivityPoints: 0,
       AllowsSupportiveLogin: false,
       Birthday: null,
       BouncedMail: false,
-      EmailAddress: sessionUser@dev.test,
+      EmailAddress: learning.user@example.com,
       EndDate: null,
       FacebookId: null,
       FavoriteIds: null,
       FollowerCount: 0,
       GoogleId: null,
       Id: 1,
-      IsEmailConfirmed: false,
+      IsEmailConfirmed: true,
       IsInstallationAdmin: false,
       KnowledgeReportInterval: 0,
       LearningSessionOptions: null,
       MailBounceReason: null,
-      Name: SessionUser,
+      Name: LearningUser,
       PasswordHashedAndSalted: Guid_1,
       RecentlyUsedRelationTargetPages: null,
       Reputation: 0,
@@ -46,18 +46,18 @@
       FavoriteIds: null,
       FollowerCount: 0,
       GoogleId: null,
-      Id: 3,
+      Id: 1,
       IsEmailConfirmed: true,
       IsInstallationAdmin: false,
       KnowledgeReportInterval: 0,
       LearningSessionOptions: null,
       MailBounceReason: null,
       Name: LearningUser,
-      PasswordHashedAndSalted: null,
+      PasswordHashedAndSalted: Guid_1,
       RecentlyUsedRelationTargetPages: null,
       Reputation: 0,
       ReputationPos: 0,
-      Salt: null,
+      Salt: Guid_2,
       ShowWishKnowledge: false,
       StripeId: null,
       SubscriptionStartDate: null,
@@ -71,16 +71,16 @@
   allPages: {
     Count: 3,
     First: {
-      Creator_id: 3,
+      Creator_id: 1,
       Id: 1,
       IsWiki: true,
       Name: LearningUser Topic 1,
       Visibility: 0
     },
     Last: {
-      Creator_id: 3,
+      Creator_id: 1,
       Id: 3,
-      IsWiki: true,
+      IsWiki: false,
       Name: LearningUser Subtopic 2-1,
       Visibility: 0
     }
@@ -88,7 +88,7 @@
   allQuestions: {
     Count: 6,
     First: {
-      Creator_id: 3,
+      Creator_id: 1,
       DescriptionHtml: null,
       Id: 1,
       License: 0,
@@ -109,7 +109,7 @@
       Visibility: 0
     },
     Last: {
-      Creator_id: 3,
+      Creator_id: 1,
       DescriptionHtml: null,
       Id: 6,
       License: 0,
