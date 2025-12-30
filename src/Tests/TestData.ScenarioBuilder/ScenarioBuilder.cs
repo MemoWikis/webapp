@@ -16,7 +16,6 @@ public sealed class ScenarioBuilder
     private readonly Dictionary<int, List<Page>> _pagesPerUser = new();
     private readonly Dictionary<int, List<Question>> _questionsPerUser = new();
 
-
     public ScenarioBuilder(TestHarness testHarness, ScenarioConfiguration configuration, PerformanceLogger performanceLogger)
     {
         _testHarness = testHarness;
@@ -49,7 +48,7 @@ public sealed class ScenarioBuilder
         var userWritingRepository = _testHarness.R<UserWritingRepo>();
         var contextUser = ContextUser.New(userWritingRepository);
 
-        _users.AddRange(new[]
+        var allPossibleUsers = new[]
         {
             new User
             {
@@ -62,7 +61,7 @@ public sealed class ScenarioBuilder
             {
                 Name = "ContentCreator",
                 EmailAddress = "content.creator@example.com",
-                IsEmailConfirmed= true,
+                IsEmailConfirmed = true,
                 DateCreated = _configuration.Now.AddMonths(-2)
             },
             new User
@@ -72,10 +71,14 @@ public sealed class ScenarioBuilder
                 IsEmailConfirmed = true,
                 DateCreated = _configuration.Now.AddMonths(-3)
             }
-        });
+        };
+
+        var usersToCreate = allPossibleUsers.Take(_configuration.UserCount).ToArray();
+        _users.AddRange(usersToCreate);
 
         foreach (var user in _users)
         {
+            SetUserPassword.Run("test", user);
             contextUser.Add(user);
             contextUser.Persist();
 
@@ -142,7 +145,7 @@ public sealed class ScenarioBuilder
         {
             string pageName = $"{topicPrefix} Subtopic {parentPage.Id}-{childIndex}";
             contextPage
-                .Add(pageName, user, isWiki: true)
+                .Add(pageName, user, isWiki: false)
                 .Persist();
 
             var childPage = contextPage.All.Last();
@@ -197,7 +200,14 @@ public sealed class ScenarioBuilder
 
     private async Task GenerateLearningHistoryAsync(int userId)
     {
-        var shuffledQuestions = _questions.OrderBy(_ => _random.Next()).Take(20).ToList();
+        if (_questions.Count == 0)
+        {
+            _performanceLogger.Log("Skipping learning history - no questions available");
+            return;
+        }
+
+        var maxQuestions = Math.Min(20, _questions.Count);
+        var shuffledQuestions = _questions.OrderBy(_ => _random.Next()).Take(maxQuestions).ToList();
         var answerRepository = _testHarness.R<AnswerRepo>();
 
         DateTimeOffset startDate = _configuration.Now.AddDays(-21);
@@ -217,7 +227,7 @@ public sealed class ScenarioBuilder
 
         foreach (var day in days)
         {
-            int questionCount = _random.Next(3, 8);
+            int questionCount = _random.Next(3, Math.Min(8, shuffledQuestions.Count + 1));
             var dailyQuestions = shuffledQuestions
                 .OrderBy(_ => _random.Next())
                 .Take(questionCount)

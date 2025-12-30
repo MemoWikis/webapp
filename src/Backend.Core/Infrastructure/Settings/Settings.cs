@@ -106,4 +106,7 @@ public class Settings
     public static List<int> FeaturedMemoWikisPageIds => _featuredMemoWikisPageIdsString.Split(',').Select(id => int.Parse(id.Trim())).ToList();
     private static string _featuredMemoWikisHelpIdsString => _configuration["FeaturedPage:MemoWikisHelpIds"]!;
     public static List<int> FeaturedMemoWikisHelpIds => _featuredMemoWikisHelpIdsString.Split(',').Select(id => int.Parse(id.Trim())).ToList();
+
+    public static bool IsRunningTests { get; set; }
+    public static bool ShowSqlInTests { get; set; } = false;
 }

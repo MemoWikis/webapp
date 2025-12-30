@@ -21,6 +21,11 @@ We view wikis as excellent knowledge-management tools, yet we’ve always believ
     - [4. Run the Nuxt Frontend (Nuxt 3)](#4-run-the-nuxt-frontend-nuxt-3)
     - [5. Launch the .NET Backend Debug Session](#5-launch-the-net-backend-debug-session)
       - [Additional Tips](#additional-tips)
+  - [Common Tasks](#common-tasks)
+    - [Recreate Development Database](#recreate-development-database)
+      - [On Windows (PowerShell):](#on-windows-powershell-1)
+      - [On Linux / macOS (Bash):](#on-linux--macos-bash-1)
+    - [Update the schema.sql File](#update-the-schemasql-file)
 - [⚖️ License](#️-license)
 
 # Hosting
@@ -130,7 +135,58 @@ docker-compose ps
      `bash
 docker-compose logs [service-name]`
 - Nuxt Configuration: For frontend customizations, review the `nuxt.config.ts` file in the `Frontend.Nuxt` folder.
-  
+
+## Common Tasks
+
+### Recreate Development Database
+
+To apply a new version of the SQL schema after you've completed the initial setup:
+
+> [!IMPORTANT]
+> **Precondition:** You must have completed the [Setup](#setup) steps above and have Docker services running.
+
+> [!TIP]
+> **GitHub Copilot Users:** You can use the `reset-dev-database` skill in Copilot by typing `reset dev db`. This automated skill will copy the test scenario SQL dump, update the database name, and reinitialize the MySQL container for you.
+
+#### On Windows (PowerShell):
+```powershell
+cd ./src/Docker/Dev; `
+docker-compose down; `
+Remove-Item -Recurse -Force C:\mysql-data\development; `
+docker-compose up -d
+```
+
+#### On Linux / macOS (Bash):
+```bash
+cd ./Docker/Dev
+docker-compose down
+sudo rm -rf /var/lib/mysql/development  # Adjust path if you use a different volume mount
+docker-compose up -d
+```
+
+The MySQL container will automatically execute the `schema.sql` file from the `./Docker/Dev/mysql-init/` directory during initialization.
+
+### Update the schema.sql File
+
+The `schema.sql` file can be generated from the test suite:
+
+1. **Run the test that creates the database dump:**
+   
+   Execute the test `ScenarioBuilderTests.Deterministic_Tiny_Scenario()` in your test runner.
+
+2. **Copy the generated dump file:**
+   
+   After the test runs, a SQL dump file will be created in:
+   ```
+   /Tests/TestData/Dumps/memowikis-test-scenario_tiny.sql
+   ```
+
+3. **Replace and rename the database:**
+   
+   Copy the dump file to `./Docker/Dev/mysql-init/schema.sql` and update the database name inside the file from `memoWikisTest` to `memoWikis_dev`.
+
+> [!TIP]
+> The database name in the SQL file must match the `MYSQL_DATABASE` value in your `.env` file (default: `memoWikis_dev`).
 
 # ⚖️ License
 
