@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
+import type { JSONContent } from '@tiptap/vue-3';
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
 
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -17,13 +19,12 @@ import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isEmpty } from 'underscore'
 
-import { getRandomColor } from '~/utils/utils'
+import { getRandomColor, slugify  } from '~/utils/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { CustomLink } from '~/components/shared/linkExtension'
 
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
-import { slugify } from '~/utils/utils'
 import { nanoid } from 'nanoid'
 
 import Collaboration from '@tiptap/extension-collaboration'
@@ -103,14 +104,14 @@ const initProvider = () => {
                 doc
             )
         },
-        onAuthenticationFailed: ({ reason }) => {
-            isSynced.value = false
+        onAuthenticationFailed: () => {
+            isSynced.value = false  
 
             providerLoaded.value = true
             loadCollab.value = false
             recreate()
         },
-        onSynced(e) {
+        onSynced(_e) {
             if (
                 !doc.getMap('config').get('initialContentLoaded') &&
                 editor.value
@@ -362,7 +363,7 @@ const updateHeadingIds = () => {
     if (editor.value == null) return
 
     const { state, commands } = editor.value
-    state.doc.descendants((node: any, pos: number) => {
+    state.doc.descendants((node: ProseMirrorNode, _pos: number) => {
         if (node.type.name === 'heading') {
             const textContent = node.textContent
             const newId = slugify(textContent) + `-${nanoid(5)}`
@@ -462,7 +463,7 @@ const createFlashcard = () => {
             :is-page-content="true"
             class="page-content-menubar"
         >
-            <template v-slot:start v-if="userStore.isAdmin">
+            <template #start>
                 <button
                     class="menubar__button ai-create"
                     @mousedown="createFlashcard"
@@ -471,7 +472,7 @@ const createFlashcard = () => {
                 </button>
 
                 <div class="menubar__divider__container">
-                    <div class="menubar__divider"></div>
+                    <div class="menubar__divider"/>
                 </div>
             </template>
         </LazyEditorMenuBar>
