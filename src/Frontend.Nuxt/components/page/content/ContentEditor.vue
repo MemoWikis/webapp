@@ -55,13 +55,12 @@ const providerLoaded = ref(false)
 const connectionLostHandled = ref(false)
 
 const handleConnectionLost = () => {
-    if (connectionLostHandled.value)
-        return
+    if (connectionLostHandled.value) return
 
     const data = {
         type: 'error' as const,
         text: { message: t('error.collaboration.connectionLost') },
-        duration: 8000
+        duration: 8000,
     }
     snackbarStore.showSnackbar(data)
 
@@ -74,34 +73,35 @@ const reconnectTimer = ref()
 const isReconnecting = ref(false)
 const isSynced = ref(false)
 const tryReconnect = () => {
-    if (reconnectTimer.value)
-        clearTimeout(reconnectTimer.value)
-    if (isReconnecting.value || isSynced.value)
-        return
+    if (reconnectTimer.value) clearTimeout(reconnectTimer.value)
+    if (isReconnecting.value || isSynced.value) return
 
     isReconnecting.value = true
 
-    if (provider.value)
-        provider.value?.destroy()
+    if (provider.value) provider.value?.destroy()
 
-    if (userStore.isLoggedIn && !isSynced.value)
-        initProvider()
+    if (userStore.isLoggedIn && !isSynced.value) initProvider()
 
     isReconnecting.value = false
 }
 
 const initProvider = () => {
-    // shareToken is the token from the pageSharing feature, 
-    // collaborationToken is the token used as an identifier for the hocuspocus server, 
+    // shareToken is the token from the pageSharing feature,
+    // collaborationToken is the token used as an identifier for the hocuspocus server,
     // a collaboration token will always exist, but the shareToken is optional
-    const token = pageStore.shareToken ? `${userStore.collaborationToken}|accessToken=${pageStore.shareToken}` : userStore.collaborationToken
+    const token = pageStore.shareToken
+        ? `${userStore.collaborationToken}|accessToken=${pageStore.shareToken}`
+        : userStore.collaborationToken
     provider.value = new HocuspocusProvider({
         url: config.public.hocuspocusWebsocketUrl,
         name: `ydoc-${pageStore.id}`,
         token: token,
         document: doc,
         onAuthenticated() {
-            new IndexeddbPersistence(`${userStore.id}|document-${pageStore.id}`, doc)
+            new IndexeddbPersistence(
+                `${userStore.id}|document-${pageStore.id}`,
+                doc
+            )
         },
         onAuthenticationFailed: ({ reason }) => {
             isSynced.value = false
@@ -111,16 +111,19 @@ const initProvider = () => {
             recreate()
         },
         onSynced(e) {
-            if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
+            if (
+                !doc.getMap('config').get('initialContentLoaded') &&
+                editor.value
+            ) {
                 doc.getMap('config').set('initialContentLoaded', true)
                 editor.value.commands.setContent(pageStore.initialContent)
             }
             providerContentLoaded.value = true
 
             if (editor.value) {
-                const contentArray: JSONContent[] | undefined = editor.value.getJSON().content
-                if (contentArray)
-                    outlineStore.setHeadings(contentArray)
+                const contentArray: JSONContent[] | undefined =
+                    editor.value.getJSON().content
+                if (contentArray) outlineStore.setHeadings(contentArray)
             }
             providerLoaded.value = true
             connectionLostHandled.value = false
@@ -128,7 +131,11 @@ const initProvider = () => {
         },
         onClose(c) {
             isSynced.value = false
-            if (c.event.code === 1006 || c.event.code === 1005 || !providerLoaded.value) {
+            if (
+                c.event.code === 1006 ||
+                c.event.code === 1005 ||
+                !providerLoaded.value
+            ) {
                 providerLoaded.value = true
 
                 handleConnectionLost()
@@ -162,9 +169,9 @@ const initEditor = () => {
             CustomLink.configure({
                 HTMLAttributes: {
                     rel: 'noreferrer nofollow',
-                    target: "_self",
+                    target: '_self',
                 },
-                openOnClick: true
+                openOnClick: true,
             }),
             Placeholder.configure({
                 emptyEditorClass: 'is-editor-empty',
@@ -176,7 +183,7 @@ const initEditor = () => {
             Underline,
             FigureExtension.configure({
                 inline: true,
-                allowBase64: true
+                allowBase64: true,
             }),
             CodeBlockLowlight.configure({
                 lowlight,
@@ -186,71 +193,93 @@ const initEditor = () => {
                 nested: true,
             }),
             Indent,
-            ...(userStore.isLoggedIn && loadCollab.value) ? [
-                Collaboration.configure({
-                    document: doc
-                }),
-                CollaborationCursor.configure({
-                    provider: provider.value,
-                    user: {
-                        name: userStore.name,
-                        color: getRandomColor(),
-                    },
-                    render: user => {
-                        const cursor = document.createElement('span')
-                        cursor.classList.add('collaboration-cursor__caret')
-                        cursor.setAttribute('style', `border-color: ${user.color}`)
+            ...(userStore.isLoggedIn && loadCollab.value
+                ? [
+                      Collaboration.configure({
+                          document: doc,
+                      }),
+                      CollaborationCursor.configure({
+                          provider: provider.value,
+                          user: {
+                              name: userStore.name,
+                              color: getRandomColor(),
+                          },
+                          render: (user) => {
+                              const cursor = document.createElement('span')
+                              cursor.classList.add(
+                                  'collaboration-cursor__caret'
+                              )
+                              cursor.setAttribute(
+                                  'style',
+                                  `border-color: ${user.color}`
+                              )
 
-                        const labelContainer = document.createElement('div')
-                        labelContainer.setAttribute('style', `background-color: ${user.color}`)
-                        labelContainer.classList.add('collaboration-cursor__label-container')
-                        labelContainer.insertBefore(document.createTextNode(user.name), null)
+                              const labelContainer =
+                                  document.createElement('div')
+                              labelContainer.setAttribute(
+                                  'style',
+                                  `background-color: ${user.color}`
+                              )
+                              labelContainer.classList.add(
+                                  'collaboration-cursor__label-container'
+                              )
+                              labelContainer.insertBefore(
+                                  document.createTextNode(user.name),
+                                  null
+                              )
 
-                        const label = document.createElement('div')
-                        label.classList.add('collaboration-cursor__label')
-                        label.insertBefore(document.createTextNode(user.name), null)
+                              const label = document.createElement('div')
+                              label.classList.add('collaboration-cursor__label')
+                              label.insertBefore(
+                                  document.createTextNode(user.name),
+                                  null
+                              )
 
-                        labelContainer.insertBefore(label, null)
-                        cursor.insertBefore(labelContainer, null)
-                        return cursor
-                    },
-                    selectionRender: user => {
-                        return {
-                            nodeName: 'span',
-                            class: 'collaboration-cursor__selection',
-                            style: `background-color: ${user.color}33`,
-                            'data-user': user.name,
-                            'padding': '1.4em'
-                        }
-                    },
-                }),
-                UploadImage.configure({
-                    uploadFn: pageStore.uploadContentImage
-                }),
-            ] : [History]
+                              labelContainer.insertBefore(label, null)
+                              cursor.insertBefore(labelContainer, null)
+                              return cursor
+                          },
+                          selectionRender: (user) => {
+                              return {
+                                  nodeName: 'span',
+                                  class: 'collaboration-cursor__selection',
+                                  style: `background-color: ${user.color}33`,
+                                  'data-user': user.name,
+                                  padding: '1.4em',
+                              }
+                          },
+                      }),
+                      UploadImage.configure({
+                          uploadFn: pageStore.uploadContentImage,
+                      }),
+                  ]
+                : [History]),
         ],
         onUpdate({ editor, transaction }) {
             pageStore.contentHasChanged = providerContentLoaded.value
-            if (editor.isEmpty)
-                pageStore.content = ''
-            else
-                pageStore.content = editor.getHTML()
+            if (editor.isEmpty) pageStore.content = ''
+            else pageStore.content = editor.getHTML()
 
-            const contentArray: JSONContent[] | undefined = editor.getJSON().content
-            if (contentArray)
-                outlineStore.setHeadings(contentArray)
+            const contentArray: JSONContent[] | undefined =
+                editor.getJSON().content
+            if (contentArray) outlineStore.setHeadings(contentArray)
 
             // Extract current images from TipTap document nodes
             const currentImages: string[] = []
             editor.state.doc.descendants((node) => {
-                if (node.type.name === 'uploadImage' && node.attrs.src?.startsWith('/Images/PageContent/')) {
+                if (
+                    node.type.name === 'uploadImage' &&
+                    node.attrs.src?.startsWith('/Images/PageContent/')
+                ) {
                     currentImages.push(node.attrs.src)
                 }
             })
 
             // Check for deleted images and update tracked images
             if (pageStore.currentImages.length > 0) {
-                const deletedImages = pageStore.currentImages.filter(img => !currentImages.includes(img))
+                const deletedImages = pageStore.currentImages.filter(
+                    (img) => !currentImages.includes(img)
+                )
                 if (deletedImages.length > 0) {
                     hasDeletedImages.value = true
                 }
@@ -258,23 +287,26 @@ const initEditor = () => {
 
             pageStore.setCurrentImages(currentImages)
 
-            if (editor.isActive('heading'))
-                updateHeadingIds()
+            if (editor.isActive('heading')) updateHeadingIds()
 
             updateCursorIndex()
 
-            const isCollabTransaction = transaction.getMeta('y-sync$')?.isChangeOrigin === true ||
+            const isCollabTransaction =
+                transaction.getMeta('y-sync$')?.isChangeOrigin === true ||
                 transaction.getMeta('addToHistory') === false
 
-            if (pageStore.contentHasChanged && !isCollabTransaction)
-                autoSave()
+            if (pageStore.contentHasChanged && !isCollabTransaction) autoSave()
 
             pageStore.text = editor.getText()
         },
         editorProps: {
             handlePaste: (view, pos, event) => {
                 const firstNode = event.content.firstChild
-                if (firstNode != null && (firstNode.type.name === 'image' || firstNode.type.name === 'figure')) {
+                if (
+                    firstNode != null &&
+                    (firstNode.type.name === 'image' ||
+                        firstNode.type.name === 'figure')
+                ) {
                     if (!isEmpty(firstNode.attrs)) {
                         const src = firstNode.attrs.src
                         if (src.startsWith('data:image')) {
@@ -286,15 +318,14 @@ const initEditor = () => {
             },
             attributes: {
                 id: 'InlineEdit',
-            }
+            },
         },
     })
     editor.value.setEditable(pageStore.canEdit)
 }
 
 watch(locale, () => {
-    if (editor.value && editor.value.isEmpty)
-        recreate()
+    if (editor.value && editor.value.isEmpty) recreate()
 })
 
 const recreate = (login: boolean = false) => {
@@ -304,21 +335,18 @@ const recreate = (login: boolean = false) => {
     // Create a fresh Y.Doc to avoid merging with old content
     doc = new Y.Doc()
 
-    if (login)
-        loadCollab.value = true
+    if (login) loadCollab.value = true
 
-    if (userStore.isLoggedIn && loadCollab.value)
-        initProvider()
-    else if (!userStore.isLoggedIn)
-        providerLoaded.value = true
+    if (userStore.isLoggedIn && loadCollab.value) initProvider()
+    else if (!userStore.isLoggedIn) providerLoaded.value = true
 
     initEditor()
 }
 
 const setHeadings = () => {
-    const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
-    if (contentArray)
-        outlineStore.setHeadings(contentArray)
+    const contentArray: JSONContent[] | undefined =
+        editor.value?.getJSON().content
+    if (contentArray) outlineStore.setHeadings(contentArray)
 }
 
 pageStore.$onAction(({ name, after }) => {
@@ -331,8 +359,7 @@ pageStore.$onAction(({ name, after }) => {
 })
 
 const updateHeadingIds = () => {
-    if (editor.value == null)
-        return
+    if (editor.value == null) return
 
     const { state, commands } = editor.value
     state.doc.descendants((node: any, pos: number) => {
@@ -368,8 +395,7 @@ onMounted(() => {
 })
 
 const updateCursorIndex = () => {
-    if (editor.value == null)
-        return
+    if (editor.value == null) return
 
     const cursorIndex = editor.value.state.selection.from
     const resolvedPos = editor.value.state.doc.resolve(cursorIndex)
@@ -382,17 +408,18 @@ onBeforeUnmount(() => {
     editor.value?.destroy()
 })
 
-watch(() => userStore.isLoggedIn, (val) => recreate(val))
+watch(
+    () => userStore.isLoggedIn,
+    (val) => recreate(val)
+)
 
 const autoSaveTimer = ref()
 const hasDeletedImages = ref(false)
 
 const autoSave = () => {
-    if (pageStore.visibility != Visibility.Private)
-        return
+    if (pageStore.visibility != Visibility.Private) return
 
-    if (autoSaveTimer.value)
-        clearTimeout(autoSaveTimer.value)
+    if (autoSaveTimer.value) clearTimeout(autoSaveTimer.value)
 
     autoSaveTimer.value = setTimeout(async () => {
         if (editor.value) {
@@ -403,7 +430,7 @@ const autoSave = () => {
                 snackbarStore.showSnackbar({
                     type: 'info',
                     text: { message: t('success.page.savedWithImageRecovery') },
-                    duration: 4000
+                    duration: 4000,
                 })
                 hasDeletedImages.value = false // Reset after showing notification
             }
@@ -413,27 +440,33 @@ const autoSave = () => {
 
 const { isMobile } = useDevice()
 const createFlashcard = () => {
-    if (editor.value == null)
-        return
+    if (editor.value == null) return
 
     const { state } = editor.value
     const { selection } = state
-    if (selection.empty)
-        pageStore.generateFlashcard()
+    if (selection.empty) pageStore.generateFlashcard()
     else {
         const { from, to } = selection
         const text = state.doc.textBetween(from, to)
         pageStore.generateFlashcard(text)
     }
 }
-
 </script>
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true" :is-page-content="true" class="page-content-menubar">
+        <LazyEditorMenuBar
+            v-if="loadCollab && userStore.isLoggedIn && editor"
+            :editor="editor"
+            :heading="true"
+            :is-page-content="true"
+            class="page-content-menubar"
+        >
             <template v-slot:start v-if="userStore.isAdmin">
-                <button class="menubar__button ai-create" @mousedown="createFlashcard">
+                <button
+                    class="menubar__button ai-create"
+                    @mousedown="createFlashcard"
+                >
                     <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
                 </button>
 
@@ -442,14 +475,37 @@ const createFlashcard = () => {
                 </div>
             </template>
         </LazyEditorMenuBar>
-        <LazyEditorMenuBar v-else-if="editor" :editor="editor" :heading="true" :is-page-content="true" />
-        <editor-content :editor="editor" class="" :class="{ 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }" />
+        <LazyEditorMenuBar
+            v-else-if="editor"
+            :editor="editor"
+            :heading="true"
+            :is-page-content="true"
+        />
+        <editor-content
+            :editor="editor"
+            class=""
+            :class="{
+                'small-font': userStore.fontSize === FontSize.Small,
+                'large-font': userStore.fontSize === FontSize.Large,
+            }"
+        />
     </template>
-    <div v-else class="" :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
-        <div class="ProseMirror content-placeholder" v-html="pageStore.content" id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
-        </div>
+    <div
+        v-else
+        class=""
+        :class="{
+            'private-page': pageStore.visibility === Visibility.Private,
+            'small-font': userStore.fontSize === FontSize.Small,
+            'large-font': userStore.fontSize === FontSize.Large,
+        }"
+    >
+        <div
+            class="ProseMirror content-placeholder"
+            v-html="pageStore.content"
+            id="PageContentPlaceholder"
+            :class="{ 'is-mobile': isMobile }"
+        ></div>
     </div>
-
 </template>
 
 <style lang="less" scoped>
@@ -472,7 +528,7 @@ const createFlashcard = () => {
         scroll-margin-top: 10rem;
     }
 
-    ul[data-type="taskList"] {
+    ul[data-type='taskList'] {
         list-style: none;
         padding: 0;
 
@@ -483,13 +539,13 @@ const createFlashcard = () => {
         li {
             display: flex;
 
-            >label {
+            > label {
                 flex: 0 0 auto;
                 margin-right: 0.5rem;
                 user-select: none;
             }
 
-            >div {
+            > div {
                 flex: 1 1 auto;
             }
 
@@ -498,14 +554,13 @@ const createFlashcard = () => {
                 display: list-item;
             }
 
-            ul[data-type="taskList"]>li {
+            ul[data-type='taskList'] > li {
                 display: flex;
             }
         }
     }
 
     &.ProseMirror-focused {
-
         &:focus,
         &:focus-visible {
             outline: none;
@@ -521,7 +576,6 @@ const createFlashcard = () => {
 
 #PageContent {
     .small-font {
-
         p {
             font-size: 16px;
         }
@@ -530,64 +584,63 @@ const createFlashcard = () => {
             font-size: 12px;
 
         });
-}
-
-.large-font {
-    h2 {
-        font-size: 2.6rem;
-    }
-
-    h3 {
-        font-size: 2.3rem;
-    }
-
-    h4 {
-        font-size: 2.1rem;
-    }
-
-    p {
-        font-size: 20px;
-    }
-
-    .media-below-sm({
-        font-size: 16px;
-    })
-}
-
-&.is-mobile {
-    h3 {
-        font-size: 2.15rem;
-    }
-
-    h2 {
-        font-size: 2.4rem;
-    }
-
-    .small-font {
-        p {
-            font-size: 14px;
-        }
-
-        h3 {
-            font-size: 2rem;
-        }
-
-        h2 {
-            font-size: 2.2rem;
-        }
     }
 
     .large-font {
+        h2 {
+            font-size: 2.6rem;
+        }
+
         h3 {
             font-size: 2.3rem;
         }
 
-        h2 {
-            font-size: 2.6rem;
+        h4 {
+            font-size: 2.1rem;
         }
+
+        p {
+            font-size: 20px;
+        }
+
+        .media-below-sm({
+        font-size: 16px;
+    });
     }
 
-}
+    &.is-mobile {
+        h3 {
+            font-size: 2.15rem;
+        }
+
+        h2 {
+            font-size: 2.4rem;
+        }
+
+        .small-font {
+            p {
+                font-size: 14px;
+            }
+
+            h3 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        .large-font {
+            h3 {
+                font-size: 2.3rem;
+            }
+
+            h2 {
+                font-size: 2.6rem;
+            }
+        }
+    }
 }
 
 .private-page {
@@ -602,7 +655,6 @@ const createFlashcard = () => {
     }
 }
 </style>
-
 
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
