@@ -19,7 +19,7 @@ import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isEmpty } from 'underscore'
 
-import { getRandomColor, slugify  } from '~/utils/utils'
+import { getRandomColor, slugify } from '~/utils/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { CustomLink } from '~/components/shared/linkExtension'
@@ -105,7 +105,7 @@ const initProvider = () => {
             )
         },
         onAuthenticationFailed: () => {
-            isSynced.value = false  
+            isSynced.value = false
 
             providerLoaded.value = true
             loadCollab.value = false
@@ -196,64 +196,64 @@ const initEditor = () => {
             Indent,
             ...(userStore.isLoggedIn && loadCollab.value
                 ? [
-                      Collaboration.configure({
-                          document: doc,
-                      }),
-                      CollaborationCursor.configure({
-                          provider: provider.value,
-                          user: {
-                              name: userStore.name,
-                              color: getRandomColor(),
-                          },
-                          render: (user) => {
-                              const cursor = document.createElement('span')
-                              cursor.classList.add(
-                                  'collaboration-cursor__caret'
-                              )
-                              cursor.setAttribute(
-                                  'style',
-                                  `border-color: ${user.color}`
-                              )
+                    Collaboration.configure({
+                        document: doc,
+                    }),
+                    CollaborationCursor.configure({
+                        provider: provider.value,
+                        user: {
+                            name: userStore.name,
+                            color: getRandomColor(),
+                        },
+                        render: (user) => {
+                            const cursor = document.createElement('span')
+                            cursor.classList.add(
+                                'collaboration-cursor__caret'
+                            )
+                            cursor.setAttribute(
+                                'style',
+                                `border-color: ${user.color}`
+                            )
 
-                              const labelContainer =
-                                  document.createElement('div')
-                              labelContainer.setAttribute(
-                                  'style',
-                                  `background-color: ${user.color}`
-                              )
-                              labelContainer.classList.add(
-                                  'collaboration-cursor__label-container'
-                              )
-                              labelContainer.insertBefore(
-                                  document.createTextNode(user.name),
-                                  null
-                              )
+                            const labelContainer =
+                                document.createElement('div')
+                            labelContainer.setAttribute(
+                                'style',
+                                `background-color: ${user.color}`
+                            )
+                            labelContainer.classList.add(
+                                'collaboration-cursor__label-container'
+                            )
+                            labelContainer.insertBefore(
+                                document.createTextNode(user.name),
+                                null
+                            )
 
-                              const label = document.createElement('div')
-                              label.classList.add('collaboration-cursor__label')
-                              label.insertBefore(
-                                  document.createTextNode(user.name),
-                                  null
-                              )
+                            const label = document.createElement('div')
+                            label.classList.add('collaboration-cursor__label')
+                            label.insertBefore(
+                                document.createTextNode(user.name),
+                                null
+                            )
 
-                              labelContainer.insertBefore(label, null)
-                              cursor.insertBefore(labelContainer, null)
-                              return cursor
-                          },
-                          selectionRender: (user) => {
-                              return {
-                                  nodeName: 'span',
-                                  class: 'collaboration-cursor__selection',
-                                  style: `background-color: ${user.color}33`,
-                                  'data-user': user.name,
-                                  padding: '1.4em',
-                              }
-                          },
-                      }),
-                      UploadImage.configure({
-                          uploadFn: pageStore.uploadContentImage,
-                      }),
-                  ]
+                            labelContainer.insertBefore(label, null)
+                            cursor.insertBefore(labelContainer, null)
+                            return cursor
+                        },
+                        selectionRender: (user) => {
+                            return {
+                                nodeName: 'span',
+                                class: 'collaboration-cursor__selection',
+                                style: `background-color: ${user.color}33`,
+                                'data-user': user.name,
+                                padding: '1.4em',
+                            }
+                        },
+                    }),
+                    UploadImage.configure({
+                        uploadFn: pageStore.uploadContentImage,
+                    }),
+                ]
                 : [History]),
         ],
         onUpdate({ editor, transaction }) {
@@ -456,56 +456,31 @@ const createFlashcard = () => {
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar
-            v-if="loadCollab && userStore.isLoggedIn && editor"
-            :editor="editor"
-            :heading="true"
-            :is-page-content="true"
-            class="page-content-menubar"
-        >
+        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true"
+            :is-page-content="true" class="page-content-menubar">
             <template #start>
-                <button
-                    class="menubar__button ai-create"
-                    @mousedown="createFlashcard"
-                >
+                <button class="menubar__button ai-create" @mousedown="createFlashcard">
                     <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
                 </button>
 
                 <div class="menubar__divider__container">
-                    <div class="menubar__divider"/>
+                    <div class="menubar__divider" />
                 </div>
             </template>
         </LazyEditorMenuBar>
-        <LazyEditorMenuBar
-            v-else-if="editor"
-            :editor="editor"
-            :heading="true"
-            :is-page-content="true"
-        />
-        <editor-content
-            :editor="editor"
-            class=""
-            :class="{
-                'small-font': userStore.fontSize === FontSize.Small,
-                'large-font': userStore.fontSize === FontSize.Large,
-            }"
-        />
-    </template>
-    <div
-        v-else
-        class=""
-        :class="{
-            'private-page': pageStore.visibility === Visibility.Private,
+        <LazyEditorMenuBar v-else-if="editor" :editor="editor" :heading="true" :is-page-content="true" />
+        <editor-content :editor="editor" class="" :class="{
             'small-font': userStore.fontSize === FontSize.Small,
             'large-font': userStore.fontSize === FontSize.Large,
-        }"
-    >
-        <div
-            class="ProseMirror content-placeholder"
-            v-html="pageStore.content"
-            id="PageContentPlaceholder"
-            :class="{ 'is-mobile': isMobile }"
-        ></div>
+        }" />
+    </template>
+    <div v-else class="" :class="{
+        'private-page': pageStore.visibility === Visibility.Private,
+        'small-font': userStore.fontSize === FontSize.Small,
+        'large-font': userStore.fontSize === FontSize.Large,
+    }">
+        <div id="PageContentPlaceholder" class="ProseMirror content-placeholder" :class="{ 'is-mobile': isMobile }"
+            v-html="pageStore.content"></div>
     </div>
 </template>
 
@@ -540,13 +515,13 @@ const createFlashcard = () => {
         li {
             display: flex;
 
-            > label {
+            >label {
                 flex: 0 0 auto;
                 margin-right: 0.5rem;
                 user-select: none;
             }
 
-            > div {
+            >div {
                 flex: 1 1 auto;
             }
 
@@ -555,13 +530,14 @@ const createFlashcard = () => {
                 display: list-item;
             }
 
-            ul[data-type='taskList'] > li {
+            ul[data-type='taskList']>li {
                 display: flex;
             }
         }
     }
 
     &.ProseMirror-focused {
+
         &:focus,
         &:focus-visible {
             outline: none;
@@ -585,63 +561,63 @@ const createFlashcard = () => {
             font-size: 12px;
 
         });
+}
+
+.large-font {
+    h2 {
+        font-size: 2.6rem;
+    }
+
+    h3 {
+        font-size: 2.3rem;
+    }
+
+    h4 {
+        font-size: 2.1rem;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    .media-below-sm({
+        font-size: 16px;
+    });
+}
+
+&.is-mobile {
+    h3 {
+        font-size: 2.15rem;
+    }
+
+    h2 {
+        font-size: 2.4rem;
+    }
+
+    .small-font {
+        p {
+            font-size: 14px;
+        }
+
+        h3 {
+            font-size: 2rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+        }
     }
 
     .large-font {
-        h2 {
-            font-size: 2.6rem;
-        }
-
         h3 {
             font-size: 2.3rem;
         }
 
-        h4 {
-            font-size: 2.1rem;
-        }
-
-        p {
-            font-size: 20px;
-        }
-
-        .media-below-sm({
-        font-size: 16px;
-    });
-    }
-
-    &.is-mobile {
-        h3 {
-            font-size: 2.15rem;
-        }
-
         h2 {
-            font-size: 2.4rem;
-        }
-
-        .small-font {
-            p {
-                font-size: 14px;
-            }
-
-            h3 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 2.2rem;
-            }
-        }
-
-        .large-font {
-            h3 {
-                font-size: 2.3rem;
-            }
-
-            h2 {
-                font-size: 2.6rem;
-            }
+            font-size: 2.6rem;
         }
     }
+}
 }
 
 .private-page {
