@@ -6,7 +6,7 @@ public class HocuspocusController(SessionUser _sessionUser) : ApiBaseController
 
     public readonly record struct AuthorizeResponse(bool CanView = false, bool CanEdit = false);
 
-    public readonly record struct GetContentRequest(string HocuspocusKey, int PageId);
+    public readonly record struct GetContentRequest(string HocuspocusKey, int PageId, string Token, [CanBeNull] string ShareToken);
 
     public readonly record struct GetContentResponse(bool Success, string Content);
 
@@ -46,6 +46,24 @@ public class HocuspocusController(SessionUser _sessionUser) : ApiBaseController
         if (request.HocuspocusKey != Settings.CollaborationHocuspocusSecretKey)
         {
             Log.Error("Collaboration - GetContent: Incorrect Hocuspocuskey:{0}", request.HocuspocusKey);
+            return new GetContentResponse(Success: false, Content: "");
+        }
+
+        var (isValid, userId) = new CollaborationToken().ValidateAndGetUserId(request.Token);
+
+        if (!isValid)
+        {
+            Log.Error("Collaboration - GetContent: Invalid Token {0}", request.Token);
+            return new GetContentResponse(Success: false, Content: "");
+        }
+
+        if (request.ShareToken != null)
+            _sessionUser.AddShareToken(request.PageId, request.ShareToken);
+
+        var permissionCheck = new PermissionCheck(_sessionUser);
+        if (!permissionCheck.CanView(request.PageId, request.ShareToken))
+        {
+            Log.Warning("Collaboration - GetContent: No Permission - userId:{0}, pageId:{1}", userId, request.PageId);
             return new GetContentResponse(Success: false, Content: "");
         }
 

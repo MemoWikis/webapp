@@ -87,7 +87,7 @@ const ServerLink = Link.extend({
 // Figure extension for images with captions (matches frontend FigureExtension schema)
 const ServerFigure = Image.extend({
   name: 'figure',
-  
+
   addAttributes() {
     return {
       src: { default: null },
@@ -120,20 +120,22 @@ const ServerFigure = Image.extend({
         getAttrs: (element) => {
           const img = element.querySelector('img')
           if (!img) return false
-          
+
           const figcaption = element.querySelector('figcaption')
           let caption = figcaption?.getAttribute('data-caption') || null
           let license = figcaption?.getAttribute('data-license') || null
-          
+
           return {
             src: img.getAttribute('src'),
             alt: img.getAttribute('alt'),
             title: img.getAttribute('title'),
             caption,
             license,
-            style: element.style?.cssText || 'width: 100%; height: auto; cursor: pointer;'
+            style:
+              element.style?.cssText ||
+              'width: 100%; height: auto; cursor: pointer;',
           }
-        }
+        },
       },
       {
         tag: 'img',
@@ -141,9 +143,11 @@ const ServerFigure = Image.extend({
           src: element.getAttribute('src'),
           alt: element.getAttribute('alt'),
           title: element.getAttribute('title'),
-          style: element.style?.cssText || 'width: 100%; height: auto; cursor: pointer;'
-        })
-      }
+          style:
+            element.style?.cssText ||
+            'width: 100%; height: auto; cursor: pointer;',
+        }),
+      },
     ]
   },
 
@@ -152,7 +156,7 @@ const ServerFigure = Image.extend({
     return [
       'figure',
       { style, class: 'tiptap-figure' },
-      ['img', { src, alt, class: 'tiptap-image', ...imgAttrs }]
+      ['img', { src, alt, class: 'tiptap-image', ...imgAttrs }],
     ]
   },
 })
@@ -182,15 +186,31 @@ const extensions = [
 /**
  * Fetches page content from the backend API (MySQL via EntityCache)
  * @param {string} pageId - The page ID
+ * @param {string} token - The collaboration token
+ * @param {string|null} shareToken - Optional share token
+ * @param {string} cookieHeader - The cookie header for session
  * @returns {Promise<string|null>} - The HTML content or null
  */
-async function fetchContentFromBackend(pageId) {
+async function fetchContentFromBackend(
+  pageId,
+  token,
+  shareToken,
+  cookieHeader
+) {
   try {
     const response = await axios.post(
       `${process.env.BACKEND_BASE_URL}/apiVue/Hocuspocus/GetContent`,
       {
         hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
         pageId: parseInt(pageId, 10),
+        token: token,
+        shareToken: shareToken,
+      },
+      {
+        headers: {
+          Cookie: cookieHeader,
+        },
+        withCredentials: true,
       }
     )
 
@@ -215,7 +235,7 @@ function htmlToYDocState(html) {
 
   // Get schema from our extensions for proper Y.Doc conversion
   const schema = getSchema(extensions)
-  
+
   // Convert ProseMirror JSON to Y.Doc
   const ydoc = prosemirrorJSONToYDoc(
     schema,
@@ -229,41 +249,16 @@ function htmlToYDocState(html) {
 
 const redisDatabaseExtension = new Database({
   fetch: async ({ documentName }) => {
-    // First, try to get from Redis
+    // Only try Redis cache - actual content fetching with auth happens in onLoadDocument
     const cachedData = await redis.get(documentName)
     if (cachedData) {
       console.log(`[${documentName}] Loaded from Redis cache`)
       return Buffer.from(cachedData, 'base64')
     }
 
-    // If not in Redis, fetch from backend (MySQL)
-    const pageId = documentName.substring(5) // "ydoc-123" → "123"
-    console.log(`[${documentName}] Not in Redis, fetching from backend...`)
-
-    const htmlContent = await fetchContentFromBackend(pageId)
-
-    if (htmlContent && htmlContent.trim() !== '') {
-      console.log(
-        `[${documentName}] Got content from backend, converting to Y.Doc`
-      )
-      try {
-        const state = htmlToYDocState(htmlContent)
-
-        // Store in Redis for future requests
-        await redis.set(documentName, Buffer.from(state).toString('base64'))
-        console.log(`[${documentName}] Stored in Redis cache`)
-
-        return state
-      } catch (error) {
-        console.error(
-          `[${documentName}] Failed to convert HTML to Y.Doc:`,
-          error.message
-        )
-        return null
-      }
-    }
-
-    console.log(`[${documentName}] No content found in backend`)
+    console.log(
+      `[${documentName}] Not in Redis cache, will load in onLoadDocument`
+    )
     return null
   },
   store: async ({ documentName, state }) => {
@@ -279,7 +274,13 @@ const server = Server.configure({
   maxDebounce: 30000,
   quiet: false,
   extensions: [redisDatabaseExtension],
-  async onAuthenticate({ documentName, token, connection, requestHeaders }) {
+  async onAuthenticate({
+    documentName,
+    token,
+    connection,
+    requestHeaders,
+    context,
+  }) {
     const raw = requestHeaders.cookie || ''
     const cookies = cookie.parse(raw)
     const sessionId = cookies['.AspNetCore.Session']
@@ -310,9 +311,58 @@ const server = Server.configure({
         if (response.status === 200 && response.data.canView === true) {
           if (response.data.canEdit === false) connection.readOnly = true
 
+          // Store auth context for use in onLoadDocument
+          context.collaborationToken = tokens.collaborationToken
+          context.shareToken = tokens.shareToken
+          context.cookieHeader = raw
+
           return
         } else throw new Error('Not authorized!')
       })
+  },
+  async onLoadDocument({ documentName, document, context }) {
+    // Check if document already has content (from Redis cache)
+    const existingContent = Y.encodeStateAsUpdate(document)
+    if (existingContent.length > 2) {
+      console.log(
+        `[${documentName}] Document already has content, skipping backend fetch`
+      )
+      return
+    }
+
+    // Fetch from backend with proper authorization
+    const pageId = documentName.substring(5) // "ydoc-123" → "123"
+    console.log(`[${documentName}] Fetching from backend with authorization...`)
+
+    const htmlContent = await fetchContentFromBackend(
+      pageId,
+      context.collaborationToken,
+      context.shareToken,
+      context.cookieHeader
+    )
+
+    if (htmlContent && htmlContent.trim() !== '') {
+      console.log(
+        `[${documentName}] Got content from backend, converting to Y.Doc`
+      )
+      try {
+        const state = htmlToYDocState(htmlContent)
+
+        // Apply state to the document
+        Y.applyUpdate(document, state)
+
+        // Store in Redis for future requests
+        await redis.set(documentName, Buffer.from(state).toString('base64'))
+        console.log(`[${documentName}] Stored in Redis cache`)
+      } catch (error) {
+        console.error(
+          `[${documentName}] Failed to convert HTML to Y.Doc:`,
+          error.message
+        )
+      }
+    } else {
+      console.log(`[${documentName}] No content found in backend`)
+    }
   },
 })
 
