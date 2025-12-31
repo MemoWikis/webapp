@@ -93,6 +93,7 @@ const initProvider = () => {
     const token = pageStore.shareToken
         ? `${userStore.collaborationToken}|accessToken=${pageStore.shareToken}`
         : userStore.collaborationToken
+
     provider.value = new HocuspocusProvider({
         url: config.public.hocuspocusWebsocketUrl,
         name: `ydoc-${pageStore.id}`,
