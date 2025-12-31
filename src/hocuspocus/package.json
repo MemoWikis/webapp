@@ -13,8 +13,9 @@
     "@hocuspocus/extension-redis": "^2.13.5",
     "@hocuspocus/server": "^2.13.5",
     "@tiptap/core": "^2.11.5",
-    "@tiptap/extension-code-block-lowlight": "^2.11.5",
-    "@tiptap/extension-collaboration": "^2.11.5",
+    "@tiptap/extension-heading": "^2.11.5",
+    "@tiptap/extension-image": "^2.11.5",
+    "@tiptap/extension-link": "^2.11.5",
     "@tiptap/extension-task-item": "^2.11.5",
     "@tiptap/extension-task-list": "^2.11.5",
     "@tiptap/extension-underline": "^2.11.5",
@@ -27,7 +28,6 @@
     "express": "^4.21.2",
     "express-ws": "^5.0.2",
     "ioredis": "^5.4.1",
-    "lowlight": "^3.2.0",
     "y-prosemirror": "^1.2.15",
     "yjs": "^13.6.21"
   }
