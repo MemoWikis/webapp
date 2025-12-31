@@ -2,6 +2,7 @@
     "recommendations": [
         "vue.volar",
         "esbenp.prettier-vscode",
-        "cweijan.vscode-redis-client",
+        "dbaeumer.vscode-eslint",
+        "cweijan.vscode-redis-client"
     ]
 }

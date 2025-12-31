@@ -293,7 +293,7 @@ CREATE TABLE `page` (
   `DisableLearningFunctions` tinyint(1) DEFAULT NULL,
   `Creator_id` int DEFAULT NULL,
   `TopicMarkdown` varchar(255) DEFAULT NULL,
-  `Content` varchar(255) DEFAULT NULL,
+  `Content` mediumtext,
   `CustomSegments` varchar(255) DEFAULT NULL,
   `CountQuestionsAggregated` int DEFAULT NULL,
   `CorrectnessProbability` int DEFAULT NULL,
