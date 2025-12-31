@@ -66,17 +66,6 @@ public class User : DomainEntity, IUserTinyModel
     /// </summary>
     public virtual int PaidTokensBalance { get; set; } = 0;
 
-    public virtual IList<string> WidgetHosts()
-    {
-        if (IsNullOrEmpty(WidgetHostsSpaceSeparated))
-        {
-            return new List<string>();
-        }
-
-        return WidgetHostsSpaceSeparated
-            .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Trim()).ToList();
-    }
 }
 
 public class FacebookUserCreateParameter

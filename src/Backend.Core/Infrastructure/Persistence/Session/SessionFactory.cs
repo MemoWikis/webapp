@@ -72,14 +72,19 @@ public class SessionFactory
     public static ISessionFactory CreateSessionFactory()
     {
         var connectionString = ConnectionStringHelper.EnsureTimeoutSettings(Settings.ConnectionString);
-        
+
+        var databaseConfig = MySQLConfiguration.Standard
+            .ConnectionString(connectionString)
+            .QuerySubstitutions("true 1, false 0");
+
+        // Only show SQL in non-test environments or when explicitly enabled
+        if (!Settings.IsRunningTests || Settings.ShowSqlInTests)
+        {
+            databaseConfig.ShowSql();
+        }
+
         var sessionFactory = Fluently.Configure()
-            .Database(
-                MySQLConfiguration.Standard
-                    .ConnectionString(connectionString)
-                    .QuerySubstitutions("true 1, false 0")
-                    .ShowSql()
-            )
+            .Database(databaseConfig)
             .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>())
             .ExposeConfiguration(cfg =>
             {

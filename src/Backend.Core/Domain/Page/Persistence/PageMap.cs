@@ -15,7 +15,7 @@ public class PageMap : ClassMap<Page>
         Map(x => x.DisableLearningFunctions);
         References(x => x.Creator).LazyLoad();
         Map(x => x.Markdown).Column("TopicMarkdown");
-        Map(x => x.Content);
+        Map(x => x.Content).CustomSqlType("MEDIUMTEXT");
         Map(x => x.CustomSegments);
         Map(x => x.CountQuestionsAggregated);
         Map(x => x.CorrectnessProbability);

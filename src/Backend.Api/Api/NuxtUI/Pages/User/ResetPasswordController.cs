@@ -40,7 +40,9 @@ public class ResetPasswordController(
     {
         var validateToken = ValidateToken(id);
         return new ValidateResult
-        { Success = validateToken.Success, MessageKey = validateToken.MessageKey };
+        {
+            Success = validateToken.Success, MessageKey = validateToken.MessageKey
+        };
     }
 
     public readonly record struct SetNewPasswordJson(string token, string password);
@@ -57,7 +59,9 @@ public class ResetPasswordController(
         if (validationResult.Success == false)
         {
             return new SetNewPasswordResult
-            { Success = validationResult.Success, MessageKey = validationResult.MessageKey };
+            {
+                Success = validationResult.Success, MessageKey = validationResult.MessageKey
+            };
         }
 
         var result = PasswordResetPrepare.Run(json.token, _session);

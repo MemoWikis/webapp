@@ -1,6 +1,7 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 
 export default defineNuxtConfig({
+    devtools: { enabled: process.env.NODE_ENV === 'development' },
     nitro: {
         compatibilityDate: '2025-05-08',
         preset: 'node-cluster',
@@ -70,7 +71,7 @@ export default defineNuxtConfig({
         '~/assets/vue-transitions.less',
         '~/assets/shared/pagination.less',
         'vue-circle-flags/dist/vue-circle-flags.css',
-        '~/components/shared/figure-extension.less'
+        '~/components/shared/figure-extension.less',
     ],
     typescript: {
         shim: false,

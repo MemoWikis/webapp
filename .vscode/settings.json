@@ -5,5 +5,35 @@
     "*.cs": "${capture}.*.verified.txt, ${capture}.*.received.txt"
   },
   // yeagh i know, should be in the workspace settings, but ...
-  "vscode-pets.theme": "forest"
+  "vscode-pets.theme": "forest",
+
+  // Vue/Nuxt TypeScript settings
+  "typescript.tsdk": "src/Frontend.Nuxt/node_modules/typescript/lib",
+  "vue.server.hybridMode": true,
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "@vueuse/core"
+  ],
+
+  // Formatter settings (moved from Frontend.Nuxt)
+  "editor.formatOnSave": true,
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.semi": false,
+    "prettier.singleQuote": true
+  },
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.semi": false,
+    "prettier.singleQuote": true
+  },
+  "[vue]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Vue.volar"
+  }
 }

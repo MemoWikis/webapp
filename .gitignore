@@ -28,3 +28,5 @@ appsettings.*.json
 /src/Backend.Api/viewcache/pageviews.mmap
 /src/Backend.Api/viewcache/questionviews.mmap
 /src/Frontend.Nuxt/.eslintcache
+
+/src/Tests/TestData/Dumps/

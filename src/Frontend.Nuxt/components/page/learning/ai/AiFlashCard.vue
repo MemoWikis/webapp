@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { useEditor, EditorContent, JSONContent } from '@tiptap/vue-3'
+import type { JSONContent } from '@tiptap/vue-3';
+import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
-import { GeneratedFlashcard, usePageStore } from '../../pageStore'
+import type { GeneratedFlashcard } from '../../pageStore';
 import { isEmpty } from 'underscore'
 
 interface Props {
@@ -39,14 +40,14 @@ const frontEditor = useEditor({
         }),
     ],
     editorProps: {
-        handleClick: (view, pos, event) => {
+        handleClick: (_view, _pos, _event) => {
         },
-        handlePaste: (view, pos, event) => {
-            const eventContent = event.content as any
+        handlePaste: (_view, _pos, event) => {
+            const eventContent = event.content as unknown as { content: { attrs?: { src?: string } }[] }
             const content = eventContent.content
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                const src = content[0].attrs.src
-                if (src.startsWith('data:image')) {
+                const src = content[0].attrs?.src
+                if (src?.startsWith('data:image')) {
                     return false
                 }
             }
@@ -64,14 +65,14 @@ const backEditor = useEditor({
         }),
     ],
     editorProps: {
-        handleClick: (view, pos, event) => {
+        handleClick: (_view, _pos, _event) => {
         },
-        handlePaste: (view, pos, event) => {
-            const eventContent = event.content as any
+        handlePaste: (_view, _pos, event) => {
+            const eventContent = event.content as unknown as { content: { attrs?: { src?: string } }[] }
             const content = eventContent.content
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                const src = content[0].attrs.src
-                if (src.startsWith('data:image')) {
+                const src = content[0].attrs?.src
+                if (src?.startsWith('data:image')) {
                     return false
                 }
             }
@@ -105,7 +106,7 @@ const deleteFlashcard = () => {
                 <font-awesome-icon :icon="['fas', 'trash']" />
             </div>
         </div>
-        <div class="flashcard-container" v-if="frontEditor && backEditor">
+        <div v-if="frontEditor && backEditor" class="flashcard-container">
             <div class="flashcard-content">
                 <EditorMenuBar :editor="frontEditor" />
                 <editor-content :editor="frontEditor" />
