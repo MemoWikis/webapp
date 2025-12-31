@@ -6,6 +6,10 @@ public class HocuspocusController(SessionUser _sessionUser) : ApiBaseController
 
     public readonly record struct AuthorizeResponse(bool CanView = false, bool CanEdit = false);
 
+    public readonly record struct GetContentRequest(string HocuspocusKey, int PageId);
+
+    public readonly record struct GetContentResponse(bool Success, string Content);
+
     [HttpPost]
     public AuthorizeResponse Authorize([FromBody] AuthorizeRequest request)
     {
@@ -34,6 +38,25 @@ public class HocuspocusController(SessionUser _sessionUser) : ApiBaseController
         }
 
         return new AuthorizeResponse(CanView: true, CanEdit: false);
+    }
+
+    [HttpPost]
+    public GetContentResponse GetContent([FromBody] GetContentRequest request)
+    {
+        if (request.HocuspocusKey != Settings.CollaborationHocuspocusSecretKey)
+        {
+            Log.Error("Collaboration - GetContent: Incorrect Hocuspocuskey:{0}", request.HocuspocusKey);
+            return new GetContentResponse(Success: false, Content: "");
+        }
+
+        var page = EntityCache.GetPage(request.PageId);
+        if (page == null)
+        {
+            Log.Warning("Collaboration - GetContent: Page not found - pageId:{0}", request.PageId);
+            return new GetContentResponse(Success: false, Content: "");
+        }
+
+        return new GetContentResponse(Success: true, Content: page.Content ?? "");
     }
 
 }
