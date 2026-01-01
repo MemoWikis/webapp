@@ -5,19 +5,12 @@ using System.Text.Json;
 /// Registry for AI models. Provides methods to fetch available models from providers
 /// and returns whitelisted models from cache (with DB fallback).
 /// </summary>
-public class AiModelRegistry : IRegisterAsInstancePerLifetime
+public class AiModelRegistry(AiModelWhitelistRepo _whitelistRepo) : IRegisterAsInstancePerLifetime
 {
-    private readonly HttpClient _httpClient;
-    private readonly AiModelWhitelistRepo _whitelistRepo;
-
-    public AiModelRegistry(AiModelWhitelistRepo whitelistRepo)
+    private readonly HttpClient _httpClient = new()
     {
-        _whitelistRepo = whitelistRepo;
-        _httpClient = new HttpClient
-        {
-            Timeout = TimeSpan.FromSeconds(30)
-        };
-    }
+        Timeout = TimeSpan.FromSeconds(30)
+    };
 
     /// <summary>
     /// Get all enabled/whitelisted models (from cache)

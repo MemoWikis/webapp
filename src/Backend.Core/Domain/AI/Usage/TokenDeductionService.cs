@@ -1,5 +1,21 @@
 using NHibernate;
 
+/// <summary>
+/// Manages AI token usage and balance tracking for users.
+/// Handles token estimation, affordability checks, and deductions from user token balances.
+/// 
+/// Users have two token balance types:
+/// - SubscriptionTokensBalance: Monthly tokens from active subscriptions (reset on renewal, don't accumulate)
+/// - PaidTokensBalance: Purchased tokens (accumulate, don't expire)
+/// 
+/// Token deduction priority: Subscription tokens are used first, then paid tokens.
+/// 
+/// The service is model-aware and applies cost multipliers based on the AI model being used
+/// (e.g., more expensive models like Claude Opus cost more tokens per actual token used).
+/// 
+/// Token estimation is based on conservative character-to-token ratios (~3.5 chars/token for Claude models)
+/// and predefined output token estimates for different generation types.
+/// </summary>
 public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRegistry) : IRegisterAsInstancePerLifetime
 {
     // Average characters per token for Claude models (conservative estimate)
@@ -12,12 +28,16 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     {
         /// <summary>Short page content - ~500 output tokens</summary>
         PageShort,
+
         /// <summary>Medium page content - ~1000 output tokens</summary>
         PageMedium,
+
         /// <summary>Detailed/long page content - ~2000 output tokens</summary>
         PageLong,
+
         /// <summary>Wiki with subpages - ~4000 output tokens</summary>
         WikiWithSubpages,
+
         /// <summary>Flashcard generation - ~800 output tokens (for ~3-5 cards)</summary>
         Flashcards
     }
@@ -166,7 +186,12 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         // Update database
         if (deductedFromSubscription > 0 || deductedFromPaid > 0)
         {
-            UpdateUserTokenBalances(userId, deductedFromSubscription, deductedFromPaid);
+            var success = UpdateUserTokenBalances(userId, deductedFromSubscription, deductedFromPaid);
+            if (!success)
+            {
+                Log.Error("TokenDeductionService: Failed to deduct tokens for user {UserId}", userId);
+                return new TokenDeductionResult(false, 0, 0, totalTokens);
+            }
         }
 
         return new TokenDeductionResult(
@@ -176,24 +201,39 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
             tokensRemaining);
     }
 
-    private void UpdateUserTokenBalances(int userId, int subscriptionDeduction, int paidDeduction)
+    private bool UpdateUserTokenBalances(int userId, int subscriptionDeduction, int paidDeduction)
     {
+        using var transaction = _session.BeginTransaction();
         try
         {
+            // Use optimistic locking: UPDATE only if balances are sufficient
+            // This prevents race conditions where multiple concurrent requests could overdraw the balance
             var query = _session.CreateSQLQuery(@"
                 UPDATE user SET 
                     SubscriptionTokensBalance = SubscriptionTokensBalance - :subscriptionDeduction,
                     PaidTokensBalance = PaidTokensBalance - :paidDeduction
-                WHERE Id = :userId");
+                WHERE Id = :userId
+                AND SubscriptionTokensBalance >= :subscriptionDeduction
+                AND PaidTokensBalance >= :paidDeduction");
 
             query.SetParameter("subscriptionDeduction", subscriptionDeduction);
             query.SetParameter("paidDeduction", paidDeduction);
             query.SetParameter("userId", userId);
-            query.ExecuteUpdate();
+            
+            var rowsAffected = query.ExecuteUpdate();
 
-            _session.Flush();
+            if (rowsAffected == 0)
+            {
+                Log.Warning(
+                    "TokenDeductionService: Insufficient balance for user {UserId} - attempted to deduct {SubscriptionDeduction} subscription tokens and {PaidDeduction} paid tokens",
+                    userId, subscriptionDeduction, paidDeduction);
+                transaction.Rollback();
+                return false;
+            }
 
-            // Update cache
+            transaction.Commit();
+
+            // Only update cache after successful DB commit
             var userCacheItem = EntityCache.GetUserById(userId);
             if (userCacheItem != null)
             {
@@ -204,10 +244,14 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
             Log.Information(
                 "TokenDeduction: User {UserId} - Deducted {SubscriptionDeduction} subscription tokens, {PaidDeduction} paid tokens",
                 userId, subscriptionDeduction, paidDeduction);
+
+            return true;
         }
         catch (Exception exception)
         {
+            transaction.Rollback();
             Log.Error(exception, "Failed to update token balances for user {UserId}", userId);
+            return false;
         }
     }
 
@@ -246,24 +290,36 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     /// </summary>
     public void GrantInitialSubscriptionTokens(int userId, int amount = 100000)
     {
-        const string updateHql = @"
-            UPDATE User 
-            SET SubscriptionTokensBalance = SubscriptionTokensBalance + :amount
-            WHERE Id = :userId";
-
-        _session.CreateQuery(updateHql)
-            .SetParameter("amount", amount)
-            .SetParameter("userId", userId)
-            .ExecuteUpdate();
-
-        // Update cache
-        var userCacheItem = EntityCache.GetUserByIdNullable(userId);
-        if (userCacheItem != null)
+        using var transaction = _session.BeginTransaction();
+        try
         {
-            userCacheItem.SubscriptionTokensBalance += amount;
-        }
+            const string updateHql = @"
+                UPDATE User 
+                SET SubscriptionTokensBalance = SubscriptionTokensBalance + :amount
+                WHERE Id = :userId";
 
-        Log.Information("Granted {Amount} initial subscription tokens to user {UserId}", amount, userId);
+            _session.CreateQuery(updateHql)
+                .SetParameter("amount", amount)
+                .SetParameter("userId", userId)
+                .ExecuteUpdate();
+
+            transaction.Commit();
+
+            // Update cache only after successful commit
+            var userCacheItem = EntityCache.GetUserById(userId);
+            if (userCacheItem != null)
+            {
+                userCacheItem.SubscriptionTokensBalance += amount;
+            }
+
+            Log.Information("Granted {Amount} initial subscription tokens to user {UserId}", amount, userId);
+        }
+        catch (Exception exception)
+        {
+            transaction.Rollback();
+            Log.Error(exception, "Failed to grant initial subscription tokens for user {UserId}", userId);
+            throw;
+        }
     }
 
     /// <summary>
@@ -273,24 +329,36 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     /// </summary>
     public void RefreshMonthlySubscriptionTokens(int userId, int amount = 100000)
     {
-        const string updateHql = @"
-            UPDATE User 
-            SET SubscriptionTokensBalance = :amount
-            WHERE Id = :userId";
-
-        _session.CreateQuery(updateHql)
-            .SetParameter("amount", amount)
-            .SetParameter("userId", userId)
-            .ExecuteUpdate();
-
-        // Update cache
-        var userCacheItem = EntityCache.GetUserByIdNullable(userId);
-        if (userCacheItem != null)
+        using var transaction = _session.BeginTransaction();
+        try
         {
-            userCacheItem.SubscriptionTokensBalance = amount;
-        }
+            const string updateHql = @"
+                UPDATE User 
+                SET SubscriptionTokensBalance = :amount
+                WHERE Id = :userId";
 
-        Log.Information("Refreshed subscription tokens to {Amount} for user {UserId}", amount, userId);
+            _session.CreateQuery(updateHql)
+                .SetParameter("amount", amount)
+                .SetParameter("userId", userId)
+                .ExecuteUpdate();
+
+            transaction.Commit();
+
+            // Update cache only after successful commit
+            var userCacheItem = EntityCache.GetUserById(userId);
+            if (userCacheItem != null)
+            {
+                userCacheItem.SubscriptionTokensBalance = amount;
+            }
+
+            Log.Information("Refreshed subscription tokens to {Amount} for user {UserId}", amount, userId);
+        }
+        catch (Exception exception)
+        {
+            transaction.Rollback();
+            Log.Error(exception, "Failed to refresh subscription tokens for user {UserId}", userId);
+            throw;
+        }
     }
 }
 
