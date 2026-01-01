@@ -61,13 +61,14 @@ public class HocuspocusController(SessionUser _sessionUser) : ApiBaseController
             _sessionUser.AddShareToken(request.PageId, request.ShareToken);
 
         var permissionCheck = new PermissionCheck(_sessionUser);
-        if (!permissionCheck.CanView(request.PageId, request.ShareToken))
+        var page = EntityCache.GetPage(request.PageId);
+
+        if (!permissionCheck.CanView(page, request.ShareToken))
         {
             Log.Warning("Collaboration - GetContent: No Permission - userId:{0}, pageId:{1}", userId, request.PageId);
             return new GetContentResponse(Success: false, Content: "");
         }
 
-        var page = EntityCache.GetPage(request.PageId);
         if (page == null)
         {
             Log.Warning("Collaboration - GetContent: Page not found - pageId:{0}", request.PageId);
