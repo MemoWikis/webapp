@@ -1,15 +1,18 @@
 ﻿{
   FrenchWikipedia: {
+    ContentFetched: true,
     Generated: true,
     AiConfirmsIsFrench: true,
     AiConfirmsTopicRelevant: true
   },
   EnglishWikipedia: {
+    ContentFetched: true,
     Generated: true,
     AiConfirmsIsEnglish: true,
     AiConfirmsTopicRelevant: true
   },
   InvalidUrl: {
+    FetchFailed: true,
     ReturnsNull: true
   }
 }
