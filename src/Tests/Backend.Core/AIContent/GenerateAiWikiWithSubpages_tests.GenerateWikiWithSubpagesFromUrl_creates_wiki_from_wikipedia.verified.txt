@@ -1,4 +1,5 @@
 ﻿{
+  ContentFetched: true,
   WikiGenerated: true,
   HasTitle: true,
   HasMainContent: true,

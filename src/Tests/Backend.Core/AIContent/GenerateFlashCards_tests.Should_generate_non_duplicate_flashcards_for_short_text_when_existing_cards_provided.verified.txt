@@ -1,0 +1,24 @@
+﻿{
+  InitialFlashCards: {
+    Generated: true,
+    HasCards: true,
+    CountInRange: true,
+    AllCardsHaveFront: true,
+    AllCardsHaveBack: true
+  },
+  AdditionalFlashCards: {
+    Generated: true,
+    HasCards: true,
+    CountInRange: true,
+    AllCardsHaveFront: true,
+    AllCardsHaveBack: true
+  },
+  AiUsage: {
+    RequestCount: 2,
+    HasInputTokens: true,
+    HasOutputTokens: true,
+    InputTokensInRange: true,
+    OutputTokensInRange: true,
+    ModelUsed: claude-sonnet-4-20250514
+  }
+}

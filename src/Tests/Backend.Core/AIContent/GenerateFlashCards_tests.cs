@@ -3,327 +3,406 @@ using System.Text.Json;
 
 class GenerateFlashCards_tests : BaseTestHarness
 {
-    private const int PageId = 1;
-    private const int DefaultUserId = 1;
+    // Expected flashcard count ranges based on source text length
+    private const int ShortTextMinCards = 2;
+    private const int ShortTextMaxCards = 15;
+    private const int LongTextMinCards = 5;
+    private const int LongTextMaxCards = 35;
+    private const int LanguageTestMaxCards = 20;
 
-    [Test]
-    public async Task Should_generate_flashcards_for_shortSourceText()
+    // Token count validation ranges (sanity checks for AI usage logging)
+    private const int MinExpectedInputTokens = 100;
+    private const int MaxExpectedInputTokens = 10000;
+    private const int MinExpectedOutputTokens = 50;
+    private const int MaxExpectedOutputTokens = 5000;
+
+    private const int TestUserId = 1;
+    private const int TestPageId = 1;
+
+    [SetUp]
+    public void ClearAiUsageLogForTestUser()
     {
-        // Arrange
-        var context = NewPageContext();
+        var session = R<NHibernate.ISession>();
+        session.CreateSQLQuery("DELETE FROM ai_usage_log WHERE User_id = :userId")
+            .SetParameter("userId", TestUserId)
+            .ExecuteUpdate();
+        session.Flush();
+    }
 
-        // Assuming the test page needs to exist
-        context.Add("TestPage").Persist();
-        var page = context.All.ByName("TestPage");
-        context.AddToEntityCache(page);
+    #region Helper Records and Methods
 
-        await ReloadCaches();
+    private record AiUsageSummary(
+        int RequestCount,
+        bool HasInputTokens,
+        bool HasOutputTokens,
+        bool InputTokensInRange,
+        bool OutputTokensInRange,
+        string ModelUsed
+    );
 
-        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
-        var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
+    private record FlashCardValidation(
+        bool Generated,
+        bool HasCards,
+        bool CountInRange,
+        bool AllCardsHaveFront,
+        bool AllCardsHaveBack
+    );
 
-        // Act
-        var flashCards = await aiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
+    private async Task<AiUsageSummary> QueryAiUsageLogsSince(DateTime sinceTime)
+    {
+        var session = R<NHibernate.ISession>();
 
-        // Assert
-        Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
-        Assert.That(flashCards.Count, Is.GreaterThan(0), "Flashcards should be generated.");
+        var query = session.CreateSQLQuery(@"
+            SELECT Id, User_id, Page_id, TokenIn, TokenOut, DateCreated, Model
+            FROM ai_usage_log
+            WHERE User_id = :userId AND DateCreated >= :fromDate
+            ORDER BY DateCreated DESC");
 
-        foreach (var flashCard in flashCards)
+        query.SetParameter("userId", TestUserId);
+        query.SetParameter("fromDate", sinceTime);
+        query.AddEntity(typeof(AiUsageLog));
+
+        var usageLogs = query.List<AiUsageLog>().ToList();
+
+        if (usageLogs.Count == 0)
         {
-            Assert.That(flashCard.Front, Is.Not.Null.Or.Empty, "Flashcard 'Front' should not be null or empty.");
-            Assert.That(flashCard.Back, Is.Not.Null.Or.Empty, "Flashcard 'Back' should not be null or empty.");
+            return new AiUsageSummary(0, false, false, false, false, "");
         }
+
+        var totalInputTokens = usageLogs.Sum(log => log.TokenIn);
+        var totalOutputTokens = usageLogs.Sum(log => log.TokenOut);
+
+        return new AiUsageSummary(
+            RequestCount: usageLogs.Count,
+            HasInputTokens: totalInputTokens > 0,
+            HasOutputTokens: totalOutputTokens > 0,
+            InputTokensInRange: totalInputTokens > MinExpectedInputTokens && totalInputTokens < MaxExpectedInputTokens,
+            OutputTokensInRange: totalOutputTokens > MinExpectedOutputTokens && totalOutputTokens < MaxExpectedOutputTokens,
+            ModelUsed: usageLogs.First().Model ?? ""
+        );
     }
 
-    [Test]
-    public async Task Should_generate_sensible_amount_of_flashcards_for_shortSourceText()
+    private static FlashCardValidation ValidateFlashCards(List<AiFlashCard.FlashCard>? flashCards, int minCards, int maxCards)
     {
-        // Arrange
-        var context = NewPageContext();
-
-        // Assuming the test page needs to exist
-        context.Add("TestPage").Persist();
-        var page = context.All.ByName("TestPage");
-        context.AddToEntityCache(page);
-
-        await ReloadCaches();
-
-        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
-        var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Act
-        var flashCards = await aiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
-
-        // Assert
-        Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
-        Assert.That(flashCards.Count, Is.GreaterThanOrEqualTo(2), "Flashcard count should pass min threshold.");
-        Assert.That(flashCards.Count, Is.LessThan(9), "Flashcard count should not pass sensible threshold.");
-    }
-
-    [Test]
-    public async Task Should_not_generate_duplicates_for_shortSourceText()
-    {
-        // Arrange
-        var context = NewPageContext();
-
-        // Assuming the test page needs to exist
-        context.Add("TestPage").Persist();
-        var page = context.All.ByName("TestPage");
-        context.AddToEntityCache(page);
-
-        await ReloadCaches();
-
-        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
-        var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Act
-        var flashCardsBase = await aiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
-        var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
-
-        var newPrompt = AiFlashCard.GetPromptOpus(SourceTexts.ShortSourceTextEN, flashCardsBaseJson);
-        var newFlashCards = await aiFlashCard.Generate(newPrompt, AiModel.Claude, DefaultUserId, PageId);
-        var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
-
-        //Assert
-        var assertPrompt = $@"Hier sind zwei Listen die Karteikarten mit den Eigenschaften \""Front\"" und \""Back\"". 
-            Liste A: {flashCardsBaseJson} und Liste B: {newFlashCardsJson}.
-            Vergleiche beide Listen ob es inhaltlich/fachliche Duplikate gibt.
-            Teilweisende/Partiell überlappende Inhalte sind okay und sollten nicht als Duplikate gewertet werden.
-            Falls es Duplikate gibt antworte NUR mit true.
-            Falls es keine Duplikate gibt antworte NUR mit false.";
-
-        var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
-
-        Assert.That(claudeResponse, Is.Not.Null);
-        var hasDuplicate = claudeResponse!.Content[0].Text == "true";
-        Warn.If(hasDuplicate, $"ClaudeAssertResult: {claudeResponse.Content[0].Text} " + Environment.NewLine +
-                              $"FlashCardsBaseJson: {flashCardsBaseJson}" + Environment.NewLine +
-                              $"NewFlashCardsJson: {newFlashCardsJson}");
-        Assert.Pass();
-    }
-
-    [Test]
-    public async Task Should_generate_flashcards_for_longSourceText()
-    {
-        // Arrange
-        var context = NewPageContext();
-
-        // Assuming the test page needs to exist
-        context.Add("TestPage").Persist();
-        var page = context.All.ByName("TestPage");
-        context.AddToEntityCache(page);
-
-        await ReloadCaches();
-
-        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
-        var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Act
-        var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
-        Console.WriteLine("Should_generate_flashcards_for_longSourceText");
-
-        // Assert
-        Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
-        Assert.That(flashCards.Count, Is.GreaterThan(0), "Flashcards should be generated.");
-
-        foreach (var flashCard in flashCards)
+        if (flashCards == null)
         {
-            Assert.That(flashCard.Front, Is.Not.Null.Or.Empty, "Flashcard 'Front' should not be null or empty.");
-            Assert.That(flashCard.Back, Is.Not.Null.Or.Empty, "Flashcard 'Back' should not be null or empty.");
+            return new FlashCardValidation(false, false, false, false, false);
         }
+
+        return new FlashCardValidation(
+            Generated: true,
+            HasCards: flashCards.Count > 0,
+            CountInRange: flashCards.Count >= minCards && flashCards.Count <= maxCards,
+            AllCardsHaveFront: flashCards.All(card => !string.IsNullOrWhiteSpace(card.Front)),
+            AllCardsHaveBack: flashCards.All(card => !string.IsNullOrWhiteSpace(card.Back))
+        );
     }
 
-    [Test]
-    public async Task Should_generate_sensible_amount_of_flashcards_for_longSourceText()
+    private async Task<(Page page, AiFlashCard aiFlashCard)> SetupTestPageAndFlashCardService()
     {
-        // Arrange
         var context = NewPageContext();
-
-        // Assuming the test page needs to exist
         context.Add("TestPage").Persist();
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
         await ReloadCaches();
 
-        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
-        // Act
-        var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
-
-        // Assert
-        Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
-        Assert.That(flashCards.Count, Is.GreaterThanOrEqualTo(5), "Flashcard count should pass min threshold.");
-        Assert.That(flashCards.Count, Is.LessThan(20), "Flashcard count should not pass sensible threshold.");
+        return (page, aiFlashCard);
     }
 
+    private static PermissionCheck CreateAnonymousPermissionCheck() =>
+        new PermissionCheck(new SessionlessUser(-1));
 
-    [Test]
-    public async Task Should_not_generate_duplicates_for_longSourceText()
+    private async Task<bool> CheckForDuplicatesViaAi(string firstListJson, string secondListJson)
     {
-        // Arrange
-        var context = NewPageContext();
+        var duplicateCheckPrompt = $@"Hier sind zwei Listen mit Karteikarten (Eigenschaften: ""Front"" und ""Back"").
+Liste A: {firstListJson}
+Liste B: {secondListJson}
 
-        // Assuming the test page needs to exist
-        context.Add("TestPage").Persist();
-        var page = context.All.ByName("TestPage");
-        context.AddToEntityCache(page);
+Vergleiche beide Listen auf inhaltlich/fachliche Duplikate.
+Teilweise überlappende Inhalte sind KEINE Duplikate.
+Antworte NUR mit 'true' (Duplikate vorhanden) oder 'false' (keine Duplikate).";
 
-        await ReloadCaches();
+        var response = await ClaudeService.GetClaudeResponse(duplicateCheckPrompt);
+        var responseText = response?.Content?[0]?.Text?.Trim().ToLower() ?? "";
 
-        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
-        var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Act
-        var flashCardsBase = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
-        var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
-
-        var newPrompt = AiFlashCard.GetPromptOpus(SourceTexts.ShortSourceTextEN, flashCardsBaseJson);
-        var newFlashCards = await aiFlashCard.Generate(newPrompt, AiModel.Claude, DefaultUserId, PageId);
-        var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
-
-        //Assert
-        var assertPrompt = $@"Hier sind zwei Listen die Karteikarten mit den Eigenschaften \""Front\"" und \""Back\"". 
-            Liste A: {flashCardsBaseJson} und Liste B: {newFlashCardsJson}.
-            Vergleiche beide Listen ob es inhaltlich/fachliche Duplikate gibt.
-            Falls es Duplikate gibt antworte NUR mit true oder fall es keine Duplikate gibt antworte NUR mit false. Keine Erklärung.";
-
-        var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
-
-        Assert.That(claudeResponse, Is.Not.Null);
-        var hasDuplicate = claudeResponse!.Content[0].Text == "true";
-        Warn.If(hasDuplicate, $"ClaudeAssertResult: {claudeResponse.Content[0].Text} " + Environment.NewLine +
-                              $"FlashCardsBaseJson: {flashCardsBaseJson}" + Environment.NewLine +
-                              $"NewFlashCardsJson: {newFlashCardsJson}");
-        Assert.Pass();
+        return responseText == "true";
     }
 
-    [Test]
-    public async Task Should_generate_flashcards_in_same_language_Long_EN()
+    private async Task<(bool isValid, bool languageMatches)> CheckLanguageMatchViaAi(string sourceText, string flashCardsJson)
     {
-        // Arrange
-        var context = NewPageContext();
+        var languageCheckPrompt = $@"Überprüfe ob die Sprache des Quelltextes und der Karteikarten übereinstimmen.
+Quelltext: {sourceText}
+Karteikarten: {flashCardsJson}
+Antworte nur mit 'true' oder 'false'.";
 
-        // Assuming the test page needs to exist
-        context.Add("TestPage").Persist();
-        var page = context.All.ByName("TestPage");
-        context.AddToEntityCache(page);
+        var response = await ClaudeService.GetClaudeResponse(languageCheckPrompt);
+        var responseText = response?.Content?[0]?.Text?.Trim().ToLower() ?? "";
+        var isValidResponse = responseText == "true" || responseText == "false";
 
-        await ReloadCaches();
+        return (isValidResponse, responseText == "true");
+    }
 
-        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
-        var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
+    #endregion
 
-        // Act
-        var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
-        var flashCardsJson = JsonSerializer.Serialize(flashCards);
+    #region Short Source Text Tests
 
-        //Assert
-        var assertPrompt = $@"Überprüfe ob die Sprache dieses Textes: {SourceTexts.LongSourceTextEN} und diese Karteikarten: {flashCardsJson} übereinstimmen. Antworte nur mit true oder false, füge keine Erklärung hinzu.";
-        var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
+    [Test]
+    public async Task Should_generate_valid_flashcards_for_short_english_text()
+    {
+        var testStartTime = DateTime.UtcNow;
+        var (page, aiFlashCard) = await SetupTestPageAndFlashCardService();
 
-        Assert.That(claudeResponse, Is.Not.Null);
-        var languageDiffers = claudeResponse!.Content[0].Text != "true";
-        Warn.If(languageDiffers, $"ClaudeAssertResult: {claudeResponse.Content[0].Text}");
-        Assert.Pass();
+        var flashCards = await aiFlashCard.Generate(
+            SourceTexts.ShortSourceTextEN,
+            page.Id,
+            TestUserId,
+            CreateAnonymousPermissionCheck(),
+            AiModel.Claude);
+
+        await Verify(new
+        {
+            FlashCards = ValidateFlashCards(flashCards, ShortTextMinCards, ShortTextMaxCards),
+            AiUsage = await QueryAiUsageLogsSince(testStartTime)
+        });
     }
 
     [Test]
-    public async Task Should_generate_flashcards_in_same_language_Long_DE()
+    public async Task Should_generate_non_duplicate_flashcards_for_short_text_when_existing_cards_provided()
     {
-        // Arrange
-        var context = NewPageContext();
+        var testStartTime = DateTime.UtcNow;
+        var (page, aiFlashCard) = await SetupTestPageAndFlashCardService();
+        var permissionCheck = CreateAnonymousPermissionCheck();
 
-        // Assuming the test page needs to exist
-        context.Add("TestPage").Persist();
-        var page = context.All.ByName("TestPage");
-        context.AddToEntityCache(page);
-
-        await ReloadCaches();
-
-        var permissionCheck = new PermissionCheck(new SessionlessUser(-1)); // Default user ID for tests
-        var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Act
-        var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextDE, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
-        var flashCardsJson = JsonSerializer.Serialize(flashCards);
-
-        //Assert
-        var assertPrompt = $@"Überprüfe ob die Sprache dieses Textes: {SourceTexts.LongSourceTextDE} und diese Karteikarten: {flashCardsJson} übereinstimmen. Antworte nur mit true oder false, füge keine Erklärung hinzu.";
-        var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
-
-        Assert.That(claudeResponse, Is.Not.Null);
-        var languageDiffers = claudeResponse!.Content[0].Text != "true";
-        Warn.If(languageDiffers, $"ClaudeAssertResult: {claudeResponse.Content[0].Text}");
-        Assert.Pass();
-    }
-
-    [Test]
-    public async Task Should_Return_Null_When_Request_Text_Is_Null()
-    {
-        // Arrange
-        var controller = CreatePageStoreController();
-        var request = new PageStoreController.GenerateFlashCardRequest(PageId, null);
-
-        // Act
-        var result = await controller.GenerateFlashCard(request);
-
-        // Assert
-        Assert.That(result, Is.Null, "Result should be null when request text is null.");
-    }
-
-    [Test]
-    public async Task Should_Return_Null_When_Request_PageId_Is_Invalid()
-    {
-        // Arrange
-        var controller = CreatePageStoreController();
-        var request = new PageStoreController.GenerateFlashCardRequest(-1, "Sample Text");
-
-        // Act
-        var result = await controller.GenerateFlashCard(request);
-
-        // Assert
-        Assert.That(result, Is.Null, "Result should be null when request PageId is invalid.");
-    }
-
-    // Helper method to create the controller with necessary dependencies
-    private PageStoreController CreatePageStoreController(LimitCheck? limitCheck = null)
-    {
-        var sessionUser = R<SessionUser>();
-
-        var permissionCheck = new PermissionCheck(new SessionlessUser(_testHarness.DefaultSessionUserId));
-        var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
-        var pageRepository = R<PageRepository>();
-        var httpContextAccessor = R<IHttpContextAccessor>();
-        var imageMetaDataReadingRepo = R<ImageMetaDataReadingRepo>();
-        var questionReadingRepo = R<QuestionReadingRepo>();
-        var pageUpdater = R<PageUpdater>();
-        var imageStore = R<ImageStore>();
-        var aiUsageLogRepo = R<AiUsageLogRepo>();
-        var tokenDeductionService = R<TokenDeductionService>();
-
-        return new PageStoreController(
-            sessionUser,
+        // Generate initial flashcards
+        var initialFlashCards = await aiFlashCard.Generate(
+            SourceTexts.ShortSourceTextEN,
+            page.Id,
+            TestUserId,
             permissionCheck,
-            knowledgeSummaryLoader,
-            pageRepository,
-            httpContextAccessor,
-            imageMetaDataReadingRepo,
-            questionReadingRepo,
-            pageUpdater,
-            imageStore,
-            aiUsageLogRepo,
-            tokenDeductionService);
+            AiModel.Claude);
+
+        var initialFlashCardsJson = JsonSerializer.Serialize(initialFlashCards);
+
+        // Generate additional flashcards with existing cards context
+        var promptWithExistingCards = AiFlashCard.GetPromptOpus(SourceTexts.ShortSourceTextEN, initialFlashCardsJson);
+        var additionalFlashCards = await aiFlashCard.Generate(promptWithExistingCards, AiModel.Claude, TestUserId, TestPageId);
+        var additionalFlashCardsJson = JsonSerializer.Serialize(additionalFlashCards);
+
+        var hasDuplicates = await CheckForDuplicatesViaAi(initialFlashCardsJson, additionalFlashCardsJson);
+
+        await Verify(new
+        {
+            InitialFlashCards = ValidateFlashCards(initialFlashCards, ShortTextMinCards, ShortTextMaxCards),
+            AdditionalFlashCards = ValidateFlashCards(additionalFlashCards, 1, ShortTextMaxCards),
+            AiUsage = await QueryAiUsageLogsSince(testStartTime)
+        });
+
+        if (hasDuplicates)
+        {
+            Console.WriteLine($"Warning: Duplicates detected between initial and additional flashcards." +
+                            $"{Environment.NewLine}Initial: {initialFlashCardsJson}" +
+                            $"{Environment.NewLine}Additional: {additionalFlashCardsJson}");
+        }
     }
+
+    #endregion
+
+    #region Long Source Text Tests
+
+    [Test]
+    public async Task Should_generate_valid_flashcards_for_long_english_text()
+    {
+        var testStartTime = DateTime.UtcNow;
+        var (page, aiFlashCard) = await SetupTestPageAndFlashCardService();
+
+        var flashCards = await aiFlashCard.Generate(
+            SourceTexts.LongSourceTextEN,
+            page.Id,
+            TestUserId,
+            CreateAnonymousPermissionCheck(),
+            AiModel.Claude);
+
+        await Verify(new
+        {
+            FlashCards = ValidateFlashCards(flashCards, LongTextMinCards, LongTextMaxCards),
+            AiUsage = await QueryAiUsageLogsSince(testStartTime)
+        });
+    }
+
+    [Test]
+    public async Task Should_generate_non_duplicate_flashcards_for_long_text_when_existing_cards_provided()
+    {
+        var testStartTime = DateTime.UtcNow;
+        var (page, aiFlashCard) = await SetupTestPageAndFlashCardService();
+        var permissionCheck = CreateAnonymousPermissionCheck();
+
+        // Generate initial flashcards
+        var initialFlashCards = await aiFlashCard.Generate(
+            SourceTexts.LongSourceTextEN,
+            page.Id,
+            TestUserId,
+            permissionCheck,
+            AiModel.Claude);
+
+        var initialFlashCardsJson = JsonSerializer.Serialize(initialFlashCards);
+
+        // Generate additional flashcards with existing cards context
+        var promptWithExistingCards = AiFlashCard.GetPromptOpus(SourceTexts.LongSourceTextEN, initialFlashCardsJson);
+        var additionalFlashCards = await aiFlashCard.Generate(promptWithExistingCards, AiModel.Claude, TestUserId, TestPageId);
+        var additionalFlashCardsJson = JsonSerializer.Serialize(additionalFlashCards);
+
+        var hasDuplicates = await CheckForDuplicatesViaAi(initialFlashCardsJson, additionalFlashCardsJson);
+
+        await Verify(new
+        {
+            InitialFlashCards = ValidateFlashCards(initialFlashCards, LongTextMinCards, LongTextMaxCards),
+            AdditionalFlashCards = ValidateFlashCards(additionalFlashCards, 3, LongTextMaxCards),
+            AiUsage = await QueryAiUsageLogsSince(testStartTime)
+        });
+
+        if (hasDuplicates)
+        {
+            Console.WriteLine($"Warning: Duplicates detected between initial and additional flashcards." +
+                            $"{Environment.NewLine}Initial: {initialFlashCardsJson}" +
+                            $"{Environment.NewLine}Additional: {additionalFlashCardsJson}");
+        }
+    }
+
+    #endregion
+
+    #region Language Consistency Tests
+
+    [Test]
+    public async Task Should_generate_flashcards_in_english_for_english_source_text()
+    {
+        var testStartTime = DateTime.UtcNow;
+        var (page, aiFlashCard) = await SetupTestPageAndFlashCardService();
+
+        var flashCards = await aiFlashCard.Generate(
+            SourceTexts.LongSourceTextEN,
+            page.Id,
+            TestUserId,
+            CreateAnonymousPermissionCheck(),
+            AiModel.Claude);
+
+        if (flashCards == null || flashCards.Count == 0)
+        {
+            await Verify(new
+            {
+                FlashCards = ValidateFlashCards(flashCards, LongTextMinCards, LanguageTestMaxCards),
+                LanguageCheck = new { IsValidResponse = false, LanguageMatches = false },
+                AiUsage = await QueryAiUsageLogsSince(testStartTime)
+            });
+            return;
+        }
+
+        var flashCardsJson = JsonSerializer.Serialize(flashCards);
+        var (isValidResponse, languageMatches) = await CheckLanguageMatchViaAi(SourceTexts.LongSourceTextEN, flashCardsJson);
+
+        await Verify(new
+        {
+            FlashCards = ValidateFlashCards(flashCards, LongTextMinCards, LanguageTestMaxCards),
+            LanguageCheck = new { IsValidResponse = isValidResponse, LanguageMatches = languageMatches },
+            AiUsage = await QueryAiUsageLogsSince(testStartTime)
+        });
+
+        if (!languageMatches)
+        {
+            Console.WriteLine("Warning: Language mismatch - English source text produced non-English flashcards.");
+        }
+    }
+
+    [Test]
+    public async Task Should_generate_flashcards_in_german_for_german_source_text()
+    {
+        var testStartTime = DateTime.UtcNow;
+        var (page, aiFlashCard) = await SetupTestPageAndFlashCardService();
+
+        var flashCards = await aiFlashCard.Generate(
+            SourceTexts.LongSourceTextDE,
+            page.Id,
+            TestUserId,
+            CreateAnonymousPermissionCheck(),
+            AiModel.Claude);
+
+        if (flashCards == null || flashCards.Count == 0)
+        {
+            await Verify(new
+            {
+                FlashCards = ValidateFlashCards(flashCards, LongTextMinCards, LanguageTestMaxCards),
+                LanguageCheck = new { IsValidResponse = false, LanguageMatches = false },
+                AiUsage = await QueryAiUsageLogsSince(testStartTime)
+            });
+            return;
+        }
+
+        var flashCardsJson = JsonSerializer.Serialize(flashCards);
+        var (isValidResponse, languageMatches) = await CheckLanguageMatchViaAi(SourceTexts.LongSourceTextDE, flashCardsJson);
+
+        await Verify(new
+        {
+            FlashCards = ValidateFlashCards(flashCards, LongTextMinCards, LanguageTestMaxCards),
+            LanguageCheck = new { IsValidResponse = isValidResponse, LanguageMatches = languageMatches },
+            AiUsage = await QueryAiUsageLogsSince(testStartTime)
+        });
+
+        if (!languageMatches)
+        {
+            Console.WriteLine("Warning: Language mismatch - German source text produced non-German flashcards.");
+        }
+    }
+
+    #endregion
+
+    #region Edge Case and Validation Tests
+
+    [Test]
+    public async Task Should_return_null_when_source_text_is_null()
+    {
+        var controller = CreatePageStoreController();
+        var request = new PageStoreController.GenerateFlashCardRequest(TestPageId, null);
+
+        var result = await controller.GenerateFlashCard(request);
+
+        await Verify(new { ResultIsNull = result == null });
+    }
+
+    [Test]
+    public async Task Should_return_null_when_page_id_is_invalid()
+    {
+        const int invalidPageId = -1;
+        var controller = CreatePageStoreController();
+        var request = new PageStoreController.GenerateFlashCardRequest(invalidPageId, "Sample source text for flashcard generation.");
+
+        var result = await controller.GenerateFlashCard(request);
+
+        await Verify(new { ResultIsNull = result == null });
+    }
+
+    #endregion
+
+    #region Controller Factory
+
+    private PageStoreController CreatePageStoreController()
+    {
+        return new PageStoreController(
+            R<SessionUser>(),
+            new PermissionCheck(new SessionlessUser(_testHarness.DefaultSessionUserId)),
+            R<KnowledgeSummaryLoader>(),
+            R<PageRepository>(),
+            R<IHttpContextAccessor>(),
+            R<ImageMetaDataReadingRepo>(),
+            R<QuestionReadingRepo>(),
+            R<PageUpdater>(),
+            R<ImageStore>(),
+            R<AiUsageLogRepo>(),
+            R<TokenDeductionService>());
+    }
+
+    #endregion
 }
 

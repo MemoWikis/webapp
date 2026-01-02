@@ -5,6 +5,13 @@ internal static class VerifyGlobalInit
     [ModuleInitializer]
     internal static void Init()
     {
+        // Disable auto-launching of diff tools only when NOT debugging in Visual Studio
+        // This allows manual testing in Visual Studio to show diffs, while keeping automated tests clean
+        if (!System.Diagnostics.Debugger.IsAttached)
+        {
+            Environment.SetEnvironmentVariable("DiffEngine_Disabled", "true");
+        }
+        
         // Replace the values with «scrubbed» placeholders
         VerifierSettings.IgnoreMember("DateCreated");
         VerifierSettings.IgnoreMember("DateModified");
