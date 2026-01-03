@@ -1,89 +1,68 @@
 ﻿using System.Text.Json;
 using System.Text.RegularExpressions;
 
-public class AiFlashCard(
-    AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePerLifetime
+public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePerLifetime
 {
     public record struct FlashCard(string Front, string Back);
 
     public record struct BackJson(string Text);
 
-    public static string GetPromptO1(string sourceText, string flashcards)
-    {
-        return @"
-            Antworte mit Karteikarten als JSON-Array, das zwei Eigenschaften enthält: 'Front' und 'Back'. 
-            Beispiel für JSON-Array:
-            [
-                { 'Front': 'Was ist die Hauptstadt von Deutschland?', 'Back': 'Berlin' },
-                { 'Front': 'Was ist die Hauptstadt von Frankreich?', 'Back': 'Paris' }
-            ]
-            Formatierung: Wichtige Worte können kursiv mit <em>, fett mit <strong> oder mit einem Unterstrich <u> per HTML-Tags formatiert werden. 
-            Listen sind auch möglich. Formatiere mit HTML-Tags.
-            
-            Regeln:
-            1. 'Front' ist die Vorderseite der Karteikarte und soll nur eine einzige Frage, ein Wort, einen Begriff, einen Satz oder eine Phrase enthalten.
-            2. 'Back' ist die Rückseite der Karteikarte.
-            
-            Folgende Karteikarten existieren bereits:
-            " + flashcards + @"
-            
-            Wichtig:
-            - Prüfe vor dem Erstellen neuer Karteikarten, ob bereits eine Karteikarte mit derselben 'Front' ODER demselben 'Back' existiert. 
-              Wenn ja, erstelle KEINE Duplikate oder leicht umformulierte Varianten. 
-            - Erstelle nur Karteikarten, die inhaltlich zum folgenden Text passen und sich nicht inhaltlich wiederholen:
-            " + sourceText + @"
-            Gib nur die neuen Karteikarten als JSON-Array aus, ohne jede weitere Erklärung oder Codeblöcke. Überprüfe nochmal ob es inhaltiche Duplikate gibt, falls ja entferne diese, und gebe mir nur die neuen Karteikarten.";
-    }
 
-    public static string GetPromptOpus(string sourceText, string flashcards)
+    public static string GetPrompt(string sourceText, string flashcards)
     {
         return @"
-            Antworte ausschließlich mit einem JSON-Array von Karteikarten.
-            Jede Karteikarte hat zwei Eigenschaften: 'Front' und 'Back'.
+            Respond exclusively with a JSON array of flashcards.
+            Each flashcard has two properties: 'Front' and 'Back'.
             
-            Beispiel für ein JSON-Array:
+            Example of a JSON array:
             [
-              { 'Front': 'Was ist die Hauptstadt von Deutschland?', 'Back': 'Berlin' },
-              { 'Front': 'Was ist die Hauptstadt von Frankreich?', 'Back': 'Paris' }
+              { 'Front': 'What is the capital of Germany?', 'Back': 'Berlin' },
+              { 'Front': 'What is the capital of France?', 'Back': 'Paris' }
             ]
             
-            Formatierungshinweise:
-            - Verwende nur HTML-Tags für Hervorhebungen (<em>, <strong>, <u>) oder Listen.
-            - Mache keine zusätzlichen Erläuterungen.
-            - Gib keinerlei Ausgabe in Code-Blöcken zurück.
+            Formatting instructions:
+            - Use only HTML tags for emphasis (<em>, <strong>, <u>) or lists.
+            - Do not provide additional explanations.
+            - Do not return any output in code blocks.
             
             'Front':
-            - Enthält nur eine einzige Frage, einen Begriff, einen Satz oder eine Phrase.
+            - Contains only a single question, term, sentence, or phrase.
             'Back':
-            - Enthält die passende Antwort oder Erklärung.
+            - Contains the appropriate answer or explanation.
             
-            Berücksichtige vorhandene Karteikarten:
+            Consider existing flashcards:
             " + flashcards + @"
             
-            Achte unbedingt darauf:
-            - Die Sprache der erstellten Karteikarten muss exakt mit der des gegebenen Textes übereinstimmen.
-            - Sollte der gegebene Text gemischte Sprachen enthalten, verwende die dominante Sprache.
+            Important notes:
+            - The language of the created flashcards must exactly match that of the given text.
+            - If the given text contains mixed languages, use the dominant language.
             
-            Deine Aufgabe:
-            1. Lies den folgenden gegebenen Text aufmerksam:
+            Your task:
+            1. Read the following given text carefully:
                """ + sourceText + @"""
-            2. Extrahiere daraus relevante Konzepte und formuliere neue potenzielle Karteikarten in derselben Sprache wie der gegebene Text. 
-               - Es ist sehr, sehr wichtig, dass es keine Duplikate gibt. 
-               - Duplikate zu vermeiden hat oberste Priorität.
-            3. Prüfe jede potenzielle Karte gründlich gegen die vorhandenen Karten und untereinander:
-               - Vergleiche sowohl 'Front' als auch 'Back' (ignoriere Groß- und Kleinschreibung, Satzzeichen und kleinere Abweichungen).
-               - Stelle sicher, dass sich keine Duplikate einschleichen.
-            4. Verwirf jede potenzielle Karte, die inhaltlich bereits existiert (Duplikate von vorhandenen oder bereits erstellten Karten).
-            5. Gib ausschließlich die neuen, eindeutigen Karteikarten als JSON-Array zurück.
-            6. Falls der gegebene Text zu kurz und unklar ist oder keinen Sinn macht, gib ein leeres JSON-Array zurück.
-            7. Prüfe das Ergebnis auf Duplikate und entferne diese.
+            2. Extract relevant concepts from it and formulate new potential flashcards in the same language as the given text.
+               - It is very, very important that there are no duplicates.
+               - Avoiding duplicates has the highest priority.
+            3. Check each potential card thoroughly against existing cards and against each other:
+               - Compare both 'Front' and 'Back' (ignore case, punctuation, and minor variations).
+               - Ensure that no duplicates slip through.
+            4. Discard any potential card that already exists in content (duplicates of existing or already created cards).
+            5. Return exclusively the new, unique flashcards as a JSON array.
+            6. If the given text is too short and unclear or does not make sense, return an empty JSON array.
+            7. Check the result for duplicates and remove them.
             
-            Denke daran:
-            - Keine Erklärungen, keine Einleitungen oder Zusammenfassungen.
-            - Antworte nur mit dem JSON-Array (ohne Code-Blöcke).
+            Remember:
+            - No explanations, no introductions or summaries.
+            - Respond only with the JSON array (without code blocks).
+            
+            CRITICAL - JSON formatting:
+            - Your response MUST start with '[' and end with ']'.
+            - No characters before '[' or after ']'.
+            - No backticks, no Markdown code blocks.
+            - No parentheses ')' or other characters after the JSON array.
+            - Use exclusively double quotes for JSON properties.
             ";
     }
-
 
 
     public static List<FlashCard> GetFlashCardsOnPage(int id, PermissionCheck permissionCheck)
@@ -122,7 +101,7 @@ public class AiFlashCard(
         var existingFlashCards = GetFlashCardsOnPage(pageId, permissionCheck);
         var flashcards = JsonSerializer.Serialize(existingFlashCards);
 
-        string promptContent = GetPromptOpus(text, flashcards);
+        string promptContent = GetPrompt(text, flashcards);
         if (string.IsNullOrWhiteSpace(promptContent))
             return new List<FlashCard>();
 
@@ -141,22 +120,124 @@ public class AiFlashCard(
         return result;
     }
 
+    private const int MaxRetries = 2;
+
     private async Task<List<FlashCard>> GenerateFlashcardsWithTokenDeduction(string promptContent, int userId, int pageId)
     {
-        var response = await ClaudeService.GetClaudeResponse(promptContent);
-
-        if (response != null)
+        for (var attempt = 1; attempt <= MaxRetries; attempt++)
         {
-            _aiUsageLogRepo.AddUsage(response, userId, pageId);
+            var response = await ClaudeService.GetClaudeResponse(promptContent);
+
+            if (response != null)
+            {
+                _aiUsageLogRepo.AddUsage(response, userId, pageId);
+            }
+
+            var flashCards = TryParseFlashCardsFromResponse(response, attempt, pageId);
+            
+            if (flashCards != null && flashCards.Count > 0)
+            {
+                if (attempt > 1)
+                {
+                    Log.Information(
+                        "FlashCard generation succeeded on attempt {Attempt} for pageId {PageId}",
+                        attempt, pageId);
+                }
+                return flashCards;
+            }
+
+            if (attempt < MaxRetries)
+            {
+                Log.Information(
+                    "Retrying FlashCard generation for pageId {PageId} (attempt {NextAttempt}/{MaxRetries})",
+                    pageId, attempt + 1, MaxRetries);
+            }
         }
 
-        if (response is { Role: "assistant", Content.Count: > 0 }
-            && !string.IsNullOrWhiteSpace(response.Content[0].Text))
-        {
-            var flashCards = JsonSerializer.Deserialize<List<FlashCard>>(response.Content[0].Text);
-            return flashCards ?? new List<FlashCard>();
-        }
+        Log.Error(
+            "FlashCard generation failed after {MaxRetries} attempts for pageId {PageId}",
+            MaxRetries, pageId);
 
         return new List<FlashCard>();
+    }
+
+    private List<FlashCard> TryParseFlashCardsFromResponse(AnthropicApiResponse response, int attempt, int pageId)
+    {
+        if (response is not { Role: "assistant", Content.Count: > 0 })
+        {
+            Log.Warning(
+                "FlashCard generation returned empty or invalid response (attempt {Attempt}/{MaxRetries}) for pageId {PageId}",
+                attempt, MaxRetries, pageId);
+            return null;
+        }
+
+        if (string.IsNullOrWhiteSpace(response.Content[0].Text))
+        {
+            Log.Warning(
+                "FlashCard generation returned empty text (attempt {Attempt}/{MaxRetries}) for pageId {PageId}",
+                attempt, MaxRetries, pageId);
+            return null;
+        }
+
+        var rawText = response.Content[0].Text;
+        var normalizedJson = NormalizeFlashCardJson(rawText);
+
+        try
+        {
+            var flashCards = JsonSerializer.Deserialize<List<FlashCard>>(normalizedJson);
+            
+            if (flashCards == null || flashCards.Count == 0)
+            {
+                Log.Warning(
+                    "FlashCard generation returned empty array (attempt {Attempt}/{MaxRetries}) for pageId {PageId}",
+                    attempt, MaxRetries, pageId);
+                return null;
+            }
+
+            return flashCards;
+        }
+        catch (JsonException ex)
+        {
+            Log.Warning(
+                "FlashCard JSON parse failed (attempt {Attempt}/{MaxRetries}) for pageId {PageId}. Error: {Error}. RawResponse: {RawResponse}",
+                attempt, MaxRetries, pageId, ex.Message, Truncate(rawText, 500));
+            return null;
+        }
+    }
+
+    private static string NormalizeFlashCardJson(string rawResponseText)
+    {
+        if (string.IsNullOrWhiteSpace(rawResponseText))
+        {
+            return string.Empty;
+        }
+
+        var trimmed = rawResponseText.Trim();
+
+        trimmed = Regex.Replace(trimmed, "^```(json)?\\s*|```\\s*$", string.Empty, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+        var firstBracket = trimmed.IndexOf('[');
+        var lastBracket = trimmed.LastIndexOf(']');
+
+        if (firstBracket >= 0 && lastBracket > firstBracket)
+        {
+            trimmed = trimmed.Substring(firstBracket, lastBracket - firstBracket + 1);
+        }
+
+        trimmed = trimmed.Replace("“", "\"").Replace("”", "\"");
+        trimmed = Regex.Replace(trimmed, "'Front'", "\"Front\"", RegexOptions.IgnoreCase);
+        trimmed = Regex.Replace(trimmed, "'Back'", "\"Back\"", RegexOptions.IgnoreCase);
+
+        return trimmed;
+    }
+
+    private static string Truncate(string text, int maxLength)
+    {
+        if (string.IsNullOrEmpty(text) || text.Length <= maxLength)
+        {
+            return text;
+        }
+
+        return text[..maxLength];
     }
 }
