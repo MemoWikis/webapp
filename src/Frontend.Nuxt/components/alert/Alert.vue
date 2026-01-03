@@ -2,10 +2,8 @@
 import { useAlertStore, AlertType } from './alertStore'
 
 import successImage1 from '~/assets/images/Illustrations/hummingbird_flipped 500 x 500.png'
-import successImage2 from '~/assets/images/Illustrations/parrot_flipped 500 x 500.png'
 import successImage3 from '~/assets/images/Illustrations/girl_success2.png'
 import successImage4 from '~/assets/images/Illustrations/bird_success 500 x 500.png'
-import neutralImage from '~/assets/images/Illustrations/butterfly 500 x 500.png'
 import errorImage from '~/assets/images/Illustrations/owl_error3 500 x 500.png'
 
 const alertStore = useAlertStore()
@@ -13,7 +11,6 @@ const alertStore = useAlertStore()
 const randomImageSuccess = ref('')
 const successImages = [
     successImage1,
-    // successImage2,
     successImage3,
     successImage4,
 ]
@@ -30,7 +27,7 @@ watch(() => alertStore.show, (show) => {
 
 function shuffleSuccessImage(): void {
     const randomIdx = Math.floor(Math.random() * successImages.length)
-    var newImage = successImages[randomIdx]
+    const newImage = successImages[randomIdx]
     if (successImages.length < 2 || newImage != randomImageSuccess.value) {
         randomImageSuccess.value = newImage
     } else {
@@ -60,14 +57,14 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <VueFinalModal v-model="alertStore.show" @keydown.esc="alertStore.closeAlert(true)" :z-index-auto="false"
+    <VueFinalModal v-model="alertStore.show" :z-index-auto="false" @keydown.esc="alertStore.closeAlert(true)"
         @close="alertStore.closeAlert(true)">
         <div class="modal-dialog" :class="{ 'has-icon': alertStore.type != AlertType.Default }" role="document">
             <div class="modal-content">
 
                 <div class="modal-body">
                     <div class="alert-body">
-                        <div class="alert-img-container" v-if="hasImage">
+                        <div v-if="hasImage" class="alert-img-container">
                             <img v-if="alertStore.msg?.customImg" width="200" :src="alertStore.msg?.customImg" />
                             <img v-else-if="alertStore.type === AlertType.Error" width="200" :src="errorImage" />
                             <img v-else-if="alertStore.type === AlertType.Success" width="200"
@@ -82,22 +79,24 @@ const { t } = useI18n()
                                     icon="fa-solid fa-circle-xmark" class="error" />
                                 {{ alertStore.title }}
                             </h3>
-                            <div class="alert-msg-container" v-if="alertStore.text || alertStore.texts">
+                            <div v-if="alertStore.text || alertStore.texts" class="alert-msg-container">
                                 <div class="alert-msg">
-                                    <template v-if="alertStore.texts.length > 0" v-for="(text, i) in alertStore.texts">
-                                        {{ text }}
-                                        <br v-if="i + 1 < alertStore.texts.length" />
+                                    <template v-if="alertStore.texts.length > 0">
+                                        <template v-for="(text, i) in alertStore.texts" :key="i">
+                                            {{ text }}
+                                            <br v-if="i + 1 < alertStore.texts.length" />
+                                        </template>
                                     </template>
                                     <template v-else-if="alertStore.text">
                                         {{ alertStore.text }}
                                     </template>
                                 </div>
                             </div>
-                            <div v-if="alertStore.msg != null" v-html="alertStore.msg.customHtml"></div>
+                            <div v-if="alertStore.msg != null" v-html="alertStore.msg.customHtml" />
                         </div>
                     </div>
                     <div v-if="alertStore.msg?.customDetails" class="alert-details">
-                        <div class="alert-details-label" @click="showDetails = !showDetails" v-if="!showDetails">
+                        <div v-if="!showDetails" class="alert-details-label" @click="showDetails = !showDetails">
                             {{ t('alert.showDetails') }}
                         </div>
                         <div v-if="showDetails" class="alert-details-code">
@@ -105,7 +104,7 @@ const { t } = useI18n()
                                 <code> {{ alertStore.msg.customDetails }} </code>
                             </div>
                             <div class="copy-container">
-                                <div class="copy-icon" v-tooltip="t('alert.copySourceCode')" @click="copyToClipboard">
+                                <div v-tooltip="t('alert.copySourceCode')" class="copy-icon" @click="copyToClipboard">
                                     <font-awesome-icon :icon="['fas', 'copy']" />
                                 </div>
                             </div>
@@ -119,11 +118,13 @@ const { t } = useI18n()
                         'btn-error': alertStore.type === AlertType.Error,
                         'btn-primary': alertStore.type === AlertType.Default
                     }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
-                    <button v-if="alertStore.showCancelButton" class="btn memo-button btn-link pull-right cancel-alert" @click="alertStore.closeAlert(true)">
+                    <button v-if="alertStore.showCancelButton" class="btn memo-button btn-link pull-right cancel-alert"
+                        @click="alertStore.closeAlert(true)">
                         {{ alertStore.cancelLabel }}
                     </button>
-                    <div v-if="alertStore.msg != null && alertStore.msg.customBtn" v-html="alertStore.msg.customBtn" @click="alertStore.closeAlert(false, alertStore.msg!.customBtnKey)">
-                    </div>
+                    <div v-if="alertStore.msg != null && alertStore.msg.customBtn"
+                        @click="alertStore.closeAlert(false, alertStore.msg!.customBtnKey)"
+                        v-html="alertStore.msg.customBtn" />
                 </div>
 
             </div>
