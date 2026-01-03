@@ -34,23 +34,34 @@ Write-Host "Step 2: Replaced 'memoWikisTest' with 'memoWikis_dev'" -ForegroundCo
 $sqlContent | Set-Content -Path $targetSqlPath -Encoding UTF8
 Write-Host "Step 3: Written schema to $targetSqlPath" -ForegroundColor Yellow
 
-# Step 4: Stop Docker containers
-Write-Host "Step 4: Stopping Docker containers..." -ForegroundColor Yellow
+# Step 4: Flush Redis for Hocuspocus
+Write-Host "Step 4: Flushing Redis database..." -ForegroundColor Yellow
 Push-Location $dockerDevPath
+try {
+    docker-compose exec -T redis redis-cli FLUSHALL
+    Write-Host "  Redis database flushed successfully." -ForegroundColor Green
+}
+catch {
+    Write-Host "  Warning: Could not flush Redis. Container may not be running." -ForegroundColor Yellow
+}
+
+# Step 5: Stop Docker containers
+Write-Host "Step 5: Stopping Docker containers..." -ForegroundColor Yellow
 try {
     docker-compose down
     
-    # Step 5: Remove MySQL data directory
-    Write-Host "Step 5: Removing MySQL data directory: $MysqlDataPath" -ForegroundColor Yellow
+    # Step 6: Remove MySQL data directory
+    Write-Host "Step 6: Removing MySQL data directory: $MysqlDataPath" -ForegroundColor Yellow
     if (Test-Path $MysqlDataPath) {
         Remove-Item -Recurse -Force $MysqlDataPath
         Write-Host "  MySQL data directory removed." -ForegroundColor Green
-    } else {
+    }
+    else {
         Write-Host "  MySQL data directory does not exist, skipping removal." -ForegroundColor Gray
     }
     
-    # Step 6: Start Docker containers
-    Write-Host "Step 6: Starting Docker containers..." -ForegroundColor Yellow
+    # Step 7: Start Docker containers
+    Write-Host "Step 7: Starting Docker containers..." -ForegroundColor Yellow
     docker-compose up -d
     
     Write-Host ""
