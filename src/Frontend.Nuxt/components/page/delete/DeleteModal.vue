@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useDeletePageStore } from './deletePageStore'
-import { SearchType, PageItem } from '~~/components/search/searchHelper'
+import type { PageItem } from '~~/components/search/searchHelper';
+import { SearchType } from '~~/components/search/searchHelper'
 
 const deletePageStore = useDeletePageStore()
 const { t } = useI18n()
@@ -16,17 +17,25 @@ const primaryBtnLabel = computed(() => {
 })
 
 const newParentForQuestions = ref<PageItem>()
+const isDeleting = ref(false)
 
 watch(() => deletePageStore.suggestedNewParent, (val) => {
-    if (val)
+    if (val) {
         newParentForQuestions.value = val
+    }
+})
+
+watch(() => deletePageStore.pageDeleted, async (val) => {
+    if (val && deletePageStore.redirect) {
+        await handlePageDeletion()
+    }
 })
 
 const handlePageDeletion = async () => {
-    closeModal()
-
-    if (deletePageStore.redirect)
+    if (deletePageStore.redirect) {
         await navigateTo(deletePageStore.redirectURL)
+    }
+    closeModal()
 }
 
 const closeModal = () => {
@@ -34,11 +43,15 @@ const closeModal = () => {
     deletePageStore.pageDeleted = false
 }
 
-const handlePrimaryAction = async () => {
-    if (deletePageStore.pageDeleted)
+const onDeletePage = async () => {
+    if (deletePageStore.pageDeleted) {
         await handlePageDeletion()
-    else
-        deletePageStore.deletePage()
+    } else {
+        isDeleting.value = true
+        deletePageStore.deletePage().finally(() => {
+            isDeleting.value = false
+        })
+    }
 }
 
 const handleClose = () => {
@@ -64,11 +77,11 @@ const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
-    <LazyModal :show="deletePageStore.showModal" :show-cancel-btn="!deletePageStore.pageDeleted"
-        v-if="deletePageStore.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="handlePrimaryAction()"
-        @close="handleClose">
+    <LazyModal v-if="deletePageStore.showModal" :show="deletePageStore.showModal"
+        :show-cancel-btn="!deletePageStore.pageDeleted" :primary-btn-label="primaryBtnLabel" :disabled="isDeleting"
+        @primary-btn="onDeletePage()" @close="handleClose">
 
-        <template v-slot:header>
+        <template #header>
             <h4 class="modal-title">
                 <template v-if="deletePageStore.pageDeleted">
                     {{ t(deletePageStore.isWiki
@@ -84,7 +97,7 @@ const { $urlHelper } = useNuxtApp()
             </h4>
         </template>
 
-        <template v-slot:body>
+        <template #body>
             <div class="delete-modal">
                 <template v-if="deletePageStore.pageDeleted && deletePageStore.redirect">
                     {{ t(deletePageStore.isWiki
@@ -123,17 +136,20 @@ const { $urlHelper } = useNuxtApp()
                                     <br />
                                 </template>
                             </div>
-                            <div class="body-s" v-if="newParentForQuestions">
+                            <div v-if="newParentForQuestions" class="body-s">
                                 <i18n-t keypath="page.deleteModal.message.questions.suggestion" tag="span">
                                     <template #name>
-                                        <NuxtLink :to="$urlHelper.getPageUrl(newParentForQuestions.name, newParentForQuestions.id)">
+                                        <NuxtLink
+                                            :to="$urlHelper.getPageUrl(newParentForQuestions.name, newParentForQuestions.id)">
                                             {{ newParentForQuestions.name }}
                                         </NuxtLink>
                                     </template>
                                 </i18n-t>
                             </div>
                             <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
-                                <div v-if="showSelectedPage && newParentForQuestions != null" class="searchResultItem mb-125" data-toggle="tooltip" data-placement="top" :title="newParentForQuestions.name">
+                                <div v-if="showSelectedPage && newParentForQuestions != null"
+                                    class="searchResultItem mb-125" data-toggle="tooltip" data-placement="top"
+                                    :title="newParentForQuestions.name">
                                     <img :src="newParentForQuestions.imageUrl" />
                                     <div class="searchResultBody">
                                         <div class="searchResultLabel body-m">{{ newParentForQuestions.name }}</div>
@@ -144,11 +160,14 @@ const { $urlHelper } = useNuxtApp()
                                     </div>
                                 </div>
                                 <div class="body-s">{{ t('page.deleteModal.message.questions.searchOther') }}</div>
-                                <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectNewParentForQuestions" :page-ids-to-filter="[deletePageStore.id]" :public-only="deletePageStore.hasPublicQuestion" />
+                                <Search :search-type="SearchType.page" :show-search="true"
+                                    :page-ids-to-filter="[deletePageStore.id]"
+                                    :public-only="deletePageStore.hasPublicQuestion"
+                                    @select-item="selectNewParentForQuestions" />
                             </div>
                         </div>
                     </div>
-                    <div class="alert alert-warning" role="alert" v-if="deletePageStore.showErrorMsg">
+                    <div v-if="deletePageStore.showErrorMsg" class="alert alert-warning" role="alert">
                         {{ deletePageStore.messageKey }}
                     </div>
                 </template>

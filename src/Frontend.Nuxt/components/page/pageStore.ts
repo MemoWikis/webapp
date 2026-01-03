@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
-import { Author } from '../author/author'
-import { PageItem } from '../search/searchHelper'
-import { GridPageItem } from './content/grid/item/gridPageItem'
+import type { Author } from '../author/author'
+import type { PageItem } from '../search/searchHelper'
+import type { GridPageItem } from './content/grid/item/gridPageItem'
 import { AlertType, useAlertStore } from '../alert/alertStore'
-import { useSnackbarStore, SnackbarData } from '../snackBar/snackBarStore'
-import { ErrorCode } from '../error/errorCodeEnum'
+import type { SnackbarData } from '../snackBar/snackBarStore'
+import { useSnackbarStore } from '../snackBar/snackBarStore'
+import type { ErrorCode } from '../error/errorCodeEnum'
 import { nanoid } from 'nanoid'
 import { useLoadingStore } from '../loading/loadingStore'
 
@@ -35,7 +36,6 @@ export class Page {
     pageItem: PageItem | null = null
     metaDescription: string = ''
     knowledgeSummary: KnowledgeSummary = {
-
         totalCount: 0,
 
         inWishKnowledge: {
@@ -258,7 +258,6 @@ export const usePageStore = defineStore('pageStore', () => {
         }
     }
 
-
     const saveContent = async () => {
         const userStore = useUserStore()
         const snackbarStore = useSnackbarStore()
@@ -274,7 +273,7 @@ export const usePageStore = defineStore('pageStore', () => {
 
         const uploadId = nanoid(5)
         saveTrackingArray.value.push(uploadId)
-        
+
         const data = {
             id: id.value,
             content: content.value,
@@ -306,10 +305,7 @@ export const usePageStore = defineStore('pageStore', () => {
         const nuxtApp = useNuxtApp()
         const { $i18n } = nuxtApp
 
-        if (
-            result.success == true &&
-            visibility.value != Visibility.Private
-        ) {
+        if (result.success == true && visibility.value != Visibility.Private) {
             const data: SnackbarData = {
                 type: 'success',
                 text: { message: $i18n.t('success.page.saved') },
@@ -571,13 +567,11 @@ export const usePageStore = defineStore('pageStore', () => {
     }
 
     // Current images will be set by the ContentEditor via setCurrentImages
-    const currentImages = ref<string[]>([]);
-    
+    const currentImages = ref<string[]>([])
+
     const setCurrentImages = (images: string[]) => {
         currentImages.value = images
     }
-
-
 
     const getAnalyticsData = async () => {
         const data = await $api<GetPageAnalyticsResponse>(
@@ -622,7 +616,9 @@ export const usePageStore = defineStore('pageStore', () => {
         const data = {
             pageId: id.value,
             text:
-                (selectedTextParam ?? '').length > 0 ? selectedTextParam : text.value,
+                (selectedTextParam ?? '').length > 0
+                    ? selectedTextParam
+                    : text.value,
         }
         const result = await $api<GenerateFlashcardResponse>(
             `/apiVue/PageStore/GenerateFlashcard/`,
@@ -642,9 +638,10 @@ export const usePageStore = defineStore('pageStore', () => {
         return result
     }
 
-    const reGenerateFlashcard = async (): Promise<GenerateFlashcardResponse> => {
-        return await generateFlashcard(selectedText.value)
-    }
+    const reGenerateFlashcard =
+        async (): Promise<GenerateFlashcardResponse> => {
+            return await generateFlashcard(selectedText.value)
+        }
 
     const updateQuestionCount = async () => {
         const result = await $api<number>(
@@ -689,15 +686,12 @@ export const usePageStore = defineStore('pageStore', () => {
             credentials: 'include',
             onResponseError(context) {
                 const { $logger } = useNuxtApp()
-                $logger.error(
-                    `fetch Error: ${context.response?.statusText}`,
-                    [
-                        {
-                            response: context.response,
-                            req: context.request,
-                        },
-                    ]
-                )
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [
+                    {
+                        response: context.response,
+                        req: context.request,
+                    },
+                ])
             },
         })
         isShared.value = result
@@ -708,14 +702,15 @@ export const usePageStore = defineStore('pageStore', () => {
         userStore.showLoginReminder = false
 
         if (isShared.value && canEditByToken.value) {
-            if (!userStore.isLoggedIn)
-                userStore.showLoginReminder = true
+            if (!userStore.isLoggedIn) userStore.showLoginReminder = true
         }
     }
 
     // Getters
     const getPageName = computed(() => name.value)
-    const hasVisibleDirectChildren = computed(() => directVisibleChildPageCount.value > 0)
+    const hasVisibleDirectChildren = computed(
+        () => directVisibleChildPageCount.value > 0
+    )
 
     return {
         // State
@@ -766,7 +761,7 @@ export const usePageStore = defineStore('pageStore', () => {
         canEditByToken,
         totalQuestionViews,
         directQuestionViews,
-        
+
         // Actions
         setPage,
         saveContent,
@@ -790,9 +785,9 @@ export const usePageStore = defineStore('pageStore', () => {
         handleLoginReminder,
         setCurrentImages,
         currentImages,
-        
+
         // Getters
         getPageName,
-        hasVisibleDirectChildren
+        hasVisibleDirectChildren,
     }
 })
