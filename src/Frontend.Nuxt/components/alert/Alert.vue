@@ -42,7 +42,9 @@ const hasImage = computed(() => {
 
 async function copyToClipboard() {
     if (alertStore.msg?.customDetails) {
-        const text = alertStore.msg.customDetails
+        const text = typeof alertStore.msg.customDetails === 'string'
+            ? alertStore.msg.customDetails
+            : JSON.stringify(alertStore.msg.customDetails, null, 2)
         await navigator.clipboard.writeText(text)
     }
 }
@@ -104,9 +106,10 @@ const { t } = useI18n()
                                 <code> {{ alertStore.msg.customDetails }} </code>
                             </div>
                             <div class="copy-container">
-                                <div v-tooltip="t('alert.copySourceCode')" class="copy-icon" @click="copyToClipboard">
+                                <button class="btn btn-primary btn-sm" @click="copyToClipboard">
                                     <font-awesome-icon :icon="['fas', 'copy']" />
-                                </div>
+                                    {{ t('alert.copySourceCode') }}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -115,8 +118,7 @@ const { t } = useI18n()
                 <div class="modal-footer">
                     <button class="btn memo-button pull-right" :class="{
                         'btn-success': alertStore.type === AlertType.Success,
-                        'btn-error': alertStore.type === AlertType.Error,
-                        'btn-primary': alertStore.type === AlertType.Default
+                        'btn-primary': alertStore.type === AlertType.Error || alertStore.type === AlertType.Default
                     }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
                     <button v-if="alertStore.showCancelButton" class="btn memo-button btn-link pull-right cancel-alert"
                         @click="alertStore.closeAlert(true)">
@@ -214,38 +216,8 @@ const { t } = useI18n()
 
         .copy-container {
             display: flex;
-            flex-wrap: nowrap;
-            align-items: center;
-            flex-direction: row-reverse;
-            margin-top: 24px;
-            cursor: pointer;
-
-            .copy-icon {
-                font-size: 18px;
-                padding: 8px;
-                border: solid 2px @memo-grey-light;
-                border-radius: 4px;
-                width: 50px;
-                height: 50px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-left: 8px;
-                color: @memo-grey-light;
-                transition: all 0.1s ease-out;
-                background: @memo-grey-lighter;
-
-                &:hover {
-                    color: @memo-grey-dark;
-                    filter: brightness(0.95);
-                }
-
-                &:active {
-                    color: @memo-grey-dark;
-                    border: solid 2px @memo-grey-dark;
-                    filter: brightness(0.85);
-                }
-            }
+            justify-content: flex-end;
+            margin-top: 16px;
         }
     }
 }
