@@ -4,16 +4,26 @@
 -- ------------------------------------------------------
 -- Server version	8.3.0
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
+;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */
+;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */
+;
+/*!50503 SET NAMES utf8mb4 */
+;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */
+;
+/*!40103 SET TIME_ZONE='+00:00' */
+;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */
+;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */
+;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */
+;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */
+;
 
 --
 -- Current Database: `memoWikis_dev`
@@ -28,26 +38,31 @@ USE `memoWikis_dev`;
 --
 
 DROP TABLE IF EXISTS `activitypoints`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `activitypoints` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Amount` int DEFAULT NULL,
-  `DateEarned` datetime DEFAULT NULL,
-  `User_id` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Amount` int DEFAULT NULL,
+    `DateEarned` datetime DEFAULT NULL,
+    `User_id` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `activitypoints`
 --
 
 LOCK TABLES `activitypoints` WRITE;
-/*!40000 ALTER TABLE `activitypoints` DISABLE KEYS */;
-/*!40000 ALTER TABLE `activitypoints` ENABLE KEYS */;
+/*!40000 ALTER TABLE `activitypoints` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `activitypoints` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -55,27 +70,69 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `ai_usage_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `ai_usage_log` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `User_id` int DEFAULT NULL,
-  `Page_id` int DEFAULT NULL,
-  `TokenIn` int DEFAULT NULL,
-  `TokenOut` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `Model` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `User_id` int DEFAULT NULL,
+    `Page_id` int DEFAULT NULL,
+    `TokenIn` int DEFAULT NULL,
+    `TokenOut` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `Model` varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `ai_usage_log`
 --
 
 LOCK TABLES `ai_usage_log` WRITE;
-/*!40000 ALTER TABLE `ai_usage_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ai_usage_log` ENABLE KEYS */;
+/*!40000 ALTER TABLE `ai_usage_log` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `ai_usage_log` ENABLE KEYS */
+;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `aimodelwhitelist`
+--
+
+DROP TABLE IF EXISTS `aimodelwhitelist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
+CREATE TABLE `aimodelwhitelist` (
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `ModelId` varchar(100) NOT NULL,
+    `DisplayName` varchar(200) DEFAULT NULL,
+    `Provider` int NOT NULL,
+    `TokenCostMultiplier` decimal(10, 2) NOT NULL DEFAULT '1.00',
+    `IsEnabled` tinyint(1) NOT NULL DEFAULT '1',
+    `IsDefault` tinyint(1) NOT NULL DEFAULT '0',
+    `SortOrder` int NOT NULL DEFAULT '0',
+    PRIMARY KEY (`Id`),
+    UNIQUE KEY `idx_aimodelwhitelist_modelid` (`ModelId`),
+    KEY `idx_aimodelwhitelist_provider` (`Provider`),
+    KEY `idx_aimodelwhitelist_enabled` (`IsEnabled`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
+
+--
+-- Dumping data for table `aimodelwhitelist`
+--
+
+LOCK TABLES `aimodelwhitelist` WRITE;
+/*!40000 ALTER TABLE `aimodelwhitelist` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `aimodelwhitelist` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -83,33 +140,507 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `answer`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `answer` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `UserId` int DEFAULT NULL,
-  `QuestionId` int DEFAULT NULL,
-  `QuestionViewGuid` varchar(36) DEFAULT NULL,
-  `InteractionNumber` int DEFAULT NULL,
-  `AnswerText` varchar(255) DEFAULT NULL,
-  `AnswerredCorrectly` int DEFAULT NULL,
-  `Milliseconds` int DEFAULT NULL,
-  `Migrated` tinyint(1) DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `QuestionId` (`QuestionId`),
-  CONSTRAINT `FK_4975C7EB` FOREIGN KEY (`QuestionId`) REFERENCES `question` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `UserId` int DEFAULT NULL,
+    `QuestionId` int DEFAULT NULL,
+    `QuestionViewGuid` varchar(36) DEFAULT NULL,
+    `InteractionNumber` int DEFAULT NULL,
+    `AnswerText` varchar(255) DEFAULT NULL,
+    `AnswerredCorrectly` int DEFAULT NULL,
+    `Milliseconds` int DEFAULT NULL,
+    `Migrated` tinyint(1) DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `QuestionId` (`QuestionId`),
+    CONSTRAINT `FK_4975C7EB` FOREIGN KEY (`QuestionId`) REFERENCES `question` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `answer`
 --
 
 LOCK TABLES `answer` WRITE;
-/*!40000 ALTER TABLE `answer` DISABLE KEYS */;
-INSERT INTO `answer` VALUES (1,1,6,'e1715bc5-f778-4c3b-89ce-810e9354b145',1,'Answer 2 for page LearningUser Subtopic 2-1',0,5127,0,'2024-12-11 12:16:38'),(2,1,3,'6a4663a9-874c-4c4b-a495-c0ce7395fd7d',1,'Answer 1 for page LearningUser Subtopic 1-1',1,9622,0,'2024-12-11 10:51:38'),(3,1,2,'6cc22af0-423a-474e-8f0f-bfb014a43561',1,'Incorrect answer',1,1941,0,'2024-12-11 08:32:42'),(4,1,5,'0292cf30-27e4-4c8a-bf8b-e4c5b5772141',1,'Incorrect answer',1,1209,0,'2024-12-11 09:25:20'),(5,1,1,'f89f301a-8d46-4246-8322-d027b8bd6818',1,'Answer 1 for page LearningUser Topic 1',1,6097,0,'2024-12-11 21:43:46'),(6,1,4,'718354f4-5356-416d-806c-cc454527b985',1,'Answer 2 for page LearningUser Subtopic 1-1',1,10135,0,'2024-12-11 14:22:38'),(7,1,5,'6edf2eef-3c6a-4686-88b7-ff9088a1381c',1,'Answer 1 for page LearningUser Subtopic 2-1',1,7374,0,'2024-12-13 09:46:01'),(8,1,6,'1bb70804-43fc-4c06-b9fd-0608a665f3e4',1,'Answer 2 for page LearningUser Subtopic 2-1',1,6483,0,'2024-12-13 22:33:16'),(9,1,4,'29593179-320c-4f6d-818b-ca35ef43a2cf',1,'Answer 2 for page LearningUser Subtopic 1-1',1,6952,0,'2024-12-13 11:27:36'),(10,1,1,'c0cf6fb7-2391-425f-9576-2a883a9b4f40',1,'Incorrect answer',1,10030,0,'2024-12-16 12:38:59'),(11,1,6,'9f955f79-8d58-4c86-8b1b-400abe948df3',1,'Answer 2 for page LearningUser Subtopic 2-1',0,11488,0,'2024-12-16 20:47:24'),(12,1,3,'0810220d-8b39-42d5-885e-69a43f62bed7',1,'Answer 1 for page LearningUser Subtopic 1-1',1,12241,0,'2024-12-16 12:03:18'),(13,1,2,'679ea97c-2fb4-4ea1-a9a8-a00feecfb467',1,'Answer 2 for page LearningUser Topic 1',1,1064,0,'2024-12-16 22:21:32'),(14,1,4,'f165725b-c6fc-42ae-8859-a776307a8059',1,'Answer 2 for page LearningUser Subtopic 1-1',1,11649,0,'2024-12-16 20:36:47'),(15,1,5,'f8f227ba-b852-4af8-913d-644c3a596c7c',1,'Answer 1 for page LearningUser Subtopic 2-1',1,2087,0,'2024-12-16 21:42:10'),(16,1,3,'a76e7af6-3207-4b5f-837d-7ce268581af9',1,'Answer 1 for page LearningUser Subtopic 1-1',1,6091,0,'2024-12-17 18:21:34'),(17,1,4,'ecfc9e9c-8483-4dc8-9280-a9fe236b6f87',1,'Answer 2 for page LearningUser Subtopic 1-1',0,2174,0,'2024-12-17 12:46:00'),(18,1,5,'a67ddacd-c7b9-442a-9058-6b4d218b5a78',1,'Answer 1 for page LearningUser Subtopic 2-1',1,11983,0,'2024-12-17 12:01:32'),(19,1,1,'293fb5f9-825d-4a3f-93c1-0be1d8b38179',1,'Answer 1 for page LearningUser Topic 1',1,12976,0,'2024-12-17 09:21:44'),(20,1,2,'da05b160-7484-4690-b175-a772641b8dd6',1,'Answer 2 for page LearningUser Topic 1',0,13077,0,'2024-12-17 10:36:52'),(21,1,6,'03aca163-c5e5-4d61-abc8-acfe96d6a3a9',1,'Incorrect answer',1,3291,0,'2024-12-17 20:54:13'),(22,1,1,'b634d5a6-d6bf-4ef7-ada1-22bf96014285',1,'Answer 1 for page LearningUser Topic 1',1,3313,0,'2024-12-19 17:40:14'),(23,1,6,'888c9fcd-4313-4c5a-9143-79638767e176',1,'Incorrect answer',1,6073,0,'2024-12-19 09:01:45'),(24,1,3,'eb40d803-855e-40d6-ab40-61c9bc95e34c',1,'Answer 1 for page LearningUser Subtopic 1-1',1,3323,0,'2024-12-19 20:48:53'),(25,1,5,'91babb85-4100-4bd7-b196-8329322aaccc',1,'Answer 1 for page LearningUser Subtopic 2-1',1,4885,0,'2024-12-19 14:31:11'),(26,1,1,'51036499-2100-4f97-bc72-d3d33a1caabd',1,'Answer 1 for page LearningUser Topic 1',0,14025,0,'2024-12-25 11:51:58'),(27,1,6,'b9164f78-4237-43d0-89b9-ab799570b694',1,'Answer 2 for page LearningUser Subtopic 2-1',1,2761,0,'2024-12-25 14:28:27'),(28,1,5,'663a7d36-b0d9-4ac5-ae55-2d5d79400981',1,'Answer 1 for page LearningUser Subtopic 2-1',1,1549,0,'2024-12-25 16:16:04'),(29,1,2,'6906d420-2f49-4754-98f8-4031f821a26d',1,'Incorrect answer',1,4851,0,'2024-12-26 09:37:03'),(30,1,6,'19322db1-c7ca-4824-8024-cb02509ce577',1,'Answer 2 for page LearningUser Subtopic 2-1',0,10845,0,'2024-12-26 22:05:31'),(31,1,1,'b044e6c1-40c2-49e2-af9b-57746f14f2e0',1,'Answer 1 for page LearningUser Topic 1',0,14567,0,'2024-12-26 21:53:12'),(32,1,4,'6fe19791-4f5f-45fd-ad84-3edbbea47d38',1,'Answer 2 for page LearningUser Subtopic 1-1',1,5371,0,'2024-12-28 10:06:58'),(33,1,3,'ede34603-094c-4972-a9b5-9d2be5ae9ae2',1,'Answer 1 for page LearningUser Subtopic 1-1',1,13813,0,'2024-12-28 15:16:35'),(34,1,2,'0755c581-6344-4445-b30a-4918df8ffdf0',1,'Incorrect answer',1,12564,0,'2024-12-28 11:30:30'),(35,1,5,'8c02c704-da34-41b1-a858-f7740d37c161',1,'Answer 1 for page LearningUser Subtopic 2-1',0,6456,0,'2024-12-28 16:49:09'),(36,1,2,'91bbb09a-1f10-4dca-b3b8-bb089b864c03',1,'Answer 2 for page LearningUser Topic 1',0,11992,0,'2024-12-31 12:00:11'),(37,1,4,'1eee761a-b097-4af6-8223-c707a9ef63fb',1,'Answer 2 for page LearningUser Subtopic 1-1',1,11554,0,'2024-12-31 19:19:07'),(38,1,1,'f68d8ea4-89d2-46ea-9609-a788bf73e72e',1,'Answer 1 for page LearningUser Topic 1',0,14156,0,'2024-12-31 22:52:34'),(39,1,6,'cd55dfb8-e421-4a20-8aac-cb5c8c5178bb',1,'Answer 2 for page LearningUser Subtopic 2-1',0,11678,0,'2024-12-31 16:16:01');
-/*!40000 ALTER TABLE `answer` ENABLE KEYS */;
+/*!40000 ALTER TABLE `answer` DISABLE KEYS */
+;
+INSERT INTO
+    `answer`
+VALUES (
+        1,
+        1,
+        6,
+        'e1715bc5-f778-4c3b-89ce-810e9354b145',
+        1,
+        'Answer 2 for page LearningUser Subtopic 2-1',
+        0,
+        5127,
+        0,
+        '2024-12-11 12:16:38'
+    ),
+    (
+        2,
+        1,
+        3,
+        '6a4663a9-874c-4c4b-a495-c0ce7395fd7d',
+        1,
+        'Answer 1 for page LearningUser Subtopic 1-1',
+        1,
+        9622,
+        0,
+        '2024-12-11 10:51:38'
+    ),
+    (
+        3,
+        1,
+        2,
+        '6cc22af0-423a-474e-8f0f-bfb014a43561',
+        1,
+        'Incorrect answer',
+        1,
+        1941,
+        0,
+        '2024-12-11 08:32:42'
+    ),
+    (
+        4,
+        1,
+        5,
+        '0292cf30-27e4-4c8a-bf8b-e4c5b5772141',
+        1,
+        'Incorrect answer',
+        1,
+        1209,
+        0,
+        '2024-12-11 09:25:20'
+    ),
+    (
+        5,
+        1,
+        1,
+        'f89f301a-8d46-4246-8322-d027b8bd6818',
+        1,
+        'Answer 1 for page LearningUser Topic 1',
+        1,
+        6097,
+        0,
+        '2024-12-11 21:43:46'
+    ),
+    (
+        6,
+        1,
+        4,
+        '718354f4-5356-416d-806c-cc454527b985',
+        1,
+        'Answer 2 for page LearningUser Subtopic 1-1',
+        1,
+        10135,
+        0,
+        '2024-12-11 14:22:38'
+    ),
+    (
+        7,
+        1,
+        5,
+        '6edf2eef-3c6a-4686-88b7-ff9088a1381c',
+        1,
+        'Answer 1 for page LearningUser Subtopic 2-1',
+        1,
+        7374,
+        0,
+        '2024-12-13 09:46:01'
+    ),
+    (
+        8,
+        1,
+        6,
+        '1bb70804-43fc-4c06-b9fd-0608a665f3e4',
+        1,
+        'Answer 2 for page LearningUser Subtopic 2-1',
+        1,
+        6483,
+        0,
+        '2024-12-13 22:33:16'
+    ),
+    (
+        9,
+        1,
+        4,
+        '29593179-320c-4f6d-818b-ca35ef43a2cf',
+        1,
+        'Answer 2 for page LearningUser Subtopic 1-1',
+        1,
+        6952,
+        0,
+        '2024-12-13 11:27:36'
+    ),
+    (
+        10,
+        1,
+        1,
+        'c0cf6fb7-2391-425f-9576-2a883a9b4f40',
+        1,
+        'Incorrect answer',
+        1,
+        10030,
+        0,
+        '2024-12-16 12:38:59'
+    ),
+    (
+        11,
+        1,
+        6,
+        '9f955f79-8d58-4c86-8b1b-400abe948df3',
+        1,
+        'Answer 2 for page LearningUser Subtopic 2-1',
+        0,
+        11488,
+        0,
+        '2024-12-16 20:47:24'
+    ),
+    (
+        12,
+        1,
+        3,
+        '0810220d-8b39-42d5-885e-69a43f62bed7',
+        1,
+        'Answer 1 for page LearningUser Subtopic 1-1',
+        1,
+        12241,
+        0,
+        '2024-12-16 12:03:18'
+    ),
+    (
+        13,
+        1,
+        2,
+        '679ea97c-2fb4-4ea1-a9a8-a00feecfb467',
+        1,
+        'Answer 2 for page LearningUser Topic 1',
+        1,
+        1064,
+        0,
+        '2024-12-16 22:21:32'
+    ),
+    (
+        14,
+        1,
+        4,
+        'f165725b-c6fc-42ae-8859-a776307a8059',
+        1,
+        'Answer 2 for page LearningUser Subtopic 1-1',
+        1,
+        11649,
+        0,
+        '2024-12-16 20:36:47'
+    ),
+    (
+        15,
+        1,
+        5,
+        'f8f227ba-b852-4af8-913d-644c3a596c7c',
+        1,
+        'Answer 1 for page LearningUser Subtopic 2-1',
+        1,
+        2087,
+        0,
+        '2024-12-16 21:42:10'
+    ),
+    (
+        16,
+        1,
+        3,
+        'a76e7af6-3207-4b5f-837d-7ce268581af9',
+        1,
+        'Answer 1 for page LearningUser Subtopic 1-1',
+        1,
+        6091,
+        0,
+        '2024-12-17 18:21:34'
+    ),
+    (
+        17,
+        1,
+        4,
+        'ecfc9e9c-8483-4dc8-9280-a9fe236b6f87',
+        1,
+        'Answer 2 for page LearningUser Subtopic 1-1',
+        0,
+        2174,
+        0,
+        '2024-12-17 12:46:00'
+    ),
+    (
+        18,
+        1,
+        5,
+        'a67ddacd-c7b9-442a-9058-6b4d218b5a78',
+        1,
+        'Answer 1 for page LearningUser Subtopic 2-1',
+        1,
+        11983,
+        0,
+        '2024-12-17 12:01:32'
+    ),
+    (
+        19,
+        1,
+        1,
+        '293fb5f9-825d-4a3f-93c1-0be1d8b38179',
+        1,
+        'Answer 1 for page LearningUser Topic 1',
+        1,
+        12976,
+        0,
+        '2024-12-17 09:21:44'
+    ),
+    (
+        20,
+        1,
+        2,
+        'da05b160-7484-4690-b175-a772641b8dd6',
+        1,
+        'Answer 2 for page LearningUser Topic 1',
+        0,
+        13077,
+        0,
+        '2024-12-17 10:36:52'
+    ),
+    (
+        21,
+        1,
+        6,
+        '03aca163-c5e5-4d61-abc8-acfe96d6a3a9',
+        1,
+        'Incorrect answer',
+        1,
+        3291,
+        0,
+        '2024-12-17 20:54:13'
+    ),
+    (
+        22,
+        1,
+        1,
+        'b634d5a6-d6bf-4ef7-ada1-22bf96014285',
+        1,
+        'Answer 1 for page LearningUser Topic 1',
+        1,
+        3313,
+        0,
+        '2024-12-19 17:40:14'
+    ),
+    (
+        23,
+        1,
+        6,
+        '888c9fcd-4313-4c5a-9143-79638767e176',
+        1,
+        'Incorrect answer',
+        1,
+        6073,
+        0,
+        '2024-12-19 09:01:45'
+    ),
+    (
+        24,
+        1,
+        3,
+        'eb40d803-855e-40d6-ab40-61c9bc95e34c',
+        1,
+        'Answer 1 for page LearningUser Subtopic 1-1',
+        1,
+        3323,
+        0,
+        '2024-12-19 20:48:53'
+    ),
+    (
+        25,
+        1,
+        5,
+        '91babb85-4100-4bd7-b196-8329322aaccc',
+        1,
+        'Answer 1 for page LearningUser Subtopic 2-1',
+        1,
+        4885,
+        0,
+        '2024-12-19 14:31:11'
+    ),
+    (
+        26,
+        1,
+        1,
+        '51036499-2100-4f97-bc72-d3d33a1caabd',
+        1,
+        'Answer 1 for page LearningUser Topic 1',
+        0,
+        14025,
+        0,
+        '2024-12-25 11:51:58'
+    ),
+    (
+        27,
+        1,
+        6,
+        'b9164f78-4237-43d0-89b9-ab799570b694',
+        1,
+        'Answer 2 for page LearningUser Subtopic 2-1',
+        1,
+        2761,
+        0,
+        '2024-12-25 14:28:27'
+    ),
+    (
+        28,
+        1,
+        5,
+        '663a7d36-b0d9-4ac5-ae55-2d5d79400981',
+        1,
+        'Answer 1 for page LearningUser Subtopic 2-1',
+        1,
+        1549,
+        0,
+        '2024-12-25 16:16:04'
+    ),
+    (
+        29,
+        1,
+        2,
+        '6906d420-2f49-4754-98f8-4031f821a26d',
+        1,
+        'Incorrect answer',
+        1,
+        4851,
+        0,
+        '2024-12-26 09:37:03'
+    ),
+    (
+        30,
+        1,
+        6,
+        '19322db1-c7ca-4824-8024-cb02509ce577',
+        1,
+        'Answer 2 for page LearningUser Subtopic 2-1',
+        0,
+        10845,
+        0,
+        '2024-12-26 22:05:31'
+    ),
+    (
+        31,
+        1,
+        1,
+        'b044e6c1-40c2-49e2-af9b-57746f14f2e0',
+        1,
+        'Answer 1 for page LearningUser Topic 1',
+        0,
+        14567,
+        0,
+        '2024-12-26 21:53:12'
+    ),
+    (
+        32,
+        1,
+        4,
+        '6fe19791-4f5f-45fd-ad84-3edbbea47d38',
+        1,
+        'Answer 2 for page LearningUser Subtopic 1-1',
+        1,
+        5371,
+        0,
+        '2024-12-28 10:06:58'
+    ),
+    (
+        33,
+        1,
+        3,
+        'ede34603-094c-4972-a9b5-9d2be5ae9ae2',
+        1,
+        'Answer 1 for page LearningUser Subtopic 1-1',
+        1,
+        13813,
+        0,
+        '2024-12-28 15:16:35'
+    ),
+    (
+        34,
+        1,
+        2,
+        '0755c581-6344-4445-b30a-4918df8ffdf0',
+        1,
+        'Incorrect answer',
+        1,
+        12564,
+        0,
+        '2024-12-28 11:30:30'
+    ),
+    (
+        35,
+        1,
+        5,
+        '8c02c704-da34-41b1-a858-f7740d37c161',
+        1,
+        'Answer 1 for page LearningUser Subtopic 2-1',
+        0,
+        6456,
+        0,
+        '2024-12-28 16:49:09'
+    ),
+    (
+        36,
+        1,
+        2,
+        '91bbb09a-1f10-4dca-b3b8-bb089b864c03',
+        1,
+        'Answer 2 for page LearningUser Topic 1',
+        0,
+        11992,
+        0,
+        '2024-12-31 12:00:11'
+    ),
+    (
+        37,
+        1,
+        4,
+        '1eee761a-b097-4af6-8223-c707a9ef63fb',
+        1,
+        'Answer 2 for page LearningUser Subtopic 1-1',
+        1,
+        11554,
+        0,
+        '2024-12-31 19:19:07'
+    ),
+    (
+        38,
+        1,
+        1,
+        'f68d8ea4-89d2-46ea-9609-a788bf73e72e',
+        1,
+        'Answer 1 for page LearningUser Topic 1',
+        0,
+        14156,
+        0,
+        '2024-12-31 22:52:34'
+    ),
+    (
+        39,
+        1,
+        6,
+        'cd55dfb8-e421-4a20-8aac-cb5c8c5178bb',
+        1,
+        'Answer 2 for page LearningUser Subtopic 2-1',
+        0,
+        11678,
+        0,
+        '2024-12-31 16:16:01'
+    );
+/*!40000 ALTER TABLE `answer` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -117,37 +648,42 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `comment` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Type` int DEFAULT NULL,
-  `TypeId` int DEFAULT NULL,
-  `AnswerTo` int DEFAULT NULL,
-  `ShouldImprove` tinyint(1) DEFAULT NULL,
-  `ShouldRemove` tinyint(1) DEFAULT NULL,
-  `ShouldKeys` varchar(255) DEFAULT NULL,
-  `IsSettled` tinyint(1) DEFAULT NULL,
-  `Creator_id` int DEFAULT NULL,
-  `Title` varchar(255) DEFAULT NULL,
-  `Text` varchar(255) DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `AnswerTo` (`AnswerTo`),
-  KEY `Creator_id` (`Creator_id`),
-  CONSTRAINT `FK_A2E42DA9` FOREIGN KEY (`Creator_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_EC7E49AE` FOREIGN KEY (`AnswerTo`) REFERENCES `comment` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Type` int DEFAULT NULL,
+    `TypeId` int DEFAULT NULL,
+    `AnswerTo` int DEFAULT NULL,
+    `ShouldImprove` tinyint(1) DEFAULT NULL,
+    `ShouldRemove` tinyint(1) DEFAULT NULL,
+    `ShouldKeys` varchar(255) DEFAULT NULL,
+    `IsSettled` tinyint(1) DEFAULT NULL,
+    `Creator_id` int DEFAULT NULL,
+    `Title` varchar(255) DEFAULT NULL,
+    `Text` varchar(255) DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `AnswerTo` (`AnswerTo`),
+    KEY `Creator_id` (`Creator_id`),
+    CONSTRAINT `FK_A2E42DA9` FOREIGN KEY (`Creator_id`) REFERENCES `user` (`Id`),
+    CONSTRAINT `FK_EC7E49AE` FOREIGN KEY (`AnswerTo`) REFERENCES `comment` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `comment`
 --
 
 LOCK TABLES `comment` WRITE;
-/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -155,39 +691,44 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `imagemetadata`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `imagemetadata` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Type` int DEFAULT NULL,
-  `TypeId` int DEFAULT NULL,
-  `UserId` int DEFAULT NULL,
-  `Source` int DEFAULT NULL,
-  `SourceUrl` varchar(255) DEFAULT NULL,
-  `ApiResult` text,
-  `ApiHost` varchar(255) DEFAULT NULL,
-  `Author` varchar(255) DEFAULT NULL,
-  `Description` varchar(255) DEFAULT NULL,
-  `Markup` varchar(255) DEFAULT NULL,
-  `MarkupDownloadDate` datetime DEFAULT NULL,
-  `ManualEntries` varchar(255) DEFAULT NULL,
-  `MainLicenseInfo` varchar(255) DEFAULT NULL,
-  `AllRegisteredLicenses` varchar(255) DEFAULT NULL,
-  `Notifications` varchar(255) DEFAULT NULL,
-  `LicenseState` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Type` int DEFAULT NULL,
+    `TypeId` int DEFAULT NULL,
+    `UserId` int DEFAULT NULL,
+    `Source` int DEFAULT NULL,
+    `SourceUrl` varchar(255) DEFAULT NULL,
+    `ApiResult` text,
+    `ApiHost` varchar(255) DEFAULT NULL,
+    `Author` varchar(255) DEFAULT NULL,
+    `Description` varchar(255) DEFAULT NULL,
+    `Markup` varchar(255) DEFAULT NULL,
+    `MarkupDownloadDate` datetime DEFAULT NULL,
+    `ManualEntries` varchar(255) DEFAULT NULL,
+    `MainLicenseInfo` varchar(255) DEFAULT NULL,
+    `AllRegisteredLicenses` varchar(255) DEFAULT NULL,
+    `Notifications` varchar(255) DEFAULT NULL,
+    `LicenseState` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `imagemetadata`
 --
 
 LOCK TABLES `imagemetadata` WRITE;
-/*!40000 ALTER TABLE `imagemetadata` DISABLE KEYS */;
-/*!40000 ALTER TABLE `imagemetadata` ENABLE KEYS */;
+/*!40000 ALTER TABLE `imagemetadata` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `imagemetadata` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -195,26 +736,74 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `jobqueue`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `jobqueue` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `JobQueueType` int DEFAULT NULL,
-  `JobContent` varchar(255) DEFAULT NULL,
-  `Priority` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `JobQueueType` int DEFAULT NULL,
+    `JobContent` varchar(255) DEFAULT NULL,
+    `Priority` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `jobqueue`
 --
 
 LOCK TABLES `jobqueue` WRITE;
-/*!40000 ALTER TABLE `jobqueue` DISABLE KEYS */;
-INSERT INTO `jobqueue` VALUES (1,1,'1',0,'2025-12-29 22:45:31'),(2,1,'1',0,'2025-12-29 22:45:31'),(3,1,'1',0,'2025-12-29 22:45:31'),(4,1,'1',0,'2025-12-29 22:45:31'),(5,1,'1',0,'2025-12-29 22:45:31'),(6,1,'1',0,'2025-12-29 22:45:31');
-/*!40000 ALTER TABLE `jobqueue` ENABLE KEYS */;
+/*!40000 ALTER TABLE `jobqueue` DISABLE KEYS */
+;
+INSERT INTO
+    `jobqueue`
+VALUES (
+        1,
+        1,
+        '1',
+        0,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        2,
+        1,
+        '1',
+        0,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        3,
+        1,
+        '1',
+        0,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        4,
+        1,
+        '1',
+        0,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        5,
+        1,
+        '1',
+        0,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        6,
+        1,
+        '1',
+        0,
+        '2025-12-29 22:45:31'
+    );
+/*!40000 ALTER TABLE `jobqueue` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -222,30 +811,35 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `message`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `message` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `ReceiverId` int DEFAULT NULL,
-  `Subject` varchar(255) DEFAULT NULL,
-  `Body` varchar(255) DEFAULT NULL,
-  `MessageType` varchar(255) DEFAULT NULL,
-  `IsRead` tinyint(1) DEFAULT NULL,
-  `WasSendPerEmail` tinyint(1) DEFAULT NULL,
-  `WasSendToSmartphone` tinyint(1) DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `ReceiverId` int DEFAULT NULL,
+    `Subject` varchar(255) DEFAULT NULL,
+    `Body` varchar(255) DEFAULT NULL,
+    `MessageType` varchar(255) DEFAULT NULL,
+    `IsRead` tinyint(1) DEFAULT NULL,
+    `WasSendPerEmail` tinyint(1) DEFAULT NULL,
+    `WasSendToSmartphone` tinyint(1) DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `message`
 --
 
 LOCK TABLES `message` WRITE;
-/*!40000 ALTER TABLE `message` DISABLE KEYS */;
-/*!40000 ALTER TABLE `message` ENABLE KEYS */;
+/*!40000 ALTER TABLE `message` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `message` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -253,27 +847,32 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `messageemail`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `messageemail` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `User_id` int DEFAULT NULL,
-  `MessageEmailType` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `User_id` (`User_id`),
-  CONSTRAINT `FK_B048BCC5` FOREIGN KEY (`User_id`) REFERENCES `user` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `User_id` int DEFAULT NULL,
+    `MessageEmailType` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `User_id` (`User_id`),
+    CONSTRAINT `FK_B048BCC5` FOREIGN KEY (`User_id`) REFERENCES `user` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `messageemail`
 --
 
 LOCK TABLES `messageemail` WRITE;
-/*!40000 ALTER TABLE `messageemail` DISABLE KEYS */;
-/*!40000 ALTER TABLE `messageemail` ENABLE KEYS */;
+/*!40000 ALTER TABLE `messageemail` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `messageemail` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -281,46 +880,127 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `page`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `page` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Name` varchar(255) DEFAULT NULL,
-  `Description` varchar(255) DEFAULT NULL,
-  `WikipediaURL` varchar(255) DEFAULT NULL,
-  `Url` varchar(255) DEFAULT NULL,
-  `UrlLinkText` varchar(255) DEFAULT NULL,
-  `DisableLearningFunctions` tinyint(1) DEFAULT NULL,
-  `Creator_id` int DEFAULT NULL,
-  `TopicMarkdown` varchar(255) DEFAULT NULL,
-  `Content` mediumtext,
-  `CustomSegments` varchar(255) DEFAULT NULL,
-  `CountQuestionsAggregated` int DEFAULT NULL,
-  `CorrectnessProbability` int DEFAULT NULL,
-  `CorrectnessProbabilityAnswerCount` int DEFAULT NULL,
-  `TotalRelevancePersonalEntries` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  `SkipMigration` tinyint(1) DEFAULT NULL,
-  `Visibility` int DEFAULT NULL,
-  `IsWiki` tinyint(1) DEFAULT NULL,
-  `TextIsHidden` tinyint(1) DEFAULT NULL,
-  `AuthorIds` varchar(255) DEFAULT NULL,
-  `Language` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `Creator_id` (`Creator_id`),
-  CONSTRAINT `FK_34B9BBFB` FOREIGN KEY (`Creator_id`) REFERENCES `user` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Name` varchar(255) DEFAULT NULL,
+    `Description` varchar(255) DEFAULT NULL,
+    `WikipediaURL` varchar(255) DEFAULT NULL,
+    `Url` varchar(255) DEFAULT NULL,
+    `UrlLinkText` varchar(255) DEFAULT NULL,
+    `DisableLearningFunctions` tinyint(1) DEFAULT NULL,
+    `Creator_id` int DEFAULT NULL,
+    `TopicMarkdown` varchar(255) DEFAULT NULL,
+    `Content` mediumtext,
+    `CustomSegments` varchar(255) DEFAULT NULL,
+    `CountQuestionsAggregated` int DEFAULT NULL,
+    `CorrectnessProbability` int DEFAULT NULL,
+    `CorrectnessProbabilityAnswerCount` int DEFAULT NULL,
+    `TotalRelevancePersonalEntries` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    `SkipMigration` tinyint(1) DEFAULT NULL,
+    `Visibility` int DEFAULT NULL,
+    `IsWiki` tinyint(1) DEFAULT NULL,
+    `TextIsHidden` tinyint(1) DEFAULT NULL,
+    `AuthorIds` varchar(255) DEFAULT NULL,
+    `Language` varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `Creator_id` (`Creator_id`),
+    CONSTRAINT `FK_34B9BBFB` FOREIGN KEY (`Creator_id`) REFERENCES `user` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `page`
 --
 
 LOCK TABLES `page` WRITE;
-/*!40000 ALTER TABLE `page` DISABLE KEYS */;
-INSERT INTO `page` VALUES (1,'LearningUser Topic 1',NULL,NULL,NULL,NULL,0,1,NULL,NULL,NULL,1,0,0,0,'2025-12-29 22:45:31','2025-12-29 22:45:31',0,0,1,0,'1','en'),(2,'LearningUser Subtopic 1-1',NULL,NULL,NULL,NULL,0,1,NULL,NULL,NULL,1,0,0,0,'2025-12-29 22:45:31','2025-12-29 22:45:31',0,0,0,0,'1','en'),(3,'LearningUser Subtopic 2-1',NULL,NULL,NULL,NULL,0,1,NULL,NULL,NULL,1,0,0,0,'2025-12-29 22:45:31','2025-12-29 22:45:31',0,0,0,0,'1','en');
-/*!40000 ALTER TABLE `page` ENABLE KEYS */;
+/*!40000 ALTER TABLE `page` DISABLE KEYS */
+;
+INSERT INTO
+    `page`
+VALUES (
+        1,
+        'LearningUser Topic 1',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        1,
+        NULL,
+        NULL,
+        NULL,
+        1,
+        0,
+        0,
+        0,
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        0,
+        0,
+        1,
+        0,
+        '1',
+        'en'
+    ),
+    (
+        2,
+        'LearningUser Subtopic 1-1',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        1,
+        NULL,
+        NULL,
+        NULL,
+        1,
+        0,
+        0,
+        0,
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        0,
+        0,
+        0,
+        0,
+        '1',
+        'en'
+    ),
+    (
+        3,
+        'LearningUser Subtopic 2-1',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        1,
+        NULL,
+        NULL,
+        NULL,
+        1,
+        0,
+        0,
+        0,
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        0,
+        0,
+        0,
+        0,
+        '1',
+        'en'
+    );
+/*!40000 ALTER TABLE `page` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -328,29 +1008,165 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `pagechange`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `pagechange` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Page_id` int DEFAULT NULL,
-  `Data` longtext,
-  `ShowInSidebar` tinyint(1) DEFAULT NULL,
-  `DataVersion` int DEFAULT NULL,
-  `Type` int DEFAULT NULL,
-  `Author_id` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Page_id` int DEFAULT NULL,
+    `Data` longtext,
+    `ShowInSidebar` tinyint(1) DEFAULT NULL,
+    `DataVersion` int DEFAULT NULL,
+    `Type` int DEFAULT NULL,
+    `Author_id` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `pagechange`
 --
 
 LOCK TABLES `pagechange` WRITE;
-/*!40000 ALTER TABLE `pagechange` DISABLE KEYS */;
-INSERT INTO `pagechange` VALUES (1,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,0,1,'2025-12-29 22:45:31'),(2,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2025-12-29 22:45:31'),(3,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,0,1,'2025-12-29 22:45:31'),(4,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2025-12-29 22:45:31'),(5,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2025-12-29 22:45:31'),(6,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2025-12-29 22:45:31'),(7,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2025-12-29 22:45:31'),(8,3,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,0,1,'2025-12-29 22:45:31'),(9,3,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[2],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2025-12-29 22:45:31'),(10,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":[3],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2025-12-29 22:45:31'),(11,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2025-12-29 22:45:31'),(12,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":[3],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2025-12-29 22:45:31'),(13,3,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[2],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2025-12-29 22:45:31');
-/*!40000 ALTER TABLE `pagechange` ENABLE KEYS */;
+/*!40000 ALTER TABLE `pagechange` DISABLE KEYS */
+;
+INSERT INTO
+    `pagechange`
+VALUES (
+        1,
+        1,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        0,
+        1,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        2,
+        1,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        49,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        3,
+        2,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        0,
+        1,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        4,
+        2,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        1,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        5,
+        1,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        1,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        6,
+        1,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        49,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        7,
+        2,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        49,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        8,
+        3,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        0,
+        1,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        9,
+        3,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[2],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        1,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        10,
+        2,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":[3],\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        1,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        11,
+        1,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        49,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        12,
+        2,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":[3],\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        49,
+        '2025-12-29 22:45:31'
+    ),
+    (
+        13,
+        3,
+        '{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[2],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',
+        1,
+        2,
+        7,
+        49,
+        '2025-12-29 22:45:31'
+    );
+/*!40000 ALTER TABLE `pagechange` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -358,30 +1174,38 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `pagerelation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `pagerelation` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Page_id` int DEFAULT NULL,
-  `Related_id` int DEFAULT NULL,
-  `Previous_id` int DEFAULT NULL,
-  `Next_id` int DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `Page_id` (`Page_id`),
-  KEY `Related_id` (`Related_id`),
-  CONSTRAINT `FK_2EA216B` FOREIGN KEY (`Related_id`) REFERENCES `page` (`Id`),
-  CONSTRAINT `FK_5E3C647C` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Page_id` int DEFAULT NULL,
+    `Related_id` int DEFAULT NULL,
+    `Previous_id` int DEFAULT NULL,
+    `Next_id` int DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `Page_id` (`Page_id`),
+    KEY `Related_id` (`Related_id`),
+    CONSTRAINT `FK_2EA216B` FOREIGN KEY (`Related_id`) REFERENCES `page` (`Id`),
+    CONSTRAINT `FK_5E3C647C` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `pagerelation`
 --
 
 LOCK TABLES `pagerelation` WRITE;
-/*!40000 ALTER TABLE `pagerelation` DISABLE KEYS */;
-INSERT INTO `pagerelation` VALUES (1,2,1,NULL,NULL),(2,3,2,NULL,NULL);
-/*!40000 ALTER TABLE `pagerelation` ENABLE KEYS */;
+/*!40000 ALTER TABLE `pagerelation` DISABLE KEYS */
+;
+INSERT INTO
+    `pagerelation`
+VALUES (1, 2, 1, NULL, NULL),
+    (2, 3, 2, NULL, NULL);
+/*!40000 ALTER TABLE `pagerelation` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -389,26 +1213,38 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `pages_to_questions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `pages_to_questions` (
-  `Question_id` int NOT NULL,
-  `Page_id` int NOT NULL,
-  KEY `Page_id` (`Page_id`),
-  KEY `Question_id` (`Question_id`),
-  CONSTRAINT `FK_3DD43A7C` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`),
-  CONSTRAINT `FK_B7E93C59` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Question_id` int NOT NULL,
+    `Page_id` int NOT NULL,
+    KEY `Page_id` (`Page_id`),
+    KEY `Question_id` (`Question_id`),
+    CONSTRAINT `FK_3DD43A7C` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`),
+    CONSTRAINT `FK_B7E93C59` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `pages_to_questions`
 --
 
 LOCK TABLES `pages_to_questions` WRITE;
-/*!40000 ALTER TABLE `pages_to_questions` DISABLE KEYS */;
-INSERT INTO `pages_to_questions` VALUES (1,1),(2,1),(3,2),(4,2),(5,3),(6,3);
-/*!40000 ALTER TABLE `pages_to_questions` ENABLE KEYS */;
+/*!40000 ALTER TABLE `pages_to_questions` DISABLE KEYS */
+;
+INSERT INTO
+    `pages_to_questions`
+VALUES (1, 1),
+    (2, 1),
+    (3, 2),
+    (4, 2),
+    (5, 3),
+    (6, 3);
+/*!40000 ALTER TABLE `pages_to_questions` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -416,30 +1252,35 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `pagevaluation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `pagevaluation` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `UserId` int DEFAULT NULL,
-  `PageId` int DEFAULT NULL,
-  `RelevancePersonal` int DEFAULT NULL,
-  `CountNotLearned` int DEFAULT NULL,
-  `CountNeedsLearning` int DEFAULT NULL,
-  `CountNeedsConsolidation` int DEFAULT NULL,
-  `CountSolid` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `UserId` int DEFAULT NULL,
+    `PageId` int DEFAULT NULL,
+    `RelevancePersonal` int DEFAULT NULL,
+    `CountNotLearned` int DEFAULT NULL,
+    `CountNeedsLearning` int DEFAULT NULL,
+    `CountNeedsConsolidation` int DEFAULT NULL,
+    `CountSolid` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `pagevaluation`
 --
 
 LOCK TABLES `pagevaluation` WRITE;
-/*!40000 ALTER TABLE `pagevaluation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pagevaluation` ENABLE KEYS */;
+/*!40000 ALTER TABLE `pagevaluation` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `pagevaluation` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -447,30 +1288,35 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `pageview`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `pageview` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Page_id` int DEFAULT NULL,
-  `User_id` int DEFAULT NULL,
-  `UserAgent` varchar(255) DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateOnly` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `Page_id` (`Page_id`),
-  KEY `User_id` (`User_id`),
-  CONSTRAINT `FK_1ABE64FC` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`),
-  CONSTRAINT `FK_F7F3F28F` FOREIGN KEY (`User_id`) REFERENCES `user` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Page_id` int DEFAULT NULL,
+    `User_id` int DEFAULT NULL,
+    `UserAgent` varchar(255) DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateOnly` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `Page_id` (`Page_id`),
+    KEY `User_id` (`User_id`),
+    CONSTRAINT `FK_1ABE64FC` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`),
+    CONSTRAINT `FK_F7F3F28F` FOREIGN KEY (`User_id`) REFERENCES `user` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `pageview`
 --
 
 LOCK TABLES `pageview` WRITE;
-/*!40000 ALTER TABLE `pageview` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pageview` ENABLE KEYS */;
+/*!40000 ALTER TABLE `pageview` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `pageview` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -478,25 +1324,30 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `passwordrecoverytoken`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `passwordrecoverytoken` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Token` varchar(255) DEFAULT NULL,
-  `Email` varchar(255) DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Token` varchar(255) DEFAULT NULL,
+    `Email` varchar(255) DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `passwordrecoverytoken`
 --
 
 LOCK TABLES `passwordrecoverytoken` WRITE;
-/*!40000 ALTER TABLE `passwordrecoverytoken` DISABLE KEYS */;
-/*!40000 ALTER TABLE `passwordrecoverytoken` ENABLE KEYS */;
+/*!40000 ALTER TABLE `passwordrecoverytoken` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `passwordrecoverytoken` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -504,24 +1355,29 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `persistentlogin`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `persistentlogin` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `UserId` int DEFAULT NULL,
-  `LoginGuid` varchar(255) DEFAULT NULL,
-  `Created` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `UserId` int DEFAULT NULL,
+    `LoginGuid` varchar(255) DEFAULT NULL,
+    `Created` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `persistentlogin`
 --
 
 LOCK TABLES `persistentlogin` WRITE;
-/*!40000 ALTER TABLE `persistentlogin` DISABLE KEYS */;
-/*!40000 ALTER TABLE `persistentlogin` ENABLE KEYS */;
+/*!40000 ALTER TABLE `persistentlogin` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `persistentlogin` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -529,49 +1385,223 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `question`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `question` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Text` varchar(3000) DEFAULT NULL,
-  `TextHtml` mediumtext,
-  `TextExtended` text,
-  `TextExtendedHtml` text,
-  `Description` text,
-  `DescriptionHtml` text,
-  `License` int DEFAULT NULL,
-  `Visibility` int DEFAULT NULL,
-  `Creator_id` int DEFAULT NULL,
-  `TotalTrueAnswers` int DEFAULT NULL,
-  `TotalFalseAnswers` int DEFAULT NULL,
-  `TotalQualityAvg` int DEFAULT NULL,
-  `TotalQualityEntries` int DEFAULT NULL,
-  `TotalRelevanceForAllAvg` int DEFAULT NULL,
-  `TotalRelevanceForAllEntries` int DEFAULT NULL,
-  `TotalRelevancePersonalAvg` int DEFAULT NULL,
-  `TotalRelevancePersonalEntries` int DEFAULT NULL,
-  `CorrectnessProbability` int DEFAULT NULL,
-  `CorrectnessProbabilityAnswerCount` int DEFAULT NULL,
-  `Solution` mediumtext,
-  `SolutionType` int DEFAULT NULL,
-  `SolutionMetadataJson` varchar(7000) DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  `SkipMigration` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `Creator_id` (`Creator_id`),
-  CONSTRAINT `FK_A42E80A6` FOREIGN KEY (`Creator_id`) REFERENCES `user` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Text` varchar(3000) DEFAULT NULL,
+    `TextHtml` mediumtext,
+    `TextExtended` text,
+    `TextExtendedHtml` text,
+    `Description` text,
+    `DescriptionHtml` text,
+    `License` int DEFAULT NULL,
+    `Visibility` int DEFAULT NULL,
+    `Creator_id` int DEFAULT NULL,
+    `TotalTrueAnswers` int DEFAULT NULL,
+    `TotalFalseAnswers` int DEFAULT NULL,
+    `TotalQualityAvg` int DEFAULT NULL,
+    `TotalQualityEntries` int DEFAULT NULL,
+    `TotalRelevanceForAllAvg` int DEFAULT NULL,
+    `TotalRelevanceForAllEntries` int DEFAULT NULL,
+    `TotalRelevancePersonalAvg` int DEFAULT NULL,
+    `TotalRelevancePersonalEntries` int DEFAULT NULL,
+    `CorrectnessProbability` int DEFAULT NULL,
+    `CorrectnessProbabilityAnswerCount` int DEFAULT NULL,
+    `Solution` mediumtext,
+    `SolutionType` int DEFAULT NULL,
+    `SolutionMetadataJson` varchar(7000) DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    `SkipMigration` tinyint(1) DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `Creator_id` (`Creator_id`),
+    CONSTRAINT `FK_A42E80A6` FOREIGN KEY (`Creator_id`) REFERENCES `user` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `question`
 --
 
 LOCK TABLES `question` WRITE;
-/*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES (1,'Question 1 for page LearningUser Topic 1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,77,0,'Answer 1 for page LearningUser Topic 1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2025-12-29 22:45:31','2025-12-29 22:45:31',0),(2,'Question 2 for page LearningUser Topic 1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,61,0,'Answer 2 for page LearningUser Topic 1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2025-12-29 22:45:31','2025-12-29 22:45:31',0),(3,'Question 1 for page LearningUser Subtopic 1-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,78,0,'Answer 1 for page LearningUser Subtopic 1-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2025-12-29 22:45:31','2025-12-29 22:45:31',0),(4,'Question 2 for page LearningUser Subtopic 1-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,80,0,'Answer 2 for page LearningUser Subtopic 1-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2025-12-29 22:45:31','2025-12-29 22:45:31',0),(5,'Question 1 for page LearningUser Subtopic 2-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,40,0,'Answer 1 for page LearningUser Subtopic 2-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2025-12-29 22:45:31','2025-12-29 22:45:31',0),(6,'Question 2 for page LearningUser Subtopic 2-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,74,0,'Answer 2 for page LearningUser Subtopic 2-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2025-12-29 22:45:31','2025-12-29 22:45:31',0);
-/*!40000 ALTER TABLE `question` ENABLE KEYS */;
+/*!40000 ALTER TABLE `question` DISABLE KEYS */
+;
+INSERT INTO
+    `question`
+VALUES (
+        1,
+        'Question 1 for page LearningUser Topic 1?',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        77,
+        0,
+        'Answer 1 for page LearningUser Topic 1',
+        1,
+        '{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}',
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        0
+    ),
+    (
+        2,
+        'Question 2 for page LearningUser Topic 1?',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        61,
+        0,
+        'Answer 2 for page LearningUser Topic 1',
+        1,
+        '{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}',
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        0
+    ),
+    (
+        3,
+        'Question 1 for page LearningUser Subtopic 1-1?',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        78,
+        0,
+        'Answer 1 for page LearningUser Subtopic 1-1',
+        1,
+        '{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}',
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        0
+    ),
+    (
+        4,
+        'Question 2 for page LearningUser Subtopic 1-1?',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        80,
+        0,
+        'Answer 2 for page LearningUser Subtopic 1-1',
+        1,
+        '{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}',
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        0
+    ),
+    (
+        5,
+        'Question 1 for page LearningUser Subtopic 2-1?',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        40,
+        0,
+        'Answer 1 for page LearningUser Subtopic 2-1',
+        1,
+        '{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}',
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        0
+    ),
+    (
+        6,
+        'Question 2 for page LearningUser Subtopic 2-1?',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        74,
+        0,
+        'Answer 2 for page LearningUser Subtopic 2-1',
+        1,
+        '{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}',
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        0
+    );
+/*!40000 ALTER TABLE `question` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -579,31 +1609,97 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `questionchange`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `questionchange` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Question_id` int DEFAULT NULL,
-  `Data` text,
-  `ShowInSidebar` tinyint(1) DEFAULT NULL,
-  `Type` int DEFAULT NULL,
-  `DataVersion` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `Author_Id` int DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `Question_id` (`Question_id`),
-  CONSTRAINT `FK_4947E040` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Question_id` int DEFAULT NULL,
+    `Data` text,
+    `ShowInSidebar` tinyint(1) DEFAULT NULL,
+    `Type` int DEFAULT NULL,
+    `DataVersion` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `Author_Id` int DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `Question_id` (`Question_id`),
+    CONSTRAINT `FK_4947E040` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `questionchange`
 --
 
 LOCK TABLES `questionchange` WRITE;
-/*!40000 ALTER TABLE `questionchange` DISABLE KEYS */;
-INSERT INTO `questionchange` VALUES (1,1,'{\"QuestionText\":\"Question 1 for page LearningUser Topic 1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Topic 1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2025-12-29 22:45:31',1),(2,2,'{\"QuestionText\":\"Question 2 for page LearningUser Topic 1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Topic 1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2025-12-29 22:45:31',1),(3,3,'{\"QuestionText\":\"Question 1 for page LearningUser Subtopic 1-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Subtopic 1-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2025-12-29 22:45:31',1),(4,4,'{\"QuestionText\":\"Question 2 for page LearningUser Subtopic 1-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Subtopic 1-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2025-12-29 22:45:31',1),(5,5,'{\"QuestionText\":\"Question 1 for page LearningUser Subtopic 2-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Subtopic 2-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2025-12-29 22:45:31',1),(6,6,'{\"QuestionText\":\"Question 2 for page LearningUser Subtopic 2-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Subtopic 2-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2025-12-29 22:45:31',1);
-/*!40000 ALTER TABLE `questionchange` ENABLE KEYS */;
+/*!40000 ALTER TABLE `questionchange` DISABLE KEYS */
+;
+INSERT INTO
+    `questionchange`
+VALUES (
+        1,
+        1,
+        '{\"QuestionText\":\"Question 1 for page LearningUser Topic 1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Topic 1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',
+        1,
+        0,
+        1,
+        '2025-12-29 22:45:31',
+        1
+    ),
+    (
+        2,
+        2,
+        '{\"QuestionText\":\"Question 2 for page LearningUser Topic 1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Topic 1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',
+        1,
+        0,
+        1,
+        '2025-12-29 22:45:31',
+        1
+    ),
+    (
+        3,
+        3,
+        '{\"QuestionText\":\"Question 1 for page LearningUser Subtopic 1-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Subtopic 1-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',
+        1,
+        0,
+        1,
+        '2025-12-29 22:45:31',
+        1
+    ),
+    (
+        4,
+        4,
+        '{\"QuestionText\":\"Question 2 for page LearningUser Subtopic 1-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Subtopic 1-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',
+        1,
+        0,
+        1,
+        '2025-12-29 22:45:31',
+        1
+    ),
+    (
+        5,
+        5,
+        '{\"QuestionText\":\"Question 1 for page LearningUser Subtopic 2-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Subtopic 2-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',
+        1,
+        0,
+        1,
+        '2025-12-29 22:45:31',
+        1
+    ),
+    (
+        6,
+        6,
+        '{\"QuestionText\":\"Question 2 for page LearningUser Subtopic 2-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Subtopic 2-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',
+        1,
+        0,
+        1,
+        '2025-12-29 22:45:31',
+        1
+    );
+/*!40000 ALTER TABLE `questionchange` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -611,34 +1707,39 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `questionvaluation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `questionvaluation` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `UserId` int DEFAULT NULL,
-  `QuestionId` int DEFAULT NULL,
-  `Quality` int DEFAULT NULL,
-  `RelevancePersonal` int DEFAULT NULL,
-  `RelevanceForAll` int DEFAULT NULL,
-  `CorrectnessProbability` int DEFAULT NULL,
-  `CorrectnessProbabilityAnswerCount` int DEFAULT NULL,
-  `KnowledgeStatus` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `UserId` (`UserId`),
-  KEY `QuestionId` (`QuestionId`),
-  CONSTRAINT `FK_6431BD4D` FOREIGN KEY (`QuestionId`) REFERENCES `question` (`Id`),
-  CONSTRAINT `FK_67878C2E` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `UserId` int DEFAULT NULL,
+    `QuestionId` int DEFAULT NULL,
+    `Quality` int DEFAULT NULL,
+    `RelevancePersonal` int DEFAULT NULL,
+    `RelevanceForAll` int DEFAULT NULL,
+    `CorrectnessProbability` int DEFAULT NULL,
+    `CorrectnessProbabilityAnswerCount` int DEFAULT NULL,
+    `KnowledgeStatus` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `UserId` (`UserId`),
+    KEY `QuestionId` (`QuestionId`),
+    CONSTRAINT `FK_6431BD4D` FOREIGN KEY (`QuestionId`) REFERENCES `question` (`Id`),
+    CONSTRAINT `FK_67878C2E` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `questionvaluation`
 --
 
 LOCK TABLES `questionvaluation` WRITE;
-/*!40000 ALTER TABLE `questionvaluation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `questionvaluation` ENABLE KEYS */;
+/*!40000 ALTER TABLE `questionvaluation` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `questionvaluation` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -646,30 +1747,35 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `questionview`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `questionview` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Guid` varchar(36) DEFAULT NULL,
-  `QuestionId` int DEFAULT NULL,
-  `UserId` int DEFAULT NULL,
-  `Milliseconds` int DEFAULT NULL,
-  `UserAgent` varchar(255) DEFAULT NULL,
-  `Migrated` tinyint(1) DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateOnly` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Guid` (`Guid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Guid` varchar(36) DEFAULT NULL,
+    `QuestionId` int DEFAULT NULL,
+    `UserId` int DEFAULT NULL,
+    `Milliseconds` int DEFAULT NULL,
+    `UserAgent` varchar(255) DEFAULT NULL,
+    `Migrated` tinyint(1) DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateOnly` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    UNIQUE KEY `Guid` (`Guid`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `questionview`
 --
 
 LOCK TABLES `questionview` WRITE;
-/*!40000 ALTER TABLE `questionview` DISABLE KEYS */;
-/*!40000 ALTER TABLE `questionview` ENABLE KEYS */;
+/*!40000 ALTER TABLE `questionview` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `questionview` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -677,32 +1783,37 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `reference`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `reference` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Question_id` int DEFAULT NULL,
-  `Page_id` int DEFAULT NULL,
-  `ReferenceType` int DEFAULT NULL,
-  `AdditionalInfo` varchar(255) DEFAULT NULL,
-  `ReferenceText` varchar(255) DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `Question_id` (`Question_id`),
-  KEY `Page_id` (`Page_id`),
-  CONSTRAINT `FK_4486FA46` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`),
-  CONSTRAINT `FK_71B21AE6` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Question_id` int DEFAULT NULL,
+    `Page_id` int DEFAULT NULL,
+    `ReferenceType` int DEFAULT NULL,
+    `AdditionalInfo` varchar(255) DEFAULT NULL,
+    `ReferenceText` varchar(255) DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `Question_id` (`Question_id`),
+    KEY `Page_id` (`Page_id`),
+    CONSTRAINT `FK_4486FA46` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`),
+    CONSTRAINT `FK_71B21AE6` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `reference`
 --
 
 LOCK TABLES `reference` WRITE;
-/*!40000 ALTER TABLE `reference` DISABLE KEYS */;
-/*!40000 ALTER TABLE `reference` ENABLE KEYS */;
+/*!40000 ALTER TABLE `reference` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `reference` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -710,23 +1821,28 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `runningjob`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `runningjob` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `StartAt` datetime DEFAULT NULL,
-  `Name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `StartAt` datetime DEFAULT NULL,
+    `Name` varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `runningjob`
 --
 
 LOCK TABLES `runningjob` WRITE;
-/*!40000 ALTER TABLE `runningjob` DISABLE KEYS */;
-/*!40000 ALTER TABLE `runningjob` ENABLE KEYS */;
+/*!40000 ALTER TABLE `runningjob` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `runningjob` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -734,24 +1850,35 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `schemaversion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `schemaversion` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `SchemaHash` varchar(64) DEFAULT NULL,
-  `LastUpdated` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `SchemaHash` varchar(64) DEFAULT NULL,
+    `LastUpdated` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `schemaversion`
 --
 
 LOCK TABLES `schemaversion` WRITE;
-/*!40000 ALTER TABLE `schemaversion` DISABLE KEYS */;
-INSERT INTO `schemaversion` VALUES (1,'f87ec81eb2462730d9822ee8feea55e792ca1c0cb03280283ca47c7c49f40ad8','2025-12-29 21:45:30');
-/*!40000 ALTER TABLE `schemaversion` ENABLE KEYS */;
+/*!40000 ALTER TABLE `schemaversion` DISABLE KEYS */
+;
+INSERT INTO
+    `schemaversion`
+VALUES (
+        1,
+        'f87ec81eb2462730d9822ee8feea55e792ca1c0cb03280283ca47c7c49f40ad8',
+        '2025-12-29 21:45:30'
+    );
+/*!40000 ALTER TABLE `schemaversion` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -759,25 +1886,37 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `setting`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `setting` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `AppVersion` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `AppVersion` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `setting`
 --
 
 LOCK TABLES `setting` WRITE;
-/*!40000 ALTER TABLE `setting` DISABLE KEYS */;
-INSERT INTO `setting` VALUES (1,2147483647,'2025-12-29 22:45:30','2025-12-29 22:45:30');
-/*!40000 ALTER TABLE `setting` ENABLE KEYS */;
+/*!40000 ALTER TABLE `setting` DISABLE KEYS */
+;
+INSERT INTO
+    `setting`
+VALUES (
+        1,
+        2147483647,
+        '2025-12-29 22:45:30',
+        '2025-12-29 22:45:30'
+    );
+/*!40000 ALTER TABLE `setting` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -785,28 +1924,33 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `shares`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `shares` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `PageId` int DEFAULT NULL,
-  `UserId` int DEFAULT NULL,
-  `Token` varchar(255) NOT NULL,
-  `Permission` int DEFAULT NULL,
-  `GrantedBy` int NOT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `UserId` (`UserId`),
-  CONSTRAINT `FK_B8E3B644` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `PageId` int DEFAULT NULL,
+    `UserId` int DEFAULT NULL,
+    `Token` varchar(255) NOT NULL,
+    `Permission` int DEFAULT NULL,
+    `GrantedBy` int NOT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `UserId` (`UserId`),
+    CONSTRAINT `FK_B8E3B644` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `shares`
 --
 
 LOCK TABLES `shares` WRITE;
-/*!40000 ALTER TABLE `shares` DISABLE KEYS */;
-/*!40000 ALTER TABLE `shares` ENABLE KEYS */;
+/*!40000 ALTER TABLE `shares` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `shares` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -814,56 +1958,101 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `user` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `PasswordHashedAndSalted` varchar(255) DEFAULT NULL,
-  `Salt` varchar(255) DEFAULT NULL,
-  `EmailAddress` varchar(255) DEFAULT NULL,
-  `BouncedMail` tinyint(1) DEFAULT NULL,
-  `MailBounceReason` varchar(255) DEFAULT NULL,
-  `Name` varchar(255) DEFAULT NULL,
-  `IsEmailConfirmed` tinyint(1) DEFAULT NULL,
-  `IsInstallationAdmin` tinyint(1) DEFAULT NULL,
-  `AllowsSupportiveLogin` tinyint(1) DEFAULT NULL,
-  `ShowWishKnowledge` tinyint(1) DEFAULT NULL,
-  `KnowledgeReportInterval` int DEFAULT NULL,
-  `TotalInOthersWishKnowledge` int DEFAULT NULL,
-  `FollowerCount` int DEFAULT NULL,
-  `LearningSessionOptions` varchar(255) DEFAULT NULL,
-  `StripeId` varchar(255) DEFAULT NULL,
-  `EndDate` datetime DEFAULT NULL,
-  `SubscriptionStartDate` datetime DEFAULT NULL,
-  `CorrectnessProbability` int DEFAULT NULL,
-  `CorrectnessProbabilityAnswerCount` int DEFAULT NULL,
-  `WidgetHostsSpaceSeparated` varchar(255) DEFAULT NULL,
-  `Reputation` int DEFAULT NULL,
-  `ReputationPos` int DEFAULT NULL,
-  `WishCountQuestions` int DEFAULT NULL,
-  `WishCountSets` int DEFAULT NULL,
-  `Birthday` datetime DEFAULT NULL,
-  `FacebookId` varchar(255) DEFAULT NULL,
-  `GoogleId` varchar(255) DEFAULT NULL,
-  `ActivityPoints` int DEFAULT NULL,
-  `ActivityLevel` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  `RecentlyUsedRelationTargetPages` varchar(255) DEFAULT NULL,
-  `FavoriteIds` varchar(255) DEFAULT NULL,
-  `UiLanguage` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `PasswordHashedAndSalted` varchar(255) DEFAULT NULL,
+    `Salt` varchar(255) DEFAULT NULL,
+    `EmailAddress` varchar(255) DEFAULT NULL,
+    `BouncedMail` tinyint(1) DEFAULT NULL,
+    `MailBounceReason` varchar(255) DEFAULT NULL,
+    `Name` varchar(255) DEFAULT NULL,
+    `IsEmailConfirmed` tinyint(1) DEFAULT NULL,
+    `IsInstallationAdmin` tinyint(1) DEFAULT NULL,
+    `AllowsSupportiveLogin` tinyint(1) DEFAULT NULL,
+    `ShowWishKnowledge` tinyint(1) DEFAULT NULL,
+    `KnowledgeReportInterval` int DEFAULT NULL,
+    `TotalInOthersWishKnowledge` int DEFAULT NULL,
+    `FollowerCount` int DEFAULT NULL,
+    `LearningSessionOptions` varchar(255) DEFAULT NULL,
+    `StripeId` varchar(255) DEFAULT NULL,
+    `EndDate` datetime DEFAULT NULL,
+    `SubscriptionStartDate` datetime DEFAULT NULL,
+    `CorrectnessProbability` int DEFAULT NULL,
+    `CorrectnessProbabilityAnswerCount` int DEFAULT NULL,
+    `WidgetHostsSpaceSeparated` varchar(255) DEFAULT NULL,
+    `Reputation` int DEFAULT NULL,
+    `ReputationPos` int DEFAULT NULL,
+    `WishCountQuestions` int DEFAULT NULL,
+    `WishCountSets` int DEFAULT NULL,
+    `Birthday` datetime DEFAULT NULL,
+    `FacebookId` varchar(255) DEFAULT NULL,
+    `GoogleId` varchar(255) DEFAULT NULL,
+    `ActivityPoints` int DEFAULT NULL,
+    `ActivityLevel` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    `RecentlyUsedRelationTargetPages` varchar(255) DEFAULT NULL,
+    `FavoriteIds` varchar(255) DEFAULT NULL,
+    `UiLanguage` varchar(255) DEFAULT NULL,
+    `SubscriptionTokensBalance` int NOT NULL DEFAULT '0',
+    `PaidTokensBalance` int NOT NULL DEFAULT '0',
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `user`
 --
 
 LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'abd0b53e6345eab64d69589bbaa0e4e5','5f8dfde8-1e61-41a8-ab65-9cc6584c51dd','learning.user@example.com',0,NULL,'LearningUser',1,0,0,0,0,0,0,NULL,NULL,NULL,NULL,0,0,NULL,0,0,0,0,NULL,NULL,NULL,0,0,'2025-12-29 22:45:31','2025-12-29 22:45:31',NULL,NULL,'en');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */
+;
+INSERT INTO
+    `user`
+VALUES (
+        1,
+        'abd0b53e6345eab64d69589bbaa0e4e5',
+        '5f8dfde8-1e61-41a8-ab65-9cc6584c51dd',
+        'learning.user@example.com',
+        0,
+        NULL,
+        'LearningUser',
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        0,
+        NULL,
+        0,
+        0,
+        0,
+        0,
+        NULL,
+        NULL,
+        NULL,
+        0,
+        0,
+        '2025-12-29 22:45:31',
+        '2025-12-29 22:45:31',
+        NULL,
+        NULL,
+        'en'
+    );
+/*!40000 ALTER TABLE `user` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -871,29 +2060,34 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `user_to_follower`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `user_to_follower` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Follower_id` int DEFAULT NULL,
-  `User_id` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `Follower_id` (`Follower_id`),
-  KEY `User_id` (`User_id`),
-  CONSTRAINT `FK_28BA5F5E` FOREIGN KEY (`User_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_4FFDA6DE` FOREIGN KEY (`Follower_id`) REFERENCES `user` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `Follower_id` int DEFAULT NULL,
+    `User_id` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `Follower_id` (`Follower_id`),
+    KEY `User_id` (`User_id`),
+    CONSTRAINT `FK_28BA5F5E` FOREIGN KEY (`User_id`) REFERENCES `user` (`Id`),
+    CONSTRAINT `FK_4FFDA6DE` FOREIGN KEY (`Follower_id`) REFERENCES `user` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `user_to_follower`
 --
 
 LOCK TABLES `user_to_follower` WRITE;
-/*!40000 ALTER TABLE `user_to_follower` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_to_follower` ENABLE KEYS */;
+/*!40000 ALTER TABLE `user_to_follower` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `user_to_follower` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -901,40 +2095,45 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `useractivity`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `useractivity` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `UserConcerned_id` int DEFAULT NULL,
-  `At` datetime DEFAULT NULL,
-  `Type` int DEFAULT NULL,
-  `Question_id` int DEFAULT NULL,
-  `Page_id` int DEFAULT NULL,
-  `UserIsFollowed_id` int DEFAULT NULL,
-  `UserCauser_id` int DEFAULT NULL,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `UserConcerned_id` (`UserConcerned_id`),
-  KEY `Question_id` (`Question_id`),
-  KEY `Page_id` (`Page_id`),
-  KEY `UserIsFollowed_id` (`UserIsFollowed_id`),
-  KEY `UserCauser_id` (`UserCauser_id`),
-  CONSTRAINT `FK_5137F47B` FOREIGN KEY (`UserConcerned_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_5D4CBA5D` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`),
-  CONSTRAINT `FK_6C836DBA` FOREIGN KEY (`UserIsFollowed_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_8091412B` FOREIGN KEY (`UserCauser_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_B3C89A36` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `UserConcerned_id` int DEFAULT NULL,
+    `At` datetime DEFAULT NULL,
+    `Type` int DEFAULT NULL,
+    `Question_id` int DEFAULT NULL,
+    `Page_id` int DEFAULT NULL,
+    `UserIsFollowed_id` int DEFAULT NULL,
+    `UserCauser_id` int DEFAULT NULL,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`),
+    KEY `UserConcerned_id` (`UserConcerned_id`),
+    KEY `Question_id` (`Question_id`),
+    KEY `Page_id` (`Page_id`),
+    KEY `UserIsFollowed_id` (`UserIsFollowed_id`),
+    KEY `UserCauser_id` (`UserCauser_id`),
+    CONSTRAINT `FK_5137F47B` FOREIGN KEY (`UserConcerned_id`) REFERENCES `user` (`Id`),
+    CONSTRAINT `FK_5D4CBA5D` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`),
+    CONSTRAINT `FK_6C836DBA` FOREIGN KEY (`UserIsFollowed_id`) REFERENCES `user` (`Id`),
+    CONSTRAINT `FK_8091412B` FOREIGN KEY (`UserCauser_id`) REFERENCES `user` (`Id`),
+    CONSTRAINT `FK_B3C89A36` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `useractivity`
 --
 
 LOCK TABLES `useractivity` WRITE;
-/*!40000 ALTER TABLE `useractivity` DISABLE KEYS */;
-/*!40000 ALTER TABLE `useractivity` ENABLE KEYS */;
+/*!40000 ALTER TABLE `useractivity` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `useractivity` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -942,26 +2141,31 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `userskill`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
 CREATE TABLE `userskill` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `UserId` int DEFAULT NULL,
-  `PageId` int DEFAULT NULL,
-  `EvaluationJson` text,
-  `DateCreated` datetime DEFAULT NULL,
-  `DateModified` datetime DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `UserId` int DEFAULT NULL,
+    `PageId` int DEFAULT NULL,
+    `EvaluationJson` text,
+    `DateCreated` datetime DEFAULT NULL,
+    `DateModified` datetime DEFAULT NULL,
+    PRIMARY KEY (`Id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */
+;
 
 --
 -- Dumping data for table `userskill`
 --
 
 LOCK TABLES `userskill` WRITE;
-/*!40000 ALTER TABLE `userskill` DISABLE KEYS */;
-/*!40000 ALTER TABLE `userskill` ENABLE KEYS */;
+/*!40000 ALTER TABLE `userskill` DISABLE KEYS */
+;
+/*!40000 ALTER TABLE `userskill` ENABLE KEYS */
+;
 UNLOCK TABLES;
 
 --
@@ -971,15 +2175,22 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'memoWikis_dev'
 --
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */
+;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */
+;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */
+;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */
+;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
+;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */
+;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */
+;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */
+;
 
 -- Dump completed on 2025-12-29 21:45:34
-

@@ -12,7 +12,7 @@ public static class ConnectionStringHelper
     public static string EnsureTimeoutSettings(string connectionString)
     {
         var builder = new StringBuilder(connectionString);
-        
+
         // Add or update connection timeout (time to wait for connection to establish)
         if (!connectionString.Contains("Connection Timeout", StringComparison.OrdinalIgnoreCase) &&
             !connectionString.Contains("ConnectionTimeout", StringComparison.OrdinalIgnoreCase))
@@ -21,7 +21,7 @@ public static class ConnectionStringHelper
                 builder.Append(";");
             builder.Append("Connection Timeout=300;"); // 5 minutes
         }
-        
+
         // Add or update command timeout (time to wait for command execution)
         if (!connectionString.Contains("Default Command Timeout", StringComparison.OrdinalIgnoreCase))
         {
@@ -29,7 +29,7 @@ public static class ConnectionStringHelper
                 builder.Append(";");
             builder.Append("Default Command Timeout=300;"); // 5 minutes
         }
-        
+
         // Ensure we can handle large result sets
         if (!connectionString.Contains("AllowBatch", StringComparison.OrdinalIgnoreCase))
         {
@@ -37,7 +37,7 @@ public static class ConnectionStringHelper
                 builder.Append(";");
             builder.Append("AllowBatch=true;");
         }
-        
+
         return builder.ToString();
     }
 }

@@ -10,7 +10,7 @@ internal class UpdateToVs289
         {
             // Create AI model whitelist table
             nhibernateSession.CreateSQLQuery(
-                @"CREATE TABLE `aimodelwhitelist` (
+                @"CREATE TABLE IF NOT EXISTS `aimodelwhitelist` (
                     `Id` INT NOT NULL AUTO_INCREMENT,
                     `ModelId` VARCHAR(100) NOT NULL,
                     `DisplayName` VARCHAR(200) NULL,
@@ -24,6 +24,13 @@ internal class UpdateToVs289
                     INDEX `idx_aimodelwhitelist_provider` (`Provider`),
                     INDEX `idx_aimodelwhitelist_enabled` (`IsEnabled`)
                   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
+            ).ExecuteUpdate();
+
+            // Add token balance fields to user table
+            nhibernateSession.CreateSQLQuery(
+                @"ALTER TABLE `user` 
+                  ADD COLUMN IF NOT EXISTS `SubscriptionTokensBalance` INT NOT NULL DEFAULT 0,
+                  ADD COLUMN IF NOT EXISTS `PaidTokensBalance` INT NOT NULL DEFAULT 0;"
             ).ExecuteUpdate();
 
             transaction.Commit();
