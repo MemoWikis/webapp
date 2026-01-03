@@ -8,7 +8,7 @@
 
 - Do not use namespaces in C#.
 - Prefer Verify() for Tests
-- Use _testHarness.ApiCall("apiVue/{controller}/{action}") to do apicalls, do not init/resolve controllers in tests
+- Use \_testHarness.ApiCall("apiVue/{controller}/{action}") to do apicalls, do not init/resolve controllers in tests
 
 # Unit Tests
 
@@ -27,6 +27,19 @@
 # Frontend and Translations
 
 - refer to the .copilotinstructions file in `../src/Frontend.Nuxt` for frontend specific instructions
+
+# AI Token Usage System
+
+Core components in `src/Backend.Core/Domain/AI/`:
+
+- `Usage/TokenDeductionService.cs` - Token balance management, affordability checks, deduction with model-aware cost multipliers
+- `Usage/AiUsageLogRepo.cs` - Usage logging with cost analytics, supports queries by model/date/user
+- `Models/AiModelRegistry.cs` - Model whitelist & token cost multipliers, caching
+
+Token types: `SubscriptionTokensBalance` (monthly, resets) and `PaidTokensBalance` (accumulates)
+Deduction priority: Subscription tokens first, then paid tokens
+
+For detailed documentation including integration points, database schema, and token flow examples, see `docs/ai-token-usage-system.md`
 
 # Skills
 
