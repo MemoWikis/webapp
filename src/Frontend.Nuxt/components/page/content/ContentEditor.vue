@@ -481,7 +481,7 @@ const createFlashcard = () => {
         'large-font': userStore.fontSize === FontSize.Large,
     }">
         <div id="PageContentPlaceholder" class="ProseMirror content-placeholder" :class="{ 'is-mobile': isMobile }"
-            v-html="pageStore.content"></div>
+            v-html="pageStore.content" />
     </div>
 </template>
 

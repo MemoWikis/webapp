@@ -4,9 +4,9 @@ import { useLoadingStore } from '~/components/loading/loadingStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { usePageStore } from '../pageStore'
 import { debounce } from 'underscore'
-import { FullSearch, PageItem, SearchType } from '~~/components/search/searchHelper'
+import type { FullSearch, PageItem } from '~~/components/search/searchHelper';
+import { SearchType } from '~~/components/search/searchHelper'
 import { useAiCreatePageStore } from '../content/ai/aiCreatePageStore'
-'~~/components/alert/alertStore'
 
 const loadingStore = useLoadingStore()
 const userStore = useUserStore()
@@ -153,7 +153,7 @@ async function movePageToNewParent() {
         parentIdToAdd: selectedPage.value?.id
     }
 
-    const result = await $api<FetchResult<any>>('/apiVue/PageRelationEdit/MoveChild', {
+    const result = await $api<FetchResult<Record<string, never>>>('/apiVue/PageRelationEdit/MoveChild', {
         body: pageData,
         method: 'POST',
         onResponseError(context) {
@@ -162,7 +162,7 @@ async function movePageToNewParent() {
     })
 
     if (result.success === true) {
-        editPageRelationStore.parentId = selectedPage.value?.id!
+        editPageRelationStore.parentId = selectedPage.value?.id ?? 0
         editPageRelationStore.addPage(editPageRelationStore.childId)
         editPageRelationStore.removePage(editPageRelationStore.childId, editPageRelationStore.pageIdToRemove)
         editPageRelationStore.showModal = false
@@ -354,11 +354,11 @@ function openAiCreatePage() {
 </script>
 
 <template>
-    <LazyModal @close="editPageRelationStore.showModal = false" :show="editPageRelationStore.showModal"
-        v-if="editPageRelationStore.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="handleMainBtn()"
-        :show-cancel-btn="true">
+    <LazyModal v-if="editPageRelationStore.showModal" :show="editPageRelationStore.showModal"
+        :primary-btn-label="primaryBtnLabel" :show-cancel-btn="true" @close="editPageRelationStore.showModal = false"
+        @primary-btn="handleMainBtn()">
 
-        <template v-slot:header>
+        <template #header>
             <h4 v-if="editPageRelationStore.type === EditPageRelationType.Create" class="modal-title">
                 {{ t('page.relationEdit.modal.createPage') }}
             </h4>
@@ -374,13 +374,13 @@ function openAiCreatePage() {
             </h4>
         </template>
 
-        <template v-slot:body>
+        <template #body>
             <template v-if="editPageRelationStore.type === EditPageRelationType.Create">
-                <form v-on:submit.prevent="addPage">
+                <form @submit.prevent="addPage">
                     <div class="form-group">
-                        <input class="form-control create-input" v-model="name"
+                        <input v-model="name" class="form-control create-input"
                             :placeholder="t('page.relationEdit.form.namePlaceholder')" />
-                        <small class="form-text text-muted"></small>
+                        <small class="form-text text-muted" />
                     </div>
                 </form>
                 <div class="ai-create-option">
@@ -389,14 +389,14 @@ function openAiCreatePage() {
                         {{ t('page.relationEdit.button.createWithAi') }}
                     </button>
                 </div>
-                <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
+                <div v-if="showErrorMsg" class="alert alert-warning" role="alert">
                     <NuxtLink :href="existingPageUrl" class="alert-link">{{ forbbidenPageName }}</NuxtLink>
                     {{ errorMsg }}
                 </div>
-                <div class="link-to-sub-container" v-if="privatePageLimitReached">
+                <div v-if="privatePageLimitReached" class="link-to-sub-container">
                     <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ t('info.joinNow') }}</b></NuxtLink>
                 </div>
-                <div class="pageIsPrivate" v-else>
+                <div v-else class="pageIsPrivate">
                     <p>
                         <b>{{ t('page.relationEdit.text.pageIsPrivate') }}</b>
                     </p>
@@ -409,7 +409,7 @@ function openAiCreatePage() {
                     <p>{{ t('page.relationEdit.text.whereToAdd') }}</p>
                 </div>
                 <div>
-                    <div class="pageSearchAutocomplete mb-250" v-if="editPageRelationStore.personalWiki != null"
+                    <div v-if="editPageRelationStore.personalWiki != null" class="pageSearchAutocomplete mb-250"
                         @click="selectedParentInWikiId = userStore.personalWiki?.id ?? 0">
                         <div class="searchResultItem"
                             :class="{ 'selectedSearchResultItem': selectedParentInWikiId === editPageRelationStore.personalWiki.id }">
@@ -419,7 +419,8 @@ function openAiCreatePage() {
                                 </div>
                                 <div class="searchResultQuestionCount body-s">
                                     {{ editPageRelationStore.personalWiki.questionCount }}
-                                    {{ editPageRelationStore.personalWiki.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}
+                                    {{ editPageRelationStore.personalWiki.questionCount != 1 ?
+                                        t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}
                                 </div>
                             </div>
                             <div v-show="selectedParentInWikiId === editPageRelationStore.personalWiki.id"
@@ -432,10 +433,12 @@ function openAiCreatePage() {
                         </div>
                     </div>
 
-                    <div class="pageSearchAutocomplete mb-250"
-                        v-if="editPageRelationStore.recentlyUsedRelationTargetPages != null && editPageRelationStore.recentlyUsedRelationTargetPages.length > 0">
-                        <div class="overline-s mb-125 no-line">{{ t('page.relationEdit.text.recentlySelectedPages') }}</div>
-                        <template v-for="previousPage in editPageRelationStore.recentlyUsedRelationTargetPages">
+                    <div v-if="editPageRelationStore.recentlyUsedRelationTargetPages != null && editPageRelationStore.recentlyUsedRelationTargetPages.length > 0"
+                        class="pageSearchAutocomplete mb-250">
+                        <div class="overline-s mb-125 no-line">{{ t('page.relationEdit.text.recentlySelectedPages') }}
+                        </div>
+                        <template v-for="previousPage in editPageRelationStore.recentlyUsedRelationTargetPages"
+                            :key="previousPage.id">
                             <div class="searchResultItem"
                                 :class="{ 'selectedSearchResultItem': selectedParentInWikiId === previousPage.id }"
                                 @click="selectedParentInWikiId = previousPage.id">
@@ -443,10 +446,12 @@ function openAiCreatePage() {
                                 <div class="searchResultBody">
                                     <div class="searchResultLabel body-m">{{ previousPage.name }}</div>
                                     <div class="searchResultQuestionCount body-s">{{ previousPage.questionCount }}
-                                        {{ previousPage.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}
+                                        {{ previousPage.questionCount != 1 ? t('page.relationEdit.text.questions') :
+                                            t('page.relationEdit.text.question') }}
                                     </div>
                                 </div>
-                                <div v-show="selectedParentInWikiId === previousPage.id" class="selectedSearchResultItemContainer">
+                                <div v-show="selectedParentInWikiId === previousPage.id"
+                                    class="selectedSearchResultItemContainer">
                                     <div class="selectedSearchResultItem">
                                         {{ t('page.relationEdit.text.selected') }}
                                         <font-awesome-icon icon="fa-solid fa-check" />
@@ -459,30 +464,35 @@ function openAiCreatePage() {
                         <p>{{ t('page.relationEdit.text.selectOtherPage') }}</p>
                     </div>
                     <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
-                        <div v-if="showSelectedPage && selectedPage != null" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem': selectedParentInWikiId === selectedPage.id }"
-                            @click="selectedParentInWikiId = selectedPage?.id ?? 0"
-                            data-toggle="tooltip" data-placement="top" :title="selectedPage?.name">
+                        <div v-if="showSelectedPage && selectedPage != null" class="searchResultItem mb-125"
+                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId === selectedPage.id }"
+                            data-toggle="tooltip" data-placement="top" :title="selectedPage?.name"
+                            @click="selectedParentInWikiId = selectedPage?.id ?? 0">
                             <img :src="selectedPage?.imageUrl" />
                             <div class="searchResultBody">
                                 <div class="searchResultLabel body-m">{{ selectedPage?.name }}</div>
                                 <div class="searchResultQuestionCount body-s">{{ selectedPage.questionCount }}
-                                    {{ selectedPage.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}</div>
+                                    {{ selectedPage.questionCount != 1 ? t('page.relationEdit.text.questions') :
+                                        t('page.relationEdit.text.question') }}</div>
                             </div>
-                            <div v-show="selectedParentInWikiId === selectedPage.id" class="selectedSearchResultItemContainer">
+                            <div v-show="selectedParentInWikiId === selectedPage.id"
+                                class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     {{ t('page.relationEdit.text.selected') }}
                                     <font-awesome-icon icon="fa-solid fa-check" />
                                 </div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.pageInWiki" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.pagesToFilter" />
+                        <Search :search-type="SearchType.pageInWiki" :show-search="true"
+                            :page-ids-to-filter="editPageRelationStore.pagesToFilter" @select-item="selectPage" />
 
                         <div class="swap-type-target">
                             <button @click="editPageRelationStore.type = EditPageRelationType.AddParent">
                                 <label>
                                     <div class="checkbox-container">
                                         <input type="checkbox" name="addToParent" class="hidden" />
-                                        <font-awesome-icon icon="fa-solid fa-square-check" class="checkbox-icon active" />
+                                        <font-awesome-icon icon="fa-solid fa-square-check"
+                                            class="checkbox-icon active" />
                                         <span class="checkbox-label">
                                             {{ t('page.relationEdit.text.searchOnlyInWiki') }}
                                         </span>
@@ -495,7 +505,7 @@ function openAiCreatePage() {
 
 
                 </div>
-                <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
+                <div v-if="showErrorMsg" class="alert alert-warning" role="alert">
                     <NuxtLink :to="existingPageUrl" target="_blank" class="alert-link">{{ forbiddenPageName }}
                     </NuxtLink>
                     {{ errorMsg }}
@@ -513,10 +523,12 @@ function openAiCreatePage() {
                             <div>
                                 <div class="searchResultLabel body-m">{{ selectedPage.name }}</div>
                                 <div class="searchResultQuestionCount body-s">{{ selectedPage.questionCount }}
-                                    {{ selectedPage.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}</div>
+                                    {{ selectedPage.questionCount != 1 ? t('page.relationEdit.text.questions') :
+                                        t('page.relationEdit.text.question') }}</div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.pagesToFilter" />
+                        <Search :search-type="SearchType.page" :show-search="true"
+                            :page-ids-to-filter="editPageRelationStore.pagesToFilter" @select-item="selectPage" />
 
                         <div class="swap-type-target">
                             <button @click="editPageRelationStore.type = EditPageRelationType.AddToPersonalWiki">
@@ -533,7 +545,7 @@ function openAiCreatePage() {
                         </div>
                     </div>
                 </div>
-                <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
+                <div v-if="showErrorMsg" class="alert alert-warning" role="alert">
                     <NuxtLink :to="existingPageUrl" target="_blank" class="alert-link">{{ forbiddenPageName }}
                     </NuxtLink>
                     {{ errorMsg }}
@@ -548,13 +560,15 @@ function openAiCreatePage() {
                             <div>
                                 <div class="searchResultLabel body-m">{{ selectedPage.name }}</div>
                                 <div class="searchResultQuestionCount body-s">{{ selectedPage.questionCount }}
-                                    {{ selectedPage.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}</div>
+                                    {{ selectedPage.questionCount != 1 ? t('page.relationEdit.text.questions') :
+                                        t('page.relationEdit.text.question') }}</div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.pagesToFilter" />
+                        <Search :search-type="SearchType.page" :show-search="true"
+                            :page-ids-to-filter="editPageRelationStore.pagesToFilter" @select-item="selectPage" />
                     </div>
                 </div>
-                <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
+                <div v-if="showErrorMsg" class="alert alert-warning" role="alert">
                     <NuxtLink :to="existingPageUrl" target="_blank" class="alert-link">{{ forbiddenPageName }}
                     </NuxtLink>
                     {{ errorMsg }}

@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia'
 import { AlertType, useAlertStore } from '../../alert/alertStore'
-import { PageItem } from '~/components/search/searchHelper'
-import {
-    useSnackbarStore,
-    SnackbarData,
-} from '~/components/snackBar/snackBarStore'
+import type { PageItem } from '~/components/search/searchHelper'
+import type { SnackbarData } from '~/components/snackBar/snackBarStore'
+import { useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import * as Y from 'yjs'
 import { useUserStore } from '~/components/user/userStore'
