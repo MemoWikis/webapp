@@ -100,6 +100,8 @@ public class PageDeleter(
         {
             // Decided to keep page views from deleted pages
             // to keep data in global stats/analytics/metrics
+            // The foreign key constraint has been removed from the database schema
+            // to allow page deletion while preserving pageview records with their Page_id
 
             _pageToQuestionRepo.DeleteByPageId(pageId);
             _userActivityRepo.DeleteForPage(pageId);

@@ -146,7 +146,11 @@ To apply a new version of the SQL schema after you've completed the initial setu
 > **Precondition:** You must have completed the [Setup](#setup) steps above and have Docker services running.
 
 > [!TIP]
-> **GitHub Copilot Users:** You can use the `reset-dev-database` skill in Copilot by typing `reset dev db`. This automated skill will copy the test scenario SQL dump, update the database name, and reinitialize the MySQL container for you.
+> **GitHub Copilot Users:** You can use automated skills in Copilot to simplify common tasks:
+> - `dev database reset` - Reset the database from the current schema.sql
+> - `dev database create` - Generate a fresh database with the latest test data from ScenarioBuilder
+> 
+> Learn more about [GitHub Copilot Skills](https://code.visualstudio.com/docs/copilot/copilot-customization#_agent-skill-sets).
 
 #### On Windows (PowerShell):
 ```powershell
@@ -186,6 +190,8 @@ The `schema.sql` file can be generated from the test suite:
    Copy the dump file to `./Docker/Dev/mysql-init/schema.sql` and update the database name inside the file from `memoWikisTest` to `memoWikis_dev`.
 
 > [!TIP]
+> **GitHub Copilot Users:** You can use the `dev-database-create` skill to automate this entire process. Just type `create dev database` in Copilot.
+> 
 > The database name in the SQL file must match the `MYSQL_DATABASE` value in your `.env` file (default: `memoWikis_dev`).
 
 # ⚖️ License

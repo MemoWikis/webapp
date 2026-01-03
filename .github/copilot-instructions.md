@@ -27,3 +27,12 @@
 # Frontend and Translations
 
 - refer to the .copilotinstructions file in `../src/Frontend.Nuxt` for frontend specific instructions
+
+# Skills
+
+Skills are domain-specific automation workflows that help with common development tasks.
+
+## Database Skills
+
+- **dev-database-create**: Create a fresh dev database with latest test data (runs ScenarioBuilder test, generates schema.sql, reinitializes MySQL)
+- **dev-database-reset**: Reset the dev database from existing schema.sql (just reinitializes MySQL without updating schema.sql)

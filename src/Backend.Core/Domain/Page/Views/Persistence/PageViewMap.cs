@@ -8,7 +8,7 @@ public class PageViewMap : ClassMap<PageView>
 
         Id(x => x.Id);
 
-        References(x => x.Page).Column("Page_id").Cascade.None();
+        References(x => x.Page).Column("Page_id").Cascade.None().Not.ForeignKey();
         References(x => x.User).Cascade.None();
 
         Map(x => x.UserAgent);
