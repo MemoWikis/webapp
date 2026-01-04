@@ -18,9 +18,10 @@ We view wikis as excellent knowledge-management tools, yet we’ve always believ
       - [On Linux / macOS (Bash):](#on-linux--macos-bash)
       - [On Windows (PowerShell):](#on-windows-powershell)
     - [3. Set Up Your Anthropc API Key](#3-set-up-your-anthropc-api-key)
-    - [4. Run the Nuxt Frontend (Nuxt 3)](#4-run-the-nuxt-frontend-nuxt-3)
-    - [5. Launch the .NET Backend Debug Session](#5-launch-the-net-backend-debug-session)
-      - [Additional Tips](#additional-tips)
+  - [Running the Application](#running-the-application)
+    - [Visual Studio / Rider](#visual-studio--rider)
+    - [VS Code](#vs-code)
+  - [Additional Tips](#additional-tips)
   - [Common Tasks](#common-tasks)
     - [Recreate Development Database](#recreate-development-database)
       - [On Windows (PowerShell):](#on-windows-powershell-1)
@@ -105,25 +106,49 @@ To enable the AI functions within the application, you must supply a valid Anthr
 > [!WARNING]  
 > **Without a valid API key, the AI functions in the application will not work.**
 
-### 4. Run the Nuxt Frontend (Nuxt 3)
-The Nuxt frontend project is located in the `Frontend.Nuxt` folder (inside the `src` folder). To start the Nuxt 3 development server, run:
+## Running the Application
 
+After completing the setup, you can run the application using your preferred IDE:
+
+| Service  | URL                    | Command       |
+|----------|------------------------|---------------|
+| Backend  | http://localhost:5069  | `dotnet run`  |
+| Frontend | http://localhost:3000  | `npm run dev` |
+
+### Visual Studio / Rider
+
+**Frontend:**
 ```bash
-cd ./Frontend.Nuxt
+cd ./src/Frontend.Nuxt
 npm install  # Run this if dependencies are not yet installed
 npm run dev
 ```
+
+**Backend:**
+1. Open `memoWikis.sln` in Visual Studio or Rider
+2. Select your preferred debug configuration
+3. Start the Backend.Api debug session
+
 > [!NOTE]  
-> Note: Make sure your Node.js version meets Nuxt 3 requirements.
+> Make sure your Node.js version meets Nuxt 3 requirements.
 
-### 5. Launch the .NET Backend Debug Session
-The backend solution file is located at the root of the `src` folder as `memoWikis.sln`. To run and debug the backend:
+### VS Code
 
-1. Open memoWikis.sln in Visual Studio.
-2. Select your preferred debug configuration.
-3. Start the Backend.Api debug session.
+VS Code users can start both services with a single action:
 
-#### Additional Tips
+**Option 1: Run and Debug (F5)**
+1. Press `F5` or open the "Run and Debug" sidebar
+2. Select **"Backend + Frontend"** from the dropdown
+3. Both services start in visible, dedicated terminals
+
+**Option 2: GitHub Copilot**
+Simply say `start app` or `Anwendung starten` in Copilot Chat.
+
+**Option 3: Run Tasks Manually**
+1. Press `Ctrl+Shift+P` → "Tasks: Run Task"
+2. Select **"Backend"** or **"Frontend"**
+
+## Additional Tips
 - Anthropic API Key for AI Functions: Ensure your valid Anthropc API key is inserted in the appsettings.Development.json file. Without this key, the AI features will not work.
 
 - Docker Management:

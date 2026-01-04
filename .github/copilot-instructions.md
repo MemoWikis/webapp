@@ -68,6 +68,12 @@ For optimal LLM performance, documentation is split into focused files. Start wi
 
 Skills are domain-specific automation workflows that help with common development tasks.
 
+**Important:** All skills, documentation, and descriptions must be written in **English**.
+
+## App Management Skills
+
+- **app-start** (aliases: start-app, startup, start): Starts Backend (port 5069) and Frontend (port 3000) in foreground terminals. Checks if services are already running before starting them.
+
 ## Database Skills
 
 - **dev-database-create**: Create a fresh dev database with latest test data (runs ScenarioBuilder test, generates schema.sql, reinitializes MySQL)

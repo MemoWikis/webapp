@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Backend",
+			"type": "shell",
+			"command": "cd src/Backend.Api; dotnet run",
+			"isBackground": true,
+			"problemMatcher": [],
+			"presentation": {
+				"panel": "dedicated",
+				"reveal": "always"
+			}
+		},
+		{
+			"label": "Frontend",
+			"type": "shell",
+			"command": "cd src/Frontend.Nuxt; npm run dev",
+			"isBackground": true,
+			"problemMatcher": [],
+			"presentation": {
+				"panel": "dedicated",
+				"reveal": "always"
+			}
+		}
+	]
+}

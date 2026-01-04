@@ -30,3 +30,5 @@ appsettings.*.json
 /src/Frontend.Nuxt/.eslintcache
 
 /src/Tests/TestData/Dumps/
+/src/Backend.Api/viewcache/pageviews.mmap
+/src/Backend.Api/DataProtectionKeys/

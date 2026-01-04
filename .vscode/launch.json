@@ -1,0 +1,44 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Backend",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Backend",
+			"program": "${workspaceFolder}/src/Backend.Api/bin/Debug/net8.0/Backend.Api.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/src/Backend.Api",
+			"stopAtEntry": false,
+			"serverReadyAction": {
+				"action": "openExternally",
+				"pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+			},
+			"env": {
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": "Frontend",
+			"type": "node",
+			"request": "launch",
+			"preLaunchTask": "Frontend",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": ["run", "dev"],
+			"cwd": "${workspaceFolder}/src/Frontend.Nuxt",
+			"console": "integratedTerminal"
+		}
+	],
+	"compounds": [
+		{
+			"name": "Backend + Frontend",
+			"configurations": ["Backend", "Frontend"],
+			"presentation": {
+				"hidden": false,
+				"group": "",
+				"order": 1
+			},
+			"stopAll": true
+		}
+	]
+}

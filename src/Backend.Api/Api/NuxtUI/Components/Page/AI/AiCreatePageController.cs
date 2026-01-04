@@ -12,8 +12,7 @@ public class AiCreatePageController(
         string ModelId,
         string DisplayName,
         string Provider,
-        decimal TokenCostMultiplier,
-        bool IsDefault);
+        decimal TokenCostMultiplier);
 
     public readonly record struct GetModelsResponse(
         bool Success,
@@ -30,8 +29,7 @@ public class AiCreatePageController(
                 model.ModelId,
                 model.DisplayName,
                 model.Provider.ToString(),
-                model.TokenCostMultiplier,
-                model.IsDefault))
+                model.TokenCostMultiplier))
             .ToList();
 
         return new GetModelsResponse(true, models);
