@@ -30,7 +30,7 @@ const toggleState = ref(ToggleState.Collapsed)
 
 const pagesToFilter = computed<number[]>(() => {
 
-    let pagesToFilter = import.meta.server ? props.children.map(c => c.id) : pageStore.gridItems.map(c => c.id)
+    let pagesToFilter = props.children.map(c => c.id)
     pagesToFilter.push(pageStore.id)
 
     return pagesToFilter
@@ -199,7 +199,8 @@ editPageRelationStore.$onAction(({ name, after }) => {
             <div class="grid-container">
                 <div class="grid-header ">
                     <div class="grid-title no-line" :class="{ 'overline-m': !isMobile, 'overline-s': isMobile }">
-                        {{ isMobile ? t('page.grid.childPagesMobile') : t('page.grid.childPages') }} ({{ pageStore.childPageCount }})
+                        {{ isMobile ? t('page.grid.childPagesMobile') : t('page.grid.childPages') }} ({{
+                        pageStore.childPageCount }})
                     </div>
 
                     <div class="grid-options">
@@ -223,16 +224,15 @@ editPageRelationStore.$onAction(({ name, after }) => {
 
                 <div class="grid-items">
                     <template v-if="isDesktop">
-                        <PageContentGridDragAndDropItem v-for="(page, index) in props.children" :page="page" :toggle-state="toggleState"
-                            :parent-id="pageStore.id" :parent-name="pageStore.name"
+                        <PageContentGridDragAndDropItem v-for="(page, index) in props.children" :page="page"
+                            :toggle-state="toggleState" :parent-id="pageStore.id" :parent-name="pageStore.name"
                             :user-is-creator-of-parent="pageStore.currentUserIsCreator"
-                            :parent-visibility="pageStore.visibility!"
-                            :previous-page-id="props.children[index - 1]?.id"
+                            :parent-visibility="pageStore.visibility!" :previous-page-id="props.children[index - 1]?.id"
                             :next-page-id="props.children[index + 1]?.id" />
                     </template>
                     <template v-else>
-                        <PageContentGridTouchDragAndDropItem v-for="c in props.children" :page="c" :toggle-state="toggleState"
-                            :parent-id="pageStore.id" :parent-name="pageStore.name"
+                        <PageContentGridTouchDragAndDropItem v-for="c in props.children" :page="c"
+                            :toggle-state="toggleState" :parent-id="pageStore.id" :parent-name="pageStore.name"
                             :user-is-creator-of-parent="pageStore.currentUserIsCreator"
                             :parent-visibility="pageStore.visibility!" />
                     </template>
@@ -262,7 +262,8 @@ editPageRelationStore.$onAction(({ name, after }) => {
                         <button @click="openAiCreatePage()">
                             <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
                             <span class="button-label" :class="{ 'is-mobile': isMobile }">
-                                {{ isMobile ? t('page.ai.createPage.buttonTitleMobile') : t('page.ai.createPage.buttonTitle') }}
+                                {{ isMobile ? t('page.ai.createPage.buttonTitleMobile') :
+                                    t('page.ai.createPage.buttonTitle') }}
                             </span>
                         </button>
                     </div>

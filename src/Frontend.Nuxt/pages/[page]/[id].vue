@@ -70,7 +70,6 @@ const setPage = () => {
             $logger.warn(`Page: ${page.value.messageKey} route ${route.fullPath}`)
             throw createError({ statusCode: page.value.errorCode, statusMessage: t(page.value.messageKey) })
         } else {
-
             pageStore.setPage(page.value)
             if (route.params?.token != null) {
                 pageStore.setToken(route.params.token.toString())
@@ -225,9 +224,11 @@ watch(() => tabsStore.activeTab, (tab) => {
                 <!-- <PageTabsContent /> -->
                 <ClientOnly>
                     <PageTabsContent
-                        v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)" v-if="!pageStore.textIsHidden" />
+                        v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)"
+                        v-if="!pageStore.textIsHidden" />
                     <template #fallback>
-                        <div id="PageContent" class="" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
+                        <div id="PageContent" class=""
+                            :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
                             v-if="!pageStore.textIsHidden"
                             v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)">
                             <div class=""
@@ -241,16 +242,20 @@ watch(() => tabsStore.activeTab, (tab) => {
                 </ClientOnly>
                 <div id="EditBarAnchor"></div>
 
-                <PageContentGrid v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)" :children="pageStore.gridItems" />
+                <PageContentGrid v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)"
+                    :children="pageStore.gridItems" />
 
                 <ClientOnly>
-                    <PageTabsQuestions v-show="tabsStore.activeTab === Tab.Learning || (props.tab === Tab.Learning && !tabSwitched)" />
+                    <PageTabsQuestions
+                        v-show="tabsStore.activeTab === Tab.Learning || (props.tab === Tab.Learning && !tabSwitched)" />
                     <template #fallback>
                         <div class="row">
                         </div>
                     </template>
-                    <LazyPageTabsFeed v-show="tabsStore.activeTab === Tab.Feed || (props.tab === Tab.Feed && !tabSwitched)" />
-                    <PageTabsAnalytics v-show="tabsStore.activeTab === Tab.Analytics || (props.tab === Tab.Analytics && !tabSwitched)" />
+                    <LazyPageTabsFeed
+                        v-show="tabsStore.activeTab === Tab.Feed || (props.tab === Tab.Feed && !tabSwitched)" />
+                    <PageTabsAnalytics
+                        v-show="tabsStore.activeTab === Tab.Analytics || (props.tab === Tab.Analytics && !tabSwitched)" />
                 </ClientOnly>
 
                 <ClientOnly>

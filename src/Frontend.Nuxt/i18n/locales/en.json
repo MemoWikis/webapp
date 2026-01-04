@@ -140,7 +140,8 @@
         "collaboration": {
             "couldNotConnect": "The connection to the live version could not be established.",
             "authenticationFailed": "Authentication failed.",
-            "connectionLost": "The connection to the live version was interrupted."
+            "connectionLost": "The connection to the live version was interrupted.",
+            "timeout": "The connection to the live version is taking too long. The editor will start in offline mode."
         },
         "ai": {
             "generateFlashcards": "Flashcards could not be created.",

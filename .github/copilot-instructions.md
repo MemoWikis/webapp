@@ -41,6 +41,29 @@ Deduction priority: Subscription tokens first, then paid tokens
 
 For detailed documentation including integration points, database schema, and token flow examples, see `docs/ai-token-usage-system.md`
 
+# Content Editor & Collaboration System
+
+Core components in `src/Frontend.Nuxt/components/page/content/`:
+
+- `ContentEditor.vue` - TipTap rich-text editor with real-time collaboration
+- `pageStore.ts` - State management, content persistence, auto-save (3s debounce)
+- Real-time collaboration via HocuspocusProvider & Y.js CRDT
+- Offline editing with IndexedDB persistence
+- Hash-based content versioning with configurable conflict resolution
+
+Key Technologies: TipTap (editor), Y.js (CRDT), HocuspocusProvider (WebSocket), IndexedDB (offline cache)
+
+Conflict Strategies: ServerWins (default), ClientWins, Timestamp, UserChoice (UI pending)
+
+**📚 Documentation:**
+
+- **[Editor System Overview](../docs/editor-system-overview.md)** - Architecture, quick start, file structure
+- **[Collaboration System](../docs/editor-collaboration-system.md)** - Real-time editing, WebSocket events, reconnection
+- **[Conflict Resolution](../docs/editor-conflict-resolution.md)** - Versioning, strategies, hash-based comparison
+- **[Known Issues & Solutions](../docs/editor-issues.md)** - Hydration mismatches, stale cache, debugging tips
+
+For optimal LLM performance, documentation is split into focused files. Start with the overview, then dive into specific topics as needed.
+
 # Skills
 
 Skills are domain-specific automation workflows that help with common development tasks.

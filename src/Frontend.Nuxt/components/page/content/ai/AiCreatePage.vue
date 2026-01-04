@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { VueElement } from 'vue'
 import { DifficultyLevel, ContentLength, InputMode, useAiCreatePageStore } from './aiCreatePageStore'
 import { useUserStore } from '~/components/user/userStore'
-import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import type { SnackbarData } from '~/components/snackBar/snackBarStore';
+import { useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { usePageStore } from '../../pageStore'
 
 const aiCreatePageStore = useAiCreatePageStore()
@@ -32,18 +32,9 @@ const complexityLabels = computed(() => ({
     [DifficultyLevel.Academic]: t('page.ai.createPage.complexity.expert')
 }))
 
-const contentLengthLabels = computed(() => ({
-    [ContentLength.Short]: t('page.ai.createPage.length.short'),
-    [ContentLength.Medium]: t('page.ai.createPage.length.medium'),
-    [ContentLength.Long]: t('page.ai.createPage.length.long')
-}))
 
 const currentComplexityLabel = computed(() => {
     return complexityLabels.value[aiCreatePageStore.difficultyLevel]
-})
-
-const currentContentLengthLabel = computed(() => {
-    return contentLengthLabels.value[aiCreatePageStore.contentLength]
 })
 
 // Group models by provider for the dropdown
@@ -181,8 +172,9 @@ function selectSubpage(index: number) {
 </script>
 
 <template>
-    <LazyModal :show="aiCreatePageStore.showModal" @close="aiCreatePageStore.showModal = false" :show-cancel-btn="false"
-        :disabled="hasGeneratedContent ? !canCreate : !canGenerate" content-class="ai-create-page-modal">
+    <LazyModal :show="aiCreatePageStore.showModal" :show-cancel-btn="false"
+        :disabled="hasGeneratedContent ? !canCreate : !canGenerate" content-class="ai-create-page-modal"
+        @close="aiCreatePageStore.showModal = false">
         <template #header>
             <h4 class="modal-title">
                 <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" class="header-icon" />
@@ -196,14 +188,14 @@ function selectSubpage(index: number) {
                 <div class="input-mode-toggle">
                     <button type="button" class="mode-btn"
                         :class="{ active: aiCreatePageStore.inputMode === InputMode.Prompt }"
-                        @click="aiCreatePageStore.inputMode = InputMode.Prompt"
-                        :disabled="aiCreatePageStore.isGenerating">
+                        :disabled="aiCreatePageStore.isGenerating"
+                        @click="aiCreatePageStore.inputMode = InputMode.Prompt">
                         <font-awesome-icon :icon="['fas', 'pen']" />
                         {{ t('page.ai.createPage.modePrompt') }}
                     </button>
                     <button type="button" class="mode-btn"
                         :class="{ active: aiCreatePageStore.inputMode === InputMode.Url }"
-                        @click="aiCreatePageStore.inputMode = InputMode.Url" :disabled="aiCreatePageStore.isGenerating">
+                        :disabled="aiCreatePageStore.isGenerating" @click="aiCreatePageStore.inputMode = InputMode.Url">
                         <font-awesome-icon :icon="['fas', 'link']" />
                         {{ t('page.ai.createPage.modeUrl') }}
                     </button>
@@ -214,13 +206,13 @@ function selectSubpage(index: number) {
                     <label for="prompt-input">{{ t('page.ai.createPage.promptLabel') }}</label>
                     <textarea id="prompt-input" ref="promptTextArea" v-model="aiCreatePageStore.prompt"
                         class="form-control prompt-textarea" :placeholder="t('page.ai.createPage.promptPlaceholder')"
-                        @input="resizeTextArea()" :disabled="aiCreatePageStore.isGenerating"></textarea>
+                        :disabled="aiCreatePageStore.isGenerating" @input="resizeTextArea()" />
                 </div>
 
                 <!-- URL Input Section -->
                 <div v-else class="form-group">
                     <label for="url-input">{{ t('page.ai.createPage.urlLabel') }}</label>
-                    <input id="url-input" type="url" v-model="aiCreatePageStore.url" class="form-control url-input"
+                    <input id="url-input" v-model="aiCreatePageStore.url" type="url" class="form-control url-input"
                         :placeholder="t('page.ai.createPage.urlPlaceholder')"
                         :disabled="aiCreatePageStore.isGenerating" />
                     <small class="url-hint">{{ t('page.ai.createPage.urlHint') }}</small>
@@ -232,7 +224,7 @@ function selectSubpage(index: number) {
 
                     <!-- Desktop: Slider -->
                     <div v-if="!isMobile" class="detail-slider-container">
-                        <input type="range" min="1" max="5" v-model.number="aiCreatePageStore.difficultyLevel"
+                        <input v-model.number="aiCreatePageStore.difficultyLevel" type="range" min="1" max="5"
                             class="detail-slider" :disabled="aiCreatePageStore.isGenerating" />
                         <div class="detail-labels">
                             <span class="detail-label-left">{{ t('page.ai.createPage.complexity.simple') }}</span>
@@ -286,20 +278,20 @@ function selectSubpage(index: number) {
                     <div class="length-toggle">
                         <button type="button" class="length-btn"
                             :class="{ active: aiCreatePageStore.contentLength === ContentLength.Short }"
-                            @click="aiCreatePageStore.contentLength = ContentLength.Short"
-                            :disabled="aiCreatePageStore.isGenerating">
+                            :disabled="aiCreatePageStore.isGenerating"
+                            @click="aiCreatePageStore.contentLength = ContentLength.Short">
                             {{ t('page.ai.createPage.length.short') }}
                         </button>
                         <button type="button" class="length-btn"
                             :class="{ active: aiCreatePageStore.contentLength === ContentLength.Medium }"
-                            @click="aiCreatePageStore.contentLength = ContentLength.Medium"
-                            :disabled="aiCreatePageStore.isGenerating">
+                            :disabled="aiCreatePageStore.isGenerating"
+                            @click="aiCreatePageStore.contentLength = ContentLength.Medium">
                             {{ t('page.ai.createPage.length.medium') }}
                         </button>
                         <button type="button" class="length-btn"
                             :class="{ active: aiCreatePageStore.contentLength === ContentLength.Long }"
-                            @click="aiCreatePageStore.contentLength = ContentLength.Long"
-                            :disabled="aiCreatePageStore.isGenerating">
+                            :disabled="aiCreatePageStore.isGenerating"
+                            @click="aiCreatePageStore.contentLength = ContentLength.Long">
                             {{ t('page.ai.createPage.length.long') }}
                         </button>
                     </div>
@@ -322,16 +314,15 @@ function selectSubpage(index: number) {
                     class="preview-section">
                     <div class="preview-title">
                         <span>{{ t('page.ai.createPage.preview') }}</span>
-                        <button type="button" class="regenerate-btn" @click="handleGenerate"
-                            :disabled="aiCreatePageStore.isGenerating"
-                            :title="t('page.ai.createPage.button.regenerate')">
+                        <button type="button" class="regenerate-btn" :disabled="aiCreatePageStore.isGenerating"
+                            :title="t('page.ai.createPage.button.regenerate')" @click="handleGenerate">
                             <font-awesome-icon :icon="['fas', 'rotate']" :spin="aiCreatePageStore.isGenerating" />
                         </button>
                     </div>
                     <div class="preview-header">
                         <strong>{{ aiCreatePageStore.generatedContent.title }}</strong>
                     </div>
-                    <div class="preview-content" v-html="aiCreatePageStore.generatedContent.htmlContent"></div>
+                    <div class="preview-content" v-html="aiCreatePageStore.generatedContent.htmlContent" />
                     <div class="preview-source-info">
                         <span class="ai-badge">
                             <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
@@ -345,9 +336,8 @@ function selectSubpage(index: number) {
                     class="preview-section wiki-preview">
                     <div class="preview-title">
                         <span>{{ t('page.ai.createPage.previewWiki') }}</span>
-                        <button type="button" class="regenerate-btn" @click="handleGenerate"
-                            :disabled="aiCreatePageStore.isGenerating"
-                            :title="t('page.ai.createPage.button.regenerate')">
+                        <button type="button" class="regenerate-btn" :disabled="aiCreatePageStore.isGenerating"
+                            :title="t('page.ai.createPage.button.regenerate')" @click="handleGenerate">
                             <font-awesome-icon :icon="['fas', 'rotate']" :spin="aiCreatePageStore.isGenerating" />
                         </button>
                     </div>
@@ -375,7 +365,7 @@ function selectSubpage(index: number) {
                         <strong>{{ currentPreviewContent.title }}</strong>
                     </div>
                     <div v-if="currentPreviewContent" class="preview-content"
-                        v-html="currentPreviewContent.htmlContent"></div>
+                        v-html="currentPreviewContent.htmlContent" />
                     <div class="preview-source-info">
                         <span class="ai-badge">
                             <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
@@ -384,7 +374,8 @@ function selectSubpage(index: number) {
                         <span class="subpage-count">
                             {{ t('page.ai.createPage.subpageCount', {
                                 count:
-                                    aiCreatePageStore.generatedWikiContent.subpages.length })
+                                    aiCreatePageStore.generatedWikiContent.subpages.length
+                            })
                             }}
                         </span>
                     </div>

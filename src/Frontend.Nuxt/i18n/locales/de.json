@@ -140,7 +140,8 @@
         "collaboration": {
             "couldNotConnect": "Die Verbindung zur Live-Version konnte nicht hergestellt werden.",
             "authenticationFailed": "Die Authentifizierung ist fehlgeschlagen.",
-            "connectionLost": "Die Verbindung zur Live-Version wurde unterbrochen."
+            "connectionLost": "Die Verbindung zur Live-Version wurde unterbrochen.",
+            "timeout": "Die Verbindung zur Live-Version dauert zu lange. Der Editor wird im Offline-Modus gestartet."
         },
         "ai": {
             "generateFlashcards": "Es konnten keine Karteikarten erstellt werden.",

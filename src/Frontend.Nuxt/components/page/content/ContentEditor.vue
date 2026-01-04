@@ -37,6 +37,14 @@ import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
+// Content Versioning
+interface ContentVersion {
+    hash: string
+    timestamp: number
+    userId: number
+    contentLength: number
+}
+
 const pageStore = usePageStore()
 const outlineStore = useOutlineStore()
 const snackbarStore = useSnackbarStore()
@@ -45,6 +53,19 @@ const lowlight = createLowlight(all)
 const userStore = useUserStore()
 let doc = new Y.Doc()
 const config = useRuntimeConfig()
+
+// Simple hash function for content versioning
+const hashContent = (content: string): string => {
+    let hash = 0
+    for (let i = 0; i < content.length; i++) {
+        const char = content.charCodeAt(i)
+        hash = ((hash << 5) - hash) + char
+        hash = hash & hash // Convert to 32bit integer
+    }
+    return Math.abs(hash).toString(36)
+}
+
+const providerTimeout = ref<ReturnType<typeof setTimeout> | null>(null)
 
 const providerContentLoaded = ref(false)
 
@@ -87,6 +108,26 @@ const tryReconnect = () => {
 }
 
 const initProvider = () => {
+    // Set timeout for provider connection (5 seconds)
+    providerTimeout.value = setTimeout(() => {
+        if (!providerLoaded.value) {
+            providerLoaded.value = true
+            loadCollab.value = false
+
+            const data = {
+                type: 'warning' as const,
+                text: { message: t('error.collaboration.timeout') },
+                duration: 5000,
+            }
+            snackbarStore.showSnackbar(data)
+
+            // Ensure editor is initialized
+            if (!editor.value) {
+                initEditor()
+            }
+        }
+    }, 5000)
+
     // shareToken is the token from the pageSharing feature,
     // collaborationToken is the token used as an identifier for the hocuspocus server,
     // a collaboration token will always exist, but the shareToken is optional
@@ -100,7 +141,7 @@ const initProvider = () => {
         token: token,
         document: doc,
         onAuthenticated() {
-            new IndexeddbPersistence(
+            const persistence = new IndexeddbPersistence(
                 `${userStore.id}|document-${pageStore.id}`,
                 doc
             )
@@ -113,13 +154,50 @@ const initProvider = () => {
             recreate()
         },
         onSynced(_e) {
-            if (
-                !doc.getMap('config').get('initialContentLoaded') &&
-                editor.value
-            ) {
-                doc.getMap('config').set('initialContentLoaded', true)
-                editor.value.commands.setContent(pageStore.initialContent)
+            // Clear timeout - provider connected successfully
+            if (providerTimeout.value) {
+                clearTimeout(providerTimeout.value)
+                providerTimeout.value = null
             }
+
+            const yDocContent = editor.value?.getHTML() || ''
+            const serverContent = pageStore.initialContent || ''
+
+            // Calculate content hashes for comparison
+            const yDocHash = hashContent(yDocContent)
+            const serverHash = hashContent(serverContent)
+
+            // Get stored version from Y.Doc
+            const storedVersion = doc.getMap('config').get('version') as ContentVersion | undefined
+
+            // Conflict resolution: Server always wins
+            if (editor.value && serverContent) {
+                const serverVersion: ContentVersion = {
+                    hash: serverHash,
+                    timestamp: Date.now(),
+                    userId: userStore.id,
+                    contentLength: serverContent.length
+                }
+
+                // If content differs, use server content
+                if (yDocHash !== serverHash) {
+                    editor.value.commands.setContent(serverContent)
+                    doc.getMap('config').set('version', serverVersion)
+                } else if (!storedVersion) {
+                    // First load, store version
+                    doc.getMap('config').set('version', serverVersion)
+                }
+            } else if (!doc.getMap('config').get('version') && editor.value) {
+                // Fallback for initial load
+                editor.value.commands.setContent(serverContent)
+                doc.getMap('config').set('version', {
+                    hash: serverHash,
+                    timestamp: Date.now(),
+                    userId: userStore.id,
+                    contentLength: serverContent.length
+                })
+            }
+
             providerContentLoaded.value = true
 
             if (editor.value) {
@@ -154,8 +232,9 @@ const initProvider = () => {
 const { t, locale } = useI18n()
 
 const initEditor = () => {
+    const useProviderContent = provider.value?.isSynced
     editor.value = new Editor({
-        content: provider.value?.isSynced ? null : pageStore.initialContent,
+        content: useProviderContent ? null : pageStore.initialContent,
         extensions: [
             StarterKit.configure({
                 heading: false,
@@ -406,6 +485,10 @@ const updateCursorIndex = () => {
 }
 
 onBeforeUnmount(() => {
+    if (providerTimeout.value) {
+        clearTimeout(providerTimeout.value)
+        providerTimeout.value = null
+    }
     provider.value?.destroy()
     editor.value?.destroy()
 })
@@ -479,7 +562,7 @@ const createFlashcard = () => {
         'private-page': pageStore.visibility === Visibility.Private,
         'small-font': userStore.fontSize === FontSize.Small,
         'large-font': userStore.fontSize === FontSize.Large,
-    }">
+    }" data-placeholder="true">
         <div id="PageContentPlaceholder" class="ProseMirror content-placeholder" :class="{ 'is-mobile': isMobile }"
             v-html="pageStore.content" />
     </div>

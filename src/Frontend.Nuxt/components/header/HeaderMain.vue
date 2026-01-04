@@ -109,10 +109,12 @@ const { sideSheetOpen } = useSideSheetState()
         <div class="sidesheet-button" @click="sideSheetStore.showSideSheet = !sideSheetStore.showSideSheet">
             <font-awesome-layers>
                 <font-awesome-icon :icon="['fas', 'bars']" />
-                <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'caret-left']" transform="right-2"
-                    class="angle-bg" />
-                <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'angle-left']" transform="right-5"
-                    class="animate-grow" />
+                <ClientOnly>
+                    <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'caret-left']"
+                        transform="right-2" class="angle-bg" />
+                    <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'angle-left']"
+                        transform="right-5" class="animate-grow" />
+                </ClientOnly>
             </font-awesome-layers>
         </div>
 
@@ -209,7 +211,8 @@ const { sideSheetOpen } = useSideSheetState()
                 </div>
 
                 <ClientOnly>
-                    <div v-if="isDesktopOrTablet && !userStore.isLoggedIn" class="register-btn-container" :class="{ 'hide-partial': hidePartial, 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen, 's-open': showSearch }">
+                    <div v-if="isDesktopOrTablet && !userStore.isLoggedIn" class="register-btn-container"
+                        :class="{ 'hide-partial': hidePartial, 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen, 's-open': showSearch }">
                         <div navigate class="btn memo-button register-btn">
                             <NuxtLink :to="`/${t('url.register')}`">
                                 {{ t('label.register') }}
@@ -217,7 +220,8 @@ const { sideSheetOpen } = useSideSheetState()
                         </div>
                     </div>
                     <template #fallback>
-                        <div v-if="isDesktopOrTablet && !userStore.isLoggedIn" class="register-btn-container" :class="{ 'hide-partial': hidePartial, 'hide-nav': !showRegisterButton }">
+                        <div v-if="isDesktopOrTablet && !userStore.isLoggedIn" class="register-btn-container"
+                            :class="{ 'hide-partial': hidePartial, 'hide-nav': !showRegisterButton }">
                             <div navigate class="btn memo-button register-btn">
                                 <NuxtLink :to="`/${t('url.register')}`">
                                     {{ t('label.register') }}
