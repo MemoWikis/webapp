@@ -32,7 +32,7 @@ This will create the file `src/Tests/TestData/Dumps/memowikis-test-scenario_tiny
 
 ### Step 2: Copy and transform the SQL file
 
-Read the source SQL file, replace the database name, and remove the FK_PageViewToPage constraint:
+Read the source SQL file, replace the database name, and remove all foreign key constraints:
 
 ```powershell
 # Read the SQL dump file
@@ -41,13 +41,17 @@ $sqlContent = Get-Content -Path "src/Tests/TestData/Dumps/memowikis-test-scenari
 # Replace database name from memoWikisTest to memoWikis_dev
 $sqlContent = $sqlContent -replace 'memoWikisTest', 'memoWikis_dev'
 
-# Remove FK_PageViewToPage constraint
-# This FK must be removed because pageviews are kept for statistics even after page deletion.
-# Despite the NHibernate mapping specifying .Not.ForeignKey(), the constraint is still created
+# Remove ALL foreign key constraints
+# Foreign keys cause issues during development when deleting entities with related data.
+# Examples include:
+# - FK_PageViewToPage: Prevents page deletion when pageviews exist (kept for statistics)
+# - FK_4947E040: Prevents question deletion when questionchange entries exist
+# Despite NHibernate mappings specifying .Not.ForeignKey(), constraints are still created
 # by NHibernate during schema generation (reason unclear, possibly a FluentNHibernate bug).
-# The constraint prevents page deletion with: "Cannot delete or update a parent row: 
-# a foreign key constraint fails (`memowikis_dev`.`pageview`, CONSTRAINT `FK_PageViewToPage`..."
-$sqlContent = $sqlContent -replace ',\s*CONSTRAINT `FK_PageViewToPage` FOREIGN KEY \(`Page_id`\) REFERENCES `page` \(`Id`\)', ''
+# These constraints prevent deletion with: "Cannot delete or update a parent row: 
+# a foreign key constraint fails..."
+# For development purposes, we remove all FK constraints to allow easier data manipulation.
+$sqlContent = $sqlContent -replace ',\s*CONSTRAINT `[^`]+` FOREIGN KEY \([^)]+\) REFERENCES `[^`]+` \([^)]+\)', ''
 
 # Write to the Docker init directory
 $sqlContent | Set-Content -Path "src/Docker/Dev/mysql-init/schema.sql" -Encoding UTF8
@@ -70,7 +74,7 @@ docker-compose up -d
 - The ScenarioBuilder test will regenerate the SQL dump with the latest schema from NHibernate mappings
 - The MySQL container will automatically execute `schema.sql` during initialization
 - The database name in the SQL file must match the `MYSQL_DATABASE` value in the `.env` file (default: `memoWikis_dev`)
-- The `FK_PageViewToPage` constraint must be manually removed despite `.Not.ForeignKey()` in the mapping (see Step 2 for explanation)
+- **All foreign key constraints are automatically removed** from the schema to prevent deletion issues during development (see Step 2 for explanation)
 - For the first execution after mapping changes, you may need to delete reused test containers and volumes to force a fresh schema build
 
 ## When to use this skill

@@ -124,8 +124,7 @@ CREATE TABLE `answer` (
   `Migrated` tinyint(1) DEFAULT NULL,
   `DateCreated` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `QuestionId` (`QuestionId`),
-  CONSTRAINT `FK_4975C7EB` FOREIGN KEY (`QuestionId`) REFERENCES `question` (`Id`)
+  KEY `QuestionId` (`QuestionId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -135,7 +134,7 @@ CREATE TABLE `answer` (
 
 LOCK TABLES `answer` WRITE;
 /*!40000 ALTER TABLE `answer` DISABLE KEYS */;
-INSERT INTO `answer` VALUES (1,1,6,'d96cd7c7-a440-40f4-90b9-18851f446e4d',1,'Answer 2 for page LearningUser Subtopic 2-1',0,5127,0,'2024-12-11 12:16:38'),(2,1,3,'58f6b246-22d0-4473-8287-e93aa1790202',1,'Answer 1 for page LearningUser Subtopic 1-1',1,9622,0,'2024-12-11 10:51:38'),(3,1,2,'6bd5f3f6-5998-4819-8b68-c11b15327eaf',1,'Incorrect answer',1,1941,0,'2024-12-11 08:32:42'),(4,1,5,'51e31e08-2351-40d3-9622-dbd1f6d17db7',1,'Incorrect answer',1,1209,0,'2024-12-11 09:25:20'),(5,1,1,'0564a22a-533f-4476-b676-7e611b2db289',1,'Answer 1 for page LearningUser Topic 1',1,6097,0,'2024-12-11 21:43:46'),(6,1,4,'313b964d-5771-45b7-854c-bb6710f310b6',1,'Answer 2 for page LearningUser Subtopic 1-1',1,10135,0,'2024-12-11 14:22:38'),(7,1,5,'cf3a7322-1732-4d23-91e6-028b4e58fcc6',1,'Answer 1 for page LearningUser Subtopic 2-1',1,7374,0,'2024-12-13 09:46:01'),(8,1,6,'75617e29-ecf6-4917-b63b-61990b24a09b',1,'Answer 2 for page LearningUser Subtopic 2-1',1,6483,0,'2024-12-13 22:33:16'),(9,1,4,'66374ef7-b313-4e89-b48d-4ede0fdb1c78',1,'Answer 2 for page LearningUser Subtopic 1-1',1,6952,0,'2024-12-13 11:27:36'),(10,1,1,'f4093e50-42bf-4c02-82d4-65ecbbe9904d',1,'Incorrect answer',1,10030,0,'2024-12-16 12:38:59'),(11,1,6,'93fe6c7e-fa82-4190-a3cd-5dc0191a3efb',1,'Answer 2 for page LearningUser Subtopic 2-1',0,11488,0,'2024-12-16 20:47:24'),(12,1,3,'0cb20a94-a0d1-4a1a-a22a-388be8d17c93',1,'Answer 1 for page LearningUser Subtopic 1-1',1,12241,0,'2024-12-16 12:03:18'),(13,1,2,'bcdd8a45-ebe1-4082-bf5c-131dbd533d4c',1,'Answer 2 for page LearningUser Topic 1',1,1064,0,'2024-12-16 22:21:32'),(14,1,4,'65951221-bcfa-46dd-be04-3250687f2d22',1,'Answer 2 for page LearningUser Subtopic 1-1',1,11649,0,'2024-12-16 20:36:47'),(15,1,5,'23785c7c-d0db-441f-8205-b6d9c78af261',1,'Answer 1 for page LearningUser Subtopic 2-1',1,2087,0,'2024-12-16 21:42:10'),(16,1,3,'b0ed5eb7-25a3-48c0-9ff5-1157c519dd10',1,'Answer 1 for page LearningUser Subtopic 1-1',1,6091,0,'2024-12-17 18:21:34'),(17,1,4,'4491e14e-4085-4c70-a395-1ecaf4f95c38',1,'Answer 2 for page LearningUser Subtopic 1-1',0,2174,0,'2024-12-17 12:46:00'),(18,1,5,'3a9a640f-1b16-49f5-83de-11883d4eb790',1,'Answer 1 for page LearningUser Subtopic 2-1',1,11983,0,'2024-12-17 12:01:32'),(19,1,1,'62319357-ae8f-47af-a9e5-0e9453048a99',1,'Answer 1 for page LearningUser Topic 1',1,12976,0,'2024-12-17 09:21:44'),(20,1,2,'2a205763-e016-4045-ae40-9d1e3b46f464',1,'Answer 2 for page LearningUser Topic 1',0,13077,0,'2024-12-17 10:36:52'),(21,1,6,'4bff53ad-cbb4-43d2-a0df-1147c255b640',1,'Incorrect answer',1,3291,0,'2024-12-17 20:54:13'),(22,1,1,'920e53fa-ccff-45bc-9f43-f03cf86f12ee',1,'Answer 1 for page LearningUser Topic 1',1,3313,0,'2024-12-19 17:40:14'),(23,1,6,'22eb82d6-e14a-4993-b82d-99d404170364',1,'Incorrect answer',1,6073,0,'2024-12-19 09:01:45'),(24,1,3,'285a1528-5148-4e80-8441-638fd19293ab',1,'Answer 1 for page LearningUser Subtopic 1-1',1,3323,0,'2024-12-19 20:48:53'),(25,1,5,'c1384410-b01e-4f49-989c-d49194556c3a',1,'Answer 1 for page LearningUser Subtopic 2-1',1,4885,0,'2024-12-19 14:31:11'),(26,1,1,'6c8641fc-82e2-4e0a-9509-1104c83d9f46',1,'Answer 1 for page LearningUser Topic 1',0,14025,0,'2024-12-25 11:51:58'),(27,1,6,'74e8b5cd-ac16-4a5c-a3b8-963610c28562',1,'Answer 2 for page LearningUser Subtopic 2-1',1,2761,0,'2024-12-25 14:28:27'),(28,1,5,'f492ce43-0d19-4b8d-ae62-f6ba8c39c0c8',1,'Answer 1 for page LearningUser Subtopic 2-1',1,1549,0,'2024-12-25 16:16:04'),(29,1,2,'9c70c947-bda4-4a0d-acc2-1e1a53184aaa',1,'Incorrect answer',1,4851,0,'2024-12-26 09:37:03'),(30,1,6,'43b723ce-3188-4848-adc0-046d559bb323',1,'Answer 2 for page LearningUser Subtopic 2-1',0,10845,0,'2024-12-26 22:05:31'),(31,1,1,'1c262cae-6e06-48b7-abaf-13289782f151',1,'Answer 1 for page LearningUser Topic 1',0,14567,0,'2024-12-26 21:53:12'),(32,1,4,'e60d4f7c-b946-4bf9-b5c6-8e5c207dc00f',1,'Answer 2 for page LearningUser Subtopic 1-1',1,5371,0,'2024-12-28 10:06:58'),(33,1,3,'a955bc08-7af5-49f1-9d1b-9d8c94229133',1,'Answer 1 for page LearningUser Subtopic 1-1',1,13813,0,'2024-12-28 15:16:35'),(34,1,2,'b3907666-5ead-45d4-8106-124e4db02d8f',1,'Incorrect answer',1,12564,0,'2024-12-28 11:30:30'),(35,1,5,'d0950ad2-8907-4bd9-aeba-db717c60f568',1,'Answer 1 for page LearningUser Subtopic 2-1',0,6456,0,'2024-12-28 16:49:09'),(36,1,2,'69abc946-f0d4-4bf4-ab01-433b7ff62c2f',1,'Answer 2 for page LearningUser Topic 1',0,11992,0,'2024-12-31 12:00:11'),(37,1,4,'683674d0-eb76-49af-b7e4-e2f6090ac1e8',1,'Answer 2 for page LearningUser Subtopic 1-1',1,11554,0,'2024-12-31 19:19:07'),(38,1,1,'7ef23c23-e37f-40ce-afa3-a3a18085a95b',1,'Answer 1 for page LearningUser Topic 1',0,14156,0,'2024-12-31 22:52:34'),(39,1,6,'fa96b51f-42ee-483f-957e-b0e544ce6abd',1,'Answer 2 for page LearningUser Subtopic 2-1',0,11678,0,'2024-12-31 16:16:01');
+INSERT INTO `answer` VALUES (1,1,6,'30779009-4d3b-4892-9ec5-a48c411d036c',1,'Answer 2 for page LearningUser Subtopic 2-1',0,5127,0,'2024-12-11 12:16:38'),(2,1,3,'ffff4ab1-b249-4b84-a22e-e11a05aabf37',1,'Answer 1 for page LearningUser Subtopic 1-1',1,9622,0,'2024-12-11 10:51:38'),(3,1,2,'a02e5440-6209-469e-906a-2c1d14069363',1,'Incorrect answer',1,1941,0,'2024-12-11 08:32:42'),(4,1,5,'36be594f-6e5a-4e5f-8974-da1bc9cabdaa',1,'Incorrect answer',1,1209,0,'2024-12-11 09:25:20'),(5,1,1,'5d27c5d3-f32c-4630-8e9b-a67129118027',1,'Answer 1 for page LearningUser Topic 1',1,6097,0,'2024-12-11 21:43:46'),(6,1,4,'c1e8daca-fcc8-42d2-a2b1-fda0685cc94f',1,'Answer 2 for page LearningUser Subtopic 1-1',1,10135,0,'2024-12-11 14:22:38'),(7,1,5,'b1d088e1-e23d-4edd-8339-d498e8bab379',1,'Answer 1 for page LearningUser Subtopic 2-1',1,7374,0,'2024-12-13 09:46:01'),(8,1,6,'31dd52e2-5748-4e2a-8cb3-4e5b365fc112',1,'Answer 2 for page LearningUser Subtopic 2-1',1,6483,0,'2024-12-13 22:33:16'),(9,1,4,'e0ba07ef-6250-41dc-9732-418466f1f9be',1,'Answer 2 for page LearningUser Subtopic 1-1',1,6952,0,'2024-12-13 11:27:36'),(10,1,1,'a47f1c1e-393d-43e7-8ad5-7c613dc8f99a',1,'Incorrect answer',1,10030,0,'2024-12-16 12:38:59'),(11,1,6,'4bb45d02-55d6-4204-be1e-152476a51c15',1,'Answer 2 for page LearningUser Subtopic 2-1',0,11488,0,'2024-12-16 20:47:24'),(12,1,3,'46b2b8c1-9ddd-465a-a5ca-c242cda92a7f',1,'Answer 1 for page LearningUser Subtopic 1-1',1,12241,0,'2024-12-16 12:03:18'),(13,1,2,'9f1bc981-eb91-40ed-a14a-37f170d8d5d0',1,'Answer 2 for page LearningUser Topic 1',1,1064,0,'2024-12-16 22:21:32'),(14,1,4,'e1212967-442f-43fa-87ac-0886f8fef229',1,'Answer 2 for page LearningUser Subtopic 1-1',1,11649,0,'2024-12-16 20:36:47'),(15,1,5,'5a267e3a-18ed-4efb-b2a9-c7399152b6df',1,'Answer 1 for page LearningUser Subtopic 2-1',1,2087,0,'2024-12-16 21:42:10'),(16,1,3,'41f894ec-3044-4f10-8376-201ca4223cd5',1,'Answer 1 for page LearningUser Subtopic 1-1',1,6091,0,'2024-12-17 18:21:34'),(17,1,4,'d456ce8e-34a0-4acb-93c6-4a43a9dbdf35',1,'Answer 2 for page LearningUser Subtopic 1-1',0,2174,0,'2024-12-17 12:46:00'),(18,1,5,'c735104e-75c9-44db-9ea9-8e6b253a4947',1,'Answer 1 for page LearningUser Subtopic 2-1',1,11983,0,'2024-12-17 12:01:32'),(19,1,1,'2d8ffeb6-c61b-42a5-8c80-8c8c669cb68a',1,'Answer 1 for page LearningUser Topic 1',1,12976,0,'2024-12-17 09:21:44'),(20,1,2,'223d5c66-6db1-4306-8064-f1cf57f9fc37',1,'Answer 2 for page LearningUser Topic 1',0,13077,0,'2024-12-17 10:36:52'),(21,1,6,'efc2c3b0-205c-4ac7-96bd-e8a6fe43f3cd',1,'Incorrect answer',1,3291,0,'2024-12-17 20:54:13'),(22,1,1,'2ad06729-c2ca-4007-ab5a-42d2dba3dc1a',1,'Answer 1 for page LearningUser Topic 1',1,3313,0,'2024-12-19 17:40:14'),(23,1,6,'ff4e754f-f5c5-4603-bd23-1cabac804673',1,'Incorrect answer',1,6073,0,'2024-12-19 09:01:45'),(24,1,3,'ef4f0a7b-dcb9-4de3-aad0-ba3fad67217d',1,'Answer 1 for page LearningUser Subtopic 1-1',1,3323,0,'2024-12-19 20:48:53'),(25,1,5,'a7cfa63b-6611-4b3e-be51-b092b977b5b5',1,'Answer 1 for page LearningUser Subtopic 2-1',1,4885,0,'2024-12-19 14:31:11'),(26,1,1,'b9551b82-b2e4-4c52-906c-cb6c15da5521',1,'Answer 1 for page LearningUser Topic 1',0,14025,0,'2024-12-25 11:51:58'),(27,1,6,'d5a2c33b-da34-460b-987e-adc17e3af240',1,'Answer 2 for page LearningUser Subtopic 2-1',1,2761,0,'2024-12-25 14:28:27'),(28,1,5,'9910cfd4-1374-44c9-b64b-5f809f4df381',1,'Answer 1 for page LearningUser Subtopic 2-1',1,1549,0,'2024-12-25 16:16:04'),(29,1,2,'4c6dde39-ca3f-4f70-a7e1-54cbe41b9b3f',1,'Incorrect answer',1,4851,0,'2024-12-26 09:37:03'),(30,1,6,'f0e951c6-46cf-4715-9940-07e4956a8751',1,'Answer 2 for page LearningUser Subtopic 2-1',0,10845,0,'2024-12-26 22:05:31'),(31,1,1,'4a572185-8a8b-4866-bd67-69517b579d07',1,'Answer 1 for page LearningUser Topic 1',0,14567,0,'2024-12-26 21:53:12'),(32,1,4,'649a215c-2fcc-44eb-a46d-8bc1f74506b3',1,'Answer 2 for page LearningUser Subtopic 1-1',1,5371,0,'2024-12-28 10:06:58'),(33,1,3,'2b650964-bb84-4da5-b49d-7559cc200afb',1,'Answer 1 for page LearningUser Subtopic 1-1',1,13813,0,'2024-12-28 15:16:35'),(34,1,2,'49a1d9cc-0f77-4d77-bbd0-e79cb1fd7099',1,'Incorrect answer',1,12564,0,'2024-12-28 11:30:30'),(35,1,5,'1a5c9ddc-2189-41be-94c4-d82a50d589e5',1,'Answer 1 for page LearningUser Subtopic 2-1',0,6456,0,'2024-12-28 16:49:09'),(36,1,2,'11aa2650-bea4-4540-a4b3-e42fa44d0617',1,'Answer 2 for page LearningUser Topic 1',0,11992,0,'2024-12-31 12:00:11'),(37,1,4,'15ddc954-5cba-41fa-b624-d179cf60c955',1,'Answer 2 for page LearningUser Subtopic 1-1',1,11554,0,'2024-12-31 19:19:07'),(38,1,1,'4933d263-f546-4677-a274-e5f1374b2d80',1,'Answer 1 for page LearningUser Topic 1',0,14156,0,'2024-12-31 22:52:34'),(39,1,6,'2452bacf-e277-48e1-9cd2-808d502ac949',1,'Answer 2 for page LearningUser Subtopic 2-1',0,11678,0,'2024-12-31 16:16:01');
 /*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,9 +161,7 @@ CREATE TABLE `comment` (
   `DateModified` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `AnswerTo` (`AnswerTo`),
-  KEY `Creator_id` (`Creator_id`),
-  CONSTRAINT `FK_A2E42DA9` FOREIGN KEY (`Creator_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_EC7E49AE` FOREIGN KEY (`AnswerTo`) REFERENCES `comment` (`Id`)
+  KEY `Creator_id` (`Creator_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -240,7 +237,7 @@ CREATE TABLE `jobqueue` (
 
 LOCK TABLES `jobqueue` WRITE;
 /*!40000 ALTER TABLE `jobqueue` DISABLE KEYS */;
-INSERT INTO `jobqueue` VALUES (1,1,'1',0,'2026-01-03 22:25:03'),(2,1,'1',0,'2026-01-03 22:25:03'),(3,1,'1',0,'2026-01-03 22:25:03'),(4,1,'1',0,'2026-01-03 22:25:04'),(5,1,'1',0,'2026-01-03 22:25:04'),(6,1,'1',0,'2026-01-03 22:25:04');
+INSERT INTO `jobqueue` VALUES (1,1,'1',0,'2026-01-04 01:43:01'),(2,1,'1',0,'2026-01-04 01:43:01'),(3,1,'1',0,'2026-01-04 01:43:01'),(4,1,'1',0,'2026-01-04 01:43:01'),(5,1,'1',0,'2026-01-04 01:43:01'),(6,1,'1',0,'2026-01-04 01:43:01');
 /*!40000 ALTER TABLE `jobqueue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,8 +286,7 @@ CREATE TABLE `messageemail` (
   `DateCreated` datetime DEFAULT NULL,
   `DateModified` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `User_id` (`User_id`),
-  CONSTRAINT `FK_B048BCC5` FOREIGN KEY (`User_id`) REFERENCES `user` (`Id`)
+  KEY `User_id` (`User_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -335,8 +331,7 @@ CREATE TABLE `page` (
   `AuthorIds` varchar(255) DEFAULT NULL,
   `Language` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `Creator_id` (`Creator_id`),
-  CONSTRAINT `FK_34B9BBFB` FOREIGN KEY (`Creator_id`) REFERENCES `user` (`Id`)
+  KEY `Creator_id` (`Creator_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -346,7 +341,7 @@ CREATE TABLE `page` (
 
 LOCK TABLES `page` WRITE;
 /*!40000 ALTER TABLE `page` DISABLE KEYS */;
-INSERT INTO `page` VALUES (1,'LearningUser Topic 1',NULL,NULL,NULL,NULL,0,1,NULL,NULL,NULL,1,0,0,0,'2026-01-03 22:25:03','2026-01-03 22:25:03',0,0,1,0,'1','en'),(2,'LearningUser Subtopic 1-1',NULL,NULL,NULL,NULL,0,1,NULL,NULL,NULL,1,0,0,0,'2026-01-03 22:25:03','2026-01-03 22:25:04',0,0,0,0,'1','en'),(3,'LearningUser Subtopic 2-1',NULL,NULL,NULL,NULL,0,1,NULL,NULL,NULL,1,0,0,0,'2026-01-03 22:25:03','2026-01-03 22:25:04',0,0,0,0,'1','en');
+INSERT INTO `page` VALUES (1,'LearningUser Topic 1',NULL,NULL,NULL,NULL,0,1,NULL,NULL,NULL,1,0,0,0,'2026-01-04 01:43:00','2026-01-04 01:43:01',0,0,1,0,'1','en'),(2,'LearningUser Subtopic 1-1',NULL,NULL,NULL,NULL,0,1,NULL,NULL,NULL,1,0,0,0,'2026-01-04 01:43:01','2026-01-04 01:43:01',0,0,0,0,'1','en'),(3,'LearningUser Subtopic 2-1',NULL,NULL,NULL,NULL,0,1,NULL,NULL,NULL,1,0,0,0,'2026-01-04 01:43:01','2026-01-04 01:43:01',0,0,0,0,'1','en');
 /*!40000 ALTER TABLE `page` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,7 +371,7 @@ CREATE TABLE `pagechange` (
 
 LOCK TABLES `pagechange` WRITE;
 /*!40000 ALTER TABLE `pagechange` DISABLE KEYS */;
-INSERT INTO `pagechange` VALUES (1,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,0,1,'2026-01-03 22:25:03'),(2,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-03 22:25:03'),(3,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,0,1,'2026-01-03 22:25:03'),(4,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2026-01-03 22:25:03'),(5,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2026-01-03 22:25:03'),(6,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-03 22:25:03'),(7,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-03 22:25:03'),(8,3,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,0,1,'2026-01-03 22:25:03'),(9,3,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[2],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2026-01-03 22:25:03'),(10,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":[3],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2026-01-03 22:25:03'),(11,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-03 22:25:03'),(12,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":[3],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-03 22:25:03'),(13,3,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[2],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-03 22:25:03');
+INSERT INTO `pagechange` VALUES (1,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,0,1,'2026-01-04 01:43:01'),(2,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-04 01:43:01'),(3,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,0,1,'2026-01-04 01:43:01'),(4,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2026-01-04 01:43:01'),(5,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2026-01-04 01:43:01'),(6,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-04 01:43:01'),(7,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-04 01:43:01'),(8,3,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,0,1,'2026-01-04 01:43:01'),(9,3,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[2],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2026-01-04 01:43:01'),(10,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":[3],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,1,'2026-01-04 01:43:01'),(11,1,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Topic 1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":null,\"ChildIds\":[2],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-04 01:43:01'),(12,2,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 1-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[1],\"ChildIds\":[3],\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-04 01:43:01'),(13,3,'{\"PageRelations\":null,\"ImageWasUpdated\":false,\"Name\":\"LearningUser Subtopic 2-1\",\"Description\":null,\"PageMardkown\":null,\"Content\":null,\"CustomSegments\":null,\"WikipediaURL\":null,\"DisableLearningFunctions\":false,\"Visibility\":0,\"ParentIds\":[2],\"ChildIds\":null,\"DeleteChangeId\":null,\"DeletedName\":null}',1,2,7,49,'2026-01-04 01:43:01');
 /*!40000 ALTER TABLE `pagechange` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,9 +390,7 @@ CREATE TABLE `pagerelation` (
   `Next_id` int DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `Page_id` (`Page_id`),
-  KEY `Related_id` (`Related_id`),
-  CONSTRAINT `FK_2EA216B` FOREIGN KEY (`Related_id`) REFERENCES `page` (`Id`),
-  CONSTRAINT `FK_5E3C647C` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`)
+  KEY `Related_id` (`Related_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -422,9 +415,7 @@ CREATE TABLE `pages_to_questions` (
   `Question_id` int NOT NULL,
   `Page_id` int NOT NULL,
   KEY `Page_id` (`Page_id`),
-  KEY `Question_id` (`Question_id`),
-  CONSTRAINT `FK_3DD43A7C` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`),
-  CONSTRAINT `FK_B7E93C59` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`)
+  KEY `Question_id` (`Question_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -485,8 +476,7 @@ CREATE TABLE `pageview` (
   `DateOnly` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `Page_id` (`Page_id`),
-  KEY `User_id` (`User_id`),
-  CONSTRAINT `FK_F7F3F28F` FOREIGN KEY (`User_id`) REFERENCES `user` (`Id`)
+  KEY `User_id` (`User_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -585,8 +575,7 @@ CREATE TABLE `question` (
   `DateModified` datetime DEFAULT NULL,
   `SkipMigration` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `Creator_id` (`Creator_id`),
-  CONSTRAINT `FK_A42E80A6` FOREIGN KEY (`Creator_id`) REFERENCES `user` (`Id`)
+  KEY `Creator_id` (`Creator_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -596,7 +585,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES (1,'Question 1 for page LearningUser Topic 1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,77,0,'Answer 1 for page LearningUser Topic 1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-03 22:25:03','2026-01-03 22:25:03',0),(2,'Question 2 for page LearningUser Topic 1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,61,0,'Answer 2 for page LearningUser Topic 1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-03 22:25:03','2026-01-03 22:25:03',0),(3,'Question 1 for page LearningUser Subtopic 1-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,78,0,'Answer 1 for page LearningUser Subtopic 1-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-03 22:25:03','2026-01-03 22:25:03',0),(4,'Question 2 for page LearningUser Subtopic 1-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,80,0,'Answer 2 for page LearningUser Subtopic 1-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-03 22:25:03','2026-01-03 22:25:03',0),(5,'Question 1 for page LearningUser Subtopic 2-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,40,0,'Answer 1 for page LearningUser Subtopic 2-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-03 22:25:04','2026-01-03 22:25:04',0),(6,'Question 2 for page LearningUser Subtopic 2-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,74,0,'Answer 2 for page LearningUser Subtopic 2-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-03 22:25:04','2026-01-03 22:25:04',0);
+INSERT INTO `question` VALUES (1,'Question 1 for page LearningUser Topic 1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,77,0,'Answer 1 for page LearningUser Topic 1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-04 01:43:01','2026-01-04 01:43:01',0),(2,'Question 2 for page LearningUser Topic 1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,61,0,'Answer 2 for page LearningUser Topic 1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-04 01:43:01','2026-01-04 01:43:01',0),(3,'Question 1 for page LearningUser Subtopic 1-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,78,0,'Answer 1 for page LearningUser Subtopic 1-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-04 01:43:01','2026-01-04 01:43:01',0),(4,'Question 2 for page LearningUser Subtopic 1-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,80,0,'Answer 2 for page LearningUser Subtopic 1-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-04 01:43:01','2026-01-04 01:43:01',0),(5,'Question 1 for page LearningUser Subtopic 2-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,40,0,'Answer 1 for page LearningUser Subtopic 2-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-04 01:43:01','2026-01-04 01:43:01',0),(6,'Question 2 for page LearningUser Subtopic 2-1?',NULL,NULL,NULL,NULL,NULL,0,0,1,0,0,0,0,0,0,0,0,74,0,'Answer 2 for page LearningUser Subtopic 2-1',1,'{\"IsCaseSensitive\":false,\"IsExtracInput\":false,\"IsDate\":false,\"IsNumber\":false,\"IsText\":true}','2026-01-04 01:43:01','2026-01-04 01:43:01',0);
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -617,8 +606,7 @@ CREATE TABLE `questionchange` (
   `DateCreated` datetime DEFAULT NULL,
   `Author_Id` int DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `Question_id` (`Question_id`),
-  CONSTRAINT `FK_4947E040` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`)
+  KEY `Question_id` (`Question_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -628,7 +616,7 @@ CREATE TABLE `questionchange` (
 
 LOCK TABLES `questionchange` WRITE;
 /*!40000 ALTER TABLE `questionchange` DISABLE KEYS */;
-INSERT INTO `questionchange` VALUES (1,1,'{\"QuestionText\":\"Question 1 for page LearningUser Topic 1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Topic 1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-03 22:25:03',1),(2,2,'{\"QuestionText\":\"Question 2 for page LearningUser Topic 1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Topic 1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-03 22:25:03',1),(3,3,'{\"QuestionText\":\"Question 1 for page LearningUser Subtopic 1-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Subtopic 1-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-03 22:25:03',1),(4,4,'{\"QuestionText\":\"Question 2 for page LearningUser Subtopic 1-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Subtopic 1-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-03 22:25:04',1),(5,5,'{\"QuestionText\":\"Question 1 for page LearningUser Subtopic 2-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Subtopic 2-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-03 22:25:04',1),(6,6,'{\"QuestionText\":\"Question 2 for page LearningUser Subtopic 2-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Subtopic 2-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-03 22:25:04',1);
+INSERT INTO `questionchange` VALUES (1,1,'{\"QuestionText\":\"Question 1 for page LearningUser Topic 1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Topic 1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-04 01:43:01',1),(2,2,'{\"QuestionText\":\"Question 2 for page LearningUser Topic 1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Topic 1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-04 01:43:01',1),(3,3,'{\"QuestionText\":\"Question 1 for page LearningUser Subtopic 1-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Subtopic 1-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-04 01:43:01',1),(4,4,'{\"QuestionText\":\"Question 2 for page LearningUser Subtopic 1-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Subtopic 1-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-04 01:43:01',1),(5,5,'{\"QuestionText\":\"Question 1 for page LearningUser Subtopic 2-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 1 for page LearningUser Subtopic 2-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-04 01:43:01',1),(6,6,'{\"QuestionText\":\"Question 2 for page LearningUser Subtopic 2-1?\",\"TextHtml\":null,\"QuestionTextExtended\":null,\"TextExtendedHtml\":null,\"Description\":null,\"DescriptionHtml\":null,\"ImageWasChanged\":true,\"License\":null,\"Visibility\":0,\"Solution\":\"Answer 2 for page LearningUser Subtopic 2-1\",\"SolutionDescription\":null,\"SolutionMetadataJson\":\"{\\\"IsCaseSensitive\\\":false,\\\"IsExtracInput\\\":false,\\\"IsDate\\\":false,\\\"IsNumber\\\":false,\\\"IsText\\\":true}\",\"CommentIds\":null}',1,0,1,'2026-01-04 01:43:01',1);
 /*!40000 ALTER TABLE `questionchange` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -652,9 +640,7 @@ CREATE TABLE `questionvaluation` (
   `DateCreated` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `UserId` (`UserId`),
-  KEY `QuestionId` (`QuestionId`),
-  CONSTRAINT `FK_6431BD4D` FOREIGN KEY (`QuestionId`) REFERENCES `question` (`Id`),
-  CONSTRAINT `FK_67878C2E` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
+  KEY `QuestionId` (`QuestionId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -716,9 +702,7 @@ CREATE TABLE `reference` (
   `DateModified` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `Question_id` (`Question_id`),
-  KEY `Page_id` (`Page_id`),
-  CONSTRAINT `FK_4486FA46` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`),
-  CONSTRAINT `FK_71B21AE6` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`)
+  KEY `Page_id` (`Page_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -776,7 +760,7 @@ CREATE TABLE `schemaversion` (
 
 LOCK TABLES `schemaversion` WRITE;
 /*!40000 ALTER TABLE `schemaversion` DISABLE KEYS */;
-INSERT INTO `schemaversion` VALUES (1,'24dd48e21e5409edce975c1c6ae272cff634742749812d2ee6ef8f398144fb77','2026-01-03 21:25:02');
+INSERT INTO `schemaversion` VALUES (1,'24dd48e21e5409edce975c1c6ae272cff634742749812d2ee6ef8f398144fb77','2026-01-04 00:43:00');
 /*!40000 ALTER TABLE `schemaversion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -802,7 +786,7 @@ CREATE TABLE `setting` (
 
 LOCK TABLES `setting` WRITE;
 /*!40000 ALTER TABLE `setting` DISABLE KEYS */;
-INSERT INTO `setting` VALUES (1,2147483647,'2026-01-03 22:25:02','2026-01-03 22:25:02');
+INSERT INTO `setting` VALUES (1,2147483647,'2026-01-04 01:43:00','2026-01-04 01:43:00');
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -821,8 +805,7 @@ CREATE TABLE `shares` (
   `Permission` int DEFAULT NULL,
   `GrantedBy` int NOT NULL,
   PRIMARY KEY (`Id`),
-  KEY `UserId` (`UserId`),
-  CONSTRAINT `FK_B8E3B644` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
+  KEY `UserId` (`UserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -890,7 +873,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'e2731560b7a615f4b4caecedfc8db24c','f46cacf4-3868-4886-807c-4f3d77f13f45','learning.user@example.com',0,NULL,'LearningUser',1,0,0,0,0,0,0,NULL,NULL,NULL,NULL,0,0,NULL,0,0,0,0,NULL,NULL,NULL,0,0,'2026-01-03 22:25:03','2026-01-03 22:25:03',NULL,NULL,'en',0,0);
+INSERT INTO `user` VALUES (1,'c7a3f2cadf802a69d5889f8b0342fef3','4f47fc2a-0608-4540-9340-8912fe61503a','learning.user@example.com',0,NULL,'LearningUser',1,0,0,0,0,0,0,NULL,NULL,NULL,NULL,0,0,NULL,0,0,0,0,NULL,NULL,NULL,0,0,'2026-01-04 01:43:00','2026-01-04 01:43:00',NULL,NULL,'en',0,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -909,9 +892,7 @@ CREATE TABLE `user_to_follower` (
   `DateModified` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `Follower_id` (`Follower_id`),
-  KEY `User_id` (`User_id`),
-  CONSTRAINT `FK_28BA5F5E` FOREIGN KEY (`User_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_4FFDA6DE` FOREIGN KEY (`Follower_id`) REFERENCES `user` (`Id`)
+  KEY `User_id` (`User_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -947,12 +928,7 @@ CREATE TABLE `useractivity` (
   KEY `Question_id` (`Question_id`),
   KEY `Page_id` (`Page_id`),
   KEY `UserIsFollowed_id` (`UserIsFollowed_id`),
-  KEY `UserCauser_id` (`UserCauser_id`),
-  CONSTRAINT `FK_5137F47B` FOREIGN KEY (`UserConcerned_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_5D4CBA5D` FOREIGN KEY (`Question_id`) REFERENCES `question` (`Id`),
-  CONSTRAINT `FK_6C836DBA` FOREIGN KEY (`UserIsFollowed_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_8091412B` FOREIGN KEY (`UserCauser_id`) REFERENCES `user` (`Id`),
-  CONSTRAINT `FK_B3C89A36` FOREIGN KEY (`Page_id`) REFERENCES `page` (`Id`)
+  KEY `UserCauser_id` (`UserCauser_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1009,5 +985,5 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-01-03 21:25:06
+-- Dump completed on 2026-01-04  0:43:05
 
