@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
-import { Page, usePageStore } from '~/components/page/pageStore'
+import type { Page } from '~/components/page/pageStore';
+import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { SiteType } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
@@ -83,6 +84,7 @@ const setPage = () => {
             useHead({
                 title: page.value.name,
             })
+
             watch(() => tabsStore.activeTab, (t) => {
                 tabSwitched.value = true
                 if (page.value == null || parseInt(route.params.id.toString()) != page.value.id)
@@ -156,7 +158,7 @@ useHead(() => ({
     link: [
         {
             rel: 'canonical',
-            href: `${config.public.officialBase}${$urlHelper.getPageUrl(page.value?.name!, page.value?.id!)}`
+            href: `${config.public.officialBase}${$urlHelper.getPageUrl(page.value?.name ?? '', page.value?.id ?? 0)}`
         },
     ],
     meta: [
@@ -170,7 +172,7 @@ useHead(() => ({
         },
         {
             property: 'og:url',
-            content: `${config.public.officialBase}${$urlHelper.getPageUrl(page.value?.name!, page.value?.id!)}`
+            content: `${config.public.officialBase}${$urlHelper.getPageUrl(page.value?.name ?? '', page.value?.id ?? 0)}`
         },
         {
             property: 'og:type',
@@ -227,20 +229,19 @@ watch(() => tabsStore.activeTab, (tab) => {
                         v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)"
                         v-if="!pageStore.textIsHidden" />
                     <template #fallback>
-                        <div id="PageContent" class=""
-                            :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
-                            v-if="!pageStore.textIsHidden"
-                            v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)">
+                        <div v-if="!pageStore.textIsHidden"
+                            v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)"
+                            id="PageContent" class=""
+                            :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }">
                             <div class=""
                                 :class="{ 'private-page': pageStore.visibility === Visibility.Private, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
-                                <div class="ProseMirror content-placeholder" v-html="pageStore.content"
-                                    id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
-                                </div>
+                                <div id="PageContentPlaceholder" class="ProseMirror content-placeholder"
+                                    :class="{ 'is-mobile': isMobile }" v-html="pageStore.content" />
                             </div>
                         </div>
                     </template>
                 </ClientOnly>
-                <div id="EditBarAnchor"></div>
+                <div id="EditBarAnchor" />
 
                 <PageContentGrid v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)"
                     :children="pageStore.gridItems" />
@@ -249,8 +250,7 @@ watch(() => tabsStore.activeTab, (tab) => {
                     <PageTabsQuestions
                         v-show="tabsStore.activeTab === Tab.Learning || (props.tab === Tab.Learning && !tabSwitched)" />
                     <template #fallback>
-                        <div class="row">
-                        </div>
+                        <div class="row" />
                     </template>
                     <LazyPageTabsFeed
                         v-show="tabsStore.activeTab === Tab.Feed || (props.tab === Tab.Feed && !tabSwitched)" />
@@ -273,7 +273,7 @@ watch(() => tabsStore.activeTab, (tab) => {
             </template>
         </div>
 
-        <SidebarPage :show-outline="true" v-if="pageStore?.id != 0" />
+        <SidebarPage v-if="pageStore?.id != 0" :show-outline="true" />
     </div>
 </template>
 
