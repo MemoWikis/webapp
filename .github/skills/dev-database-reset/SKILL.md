@@ -37,7 +37,7 @@ docker-compose up -d
 ## When to use this skill
 
 - When you need to reset the development database to a clean state
-- After running the test `ScenarioBuilderTests.Deterministic_Tiny_Scenario()` to update the schema
+- After running the test `ScenarioBuilderTests.Default_DEV_Scenario()` to update the schema
 - When the database schema has been updated and you need to apply changes
 - When the development database is corrupted or in an inconsistent state
 For Linux/macOS:

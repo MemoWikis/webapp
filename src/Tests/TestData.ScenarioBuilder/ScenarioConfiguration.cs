@@ -3,7 +3,7 @@
 /// </summary>
 public sealed record ScenarioConfiguration
 (
-    int UserCount,
+    DefaultUserDefinition[] DefaultUsers,
     int TopLevelPagesPerUser,
     int MaximumPageNestingDepth,
     int QuestionsPerPageForNormalUsers,

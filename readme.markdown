@@ -201,7 +201,7 @@ The `schema.sql` file can be generated from the test suite:
 
 1. **Run the test that creates the database dump:**
    
-   Execute the test `ScenarioBuilderTests.Deterministic_Tiny_Scenario()` in your test runner.
+   Execute the test `ScenarioBuilderTests.Default_DEV_Scenario()` in your test runner.
 
 2. **Copy the generated dump file:**
    

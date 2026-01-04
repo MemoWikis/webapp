@@ -17,13 +17,18 @@ internal class ScenarioBuilderTests : BaseTestHarness
     }
 
     [Test]
-    public async Task Deterministic_Tiny_Scenario()
+    public async Task Default_DEV_Scenario()
     {
         await ClearData();
 
         // Arrange
         var configuration = new ScenarioConfiguration(
-            UserCount: 1,
+            DefaultUsers: [
+                DefaultUsers.Admin,
+                DefaultUsers.Politics,
+                DefaultUsers.History,
+                DefaultUsers.Tech
+            ],
             TopLevelPagesPerUser: 1,
             MaximumPageNestingDepth: 2,
             QuestionsPerPageForNormalUsers: 2,
@@ -51,9 +56,15 @@ internal class ScenarioBuilderTests : BaseTestHarness
     [Test]
     public async Task Deterministic_Mid_Scenario()
     {
+        await ClearData();
+
         // Arrange
         var configuration = new ScenarioConfiguration(
-            UserCount: 3,
+            DefaultUsers: [
+                DefaultUsers.Admin,
+                DefaultUsers.Politics,
+                DefaultUsers.History
+            ],
             TopLevelPagesPerUser: 3,
             MaximumPageNestingDepth: 2,
             QuestionsPerPageForNormalUsers: 2,

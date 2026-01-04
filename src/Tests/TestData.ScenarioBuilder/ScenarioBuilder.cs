@@ -48,40 +48,22 @@ public sealed class ScenarioBuilder
         var userWritingRepository = _testHarness.R<UserWritingRepo>();
         var contextUser = ContextUser.New(userWritingRepository);
 
-        var allPossibleUsers = new[]
+        int monthsAgoCounter = 1;
+        foreach (var userDef in _configuration.DefaultUsers)
         {
-            new User
+            var user = new User
             {
-                Name = "LearningUser",
-                EmailAddress = "learning.user@example.com",
+                Name = userDef.GetDisplayName(),
+                EmailAddress = userDef.EmailAddress,
                 IsEmailConfirmed = true,
-                DateCreated = _configuration.Now.AddMonths(-1)
-            },
-            new User
-            {
-                Name = "ContentCreator",
-                EmailAddress = "content.creator@example.com",
-                IsEmailConfirmed = true,
-                DateCreated = _configuration.Now.AddMonths(-2)
-            },
-            new User
-            {
-                Name = "QuestionContributor",
-                EmailAddress = "question.contributor@example.com",
-                IsEmailConfirmed = true,
-                DateCreated = _configuration.Now.AddMonths(-3)
-            }
-        };
+                DateCreated = _configuration.Now.AddMonths(-monthsAgoCounter++)
+            };
 
-        var usersToCreate = allPossibleUsers.Take(_configuration.UserCount).ToArray();
-        _users.AddRange(usersToCreate);
-
-        foreach (var user in _users)
-        {
             SetUserPassword.Run("test", user);
             contextUser.Add(user);
             contextUser.Persist();
 
+            _users.Add(user);
             _pagesPerUser[user.Id] = [];
             _questionsPerUser[user.Id] = [];
         }
@@ -94,6 +76,7 @@ public sealed class ScenarioBuilder
         for (int userIndex = 0; userIndex < _users.Count; userIndex++)
         {
             var user = _users[userIndex];
+            var userDef = _configuration.DefaultUsers[userIndex];
             int topLevelPages = _configuration.TopLevelPagesPerUser + userIndex;
 
             await CreateUserPagesAsync(
@@ -101,7 +84,7 @@ public sealed class ScenarioBuilder
                 contextPage,
                 topLevelPages,
                 _configuration.MaximumPageNestingDepth,
-                user.Name);
+                userDef.ThemeFocus);
         }
 
         _pages.AddRange(contextPage.All);

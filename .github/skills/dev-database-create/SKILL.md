@@ -9,7 +9,7 @@ This skill automates the process of creating a fresh development MySQL database 
 
 ## What this skill does
 
-1. **Runs the ScenarioBuilder test**: Executes `ScenarioBuilderTests.Deterministic_Tiny_Scenario()` to generate a fresh SQL dump with test data from NHibernate mappings
+1. **Runs the ScenarioBuilder test**: Executes `ScenarioBuilderTests.Default_DEV_Scenario()` to generate a fresh SQL dump with test data from NHibernate mappings
 
 2. **Copies the SQL dump file**: Takes the generated dump from `src/Tests/TestData/Dumps/memowikis-test-scenario_tiny.sql` and copies it to `src/Docker/Dev/mysql-init/schema.sql`
 
@@ -25,7 +25,7 @@ Execute the test that generates the SQL dump from current NHibernate mappings:
 
 ```powershell
 cd c:\Projects\memoWikis
-dotnet test "src/Tests/Tests.csproj" --filter "FullyQualifiedName~ScenarioBuilderTests.Deterministic_Tiny_Scenario"
+dotnet test "src/Tests/Tests.csproj" --filter "FullyQualifiedName~ScenarioBuilderTests.Default_DEV_Scenario"
 ```
 
 This will create the file `src/Tests/TestData/Dumps/memowikis-test-scenario_tiny.sql`.
