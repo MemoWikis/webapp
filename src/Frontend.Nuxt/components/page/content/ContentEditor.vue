@@ -33,7 +33,6 @@ import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import * as Y from 'yjs'
 import { HocuspocusProvider } from '@hocuspocus/provider'
 import { FontSize, useUserStore } from '~/components/user/userStore'
-import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
@@ -141,10 +140,6 @@ const initProvider = () => {
         token: token,
         document: doc,
         onAuthenticated() {
-            const persistence = new IndexeddbPersistence(
-                `${userStore.id}|document-${pageStore.id}`,
-                doc
-            )
         },
         onAuthenticationFailed: () => {
             isSynced.value = false
