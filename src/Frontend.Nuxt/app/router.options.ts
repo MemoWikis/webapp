@@ -1,5 +1,5 @@
 import type { RouterConfig } from '@nuxt/schema'
-import { Content } from '~/components/user/settings/contentEnum'
+import { UserSettingsTab } from '~/components/user/settings/user-settings-tab.enum'
 import { Tab as PageTab } from '~/components/page/tabs/tabsStore'
 import { Tab as UsersTab } from '~~/components/users/tabsEnum'
 import { Tab as UserTab } from '~~/components/user/tabs/tabsEnum'
@@ -215,25 +215,25 @@ export default <RouterConfig>{
             name: 'userSubscriptionPageDE',
             path: '/Einstellungen/Mitgliedschaft',
             component: () => import('~/pages/user/user-settings.vue'),
-            props: { content: Content.Membership },
+            props: { content: UserSettingsTab.Membership },
         },
         {
             name: 'userSubscriptionPageEN',
             path: '/Settings/Membership',
             component: () => import('~/pages/user/user-settings.vue'),
-            props: { content: Content.Membership },
+            props: { content: UserSettingsTab.Membership },
         },
         {
             name: 'userSubscriptionPageFR',
             path: '/Parametres/Abonnement',
             component: () => import('~/pages/user/user-settings.vue'),
-            props: { content: Content.Membership },
+            props: { content: UserSettingsTab.Membership },
         },
         {
             name: 'userSubscriptionPageES',
             path: '/Configuracion/Suscripcion',
             component: () => import('~/pages/user/user-settings.vue'),
-            props: { content: Content.Membership },
+            props: { content: UserSettingsTab.Membership },
         },
         {
             name: 'pageContentPage',

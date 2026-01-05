@@ -1,4 +1,20 @@
-# Common code style guide for all languages
+# Code Style Guide
+
+For comprehensive naming conventions, file structure, and patterns, see **[Style Guide](.github/style-guide.md)**.
+
+## Quick Reference
+
+- **Files/Folders:** kebab-case (`user-profile.store.ts`, `order-card.component.vue`)
+- **Exports:** PascalCase for types/classes/components (`UserProfile`, `OrderCard`)
+- **Exports:** camelCase for functions/composables (`useUserStore`, `formatDate`)
+- **File Suffixes:** Use consistent suffixes for predictable discovery
+  - Components: `*.component.vue`
+  - Stores: `*.store.ts`
+  - Enums: `*.enum.ts`
+  - Types: `*.types.ts`
+  - Utils: `*.utils.ts`
+
+## Common Rules (All Languages)
 
 - Please always write code comments in English.
 - Always spell out variable names; no abbreviations.

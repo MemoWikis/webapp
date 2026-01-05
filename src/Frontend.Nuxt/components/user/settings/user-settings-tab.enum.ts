@@ -1,4 +1,4 @@
-export enum Content {
+export enum UserSettingsTab {
     //Profile Information
     EditProfile,
     Password,
@@ -11,5 +11,5 @@ export enum Content {
 
     //Notifications
     General,
-    KnowledgeReport
+    KnowledgeReport,
 }

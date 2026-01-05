@@ -1,21 +1,24 @@
 <script lang="ts" setup>
-import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
+import type { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useUserStore } from '~~/components/user/userStore'
-import { Content } from '~/components/user/settings/contentEnum'
+import type { UserSettingsTab } from '~/components/user/settings/user-settings-tab.enum'
 import { SiteType } from '~/components/shared/siteEnum'
-import { ErrorCode } from '~/components/error/errorCodeEnum'
+import type { ErrorCode } from '~/components/error/errorCodeEnum'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const userStore = useUserStore()
-const { $logger, $urlHelper } = useNuxtApp()
+const { $logger } = useNuxtApp()
 const { t } = useI18n()
 
 interface Props {
-    content?: Content
+    content?: UserSettingsTab
 }
-const props = withDefaults(defineProps<Props>(), {})
+
+const props = withDefaults(defineProps<Props>(), {
+    content: undefined
+})
 
 interface User {
     id: number
@@ -27,6 +30,7 @@ interface User {
     rank: number
     showWishKnowledge: boolean
 }
+
 interface ProfileData {
     user: User
     isCurrentUser: boolean,
@@ -95,15 +99,12 @@ userStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-    <div class="main-content" v-if="profile && profile.user.id > 0 && profile.isCurrentUser">
+    <div v-if="profile && profile.user.id > 0 && profile.isCurrentUser" class="main-content">
         <div class="settings-header">
             <h1>{{ t('label.accountSettings') }}</h1>
         </div>
 
-        <UserSettings
-            :image-url="profile.user.imageUrl"
-            :content="props.content"
-            @update-profile="refreshProfile" />
+        <UserSettings :image-url="profile.user.imageUrl" :tab="props.content" @update-profile="refreshProfile" />
     </div>
 
     <div v-else class="main-content">

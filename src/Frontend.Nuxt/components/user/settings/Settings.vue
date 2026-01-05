@@ -2,7 +2,7 @@
 import { useUserStore } from '../userStore'
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
 import * as Subscription from '~~/components/user/membership/subscription'
-import { Content } from './contentEnum'
+import { UserSettingsTab } from './user-settings-tab.enum'
 import { AlertType, useAlertStore } from '~/components/alert/alertStore'
 
 const config = useRuntimeConfig()
@@ -12,14 +12,14 @@ const { t } = useI18n()
 
 interface Props {
     imageUrl?: string
-    content?: Content
+    tab?: UserSettingsTab
 }
 
 const props = defineProps<Props>()
 
 const userStore = useUserStore()
 
-const activeContent = ref<Content>(Content.EditProfile)
+const activeContent = ref<UserSettingsTab>(UserSettingsTab.EditProfile)
 
 const userName = ref<string>(userStore.name)
 const email = ref<string>(userStore.email)
@@ -59,20 +59,25 @@ async function removeImage() {
     emit('updateProfile')
     userStore.imgUrl = fallbackImageUrl
 }
-function onFileChange(e: any) {
-    var files = e.target.files || e.dataTransfer.files
-    if (!files.length)
+
+function onFileChange(e: Event) {
+    const target = e.target as HTMLInputElement | DataTransfer
+    const files = (target as HTMLInputElement).files || (e as DragEvent).dataTransfer?.files
+    if (!files?.length)
         return
     createImage(files[0])
 }
+
 const imgFile = ref<File>()
 const currentImageUrl = ref('')
+
 if (props.imageUrl) {
     currentImageUrl.value = props.imageUrl
 }
+
 onBeforeMount(() => {
-    if (props.content === Content.Membership) {
-        activeContent.value = Content.Membership
+    if (props.tab === UserSettingsTab.Membership) {
+        activeContent.value = UserSettingsTab.Membership
     }
     calculatePostingDate()
 })
@@ -128,7 +133,7 @@ interface ChangeProfileInformationResult {
 }
 
 async function saveProfileInformation() {
-    let formData = new FormData()
+    const formData = new FormData()
 
     if (imgFile.value != null)
         formData.append('file', imgFile.value)
@@ -149,8 +154,10 @@ async function saveProfileInformation() {
     })
 
     if (result?.success) {
-        userStore.name, userName.value = result.data.name
-        userStore.email, email.value = result.data.email
+        userStore.name = result.data.name
+        userName.value = result.data.name
+        userStore.email = result.data.email
+        email.value = result.data.email
         userStore.imgUrl = result.data.tinyImgUrl
         emit('updateProfile')
 
@@ -236,7 +243,7 @@ const checkIfProfileCanBeDeleted = async () => {
 }
 
 watch(activeContent, (content) => {
-    if (content === Content.DeleteProfile) {
+    if (content === UserSettingsTab.DeleteProfile) {
         checkIfProfileCanBeDeleted()
     }
 })
@@ -364,22 +371,24 @@ async function saveNotificationIntervalPreferences() {
 
 const getSelectedSettingsPageLabel = computed(() => {
     switch (activeContent.value) {
-        case Content.EditProfile:
+        case UserSettingsTab.EditProfile:
             return t('settings.navigation.editProfile')
-        case Content.Password:
+        case UserSettingsTab.Password:
             return t('settings.navigation.password')
-        case Content.DeleteProfile:
+        case UserSettingsTab.DeleteProfile:
             return t('settings.navigation.deleteProfile')
-        case Content.ShowWishKnowledge:
+        case UserSettingsTab.ShowWishKnowledge:
             return t('settings.navigation.showWishKnowledge')
-        case Content.SupportLogin:
+        case UserSettingsTab.SupportLogin:
             return t('settings.navigation.supportLogin')
-        case Content.Membership:
+        case UserSettingsTab.Membership:
             return t('settings.navigation.membership')
-        case Content.General:
+        case UserSettingsTab.General:
             return t('settings.navigation.general')
-        case Content.KnowledgeReport:
+        case UserSettingsTab.KnowledgeReport:
             return t('settings.navigation.knowledgeReport')
+        default:
+            return ''
     }
 })
 
@@ -399,27 +408,34 @@ const ariaId2 = useId()
     <div class="user-settings-container">
         <div class="navigation">
             <div class="overline-s no-line">{{ t('settings.navigation.profileInfo') }}</div>
-            <button @click="activeContent = Content.EditProfile"
-                :class="{ 'active': activeContent === Content.EditProfile }">{{ t('settings.navigation.editProfile') }}</button>
-            <button @click="activeContent = Content.Password"
-                :class="{ 'active': activeContent === Content.Password }">{{ t('settings.navigation.password') }}</button>
-            <button @click="activeContent = Content.DeleteProfile"
-                :class="{ 'active': activeContent === Content.DeleteProfile }">{{ t('settings.navigation.deleteProfile') }}</button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.EditProfile }"
+                @click="activeContent = UserSettingsTab.EditProfile">{{ t('settings.navigation.editProfile')
+                }}</button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.Password }"
+                @click="activeContent = UserSettingsTab.Password">{{ t('settings.navigation.password')
+                }}</button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.DeleteProfile }"
+                @click="activeContent = UserSettingsTab.DeleteProfile">{{ t('settings.navigation.deleteProfile')
+                }}</button>
 
-            <div class="divider"></div>
+            <div class="divider" />
             <div class="overline-s no-line">{{ t('settings.navigation.settings') }}</div>
-            <button @click="activeContent = Content.ShowWishKnowledge"
-                :class="{ 'active': activeContent === Content.ShowWishKnowledge }">{{ t('settings.navigation.showWishKnowledge') }}</button>
-            <button @click="activeContent = Content.SupportLogin"
-                :class="{ 'active': activeContent === Content.SupportLogin }">{{ t('settings.navigation.supportLogin') }}</button>
-            <button @click="activeContent = Content.Membership"
-                :class="{ 'active': activeContent === Content.Membership }">{{ t('settings.navigation.membership') }}</button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.ShowWishKnowledge }"
+                @click="activeContent = UserSettingsTab.ShowWishKnowledge">{{
+                    t('settings.navigation.showWishKnowledge') }}</button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.SupportLogin }"
+                @click="activeContent = UserSettingsTab.SupportLogin">{{ t('settings.navigation.supportLogin')
+                }}</button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.Membership }"
+                @click="activeContent = UserSettingsTab.Membership">{{ t('settings.navigation.membership')
+                }}</button>
 
-            <div class="divider"></div>
+            <div class="divider" />
             <div class="overline-s no-line">{{ t('settings.navigation.notifications') }}</div>
             <!-- <button @click="activeContent = Content.General">{{ t('settings.navigation.general') }}</button> -->
-            <button @click="activeContent = Content.KnowledgeReport"
-                :class="{ 'active': activeContent === Content.KnowledgeReport }">{{ t('settings.navigation.knowledgeReport') }}</button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.KnowledgeReport }"
+                @click="activeContent = UserSettingsTab.KnowledgeReport">{{
+                    t('settings.navigation.knowledgeReport') }}</button>
         </div>
         <div class="navigation-mobile">
             <div class="settings-dropdown">
@@ -436,53 +452,59 @@ const ariaId2 = useId()
                             <div class="dropdown-row group-label">
                                 {{ t('settings.navigation.profileInfo') }}
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; hide()"
-                                :class="{ 'active': activeContent === Content.EditProfile }">
+                            <div class="dropdown-row select-row"
+                                :class="{ 'active': activeContent === UserSettingsTab.EditProfile }"
+                                @click="activeContent = UserSettingsTab.EditProfile; hide()">
                                 <div class="dropdown-label select-option">
                                     {{ t('settings.navigation.editProfile') }}
                                 </div>
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.Password; hide()"
-                                :class="{ 'active': activeContent === Content.Password }">
+                            <div class="dropdown-row select-row"
+                                :class="{ 'active': activeContent === UserSettingsTab.Password }"
+                                @click="activeContent = UserSettingsTab.Password; hide()">
                                 <div class="dropdown-label select-option">
                                     {{ t('settings.navigation.password') }}
                                 </div>
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; hide()"
-                                :class="{ 'active': activeContent === Content.DeleteProfile }">
+                            <div class="dropdown-row select-row"
+                                :class="{ 'active': activeContent === UserSettingsTab.DeleteProfile }"
+                                @click="activeContent = UserSettingsTab.DeleteProfile; hide()">
                                 <div class="dropdown-label select-option">
                                     {{ t('settings.navigation.deleteProfile') }}
                                 </div>
                             </div>
-                            <div class="divider"></div>
+                            <div class="divider" />
                             <div class="dropdown-row group-label">
                                 {{ t('settings.navigation.settings') }}
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.ShowWishKnowledge; hide()"
-                                :class="{ 'active': activeContent === Content.ShowWishKnowledge }">
+                            <div class="dropdown-row select-row"
+                                :class="{ 'active': activeContent === UserSettingsTab.ShowWishKnowledge }"
+                                @click="activeContent = UserSettingsTab.ShowWishKnowledge; hide()">
                                 <div class="dropdown-label select-option">
                                     {{ t('settings.navigation.showWishKnowledge') }}
                                 </div>
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; hide()"
-                                :class="{ 'active': activeContent === Content.SupportLogin }">
+                            <div class="dropdown-row select-row"
+                                :class="{ 'active': activeContent === UserSettingsTab.SupportLogin }"
+                                @click="activeContent = UserSettingsTab.SupportLogin; hide()">
                                 <div class="dropdown-label select-option">
                                     {{ t('settings.navigation.supportLogin') }}
                                 </div>
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.Membership; hide()"
-                                :class="{ 'active': activeContent === Content.Membership }">
+                            <div class="dropdown-row select-row"
+                                :class="{ 'active': activeContent === UserSettingsTab.Membership }"
+                                @click="activeContent = UserSettingsTab.Membership; hide()">
                                 <div class="dropdown-label select-option">
                                     {{ t('settings.navigation.membership') }}
                                 </div>
                             </div>
-                            <div class="divider"></div>
+                            <div class="divider" />
                             <div class="dropdown-row group-label">
                                 {{ t('settings.navigation.notifications') }}
                             </div>
                             <div class="dropdown-row select-row"
-                                @click="activeContent = Content.KnowledgeReport; hide()"
-                                :class="{ 'active': activeContent === Content.KnowledgeReport }">
+                                :class="{ 'active': activeContent === UserSettingsTab.KnowledgeReport }"
+                                @click="activeContent = UserSettingsTab.KnowledgeReport; hide()">
                                 <div class="dropdown-label select-option">
                                     {{ t('settings.navigation.knowledgeReport') }}
                                 </div>
@@ -494,18 +516,20 @@ const ariaId2 = useId()
         </div>
         <div class="settings-content">
             <Transition>
-                <div v-if="activeContent === Content.EditProfile" class="content">
-                    <div class="settings-section" v-if="showAlert">
-                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
-                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                <div v-if="activeContent === UserSettingsTab.EditProfile" class="content">
+                    <div v-if="showAlert" class="settings-section">
+                        <div v-if="success" class="alert alert-success">{{ msg }}</div>
+                        <div v-else class="alert alert-danger">{{ msg }}</div>
                     </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">{{ t('settings.profile.profilePicture') }}</div>
-                        <Image :src="currentImageUrl" :format="ImageFormat.Author" class="profile-picture" :custom-style="'object-fit: cover;'" />
+                        <Image :src="currentImageUrl" :format="ImageFormat.Author" class="profile-picture"
+                            :custom-style="'object-fit: cover;'" />
                         <div class="img-settings-btns">
                             <div>
                                 <label class="img-upload-btn" for="imageUpload">
-                                    <input type="file" accept="image/*" name="file" id="imageUpload" v-on:change="onFileChange" />
+                                    <input id="imageUpload" type="file" accept="image/*" name="file"
+                                        @change="onFileChange" />
                                     <font-awesome-icon icon="fa-solid fa-upload" />
                                     {{ t('settings.profile.uploadImage') }}
                                 </label>
@@ -513,7 +537,9 @@ const ariaId2 = useId()
                             </div>
                             <div>
                                 <button class="img-delete-btn" @click="removeImage()">
-                                    <font-awesome-icon icon="fa-solid fa-trash" /> {{ t('settings.profile.removeProfilePicture') }}
+                                    <font-awesome-icon icon="fa-solid fa-trash" /> {{
+                                        t('settings.profile.removeProfilePicture')
+                                    }}
                                 </button>
                             </div>
                         </div>
@@ -524,7 +550,8 @@ const ariaId2 = useId()
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input name="username" placeholder="" type="text" width="0" v-model="userName" class="settings-input" id="username">
+                                        <input id="username" v-model="userName" name="username" placeholder=""
+                                            type="text" width="0" class="settings-input" />
                                     </div>
                                 </div>
                             </form>
@@ -532,25 +559,31 @@ const ariaId2 = useId()
 
                         <div class="input-container">
                             <div class="overline-s no-line">{{ t('settings.profile.email') }}</div>
-                            <div class="col-xs-12"></div>
+                            <div class="col-xs-12" />
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input name="email" placeholder="" type="email" width="0" v-model="email" class="settings-input" id="email">
+                                        <input id="email" v-model="email" name="email" placeholder="" type="email"
+                                            width="0" class="settings-input" />
                                     </div>
-                                    <div class="col-lg-12"></div>
+                                    <div class="col-lg-12" />
                                     <div class="col-sm-12 col-lg-6 ">
                                         <div class="email-confirmation-container">
-                                            <div v-if="userStore.isEmailConfirmed" class="email-verification-label verified overline-s no-line">
-                                                <font-awesome-icon :icon="['fas', 'check']" /> {{ t('settings.profile.verified') }}
+                                            <div v-if="userStore.isEmailConfirmed"
+                                                class="email-verification-label verified overline-s no-line">
+                                                <font-awesome-icon :icon="['fas', 'check']" /> {{
+                                                    t('settings.profile.verified')
+                                                }}
                                             </div>
                                             <template v-else>
                                                 <div class="email-verification-label not-verified overline-s no-line">
-                                                    <font-awesome-icon :icon="['fas', 'xmark']" /> {{ t('settings.profile.notVerified') }}
+                                                    <font-awesome-icon :icon="['fas', 'xmark']" /> {{
+                                                        t('settings.profile.notVerified') }}
                                                 </div>
                                                 <button class="btn-link generic-btn-link"
                                                     @click.prevent="requestVerificationMail()">
-                                                    <font-awesome-icon :icon="['fas', 'envelope-circle-check']" />{{ t('settings.profile.sendVerificationEmail') }}
+                                                    <font-awesome-icon :icon="['fas', 'envelope-circle-check']" />{{
+                                                        t('settings.profile.sendVerificationEmail') }}
                                                 </button>
                                             </template>
                                         </div>
@@ -567,10 +600,10 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent === Content.Password" class="content">
-                    <div class="settings-section" v-if="showAlert">
-                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
-                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                <div v-else-if="activeContent === UserSettingsTab.Password" class="content">
+                    <div v-if="showAlert" class="settings-section">
+                        <div v-if="success" class="alert alert-success">{{ msg }}</div>
+                        <div v-else class="alert alert-danger">{{ msg }}</div>
                     </div>
                     <div class="settings-section">
                         <div class="input-container">
@@ -578,7 +611,8 @@ const ariaId2 = useId()
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input placeholder="" type="password" width="0" v-model="currentPassword" class="settings-input">
+                                        <input v-model="currentPassword" placeholder="" type="password" width="0"
+                                            class="settings-input" />
                                     </div>
                                 </div>
                             </form>
@@ -589,7 +623,8 @@ const ariaId2 = useId()
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input placeholder="" type="password" width="0" v-model="newPassword" class="settings-input">
+                                        <input v-model="newPassword" placeholder="" type="password" width="0"
+                                            class="settings-input" />
                                     </div>
                                 </div>
                             </form>
@@ -600,7 +635,8 @@ const ariaId2 = useId()
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input placeholder="" type="password" width="0" v-model="repeatedPassword" class="settings-input">
+                                        <input v-model="repeatedPassword" placeholder="" type="password" width="0"
+                                            class="settings-input" />
                                     </div>
                                 </div>
                             </form>
@@ -619,16 +655,17 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent === Content.DeleteProfile" class="content">
-                    <div class="settings-section" v-if="showAlert">
-                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
-                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                <div v-else-if="activeContent === UserSettingsTab.DeleteProfile" class="content">
+                    <div v-if="showAlert" class="settings-section">
+                        <div v-if="success" class="alert alert-success">{{ msg }}</div>
+                        <div v-else class="alert alert-danger">{{ msg }}</div>
                     </div>
                     <div class="settings-section">
                         <div class="">
                             <div class="alert alert-info">
                                 <p>
-                                    <b>{{ t('settings.deleteProfile.warning') }}</b> {{ t('settings.deleteProfile.onlyIf') }}
+                                    <b>{{ t('settings.deleteProfile.warning') }}</b> {{
+                                        t('settings.deleteProfile.onlyIf') }}
                                 </p>
                                 <ul>
                                     <li>{{ t('settings.deleteProfile.condition1') }}</li>
@@ -636,13 +673,15 @@ const ariaId2 = useId()
                                 </ul>
                             </div>
 
-                            <button @click.prevent="deleteProfile()" class="memo-button btn btn-danger" v-if="canDeleteProfile">
+                            <button v-if="canDeleteProfile" class="memo-button btn btn-danger"
+                                @click.prevent="deleteProfile()">
                                 {{ t('settings.deleteProfile.deleteButton') }}
                             </button>
                             <div v-else class="alert alert-warning">
                                 <p>
                                     {{ t('settings.deleteProfile.notPossible') }}
-                                    <NuxtLink :to="`mailto:${config.public.teamEmail}`" :external="true">{{ config.public.teamEmail }}</NuxtLink>,
+                                    <NuxtLink :to="`mailto:${config.public.teamEmail}`" :external="true">{{
+                                        config.public.teamEmail }}</NuxtLink>,
                                     {{ t('settings.deleteProfile.contactReason') }}
                                 </p>
                             </div>
@@ -650,17 +689,19 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent === Content.ShowWishKnowledge" class="content">
-                    <div class="settings-section" v-if="showAlert">
-                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
-                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                <div v-else-if="activeContent === UserSettingsTab.ShowWishKnowledge" class="content">
+                    <div v-if="showAlert" class="settings-section">
+                        <div v-if="success" class="alert alert-success">{{ msg }}</div>
+                        <div v-else class="alert alert-danger">{{ msg }}</div>
                     </div>
                     <div class="settings-section">
                         <label class="checkbox-section">
                             <div class="checkbox-container">
-                                <input type="checkbox" name="answer" :value="true" v-model="showWishKnowledge" class="hidden" />
-                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWishKnowledge" class="checkbox-icon" />
-                                <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
+                                <input v-model="showWishKnowledge" type="checkbox" name="answer" :value="true"
+                                    class="hidden" />
+                                <font-awesome-icon v-if="showWishKnowledge" icon="fa-solid fa-square-check"
+                                    class="checkbox-icon" />
+                                <font-awesome-icon v-else icon="fa-regular fa-square" class="checkbox-icon" />
                             </div>
                             <div class="checkbox-label">
                                 <div class="overline-s no-line">
@@ -681,17 +722,19 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent === Content.SupportLogin" class="content">
-                    <div class="settings-section" v-if="showAlert">
-                        <div class="alert alert-success" v-if="success">{{ msg }}</div>
-                        <div class="alert alert-danger" v-else>{{ msg }}</div>
+                <div v-else-if="activeContent === UserSettingsTab.SupportLogin" class="content">
+                    <div v-if="showAlert" class="settings-section">
+                        <div v-if="success" class="alert alert-success">{{ msg }}</div>
+                        <div v-else class="alert alert-danger">{{ msg }}</div>
                     </div>
                     <div class="settings-section">
                         <label class="checkbox-section">
                             <div class="checkbox-container">
-                                <input type="checkbox" name="answer" :value="true" v-model="allowSupportLogin" class="hidden" />
-                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="allowSupportLogin" class="checkbox-icon" />
-                                <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
+                                <input v-model="allowSupportLogin" type="checkbox" name="answer" :value="true"
+                                    class="hidden" />
+                                <font-awesome-icon v-if="allowSupportLogin" icon="fa-solid fa-square-check"
+                                    class="checkbox-icon" />
+                                <font-awesome-icon v-else icon="fa-regular fa-square" class="checkbox-icon" />
                             </div>
                             <div class="checkbox-label">
                                 <div class="overline-s no-line">
@@ -711,13 +754,16 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent === Content.Membership" class="content">
-                    <div class="settings-section" v-if="userStore.subscriptionType != Subscription.Type.Basic">
-                        <button class="memo-button btn btn-primary" v-if="userStore.isSubscriptionCanceled === false" @click="cancelPlan()">
+                <div v-else-if="activeContent === UserSettingsTab.Membership" class="content">
+                    <div v-if="userStore.subscriptionType != Subscription.Type.Basic" class="settings-section">
+                        <button v-if="userStore.isSubscriptionCanceled === false" class="memo-button btn btn-primary"
+                            @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             {{ t('settings.membership.manageOrCancel') }}
                         </button>
-                        <button class="memo-button btn btn-primary" v-else-if="userStore.isSubscriptionCanceled === true && userStore.subscriptionType === Subscription.Type.Plus" @click="cancelPlan()">
+                        <button
+                            v-else-if="userStore.isSubscriptionCanceled === true && userStore.subscriptionType === Subscription.Type.Plus"
+                            class="memo-button btn btn-primary" @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             {{ t('settings.membership.resume') }}
                         </button>
@@ -728,12 +774,12 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent === Content.General" class="content"></div>
+                <div v-else-if="activeContent === UserSettingsTab.General" class="content" />
 
-                <div v-else-if="activeContent === Content.KnowledgeReport" class="content">
-                    <div class="settings-section" v-if="showAlert">
-                        <div class="alert alert-success" v-if="success" v-html="notificationIntervalChangeMsg"></div>
-                        <div class="alert alert-danger" v-else v-html="notificationIntervalChangeMsg"></div>
+                <div v-else-if="activeContent === UserSettingsTab.KnowledgeReport" class="content">
+                    <div v-if="showAlert" class="settings-section">
+                        <div v-if="success" class="alert alert-success" v-html="notificationIntervalChangeMsg" />
+                        <div v-else class="alert alert-danger" v-html="notificationIntervalChangeMsg" />
                     </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">
@@ -750,36 +796,36 @@ const ariaId2 = useId()
 
                                 <template #popper="{ hide }">
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Quarterly; hide()"
-                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Quarterly }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Quarterly }"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Quarterly; hide()">
                                         <div class="dropdown-label select-option">
                                             {{ t('settings.knowledgeReport.interval.quarterly') }}
                                         </div>
                                     </div>
                                     <div class="dropdown-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Monthly; hide()"
-                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Monthly }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Monthly }"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Monthly; hide()">
                                         <div class="dropdown-label select-option">
                                             {{ t('settings.knowledgeReport.interval.monthly') }}
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Weekly; hide()"
-                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Weekly }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Weekly }"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Weekly; hide()">
                                         <div class="dropdown-label select-option">
                                             {{ t('settings.knowledgeReport.interval.weekly') }}
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Daily; hide()"
-                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Daily }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Daily }"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Daily; hide()">
                                         <div class="dropdown-label select-option">
                                             {{ t('settings.knowledgeReport.interval.daily') }}
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
-                                        @click="selectedNotificationInterval = NotifcationInterval.Never; hide()"
-                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Never }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Never }"
+                                        @click="selectedNotificationInterval = NotifcationInterval.Never; hide()">
                                         <div class="dropdown-label select-option">
                                             {{ t('settings.knowledgeReport.interval.never') }}
                                         </div>
