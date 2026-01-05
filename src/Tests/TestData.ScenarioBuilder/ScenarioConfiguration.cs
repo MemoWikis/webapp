@@ -4,8 +4,7 @@
 public sealed record ScenarioConfiguration
 (
     DefaultUserDefinition[] DefaultUsers,
-    int TopLevelPagesPerUser,
-    int MaximumPageNestingDepth,
+    int WikisPerUser,
     int QuestionsPerPageForNormalUsers,
     int QuestionsPerPageForContributor,
     int SeedForRandom,

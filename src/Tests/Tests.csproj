@@ -20,6 +20,26 @@
     <None Remove="appsettings.Test.json" />
   </ItemGroup>
 
+  <!-- Copy JSON content files to output directory -->
+  <ItemGroup>
+    <Content Include="TestData.ScenarioBuilder\Content\administration\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Content\administration\%(Filename)%(Extension)</Link>
+    </Content>
+    <Content Include="TestData.ScenarioBuilder\Content\technology\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Content\technology\%(Filename)%(Extension)</Link>
+    </Content>
+    <Content Include="TestData.ScenarioBuilder\Content\politics\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Content\politics\%(Filename)%(Extension)</Link>
+    </Content>
+    <Content Include="TestData.ScenarioBuilder\Content\history\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Content\history\%(Filename)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="8.3.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />

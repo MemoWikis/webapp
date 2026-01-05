@@ -1,0 +1,79 @@
+{
+  "title": "History of Religion",
+  "theme": "History",
+  "difficulty": 3,
+  "mainPage": {
+    "title": "History of Religion",
+    "content": "<h2>Understanding Humanity's Search for Meaning</h2><p>Religion has been central to human civilization from prehistory to the present day. This wiki provides an educational overview of major world religions and their historical development.</p><h2>Why Study Religious History?</h2><ul><li><strong>Cultural Understanding:</strong> Religion shapes art, law, ethics, and social structures</li><li><strong>Historical Context:</strong> Many historical events are driven by religious factors</li><li><strong>Contemporary Relevance:</strong> Religious dynamics influence modern geopolitics</li><li><strong>Philosophical Inquiry:</strong> Religious traditions address fundamental questions about existence</li></ul><h2>Scope</h2><p>This wiki covers major world religions in historical context, examining their origins, key beliefs, and impact on civilization. It aims to be educational and respectful of all traditions.</p>"
+  },
+  "subpages": [
+    {
+      "title": "Ancient and Indigenous Religions",
+      "content": "<h2>Prehistoric Religion</h2><p>Archaeological evidence suggests religious practice dates back at least 100,000 years. Early religions likely involved:</p><ul><li>Animism (belief that natural objects have spirits)</li><li>Ancestor worship</li><li>Shamanism and spirit mediums</li><li>Burial rituals suggesting belief in afterlife</li></ul><h2>Ancient Mesopotamia and Egypt</h2><p>Polytheistic religions with elaborate pantheons:</p><ul><li><strong>Mesopotamia:</strong> Anu (sky god), Enlil (wind god), Ishtar (love and war)</li><li><strong>Egypt:</strong> Ra (sun god), Osiris (afterlife), Isis (magic and wisdom)</li></ul><h2>Greek and Roman Religion</h2><p>The Olympian gods (Zeus, Athena, Apollo, etc.) influenced Western culture profoundly. Rome adapted Greek gods and eventually adopted Christianity as state religion (380 CE).</p><h2>Indigenous Traditions</h2><p>Indigenous religions worldwide share common elements: connection to land, oral tradition, ritual practice, and community-centered spirituality. Many continue today.</p>"
+    },
+    {
+      "title": "Abrahamic Religions",
+      "content": "<h2>Judaism</h2><p>The oldest monotheistic religion still practiced, originating with Abraham (~2000 BCE). Key developments:</p><ul><li>The Exodus and Mosaic Law (Torah)</li><li>First Temple (Solomon) and Second Temple periods</li><li>Rabbinic Judaism after Temple destruction (70 CE)</li><li>Medieval developments: Kabbalah, Sephardic and Ashkenazi traditions</li></ul><h2>Christianity</h2><p>Founded on the teachings of Jesus of Nazareth (1st century CE):</p><ul><li>Spread through Roman Empire; became state religion (380 CE)</li><li>Great Schism (1054): Catholic West and Orthodox East</li><li>Protestant Reformation (1517): Luther's challenge to Catholic authority</li><li>Today: ~2.4 billion adherents worldwide</li></ul><h2>Islam</h2><p>Founded by Prophet Muhammad in Arabia (7th century CE):</p><ul><li>Five Pillars: Shahada, Prayer, Zakat, Fasting, Hajj</li><li>Rapid expansion across Middle East, North Africa, and beyond</li><li>Golden Age of Islamic civilization (8th-14th centuries)</li><li>Sunni-Shia split over succession to Muhammad</li></ul>"
+    },
+    {
+      "title": "Eastern Religions",
+      "content": "<h2>Hinduism</h2><p>One of the oldest religions, developing in the Indian subcontinent over millennia:</p><ul><li>Vedic period and the Upanishads (philosophical texts)</li><li>Key concepts: Brahman (ultimate reality), Atman (soul), Karma, Dharma, Moksha</li><li>Major deities: Brahma, Vishnu, Shiva, and many others</li><li>Diverse practices from temple worship to yoga and meditation</li></ul><h2>Buddhism</h2><p>Founded by Siddhartha Gautama (Buddha) in India (~5th century BCE):</p><ul><li>Four Noble Truths: suffering, its cause, its end, the path</li><li>Eightfold Path to enlightenment</li><li>Major branches: Theravada, Mahayana, Vajrayana</li><li>Spread to East and Southeast Asia</li></ul><h2>Other Eastern Traditions</h2><ul><li><strong>Confucianism:</strong> Social ethics and proper relationships (China)</li><li><strong>Taoism:</strong> Harmony with the Tao (Way), Wu Wei (non-action)</li><li><strong>Shinto:</strong> Japanese indigenous religion, kami (spirits) in nature</li><li><strong>Sikhism:</strong> Founded by Guru Nanak (15th century), monotheism and equality</li></ul>"
+    },
+    {
+      "title": "Religion in the Modern World",
+      "content": "<h2>Secularization Thesis</h2><p>19th-20th century thinkers (Weber, Durkheim) predicted religion would decline with modernization. This proved partly true in Western Europe but not globally.</p><h2>Religious Revival</h2><p>The late 20th century saw religious resurgence:</p><ul><li>Rise of evangelical Christianity in Americas and Africa</li><li>Islamic revival movements</li><li>Hindu nationalism in India</li><li>New religious movements worldwide</li></ul><h2>Religion and Conflict</h2><p>Religious identity intersects with ethnic, national, and political conflicts. Understanding religious dimensions is crucial for peace-building.</p><h2>Interfaith Dialogue</h2><p>Growing movements toward religious understanding and cooperation. Organizations like the Parliament of World's Religions (since 1893) promote dialogue.</p><h2>Contemporary Trends</h2><ul><li>'Spiritual but not religious' growing in Western societies</li><li>Religion and science debates continue</li><li>Digital religion and online communities</li><li>Religious responses to climate change and social justice</li></ul>"
+    }
+  ],
+  "questions": [
+    {
+      "pageTitle": "History of Religion",
+      "text": "What are four reasons to study religious history?",
+      "solution": "Cultural Understanding, Historical Context, Contemporary Relevance, Philosophical Inquiry",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Ancient and Indigenous Religions",
+      "text": "What is animism?",
+      "solution": "The belief that natural objects have spirits",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Abrahamic Religions",
+      "text": "In what year did Christianity become the state religion of Rome?",
+      "solution": "380 CE",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Abrahamic Religions",
+      "text": "What are the Five Pillars of Islam?",
+      "solution": "Shahada, Prayer, Zakat, Fasting, Hajj",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Eastern Religions",
+      "text": "Who founded Buddhism and approximately when?",
+      "solution": "Siddhartha Gautama (Buddha), 5th century BCE",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Eastern Religions",
+      "text": "What are the three major branches of Buddhism?",
+      "solution": "Theravada, Mahayana, Vajrayana",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-04T21:00:00Z",
+    "aiModel": "claude-sonnet-4-20250514",
+    "sources": [
+      "Religious studies academic resources",
+      "Encyclopedia Britannica"
+    ]
+  }
+}

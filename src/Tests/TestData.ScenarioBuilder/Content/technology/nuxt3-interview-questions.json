@@ -1,0 +1,76 @@
+{
+  "title": "Nuxt 3 Interview Questions",
+  "theme": "Technology",
+  "difficulty": 3,
+  "mainPage": {
+    "title": "Nuxt 3 Interview Questions",
+    "content": "<h2>Prepare for Your Nuxt 3 Interview</h2><p>This comprehensive guide covers the most commonly asked Nuxt 3 interview questions, from fundamentals to advanced topics.</p><h2>Topics Covered</h2><ul><li><strong>Core Concepts:</strong> Rendering modes, file-based routing, auto-imports</li><li><strong>Server-Side Rendering:</strong> Hydration, universal rendering, SSR pitfalls</li><li><strong>Composables & Reactivity:</strong> Custom composables, Vue 3 reactivity</li><li><strong>Performance:</strong> Optimization techniques, caching strategies</li></ul><h2>Interview Tips</h2><p>Be prepared to explain concepts with practical examples and discuss trade-offs between different approaches. Hands-on experience with Nuxt 3 projects will give you confidence in answering scenario-based questions.</p>"
+  },
+  "subpages": [
+    {
+      "title": "Core Concepts Questions",
+      "content": "<h2>Q: What are the different rendering modes in Nuxt 3?</h2><p><strong>Answer:</strong> Nuxt 3 supports multiple rendering modes:</p><ul><li><strong>Universal (SSR):</strong> Server-side rendering with client-side hydration</li><li><strong>SPA:</strong> Single Page Application, client-only rendering</li><li><strong>Static (SSG):</strong> Pre-rendered at build time</li><li><strong>Hybrid:</strong> Different modes per route using <code>routeRules</code></li></ul><h2>Q: How does file-based routing work in Nuxt 3?</h2><p><strong>Answer:</strong> Nuxt 3 automatically generates routes based on the file structure in the <code>pages/</code> directory. Dynamic routes use square brackets: <code>[id].vue</code>, and nested routes mirror the folder structure.</p><h2>Q: What is the difference between useFetch and useAsyncData?</h2><p><strong>Answer:</strong> <code>useFetch</code> is a wrapper around <code>useAsyncData</code> specifically for HTTP requests using <code>$fetch</code>. <code>useAsyncData</code> is more generic and can be used for any async operation.</p>"
+    },
+    {
+      "title": "SSR and Hydration Questions",
+      "content": "<h2>Q: What is hydration in the context of Nuxt 3?</h2><p><strong>Answer:</strong> Hydration is the process where the client-side Vue application takes over the server-rendered HTML. Vue attaches event listeners and makes the page interactive without re-rendering the entire DOM.</p><h2>Q: What causes hydration mismatches and how do you fix them?</h2><p><strong>Answer:</strong> Hydration mismatches occur when server and client render different content. Common causes include:</p><ul><li>Using browser-only APIs on the server (window, document)</li><li>Time-based values that differ between server and client</li><li>Random values without consistent seeding</li></ul><p><strong>Solutions:</strong> Use <code>&lt;ClientOnly&gt;</code> component, check <code>import.meta.client</code>, or use <code>useState</code> for shared state.</p><h2>Q: When would you use the ClientOnly component?</h2><p><strong>Answer:</strong> Use <code>&lt;ClientOnly&gt;</code> for components that rely on browser APIs, third-party libraries without SSR support, or content that should only render client-side to avoid hydration issues.</p>"
+    },
+    {
+      "title": "Composables and State Questions",
+      "content": "<h2>Q: How do you create a custom composable in Nuxt 3?</h2><p><strong>Answer:</strong> Create a file in the <code>composables/</code> directory with a function that starts with <code>use</code>:</p><pre><code>// composables/useCounter.ts\nexport const useCounter = () => {\n  const count = ref(0)\n  const increment = () => count.value++\n  return { count, increment }\n}</code></pre><p>It will be auto-imported throughout your application.</p><h2>Q: What is the difference between ref and reactive?</h2><p><strong>Answer:</strong> <code>ref</code> wraps a single value and requires <code>.value</code> to access it. <code>reactive</code> creates a reactive proxy of an object but cannot be reassigned. <code>ref</code> is preferred for primitives and when reassignment is needed.</p><h2>Q: How do you share state between components in Nuxt 3?</h2><p><strong>Answer:</strong> Use <code>useState</code> for simple shared state, Pinia stores for complex state management, or provide/inject for component tree scoping. <code>useState</code> is SSR-friendly and auto-imported.</p>"
+    },
+    {
+      "title": "Advanced Questions",
+      "content": "<h2>Q: How do you implement middleware in Nuxt 3?</h2><p><strong>Answer:</strong> Nuxt 3 supports three types of middleware:</p><ul><li><strong>Anonymous:</strong> Defined inline with <code>definePageMeta</code></li><li><strong>Named:</strong> Files in <code>middleware/</code> directory</li><li><strong>Global:</strong> Files with <code>.global.ts</code> suffix</li></ul><pre><code>// middleware/auth.ts\nexport default defineNuxtRouteMiddleware((to, from) => {\n  if (!isAuthenticated()) {\n    return navigateTo('/login')\n  }\n})</code></pre><h2>Q: How do you configure environment variables in Nuxt 3?</h2><p><strong>Answer:</strong> Use <code>runtimeConfig</code> in <code>nuxt.config.ts</code>. Public variables go under <code>public</code> key and are available client-side. Private variables stay on the server only.</p><h2>Q: Explain the Nuxt 3 module system</h2><p><strong>Answer:</strong> Modules extend Nuxt functionality through hooks and the module API. They can add components, plugins, composables, and modify the build process. Use <code>defineNuxtModule</code> to create custom modules.</p>"
+    }
+  ],
+  "questions": [
+    {
+      "pageTitle": "Nuxt 3 Interview Questions",
+      "text": "What are the four rendering modes available in Nuxt 3?",
+      "solution": "Universal (SSR), SPA, Static (SSG), Hybrid",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Core Concepts Questions",
+      "text": "What syntax is used for dynamic routes in Nuxt 3 file-based routing?",
+      "solution": "Square brackets, e.g., [id].vue",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "SSR and Hydration Questions",
+      "text": "What is the process called when Vue takes over server-rendered HTML and makes it interactive?",
+      "solution": "Hydration",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "SSR and Hydration Questions",
+      "text": "Which Nuxt 3 component prevents server-side rendering for its children?",
+      "solution": "ClientOnly",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Composables and State Questions",
+      "text": "What prefix should composable function names start with in Nuxt 3?",
+      "solution": "use",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Advanced Questions",
+      "text": "What file suffix makes a middleware global in Nuxt 3?",
+      "solution": ".global.ts",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-04T21:00:00Z",
+    "aiModel": "claude-sonnet-4-20250514",
+    "sources": ["https://nuxt.com/docs"]
+  }
+}

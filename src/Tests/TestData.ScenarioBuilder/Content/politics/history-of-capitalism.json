@@ -1,0 +1,76 @@
+{
+  "title": "History of Capitalism",
+  "theme": "Politics",
+  "difficulty": 3,
+  "mainPage": {
+    "title": "History of Capitalism",
+    "content": "<h2>The Evolution of the Economic System That Shaped the Modern World</h2><p>Capitalism, characterized by private ownership of the means of production, free markets, and profit-driven enterprise, has developed over centuries into the dominant global economic system.</p><h2>Why Study Capitalism's History?</h2><p>Understanding capitalism's evolution helps us:</p><ul><li><strong>Contextualize Debates:</strong> Current economic arguments have historical roots</li><li><strong>Recognize Patterns:</strong> Boom-bust cycles have repeated throughout history</li><li><strong>Evaluate Alternatives:</strong> Compare capitalism with other systems that emerged in response</li><li><strong>Anticipate Change:</strong> Economic systems evolve in response to technological and social changes</li></ul>"
+  },
+  "subpages": [
+    {
+      "title": "Origins and Mercantilism",
+      "content": "<h2>Pre-Capitalist Economies</h2><p>Before capitalism, most economies were based on feudalism (land-based agrarian systems with lords and serfs) or guild-based craftsmanship in cities.</p><h2>Mercantilism (16th-18th Century)</h2><p>Mercantilism was a precursor to capitalism where:</p><ul><li>Nations competed to accumulate gold and silver</li><li>Colonies provided raw materials and markets</li><li>Trade was heavily regulated by the state</li><li>The goal was a positive balance of trade</li></ul><h2>Key Developments</h2><p>The rise of banking (Italian city-states), joint-stock companies (Dutch East India Company, 1602), and global trade networks laid the groundwork for capitalism.</p><h2>Adam Smith's Breakthrough</h2><p>Adam Smith's 'The Wealth of Nations' (1776) critiqued mercantilism and argued for free markets, the division of labor, and the 'invisible hand' guiding self-interest toward collective benefit.</p>"
+    },
+    {
+      "title": "Industrial Capitalism",
+      "content": "<h2>The Industrial Revolution (1760-1840)</h2><p>Beginning in Britain, the Industrial Revolution transformed production:</p><ul><li><strong>Factory System:</strong> Replaced cottage industries and artisan production</li><li><strong>Steam Power:</strong> Enabled mechanization of manufacturing</li><li><strong>Urbanization:</strong> Workers moved from farms to industrial cities</li><li><strong>Capital Accumulation:</strong> Factory owners amassed unprecedented wealth</li></ul><h2>Social Consequences</h2><p>Early industrial capitalism brought both progress and misery: child labor, dangerous working conditions, 16-hour workdays, and urban poverty. These conditions sparked labor movements and calls for reform.</p><h2>The Rise of Marx</h2><p>Karl Marx (1818-1883) analyzed capitalism's contradictions in 'Das Kapital,' predicting that exploitation of workers would lead to revolution. His ideas inspired socialist and communist movements worldwide.</p>"
+    },
+    {
+      "title": "Financial and Global Capitalism",
+      "content": "<h2>The Gilded Age (1870-1900)</h2><p>Industrialization created vast fortunes for 'robber barons' like Rockefeller, Carnegie, and Vanderbilt. This era saw:</p><ul><li>Monopolies and trusts dominating industries</li><li>Extreme wealth inequality</li><li>Anti-trust legislation (Sherman Act, 1890)</li><li>Rise of investment banking</li></ul><h2>The Great Depression (1929-1939)</h2><p>The stock market crash of 1929 revealed capitalism's instability. Mass unemployment, bank failures, and deflation led to:</p><ul><li>Keynesian economics (government intervention to manage demand)</li><li>New Deal policies in the US</li><li>Rise of fascism as an alternative in Europe</li></ul><h2>Post-WWII Golden Age</h2><p>The period 1945-1970 saw unprecedented growth, a strong middle class, and the welfare state in Western democracies. Bretton Woods established the dollar-based monetary system.</p>"
+    },
+    {
+      "title": "Neoliberalism and Today",
+      "content": "<h2>The Neoliberal Turn (1980s)</h2><p>Reagan (US) and Thatcher (UK) championed neoliberalism:</p><ul><li>Deregulation of markets</li><li>Privatization of state enterprises</li><li>Reduction of union power</li><li>Lower taxes on capital and high incomes</li><li>Globalization of production and finance</li></ul><h2>Financialization</h2><p>The economy increasingly centered on financial markets. The 2008 Financial Crisis exposed risks of unregulated finance and led to massive bank bailouts.</p><h2>21st Century Debates</h2><p>Current challenges to capitalism include:</p><ul><li><strong>Inequality:</strong> Wealth concentration rivals the Gilded Age</li><li><strong>Climate Change:</strong> Can profit-driven systems address environmental limits?</li><li><strong>Automation:</strong> What happens when machines replace workers?</li><li><strong>Alternative Models:</strong> Universal Basic Income, stakeholder capitalism, and degrowth movements</li></ul>"
+    }
+  ],
+  "questions": [
+    {
+      "pageTitle": "History of Capitalism",
+      "text": "What are the three main characteristics of capitalism?",
+      "solution": "Private ownership of means of production, free markets, profit-driven enterprise",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Origins and Mercantilism",
+      "text": "Who wrote 'The Wealth of Nations' and in what year?",
+      "solution": "Adam Smith, 1776",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Origins and Mercantilism",
+      "text": "What is the name of the world's first joint-stock company, founded in 1602?",
+      "solution": "Dutch East India Company",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Industrial Capitalism",
+      "text": "Who wrote 'Das Kapital' and analyzed capitalism's contradictions?",
+      "solution": "Karl Marx",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Financial and Global Capitalism",
+      "text": "What 1890 legislation aimed to break up monopolies and trusts?",
+      "solution": "Sherman Act",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Neoliberalism and Today",
+      "text": "Which two political leaders championed neoliberalism in the 1980s?",
+      "solution": "Reagan and Thatcher",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-04T21:00:00Z",
+    "aiModel": "claude-sonnet-4-20250514",
+    "sources": ["Historical economics literature", "Academic sources"]
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "title": "Nuxt 3 Best Practices",
+  "theme": "Technology",
+  "difficulty": 3,
+  "mainPage": {
+    "title": "Nuxt 3 Best Practices",
+    "content": "<h2>Building Production-Ready Nuxt 3 Applications</h2><p>Nuxt 3 is a powerful Vue.js framework that provides an intuitive way to build performant web applications with server-side rendering, static site generation, and hybrid rendering capabilities.</p><h2>Why Follow Best Practices?</h2><p>Following best practices ensures your applications are:</p><ul><li><strong>Performant:</strong> Fast initial load times and smooth interactions</li><li><strong>Maintainable:</strong> Easy to understand and extend over time</li><li><strong>Scalable:</strong> Ready to grow with your business needs</li><li><strong>SEO-Friendly:</strong> Optimized for search engine visibility</li></ul><h2>Core Principles</h2><p>The key principles covered in this wiki include proper project structure, state management with Pinia, efficient data fetching with composables, and TypeScript integration for type safety.</p>"
+  },
+  "subpages": [
+    {
+      "title": "Project Structure and Organization",
+      "content": "<h2>Recommended Directory Structure</h2><p>A well-organized Nuxt 3 project follows this structure:</p><pre><code>├── components/\n│   ├── base/        # Base UI components\n│   ├── shared/      # Shared components\n│   └── feature/     # Feature-specific components\n├── composables/     # Auto-imported composables\n├── layouts/         # Application layouts\n├── pages/           # File-based routing\n├── plugins/         # Nuxt plugins\n├── server/          # Server routes and middleware\n├── stores/          # Pinia stores\n└── types/           # TypeScript type definitions</code></pre><h2>Auto-Import Best Practices</h2><ul><li>Place reusable composables in the <code>composables/</code> directory for auto-import</li><li>Use the <code>components/</code> directory with nested folders for automatic component registration</li><li>Prefix utility composables with <code>use</code> (e.g., <code>useAuth</code>, <code>useFetch</code>)</li></ul>"
+    },
+    {
+      "title": "State Management with Pinia",
+      "content": "<h2>Why Pinia for Nuxt 3?</h2><p>Pinia is the official state management solution for Vue 3 and Nuxt 3, offering:</p><ul><li>Full TypeScript support with type inference</li><li>Devtools integration for debugging</li><li>SSR support out of the box</li><li>Modular design with composable stores</li></ul><h2>Store Best Practices</h2><pre><code>// stores/user.ts\nexport const useUserStore = defineStore('user', () => {\n  const user = ref<User | null>(null)\n  const isAuthenticated = computed(() => !!user.value)\n  \n  async function login(credentials: LoginCredentials) {\n    user.value = await $fetch('/api/auth/login', {\n      method: 'POST',\n      body: credentials\n    })\n  }\n  \n  return { user, isAuthenticated, login }\n})</code></pre><h2>SSR Considerations</h2><p>Always use <code>useState()</code> or Pinia stores for state that needs to be shared between server and client to avoid hydration mismatches.</p>"
+    },
+    {
+      "title": "Data Fetching Patterns",
+      "content": "<h2>Nuxt 3 Data Fetching Composables</h2><p>Nuxt 3 provides powerful composables for data fetching:</p><ul><li><strong>useFetch:</strong> Full-featured data fetching with caching and SSR support</li><li><strong>useAsyncData:</strong> For custom async operations</li><li><strong>$fetch:</strong> Direct fetch utility based on ofetch</li><li><strong>useLazyFetch:</strong> Non-blocking data fetching</li></ul><h2>Best Practices</h2><pre><code>// Use unique keys for caching\nconst { data, refresh } = await useFetch('/api/users', {\n  key: 'users-list',\n  transform: (response) => response.data,\n  watch: [page, limit]\n})\n\n// Client-side only fetching\nconst { data } = await useFetch('/api/stats', {\n  server: false\n})</code></pre><h2>Error Handling</h2><p>Always handle errors gracefully using the <code>error</code> return value and implement proper loading states with <code>pending</code>.</p>"
+    },
+    {
+      "title": "Performance Optimization",
+      "content": "<h2>Key Performance Strategies</h2><h3>1. Component Lazy Loading</h3><p>Use <code>defineAsyncComponent</code> or the <code>Lazy</code> prefix for components that aren't needed immediately:</p><pre><code>&lt;LazyModalDialog v-if=\"showModal\" /&gt;</code></pre><h3>2. Image Optimization</h3><p>Use the Nuxt Image module for automatic image optimization:</p><pre><code>&lt;NuxtImg src=\"/hero.jpg\" format=\"webp\" quality=\"80\" /&gt;</code></pre><h3>3. Bundle Analysis</h3><p>Run <code>nuxi analyze</code> to identify large dependencies and optimize your bundle size.</p><h3>4. Caching Strategies</h3><ul><li>Use <code>routeRules</code> for ISR (Incremental Static Regeneration)</li><li>Implement proper cache headers for API routes</li><li>Use <code>useFetch</code> caching with appropriate keys</li></ul>"
+    }
+  ],
+  "questions": [
+    {
+      "pageTitle": "Nuxt 3 Best Practices",
+      "text": "What are the four main benefits of following Nuxt 3 best practices?",
+      "solution": "Performant, Maintainable, Scalable, SEO-Friendly",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Project Structure and Organization",
+      "text": "What prefix should be used for utility composables in Nuxt 3?",
+      "solution": "use",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "State Management with Pinia",
+      "text": "What is the official state management solution for Nuxt 3?",
+      "solution": "Pinia",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Data Fetching Patterns",
+      "text": "Which Nuxt 3 composable provides full-featured data fetching with caching and SSR support?",
+      "solution": "useFetch",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Performance Optimization",
+      "text": "What command can you run to analyze your Nuxt 3 bundle size?",
+      "solution": "nuxi analyze",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-04T21:00:00Z",
+    "aiModel": "claude-sonnet-4-20250514",
+    "sources": ["https://nuxt.com/docs", "https://pinia.vuejs.org"]
+  }
+}

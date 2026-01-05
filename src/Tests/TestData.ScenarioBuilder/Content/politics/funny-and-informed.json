@@ -1,0 +1,69 @@
+{
+  "title": "What to Know to Be Funny and Informed",
+  "theme": "Politics",
+  "difficulty": 2,
+  "mainPage": {
+    "title": "What to Know to Be Funny and Informed",
+    "content": "<h2>The Art of Witty Conversation</h2><p>The best conversationalists blend knowledge with humor. Being genuinely funny at dinner parties, social gatherings, or professional events requires understanding context, having interesting knowledge, and knowing when to deploy it.</p><h2>The Secret Formula</h2><p>Great wit combines:</p><ul><li><strong>Broad Knowledge:</strong> Understanding enough about many topics to make unexpected connections</li><li><strong>Timing:</strong> Knowing when a joke enhances versus derails conversation</li><li><strong>Self-Deprecation:</strong> The safest target for humor is yourself</li><li><strong>Cultural Awareness:</strong> Knowing what's trending and what's taboo</li></ul><h2>Topics Covered</h2><p>This wiki covers essential cultural literacy, conversation starters, classic anecdotes, and the art of the well-timed observation.</p>"
+  },
+  "subpages": [
+    {
+      "title": "Essential Cultural References",
+      "content": "<h2>Classic Literature You Should Know (Even If You Haven't Read)</h2><ul><li><strong>1984 (Orwell):</strong> Reference when discussing surveillance or authoritarian control</li><li><strong>Catch-22 (Heller):</strong> Any absurd bureaucratic contradiction</li><li><strong>Kafka:</strong> When situations are surreally nightmarish ('very Kafkaesque')</li><li><strong>Don Quixote:</strong> Tilting at windmills = fighting imaginary problems</li></ul><h2>Historical Figures for Witty Comparisons</h2><ul><li><strong>Nero:</strong> Fiddling while something burns (ignoring important problems)</li><li><strong>Marie Antoinette:</strong> 'Let them eat cake' (out-of-touch elitism)</li><li><strong>Machiavelli:</strong> Cunning political maneuvering</li><li><strong>Sisyphus:</strong> Endlessly repeating futile tasks</li></ul><h2>Movie & TV References That Work</h2><p>The Godfather, Casablanca, Monty Python, The Office, and Seinfeld provide universal reference points across generations.</p>"
+    },
+    {
+      "title": "Conversation Starters That Work",
+      "content": "<h2>The Best Questions</h2><p>Great conversationalists ask questions that people enjoy answering:</p><ul><li>'What's the most interesting thing you've learned recently?'</li><li>'If you could have dinner with anyone in history, who would it be?'</li><li>'What's something you've changed your mind about?'</li><li>'What's the best book/film/podcast you've encountered lately?'</li></ul><h2>Topics That Engage Almost Everyone</h2><ul><li><strong>Food and Travel:</strong> Almost universally enjoyable topics</li><li><strong>Childhood Nostalgia:</strong> What did you want to be when you grew up?</li><li><strong>Hypotheticals:</strong> 'Would you rather...' questions spark debate</li><li><strong>Observations About the Moment:</strong> Comment on the event, venue, or shared experience</li></ul><h2>Topics to Generally Avoid</h2><p>Religion and politics can work, but only if you're skilled at navigating disagreement with grace. Avoid medical horror stories, complaints about exes, and one-upping others.</p>"
+    },
+    {
+      "title": "Classic Anecdotes and Quips",
+      "content": "<h2>Winston Churchill's Wit</h2><ul><li>Lady Astor: 'If you were my husband, I'd poison your tea.' Churchill: 'Madam, if you were my wife, I'd drink it.'</li><li>'I have taken more out of alcohol than alcohol has taken out of me.'</li><li>'A fanatic is one who can't change his mind and won't change the subject.'</li></ul><h2>Oscar Wilde's Brilliance</h2><ul><li>'I can resist everything except temptation.'</li><li>'Be yourself; everyone else is already taken.'</li><li>'The only thing worse than being talked about is not being talked about.'</li></ul><h2>Groucho Marx's Absurdism</h2><ul><li>'I refuse to join any club that would have me as a member.'</li><li>'Outside of a dog, a book is man's best friend. Inside of a dog, it's too dark to read.'</li></ul><h2>Modern Wit</h2><p>Douglas Adams, Terry Pratchett, and comedians like Mitch Hedberg offer quotable lines that work in various situations.</p>"
+    },
+    {
+      "title": "The Art of Observation",
+      "content": "<h2>Seinfeld's Secret</h2><p>Jerry Seinfeld's comedy formula: observe the small absurdities of everyday life that everyone experiences but no one talks about. 'Did you ever notice...?' is powerful because shared recognition creates connection.</p><h2>Practicing Observation</h2><ul><li>Notice the gap between what people say and what they do</li><li>Spot patterns in social behavior</li><li>Find the absurd in the mundane</li><li>Ask yourself: 'What would an alien think of this?'</li></ul><h2>Timing Is Everything</h2><p>The best observations are delivered:</p><ul><li>With a pause before the punchline</li><li>When the conversation is already light</li><li>As an aside rather than the main focus</li><li>With confident understatement rather than overselling</li></ul><h2>The Callback</h2><p>One of the most sophisticated humor techniques: reference something mentioned earlier in the conversation. It shows you were listening and creates a satisfying 'full circle' moment.</p>"
+    }
+  ],
+  "questions": [
+    {
+      "pageTitle": "What to Know to Be Funny and Informed",
+      "text": "What are the four components that combine to make great wit?",
+      "solution": "Broad Knowledge, Timing, Self-Deprecation, Cultural Awareness",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Essential Cultural References",
+      "text": "What does 'tilting at windmills' mean, from Don Quixote?",
+      "solution": "Fighting imaginary problems",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Essential Cultural References",
+      "text": "What literary reference is used when describing surreally nightmarish situations?",
+      "solution": "Kafkaesque (Kafka)",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Classic Anecdotes and Quips",
+      "text": "Who said: 'I can resist everything except temptation'?",
+      "solution": "Oscar Wilde",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "The Art of Observation",
+      "text": "What is the 'callback' technique in humor?",
+      "solution": "Referencing something mentioned earlier in the conversation",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-04T21:00:00Z",
+    "aiModel": "claude-sonnet-4-20250514",
+    "sources": ["Various cultural literacy resources"]
+  }
+}

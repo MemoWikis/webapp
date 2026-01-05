@@ -1,0 +1,76 @@
+{
+  "title": "History of Psychology",
+  "theme": "History",
+  "difficulty": 3,
+  "mainPage": {
+    "title": "History of Psychology",
+    "content": "<h2>From Philosophy to Science</h2><p>Psychology's journey from philosophical speculation to empirical science spans centuries. Understanding its history illuminates why psychology looks the way it does today and how our understanding of the human mind has evolved.</p><h2>Why Study Psychology's History?</h2><p>The history of psychology reveals:</p><ul><li><strong>Paradigm Shifts:</strong> How dominant theories rise and fall</li><li><strong>Methodological Progress:</strong> The evolution from introspection to brain imaging</li><li><strong>Cultural Influence:</strong> How society shapes psychological theories</li><li><strong>Ongoing Debates:</strong> Many current controversies have deep historical roots</li></ul><h2>Key Themes</h2><p>This wiki traces psychology from ancient philosophy through the founding of experimental psychology, the rise of behaviorism, the cognitive revolution, and modern neuroscience.</p>"
+  },
+  "subpages": [
+    {
+      "title": "Ancient and Philosophical Roots",
+      "content": "<h2>Ancient Greece</h2><ul><li><strong>Plato:</strong> Argued the mind (soul) is separate from the body (dualism). Knowledge is innate (rationalism).</li><li><strong>Aristotle:</strong> Believed knowledge comes from experience (empiricism). Wrote 'De Anima' (On the Soul).</li><li><strong>Hippocrates:</strong> Located mental functions in the brain, not the heart.</li></ul><h2>Medieval and Renaissance Period</h2><p>Psychology was largely subsumed under philosophy and theology. Descartes (17th century) renewed dualism with his mind-body distinction and the concept of reflex action.</p><h2>Enlightenment Philosophy</h2><ul><li><strong>John Locke:</strong> The mind is a 'blank slate' (tabula rasa), shaped by experience</li><li><strong>Immanuel Kant:</strong> Argued some knowledge structures are innate</li><li><strong>Associationism:</strong> Ideas connect through contiguity, similarity, and contrast</li></ul><p>These philosophical debates about nature vs. nurture continue today.</p>"
+    },
+    {
+      "title": "Birth of Scientific Psychology",
+      "content": "<h2>Wilhelm Wundt (1832-1920)</h2><p>Wundt founded the first psychology laboratory in Leipzig, Germany in 1879 - widely considered psychology's birth as a science. His approach, called <strong>Structuralism</strong>, used introspection to analyze conscious experience into its basic elements.</p><h2>William James (1842-1910)</h2><p>American philosopher and psychologist who founded <strong>Functionalism</strong>. Rather than asking what consciousness is made of, James asked what it does. His 'Principles of Psychology' (1890) remains influential.</p><h2>Sigmund Freud (1856-1939)</h2><p>Freud developed <strong>Psychoanalysis</strong>, emphasizing:</p><ul><li>The unconscious mind driving behavior</li><li>Childhood experiences shaping adult personality</li><li>Defense mechanisms (repression, projection, etc.)</li><li>The id, ego, and superego</li></ul><p>While many specifics are disputed, Freud's emphasis on the unconscious transformed psychology.</p>"
+    },
+    {
+      "title": "Behaviorism and Its Critics",
+      "content": "<h2>The Rise of Behaviorism</h2><p><strong>John B. Watson</strong> (1913) declared psychology should study only observable behavior, not subjective experience. Key figures:</p><ul><li><strong>Ivan Pavlov:</strong> Discovered classical conditioning with his famous dog experiments</li><li><strong>B.F. Skinner:</strong> Developed operant conditioning (reinforcement and punishment)</li><li><strong>Edward Thorndike:</strong> Law of Effect - behaviors followed by satisfaction are strengthened</li></ul><h2>Behaviorist Principles</h2><p>Behaviorism dominated from ~1920-1960. It emphasized:</p><ul><li>Environmental determinism</li><li>The 'black box' approach (ignore internal mental states)</li><li>Rigorous experimental methods</li><li>Learning as the key to understanding behavior</li></ul><h2>Criticisms</h2><p>Behaviorism was criticized for ignoring cognition, being unable to explain language acquisition (Chomsky vs. Skinner), and oversimplifying human complexity.</p>"
+    },
+    {
+      "title": "Cognitive Revolution to Present",
+      "content": "<h2>The Cognitive Revolution (1950s-1960s)</h2><p>The 'cognitive revolution' returned mental processes to psychology:</p><ul><li><strong>Noam Chomsky:</strong> Argued language acquisition requires innate mental structures</li><li><strong>George Miller:</strong> 'The magical number seven' - limits of short-term memory</li><li><strong>Ulric Neisser:</strong> Coined 'cognitive psychology' (1967)</li><li><strong>Computer metaphor:</strong> The mind as an information processor</li></ul><h2>Humanistic Psychology</h2><p>Maslow and Rogers emphasized human potential, self-actualization, and subjective experience as a 'third force' against behaviorism and psychoanalysis.</p><h2>Modern Developments</h2><ul><li><strong>Neuroscience:</strong> Brain imaging reveals neural correlates of mental processes</li><li><strong>Evolutionary Psychology:</strong> Understanding the mind through adaptation</li><li><strong>Positive Psychology:</strong> Seligman's focus on wellbeing, not just pathology</li><li><strong>Cultural Psychology:</strong> How culture shapes cognition</li></ul><p>Today's psychology integrates biological, cognitive, developmental, and social perspectives.</p>"
+    }
+  ],
+  "questions": [
+    {
+      "pageTitle": "History of Psychology",
+      "text": "What are four things studying psychology's history reveals?",
+      "solution": "Paradigm Shifts, Methodological Progress, Cultural Influence, Ongoing Debates",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Ancient and Philosophical Roots",
+      "text": "Which Greek philosopher believed knowledge comes from experience (empiricism)?",
+      "solution": "Aristotle",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Birth of Scientific Psychology",
+      "text": "Who founded the first psychology laboratory and in what year?",
+      "solution": "Wilhelm Wundt, 1879",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Birth of Scientific Psychology",
+      "text": "What are the three parts of personality according to Freud?",
+      "solution": "Id, ego, superego",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Behaviorism and Its Critics",
+      "text": "Who discovered classical conditioning with dog experiments?",
+      "solution": "Ivan Pavlov",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Cognitive Revolution to Present",
+      "text": "Who coined the term 'cognitive psychology' in 1967?",
+      "solution": "Ulric Neisser",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-04T21:00:00Z",
+    "aiModel": "claude-sonnet-4-20250514",
+    "sources": ["History of psychology textbooks", "APA resources"]
+  }
+}

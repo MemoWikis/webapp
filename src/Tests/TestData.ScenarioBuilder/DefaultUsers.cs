@@ -5,26 +5,26 @@ public static class DefaultUsers
 {
     public static readonly DefaultUserDefinition Admin = new(
         FirstName: "Admin",
-        EmailAddress: "admin@memo.wikis.net",
+        EmailAddress: "admin@memowikis.net",
         ThemeFocus: "Administration",
         IsAdministrator: true
     );
 
     public static readonly DefaultUserDefinition Politics = new(
         FirstName: "Politics",
-        EmailAddress: "politics@memo.wikis.net",
+        EmailAddress: "politics@memowikis.net",
         ThemeFocus: "Politics"
     );
 
     public static readonly DefaultUserDefinition History = new(
         FirstName: "History",
-        EmailAddress: "history@memo.wikis.net",
+        EmailAddress: "history@memowikis.net",
         ThemeFocus: "History"
     );
 
     public static readonly DefaultUserDefinition Tech = new(
         FirstName: "Tech",
-        EmailAddress: "tech@memo.wikis.net",
+        EmailAddress: "tech@memowikis.net",
         ThemeFocus: "Technology"
     );
 }

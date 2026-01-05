@@ -1,0 +1,47 @@
+{
+  "title": "Welcome to memoWikis",
+  "theme": "Administration",
+  "difficulty": 2,
+  "mainPage": {
+    "title": "Welcome to memoWikis",
+    "content": "<h2>What is memoWikis?</h2><p>memoWikis is a collaborative learning platform that combines wiki-style content creation with spaced repetition learning.</p><h2>Key Features</h2><ul><li><strong>Create and Share Knowledge:</strong> Build structured wikis on any topic</li><li><strong>Learn with Flashcards:</strong> Generate questions from your content</li><li><strong>Track Your Progress:</strong> Monitor your learning with analytics</li></ul><h2>Getting Started</h2><p>Start by exploring existing wikis or create your own. Add questions to test your knowledge and review them regularly for optimal learning.</p>"
+  },
+  "subpages": [
+    {
+      "title": "Creating Your First Wiki",
+      "content": "<h2>Step-by-Step Guide</h2><p>Creating a wiki is easy:</p><ol><li>Click the 'New Wiki' button</li><li>Enter a title and description</li><li>Add your content using the rich text editor</li><li>Organize with subpages for complex topics</li></ol><h2>Tips for Good Wikis</h2><ul><li>Keep topics focused and well-structured</li><li>Use headings to organize content</li><li>Add sources for credibility</li></ul>"
+    },
+    {
+      "title": "Learning with Questions",
+      "content": "<h2>The Power of Active Recall</h2><p>Questions help you retain knowledge better through active recall and spaced repetition.</p><h2>Creating Questions</h2><p>You can create questions manually or use AI to generate them from your wiki content.</p><h2>Review Schedule</h2><p>memoWikis uses spaced repetition to show you questions at optimal intervals for long-term retention.</p>"
+    }
+  ],
+  "questions": [
+    {
+      "pageTitle": "Welcome to memoWikis",
+      "text": "What are the three key features of memoWikis?",
+      "solution": "Create and Share Knowledge, Learn with Flashcards, Track Your Progress",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Creating Your First Wiki",
+      "text": "What is the first step in creating a new wiki?",
+      "solution": "Click the 'New Wiki' button",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Learning with Questions",
+      "text": "What learning technique does memoWikis use for reviewing questions?",
+      "solution": "Spaced repetition",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-04T20:00:00Z",
+    "aiModel": "manual",
+    "sources": []
+  }
+}

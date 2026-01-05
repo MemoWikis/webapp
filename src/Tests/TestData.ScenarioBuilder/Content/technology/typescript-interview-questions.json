@@ -1,0 +1,76 @@
+{
+  "title": "TypeScript Interview Questions",
+  "theme": "Technology",
+  "difficulty": 3,
+  "mainPage": {
+    "title": "TypeScript Interview Questions",
+    "content": "<h2>Master TypeScript for Your Next Interview</h2><p>TypeScript has become the industry standard for large-scale JavaScript applications. This guide covers essential interview questions ranging from basic types to advanced patterns.</p><h2>Why TypeScript?</h2><p>Companies adopt TypeScript because it provides:</p><ul><li><strong>Type Safety:</strong> Catch errors at compile-time instead of runtime</li><li><strong>Better IDE Support:</strong> Intelligent autocompletion and refactoring</li><li><strong>Self-Documenting Code:</strong> Types serve as inline documentation</li><li><strong>Scalability:</strong> Easier to maintain large codebases</li></ul><h2>Key Topics</h2><p>This wiki covers fundamental types, generics, utility types, type guards, and advanced patterns commonly asked in interviews.</p>"
+  },
+  "subpages": [
+    {
+      "title": "Fundamental Types Questions",
+      "content": "<h2>Q: What is the difference between 'any' and 'unknown'?</h2><p><strong>Answer:</strong> Both can hold any value, but <code>unknown</code> is the type-safe counterpart of <code>any</code>. You must perform type checking before using an <code>unknown</code> value, while <code>any</code> bypasses all type checking.</p><pre><code>const a: any = 5;\na.foo(); // No error (but crashes at runtime)\n\nconst b: unknown = 5;\nb.foo(); // Error: Object is of type 'unknown'\nif (typeof b === 'number') {\n  console.log(b.toFixed(2)); // OK\n}</code></pre><h2>Q: What is the difference between 'type' and 'interface'?</h2><p><strong>Answer:</strong></p><ul><li><strong>Interface:</strong> Can be extended and merged, best for object shapes and class contracts</li><li><strong>Type:</strong> More flexible, supports unions, intersections, mapped types, and primitives</li></ul><pre><code>// Interface merging\ninterface User { name: string }\ninterface User { age: number } // Merged\n\n// Type union (not possible with interface)\ntype Result = Success | Error</code></pre>"
+    },
+    {
+      "title": "Generics Questions",
+      "content": "<h2>Q: What are generics and why are they useful?</h2><p><strong>Answer:</strong> Generics allow you to write reusable code that works with multiple types while maintaining type safety. They act as type variables that are determined when the function or class is used.</p><pre><code>function identity&lt;T&gt;(arg: T): T {\n  return arg;\n}\n\nconst num = identity&lt;number&gt;(42); // number\nconst str = identity('hello'); // string (inferred)</code></pre><h2>Q: What are generic constraints?</h2><p><strong>Answer:</strong> Constraints limit what types can be used with a generic using the <code>extends</code> keyword:</p><pre><code>interface HasLength {\n  length: number;\n}\n\nfunction logLength&lt;T extends HasLength&gt;(arg: T): void {\n  console.log(arg.length); // Safe to access .length\n}\n\nlogLength('hello'); // OK\nlogLength([1, 2, 3]); // OK\nlogLength(42); // Error: number doesn't have length</code></pre><h2>Q: Explain the keyof operator</h2><p><strong>Answer:</strong> <code>keyof</code> produces a union type of all property keys of an object type:</p><pre><code>type Person = { name: string; age: number }\ntype PersonKeys = keyof Person; // 'name' | 'age'</code></pre>"
+    },
+    {
+      "title": "Utility Types Questions",
+      "content": "<h2>Q: Explain Partial, Required, and Readonly utility types</h2><p><strong>Answer:</strong></p><ul><li><strong>Partial&lt;T&gt;:</strong> Makes all properties optional</li><li><strong>Required&lt;T&gt;:</strong> Makes all properties required</li><li><strong>Readonly&lt;T&gt;:</strong> Makes all properties read-only</li></ul><pre><code>interface User {\n  name: string;\n  age?: number;\n}\n\ntype PartialUser = Partial&lt;User&gt;; // { name?: string; age?: number }\ntype RequiredUser = Required&lt;User&gt;; // { name: string; age: number }\ntype ReadonlyUser = Readonly&lt;User&gt;; // All properties immutable</code></pre><h2>Q: What is the Pick and Omit utility type?</h2><p><strong>Answer:</strong></p><ul><li><strong>Pick&lt;T, K&gt;:</strong> Creates a type with only the specified keys</li><li><strong>Omit&lt;T, K&gt;:</strong> Creates a type without the specified keys</li></ul><pre><code>interface User { id: number; name: string; email: string }\n\ntype UserPreview = Pick&lt;User, 'id' | 'name'&gt;;\ntype UserWithoutEmail = Omit&lt;User, 'email'&gt;;</code></pre>"
+    },
+    {
+      "title": "Advanced Patterns Questions",
+      "content": "<h2>Q: What are type guards and how do you implement them?</h2><p><strong>Answer:</strong> Type guards narrow the type of a variable within a conditional block:</p><pre><code>// typeof guard\nif (typeof x === 'string') { /* x is string */ }\n\n// instanceof guard\nif (error instanceof Error) { /* error is Error */ }\n\n// Custom type guard\nfunction isUser(obj: unknown): obj is User {\n  return typeof obj === 'object' && obj !== null && 'name' in obj;\n}</code></pre><h2>Q: Explain discriminated unions</h2><p><strong>Answer:</strong> Discriminated unions use a common property (discriminant) to narrow types:</p><pre><code>type Success = { status: 'success'; data: string }\ntype Error = { status: 'error'; message: string }\ntype Result = Success | Error\n\nfunction handle(result: Result) {\n  if (result.status === 'success') {\n    console.log(result.data); // data is accessible\n  } else {\n    console.log(result.message); // message is accessible\n  }\n}</code></pre><h2>Q: What is the 'infer' keyword?</h2><p><strong>Answer:</strong> <code>infer</code> is used in conditional types to extract a type:</p><pre><code>type ReturnType&lt;T&gt; = T extends (...args: any[]) => infer R ? R : never;\ntype Result = ReturnType&lt;() => string&gt;; // string</code></pre>"
+    }
+  ],
+  "questions": [
+    {
+      "pageTitle": "TypeScript Interview Questions",
+      "text": "What are the four main benefits of using TypeScript over JavaScript?",
+      "solution": "Type Safety, Better IDE Support, Self-Documenting Code, Scalability",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Fundamental Types Questions",
+      "text": "Which TypeScript type is the type-safe counterpart of 'any'?",
+      "solution": "unknown",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Generics Questions",
+      "text": "What keyword is used to constrain generic types in TypeScript?",
+      "solution": "extends",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Generics Questions",
+      "text": "What TypeScript operator produces a union type of all property keys?",
+      "solution": "keyof",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Utility Types Questions",
+      "text": "Which utility type makes all properties of a type optional?",
+      "solution": "Partial",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Advanced Patterns Questions",
+      "text": "What keyword is used in conditional types to extract a type?",
+      "solution": "infer",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-04T21:00:00Z",
+    "aiModel": "claude-sonnet-4-20250514",
+    "sources": ["https://www.typescriptlang.org/docs"]
+  }
+}

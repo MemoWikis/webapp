@@ -29,8 +29,7 @@ internal class ScenarioBuilderTests : BaseTestHarness
                 DefaultUsers.History,
                 DefaultUsers.Tech
             ],
-            TopLevelPagesPerUser: 1,
-            MaximumPageNestingDepth: 2,
+            WikisPerUser: 2,
             QuestionsPerPageForNormalUsers: 2,
             QuestionsPerPageForContributor: 2,
             SeedForRandom: 12345,
@@ -65,8 +64,7 @@ internal class ScenarioBuilderTests : BaseTestHarness
                 DefaultUsers.Politics,
                 DefaultUsers.History
             ],
-            TopLevelPagesPerUser: 3,
-            MaximumPageNestingDepth: 2,
+            WikisPerUser: 3,
             QuestionsPerPageForNormalUsers: 2,
             QuestionsPerPageForContributor: 5,
             SeedForRandom: 12345,

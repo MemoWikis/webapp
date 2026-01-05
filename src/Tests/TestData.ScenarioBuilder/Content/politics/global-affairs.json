@@ -1,0 +1,76 @@
+{
+  "title": "Global Affairs: What You Should Know",
+  "theme": "Politics",
+  "difficulty": 2,
+  "mainPage": {
+    "title": "Global Affairs: What You Should Know",
+    "content": "<h2>Understanding Today's World</h2><p>Navigating modern conversations about global affairs requires a foundational understanding of key geopolitical dynamics, international organizations, and current challenges facing humanity.</p><h2>Why This Matters</h2><p>Being informed about global affairs helps you:</p><ul><li><strong>Understand Context:</strong> See how local events connect to global trends</li><li><strong>Make Informed Decisions:</strong> Vote and act with awareness of broader implications</li><li><strong>Engage in Discourse:</strong> Participate meaningfully in important conversations</li><li><strong>Navigate Misinformation:</strong> Recognize propaganda and biased narratives</li></ul><h2>Key Topics</h2><p>This wiki covers major geopolitical blocs, international organizations, current conflicts, and global challenges like climate change and technological disruption.</p>"
+  },
+  "subpages": [
+    {
+      "title": "Major Geopolitical Blocs",
+      "content": "<h2>The United States and NATO</h2><p>The United States remains the world's dominant military and economic power. NATO (North Atlantic Treaty Organization) is a 32-member military alliance founded in 1949, centered on collective defense (Article 5).</p><h2>China's Rise</h2><p>China has emerged as the world's second-largest economy and seeks to expand its global influence through initiatives like the Belt and Road Initiative (BRI). The U.S.-China rivalry shapes much of modern geopolitics.</p><h2>The European Union</h2><p>The EU is a unique political and economic union of 27 member states. It represents the world's largest single market and is a major player in international trade and climate policy.</p><h2>BRICS Nations</h2><p>Brazil, Russia, India, China, and South Africa (with new members as of 2024) represent an alternative bloc challenging Western-dominated institutions. They are developing alternative financial systems and trade networks.</p>"
+    },
+    {
+      "title": "International Organizations",
+      "content": "<h2>United Nations (UN)</h2><p>Founded in 1945 with 193 member states. Key bodies include:</p><ul><li><strong>Security Council:</strong> 5 permanent members (US, UK, France, Russia, China) with veto power</li><li><strong>General Assembly:</strong> All member states with equal representation</li><li><strong>Specialized Agencies:</strong> WHO, UNESCO, UNICEF, and others</li></ul><h2>World Trade Organization (WTO)</h2><p>Regulates international trade rules and resolves disputes between member nations. Successor to GATT (1947).</p><h2>International Monetary Fund (IMF)</h2><p>Provides financial stability, monetary cooperation, and emergency loans to countries in crisis. 190 member countries.</p><h2>World Bank</h2><p>Provides loans and grants to developing countries for development projects aimed at reducing poverty.</p>"
+    },
+    {
+      "title": "Current Global Challenges",
+      "content": "<h2>Climate Change</h2><p>The Paris Agreement (2015) aims to limit global warming to 1.5°C above pre-industrial levels. Key challenges include transitioning away from fossil fuels, protecting biodiversity, and managing climate migration.</p><h2>Technological Disruption</h2><p>Artificial intelligence, automation, and digital surveillance raise questions about employment, privacy, and the future of warfare. The race for AI dominance is a major geopolitical battleground.</p><h2>Global Health</h2><p>The COVID-19 pandemic exposed weaknesses in global health coordination. Antimicrobial resistance and future pandemic preparedness remain critical concerns.</p><h2>Migration and Refugees</h2><p>Over 100 million people are forcibly displaced worldwide. Climate change, conflict, and economic instability drive migration flows that challenge national and international systems.</p>"
+    },
+    {
+      "title": "Understanding Conflicts",
+      "content": "<h2>Russia-Ukraine War</h2><p>Russia's 2022 invasion of Ukraine is the largest European conflict since WWII. Key issues include NATO expansion, Ukrainian sovereignty, and global energy security.</p><h2>Middle East Tensions</h2><p>The Israeli-Palestinian conflict remains unresolved after decades. Regional rivalries between Iran and Saudi Arabia, as well as ongoing instability in Syria, Iraq, and Yemen, shape the region.</p><h2>Taiwan Strait</h2><p>China claims Taiwan as its territory, while Taiwan operates as an independent democracy. U.S. commitment to Taiwan's defense creates significant risk of superpower conflict.</p><h2>African Conflicts</h2><p>Multiple conflicts in the Sahel region, Horn of Africa, and elsewhere are driven by extremism, climate change, governance failures, and external interventions.</p>"
+    }
+  ],
+  "questions": [
+    {
+      "pageTitle": "Global Affairs: What You Should Know",
+      "text": "What are four benefits of being informed about global affairs?",
+      "solution": "Understand Context, Make Informed Decisions, Engage in Discourse, Navigate Misinformation",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Major Geopolitical Blocs",
+      "text": "What is the name of China's major infrastructure investment initiative?",
+      "solution": "Belt and Road Initiative (BRI)",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "International Organizations",
+      "text": "How many permanent members are on the UN Security Council and what power do they have?",
+      "solution": "5 permanent members with veto power",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "International Organizations",
+      "text": "Which organization provides emergency loans to countries in financial crisis?",
+      "solution": "International Monetary Fund (IMF)",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Current Global Challenges",
+      "text": "What is the target temperature limit of the Paris Agreement?",
+      "solution": "1.5°C above pre-industrial levels",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    },
+    {
+      "pageTitle": "Understanding Conflicts",
+      "text": "In what year did Russia invade Ukraine?",
+      "solution": "2022",
+      "solutionType": "Text",
+      "isCaseSensitive": false
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-04T21:00:00Z",
+    "aiModel": "claude-sonnet-4-20250514",
+    "sources": ["Various international news sources", "UN.org", "NATO.int"]
+  }
+}
