@@ -313,7 +313,7 @@
     },
     "alert": {
         "showDetails": "Details anzeigen",
-        "copySourceCode": "Quellcode kopieren"
+        "copySourceCode": "In Zwischenablage kopieren"
     },
     "globalLicense": {
         "text": {
