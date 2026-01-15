@@ -118,11 +118,23 @@ userStore.$onAction(({ name, after }) => {
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
+.main-content {
+    padding-left: 48px;
+    padding-right: 48px;
+
+    @media (max-width: 900px) {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
 .settings-header {
-    margin-bottom: 30px;
+    margin: 0px;
+    padding-left: 0;
+    margin-bottom: 20px;
 
     h1 {
-        margin-bottom: 10px;
+        margin: 0px;
     }
 
     .settings-description {

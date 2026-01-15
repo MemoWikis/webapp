@@ -868,8 +868,7 @@ const ariaId2 = useId()
 .user-settings-container {
     display: flex;
     flex-direction: row;
-
-    gap: 1rem;
+    gap: 48px;
 
     .email-confirmation-container {
         display: flex;
@@ -1067,11 +1066,8 @@ const ariaId2 = useId()
         margin-bottom: 10px;
     }
 
-
-
     .navigation {
         width: 25%;
-        margin-left: -20px;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
@@ -1114,7 +1110,7 @@ const ariaId2 = useId()
 
     .navigation,
     .settings-content {
-        padding-top: 50px;
+        padding-top: 10px;
     }
 
     .wish-knowledge-icon {
@@ -1123,8 +1119,9 @@ const ariaId2 = useId()
 
     .settings-content {
         max-width: 1200px;
-        width: calc(75% - 1rem);
+        width: calc(75% - 48px);
         flex-grow: 2;
+        padding-left: 24px;
     }
 }
 
@@ -1139,6 +1136,7 @@ const ariaId2 = useId()
 
         .settings-content {
             width: 100%;
+            padding-left: 0;
         }
     }
 
@@ -1152,7 +1150,7 @@ const ariaId2 = useId()
         }
 
         .settings-content {
-            width: calc(75% - 1rem);
+            width: calc(75% - 48px);
         }
     }
 }
@@ -1184,7 +1182,7 @@ const ariaId2 = useId()
             }
 
             .settings-content {
-                width: calc(75% - 1rem);
+                width: calc(75% - 48px);
             }
         }
     }
