@@ -122,7 +122,7 @@ userStore.$onAction(({ name, after }) => {
 
 .settings-header {
     margin: 0px;
-    padding-left: 20px;
+    padding-left: 0;
     margin-bottom: 20px;
 
     /* @media (max-width: 900px) {

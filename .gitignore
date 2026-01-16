@@ -27,6 +27,7 @@ appsettings.*.json
 /src/cache/mmap/questionviews.mmap
 /src/Backend.Api/viewcache/*
 /src/Frontend.Nuxt/.eslintcache
-
 /src/Tests/TestData/Dumps/
 /src/Backend.Api/DataProtectionKeys/
+/node_modules/
+/test-results/
