@@ -1119,9 +1119,8 @@ const ariaId2 = useId()
 
     .settings-content {
         max-width: 1200px;
-        width: calc(75% - 48px);
+        width: 75%;
         flex-grow: 2;
-        padding-left: 24px;
     }
 }
 
@@ -1150,7 +1149,7 @@ const ariaId2 = useId()
         }
 
         .settings-content {
-            width: calc(75% - 48px);
+            width: 75%;
         }
     }
 }
@@ -1182,7 +1181,7 @@ const ariaId2 = useId()
             }
 
             .settings-content {
-                width: calc(75% - 48px);
+                width: 75%;
             }
         }
     }
