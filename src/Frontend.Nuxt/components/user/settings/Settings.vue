@@ -940,6 +940,7 @@ const ariaId2 = useId()
     .settings-select,
     .interval-select {
         padding: 6px 12px;
+        padding-left: 0;
         height: 34px;
         cursor: pointer;
         border: solid 1px @memo-grey-light;
@@ -1087,17 +1088,16 @@ const ariaId2 = useId()
 
             &:hover {
                 color: @memo-blue;
-                filter: brightness(0.95)
             }
 
             &:active {
-                filter: brightness(0.85)
+                color: @memo-blue;
             }
         }
 
         .overline-s,
         button {
-            padding-left: 20px;
+            padding-left: 2px;
             padding-right: 20px;
         }
 
