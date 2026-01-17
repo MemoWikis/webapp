@@ -6,18 +6,46 @@
 			"type": "shell",
 			"command": "cd src/Backend.Api; dotnet run",
 			"isBackground": true,
-			"problemMatcher": [],
+			"problemMatcher": [
+				{
+					"base": "$msCompile",
+					"background": {
+						"activeOnStart": true,
+						"beginsPattern": ".",
+						"endsPattern": "Now listening on:"
+					}
+				}
+			],
 			"presentation": {
 				"panel": "dedicated",
 				"reveal": "always"
 			}
 		},
 		{
+			"label": "Build Backend",
+			"type": "shell",
+			"command": "dotnet build src/Backend.Api/Backend.Api.csproj",
+			"group": "build",
+			"problemMatcher": "$msCompile"
+		},
+		{
 			"label": "Frontend",
 			"type": "shell",
 			"command": "cd src/Frontend.Nuxt; npm run dev",
 			"isBackground": true,
-			"problemMatcher": [],
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^$",
+					"file": 1,
+					"location": 2,
+					"message": 3
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".",
+					"endsPattern": "Local:\\s+http://localhost:3000"
+				}
+			},
 			"presentation": {
 				"panel": "dedicated",
 				"reveal": "always"
