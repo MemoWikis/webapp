@@ -383,12 +383,12 @@ const getSelectedSettingsPageLabel = computed(() => {
             return t('settings.navigation.supportLogin')
         case UserSettingsTab.Membership:
             return t('settings.navigation.membership')
-        case UserSettingsTab.AiUsage:
-            return t('settings.navigation.aiUsage')
         case UserSettingsTab.General:
             return t('settings.navigation.general')
         case UserSettingsTab.KnowledgeReport:
             return t('settings.navigation.knowledgeReport')
+            case UserSettingsTab.AiUsage:
+                return t('settings.navigation.aiUsage')
         default:
             return ''
     }
@@ -411,36 +411,54 @@ const ariaId2 = useId()
         <div class="navigation">
             <div class="overline-s no-line">{{ t('settings.navigation.profileInfo') }}</div>
             <button :class="{ 'active': activeContent === UserSettingsTab.EditProfile }"
-                @click="activeContent = UserSettingsTab.EditProfile">{{ t('settings.navigation.editProfile')
-                }}</button>
+                @click="activeContent = UserSettingsTab.EditProfile">
+                <font-awesome-icon :icon="['fas', 'user']" class="nav-icon" />
+                {{ t('settings.navigation.editProfile') }}
+            </button>
             <button :class="{ 'active': activeContent === UserSettingsTab.Password }"
-                @click="activeContent = UserSettingsTab.Password">{{ t('settings.navigation.password')
-                }}</button>
-            <button :class="{ 'active': activeContent === UserSettingsTab.DeleteProfile }"
-                @click="activeContent = UserSettingsTab.DeleteProfile">{{ t('settings.navigation.deleteProfile')
-                }}</button>
+                @click="activeContent = UserSettingsTab.Password">
+                <font-awesome-icon :icon="['fas', 'key']" class="nav-icon" />
+                {{ t('settings.navigation.password') }}
+            </button>
+
+            <div class="divider" />
+            <div class="overline-s no-line">{{ t('settings.navigation.membership') }}</div>
+            <button :class="{ 'active': activeContent === UserSettingsTab.Membership }"
+                @click="activeContent = UserSettingsTab.Membership">
+                <font-awesome-icon :icon="['fas', 'credit-card']" class="nav-icon" />
+                {{ t('settings.navigation.membership') }}
+            </button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.AiUsage }"
+                @click="activeContent = UserSettingsTab.AiUsage">
+                <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" class="nav-icon" />
+                {{ t('settings.navigation.aiUsage') }}
+            </button>
 
             <div class="divider" />
             <div class="overline-s no-line">{{ t('settings.navigation.settings') }}</div>
             <button :class="{ 'active': activeContent === UserSettingsTab.ShowWishKnowledge }"
-                @click="activeContent = UserSettingsTab.ShowWishKnowledge">{{
-                    t('settings.navigation.showWishKnowledge') }}</button>
+                @click="activeContent = UserSettingsTab.ShowWishKnowledge">
+                <font-awesome-icon :icon="['fas', 'heart']" class="nav-icon" />
+                {{ t('settings.navigation.showWishKnowledge') }}
+            </button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.KnowledgeReport }"
+                @click="activeContent = UserSettingsTab.KnowledgeReport">
+                <font-awesome-icon :icon="['fas', 'bell']" class="nav-icon" />
+                {{ t('settings.navigation.knowledgeReport') }}
+            </button>
             <button :class="{ 'active': activeContent === UserSettingsTab.SupportLogin }"
-                @click="activeContent = UserSettingsTab.SupportLogin">{{ t('settings.navigation.supportLogin')
-                }}</button>
-            <button :class="{ 'active': activeContent === UserSettingsTab.Membership }"
-                @click="activeContent = UserSettingsTab.Membership">{{ t('settings.navigation.membership')
-                }}</button>
-            <button :class="{ 'active': activeContent === UserSettingsTab.AiUsage }"
-                @click="activeContent = UserSettingsTab.AiUsage">{{ t('settings.navigation.aiUsage')
-                }}</button>
+                @click="activeContent = UserSettingsTab.SupportLogin">
+                <font-awesome-icon :icon="['fas', 'headset']" class="nav-icon" />
+                {{ t('settings.navigation.supportLogin') }}
+            </button>
 
             <div class="divider" />
-            <div class="overline-s no-line">{{ t('settings.navigation.notifications') }}</div>
-            <!-- <button @click="activeContent = Content.General">{{ t('settings.navigation.general') }}</button> -->
-            <button :class="{ 'active': activeContent === UserSettingsTab.KnowledgeReport }"
-                @click="activeContent = UserSettingsTab.KnowledgeReport">{{
-                    t('settings.navigation.knowledgeReport') }}</button>
+            <div class="overline-s no-line">{{ t('settings.navigation.deleteProfile') }}</div>
+            <button :class="{ 'active': activeContent === UserSettingsTab.DeleteProfile }"
+                @click="activeContent = UserSettingsTab.DeleteProfile">
+                <font-awesome-icon :icon="['fas', 'triangle-exclamation']" class="nav-icon" />
+                {{ t('settings.navigation.deleteProfile') }}
+            </button>
         </div>
         <div class="navigation-mobile">
             <div class="settings-dropdown">
@@ -461,6 +479,7 @@ const ariaId2 = useId()
                                 :class="{ 'active': activeContent === UserSettingsTab.EditProfile }"
                                 @click="activeContent = UserSettingsTab.EditProfile; hide()">
                                 <div class="dropdown-label select-option">
+                                    <font-awesome-icon :icon="['fas', 'user']" class="nav-icon" />
                                     {{ t('settings.navigation.editProfile') }}
                                 </div>
                             </div>
@@ -468,14 +487,28 @@ const ariaId2 = useId()
                                 :class="{ 'active': activeContent === UserSettingsTab.Password }"
                                 @click="activeContent = UserSettingsTab.Password; hide()">
                                 <div class="dropdown-label select-option">
+                                    <font-awesome-icon :icon="['fas', 'key']" class="nav-icon" />
                                     {{ t('settings.navigation.password') }}
                                 </div>
                             </div>
+                            <div class="divider" />
+                            <div class="dropdown-row group-label">
+                                {{ t('settings.navigation.membership') }}
+                            </div>
                             <div class="dropdown-row select-row"
-                                :class="{ 'active': activeContent === UserSettingsTab.DeleteProfile }"
-                                @click="activeContent = UserSettingsTab.DeleteProfile; hide()">
+                                :class="{ 'active': activeContent === UserSettingsTab.Membership }"
+                                @click="activeContent = UserSettingsTab.Membership; hide()">
                                 <div class="dropdown-label select-option">
-                                    {{ t('settings.navigation.deleteProfile') }}
+                                    <font-awesome-icon :icon="['fas', 'credit-card']" class="nav-icon" />
+                                    {{ t('settings.navigation.membership') }}
+                                </div>
+                            </div>
+                            <div class="dropdown-row select-row"
+                                :class="{ 'active': activeContent === UserSettingsTab.AiUsage }"
+                                @click="activeContent = UserSettingsTab.AiUsage; hide()">
+                                <div class="dropdown-label select-option">
+                                    <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" class="nav-icon" />
+                                    {{ t('settings.navigation.aiUsage') }}
                                 </div>
                             </div>
                             <div class="divider" />
@@ -486,39 +519,36 @@ const ariaId2 = useId()
                                 :class="{ 'active': activeContent === UserSettingsTab.ShowWishKnowledge }"
                                 @click="activeContent = UserSettingsTab.ShowWishKnowledge; hide()">
                                 <div class="dropdown-label select-option">
+                                    <font-awesome-icon :icon="['fas', 'heart']" class="nav-icon" />
                                     {{ t('settings.navigation.showWishKnowledge') }}
+                                </div>
+                            </div>
+                            <div class="dropdown-row select-row"
+                                :class="{ 'active': activeContent === UserSettingsTab.KnowledgeReport }"
+                                @click="activeContent = UserSettingsTab.KnowledgeReport; hide()">
+                                <div class="dropdown-label select-option">
+                                    <font-awesome-icon :icon="['fas', 'bell']" class="nav-icon" />
+                                    {{ t('settings.navigation.knowledgeReport') }}
                                 </div>
                             </div>
                             <div class="dropdown-row select-row"
                                 :class="{ 'active': activeContent === UserSettingsTab.SupportLogin }"
                                 @click="activeContent = UserSettingsTab.SupportLogin; hide()">
                                 <div class="dropdown-label select-option">
+                                    <font-awesome-icon :icon="['fas', 'headset']" class="nav-icon" />
                                     {{ t('settings.navigation.supportLogin') }}
-                                </div>
-                            </div>
-                            <div class="dropdown-row select-row"
-                                :class="{ 'active': activeContent === UserSettingsTab.Membership }"
-                                @click="activeContent = UserSettingsTab.Membership; hide()">
-                                <div class="dropdown-label select-option">
-                                    {{ t('settings.navigation.membership') }}
-                                </div>
-                            </div>
-                            <div class="dropdown-row select-row"
-                                :class="{ 'active': activeContent === UserSettingsTab.AiUsage }"
-                                @click="activeContent = UserSettingsTab.AiUsage; hide()">
-                                <div class="dropdown-label select-option">
-                                    {{ t('settings.navigation.aiUsage') }}
                                 </div>
                             </div>
                             <div class="divider" />
                             <div class="dropdown-row group-label">
-                                {{ t('settings.navigation.notifications') }}
+                                {{ t('settings.navigation.deleteProfile') }}
                             </div>
                             <div class="dropdown-row select-row"
-                                :class="{ 'active': activeContent === UserSettingsTab.KnowledgeReport }"
-                                @click="activeContent = UserSettingsTab.KnowledgeReport; hide()">
+                                :class="{ 'active': activeContent === UserSettingsTab.DeleteProfile }"
+                                @click="activeContent = UserSettingsTab.DeleteProfile; hide()">
                                 <div class="dropdown-label select-option">
-                                    {{ t('settings.navigation.knowledgeReport') }}
+                                    <font-awesome-icon :icon="['fas', 'triangle-exclamation']" class="nav-icon" />
+                                    {{ t('settings.navigation.deleteProfile') }}
                                 </div>
                             </div>
                         </div>
@@ -936,6 +966,11 @@ const ariaId2 = useId()
             font-weight: 600;
         }
     }
+
+    .nav-icon {
+        margin-right: 8px;
+    }
+
 
     .interval-dropdown {
         width: 190px;
