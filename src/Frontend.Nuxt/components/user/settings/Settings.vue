@@ -387,8 +387,8 @@ const getSelectedSettingsPageLabel = computed(() => {
             return t('settings.navigation.general')
         case UserSettingsTab.KnowledgeReport:
             return t('settings.navigation.knowledgeReport')
-            case UserSettingsTab.AiUsage:
-                return t('settings.navigation.aiUsage')
+        case UserSettingsTab.AiUsage:
+            return t('settings.navigation.aiUsage')
         default:
             return ''
     }
