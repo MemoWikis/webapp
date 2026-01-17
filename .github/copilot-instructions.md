@@ -7,9 +7,11 @@ For comprehensive naming conventions, file structure, and patterns, see **[Style
 **IMPORTANT:** Before running E2E tests or debugging frontend issues, always verify services are running:
 
 ```powershell
-# Quick port check
-Test-NetConnection -ComputerName localhost -Port 3000  # Frontend
-Test-NetConnection -ComputerName localhost -Port 5069  # Backend
+# Quick one-liner for both ports
+@(3000, 5069) | ForEach-Object { 
+    $r = Test-NetConnection localhost -Port $_ -WarningAction SilentlyContinue
+    "$($_): $(if($r.TcpTestSucceeded){'Running'}else{'Not running'})"
+}
 ```
 
 **Expected Ports:**
@@ -47,6 +49,39 @@ If services are not running, use the `app-start` skill to start them.
 # Unit Tests
 
 - For API calls use Testharness.ApiCall(..)
+
+## Running Backend Tests
+
+**IMPORTANT:** Before running backend tests, stop the running Backend process to avoid DLL file locks:
+
+```powershell
+# Stop Backend process first
+Get-Process -Name "MemoWikis.Backend.Api" -ErrorAction SilentlyContinue | Stop-Process -Force
+
+# Then run tests
+cd src/Tests; dotnet test --filter "TestClassName"
+```
+
+**Preferred:** Use the `runTests` tool instead of terminal commands – it handles process management automatically.
+
+## NHibernate SQL Aggregate Functions
+
+When using native SQL queries with `AliasToBeanResultTransformer`, use correct C# types for MySQL aggregates:
+
+| SQL Function | MySQL Returns | C# Property Type |
+|--------------|---------------|------------------|
+| `COUNT(*)` | BIGINT | `long` |
+| `SUM()` | DECIMAL | `decimal` |
+| `AVG()` | DECIMAL | `decimal` |
+
+Example:
+```csharp
+public class MySummary
+{
+    public long RequestCount { get; set; }      // COUNT(*)
+    public decimal TotalTokens { get; set; }    // SUM()
+}
+```
 
 # Glossar
 
@@ -107,6 +142,7 @@ Skills are domain-specific automation workflows that help with common developmen
 ## App Management Skills
 
 - **app-start** (aliases: start-app, startup, start): Starts Backend (port 5069) and Frontend (port 3000) in foreground terminals. Checks if services are already running before starting them.
+- **app-stop** (aliases: stop-app, stop): Stops Backend and Frontend processes. Use before running backend tests to avoid DLL file locks.
 
 ## Database Skills
 
@@ -125,9 +161,40 @@ Playwright tests are located in `src/Frontend.Nuxt/tests/playwright/`. Screensho
 
 ## Key Files
 
-- `playwright.config.ts` - Main configuration (root level)
+- `playwright.config.ts` - Main configuration (**root level, not in Frontend.Nuxt!**)
 - `fixtures/auth.fixture.ts` - Reusable login fixture with `authenticatedPage`
 - `fixtures/screenshot.helper.ts` - Screenshot utilities for development feedback
+
+## Running Tests
+
+**CRITICAL:** Always run Playwright from the project root directory where `playwright.config.ts` is located:
+
+```powershell
+# Correct - from project root
+cd c:\Projects\memoWikis
+npx playwright test settings-ai-usage.spec.ts
+
+# Wrong - baseURL will be undefined
+cd src/Frontend.Nuxt
+npx playwright test  # ❌ Error: Cannot navigate to invalid URL
+```
+
+```bash
+# Run all Playwright tests
+npx playwright test
+
+# Run specific test file
+npx playwright test ai-create-page.spec.ts
+
+# Run with headed browser (visible)
+npx playwright test --headed
+
+# Run in debug mode
+npx playwright test --debug
+
+# Run only chromium (skip webkit/mobile if not installed)
+npx playwright test --project=chromium
+```
 
 ## Usage Pattern
 
@@ -153,22 +220,6 @@ test("my test", async ({ authenticatedPage }) => {
 
 - Admin: `admin@memowikis.net` / `test`
 - User: `user@memowikis.net` / `test`
-
-## Running Tests
-
-```bash
-# Run all Playwright tests
-npx playwright test
-
-# Run specific test file
-npx playwright test ai-create-page.spec.ts
-
-# Run with headed browser (visible)
-npx playwright test --headed
-
-# Run in debug mode
-npx playwright test --debug
-```
 
 ## Screenshot Monitoring
 

@@ -30,20 +30,24 @@ Check if Backend and Frontend are running. If not, suggest using the `app-start`
 
 ### Step 2: Run Tests
 
+**CRITICAL:** Always run from project root where `playwright.config.ts` is located!
+
 Use `run_in_terminal` with these parameters:
 ```powershell
-cd c:\Projects\memoWikis; npx playwright test --reporter=list
+cd c:\Projects\memoWikis; npx playwright test --project=chromium --reporter=list
 ```
 
 For a specific test file:
 ```powershell
-cd c:\Projects\memoWikis; npx playwright test ai-create-page.spec.ts --reporter=list
+cd c:\Projects\memoWikis; npx playwright test ai-create-page.spec.ts --project=chromium --reporter=list
 ```
 
 For headed mode (visible browser):
 ```powershell
-cd c:\Projects\memoWikis; npx playwright test --headed --reporter=list
+cd c:\Projects\memoWikis; npx playwright test --project=chromium --headed --reporter=list
 ```
+
+**Note:** Use `--project=chromium` to skip webkit/mobile tests if those browsers are not installed.
 
 ### Step 3: Review Screenshots
 
@@ -63,11 +67,13 @@ Tell the user:
 
 | Command | Description |
 |---------|-------------|
-| `npx playwright test` | Run all tests |
-| `npx playwright test ai-create-page.spec.ts` | Run specific file |
-| `npx playwright test --headed` | Run with visible browser |
+| `npx playwright test --project=chromium` | Run all tests (chromium only) |
+| `npx playwright test ai-create-page.spec.ts --project=chromium` | Run specific file |
+| `npx playwright test --project=chromium --headed` | Run with visible browser |
 | `npx playwright test --debug` | Run in debug mode |
-| `npx playwright test --project=mobile` | Run mobile tests only |
+| `npx playwright test --project=mobile` | Run mobile tests only (requires webkit) |
+
+**Note:** Always run from project root (`c:\Projects\memoWikis`), not from `src/Frontend.Nuxt`!
 
 ## Test Structure
 
