@@ -2,6 +2,23 @@
 
 For comprehensive naming conventions, file structure, and patterns, see **[Style Guide](.github/style-guide.md)**.
 
+# Service Health Check
+
+**IMPORTANT:** Before running E2E tests or debugging frontend issues, always verify services are running:
+
+```powershell
+# Quick port check
+Test-NetConnection -ComputerName localhost -Port 3000  # Frontend
+Test-NetConnection -ComputerName localhost -Port 5069  # Backend
+```
+
+**Expected Ports:**
+- **Frontend (Nuxt):** http://localhost:3000
+- **Backend (.NET):** http://localhost:5069
+- **Hocuspocus (WebSocket):** ws://localhost:1234
+
+If services are not running, use the `app-start` skill to start them.
+
 ## Quick Reference
 
 - **Files/Folders:** kebab-case (`user-profile.store.ts`, `order-card.component.vue`)
@@ -94,3 +111,57 @@ Skills are domain-specific automation workflows that help with common developmen
 
 - **dev-database-create**: Create a fresh dev database with latest test data (runs ScenarioBuilder test, generates schema.sql, reinitializes MySQL)
 - **dev-database-reset**: Reset the dev database from existing schema.sql (just reinitializes MySQL without updating schema.sql)
+
+## Testing Skills
+
+- **playwright-run** (aliases: run-e2e, e2e-test, visual-test): Run Playwright E2E tests with screenshots saved to `test-results/screenshots/` for visual feedback during development
+
+# Playwright E2E Tests
+
+## Overview
+
+Playwright tests are located in `src/Frontend.Nuxt/tests/playwright/`. Screenshots are automatically saved to `test-results/screenshots/` for monitoring.
+
+## Key Files
+
+- `playwright.config.ts` - Main configuration (root level)
+- `fixtures/auth.fixture.ts` - Reusable login fixture with `authenticatedPage`
+- `fixtures/screenshot.helper.ts` - Screenshot utilities for development feedback
+
+## Usage Pattern
+
+```typescript
+import { test, expect } from "../fixtures/auth.fixture";
+import { takeDevScreenshot } from "../fixtures/screenshot.helper";
+
+test("my test", async ({ authenticatedPage }) => {
+  // authenticatedPage is already logged in as admin
+  await authenticatedPage.goto("/some-page");
+  await takeDevScreenshot(authenticatedPage, "descriptive-name");
+});
+```
+
+## Test Users (dev database)
+
+- Admin: `admin@memowikis.net` / `test`
+- User: `user@memowikis.net` / `test`
+
+## Running Tests
+
+```bash
+# Run all Playwright tests
+npx playwright test
+
+# Run specific test file
+npx playwright test ai-create-page.spec.ts
+
+# Run with headed browser (visible)
+npx playwright test --headed
+
+# Run in debug mode
+npx playwright test --debug
+```
+
+## Screenshot Monitoring
+
+Screenshots are saved to `test-results/screenshots/` with timestamps. Monitor this folder during development for visual feedback.
