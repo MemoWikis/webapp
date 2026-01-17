@@ -8,7 +8,7 @@ For comprehensive naming conventions, file structure, and patterns, see **[Style
 
 ```powershell
 # Quick one-liner for both ports
-@(3000, 5069) | ForEach-Object { 
+@(3000, 5069) | ForEach-Object {
     $r = Test-NetConnection localhost -Port $_ -WarningAction SilentlyContinue
     "$($_): $(if($r.TcpTestSucceeded){'Running'}else{'Not running'})"
 }
@@ -69,12 +69,13 @@ cd src/Tests; dotnet test --filter "TestClassName"
 When using native SQL queries with `AliasToBeanResultTransformer`, use correct C# types for MySQL aggregates:
 
 | SQL Function | MySQL Returns | C# Property Type |
-|--------------|---------------|------------------|
-| `COUNT(*)` | BIGINT | `long` |
-| `SUM()` | DECIMAL | `decimal` |
-| `AVG()` | DECIMAL | `decimal` |
+| ------------ | ------------- | ---------------- |
+| `COUNT(*)`   | BIGINT        | `long`           |
+| `SUM()`      | DECIMAL       | `decimal`        |
+| `AVG()`      | DECIMAL       | `decimal`        |
 
 Example:
+
 ```csharp
 public class MySummary
 {
