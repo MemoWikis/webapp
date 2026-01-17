@@ -8,6 +8,7 @@ export enum UserSettingsTab {
     ShowWishKnowledge,
     SupportLogin,
     Membership,
+    AiUsage,
 
     //Notifications
     General,

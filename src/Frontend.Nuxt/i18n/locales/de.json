@@ -1143,6 +1143,7 @@
             "showWishKnowledge": "Wunschwissen anzeigen",
             "supportLogin": "Support Login",
             "membership": "Mitgliedschaft",
+            "aiUsage": "KI-Nutzung",
             "notifications": "Benachrichtigungen",
             "general": "Allgemein",
             "knowledgeReport": "Wissensbericht"
@@ -1199,6 +1200,21 @@
             },
             "description": "Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem",
             "additionalInfo": "Wunschwissen und über neue Inhalte bei memoWikis. Er wird nur verschickt, wenn du Wunschwissen hast."
+        },
+        "aiUsage": {
+            "title": "KI-Nutzung",
+            "loading": "Lade Nutzungsdaten...",
+            "tokenBalance": "Token-Guthaben",
+            "totalBalance": "Gesamt",
+            "subscriptionTokens": "Abo-Tokens",
+            "paidTokens": "Gekaufte Tokens",
+            "last30Days": "Letzte 30 Tage",
+            "requests": "Anfragen",
+            "tokensIn": "Tokens (Eingabe)",
+            "tokensOut": "Tokens (Ausgabe)",
+            "dailyBreakdown": "Tägliche Übersicht",
+            "noUsageData": "Keine KI-Nutzung in den letzten 30 Tagen.",
+            "loadError": "Die Nutzungsdaten konnten nicht geladen werden."
         }
     },
     "questionLandingPage": {

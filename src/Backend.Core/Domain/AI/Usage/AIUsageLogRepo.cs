@@ -73,6 +73,56 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
         return dictionaryResult;
     }
 
+    public List<AiDailyUsageSummary> GetDailyUsageSummary(int userId, int days)
+    {
+        var query = _session.CreateSQLQuery(@"
+            SELECT 
+                DATE(DateCreated) AS Date,
+                COUNT(*) AS RequestCount,
+                SUM(TokenIn) AS TotalTokensIn,
+                SUM(TokenOut) AS TotalTokensOut
+            FROM ai_usage_log
+            WHERE User_id = :userId
+              AND DateCreated >= CURDATE() - INTERVAL :days DAY
+            GROUP BY DATE(DateCreated)
+            ORDER BY Date DESC");
+
+        query.SetParameter("userId", userId);
+        query.SetParameter("days", days);
+
+        return query
+            .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(AiDailyUsageSummary)))
+            .List<AiDailyUsageSummary>()
+            .ToList();
+    }
+
+    public List<AiDailyModelUsageSummary> GetDailyModelUsageSummary(int userId, int days)
+    {
+        var sql = @"
+            SELECT 
+                DATE(u.DateCreated) AS Date,
+                u.Model AS ModelId,
+                MAX(w.DisplayName) AS DisplayName,
+                COUNT(*) AS RequestCount,
+                SUM(u.TokenIn) AS TokensIn,
+                SUM(u.TokenOut) AS TokensOut
+            FROM ai_usage_log u
+            LEFT JOIN aimodelwhitelist w ON w.ModelId = u.Model
+            WHERE u.User_id = :userId
+              AND u.DateCreated >= CURDATE() - INTERVAL :days DAY
+            GROUP BY DATE(u.DateCreated), u.Model
+            ORDER BY Date DESC, RequestCount DESC";
+
+        var query = _session.CreateSQLQuery(sql);
+        query.SetParameter("userId", userId);
+        query.SetParameter("days", days);
+
+        return query
+            .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(AiDailyModelUsageSummary)))
+            .List<AiDailyModelUsageSummary>()
+            .ToList();
+    }
+
     public List<AiUsageWithCost> GetUsageWithCosts(DateTime? fromDate = null, DateTime? toDate = null, int? userId = null)
     {
         var sql = $@"
@@ -232,4 +282,22 @@ public class AiModelCostSummary : AiCostSummaryBase
 public class AiTotalCostSummary : AiCostSummaryBase
 {
     public int TotalRequests { get; set; }
+}
+
+public class AiDailyUsageSummary
+{
+    public DateTime Date { get; set; }
+    public long RequestCount { get; set; }
+    public decimal TotalTokensIn { get; set; }
+    public decimal TotalTokensOut { get; set; }
+}
+
+public class AiDailyModelUsageSummary
+{
+    public DateTime Date { get; set; }
+    public string ModelId { get; set; } = string.Empty;
+    public string? DisplayName { get; set; }
+    public long RequestCount { get; set; }
+    public decimal TokensIn { get; set; }
+    public decimal TokensOut { get; set; }
 }

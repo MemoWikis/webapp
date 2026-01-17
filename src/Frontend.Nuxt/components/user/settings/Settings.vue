@@ -383,6 +383,8 @@ const getSelectedSettingsPageLabel = computed(() => {
             return t('settings.navigation.supportLogin')
         case UserSettingsTab.Membership:
             return t('settings.navigation.membership')
+        case UserSettingsTab.AiUsage:
+            return t('settings.navigation.aiUsage')
         case UserSettingsTab.General:
             return t('settings.navigation.general')
         case UserSettingsTab.KnowledgeReport:
@@ -428,6 +430,9 @@ const ariaId2 = useId()
                 }}</button>
             <button :class="{ 'active': activeContent === UserSettingsTab.Membership }"
                 @click="activeContent = UserSettingsTab.Membership">{{ t('settings.navigation.membership')
+                }}</button>
+            <button :class="{ 'active': activeContent === UserSettingsTab.AiUsage }"
+                @click="activeContent = UserSettingsTab.AiUsage">{{ t('settings.navigation.aiUsage')
                 }}</button>
 
             <div class="divider" />
@@ -496,6 +501,13 @@ const ariaId2 = useId()
                                 @click="activeContent = UserSettingsTab.Membership; hide()">
                                 <div class="dropdown-label select-option">
                                     {{ t('settings.navigation.membership') }}
+                                </div>
+                            </div>
+                            <div class="dropdown-row select-row"
+                                :class="{ 'active': activeContent === UserSettingsTab.AiUsage }"
+                                @click="activeContent = UserSettingsTab.AiUsage; hide()">
+                                <div class="dropdown-label select-option">
+                                    {{ t('settings.navigation.aiUsage') }}
                                 </div>
                             </div>
                             <div class="divider" />
@@ -772,6 +784,10 @@ const ariaId2 = useId()
                     <div class="settings-section plans">
                         <UserMembershipPlans />
                     </div>
+                </div>
+
+                <div v-else-if="activeContent === UserSettingsTab.AiUsage" class="content">
+                    <UserSettingsAiUsageSettings />
                 </div>
 
                 <div v-else-if="activeContent === UserSettingsTab.General" class="content" />

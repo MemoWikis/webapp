@@ -31,3 +31,4 @@ appsettings.*.json
 /src/Backend.Api/DataProtectionKeys/
 /node_modules/
 /test-results/
+/src/Frontend.Nuxt/test-results/.last-run.json

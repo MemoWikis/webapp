@@ -1143,6 +1143,7 @@
             "showWishKnowledge": "Show Wish-Knowledge",
             "supportLogin": "Support login",
             "membership": "Membership",
+            "aiUsage": "AI Usage",
             "notifications": "Notifications",
             "general": "General",
             "knowledgeReport": "Knowledge report"
@@ -1199,6 +1200,21 @@
             },
             "description": "The knowledge report informs you about your current knowledge status of your",
             "additionalInfo": "Wish-Knowledge and about new content on memoWikis. It is only sent if you have Wish-Knowledge."
+        },
+        "aiUsage": {
+            "title": "AI Usage",
+            "loading": "Loading usage data...",
+            "tokenBalance": "Token Balance",
+            "totalBalance": "Total",
+            "subscriptionTokens": "Subscription Tokens",
+            "paidTokens": "Paid Tokens",
+            "last30Days": "Last 30 Days",
+            "requests": "Requests",
+            "tokensIn": "Tokens (Input)",
+            "tokensOut": "Tokens (Output)",
+            "dailyBreakdown": "Daily Breakdown",
+            "noUsageData": "No AI usage in the last 30 days.",
+            "loadError": "Failed to load usage data."
         }
     },
     "questionLandingPage": {
