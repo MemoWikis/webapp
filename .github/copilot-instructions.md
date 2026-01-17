@@ -13,6 +13,7 @@ Test-NetConnection -ComputerName localhost -Port 5069  # Backend
 ```
 
 **Expected Ports:**
+
 - **Frontend (Nuxt):** http://localhost:3000
 - **Backend (.NET):** http://localhost:5069
 - **Hocuspocus (WebSocket):** ws://localhost:1234
@@ -136,10 +137,17 @@ import { takeDevScreenshot } from "../fixtures/screenshot.helper";
 
 test("my test", async ({ authenticatedPage }) => {
   // authenticatedPage is already logged in as admin
-  await authenticatedPage.goto("/some-page");
+  await authenticatedPage.goto("/Settings"); // Use localized paths: /Settings, /Einstellungen
   await takeDevScreenshot(authenticatedPage, "descriptive-name");
 });
 ```
+
+## Key Selectors
+
+- **Login button (header):** `.login-btn`
+- **Login modal input:** `input[name="login"]`, `input[name="password"]`
+- **Modal submit button:** `.modal-default-footer .btn-primary`
+- **Logged-in user indicator:** `.header-btn:has(.header-author-icon)`
 
 ## Test Users (dev database)
 

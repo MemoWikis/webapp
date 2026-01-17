@@ -24,8 +24,10 @@ export interface AuthFixtures {
  */
 async function closeErrorDialogIfPresent(page: Page): Promise<void> {
     const errorDialog = page.locator('dialog:visible, [role="dialog"]:visible')
-    const backButton = errorDialog.locator('button:has-text("Zurück"), button:has-text("Back")')
-    
+    const backButton = errorDialog.locator(
+        'button:has-text("Zurück"), button:has-text("Back")',
+    )
+
     if (await backButton.isVisible({ timeout: 500 }).catch(() => false)) {
         await backButton.click()
         await page.waitForTimeout(300)
@@ -59,7 +61,9 @@ async function performLogin(
     await passwordInput.fill(password)
 
     // Find submit button in modal footer (.modal-default-footer is the correct class)
-    const submitButton = page.locator('.modal-default-footer .btn-primary').first()
+    const submitButton = page
+        .locator('.modal-default-footer .btn-primary')
+        .first()
     await submitButton.waitFor({ state: 'visible', timeout: 5000 })
     await submitButton.click()
 
@@ -69,9 +73,10 @@ async function performLogin(
     // Close any error dialogs that might have appeared
     await closeErrorDialogIfPresent(page)
 
-    // Wait for login to complete - check for either user dropdown or profile image in header
+    // Wait for login to complete - check for user name in header
+    // The logged-in state shows a header-btn with user's profile picture
     await expect(
-        page.locator('.header-user-dropdown, .profile-image-container')
+        page.locator('.header-btn:has(.header-author-icon)'),
     ).toBeVisible({ timeout: 15000 })
 }
 
