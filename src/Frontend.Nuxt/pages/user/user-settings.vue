@@ -118,7 +118,6 @@ userStore.$onAction(({ name, after }) => {
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-.main-content {}
 
 .settings-header {
     margin: 0px;
