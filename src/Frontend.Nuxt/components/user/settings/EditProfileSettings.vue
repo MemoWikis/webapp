@@ -85,26 +85,33 @@ async function saveProfileInformation() {
 
     formData.append('id', userStore.id.toString())
 
-    const result = await $api<FetchResult<ChangeProfileInformationResult>>('/apiVue/VueUserSettings/ChangeProfileInformation', {
-        mode: 'cors',
-        method: 'POST',
-        body: formData,
-        credentials: 'include'
-    })
+    try {
+        const result = await $api<FetchResult<ChangeProfileInformationResult>>('/apiVue/VueUserSettings/ChangeProfileInformation', {
+            mode: 'cors',
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        })
 
-    if (result?.success) {
-        userStore.name = result.data.name
-        userName.value = result.data.name
-        userStore.email = result.data.email
-        email.value = result.data.email
-        userStore.imgUrl = result.data.tinyImgUrl
-        emit('updateProfile')
+        if (result?.success) {
+            userStore.name = result.data.name
+            userName.value = result.data.name
+            userStore.email = result.data.email
+            email.value = result.data.email
+            userStore.imgUrl = result.data.tinyImgUrl
+            emit('updateProfile')
 
-        msg.value = t(result.messageKey)
-        success.value = true
-        showAlert.value = true
-    } else {
-        msg.value = t(result.messageKey)
+            msg.value = t(result.messageKey)
+            success.value = true
+            showAlert.value = true
+        } else {
+            msg.value = result?.messageKey ? t(result.messageKey) : t('error.default')
+            success.value = false
+            showAlert.value = true
+        }
+    } catch (error) {
+        console.error('Error saving profile information:', error)
+        msg.value = t('error.default')
         success.value = false
         showAlert.value = true
     }

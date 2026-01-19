@@ -2,6 +2,33 @@
 import { UserSettingsTab } from './user-settings-tab.enum'
 
 const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
+
+// Map route query param to UserSettingsTab
+const tabRouteMap: Record<string, UserSettingsTab> = {
+    'profile': UserSettingsTab.EditProfile,
+    'password': UserSettingsTab.Password,
+    'membership': UserSettingsTab.Membership,
+    'ai-usage': UserSettingsTab.AiUsage,
+    'wishknowledge': UserSettingsTab.ShowWishKnowledge,
+    'notifications': UserSettingsTab.KnowledgeReport,
+    'support': UserSettingsTab.SupportLogin,
+    'delete': UserSettingsTab.DeleteProfile,
+}
+
+// Reverse map for URL updates
+const tabToRouteMap: Record<UserSettingsTab, string> = {
+    [UserSettingsTab.EditProfile]: 'profile',
+    [UserSettingsTab.Password]: 'password',
+    [UserSettingsTab.Membership]: 'membership',
+    [UserSettingsTab.AiUsage]: 'ai-usage',
+    [UserSettingsTab.ShowWishKnowledge]: 'wishknowledge',
+    [UserSettingsTab.KnowledgeReport]: 'notifications',
+    [UserSettingsTab.SupportLogin]: 'support',
+    [UserSettingsTab.DeleteProfile]: 'delete',
+    [UserSettingsTab.General]: 'general',
+}
 
 interface Props {
     imageUrl?: string
@@ -10,11 +37,45 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const activeContent = ref<UserSettingsTab>(UserSettingsTab.EditProfile)
+// Get initial tab from route query or props
+function getInitialTab(): UserSettingsTab {
+    const queryTab = route.query.tab as string
+    if (queryTab && tabRouteMap[queryTab]) {
+        return tabRouteMap[queryTab]
+    }
+    if (props.tab !== undefined) {
+        return props.tab
+    }
+    return UserSettingsTab.EditProfile
+}
 
-onBeforeMount(() => {
-    if (props.tab === UserSettingsTab.Membership) {
-        activeContent.value = UserSettingsTab.Membership
+const activeContent = ref<UserSettingsTab>(getInitialTab())
+
+// Set initial URL if no tab query param is present
+onMounted(() => {
+    if (!route.query.tab) {
+        const routeKey = tabToRouteMap[activeContent.value]
+        if (routeKey) {
+            router.replace({ query: { tab: routeKey } })
+        }
+    }
+})
+
+// Update URL when tab changes (use push for navigation history)
+watch(activeContent, (newTab) => {
+    const routeKey = tabToRouteMap[newTab]
+    if (routeKey && route.query.tab !== routeKey) {
+        router.push({ query: { tab: routeKey } })
+    }
+})
+
+// Watch for route changes (browser back/forward)
+watch(() => route.query.tab, (newTabQuery) => {
+    if (typeof newTabQuery === 'string' && tabRouteMap[newTabQuery]) {
+        const newTab = tabRouteMap[newTabQuery]
+        if (activeContent.value !== newTab) {
+            activeContent.value = newTab
+        }
     }
 })
 

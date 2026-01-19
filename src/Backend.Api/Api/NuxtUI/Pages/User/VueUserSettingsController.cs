@@ -102,7 +102,7 @@ public class VueUserSettingsController(
     public class ProfileInformation
     {
         public string? Email { get; set; }
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
         public int Id { get; set; }
         public string? Username { get; set; }
     };
