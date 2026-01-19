@@ -125,9 +125,9 @@ const toggleDate = (date: string) => {
         </div>
 
         <template v-else-if="usageData?.success">
-            <!-- Token Balance Section -->
+            <!-- Compute Points Balance Section -->
             <div class="settings-section">
-                <div class="overline-s no-line">{{ t('settings.aiUsage.tokenBalance') }}</div>
+                <div class="overline-s no-line">{{ t('settings.aiUsage.computePointsBalance') }}</div>
                 <div class="balance-cards">
                     <div class="balance-card total">
                         <div class="balance-value">{{ formatNumber(usageData.tokenBalance) }}</div>
@@ -135,11 +135,11 @@ const toggleDate = (date: string) => {
                     </div>
                     <div class="balance-card subscription">
                         <div class="balance-value">{{ formatNumber(usageData.subscriptionTokensBalance) }}</div>
-                        <div class="balance-label">{{ t('settings.aiUsage.subscriptionTokens') }}</div>
+                        <div class="balance-label">{{ t('settings.aiUsage.monthlyQuota') }}</div>
                     </div>
                     <div class="balance-card paid">
                         <div class="balance-value">{{ formatNumber(usageData.paidTokensBalance) }}</div>
-                        <div class="balance-label">{{ t('settings.aiUsage.paidTokens') }}</div>
+                        <div class="balance-label">{{ t('settings.aiUsage.purchasedPoints') }}</div>
                     </div>
                 </div>
             </div>
@@ -154,11 +154,11 @@ const toggleDate = (date: string) => {
                     </div>
                     <div class="stat">
                         <span class="stat-value">{{ formatNumber(totalTokensIn) }}</span>
-                        <span class="stat-label">{{ t('settings.aiUsage.tokensIn') }}</span>
+                        <span class="stat-label">{{ t('settings.aiUsage.pointsIn') }}</span>
                     </div>
                     <div class="stat">
                         <span class="stat-value">{{ formatNumber(totalTokensOut) }}</span>
-                        <span class="stat-label">{{ t('settings.aiUsage.tokensOut') }}</span>
+                        <span class="stat-label">{{ t('settings.aiUsage.pointsOut') }}</span>
                     </div>
                 </div>
             </div>
