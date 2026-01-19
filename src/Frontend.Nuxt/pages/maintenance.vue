@@ -78,8 +78,8 @@ interface JobStatusResponse {
 
 interface RelationErrorItem {
     parentId: number
-    errors: any[]
-    relations: any[]
+    errors: string[]
+    relations: string[]
 }
 
 interface RelationErrorsResponse {
@@ -569,8 +569,7 @@ async function healRelations(pageId: number) {
     if (result.success) {
         resultMsg.value = result.data
         // Refresh relation errors if they are currently displayed
-        if (relationErrors.value.length > 0) {
-        }
+        if (relationErrors.value.length > 0) { /* empty */ }
     }
 }
 
@@ -753,7 +752,17 @@ const clearJobsByIds = async (jobIds: number[]) => {
     }
 }
 
-const quartzJobs = ref<any[]>([])
+interface QuartzJob {
+    JobKey: string
+    JobName: string
+    JobType: string
+    JobGroup: string
+    IsExecuting: boolean
+    RunTime?: string
+    FireTime?: string
+}
+
+const quartzJobs = ref<QuartzJob[]>([])
 const quartzJobsLoaded = ref(false)
 
 const loadQuartzJobs = async () => {
@@ -1122,11 +1131,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="main-content"
-        v-if="isAdmin && userStore.isAdmin && antiForgeryToken != null && antiForgeryToken?.length > 0">
+    <div v-if="isAdmin && userStore.isAdmin && antiForgeryToken != null && antiForgeryToken?.length > 0"
+        class="main-content">
         <h1>{{ $t('maintenance.title') }}</h1>
         <div class="">
-            <div class="alert alert-warning alert-dismissible" role="alert" v-if="resultMsg.length > 0">
+            <div v-if="resultMsg.length > 0" class="alert alert-warning alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"
                     @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
                 {{ resultMsg }}
@@ -1134,11 +1143,12 @@ onMounted(() => {
 
             <!-- Active Jobs Status Panel -->
             <LayoutPanel v-if="runningJobs.size > 0" title="Active Jobs" class="active-jobs-panel">
-                <LayoutCard v-for="[jobTrackingId, operationName] in runningJobs.entries()" :key="jobTrackingId" :size="LayoutCardSize.Small">
+                <LayoutCard v-for="[jobTrackingId, operationName] in runningJobs.entries()" :key="jobTrackingId"
+                    :size="LayoutCardSize.Small">
                     <div class="running-job">
                         <div class="job-header">
                             <h4>{{ operationName }}</h4>
-                            <button @click="clearJob(jobTrackingId)" class="clear-job-btn" title="Clear Job">
+                            <button class="clear-job-btn" title="Clear Job" @click="clearJob(jobTrackingId)">
                                 <font-awesome-icon icon="fa-solid fa-xmark" />
                             </button>
                         </div>
@@ -1169,7 +1179,8 @@ onMounted(() => {
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Completed:</span>
-                                <span class="stat-value completed">{{ jobSystemStatus.summary.completedInMemory }}</span>
+                                <span class="stat-value completed">{{ jobSystemStatus.summary.completedInMemory
+                                }}</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Failed:</span>
@@ -1192,19 +1203,20 @@ onMounted(() => {
                         <div class="database-jobs-header">
                             <h4>Database Running Jobs ({{ databaseJobs.length }})</h4>
                             <div class="bulk-actions">
-                                <button @click="clearStuckJobs" class="memo-button btn btn-warning btn-sm">
+                                <button class="memo-button btn btn-warning btn-sm" @click="clearStuckJobs">
                                     Clear Stuck Only (>2h)
                                 </button>
-                                <button @click="clearJobsByIds(databaseJobs.filter(job => job.isStuck).map(job => job.id))"
-                                    class="memo-button btn btn-danger btn-sm ms-2"
-                                    :disabled="!databaseJobs.some(job => job.isStuck)">
+                                <button class="memo-button btn btn-danger btn-sm ms-2"
+                                    :disabled="!databaseJobs.some(job => job.isStuck)"
+                                    @click="clearJobsByIds(databaseJobs.filter(job => job.isStuck).map(job => job.id))">
                                     Clear All Stuck (Quartz + DB)
                                 </button>
                             </div>
                         </div>
 
                         <div class="database-jobs-list">
-                            <div v-for="job in databaseJobs" :key="job.id" class="database-job-item" :class="{ 'stuck-job': job.isStuck }">
+                            <div v-for="job in databaseJobs" :key="job.id" class="database-job-item"
+                                :class="{ 'stuck-job': job.isStuck }">
                                 <div class="job-info">
                                     <div class="job-name">
                                         <strong>{{ job.name }}</strong>
@@ -1216,8 +1228,7 @@ onMounted(() => {
                                         <span>Duration: {{ job.duration }} ({{ job.durationHours }}h)</span>
                                     </div>
                                 </div>
-                                <button @click="clearJobById(job.id)"
-                                    class="memo-button btn btn-warning btn-sm">
+                                <button class="memo-button btn btn-warning btn-sm" @click="clearJobById(job.id)">
                                     Clear Job (Quartz + DB)
                                 </button>
                             </div>
@@ -1236,14 +1247,15 @@ onMounted(() => {
                 <LayoutCard :size="LayoutCardSize.Large">
                     <div class="quartz-jobs-header">
                         <h4>Quartz Job Management</h4>
-                        <button @click="loadQuartzJobs" class="memo-button btn btn-primary">
+                        <button class="memo-button btn btn-primary" @click="loadQuartzJobs">
                             Load Quartz Jobs
                         </button>
                     </div>
 
                     <template v-if="quartzJobsLoaded && quartzJobs.length > 0">
                         <div class="quartz-jobs-list">
-                            <div v-for="job in quartzJobs" :key="job.JobKey" class="quartz-job-item" :class="{ 'executing-job': job.IsExecuting }">
+                            <div v-for="job in quartzJobs" :key="job.JobKey" class="quartz-job-item"
+                                :class="{ 'executing-job': job.IsExecuting }">
                                 <div class="job-info">
                                     <div class="job-name">
                                         <strong>{{ job.JobName }}</strong>
@@ -1253,14 +1265,15 @@ onMounted(() => {
                                     <div class="job-details">
                                         <span>Key: {{ job.JobKey }}</span>
                                         <span>Group: {{ job.JobGroup }}</span>
-                                        <span v-if="job.IsExecuting && job.RunTime">Runtime: {{ formatDuration(job.RunTime) }}</span>
-                                        <span v-if="job.FireTime">Fire Time: {{ new Date(job.FireTime).toLocaleString() }}</span>
+                                        <span v-if="job.IsExecuting && job.RunTime">Runtime: {{
+                                            formatDuration(job.RunTime) }}</span>
+                                        <span v-if="job.FireTime">Fire Time: {{ new Date(job.FireTime).toLocaleString()
+                                        }}</span>
                                     </div>
                                 </div>
                                 <div class="job-actions">
-                                    <button v-if="job.IsExecuting"
-                                        @click="interruptQuartzJob(job.JobName, job.JobGroup)"
-                                        class="memo-button btn btn-warning btn-sm">
+                                    <button v-if="job.IsExecuting" class="memo-button btn btn-warning btn-sm"
+                                        @click="interruptQuartzJob(job.JobName, job.JobGroup)">
                                         Interrupt
                                     </button>
                                 </div>
@@ -1293,7 +1306,7 @@ onMounted(() => {
                 <LayoutCard :size="LayoutCardSize.Large">
                     <div class="ai-models-header">
                         <h4>Whitelisted Models</h4>
-                        <button @click="loadWhitelistedModels" class="memo-button btn btn-secondary">
+                        <button class="memo-button btn btn-secondary" @click="loadWhitelistedModels">
                             <font-awesome-icon icon="fa-solid fa-sync" /> Refresh
                         </button>
                     </div>
@@ -1312,25 +1325,26 @@ onMounted(() => {
                             <tbody>
                                 <tr v-for="model in whitelistedModels" :key="model.id">
                                     <td>
-                                        <span class="provider-badge" :class="model.provider.toLowerCase()">{{ model.provider }}</span>
+                                        <span class="provider-badge" :class="model.provider.toLowerCase()">{{
+                                            model.provider }}</span>
                                     </td>
                                     <td>
                                         <template v-if="editingDisplayName?.id === model.id">
                                             <div class="display-name-edit">
-                                                <input
-                                                    v-model="editingDisplayName.value"
-                                                    type="text"
+                                                <input v-model="editingDisplayName.value" type="text"
                                                     class="display-name-input" />
-                                                <button @click="saveDisplayName" class="btn-icon btn-save" title="Save">
+                                                <button class="btn-icon btn-save" title="Save" @click="saveDisplayName">
                                                     <font-awesome-icon icon="fa-solid fa-check" />
                                                 </button>
-                                                <button @click="cancelEditDisplayName" class="btn-icon btn-cancel" title="Cancel">
+                                                <button class="btn-icon btn-cancel" title="Cancel"
+                                                    @click="cancelEditDisplayName">
                                                     <font-awesome-icon icon="fa-solid fa-times" />
                                                 </button>
                                             </div>
                                         </template>
                                         <template v-else>
-                                            <span class="display-name" @click="startEditDisplayName(model)" title="Click to edit">
+                                            <span class="display-name" title="Click to edit"
+                                                @click="startEditDisplayName(model)">
                                                 {{ model.displayName || '(no name)' }}
                                             </span>
                                         </template>
@@ -1339,28 +1353,27 @@ onMounted(() => {
                                     <td>
                                         <template v-if="editingCostRate?.id === model.id">
                                             <div class="cost-rate-edit">
-                                                <input
-                                                    v-model.number="editingCostRate.value"
-                                                    type="number"
-                                                    step="0.1"
-                                                    min="0"
-                                                    class="cost-rate-input" />
-                                                <button @click="saveCostRate" class="btn-icon btn-save" title="Save">
+                                                <input v-model.number="editingCostRate.value" type="number" step="0.1"
+                                                    min="0" class="cost-rate-input" />
+                                                <button class="btn-icon btn-save" title="Save" @click="saveCostRate">
                                                     <font-awesome-icon icon="fa-solid fa-check" />
                                                 </button>
-                                                <button @click="cancelEditCostRate" class="btn-icon btn-cancel" title="Cancel">
+                                                <button class="btn-icon btn-cancel" title="Cancel"
+                                                    @click="cancelEditCostRate">
                                                     <font-awesome-icon icon="fa-solid fa-times" />
                                                 </button>
                                             </div>
                                         </template>
                                         <template v-else>
-                                            <span class="cost-rate" @click="startEditCostRate(model)" title="Click to edit">
+                                            <span class="cost-rate" title="Click to edit"
+                                                @click="startEditCostRate(model)">
                                                 {{ model.tokenCostMultiplier }}x
                                             </span>
                                         </template>
                                     </td>
                                     <td>
-                                        <button @click="confirmDeleteModel(model)" class="btn-icon btn-delete" title="Remove from whitelist">
+                                        <button class="btn-icon btn-delete" title="Remove from whitelist"
+                                            @click="confirmDeleteModel(model)">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </button>
                                     </td>
@@ -1369,7 +1382,8 @@ onMounted(() => {
                         </table>
                     </template>
                     <template v-else>
-                        <p class="no-models-message">No models whitelisted yet. Use the section below to fetch and add models.</p>
+                        <p class="no-models-message">No models whitelisted yet. Use the section below to fetch and add
+                            models.</p>
                     </template>
                 </LayoutCard>
 
@@ -1377,7 +1391,8 @@ onMounted(() => {
                 <LayoutCard :size="LayoutCardSize.Large">
                     <div class="ai-models-header">
                         <h4>Available Models</h4>
-                        <button @click="fetchAllProviderModels" class="memo-button btn btn-primary" :disabled="fetchingModels">
+                        <button class="memo-button btn btn-primary" :disabled="fetchingModels"
+                            @click="fetchAllProviderModels">
                             <font-awesome-icon v-if="fetchingModels" icon="fa-solid fa-spinner" spin />
                             <font-awesome-icon v-else icon="fa-solid fa-download" />
                             Load All Models
@@ -1387,7 +1402,8 @@ onMounted(() => {
                     <template v-if="providerModels.length > 0">
                         <div v-for="provider in providerModels" :key="provider.providerName" class="provider-section">
                             <h5 class="provider-header">
-                                <span class="provider-badge" :class="provider.providerName.toLowerCase()">{{ provider.providerName }}</span>
+                                <span class="provider-badge" :class="provider.providerName.toLowerCase()">{{
+                                    provider.providerName }}</span>
                                 <span class="model-count">({{ provider.models.length }} models)</span>
                             </h5>
                             <table class="provider-models-table">
@@ -1399,16 +1415,15 @@ onMounted(() => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="model in provider.models" :key="model.modelId" :class="{ 'whitelisted-row': model.isWhitelisted }">
+                                    <tr v-for="model in provider.models" :key="model.modelId"
+                                        :class="{ 'whitelisted-row': model.isWhitelisted }">
                                         <td>{{ model.displayName }}</td>
                                         <td class="model-id-cell">{{ model.modelId }}</td>
                                         <td>
                                             <label class="toggle-switch">
-                                                <input
-                                                    type="checkbox"
-                                                    :checked="model.isWhitelisted"
+                                                <input type="checkbox" :checked="model.isWhitelisted"
                                                     @change="toggleWhitelist(provider.providerName, model)" />
-                                                <span class="toggle-slider"></span>
+                                                <span class="toggle-slider" />
                                             </label>
                                         </td>
                                     </tr>
@@ -1417,7 +1432,8 @@ onMounted(() => {
                         </div>
                     </template>
                     <template v-else>
-                        <p class="no-models-message">Click "Load All Models" to fetch available models from providers.</p>
+                        <p class="no-models-message">Click "Load All Models" to fetch available models from providers.
+                        </p>
                     </template>
                 </LayoutCard>
 
@@ -1425,36 +1441,46 @@ onMounted(() => {
                 <div v-if="showDeleteConfirmModal" class="modal-overlay" @click.self="cancelDelete">
                     <div class="confirm-modal">
                         <h4>Confirm Delete</h4>
-                        <p>Are you sure you want to remove <strong>{{ modelToDelete?.displayName }}</strong> ({{ modelToDelete?.modelId }}) from the whitelist?</p>
+                        <p>Are you sure you want to remove <strong>{{ modelToDelete?.displayName }}</strong> ({{
+                            modelToDelete?.modelId }}) from the whitelist?</p>
                         <div class="modal-actions">
-                            <button @click="executeDelete" class="memo-button btn btn-danger">Delete</button>
-                            <button @click="cancelDelete" class="memo-button btn btn-secondary">Cancel</button>
+                            <button class="memo-button btn btn-danger" @click="executeDelete">Delete</button>
+                            <button class="memo-button btn btn-secondary" @click="cancelDelete">Cancel</button>
                         </div>
                     </div>
                 </div>
             </LayoutPanel>
-            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.pages.title')" v-if="pageMethods.length > 0" :methods="pageMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
+            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods"
+                :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
+            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods"
+                :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
+            <MaintenanceSection v-if="pageMethods.length > 0" :title="$t('maintenance.pages.title')"
+                :methods="pageMethods" :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
 
             <LayoutPanel :title="$t('maintenance.mmapCache.title')">
 
                 <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
-                    <button @click="loadMmapCacheStatus" class="memo-button btn btn-primary">
+                    <button class="memo-button btn btn-primary" @click="loadMmapCacheStatus">
                         {{ $t('maintenance.mmapCache.loadStatus') }}
                     </button>
                 </LayoutCard>
                 <template v-if="mmapCacheStatus">
-                    <LayoutCard :size="LayoutCardSize.Tiny" v-if="mmapCacheStatus.pageViewsCache" :title="$t('maintenance.mmapCache.pageViews')">
+                    <LayoutCard v-if="mmapCacheStatus.pageViewsCache" :size="LayoutCardSize.Tiny"
+                        :title="$t('maintenance.mmapCache.pageViews')">
                         <ul v-if="mmapCacheStatus.pageViewsCache.exists">
-                            <li>lastModified: <br /><b>{{ mmapCacheStatus.pageViewsCache.lastModified ? new Date(mmapCacheStatus.pageViewsCache.lastModified).toLocaleString() : 'N/A' }}</b></li>
+                            <li>lastModified: <br /><b>{{ mmapCacheStatus.pageViewsCache.lastModified ? new
+                                Date(mmapCacheStatus.pageViewsCache.lastModified).toLocaleString() : 'N/A' }}</b>
+                            </li>
                             <li>sizeBytes: <br /><b>{{ mmapCacheStatus.pageViewsCache.sizeBytes }}</b></li>
                         </ul>
                         <span v-else>{{ $t('maintenance.mmapCache.noPageViewsCacheFile') }}</span>
                     </LayoutCard>
-                    <LayoutCard :size="LayoutCardSize.Tiny" v-if="mmapCacheStatus.questionViewsCache" :title="$t('maintenance.mmapCache.questionViews')">
+                    <LayoutCard v-if="mmapCacheStatus.questionViewsCache" :size="LayoutCardSize.Tiny"
+                        :title="$t('maintenance.mmapCache.questionViews')">
                         <ul v-if="mmapCacheStatus.questionViewsCache.exists">
-                            <li>lastModified: <br /><b>{{ mmapCacheStatus.questionViewsCache.lastModified ? new Date(mmapCacheStatus.questionViewsCache.lastModified).toLocaleString() : 'N/A' }}</b></li>
+                            <li>lastModified: <br /><b>{{ mmapCacheStatus.questionViewsCache.lastModified ? new
+                                Date(mmapCacheStatus.questionViewsCache.lastModified).toLocaleString() : 'N/A'
+                                    }}</b></li>
                             <li>sizeBytes: <br /><b>{{ mmapCacheStatus.questionViewsCache.sizeBytes }}</b></li>
                         </ul>
                         <span v-else>{{ $t('maintenance.mmapCache.noQuestionViewsCacheFile') }}</span>
@@ -1469,28 +1495,35 @@ onMounted(() => {
             <LayoutPanel :title="$t('maintenance.relations.title')">
                 <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
                     <div class="relation-errors-controls">
-                        <button @click="loadRelationErrors" class="memo-button btn btn-primary" :disabled="isAnalyzing">
-                            <i v-if="isAnalyzing" class="fas fa-spinner fa-spin"></i>
+                        <button class="memo-button btn btn-primary" :disabled="isAnalyzing" @click="loadRelationErrors">
+                            <i v-if="isAnalyzing" class="fas fa-spinner fa-spin" />
                             {{ isAnalyzing ? 'Analyzing...' : 'Analyze and Show' }}
                         </button>
-                        <button @click="clearRelationErrorsCache" class="memo-button btn btn-secondary ms-2" :disabled="isAnalyzing">
+                        <button class="memo-button btn btn-secondary ms-2" :disabled="isAnalyzing"
+                            @click="clearRelationErrorsCache">
                             Clear Cache
                         </button>
                     </div>
                 </LayoutCard>
-                <MaintenanceRelationErrorCard v-for="errorItem in relationErrors" :key="errorItem.parentId" :error-item="errorItem" @heal-relations="healRelations" />
+                <MaintenanceRelationErrorCard v-for="errorItem in relationErrors" :key="errorItem.parentId"
+                    :error-item="errorItem" @heal-relations="healRelations" />
                 <div v-if="relationErrorsLoaded && relationErrors.length === 0" class="no-errors-message">
                     {{ $t('maintenance.relations.noErrorsFound') }}
                 </div>
             </LayoutPanel>
-            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods" :description="$t('maintenance.meiliSearch.description')" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']">
+            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods"
+                :description="$t('maintenance.meiliSearch.description')" :icon="['fas', 'retweet']"
+                @method-clicked="executeMaintenanceOperation" />
+            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" :icon="['fas', 'retweet']"
+                @method-clicked="executeMaintenanceOperation">
                 <LayoutCard :size="LayoutCardSize.Tiny">
                     <div class="active-users-info">
                         <h4>{{ $t('maintenance.users.activeSessions') }}</h4>
                         <ul>
-                            <li>{{ $t('maintenance.users.loggedIn') }}: {{ loggedInUserCount }} ({{ $t('maintenance.users.last5Minutes') }})</li>
-                            <li>{{ $t('maintenance.users.anonymous') }}: {{ anonymousUserCount }} ({{ $t('maintenance.users.lastMinute') }})</li>
+                            <li>{{ $t('maintenance.users.loggedIn') }}: {{ loggedInUserCount }} ({{
+                                $t('maintenance.users.last5Minutes') }})</li>
+                            <li>{{ $t('maintenance.users.anonymous') }}: {{ anonymousUserCount }} ({{
+                                $t('maintenance.users.lastMinute') }})</li>
                         </ul>
                     </div>
                 </LayoutCard>
@@ -1499,7 +1532,7 @@ onMounted(() => {
                         <h4>{{ $t('maintenance.users.deleteUser') }}</h4>
                         <div class="delete-user-input">
                             <input v-model="userIdToDelete" />
-                            <button @click="deleteUser" class="memo-button btn btn-primary">
+                            <button class="memo-button btn btn-primary" @click="deleteUser">
                                 {{ $t('maintenance.users.deleteUserButton') }}
                             </button>
                         </div>
@@ -1524,7 +1557,7 @@ onMounted(() => {
                                     <option value="paid">Paid Tokens</option>
                                 </select>
                             </div>
-                            <button @click="addTokensToUser" class="memo-button btn btn-primary">
+                            <button class="memo-button btn btn-primary" @click="addTokensToUser">
                                 Add Tokens
                             </button>
                         </div>
@@ -1532,10 +1565,12 @@ onMounted(() => {
                 </LayoutCard>
 
             </MaintenanceSection>
-            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'retweet']" />
-            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" @method-clicked="executeMaintenanceOperation" :icon="['fas', 'hammer']" />
+            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" :icon="['fas', 'retweet']"
+                @method-clicked="executeMaintenanceOperation" />
+            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" :icon="['fas', 'hammer']"
+                @method-clicked="executeMaintenanceOperation" />
             <LayoutPanel :title="$t('maintenance.removeAdminRights.title')">
-                <button @click="removeAdminRights" class="memo-button btn btn-primary">
+                <button class="memo-button btn btn-primary" @click="removeAdminRights">
                     {{ $t('maintenance.removeAdminRights.button') }}
                 </button>
             </LayoutPanel>
