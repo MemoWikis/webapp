@@ -15,7 +15,9 @@ test.describe('Settings Profile Edit', () => {
         await expect(usernameInput).toBeVisible()
 
         // Click save button without changes (should still work)
-        const saveButton = page.locator('.memo-button.btn-primary').filter({ hasText: /Speichern|Save/ })
+        const saveButton = page
+            .locator('.memo-button.btn-primary')
+            .filter({ hasText: /Speichern|Save/ })
         await expect(saveButton).toBeVisible()
 
         await saveButton.click()
@@ -27,7 +29,7 @@ test.describe('Settings Profile Edit', () => {
 
         // Check if there's a success alert
         const successAlert = page.locator('.alert-success')
-        const hasSuccess = await successAlert.count() > 0
+        const hasSuccess = (await successAlert.count()) > 0
 
         expect(hasSuccess).toBeTruthy()
     })
