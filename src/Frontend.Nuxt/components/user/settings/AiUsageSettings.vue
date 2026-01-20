@@ -165,7 +165,7 @@ const toggleDate = (date: string) => {
                         </div>
                         <div class="quota-values">
                             <span class="quota-remaining">
-                                {{ userStore.quotaInfo.totalBalance.toLocaleString() }}
+                                {{ userStore.quotaInfo.tokensUsedThisWeek.toLocaleString() }}
                             </span>
                             <span class="quota-separator">{{ t('settings.aiUsage.of') }}</span>
                             <span class="quota-total">
@@ -173,7 +173,7 @@ const toggleDate = (date: string) => {
                                 }}
                             </span>
                             <span class="quota-percentage">({{ userStore.quotaInfo.percentageUsed.toFixed(0)
-                                }}% {{ t('settings.aiUsage.used') }})</span>
+                            }}% {{ t('settings.aiUsage.used') }})</span>
                         </div>
                     </div>
 

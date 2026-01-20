@@ -229,6 +229,7 @@ public class UserStoreController(
     public readonly record struct GetQuotaInfoResponse(
         bool Success,
         int TotalBalance,
+        int TokensUsedThisWeek,
         int SubscriptionBalance,
         int PaidBalance,
         int WeeklyLimit,
@@ -243,7 +244,7 @@ public class UserStoreController(
     {
         if (!_sessionUser.IsLoggedIn)
         {
-            return new GetQuotaInfoResponse(false, 0, 0, 0, 0, 0, null, false, true);
+            return new GetQuotaInfoResponse(false, 0, 0, 0, 0, 0, 0, null, false, true);
         }
 
         // Get ExtendedUserCacheItem which has the weekly token usage loaded at login
@@ -251,7 +252,7 @@ public class UserStoreController(
         var user = extendedUser ?? EntityCache.GetUserById(_sessionUser.UserId);
         if (user == null)
         {
-            return new GetQuotaInfoResponse(false, 0, 0, 0, 0, 0, null, false, true);
+            return new GetQuotaInfoResponse(false, 0, 0, 0, 0, 0, 0, null, false, true);
         }
 
         // Determine if user has active subscription
@@ -287,6 +288,7 @@ public class UserStoreController(
         return new GetQuotaInfoResponse(
             true,
             remainingBalance,
+            (int)tokensUsedThisWeek,
             remainingBalance, // SubscriptionBalance now equals remaining weekly quota
             user.PaidTokensBalance,
             weeklyLimit,

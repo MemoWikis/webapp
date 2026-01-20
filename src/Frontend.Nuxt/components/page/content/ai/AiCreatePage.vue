@@ -426,7 +426,7 @@ function selectSubpage(index: number) {
                         <div class="model-select"
                             :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
                             <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels')
-                            }}</span>
+                                }}</span>
                             <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }}</span>
                             <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
@@ -473,7 +473,7 @@ function selectSubpage(index: number) {
                                         </div>
                                         <div class="quota-values">
                                             <span class="quota-remaining">
-                                                {{ userStore.quotaInfo.totalBalance.toLocaleString() }}
+                                                {{ userStore.quotaInfo.tokensUsedThisWeek.toLocaleString() }}
                                             </span>
                                             <span class="quota-separator">/</span>
                                             <span class="quota-total">

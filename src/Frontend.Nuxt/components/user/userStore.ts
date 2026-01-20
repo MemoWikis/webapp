@@ -44,6 +44,7 @@ export enum FontSize {
 
 export interface QuotaInfo {
     totalBalance: number
+    tokensUsedThisWeek: number
     subscriptionBalance: number
     paidBalance: number
     weeklyLimit: number
@@ -363,6 +364,7 @@ export const useUserStore = defineStore('userStore', {
                 interface GetQuotaInfoResponse {
                     success: boolean
                     totalBalance: number
+                    tokensUsedThisWeek: number
                     subscriptionBalance: number
                     paidBalance: number
                     weeklyLimit: number
@@ -384,6 +386,7 @@ export const useUserStore = defineStore('userStore', {
                 if (result.success) {
                     this.quotaInfo = {
                         totalBalance: result.totalBalance,
+                        tokensUsedThisWeek: result.tokensUsedThisWeek,
                         subscriptionBalance: result.subscriptionBalance,
                         paidBalance: result.paidBalance,
                         weeklyLimit: result.weeklyLimit,
