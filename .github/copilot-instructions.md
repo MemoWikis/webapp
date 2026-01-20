@@ -102,14 +102,35 @@ public class MySummary
 
 Core components in `src/Backend.Core/Domain/AI/`:
 
-- `Usage/TokenDeductionService.cs` - Token balance management, affordability checks, deduction with model-aware cost multipliers
+- `Usage/TokenDeductionService.cs` - Token balance management, affordability checks, weekly quota calculation
 - `Usage/AiUsageLogRepo.cs` - Usage logging with cost analytics, supports queries by model/date/user
 - `Models/AiModelRegistry.cs` - Model whitelist & token cost multipliers, caching
 
-Token types: `SubscriptionTokensBalance` (monthly, resets) and `PaidTokensBalance` (accumulates)
-Deduction priority: Subscription tokens first, then paid tokens
+**Weekly Quota System:**
+
+- Subscribers: more tokens per week
+- Free-tier: less tokens per week
+- Quota resets every Monday at 00:00 (calculated dynamically from `ai_usage_log`)
+- No accumulation of unused tokens
 
 For detailed documentation including integration points, database schema, and token flow examples, see `docs/ai-token-usage-system.md`
+
+# EntityCache Pattern
+
+The EntityCache is the central in-memory cache for entities (Users, Pages, Questions).
+
+**Key Principle:** Always read from cache, write to both DB and cache.
+
+```csharp
+// Reading: Use EntityCache
+var user = EntityCache.GetUserById(userId);
+
+// Writing: Update DB first, then cache
+_userWritingRepo.Update(user);
+EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
+```
+
+For the full pattern with examples and pitfalls, use the `entity-cache-pattern` skill.
 
 # Content Editor & Collaboration System
 
@@ -149,6 +170,10 @@ Skills are domain-specific automation workflows that help with common developmen
 
 - **dev-database-create**: Create a fresh dev database with latest test data (runs ScenarioBuilder test, generates schema.sql, reinitializes MySQL)
 - **dev-database-reset**: Reset the dev database from existing schema.sql (just reinitializes MySQL without updating schema.sql)
+
+## Architecture Skills
+
+- **entity-cache-pattern**: EntityCache read/write patterns, cache+DB synchronization, common pitfalls
 
 ## Testing Skills
 

@@ -204,15 +204,11 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
         {
             if (user.SubscriptionStartDate == null)
             {
-                // First subscription - set start date and grant initial tokens
+                // First subscription - set start date
+                // Note: Weekly token quota is calculated dynamically from ai_usage_log
                 user.SubscriptionStartDate = DateTime.Now;
-                _tokenDeductionService.GrantInitialSubscriptionTokens(user.Id);
             }
-            else
-            {
-                // Renewal - refresh monthly tokens
-                _tokenDeductionService.RefreshMonthlySubscriptionTokens(user.Id);
-            }
+            // Renewal: No action needed - weekly quota is calculated dynamically
         }
 
         user.EndDate = date;
