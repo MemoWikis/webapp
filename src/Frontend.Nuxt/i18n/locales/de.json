@@ -754,6 +754,19 @@
                 "modelLabel": "KI-Modell",
                 "loadingModels": "Modelle werden geladen...",
                 "tokenBalance": "Token-Guthaben",
+                "quota": {
+                    "title": "Monatliches Kontingent",
+                    "resetDate": "Wird zurückgesetzt am",
+                    "depleted": "Kontingent aufgebraucht",
+                    "settingsLink": "Zur KI-Nutzung"
+                },
+                "quotaDepleted": {
+                    "title": "Monatliches Kontingent aufgebraucht",
+                    "message": "Du hast dein monatliches KI-Kontingent aufgebraucht. Dein Kontingent wird automatisch monatlich erneuert, sodass du wieder KI-generierte Seiten erstellen kannst.",
+                    "resetInfo": "Wird zurückgesetzt am {date}",
+                    "viewUsage": "KI-Nutzung anzeigen",
+                    "close": "Schließen"
+                },
                 "complexityLabel": "Komplexität",
                 "complexity": {
                     "simple": "Einfach",
@@ -1207,6 +1220,13 @@
             "computePointsBalance": "Compute-Points",
             "totalBalance": "Verfügbar",
             "monthlyQuota": "Monatliches Kontingent",
+            "monthlyQuotaProgress": "Monatliches Kontingent",
+            "currentQuota": "Aktuelles Kontingent",
+            "resetDate": "Wird zurückgesetzt am",
+            "of": "von",
+            "points": "Punkte",
+            "quotaDepleted": "Kontingent aufgebraucht",
+            "quotaDepletedMessage": "Du hast dein monatliches KI-Kontingent vollständig aufgebraucht. Es wird automatisch monatlich erneuert.",
             "purchasedPoints": "Gekaufte Punkte",
             "last30Days": "Letzte 30 Tage",
             "requests": "Anfragen",

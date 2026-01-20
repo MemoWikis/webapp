@@ -222,4 +222,81 @@ public class UserStoreController(
         var balance = _tokenDeductionService.GetTotalTokenBalance(_sessionUser.UserId);
         return new GetTokenBalanceResponse(true, balance);
     }
+
+    /// <summary>
+    /// Extended quota information including monthly limit, reset date, and subscription status
+    /// </summary>
+    public readonly record struct GetQuotaInfoResponse(
+        bool Success,
+        int TotalBalance,
+        int SubscriptionBalance,
+        int PaidBalance,
+        int MonthlyLimit,
+        double PercentageUsed,
+        DateTime? NextResetDate,
+        bool HasActiveSubscription,
+        bool IsQuotaDepleted);
+
+    private const int DefaultMonthlyTokenLimit = 100000;
+
+    [HttpGet]
+    [AccessOnlyAsLoggedIn]
+    public GetQuotaInfoResponse GetQuotaInfo()
+    {
+        if (!_sessionUser.IsLoggedIn)
+        {
+            return new GetQuotaInfoResponse(false, 0, 0, 0, 0, 0, null, false, true);
+        }
+
+        var user = _sessionUser.User;
+        var totalBalance = _tokenDeductionService.GetTotalTokenBalance(_sessionUser.UserId);
+        var subscriptionBalance = user.SubscriptionTokensBalance;
+        var paidBalance = user.PaidTokensBalance;
+        var monthlyLimit = DefaultMonthlyTokenLimit;
+
+        // Calculate percentage used (tokens consumed from monthly quota)
+        var tokensUsedThisMonth = monthlyLimit - subscriptionBalance;
+        var percentageUsed = subscriptionBalance > 0
+            ? Math.Max(0, Math.Min(100, (double)tokensUsedThisMonth / monthlyLimit * 100))
+            : 100;
+
+        // Calculate next reset date based on subscription start date
+        DateTime? nextResetDate = null;
+        var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
+
+        if (hasActiveSubscription && user.SubscriptionStartDate.HasValue)
+        {
+            var startDate = user.SubscriptionStartDate.Value;
+            var today = DateTime.Today;
+
+            // Calculate the next monthly anniversary
+            var dayOfMonth = Math.Min(startDate.Day, DateTime.DaysInMonth(today.Year, today.Month));
+            var thisMonthAnniversary = new DateTime(today.Year, today.Month, dayOfMonth);
+
+            if (thisMonthAnniversary <= today)
+            {
+                // Next reset is next month
+                var nextMonth = today.AddMonths(1);
+                dayOfMonth = Math.Min(startDate.Day, DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month));
+                nextResetDate = new DateTime(nextMonth.Year, nextMonth.Month, dayOfMonth);
+            }
+            else
+            {
+                nextResetDate = thisMonthAnniversary;
+            }
+        }
+
+        var isQuotaDepleted = totalBalance <= 0;
+
+        return new GetQuotaInfoResponse(
+            true,
+            totalBalance,
+            subscriptionBalance,
+            paidBalance,
+            monthlyLimit,
+            Math.Round(percentageUsed, 1),
+            nextResetDate,
+            hasActiveSubscription,
+            isQuotaDepleted);
+    }
 }

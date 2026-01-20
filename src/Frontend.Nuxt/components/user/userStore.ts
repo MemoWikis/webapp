@@ -42,6 +42,17 @@ export enum FontSize {
     Large = 2,
 }
 
+export interface QuotaInfo {
+    totalBalance: number
+    subscriptionBalance: number
+    paidBalance: number
+    monthlyLimit: number
+    percentageUsed: number
+    nextResetDate: Date | null
+    hasActiveSubscription: boolean
+    isQuotaDepleted: boolean
+}
+
 export const useUserStore = defineStore('userStore', {
     state: () => {
         return {
@@ -71,7 +82,10 @@ export const useUserStore = defineStore('userStore', {
             showLoginReminder: false,
             showAsVisitor: false,
             tokenBalance: null as number | null,
-            isLoadingTokenBalance: false
+            isLoadingTokenBalance: false,
+            // Quota info
+            quotaInfo: null as QuotaInfo | null,
+            isLoadingQuotaInfo: false,
         }
     },
     actions: {
@@ -125,7 +139,7 @@ export const useUserStore = defineStore('userStore', {
                     body: loginData,
                     mode: 'cors',
                     credentials: 'include',
-                }
+                },
             )
             if (!!result && result.success) {
                 this.showLoginModal = false
@@ -151,7 +165,7 @@ export const useUserStore = defineStore('userStore', {
                     body: registerData,
                     mode: 'cors',
                     credentials: 'include',
-                }
+                },
             )
 
             if (!!result && result.success) {
@@ -176,7 +190,7 @@ export const useUserStore = defineStore('userStore', {
                     method: 'POST',
                     mode: 'cors',
                     credentials: 'include',
-                }
+                },
             )
             loadingStore.stopLoading()
 
@@ -212,7 +226,7 @@ export const useUserStore = defineStore('userStore', {
                                     response: context.response,
                                     host: context.request,
                                 },
-                            ]
+                            ],
                         )
                         const nuxtApp = useNuxtApp()
                         const { $i18n } = nuxtApp
@@ -221,7 +235,7 @@ export const useUserStore = defineStore('userStore', {
                             text: $i18n.t('error.default'),
                         })
                     },
-                }
+                },
             )
             return result
         },
@@ -232,7 +246,7 @@ export const useUserStore = defineStore('userStore', {
                     method: 'GET',
                     mode: 'cors',
                     credentials: 'include',
-                }
+                },
             )
         },
         async requestVerificationMail() {
@@ -252,7 +266,7 @@ export const useUserStore = defineStore('userStore', {
                                     response: context.response,
                                     host: context.request,
                                 },
-                            ]
+                            ],
                         )
                         const nuxtApp = useNuxtApp()
                         const { $i18n } = nuxtApp
@@ -261,7 +275,7 @@ export const useUserStore = defineStore('userStore', {
                             text: $i18n.t('error.default'),
                         })
                     },
-                }
+                },
             )
             return result
         },
@@ -293,7 +307,7 @@ export const useUserStore = defineStore('userStore', {
                     body: { language },
                     mode: 'cors',
                     credentials: 'include',
-                }
+                },
             )
         },
         async addShareToken(pageId: number, shareToken: string) {
@@ -320,11 +334,14 @@ export const useUserStore = defineStore('userStore', {
                     totalBalance: number
                 }
 
-                const result = await $api<GetTokenBalanceResponse>('/apiVue/UserStore/GetTokenBalance', {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'include'
-                })
+                const result = await $api<GetTokenBalanceResponse>(
+                    '/apiVue/UserStore/GetTokenBalance',
+                    {
+                        method: 'GET',
+                        mode: 'cors',
+                        credentials: 'include',
+                    },
+                )
 
                 if (result.success) {
                     this.tokenBalance = result.totalBalance
@@ -334,7 +351,58 @@ export const useUserStore = defineStore('userStore', {
             } finally {
                 this.isLoadingTokenBalance = false
             }
-        }
+        },
+        async fetchQuotaInfo() {
+            if (!this.isLoggedIn) {
+                this.quotaInfo = null
+                return
+            }
+
+            this.isLoadingQuotaInfo = true
+            try {
+                interface GetQuotaInfoResponse {
+                    success: boolean
+                    totalBalance: number
+                    subscriptionBalance: number
+                    paidBalance: number
+                    monthlyLimit: number
+                    percentageUsed: number
+                    nextResetDate: string | null
+                    hasActiveSubscription: boolean
+                    isQuotaDepleted: boolean
+                }
+
+                const result = await $api<GetQuotaInfoResponse>(
+                    '/apiVue/UserStore/GetQuotaInfo',
+                    {
+                        method: 'GET',
+                        mode: 'cors',
+                        credentials: 'include',
+                    },
+                )
+
+                if (result.success) {
+                    this.quotaInfo = {
+                        totalBalance: result.totalBalance,
+                        subscriptionBalance: result.subscriptionBalance,
+                        paidBalance: result.paidBalance,
+                        monthlyLimit: result.monthlyLimit,
+                        percentageUsed: result.percentageUsed,
+                        nextResetDate: result.nextResetDate
+                            ? new Date(result.nextResetDate)
+                            : null,
+                        hasActiveSubscription: result.hasActiveSubscription,
+                        isQuotaDepleted: result.isQuotaDepleted,
+                    }
+                    // Also update tokenBalance for consistency
+                    this.tokenBalance = result.totalBalance
+                }
+            } catch (error) {
+                console.error('Failed to fetch quota info:', error)
+            } finally {
+                this.isLoadingQuotaInfo = false
+            }
+        },
     },
     getters: {
         showLoginToEditReminderBanner(): boolean {

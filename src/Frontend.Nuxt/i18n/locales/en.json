@@ -754,6 +754,19 @@
                 "modelLabel": "AI Model",
                 "loadingModels": "Loading models...",
                 "tokenBalance": "Token Balance",
+                "quota": {
+                    "title": "Monthly Quota",
+                    "resetDate": "Resets on",
+                    "depleted": "Quota depleted",
+                    "settingsLink": "View AI Usage"
+                },
+                "quotaDepleted": {
+                    "title": "Monthly Quota Depleted",
+                    "message": "You've used your monthly AI quota. Your quota will automatically renew monthly, so you can create AI-generated pages again.",
+                    "resetInfo": "Resets on {date}",
+                    "viewUsage": "View AI Usage",
+                    "close": "Close"
+                },
                 "complexityLabel": "Complexity level",
                 "complexity": {
                     "simple": "Simple",
@@ -1207,6 +1220,13 @@
             "computePointsBalance": "Compute Points",
             "totalBalance": "Available",
             "monthlyQuota": "Monthly Quota",
+            "monthlyQuotaProgress": "Monthly Quota",
+            "currentQuota": "Current Quota",
+            "resetDate": "Resets on",
+            "of": "of",
+            "points": "points",
+            "quotaDepleted": "Quota Depleted",
+            "quotaDepletedMessage": "You've used your entire monthly AI quota. It will be automatically renewed monthly.",
             "purchasedPoints": "Purchased Points",
             "last30Days": "Last 30 Days",
             "requests": "Requests",

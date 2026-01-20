@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-const { t } = useI18n()
+import { useUserStore } from '~/components/user/userStore'
+
+const { t, locale } = useI18n()
+const userStore = useUserStore()
 
 interface DailyUsageSummary {
     date: string
@@ -32,12 +35,15 @@ const usageData = ref<AiUsageResponse | null>(null)
 const loadUsageData = async () => {
     isLoading.value = true
     try {
-        const result = await $api<AiUsageResponse>('/apiVue/AiUsageStore/GetAiUsage', {
-            method: 'GET',
-            query: { days: 30 },
-            credentials: 'include'
-        })
-        usageData.value = result
+        const [usageResult] = await Promise.all([
+            $api<AiUsageResponse>('/apiVue/AiUsageStore/GetAiUsage', {
+                method: 'GET',
+                query: { days: 30 },
+                credentials: 'include'
+            }),
+            userStore.fetchQuotaInfo()
+        ])
+        usageData.value = usageResult
     } catch (error) {
         console.error('Failed to load AI usage data:', error)
     } finally {
@@ -49,6 +55,13 @@ onMounted(() => {
     loadUsageData()
 })
 
+function formatResetDate(date: Date): string {
+    return date.toLocaleDateString(locale.value, {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long'
+    })
+}
 const formatNumber = (num: number): string => {
     return new Intl.NumberFormat().format(num)
 }
@@ -125,6 +138,54 @@ const toggleDate = (date: string) => {
         </div>
 
         <template v-else-if="usageData?.success">
+            <!-- Monthly Quota Progress Section -->
+            <div v-if="userStore.quotaInfo" class="settings-section quota-section">
+                <div class="overline-s no-line">{{ t('settings.aiUsage.monthlyQuotaProgress') }}</div>
+                <div class="quota-card">
+                    <div class="quota-header">
+                        <div class="quota-title">
+                            <font-awesome-icon :icon="['fas', 'chart-pie']" />
+                            {{ t('settings.aiUsage.currentQuota') }}
+                        </div>
+                        <div v-if="userStore.quotaInfo.hasActiveSubscription && userStore.quotaInfo.nextResetDate"
+                            class="quota-reset">
+                            <font-awesome-icon :icon="['fas', 'calendar-alt']" />
+                            {{ t('settings.aiUsage.resetDate') }}: {{ formatResetDate(userStore.quotaInfo.nextResetDate)
+                            }}
+                        </div>
+                    </div>
+
+                    <div class="quota-progress-container">
+                        <div class="quota-progress-bar">
+                            <div class="quota-progress-fill" :class="{
+                                'low': userStore.quotaInfo.percentageUsed > 80,
+                                'depleted': userStore.quotaInfo.isQuotaDepleted
+                            }" :style="{ width: `${100 - userStore.quotaInfo.percentageUsed}%` }" />
+                        </div>
+                        <div class="quota-values">
+                            <span class="quota-remaining">
+                                {{ userStore.quotaInfo.totalBalance.toLocaleString() }}
+                            </span>
+                            <span class="quota-separator">{{ t('settings.aiUsage.of') }}</span>
+                            <span class="quota-total">
+                                {{ userStore.quotaInfo.monthlyLimit.toLocaleString() }} {{ t('settings.aiUsage.points')
+                                }}
+                            </span>
+                            <span class="quota-percentage">({{ (100 - userStore.quotaInfo.percentageUsed).toFixed(0)
+                                }}%)</span>
+                        </div>
+                    </div>
+
+                    <div v-if="userStore.quotaInfo.isQuotaDepleted" class="quota-depleted-alert">
+                        <font-awesome-icon :icon="['fas', 'exclamation-triangle']" />
+                        <div class="alert-content">
+                            <div class="alert-title">{{ t('settings.aiUsage.quotaDepleted') }}</div>
+                            <div class="alert-message">{{ t('settings.aiUsage.quotaDepletedMessage') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Compute Points Balance Section -->
             <div class="settings-section">
                 <div class="overline-s no-line">{{ t('settings.aiUsage.computePointsBalance') }}</div>
@@ -243,6 +304,126 @@ const toggleDate = (date: string) => {
 
     .settings-section {
         margin-bottom: 32px;
+    }
+
+    // Quota Progress Section
+    .quota-section {
+        .quota-card {
+            background: white;
+            border: 1px solid @memo-grey-light;
+            border-radius: 12px;
+            padding: 20px;
+
+            .quota-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 16px;
+                flex-wrap: wrap;
+                gap: 8px;
+
+                .quota-title {
+                    font-weight: 600;
+                    color: @memo-blue;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+
+                .quota-reset {
+                    font-size: 13px;
+                    color: @memo-grey-dark;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+
+                    svg {
+                        color: @memo-blue;
+                    }
+                }
+            }
+
+            .quota-progress-container {
+                .quota-progress-bar {
+                    height: 12px;
+                    background: @memo-grey-lighter;
+                    border-radius: 6px;
+                    overflow: hidden;
+                    margin-bottom: 8px;
+
+                    .quota-progress-fill {
+                        height: 100%;
+                        background: linear-gradient(90deg, @memo-green, darken(@memo-green, 10%));
+                        border-radius: 6px;
+                        transition: width 0.5s ease;
+
+                        &.low {
+                            background: linear-gradient(90deg, @memo-yellow, darken(@memo-yellow, 20%));
+                        }
+
+                        &.depleted {
+                            background: #B13A48;
+                            width: 0 !important;
+                        }
+                    }
+                }
+
+                .quota-values {
+                    display: flex;
+                    align-items: baseline;
+                    gap: 6px;
+                    font-size: 14px;
+
+                    .quota-remaining {
+                        font-weight: 700;
+                        font-size: 18px;
+                        color: @memo-blue;
+                    }
+
+                    .quota-separator,
+                    .quota-total {
+                        color: @memo-grey-dark;
+                    }
+
+                    .quota-percentage {
+                        color: @memo-green;
+                        font-weight: 500;
+                    }
+                }
+            }
+
+            .quota-depleted-alert {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                margin-top: 16px;
+                padding: 12px 16px;
+                background: fade(#B13A48, 8%);
+                border: 1px solid fade(#B13A48, 20%);
+                border-radius: 8px;
+
+                >svg {
+                    color: #B13A48;
+                    font-size: 18px;
+                    flex-shrink: 0;
+                    margin-top: 2px;
+                }
+
+                .alert-content {
+                    .alert-title {
+                        font-weight: 600;
+                        color: #B13A48;
+                        margin-bottom: 4px;
+                    }
+
+                    .alert-message {
+                        font-size: 13px;
+                        color: @memo-grey-darker;
+                        line-height: 1.5;
+                    }
+                }
+            }
+        }
     }
 
     .balance-cards {

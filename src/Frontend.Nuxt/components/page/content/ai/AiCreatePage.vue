@@ -9,7 +9,8 @@ const aiCreatePageStore = useAiCreatePageStore()
 const userStore = useUserStore()
 const snackbarStore = useSnackbarStore()
 const pageStore = usePageStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
 const { isMobile } = useDevice()
 const detailDropdownAriaId = useId()
 
@@ -24,6 +25,12 @@ function resizeTextArea() {
     }
 }
 
+function formatResetDate(date: Date): string {
+    return date.toLocaleDateString(locale.value, {
+        day: 'numeric',
+        month: 'short'
+    })
+}
 const complexityLabels = computed(() => ({
     [DifficultyLevel.ELI5]: t('page.ai.createPage.complexity.simple'),
     [DifficultyLevel.Beginner]: t('page.ai.createPage.complexity.basic'),
@@ -109,11 +116,30 @@ const currentPreviewContent = computed(() => {
     return aiCreatePageStore.generatedContent
 })
 
+// Check if quota is depleted
+const isQuotaDepleted = computed(() => {
+    return userStore.quotaInfo?.isQuotaDepleted ?? false
+})
+
+const showQuotaDepletedModal = ref(false)
+
 async function handleGenerate() {
     if (!userStore.isLoggedIn) {
         userStore.openLoginModal()
         return
     }
+
+    // Fetch quota info first if not available
+    if (!userStore.quotaInfo) {
+        await userStore.fetchQuotaInfo()
+    }
+
+    // Check if quota is depleted
+    if (userStore.quotaInfo?.isQuotaDepleted) {
+        showQuotaDepletedModal.value = true
+        return
+    }
+
     await aiCreatePageStore.generatePage(shouldGenerateWikiWithSubpages.value)
 }
 
@@ -414,20 +440,63 @@ function selectSubpage(index: number) {
 
                     <VDropdown :distance="2" placement="top" class="token-balance-dropdown">
                         <div class="token-balance-btn" :title="t('page.ai.createPage.tokenBalance')"
-                            @click="userStore.fetchTokenBalance()">
+                            @click="userStore.fetchQuotaInfo()">
                             <font-awesome-icon :icon="['fas', 'coins']" />
                         </div>
 
                         <template #popper>
                             <div class="token-balance-popper">
-                                <div class="token-balance-header">{{ t('page.ai.createPage.tokenBalance') }}</div>
-                                <div class="token-balance-value">
-                                    <span v-if="userStore.isLoadingTokenBalance">...</span>
-                                    <span v-else-if="userStore.tokenBalance !== null">
-                                        {{ userStore.tokenBalance.toLocaleString() }}
-                                    </span>
-                                    <span v-else>—</span>
+                                <div class="token-balance-header">{{ t('page.ai.createPage.quota.title') }}</div>
+
+                                <div v-if="userStore.isLoadingQuotaInfo" class="loading-state">
+                                    <font-awesome-icon icon="fa-solid fa-spinner" spin />
                                 </div>
+
+                                <template v-else-if="userStore.quotaInfo">
+                                    <!-- Progress Bar -->
+                                    <div class="quota-progress-container">
+                                        <div class="quota-progress-bar">
+                                            <div class="quota-progress-fill" :class="{
+                                                'low': userStore.quotaInfo.percentageUsed > 80,
+                                                'depleted': userStore.quotaInfo.isQuotaDepleted
+                                            }" :style="{ width: `${100 - userStore.quotaInfo.percentageUsed}%` }" />
+                                        </div>
+                                        <div class="quota-values">
+                                            <span class="quota-remaining">
+                                                {{ userStore.quotaInfo.totalBalance.toLocaleString() }}
+                                            </span>
+                                            <span class="quota-separator">/</span>
+                                            <span class="quota-total">
+                                                {{ userStore.quotaInfo.monthlyLimit.toLocaleString() }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Reset Date -->
+                                    <div v-if="userStore.quotaInfo.hasActiveSubscription && userStore.quotaInfo.nextResetDate"
+                                        class="quota-reset">
+                                        <font-awesome-icon :icon="['fas', 'calendar-alt']" class="reset-icon" />
+                                        <span>{{ t('page.ai.createPage.quota.resetDate') }}: {{
+                                            formatResetDate(userStore.quotaInfo.nextResetDate) }}</span>
+                                    </div>
+
+                                    <!-- Depleted Warning -->
+                                    <div v-if="userStore.quotaInfo.isQuotaDepleted" class="quota-depleted-warning">
+                                        <font-awesome-icon :icon="['fas', 'exclamation-triangle']" />
+                                        <span>{{ t('page.ai.createPage.quota.depleted') }}</span>
+                                    </div>
+
+                                    <!-- Link to Settings -->
+                                    <NuxtLink :to="localePath('/Einstellungen?tab=ai-usage')"
+                                        class="quota-settings-link">
+                                        <font-awesome-icon :icon="['fas', 'cog']" />
+                                        {{ t('page.ai.createPage.quota.settingsLink') }}
+                                    </NuxtLink>
+                                </template>
+
+                                <template v-else>
+                                    <div class="token-balance-value">—</div>
+                                </template>
                             </div>
                         </template>
                     </VDropdown>
@@ -444,12 +513,46 @@ function selectSubpage(index: number) {
                             <span>{{ t('page.ai.createPage.createAsWiki') }}</span>
                         </label>
                     </div>
-                    <div class="memo-button btn btn-primary" role="button"
+                    <div class="memo-button btn btn-primary" role="button" :class="{ 'disabled': isQuotaDepleted }"
                         @click="hasGeneratedContent ? handleCreate() : handleGenerate()">{{ primaryButtonLabel }}</div>
                 </div>
             </div>
         </template>
     </LazyModal>
+
+    <!-- Quota Depleted Modal -->
+    <Teleport to="body">
+        <Transition name="modal-fade">
+            <div v-if="showQuotaDepletedModal" class="quota-depleted-overlay"
+                @click.self="showQuotaDepletedModal = false">
+                <div class="quota-depleted-modal">
+                    <div class="modal-icon">
+                        <font-awesome-icon :icon="['fas', 'hourglass-half']" />
+                    </div>
+                    <h3 class="modal-title">{{ t('page.ai.createPage.quotaDepleted.title') }}</h3>
+                    <p class="modal-message">{{ t('page.ai.createPage.quotaDepleted.message') }}</p>
+
+                    <div v-if="userStore.quotaInfo?.nextResetDate" class="reset-info">
+                        <font-awesome-icon :icon="['fas', 'calendar-check']" />
+                        <span>{{ t('page.ai.createPage.quotaDepleted.resetInfo', {
+                            date:
+                                formatResetDate(userStore.quotaInfo.nextResetDate)
+                        }) }}</span>
+                    </div>
+
+                    <div class="modal-actions">
+                        <NuxtLink :to="localePath('/Einstellungen?tab=ai-usage')" class="btn btn-primary settings-btn">
+                            <font-awesome-icon :icon="['fas', 'chart-pie']" />
+                            {{ t('page.ai.createPage.quotaDepleted.viewUsage') }}
+                        </NuxtLink>
+                        <button class="btn btn-secondary" @click="showQuotaDepletedModal = false">
+                            {{ t('page.ai.createPage.quotaDepleted.close') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </Transition>
+    </Teleport>
 </template>
 
 <style lang="less" scoped>
@@ -1031,18 +1134,238 @@ function selectSubpage(index: number) {
 
 .token-balance-popper {
     padding: 12px 16px;
-    min-width: 140px;
+    min-width: 200px;
 
     .token-balance-header {
         font-size: 12px;
+        font-weight: 600;
         color: @memo-grey-dark;
-        margin-bottom: 4px;
+        margin-bottom: 8px;
     }
 
     .token-balance-value {
         font-size: 18px;
         font-weight: 600;
         color: @memo-blue;
+    }
+
+    .loading-state {
+        text-align: center;
+        padding: 8px;
+        color: @memo-grey-dark;
+    }
+
+    .quota-progress-container {
+        margin-bottom: 12px;
+
+        .quota-progress-bar {
+            height: 8px;
+            background: @memo-grey-lighter;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 4px;
+
+            .quota-progress-fill {
+                height: 100%;
+                background: linear-gradient(90deg, @memo-green, @memo-green);
+                border-radius: 4px;
+                transition: width 0.3s ease;
+
+                &.low {
+                    background: @memo-yellow;
+                }
+
+                &.depleted {
+                    background: #B13A48;
+                    width: 0 !important;
+                }
+            }
+        }
+
+        .quota-values {
+            display: flex;
+            align-items: baseline;
+            font-size: 14px;
+
+            .quota-remaining {
+                font-weight: 600;
+                color: @memo-blue;
+                font-size: 16px;
+            }
+
+            .quota-separator {
+                margin: 0 4px;
+                color: @memo-grey-dark;
+            }
+
+            .quota-total {
+                color: @memo-grey-dark;
+            }
+        }
+    }
+
+    .quota-reset {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: @memo-grey-dark;
+        margin-bottom: 8px;
+
+        .reset-icon {
+            color: @memo-blue;
+        }
+    }
+
+    .quota-depleted-warning {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px;
+        background: fade(#B13A48, 10%);
+        border-radius: 4px;
+        color: #B13A48;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .quota-settings-link {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: @memo-blue-link;
+        text-decoration: none;
+        padding-top: 8px;
+        border-top: 1px solid @memo-grey-lighter;
+        margin-top: 4px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+// Quota Depleted Modal Styles
+.quota-depleted-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+}
+
+.quota-depleted-modal {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+
+    .modal-icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, @memo-yellow 0%, darken(@memo-yellow, 15%) 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+
+        svg {
+            font-size: 28px;
+            color: white;
+        }
+    }
+
+    .modal-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: @memo-grey-darker;
+        margin: 0 0 12px;
+    }
+
+    .modal-message {
+        font-size: 14px;
+        color: @memo-grey-dark;
+        line-height: 1.6;
+        margin: 0 0 20px;
+    }
+
+    .reset-info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background: fade(@memo-green, 10%);
+        border-radius: 8px;
+        color: darken(@memo-green, 20%);
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 24px;
+
+        svg {
+            color: @memo-green;
+        }
+    }
+
+    .modal-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .settings-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 24px;
+            font-weight: 500;
+        }
+
+        .btn-secondary {
+            background: @memo-grey-lighter;
+            color: @memo-grey-dark;
+            border: none;
+
+            &:hover {
+                background: darken(@memo-grey-lighter, 5%);
+            }
+        }
+    }
+}
+
+// Modal transition
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+    transition: opacity 0.2s ease;
+
+    .quota-depleted-modal {
+        transition: transform 0.2s ease;
+    }
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+    opacity: 0;
+
+    .quota-depleted-modal {
+        transform: scale(0.95);
     }
 }
 </style>
