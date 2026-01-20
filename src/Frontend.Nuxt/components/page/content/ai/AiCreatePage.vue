@@ -426,7 +426,7 @@ function selectSubpage(index: number) {
                         <div class="model-select"
                             :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
                             <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels')
-                            }}</span>
+                                }}</span>
                             <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }}</span>
                             <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
@@ -449,7 +449,7 @@ function selectSubpage(index: number) {
 
                     <VDropdown :distance="2" placement="top" class="token-balance-dropdown">
                         <div class="token-balance-btn" :title="t('page.ai.createPage.tokenBalance')"
-                            :class="{ 'quota-low': userStore.quotaInfo?.percentageUsed > 80, 'quota-depleted': userStore.quotaInfo?.isQuotaDepleted }"
+                            :class="{ 'quota-low': (userStore.quotaInfo?.percentageUsed ?? 0) > 80, 'quota-depleted': userStore.quotaInfo?.isQuotaDepleted }"
                             @click="userStore.fetchQuotaInfo()">
                             <font-awesome-icon :icon="['fas', 'chart-pie']" />
                         </div>
@@ -524,7 +524,7 @@ function selectSubpage(index: number) {
                     <span>{{ t('page.ai.createPage.quotaWarning.low', {
                         percent: (100 -
                             userStore.quotaInfo.percentageUsed).toFixed(0)
-                        }) }}</span>
+                    }) }}</span>
                 </NuxtLink>
 
                 <div class="buttons">
