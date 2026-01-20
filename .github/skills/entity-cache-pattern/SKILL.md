@@ -26,9 +26,79 @@ The EntityCache is a centralized in-memory cache that provides fast access to fr
 
 - **EntityCache.cs**: `src/Backend.Core/Infrastructure/Cache/EntityCache.cs`
 - **UserCacheItem.cs**: `src/Backend.Core/Infrastructure/Cache/EntityCache/UserCacheItem.cs`
+- **ExtendedUserCacheItem.cs**: `src/Backend.Core/Infrastructure/Cache/SlidingCache/ExtendedUserCacheItem.cs`
+- **ExtendedUserCache.cs**: `src/Backend.Core/Infrastructure/Cache/SlidingCache/ExtendedUserCache.cs`
 - **PageCacheItem.cs**: `src/Backend.Core/Infrastructure/Cache/EntityCache/PageCacheItem.cs`
 - **QuestionCacheItem.cs**: `src/Backend.Core/Infrastructure/Cache/EntityCache/QuestionCacheItem.cs`
 - **EntityCacheInitializer.cs**: `src/Backend.Core/Infrastructure/Cache/EntityCache/EntityCacheInitializer.cs`
+
+## Two-Tier User Cache Pattern
+
+The user cache is split into two tiers:
+
+### UserCacheItem (Tier 1: Always loaded)
+- Loaded at **application startup** for ALL users
+- Contains basic user data (name, email, subscription status, etc.)
+- Low memory footprint per user
+- Access via `EntityCache.GetUserById(userId)`
+
+### ExtendedUserCacheItem (Tier 2: Loaded on login)
+- **Extends** `UserCacheItem`
+- Loaded **only when user logs in** (`SessionUser.Login()`)
+- Contains "expensive" user-specific data:
+  - `PageValuations` - User's page ratings
+  - `QuestionValuations` - User's question answers/ratings
+  - `AnswerCounter` - Answer history
+  - `Skills` - User skill evaluations
+  - `CurrentWeekTokenUsage` - AI token usage this week
+- Access via `ExtendedUserCache.GetUser(userId)` or `EntityCache.GetExtendedUserByIdNullable(userId)`
+
+### When to use which tier:
+
+```csharp
+// Tier 1: Basic user data (always available)
+var user = EntityCache.GetUserById(userId);
+var userName = user.Name;
+var hasSubscription = user.SubscriptionStartDate.HasValue;
+
+// Tier 2: User-specific data (only after login)
+var extendedUser = _extendedUserCache.GetUser(userId);
+var skills = extendedUser.GetAllSkills();
+var tokenUsage = extendedUser.CurrentWeekTokenUsage;
+```
+
+### Adding data to ExtendedUserCacheItem:
+
+When adding new user-specific data that should only be loaded at login:
+
+1. Add property to `ExtendedUserCacheItem`:
+```csharp
+public class ExtendedUserCacheItem : UserCacheItem
+{
+    public long CurrentWeekTokenUsage { get; set; } = 0;
+}
+```
+
+2. Add populate method in `ExtendedUserCache`:
+```csharp
+private void PopulateTokenUsage(ExtendedUserCacheItem cacheItem, AiUsageLogRepo repo)
+{
+    var usage = repo.GetCurrentWeekTokenUsage(cacheItem.Id);
+    cacheItem.CurrentWeekTokenUsage = usage.TotalTokens;
+}
+```
+
+3. Call in `CreateExtendedUserCacheItem()`:
+```csharp
+public ExtendedUserCacheItem CreateExtendedUserCacheItem(int userId, ...)
+{
+    var cacheItem = CreateCacheItem(EntityCache.GetUserById(userId));
+    PopulatePageValuations(cacheItem);
+    PopulateTokenUsage(cacheItem, _aiUsageLogRepo);  // New
+    // ...
+    return cacheItem;
+}
+```
 
 ## Reading from Cache
 

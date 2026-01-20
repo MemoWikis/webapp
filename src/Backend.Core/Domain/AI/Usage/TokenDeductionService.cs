@@ -121,7 +121,9 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
 
     private bool CanAffordTokensInternal(int userId, int estimatedCost, decimal tokenCostMultiplier, int maxNegativeBalance)
     {
-        var user = EntityCache.GetUserById(userId);
+        // Try to get ExtendedUserCacheItem first (logged-in users have this)
+        var extendedUser = EntityCache.GetExtendedUserByIdNullable(userId);
+        var user = extendedUser ?? EntityCache.GetUserById(userId);
         if (user == null)
             return false;
 
@@ -132,7 +134,7 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
         var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
 
-        // Get actual token usage this week from cache
+        // Get actual token usage this week from cache (only populated for logged-in users)
         var tokensUsedThisWeek = user.CurrentWeekTokenUsage;
 
         // Calculate remaining balance
@@ -144,12 +146,13 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     }
 
     /// <summary>
-    /// Gets the total token usage for the current week from the cache.
+    /// Gets the total token usage for the current week from the ExtendedUserCacheItem.
+    /// Returns 0 if user is not logged in (no ExtendedUserCacheItem exists).
     /// </summary>
     public static long GetCurrentWeekTokenUsage(int userId)
     {
-        var user = EntityCache.GetUserById(userId);
-        return user?.CurrentWeekTokenUsage ?? 0;
+        var extendedUser = EntityCache.GetExtendedUserByIdNullable(userId);
+        return extendedUser?.CurrentWeekTokenUsage ?? 0;
     }
 
     /// <summary>
@@ -284,11 +287,13 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
 
     /// <summary>
     /// Checks if user has enough tokens for a given operation.
-    /// Uses the dynamic weekly quota system with cached usage.
+    /// Uses the dynamic weekly quota system with cached usage from ExtendedUserCacheItem.
     /// </summary>
     public bool HasEnoughTokens(int userId, int requiredTokens)
     {
-        var user = EntityCache.GetUserById(userId);
+        // Try to get ExtendedUserCacheItem first (logged-in users have this)
+        var extendedUser = EntityCache.GetExtendedUserByIdNullable(userId);
+        var user = extendedUser ?? EntityCache.GetUserById(userId);
         if (user == null)
         {
             return false;
@@ -298,7 +303,7 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
         var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
 
-        // Get actual token usage this week from cache
+        // Get actual token usage this week from cache (only populated for logged-in users)
         var tokensUsedThisWeek = user.CurrentWeekTokenUsage;
 
         // Calculate remaining balance
@@ -307,11 +312,13 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     }
 
     /// <summary>
-    /// Gets the total remaining token balance for a user (weekly limit - used this week from cache).
+    /// Gets the total remaining token balance for a user (weekly limit - used this week from ExtendedUserCacheItem).
     /// </summary>
     public int GetTotalTokenBalance(int userId)
     {
-        var user = EntityCache.GetUserById(userId);
+        // Try to get ExtendedUserCacheItem first (logged-in users have this)
+        var extendedUser = EntityCache.GetExtendedUserByIdNullable(userId);
+        var user = extendedUser ?? EntityCache.GetUserById(userId);
         if (user == null)
         {
             return 0;
@@ -321,7 +328,7 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
         var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
 
-        // Get actual token usage this week from cache
+        // Get actual token usage this week from cache (only populated for logged-in users)
         var tokensUsedThisWeek = user.CurrentWeekTokenUsage;
 
         // Return remaining balance

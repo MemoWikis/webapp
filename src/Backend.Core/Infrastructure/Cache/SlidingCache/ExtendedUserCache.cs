@@ -4,7 +4,8 @@ public class ExtendedUserCache(
     PageValuationReadingRepository pageValuationReadingRepository,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
     AnswerRepo _answerRepo,
-    UserSkillService _userSkillService)
+    UserSkillService _userSkillService,
+    AiUsageLogRepo _aiUsageLogRepo)
     : IRegisterAsInstancePerLifetime
 {
     // Note: No longer using session-based expiration
@@ -179,6 +180,7 @@ public class ExtendedUserCache(
         PopulateQuestionValuations(cacheItem);
         PopulateAnswers(cacheItem);
         PopulateUserSkills(cacheItem);
+        PopulateCurrentWeekTokenUsage(cacheItem);
         if (_pageViewRepo != null)
             PopulateRecentPages(cacheItem, _pageViewRepo);
 
@@ -265,11 +267,18 @@ public class ExtendedUserCache(
         EntityCache.AddOrUpdate(cacheItem);
     }
 
-    private void PopulateTokenUsage(ExtendedUserCacheItem cacheItem, AiUsageLogRepo _aiUsageLogRepo)
+    private void PopulateCurrentWeekTokenUsage(ExtendedUserCacheItem cacheItem)
     {
-        if (cacheItem.MonthlyTokenUsage == null)
+        try
         {
-            cacheItem.MonthlyTokenUsage = new MonthlyTokenUsage(cacheItem.Id, _aiUsageLogRepo);
+            var usage = _aiUsageLogRepo.GetCurrentWeekTokenUsage(cacheItem.Id);
+            cacheItem.CurrentWeekTokenUsage = usage.TotalTokens;
+        }
+        catch (Exception ex)
+        {
+            // Don't fail login if ai_usage_log table doesn't exist yet
+            Log.Error(ex, "Failed to load weekly token usage for user {UserId}", cacheItem.Id);
+            cacheItem.CurrentWeekTokenUsage = 0;
         }
     }
 }

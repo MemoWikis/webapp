@@ -52,13 +52,14 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
 
     /// <summary>
     /// Updates the cached weekly token usage for a user after AI usage.
+    /// Updates the ExtendedUserCacheItem which is loaded at login.
     /// </summary>
     private static void UpdateCachedWeeklyUsage(int userId, int tokenIn, int tokenOut)
     {
-        var user = EntityCache.GetUserById(userId);
-        if (user != null)
+        var extendedUser = EntityCache.GetExtendedUserByIdNullable(userId);
+        if (extendedUser != null)
         {
-            user.CurrentWeekTokenUsage += tokenIn + tokenOut;
+            extendedUser.CurrentWeekTokenUsage += tokenIn + tokenOut;
         }
     }
 

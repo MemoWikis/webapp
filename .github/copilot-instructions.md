@@ -115,10 +115,10 @@ Core components in `src/Backend.Core/Domain/AI/`:
 
 **Caching:**
 
-- Weekly token usage is cached in `UserCacheItem.CurrentWeekTokenUsage`
-- Loaded during cache initialization via `EntityCacheInitializer`
+- Weekly token usage is cached in `ExtendedUserCacheItem.CurrentWeekTokenUsage`
+- Loaded at user login via `ExtendedUserCache.CreateExtendedUserCacheItem`
 - Updated after each AI usage in `AiUsageLogRepo.AddUsage`
-- `TokenDeductionService` reads from cache, never queries DB for usage
+- `TokenDeductionService` reads from `ExtendedUserCacheItem`, never queries DB for usage
 
 For detailed documentation including integration points, database schema, and token flow examples, see `docs/ai-token-usage-system.md`
 

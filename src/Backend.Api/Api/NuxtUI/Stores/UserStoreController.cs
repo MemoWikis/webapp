@@ -246,7 +246,9 @@ public class UserStoreController(
             return new GetQuotaInfoResponse(false, 0, 0, 0, 0, 0, null, false, true);
         }
 
-        var user = EntityCache.GetUserById(_sessionUser.UserId);
+        // Get ExtendedUserCacheItem which has the weekly token usage loaded at login
+        var extendedUser = EntityCache.GetExtendedUserByIdNullable(_sessionUser.UserId);
+        var user = extendedUser ?? EntityCache.GetUserById(_sessionUser.UserId);
         if (user == null)
         {
             return new GetQuotaInfoResponse(false, 0, 0, 0, 0, 0, null, false, true);
@@ -260,7 +262,7 @@ public class UserStoreController(
             ? TokenDeductionService.SubscriberWeeklyTokenLimit
             : TokenDeductionService.FreeWeeklyTokenLimit;
 
-        // Get actual token usage this week from cache
+        // Get actual token usage this week from ExtendedUserCacheItem
         var tokensUsedThisWeek = user.CurrentWeekTokenUsage;
 
         // Calculate remaining balance (weekly limit - tokens used this week)
