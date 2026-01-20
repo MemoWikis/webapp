@@ -4,11 +4,11 @@ using NHibernate;
 /// Manages AI token usage and balance tracking for users.
 /// Handles token estimation, affordability checks, and deductions from user token balances.
 /// 
-/// Users have two token balance types:
-/// - SubscriptionTokensBalance: Monthly tokens from active subscriptions (reset on renewal, don't accumulate)
-/// - PaidTokensBalance: Purchased tokens (accumulate, don't expire)
-/// 
-/// Token deduction priority: Subscription tokens are used first, then paid tokens.
+/// Weekly quota system:
+/// - Subscribers: 10 million tokens per week
+/// - Free-tier users: 1 million tokens per week
+/// - Quota resets every Monday at 00:00
+/// - Unused tokens don't accumulate
 /// 
 /// The service is model-aware and applies cost multipliers based on the AI model being used
 /// (e.g., more expensive models like Claude Opus cost more tokens per actual token used).
@@ -20,6 +20,16 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
 {
     // Average characters per token for Claude models (conservative estimate)
     private const double CharactersPerToken = 3.5;
+
+    /// <summary>
+    /// Weekly quota for subscribers (10 million tokens)
+    /// </summary>
+    public const int SubscriberWeeklyTokenLimit = 10_000_000;
+
+    /// <summary>
+    /// Weekly quota for free tier users (1 million tokens)
+    /// </summary>
+    public const int FreeWeeklyTokenLimit = 1_000_000;
 
     /// <summary>
     /// Types of AI generation with expected output token estimates
@@ -118,11 +128,42 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         // Apply the token cost multiplier to the estimated cost
         var adjustedCost = (int)Math.Ceiling(estimatedCost * tokenCostMultiplier);
 
-        var currentBalance = user.SubscriptionTokensBalance + user.PaidTokensBalance;
-        var projectedBalance = currentBalance - adjustedCost;
+        // Get weekly quota based on subscription status
+        var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
+        var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
+
+        // Get actual token usage this week
+        var tokensUsedThisWeek = GetCurrentWeekTokenUsage(userId);
+
+        // Calculate remaining balance
+        var remainingBalance = weeklyLimit - tokensUsedThisWeek;
+        var projectedBalance = remainingBalance - adjustedCost;
 
         // Allow if projected balance is above the max negative threshold
         return projectedBalance >= maxNegativeBalance;
+    }
+
+    /// <summary>
+    /// Gets the total token usage for the current week (since last Monday 00:00).
+    /// </summary>
+    private long GetCurrentWeekTokenUsage(int userId)
+    {
+        // Calculate the start of the current week (last Monday at 00:00)
+        var today = DateTime.Today;
+        var daysSinceMonday = ((int)today.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+        var weekStart = today.AddDays(-daysSinceMonday);
+
+        var query = _session.CreateSQLQuery(@"
+            SELECT COALESCE(SUM(TokenIn + TokenOut), 0)
+            FROM ai_usage_log
+            WHERE User_id = :userId
+              AND DateCreated >= :weekStart");
+
+        query.SetParameter("userId", userId);
+        query.SetParameter("weekStart", weekStart);
+
+        var result = query.UniqueResult();
+        return Convert.ToInt64(result ?? 0);
     }
 
     /// <summary>
@@ -219,7 +260,7 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
             query.SetParameter("subscriptionDeduction", subscriptionDeduction);
             query.SetParameter("paidDeduction", paidDeduction);
             query.SetParameter("userId", userId);
-            
+
             var rowsAffected = query.ExecuteUpdate();
 
             if (rowsAffected == 0)
@@ -256,7 +297,8 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     }
 
     /// <summary>
-    /// Checks if user has enough tokens for a given operation
+    /// Checks if user has enough tokens for a given operation.
+    /// Uses the dynamic weekly quota system.
     /// </summary>
     public bool HasEnoughTokens(int userId, int requiredTokens)
     {
@@ -266,12 +308,20 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
             return false;
         }
 
-        var totalBalance = user.SubscriptionTokensBalance + user.PaidTokensBalance;
-        return totalBalance >= requiredTokens;
+        // Get weekly quota based on subscription status
+        var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
+        var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
+
+        // Get actual token usage this week
+        var tokensUsedThisWeek = GetCurrentWeekTokenUsage(userId);
+
+        // Calculate remaining balance
+        var remainingBalance = weeklyLimit - tokensUsedThisWeek;
+        return remainingBalance >= requiredTokens;
     }
 
     /// <summary>
-    /// Gets the total token balance for a user (subscription + paid)
+    /// Gets the total remaining token balance for a user (weekly limit - used this week).
     /// </summary>
     public int GetTotalTokenBalance(int userId)
     {
@@ -281,7 +331,15 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
             return 0;
         }
 
-        return user.SubscriptionTokensBalance + user.PaidTokensBalance;
+        // Get weekly quota based on subscription status
+        var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
+        var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
+
+        // Get actual token usage this week
+        var tokensUsedThisWeek = GetCurrentWeekTokenUsage(userId);
+
+        // Return remaining balance
+        return Math.Max(0, (int)(weeklyLimit - tokensUsedThisWeek));
     }
 
     /// <summary>

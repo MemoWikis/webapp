@@ -15,7 +15,8 @@ public class UserStoreController(
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo,
     UserUiLanguage _userUiLanguage,
-    TokenDeductionService _tokenDeductionService) : ApiBaseController
+    TokenDeductionService _tokenDeductionService,
+    AiUsageLogRepo _aiUsageLogRepo) : ApiBaseController
 {
     public readonly record struct LoginResponse(
         FrontEndUserData.CurrentUserData Data,
@@ -237,16 +238,6 @@ public class UserStoreController(
         bool HasActiveSubscription,
         bool IsQuotaDepleted);
 
-    /// <summary>
-    /// Weekly quota for subscribers (10 million points)
-    /// </summary>
-    private const int SubscriberWeeklyTokenLimit = 10_000_000;
-
-    /// <summary>
-    /// Weekly quota for free tier users (1 million points)
-    /// </summary>
-    private const int FreeWeeklyTokenLimit = 1_000_000;
-
     [HttpGet]
     [AccessOnlyAsLoggedIn]
     public GetQuotaInfoResponse GetQuotaInfo()
@@ -257,19 +248,24 @@ public class UserStoreController(
         }
 
         var user = _sessionUser.User;
-        var totalBalance = _tokenDeductionService.GetTotalTokenBalance(_sessionUser.UserId);
-        var subscriptionBalance = user.SubscriptionTokensBalance;
-        var paidBalance = user.PaidTokensBalance;
 
         // Determine if user has active subscription
         var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
 
-        // Weekly limit depends on subscription status
-        var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
+        // Weekly limit depends on subscription status (use constants from TokenDeductionService)
+        var weeklyLimit = hasActiveSubscription
+            ? TokenDeductionService.SubscriberWeeklyTokenLimit
+            : TokenDeductionService.FreeWeeklyTokenLimit;
 
-        // Calculate percentage used (tokens consumed from weekly quota)
-        var tokensUsedThisWeek = weeklyLimit - subscriptionBalance;
-        var percentageUsed = subscriptionBalance > 0
+        // Get actual token usage this week from the usage log
+        var weeklyUsage = _aiUsageLogRepo.GetCurrentWeekTokenUsage(_sessionUser.UserId);
+        var tokensUsedThisWeek = weeklyUsage.TotalTokens;
+
+        // Calculate remaining balance (weekly limit - tokens used this week)
+        var remainingBalance = Math.Max(0, weeklyLimit - (int)tokensUsedThisWeek);
+
+        // Calculate percentage used
+        var percentageUsed = weeklyLimit > 0
             ? Math.Max(0, Math.Min(100, (double)tokensUsedThisWeek / weeklyLimit * 100))
             : 100;
 
@@ -282,13 +278,13 @@ public class UserStoreController(
         }
         var nextResetDate = today.AddDays(daysUntilMonday);
 
-        var isQuotaDepleted = totalBalance <= 0;
+        var isQuotaDepleted = remainingBalance <= 0;
 
         return new GetQuotaInfoResponse(
             true,
-            totalBalance,
-            subscriptionBalance,
-            paidBalance,
+            remainingBalance,
+            remainingBalance, // SubscriptionBalance now equals remaining weekly quota
+            user.PaidTokensBalance,
             weeklyLimit,
             Math.Round(percentageUsed, 1),
             nextResetDate,

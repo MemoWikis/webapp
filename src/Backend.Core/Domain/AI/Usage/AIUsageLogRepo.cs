@@ -123,6 +123,38 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
             .ToList();
     }
 
+    /// <summary>
+    /// Gets the total token usage for the current week (since last Monday 00:00).
+    /// Used for calculating weekly quota remaining.
+    /// </summary>
+    public WeeklyTokenUsage GetCurrentWeekTokenUsage(int userId)
+    {
+        // Calculate the start of the current week (last Monday at 00:00)
+        var today = DateTime.Today;
+        var daysSinceMonday = ((int)today.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+        var weekStart = today.AddDays(-daysSinceMonday);
+
+        var sql = @"
+            SELECT 
+                COALESCE(SUM(TokenIn + TokenOut), 0) AS TotalTokens,
+                COALESCE(SUM(TokenIn), 0) AS TotalTokensIn,
+                COALESCE(SUM(TokenOut), 0) AS TotalTokensOut,
+                COUNT(*) AS RequestCount
+            FROM ai_usage_log
+            WHERE User_id = :userId
+              AND DateCreated >= :weekStart";
+
+        var query = _session.CreateSQLQuery(sql);
+        query.SetParameter("userId", userId);
+        query.SetParameter("weekStart", weekStart);
+
+        var result = query
+            .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(WeeklyTokenUsage)))
+            .UniqueResult<WeeklyTokenUsage>();
+
+        return result ?? new WeeklyTokenUsage();
+    }
+
     public List<AiUsageWithCost> GetUsageWithCosts(DateTime? fromDate = null, DateTime? toDate = null, int? userId = null)
     {
         var sql = $@"
@@ -300,4 +332,12 @@ public class AiDailyModelUsageSummary
     public long RequestCount { get; set; }
     public decimal TokensIn { get; set; }
     public decimal TokensOut { get; set; }
+}
+
+public class WeeklyTokenUsage
+{
+    public long TotalTokens { get; set; }
+    public long TotalTokensIn { get; set; }
+    public long TotalTokensOut { get; set; }
+    public long RequestCount { get; set; }
 }
