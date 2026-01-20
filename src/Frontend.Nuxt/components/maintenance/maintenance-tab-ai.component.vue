@@ -1,25 +1,9 @@
 <script lang="ts" setup>
-// LayoutCardSize is auto-imported from composables
-
-// Types
-interface WhitelistedModel {
-    id: number
-    provider: string
-    modelId: string
-    displayName: string
-    tokenCostMultiplier: number
-}
-
-interface AvailableModel {
-    modelId: string
-    displayName: string
-    isWhitelisted: boolean
-}
-
-interface ProviderModels {
-    providerName: string
-    models: AvailableModel[]
-}
+import type {
+    WhitelistedModel,
+    AvailableModel,
+    ProviderModels
+} from './maintenance.types'
 
 // Props
 const props = defineProps<{
@@ -34,17 +18,11 @@ const props = defineProps<{
 
 // Emits
 const emit = defineEmits<{
-    (event: 'loadWhitelistedModels'): void
-    (event: 'fetchAllProviderModels'): void
-    (event: 'startEditCostRate', model: WhitelistedModel): void
-    (event: 'saveCostRate'): void
-    (event: 'cancelEditCostRate'): void
-    (event: 'startEditDisplayName', model: WhitelistedModel): void
-    (event: 'saveDisplayName'): void
-    (event: 'cancelEditDisplayName'): void
-    (event: 'confirmDeleteModel', model: WhitelistedModel): void
-    (event: 'executeDelete'): void
-    (event: 'cancelDelete'): void
+    // Simple events without parameters
+    (event: 'loadWhitelistedModels' | 'fetchAllProviderModels' | 'saveCostRate' | 'cancelEditCostRate' | 'saveDisplayName' | 'cancelEditDisplayName' | 'executeDelete' | 'cancelDelete'): void
+    // Events with WhitelistedModel parameter
+    (event: 'startEditCostRate' | 'startEditDisplayName' | 'confirmDeleteModel', model: WhitelistedModel): void
+    // Other events with unique parameters
     (event: 'toggleWhitelist', providerName: string, model: AvailableModel): void
     (event: 'update:editingCostRate', value: { id: number, value: number } | null): void
     (event: 'update:editingDisplayName', value: { id: number, value: string } | null): void
@@ -71,7 +49,7 @@ const localEditingDisplayName = computed({
             <LayoutCard :size="LayoutCardSize.Large">
                 <div class="ai-models-header">
                     <h4>Whitelisted Models</h4>
-                    <button class="memo-button btn btn-secondary" @click="emit('loadWhitelistedModels')">
+                    <button class="memo-button btn btn-primary" @click="emit('loadWhitelistedModels')">
                         <font-awesome-icon icon="fa-solid fa-sync" /> Refresh
                     </button>
                 </div>
@@ -204,17 +182,12 @@ const localEditingDisplayName = computed({
             </LayoutCard>
 
             <!-- Delete Confirmation Modal -->
-            <div v-if="props.showDeleteConfirmModal" class="modal-overlay" @click.self="emit('cancelDelete')">
-                <div class="confirm-modal">
-                    <h4>Confirm Delete</h4>
-                    <p>Are you sure you want to remove <strong>{{ props.modelToDelete?.displayName }}</strong> ({{
-                        props.modelToDelete?.modelId }}) from the whitelist?</p>
-                    <div class="modal-actions">
-                        <button class="memo-button btn btn-danger" @click="emit('executeDelete')">Delete</button>
-                        <button class="memo-button btn btn-secondary" @click="emit('cancelDelete')">Cancel</button>
-                    </div>
-                </div>
-            </div>
+            <SharedConfirmModalComponent :show="props.showDeleteConfirmModal" title="Confirm Delete"
+                confirm-text="Delete" cancel-text="Cancel" confirm-button-class="btn-danger"
+                @confirm="emit('executeDelete')" @cancel="emit('cancelDelete')">
+                <p>Are you sure you want to remove <strong>{{ props.modelToDelete?.displayName }}</strong> ({{
+                    props.modelToDelete?.modelId }}) from the whitelist?</p>
+            </SharedConfirmModalComponent>
         </LayoutPanel>
     </div>
 </template>
@@ -338,7 +311,7 @@ const localEditingDisplayName = computed({
     }
 
     &.btn-delete {
-        color: @memo-red;
+        color: #B13A48;
     }
 }
 
@@ -412,37 +385,5 @@ const localEditingDisplayName = computed({
     color: @memo-grey-dark;
     font-style: italic;
     padding: 16px 0;
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-
-    .confirm-modal {
-        background: white;
-        padding: 24px;
-        border-radius: 8px;
-        max-width: 400px;
-        width: 90%;
-
-        h4 {
-            margin-top: 0;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-    }
 }
 </style>

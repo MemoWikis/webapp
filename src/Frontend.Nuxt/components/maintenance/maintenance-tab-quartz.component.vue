@@ -1,61 +1,10 @@
 <script lang="ts" setup>
-// LayoutCardSize is auto-imported from composables
-
-// Types
-interface JobStatusResponse {
-    jobTrackingId: string
-    status: JobStatus
-    message: string
-    operationName: string
-}
-
-enum JobStatus {
-    Running = 0,
-    Completed = 1,
-    Failed = 2,
-    NotFound = 3
-}
-
-interface DatabaseJobResponse {
-    id: number
-    name: string
-    startedAt: string
-    duration: string
-    isStuck: boolean
-    durationHours: number
-}
-
-interface JobSummaryResponse {
-    totalInMemory: number
-    totalInDatabase: number
-    runningInMemory: number
-    completedInMemory: number
-    failedInMemory: number
-    stuckInDatabase: number
-}
-
-interface InMemoryJobResponse {
-    jobTrackingId: string
-    status: string
-    message: string
-    operationName: string
-}
-
-interface JobSystemStatusResponse {
-    inMemoryJobs: InMemoryJobResponse[]
-    databaseJobs: DatabaseJobResponse[]
-    summary: JobSummaryResponse
-}
-
-interface QuartzJob {
-    JobKey: string
-    JobName: string
-    JobType: string
-    JobGroup: string
-    IsExecuting: boolean
-    RunTime?: string
-    FireTime?: string
-}
+import type {
+    JobStatusResponse,
+    DatabaseJobResponse,
+    JobSystemStatusResponse,
+    QuartzJob
+} from './maintenance.types'
 
 // Props
 const props = defineProps<{
@@ -70,10 +19,9 @@ const props = defineProps<{
 
 // Emits
 const emit = defineEmits<{
+    (event: 'clearStuckJobs' | 'loadQuartzJobs'): void
     (event: 'clearJob', jobTrackingId: string): void
-    (event: 'clearStuckJobs'): void
     (event: 'clearJobById', jobId: number): void
-    (event: 'loadQuartzJobs'): void
     (event: 'interruptQuartzJob', jobName: string, jobGroup: string): void
 }>()
 
@@ -122,7 +70,7 @@ const formatDuration = (duration: string): string => {
                         <div class="stat-item">
                             <span class="stat-label">Completed:</span>
                             <span class="stat-value completed">{{ props.jobSystemStatus.summary.completedInMemory
-                            }}</span>
+                                }}</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">Failed:</span>
@@ -207,7 +155,7 @@ const formatDuration = (duration: string): string => {
                                         formatDuration(job.RunTime) }}</span>
                                     <span v-if="job.FireTime">Fire Time: {{ new
                                         Date(job.FireTime).toLocaleString()
-                                    }}</span>
+                                        }}</span>
                                 </div>
                             </div>
                             <div class="job-actions">
@@ -259,13 +207,13 @@ const formatDuration = (duration: string): string => {
             background: transparent;
             border: none;
             cursor: pointer;
-            color: @memo-grey-dark;
+            color: #B13A48;
             padding: 4px 8px;
             border-radius: 4px;
 
             &:hover {
                 background-color: rgba(0, 0, 0, 0.1);
-                color: @memo-red;
+                color: darken(#B13A48, 15%);
             }
         }
     }
@@ -311,11 +259,11 @@ const formatDuration = (duration: string): string => {
                 }
 
                 &.failed {
-                    color: @memo-red;
+                    color: @memo-red-wrong;
                 }
 
                 &.stuck {
-                    color: @memo-yellow-dark;
+                    color: darken(@memo-yellow, 20%);
                 }
             }
         }
@@ -332,7 +280,7 @@ const formatDuration = (duration: string): string => {
         gap: 12px;
 
         svg {
-            color: @memo-yellow-dark;
+            color: darken(@memo-yellow, 20%);
         }
     }
 }

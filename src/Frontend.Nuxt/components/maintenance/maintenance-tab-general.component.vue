@@ -1,28 +1,9 @@
 <script lang="ts" setup>
-// LayoutCardSize is auto-imported from composables
-
-// Types
-interface MethodData {
-    url: string
-    translationKey: string
-}
-
-interface MmapCacheStatus {
-    exists: boolean
-    lastModified: string
-    sizeBytes: number
-}
-
-interface MmapCacheStatusData {
-    pageViewsCache: MmapCacheStatus
-    questionViewsCache: MmapCacheStatus
-}
-
-interface RelationErrorItem {
-    parentId: number
-    errors: string[]
-    relations: string[]
-}
+import type {
+    MethodData,
+    MmapCacheStatusData,
+    RelationErrorItem
+} from './maintenance.types'
 
 // Props
 const props = defineProps<{
@@ -48,17 +29,13 @@ const props = defineProps<{
 
 // Emits
 const emit = defineEmits<{
+    // Simple events without parameters
+    (event: 'loadMmapCacheStatus' | 'loadRelationErrors' | 'clearRelationErrorsCache' | 'deleteUser' | 'addTokensToUser' | 'removeAdminRights'): void
+    // Events with string parameter
     (event: 'executeMaintenanceOperation', url: string): void
-    (event: 'loadMmapCacheStatus'): void
-    (event: 'loadRelationErrors'): void
-    (event: 'clearRelationErrorsCache'): void
-    (event: 'healRelations', pageId: number): void
-    (event: 'deleteUser'): void
-    (event: 'addTokensToUser'): void
-    (event: 'removeAdminRights'): void
-    (event: 'update:userIdToDelete', value: number): void
-    (event: 'update:tokenUserId', value: number): void
-    (event: 'update:tokenAmount', value: number): void
+    // Events with number parameter
+    (event: 'healRelations' | 'update:userIdToDelete' | 'update:tokenUserId' | 'update:tokenAmount', value: number): void
+    // Token type update
     (event: 'update:tokenType', value: 'subscription' | 'paid'): void
 }>()
 
@@ -145,7 +122,7 @@ const localTokenType = computed({
                         <i v-if="props.isAnalyzing" class="fas fa-spinner fa-spin" />
                         {{ props.isAnalyzing ? 'Analyzing...' : 'Analyze and Show' }}
                     </button>
-                    <button class="memo-button btn btn-secondary ms-2" :disabled="props.isAnalyzing"
+                    <button class="memo-button btn btn-warning ms-2" :disabled="props.isAnalyzing"
                         @click="emit('clearRelationErrorsCache')">
                         Clear Cache
                     </button>

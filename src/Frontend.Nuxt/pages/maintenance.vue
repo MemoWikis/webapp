@@ -1,13 +1,39 @@
 <script lang="ts" setup>
 import { useUserStore } from '~~/components/user/userStore'
+import {
+    type MethodData,
+    type ActiveSessionsResponse,
+    type JobStatusResponse,
+    type JobSystemStatusResponse,
+    type DatabaseJobResponse,
+    type RelationErrorItem,
+    type RelationErrorsResponse,
+    type VueMaintenanceResult,
+    type MmapCacheStatusData,
+    type GetMmapCacheStatusResult,
+    type QuartzJob,
+    type WhitelistedModel,
+    type AvailableModel,
+    type ProviderModels,
+    type GetWhitelistedModelsResponse,
+    type GetAllProviderModelsResponse,
+    type MaintenanceTabType,
+    JobStatus
+} from '~~/components/maintenance/maintenance.types'
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const config = useRuntimeConfig()
 const userStore = useUserStore()
 const { $logger } = useNuxtApp()
+const route = useRoute()
 
-type MaintenanceTab = 'quartz' | 'ai' | 'general'
-const activeTab = ref<MaintenanceTab>('general')
+const activeTab = ref<MaintenanceTabType>(
+    (route.query.tab as MaintenanceTabType) || 'general'
+)
+
+watch(activeTab, (newTab) => {
+    navigateTo({ query: { tab: newTab } }, { replace: true })
+})
 
 const isAdmin = ref(false)
 const antiForgeryToken = ref<string>()
@@ -54,77 +80,6 @@ watchEffect(() => {
     }
 
 })
-
-interface MethodData {
-    url: string
-    translationKey: string
-}
-
-interface ActiveSessionsResponse {
-    loggedInUserCount: number,
-    anonymousUserCount: number
-}
-
-enum JobStatus {
-    Running = 0,
-    Completed = 1,
-    Failed = 2,
-    NotFound = 3
-}
-
-interface JobStatusResponse {
-    jobTrackingId: string
-    status: JobStatus
-    message: string
-    operationName: string
-}
-
-interface RelationErrorItem {
-    parentId: number
-    errors: string[]
-    relations: string[]
-}
-
-interface RelationErrorsResponse {
-    success: boolean
-    data: RelationErrorItem[]
-}
-
-interface VueMaintenanceResult {
-    success: boolean
-    data: string
-}
-
-interface JobSystemStatusResponse {
-    inMemoryJobs: InMemoryJobResponse[]
-    databaseJobs: DatabaseJobResponse[]
-    summary: JobSummaryResponse
-}
-
-interface InMemoryJobResponse {
-    jobTrackingId: string
-    status: string
-    message: string
-    operationName: string
-}
-
-interface DatabaseJobResponse {
-    id: number
-    name: string
-    startedAt: string
-    duration: string
-    isStuck: boolean
-    durationHours: number
-}
-
-interface JobSummaryResponse {
-    totalInMemory: number
-    totalInDatabase: number
-    runningInMemory: number
-    completedInMemory: number
-    failedInMemory: number
-    stuckInDatabase: number
-}
 
 const isAnalyzing = ref(false)
 
@@ -600,24 +555,9 @@ const clearJob = async (jobTrackingId: string) => {
         await checkForRunningJobs()
     }
 }
-interface MmapCacheStatus {
-    exists: boolean
-    lastModified: string
-    sizeBytes: number
-}
-
-interface MmapCacheStatusData {
-    pageViewsCache: MmapCacheStatus
-    questionViewsCache: MmapCacheStatus
-}
 
 const mmapCacheStatus = ref<MmapCacheStatusData | null>(null)
 const mmapCacheStatusLoaded = ref(false)
-
-interface GetMmapCacheStatusResult {
-    success: boolean
-    data: string
-}
 
 const loadMmapCacheStatus = async () => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
@@ -755,16 +695,6 @@ const _clearJobsByIds = async (jobIds: number[]) => {
     }
 }
 
-interface QuartzJob {
-    JobKey: string
-    JobName: string
-    JobType: string
-    JobGroup: string
-    IsExecuting: boolean
-    RunTime?: string
-    FireTime?: string
-}
-
 const quartzJobs = ref<QuartzJob[]>([])
 const quartzJobsLoaded = ref(false)
 
@@ -880,36 +810,6 @@ const interruptQuartzJobByName = async (jobName: string) => {
 }
 
 // AI Models Management
-interface WhitelistedModel {
-    id: number
-    provider: string
-    modelId: string
-    displayName: string
-    tokenCostMultiplier: number
-}
-
-interface AvailableModel {
-    modelId: string
-    displayName: string
-    isWhitelisted: boolean
-}
-
-interface ProviderModels {
-    providerName: string
-    models: AvailableModel[]
-}
-
-interface GetWhitelistedModelsResponse {
-    success: boolean
-    models: WhitelistedModel[]
-}
-
-interface GetAllProviderModelsResponse {
-    success: boolean
-    providers: ProviderModels[]
-    error: string
-}
-
 const whitelistedModels = ref<WhitelistedModel[]>([])
 const providerModels = ref<ProviderModels[]>([])
 const fetchingModels = ref(false)
