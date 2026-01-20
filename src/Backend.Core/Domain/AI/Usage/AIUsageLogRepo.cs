@@ -45,6 +45,21 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
         base.Create(aiUsageLog);
 
         _tokenDeductionService.DeductTokens(userId, model, tokenIn, tokenOut);
+
+        // Update the cached weekly token usage
+        UpdateCachedWeeklyUsage(userId, tokenIn, tokenOut);
+    }
+
+    /// <summary>
+    /// Updates the cached weekly token usage for a user after AI usage.
+    /// </summary>
+    private static void UpdateCachedWeeklyUsage(int userId, int tokenIn, int tokenOut)
+    {
+        var user = EntityCache.GetUserById(userId);
+        if (user != null)
+        {
+            user.CurrentWeekTokenUsage += tokenIn + tokenOut;
+        }
     }
 
     public ConcurrentDictionary<DateTime, int> GetTokenUsageForUserFromPastNDays(int userId, int days)
@@ -153,6 +168,35 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
             .UniqueResult<WeeklyTokenUsage>();
 
         return result ?? new WeeklyTokenUsage();
+    }
+
+    /// <summary>
+    /// Gets the total token usage for the current week for all users.
+    /// Used for bulk loading during cache initialization.
+    /// </summary>
+    public Dictionary<int, long> GetCurrentWeekTokenUsageForAllUsers()
+    {
+        // Calculate the start of the current week (last Monday at 00:00)
+        var today = DateTime.Today;
+        var daysSinceMonday = ((int)today.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+        var weekStart = today.AddDays(-daysSinceMonday);
+
+        var sql = @"
+            SELECT 
+                User_id AS UserId,
+                COALESCE(SUM(TokenIn + TokenOut), 0) AS TotalTokens
+            FROM ai_usage_log
+            WHERE DateCreated >= :weekStart
+            GROUP BY User_id";
+
+        var query = _session.CreateSQLQuery(sql);
+        query.SetParameter("weekStart", weekStart);
+
+        var result = query
+            .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(UserWeeklyTokenUsage)))
+            .List<UserWeeklyTokenUsage>();
+
+        return result.ToDictionary(x => x.UserId, x => x.TotalTokens);
     }
 
     public List<AiUsageWithCost> GetUsageWithCosts(DateTime? fromDate = null, DateTime? toDate = null, int? userId = null)
@@ -340,4 +384,10 @@ public class WeeklyTokenUsage
     public long TotalTokensIn { get; set; }
     public long TotalTokensOut { get; set; }
     public long RequestCount { get; set; }
+}
+
+public class UserWeeklyTokenUsage
+{
+    public int UserId { get; set; }
+    public long TotalTokens { get; set; }
 }

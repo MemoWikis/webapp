@@ -15,8 +15,7 @@ public class UserStoreController(
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo,
     UserUiLanguage _userUiLanguage,
-    TokenDeductionService _tokenDeductionService,
-    AiUsageLogRepo _aiUsageLogRepo) : ApiBaseController
+    TokenDeductionService _tokenDeductionService) : ApiBaseController
 {
     public readonly record struct LoginResponse(
         FrontEndUserData.CurrentUserData Data,
@@ -247,7 +246,11 @@ public class UserStoreController(
             return new GetQuotaInfoResponse(false, 0, 0, 0, 0, 0, null, false, true);
         }
 
-        var user = _sessionUser.User;
+        var user = EntityCache.GetUserById(_sessionUser.UserId);
+        if (user == null)
+        {
+            return new GetQuotaInfoResponse(false, 0, 0, 0, 0, 0, null, false, true);
+        }
 
         // Determine if user has active subscription
         var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
@@ -257,9 +260,8 @@ public class UserStoreController(
             ? TokenDeductionService.SubscriberWeeklyTokenLimit
             : TokenDeductionService.FreeWeeklyTokenLimit;
 
-        // Get actual token usage this week from the usage log
-        var weeklyUsage = _aiUsageLogRepo.GetCurrentWeekTokenUsage(_sessionUser.UserId);
-        var tokensUsedThisWeek = weeklyUsage.TotalTokens;
+        // Get actual token usage this week from cache
+        var tokensUsedThisWeek = user.CurrentWeekTokenUsage;
 
         // Calculate remaining balance (weekly limit - tokens used this week)
         var remainingBalance = Math.Max(0, weeklyLimit - (int)tokensUsedThisWeek);

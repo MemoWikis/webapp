@@ -132,8 +132,8 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
         var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
 
-        // Get actual token usage this week
-        var tokensUsedThisWeek = GetCurrentWeekTokenUsage(userId);
+        // Get actual token usage this week from cache
+        var tokensUsedThisWeek = user.CurrentWeekTokenUsage;
 
         // Calculate remaining balance
         var remainingBalance = weeklyLimit - tokensUsedThisWeek;
@@ -144,26 +144,12 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     }
 
     /// <summary>
-    /// Gets the total token usage for the current week (since last Monday 00:00).
+    /// Gets the total token usage for the current week from the cache.
     /// </summary>
-    private long GetCurrentWeekTokenUsage(int userId)
+    public static long GetCurrentWeekTokenUsage(int userId)
     {
-        // Calculate the start of the current week (last Monday at 00:00)
-        var today = DateTime.Today;
-        var daysSinceMonday = ((int)today.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
-        var weekStart = today.AddDays(-daysSinceMonday);
-
-        var query = _session.CreateSQLQuery(@"
-            SELECT COALESCE(SUM(TokenIn + TokenOut), 0)
-            FROM ai_usage_log
-            WHERE User_id = :userId
-              AND DateCreated >= :weekStart");
-
-        query.SetParameter("userId", userId);
-        query.SetParameter("weekStart", weekStart);
-
-        var result = query.UniqueResult();
-        return Convert.ToInt64(result ?? 0);
+        var user = EntityCache.GetUserById(userId);
+        return user?.CurrentWeekTokenUsage ?? 0;
     }
 
     /// <summary>
@@ -298,7 +284,7 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
 
     /// <summary>
     /// Checks if user has enough tokens for a given operation.
-    /// Uses the dynamic weekly quota system.
+    /// Uses the dynamic weekly quota system with cached usage.
     /// </summary>
     public bool HasEnoughTokens(int userId, int requiredTokens)
     {
@@ -312,8 +298,8 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
         var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
 
-        // Get actual token usage this week
-        var tokensUsedThisWeek = GetCurrentWeekTokenUsage(userId);
+        // Get actual token usage this week from cache
+        var tokensUsedThisWeek = user.CurrentWeekTokenUsage;
 
         // Calculate remaining balance
         var remainingBalance = weeklyLimit - tokensUsedThisWeek;
@@ -321,7 +307,7 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     }
 
     /// <summary>
-    /// Gets the total remaining token balance for a user (weekly limit - used this week).
+    /// Gets the total remaining token balance for a user (weekly limit - used this week from cache).
     /// </summary>
     public int GetTotalTokenBalance(int userId)
     {
@@ -335,8 +321,8 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
         var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
         var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
 
-        // Get actual token usage this week
-        var tokensUsedThisWeek = GetCurrentWeekTokenUsage(userId);
+        // Get actual token usage this week from cache
+        var tokensUsedThisWeek = user.CurrentWeekTokenUsage;
 
         // Return remaining balance
         return Math.Max(0, (int)(weeklyLimit - tokensUsedThisWeek));

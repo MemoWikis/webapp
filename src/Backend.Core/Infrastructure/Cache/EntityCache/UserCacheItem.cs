@@ -49,16 +49,23 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public MonthlyTokenUsage? MonthlyTokenUsage { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
     public virtual List<Language> ContentLanguages { get; set; } = new List<Language>();
-    
+
     /// <summary>
     /// Remaining tokens from subscription for current period
     /// </summary>
     public int SubscriptionTokensBalance { get; set; } = 0;
-    
+
     /// <summary>
     /// Purchased tokens that don't expire
     /// </summary>
     public int PaidTokensBalance { get; set; } = 0;
+
+    /// <summary>
+    /// Token usage for the current week (since last Monday 00:00).
+    /// Used for calculating remaining weekly quota.
+    /// Updated on cache initialization and after each AI usage.
+    /// </summary>
+    public long CurrentWeekTokenUsage { get; set; } = 0;
 
     public void Populate(User user)
     {

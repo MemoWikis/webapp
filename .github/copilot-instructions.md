@@ -110,8 +110,15 @@ Core components in `src/Backend.Core/Domain/AI/`:
 
 - Subscribers: more tokens per week
 - Free-tier: less tokens per week
-- Quota resets every Monday at 00:00 (calculated dynamically from `ai_usage_log`)
+- Quota resets every Monday at 00:00
 - No accumulation of unused tokens
+
+**Caching:**
+
+- Weekly token usage is cached in `UserCacheItem.CurrentWeekTokenUsage`
+- Loaded during cache initialization via `EntityCacheInitializer`
+- Updated after each AI usage in `AiUsageLogRepo.AddUsage`
+- `TokenDeductionService` reads from cache, never queries DB for usage
 
 For detailed documentation including integration points, database schema, and token flow examples, see `docs/ai-token-usage-system.md`
 

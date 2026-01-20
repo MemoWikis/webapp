@@ -13,7 +13,8 @@ public class EntityCacheInitializer(
     PageViewMmapCache _pageViewMmapCache,
     QuestionViewMmapCache _questionViewMmapCache,
     MmapCacheRefreshService _mmapCacheRefreshService,
-    AiModelWhitelistRepo _aiModelWhitelistRepo) : IRegisterAsInstancePerLifetime
+    AiModelWhitelistRepo _aiModelWhitelistRepo,
+    AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePerLifetime
 {
     private Stopwatch _stopWatch = null!;
     private string _customMessage = "";
@@ -65,7 +66,32 @@ public class EntityCacheInitializer(
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
         Log.Information("{Elapsed} - EntityCache UsersCached{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
+        // Load weekly token usage for all users in one query
+        var weeklyTokenUsage = LoadWeeklyTokenUsage();
+        foreach (var user in users)
+        {
+            if (weeklyTokenUsage.TryGetValue(user.Id, out var usage))
+            {
+                user.CurrentWeekTokenUsage = usage;
+            }
+        }
+        Log.Information("{Elapsed} - EntityCache WeeklyTokenUsageLoaded{CustomMessage}", _stopWatch.Elapsed, _customMessage);
+
         MemoCache.Add(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
+    }
+
+    private Dictionary<int, long> LoadWeeklyTokenUsage()
+    {
+        try
+        {
+            return _aiUsageLogRepo.GetCurrentWeekTokenUsageForAllUsers();
+        }
+        catch (Exception ex)
+        {
+            // Don't fail startup if ai_usage_log table doesn't exist yet (e.g., before migration runs)
+            Log.Warning(ex, "{Elapsed} - EntityCache WeeklyTokenUsage initialization skipped (table may not exist){CustomMessage}", _stopWatch.Elapsed, _customMessage);
+            return new Dictionary<int, long>();
+        }
     }
 
     private void InitializePageRelations()
