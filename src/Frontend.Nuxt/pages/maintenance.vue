@@ -6,6 +6,9 @@ const config = useRuntimeConfig()
 const userStore = useUserStore()
 const { $logger } = useNuxtApp()
 
+type MaintenanceTab = 'quartz' | 'ai' | 'general'
+const activeTab = ref<MaintenanceTab>('general')
+
 const isAdmin = ref(false)
 const antiForgeryToken = ref<string>()
 const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/apiVue/VueMaintenance/Get',
@@ -1141,444 +1144,546 @@ onMounted(() => {
                 {{ resultMsg }}
             </div>
 
-            <!-- Active Jobs Status Panel -->
-            <LayoutPanel v-if="runningJobs.size > 0" title="Active Jobs" class="active-jobs-panel">
-                <LayoutCard v-for="[jobTrackingId, operationName] in runningJobs.entries()" :key="jobTrackingId"
-                    :size="LayoutCardSize.Small">
-                    <div class="running-job">
-                        <div class="job-header">
-                            <h4>{{ operationName }}</h4>
-                            <button class="clear-job-btn" title="Clear Job" @click="clearJob(jobTrackingId)">
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                            </button>
-                        </div>
-                        <div v-if="jobProgress.has(jobTrackingId)" class="job-status">
-                            <span>{{ jobProgress.get(jobTrackingId)?.message }}</span>
-                        </div>
-                        <div v-else class="job-status">
-                            <span>Starting...</span>
-                        </div>
-                    </div>
-                </LayoutCard>
-            </LayoutPanel>
+            <!-- Tab Navigation -->
+            <div class="maintenance-tabs">
+                <button class="tab-button" :class="{ active: activeTab === 'general' }" @click="activeTab = 'general'">
+                    <font-awesome-icon :icon="['fas', 'cogs']" />
+                    General
+                </button>
+                <button class="tab-button" :class="{ active: activeTab === 'quartz' }" @click="activeTab = 'quartz'">
+                    <font-awesome-icon :icon="['fas', 'clock']" />
+                    Quartz
+                    <span v-if="runningJobs.size > 0" class="tab-badge">{{ runningJobs.size }}</span>
+                </button>
+                <button class="tab-button" :class="{ active: activeTab === 'ai' }" @click="activeTab = 'ai'">
+                    <font-awesome-icon :icon="['fas', 'robot']" />
+                    AI
+                </button>
+            </div>
 
-            <!-- Job System Status Panel -->
-            <LayoutPanel title="Job System Status">
+            <!-- ==================== QUARTZ TAB ==================== -->
+            <div v-show="activeTab === 'quartz'" class="tab-content">
 
-                <template v-if="jobStatusLoaded && jobSystemStatus && jobSystemStatus.summary">
-                    <LayoutCard :size="LayoutCardSize.Medium" class="job-summary-card">
-                        <h4>Summary</h4>
-                        <div class="job-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">In-Memory Jobs:</span>
-                                <span class="stat-value">{{ jobSystemStatus.summary.totalInMemory }}</span>
+                <!-- Active Jobs Status Panel -->
+                <LayoutPanel v-if="runningJobs.size > 0" title="Active Jobs" class="active-jobs-panel">
+                    <LayoutCard v-for="[jobTrackingId, operationName] in runningJobs.entries()" :key="jobTrackingId"
+                        :size="LayoutCardSize.Small">
+                        <div class="running-job">
+                            <div class="job-header">
+                                <h4>{{ operationName }}</h4>
+                                <button class="clear-job-btn" title="Clear Job" @click="clearJob(jobTrackingId)">
+                                    <font-awesome-icon icon="fa-solid fa-xmark" />
+                                </button>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Running:</span>
-                                <span class="stat-value running">{{ jobSystemStatus.summary.runningInMemory }}</span>
+                            <div v-if="jobProgress.has(jobTrackingId)" class="job-status">
+                                <span>{{ jobProgress.get(jobTrackingId)?.message }}</span>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Completed:</span>
-                                <span class="stat-value completed">{{ jobSystemStatus.summary.completedInMemory
-                                }}</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Failed:</span>
-                                <span class="stat-value failed">{{ jobSystemStatus.summary.failedInMemory }}</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Database Jobs:</span>
-                                <span class="stat-value">{{ jobSystemStatus.summary.totalInDatabase }}</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Stuck:</span>
-                                <span class="stat-value stuck">{{ jobSystemStatus.summary.stuckInDatabase }}</span>
+                            <div v-else class="job-status">
+                                <span>Starting...</span>
                             </div>
                         </div>
                     </LayoutCard>
-                </template>
+                </LayoutPanel>
 
-                <template v-if="databaseJobs.length > 0">
-                    <LayoutCard :size="LayoutCardSize.Large">
-                        <div class="database-jobs-header">
-                            <h4>Database Running Jobs ({{ databaseJobs.length }})</h4>
-                            <div class="bulk-actions">
-                                <button class="memo-button btn btn-warning btn-sm" @click="clearStuckJobs">
-                                    Clear Stuck Only (>2h)
-                                </button>
-                                <button class="memo-button btn btn-danger btn-sm ms-2"
-                                    :disabled="!databaseJobs.some(job => job.isStuck)"
-                                    @click="clearJobsByIds(databaseJobs.filter(job => job.isStuck).map(job => job.id))">
-                                    Clear All Stuck (Quartz + DB)
-                                </button>
-                            </div>
-                        </div>
+                <!-- Job System Status Panel -->
+                <LayoutPanel title="Job System Status">
 
-                        <div class="database-jobs-list">
-                            <div v-for="job in databaseJobs" :key="job.id" class="database-job-item"
-                                :class="{ 'stuck-job': job.isStuck }">
-                                <div class="job-info">
-                                    <div class="job-name">
-                                        <strong>{{ job.name }}</strong>
-                                        <span v-if="job.isStuck" class="stuck-badge">⚠️ STUCK</span>
-                                    </div>
-                                    <div class="job-details">
-                                        <span>ID: {{ job.id }}</span>
-                                        <span>Started: {{ job.startedAt }}</span>
-                                        <span>Duration: {{ job.duration }} ({{ job.durationHours }}h)</span>
-                                    </div>
+                    <template v-if="jobStatusLoaded && jobSystemStatus && jobSystemStatus.summary">
+                        <LayoutCard :size="LayoutCardSize.Medium" class="job-summary-card">
+                            <h4>Summary</h4>
+                            <div class="job-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">In-Memory Jobs:</span>
+                                    <span class="stat-value">{{ jobSystemStatus.summary.totalInMemory }}</span>
                                 </div>
-                                <button class="memo-button btn btn-warning btn-sm" @click="clearJobById(job.id)">
-                                    Clear Job (Quartz + DB)
-                                </button>
-                            </div>
-                        </div>
-
-                        <details class="raw-json-details">
-                            <summary>Show Raw JSON</summary>
-                            <pre class="job-json">{{ JSON.stringify(databaseJobs, null, 2) }}</pre>
-                        </details>
-                    </LayoutCard>
-                </template>
-            </LayoutPanel>
-
-            <!-- Quartz Jobs Panel -->
-            <LayoutPanel title="Quartz Scheduler Jobs">
-                <LayoutCard :size="LayoutCardSize.Large">
-                    <div class="quartz-jobs-header">
-                        <h4>Quartz Job Management</h4>
-                        <button class="memo-button btn btn-primary" @click="loadQuartzJobs">
-                            Load Quartz Jobs
-                        </button>
-                    </div>
-
-                    <template v-if="quartzJobsLoaded && quartzJobs.length > 0">
-                        <div class="quartz-jobs-list">
-                            <div v-for="job in quartzJobs" :key="job.JobKey" class="quartz-job-item"
-                                :class="{ 'executing-job': job.IsExecuting }">
-                                <div class="job-info">
-                                    <div class="job-name">
-                                        <strong>{{ job.JobName }}</strong>
-                                        <span v-if="job.IsExecuting" class="executing-badge">⚡ RUNNING</span>
-                                        <span class="job-type">{{ job.JobType }}</span>
-                                    </div>
-                                    <div class="job-details">
-                                        <span>Key: {{ job.JobKey }}</span>
-                                        <span>Group: {{ job.JobGroup }}</span>
-                                        <span v-if="job.IsExecuting && job.RunTime">Runtime: {{
-                                            formatDuration(job.RunTime) }}</span>
-                                        <span v-if="job.FireTime">Fire Time: {{ new Date(job.FireTime).toLocaleString()
+                                <div class="stat-item">
+                                    <span class="stat-label">Running:</span>
+                                    <span class="stat-value running">{{ jobSystemStatus.summary.runningInMemory
                                         }}</span>
-                                    </div>
                                 </div>
-                                <div class="job-actions">
-                                    <button v-if="job.IsExecuting" class="memo-button btn btn-warning btn-sm"
-                                        @click="interruptQuartzJob(job.JobName, job.JobGroup)">
-                                        Interrupt
+                                <div class="stat-item">
+                                    <span class="stat-label">Completed:</span>
+                                    <span class="stat-value completed">{{ jobSystemStatus.summary.completedInMemory
+                                        }}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Failed:</span>
+                                    <span class="stat-value failed">{{ jobSystemStatus.summary.failedInMemory }}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Database Jobs:</span>
+                                    <span class="stat-value">{{ jobSystemStatus.summary.totalInDatabase }}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Stuck:</span>
+                                    <span class="stat-value stuck">{{ jobSystemStatus.summary.stuckInDatabase }}</span>
+                                </div>
+                            </div>
+                        </LayoutCard>
+                    </template>
+
+                    <template v-if="databaseJobs.length > 0">
+                        <LayoutCard :size="LayoutCardSize.Large">
+                            <div class="database-jobs-header">
+                                <h4>Database Running Jobs ({{ databaseJobs.length }})</h4>
+                                <div class="bulk-actions">
+                                    <button class="memo-button btn btn-warning btn-sm" @click="clearStuckJobs">
+                                        Clear Stuck Only (>2h)
+                                    </button>
+                                    <button class="memo-button btn btn-danger btn-sm ms-2"
+                                        :disabled="!databaseJobs.some(job => job.isStuck)"
+                                        @click="clearJobsByIds(databaseJobs.filter(job => job.isStuck).map(job => job.id))">
+                                        Clear All Stuck (Quartz + DB)
                                     </button>
                                 </div>
                             </div>
+
+                            <div class="database-jobs-list">
+                                <div v-for="job in databaseJobs" :key="job.id" class="database-job-item"
+                                    :class="{ 'stuck-job': job.isStuck }">
+                                    <div class="job-info">
+                                        <div class="job-name">
+                                            <strong>{{ job.name }}</strong>
+                                            <span v-if="job.isStuck" class="stuck-badge">⚠️ STUCK</span>
+                                        </div>
+                                        <div class="job-details">
+                                            <span>ID: {{ job.id }}</span>
+                                            <span>Started: {{ job.startedAt }}</span>
+                                            <span>Duration: {{ job.duration }} ({{ job.durationHours }}h)</span>
+                                        </div>
+                                    </div>
+                                    <button class="memo-button btn btn-warning btn-sm" @click="clearJobById(job.id)">
+                                        Clear Job (Quartz + DB)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <details class="raw-json-details">
+                                <summary>Show Raw JSON</summary>
+                                <pre class="job-json">{{ JSON.stringify(databaseJobs, null, 2) }}</pre>
+                            </details>
+                        </LayoutCard>
+                    </template>
+                </LayoutPanel>
+
+                <!-- Quartz Jobs Panel -->
+                <LayoutPanel title="Quartz Scheduler Jobs">
+                    <LayoutCard :size="LayoutCardSize.Large">
+                        <div class="quartz-jobs-header">
+                            <h4>Quartz Job Management</h4>
+                            <button class="memo-button btn btn-primary" @click="loadQuartzJobs">
+                                Load Quartz Jobs
+                            </button>
                         </div>
-                    </template>
 
-                    <template v-else-if="quartzJobsLoaded && quartzJobs.length === 0">
-                        <p class="no-jobs-message">No Quartz jobs found.</p>
-                    </template>
-
-                    <template v-if="quartzJobsLoaded">
-                        <details class="raw-json-details">
-                            <summary>Show Raw Quartz Jobs JSON</summary>
-                            <pre class="job-json">{{ JSON.stringify(quartzJobs, null, 2) }}</pre>
-                        </details>
-                    </template>
-                </LayoutCard>
-            </LayoutPanel>
-
-            <LayoutPanel :title="$t('maintenance.metrics.title')">
-                <NuxtLink to="/Metriken" class="memo-button btn btn-primary">
-                    {{ $t('maintenance.metrics.viewOverview') }}
-                </NuxtLink>
-            </LayoutPanel>
-
-            <!-- AI Models Management Panel -->
-            <LayoutPanel title="AI Models Management">
-                <!-- Section 1: Whitelisted Models -->
-                <LayoutCard :size="LayoutCardSize.Large">
-                    <div class="ai-models-header">
-                        <h4>Whitelisted Models</h4>
-                        <button class="memo-button btn btn-secondary" @click="loadWhitelistedModels">
-                            <font-awesome-icon icon="fa-solid fa-sync" /> Refresh
-                        </button>
-                    </div>
-
-                    <template v-if="whitelistedModels.length > 0">
-                        <table class="whitelist-table">
-                            <thead>
-                                <tr>
-                                    <th>Provider</th>
-                                    <th>Display Name</th>
-                                    <th>Model ID</th>
-                                    <th>Cost Rate</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="model in whitelistedModels" :key="model.id">
-                                    <td>
-                                        <span class="provider-badge" :class="model.provider.toLowerCase()">{{
-                                            model.provider }}</span>
-                                    </td>
-                                    <td>
-                                        <template v-if="editingDisplayName?.id === model.id">
-                                            <div class="display-name-edit">
-                                                <input v-model="editingDisplayName.value" type="text"
-                                                    class="display-name-input" />
-                                                <button class="btn-icon btn-save" title="Save" @click="saveDisplayName">
-                                                    <font-awesome-icon icon="fa-solid fa-check" />
-                                                </button>
-                                                <button class="btn-icon btn-cancel" title="Cancel"
-                                                    @click="cancelEditDisplayName">
-                                                    <font-awesome-icon icon="fa-solid fa-times" />
-                                                </button>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <span class="display-name" title="Click to edit"
-                                                @click="startEditDisplayName(model)">
-                                                {{ model.displayName || '(no name)' }}
-                                            </span>
-                                        </template>
-                                    </td>
-                                    <td class="model-id-cell">{{ model.modelId }}</td>
-                                    <td>
-                                        <template v-if="editingCostRate?.id === model.id">
-                                            <div class="cost-rate-edit">
-                                                <input v-model.number="editingCostRate.value" type="number" step="0.1"
-                                                    min="0" class="cost-rate-input" />
-                                                <button class="btn-icon btn-save" title="Save" @click="saveCostRate">
-                                                    <font-awesome-icon icon="fa-solid fa-check" />
-                                                </button>
-                                                <button class="btn-icon btn-cancel" title="Cancel"
-                                                    @click="cancelEditCostRate">
-                                                    <font-awesome-icon icon="fa-solid fa-times" />
-                                                </button>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <span class="cost-rate" title="Click to edit"
-                                                @click="startEditCostRate(model)">
-                                                {{ model.tokenCostMultiplier }}x
-                                            </span>
-                                        </template>
-                                    </td>
-                                    <td>
-                                        <button class="btn-icon btn-delete" title="Remove from whitelist"
-                                            @click="confirmDeleteModel(model)">
-                                            <font-awesome-icon icon="fa-solid fa-trash" />
+                        <template v-if="quartzJobsLoaded && quartzJobs.length > 0">
+                            <div class="quartz-jobs-list">
+                                <div v-for="job in quartzJobs" :key="job.JobKey" class="quartz-job-item"
+                                    :class="{ 'executing-job': job.IsExecuting }">
+                                    <div class="job-info">
+                                        <div class="job-name">
+                                            <strong>{{ job.JobName }}</strong>
+                                            <span v-if="job.IsExecuting" class="executing-badge">⚡ RUNNING</span>
+                                            <span class="job-type">{{ job.JobType }}</span>
+                                        </div>
+                                        <div class="job-details">
+                                            <span>Key: {{ job.JobKey }}</span>
+                                            <span>Group: {{ job.JobGroup }}</span>
+                                            <span v-if="job.IsExecuting && job.RunTime">Runtime: {{
+                                                formatDuration(job.RunTime) }}</span>
+                                            <span v-if="job.FireTime">Fire Time: {{ new
+                                                Date(job.FireTime).toLocaleString()
+                                                }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="job-actions">
+                                        <button v-if="job.IsExecuting" class="memo-button btn btn-warning btn-sm"
+                                            @click="interruptQuartzJob(job.JobName, job.JobGroup)">
+                                            Interrupt
                                         </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </template>
-                    <template v-else>
-                        <p class="no-models-message">No models whitelisted yet. Use the section below to fetch and add
-                            models.</p>
-                    </template>
-                </LayoutCard>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
 
-                <!-- Section 2: Available Models from Providers -->
-                <LayoutCard :size="LayoutCardSize.Large">
-                    <div class="ai-models-header">
-                        <h4>Available Models</h4>
-                        <button class="memo-button btn btn-primary" :disabled="fetchingModels"
-                            @click="fetchAllProviderModels">
-                            <font-awesome-icon v-if="fetchingModels" icon="fa-solid fa-spinner" spin />
-                            <font-awesome-icon v-else icon="fa-solid fa-download" />
-                            Load All Models
-                        </button>
-                    </div>
+                        <template v-else-if="quartzJobsLoaded && quartzJobs.length === 0">
+                            <p class="no-jobs-message">No Quartz jobs found.</p>
+                        </template>
 
-                    <template v-if="providerModels.length > 0">
-                        <div v-for="provider in providerModels" :key="provider.providerName" class="provider-section">
-                            <h5 class="provider-header">
-                                <span class="provider-badge" :class="provider.providerName.toLowerCase()">{{
-                                    provider.providerName }}</span>
-                                <span class="model-count">({{ provider.models.length }} models)</span>
-                            </h5>
-                            <table class="provider-models-table">
+                        <template v-if="quartzJobsLoaded">
+                            <details class="raw-json-details">
+                                <summary>Show Raw Quartz Jobs JSON</summary>
+                                <pre class="job-json">{{ JSON.stringify(quartzJobs, null, 2) }}</pre>
+                            </details>
+                        </template>
+                    </LayoutCard>
+                </LayoutPanel>
+            </div>
+            <!-- END QUARTZ TAB -->
+
+            <!-- ==================== AI TAB ==================== -->
+            <div v-show="activeTab === 'ai'" class="tab-content">
+
+                <!-- AI Models Management Panel -->
+                <LayoutPanel title="AI Models Management">
+                    <!-- Section 1: Whitelisted Models -->
+                    <LayoutCard :size="LayoutCardSize.Large">
+                        <div class="ai-models-header">
+                            <h4>Whitelisted Models</h4>
+                            <button class="memo-button btn btn-secondary" @click="loadWhitelistedModels">
+                                <font-awesome-icon icon="fa-solid fa-sync" /> Refresh
+                            </button>
+                        </div>
+
+                        <template v-if="whitelistedModels.length > 0">
+                            <table class="whitelist-table">
                                 <thead>
                                     <tr>
+                                        <th>Provider</th>
                                         <th>Display Name</th>
                                         <th>Model ID</th>
-                                        <th>Whitelisted</th>
+                                        <th>Cost Rate</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="model in provider.models" :key="model.modelId"
-                                        :class="{ 'whitelisted-row': model.isWhitelisted }">
-                                        <td>{{ model.displayName }}</td>
+                                    <tr v-for="model in whitelistedModels" :key="model.id">
+                                        <td>
+                                            <span class="provider-badge" :class="model.provider.toLowerCase()">{{
+                                                model.provider }}</span>
+                                        </td>
+                                        <td>
+                                            <template v-if="editingDisplayName?.id === model.id">
+                                                <div class="display-name-edit">
+                                                    <input v-model="editingDisplayName.value" type="text"
+                                                        class="display-name-input" />
+                                                    <button class="btn-icon btn-save" title="Save"
+                                                        @click="saveDisplayName">
+                                                        <font-awesome-icon icon="fa-solid fa-check" />
+                                                    </button>
+                                                    <button class="btn-icon btn-cancel" title="Cancel"
+                                                        @click="cancelEditDisplayName">
+                                                        <font-awesome-icon icon="fa-solid fa-times" />
+                                                    </button>
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <span class="display-name" title="Click to edit"
+                                                    @click="startEditDisplayName(model)">
+                                                    {{ model.displayName || '(no name)' }}
+                                                </span>
+                                            </template>
+                                        </td>
                                         <td class="model-id-cell">{{ model.modelId }}</td>
                                         <td>
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" :checked="model.isWhitelisted"
-                                                    @change="toggleWhitelist(provider.providerName, model)" />
-                                                <span class="toggle-slider" />
-                                            </label>
+                                            <template v-if="editingCostRate?.id === model.id">
+                                                <div class="cost-rate-edit">
+                                                    <input v-model.number="editingCostRate.value" type="number"
+                                                        step="0.1" min="0" class="cost-rate-input" />
+                                                    <button class="btn-icon btn-save" title="Save"
+                                                        @click="saveCostRate">
+                                                        <font-awesome-icon icon="fa-solid fa-check" />
+                                                    </button>
+                                                    <button class="btn-icon btn-cancel" title="Cancel"
+                                                        @click="cancelEditCostRate">
+                                                        <font-awesome-icon icon="fa-solid fa-times" />
+                                                    </button>
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <span class="cost-rate" title="Click to edit"
+                                                    @click="startEditCostRate(model)">
+                                                    {{ model.tokenCostMultiplier }}x
+                                                </span>
+                                            </template>
+                                        </td>
+                                        <td>
+                                            <button class="btn-icon btn-delete" title="Remove from whitelist"
+                                                @click="confirmDeleteModel(model)">
+                                                <font-awesome-icon icon="fa-solid fa-trash" />
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                    </template>
-                    <template v-else>
-                        <p class="no-models-message">Click "Load All Models" to fetch available models from providers.
-                        </p>
-                    </template>
-                </LayoutCard>
+                        </template>
+                        <template v-else>
+                            <p class="no-models-message">No models whitelisted yet. Use the section below to fetch and
+                                add
+                                models.</p>
+                        </template>
+                    </LayoutCard>
 
-                <!-- Delete Confirmation Modal -->
-                <div v-if="showDeleteConfirmModal" class="modal-overlay" @click.self="cancelDelete">
-                    <div class="confirm-modal">
-                        <h4>Confirm Delete</h4>
-                        <p>Are you sure you want to remove <strong>{{ modelToDelete?.displayName }}</strong> ({{
-                            modelToDelete?.modelId }}) from the whitelist?</p>
-                        <div class="modal-actions">
-                            <button class="memo-button btn btn-danger" @click="executeDelete">Delete</button>
-                            <button class="memo-button btn btn-secondary" @click="cancelDelete">Cancel</button>
+                    <!-- Section 2: Available Models from Providers -->
+                    <LayoutCard :size="LayoutCardSize.Large">
+                        <div class="ai-models-header">
+                            <h4>Available Models</h4>
+                            <button class="memo-button btn btn-primary" :disabled="fetchingModels"
+                                @click="fetchAllProviderModels">
+                                <font-awesome-icon v-if="fetchingModels" icon="fa-solid fa-spinner" spin />
+                                <font-awesome-icon v-else icon="fa-solid fa-download" />
+                                Load All Models
+                            </button>
+                        </div>
+
+                        <template v-if="providerModels.length > 0">
+                            <div v-for="provider in providerModels" :key="provider.providerName"
+                                class="provider-section">
+                                <h5 class="provider-header">
+                                    <span class="provider-badge" :class="provider.providerName.toLowerCase()">{{
+                                        provider.providerName }}</span>
+                                    <span class="model-count">({{ provider.models.length }} models)</span>
+                                </h5>
+                                <table class="provider-models-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Display Name</th>
+                                            <th>Model ID</th>
+                                            <th>Whitelisted</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="model in provider.models" :key="model.modelId"
+                                            :class="{ 'whitelisted-row': model.isWhitelisted }">
+                                            <td>{{ model.displayName }}</td>
+                                            <td class="model-id-cell">{{ model.modelId }}</td>
+                                            <td>
+                                                <label class="toggle-switch">
+                                                    <input type="checkbox" :checked="model.isWhitelisted"
+                                                        @change="toggleWhitelist(provider.providerName, model)" />
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <p class="no-models-message">Click "Load All Models" to fetch available models from
+                                providers.
+                            </p>
+                        </template>
+                    </LayoutCard>
+
+                    <!-- Delete Confirmation Modal -->
+                    <div v-if="showDeleteConfirmModal" class="modal-overlay" @click.self="cancelDelete">
+                        <div class="confirm-modal">
+                            <h4>Confirm Delete</h4>
+                            <p>Are you sure you want to remove <strong>{{ modelToDelete?.displayName }}</strong> ({{
+                                modelToDelete?.modelId }}) from the whitelist?</p>
+                            <div class="modal-actions">
+                                <button class="memo-button btn btn-danger" @click="executeDelete">Delete</button>
+                                <button class="memo-button btn btn-secondary" @click="cancelDelete">Cancel</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </LayoutPanel>
-            <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods"
-                :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
-            <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods"
-                :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
-            <MaintenanceSection v-if="pageMethods.length > 0" :title="$t('maintenance.pages.title')"
-                :methods="pageMethods" :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
+                </LayoutPanel>
+            </div>
+            <!-- END AI TAB -->
 
-            <LayoutPanel :title="$t('maintenance.mmapCache.title')">
+            <!-- ==================== GENERAL TAB ==================== -->
+            <div v-show="activeTab === 'general'" class="tab-content">
 
-                <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
-                    <button class="memo-button btn btn-primary" @click="loadMmapCacheStatus">
-                        {{ $t('maintenance.mmapCache.loadStatus') }}
+                <LayoutPanel :title="$t('maintenance.metrics.title')">
+                    <NuxtLink to="/Metriken" class="memo-button btn btn-primary">
+                        {{ $t('maintenance.metrics.viewOverview') }}
+                    </NuxtLink>
+                </LayoutPanel>
+
+                <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="questionMethods"
+                    :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
+                <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="cacheMethods"
+                    :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
+                <MaintenanceSection v-if="pageMethods.length > 0" :title="$t('maintenance.pages.title')"
+                    :methods="pageMethods" :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
+
+                <LayoutPanel :title="$t('maintenance.mmapCache.title')">
+
+                    <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
+                        <button class="memo-button btn btn-primary" @click="loadMmapCacheStatus">
+                            {{ $t('maintenance.mmapCache.loadStatus') }}
+                        </button>
+                    </LayoutCard>
+                    <template v-if="mmapCacheStatus">
+                        <LayoutCard v-if="mmapCacheStatus.pageViewsCache" :size="LayoutCardSize.Tiny"
+                            :title="$t('maintenance.mmapCache.pageViews')">
+                            <ul v-if="mmapCacheStatus.pageViewsCache.exists">
+                                <li>lastModified: <br /><b>{{ mmapCacheStatus.pageViewsCache.lastModified ? new
+                                    Date(mmapCacheStatus.pageViewsCache.lastModified).toLocaleString() : 'N/A'
+                                        }}</b>
+                                </li>
+                                <li>sizeBytes: <br /><b>{{ mmapCacheStatus.pageViewsCache.sizeBytes }}</b></li>
+                            </ul>
+                            <span v-else>{{ $t('maintenance.mmapCache.noPageViewsCacheFile') }}</span>
+                        </LayoutCard>
+                        <LayoutCard v-if="mmapCacheStatus.questionViewsCache" :size="LayoutCardSize.Tiny"
+                            :title="$t('maintenance.mmapCache.questionViews')">
+                            <ul v-if="mmapCacheStatus.questionViewsCache.exists">
+                                <li>lastModified: <br /><b>{{ mmapCacheStatus.questionViewsCache.lastModified ? new
+                                    Date(mmapCacheStatus.questionViewsCache.lastModified).toLocaleString() : 'N/A'
+                                        }}</b></li>
+                                <li>sizeBytes: <br /><b>{{ mmapCacheStatus.questionViewsCache.sizeBytes }}</b></li>
+                            </ul>
+                            <span v-else>{{ $t('maintenance.mmapCache.noQuestionViewsCacheFile') }}</span>
+                        </LayoutCard>
+                    </template>
+
+                    <div v-else-if="mmapCacheStatusLoaded && mmapCacheStatus == null" class="no-errors-message">
+                        {{ $t('maintenance.relations.noErrorsFound') }}
+                    </div>
+                </LayoutPanel>
+
+                <LayoutPanel :title="$t('maintenance.relations.title')">
+                    <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
+                        <div class="relation-errors-controls">
+                            <button class="memo-button btn btn-primary" :disabled="isAnalyzing"
+                                @click="loadRelationErrors">
+                                <i v-if="isAnalyzing" class="fas fa-spinner fa-spin" />
+                                {{ isAnalyzing ? 'Analyzing...' : 'Analyze and Show' }}
+                            </button>
+                            <button class="memo-button btn btn-secondary ms-2" :disabled="isAnalyzing"
+                                @click="clearRelationErrorsCache">
+                                Clear Cache
+                            </button>
+                        </div>
+                    </LayoutCard>
+                    <MaintenanceRelationErrorCard v-for="errorItem in relationErrors" :key="errorItem.parentId"
+                        :error-item="errorItem" @heal-relations="healRelations" />
+                    <div v-if="relationErrorsLoaded && relationErrors.length === 0" class="no-errors-message">
+                        {{ $t('maintenance.relations.noErrorsFound') }}
+                    </div>
+                </LayoutPanel>
+                <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods"
+                    :description="$t('maintenance.meiliSearch.description')" :icon="['fas', 'retweet']"
+                    @method-clicked="executeMaintenanceOperation" />
+                <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods"
+                    :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation">
+                    <LayoutCard :size="LayoutCardSize.Tiny">
+                        <div class="active-users-info">
+                            <h4>{{ $t('maintenance.users.activeSessions') }}</h4>
+                            <ul>
+                                <li>{{ $t('maintenance.users.loggedIn') }}: {{ loggedInUserCount }} ({{
+                                    $t('maintenance.users.last5Minutes') }})</li>
+                                <li>{{ $t('maintenance.users.anonymous') }}: {{ anonymousUserCount }} ({{
+                                    $t('maintenance.users.lastMinute') }})</li>
+                            </ul>
+                        </div>
+                    </LayoutCard>
+                    <LayoutCard :size="LayoutCardSize.Small">
+                        <div class="delete-user-container">
+                            <h4>{{ $t('maintenance.users.deleteUser') }}</h4>
+                            <div class="delete-user-input">
+                                <input v-model="userIdToDelete" />
+                                <button class="memo-button btn btn-primary" @click="deleteUser">
+                                    {{ $t('maintenance.users.deleteUserButton') }}
+                                </button>
+                            </div>
+                        </div>
+                    </LayoutCard>
+                    <LayoutCard :size="LayoutCardSize.Small">
+                        <div class="token-management-container">
+                            <h4>Add Tokens to User</h4>
+                            <div class="token-management-form">
+                                <div class="form-group">
+                                    <label>User ID:</label>
+                                    <input v-model.number="tokenUserId" type="number" placeholder="User ID" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Amount:</label>
+                                    <input v-model.number="tokenAmount" type="number" placeholder="Token amount" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Token Type:</label>
+                                    <select v-model="tokenType">
+                                        <option value="subscription">Subscription Tokens</option>
+                                        <option value="paid">Paid Tokens</option>
+                                    </select>
+                                </div>
+                                <button class="memo-button btn btn-primary" @click="addTokensToUser">
+                                    Add Tokens
+                                </button>
+                            </div>
+                        </div>
+                    </LayoutCard>
+
+                </MaintenanceSection>
+                <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods"
+                    :icon="['fas', 'retweet']" @method-clicked="executeMaintenanceOperation" />
+                <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods"
+                    :icon="['fas', 'hammer']" @method-clicked="executeMaintenanceOperation" />
+                <LayoutPanel :title="$t('maintenance.removeAdminRights.title')">
+                    <button class="memo-button btn btn-primary" @click="removeAdminRights">
+                        {{ $t('maintenance.removeAdminRights.button') }}
                     </button>
-                </LayoutCard>
-                <template v-if="mmapCacheStatus">
-                    <LayoutCard v-if="mmapCacheStatus.pageViewsCache" :size="LayoutCardSize.Tiny"
-                        :title="$t('maintenance.mmapCache.pageViews')">
-                        <ul v-if="mmapCacheStatus.pageViewsCache.exists">
-                            <li>lastModified: <br /><b>{{ mmapCacheStatus.pageViewsCache.lastModified ? new
-                                Date(mmapCacheStatus.pageViewsCache.lastModified).toLocaleString() : 'N/A' }}</b>
-                            </li>
-                            <li>sizeBytes: <br /><b>{{ mmapCacheStatus.pageViewsCache.sizeBytes }}</b></li>
-                        </ul>
-                        <span v-else>{{ $t('maintenance.mmapCache.noPageViewsCacheFile') }}</span>
-                    </LayoutCard>
-                    <LayoutCard v-if="mmapCacheStatus.questionViewsCache" :size="LayoutCardSize.Tiny"
-                        :title="$t('maintenance.mmapCache.questionViews')">
-                        <ul v-if="mmapCacheStatus.questionViewsCache.exists">
-                            <li>lastModified: <br /><b>{{ mmapCacheStatus.questionViewsCache.lastModified ? new
-                                Date(mmapCacheStatus.questionViewsCache.lastModified).toLocaleString() : 'N/A'
-                                    }}</b></li>
-                            <li>sizeBytes: <br /><b>{{ mmapCacheStatus.questionViewsCache.sizeBytes }}</b></li>
-                        </ul>
-                        <span v-else>{{ $t('maintenance.mmapCache.noQuestionViewsCacheFile') }}</span>
-                    </LayoutCard>
-                </template>
-
-                <div v-else-if="mmapCacheStatusLoaded && mmapCacheStatus == null" class="no-errors-message">
-                    {{ $t('maintenance.relations.noErrorsFound') }}
-                </div>
-            </LayoutPanel>
-
-            <LayoutPanel :title="$t('maintenance.relations.title')">
-                <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
-                    <div class="relation-errors-controls">
-                        <button class="memo-button btn btn-primary" :disabled="isAnalyzing" @click="loadRelationErrors">
-                            <i v-if="isAnalyzing" class="fas fa-spinner fa-spin" />
-                            {{ isAnalyzing ? 'Analyzing...' : 'Analyze and Show' }}
-                        </button>
-                        <button class="memo-button btn btn-secondary ms-2" :disabled="isAnalyzing"
-                            @click="clearRelationErrorsCache">
-                            Clear Cache
-                        </button>
-                    </div>
-                </LayoutCard>
-                <MaintenanceRelationErrorCard v-for="errorItem in relationErrors" :key="errorItem.parentId"
-                    :error-item="errorItem" @heal-relations="healRelations" />
-                <div v-if="relationErrorsLoaded && relationErrors.length === 0" class="no-errors-message">
-                    {{ $t('maintenance.relations.noErrorsFound') }}
-                </div>
-            </LayoutPanel>
-            <MaintenanceSection :title="$t('maintenance.meiliSearch.title')" :methods="meiliSearchMethods"
-                :description="$t('maintenance.meiliSearch.description')" :icon="['fas', 'retweet']"
-                @method-clicked="executeMaintenanceOperation" />
-            <MaintenanceSection :title="$t('maintenance.users.title')" :methods="userMethods" :icon="['fas', 'retweet']"
-                @method-clicked="executeMaintenanceOperation">
-                <LayoutCard :size="LayoutCardSize.Tiny">
-                    <div class="active-users-info">
-                        <h4>{{ $t('maintenance.users.activeSessions') }}</h4>
-                        <ul>
-                            <li>{{ $t('maintenance.users.loggedIn') }}: {{ loggedInUserCount }} ({{
-                                $t('maintenance.users.last5Minutes') }})</li>
-                            <li>{{ $t('maintenance.users.anonymous') }}: {{ anonymousUserCount }} ({{
-                                $t('maintenance.users.lastMinute') }})</li>
-                        </ul>
-                    </div>
-                </LayoutCard>
-                <LayoutCard :size="LayoutCardSize.Small">
-                    <div class="delete-user-container">
-                        <h4>{{ $t('maintenance.users.deleteUser') }}</h4>
-                        <div class="delete-user-input">
-                            <input v-model="userIdToDelete" />
-                            <button class="memo-button btn btn-primary" @click="deleteUser">
-                                {{ $t('maintenance.users.deleteUserButton') }}
-                            </button>
-                        </div>
-                    </div>
-                </LayoutCard>
-                <LayoutCard :size="LayoutCardSize.Small">
-                    <div class="token-management-container">
-                        <h4>Add Tokens to User</h4>
-                        <div class="token-management-form">
-                            <div class="form-group">
-                                <label>User ID:</label>
-                                <input v-model.number="tokenUserId" type="number" placeholder="User ID" />
-                            </div>
-                            <div class="form-group">
-                                <label>Amount:</label>
-                                <input v-model.number="tokenAmount" type="number" placeholder="Token amount" />
-                            </div>
-                            <div class="form-group">
-                                <label>Token Type:</label>
-                                <select v-model="tokenType">
-                                    <option value="subscription">Subscription Tokens</option>
-                                    <option value="paid">Paid Tokens</option>
-                                </select>
-                            </div>
-                            <button class="memo-button btn btn-primary" @click="addTokensToUser">
-                                Add Tokens
-                            </button>
-                        </div>
-                    </div>
-                </LayoutCard>
-
-            </MaintenanceSection>
-            <MaintenanceSection :title="$t('maintenance.misc.title')" :methods="miscMethods" :icon="['fas', 'retweet']"
-                @method-clicked="executeMaintenanceOperation" />
-            <MaintenanceSection :title="$t('maintenance.tools.title')" :methods="toolsMethods" :icon="['fas', 'hammer']"
-                @method-clicked="executeMaintenanceOperation" />
-            <LayoutPanel :title="$t('maintenance.removeAdminRights.title')">
-                <button class="memo-button btn btn-primary" @click="removeAdminRights">
-                    {{ $t('maintenance.removeAdminRights.button') }}
-                </button>
-            </LayoutPanel>
+                </LayoutPanel>
+            </div>
+            <!-- END GENERAL TAB -->
         </div>
     </div>
 </template>
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.maintenance-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid @memo-grey-lighter;
+    padding-bottom: 0;
+
+    .tab-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border: none;
+        background: transparent;
+        color: @memo-grey-dark;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            color: @memo-blue;
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        &.active {
+            color: @memo-blue;
+            border-bottom-color: @memo-blue;
+        }
+
+        .tab-badge {
+            background-color: @memo-blue;
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+    }
+}
+
+.tab-content {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 .alert {
     position: relative;
