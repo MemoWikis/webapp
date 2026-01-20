@@ -59,7 +59,8 @@ function formatResetDate(date: Date): string {
     return date.toLocaleDateString(locale.value, {
         weekday: 'long',
         day: 'numeric',
-        month: 'long'
+        month: 'long',
+        year: 'numeric'
     })
 }
 const formatNumber = (num: number): string => {
@@ -138,9 +139,9 @@ const toggleDate = (date: string) => {
         </div>
 
         <template v-else-if="usageData?.success">
-            <!-- Monthly Quota Progress Section -->
+            <!-- Weekly Quota Progress Section -->
             <div v-if="userStore.quotaInfo" class="settings-section quota-section">
-                <div class="overline-s no-line">{{ t('settings.aiUsage.monthlyQuotaProgress') }}</div>
+                <div class="overline-s no-line">{{ t('settings.aiUsage.weeklyQuotaProgress') }}</div>
                 <div class="quota-card">
                     <div class="quota-header">
                         <div class="quota-title">
@@ -168,11 +169,11 @@ const toggleDate = (date: string) => {
                             </span>
                             <span class="quota-separator">{{ t('settings.aiUsage.of') }}</span>
                             <span class="quota-total">
-                                {{ userStore.quotaInfo.monthlyLimit.toLocaleString() }} {{ t('settings.aiUsage.points')
+                                {{ userStore.quotaInfo.weeklyLimit.toLocaleString() }} {{ t('settings.aiUsage.points')
                                 }}
                             </span>
                             <span class="quota-percentage">({{ (100 - userStore.quotaInfo.percentageUsed).toFixed(0)
-                                }}%)</span>
+                            }}%)</span>
                         </div>
                     </div>
 
@@ -186,24 +187,7 @@ const toggleDate = (date: string) => {
                 </div>
             </div>
 
-            <!-- Compute Points Balance Section -->
-            <div class="settings-section">
-                <div class="overline-s no-line">{{ t('settings.aiUsage.computePointsBalance') }}</div>
-                <div class="balance-cards">
-                    <div class="balance-card total">
-                        <div class="balance-value">{{ formatNumber(usageData.tokenBalance) }}</div>
-                        <div class="balance-label">{{ t('settings.aiUsage.totalBalance') }}</div>
-                    </div>
-                    <div class="balance-card subscription">
-                        <div class="balance-value">{{ formatNumber(usageData.subscriptionTokensBalance) }}</div>
-                        <div class="balance-label">{{ t('settings.aiUsage.monthlyQuota') }}</div>
-                    </div>
-                    <div class="balance-card paid">
-                        <div class="balance-value">{{ formatNumber(usageData.paidTokensBalance) }}</div>
-                        <div class="balance-label">{{ t('settings.aiUsage.purchasedPoints') }}</div>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- Usage Summary Section -->
             <div class="settings-section">
@@ -213,12 +197,18 @@ const toggleDate = (date: string) => {
                         <span class="stat-value">{{ formatNumber(totalRequests) }}</span>
                         <span class="stat-label">{{ t('settings.aiUsage.requests') }}</span>
                     </div>
-                    <div class="stat">
-                        <span class="stat-value">{{ formatNumber(totalTokensIn) }}</span>
+                    <div class="stat tokens-in">
+                        <span class="stat-value">
+                            <font-awesome-icon icon="fa-solid fa-arrow-down" class="stat-icon" />
+                            {{ formatNumber(totalTokensIn) }}
+                        </span>
                         <span class="stat-label">{{ t('settings.aiUsage.pointsIn') }}</span>
                     </div>
-                    <div class="stat">
-                        <span class="stat-value">{{ formatNumber(totalTokensOut) }}</span>
+                    <div class="stat tokens-out">
+                        <span class="stat-value">
+                            <font-awesome-icon icon="fa-solid fa-arrow-up" class="stat-icon" />
+                            {{ formatNumber(totalTokensOut) }}
+                        </span>
                         <span class="stat-label">{{ t('settings.aiUsage.pointsOut') }}</span>
                     </div>
                 </div>
@@ -476,14 +466,29 @@ const toggleDate = (date: string) => {
             flex-direction: column;
 
             .stat-value {
+                display: flex;
+                align-items: center;
+                gap: 6px;
                 font-size: 20px;
                 font-weight: 600;
                 color: @memo-blue;
+
+                .stat-icon {
+                    font-size: 14px;
+                }
             }
 
             .stat-label {
                 font-size: 12px;
                 color: @memo-grey-dark;
+            }
+
+            &.tokens-in .stat-value {
+                color: @memo-green;
+            }
+
+            &.tokens-out .stat-value {
+                color: @memo-blue-link;
             }
         }
     }

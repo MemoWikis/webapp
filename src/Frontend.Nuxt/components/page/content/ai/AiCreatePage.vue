@@ -27,8 +27,10 @@ function resizeTextArea() {
 
 function formatResetDate(date: Date): string {
     return date.toLocaleDateString(locale.value, {
+        weekday: 'long',
         day: 'numeric',
-        month: 'short'
+        month: 'long',
+        year: 'numeric'
     })
 }
 const complexityLabels = computed(() => ({
@@ -122,6 +124,13 @@ const isQuotaDepleted = computed(() => {
 })
 
 const showQuotaDepletedModal = ref(false)
+
+// Load quota info when modal opens
+watch(() => aiCreatePageStore.showModal, (isOpen) => {
+    if (isOpen && userStore.isLoggedIn && !userStore.quotaInfo) {
+        userStore.fetchQuotaInfo()
+    }
+})
 
 async function handleGenerate() {
     if (!userStore.isLoggedIn) {
@@ -417,7 +426,7 @@ function selectSubpage(index: number) {
                         <div class="model-select"
                             :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
                             <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels')
-                                }}</span>
+                            }}</span>
                             <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }}</span>
                             <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
@@ -440,8 +449,9 @@ function selectSubpage(index: number) {
 
                     <VDropdown :distance="2" placement="top" class="token-balance-dropdown">
                         <div class="token-balance-btn" :title="t('page.ai.createPage.tokenBalance')"
+                            :class="{ 'quota-low': userStore.quotaInfo?.percentageUsed > 80, 'quota-depleted': userStore.quotaInfo?.isQuotaDepleted }"
                             @click="userStore.fetchQuotaInfo()">
-                            <font-awesome-icon :icon="['fas', 'coins']" />
+                            <font-awesome-icon :icon="['fas', 'chart-pie']" />
                         </div>
 
                         <template #popper>
@@ -467,7 +477,7 @@ function selectSubpage(index: number) {
                                             </span>
                                             <span class="quota-separator">/</span>
                                             <span class="quota-total">
-                                                {{ userStore.quotaInfo.monthlyLimit.toLocaleString() }}
+                                                {{ userStore.quotaInfo.weeklyLimit.toLocaleString() }}
                                             </span>
                                         </div>
                                     </div>
@@ -501,6 +511,22 @@ function selectSubpage(index: number) {
                         </template>
                     </VDropdown>
                 </div>
+
+                <!-- Quota Warning - Only when low or depleted -->
+                <NuxtLink v-if="userStore.quotaInfo?.isQuotaDepleted" :to="localePath('/Einstellungen?tab=ai-usage')"
+                    class="quota-warning-indicator depleted">
+                    <font-awesome-icon :icon="['fas', 'exclamation-circle']" />
+                    <span>{{ t('page.ai.createPage.quotaWarning.depleted') }}</span>
+                </NuxtLink>
+                <NuxtLink v-else-if="userStore.quotaInfo && userStore.quotaInfo.percentageUsed > 80"
+                    :to="localePath('/Einstellungen?tab=ai-usage')" class="quota-warning-indicator low">
+                    <font-awesome-icon :icon="['fas', 'exclamation-triangle']" />
+                    <span>{{ t('page.ai.createPage.quotaWarning.low', {
+                        percent: (100 -
+                            userStore.quotaInfo.percentageUsed).toFixed(0)
+                        }) }}</span>
+                </NuxtLink>
+
                 <div class="buttons">
                     <div class="wiki-toggle">
                         <label class="wiki-toggle-label"
@@ -1059,6 +1085,54 @@ function selectSubpage(index: number) {
 
             &:hover {
                 color: @memo-blue;
+            }
+
+            &.quota-low {
+                color: @memo-yellow;
+            }
+
+            &.quota-depleted {
+                color: #B13A48;
+            }
+        }
+    }
+
+    .quota-warning-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+
+        &.low {
+            background: fade(@memo-yellow, 15%);
+            color: darken(@memo-yellow, 25%);
+            border: 1px solid fade(@memo-yellow, 40%);
+
+            &:hover {
+                background: fade(@memo-yellow, 25%);
+            }
+
+            svg {
+                color: @memo-yellow;
+            }
+        }
+
+        &.depleted {
+            background: fade(#B13A48, 10%);
+            color: #B13A48;
+            border: 1px solid fade(#B13A48, 30%);
+
+            &:hover {
+                background: fade(#B13A48, 18%);
+            }
+
+            svg {
+                color: #B13A48;
             }
         }
     }

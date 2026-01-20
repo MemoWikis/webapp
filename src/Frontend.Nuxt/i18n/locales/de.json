@@ -755,14 +755,18 @@
                 "loadingModels": "Modelle werden geladen...",
                 "tokenBalance": "Token-Guthaben",
                 "quota": {
-                    "title": "Monatliches Kontingent",
+                    "title": "Wöchentliches Kontingent",
                     "resetDate": "Wird zurückgesetzt am",
                     "depleted": "Kontingent aufgebraucht",
                     "settingsLink": "Zur KI-Nutzung"
                 },
+                "quotaWarning": {
+                    "depleted": "Kontingent aufgebraucht – Zur KI-Nutzung",
+                    "low": "Nur noch {percent}% Kontingent übrig"
+                },
                 "quotaDepleted": {
-                    "title": "Monatliches Kontingent aufgebraucht",
-                    "message": "Du hast dein monatliches KI-Kontingent aufgebraucht. Dein Kontingent wird automatisch monatlich erneuert, sodass du wieder KI-generierte Seiten erstellen kannst.",
+                    "title": "Wöchentliches Kontingent aufgebraucht",
+                    "message": "Du hast dein wöchentliches KI-Kontingent aufgebraucht. Dein Kontingent wird jeden Montag automatisch erneuert, sodass du wieder KI-generierte Seiten erstellen kannst.",
                     "resetInfo": "Wird zurückgesetzt am {date}",
                     "viewUsage": "KI-Nutzung anzeigen",
                     "close": "Schließen"
@@ -1219,14 +1223,14 @@
             "loading": "Lade Nutzungsdaten...",
             "computePointsBalance": "Compute-Points",
             "totalBalance": "Verfügbar",
-            "monthlyQuota": "Monatliches Kontingent",
-            "monthlyQuotaProgress": "Monatliches Kontingent",
+            "weeklyQuota": "Wöchentliches Kontingent",
+            "weeklyQuotaProgress": "Wöchentliches Kontingent",
             "currentQuota": "Aktuelles Kontingent",
             "resetDate": "Wird zurückgesetzt am",
             "of": "von",
             "points": "Punkte",
             "quotaDepleted": "Kontingent aufgebraucht",
-            "quotaDepletedMessage": "Du hast dein monatliches KI-Kontingent vollständig aufgebraucht. Es wird automatisch monatlich erneuert.",
+            "quotaDepletedMessage": "Du hast dein wöchentliches KI-Kontingent vollständig aufgebraucht. Es wird jeden Montag automatisch erneuert.",
             "purchasedPoints": "Gekaufte Punkte",
             "last30Days": "Letzte 30 Tage",
             "requests": "Anfragen",

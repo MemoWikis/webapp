@@ -755,14 +755,18 @@
                 "loadingModels": "Loading models...",
                 "tokenBalance": "Token Balance",
                 "quota": {
-                    "title": "Monthly Quota",
+                    "title": "Weekly Quota",
                     "resetDate": "Resets on",
                     "depleted": "Quota depleted",
                     "settingsLink": "View AI Usage"
                 },
+                "quotaWarning": {
+                    "depleted": "Quota depleted – View AI Usage",
+                    "low": "Only {percent}% quota remaining"
+                },
                 "quotaDepleted": {
-                    "title": "Monthly Quota Depleted",
-                    "message": "You've used your monthly AI quota. Your quota will automatically renew monthly, so you can create AI-generated pages again.",
+                    "title": "Weekly Quota Depleted",
+                    "message": "You've used your weekly AI quota. Your quota automatically renews every Monday, so you can create AI-generated pages again.",
                     "resetInfo": "Resets on {date}",
                     "viewUsage": "View AI Usage",
                     "close": "Close"
@@ -1219,14 +1223,14 @@
             "loading": "Loading usage data...",
             "computePointsBalance": "Compute Points",
             "totalBalance": "Available",
-            "monthlyQuota": "Monthly Quota",
-            "monthlyQuotaProgress": "Monthly Quota",
+            "weeklyQuota": "Weekly Quota",
+            "weeklyQuotaProgress": "Weekly Quota",
             "currentQuota": "Current Quota",
             "resetDate": "Resets on",
             "of": "of",
             "points": "points",
             "quotaDepleted": "Quota Depleted",
-            "quotaDepletedMessage": "You've used your entire monthly AI quota. It will be automatically renewed monthly.",
+            "quotaDepletedMessage": "You've used your entire weekly AI quota. It will automatically renew every Monday.",
             "purchasedPoints": "Purchased Points",
             "last30Days": "Last 30 Days",
             "requests": "Requests",

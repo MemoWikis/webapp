@@ -224,20 +224,28 @@ public class UserStoreController(
     }
 
     /// <summary>
-    /// Extended quota information including monthly limit, reset date, and subscription status
+    /// Extended quota information including weekly limit, reset date, and subscription status
     /// </summary>
     public readonly record struct GetQuotaInfoResponse(
         bool Success,
         int TotalBalance,
         int SubscriptionBalance,
         int PaidBalance,
-        int MonthlyLimit,
+        int WeeklyLimit,
         double PercentageUsed,
         DateTime? NextResetDate,
         bool HasActiveSubscription,
         bool IsQuotaDepleted);
 
-    private const int DefaultMonthlyTokenLimit = 100000;
+    /// <summary>
+    /// Weekly quota for subscribers (10 million points)
+    /// </summary>
+    private const int SubscriberWeeklyTokenLimit = 10_000_000;
+
+    /// <summary>
+    /// Weekly quota for free tier users (1 million points)
+    /// </summary>
+    private const int FreeWeeklyTokenLimit = 1_000_000;
 
     [HttpGet]
     [AccessOnlyAsLoggedIn]
@@ -252,39 +260,27 @@ public class UserStoreController(
         var totalBalance = _tokenDeductionService.GetTotalTokenBalance(_sessionUser.UserId);
         var subscriptionBalance = user.SubscriptionTokensBalance;
         var paidBalance = user.PaidTokensBalance;
-        var monthlyLimit = DefaultMonthlyTokenLimit;
 
-        // Calculate percentage used (tokens consumed from monthly quota)
-        var tokensUsedThisMonth = monthlyLimit - subscriptionBalance;
-        var percentageUsed = subscriptionBalance > 0
-            ? Math.Max(0, Math.Min(100, (double)tokensUsedThisMonth / monthlyLimit * 100))
-            : 100;
-
-        // Calculate next reset date based on subscription start date
-        DateTime? nextResetDate = null;
+        // Determine if user has active subscription
         var hasActiveSubscription = user.SubscriptionStartDate.HasValue && user.EndDate > DateTime.Now;
 
-        if (hasActiveSubscription && user.SubscriptionStartDate.HasValue)
+        // Weekly limit depends on subscription status
+        var weeklyLimit = hasActiveSubscription ? SubscriberWeeklyTokenLimit : FreeWeeklyTokenLimit;
+
+        // Calculate percentage used (tokens consumed from weekly quota)
+        var tokensUsedThisWeek = weeklyLimit - subscriptionBalance;
+        var percentageUsed = subscriptionBalance > 0
+            ? Math.Max(0, Math.Min(100, (double)tokensUsedThisWeek / weeklyLimit * 100))
+            : 100;
+
+        // Calculate next reset date (next Monday)
+        var today = DateTime.Today;
+        var daysUntilMonday = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
+        if (daysUntilMonday == 0)
         {
-            var startDate = user.SubscriptionStartDate.Value;
-            var today = DateTime.Today;
-
-            // Calculate the next monthly anniversary
-            var dayOfMonth = Math.Min(startDate.Day, DateTime.DaysInMonth(today.Year, today.Month));
-            var thisMonthAnniversary = new DateTime(today.Year, today.Month, dayOfMonth);
-
-            if (thisMonthAnniversary <= today)
-            {
-                // Next reset is next month
-                var nextMonth = today.AddMonths(1);
-                dayOfMonth = Math.Min(startDate.Day, DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month));
-                nextResetDate = new DateTime(nextMonth.Year, nextMonth.Month, dayOfMonth);
-            }
-            else
-            {
-                nextResetDate = thisMonthAnniversary;
-            }
+            daysUntilMonday = 7; // If today is Monday, next reset is next Monday
         }
+        var nextResetDate = today.AddDays(daysUntilMonday);
 
         var isQuotaDepleted = totalBalance <= 0;
 
@@ -293,7 +289,7 @@ public class UserStoreController(
             totalBalance,
             subscriptionBalance,
             paidBalance,
-            monthlyLimit,
+            weeklyLimit,
             Math.Round(percentageUsed, 1),
             nextResetDate,
             hasActiveSubscription,

@@ -46,7 +46,7 @@ export interface QuotaInfo {
     totalBalance: number
     subscriptionBalance: number
     paidBalance: number
-    monthlyLimit: number
+    weeklyLimit: number
     percentageUsed: number
     nextResetDate: Date | null
     hasActiveSubscription: boolean
@@ -365,7 +365,7 @@ export const useUserStore = defineStore('userStore', {
                     totalBalance: number
                     subscriptionBalance: number
                     paidBalance: number
-                    monthlyLimit: number
+                    weeklyLimit: number
                     percentageUsed: number
                     nextResetDate: string | null
                     hasActiveSubscription: boolean
@@ -386,7 +386,7 @@ export const useUserStore = defineStore('userStore', {
                         totalBalance: result.totalBalance,
                         subscriptionBalance: result.subscriptionBalance,
                         paidBalance: result.paidBalance,
-                        monthlyLimit: result.monthlyLimit,
+                        weeklyLimit: result.weeklyLimit,
                         percentageUsed: result.percentageUsed,
                         nextResetDate: result.nextResetDate
                             ? new Date(result.nextResetDate)
