@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import { UserType } from './userTypeEnum'
 import { useLoadingStore } from '../loading/loadingStore'
-import { Page } from '../page/pageStore'
+import type { Page } from '../page/pageStore'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
-import * as Subscription from '~~/components/user/membership/subscription'
+import type * as Subscription from '~~/components/user/membership/subscription'
 import { AlertType, useAlertStore } from '../alert/alertStore'
 
 export interface CurrentUser {
@@ -185,7 +185,7 @@ export const useUserStore = defineStore('userStore', {
 
             loadingStore.startLoading()
 
-            const result = await $api<FetchResult<any>>(
+            const result = await $api<FetchResult<void>>(
                 '/apiVue/UserStore/Logout',
                 {
                     method: 'POST',
@@ -212,7 +212,7 @@ export const useUserStore = defineStore('userStore', {
         async resetPassword(email: string): Promise<FetchResult<void>> {
             const { $logger } = useNuxtApp()
             const alertStore = useAlertStore()
-            const result = await $api<FetchResult<void>>(
+            const _result = await $api<FetchResult<void>>(
                 '/apiVue/UserStore/ResetPassword',
                 {
                     mode: 'cors',
@@ -238,7 +238,7 @@ export const useUserStore = defineStore('userStore', {
                     },
                 },
             )
-            return result
+            return _result
         },
         async getUnreadMessagesCount() {
             this.unreadMessagesCount = await $api<number>(
@@ -301,7 +301,7 @@ export const useUserStore = defineStore('userStore', {
 
             if (!this.isLoggedIn) return
 
-            const result = await $api<FetchResult<void>>(
+            const _result = await $api<FetchResult<void>>(
                 '/apiVue/UserStore/UpdateLanguageSetting',
                 {
                     method: 'POST',
@@ -312,7 +312,7 @@ export const useUserStore = defineStore('userStore', {
             )
         },
         async addShareToken(pageId: number, shareToken: string) {
-            await $api<void>('/apiVue/UserStore/AddShareToken', {
+            await $api('/apiVue/UserStore/AddShareToken', {
                 method: 'POST',
                 body: { pageId, shareToken },
                 mode: 'cors',
