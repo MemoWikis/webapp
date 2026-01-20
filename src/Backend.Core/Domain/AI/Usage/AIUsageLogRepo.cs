@@ -197,7 +197,7 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
             .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(UserWeeklyTokenUsage)))
             .List<UserWeeklyTokenUsage>();
 
-        return result.ToDictionary(x => x.UserId, x => x.TotalTokens);
+        return result.ToDictionary(x => x.UserId, x => (long)x.TotalTokens);
     }
 
     public List<AiUsageWithCost> GetUsageWithCosts(DateTime? fromDate = null, DateTime? toDate = null, int? userId = null)
@@ -381,14 +381,14 @@ public class AiDailyModelUsageSummary
 
 public class WeeklyTokenUsage
 {
-    public long TotalTokens { get; set; }
-    public long TotalTokensIn { get; set; }
-    public long TotalTokensOut { get; set; }
+    public decimal TotalTokens { get; set; }
+    public decimal TotalTokensIn { get; set; }
+    public decimal TotalTokensOut { get; set; }
     public long RequestCount { get; set; }
 }
 
 public class UserWeeklyTokenUsage
 {
     public int UserId { get; set; }
-    public long TotalTokens { get; set; }
+    public decimal TotalTokens { get; set; }
 }

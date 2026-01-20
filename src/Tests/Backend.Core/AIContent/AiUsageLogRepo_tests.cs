@@ -1,6 +1,90 @@
 class AiUsageLogRepo_tests : BaseTestHarness
 {
     [Test]
+    public void GetCurrentWeekTokenUsage_returns_zero_for_nonexistent_user()
+    {
+        // Arrange
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var userId = 999999; // Non-existent user
+
+        // Act
+        var result = aiUsageLogRepo.GetCurrentWeekTokenUsage(userId);
+
+        // Assert
+        Assert.That(result.TotalTokens, Is.EqualTo(0));
+        Assert.That(result.TotalTokensIn, Is.EqualTo(0));
+        Assert.That(result.TotalTokensOut, Is.EqualTo(0));
+        Assert.That(result.RequestCount, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void GetCurrentWeekTokenUsage_returns_correct_decimal_types()
+    {
+        // Arrange
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var userReadingRepo = R<UserReadingRepo>();
+
+        var testUser = userReadingRepo.GetById(1);
+        Assert.That(testUser, Is.Not.Null, "Test user should exist");
+
+        // Add test usage data
+        aiUsageLogRepo.AddUsage(
+            testUser!.Id,
+            1,
+            1000,
+            500,
+            "claude-3-5-sonnet-latest"
+        );
+
+        // Act
+        var result = aiUsageLogRepo.GetCurrentWeekTokenUsage(testUser.Id);
+
+        // Assert - Verify correct data types (decimal for SUM results from MySQL)
+        Assert.That(result.TotalTokens, Is.TypeOf<decimal>());
+        Assert.That(result.TotalTokensIn, Is.TypeOf<decimal>());
+        Assert.That(result.TotalTokensOut, Is.TypeOf<decimal>());
+        Assert.That(result.RequestCount, Is.TypeOf<long>());
+
+        // Verify the values are correct
+        Assert.That(result.TotalTokens, Is.GreaterThanOrEqualTo(1500)); // 1000 + 500
+        Assert.That(result.TotalTokensIn, Is.GreaterThanOrEqualTo(1000));
+        Assert.That(result.TotalTokensOut, Is.GreaterThanOrEqualTo(500));
+        Assert.That(result.RequestCount, Is.GreaterThanOrEqualTo(1));
+    }
+
+    [Test]
+    public void GetCurrentWeekTokenUsage_aggregates_multiple_entries()
+    {
+        // Arrange
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var userReadingRepo = R<UserReadingRepo>();
+
+        var testUser = userReadingRepo.GetById(1);
+        Assert.That(testUser, Is.Not.Null, "Test user should exist");
+
+        // Add multiple usage entries
+        for (var i = 0; i < 3; i++)
+        {
+            aiUsageLogRepo.AddUsage(
+                testUser!.Id,
+                1,
+                100 * (i + 1), // 100, 200, 300 tokens in
+                50 * (i + 1),  // 50, 100, 150 tokens out
+                "claude-3-5-sonnet-latest"
+            );
+        }
+
+        // Act
+        var result = aiUsageLogRepo.GetCurrentWeekTokenUsage(testUser!.Id);
+
+        // Assert - Total should be aggregated
+        Assert.That(result.TotalTokensIn, Is.GreaterThanOrEqualTo(600)); // 100+200+300
+        Assert.That(result.TotalTokensOut, Is.GreaterThanOrEqualTo(300)); // 50+100+150
+        Assert.That(result.TotalTokens, Is.GreaterThanOrEqualTo(900)); // 600+300
+        Assert.That(result.RequestCount, Is.GreaterThanOrEqualTo(3));
+    }
+
+    [Test]
     public void GetDailyUsageSummary_returns_empty_list_when_no_usage()
     {
         // Arrange

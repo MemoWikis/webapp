@@ -182,6 +182,11 @@ Skills are domain-specific automation workflows that help with common developmen
 
 - **entity-cache-pattern**: EntityCache read/write patterns, cache+DB synchronization, common pitfalls
 
+## Backend Development Skills
+
+- **backend-workflow** (aliases: backend, backend-development): Master skill for Backend development. Ensures consistent patterns (NHibernate types, EntityCache updates) and **automatically chains to backend-test** after completing changes.
+- **backend-test** (aliases: run-backend-tests, test-backend): Analyzes changed Backend files and runs corresponding unit tests. Automatically invoked by backend-workflow.
+
 ## Testing Skills
 
 - **playwright-run** (aliases: run-e2e, e2e-test, visual-test): Run Playwright E2E tests with screenshots saved to `test-results/screenshots/` for visual feedback during development

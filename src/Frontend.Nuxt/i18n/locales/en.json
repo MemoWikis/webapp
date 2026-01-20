@@ -1229,6 +1229,7 @@
             "resetDate": "Resets on",
             "of": "of",
             "points": "points",
+            "used": "used",
             "quotaDepleted": "Quota Depleted",
             "quotaDepletedMessage": "You've used your entire weekly AI quota. It will automatically renew every Monday.",
             "purchasedPoints": "Purchased Points",

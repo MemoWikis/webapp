@@ -161,7 +161,7 @@ const toggleDate = (date: string) => {
                             <div class="quota-progress-fill" :class="{
                                 'low': userStore.quotaInfo.percentageUsed > 80,
                                 'depleted': userStore.quotaInfo.isQuotaDepleted
-                            }" :style="{ width: `${100 - userStore.quotaInfo.percentageUsed}%` }" />
+                            }" :style="{ width: `${userStore.quotaInfo.percentageUsed}%` }" />
                         </div>
                         <div class="quota-values">
                             <span class="quota-remaining">
@@ -172,8 +172,8 @@ const toggleDate = (date: string) => {
                                 {{ userStore.quotaInfo.weeklyLimit.toLocaleString() }} {{ t('settings.aiUsage.points')
                                 }}
                             </span>
-                            <span class="quota-percentage">({{ (100 - userStore.quotaInfo.percentageUsed).toFixed(0)
-                            }}%)</span>
+                            <span class="quota-percentage">({{ userStore.quotaInfo.percentageUsed.toFixed(0)
+                                }}% {{ t('settings.aiUsage.used') }})</span>
                         </div>
                     </div>
 

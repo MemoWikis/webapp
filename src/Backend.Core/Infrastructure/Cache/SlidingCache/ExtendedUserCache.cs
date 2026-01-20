@@ -272,7 +272,7 @@ public class ExtendedUserCache(
         try
         {
             var usage = _aiUsageLogRepo.GetCurrentWeekTokenUsage(cacheItem.Id);
-            cacheItem.CurrentWeekTokenUsage = usage.TotalTokens;
+            cacheItem.CurrentWeekTokenUsage = (long)usage.TotalTokens;
         }
         catch (Exception ex)
         {

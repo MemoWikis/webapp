@@ -1229,6 +1229,7 @@
             "resetDate": "Wird zurückgesetzt am",
             "of": "von",
             "points": "Punkte",
+            "used": "verbraucht",
             "quotaDepleted": "Kontingent aufgebraucht",
             "quotaDepletedMessage": "Du hast dein wöchentliches KI-Kontingent vollständig aufgebraucht. Es wird jeden Montag automatisch erneuert.",
             "purchasedPoints": "Gekaufte Punkte",

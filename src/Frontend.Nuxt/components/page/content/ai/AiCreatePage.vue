@@ -426,7 +426,7 @@ function selectSubpage(index: number) {
                         <div class="model-select"
                             :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
                             <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels')
-                                }}</span>
+                            }}</span>
                             <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }}</span>
                             <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
@@ -469,7 +469,7 @@ function selectSubpage(index: number) {
                                             <div class="quota-progress-fill" :class="{
                                                 'low': userStore.quotaInfo.percentageUsed > 80,
                                                 'depleted': userStore.quotaInfo.isQuotaDepleted
-                                            }" :style="{ width: `${100 - userStore.quotaInfo.percentageUsed}%` }" />
+                                            }" :style="{ width: `${userStore.quotaInfo.percentageUsed}%` }" />
                                         </div>
                                         <div class="quota-values">
                                             <span class="quota-remaining">
