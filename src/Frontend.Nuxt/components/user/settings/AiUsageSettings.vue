@@ -175,7 +175,7 @@ const toggleDate = (date: string) => {
                                 }}
                             </span>
                             <span class="quota-percentage">({{ userStore.quotaInfo.percentageUsed.toFixed(0)
-                                }}% {{ t('settings.aiUsage.used') }})</span>
+                            }}% {{ t('settings.aiUsage.used') }})</span>
                         </div>
                     </div>
 
@@ -249,11 +249,11 @@ const toggleDate = (date: string) => {
                                 <span class="stat-pill requests">
                                     {{ day.requestCount }} {{ t('settings.aiUsage.requests') }}
                                 </span>
-                                <span class="stat-pill tokens-in" :title="t('settings.aiUsage.tooltipTokensIn')">
+                                <span class="stat-pill tokens-in" v-tooltip="t('settings.aiUsage.tooltipTokensIn')">
                                     <font-awesome-icon icon="fa-solid fa-arrow-down" />
                                     {{ formatNumber(day.totalTokensIn) }}
                                 </span>
-                                <span class="stat-pill tokens-out" :title="t('settings.aiUsage.tooltipTokensOut')">
+                                <span class="stat-pill tokens-out" v-tooltip="t('settings.aiUsage.tooltipTokensOut')">
                                     <font-awesome-icon icon="fa-solid fa-arrow-up" />
                                     {{ formatNumber(day.totalTokensOut) }}
                                 </span>
@@ -270,19 +270,19 @@ const toggleDate = (date: string) => {
                                         </span>
                                         <span v-if="model.tokenCostMultiplier && model.tokenCostMultiplier !== 1"
                                             class="multiplier-badge"
-                                            :title="t('settings.aiUsage.tooltipMultiplier', { value: model.tokenCostMultiplier })">
+                                            v-tooltip="t('settings.aiUsage.tooltipMultiplier', { value: model.tokenCostMultiplier })">
                                             {{ model.tokenCostMultiplier }}×
                                         </span>
                                     </div>
                                     <div class="model-stats">
                                         <span class="stat-mini">{{ model.requestCount }}x</span>
                                         <span class="stat-mini tokens-in"
-                                            :title="t('settings.aiUsage.tooltipTokensIn')">
+                                            v-tooltip="t('settings.aiUsage.tooltipTokensIn')">
                                             <font-awesome-icon icon="fa-solid fa-arrow-down" />
                                             {{ formatNumber(model.tokensIn) }}
                                         </span>
                                         <span class="stat-mini tokens-out"
-                                            :title="t('settings.aiUsage.tooltipTokensOut')">
+                                            v-tooltip="t('settings.aiUsage.tooltipTokensOut')">
                                             <font-awesome-icon icon="fa-solid fa-arrow-up" />
                                             {{ formatNumber(model.tokensOut) }}
                                         </span>

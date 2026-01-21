@@ -94,9 +94,19 @@ public class MySummary
 - `wishknowledge`: knowledge that a user specifically wants to learn or has marked as desired to learn
 - `wuwi`: abbreviation for "Wunschwissen" (wishknowledge), can be used in backend code, comments, and non-user-facing texts
 
-# Frontend and Translations
+# Frontend Development
 
-- refer to the .copilotinstructions file in `../src/Frontend.Nuxt` for frontend specific instructions
+For **any task in `src/Frontend.Nuxt/`**, use the `frontend-workflow` skill.
+
+The skill covers:
+
+- Vue 3 / Nuxt 3 patterns and conventions
+- Tooltips (always use `v-tooltip` from floating-vue, never native `title`)
+- Translations (i18n) with terminology and guidelines
+- State management (Pinia stores)
+- Styling (LESS variables and patterns)
+- API calls with `$api` composable
+- Accessibility best practices
 
 # AI Token Usage System
 
@@ -181,6 +191,10 @@ Skills are domain-specific automation workflows that help with common developmen
 ## Architecture Skills
 
 - **entity-cache-pattern**: EntityCache read/write patterns, cache+DB synchronization, common pitfalls
+
+## Frontend Development Skills
+
+- **frontend-workflow** (aliases: frontend, frontend-development, nuxt): Master skill for Frontend/Nuxt development. Covers Vue 3 patterns, tooltips (floating-vue), i18n translations, Pinia stores, LESS styling, and accessibility. **Use this skill for any task in `src/Frontend.Nuxt/`.**
 
 ## Backend Development Skills
 
