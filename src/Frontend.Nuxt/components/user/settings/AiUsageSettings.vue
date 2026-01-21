@@ -122,7 +122,6 @@ const groupedByDate = computed((): GroupedDailyData[] => {
 })
 
 const expandedDates = ref<Set<string>>(new Set())
-const showHelp = ref(true)
 
 const toggleDate = (date: string) => {
     if (expandedDates.value.has(date)) {
@@ -143,7 +142,11 @@ const toggleDate = (date: string) => {
         <template v-else-if="usageData?.success">
             <!-- Weekly Quota Progress Section -->
             <div v-if="userStore.quotaInfo" class="settings-section quota-section">
-                <div class="overline-s no-line">{{ t('settings.aiUsage.weeklyQuotaProgress') }}</div>
+                <div class="overline-s no-line section-header">
+                    {{ t('settings.aiUsage.weeklyQuotaProgress') }}
+                    <font-awesome-icon :icon="['fas', 'circle-question']" class="help-icon"
+                        v-tooltip="t('settings.aiUsage.tooltipWeeklyQuota')" />
+                </div>
                 <div class="quota-card">
                     <div class="quota-header">
                         <div class="quota-title">
@@ -175,7 +178,7 @@ const toggleDate = (date: string) => {
                                 }}
                             </span>
                             <span class="quota-percentage">({{ userStore.quotaInfo.percentageUsed.toFixed(0)
-                            }}% {{ t('settings.aiUsage.used') }})</span>
+                                }}% {{ t('settings.aiUsage.used') }})</span>
                         </div>
                     </div>
 
@@ -218,18 +221,10 @@ const toggleDate = (date: string) => {
 
             <!-- Daily Usage Table -->
             <div class="settings-section">
-                <div class="overline-s no-line">{{ t('settings.aiUsage.dailyBreakdown') }}</div>
-
-                <!-- Help Text -->
-                <div v-if="showHelp" class="help-box">
-                    <div class="help-header">
-                        <font-awesome-icon :icon="['fas', 'info-circle']" />
-                        <span class="help-title">{{ t('settings.aiUsage.helpTitle') }}</span>
-                        <button class="help-close" @click="showHelp = false" :title="'Schließen'">
-                            <font-awesome-icon :icon="['fas', 'times']" />
-                        </button>
-                    </div>
-                    <p class="help-text">{{ t('settings.aiUsage.helpText') }}</p>
+                <div class="overline-s no-line section-header">
+                    {{ t('settings.aiUsage.dailyBreakdown') }}
+                    <font-awesome-icon :icon="['fas', 'circle-question']" class="help-icon"
+                        v-tooltip="t('settings.aiUsage.tooltipDailyBreakdown')" />
                 </div>
 
                 <div v-if="groupedByDate.length === 0" class="no-data">
@@ -246,7 +241,7 @@ const toggleDate = (date: string) => {
                                 {{ formatDate(day.date) }}
                             </div>
                             <div class="day-stats">
-                                <span class="stat-pill requests">
+                                <span class="stat-pill requests" v-tooltip="t('settings.aiUsage.tooltipRequests')">
                                     {{ day.requestCount }} {{ t('settings.aiUsage.requests') }}
                                 </span>
                                 <span class="stat-pill tokens-in" v-tooltip="t('settings.aiUsage.tooltipTokensIn')">
@@ -268,8 +263,7 @@ const toggleDate = (date: string) => {
                                         <span class="model-name">
                                             {{ model.displayName || model.modelId }}
                                         </span>
-                                        <span v-if="model.tokenCostMultiplier && model.tokenCostMultiplier !== 1"
-                                            class="multiplier-badge"
+                                        <span class="multiplier-badge"
                                             v-tooltip="t('settings.aiUsage.tooltipMultiplier', { value: model.tokenCostMultiplier })">
                                             {{ model.tokenCostMultiplier }}×
                                         </span>
@@ -516,50 +510,20 @@ const toggleDate = (date: string) => {
         }
     }
 
-    .help-box {
-        background: fade(@memo-blue, 8%);
-        border: 1px solid fade(@memo-blue, 20%);
-        border-radius: 8px;
-        padding: 12px 16px;
-        margin-bottom: 16px;
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
 
-        .help-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
+        .help-icon {
+            color: @memo-grey-dark;
+            font-size: 14px;
+            cursor: help;
+            transition: color 0.2s;
 
-            >svg {
+            &:hover {
                 color: @memo-blue;
-                font-size: 14px;
             }
-
-            .help-title {
-                font-weight: 600;
-                color: @memo-blue;
-                font-size: 13px;
-                flex: 1;
-            }
-
-            .help-close {
-                background: none;
-                border: none;
-                color: @memo-grey-dark;
-                cursor: pointer;
-                padding: 4px;
-                line-height: 1;
-
-                &:hover {
-                    color: @memo-blue;
-                }
-            }
-        }
-
-        .help-text {
-            margin: 0;
-            font-size: 13px;
-            color: @memo-grey-darker;
-            line-height: 1.5;
         }
     }
 
