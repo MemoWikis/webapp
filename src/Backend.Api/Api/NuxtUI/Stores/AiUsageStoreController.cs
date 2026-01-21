@@ -3,7 +3,8 @@
 public class AiUsageStoreController(
     SessionUser _sessionUser,
     AiUsageLogRepo _aiUsageLogRepo,
-    TokenDeductionService _tokenDeductionService) : ApiBaseController
+    TokenDeductionService _tokenDeductionService,
+    AiModelRegistry _aiModelRegistry) : ApiBaseController
 {
     public readonly record struct DailyUsageSummaryItem(
         DateTime Date,
@@ -17,7 +18,8 @@ public class AiUsageStoreController(
         string? DisplayName,
         long RequestCount,
         decimal TokensIn,
-        decimal TokensOut);
+        decimal TokensOut,
+        decimal TokenCostMultiplier);
 
     public readonly record struct GetAiUsageResponse(
         bool Success,
@@ -55,7 +57,8 @@ public class AiUsageStoreController(
             s.DisplayName,
             s.RequestCount,
             s.TokensIn,
-            s.TokensOut
+            s.TokensOut,
+            _aiModelRegistry.GetTokenCostMultiplier(s.ModelId)
         )).ToList();
 
         return new GetAiUsageResponse(

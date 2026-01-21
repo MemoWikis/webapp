@@ -18,6 +18,7 @@ interface DailyModelUsage {
     requestCount: number
     tokensIn: number
     tokensOut: number
+    tokenCostMultiplier: number
 }
 
 interface AiUsageResponse {
@@ -121,6 +122,7 @@ const groupedByDate = computed((): GroupedDailyData[] => {
 })
 
 const expandedDates = ref<Set<string>>(new Set())
+const showHelp = ref(true)
 
 const toggleDate = (date: string) => {
     if (expandedDates.value.has(date)) {
@@ -173,7 +175,7 @@ const toggleDate = (date: string) => {
                                 }}
                             </span>
                             <span class="quota-percentage">({{ userStore.quotaInfo.percentageUsed.toFixed(0)
-                            }}% {{ t('settings.aiUsage.used') }})</span>
+                                }}% {{ t('settings.aiUsage.used') }})</span>
                         </div>
                     </div>
 
@@ -218,6 +220,18 @@ const toggleDate = (date: string) => {
             <div class="settings-section">
                 <div class="overline-s no-line">{{ t('settings.aiUsage.dailyBreakdown') }}</div>
 
+                <!-- Help Text -->
+                <div v-if="showHelp" class="help-box">
+                    <div class="help-header">
+                        <font-awesome-icon :icon="['fas', 'info-circle']" />
+                        <span class="help-title">{{ t('settings.aiUsage.helpTitle') }}</span>
+                        <button class="help-close" @click="showHelp = false" :title="'Schließen'">
+                            <font-awesome-icon :icon="['fas', 'times']" />
+                        </button>
+                    </div>
+                    <p class="help-text">{{ t('settings.aiUsage.helpText') }}</p>
+                </div>
+
                 <div v-if="groupedByDate.length === 0" class="no-data">
                     {{ t('settings.aiUsage.noUsageData') }}
                 </div>
@@ -235,11 +249,11 @@ const toggleDate = (date: string) => {
                                 <span class="stat-pill requests">
                                     {{ day.requestCount }} {{ t('settings.aiUsage.requests') }}
                                 </span>
-                                <span class="stat-pill tokens-in">
+                                <span class="stat-pill tokens-in" :title="t('settings.aiUsage.tooltipTokensIn')">
                                     <font-awesome-icon icon="fa-solid fa-arrow-down" />
                                     {{ formatNumber(day.totalTokensIn) }}
                                 </span>
-                                <span class="stat-pill tokens-out">
+                                <span class="stat-pill tokens-out" :title="t('settings.aiUsage.tooltipTokensOut')">
                                     <font-awesome-icon icon="fa-solid fa-arrow-up" />
                                     {{ formatNumber(day.totalTokensOut) }}
                                 </span>
@@ -250,16 +264,25 @@ const toggleDate = (date: string) => {
                             <div v-if="expandedDates.has(day.date)" class="day-details">
                                 <div v-for="model in day.models" :key="`${day.date}-${model.modelId}`"
                                     class="model-row">
-                                    <div class="model-name">
-                                        {{ model.displayName || model.modelId }}
+                                    <div class="model-info">
+                                        <span class="model-name">
+                                            {{ model.displayName || model.modelId }}
+                                        </span>
+                                        <span v-if="model.tokenCostMultiplier && model.tokenCostMultiplier !== 1"
+                                            class="multiplier-badge"
+                                            :title="t('settings.aiUsage.tooltipMultiplier', { value: model.tokenCostMultiplier })">
+                                            {{ model.tokenCostMultiplier }}×
+                                        </span>
                                     </div>
                                     <div class="model-stats">
                                         <span class="stat-mini">{{ model.requestCount }}x</span>
-                                        <span class="stat-mini tokens-in">
+                                        <span class="stat-mini tokens-in"
+                                            :title="t('settings.aiUsage.tooltipTokensIn')">
                                             <font-awesome-icon icon="fa-solid fa-arrow-down" />
                                             {{ formatNumber(model.tokensIn) }}
                                         </span>
-                                        <span class="stat-mini tokens-out">
+                                        <span class="stat-mini tokens-out"
+                                            :title="t('settings.aiUsage.tooltipTokensOut')">
                                             <font-awesome-icon icon="fa-solid fa-arrow-up" />
                                             {{ formatNumber(model.tokensOut) }}
                                         </span>
@@ -493,6 +516,53 @@ const toggleDate = (date: string) => {
         }
     }
 
+    .help-box {
+        background: fade(@memo-blue, 8%);
+        border: 1px solid fade(@memo-blue, 20%);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+
+        .help-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+
+            >svg {
+                color: @memo-blue;
+                font-size: 14px;
+            }
+
+            .help-title {
+                font-weight: 600;
+                color: @memo-blue;
+                font-size: 13px;
+                flex: 1;
+            }
+
+            .help-close {
+                background: none;
+                border: none;
+                color: @memo-grey-dark;
+                cursor: pointer;
+                padding: 4px;
+                line-height: 1;
+
+                &:hover {
+                    color: @memo-blue;
+                }
+            }
+        }
+
+        .help-text {
+            margin: 0;
+            font-size: 13px;
+            color: @memo-grey-darker;
+            line-height: 1.5;
+        }
+    }
+
     .no-data {
         padding: 24px;
         text-align: center;
@@ -586,9 +656,27 @@ const toggleDate = (date: string) => {
                     border-bottom: none;
                 }
 
-                .model-name {
-                    font-size: 13px;
-                    color: @memo-grey-dark;
+                .model-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+
+                    .model-name {
+                        font-size: 13px;
+                        color: @memo-grey-dark;
+                    }
+
+                    .multiplier-badge {
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 2px 6px;
+                        background: fade(@memo-blue, 12%);
+                        color: @memo-blue;
+                        border-radius: 4px;
+                        font-size: 11px;
+                        font-weight: 600;
+                        cursor: help;
+                    }
                 }
 
                 .model-stats {

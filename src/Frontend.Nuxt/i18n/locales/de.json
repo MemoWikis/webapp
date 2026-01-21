@@ -1237,9 +1237,14 @@
             "requests": "Anfragen",
             "pointsIn": "Punkte (Eingabe)",
             "pointsOut": "Punkte (Ausgabe)",
-            "dailyBreakdown": "Tägliche Übersicht",
+            "dailyBreakdown": "Tägliche Übersicht (Tokens)",
             "noUsageData": "Keine KI-Nutzung in den letzten 30 Tagen.",
-            "loadError": "Die Nutzungsdaten konnten nicht geladen werden."
+            "loadError": "Die Nutzungsdaten konnten nicht geladen werden.",
+            "helpTitle": "Tokens vs. Punkte",
+            "helpText": "In der Übersicht siehst du echte Tokens (Eingabe/Ausgabe). Punkte = Tokens × Multiplier des Models.",
+            "tooltipTokensIn": "Eingabe-Tokens: Die an das KI-Modell gesendeten Tokens",
+            "tooltipTokensOut": "Ausgabe-Tokens: Die vom KI-Modell generierten Tokens",
+            "tooltipMultiplier": "Multiplier {value}×: Tokens werden mit diesem Faktor in Punkte umgerechnet (Tokens × {value} = Punkte)"
         }
     },
     "questionLandingPage": {
