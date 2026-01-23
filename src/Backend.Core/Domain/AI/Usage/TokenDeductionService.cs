@@ -22,14 +22,49 @@ public class TokenDeductionService(ISession _session, AiModelRegistry _aiModelRe
     private const double CharactersPerToken = 3.5;
 
     /// <summary>
-    /// Weekly quota for subscribers (10 million tokens)
+    /// Weekly quota for free tier users (10,000 tokens)
     /// </summary>
-    public const int SubscriberWeeklyTokenLimit = 10_000_000;
+    public const int FreeWeeklyTokenLimit = 10_000;
 
     /// <summary>
-    /// Weekly quota for free tier users (1 million tokens)
+    /// Weekly quota for Smart tier (100,000 tokens) - 3€/month
     /// </summary>
-    public const int FreeWeeklyTokenLimit = 1_000_000;
+    public const int SmartWeeklyTokenLimit = 100_000;
+
+    /// <summary>
+    /// Weekly quota for Expert tier (300,000 tokens) - 7€/month
+    /// </summary>
+    public const int ExpertWeeklyTokenLimit = 300_000;
+
+    /// <summary>
+    /// Legacy: Maps to SmartWeeklyTokenLimit for backward compatibility
+    /// </summary>
+    public const int SubscriberWeeklyTokenLimit = SmartWeeklyTokenLimit;
+
+    /// <summary>
+    /// Tokens per A4 page (approximately 500 tokens = 1 A4 page of text)
+    /// </summary>
+    public const int TokensPerA4Page = 500;
+
+    /// <summary>
+    /// Gets the weekly token limit for a subscription type
+    /// </summary>
+    public static int GetWeeklyTokenLimit(SubscriptionType subscriptionType)
+    {
+        return subscriptionType switch
+        {
+            SubscriptionType.Expert => ExpertWeeklyTokenLimit,
+            SubscriptionType.Smart => SmartWeeklyTokenLimit,
+            SubscriptionType.Plus => SmartWeeklyTokenLimit, // Legacy mapping
+            SubscriptionType.Team => ExpertWeeklyTokenLimit, // Legacy mapping
+            _ => FreeWeeklyTokenLimit
+        };
+    }
+
+    /// <summary>
+    /// Converts tokens to approximate A4 pages
+    /// </summary>
+    public static int TokensToA4Pages(int tokens) => tokens / TokensPerA4Page;
 
     /// <summary>
     /// Types of AI generation with expected output token estimates

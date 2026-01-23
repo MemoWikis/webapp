@@ -80,10 +80,10 @@ const initStripeCheckout = (type: Subscription.Type) => {
         return
     }
 
-    if (type === Subscription.Type.Plus)
-        selectedPriceId.value = config.public.stripePlusPriceId
-    else if (type === Subscription.Type.Team)
-        selectedPriceId.value = config.public.stripeTeamPriceId
+    if (type === Subscription.Type.Smart || type === Subscription.Type.Plus)
+        selectedPriceId.value = config.public.stripeSmartPriceId || config.public.stripePlusPriceId
+    else if (type === Subscription.Type.Expert || type === Subscription.Type.Team)
+        selectedPriceId.value = config.public.stripeExpertPriceId || config.public.stripeTeamPriceId
 
     if (consentForStripeGiven.value) {
         redirectToCheckout()
@@ -107,7 +107,7 @@ function contact() {
 const plans = ref()
 
 async function setPlanData() {
-    const limit = await $api<Subscription.BasicLimits>(`/apiVue/UserMembershipPlans/GetBasicLimits`, {
+    const limits = await $api<Subscription.PlanLimits>(`/apiVue/UserMembershipPlans/GetPlanLimits`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
@@ -116,13 +116,24 @@ async function setPlanData() {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
         }
     })
-    if (limit != null)
-        plans.value = Subscription.plans(limit)
+    if (limits != null)
+        plans.value = Subscription.plans(limits)
 }
 
 onBeforeMount(() => {
     setPlanData()
 })
+
+// Check if user has Smart or Expert subscription (including legacy Plus/Team)
+const hasSmartSubscription = computed(() =>
+    userStore.subscriptionType === Subscription.Type.Smart ||
+    userStore.subscriptionType === Subscription.Type.Plus
+)
+
+const hasExpertSubscription = computed(() =>
+    userStore.subscriptionType === Subscription.Type.Expert ||
+    userStore.subscriptionType === Subscription.Type.Team
+)
 </script>
 
 <template>
@@ -149,12 +160,11 @@ onBeforeMount(() => {
                             {{ t('user.membership.plans.registerFree') }}
                         </NuxtLink>
                     </button>
-
-
                 </template>
             </UserMembershipPriceCard>
 
-            <UserMembershipPriceCard :plan="plans.plus" :selected="false" :class="{ 'recommended': !userStore.isLoggedIn, 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Plus }">
+            <UserMembershipPriceCard :plan="plans.smart" :selected="false"
+                :class="{ 'selected': userStore.isLoggedIn && hasSmartSubscription }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn" v-if="userStore.isLoggedIn === false">
                         <NuxtLink :to="`/${t('url.register')}`">
@@ -162,14 +172,20 @@ onBeforeMount(() => {
                         </NuxtLink>
                     </button>
                     <button class="memo-button btn-primary btn"
-                        v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Plus"
-                        @click="initStripeCheckout(Subscription.Type.Plus)">
+                        v-if="userStore.isLoggedIn && !hasSmartSubscription && !hasExpertSubscription"
+                        @click="initStripeCheckout(Subscription.Type.Smart)">
                         {{ t('user.membership.plans.select') }}
                     </button>
                     <button class="memo-button btn-success"
-                        v-else-if="userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Plus">
+                        v-else-if="userStore.isLoggedIn && hasSmartSubscription">
                         <NuxtLink to="/User/Settings/Membership">
                             {{ t('user.membership.plans.yourMembership') }}
+                        </NuxtLink>
+                    </button>
+                    <button class="memo-button btn-primary btn"
+                        v-else-if="userStore.isLoggedIn && hasExpertSubscription">
+                        <NuxtLink to="/User/Settings/Membership">
+                            {{ t('user.membership.plans.downgrade') }}
                         </NuxtLink>
                     </button>
                 </template>
@@ -177,15 +193,30 @@ onBeforeMount(() => {
         </div>
 
         <div class="subscription-section">
-            <UserMembershipPriceCard :plan="plans.team" :selected="false" :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Team }">
+            <UserMembershipPriceCard :plan="plans.expert" :selected="false"
+                :class="{ 'recommended': !userStore.isLoggedIn || (!hasSmartSubscription && !hasExpertSubscription), 'selected': userStore.isLoggedIn && hasExpertSubscription }">
                 <template v-slot:button>
-                    <button class="memo-button btn-primary btn" disabled>
-                        {{ t('user.membership.plans.inPlanning') }}
+                    <button class="memo-button btn-primary btn" v-if="userStore.isLoggedIn === false">
+                        <NuxtLink :to="`/${t('url.register')}`">
+                            {{ t('user.membership.plans.startNow') }}
+                        </NuxtLink>
+                    </button>
+                    <button class="memo-button btn-primary btn filled"
+                        v-if="userStore.isLoggedIn && !hasExpertSubscription"
+                        @click="initStripeCheckout(Subscription.Type.Expert)">
+                        {{ t('user.membership.plans.startNow') }}
+                    </button>
+                    <button class="memo-button btn-success"
+                        v-else-if="userStore.isLoggedIn && hasExpertSubscription">
+                        <NuxtLink to="/User/Settings/Membership">
+                            {{ t('user.membership.plans.yourMembership') }}
+                        </NuxtLink>
                     </button>
                 </template>
             </UserMembershipPriceCard>
 
-            <UserMembershipPriceCard :plan="plans.organisation" :selected="false" :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Organisation }">
+            <UserMembershipPriceCard :plan="plans.organisation" :selected="false"
+                :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Organisation }">
                 <template v-slot:button>
                     <button @click="contact" class="memo-button btn-link">{{ t('user.membership.plans.contact') }}</button>
                 </template>
@@ -195,6 +226,8 @@ onBeforeMount(() => {
 </template>
 
 <style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
 .subscription-plans {
     padding-top: 30px;
     display: flex;
@@ -222,7 +255,12 @@ onBeforeMount(() => {
         display: flex;
         align-items: center;
         justify-content: center;
-    }
 
+        &.filled {
+            background: @memo-blue;
+            color: white;
+            font-weight: 600;
+        }
+    }
 }
 </style>

@@ -66,7 +66,8 @@ const contact = () => {
             </div>
 
             <div id="QuestionsOuter">
-                <UserMembershipFaqItem v-for="item in faqItems" :question="item.question" :answer="item.answer" :answer-params="item.answerParams" />
+                <UserMembershipFaqItem v-for="(item, index) in faqItems" :key="index" :question="item.question"
+                    :answer="item.answer" :answer-params="item.answerParams" />
 
                 <div id="NotFound">
                     <div class="not-found-header">{{ t('user.membership.faq.notFound') }}</div>

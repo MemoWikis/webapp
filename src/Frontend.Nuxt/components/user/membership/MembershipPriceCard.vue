@@ -7,10 +7,14 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { t } = useI18n()
 </script>
 
 <template>
-    <div class="card">
+    <div class="card" :class="{ 'expert-card': props.plan.tier === 'expert' }">
+        <div v-if="props.plan.recommended" class="recommended-badge">
+            {{ t('user.membership.plans.expert.badge') }}
+        </div>
         <div class="price-inner">
             <div class="header">
                 <div class="head-line">
@@ -36,10 +40,11 @@ const props = defineProps<Props>()
                 </p>
             </div>
             <div class="list-container">
-                <div v-if="props.plan.listLabel">
+                <div v-if="props.plan.listLabel" class="list-label">
                     <b>{{ props.plan.listLabel }}</b>
                 </div>
-                <div v-for="item in props.plan.list" class="list-item">
+                <div v-for="(item, index) in props.plan.list" :key="index" class="list-item"
+                    :class="{ 'highlight-tokens': index === 0 && (props.plan.tier === 'smart' || props.plan.tier === 'expert') }">
                     <div class="icon-container">
                         <font-awesome-icon :icon="['fa-solid', 'fa-check']" />
                     </div>
@@ -58,10 +63,34 @@ const props = defineProps<Props>()
     margin-top: 10px;
     width: calc(50% - 1rem);
     margin-bottom: 10px;
+    position: relative;
 
     @media (max-width: 580px) {
         width: 100%;
     }
+
+    &.expert-card {
+        .price-inner {
+            box-shadow: @memo-blue 0px 0px 0px 3px;
+            background: linear-gradient(180deg, fade(@memo-blue, 3%) 0%, white 100%);
+        }
+    }
+}
+
+.recommended-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: @memo-blue;
+    color: white;
+    padding: 4px 16px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1;
 }
 
 .sidesheet-open {
@@ -165,8 +194,17 @@ const props = defineProps<Props>()
         font-size: 14px;
         color: @memo-blue;
 
+        .list-label {
+            margin-bottom: 8px;
+        }
+
         .list-item {
             display: flex;
+            margin-bottom: 4px;
+
+            &.highlight-tokens {
+                font-weight: 600;
+            }
 
             .icon-container {
                 min-width: 24px;

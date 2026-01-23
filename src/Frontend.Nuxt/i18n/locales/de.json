@@ -1482,6 +1482,7 @@
                 "yourMembership": "Deine Mitgliedschaft",
                 "registerFree": "Kostenlos registrieren",
                 "select": "Auswählen",
+                "startNow": "Jetzt starten",
                 "inPlanning": "In Planung",
                 "contact": "Kontaktieren",
                 "stripe": {
@@ -1500,7 +1501,8 @@
                         "publicContent": "Unbeschränkt öffentliche Inhalte (ansehen, erstellen und lernen)",
                         "privatePages": "{count} private Seiten",
                         "privateQuestions": "{count} private Fragen",
-                        "wishKnowledge": "max {count} Fragen im Wunschwissen"
+                        "wishKnowledge": "max {count} Fragen im Wunschwissen",
+                        "aiTokens": "{tokens} KI-Token / Woche (ca. {pages} A4-Seiten)"
                     }
                 },
                 "plus": {
@@ -1512,6 +1514,29 @@
                         "unlimitedPages": "Unbeschränkt private Seiten",
                         "unlimitedQuestions": "Unbeschränkt private Fragen",
                         "unlimitedWishKnowledge": "Unbeschränktes Wunschwissen"
+                    }
+                },
+                "smart": {
+                    "name": "Smart",
+                    "priceLabel": "pro Monat",
+                    "description": "Der clevere Einstieg. Unterstütze die Entwicklung und nutze KI effizient für deine täglichen Aufgaben.",
+                    "list": {
+                        "aiTokens": "{tokens} KI-Token / Woche (ca. {pages} A4-Seiten)",
+                        "unlimitedPages": "Unbeschränkt private Seiten",
+                        "unlimitedQuestions": "Unbeschränkt private Fragen",
+                        "support": "Werbefrei & Support-Badge"
+                    }
+                },
+                "expert": {
+                    "name": "Expert",
+                    "priceLabel": "pro Monat",
+                    "description": "Für Power-User ohne Limits. Maximale KI-Leistung für intensive Arbeit und komplexe Projekte.",
+                    "badge": "Empfehlung",
+                    "listLabel": "Alles aus Smart, plus:",
+                    "list": {
+                        "aiTokens": "{tokens} KI-Token / Woche (ca. {pages} A4-Seiten)",
+                        "topModels": "Zugriff auf Top-Tier KI-Modelle",
+                        "priority": "Bevorzugte Verarbeitung"
                     }
                 },
                 "team": {
@@ -1532,7 +1557,7 @@
                         "support": "Für Unternehmen und Institutionen, die zusätzliche Unterstützung benötigen.",
                         "team": "Bringen Sie Ihr Team auf den neuesten Stand."
                     },
-                    "listLabel": "Alles aus Team, plus:",
+                    "listLabel": "Alles aus Expert, plus:",
                     "list": {
                         "sso": "SSO / AD-Integration",
                         "hosting": "Eigener Server / Hosting in Eurem Rechenzentrium",

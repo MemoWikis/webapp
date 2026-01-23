@@ -24,6 +24,8 @@ export default defineNuxtConfig({
             discord: '',
             stripePlusPriceId: '',
             stripeTeamPriceId: '',
+            stripeSmartPriceId: '',
+            stripeExpertPriceId: '',
             stripeKey: '',
             seqClientApiKey: '',
             facebookAppId: '',
