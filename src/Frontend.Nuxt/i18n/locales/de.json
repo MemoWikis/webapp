@@ -1237,6 +1237,8 @@
             "quotaDepleted": "Kontingent aufgebraucht",
             "quotaDepletedMessage": "Du hast dein wöchentliches KI-Kontingent vollständig aufgebraucht. Es wird jeden Montag automatisch erneuert.",
             "purchasedPoints": "Gekaufte Punkte",
+            "currentWeek": "Aktuelle Woche",
+            "weekStart": "Wochenbeginn",
             "last30Days": "Letzte 30 Tage",
             "requests": "Anfragen",
             "pointsIn": "Tokens (Eingabe)",

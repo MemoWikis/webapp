@@ -88,6 +88,50 @@ const totalTokensOut = computed(() => {
     return usageData.value.dailySummary.reduce((sum, day) => sum + day.totalTokensOut, 0)
 })
 
+// Calculate current week stats (Monday to Sunday)
+const getStartOfWeek = (date: Date): Date => {
+    const d = new Date(date)
+    const day = d.getDay()
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1) // Monday is start of week
+    d.setDate(diff)
+    d.setHours(0, 0, 0, 0)
+    return d
+}
+
+const currentWeekStart = computed(() => getStartOfWeek(new Date()))
+
+const isInCurrentWeek = (dateString: string): boolean => {
+    const date = new Date(dateString)
+    return date >= currentWeekStart.value
+}
+
+const currentWeekRequests = computed(() => {
+    if (!usageData.value?.dailySummary) return 0
+    return usageData.value.dailySummary
+        .filter(day => isInCurrentWeek(day.date))
+        .reduce((sum, day) => sum + day.requestCount, 0)
+})
+
+const currentWeekTokensIn = computed(() => {
+    if (!usageData.value?.dailySummary) return 0
+    return usageData.value.dailySummary
+        .filter(day => isInCurrentWeek(day.date))
+        .reduce((sum, day) => sum + day.totalTokensIn, 0)
+})
+
+const currentWeekTokensOut = computed(() => {
+    if (!usageData.value?.dailySummary) return 0
+    return usageData.value.dailySummary
+        .filter(day => isInCurrentWeek(day.date))
+        .reduce((sum, day) => sum + day.totalTokensOut, 0)
+})
+
+// Check if a date is the start of a week (Monday)
+const isStartOfWeek = (dateString: string): boolean => {
+    const date = new Date(dateString)
+    return date.getDay() === 1 // Monday
+}
+
 interface GroupedDailyData {
     date: string
     requestCount: number
@@ -178,7 +222,7 @@ const toggleDate = (date: string) => {
                                 }}
                             </span>
                             <span class="quota-percentage">({{ userStore.quotaInfo.percentageUsed.toFixed(0)
-                                }}% {{ t('settings.aiUsage.used') }})</span>
+                            }}% {{ t('settings.aiUsage.used') }})</span>
                         </div>
                         <div v-if="userStore.quotaInfo.nextResetDate" class="quota-reset">
                             <font-awesome-icon :icon="['fas', 'calendar-alt']" />
@@ -203,6 +247,31 @@ const toggleDate = (date: string) => {
             <div class="settings-section">
                 <h1 class="section-title">{{ t('settings.aiUsage.tokensTitle') }}</h1>
                 <p class="section-description">{{ t('settings.aiUsage.tokensDescription') }}</p>
+            </div>
+
+            <!-- Current Week Stats -->
+            <div class="settings-section">
+                <div class="overline-s no-line">{{ t('settings.aiUsage.currentWeek') }}</div>
+                <div class="summary-stats">
+                    <div class="stat">
+                        <span class="stat-value">{{ formatNumber(currentWeekRequests) }}</span>
+                        <span class="stat-label">{{ t('settings.aiUsage.requests') }}</span>
+                    </div>
+                    <div class="stat tokens-in">
+                        <span class="stat-value">
+                            <font-awesome-icon icon="fa-solid fa-arrow-down" class="stat-icon" />
+                            {{ formatNumber(currentWeekTokensIn) }}
+                        </span>
+                        <span class="stat-label">{{ t('settings.aiUsage.pointsIn') }}</span>
+                    </div>
+                    <div class="stat tokens-out">
+                        <span class="stat-value">
+                            <font-awesome-icon icon="fa-solid fa-arrow-up" class="stat-icon" />
+                            {{ formatNumber(currentWeekTokensOut) }}
+                        </span>
+                        <span class="stat-label">{{ t('settings.aiUsage.pointsOut') }}</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Usage Summary Section -->
@@ -243,59 +312,65 @@ const toggleDate = (date: string) => {
                 </div>
 
                 <div v-else class="usage-table">
-                    <div v-for="day in groupedByDate" :key="day.date" class="day-row">
-                        <div class="day-header" @click="toggleDate(day.date)">
-                            <div class="day-date">
-                                <font-awesome-icon
-                                    :icon="expandedDates.has(day.date) ? 'fa-solid fa-chevron-down' : 'fa-solid fa-chevron-right'"
-                                    class="expand-icon" />
-                                {{ formatDate(day.date) }}
-                            </div>
-                            <div class="day-stats">
-                                <span class="stat-pill requests" v-tooltip="t('settings.aiUsage.tooltipRequests')">
-                                    {{ day.requestCount }} {{ t('settings.aiUsage.requests') }}
-                                </span>
-                                <span class="stat-pill tokens-in" v-tooltip="t('settings.aiUsage.tooltipTokensIn')">
-                                    <font-awesome-icon icon="fa-solid fa-arrow-down" />
-                                    {{ formatNumber(day.totalTokensIn) }}
-                                </span>
-                                <span class="stat-pill tokens-out" v-tooltip="t('settings.aiUsage.tooltipTokensOut')">
-                                    <font-awesome-icon icon="fa-solid fa-arrow-up" />
-                                    {{ formatNumber(day.totalTokensOut) }}
-                                </span>
-                            </div>
+                    <template v-for="day in groupedByDate" :key="day.date">
+                        <div v-if="isStartOfWeek(day.date)" class="week-separator">
+                            <span class="week-label">{{ t('settings.aiUsage.weekStart') }}</span>
                         </div>
-
-                        <Transition name="expand">
-                            <div v-if="expandedDates.has(day.date)" class="day-details">
-                                <div v-for="model in day.models" :key="`${day.date}-${model.modelId}`"
-                                    class="model-row">
-                                    <div class="model-info">
-                                        <span class="model-name">
-                                            {{ model.displayName || model.modelId }}
-                                        </span>
-                                        <span class="multiplier-badge"
-                                            v-tooltip="t('settings.aiUsage.tooltipMultiplier', { value: model.tokenCostMultiplier })">
-                                            {{ model.tokenCostMultiplier }}×
-                                        </span>
-                                    </div>
-                                    <div class="model-stats">
-                                        <span class="stat-mini">{{ model.requestCount }}x</span>
-                                        <span class="stat-mini tokens-in"
-                                            v-tooltip="t('settings.aiUsage.tooltipTokensIn')">
-                                            <font-awesome-icon icon="fa-solid fa-arrow-down" />
-                                            {{ formatNumber(model.tokensIn) }}
-                                        </span>
-                                        <span class="stat-mini tokens-out"
-                                            v-tooltip="t('settings.aiUsage.tooltipTokensOut')">
-                                            <font-awesome-icon icon="fa-solid fa-arrow-up" />
-                                            {{ formatNumber(model.tokensOut) }}
-                                        </span>
-                                    </div>
+                        <div class="day-row" :class="{ 'current-week': isInCurrentWeek(day.date) }">
+                            <div class="day-header" @click="toggleDate(day.date)">
+                                <div class="day-date">
+                                    <font-awesome-icon
+                                        :icon="expandedDates.has(day.date) ? 'fa-solid fa-chevron-down' : 'fa-solid fa-chevron-right'"
+                                        class="expand-icon" />
+                                    {{ formatDate(day.date) }}
+                                </div>
+                                <div class="day-stats">
+                                    <span v-tooltip="t('settings.aiUsage.tooltipRequests')" class="stat-pill requests">
+                                        {{ day.requestCount }} {{ t('settings.aiUsage.requests') }}
+                                    </span>
+                                    <span v-tooltip="t('settings.aiUsage.tooltipTokensIn')" class="stat-pill tokens-in">
+                                        <font-awesome-icon icon="fa-solid fa-arrow-down" />
+                                        {{ formatNumber(day.totalTokensIn) }}
+                                    </span>
+                                    <span v-tooltip="t('settings.aiUsage.tooltipTokensOut')"
+                                        class="stat-pill tokens-out">
+                                        <font-awesome-icon icon="fa-solid fa-arrow-up" />
+                                        {{ formatNumber(day.totalTokensOut) }}
+                                    </span>
                                 </div>
                             </div>
-                        </Transition>
-                    </div>
+
+                            <Transition name="expand">
+                                <div v-if="expandedDates.has(day.date)" class="day-details">
+                                    <div v-for="model in day.models" :key="`${day.date}-${model.modelId}`"
+                                        class="model-row">
+                                        <div class="model-info">
+                                            <span class="model-name">
+                                                {{ model.displayName || model.modelId }}
+                                            </span>
+                                            <span class="multiplier-badge"
+                                                v-tooltip="t('settings.aiUsage.tooltipMultiplier', { value: model.tokenCostMultiplier })">
+                                                {{ model.tokenCostMultiplier }}×
+                                            </span>
+                                        </div>
+                                        <div class="model-stats">
+                                            <span class="stat-mini">{{ model.requestCount }}x</span>
+                                            <span class="stat-mini tokens-in"
+                                                v-tooltip="t('settings.aiUsage.tooltipTokensIn')">
+                                                <font-awesome-icon icon="fa-solid fa-arrow-down" />
+                                                {{ formatNumber(model.tokensIn) }}
+                                            </span>
+                                            <span class="stat-mini tokens-out"
+                                                v-tooltip="t('settings.aiUsage.tooltipTokensOut')">
+                                                <font-awesome-icon icon="fa-solid fa-arrow-up" />
+                                                {{ formatNumber(model.tokensOut) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
+                    </template>
                 </div>
             </div>
         </template>
@@ -566,11 +641,30 @@ const toggleDate = (date: string) => {
         border-radius: 8px;
         overflow: hidden;
 
+        .week-separator {
+            background: @memo-blue;
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+
+            .week-label {
+                font-size: 12px;
+                font-weight: 600;
+                color: white;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+        }
+
         .day-row {
             border-bottom: 1px solid @memo-grey-light;
 
             &:last-child {
                 border-bottom: none;
+            }
+
+            &.current-week {
+                background: fade(@memo-blue, 3%);
             }
         }
 
