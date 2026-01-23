@@ -11,10 +11,10 @@ export interface Plan {
 
 export enum Type {
     Basic,
-    Plus,   // Legacy - maps to Smart
+    Plus, // Legacy - maps to Smart
     Smart,
     Expert,
-    Team,   // Legacy
+    Team, // Legacy
     Organisation,
 }
 
@@ -46,119 +46,125 @@ export const plans = (limits: PlanLimits) => {
     const nuxtApp = useNuxtApp()
     const { $i18n } = nuxtApp
 
-    const freeA4Pages = Math.floor(limits.freeWeeklyTokens / limits.tokensPerA4Page)
-    const smartA4Pages = Math.floor(limits.smartWeeklyTokens / limits.tokensPerA4Page)
-    const expertA4Pages = Math.floor(limits.expertWeeklyTokens / limits.tokensPerA4Page)
+    const freeA4Pages = Math.floor(
+        limits.freeWeeklyTokens / limits.tokensPerA4Page,
+    )
+    const smartA4Pages = Math.floor(
+        limits.smartWeeklyTokens / limits.tokensPerA4Page,
+    )
+    const expertA4Pages = Math.floor(
+        limits.expertWeeklyTokens / limits.tokensPerA4Page,
+    )
 
     return {
         basic: {
-            name: $i18n.t("user.membership.plans.basic.name"),
+            name: $i18n.t('user.membership.plans.basic.name'),
             price: 0,
-            priceLabel: $i18n.t("user.membership.plans.basic.priceLabel"),
-            description: [$i18n.t("user.membership.plans.basic.description")],
+            priceLabel: $i18n.t('user.membership.plans.basic.priceLabel'),
+            description: [$i18n.t('user.membership.plans.basic.description')],
             tier: 'basic',
             list: [
-                $i18n.t("user.membership.plans.basic.list.publicContent"),
-                $i18n.t("user.membership.plans.basic.list.privatePages", {
+                $i18n.t('user.membership.plans.basic.list.publicContent'),
+                $i18n.t('user.membership.plans.basic.list.privatePages', {
                     count: limits.maxPrivatePageCount,
                 }),
-                $i18n.t("user.membership.plans.basic.list.privateQuestions", {
+                $i18n.t('user.membership.plans.basic.list.privateQuestions', {
                     count: limits.maxPrivateQuestionCount,
                 }),
-                $i18n.t("user.membership.plans.basic.list.wishKnowledge", {
+                $i18n.t('user.membership.plans.basic.list.wishKnowledge', {
                     count: limits.maxWishKnowledgeCount,
                 }),
-                $i18n.t("user.membership.plans.basic.list.aiTokens", {
+                $i18n.t('user.membership.plans.basic.list.aiTokens', {
                     tokens: formatTokens(limits.freeWeeklyTokens),
                     pages: freeA4Pages,
                 }),
             ],
         } as Plan,
         smart: {
-            name: $i18n.t("user.membership.plans.smart.name"),
+            name: $i18n.t('user.membership.plans.smart.name'),
             price: 3,
-            priceLabel: $i18n.t("user.membership.plans.smart.priceLabel"),
-            description: [$i18n.t("user.membership.plans.smart.description")],
+            priceLabel: $i18n.t('user.membership.plans.smart.priceLabel'),
+            description: [$i18n.t('user.membership.plans.smart.description')],
             tier: 'smart',
             list: [
-                $i18n.t("user.membership.plans.smart.list.aiTokens", {
+                $i18n.t('user.membership.plans.smart.list.aiTokens', {
                     tokens: formatTokens(limits.smartWeeklyTokens),
                     pages: smartA4Pages,
                 }),
-                $i18n.t("user.membership.plans.smart.list.unlimitedPages"),
-                $i18n.t("user.membership.plans.smart.list.unlimitedQuestions"),
-                $i18n.t("user.membership.plans.smart.list.support"),
+                $i18n.t('user.membership.plans.smart.list.unlimitedPages'),
+                $i18n.t('user.membership.plans.smart.list.unlimitedQuestions'),
+                $i18n.t('user.membership.plans.smart.list.support'),
             ],
         } as Plan,
         expert: {
-            name: $i18n.t("user.membership.plans.expert.name"),
+            name: $i18n.t('user.membership.plans.expert.name'),
             price: 7,
-            priceLabel: $i18n.t("user.membership.plans.expert.priceLabel"),
-            description: [$i18n.t("user.membership.plans.expert.description")],
+            priceLabel: $i18n.t('user.membership.plans.expert.priceLabel'),
+            description: [$i18n.t('user.membership.plans.expert.description')],
             tier: 'expert',
             recommended: true,
-            listLabel: $i18n.t("user.membership.plans.expert.listLabel"),
+            listLabel: $i18n.t('user.membership.plans.expert.listLabel'),
             list: [
-                $i18n.t("user.membership.plans.expert.list.aiTokens", {
+                $i18n.t('user.membership.plans.expert.list.aiTokens', {
                     tokens: formatTokens(limits.expertWeeklyTokens),
                     pages: expertA4Pages,
                 }),
-                $i18n.t("user.membership.plans.expert.list.topModels"),
-                $i18n.t("user.membership.plans.expert.list.priority"),
+                $i18n.t('user.membership.plans.expert.list.topModels'),
+                $i18n.t('user.membership.plans.expert.list.priority'),
             ],
         } as Plan,
         organisation: {
-            name: $i18n.t("user.membership.plans.organisation.name"),
-            price: $i18n.t("user.membership.plans.organisation.price"),
+            name: $i18n.t('user.membership.plans.organisation.name'),
+            price: $i18n.t('user.membership.plans.organisation.price'),
             priceLabel: $i18n.t(
-                "user.membership.plans.organisation.priceLabel"
+                'user.membership.plans.organisation.priceLabel',
             ),
             description: [
                 $i18n.t(
-                    "user.membership.plans.organisation.description.support"
+                    'user.membership.plans.organisation.description.support',
                 ),
-                $i18n.t("user.membership.plans.organisation.description.team"),
+                $i18n.t('user.membership.plans.organisation.description.team'),
             ],
             tier: 'organisation',
-            listLabel: $i18n.t("user.membership.plans.organisation.listLabel"),
+            listLabel: $i18n.t('user.membership.plans.organisation.listLabel'),
             list: [
-                $i18n.t("user.membership.plans.organisation.list.sso"),
-                $i18n.t("user.membership.plans.organisation.list.hosting"),
-                $i18n.t("user.membership.plans.organisation.list.customizing"),
+                $i18n.t('user.membership.plans.organisation.list.sso'),
+                $i18n.t('user.membership.plans.organisation.list.hosting'),
+                $i18n.t('user.membership.plans.organisation.list.customizing'),
             ],
         } as Plan,
         // Legacy aliases
         plus: {
-            name: $i18n.t("user.membership.plans.smart.name"),
+            name: $i18n.t('user.membership.plans.smart.name'),
             price: 3,
-            priceLabel: $i18n.t("user.membership.plans.smart.priceLabel"),
-            description: [$i18n.t("user.membership.plans.smart.description")],
+            priceLabel: $i18n.t('user.membership.plans.smart.priceLabel'),
+            description: [$i18n.t('user.membership.plans.smart.description')],
             tier: 'smart',
             list: [
-                $i18n.t("user.membership.plans.smart.list.aiTokens", {
+                $i18n.t('user.membership.plans.smart.list.aiTokens', {
                     tokens: formatTokens(limits.smartWeeklyTokens),
                     pages: smartA4Pages,
                 }),
-                $i18n.t("user.membership.plans.smart.list.unlimitedPages"),
-                $i18n.t("user.membership.plans.smart.list.unlimitedQuestions"),
-                $i18n.t("user.membership.plans.smart.list.support"),
+                $i18n.t('user.membership.plans.smart.list.unlimitedPages'),
+                $i18n.t('user.membership.plans.smart.list.unlimitedQuestions'),
+                $i18n.t('user.membership.plans.smart.list.support'),
             ],
         } as Plan,
         team: {
-            name: $i18n.t("user.membership.plans.expert.name"),
+            name: $i18n.t('user.membership.plans.expert.name'),
             price: 7,
-            priceLabel: $i18n.t("user.membership.plans.expert.priceLabel"),
-            description: [$i18n.t("user.membership.plans.expert.description")],
+            priceLabel: $i18n.t('user.membership.plans.expert.priceLabel'),
+            description: [$i18n.t('user.membership.plans.expert.description')],
             tier: 'expert',
             recommended: true,
-            listLabel: $i18n.t("user.membership.plans.expert.listLabel"),
+            listLabel: $i18n.t('user.membership.plans.expert.listLabel'),
             list: [
-                $i18n.t("user.membership.plans.expert.list.aiTokens", {
+                $i18n.t('user.membership.plans.expert.list.aiTokens', {
                     tokens: formatTokens(limits.expertWeeklyTokens),
                     pages: expertA4Pages,
                 }),
-                $i18n.t("user.membership.plans.expert.list.topModels"),
-                $i18n.t("user.membership.plans.expert.list.priority"),
+                $i18n.t('user.membership.plans.expert.list.topModels'),
+                $i18n.t('user.membership.plans.expert.list.priority'),
             ],
         } as Plan,
     }

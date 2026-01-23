@@ -176,8 +176,7 @@ const hasExpertSubscription = computed(() =>
                         @click="initStripeCheckout(Subscription.Type.Smart)">
                         {{ t('user.membership.plans.select') }}
                     </button>
-                    <button class="memo-button btn-success"
-                        v-else-if="userStore.isLoggedIn && hasSmartSubscription">
+                    <button class="memo-button btn-success" v-else-if="userStore.isLoggedIn && hasSmartSubscription">
                         <NuxtLink to="/User/Settings/Membership">
                             {{ t('user.membership.plans.yourMembership') }}
                         </NuxtLink>
@@ -206,8 +205,7 @@ const hasExpertSubscription = computed(() =>
                         @click="initStripeCheckout(Subscription.Type.Expert)">
                         {{ t('user.membership.plans.startNow') }}
                     </button>
-                    <button class="memo-button btn-success"
-                        v-else-if="userStore.isLoggedIn && hasExpertSubscription">
+                    <button class="memo-button btn-success" v-else-if="userStore.isLoggedIn && hasExpertSubscription">
                         <NuxtLink to="/User/Settings/Membership">
                             {{ t('user.membership.plans.yourMembership') }}
                         </NuxtLink>
@@ -218,7 +216,8 @@ const hasExpertSubscription = computed(() =>
             <UserMembershipPriceCard :plan="plans.organisation" :selected="false"
                 :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Organisation }">
                 <template v-slot:button>
-                    <button @click="contact" class="memo-button btn-link">{{ t('user.membership.plans.contact') }}</button>
+                    <button @click="contact" class="memo-button btn-link">{{ t('user.membership.plans.contact')
+                        }}</button>
                 </template>
             </UserMembershipPriceCard>
         </div>
