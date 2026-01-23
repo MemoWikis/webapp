@@ -222,7 +222,7 @@ const toggleDate = (date: string) => {
                                 }}
                             </span>
                             <span class="quota-percentage">({{ userStore.quotaInfo.percentageUsed.toFixed(0)
-                            }}% {{ t('settings.aiUsage.used') }})</span>
+                                }}% {{ t('settings.aiUsage.used') }})</span>
                         </div>
                         <div v-if="userStore.quotaInfo.nextResetDate" class="quota-reset">
                             <font-awesome-icon :icon="['fas', 'calendar-alt']" />
@@ -326,7 +326,8 @@ const toggleDate = (date: string) => {
                                 </div>
                                 <div class="day-stats">
                                     <span v-tooltip="t('settings.aiUsage.tooltipRequests')" class="stat-pill requests">
-                                        {{ day.requestCount }} {{ t('settings.aiUsage.requests') }}
+                                        {{ day.requestCount }} {{ day.requestCount === 1 ?
+                                            t('settings.aiUsage.requestSingular') : t('settings.aiUsage.requestPlural') }}
                                     </span>
                                     <span v-tooltip="t('settings.aiUsage.tooltipTokensIn')" class="stat-pill tokens-in">
                                         <font-awesome-icon icon="fa-solid fa-arrow-down" />
@@ -642,15 +643,16 @@ const toggleDate = (date: string) => {
         overflow: hidden;
 
         .week-separator {
-            background: @memo-blue;
-            padding: 6px 16px;
+            background: @memo-grey-lighter;
+            border-top: 1px solid @memo-grey-light;
+            padding: 4px 16px;
             display: flex;
             align-items: center;
 
             .week-label {
-                font-size: 12px;
-                font-weight: 600;
-                color: white;
+                font-size: 11px;
+                font-weight: 500;
+                color: @memo-grey-dark;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
             }

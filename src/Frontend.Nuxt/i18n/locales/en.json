@@ -1241,6 +1241,8 @@
             "weekStart": "Week Start",
             "last30Days": "Last 30 Days",
             "requests": "Requests",
+            "requestSingular": "Request",
+            "requestPlural": "Requests",
             "pointsIn": "Tokens (Input)",
             "pointsOut": "Tokens (Output)",
             "dailyBreakdown": "Daily Breakdown",
