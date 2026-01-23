@@ -159,12 +159,6 @@ const toggleDate = (date: string) => {
                             <font-awesome-icon :icon="['fas', 'chart-pie']" />
                             {{ t('settings.aiUsage.currentQuota') }}
                         </div>
-                        <div v-if="userStore.quotaInfo.hasActiveSubscription && userStore.quotaInfo.nextResetDate"
-                            class="quota-reset">
-                            <font-awesome-icon :icon="['fas', 'calendar-alt']" />
-                            {{ t('settings.aiUsage.resetDate') }}: {{ formatResetDate(userStore.quotaInfo.nextResetDate)
-                            }}
-                        </div>
                     </div>
 
                     <div class="quota-progress-container">
@@ -185,6 +179,11 @@ const toggleDate = (date: string) => {
                             </span>
                             <span class="quota-percentage">({{ userStore.quotaInfo.percentageUsed.toFixed(0)
                                 }}% {{ t('settings.aiUsage.used') }})</span>
+                        </div>
+                        <div v-if="userStore.quotaInfo.nextResetDate" class="quota-reset">
+                            <font-awesome-icon :icon="['fas', 'calendar-alt']" />
+                            {{ t('settings.aiUsage.resetDate') }}: {{ formatResetDate(userStore.quotaInfo.nextResetDate)
+                            }}
                         </div>
                     </div>
 
@@ -362,18 +361,6 @@ const toggleDate = (date: string) => {
                     align-items: center;
                     gap: 8px;
                 }
-
-                .quota-reset {
-                    font-size: 13px;
-                    color: @memo-grey-dark;
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-
-                    svg {
-                        color: @memo-blue;
-                    }
-                }
             }
 
             .quota-progress-container {
@@ -421,6 +408,19 @@ const toggleDate = (date: string) => {
                     .quota-percentage {
                         color: @memo-green;
                         font-weight: 500;
+                    }
+                }
+
+                .quota-reset {
+                    font-size: 13px;
+                    color: @memo-grey-dark;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    margin-top: 16px;
+
+                    svg {
+                        color: @memo-blue;
                     }
                 }
             }
