@@ -1220,6 +1220,10 @@
         },
         "aiUsage": {
             "title": "AI Usage",
+            "tokensTitle": "Tokens",
+            "tokensDescription": "Tokens are the unit AI models use to measure text inputs and outputs.",
+            "pointsTitle": "Points",
+            "pointsDescription": "Points are tokens multiplied by the cost factor of each AI model.",
             "loading": "Loading usage data...",
             "computePointsBalance": "Compute Points",
             "totalBalance": "Available",

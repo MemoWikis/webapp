@@ -140,6 +140,12 @@ const toggleDate = (date: string) => {
         </div>
 
         <template v-else-if="usageData?.success">
+            <!-- Points Section -->
+            <div class="settings-section">
+                <h1 class="section-title">{{ t('settings.aiUsage.pointsTitle') }}</h1>
+                <p class="section-description">{{ t('settings.aiUsage.pointsDescription') }}</p>
+            </div>
+
             <!-- Weekly Quota Progress Section -->
             <div v-if="userStore.quotaInfo" class="settings-section quota-section">
                 <div class="overline-s no-line section-header">
@@ -193,6 +199,12 @@ const toggleDate = (date: string) => {
             </div>
 
 
+
+            <!-- Tokens Section -->
+            <div class="settings-section">
+                <h1 class="section-title">{{ t('settings.aiUsage.tokensTitle') }}</h1>
+                <p class="section-description">{{ t('settings.aiUsage.tokensDescription') }}</p>
+            </div>
 
             <!-- Usage Summary Section -->
             <div class="settings-section">
@@ -307,6 +319,20 @@ const toggleDate = (date: string) => {
         svg {
             margin-right: 8px;
         }
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: @memo-blue;
+        margin: 0 0 8px 0;
+    }
+
+    .section-description {
+        font-size: 14px;
+        color: @memo-grey-dark;
+        margin: 0 0 16px 0;
+        line-height: 1.5;
     }
 
     .settings-section {

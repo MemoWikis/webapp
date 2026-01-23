@@ -1220,6 +1220,10 @@
         },
         "aiUsage": {
             "title": "KI-Nutzung",
+            "tokensTitle": "Tokens",
+            "tokensDescription": "Tokens sind die Maßeinheit, mit der KI-Modelle Texteingaben und -ausgaben messen.",
+            "pointsTitle": "Punkte",
+            "pointsDescription": "Punkte sind Tokens multipliziert mit dem Kostenfaktor des jeweiligen KI-Modells.",
             "loading": "Lade Nutzungsdaten...",
             "computePointsBalance": "Compute-Points",
             "totalBalance": "Verfügbar",
