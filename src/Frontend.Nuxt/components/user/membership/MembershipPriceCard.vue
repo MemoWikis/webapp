@@ -61,13 +61,9 @@ const { t } = useI18n()
 
 .card {
     margin-top: 10px;
-    width: calc(50% - 1rem);
+    width: 100%;
     margin-bottom: 10px;
     position: relative;
-
-    @media (max-width: 580px) {
-        width: 100%;
-    }
 
     &.expert-card {
         .price-inner {
@@ -180,12 +176,16 @@ const { t } = useI18n()
     }
 
     .description {
-        margin: 40px 0;
+        margin: 20px 0;
         color: @memo-grey-darker;
-        height: 150px;
+        min-height: 40px;
+
+        p {
+            margin-bottom: 0;
+        }
 
         @media screen and (min-width: 386px) and (max-width: @screen-sm) {
-            height: 90px;
+            min-height: unset;
         }
     }
 

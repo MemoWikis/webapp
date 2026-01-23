@@ -1519,7 +1519,9 @@
                 "smart": {
                     "name": "Smart",
                     "priceLabel": "pro Monat",
-                    "description": "Der clevere Einstieg. Unterstütze die Entwicklung und nutze KI effizient für deine täglichen Aufgaben.",
+                    "description": {
+                        "tokens": "Enthält {count} KI-Tokens pro Woche."
+                    },
                     "list": {
                         "aiTokens": "{tokens} KI-Token / Woche (ca. {pages} A4-Seiten)",
                         "unlimitedPages": "Unbeschränkt private Seiten",
@@ -1530,7 +1532,9 @@
                 "expert": {
                     "name": "Expert",
                     "priceLabel": "pro Monat",
-                    "description": "Für Power-User ohne Limits. Maximale KI-Leistung für intensive Arbeit und komplexe Projekte.",
+                    "description": {
+                        "tokens": "Enthält {count} KI-Tokens pro Woche."
+                    },
                     "badge": "Empfehlung",
                     "listLabel": "Alles aus Smart, plus:",
                     "list": {

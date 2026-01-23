@@ -1520,7 +1520,9 @@
                 "smart": {
                     "name": "Smart",
                     "priceLabel": "per month",
-                    "description": "The smart start. Support development and use AI efficiently for your daily tasks.",
+                    "description": {
+                        "tokens": "Includes {count} AI tokens per week."
+                    },
                     "list": {
                         "aiTokens": "{tokens} AI tokens / week (approx. {pages} A4 pages)",
                         "unlimitedPages": "Unlimited private pages",
@@ -1531,7 +1533,9 @@
                 "expert": {
                     "name": "Expert",
                     "priceLabel": "per month",
-                    "description": "For power users without limits. Maximum AI performance for intensive work and complex projects.",
+                    "description": {
+                        "tokens": "Includes {count} AI tokens per week."
+                    },
                     "badge": "Recommended",
                     "listLabel": "Everything from Smart, plus:",
                     "list": {

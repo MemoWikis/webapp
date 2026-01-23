@@ -137,9 +137,8 @@ const hasExpertSubscription = computed(() =>
 </script>
 
 <template>
-    <div class="subscription-plans" v-if="plans">
-
-        <div class="subscription-section">
+    <div class="subscription-plans-container" v-if="plans">
+        <div class="main-plans-grid">
             <UserMembershipPriceCard :plan="plans.basic" :selected="false"
                 :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Basic }">
                 <template v-slot:button>
@@ -189,9 +188,7 @@ const hasExpertSubscription = computed(() =>
                     </button>
                 </template>
             </UserMembershipPriceCard>
-        </div>
 
-        <div class="subscription-section">
             <UserMembershipPriceCard :plan="plans.expert" :selected="false"
                 :class="{ 'recommended': !userStore.isLoggedIn || (!hasSmartSubscription && !hasExpertSubscription), 'selected': userStore.isLoggedIn && hasExpertSubscription }">
                 <template v-slot:button>
@@ -212,12 +209,14 @@ const hasExpertSubscription = computed(() =>
                     </button>
                 </template>
             </UserMembershipPriceCard>
+        </div>
 
+        <div class="organisation-row">
             <UserMembershipPriceCard :plan="plans.organisation" :selected="false"
                 :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Organisation }">
                 <template v-slot:button>
                     <button @click="contact" class="memo-button btn-link">{{ t('user.membership.plans.contact')
-                        }}</button>
+                    }}</button>
                 </template>
             </UserMembershipPriceCard>
         </div>
@@ -227,26 +226,32 @@ const hasExpertSubscription = computed(() =>
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.subscription-plans {
+.subscription-plans-container {
     padding-top: 30px;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-
-    flex-wrap: wrap;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 
-    .subscription-section {
-        width: calc(50% - 0.5rem);
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0 1rem;
+    .main-plans-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        width: 100%;
 
-        @media (max-width: 1400px) {
-            width: 100%;
+        @media (max-width: 900px) {
+            grid-template-columns: repeat(1, 1fr);
         }
+    }
+
+    .organisation-row {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        // Ensure the card inside doesn't stretch too wide excessively if we don't want it to
+        // But the user said "Organisations into a new line", implying full width availability.
+        // Let's keep it full width or max-width constrained.
     }
 
     button {
