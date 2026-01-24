@@ -84,9 +84,11 @@ export const plans = (limits: PlanLimits) => {
             name: $i18n.t('user.membership.plans.smart.name'),
             price: 3,
             priceLabel: $i18n.t('user.membership.plans.smart.priceLabel'),
-            description: [$i18n.t('user.membership.plans.smart.description.tokens', {
-                count: formatTokens(limits.smartWeeklyTokens)
-            })],
+            description: [
+                $i18n.t('user.membership.plans.smart.description.tokens', {
+                    count: formatTokens(limits.smartWeeklyTokens),
+                }),
+            ],
             tier: 'smart',
             list: [
                 $i18n.t('user.membership.plans.smart.list.unlimitedPages'),
@@ -98,9 +100,11 @@ export const plans = (limits: PlanLimits) => {
             name: $i18n.t('user.membership.plans.expert.name'),
             price: 7,
             priceLabel: $i18n.t('user.membership.plans.expert.priceLabel'),
-            description: [$i18n.t('user.membership.plans.expert.description.tokens', {
-                count: formatTokens(limits.expertWeeklyTokens)
-            })],
+            description: [
+                $i18n.t('user.membership.plans.expert.description.tokens', {
+                    count: formatTokens(limits.expertWeeklyTokens),
+                }),
+            ],
             tier: 'expert',
             listLabel: $i18n.t('user.membership.plans.expert.listLabel'),
             list: [
@@ -133,9 +137,11 @@ export const plans = (limits: PlanLimits) => {
             name: $i18n.t('user.membership.plans.smart.name'),
             price: 3,
             priceLabel: $i18n.t('user.membership.plans.smart.priceLabel'),
-            description: [$i18n.t('user.membership.plans.smart.description.tokens', {
-                count: formatTokens(limits.smartWeeklyTokens)
-            })],
+            description: [
+                $i18n.t('user.membership.plans.smart.description.tokens', {
+                    count: formatTokens(limits.smartWeeklyTokens),
+                }),
+            ],
             tier: 'smart',
             list: [
                 $i18n.t('user.membership.plans.smart.list.unlimitedPages'),
@@ -147,9 +153,11 @@ export const plans = (limits: PlanLimits) => {
             name: $i18n.t('user.membership.plans.expert.name'),
             price: 7,
             priceLabel: $i18n.t('user.membership.plans.expert.priceLabel'),
-            description: [$i18n.t('user.membership.plans.expert.description.tokens', {
-                count: formatTokens(limits.expertWeeklyTokens)
-            })],
+            description: [
+                $i18n.t('user.membership.plans.expert.description.tokens', {
+                    count: formatTokens(limits.expertWeeklyTokens),
+                }),
+            ],
             tier: 'expert',
             listLabel: $i18n.t('user.membership.plans.expert.listLabel'),
             list: [

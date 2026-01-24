@@ -10,6 +10,8 @@
 			"args": [],
 			"cwd": "${workspaceFolder}/src/Backend.Api",
 			"stopAtEntry": false,
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen",
 			"serverReadyAction": {
 				"action": "openExternally",
 				"pattern": "\\bNow listening on:\\s+(https?://\\S+)"
@@ -19,24 +21,54 @@
 			}
 		},
 		{
-			"name": "Frontend",
+			"name": "Backend (Run)",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Build Backend",
+			"program": "${workspaceFolder}/src/Backend.Api/bin/Debug/net9.0/MemoWikis.Backend.Api.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/src/Backend.Api",
+			"stopAtEntry": false,
+			"noDebug": true,
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen",
+			"serverReadyAction": {
+				"action": "openExternally",
+				"pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+			},
+			"env": {
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		},
+		{
+			"name": "Frontend (Run)",
 			"type": "node",
 			"request": "launch",
-			"preLaunchTask": "Frontend",
 			"runtimeExecutable": "npm",
 			"runtimeArgs": ["run", "dev"],
 			"cwd": "${workspaceFolder}/src/Frontend.Nuxt",
-			"console": "integratedTerminal"
+			"console": "integratedTerminal",
+			"noDebug": true
 		}
 	],
 	"compounds": [
 		{
 			"name": "Backend + Frontend",
-			"configurations": ["Backend", "Frontend"],
+			"configurations": ["Backend", "Frontend (Run)"],
 			"presentation": {
 				"hidden": false,
 				"group": "",
 				"order": 1
+			},
+			"stopAll": true
+		},
+		{
+			"name": "Backend (Run) + Frontend (Run)",
+			"configurations": ["Backend (Run)", "Frontend (Run)"],
+			"presentation": {
+				"hidden": false,
+				"group": "",
+				"order": 2
 			},
 			"stopAll": true
 		}
