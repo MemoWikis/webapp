@@ -49,12 +49,6 @@ export const plans = (limits: PlanLimits) => {
     const freeA4Pages = Math.floor(
         limits.freeWeeklyTokens / limits.tokensPerA4Page,
     )
-    const smartA4Pages = Math.floor(
-        limits.smartWeeklyTokens / limits.tokensPerA4Page,
-    )
-    const expertA4Pages = Math.floor(
-        limits.expertWeeklyTokens / limits.tokensPerA4Page,
-    )
 
     return {
         basic: {

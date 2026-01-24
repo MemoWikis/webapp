@@ -32,3 +32,4 @@ appsettings.*.json
 /node_modules/
 /test-results/
 /src/Frontend.Nuxt/test-results/.last-run.json
+/playwright-report/index.html

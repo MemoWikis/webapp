@@ -63,6 +63,10 @@ Tell the user:
 - Location of screenshots: `test-results/screenshots/`
 - Location of HTML report: `test-results/html-report/`
 
+**Note:** If tests fail with a **TimeoutError** waiting for a selector, it often means the Nuxt page crashed (e.g., 500 Internal Server Error due to build errors like missing LESS variables).
+- **ACTION:** Check the **Frontend terminal output** for build errors or exceptions!
+- **ACTION:** Do not assume the selector is just missing; assume the page failed to render.
+
 ## Common Test Commands
 
 | Command | Description |

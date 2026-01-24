@@ -34,6 +34,11 @@ If services are not running, use the `app-start` skill to start them.
   - Types: `*.types.ts`
   - Utils: `*.utils.ts`
 
+## LESS / Styling
+
+- **IMPORTANT:** Verify LESS variables in `src/Frontend.Nuxt/assets/includes/colors.less`.
+- **Do NOT guess** variable names (e.g. `@memo-dark` does not exist; use `@memo-grey-dark` or `@memo-grey-darkest`).
+
 ## Common Rules (All Languages)
 
 - Please always write code comments in English.

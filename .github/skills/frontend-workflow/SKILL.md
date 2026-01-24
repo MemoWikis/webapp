@@ -289,15 +289,20 @@ export const useUserStore = defineStore('user', () => {
 
 ### Common Variables
 
+**IMPORTANT:** Always verify variable names in `src/Frontend.Nuxt/assets/includes/colors.less` (or `imports.less`) before using them. **Foundations**:
+
 | Variable | Usage |
 | -------- | ----- |
 | `@memo-blue` | Primary brand color |
 | `@memo-blue-link` | Links, interactive elements |
 | `@memo-green` | Success, positive states |
 | `@memo-yellow` | Warnings |
-| `@memo-grey-dark` | Text secondary |
+| `@memo-grey-dark` | Text secondary (NOT `@memo-dark`) |
 | `@memo-grey-light` | Borders |
 | `@memo-grey-lighter` | Backgrounds |
+| `@memo-grey-darkest` | Darkest text color |
+
+**Do NOT guess variables.** If you are unsure, read `src/Frontend.Nuxt/assets/includes/colors.less`. Common mistake: Using `@memo-dark` (incorrect) instead of `@memo-grey-dark` or `@memo-grey-darkest`.
 
 ---
 

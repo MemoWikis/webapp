@@ -212,13 +212,12 @@ const hasExpertSubscription = computed(() =>
         </div>
 
         <div class="organisation-row">
-            <UserMembershipPriceCard :plan="plans.organisation" :selected="false"
-                :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Organisation }">
+            <UserMembershipOrganisationCard :plan="plans.organisation" :selected="false">
                 <template v-slot:button>
                     <button @click="contact" class="memo-button btn-link">{{ t('user.membership.plans.contact')
                     }}</button>
                 </template>
-            </UserMembershipPriceCard>
+            </UserMembershipOrganisationCard>
         </div>
     </div>
 </template>
