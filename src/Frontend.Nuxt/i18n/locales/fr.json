@@ -1413,8 +1413,8 @@
             "settings": "Paramètres"
         },
         "membership": {
+            "breadcrumb": "Adhésion",
             "header": {
-                "topLabel": "Devenir membre et soutenir l'éducation libre",
                 "title": "Adhésion",
                 "bottomLabel1": "Les contenus publics sur memoWikis sont librement accessibles. Données libres - logiciel libre (open data open access) !",
                 "bottomLabel2": "Tu souhaites utiliser memoWikis pour des contenus privés ? Voici nos tarifs :"
@@ -1454,6 +1454,32 @@
                         "unlimitedPages": "Pages privées illimitées",
                         "unlimitedQuestions": "Questions privées illimitées",
                         "unlimitedWishKnowledge": "Connaissances souhaitées illimitées"
+                    }
+                },
+                "smart": {
+                    "name": "Smart",
+                    "priceLabel": "par mois",
+                    "description": {
+                        "tokens": "Inclut {count} jetons IA par semaine."
+                    },
+                    "list": {
+                        "aiTokens": "{tokens} jetons IA / semaine (env. {pages} pages A4)",
+                        "unlimitedPages": "Pages privées illimitées",
+                        "unlimitedQuestions": "Questions privées illimitées",
+                        "support": "Sans publicité"
+                    }
+                },
+                "expert": {
+                    "name": "Expert",
+                    "priceLabel": "par mois",
+                    "description": {
+                        "tokens": "Inclut {count} jetons IA par semaine."
+                    },
+                    "badge": "Recommandé",
+                    "listLabel": "Tout ce que Smart propose, plus :",
+                    "list": {
+                        "aiTokens": "{tokens} jetons IA / semaine (env. {pages} pages A4)",
+                        "moreTokens": "Plus de jetons IA"
                     }
                 },
                 "team": {

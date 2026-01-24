@@ -51,7 +51,6 @@ const contact = () => {
 
     <div class="main-content">
         <div class="header">
-            <div class="top-label">{{ t('user.membership.header.topLabel') }}</div>
             <div class="title">{{ t('user.membership.header.title') }}</div>
             <div class="bottom-label">
                 {{ t('user.membership.header.bottomLabel1') }} <br /><br />
@@ -91,10 +90,6 @@ const contact = () => {
         flex-direction: column;
 
         color: @memo-grey-darker;
-
-        .top-label {
-            font-weight: 600;
-        }
 
         .title {
             margin-top: 20px;

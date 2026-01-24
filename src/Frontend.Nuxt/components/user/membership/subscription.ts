@@ -101,10 +101,7 @@ export const plans = (limits: PlanLimits) => {
             ],
             tier: 'expert',
             listLabel: $i18n.t('user.membership.plans.expert.listLabel'),
-            list: [
-                $i18n.t('user.membership.plans.expert.list.topModels'),
-                $i18n.t('user.membership.plans.expert.list.priority'),
-            ],
+            list: [$i18n.t('user.membership.plans.expert.list.moreTokens')],
         } as Plan,
         organisation: {
             name: $i18n.t('user.membership.plans.organisation.name'),
@@ -114,12 +111,13 @@ export const plans = (limits: PlanLimits) => {
             ),
             description: [
                 $i18n.t(
-                    'user.membership.plans.organisation.description.support',
+                    'user.membership.plans.organisation.description.openSource',
                 ),
-                $i18n.t('user.membership.plans.organisation.description.team'),
+                $i18n.t(
+                    'user.membership.plans.organisation.description.supportOffer',
+                ),
             ],
             tier: 'organisation',
-            listLabel: $i18n.t('user.membership.plans.organisation.listLabel'),
             list: [
                 $i18n.t('user.membership.plans.organisation.list.sso'),
                 $i18n.t('user.membership.plans.organisation.list.hosting'),
@@ -154,10 +152,7 @@ export const plans = (limits: PlanLimits) => {
             ],
             tier: 'expert',
             listLabel: $i18n.t('user.membership.plans.expert.listLabel'),
-            list: [
-                $i18n.t('user.membership.plans.expert.list.topModels'),
-                $i18n.t('user.membership.plans.expert.list.priority'),
-            ],
+            list: [$i18n.t('user.membership.plans.expert.list.moreTokens')],
         } as Plan,
     }
 }

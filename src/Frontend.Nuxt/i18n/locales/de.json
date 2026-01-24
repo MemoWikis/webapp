@@ -1471,8 +1471,8 @@
             "settings": "Einstellungen"
         },
         "membership": {
+            "breadcrumb": "Mitgliedschaft",
             "header": {
-                "topLabel": "Mitglied werden und freie Bildung fördern",
                 "title": "Mitgliedschaft",
                 "bottomLabel1": "Öffentliche Inhalte sind auf memoWikis uneingeschränkt nutzbar. Freie Daten – freie Software (open data open access)!",
                 "bottomLabel2": "Du möchtest memoWikis für private Inhalte nutzen? Hier findest unsere Preise:"
@@ -1526,7 +1526,7 @@
                         "aiTokens": "{tokens} KI-Token / Woche (ca. {pages} A4-Seiten)",
                         "unlimitedPages": "Unbeschränkt private Seiten",
                         "unlimitedQuestions": "Unbeschränkt private Fragen",
-                        "support": "Werbefrei & Support-Badge"
+                        "support": "Werbefrei"
                     }
                 },
                 "expert": {
@@ -1539,8 +1539,7 @@
                     "listLabel": "Alles aus Smart, plus:",
                     "list": {
                         "aiTokens": "{tokens} KI-Token / Woche (ca. {pages} A4-Seiten)",
-                        "topModels": "Zugriff auf Top-Tier KI-Modelle",
-                        "priority": "Bevorzugte Verarbeitung"
+                        "moreTokens": "Mehr KI Tokens"
                     }
                 },
                 "team": {
@@ -1558,8 +1557,9 @@
                     "price": "Auf Anfrage",
                     "priceLabel": "Individuelle Preise. Bitte kontaktiert uns für mehr Informationen.",
                     "description": {
-                        "support": "Für Unternehmen und Institutionen, die zusätzliche Unterstützung benötigen.",
-                        "team": "Bringen Sie Ihr Team auf den neuesten Stand."
+                        "openSource": "memoWikis ist Open Source und kann intern ohne Einschränkungen genutzt werden.",
+                        "supportOffer": "Gerne unterstützen wir euch bei allen Fragen.",
+                        "commercialRestriction": "Hinweis: Dies gilt nicht, wenn ihr memoWikis als öffentlichen Service gegen Bezahlung für Dritte anbietet."
                     },
                     "listLabel": "Alles aus Expert, plus:",
                     "list": {
