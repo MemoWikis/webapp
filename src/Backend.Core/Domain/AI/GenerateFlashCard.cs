@@ -11,10 +11,23 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
     public static string GetPrompt(string sourceText, string flashcards)
     {
         return @"
+            CRITICAL LANGUAGE RULE (HIGHEST PRIORITY):
+            - You MUST generate flashcards in EXACTLY the same language as the source text.
+            - If the source text is in German, all flashcards MUST be in German.
+            - If the source text is in English, all flashcards MUST be in English.
+            - NEVER translate the content to another language.
+            - Detect the language of the source text first, then use that language for ALL output.
+            
             Respond exclusively with a JSON array of flashcards.
             Each flashcard has two properties: 'Front' and 'Back'.
             
-            Example of a JSON array:
+            Example for German text:
+            [
+              { 'Front': 'Was ist die Hauptstadt von Deutschland?', 'Back': 'Berlin' },
+              { 'Front': 'Was ist die Hauptstadt von Frankreich?', 'Back': 'Paris' }
+            ]
+            
+            Example for English text:
             [
               { 'Front': 'What is the capital of Germany?', 'Back': 'Berlin' },
               { 'Front': 'What is the capital of France?', 'Back': 'Paris' }
@@ -32,10 +45,6 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
             
             Consider existing flashcards:
             " + flashcards + @"
-            
-            Important notes:
-            - The language of the created flashcards must exactly match that of the given text.
-            - If the given text contains mixed languages, use the dominant language.
             
             Your task:
             1. Read the following given text carefully:
@@ -61,6 +70,8 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
             - No backticks, no Markdown code blocks.
             - No parentheses ')' or other characters after the JSON array.
             - Use exclusively double quotes for JSON properties.
+            
+            FINAL REMINDER: Generate flashcards in the SAME LANGUAGE as the source text!
             ";
     }
 
@@ -134,7 +145,7 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
             }
 
             var flashCards = TryParseFlashCardsFromResponse(response, attempt, pageId);
-            
+
             if (flashCards != null && flashCards.Count > 0)
             {
                 if (attempt > 1)
@@ -185,7 +196,7 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
         try
         {
             var flashCards = JsonSerializer.Deserialize<List<FlashCard>>(normalizedJson);
-            
+
             if (flashCards == null || flashCards.Count == 0)
             {
                 Log.Warning(

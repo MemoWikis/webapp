@@ -2,6 +2,53 @@
 
 For comprehensive naming conventions, file structure, and patterns, see **[Style Guide](.github/style-guide.md)**.
 
+# Test Requirements
+
+**CRITICAL:** When implementing features or fixing bugs, always create or update corresponding tests:
+
+## Backend Changes → Backend Tests Required
+
+- **Location:** `src/Tests/Backend.Core/`
+- **Pattern:** Create `{FeatureName}_tests.cs` matching the domain folder structure
+- **Tool:** Use `runTests` tool to run tests (handles process management automatically)
+- **Example:** Changes to `Domain/AI/GenerateFlashCard.cs` → Tests in `Tests/Backend.Core/AIContent/GenerateFlashCards_tests.cs`
+
+## Frontend Changes → Playwright E2E Tests Required
+
+- **Location:** `src/Frontend.Nuxt/tests/playwright/`
+- **Pattern:** Create `{feature-name}.spec.ts` for user-facing functionality
+- **Run from:** Project root directory (where `playwright.config.ts` is located)
+- **Example:** AI flashcard feature → `ai-flashcard-language.spec.ts`
+
+## Test Coverage Priorities
+
+1. **Bug fixes:** Create a test that reproduces the bug, then fix it
+2. **New API endpoints:** Backend unit test + Playwright E2E test
+3. **AI features:** Test language consistency, edge cases, and prompt behavior
+4. **UI components:** Playwright test for user interactions
+
+## AI Feature Testing
+
+AI-powered features require special attention due to non-deterministic outputs:
+
+```csharp
+// Backend: Use assertions with ranges instead of Verify() for AI results
+Assert.That(flashCards.Count, Is.GreaterThanOrEqualTo(minCards).And.LessThanOrEqualTo(maxCards));
+
+// Use AI to validate language/content consistency
+var (isValidResponse, languageMatches) = await CheckLanguageMatchViaAi(sourceText, flashCardsJson);
+```
+
+```typescript
+// Playwright: Use keyword detection for language verification
+const germanKeywords = ["ist", "und", "der", "die", "das", "werden", "können"];
+const hasGermanContent = germanKeywords.some(
+  (keyword) =>
+    flashcard.front.toLowerCase().includes(keyword) ||
+    flashcard.back.toLowerCase().includes(keyword),
+);
+```
+
 # Service Health Check
 
 **IMPORTANT:** Before running E2E tests or debugging frontend issues, always verify services are running:
