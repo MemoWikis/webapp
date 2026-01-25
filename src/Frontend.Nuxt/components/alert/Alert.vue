@@ -40,11 +40,45 @@ const hasImage = computed(() => {
     return alertStore.msg?.customImg || alertStore.type === AlertType.Error || alertStore.type === AlertType.Success
 })
 
+const formattedDetails = computed(() => {
+    if (!alertStore.msg?.customDetails) return ''
+    return serializeForClipboard(alertStore.msg.customDetails)
+})
+
+function serializeForClipboard(value: unknown): string {
+    if (typeof value === 'string') {
+        return value
+    }
+
+    if (value instanceof Error) {
+        const errorObj: Record<string, unknown> = {
+            name: value.name,
+            message: value.message,
+            stack: value.stack,
+        }
+
+        // Include cause if present (for chained errors)
+        if ('cause' in value && value.cause) {
+            errorObj.cause = serializeForClipboard(value.cause)
+        }
+
+        // Include any additional enumerable properties
+        for (const key of Object.keys(value)) {
+            if (!(key in errorObj)) {
+                errorObj[key] = (value as unknown as Record<string, unknown>)[key]
+            }
+        }
+
+        return JSON.stringify(errorObj, null, 2)
+    }
+
+    // For regular objects, use standard JSON serialization
+    return JSON.stringify(value, null, 2)
+}
+
 async function copyToClipboard() {
     if (alertStore.msg?.customDetails) {
-        const text = typeof alertStore.msg.customDetails === 'string'
-            ? alertStore.msg.customDetails
-            : JSON.stringify(alertStore.msg.customDetails, null, 2)
+        const text = serializeForClipboard(alertStore.msg.customDetails)
         await navigator.clipboard.writeText(text)
     }
 }
@@ -103,7 +137,7 @@ const { t } = useI18n()
                         </div>
                         <div v-if="showDetails" class="alert-details-code">
                             <div class="code-container">
-                                <code> {{ alertStore.msg.customDetails }} </code>
+                                <code>{{ formattedDetails }}</code>
                             </div>
                             <div class="copy-container">
                                 <button class="btn btn-primary btn-sm" @click="copyToClipboard">

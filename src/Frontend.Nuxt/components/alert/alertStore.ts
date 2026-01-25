@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 
 export interface AlertMsg {
     text: string | null
@@ -6,7 +6,7 @@ export interface AlertMsg {
     customBtn?: string
     customBtnKey?: string
     customImg?: string
-    customDetails?: string
+    customDetails?: string | Error | unknown
     texts?: string[]
 }
 
@@ -16,15 +16,15 @@ export enum AlertType {
     Error,
 }
 
-export const useAlertStore = defineStore("alertStore", {
+export const useAlertStore = defineStore('alertStore', {
     state: () => {
         return {
             show: false,
             type: AlertType.Default,
             msg: null as AlertMsg | null,
             showCancelButton: false,
-            label: "Ok",
-            cancelLabel: "Abbrechen",
+            label: 'Ok',
+            cancelLabel: 'Abbrechen',
             title: null as string | null,
             id: null as string | null,
         }
@@ -33,11 +33,11 @@ export const useAlertStore = defineStore("alertStore", {
         openAlert(
             type: AlertType,
             msg: AlertMsg,
-            label: string = "Ok",
+            label: string = 'Ok',
             showCancelButton: boolean = false,
             title: string | null = null,
             id: string | null = null,
-            cancelLabel: string = "Abbrechen"
+            cancelLabel: string = 'Abbrechen',
         ) {
             this.show = true
             this.type = type
@@ -66,7 +66,7 @@ export const useAlertStore = defineStore("alertStore", {
             ) {
                 const nuxtApp = useNuxtApp()
                 const { $i18n } = nuxtApp
-                return $i18n.t("error.default")
+                return $i18n.t('error.default')
             }
             return text
         },

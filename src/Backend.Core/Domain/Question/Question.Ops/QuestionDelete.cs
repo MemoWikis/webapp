@@ -8,7 +8,19 @@
     public void Run(int questionId)
     {
         var question = _questionReadingRepo.GetById(questionId);
+        if (question == null)
+        {
+            Log.Warning("QuestionDelete.Run: Question with id {QuestionId} not found in database", questionId);
+            return;
+        }
+
         var questionCacheItem = EntityCache.GetQuestion(questionId);
+        if (questionCacheItem == null)
+        {
+            Log.Warning("QuestionDelete.Run: Question with id {QuestionId} not found in cache", questionId);
+            return;
+        }
+
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(_sessionUser);
 
         var canBeDeletedResult = CanBeDeleted(_sessionUser.UserId, question);
