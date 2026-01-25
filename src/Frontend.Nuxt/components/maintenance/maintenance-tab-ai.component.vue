@@ -12,6 +12,7 @@ const props = defineProps<{
     fetchingModels: boolean
     editingCostRate: { id: number, value: number } | null
     editingDisplayName: { id: number, value: string } | null
+    editingPrices: { id: number, inputPrice: number, outputPrice: number } | null
     showDeleteConfirmModal: boolean
     modelToDelete: WhitelistedModel | null
 }>()
@@ -19,13 +20,14 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
     // Simple events without parameters
-    (event: 'loadWhitelistedModels' | 'fetchAllProviderModels' | 'saveCostRate' | 'cancelEditCostRate' | 'saveDisplayName' | 'cancelEditDisplayName' | 'executeDelete' | 'cancelDelete'): void
+    (event: 'loadWhitelistedModels' | 'fetchAllProviderModels' | 'saveCostRate' | 'cancelEditCostRate' | 'saveDisplayName' | 'cancelEditDisplayName' | 'savePrices' | 'cancelEditPrices' | 'executeDelete' | 'cancelDelete'): void
     // Events with WhitelistedModel parameter
-    (event: 'startEditCostRate' | 'startEditDisplayName' | 'confirmDeleteModel', model: WhitelistedModel): void
+    (event: 'startEditCostRate' | 'startEditDisplayName' | 'startEditPrices' | 'confirmDeleteModel', model: WhitelistedModel): void
     // Other events with unique parameters
     (event: 'toggleWhitelist', providerName: string, model: AvailableModel): void
     (event: 'update:editingCostRate', value: { id: number, value: number } | null): void
     (event: 'update:editingDisplayName', value: { id: number, value: string } | null): void
+    (event: 'update:editingPrices', value: { id: number, inputPrice: number, outputPrice: number } | null): void
 }>()
 
 // Two-way binding for editingCostRate
@@ -38,6 +40,12 @@ const localEditingCostRate = computed({
 const localEditingDisplayName = computed({
     get: () => props.editingDisplayName,
     set: (value) => emit('update:editingDisplayName', value)
+})
+
+// Two-way binding for editingPrices
+const localEditingPrices = computed({
+    get: () => props.editingPrices,
+    set: (value) => emit('update:editingPrices', value)
 })
 </script>
 
@@ -62,6 +70,8 @@ const localEditingDisplayName = computed({
                                 <th>Display Name</th>
                                 <th>Model ID</th>
                                 <th>Cost Rate</th>
+                                <th>$/M In</th>
+                                <th>$/M Out</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -113,6 +123,42 @@ const localEditingDisplayName = computed({
                                         <span class="cost-rate" title="Click to edit"
                                             @click="emit('startEditCostRate', model)">
                                             {{ model.tokenCostMultiplier }}x
+                                        </span>
+                                    </template>
+                                </td>
+                                <td>
+                                    <template v-if="localEditingPrices?.id === model.id">
+                                        <div class="price-edit">
+                                            <input v-model.number="localEditingPrices.inputPrice" type="number"
+                                                step="0.01" min="0" class="price-input" placeholder="Input" />
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <span class="price-value" title="Click to edit"
+                                            @click="emit('startEditPrices', model)">
+                                            ${{ model.inputPricePerMillion.toFixed(2) }}
+                                        </span>
+                                    </template>
+                                </td>
+                                <td>
+                                    <template v-if="localEditingPrices?.id === model.id">
+                                        <div class="price-edit">
+                                            <input v-model.number="localEditingPrices.outputPrice" type="number"
+                                                step="0.01" min="0" class="price-input" placeholder="Output" />
+                                            <button class="btn-icon btn-save" title="Save"
+                                                @click="emit('savePrices')">
+                                                <font-awesome-icon icon="fa-solid fa-check" />
+                                            </button>
+                                            <button class="btn-icon btn-cancel" title="Cancel"
+                                                @click="emit('cancelEditPrices')">
+                                                <font-awesome-icon icon="fa-solid fa-times" />
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <span class="price-value" title="Click to edit"
+                                            @click="emit('startEditPrices', model)">
+                                            ${{ model.outputPricePerMillion.toFixed(2) }}
                                         </span>
                                     </template>
                                 </td>
@@ -260,7 +306,8 @@ const localEditingDisplayName = computed({
 }
 
 .cost-rate,
-.display-name {
+.display-name,
+.price-value {
     cursor: pointer;
     padding: 4px 8px;
     border-radius: 4px;
@@ -271,7 +318,8 @@ const localEditingDisplayName = computed({
 }
 
 .cost-rate-edit,
-.display-name-edit {
+.display-name-edit,
+.price-edit {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -285,6 +333,13 @@ const localEditingDisplayName = computed({
 
     .display-name-input {
         width: 150px;
+        padding: 4px 8px;
+        border: 1px solid @memo-grey-light;
+        border-radius: 4px;
+    }
+
+    .price-input {
+        width: 70px;
         padding: 4px 8px;
         border: 1px solid @memo-grey-light;
         border-radius: 4px;

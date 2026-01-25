@@ -91,6 +91,8 @@ CREATE TABLE `aimodelwhitelist` (
   `DisplayName` varchar(200) DEFAULT NULL,
   `Provider` int DEFAULT NULL,
   `TokenCostMultiplier` decimal(10,2) DEFAULT NULL,
+  `InputPricePerMillion` decimal(10,4) DEFAULT NULL,
+  `OutputPricePerMillion` decimal(10,4) DEFAULT NULL,
   `IsEnabled` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

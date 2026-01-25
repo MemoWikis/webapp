@@ -13,5 +13,15 @@ public class AiModelWhitelist : Entity
     /// </summary>
     public virtual decimal TokenCostMultiplier { get; set; } = 1m;
 
+    /// <summary>
+    /// Dollar price per million input tokens (e.g., 3.00 = $3.00 per 1M tokens)
+    /// </summary>
+    public virtual decimal InputPricePerMillion { get; set; } = 0m;
+
+    /// <summary>
+    /// Dollar price per million output tokens (e.g., 15.00 = $15.00 per 1M tokens)
+    /// </summary>
+    public virtual decimal OutputPricePerMillion { get; set; } = 0m;
+
     public virtual bool IsEnabled { get; set; } = true;
 }

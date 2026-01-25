@@ -125,4 +125,163 @@ test.describe('Admin AI Model Whitelist Management', () => {
 
         await takeDevScreenshot(authenticatedPage, 'ai-tab-structure')
     })
+
+    test('should display price columns in whitelisted models table', async ({
+        authenticatedPage,
+    }) => {
+        // Navigate to maintenance page with AI tab
+        await authenticatedPage.goto('/Maintenance?tab=ai')
+        await authenticatedPage.waitForLoadState('networkidle')
+
+        // Close any open dialogs
+        await closeOpenDialogs(authenticatedPage)
+
+        // Wait for the table to be visible
+        const whitelistTable = authenticatedPage.locator('.whitelist-table')
+        const tableExists = await whitelistTable.isVisible().catch(() => false)
+
+        if (!tableExists) {
+            console.log('No whitelisted models table found, skipping price columns test')
+            return
+        }
+
+        // Check for the price column headers
+        await expect(authenticatedPage.locator('.whitelist-table th:has-text("$/M In")')).toBeVisible()
+        await expect(authenticatedPage.locator('.whitelist-table th:has-text("$/M Out")')).toBeVisible()
+
+        await takeDevScreenshot(authenticatedPage, 'ai-whitelist-price-columns')
+    })
+
+    test('should allow editing model prices', async ({ authenticatedPage }) => {
+        // Navigate to maintenance page with AI tab
+        await authenticatedPage.goto('/Maintenance?tab=ai')
+        await authenticatedPage.waitForLoadState('networkidle')
+
+        // Close any open dialogs
+        await closeOpenDialogs(authenticatedPage)
+
+        // Wait for the table to be visible
+        const whitelistTable = authenticatedPage.locator('.whitelist-table')
+        const tableExists = await whitelistTable.isVisible().catch(() => false)
+
+        if (!tableExists) {
+            console.log('No whitelisted models table found, skipping price edit test')
+            return
+        }
+
+        // Get the first row's input price cell (column 5 - $/M In)
+        const inputPriceCell = authenticatedPage.locator('.whitelist-table tbody tr').first().locator('td:nth-child(5) .price-value')
+        const inputPriceCellVisible = await inputPriceCell.isVisible().catch(() => false)
+
+        if (!inputPriceCellVisible) {
+            console.log('No price value cell visible, skipping price edit test')
+            return
+        }
+
+        await takeDevScreenshot(authenticatedPage, 'before-price-edit')
+
+        // Click on the input price to start editing
+        await inputPriceCell.click()
+
+        // Wait for the edit inputs to appear
+        await expect(authenticatedPage.locator('.price-edit .price-input').first()).toBeVisible({ timeout: 3000 })
+
+        await takeDevScreenshot(authenticatedPage, 'price-edit-mode')
+
+        // Get the price inputs
+        const inputPriceInput = authenticatedPage.locator('.price-edit .price-input').first()
+        const outputPriceInput = authenticatedPage.locator('.price-edit .price-input').last()
+
+        // Clear and set new values
+        await inputPriceInput.fill('3.50')
+        await outputPriceInput.fill('15.75')
+
+        await takeDevScreenshot(authenticatedPage, 'price-values-entered')
+
+        // Click save button (the one in the output price column since that's where the controls are)
+        const saveButton = authenticatedPage.locator('.price-edit .btn-save').last()
+        await saveButton.click()
+
+        // Wait for the update to complete
+        await authenticatedPage.waitForLoadState('networkidle')
+        await authenticatedPage.waitForTimeout(500)
+
+        await takeDevScreenshot(authenticatedPage, 'after-price-save')
+
+        // Verify the prices were updated by checking the displayed values
+        const updatedInputPrice = await authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(5) .price-value')
+            .textContent()
+
+        const updatedOutputPrice = await authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(6) .price-value')
+            .textContent()
+
+        // Prices should contain the new values (format: $X.XX)
+        expect(updatedInputPrice).toContain('3.50')
+        expect(updatedOutputPrice).toContain('15.75')
+    })
+
+    test('should cancel price editing on cancel button click', async ({
+        authenticatedPage,
+    }) => {
+        // Navigate to maintenance page with AI tab
+        await authenticatedPage.goto('/Maintenance?tab=ai')
+        await authenticatedPage.waitForLoadState('networkidle')
+
+        // Close any open dialogs
+        await closeOpenDialogs(authenticatedPage)
+
+        // Wait for the table to be visible
+        const whitelistTable = authenticatedPage.locator('.whitelist-table')
+        const tableExists = await whitelistTable.isVisible().catch(() => false)
+
+        if (!tableExists) {
+            console.log('No whitelisted models table found, skipping cancel test')
+            return
+        }
+
+        // Get the first row's input price cell
+        const inputPriceCell = authenticatedPage.locator('.whitelist-table tbody tr').first().locator('td:nth-child(5) .price-value')
+        const inputPriceCellVisible = await inputPriceCell.isVisible().catch(() => false)
+
+        if (!inputPriceCellVisible) {
+            console.log('No price value cell visible, skipping cancel test')
+            return
+        }
+
+        // Store original value
+        const originalInputPrice = await inputPriceCell.textContent()
+
+        // Click on the input price to start editing
+        await inputPriceCell.click()
+
+        // Wait for the edit inputs to appear
+        await expect(authenticatedPage.locator('.price-edit .price-input').first()).toBeVisible({ timeout: 3000 })
+
+        // Enter new values
+        const inputPriceInput = authenticatedPage.locator('.price-edit .price-input').first()
+        await inputPriceInput.fill('99.99')
+
+        // Click cancel button
+        const cancelButton = authenticatedPage.locator('.price-edit .btn-cancel').last()
+        await cancelButton.click()
+
+        await authenticatedPage.waitForTimeout(300)
+
+        await takeDevScreenshot(authenticatedPage, 'after-price-cancel')
+
+        // Verify the original price is restored
+        const restoredInputPrice = await authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(5) .price-value')
+            .textContent()
+
+        expect(restoredInputPrice).toBe(originalInputPrice)
+    })
 })

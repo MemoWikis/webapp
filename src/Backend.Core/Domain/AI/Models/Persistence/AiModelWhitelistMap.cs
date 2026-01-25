@@ -9,6 +9,8 @@ public class AiModelWhitelistMap : ClassMap<AiModelWhitelist>
         Map(x => x.DisplayName).Length(200);
         Map(x => x.Provider).CustomType<AiModelProvider>();
         Map(x => x.TokenCostMultiplier).Precision(10).Scale(2);
+        Map(x => x.InputPricePerMillion).Precision(10).Scale(4);
+        Map(x => x.OutputPricePerMillion).Precision(10).Scale(4);
         Map(x => x.IsEnabled);
 
         Table("aimodelwhitelist");

@@ -828,6 +828,7 @@ const showDeleteConfirmModal = ref(false)
 const modelToDelete = ref<WhitelistedModel | null>(null)
 const editingCostRate = ref<{ id: number, value: number } | null>(null)
 const editingDisplayName = ref<{ id: number, value: string } | null>(null)
+const editingPrices = ref<{ id: number, inputPrice: number, outputPrice: number } | null>(null)
 
 const loadWhitelistedModels = async () => {
     const result = await $api<GetWhitelistedModelsResponse>('/apiVue/VueMaintenance/GetWhitelistedAiModels', {
@@ -983,6 +984,48 @@ const cancelEditDisplayName = () => {
     editingDisplayName.value = null
 }
 
+const startEditPrices = (model: WhitelistedModel) => {
+    editingPrices.value = {
+        id: model.id,
+        inputPrice: model.inputPricePerMillion,
+        outputPrice: model.outputPricePerMillion
+    }
+}
+
+const savePrices = async () => {
+    if (!antiForgeryToken.value || !editingPrices.value) return
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('id', editingPrices.value.id.toString())
+    data.append('inputPricePerMillion', editingPrices.value.inputPrice.toString())
+    data.append('outputPricePerMillion', editingPrices.value.outputPrice.toString())
+
+    const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/UpdateWhitelistPrices', {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        const model = whitelistedModels.value.find(model => model.id === editingPrices.value!.id)
+        if (model) {
+            model.inputPricePerMillion = editingPrices.value.inputPrice
+            model.outputPricePerMillion = editingPrices.value.outputPrice
+        }
+        showMessage('Prices updated', 'success')
+    } else {
+        showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
+    }
+
+    editingPrices.value = null
+}
+
+const cancelEditPrices = () => {
+    editingPrices.value = null
+}
+
 const toggleWhitelist = async (providerName: string, model: AvailableModel) => {
     if (!antiForgeryToken.value) return
 
@@ -1078,15 +1121,17 @@ onMounted(() => {
             <!-- ==================== AI TAB ==================== -->
             <MaintenanceTabAiComponent v-show="activeTab === 'ai'" :whitelisted-models="whitelistedModels"
                 :provider-models="providerModels" :fetching-models="fetchingModels" :editing-cost-rate="editingCostRate"
-                :editing-display-name="editingDisplayName" :show-delete-confirm-modal="showDeleteConfirmModal"
-                :model-to-delete="modelToDelete" @load-whitelisted-models="loadWhitelistedModels"
-                @fetch-all-provider-models="fetchAllProviderModels" @start-edit-cost-rate="startEditCostRate"
-                @save-cost-rate="saveCostRate" @cancel-edit-cost-rate="cancelEditCostRate"
-                @start-edit-display-name="startEditDisplayName" @save-display-name="saveDisplayName"
-                @cancel-edit-display-name="cancelEditDisplayName" @confirm-delete-model="confirmDeleteModel"
-                @execute-delete="executeDelete" @cancel-delete="cancelDelete" @toggle-whitelist="toggleWhitelist"
-                @update:editing-cost-rate="editingCostRate = $event"
-                @update:editing-display-name="editingDisplayName = $event" />
+                :editing-display-name="editingDisplayName" :editing-prices="editingPrices"
+                :show-delete-confirm-modal="showDeleteConfirmModal" :model-to-delete="modelToDelete"
+                @load-whitelisted-models="loadWhitelistedModels" @fetch-all-provider-models="fetchAllProviderModels"
+                @start-edit-cost-rate="startEditCostRate" @save-cost-rate="saveCostRate"
+                @cancel-edit-cost-rate="cancelEditCostRate" @start-edit-display-name="startEditDisplayName"
+                @save-display-name="saveDisplayName" @cancel-edit-display-name="cancelEditDisplayName"
+                @start-edit-prices="startEditPrices" @save-prices="savePrices" @cancel-edit-prices="cancelEditPrices"
+                @confirm-delete-model="confirmDeleteModel" @execute-delete="executeDelete" @cancel-delete="cancelDelete"
+                @toggle-whitelist="toggleWhitelist" @update:editing-cost-rate="editingCostRate = $event"
+                @update:editing-display-name="editingDisplayName = $event"
+                @update:editing-prices="editingPrices = $event" />
 
             <!-- ==================== GENERAL TAB ==================== -->
             <MaintenanceTabGeneralComponent v-show="activeTab === 'general'" :question-methods="questionMethods"

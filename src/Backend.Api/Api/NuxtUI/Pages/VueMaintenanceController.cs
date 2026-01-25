@@ -897,7 +897,9 @@ public class VueMaintenanceController(
         string Provider,
         string ModelId,
         string DisplayName,
-        decimal TokenCostMultiplier);
+        decimal TokenCostMultiplier,
+        decimal InputPricePerMillion,
+        decimal OutputPricePerMillion);
 
     public readonly record struct GetWhitelistedModelsResponse(
         bool Success,
@@ -935,7 +937,9 @@ public class VueMaintenanceController(
                 model.Provider.ToString(),
                 model.ModelId,
                 model.DisplayName,
-                model.TokenCostMultiplier))
+                model.TokenCostMultiplier,
+                model.InputPricePerMillion,
+                model.OutputPricePerMillion))
             .ToList();
 
         return new GetWhitelistedModelsResponse(true, models);
@@ -1073,5 +1077,30 @@ public class VueMaintenanceController(
         _aiModelWhitelistRepo.Flush();
         AiModelCache.AddOrUpdate(model);
         return new VueMaintenanceResult { Success = true, Data = "Display name updated" };
+    }
+
+    /// <summary>
+    /// Update dollar prices per million tokens (input and output) for a whitelisted model
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult UpdateWhitelistPrices(
+        [FromForm] int id,
+        [FromForm] decimal inputPricePerMillion,
+        [FromForm] decimal outputPricePerMillion)
+    {
+        var model = _aiModelWhitelistRepo.GetById(id);
+        if (model == null)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Model not found" };
+        }
+
+        model.InputPricePerMillion = inputPricePerMillion;
+        model.OutputPricePerMillion = outputPricePerMillion;
+        _aiModelWhitelistRepo.Update(model);
+        _aiModelWhitelistRepo.Flush();
+        AiModelCache.AddOrUpdate(model);
+        return new VueMaintenanceResult { Success = true, Data = "Prices updated" };
     }
 }

@@ -77,6 +77,8 @@ export interface WhitelistedModel {
     modelId: string
     displayName: string
     tokenCostMultiplier: number
+    inputPricePerMillion: number
+    outputPricePerMillion: number
 }
 
 export interface AvailableModel {
