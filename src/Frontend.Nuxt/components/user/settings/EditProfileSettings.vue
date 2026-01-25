@@ -14,6 +14,12 @@ const userStore = useUserStore()
 const userName = ref<string>(userStore.name)
 const email = ref<string>(userStore.email)
 
+// Sync values after client-side hydration to ensure store data is available
+onMounted(() => {
+    userName.value = userStore.name
+    email.value = userStore.email
+})
+
 const showAlert = ref(false)
 const msg = ref('')
 const success = ref(false)
