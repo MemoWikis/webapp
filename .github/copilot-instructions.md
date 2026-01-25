@@ -69,6 +69,28 @@ const hasGermanContent = germanKeywords.some(
 
 If services are not running, use the `app-start` skill to start them.
 
+# Troubleshooting & Debugging
+
+## Empty UI Elements / Missing Data
+
+## Floating Vue & Playwright (Dropdowns/Modals)
+
+The app uses `floating-vue`. These components render **outside** the DOM hierarchy and have animations.
+
+- **Selectors:** Use `page.locator('.v-popper__popper--shown')` to find open dropdowns.
+- **Timing:** Animations take ~200-300ms.
+
+  ```typescript
+  // BAD
+  await dropdown.click();
+  await page.locator(".item").click(); // Fails: Animation not done
+
+  // GOOD
+  await dropdown.click();
+  await expect(page.locator(".v-popper__popper--shown")).toBeVisible();
+  await page.locator(".item").click();
+  ```
+
 ## Debugging 500 Errors
 
 **CRITICAL:** When encountering a HTTP 500 error, **always check the Backend console output first** before analyzing code. The root cause is typically visible in the exception stack trace.
@@ -249,6 +271,7 @@ Skills are domain-specific automation workflows that help with common developmen
 
 - **app-start** (aliases: start-app, startup, start): Starts Backend (port 5069) and Frontend (port 3000) in foreground terminals. Checks if services are already running before starting them.
 - **app-stop** (aliases: stop-app, stop): Stops Backend and Frontend processes. Use before running backend tests to avoid DLL file locks.
+- **app-restart** (aliases: restart-app, restart): Stops and then starts Backend and Frontend. Useful when cache or DLLs need refreshing.
 
 ## Database Skills
 

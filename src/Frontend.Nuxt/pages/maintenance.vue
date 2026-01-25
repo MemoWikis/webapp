@@ -872,7 +872,7 @@ const executeDelete = async () => {
     data.append('__RequestVerificationToken', antiForgeryToken.value)
     data.append('id', modelToDelete.value.id.toString())
 
-    const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/RemoveFromWhitelist', {
+    const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/RemoveFromWhitelistById', {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -976,13 +976,19 @@ const toggleWhitelist = async (providerName: string, model: AvailableModel) => {
     if (!antiForgeryToken.value) return
 
     if (model.isWhitelisted) {
-        // Remove from whitelist
+        // Find the whitelisted model to get its database ID
+        const whitelistedModel = whitelistedModels.value.find(wm => wm.modelId === model.modelId)
+        if (!whitelistedModel) {
+            resultMsg.value = 'Error: Model not found in whitelist'
+            return
+        }
+
+        // Remove from whitelist using the database ID
         const data = new FormData()
         data.append('__RequestVerificationToken', antiForgeryToken.value)
-        data.append('modelId', model.modelId)
-        data.append('modelProvider', providerName)
+        data.append('id', whitelistedModel.id.toString())
 
-        const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/RemoveFromWhitelist', {
+        const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/RemoveFromWhitelistById', {
             body: data,
             method: 'POST',
             mode: 'cors',

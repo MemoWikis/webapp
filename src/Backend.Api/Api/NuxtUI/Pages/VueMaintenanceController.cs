@@ -1027,37 +1027,9 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public VueMaintenanceResult RemoveFromWhitelist([FromForm] int id)
+    public VueMaintenanceResult RemoveFromWhitelistById([FromForm] int id)
     {
         _aiModelWhitelistRepo.DeleteModel(id);
-        return new VueMaintenanceResult { Success = true, Data = "Model removed from whitelist" };
-    }
-
-    /// <summary>
-    /// Remove a model from the whitelist by ModelId and Provider (for toggle from available list)
-    /// </summary>
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public VueMaintenanceResult RemoveFromWhitelist([FromForm] string modelId, [FromForm] string modelProvider)
-    {
-        if (!Enum.TryParse<AiModelProvider>(modelProvider, out var provider))
-        {
-            return new VueMaintenanceResult { Success = false, Data = "Invalid provider" };
-        }
-
-        var model = _aiModelWhitelistRepo.GetByModelId(modelId);
-        if (model == null)
-        {
-            return new VueMaintenanceResult { Success = false, Data = "Model not found in whitelist" };
-        }
-
-        if (model.Provider != provider)
-        {
-            return new VueMaintenanceResult { Success = false, Data = "Provider mismatch" };
-        }
-
-        _aiModelWhitelistRepo.DeleteModel(model.Id);
         return new VueMaintenanceResult { Success = true, Data = "Model removed from whitelist" };
     }
 
