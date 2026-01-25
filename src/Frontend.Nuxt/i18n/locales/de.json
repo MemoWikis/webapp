@@ -1472,11 +1472,6 @@
         },
         "membership": {
             "breadcrumb": "Mitgliedschaft",
-            "header": {
-                "title": "Mitgliedschaft",
-                "bottomLabel1": "Öffentliche Inhalte sind auf memoWikis uneingeschränkt nutzbar. Freie Daten – freie Software (open data open access)!",
-                "bottomLabel2": "Du möchtest memoWikis für private Inhalte nutzen? Hier findest unsere Preise:"
-            },
             "plans": {
                 "downgrade": "Downgrade",
                 "yourMembership": "Deine Mitgliedschaft",

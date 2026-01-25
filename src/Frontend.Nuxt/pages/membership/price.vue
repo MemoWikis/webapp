@@ -50,13 +50,6 @@ const contact = () => {
 <template>
 
     <div class="main-content">
-        <div class="header">
-            <div class="title">{{ t('user.membership.header.title') }}</div>
-            <div class="bottom-label">
-                {{ t('user.membership.header.bottomLabel1') }} <br /><br />
-                {{ t('user.membership.header.bottomLabel2') }}
-            </div>
-        </div>
         <UserMembershipPlans />
 
         <div class="faq-content">
@@ -82,32 +75,7 @@ const contact = () => {
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-.container {
-    .header {
-
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-
-        color: @memo-grey-darker;
-
-        .title {
-            margin-top: 20px;
-            font-size: 45px;
-            font-weight: 400;
-            color: @memo-blue;
-        }
-
-        .bottom-label {
-            margin-top: 20px;
-            font-weight: 400;
-            font-size: 18px;
-        }
-    }
-}
-
 #FaqHeaderOuter {
-
     color: @memo-blue;
     font-weight: 400;
     font-size: 45px;

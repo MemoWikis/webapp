@@ -1414,11 +1414,6 @@
         },
         "membership": {
             "breadcrumb": "Membresía",
-            "header": {
-                "title": "Membresía",
-                "bottomLabel1": "El contenido público en memoWikis es accesible sin restricciones. ¡Datos libres - software libre (open data open access)!",
-                "bottomLabel2": "¿Quieres usar memoWikis para contenido privado? Aquí están nuestros precios:"
-            },
             "plans": {
                 "downgrade": "Degradar",
                 "yourMembership": "Tu membresía",

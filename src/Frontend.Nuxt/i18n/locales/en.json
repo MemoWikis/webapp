@@ -1473,11 +1473,6 @@
         },
         "membership": {
             "breadcrumb": "Membership",
-            "header": {
-                "title": "Membership",
-                "bottomLabel1": "Public content on memoWikis is freely accessible. Free data - free software (open data open access)!",
-                "bottomLabel2": "Do you want to use memoWikis for private content? Here are our prices:"
-            },
             "plans": {
                 "downgrade": "Downgrade",
                 "yourMembership": "Your membership",
