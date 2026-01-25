@@ -135,6 +135,10 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
 
     private async Task<List<FlashCard>> GenerateFlashcardsWithTokenDeduction(string promptContent, int userId, int pageId)
     {
+        Log.Debug(
+            "FlashCard generation started for pageId {PageId}, userId {UserId}. PromptLength: {PromptLength} chars",
+            pageId, userId, promptContent?.Length ?? 0);
+
         for (var attempt = 1; attempt <= MaxRetries; attempt++)
         {
             var response = await ClaudeService.GetClaudeResponse(promptContent);
@@ -142,6 +146,19 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
             if (response != null)
             {
                 _aiUsageLogRepo.AddUsage(response, userId, pageId);
+                Log.Debug(
+                    "FlashCard AI response received for pageId {PageId} (attempt {Attempt}). " +
+                    "TokensIn: {TokensIn}, TokensOut: {TokensOut}, StopReason: {StopReason}",
+                    pageId, attempt,
+                    response.Usage?.InputTokens ?? 0,
+                    response.Usage?.OutputTokens ?? 0,
+                    response.StopReason ?? "null");
+            }
+            else
+            {
+                Log.Warning(
+                    "FlashCard AI response was NULL for pageId {PageId} (attempt {Attempt}/{MaxRetries})",
+                    pageId, attempt, MaxRetries);
             }
 
             var flashCards = TryParseFlashCardsFromResponse(response, attempt, pageId);
@@ -166,7 +183,8 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
         }
 
         Log.Error(
-            "FlashCard generation failed after {MaxRetries} attempts for pageId {PageId}",
+            "FlashCard generation failed after {MaxRetries} attempts for pageId {PageId}. " +
+            "Check previous warnings for RawResponse details.",
             MaxRetries, pageId);
 
         return new List<FlashCard>();
@@ -177,16 +195,21 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
         if (response is not { Role: "assistant", Content.Count: > 0 })
         {
             Log.Warning(
-                "FlashCard generation returned empty or invalid response (attempt {Attempt}/{MaxRetries}) for pageId {PageId}",
-                attempt, MaxRetries, pageId);
+                "FlashCard generation returned empty or invalid response (attempt {Attempt}/{MaxRetries}) for pageId {PageId}. " +
+                "Response was null: {IsNull}, Role: {Role}, ContentCount: {ContentCount}",
+                attempt, MaxRetries, pageId,
+                response == null,
+                response?.Role ?? "null",
+                response?.Content?.Count ?? 0);
             return null;
         }
 
         if (string.IsNullOrWhiteSpace(response.Content[0].Text))
         {
             Log.Warning(
-                "FlashCard generation returned empty text (attempt {Attempt}/{MaxRetries}) for pageId {PageId}",
-                attempt, MaxRetries, pageId);
+                "FlashCard generation returned empty text (attempt {Attempt}/{MaxRetries}) for pageId {PageId}. " +
+                "StopReason: {StopReason}",
+                attempt, MaxRetries, pageId, response.StopReason ?? "null");
             return null;
         }
 
@@ -200,8 +223,12 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
             if (flashCards == null || flashCards.Count == 0)
             {
                 Log.Warning(
-                    "FlashCard generation returned empty array (attempt {Attempt}/{MaxRetries}) for pageId {PageId}",
-                    attempt, MaxRetries, pageId);
+                    "FlashCard generation returned empty array (attempt {Attempt}/{MaxRetries}) for pageId {PageId}. " +
+                    "RawResponse: {RawResponse}, NormalizedJson: {NormalizedJson}, StopReason: {StopReason}",
+                    attempt, MaxRetries, pageId,
+                    Truncate(rawText, 500),
+                    Truncate(normalizedJson, 500),
+                    response.StopReason ?? "null");
                 return null;
             }
 
@@ -210,8 +237,11 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
         catch (JsonException ex)
         {
             Log.Warning(
-                "FlashCard JSON parse failed (attempt {Attempt}/{MaxRetries}) for pageId {PageId}. Error: {Error}. RawResponse: {RawResponse}",
-                attempt, MaxRetries, pageId, ex.Message, Truncate(rawText, 500));
+                "FlashCard JSON parse failed (attempt {Attempt}/{MaxRetries}) for pageId {PageId}. " +
+                "Error: {Error}, RawResponse: {RawResponse}, NormalizedJson: {NormalizedJson}",
+                attempt, MaxRetries, pageId, ex.Message,
+                Truncate(rawText, 500),
+                Truncate(normalizedJson, 500));
             return null;
         }
     }
