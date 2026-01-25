@@ -145,8 +145,7 @@ const localEditingPrices = computed({
                                         <div class="price-edit">
                                             <input v-model.number="localEditingPrices.outputPrice" type="number"
                                                 step="0.01" min="0" class="price-input" placeholder="Output" />
-                                            <button class="btn-icon btn-save" title="Save"
-                                                @click="emit('savePrices')">
+                                            <button class="btn-icon btn-save" title="Save" @click="emit('savePrices')">
                                                 <font-awesome-icon icon="fa-solid fa-check" />
                                             </button>
                                             <button class="btn-icon btn-cancel" title="Cancel"

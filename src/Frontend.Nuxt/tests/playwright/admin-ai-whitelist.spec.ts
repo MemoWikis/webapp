@@ -141,13 +141,21 @@ test.describe('Admin AI Model Whitelist Management', () => {
         const tableExists = await whitelistTable.isVisible().catch(() => false)
 
         if (!tableExists) {
-            console.log('No whitelisted models table found, skipping price columns test')
+            console.log(
+                'No whitelisted models table found, skipping price columns test',
+            )
             return
         }
 
         // Check for the price column headers
-        await expect(authenticatedPage.locator('.whitelist-table th:has-text("$/M In")')).toBeVisible()
-        await expect(authenticatedPage.locator('.whitelist-table th:has-text("$/M Out")')).toBeVisible()
+        await expect(
+            authenticatedPage.locator('.whitelist-table th:has-text("$/M In")'),
+        ).toBeVisible()
+        await expect(
+            authenticatedPage.locator(
+                '.whitelist-table th:has-text("$/M Out")',
+            ),
+        ).toBeVisible()
 
         await takeDevScreenshot(authenticatedPage, 'ai-whitelist-price-columns')
     })
@@ -165,13 +173,20 @@ test.describe('Admin AI Model Whitelist Management', () => {
         const tableExists = await whitelistTable.isVisible().catch(() => false)
 
         if (!tableExists) {
-            console.log('No whitelisted models table found, skipping price edit test')
+            console.log(
+                'No whitelisted models table found, skipping price edit test',
+            )
             return
         }
 
         // Get the first row's input price cell (column 5 - $/M In)
-        const inputPriceCell = authenticatedPage.locator('.whitelist-table tbody tr').first().locator('td:nth-child(5) .price-value')
-        const inputPriceCellVisible = await inputPriceCell.isVisible().catch(() => false)
+        const inputPriceCell = authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(5) .price-value')
+        const inputPriceCellVisible = await inputPriceCell
+            .isVisible()
+            .catch(() => false)
 
         if (!inputPriceCellVisible) {
             console.log('No price value cell visible, skipping price edit test')
@@ -184,13 +199,19 @@ test.describe('Admin AI Model Whitelist Management', () => {
         await inputPriceCell.click()
 
         // Wait for the edit inputs to appear
-        await expect(authenticatedPage.locator('.price-edit .price-input').first()).toBeVisible({ timeout: 3000 })
+        await expect(
+            authenticatedPage.locator('.price-edit .price-input').first(),
+        ).toBeVisible({ timeout: 3000 })
 
         await takeDevScreenshot(authenticatedPage, 'price-edit-mode')
 
         // Get the price inputs
-        const inputPriceInput = authenticatedPage.locator('.price-edit .price-input').first()
-        const outputPriceInput = authenticatedPage.locator('.price-edit .price-input').last()
+        const inputPriceInput = authenticatedPage
+            .locator('.price-edit .price-input')
+            .first()
+        const outputPriceInput = authenticatedPage
+            .locator('.price-edit .price-input')
+            .last()
 
         // Clear and set new values
         await inputPriceInput.fill('3.50')
@@ -199,7 +220,9 @@ test.describe('Admin AI Model Whitelist Management', () => {
         await takeDevScreenshot(authenticatedPage, 'price-values-entered')
 
         // Click save button (the one in the output price column since that's where the controls are)
-        const saveButton = authenticatedPage.locator('.price-edit .btn-save').last()
+        const saveButton = authenticatedPage
+            .locator('.price-edit .btn-save')
+            .last()
         await saveButton.click()
 
         // Wait for the update to complete
@@ -241,13 +264,20 @@ test.describe('Admin AI Model Whitelist Management', () => {
         const tableExists = await whitelistTable.isVisible().catch(() => false)
 
         if (!tableExists) {
-            console.log('No whitelisted models table found, skipping cancel test')
+            console.log(
+                'No whitelisted models table found, skipping cancel test',
+            )
             return
         }
 
         // Get the first row's input price cell
-        const inputPriceCell = authenticatedPage.locator('.whitelist-table tbody tr').first().locator('td:nth-child(5) .price-value')
-        const inputPriceCellVisible = await inputPriceCell.isVisible().catch(() => false)
+        const inputPriceCell = authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(5) .price-value')
+        const inputPriceCellVisible = await inputPriceCell
+            .isVisible()
+            .catch(() => false)
 
         if (!inputPriceCellVisible) {
             console.log('No price value cell visible, skipping cancel test')
@@ -261,14 +291,20 @@ test.describe('Admin AI Model Whitelist Management', () => {
         await inputPriceCell.click()
 
         // Wait for the edit inputs to appear
-        await expect(authenticatedPage.locator('.price-edit .price-input').first()).toBeVisible({ timeout: 3000 })
+        await expect(
+            authenticatedPage.locator('.price-edit .price-input').first(),
+        ).toBeVisible({ timeout: 3000 })
 
         // Enter new values
-        const inputPriceInput = authenticatedPage.locator('.price-edit .price-input').first()
+        const inputPriceInput = authenticatedPage
+            .locator('.price-edit .price-input')
+            .first()
         await inputPriceInput.fill('99.99')
 
         // Click cancel button
-        const cancelButton = authenticatedPage.locator('.price-edit .btn-cancel').last()
+        const cancelButton = authenticatedPage
+            .locator('.price-edit .btn-cancel')
+            .last()
         await cancelButton.click()
 
         await authenticatedPage.waitForTimeout(300)
