@@ -67,6 +67,11 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     /// </summary>
     public long CurrentWeekTokenUsage { get; set; } = 0;
 
+    /// <summary>
+    /// User's preferred AI model ID (e.g., "claude-sonnet-4-latest")
+    /// </summary>
+    public string? PreferredAiModelId { get; set; }
+
     public void Populate(User user)
     {
         Id = user.Id;
@@ -99,6 +104,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         AboutMeText = user.AboutMeText;
         SubscriptionTokensBalance = user.SubscriptionTokensBalance;
         PaidTokensBalance = user.PaidTokensBalance;
+        PreferredAiModelId = user.PreferredAiModelId;
 
         if (!String.IsNullOrEmpty(user.FavoriteIds))
             FavoriteIds = user.FavoriteIds.Split(',').Select(int.Parse).ToList();
@@ -140,6 +146,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         AboutMeText = user.AboutMeText;
         SubscriptionTokensBalance = user.SubscriptionTokensBalance;
         PaidTokensBalance = user.PaidTokensBalance;
+        PreferredAiModelId = user.PreferredAiModelId;
     }
 
     public static UserCacheItem ToCacheUser(User user)

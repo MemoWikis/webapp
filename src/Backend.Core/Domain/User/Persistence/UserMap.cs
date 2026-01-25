@@ -59,5 +59,6 @@ public class UserMap : ClassMap<User>
         
         Map(x => x.SubscriptionTokensBalance);
         Map(x => x.PaidTokensBalance);
+        Map(x => x.PreferredAiModelId);
     }
 }

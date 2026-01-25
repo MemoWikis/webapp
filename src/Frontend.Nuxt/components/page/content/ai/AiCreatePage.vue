@@ -434,7 +434,7 @@ function selectSubpage(index: number) {
                                     <div v-for="model in provider.models" :key="model.modelId"
                                         class="dropdown-row ai-model-option"
                                         :class="{ active: aiCreatePageStore.selectedModelId === model.modelId }"
-                                        @click="aiCreatePageStore.selectedModelId = model.modelId; hide()">
+                                        @click="aiCreatePageStore.setSelectedModel(model.modelId); hide()">
                                         <span>{{ model.displayName }}</span> <span class="token-cost-multiplier">{{
                                             model.tokenCostMultiplier }}x</span>
                                     </div>

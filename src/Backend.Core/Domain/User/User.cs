@@ -66,6 +66,11 @@ public class User : DomainEntity, IUserTinyModel
     /// </summary>
     public virtual int PaidTokensBalance { get; set; } = 0;
 
+    /// <summary>
+    /// User's preferred AI model ID (e.g., "claude-sonnet-4-latest")
+    /// </summary>
+    public virtual string? PreferredAiModelId { get; set; }
+
 }
 
 public class FacebookUserCreateParameter

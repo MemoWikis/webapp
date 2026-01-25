@@ -6,7 +6,8 @@ public class AiCreatePageController(
     PermissionCheck _permissionCheck,
     AiModelRegistry _aiModelRegistry,
     TokenDeductionService _tokenDeductionService,
-    WebContentFetcher _webContentFetcher) : ApiBaseController
+    WebContentFetcher _webContentFetcher,
+    UserWritingRepo _userWritingRepo) : ApiBaseController
 {
     public readonly record struct AiModelItem(
         string ModelId,
@@ -16,7 +17,8 @@ public class AiCreatePageController(
 
     public readonly record struct GetModelsResponse(
         bool Success,
-        List<AiModelItem> Models);
+        List<AiModelItem> Models,
+        string? PreferredModelId = null);
 
     [HttpGet]
     public GetModelsResponse GetModels()
@@ -32,7 +34,43 @@ public class AiCreatePageController(
                 model.TokenCostMultiplier))
             .ToList();
 
-        return new GetModelsResponse(true, models);
+        // Get user's preferred model if logged in
+        string? preferredModelId = null;
+        if (_sessionUser.IsLoggedIn)
+        {
+            var user = EntityCache.GetUserById(_sessionUser.UserId);
+            preferredModelId = user?.PreferredAiModelId;
+        }
+
+        return new GetModelsResponse(true, models, preferredModelId);
+    }
+
+    public readonly record struct SavePreferredModelRequest(string ModelId);
+    public readonly record struct SavePreferredModelResponse(bool Success);
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public SavePreferredModelResponse SavePreferredModel([FromBody] SavePreferredModelRequest request)
+    {
+        if (!_sessionUser.IsLoggedIn)
+        {
+            return new SavePreferredModelResponse(false);
+        }
+
+        // Validate the model exists and is enabled
+        var model = _aiModelRegistry.GetModel(request.ModelId);
+        if (model == null || !model.IsEnabled)
+        {
+            return new SavePreferredModelResponse(false);
+        }
+
+        // Update user's preferred model
+        _userWritingRepo.ApplyChangeAndUpdate(_sessionUser.UserId, user =>
+        {
+            user.PreferredAiModelId = request.ModelId;
+        });
+
+        return new SavePreferredModelResponse(true);
     }
 
     public readonly record struct GenerateRequest(

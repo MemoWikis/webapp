@@ -63,6 +63,49 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     const selectedModelId = ref<string>('')
     const isLoadingModels = ref(false)
 
+    /**
+     * Selects the best default model when no user preference exists.
+     * Prefers models with tokenCostMultiplier close to 1 (middle-tier).
+     */
+    const selectDefaultModel = (models: AiModel[]): string => {
+        if (models.length === 0) {
+            return ''
+        }
+        
+        // Sort by distance from 1.0 (prefer middle-tier models)
+        const sortedByMiddle = [...models].sort((a, b) => {
+            const distanceA = Math.abs(a.tokenCostMultiplier - 1)
+            const distanceB = Math.abs(b.tokenCostMultiplier - 1)
+            return distanceA - distanceB
+        })
+        
+        return sortedByMiddle[0].modelId
+    }
+
+    /**
+     * Saves the user's preferred model to the backend.
+     */
+    const savePreferredModel = async (modelId: string) => {
+        try {
+            await $api('/apiVue/AiCreatePage/SavePreferredModel', {
+                method: 'POST',
+                body: { modelId },
+                mode: 'cors',
+                credentials: 'include'
+            })
+        } catch (error) {
+            console.error('Failed to save preferred model:', error)
+        }
+    }
+
+    /**
+     * Sets the selected model and saves it as the user's preference.
+     */
+    const setSelectedModel = (modelId: string) => {
+        selectedModelId.value = modelId
+        savePreferredModel(modelId)
+    }
+
     async function fetchModels() {
         if (availableModels.value.length > 0) {
             return // Already loaded
@@ -73,6 +116,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
             interface GetModelsResponse {
                 success: boolean
                 models: AiModel[]
+                preferredModelId?: string | null
             }
             
             const result = await $api<GetModelsResponse>('/apiVue/AiCreatePage/GetModels', {
@@ -83,12 +127,12 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
             
             if (result.success && result.models) {
                 availableModels.value = result.models
-                // Set default model
-                const defaultModel = result.models.find(model => model.isDefault)
-                if (defaultModel) {
-                    selectedModelId.value = defaultModel.modelId
-                } else if (result.models.length > 0) {
-                    selectedModelId.value = result.models[0].modelId
+                
+                // Priority: 1. User's saved preference, 2. Middle-tier model (multiplier ~1)
+                if (result.preferredModelId && result.models.some(m => m.modelId === result.preferredModelId)) {
+                    selectedModelId.value = result.preferredModelId
+                } else {
+                    selectedModelId.value = selectDefaultModel(result.models)
                 }
             }
         } catch (error) {
@@ -339,6 +383,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         createPage,
         createWiki,
         isValidUrl,
-        fetchModels
+        fetchModels,
+        setSelectedModel
     }
 })
