@@ -32,6 +32,7 @@ If services are not running, use the `app-start` skill to start them.
 ```
 
 **Debugging Priority:**
+
 1. **Backend console/logs** - Shows actual exception with stack trace
 2. **Playwright tests** - Reproduce and verify the error
 3. **Unit tests** - For isolated component testing
