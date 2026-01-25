@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useUserStore } from '~~/components/user/userStore'
+import { useSnackbarStore } from '~~/components/snackBar/snackBarStore'
 import {
     type MethodData,
     type ActiveSessionsResponse,
@@ -24,8 +25,19 @@ import {
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const config = useRuntimeConfig()
 const userStore = useUserStore()
+const snackbarStore = useSnackbarStore()
 const { $logger } = useNuxtApp()
 const route = useRoute()
+
+// Helper function to show toast messages
+type MessageType = 'success' | 'error' | 'warning' | 'info'
+const showMessage = (message: string, type: MessageType = 'info') => {
+    snackbarStore.showSnackbar({
+        type,
+        text: { message },
+        duration: type === 'error' ? 8000 : 5000
+    })
+}
 
 const activeTab = ref<MaintenanceTabType>(
     (route.query.tab as MaintenanceTabType) || 'general'
@@ -118,7 +130,6 @@ const toolsMethods = ref<MethodData[]>([
     { url: 'PollingTest30s', translationKey: 'maintenance.tools.pollingTest30s' },
     { url: 'PollingTest120s', translationKey: 'maintenance.tools.pollingTest120s' },
 ])
-const resultMsg = ref('')
 const relationErrors = ref<RelationErrorItem[]>([])
 const runningJobs = ref<Map<string, string>>(new Map())
 const jobProgress = ref<Map<string, JobStatusResponse>>(new Map())
@@ -172,7 +183,7 @@ const executeMaintenanceOperation = async (operationUrl: string) => {
     if (result?.success) {
         const jobTrackingId = result.data
         runningJobs.value.set(jobTrackingId, operationUrl)
-        resultMsg.value = `Job ${operationUrl} started. Checking status...`
+        showMessage(`Job ${operationUrl} started. Checking status...`, 'info')
 
         // Mark that user manually started a job
         userStartedJob.value = true
@@ -213,7 +224,7 @@ const checkForRunningJobs = async () => {
 
             // Update result message with the latest job status
             if (job.status === JobStatus.Running) {
-                resultMsg.value = job.message
+                showMessage(job.message, 'info')
             }
         }
 
@@ -221,7 +232,7 @@ const checkForRunningJobs = async () => {
         for (const [jobTrackingId, operationName] of previousJobs) {
             if (!runningJobs.value.has(jobTrackingId)) {
                 // Job is no longer in the running list - it completed or failed
-                resultMsg.value = `Job ${operationName} completed`
+                showMessage(`Job ${operationName} completed`, 'success')
             }
         }
 
@@ -305,7 +316,7 @@ async function deleteUser() {
     })
 
     if (result.success)
-        resultMsg.value = result.data
+        showMessage(result.data, 'success')
 }
 
 // Token Management
@@ -318,12 +329,12 @@ async function addTokensToUser() {
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     if (tokenUserId.value <= 0) {
-        resultMsg.value = 'Please enter a valid user ID'
+        showMessage('Please enter a valid user ID', 'error')
         return
     }
 
     if (tokenAmount.value <= 0) {
-        resultMsg.value = 'Please enter a valid amount greater than 0'
+        showMessage('Please enter a valid amount greater than 0', 'error')
         return
     }
 
@@ -341,10 +352,10 @@ async function addTokensToUser() {
     })
 
     if (result.success) {
-        resultMsg.value = result.data
+        showMessage(result.data, 'success')
         tokenAmount.value = 0
     } else {
-        resultMsg.value = `Error: ${result.data}`
+        showMessage(`Error: ${result.data}`, 'error')
     }
 }
 
@@ -384,7 +395,7 @@ async function loadRelationErrors() {
     try {
         isAnalyzing.value = true
         // Step 1: Start the background analysis
-        resultMsg.value = 'Starting relation analysis...'
+        showMessage('Starting relation analysis...', 'info')
         relationErrorsLoaded.value = false
         relationErrors.value = []
 
@@ -399,12 +410,12 @@ async function loadRelationErrors() {
         })
 
         if (!startResult.success) {
-            resultMsg.value = 'Error starting analysis.'
+            showMessage('Error starting analysis.', 'error')
             return
         }
 
         relationAnalysisjobTrackingId.value = startResult.data
-        resultMsg.value = 'Analysis in progress...'
+        showMessage('Analysis in progress...', 'info')
 
         // Step 2: Set up watcher for job completion
         if (stopRelationJobWatcher) {
@@ -416,10 +427,10 @@ async function loadRelationErrors() {
                 const job = jobs.get(relationAnalysisjobTrackingId.value)
                 if (job) {
                     if (job.status === JobStatus.Completed) {
-                        resultMsg.value = 'Analysis completed. Fetching results...'
+                        showMessage('Analysis completed. Fetching results...', 'success')
                         fetchCachedRelationErrors()
                     } else if (job.status === JobStatus.Failed) {
-                        resultMsg.value = `Analysis failed: ${job.message}`
+                        showMessage(`Analysis failed: ${job.message}`, 'error')
                         relationAnalysisjobTrackingId.value = null
                         isAnalyzing.value = false
                         if (stopRelationJobWatcher) {
@@ -427,7 +438,7 @@ async function loadRelationErrors() {
                             stopRelationJobWatcher = null
                         }
                     } else if (job.status === JobStatus.Running) {
-                        resultMsg.value = `Analysis in progress... ${job.message}`
+                        showMessage(`Analysis in progress... ${job.message}`, 'info')
                     }
                 }
             }
@@ -435,7 +446,7 @@ async function loadRelationErrors() {
 
     } catch (error) {
         console.error('Error in relation analysis flow:', error)
-        resultMsg.value = 'Error during analysis flow.'
+        showMessage('Error during analysis flow.', 'error')
         relationAnalysisjobTrackingId.value = null
         if (stopRelationJobWatcher) {
             stopRelationJobWatcher()
@@ -463,10 +474,10 @@ const fetchCachedRelationErrors = async () => {
 
     if (cachedResult.success) {
         relationErrors.value = cachedResult.data
-        resultMsg.value = `Found ${cachedResult.data.length} pages with relation errors.`
+        showMessage(`Found ${cachedResult.data.length} pages with relation errors.`, 'info')
         relationErrorsLoaded.value = true
     } else {
-        resultMsg.value = 'Error loading cached results.'
+        showMessage('Error loading cached results.', 'error')
     }
 
     relationAnalysisjobTrackingId.value = null
@@ -492,15 +503,15 @@ async function clearRelationErrorsCache() {
         })
 
         if (result.success) {
-            resultMsg.value = 'Cache cleared successfully.'
+            showMessage('Cache cleared successfully.', 'success')
             relationErrors.value = []
             relationErrorsLoaded.value = false
         } else {
-            resultMsg.value = 'Error clearing cache.'
+            showMessage('Error clearing cache.', 'error')
         }
     } catch (error) {
         console.error('Error clearing cache:', error)
-        resultMsg.value = 'Error clearing cache.'
+        showMessage('Error clearing cache.', 'error')
     }
 }
 
@@ -509,7 +520,7 @@ async function healRelations(pageId: number) {
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     if (pageId <= 0) {
-        resultMsg.value = 'Please enter a valid page ID.'
+        showMessage('Please enter a valid page ID.', 'error')
         return
     }
 
@@ -525,7 +536,7 @@ async function healRelations(pageId: number) {
     })
 
     if (result.success) {
-        resultMsg.value = result.data
+        showMessage(result.data, 'success')
         // Refresh relation errors if they are currently displayed
         if (relationErrors.value.length > 0) { /* empty */ }
     }
@@ -547,7 +558,7 @@ const clearJob = async (jobTrackingId: string) => {
     })
 
     if (result.success) {
-        resultMsg.value = result.data
+        showMessage(result.data, 'success')
         // Remove the job from local state immediately for responsive UI
         runningJobs.value.delete(jobTrackingId)
         jobProgress.value.delete(jobTrackingId)
@@ -584,7 +595,7 @@ const clearStuckJobs = async () => {
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     const stuckJobs = databaseJobs.value.filter(job => job.isStuck)
-    resultMsg.value = `Clearing ${stuckJobs.length} stuck jobs...`
+    showMessage(`Clearing ${stuckJobs.length} stuck jobs...`, 'info')
 
     try {
         // Step 1: Try to interrupt all stuck jobs in Quartz first
@@ -604,15 +615,15 @@ const clearStuckJobs = async () => {
         })
 
         if (result?.success) {
-            resultMsg.value = `✅ Cleared stuck jobs successfully (Quartz + Database): ${result.data}`
+            showMessage(`Cleared stuck jobs successfully (Quartz + Database): ${result.data}`, 'success')
             // Refresh all job information
             await loadQuartzJobs()
         } else {
-            resultMsg.value = `⚠️ Failed to clear stuck jobs from database: ${result?.data || 'Unknown error'}`
+            showMessage(`Failed to clear stuck jobs from database: ${result?.data || 'Unknown error'}`, 'warning')
         }
     } catch (error) {
         console.error('Error clearing stuck jobs:', error)
-        resultMsg.value = `❌ Error clearing stuck jobs: ${error}`
+        showMessage(`Error clearing stuck jobs: ${error}`, 'error')
     }
 }
 
@@ -623,11 +634,11 @@ const clearJobById = async (jobId: number) => {
     // Find the job name from the database jobs
     const job = databaseJobs.value.find(j => j.id === jobId)
     if (!job) {
-        resultMsg.value = `Job with ID ${jobId} not found.`
+        showMessage(`Job with ID ${jobId} not found.`, 'error')
         return
     }
 
-    resultMsg.value = `Clearing job "${job.name}" (ID: ${jobId})...`
+    showMessage(`Clearing job "${job.name}" (ID: ${jobId})...`, 'info')
 
     try {
         // Step 1: Try to interrupt the Quartz job first (graceful cancellation)
@@ -646,15 +657,15 @@ const clearJobById = async (jobId: number) => {
         })
 
         if (result?.success) {
-            resultMsg.value = `✅ Job "${job.name}" cleared successfully (Quartz + Database)`
+            showMessage(`Job "${job.name}" cleared successfully (Quartz + Database)`, 'success')
             // Refresh all job information
             await loadQuartzJobs()
         } else {
-            resultMsg.value = `⚠️ Database clear failed for job "${job.name}": ${result?.data || 'Unknown error'}`
+            showMessage(`Database clear failed for job "${job.name}": ${result?.data || 'Unknown error'}`, 'warning')
         }
     } catch (error) {
         console.error('Error clearing job:', error)
-        resultMsg.value = `❌ Error clearing job "${job.name}": ${error}`
+        showMessage(`Error clearing job "${job.name}": ${error}`, 'error')
     }
 }
 
@@ -663,7 +674,7 @@ const _clearJobsByIds = async (jobIds: number[]) => {
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
 
     const jobsToClear = databaseJobs.value.filter(job => jobIds.includes(job.id))
-    resultMsg.value = `Clearing ${jobsToClear.length} selected jobs...`
+    showMessage(`Clearing ${jobsToClear.length} selected jobs...`, 'info')
 
     try {
         // Step 1: Try to interrupt all selected jobs in Quartz first
@@ -683,15 +694,15 @@ const _clearJobsByIds = async (jobIds: number[]) => {
         })
 
         if (result?.success) {
-            resultMsg.value = `✅ Cleared selected jobs successfully (Quartz + Database): ${result.data}`
+            showMessage(`Cleared selected jobs successfully (Quartz + Database): ${result.data}`, 'success')
             // Refresh all job information
             await loadQuartzJobs()
         } else {
-            resultMsg.value = `⚠️ Failed to clear selected jobs from database: ${result?.data || 'Unknown error'}`
+            showMessage(`Failed to clear selected jobs from database: ${result?.data || 'Unknown error'}`, 'warning')
         }
     } catch (error) {
         console.error('Error clearing selected jobs:', error)
-        resultMsg.value = `❌ Error clearing selected jobs: ${error}`
+        showMessage(`Error clearing selected jobs: ${error}`, 'error')
     }
 }
 
@@ -748,12 +759,12 @@ const loadQuartzJobs = async () => {
             databaseJobs.value = jobSystemResult.databaseJobs
 
             const totalJobs = jobSystemResult.inMemoryJobs.length + jobSystemResult.databaseJobs.length
-            resultMsg.value = `Loaded ${quartzJobs.value.length} Quartz jobs, ${jobSystemResult.inMemoryJobs.length} in-memory jobs, and ${jobSystemResult.databaseJobs.length} database jobs (${totalJobs} total active jobs).`
+            showMessage(`Loaded ${quartzJobs.value.length} Quartz jobs, ${jobSystemResult.inMemoryJobs.length} in-memory jobs, and ${jobSystemResult.databaseJobs.length} database jobs (${totalJobs} total active jobs).`, 'info')
         } else {
-            resultMsg.value = `Loaded ${quartzJobs.value.length} Quartz jobs.`
+            showMessage(`Loaded ${quartzJobs.value.length} Quartz jobs.`, 'info')
         }
     } else {
-        resultMsg.value = 'Failed to load Quartz jobs.'
+        showMessage('Failed to load Quartz jobs.', 'error')
     }
 }
 
@@ -778,11 +789,11 @@ const interruptQuartzJob = async (jobName: string, jobGroup?: string) => {
     })
 
     if (result?.success) {
-        resultMsg.value = result.data
+        showMessage(result.data, 'success')
         // Refresh jobs list
         await loadQuartzJobs()
     } else {
-        resultMsg.value = 'Failed to interrupt Quartz job.'
+        showMessage('Failed to interrupt Quartz job.', 'error')
     }
 }
 
@@ -849,9 +860,9 @@ const fetchAllProviderModels = async () => {
     if (result?.success) {
         providerModels.value = result.providers
         const totalModels = result.providers.reduce((sum, provider) => sum + provider.models.length, 0)
-        resultMsg.value = `Fetched ${totalModels} models from ${result.providers.length} providers`
+        showMessage(`Fetched ${totalModels} models from ${result.providers.length} providers`, 'success')
     } else {
-        resultMsg.value = `Error fetching models: ${result?.error || 'Unknown error'}`
+        showMessage(`Error fetching models: ${result?.error || 'Unknown error'}`, 'error')
     }
 }
 
@@ -890,9 +901,9 @@ const executeDelete = async () => {
                 model.isWhitelisted = false
             }
         })
-        resultMsg.value = 'Model removed from whitelist'
+        showMessage('Model removed from whitelist', 'success')
     } else {
-        resultMsg.value = `Error: ${result?.data || 'Unknown error'}`
+        showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
     }
 
     showDeleteConfirmModal.value = false
@@ -924,9 +935,9 @@ const saveCostRate = async () => {
         if (model) {
             model.tokenCostMultiplier = editingCostRate.value.value
         }
-        resultMsg.value = 'Cost rate updated'
+        showMessage('Cost rate updated', 'success')
     } else {
-        resultMsg.value = `Error: ${result?.data || 'Unknown error'}`
+        showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
     }
 
     editingCostRate.value = null
@@ -960,9 +971,9 @@ const saveDisplayName = async () => {
         if (model) {
             model.displayName = editingDisplayName.value.value
         }
-        resultMsg.value = 'Display name updated'
+        showMessage('Display name updated', 'success')
     } else {
-        resultMsg.value = `Error: ${result?.data || 'Unknown error'}`
+        showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
     }
 
     editingDisplayName.value = null
@@ -979,7 +990,7 @@ const toggleWhitelist = async (providerName: string, model: AvailableModel) => {
         // Find the whitelisted model to get its database ID
         const whitelistedModel = whitelistedModels.value.find(wm => wm.modelId === model.modelId)
         if (!whitelistedModel) {
-            resultMsg.value = 'Error: Model not found in whitelist'
+            showMessage('Error: Model not found in whitelist', 'error')
             return
         }
 
@@ -999,9 +1010,9 @@ const toggleWhitelist = async (providerName: string, model: AvailableModel) => {
             model.isWhitelisted = false
             // Remove from whitelisted models list
             whitelistedModels.value = whitelistedModels.value.filter(whitelistedModel => whitelistedModel.modelId !== model.modelId)
-            resultMsg.value = `${model.displayName} removed from whitelist`
+            showMessage(`${model.displayName} removed from whitelist`, 'success')
         } else {
-            resultMsg.value = `Error: ${result?.data || 'Unknown error'}`
+            showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
         }
     } else {
         // Add to whitelist
@@ -1021,9 +1032,9 @@ const toggleWhitelist = async (providerName: string, model: AvailableModel) => {
         if (result?.success) {
             model.isWhitelisted = true
             await loadWhitelistedModels() // Reload to get the new ID
-            resultMsg.value = `${model.displayName} added to whitelist`
+            showMessage(`${model.displayName} added to whitelist`, 'success')
         } else {
-            resultMsg.value = `Error: ${result?.data || 'Unknown error'}`
+            showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
         }
     }
 }
@@ -1039,11 +1050,6 @@ onMounted(() => {
         class="main-content">
         <h1>{{ $t('maintenance.title') }}</h1>
         <div class="">
-            <div v-if="resultMsg.length > 0" class="alert alert-warning alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-                    @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
-                {{ resultMsg }}
-            </div>
 
             <!-- Tab Navigation -->
             <div class="maintenance-tabs">
