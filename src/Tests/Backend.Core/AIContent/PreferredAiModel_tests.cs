@@ -6,23 +6,23 @@ class PreferredAiModel_tests : BaseTestHarness
         // Arrange
         var userReadingRepo = R<UserReadingRepo>();
         var userWritingRepo = R<UserWritingRepo>();
-        
+
         var testUser = userReadingRepo.GetById(1);
         Assert.That(testUser, Is.Not.Null, "Test user should exist");
-        
+
         var originalPreferredModel = testUser!.PreferredAiModelId;
         var newPreferredModel = "claude-3-5-sonnet-latest";
 
         // Act
         testUser.PreferredAiModelId = newPreferredModel;
         userWritingRepo.Update(testUser);
-        
+
         // Re-read from database
         var updatedUser = userReadingRepo.GetById(1);
 
         // Assert
         Assert.That(updatedUser!.PreferredAiModelId, Is.EqualTo(newPreferredModel));
-        
+
         // Cleanup - restore original value
         testUser.PreferredAiModelId = originalPreferredModel;
         userWritingRepo.Update(testUser);
@@ -33,7 +33,7 @@ class PreferredAiModel_tests : BaseTestHarness
     {
         // Arrange
         var userReadingRepo = R<UserReadingRepo>();
-        
+
         // Act - Get a fresh user that hasn't set a preference
         var users = userReadingRepo.GetAll();
         var userWithoutPreference = users.FirstOrDefault(u => u.PreferredAiModelId == null);
@@ -49,10 +49,10 @@ class PreferredAiModel_tests : BaseTestHarness
         // Arrange
         var userReadingRepo = R<UserReadingRepo>();
         var userWritingRepo = R<UserWritingRepo>();
-        
+
         var testUser = userReadingRepo.GetById(1);
         Assert.That(testUser, Is.Not.Null, "Test user should exist");
-        
+
         var testModelId = "test-model-for-cache";
         var originalPreferredModel = testUser!.PreferredAiModelId;
 
@@ -60,13 +60,13 @@ class PreferredAiModel_tests : BaseTestHarness
         testUser.PreferredAiModelId = testModelId;
         userWritingRepo.Update(testUser);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(testUser));
-        
+
         var cachedUser = EntityCache.GetUserById(testUser.Id);
 
         // Assert
         Assert.That(cachedUser, Is.Not.Null);
         Assert.That(cachedUser!.PreferredAiModelId, Is.EqualTo(testModelId));
-        
+
         // Cleanup
         testUser.PreferredAiModelId = originalPreferredModel;
         userWritingRepo.Update(testUser);

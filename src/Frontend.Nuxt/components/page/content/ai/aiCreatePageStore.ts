@@ -5,18 +5,18 @@ export enum DifficultyLevel {
     Beginner = 2,
     Intermediate = 3,
     Advanced = 4,
-    Academic = 5
+    Academic = 5,
 }
 
 export enum ContentLength {
     Short = 1,
     Medium = 2,
-    Long = 3
+    Long = 3,
 }
 
 export enum InputMode {
     Prompt = 'prompt',
-    Url = 'url'
+    Url = 'url',
 }
 
 export interface GeneratedPageContent {
@@ -57,7 +57,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     const errorMessage = ref('')
     const createAsWiki = ref(false)
     const selectedSubpageIndex = ref<number | null>(null)
-    
+
     // AI Model selection
     const availableModels = ref<AiModel[]>([])
     const selectedModelId = ref<string>('')
@@ -71,14 +71,14 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         if (models.length === 0) {
             return ''
         }
-        
+
         // Sort by distance from 1.0 (prefer middle-tier models)
         const sortedByMiddle = [...models].sort((a, b) => {
             const distanceA = Math.abs(a.tokenCostMultiplier - 1)
             const distanceB = Math.abs(b.tokenCostMultiplier - 1)
             return distanceA - distanceB
         })
-        
+
         return sortedByMiddle[0].modelId
     }
 
@@ -91,7 +91,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
                 method: 'POST',
                 body: { modelId },
                 mode: 'cors',
-                credentials: 'include'
+                credentials: 'include',
             })
         } catch (error) {
             console.error('Failed to save preferred model:', error)
@@ -110,7 +110,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         if (availableModels.value.length > 0) {
             return // Already loaded
         }
-        
+
         isLoadingModels.value = true
         try {
             interface GetModelsResponse {
@@ -118,18 +118,26 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
                 models: AiModel[]
                 preferredModelId?: string | null
             }
-            
-            const result = await $api<GetModelsResponse>('/apiVue/AiCreatePage/GetModels', {
-                method: 'GET',
-                mode: 'cors',
-                credentials: 'include'
-            })
-            
+
+            const result = await $api<GetModelsResponse>(
+                '/apiVue/AiCreatePage/GetModels',
+                {
+                    method: 'GET',
+                    mode: 'cors',
+                    credentials: 'include',
+                },
+            )
+
             if (result.success && result.models) {
                 availableModels.value = result.models
-                
+
                 // Priority: 1. User's saved preference, 2. Middle-tier model (multiplier ~1)
-                if (result.preferredModelId && result.models.some(m => m.modelId === result.preferredModelId)) {
+                if (
+                    result.preferredModelId &&
+                    result.models.some(
+                        (m) => m.modelId === result.preferredModelId,
+                    )
+                ) {
                     selectedModelId.value = result.preferredModelId
                 } else {
                     selectedModelId.value = selectDefaultModel(result.models)
@@ -155,7 +163,7 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         errorMessage.value = ''
         createAsWiki.value = false
         selectedSubpageIndex.value = null
-        
+
         // Fetch available models when opening modal
         fetchModels()
     }
@@ -174,7 +182,10 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
     function isValidUrl(urlString: string): boolean {
         try {
             const parsedUrl = new URL(urlString)
-            return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:'
+            return (
+                parsedUrl.protocol === 'http:' ||
+                parsedUrl.protocol === 'https:'
+            )
         } catch {
             return false
         }
@@ -184,7 +195,10 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         if (inputMode.value === InputMode.Prompt && !prompt.value.trim()) {
             return
         }
-        if (inputMode.value === InputMode.Url && !isValidUrl(url.value.trim())) {
+        if (
+            inputMode.value === InputMode.Url &&
+            !isValidUrl(url.value.trim())
+        ) {
             errorMessage.value = 'error.ai.invalidUrl'
             return
         }
@@ -215,31 +229,33 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
             messageKey?: string
         }
 
-        const endpoint = inputMode.value === InputMode.Url 
-            ? '/apiVue/AiCreatePage/GenerateFromUrl'
-            : '/apiVue/AiCreatePage/Generate'
-        
-        const body = inputMode.value === InputMode.Url
-            ? {
-                url: url.value.trim(),
-                difficultyLevel: difficultyLevel.value,
-                contentLength: contentLength.value,
-                parentId: parentId.value,
-                modelId: selectedModelId.value || undefined
-            }
-            : {
-                prompt: prompt.value,
-                difficultyLevel: difficultyLevel.value,
-                contentLength: contentLength.value,
-                parentId: parentId.value,
-                modelId: selectedModelId.value || undefined
-            }
+        const endpoint =
+            inputMode.value === InputMode.Url
+                ? '/apiVue/AiCreatePage/GenerateFromUrl'
+                : '/apiVue/AiCreatePage/Generate'
+
+        const body =
+            inputMode.value === InputMode.Url
+                ? {
+                      url: url.value.trim(),
+                      difficultyLevel: difficultyLevel.value,
+                      contentLength: contentLength.value,
+                      parentId: parentId.value,
+                      modelId: selectedModelId.value || undefined,
+                  }
+                : {
+                      prompt: prompt.value,
+                      difficultyLevel: difficultyLevel.value,
+                      contentLength: contentLength.value,
+                      parentId: parentId.value,
+                      modelId: selectedModelId.value || undefined,
+                  }
 
         const result = await $api<GeneratePageResponse>(endpoint, {
             method: 'POST',
             body,
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'include',
         })
 
         if (result.success && result.data) {
@@ -256,29 +272,31 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
             messageKey?: string
         }
 
-        const endpoint = inputMode.value === InputMode.Url 
-            ? '/apiVue/AiCreatePage/GenerateWikiFromUrl'
-            : '/apiVue/AiCreatePage/GenerateWiki'
-        
-        const body = inputMode.value === InputMode.Url
-            ? {
-                url: url.value.trim(),
-                difficultyLevel: difficultyLevel.value,
-                parentId: parentId.value,
-                modelId: selectedModelId.value || undefined
-            }
-            : {
-                prompt: prompt.value,
-                difficultyLevel: difficultyLevel.value,
-                parentId: parentId.value,
-                modelId: selectedModelId.value || undefined
-            }
+        const endpoint =
+            inputMode.value === InputMode.Url
+                ? '/apiVue/AiCreatePage/GenerateWikiFromUrl'
+                : '/apiVue/AiCreatePage/GenerateWiki'
+
+        const body =
+            inputMode.value === InputMode.Url
+                ? {
+                      url: url.value.trim(),
+                      difficultyLevel: difficultyLevel.value,
+                      parentId: parentId.value,
+                      modelId: selectedModelId.value || undefined,
+                  }
+                : {
+                      prompt: prompt.value,
+                      difficultyLevel: difficultyLevel.value,
+                      parentId: parentId.value,
+                      modelId: selectedModelId.value || undefined,
+                  }
 
         const result = await $api<GenerateWikiResponse>(endpoint, {
             method: 'POST',
             body,
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'include',
         })
 
         if (result.success && result.data) {
@@ -288,7 +306,11 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         }
     }
 
-    async function createPage(): Promise<{ success: boolean; pageId?: number; messageKey?: string }> {
+    async function createPage(): Promise<{
+        success: boolean
+        pageId?: number
+        messageKey?: string
+    }> {
         if (!generatedContent.value) {
             return { success: false, messageKey: 'error.noContent' }
         }
@@ -300,17 +322,20 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         }
 
         try {
-            const result = await $api<CreatePageResponse>('/apiVue/AiCreatePage/Create', {
-                method: 'POST',
-                body: {
-                    title: generatedContent.value.title,
-                    htmlContent: generatedContent.value.htmlContent,
-                    parentId: parentId.value,
-                    isWiki: createAsWiki.value
+            const result = await $api<CreatePageResponse>(
+                '/apiVue/AiCreatePage/Create',
+                {
+                    method: 'POST',
+                    body: {
+                        title: generatedContent.value.title,
+                        htmlContent: generatedContent.value.htmlContent,
+                        parentId: parentId.value,
+                        isWiki: createAsWiki.value,
+                    },
+                    mode: 'cors',
+                    credentials: 'include',
                 },
-                mode: 'cors',
-                credentials: 'include'
-            })
+            )
 
             if (result.success) {
                 closeModal()
@@ -322,7 +347,12 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         }
     }
 
-    async function createWiki(): Promise<{ success: boolean; wikiId?: number; subpageIds?: number[]; messageKey?: string }> {
+    async function createWiki(): Promise<{
+        success: boolean
+        wikiId?: number
+        subpageIds?: number[]
+        messageKey?: string
+    }> {
         if (!generatedWikiContent.value) {
             return { success: false, messageKey: 'error.noContent' }
         }
@@ -335,20 +365,25 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         }
 
         try {
-            const result = await $api<CreateWikiResponse>('/apiVue/AiCreatePage/CreateWiki', {
-                method: 'POST',
-                body: {
-                    title: generatedWikiContent.value.title,
-                    htmlContent: generatedWikiContent.value.htmlContent,
-                    subpages: generatedWikiContent.value.subpages.map(s => ({
-                        title: s.title,
-                        htmlContent: s.htmlContent
-                    })),
-                    parentId: parentId.value
+            const result = await $api<CreateWikiResponse>(
+                '/apiVue/AiCreatePage/CreateWiki',
+                {
+                    method: 'POST',
+                    body: {
+                        title: generatedWikiContent.value.title,
+                        htmlContent: generatedWikiContent.value.htmlContent,
+                        subpages: generatedWikiContent.value.subpages.map(
+                            (s) => ({
+                                title: s.title,
+                                htmlContent: s.htmlContent,
+                            }),
+                        ),
+                        parentId: parentId.value,
+                    },
+                    mode: 'cors',
+                    credentials: 'include',
                 },
-                mode: 'cors',
-                credentials: 'include'
-            })
+            )
 
             if (result.success) {
                 closeModal()
@@ -384,6 +419,6 @@ export const useAiCreatePageStore = defineStore('aiCreatePageStore', () => {
         createWiki,
         isValidUrl,
         fetchModels,
-        setSelectedModel
+        setSelectedModel,
     }
 })

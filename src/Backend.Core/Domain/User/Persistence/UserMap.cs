@@ -56,7 +56,7 @@ public class UserMap : ClassMap<User>
 
         Map(x => x.FavoriteIds);
         Map(x => x.UiLanguage);
-        
+
         Map(x => x.SubscriptionTokensBalance);
         Map(x => x.PaidTokensBalance);
         Map(x => x.PreferredAiModelId);
