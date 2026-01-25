@@ -31,5 +31,6 @@ appsettings.*.json
 /src/Backend.Api/DataProtectionKeys/
 /node_modules/
 /test-results/
+/playwright-report/
 /src/Frontend.Nuxt/test-results/.last-run.json
-/playwright-report/index.html
+

@@ -7,7 +7,7 @@ public class MessageMap : ClassMap<Message>
         Id(x => x.Id);
         Map(x => x.ReceiverId);
         Map(x => x.Subject);
-        Map(x => x.Body);
+        Map(x => x.Body).CustomType("StringClob").CustomSqlType("TEXT");
         Map(x => x.MessageType);
         Map(x => x.IsRead);
 

@@ -22,6 +22,20 @@ For comprehensive naming conventions, file structure, and patterns, see **[Style
 
 If services are not running, use the `app-start` skill to start them.
 
+## Debugging 500 Errors
+
+**CRITICAL:** When encountering a HTTP 500 error, **always check the Backend console output first** before analyzing code. The root cause is typically visible in the exception stack trace.
+
+```powershell
+# Check backend task output for stack traces
+# Use the get_task_output tool for "shell: Backend" task
+```
+
+**Debugging Priority:**
+1. **Backend console/logs** - Shows actual exception with stack trace
+2. **Playwright tests** - Reproduce and verify the error
+3. **Unit tests** - For isolated component testing
+
 ## Quick Reference
 
 - **Files/Folders:** kebab-case (`user-profile.store.ts`, `order-card.component.vue`)
