@@ -214,8 +214,13 @@ test.describe('Admin AI Model Whitelist Management', () => {
             .last()
 
         // Clear and set new values
-        await inputPriceInput.fill('3.50')
-        await outputPriceInput.fill('15.75')
+        // Note: Use clear() + pressSequentially() to properly trigger Vue v-model reactivity
+        await inputPriceInput.clear()
+        await inputPriceInput.pressSequentially('3.50', { delay: 50 })
+        await authenticatedPage.waitForTimeout(200)
+        await outputPriceInput.clear()
+        await outputPriceInput.pressSequentially('15.75', { delay: 50 })
+        await authenticatedPage.waitForTimeout(200)
 
         await takeDevScreenshot(authenticatedPage, 'price-values-entered')
 
@@ -247,6 +252,67 @@ test.describe('Admin AI Model Whitelist Management', () => {
         // Prices should contain the new values (format: $X.XX)
         expect(updatedInputPrice).toContain('3.50')
         expect(updatedOutputPrice).toContain('15.75')
+    })
+
+    test('should allow decimal token cost multiplier values', async ({
+        authenticatedPage,
+    }) => {
+        // Navigate to maintenance page with AI tab
+        await authenticatedPage.goto('/Maintenance?tab=ai')
+        await authenticatedPage.waitForLoadState('networkidle')
+
+        // Close any open dialogs
+        await closeOpenDialogs(authenticatedPage)
+
+        const whitelistTable = authenticatedPage.locator('.whitelist-table')
+        const tableExists = await whitelistTable.isVisible().catch(() => false)
+
+        if (!tableExists) {
+            console.log('No whitelisted models table found, skipping cost rate test')
+            return
+        }
+
+        const costRateCell = authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(4) .cost-rate')
+        const costRateCellVisible = await costRateCell.isVisible().catch(() => false)
+
+        if (!costRateCellVisible) {
+            console.log('No cost rate cell visible, skipping cost rate test')
+            return
+        }
+
+        await takeDevScreenshot(authenticatedPage, 'before-cost-rate-edit')
+
+        await costRateCell.click()
+
+        const costRateInput = authenticatedPage
+            .locator('.cost-rate-edit .cost-rate-input')
+            .first()
+
+        await expect(costRateInput).toBeVisible({ timeout: 3000 })
+
+        await costRateInput.clear()
+        await costRateInput.pressSequentially('0,5', { delay: 50 })
+
+        const saveButton = authenticatedPage
+            .locator('.cost-rate-edit .btn-save')
+            .first()
+        await saveButton.click()
+
+        await authenticatedPage.waitForLoadState('networkidle')
+        await authenticatedPage.waitForTimeout(500)
+
+        await takeDevScreenshot(authenticatedPage, 'after-cost-rate-save')
+
+        const updatedCostRate = await authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(4) .cost-rate')
+            .textContent()
+
+        expect(updatedCostRate).toContain('0.5')
     })
 
     test('should cancel price editing on cancel button click', async ({
@@ -319,5 +385,191 @@ test.describe('Admin AI Model Whitelist Management', () => {
             .textContent()
 
         expect(restoredInputPrice).toBe(originalInputPrice)
+    })
+
+    test('should allow entering decimal values below 1 (e.g., 0.5, 0.3)', async ({
+        authenticatedPage,
+    }) => {
+        // Navigate to maintenance page with AI tab
+        await authenticatedPage.goto('/Maintenance?tab=ai')
+        await authenticatedPage.waitForLoadState('networkidle')
+
+        // Close any open dialogs
+        await closeOpenDialogs(authenticatedPage)
+
+        // Wait for the table to be visible
+        const whitelistTable = authenticatedPage.locator('.whitelist-table')
+        const tableExists = await whitelistTable.isVisible().catch(() => false)
+
+        if (!tableExists) {
+            console.log(
+                'No whitelisted models table found, skipping decimal values test',
+            )
+            return
+        }
+
+        // Get the first row's input price cell
+        const inputPriceCell = authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(5) .price-value')
+        const inputPriceCellVisible = await inputPriceCell
+            .isVisible()
+            .catch(() => false)
+
+        if (!inputPriceCellVisible) {
+            console.log('No price value cell visible, skipping decimal values test')
+            return
+        }
+
+        await takeDevScreenshot(authenticatedPage, 'before-decimal-price-edit')
+
+        // Click on the input price to start editing
+        await inputPriceCell.click()
+
+        // Wait for the edit inputs to appear
+        await expect(
+            authenticatedPage.locator('.price-edit .price-input').first(),
+        ).toBeVisible({ timeout: 3000 })
+
+        // Get the price inputs
+        const inputPriceInput = authenticatedPage
+            .locator('.price-edit .price-input')
+            .first()
+        const outputPriceInput = authenticatedPage
+            .locator('.price-edit .price-input')
+            .last()
+
+        // Enter decimal values below 1
+        // Note: Use clear() + pressSequentially() to properly trigger Vue v-model reactivity
+        await inputPriceInput.clear()
+        await inputPriceInput.pressSequentially('0.50', { delay: 50 })
+        await authenticatedPage.waitForTimeout(200)
+        await outputPriceInput.clear()
+        await outputPriceInput.pressSequentially('0.30', { delay: 50 })
+        await authenticatedPage.waitForTimeout(200)
+
+        await takeDevScreenshot(authenticatedPage, 'decimal-values-entered')
+
+        // Click save button
+        const saveButton = authenticatedPage
+            .locator('.price-edit .btn-save')
+            .last()
+        await saveButton.click()
+
+        // Wait for the update to complete
+        await authenticatedPage.waitForLoadState('networkidle')
+        await authenticatedPage.waitForTimeout(500)
+
+        await takeDevScreenshot(authenticatedPage, 'after-decimal-price-save')
+
+        // Verify the prices were updated by checking the displayed values
+        const updatedInputPrice = await authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(5) .price-value')
+            .textContent()
+
+        const updatedOutputPrice = await authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(6) .price-value')
+            .textContent()
+
+        // Prices should contain the new values (format: $X.XX)
+        expect(updatedInputPrice).toContain('0.50')
+        expect(updatedOutputPrice).toContain('0.30')
+    })
+
+    test('should handle comma as decimal separator (German locale)', async ({
+        authenticatedPage,
+    }) => {
+        // Navigate to maintenance page with AI tab
+        await authenticatedPage.goto('/Maintenance?tab=ai')
+        await authenticatedPage.waitForLoadState('networkidle')
+
+        // Close any open dialogs
+        await closeOpenDialogs(authenticatedPage)
+
+        // Wait for the table to be visible
+        const whitelistTable = authenticatedPage.locator('.whitelist-table')
+        const tableExists = await whitelistTable.isVisible().catch(() => false)
+
+        if (!tableExists) {
+            console.log(
+                'No whitelisted models table found, skipping comma separator test',
+            )
+            return
+        }
+
+        // Get the first row's input price cell
+        const inputPriceCell = authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(5) .price-value')
+        const inputPriceCellVisible = await inputPriceCell
+            .isVisible()
+            .catch(() => false)
+
+        if (!inputPriceCellVisible) {
+            console.log('No price value cell visible, skipping comma separator test')
+            return
+        }
+
+        // Click on the input price to start editing
+        await inputPriceCell.click()
+
+        // Wait for the edit inputs to appear
+        await expect(
+            authenticatedPage.locator('.price-edit .price-input').first(),
+        ).toBeVisible({ timeout: 3000 })
+
+        // Get the price inputs
+        const inputPriceInput = authenticatedPage
+            .locator('.price-edit .price-input')
+            .first()
+        const outputPriceInput = authenticatedPage
+            .locator('.price-edit .price-input')
+            .last()
+
+        // Enter values with comma as decimal separator (German style)
+        // Note: Use clear() + pressSequentially() to properly trigger Vue v-model reactivity
+        await inputPriceInput.clear()
+        await inputPriceInput.pressSequentially('0,75', { delay: 50 })
+        await authenticatedPage.waitForTimeout(200)
+        await outputPriceInput.clear()
+        await outputPriceInput.pressSequentially('1,25', { delay: 50 })
+        await authenticatedPage.waitForTimeout(200)
+
+        await takeDevScreenshot(authenticatedPage, 'comma-separator-values-entered')
+
+        // Click save button
+        const saveButton = authenticatedPage
+            .locator('.price-edit .btn-save')
+            .last()
+        await saveButton.click()
+
+        // Wait for the update to complete
+        await authenticatedPage.waitForLoadState('networkidle')
+        await authenticatedPage.waitForTimeout(500)
+
+        await takeDevScreenshot(authenticatedPage, 'after-comma-separator-save')
+
+        // Verify the prices were updated (commas should be converted to dots)
+        const updatedInputPrice = await authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(5) .price-value')
+            .textContent()
+
+        const updatedOutputPrice = await authenticatedPage
+            .locator('.whitelist-table tbody tr')
+            .first()
+            .locator('td:nth-child(6) .price-value')
+            .textContent()
+
+        // Prices should be converted and displayed correctly
+        expect(updatedInputPrice).toContain('0.75')
+        expect(updatedOutputPrice).toContain('1.25')
     })
 })

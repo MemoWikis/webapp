@@ -45,6 +45,63 @@ public sealed class ScenarioBuilder
 
         await GenerateLearningHistoryAsync(_users[0].Id);
         _performanceLogger.Log("Learning history created");
+
+        CreateAiModels();
+        _performanceLogger.Log("AI models created");
+    }
+
+    private void CreateAiModels()
+    {
+        var whitelistRepo = _testHarness.R<AiModelWhitelistRepo>();
+
+        var models = new List<AiModelWhitelist>
+        {
+            new()
+            {
+                ModelId = "claude-opus-4-5-20251101",
+                DisplayName = "Claude Opus 4.5",
+                Provider = AiModelProvider.Anthropic,
+                TokenCostMultiplier = 3.00m,
+                InputPricePerMillion = 5.0000m,
+                OutputPricePerMillion = 25.0000m,
+                IsEnabled = true
+            },
+            new()
+            {
+                ModelId = "claude-haiku-4-5-20251001",
+                DisplayName = "Claude Haiku 4.5",
+                Provider = AiModelProvider.Anthropic,
+                TokenCostMultiplier = 0.33m,
+                InputPricePerMillion = 1.0000m,
+                OutputPricePerMillion = 5.0000m,
+                IsEnabled = true
+            },
+            new()
+            {
+                ModelId = "claude-sonnet-4-5-20250929",
+                DisplayName = "Claude Sonnet 4.5",
+                Provider = AiModelProvider.Anthropic,
+                TokenCostMultiplier = 1.00m,
+                InputPricePerMillion = 3.0000m,
+                OutputPricePerMillion = 15.0000m,
+                IsEnabled = true
+            },
+            new()
+            {
+                ModelId = "gpt-5.2",
+                DisplayName = "gpt-5.2",
+                Provider = AiModelProvider.OpenAI,
+                TokenCostMultiplier = 0.80m,
+                InputPricePerMillion = 175.0000m,
+                OutputPricePerMillion = 14.0000m,
+                IsEnabled = true
+            }
+        };
+
+        foreach (var model in models)
+        {
+            whitelistRepo.SaveModel(model);
+        }
     }
 
 

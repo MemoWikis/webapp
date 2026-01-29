@@ -826,9 +826,22 @@ const providerModels = ref<ProviderModels[]>([])
 const fetchingModels = ref(false)
 const showDeleteConfirmModal = ref(false)
 const modelToDelete = ref<WhitelistedModel | null>(null)
-const editingCostRate = ref<{ id: number, value: number } | null>(null)
+const editingCostRate = ref<{ id: number, value: string } | null>(null)
 const editingDisplayName = ref<{ id: number, value: string } | null>(null)
-const editingPrices = ref<{ id: number, inputPrice: number, outputPrice: number } | null>(null)
+const editingPrices = ref<{ id: number, inputPrice: string, outputPrice: string } | null>(null)
+
+// Helper function to parse price strings (handles both dot and comma as decimal separator)
+const parsePrice = (value: string): number => {
+    const normalized = value.replace(',', '.')
+    const parsed = parseFloat(normalized)
+    return isNaN(parsed) ? 0 : parsed
+}
+
+const formatDecimalForServer = (value: string): string => {
+    const parsed = parsePrice(value)
+    const localeSeparator = (1.1).toLocaleString().includes(',') ? ',' : '.'
+    return parsed.toString().replace('.', localeSeparator)
+}
 
 const loadWhitelistedModels = async () => {
     const result = await $api<GetWhitelistedModelsResponse>('/apiVue/VueMaintenance/GetWhitelistedAiModels', {
@@ -912,33 +925,47 @@ const executeDelete = async () => {
 }
 
 const startEditCostRate = (model: WhitelistedModel) => {
-    editingCostRate.value = { id: model.id, value: model.tokenCostMultiplier }
+    editingCostRate.value = { id: model.id, value: model.tokenCostMultiplier.toString() }
 }
 
-const saveCostRate = async () => {
-    if (!antiForgeryToken.value || !editingCostRate.value) return
+const saveCostRate = async (costRate?: { id: number, value: string }) => {
+    const targetCostRate = costRate ?? editingCostRate.value
+    if (!antiForgeryToken.value || !targetCostRate) return
+
+    const parsedCostRate = parsePrice(targetCostRate.value)
+    const serverCostRate = formatDecimalForServer(targetCostRate.value)
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
-    data.append('id', editingCostRate.value.id.toString())
-    data.append('tokenCostMultiplier', editingCostRate.value.value.toString())
+    data.append('id', targetCostRate.id.toString())
+    data.append('tokenCostMultiplier', serverCostRate)
 
-    const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/UpdateWhitelistCostRate', {
-        body: data,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include'
-    })
+    try {
+        const response = await fetch('/apiVue/VueMaintenance/UpdateWhitelistCostRate', {
+            method: 'POST',
+            body: data,
+            credentials: 'include'
+        })
 
-    if (result?.success) {
-        // Find the model in the flat list
-        const model = whitelistedModels.value.find(model => model.id === editingCostRate.value!.id)
-        if (model) {
-            model.tokenCostMultiplier = editingCostRate.value.value
+        if (!response.ok) {
+            showMessage(`Error: Failed to save cost rate (${response.status})`, 'error')
+            return
         }
-        showMessage('Cost rate updated', 'success')
-    } else {
-        showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
+
+        const result = await response.json() as VueMaintenanceResult
+
+        if (result?.success) {
+            // Find the model in the flat list
+            const model = whitelistedModels.value.find(model => model.id === targetCostRate.id)
+            if (model) {
+                model.tokenCostMultiplier = parsedCostRate
+            }
+            showMessage('Cost rate updated', 'success')
+        } else {
+            showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
+        }
+    } catch {
+        showMessage('Error: Failed to save cost rate', 'error')
     }
 
     editingCostRate.value = null
@@ -987,36 +1014,48 @@ const cancelEditDisplayName = () => {
 const startEditPrices = (model: WhitelistedModel) => {
     editingPrices.value = {
         id: model.id,
-        inputPrice: model.inputPricePerMillion,
-        outputPrice: model.outputPricePerMillion
+        inputPrice: model.inputPricePerMillion.toString(),
+        outputPrice: model.outputPricePerMillion.toString()
     }
 }
 
-const savePrices = async () => {
-    if (!antiForgeryToken.value || !editingPrices.value) return
+const savePrices = async (prices?: { id: number, inputPrice: string, outputPrice: string }) => {
+    const targetPrices = prices ?? editingPrices.value
+    if (!antiForgeryToken.value || !targetPrices) {
+        return
+    }
+
+    const inputPrice = parsePrice(targetPrices.inputPrice)
+    const outputPrice = parsePrice(targetPrices.outputPrice)
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
-    data.append('id', editingPrices.value.id.toString())
-    data.append('inputPricePerMillion', editingPrices.value.inputPrice.toString())
-    data.append('outputPricePerMillion', editingPrices.value.outputPrice.toString())
+    data.append('id', targetPrices.id.toString())
+    data.append('inputPricePerMillion', inputPrice.toString())
+    data.append('outputPricePerMillion', outputPrice.toString())
 
-    const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/UpdateWhitelistPrices', {
-        body: data,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include'
-    })
+    try {
+        const response = await fetch('/apiVue/VueMaintenance/UpdateWhitelistPrices', {
+            method: 'POST',
+            body: data,
+            credentials: 'include'
+        })
 
-    if (result?.success) {
-        const model = whitelistedModels.value.find(model => model.id === editingPrices.value!.id)
-        if (model) {
-            model.inputPricePerMillion = editingPrices.value.inputPrice
-            model.outputPricePerMillion = editingPrices.value.outputPrice
+        if (!response.ok) {
+            showMessage(`Error: Failed to save prices (${response.status})`, 'error')
+            return
         }
-        showMessage('Prices updated', 'success')
-    } else {
-        showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
+
+        const result = await response.json() as VueMaintenanceResult
+
+        if (result?.success) {
+            await loadWhitelistedModels()
+            showMessage('Prices updated', 'success')
+        } else {
+            showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
+        }
+    } catch {
+        showMessage('Error: Failed to save prices', 'error')
     }
 
     editingPrices.value = null

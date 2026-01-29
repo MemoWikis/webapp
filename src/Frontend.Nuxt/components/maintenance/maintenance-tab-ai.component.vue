@@ -10,9 +10,9 @@ const props = defineProps<{
     whitelistedModels: WhitelistedModel[]
     providerModels: ProviderModels[]
     fetchingModels: boolean
-    editingCostRate: { id: number, value: number } | null
+    editingCostRate: { id: number, value: string } | null
     editingDisplayName: { id: number, value: string } | null
-    editingPrices: { id: number, inputPrice: number, outputPrice: number } | null
+    editingPrices: { id: number, inputPrice: string, outputPrice: string } | null
     showDeleteConfirmModal: boolean
     modelToDelete: WhitelistedModel | null
 }>()
@@ -20,14 +20,16 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
     // Simple events without parameters
-    (event: 'loadWhitelistedModels' | 'fetchAllProviderModels' | 'saveCostRate' | 'cancelEditCostRate' | 'saveDisplayName' | 'cancelEditDisplayName' | 'savePrices' | 'cancelEditPrices' | 'executeDelete' | 'cancelDelete'): void
+    (event: 'loadWhitelistedModels' | 'fetchAllProviderModels' | 'cancelEditCostRate' | 'saveDisplayName' | 'cancelEditDisplayName' | 'cancelEditPrices' | 'executeDelete' | 'cancelDelete'): void
     // Events with WhitelistedModel parameter
     (event: 'startEditCostRate' | 'startEditDisplayName' | 'startEditPrices' | 'confirmDeleteModel', model: WhitelistedModel): void
     // Other events with unique parameters
     (event: 'toggleWhitelist', providerName: string, model: AvailableModel): void
-    (event: 'update:editingCostRate', value: { id: number, value: number } | null): void
+    (event: 'update:editingCostRate', value: { id: number, value: string } | null): void
     (event: 'update:editingDisplayName', value: { id: number, value: string } | null): void
-    (event: 'update:editingPrices', value: { id: number, inputPrice: number, outputPrice: number } | null): void
+    (event: 'update:editingPrices', value: { id: number, inputPrice: string, outputPrice: string } | null): void
+    (event: 'savePrices', value: { id: number, inputPrice: string, outputPrice: string }): void
+    (event: 'saveCostRate', value: { id: number, value: string }): void
 }>()
 
 // Two-way binding for editingCostRate
@@ -47,6 +49,74 @@ const localEditingPrices = computed({
     get: () => props.editingPrices,
     set: (value) => emit('update:editingPrices', value)
 })
+
+// Local refs for price inputs - these handle the v-model binding properly
+const localInputPrice = ref('')
+const localOutputPrice = ref('')
+
+const localCostRate = ref('')
+
+const costRateModelId = ref<number | null>(null)
+
+// Track which model ID we're editing to detect when edit mode changes
+const editingModelId = ref<number | null>(null)
+
+// Sync local refs only when a NEW edit session starts (different model ID or null -> non-null)
+watch(() => props.editingPrices, (newValue) => {
+    if (newValue && newValue.id !== editingModelId.value) {
+        // New edit session started
+        editingModelId.value = newValue.id
+        localInputPrice.value = newValue.inputPrice
+        localOutputPrice.value = newValue.outputPrice
+    } else if (!newValue) {
+        // Edit mode closed
+        editingModelId.value = null
+        localInputPrice.value = ''
+        localOutputPrice.value = ''
+    }
+}, { immediate: true })
+
+watch(() => props.editingCostRate, (newValue) => {
+    if (newValue && newValue.id !== costRateModelId.value) {
+        costRateModelId.value = newValue.id
+        localCostRate.value = newValue.value
+    } else if (!newValue) {
+        costRateModelId.value = null
+        localCostRate.value = ''
+    }
+}, { immediate: true })
+
+// Custom save handler that emits the local values before triggering save
+const handleSavePrices = () => {
+    if (!props.editingPrices) {
+        return
+    }
+
+    emit('savePrices', {
+        id: props.editingPrices.id,
+        inputPrice: localInputPrice.value,
+        outputPrice: localOutputPrice.value
+    })
+}
+
+const handleSaveCostRate = () => {
+    if (!props.editingCostRate) {
+        return
+    }
+
+    emit('saveCostRate', {
+        id: props.editingCostRate.id,
+        value: localCostRate.value
+    })
+}
+
+// Allow only numbers, dot, comma, backspace, delete, arrows, tab
+const handlePriceKeydown = (event: KeyboardEvent) => {
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End']
+    if (allowedKeys.includes(event.key)) return
+    if ((event.key >= '0' && event.key <= '9') || event.key === '.' || event.key === ',') return
+    event.preventDefault()
+}
 </script>
 
 <template>
@@ -107,10 +177,10 @@ const localEditingPrices = computed({
                                 <td>
                                     <template v-if="localEditingCostRate?.id === model.id">
                                         <div class="cost-rate-edit">
-                                            <input v-model.number="localEditingCostRate.value" type="number" step="0.1"
-                                                min="0" class="cost-rate-input" />
+                                            <input v-model="localCostRate" type="text"
+                                                class="cost-rate-input" placeholder="1.0" @keydown="handlePriceKeydown" />
                                             <button class="btn-icon btn-save" title="Save"
-                                                @click="emit('saveCostRate')">
+                                                @click="handleSaveCostRate">
                                                 <font-awesome-icon icon="fa-solid fa-check" />
                                             </button>
                                             <button class="btn-icon btn-cancel" title="Cancel"
@@ -129,8 +199,8 @@ const localEditingPrices = computed({
                                 <td>
                                     <template v-if="localEditingPrices?.id === model.id">
                                         <div class="price-edit">
-                                            <input v-model.number="localEditingPrices.inputPrice" type="number"
-                                                step="0.01" min="0" class="price-input" placeholder="Input" />
+                                            <input v-model="localInputPrice" type="text"
+                                                class="price-input" placeholder="0.00" @keydown="handlePriceKeydown" />
                                         </div>
                                     </template>
                                     <template v-else>
@@ -143,9 +213,9 @@ const localEditingPrices = computed({
                                 <td>
                                     <template v-if="localEditingPrices?.id === model.id">
                                         <div class="price-edit">
-                                            <input v-model.number="localEditingPrices.outputPrice" type="number"
-                                                step="0.01" min="0" class="price-input" placeholder="Output" />
-                                            <button class="btn-icon btn-save" title="Save" @click="emit('savePrices')">
+                                            <input v-model="localOutputPrice" type="text"
+                                                class="price-input" placeholder="0.00" @keydown="handlePriceKeydown" />
+                                            <button class="btn-icon btn-save" title="Save" @click="handleSavePrices">
                                                 <font-awesome-icon icon="fa-solid fa-check" />
                                             </button>
                                             <button class="btn-icon btn-cancel" title="Cancel"
