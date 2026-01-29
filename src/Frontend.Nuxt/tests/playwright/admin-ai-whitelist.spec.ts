@@ -268,7 +268,9 @@ test.describe('Admin AI Model Whitelist Management', () => {
         const tableExists = await whitelistTable.isVisible().catch(() => false)
 
         if (!tableExists) {
-            console.log('No whitelisted models table found, skipping cost rate test')
+            console.log(
+                'No whitelisted models table found, skipping cost rate test',
+            )
             return
         }
 
@@ -276,7 +278,9 @@ test.describe('Admin AI Model Whitelist Management', () => {
             .locator('.whitelist-table tbody tr')
             .first()
             .locator('td:nth-child(4) .cost-rate')
-        const costRateCellVisible = await costRateCell.isVisible().catch(() => false)
+        const costRateCellVisible = await costRateCell
+            .isVisible()
+            .catch(() => false)
 
         if (!costRateCellVisible) {
             console.log('No cost rate cell visible, skipping cost rate test')
@@ -418,7 +422,9 @@ test.describe('Admin AI Model Whitelist Management', () => {
             .catch(() => false)
 
         if (!inputPriceCellVisible) {
-            console.log('No price value cell visible, skipping decimal values test')
+            console.log(
+                'No price value cell visible, skipping decimal values test',
+            )
             return
         }
 
@@ -512,7 +518,9 @@ test.describe('Admin AI Model Whitelist Management', () => {
             .catch(() => false)
 
         if (!inputPriceCellVisible) {
-            console.log('No price value cell visible, skipping comma separator test')
+            console.log(
+                'No price value cell visible, skipping comma separator test',
+            )
             return
         }
 
@@ -541,7 +549,10 @@ test.describe('Admin AI Model Whitelist Management', () => {
         await outputPriceInput.pressSequentially('1,25', { delay: 50 })
         await authenticatedPage.waitForTimeout(200)
 
-        await takeDevScreenshot(authenticatedPage, 'comma-separator-values-entered')
+        await takeDevScreenshot(
+            authenticatedPage,
+            'comma-separator-values-entered',
+        )
 
         // Click save button
         const saveButton = authenticatedPage

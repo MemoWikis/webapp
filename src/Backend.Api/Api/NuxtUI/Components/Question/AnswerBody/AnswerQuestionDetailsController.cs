@@ -73,7 +73,7 @@ public class AnswerQuestionDetailsController(
             EndTimer: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             Creator: new MacroCreator(
                 Id: question.CreatorId,
-                Name: question.Creator.Name
+                Name: question.Creator?.Name ?? ""
             ),
             CreationDate: question.DateCreated,
             TotalViewCount: _questionViewRepository.GetViewCount(question.Id),

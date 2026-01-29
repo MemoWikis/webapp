@@ -177,10 +177,9 @@ const handlePriceKeydown = (event: KeyboardEvent) => {
                                 <td>
                                     <template v-if="localEditingCostRate?.id === model.id">
                                         <div class="cost-rate-edit">
-                                            <input v-model="localCostRate" type="text"
-                                                class="cost-rate-input" placeholder="1.0" @keydown="handlePriceKeydown" />
-                                            <button class="btn-icon btn-save" title="Save"
-                                                @click="handleSaveCostRate">
+                                            <input v-model="localCostRate" type="text" class="cost-rate-input"
+                                                placeholder="1.0" @keydown="handlePriceKeydown" />
+                                            <button class="btn-icon btn-save" title="Save" @click="handleSaveCostRate">
                                                 <font-awesome-icon icon="fa-solid fa-check" />
                                             </button>
                                             <button class="btn-icon btn-cancel" title="Cancel"
@@ -199,8 +198,8 @@ const handlePriceKeydown = (event: KeyboardEvent) => {
                                 <td>
                                     <template v-if="localEditingPrices?.id === model.id">
                                         <div class="price-edit">
-                                            <input v-model="localInputPrice" type="text"
-                                                class="price-input" placeholder="0.00" @keydown="handlePriceKeydown" />
+                                            <input v-model="localInputPrice" type="text" class="price-input"
+                                                placeholder="0.00" @keydown="handlePriceKeydown" />
                                         </div>
                                     </template>
                                     <template v-else>
@@ -213,8 +212,8 @@ const handlePriceKeydown = (event: KeyboardEvent) => {
                                 <td>
                                     <template v-if="localEditingPrices?.id === model.id">
                                         <div class="price-edit">
-                                            <input v-model="localOutputPrice" type="text"
-                                                class="price-input" placeholder="0.00" @keydown="handlePriceKeydown" />
+                                            <input v-model="localOutputPrice" type="text" class="price-input"
+                                                placeholder="0.00" @keydown="handlePriceKeydown" />
                                             <button class="btn-icon btn-save" title="Save" @click="handleSavePrices">
                                                 <font-awesome-icon icon="fa-solid fa-check" />
                                             </button>
