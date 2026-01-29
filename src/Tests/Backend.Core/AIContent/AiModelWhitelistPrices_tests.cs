@@ -160,12 +160,17 @@ class AiModelWhitelistPrices_tests : BaseTestHarness
 
         try
         {
-            // Act - Call API to update prices
-            var request = new UpdatePricesRequest(savedId, 3.00m, 15.00m);
+            // Act - Call API to update prices (using form data as expected by controller)
+            var formData = new Dictionary<string, string>
+            {
+                ["id"] = savedId.ToString(),
+                ["inputPricePerMillion"] = "3.00",
+                ["outputPricePerMillion"] = "15.00"
+            };
 
-            var result = await _testHarness.ApiPostJson<UpdatePricesRequest, VueMaintenanceResult>(
+            var result = await _testHarness.ApiPostForm<VueMaintenanceResult>(
                 "apiVue/VueMaintenance/UpdateWhitelistPrices",
-                request);
+                formData);
 
             // Assert
             Assert.That(result.Success, Is.True);
@@ -222,9 +227,6 @@ class AiModelWhitelistPrices_tests : BaseTestHarness
             whitelistRepo.DeleteModel(savedId);
         }
     }
-
-    // Request type for update prices API
-    private record UpdatePricesRequest(int Id, decimal InputPricePerMillion, decimal OutputPricePerMillion);
 
     // Response types for API calls
     private record VueMaintenanceResult(bool Success, string Data);

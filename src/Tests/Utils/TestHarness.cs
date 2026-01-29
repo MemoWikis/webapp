@@ -534,6 +534,22 @@ public sealed class TestHarness : IAsyncDisposable, IDisposable
         return await Client.SendAsync(request);
     }
 
+    /// <summary>POST helper for form data (application/x-www-form-urlencoded).</summary>
+    public async Task<TResult> ApiPostForm<TResult>(string endpoint, Dictionary<string, string> formData)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
+        {
+            Content = new FormUrlEncodedContent(formData)
+        };
+
+        AddCookiesToRequest(request);
+        var response = await Client.SendAsync(request);
+        var responseJson = await response.Content.ReadAsStringAsync();
+
+        return JsonSerializer.Deserialize<TResult>(responseJson,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+    }
+
     // --------------------------------------------------------------------
     // Verification helpers (names preserved)
     // --------------------------------------------------------------------

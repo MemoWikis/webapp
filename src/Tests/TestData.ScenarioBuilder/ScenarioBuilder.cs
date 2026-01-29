@@ -92,7 +92,7 @@ public sealed class ScenarioBuilder
                 DisplayName = "gpt-5.2",
                 Provider = AiModelProvider.OpenAI,
                 TokenCostMultiplier = 0.80m,
-                InputPricePerMillion = 175.0000m,
+                InputPricePerMillion = 1.75m,
                 OutputPricePerMillion = 14.0000m,
                 IsEnabled = true
             }

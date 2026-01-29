@@ -838,9 +838,9 @@ const parsePrice = (value: string): number => {
 }
 
 const formatDecimalForServer = (value: string): string => {
+    // Server uses German culture - use comma as decimal separator
     const parsed = parsePrice(value)
-    const localeSeparator = (1.1).toLocaleString().includes(',') ? ',' : '.'
-    return parsed.toString().replace('.', localeSeparator)
+    return parsed.toString().replace('.', ',')
 }
 
 const loadWhitelistedModels = async () => {
@@ -1025,14 +1025,11 @@ const savePrices = async (prices?: { id: number, inputPrice: string, outputPrice
         return
     }
 
-    const inputPrice = parsePrice(targetPrices.inputPrice)
-    const outputPrice = parsePrice(targetPrices.outputPrice)
-
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
     data.append('id', targetPrices.id.toString())
-    data.append('inputPricePerMillion', inputPrice.toString())
-    data.append('outputPricePerMillion', outputPrice.toString())
+    data.append('inputPricePerMillion', formatDecimalForServer(targetPrices.inputPrice))
+    data.append('outputPricePerMillion', formatDecimalForServer(targetPrices.outputPrice))
 
     try {
         const response = await fetch('/apiVue/VueMaintenance/UpdateWhitelistPrices', {
