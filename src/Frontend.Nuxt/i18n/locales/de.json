@@ -2032,6 +2032,20 @@
             "pollingTest30s": "Polling-Test (30 Sekunden)",
             "pollingTest120s": "Polling-Test (120 Sekunden)"
         },
+        "aiCosts": {
+            "tabTitle": "AI-Kosten",
+            "title": "AI-Kosten nach Tag und Modell",
+            "days": "Tage",
+            "totalCost": "Gesamtkosten",
+            "totalRequests": "Anfragen gesamt",
+            "requests": "Anfragen",
+            "model": "Modell",
+            "inputTokens": "Input-Token",
+            "outputTokens": "Output-Token",
+            "inputCost": "Input-Kosten",
+            "outputCost": "Output-Kosten",
+            "noData": "Keine Daten für den gewählten Zeitraum"
+        },
         "removeAdminRights": {
             "title": "Admin-Rechte entfernen",
             "button": "Admin-Rechte für aktuellen Benutzer entfernen"

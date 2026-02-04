@@ -293,6 +293,33 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
         return result ?? new AiTotalCostSummary();
     }
 
+    public List<AiDailyCostByModel> GetCostSummaryByDayAndModel(DateTime? fromDate = null, DateTime? toDate = null)
+    {
+        var sql = $@"
+            SELECT 
+                CAST(DATE(u.DateCreated) AS DATETIME) AS Date,
+                u.Model AS ModelId,
+                MAX(w.DisplayName) AS DisplayName,
+                CAST(SUM(u.TokenIn) AS SIGNED) AS TotalInputTokens,
+                CAST(SUM(u.TokenOut) AS SIGNED) AS TotalOutputTokens,
+                COUNT(*) AS RequestCount,
+                {AggregateCostCalculations}
+            FROM ai_usage_log u
+            {PriceJoinSubquery}
+            WHERE 1=1";
+
+        sql = AppendDateRangeFilter(sql, fromDate, toDate);
+        sql += " GROUP BY DATE(u.DateCreated), u.Model ORDER BY Date DESC, TotalCostUsd DESC";
+
+        var query = _session.CreateSQLQuery(sql);
+        ApplyDateRangeParameters(query, fromDate, toDate);
+
+        return query
+            .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(AiDailyCostByModel)))
+            .List<AiDailyCostByModel>()
+            .ToList();
+    }
+
     private static string AppendDateRangeFilter(string sql, DateTime? fromDate, DateTime? toDate)
     {
         if (fromDate.HasValue)
@@ -359,6 +386,14 @@ public class AiModelCostSummary : AiCostSummaryBase
 public class AiTotalCostSummary : AiCostSummaryBase
 {
     public int TotalRequests { get; set; }
+}
+
+public class AiDailyCostByModel : AiCostSummaryBase
+{
+    public DateTime Date { get; set; }
+    public string ModelId { get; set; } = string.Empty;
+    public string? DisplayName { get; set; }
+    public long RequestCount { get; set; }
 }
 
 public class AiDailyUsageSummary

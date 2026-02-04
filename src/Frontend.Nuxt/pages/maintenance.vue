@@ -1145,6 +1145,11 @@ onMounted(() => {
                     <font-awesome-icon :icon="['fas', 'robot']" />
                     AI
                 </button>
+                <button class="tab-button" :class="{ active: activeTab === 'ai-costs' }"
+                    @click="activeTab = 'ai-costs'">
+                    <font-awesome-icon :icon="['fas', 'chart-line']" />
+                    {{ $t('maintenance.aiCosts.tabTitle') }}
+                </button>
             </div>
 
             <!-- ==================== QUARTZ TAB ==================== -->
@@ -1168,6 +1173,9 @@ onMounted(() => {
                 @toggle-whitelist="toggleWhitelist" @update:editing-cost-rate="editingCostRate = $event"
                 @update:editing-display-name="editingDisplayName = $event"
                 @update:editing-prices="editingPrices = $event" />
+
+            <!-- ==================== AI COSTS TAB ==================== -->
+            <MaintenanceTabAiCostsComponent v-show="activeTab === 'ai-costs'" :anti-forgery-token="antiForgeryToken" />
 
             <!-- ==================== GENERAL TAB ==================== -->
             <MaintenanceTabGeneralComponent v-show="activeTab === 'general'" :question-methods="questionMethods"

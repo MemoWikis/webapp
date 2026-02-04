@@ -10,7 +10,7 @@ export enum JobStatus {
     NotFound = 3,
 }
 
-export type MaintenanceTabType = 'general' | 'quartz' | 'ai'
+export type MaintenanceTabType = 'general' | 'quartz' | 'ai' | 'ai-costs'
 
 // ==================== Method Configuration ====================
 
@@ -101,6 +101,25 @@ export interface GetAllProviderModelsResponse {
     success: boolean
     providers: ProviderModels[]
     error: string
+}
+
+// ==================== AI Costs ====================
+
+export interface AiDailyCostByModelItem {
+    date: string
+    modelId: string
+    displayName: string
+    requestCount: number
+    totalInputTokens: number
+    totalOutputTokens: number
+    totalInputCostUsd: number
+    totalOutputCostUsd: number
+    totalCostUsd: number
+}
+
+export interface AiCostsByDayAndModelResult {
+    items: AiDailyCostByModelItem[]
+    totalCostUsd: number
 }
 
 // ==================== MMap Cache ====================

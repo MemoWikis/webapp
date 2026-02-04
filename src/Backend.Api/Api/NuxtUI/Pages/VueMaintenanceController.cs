@@ -15,7 +15,8 @@ public class VueMaintenanceController(
     RunningJobRepo _runningJobRepo,
     MmapCacheStatusService _mmapCacheStatusService,
     AiModelRegistry _aiModelRegistry,
-    AiModelWhitelistRepo _aiModelWhitelistRepo) : ApiBaseController
+    AiModelWhitelistRepo _aiModelWhitelistRepo,
+    AiUsageLogRepo _aiUsageLogRepo) : ApiBaseController
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -1102,5 +1103,45 @@ public class VueMaintenanceController(
         _aiModelWhitelistRepo.Flush();
         AiModelCache.AddOrUpdate(model);
         return new VueMaintenanceResult { Success = true, Data = "Prices updated" };
+    }
+
+    public readonly record struct AiCostsByDayAndModelResult(
+        List<AiDailyCostByModelItem> Items,
+        decimal TotalCostUsd);
+
+    public readonly record struct AiDailyCostByModelItem(
+        string Date,
+        string ModelId,
+        string DisplayName,
+        long RequestCount,
+        long TotalInputTokens,
+        long TotalOutputTokens,
+        decimal TotalInputCostUsd,
+        decimal TotalOutputCostUsd,
+        decimal TotalCostUsd);
+
+    /// <summary>
+    /// Get AI costs grouped by day and model
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public AiCostsByDayAndModelResult GetAiCostsByDayAndModel([FromForm] int days = 30)
+    {
+        var fromDate = DateTime.UtcNow.AddDays(-days);
+        var data = _aiUsageLogRepo.GetCostSummaryByDayAndModel(fromDate, DateTime.UtcNow);
+
+        var items = data.Select(d => new AiDailyCostByModelItem(
+            d.Date.ToString("yyyy-MM-dd"),
+            d.ModelId,
+            d.DisplayName ?? d.ModelId,
+            d.RequestCount,
+            d.TotalInputTokens,
+            d.TotalOutputTokens,
+            d.TotalInputCostUsd,
+            d.TotalOutputCostUsd,
+            d.TotalCostUsd)).ToList();
+
+        return new AiCostsByDayAndModelResult(items, items.Sum(i => i.TotalCostUsd));
     }
 }
