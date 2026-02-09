@@ -5,7 +5,6 @@
 This skill can be invoked with any of these names:
 - `backend-workflow`
 - `backend`
-- `backend-änderung`
 - `backend-development`
 
 ## Description
@@ -91,10 +90,7 @@ See `entity-cache-pattern` skill for detailed patterns.
 
 #### Code Style
 
-- No namespaces in C# files
-- Spell out variable names (no abbreviations)
-- Always use braces after if/loops (no single-line statements)
-- Write comments in English
+See the critical rules in `copilot-instructions.md` and the **[Style Guide](../../style-guide.md)** for naming conventions.
 
 ### Phase 3: Build & Verify
 
@@ -140,45 +136,6 @@ public MyResponse GetSomething()
 }
 
 public readonly record struct MyResponse(int Value);
-```
-
-### Adding Usage Logging
-
-```csharp
-_aiUsageLogRepo.AddUsage(
-    userId,
-    pageId,
-    tokenIn,
-    tokenOut,
-    modelId
-);
-
-// Update cache if tracking usage
-var extendedUser = EntityCache.GetExtendedUserByIdNullable(userId);
-if (extendedUser != null)
-{
-    extendedUser.CurrentWeekTokenUsage += tokenIn + tokenOut;
-}
-```
-
-### Creating a New Test
-
-```csharp
-class MyFeature_tests : BaseTestHarness
-{
-    [Test]
-    public void Method_scenario_expected_result()
-    {
-        // Arrange
-        var service = R<MyService>();
-        
-        // Act
-        var result = service.DoSomething();
-        
-        // Assert
-        Assert.That(result, Is.EqualTo(expected));
-    }
-}
 ```
 
 ## Related Skills

@@ -36,28 +36,6 @@ docker-compose up -d
 
 ## When to use this skill
 
-- When you need to reset the development database to a clean state
-- After running the test `ScenarioBuilderTests.Default_DEV_Scenario()` to update the schema
-- When the database schema has been updated and you need to apply changes
-- When the development database is corrupted or in an inconsistent state
-For Linux/macOS:
-
-```bash
-cd ./src/Docker/Dev
-docker-compose down
-sudo rm -rf /var/lib/mysql/development  # Adjust path if you use a different volume mount
-docker-compose up -d
-```
-
-## Important notes
-
-- The MySQL data directory `C:\mysql-data\development` will be **completely deleted**
-- The MySQL container will automatically execute the existing `schema.sql` file from `./src/Docker/Dev/mysql-init/` during initialization
-- The database name in the SQL file must match the `MYSQL_DATABASE` value in the `.env` file (default: `memoWikis_dev`)
-- The `schema.sql` file must already exist in the `./src/Docker/Dev/mysql-init/` directory
-
-## When to use this skill
-
 - When you need to reset the development database to the current schema state
 - After manually editing the `schema.sql` file and need to apply changes
 - When you want to recreate the database without regenerating the schema
@@ -66,4 +44,4 @@ docker-compose up -d
 ## Difference from dev-database-create
 
 - **dev-database-reset**: Uses the existing `schema.sql` file as-is to recreate the database
-- **dev-database-create**: Runs the ScenarioBuilder test to generate a fresh `schema.sql` with current test data, then creates the databas
+- **dev-database-create**: Runs the ScenarioBuilder test to generate a fresh `schema.sql` with current test data, then creates the database

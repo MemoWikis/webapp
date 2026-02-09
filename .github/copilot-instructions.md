@@ -1,368 +1,60 @@
-# Code Style Guide
+# Glossary
 
-For comprehensive naming conventions, file structure, and patterns, see **[Style Guide](.github/style-guide.md)**.
+- `page`: a page
+- `childpage`: a page that is a child of page or wiki
+- `subpage`: synonym for childpage, only used in user interface
+- `wiki`: a special kind of a page
+- `orphaned page`: a page without a parent page or wiki
+- `wishknowledge`: knowledge a user wants to learn or has marked as desired
+- `wuwi`: abbreviation for "Wunschwissen" (wishknowledge), used in backend code and comments
 
-# Test Requirements
+# Critical Rules
 
-**CRITICAL:** When implementing features or fixing bugs, always create or update corresponding tests:
+- All code comments in English
+- Spell out variable names; no abbreviations
+- Always use braces after if/loops (no single-line statements)
+- **C#:** No namespaces. Prefer `Verify()` for tests. Use `_testHarness.ApiCall("apiVue/{controller}/{action}")` for API calls in tests.
+- **LESS:** Verify variables in `src/Frontend.Nuxt/assets/includes/colors.less`. Do NOT guess names (e.g. `@memo-dark` does not exist; use `@memo-grey-dark` or `@memo-grey-darkest`).
+- **Tests:** Always create/update tests for features and bug fixes. Use `runTests` tool (handles process management automatically).
 
-## Backend Changes → Backend Tests Required
+For naming conventions, file suffixes, and patterns, see **[Style Guide](.github/style-guide.md)**.
 
-- **Location:** `src/Tests/Backend.Core/`
-- **Pattern:** Create `{FeatureName}_tests.cs` matching the domain folder structure
-- **Tool:** Use `runTests` tool to run tests (handles process management automatically)
-- **Example:** Changes to `Domain/AI/GenerateFlashCard.cs` → Tests in `Tests/Backend.Core/AIContent/GenerateFlashCards_tests.cs`
+# Debugging
 
-## Frontend Changes → Playwright E2E Tests Required
-
-- **Location:** `src/Frontend.Nuxt/tests/playwright/`
-- **Pattern:** Create `{feature-name}.spec.ts` for user-facing functionality
-- **Run from:** Project root directory (where `playwright.config.ts` is located)
-- **Example:** AI flashcard feature → `ai-flashcard-language.spec.ts`
-
-## Test Coverage Priorities
-
-1. **Bug fixes:** Create a test that reproduces the bug, then fix it
-2. **New API endpoints:** Backend unit test + Playwright E2E test
-3. **AI features:** Test language consistency, edge cases, and prompt behavior
-4. **UI components:** Playwright test for user interactions
-
-## AI Feature Testing
-
-AI-powered features require special attention due to non-deterministic outputs:
-
-```csharp
-// Backend: Use assertions with ranges instead of Verify() for AI results
-Assert.That(flashCards.Count, Is.GreaterThanOrEqualTo(minCards).And.LessThanOrEqualTo(maxCards));
-
-// Use AI to validate language/content consistency
-var (isValidResponse, languageMatches) = await CheckLanguageMatchViaAi(sourceText, flashCardsJson);
-```
-
-```typescript
-// Playwright: Use keyword detection for language verification
-const germanKeywords = ["ist", "und", "der", "die", "das", "werden", "können"];
-const hasGermanContent = germanKeywords.some(
-  (keyword) =>
-    flashcard.front.toLowerCase().includes(keyword) ||
-    flashcard.back.toLowerCase().includes(keyword),
-);
-```
-
-# Service Health Check
-
-**IMPORTANT:** Before running E2E tests or debugging frontend issues, always verify services are running:
-
-```powershell
-# Quick one-liner for both ports
-@(3000, 5069) | ForEach-Object {
-    $r = Test-NetConnection localhost -Port $_ -WarningAction SilentlyContinue
-    "$($_): $(if($r.TcpTestSucceeded){'Running'}else{'Not running'})"
-}
-```
-
-**Expected Ports:**
-
-- **Frontend (Nuxt):** http://localhost:3000
-- **Backend (.NET):** http://localhost:5069
-- **Hocuspocus (WebSocket):** ws://localhost:1234
-
-If services are not running, use the `app-start` skill to start them.
-
-# Troubleshooting & Debugging
-
-## Empty UI Elements / Missing Data
-
-## Floating Vue & Playwright (Dropdowns/Modals)
-
-The app uses `floating-vue`. These components render **outside** the DOM hierarchy and have animations.
-
-- **Selectors:** Use `page.locator('.v-popper__popper--shown')` to find open dropdowns.
-- **Timing:** Animations take ~200-300ms.
-
+- **HTTP 500:** Always check Backend console output first (`get_task_output` for "shell: Backend" task). The stack trace reveals the root cause.
+- **Floating-vue & Playwright:** Components render outside DOM hierarchy. Wait for `.v-popper__popper--shown` before interacting:
   ```typescript
-  // BAD
-  await dropdown.click();
-  await page.locator(".item").click(); // Fails: Animation not done
-
-  // GOOD
   await dropdown.click();
   await expect(page.locator(".v-popper__popper--shown")).toBeVisible();
   await page.locator(".item").click();
   ```
+- **Service health:** Before E2E tests, verify ports 3000 (Frontend), 5069 (Backend), 1234 (Hocuspocus). Use `app-start` skill if not running.
 
-## Debugging 500 Errors
+# Architecture Overview
 
-**CRITICAL:** When encountering a HTTP 500 error, **always check the Backend console output first** before analyzing code. The root cause is typically visible in the exception stack trace.
+## EntityCache
 
-```powershell
-# Check backend task output for stack traces
-# Use the get_task_output tool for "shell: Backend" task
-```
+Central in-memory cache for entities (Users, Pages, Questions). **Read from cache, write to both DB and cache.** For full patterns and pitfalls, use the `entity-cache-pattern` skill.
 
-**Debugging Priority:**
+## AI Token Usage
 
-1. **Backend console/logs** - Shows actual exception with stack trace
-2. **Playwright tests** - Reproduce and verify the error
-3. **Unit tests** - For isolated component testing
+Core files in `src/Backend.Core/Domain/AI/`. Weekly quota system with cache in `ExtendedUserCacheItem.CurrentWeekTokenUsage`. See `docs/ai-token-usage-system.md` for details.
 
-## Quick Reference
+## Content Editor & Collaboration
 
-- **Files/Folders:** kebab-case (`user-profile.store.ts`, `order-card.component.vue`)
-- **Exports:** PascalCase for types/classes/components (`UserProfile`, `OrderCard`)
-- **Exports:** camelCase for functions/composables (`useUserStore`, `formatDate`)
-- **File Suffixes:** Use consistent suffixes for predictable discovery
-  - Components: `*.component.vue`
-  - Stores: `*.store.ts`
-  - Enums: `*.enum.ts`
-  - Types: `*.types.ts`
-  - Utils: `*.utils.ts`
-
-## LESS / Styling
-
-- **IMPORTANT:** Verify LESS variables in `src/Frontend.Nuxt/assets/includes/colors.less`.
-- **Do NOT guess** variable names (e.g. `@memo-dark` does not exist; use `@memo-grey-dark` or `@memo-grey-darkest`).
-
-## Common Rules (All Languages)
-
-- Please always write code comments in English.
-- Always spell out variable names; no abbreviations.
-- After if statements and loops, never use single line statements.
-
-# C#
-
-- Do not use namespaces in C#.
-- Prefer Verify() for Tests
-- Use \_testHarness.ApiCall("apiVue/{controller}/{action}") to do apicalls, do not init/resolve controllers in tests
-
-# Unit Tests
-
-- For API calls use Testharness.ApiCall(..)
-
-## Running Backend Tests
-
-**IMPORTANT:** Before running backend tests, stop the running Backend process to avoid DLL file locks:
-
-```powershell
-# Stop Backend process first
-Get-Process -Name "MemoWikis.Backend.Api" -ErrorAction SilentlyContinue | Stop-Process -Force
-
-# Then run tests
-cd src/Tests; dotnet test --filter "TestClassName"
-```
-
-**Preferred:** Use the `runTests` tool instead of terminal commands – it handles process management automatically.
-
-## NHibernate SQL Aggregate Functions
-
-When using native SQL queries with `AliasToBeanResultTransformer`, use correct C# types for MySQL aggregates:
-
-| SQL Function | MySQL Returns | C# Property Type |
-| ------------ | ------------- | ---------------- |
-| `COUNT(*)`   | BIGINT        | `long`           |
-| `SUM()`      | DECIMAL       | `decimal`        |
-| `AVG()`      | DECIMAL       | `decimal`        |
-
-Example:
-
-```csharp
-public class MySummary
-{
-    public long RequestCount { get; set; }      // COUNT(*)
-    public decimal TotalTokens { get; set; }    // SUM()
-}
-```
-
-# Glossar
-
-- `page`: a page
-- `childpage`: a page that is a child of page or wiki
-- `subpage`: subpage is a synonym for childpage and only used in user interface
-- `wiki`: is a special kind of a page
-- `orphaned page`: a page that does not have a parent page or wiki
-- `wishknowledge`: knowledge that a user specifically wants to learn or has marked as desired to learn
-- `wuwi`: abbreviation for "Wunschwissen" (wishknowledge), can be used in backend code, comments, and non-user-facing texts
+TipTap editor with Y.js CRDT and HocuspocusProvider for real-time collaboration. See `docs/editor-system-overview.md` for architecture documentation.
 
 # Frontend Development
 
 For **any task in `src/Frontend.Nuxt/`**, use the `frontend-workflow` skill.
 
-The skill covers:
+# Backend Development
 
-- Vue 3 / Nuxt 3 patterns and conventions
-- Tooltips (always use `v-tooltip` from floating-vue, never native `title`)
-- Translations (i18n) with terminology and guidelines
-- State management (Pinia stores)
-- Styling (LESS variables and patterns)
-- API calls with `$api` composable
-- Accessibility best practices
-
-# AI Token Usage System
-
-Core components in `src/Backend.Core/Domain/AI/`:
-
-- `Usage/TokenDeductionService.cs` - Token balance management, affordability checks, weekly quota calculation
-- `Usage/AiUsageLogRepo.cs` - Usage logging with cost analytics, supports queries by model/date/user
-- `Models/AiModelRegistry.cs` - Model whitelist & token cost multipliers, caching
-
-**Weekly Quota System:**
-
-- Subscribers: more tokens per week
-- Free-tier: less tokens per week
-- Quota resets every Monday at 00:00
-- No accumulation of unused tokens
-
-**Caching:**
-
-- Weekly token usage is cached in `ExtendedUserCacheItem.CurrentWeekTokenUsage`
-- Loaded at user login via `ExtendedUserCache.CreateExtendedUserCacheItem`
-- Updated after each AI usage in `AiUsageLogRepo.AddUsage`
-- `TokenDeductionService` reads from `ExtendedUserCacheItem`, never queries DB for usage
-
-For detailed documentation including integration points, database schema, and token flow examples, see `docs/ai-token-usage-system.md`
-
-# EntityCache Pattern
-
-The EntityCache is the central in-memory cache for entities (Users, Pages, Questions).
-
-**Key Principle:** Always read from cache, write to both DB and cache.
-
-```csharp
-// Reading: Use EntityCache
-var user = EntityCache.GetUserById(userId);
-
-// Writing: Update DB first, then cache
-_userWritingRepo.Update(user);
-EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-```
-
-For the full pattern with examples and pitfalls, use the `entity-cache-pattern` skill.
-
-# Content Editor & Collaboration System
-
-Core components in `src/Frontend.Nuxt/components/page/content/`:
-
-- `ContentEditor.vue` - TipTap rich-text editor with real-time collaboration
-- `pageStore.ts` - State management, content persistence, auto-save (3s debounce)
-- Real-time collaboration via HocuspocusProvider & Y.js CRDT
-- Offline editing with IndexedDB persistence
-- Hash-based content versioning with configurable conflict resolution
-
-Key Technologies: TipTap (editor), Y.js (CRDT), HocuspocusProvider (WebSocket), IndexedDB (offline cache)
-
-Conflict Strategies: ServerWins (default), ClientWins, Timestamp, UserChoice (UI pending)
-
-**📚 Documentation:**
-
-- **[Editor System Overview](../docs/editor-system-overview.md)** - Architecture, quick start, file structure
-- **[Collaboration System](../docs/editor-collaboration-system.md)** - Real-time editing, WebSocket events, reconnection
-- **[Conflict Resolution](../docs/editor-conflict-resolution.md)** - Versioning, strategies, hash-based comparison
-- **[Known Issues & Solutions](../docs/editor-issues.md)** - Hydration mismatches, stale cache, debugging tips
-
-For optimal LLM performance, documentation is split into focused files. Start with the overview, then dive into specific topics as needed.
-
-# Skills
-
-Skills are domain-specific automation workflows that help with common development tasks.
-
-**Important:** All skills, documentation, and descriptions must be written in **English**.
-
-## App Management Skills
-
-- **app-start** (aliases: start-app, startup, start): Starts Backend (port 5069) and Frontend (port 3000) in foreground terminals. Checks if services are already running before starting them.
-- **app-stop** (aliases: stop-app, stop): Stops Backend and Frontend processes. Use before running backend tests to avoid DLL file locks.
-- **app-restart** (aliases: restart-app, restart): Stops and then starts Backend and Frontend. Useful when cache or DLLs need refreshing.
-
-## Database Skills
-
-- **dev-database-create**: Create a fresh dev database with latest test data (runs ScenarioBuilder test, generates schema.sql, reinitializes MySQL)
-- **dev-database-reset**: Reset the dev database from existing schema.sql (just reinitializes MySQL without updating schema.sql)
-
-## Architecture Skills
-
-- **entity-cache-pattern**: EntityCache read/write patterns, cache+DB synchronization, common pitfalls
-
-## Frontend Development Skills
-
-- **frontend-workflow** (aliases: frontend, frontend-development, nuxt): Master skill for Frontend/Nuxt development. Covers Vue 3 patterns, tooltips (floating-vue), i18n translations, Pinia stores, LESS styling, and accessibility. **Use this skill for any task in `src/Frontend.Nuxt/`.**
-
-## Backend Development Skills
-
-- **backend-workflow** (aliases: backend, backend-development): Master skill for Backend development. Ensures consistent patterns (NHibernate types, EntityCache updates) and **automatically chains to backend-test** after completing changes.
-- **backend-test** (aliases: run-backend-tests, test-backend): Analyzes changed Backend files and runs corresponding unit tests. Automatically invoked by backend-workflow.
-
-## Testing Skills
-
-- **playwright-run** (aliases: run-e2e, e2e-test, visual-test): Run Playwright E2E tests with screenshots saved to `test-results/screenshots/` for visual feedback during development
+For **any task in `src/Backend.Core/` or `src/Backend.Api/`**, use the `backend-workflow` skill.
 
 # Playwright E2E Tests
 
-## Overview
-
-Playwright tests are located in `src/Frontend.Nuxt/tests/playwright/`. Screenshots are automatically saved to `test-results/screenshots/` for monitoring.
-
-## Key Files
-
-- `playwright.config.ts` - Main configuration (**root level, not in Frontend.Nuxt!**)
-- `fixtures/auth.fixture.ts` - Reusable login fixture with `authenticatedPage`
-- `fixtures/screenshot.helper.ts` - Screenshot utilities for development feedback
-
-## Running Tests
-
-**CRITICAL:** Always run Playwright from the project root directory where `playwright.config.ts` is located:
-
-```powershell
-# Correct - from project root
-cd c:\Projects\memoWikis
-npx playwright test settings-ai-usage.spec.ts
-
-# Wrong - baseURL will be undefined
-cd src/Frontend.Nuxt
-npx playwright test  # ❌ Error: Cannot navigate to invalid URL
-```
-
-```bash
-# Run all Playwright tests
-npx playwright test
-
-# Run specific test file
-npx playwright test ai-create-page.spec.ts
-
-# Run with headed browser (visible)
-npx playwright test --headed
-
-# Run in debug mode
-npx playwright test --debug
-
-# Run only chromium (skip webkit/mobile if not installed)
-npx playwright test --project=chromium
-```
-
-## Usage Pattern
-
-```typescript
-import { test, expect } from "../fixtures/auth.fixture";
-import { takeDevScreenshot } from "../fixtures/screenshot.helper";
-
-test("my test", async ({ authenticatedPage }) => {
-  // authenticatedPage is already logged in as admin
-  await authenticatedPage.goto("/Settings"); // Use localized paths: /Settings, /Einstellungen
-  await takeDevScreenshot(authenticatedPage, "descriptive-name");
-});
-```
-
-## Key Selectors
-
-- **Login button (header):** `.login-btn`
-- **Login modal input:** `input[name="login"]`, `input[name="password"]`
-- **Modal submit button:** `.modal-default-footer .btn-primary`
-- **Logged-in user indicator:** `.header-btn:has(.header-author-icon)`
-
-## Test Users (dev database)
-
-- Admin: `admin@memowikis.net` / `test`
-- User: `user@memowikis.net` / `test`
-
-## Screenshot Monitoring
-
-Screenshots are saved to `test-results/screenshots/` with timestamps. Monitor this folder during development for visual feedback.
+- **Config location:** `playwright.config.ts` at project root (NOT in `Frontend.Nuxt/`)
+- **Always run from project root:** `cd c:\Projects\memoWikis; npx playwright test`
+- **Test users:** Admin: `admin@memowikis.net` / `test`, User: `user@memowikis.net` / `test`
+- For running tests, use the `playwright-run` skill.

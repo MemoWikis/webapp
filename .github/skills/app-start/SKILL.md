@@ -7,7 +7,6 @@ This skill can be invoked with any of these names:
 - `start-app`
 - `startup`
 - `start` (when context is about the application)
-- `Anwendung starten`
 
 ## Description
 
@@ -40,16 +39,4 @@ After running this skill, the user should have:
 - ✅ Backend terminal showing dotnet logs
 - ✅ Frontend terminal showing npm/nuxt logs
 - ✅ Both services accessible via their URLs
-
-## Requirements
-
-- .NET SDK (for Backend)
-- Node.js + npm (for Frontend)
-- VS Code with integrated terminal support
-
-## Terminal Management
-
-- Use `Ctrl+C` in each terminal to stop the respective service
-- Terminals remain open and show real-time logs
-- Close terminals to fully stop services
 

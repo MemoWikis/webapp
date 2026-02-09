@@ -6,7 +6,6 @@ This skill can be invoked with any of these names:
 - `app-stop`
 - `stop-app`
 - `stop`
-- `Anwendung stoppen`
 
 ## Description
 

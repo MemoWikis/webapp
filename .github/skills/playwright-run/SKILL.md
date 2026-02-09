@@ -8,7 +8,6 @@ This skill can be invoked with any of these names:
 - `e2e-test`
 - `visual-test`
 - `run-playwright`
-- `Playwright ausführen`
 
 ## Description
 
@@ -106,10 +105,7 @@ await takeElementScreenshot(page, '.my-element', 'element-name')
 
 ## Test Users
 
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@memowikis.net | test |
-| User | user@memowikis.net | test |
+See `copilot-instructions.md` for test user credentials.
 
 ## Expected Result
 
@@ -121,15 +117,6 @@ After running this skill, the user should have:
 
 ## Troubleshooting
 
-### Tests timing out
-- Ensure Backend is running on port 5069
-- Ensure Frontend is running on port 3000
-- Check for network issues
-
-### Login failing
-- Verify dev database has test users
-- Check if login modal selectors have changed
-
-### Screenshots not saving
-- Check `test-results/screenshots/` folder exists
-- Verify disk space available
+- **Tests timing out:** Ensure Backend (5069) and Frontend (3000) are running. Use `app-start` skill.
+- **Login failing:** Verify dev database has test users, check if login modal selectors changed.
+- **TimeoutError on selector:** Often means the Nuxt page crashed. Check **Frontend terminal output** for build errors.

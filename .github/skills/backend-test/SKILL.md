@@ -6,7 +6,6 @@ This skill can be invoked with any of these names:
 - `backend-test`
 - `run-backend-tests`
 - `test-backend`
-- `Backend-Tests ausführen`
 
 ## Description
 
