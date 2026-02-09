@@ -1,6 +1,15 @@
 ---
 description: "Create comprehensive test guidelines for C# NUnit tests with Verify framework."
-tools: ['changes', 'codebase', 'fetch', 'findTestFiles', 'githubRepo', 'search', 'usages']
+tools:
+  [
+    "changes",
+    "codebase",
+    "fetch",
+    "findTestFiles",
+    "githubRepo",
+    "search",
+    "usages",
+  ]
 ---
 
 # Test Creation Guidelines
@@ -26,11 +35,12 @@ Follow these established patterns when creating tests for the memoWikis project.
 
 ### Naming Conventions
 
-- Use **PascalCase** for class names  
+- Use **PascalCase** for class names
 - Add `_tests` suffix to test class filenames
 - Use descriptive method names that explain the scenario being tested
 
 **Examples:**
+
 - `LearningSessionApi_tests.cs`
 - `WikiDeletion_tests.cs`
 - `PermissionCheck_tests.cs`
@@ -69,9 +79,9 @@ public class ExampleApi_tests : BaseTestHarness
     public async Task Should_perform_expected_behavior()
     {
         await ClearData(); // Reset database state when needed
-        
+
         // Arrange
-        // Act  
+        // Act
         // Assert
     }
 }
@@ -85,6 +95,7 @@ public class ExampleApi_tests : BaseTestHarness
 - Keep API wrappers in `src/Tests/Utils/ApiWrappers/`
 
 **Examples:**
+
 - `LearningSessionApi_tests.cs` // test file
 - `LearningSessionApi_testUtils.cs` // test utilities
 
@@ -118,10 +129,10 @@ public async Task Should_perform_expected_behavior()
     // Arrange: Set up test data and configure dependencies
     var context = NewPageContext();
     var user = new User { Id = 1 };
-    
+
     // Act: Execute the behavior being tested
     var result = await serviceUnderTest.PerformOperation(input);
-    
+
     // Assert: Verify the expected outcomes
     result.Should().NotBeNull();
     await Verify(result);
@@ -153,7 +164,7 @@ Use the established context creation methods:
 // For page-related tests
 var contextPage = NewPageContext();
 
-// For question-related tests  
+// For question-related tests
 var contextQuestion = NewQuestionContext();
 
 // Reload caches after data changes
@@ -267,11 +278,11 @@ public class Domain_persistence_tests : BaseTest
     {
         // Use R<> for dependency resolution
         var repository = R<EntityRepository>();
-        
+
         // Test persistence logic
         var entity = new Entity("Name", sessionUser.UserId);
         repository.Create(entity);
-        
+
         // Verify persistence
         var entityFromDb = repository.GetById(entity.Id);
         Assert.That(entityFromDb.Name, Is.EqualTo("Name"));
@@ -282,11 +293,10 @@ public class Domain_persistence_tests : BaseTest
 ## Best Practices
 
 1. **Use descriptive test names** that explain the scenario and expected outcome
-2. **Always include XML documentation** for complex test scenarios  
-3. **Use _useTinyScenario = true** for faster test execution when possible
+2. **Always include XML documentation** for complex test scenarios
+3. **Use \_useTinyScenario = true** for faster test execution when possible
 4. **Clear test data** with `await ClearData()` when tests need clean state
 5. **Group related assertions** using Verify() for better test output
 6. **Use established naming patterns** consistently across the codebase
 7. **Include context in Arrange comments** to explain test setup
 8. **Test both happy path and error scenarios** for comprehensive coverage
-
