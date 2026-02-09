@@ -3,6 +3,7 @@
 ## Aliases
 
 This skill can be invoked with any of these names:
+
 - `backend-test`
 - `run-backend-tests`
 - `test-backend`
@@ -32,6 +33,7 @@ Get-Process -Name "MemoWikis.Backend.Api" -ErrorAction SilentlyContinue | Stop-P
 ### Step 2: Identify Changed Files
 
 Use `get_changed_files` tool to see what Backend files have been modified:
+
 - Look for files in `src/Backend.Core/` and `src/Backend.Api/`
 - Note the domain/feature area (e.g., `Domain/AI/`, `Domain/User/`, `Infrastructure/Cache/`)
 
@@ -39,14 +41,14 @@ Use `get_changed_files` tool to see what Backend files have been modified:
 
 Use this mapping to find corresponding test files:
 
-| Changed Path Pattern | Test Location |
-|---------------------|---------------|
-| `Backend.Core/Domain/AI/` | `Tests/Backend.Core/AIContent/` |
-| `Backend.Core/Domain/User/` | `Tests/Backend.Core/User/` |
-| `Backend.Core/Domain/Page/` | `Tests/Backend.Core/Page/` |
-| `Backend.Core/Domain/Question/` | `Tests/Backend.Core/Question/` |
-| `Backend.Core/Infrastructure/Cache/` | `Tests/Cache/` |
-| `Backend.Api/Api/NuxtUI/` | Look for matching controller tests |
+| Changed Path Pattern                 | Test Location                      |
+| ------------------------------------ | ---------------------------------- |
+| `Backend.Core/Domain/AI/`            | `Tests/Backend.Core/AIContent/`    |
+| `Backend.Core/Domain/User/`          | `Tests/Backend.Core/User/`         |
+| `Backend.Core/Domain/Page/`          | `Tests/Backend.Core/Page/`         |
+| `Backend.Core/Domain/Question/`      | `Tests/Backend.Core/Question/`     |
+| `Backend.Core/Infrastructure/Cache/` | `Tests/Cache/`                     |
+| `Backend.Api/Api/NuxtUI/`            | Look for matching controller tests |
 
 Use `file_search` or `grep_search` to find test files that reference the changed classes/methods.
 
@@ -56,8 +58,10 @@ Use the `runTests` tool with the identified test files:
 
 ```typescript
 runTests({
-  files: ["c:\\Projects\\memoWikis\\src\\Tests\\Backend.Core\\<matched-test-file>.cs"]
-})
+  files: [
+    "c:\\Projects\\memoWikis\\src\\Tests\\Backend.Core\\<matched-test-file>.cs",
+  ],
+});
 ```
 
 If no specific test file is found, run tests in the general area:
@@ -70,6 +74,7 @@ dotnet test --filter "FullyQualifiedName~<FeatureArea>" --no-build
 ### Step 5: Report Results
 
 Tell the user:
+
 - ✅ Which tests passed
 - ❌ Which tests failed (with error details)
 - 🔍 Suggestions for new tests if coverage seems incomplete
@@ -94,16 +99,17 @@ grep_search with pattern: "GetCurrentWeekTokenUsage" in Tests/**/*.cs
 
 ## Common Test Locations
 
-| Feature | Test File(s) |
-|---------|--------------|
-| AI Usage | `Tests/Backend.Core/AIContent/AiUsageLogRepo_tests.cs` |
-| AI Page Generation | `Tests/Backend.Core/AIContent/GenerateAiPage_tests.cs` |
-| AI Flashcards | `Tests/Backend.Core/AIContent/GenerateFlashCards_tests.cs` |
-| Token Deduction | `Tests/Backend.Core/AIContent/` (look for TokenDeduction) |
+| Feature            | Test File(s)                                               |
+| ------------------ | ---------------------------------------------------------- |
+| AI Usage           | `Tests/Backend.Core/AIContent/AiUsageLogRepo_tests.cs`     |
+| AI Page Generation | `Tests/Backend.Core/AIContent/GenerateAiPage_tests.cs`     |
+| AI Flashcards      | `Tests/Backend.Core/AIContent/GenerateFlashCards_tests.cs` |
+| Token Deduction    | `Tests/Backend.Core/AIContent/` (look for TokenDeduction)  |
 
 ## When to Suggest New Tests
 
 Suggest writing new tests when:
+
 - A new public method was added
 - An existing method's signature changed
 - A bug was fixed (regression test)
@@ -112,10 +118,12 @@ Suggest writing new tests when:
 ## Test Writing Guidelines
 
 When creating new tests:
+
 - Use `BaseTestHarness` as base class
 - Use `R<T>()` to resolve dependencies
 - Follow naming: `MethodName_Scenario_ExpectedResult`
 - Use Verify() for snapshot testing where appropriate
+- For detailed test patterns, see the `create-tests` chat mode
 
 ## Example Test Structure
 
@@ -127,10 +135,10 @@ class MyFeature_tests : BaseTestHarness
     {
         // Arrange
         var service = R<MyService>();
-        
+
         // Act
         var result = service.MyMethod();
-        
+
         // Assert
         Assert.That(result, Is.EqualTo(expected));
     }

@@ -9,12 +9,18 @@ Follow these established patterns when creating tests for the memoWikis project.
 
 ## Framework and Tools
 
-- Use **Verify(..)** for complex state verification and snapshot testing
-- Use **NUnit** for simple assertions and basic test structure
-- Use **FluentAssertions** (.Should()) 
+- Use **Verify(..)** as the preferred approach for complex state verification and snapshot testing
+- Use **NUnit** `Assert.That()` for simple, single-value assertions
+- Use **FluentAssertions** (`.Should()`) sparingly, only when it improves readability for collection/type assertions
 - Use **TestHarness** for API integration tests
 - Inherit from **BaseTestHarness** for most tests
 - Do not import namespaces like `System.Linq` or `System.Collections.Generic` in test files. ImplicitUsings are enabled, so these namespaces are already available.
+
+### Assertion Priority
+
+1. **Verify()** – Default choice for complex objects, API responses, multi-property results
+2. **NUnit Assert.That()** – For simple single-value checks (`Assert.That(result, Is.EqualTo(expected))`)
+3. **FluentAssertions .Should()** – Only when collections or types benefit from fluent syntax
 
 ## Test Class Structure
 

@@ -3,6 +3,7 @@
 ## Aliases
 
 This skill can be invoked with any of these names:
+
 - `app-start`
 - `start-app`
 - `startup`
@@ -17,17 +18,23 @@ Starts Backend and Frontend in separate VS Code integrated terminals with descri
 **IMPORTANT: Follow these steps exactly when the user invokes this skill:**
 
 ### Step 1: Start Backend Task
+
 Use `run_task` with these parameters:
+
 - **workspaceFolder:** `c:\Projects\memoWikis`
 - **id:** `Backend`
 
 ### Step 2: Start Frontend Task
+
 Use `run_task` with these parameters:
+
 - **workspaceFolder:** `c:\Projects\memoWikis`
 - **id:** `Frontend`
 
 ### Step 3: Confirm to User
+
 Tell the user:
+
 - Backend läuft auf http://localhost:5069
 - Frontend läuft auf http://localhost:3000
 - Die Terminals zeigen die Live-Logs
@@ -35,8 +42,8 @@ Tell the user:
 ## Expected Result
 
 After running this skill, the user should have:
+
 - ✅ Two visible VS Code integrated terminals
 - ✅ Backend terminal showing dotnet logs
 - ✅ Frontend terminal showing npm/nuxt logs
 - ✅ Both services accessible via their URLs
-

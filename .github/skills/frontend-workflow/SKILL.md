@@ -202,13 +202,7 @@ const { t } = useI18n()
 
 ## File Naming Conventions
 
-| Type | Pattern | Example |
-| ---- | ------- | ------- |
-| Components | `kebab-case.vue` | `user-profile.vue` |
-| Stores | `*.store.ts` | `user.store.ts` |
-| Types | `*.types.ts` | `user.types.ts` |
-| Utils | `*.utils.ts` | `date.utils.ts` |
-| Enums | `*.enum.ts` | `status.enum.ts` |
+See **[Style Guide](../../style-guide.md)** for the complete file naming and suffix conventions.
 
 ---
 

@@ -3,6 +3,7 @@
 ## Aliases
 
 This skill can be invoked with any of these names:
+
 - `backend-workflow`
 - `backend`
 - `backend-development`
@@ -54,12 +55,13 @@ Follow these guidelines based on what you're changing:
 When using native SQL queries with `AliasToBeanResultTransformer`:
 
 | SQL Function | MySQL Returns | C# Property Type |
-|-------------|---------------|------------------|
-| `COUNT(*)` | BIGINT | `long` |
-| `SUM()` | DECIMAL | `decimal` |
-| `AVG()` | DECIMAL | `decimal` |
+| ------------ | ------------- | ---------------- |
+| `COUNT(*)`   | BIGINT        | `long`           |
+| `SUM()`      | DECIMAL       | `decimal`        |
+| `AVG()`      | DECIMAL       | `decimal`        |
 
 Example:
+
 ```csharp
 public class MySummary
 {
@@ -106,6 +108,7 @@ dotnet build src/Backend.Api/Backend.Api.csproj
 ```
 
 Check for:
+
 - ✅ Build succeeds
 - ⚠️ No new warnings related to your changes
 - ❌ Fix any errors before proceeding
@@ -117,6 +120,7 @@ Check for:
 Read the skill file at: `.github/skills/backend-test/SKILL.md`
 
 This will:
+
 1. Stop the running Backend process
 2. Identify which tests correspond to your changes
 3. Run those tests
@@ -147,12 +151,12 @@ public readonly record struct MyResponse(int Value);
 
 ## Files Commonly Modified Together
 
-| When changing... | Also check/update... |
-|-----------------|---------------------|
-| `*Repo.cs` | Cache update code, related tests |
-| `*Controller.cs` | Frontend store that calls the API |
-| `*CacheItem.cs` | EntityCache methods, related tests |
-| DTO/Response records | Frontend types.ts |
+| When changing...     | Also check/update...               |
+| -------------------- | ---------------------------------- |
+| `*Repo.cs`           | Cache update code, related tests   |
+| `*Controller.cs`     | Frontend store that calls the API  |
+| `*CacheItem.cs`      | EntityCache methods, related tests |
+| DTO/Response records | Frontend types.ts                  |
 
 ## Checklist Before Completing
 

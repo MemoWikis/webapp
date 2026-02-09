@@ -3,6 +3,7 @@
 ## Aliases
 
 This skill can be invoked with any of these names:
+
 - `playwright-run`
 - `run-e2e`
 - `e2e-test`
@@ -32,16 +33,19 @@ Check if Backend and Frontend are running. If not, suggest using the `app-start`
 **CRITICAL:** Always run from project root where `playwright.config.ts` is located!
 
 Use `run_in_terminal` with these parameters:
+
 ```powershell
 cd c:\Projects\memoWikis; npx playwright test --project=chromium --reporter=list
 ```
 
 For a specific test file:
+
 ```powershell
 cd c:\Projects\memoWikis; npx playwright test ai-create-page.spec.ts --project=chromium --reporter=list
 ```
 
 For headed mode (visible browser):
+
 ```powershell
 cd c:\Projects\memoWikis; npx playwright test --project=chromium --headed --reporter=list
 ```
@@ -53,28 +57,31 @@ cd c:\Projects\memoWikis; npx playwright test --project=chromium --headed --repo
 After tests complete, check the `test-results/screenshots/` folder for visual feedback.
 
 Use `list_dir` to see available screenshots:
+
 - **path:** `c:\Projects\memoWikis\test-results\screenshots`
 
 ### Step 4: Report Results
 
 Tell the user:
+
 - Which tests passed/failed
 - Location of screenshots: `test-results/screenshots/`
 - Location of HTML report: `test-results/html-report/`
 
 **Note:** If tests fail with a **TimeoutError** waiting for a selector, it often means the Nuxt page crashed (e.g., 500 Internal Server Error due to build errors like missing LESS variables).
+
 - **ACTION:** Check the **Frontend terminal output** for build errors or exceptions!
 - **ACTION:** Do not assume the selector is just missing; assume the page failed to render.
 
 ## Common Test Commands
 
-| Command | Description |
-|---------|-------------|
-| `npx playwright test --project=chromium` | Run all tests (chromium only) |
-| `npx playwright test ai-create-page.spec.ts --project=chromium` | Run specific file |
-| `npx playwright test --project=chromium --headed` | Run with visible browser |
-| `npx playwright test --debug` | Run in debug mode |
-| `npx playwright test --project=mobile` | Run mobile tests only (requires webkit) |
+| Command                                                         | Description                             |
+| --------------------------------------------------------------- | --------------------------------------- |
+| `npx playwright test --project=chromium`                        | Run all tests (chromium only)           |
+| `npx playwright test ai-create-page.spec.ts --project=chromium` | Run specific file                       |
+| `npx playwright test --project=chromium --headed`               | Run with visible browser                |
+| `npx playwright test --debug`                                   | Run in debug mode                       |
+| `npx playwright test --project=mobile`                          | Run mobile tests only (requires webkit) |
 
 **Note:** Always run from project root (`c:\Projects\memoWikis`), not from `src/Frontend.Nuxt`!
 
@@ -94,13 +101,13 @@ src/Frontend.Nuxt/tests/playwright/
 In tests, use the screenshot helper for development feedback:
 
 ```typescript
-import { takeDevScreenshot } from '../fixtures/screenshot.helper'
+import { takeDevScreenshot } from "../fixtures/screenshot.helper";
 
 // Take a full page screenshot
-await takeDevScreenshot(page, 'descriptive-name')
+await takeDevScreenshot(page, "descriptive-name");
 
 // Take element screenshot
-await takeElementScreenshot(page, '.my-element', 'element-name')
+await takeElementScreenshot(page, ".my-element", "element-name");
 ```
 
 ## Test Users
@@ -110,6 +117,7 @@ See `copilot-instructions.md` for test user credentials.
 ## Expected Result
 
 After running this skill, the user should have:
+
 - ✅ Test results in terminal
 - ✅ Screenshots in `test-results/screenshots/`
 - ✅ HTML report in `test-results/html-report/`

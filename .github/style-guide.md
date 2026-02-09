@@ -246,51 +246,8 @@ export const useOrdersStore = defineStore('orders', () => {
 
 ## 9. Migration Path
 
-### Existing Patterns (Legacy)
-
-Current project has some patterns that don't follow the suffix convention:
-
-- `pageStore.ts` → should be `page.store.ts`
-- `userStore.ts` → should be `user.store.ts`
-- `contentEnum.ts` → should be `content.enum.ts`
-
-### Migration Strategy
-
-1. **New files:** Follow the suffix pattern strictly
-2. **Existing files:** Refactor gradually, prioritize high-traffic files
-3. **Breaking changes:** Only refactor when touching the file for other reasons
+Current project has some legacy patterns (e.g., `pageStore.ts` instead of `page.store.ts`). **New files** must follow the suffix convention. **Existing files** are only refactored when touched for other reasons.
 
 ## 10. Exceptions
 
-Some exceptions are acceptable:
-
-- **index.ts/index.vue:** Barrel exports or directory entry points
-- **app.vue, error.vue:** Nuxt convention files
-- **nuxt.config.ts:** Framework configuration
-- **[dynamic].vue:** Nuxt dynamic routes
-
-## 11. Linting & Enforcement
-
-Consider adding ESLint rules for:
-
-- File naming conventions
-- Import sorting
-- Consistent component naming
-
-**Example ESLint config:**
-
-```javascript
-// eslint.config.mjs
-export default withNuxt({
-  rules: {
-    'vue/component-name-in-template-casing': ['error', 'PascalCase'],
-    'vue/multi-word-component-names': 'off', // Nuxt pages can be single word
-  }
-})
-```
-
-## 12. References
-
-- [Vue Style Guide](https://vuejs.org/style-guide/)
-- [Nuxt Directory Structure](https://nuxt.com/docs/guide/directory-structure)
-- [TypeScript Best Practices](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html)
+Nuxt convention files (`index.ts`, `app.vue`, `error.vue`, `nuxt.config.ts`, `[dynamic].vue`) are exempt from suffix rules.
