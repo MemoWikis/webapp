@@ -38,7 +38,7 @@ test.describe('AI Model Selection Persistence', () => {
         await aiCreateButton.first().click()
 
         // Wait for modal
-        await expect(page.locator('.ai-create-page-modal')).toBeVisible({
+        await expect(page.locator('.ai-create-modal')).toBeVisible({
             timeout: 5000,
         })
 
@@ -89,7 +89,7 @@ test.describe('AI Model Selection Persistence', () => {
         await aiCreateButton.first().click()
 
         // Wait for modal
-        await expect(page.locator('.ai-create-page-modal')).toBeVisible({
+        await expect(page.locator('.ai-create-modal')).toBeVisible({
             timeout: 5000,
         })
 
@@ -139,7 +139,7 @@ test.describe('AI Model Selection Persistence', () => {
         await page.keyboard.press('Escape')
 
         // Wait for modal to close
-        await expect(page.locator('.ai-create-page-modal')).toBeHidden()
+        await expect(page.locator('.ai-create-modal')).toBeHidden()
 
         // Wait a small buffer for animations to fully clear
         await page.waitForTimeout(1000)
@@ -148,7 +148,7 @@ test.describe('AI Model Selection Persistence', () => {
         await aiCreateButton.first().click({ force: true })
 
         // Wait for modal
-        await expect(page.locator('.ai-create-page-modal')).toBeVisible({
+        await expect(page.locator('.ai-create-modal')).toBeVisible({
             timeout: 10000,
         })
 
@@ -199,7 +199,7 @@ test.describe('AI Model Selection Persistence', () => {
         await aiCreateButton.first().click()
 
         // Wait for modal
-        await expect(page.locator('.ai-create-page-modal')).toBeVisible({
+        await expect(page.locator('.ai-create-modal')).toBeVisible({
             timeout: 5000,
         })
 

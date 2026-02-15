@@ -266,7 +266,7 @@ watch(() => tabsStore.activeTab, (tab) => {
                     <PageToPrivateModal />
                     <PageDeleteModal />
                     <PageLearningAiCreateFlashCard />
-                    <PageContentAiCreatePage />
+                    <PageContentAiCreate />
                     <PageSharingModal />
                     <LicenseLinkModal />
                 </ClientOnly>

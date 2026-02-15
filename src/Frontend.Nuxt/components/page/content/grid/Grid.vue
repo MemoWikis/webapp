@@ -9,7 +9,7 @@ import { usePublishPageStore } from '~/components/page/publish/publishPageStore'
 import { usePageToPrivateStore } from '~/components/page/toPrivate/pageToPrivateStore'
 import { useDeletePageStore } from '~/components/page/delete/deletePageStore'
 import { TargetPosition, useDragStore } from '~/components/shared/dragStore'
-import { useAiCreatePageStore } from '~/components/page/content/ai/aiCreatePageStore'
+import { useAiCreateStore } from '~/components/page/content/ai/aiCreateStore'
 
 const pageStore = usePageStore()
 const editPageRelationStore = useEditPageRelationStore()
@@ -19,7 +19,7 @@ const publishPageStore = usePublishPageStore()
 const pageToPrivateStore = usePageToPrivateStore()
 const deletePageStore = useDeletePageStore()
 const dragStore = useDragStore()
-const aiCreatePageStore = useAiCreatePageStore()
+const aiCreateStore = useAiCreateStore()
 
 interface Props {
     children: GridPageItem[]
@@ -52,12 +52,12 @@ function addPage(newPage: boolean) {
     editPageRelationStore.openModal(parent)
 }
 
-function openAiCreatePage() {
+function openAiCreate() {
     if (!userStore.isLoggedIn) {
         userStore.openLoginModal()
         return
     }
-    aiCreatePageStore.openModal(pageStore.id)
+    aiCreateStore.openModal(pageStore.id)
 }
 
 editPageRelationStore.$onAction(({ after, name }) => {
@@ -200,7 +200,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
                 <div class="grid-header ">
                     <div class="grid-title no-line" :class="{ 'overline-m': !isMobile, 'overline-s': isMobile }">
                         {{ isMobile ? t('page.grid.childPagesMobile') : t('page.grid.childPages') }} ({{
-                        pageStore.childPageCount }})
+                            pageStore.childPageCount }})
                     </div>
 
                     <div class="grid-options">
@@ -215,7 +215,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
                             </button>
                         </div>
                         <div class="grid-option">
-                            <button @click="openAiCreatePage()" :title="t('page.ai.createPage.buttonTitle')">
+                            <button @click="openAiCreate()" :title="t('page.ai.createPage.buttonTitle')">
                                 <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
                             </button>
                         </div>
@@ -259,7 +259,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
                     </div>
                     <div class="grid-divider" :class="{ 'is-mobile': isMobile }"></div>
                     <div class="grid-option overline-m no-line no-margin">
-                        <button @click="openAiCreatePage()">
+                        <button @click="openAiCreate()">
                             <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
                             <span class="button-label" :class="{ 'is-mobile': isMobile }">
                                 {{ isMobile ? t('page.ai.createPage.buttonTitleMobile') :

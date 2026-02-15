@@ -6,13 +6,13 @@ import { usePageStore } from '../pageStore'
 import { debounce } from 'underscore'
 import type { FullSearch, PageItem } from '~~/components/search/searchHelper';
 import { SearchType } from '~~/components/search/searchHelper'
-import { useAiCreatePageStore } from '../content/ai/aiCreatePageStore'
+import { useAiCreateStore } from '../content/ai/aiCreateStore'
 
 const loadingStore = useLoadingStore()
 const userStore = useUserStore()
 const editPageRelationStore = useEditPageRelationStore()
 const pageStore = usePageStore()
-const aiCreatePageStore = useAiCreatePageStore()
+const aiCreateStore = useAiCreateStore()
 const { t, locale } = useI18n()
 
 const name = ref('')
@@ -347,9 +347,9 @@ watch(() => editPageRelationStore.showModal, (val) => {
     }
 })
 
-function openAiCreatePage() {
+function openAiCreate() {
     editPageRelationStore.showModal = false
-    aiCreatePageStore.openModal(editPageRelationStore.parentId)
+    aiCreateStore.openModal(editPageRelationStore.parentId)
 }
 </script>
 
@@ -384,7 +384,7 @@ function openAiCreatePage() {
                     </div>
                 </form>
                 <div class="ai-create-option">
-                    <button class="btn btn-link ai-create-btn" @click="openAiCreatePage">
+                    <button class="btn btn-link ai-create-btn" @click="openAiCreate">
                         <font-awesome-icon icon="fa-solid fa-wand-magic-sparkles" />
                         {{ t('page.relationEdit.button.createWithAi') }}
                     </button>
