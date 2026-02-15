@@ -785,6 +785,7 @@
                 },
                 "generating": "Generando página...",
                 "generatingWiki": "Generando wiki con subpáginas...",
+                "generatingFlashcards": "Creando tarjetas...",
                 "preview": "Vista previa",
                 "previewWiki": "Vista previa del wiki",
                 "success": "La página se ha creado correctamente.",

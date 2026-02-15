@@ -290,197 +290,201 @@ function selectSubpage(index: number) {
                     </button>
                 </div>
 
-                <!-- Flashcards Info Banner -->
-                <div v-if="isFlashcards" class="flashcards-info-banner">
-                    <font-awesome-icon :icon="['fas', 'book-open']" class="info-icon" />
-                    <span>{{ t('page.ai.createPage.flashcardsInfo') }}</span>
-                </div>
+                <!-- Flashcards: separate component -->
+                <AiCreateFlashcards v-if="isFlashcards" />
 
-                <!-- Prompt Input Section -->
-                <div v-if="!isFlashcards" class="form-group">
-                    <label for="prompt-input">{{ promptLabel }}</label>
-                    <textarea id="prompt-input" ref="promptTextArea" v-model="aiCreateStore.prompt"
-                        class="form-control prompt-textarea" :placeholder="t('page.ai.createPage.promptPlaceholder')"
-                        :disabled="aiCreateStore.isGenerating" @input="resizeTextArea()" />
-                </div>
+                <!-- Page/Wiki: Prompt Input Section -->
+                <template v-else>
+                    <div class="form-group">
+                        <label for="prompt-input">{{ promptLabel }}</label>
+                        <textarea id="prompt-input" ref="promptTextArea" v-model="aiCreateStore.prompt"
+                            class="form-control prompt-textarea"
+                            :placeholder="t('page.ai.createPage.promptPlaceholder')"
+                            :disabled="aiCreateStore.isGenerating" @input="resizeTextArea()" />
+                    </div>
 
-                <!-- Add content from URL link -->
-                <div v-if="!isFlashcards && !showUrlInput" class="url-toggle-link">
-                    <button type="button" class="add-url-btn" :disabled="aiCreateStore.isGenerating"
-                        @click="showUrlInput = true">
-                        <font-awesome-icon :icon="['fas', 'plus']" />
-                        {{ t('page.ai.createPage.addFromUrl') }}
-                    </button>
-                </div>
-
-                <!-- URL Input Section (expandable) -->
-                <div v-if="!isFlashcards && showUrlInput" class="form-group url-section">
-                    <div class="url-header">
-                        <label for="url-input">{{ t('page.ai.createPage.urlLabel') }}</label>
-                        <button type="button" class="url-close-btn" :disabled="aiCreateStore.isGenerating"
-                            @click="showUrlInput = false; aiCreateStore.url = ''">
-                            <font-awesome-icon :icon="['fas', 'xmark']" />
+                    <!-- Add content from URL link -->
+                    <div v-if="!showUrlInput" class="url-toggle-link">
+                        <button type="button" class="add-url-btn" :disabled="aiCreateStore.isGenerating"
+                            @click="showUrlInput = true">
+                            <font-awesome-icon :icon="['fas', 'plus']" />
+                            {{ t('page.ai.createPage.addFromUrl') }}
                         </button>
                     </div>
-                    <input id="url-input" v-model="aiCreateStore.url" type="url" class="form-control url-input"
-                        :placeholder="t('page.ai.createPage.urlPlaceholder')" :disabled="aiCreateStore.isGenerating" />
-                    <small class="url-hint">{{ t('page.ai.createPage.urlHint') }}</small>
-                </div>
 
-                <!-- Complexity Level Section -->
-                <div class="form-group detail-section">
-                    <label>{{ t('page.ai.createPage.complexityLabel') }}</label>
-
-                    <!-- Desktop: Slider -->
-                    <div v-if="!isMobile" class="detail-slider-container">
-                        <input v-model.number="aiCreateStore.difficultyLevel" type="range" min="1" max="5"
-                            class="detail-slider" :style="complexitySliderStyle" :disabled="aiCreateStore.isGenerating"
-                            :aria-label="t('page.ai.createPage.complexityLabel')"
-                            :aria-valuetext="currentComplexityLabel" />
-                        <div class="detail-labels">
-                            <span class="detail-label-left">{{ t('page.ai.createPage.complexity.simple') }}</span>
-                            <span class="detail-label-current">{{ currentComplexityLabel }}</span>
-                            <span class="detail-label-right">{{ t('page.ai.createPage.complexity.expert') }}</span>
+                    <!-- URL Input Section (expandable) -->
+                    <div v-if="showUrlInput" class="form-group url-section">
+                        <div class="url-header">
+                            <label for="url-input">{{ t('page.ai.createPage.urlLabel') }}</label>
+                            <button type="button" class="url-close-btn" :disabled="aiCreateStore.isGenerating"
+                                @click="showUrlInput = false; aiCreateStore.url = ''">
+                                <font-awesome-icon :icon="['fas', 'xmark']" />
+                            </button>
                         </div>
+                        <input id="url-input" v-model="aiCreateStore.url" type="url" class="form-control url-input"
+                            :placeholder="t('page.ai.createPage.urlPlaceholder')"
+                            :disabled="aiCreateStore.isGenerating" />
+                        <small class="url-hint">{{ t('page.ai.createPage.urlHint') }}</small>
                     </div>
 
-                    <!-- Mobile: Dropdown -->
-                    <VDropdown v-else :aria-id="detailDropdownAriaId" :distance="0" class="detail-dropdown">
-                        <div class="detail-select">
-                            <span>{{ currentComplexityLabel }}</span>
-                            <font-awesome-icon :icon="['fas', 'chevron-down']" />
-                        </div>
+                    <!-- Complexity Level Section -->
+                    <div class="form-group detail-section">
+                        <label>{{ t('page.ai.createPage.complexityLabel') }}</label>
 
-                        <template #popper="{ hide }">
-                            <div class="detail-dropdown-menu detail-dropdown-popper">
-                                <div v-for="(label, level) in complexityLabels" :key="level" class="dropdown-row"
-                                    :class="{ 'active': aiCreateStore.difficultyLevel === Number(level) }"
-                                    @click="aiCreateStore.difficultyLevel = Number(level); hide()">
-                                    {{ label }}
-                                </div>
+                        <!-- Desktop: Slider -->
+                        <div v-if="!isMobile" class="detail-slider-container">
+                            <input v-model.number="aiCreateStore.difficultyLevel" type="range" min="1" max="5"
+                                class="detail-slider" :style="complexitySliderStyle"
+                                :disabled="aiCreateStore.isGenerating"
+                                :aria-label="t('page.ai.createPage.complexityLabel')"
+                                :aria-valuetext="currentComplexityLabel" />
+                            <div class="detail-labels">
+                                <span class="detail-label-left">{{ t('page.ai.createPage.complexity.simple') }}</span>
+                                <span class="detail-label-current">{{ currentComplexityLabel }}</span>
+                                <span class="detail-label-right">{{ t('page.ai.createPage.complexity.expert') }}</span>
                             </div>
-                        </template>
-                    </VDropdown>
-                </div>
-
-                <!-- Content Length Section -->
-                <div v-if="!isFlashcards" class="form-group detail-section">
-                    <label>{{ t('page.ai.createPage.lengthLabel') }}</label>
-
-                    <!-- Desktop: Slider -->
-                    <div v-if="!isMobile" class="detail-slider-container">
-                        <input v-model.number="aiCreateStore.contentLength" type="range" min="1" max="3"
-                            class="detail-slider" :style="contentLengthSliderStyle"
-                            :disabled="aiCreateStore.isGenerating" :aria-label="t('page.ai.createPage.lengthLabel')"
-                            :aria-valuetext="currentContentLengthLabel" />
-                        <div class="detail-labels">
-                            <span class="detail-label-left">{{ t('page.ai.createPage.length.short') }}</span>
-                            <span class="detail-label-current">{{ currentContentLengthLabel }}</span>
-                            <span class="detail-label-right">{{ t('page.ai.createPage.length.long') }}</span>
-                        </div>
-                    </div>
-
-                    <!-- Mobile: Dropdown -->
-                    <VDropdown v-else :distance="0" class="detail-dropdown">
-                        <div class="detail-select">
-                            <span>{{ currentContentLengthLabel }}</span>
-                            <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
 
-                        <template #popper="{ hide }">
-                            <div class="detail-dropdown-menu detail-dropdown-popper">
-                                <div v-for="(label, level) in contentLengthLabels" :key="level" class="dropdown-row"
-                                    :class="{ 'active': aiCreateStore.contentLength === Number(level) }"
-                                    @click="aiCreateStore.contentLength = Number(level); hide()">
-                                    {{ label }}
-                                </div>
+                        <!-- Mobile: Dropdown -->
+                        <VDropdown v-else :aria-id="detailDropdownAriaId" :distance="0" class="detail-dropdown">
+                            <div class="detail-select">
+                                <span>{{ currentComplexityLabel }}</span>
+                                <font-awesome-icon :icon="['fas', 'chevron-down']" />
                             </div>
-                        </template>
-                    </VDropdown>
-                </div>
 
-                <!-- Loading State -->
-                <div v-if="aiCreateStore.isGenerating" class="generating-state">
-                    <font-awesome-icon :icon="['fas', 'spinner']" spin />
-                    <span>{{ shouldGenerateWikiWithSubpages ? t('page.ai.createPage.generatingWiki') :
-                        t('page.ai.createPage.generating') }}</span>
-                </div>
-
-                <!-- Error Message -->
-                <div v-if="aiCreateStore.errorMessage" class="alert alert-danger">
-                    {{ t(aiCreateStore.errorMessage) }}
-                </div>
-
-                <!-- Single Page Preview Section -->
-                <div v-if="aiCreateStore.generatedContent && !shouldGenerateWikiWithSubpages" class="preview-section">
-                    <div class="preview-title">
-                        <span>{{ t('page.ai.createPage.preview') }}</span>
-                        <button type="button" class="regenerate-btn" :disabled="aiCreateStore.isGenerating"
-                            :title="t('page.ai.createPage.button.regenerate')" @click="handleGenerate">
-                            <font-awesome-icon :icon="['fas', 'rotate']" :spin="aiCreateStore.isGenerating" />
-                        </button>
-                    </div>
-                    <div class="preview-header">
-                        <strong>{{ aiCreateStore.generatedContent.title }}</strong>
-                    </div>
-                    <div class="preview-content" v-html="sanitizeHtml(aiCreateStore.generatedContent.htmlContent)" />
-                    <div class="preview-source-info">
-                        <span class="ai-badge">
-                            <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
-                            {{ t('page.ai.createPage.source.aiGenerated') }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Wiki with Subpages Preview Section -->
-                <div v-if="aiCreateStore.generatedWikiContent && shouldGenerateWikiWithSubpages"
-                    class="preview-section wiki-preview">
-                    <div class="preview-title">
-                        <span>{{ t('page.ai.createPage.previewWiki') }}</span>
-                        <button type="button" class="regenerate-btn" :disabled="aiCreateStore.isGenerating"
-                            :title="t('page.ai.createPage.button.regenerate')" @click="handleGenerate">
-                            <font-awesome-icon :icon="['fas', 'rotate']" :spin="aiCreateStore.isGenerating" />
-                        </button>
+                            <template #popper="{ hide }">
+                                <div class="detail-dropdown-menu detail-dropdown-popper">
+                                    <div v-for="(label, level) in complexityLabels" :key="level" class="dropdown-row"
+                                        :class="{ 'active': aiCreateStore.difficultyLevel === Number(level) }"
+                                        @click="aiCreateStore.difficultyLevel = Number(level); hide()">
+                                        {{ label }}
+                                    </div>
+                                </div>
+                            </template>
+                        </VDropdown>
                     </div>
 
-                    <!-- Wiki Structure Navigation -->
-                    <div class="wiki-structure">
-                        <div class="wiki-nav-item wiki-main"
-                            :class="{ active: aiCreateStore.selectedSubpageIndex === null }"
-                            @click="selectWikiOverview()">
-                            <font-awesome-icon :icon="['fas', 'book']" class="nav-icon" />
-                            <span class="nav-title">{{ aiCreateStore.generatedWikiContent.title }}</span>
-                            <span class="nav-badge">{{ t('page.ai.createPage.wikiMain') }}</span>
+                    <!-- Content Length Section -->
+                    <div class="form-group detail-section">
+                        <label>{{ t('page.ai.createPage.lengthLabel') }}</label>
+
+                        <!-- Desktop: Slider -->
+                        <div v-if="!isMobile" class="detail-slider-container">
+                            <input v-model.number="aiCreateStore.contentLength" type="range" min="1" max="3"
+                                class="detail-slider" :style="contentLengthSliderStyle"
+                                :disabled="aiCreateStore.isGenerating" :aria-label="t('page.ai.createPage.lengthLabel')"
+                                :aria-valuetext="currentContentLengthLabel" />
+                            <div class="detail-labels">
+                                <span class="detail-label-left">{{ t('page.ai.createPage.length.short') }}</span>
+                                <span class="detail-label-current">{{ currentContentLengthLabel }}</span>
+                                <span class="detail-label-right">{{ t('page.ai.createPage.length.long') }}</span>
+                            </div>
                         </div>
-                        <div v-for="(subpage, index) in aiCreateStore.generatedWikiContent.subpages" :key="index"
-                            class="wiki-nav-item wiki-subpage"
-                            :class="{ active: aiCreateStore.selectedSubpageIndex === index }"
-                            @click="selectSubpage(index)">
-                            <font-awesome-icon :icon="['fas', 'file-alt']" class="nav-icon" />
-                            <span class="nav-title">{{ subpage.title }}</span>
+
+                        <!-- Mobile: Dropdown -->
+                        <VDropdown v-else :distance="0" class="detail-dropdown">
+                            <div class="detail-select">
+                                <span>{{ currentContentLengthLabel }}</span>
+                                <font-awesome-icon :icon="['fas', 'chevron-down']" />
+                            </div>
+
+                            <template #popper="{ hide }">
+                                <div class="detail-dropdown-menu detail-dropdown-popper">
+                                    <div v-for="(label, level) in contentLengthLabels" :key="level" class="dropdown-row"
+                                        :class="{ 'active': aiCreateStore.contentLength === Number(level) }"
+                                        @click="aiCreateStore.contentLength = Number(level); hide()">
+                                        {{ label }}
+                                    </div>
+                                </div>
+                            </template>
+                        </VDropdown>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div v-if="aiCreateStore.isGenerating" class="generating-state">
+                        <font-awesome-icon :icon="['fas', 'spinner']" spin />
+                        <span>{{ shouldGenerateWikiWithSubpages ? t('page.ai.createPage.generatingWiki') :
+                            t('page.ai.createPage.generating') }}</span>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div v-if="aiCreateStore.errorMessage" class="alert alert-danger">
+                        {{ t(aiCreateStore.errorMessage) }}
+                    </div>
+
+                    <!-- Single Page Preview Section -->
+                    <div v-if="aiCreateStore.generatedContent && !shouldGenerateWikiWithSubpages"
+                        class="preview-section">
+                        <div class="preview-title">
+                            <span>{{ t('page.ai.createPage.preview') }}</span>
+                            <button type="button" class="regenerate-btn" :disabled="aiCreateStore.isGenerating"
+                                :title="t('page.ai.createPage.button.regenerate')" @click="handleGenerate">
+                                <font-awesome-icon :icon="['fas', 'rotate']" :spin="aiCreateStore.isGenerating" />
+                            </button>
+                        </div>
+                        <div class="preview-header">
+                            <strong>{{ aiCreateStore.generatedContent.title }}</strong>
+                        </div>
+                        <div class="preview-content"
+                            v-html="sanitizeHtml(aiCreateStore.generatedContent.htmlContent)" />
+                        <div class="preview-source-info">
+                            <span class="ai-badge">
+                                <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
+                                {{ t('page.ai.createPage.source.aiGenerated') }}
+                            </span>
                         </div>
                     </div>
 
-                    <!-- Selected Content Preview -->
-                    <div v-if="currentPreviewContent" class="preview-header">
-                        <strong>{{ currentPreviewContent.title }}</strong>
+                    <!-- Wiki with Subpages Preview Section -->
+                    <div v-if="aiCreateStore.generatedWikiContent && shouldGenerateWikiWithSubpages"
+                        class="preview-section wiki-preview">
+                        <div class="preview-title">
+                            <span>{{ t('page.ai.createPage.previewWiki') }}</span>
+                            <button type="button" class="regenerate-btn" :disabled="aiCreateStore.isGenerating"
+                                :title="t('page.ai.createPage.button.regenerate')" @click="handleGenerate">
+                                <font-awesome-icon :icon="['fas', 'rotate']" :spin="aiCreateStore.isGenerating" />
+                            </button>
+                        </div>
+
+                        <!-- Wiki Structure Navigation -->
+                        <div class="wiki-structure">
+                            <div class="wiki-nav-item wiki-main"
+                                :class="{ active: aiCreateStore.selectedSubpageIndex === null }"
+                                @click="selectWikiOverview()">
+                                <font-awesome-icon :icon="['fas', 'book']" class="nav-icon" />
+                                <span class="nav-title">{{ aiCreateStore.generatedWikiContent.title }}</span>
+                                <span class="nav-badge">{{ t('page.ai.createPage.wikiMain') }}</span>
+                            </div>
+                            <div v-for="(subpage, index) in aiCreateStore.generatedWikiContent.subpages" :key="index"
+                                class="wiki-nav-item wiki-subpage"
+                                :class="{ active: aiCreateStore.selectedSubpageIndex === index }"
+                                @click="selectSubpage(index)">
+                                <font-awesome-icon :icon="['fas', 'file-alt']" class="nav-icon" />
+                                <span class="nav-title">{{ subpage.title }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Selected Content Preview -->
+                        <div v-if="currentPreviewContent" class="preview-header">
+                            <strong>{{ currentPreviewContent.title }}</strong>
+                        </div>
+                        <div v-if="currentPreviewContent" class="preview-content"
+                            v-html="sanitizeHtml(currentPreviewContent.htmlContent)" />
+                        <div class="preview-source-info">
+                            <span class="ai-badge">
+                                <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
+                                {{ t('page.ai.createPage.source.aiGenerated') }}
+                            </span>
+                            <span class="subpage-count">
+                                {{ t('page.ai.createPage.subpageCount', {
+                                    count:
+                                        aiCreateStore.generatedWikiContent.subpages.length
+                                })
+                                }}
+                            </span>
+                        </div>
                     </div>
-                    <div v-if="currentPreviewContent" class="preview-content"
-                        v-html="sanitizeHtml(currentPreviewContent.htmlContent)" />
-                    <div class="preview-source-info">
-                        <span class="ai-badge">
-                            <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
-                            {{ t('page.ai.createPage.source.aiGenerated') }}
-                        </span>
-                        <span class="subpage-count">
-                            {{ t('page.ai.createPage.subpageCount', {
-                                count:
-                                    aiCreateStore.generatedWikiContent.subpages.length
-                            })
-                            }}
-                        </span>
-                    </div>
-                </div>
+                </template>
             </div>
         </template>
 
@@ -492,7 +496,7 @@ function selectSubpage(index: number) {
                         <div class="model-select"
                             :class="{ disabled: aiCreateStore.isGenerating || aiCreateStore.isLoadingModels }">
                             <span v-if="aiCreateStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels')
-                                }}</span>
+                            }}</span>
                             <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }}</span>
                             <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
@@ -697,25 +701,6 @@ function selectSubpage(index: number) {
                 opacity: 0.6;
                 cursor: not-allowed;
             }
-        }
-    }
-
-    .flashcards-info-banner {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 14px 18px;
-        background: fade(@memo-blue-link, 8%);
-        border: 1px solid fade(@memo-blue-link, 20%);
-        border-radius: 8px;
-        color: @memo-grey-darker;
-        font-size: 14px;
-        margin-bottom: 24px;
-
-        .info-icon {
-            color: @memo-blue-link;
-            font-size: 18px;
-            flex-shrink: 0;
         }
     }
 

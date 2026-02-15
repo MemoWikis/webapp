@@ -805,6 +805,7 @@
                 },
                 "generating": "Generating page...",
                 "generatingWiki": "Generating wiki with subpages...",
+                "generatingFlashcards": "Generating flashcards...",
                 "preview": "Preview",
                 "previewWiki": "Wiki preview",
                 "success": "The page was successfully created.",

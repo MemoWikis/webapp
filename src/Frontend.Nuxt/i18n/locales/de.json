@@ -805,6 +805,7 @@
                 },
                 "generating": "Seite wird generiert...",
                 "generatingWiki": "Wiki mit Unterseiten wird generiert...",
+                "generatingFlashcards": "Karteikarten werden erstellt...",
                 "preview": "Vorschau",
                 "previewWiki": "Wiki-Vorschau",
                 "success": "Die Seite wurde erfolgreich erstellt.",
