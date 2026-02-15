@@ -1345,6 +1345,14 @@
 
 /*Form grid/columns conditional mixin:*/
 
+// FontAwesome 6 disables spinner animation when prefers-reduced-motion is set.
+// We intentionally override this because spinners are functional loading indicators, not decorative.
+@media (prefers-reduced-motion: reduce) {
+    .fa-spin {
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+}
 
 //Conditional mixin
 /*Example for calling:
