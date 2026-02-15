@@ -67,6 +67,7 @@
         "floating-vue": "^5.2.2",
         "hast-util-to-html": "^9.0.5",
         "ioredis": "^5.6.1",
+        "isomorphic-dompurify": "^3.0.0-rc.2",
         "less-loader": "^12.2.0",
         "lowlight": "^3.3.0",
         "nanoid": "^5.1.5",

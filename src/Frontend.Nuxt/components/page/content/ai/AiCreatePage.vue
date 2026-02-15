@@ -1,14 +1,19 @@
 <script lang="ts" setup>
 import { DifficultyLevel, ContentLength, InputMode, useAiCreatePageStore } from './aiCreatePageStore'
 import { useUserStore } from '~/components/user/userStore'
-import type { SnackbarData } from '~/components/snackBar/snackBarStore';
 import { useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { usePageStore } from '../../pageStore'
+import DOMPurify from 'isomorphic-dompurify'
 
 const aiCreatePageStore = useAiCreatePageStore()
 const userStore = useUserStore()
 const snackbarStore = useSnackbarStore()
 const pageStore = usePageStore()
+const { $urlHelper } = useNuxtApp()
+
+function sanitizeHtml(html: string): string {
+    return DOMPurify.sanitize(html)
+}
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { isMobile } = useDevice()
@@ -154,42 +159,35 @@ async function handleCreate() {
         return
     }
 
-    if (shouldGenerateWikiWithSubpages.value) {
-        const result = await aiCreatePageStore.createWiki()
-        if (result.success && result.wikiId) {
-            const data: SnackbarData = {
-                type: 'success',
-                text: { message: t('page.ai.createPage.successWiki') },
-                dismissible: true
-            }
-            snackbarStore.showSnackbar(data)
-            pageStore.reloadGridItems()
-        } else if (result.messageKey) {
-            const data: SnackbarData = {
-                type: 'error',
-                text: { message: t(result.messageKey) },
-                dismissible: true
-            }
-            snackbarStore.showSnackbar(data)
+    const title = shouldGenerateWikiWithSubpages.value
+        ? aiCreatePageStore.generatedWikiContent?.title
+        : aiCreatePageStore.generatedContent?.title
+
+    const result = shouldGenerateWikiWithSubpages.value
+        ? await aiCreatePageStore.createWiki()
+        : await aiCreatePageStore.createPage()
+
+    if (result.success) {
+        const messageKey = shouldGenerateWikiWithSubpages.value
+            ? 'page.ai.createPage.successWiki'
+            : 'page.ai.createPage.success'
+        snackbarStore.showSnackbar({
+            type: 'success',
+            text: { message: t(messageKey) },
+            dismissible: true
+        })
+        pageStore.reloadGridItems()
+
+        const pageId = 'wikiId' in result ? result.wikiId : ('pageId' in result ? result.pageId : undefined)
+        if (pageId && title) {
+            await navigateTo($urlHelper.getPageUrl(title, pageId))
         }
-    } else {
-        const result = await aiCreatePageStore.createPage()
-        if (result.success && result.pageId) {
-            const data: SnackbarData = {
-                type: 'success',
-                text: { message: t('page.ai.createPage.success') },
-                dismissible: true
-            }
-            snackbarStore.showSnackbar(data)
-            pageStore.reloadGridItems()
-        } else if (result.messageKey) {
-            const data: SnackbarData = {
-                type: 'error',
-                text: { message: t(result.messageKey) },
-                dismissible: true
-            }
-            snackbarStore.showSnackbar(data)
-        }
+    } else if (result.messageKey) {
+        snackbarStore.showSnackbar({
+            type: 'error',
+            text: { message: t(result.messageKey) },
+            dismissible: true
+        })
     }
 }
 
@@ -256,7 +254,9 @@ function selectSubpage(index: number) {
                     <!-- Desktop: Slider -->
                     <div v-if="!isMobile" class="detail-slider-container">
                         <input v-model.number="aiCreatePageStore.difficultyLevel" type="range" min="1" max="5"
-                            class="detail-slider" :disabled="aiCreatePageStore.isGenerating" />
+                            class="detail-slider" :disabled="aiCreatePageStore.isGenerating"
+                            :aria-label="t('page.ai.createPage.complexityLabel')"
+                            :aria-valuetext="currentComplexityLabel" />
                         <div class="detail-labels">
                             <span class="detail-label-left">{{ t('page.ai.createPage.complexity.simple') }}</span>
                             <span class="detail-label-current">{{ currentComplexityLabel }}</span>
@@ -273,30 +273,10 @@ function selectSubpage(index: number) {
 
                         <template #popper="{ hide }">
                             <div class="detail-dropdown-menu detail-dropdown-popper">
-                                <div class="dropdown-row"
-                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.ELI5 }"
-                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.ELI5; hide()">
-                                    {{ t('page.ai.createPage.complexity.simple') }}
-                                </div>
-                                <div class="dropdown-row"
-                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Beginner }"
-                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Beginner; hide()">
-                                    {{ t('page.ai.createPage.complexity.basic') }}
-                                </div>
-                                <div class="dropdown-row"
-                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Intermediate }"
-                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Intermediate; hide()">
-                                    {{ t('page.ai.createPage.complexity.standard') }}
-                                </div>
-                                <div class="dropdown-row"
-                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Advanced }"
-                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Advanced; hide()">
-                                    {{ t('page.ai.createPage.complexity.advanced') }}
-                                </div>
-                                <div class="dropdown-row"
-                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === DifficultyLevel.Academic }"
-                                    @click="aiCreatePageStore.difficultyLevel = DifficultyLevel.Academic; hide()">
-                                    {{ t('page.ai.createPage.complexity.expert') }}
+                                <div v-for="(label, level) in complexityLabels" :key="level" class="dropdown-row"
+                                    :class="{ 'active': aiCreatePageStore.difficultyLevel === Number(level) }"
+                                    @click="aiCreatePageStore.difficultyLevel = Number(level); hide()">
+                                    {{ label }}
                                 </div>
                             </div>
                         </template>
@@ -353,7 +333,8 @@ function selectSubpage(index: number) {
                     <div class="preview-header">
                         <strong>{{ aiCreatePageStore.generatedContent.title }}</strong>
                     </div>
-                    <div class="preview-content" v-html="aiCreatePageStore.generatedContent.htmlContent" />
+                    <div class="preview-content"
+                        v-html="sanitizeHtml(aiCreatePageStore.generatedContent.htmlContent)" />
                     <div class="preview-source-info">
                         <span class="ai-badge">
                             <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
@@ -396,7 +377,7 @@ function selectSubpage(index: number) {
                         <strong>{{ currentPreviewContent.title }}</strong>
                     </div>
                     <div v-if="currentPreviewContent" class="preview-content"
-                        v-html="currentPreviewContent.htmlContent" />
+                        v-html="sanitizeHtml(currentPreviewContent.htmlContent)" />
                     <div class="preview-source-info">
                         <span class="ai-badge">
                             <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
@@ -422,7 +403,7 @@ function selectSubpage(index: number) {
                         <div class="model-select"
                             :class="{ disabled: aiCreatePageStore.isGenerating || aiCreatePageStore.isLoadingModels }">
                             <span v-if="aiCreatePageStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels')
-                                }}</span>
+                            }}</span>
                             <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }}</span>
                             <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
@@ -525,9 +506,11 @@ function selectSubpage(index: number) {
 
                 <div class="buttons">
                     <div class="wiki-toggle">
-                        <label class="wiki-toggle-label"
-                            @click="aiCreatePageStore.createAsWiki = !aiCreatePageStore.createAsWiki">
-                            <span class="toggle-checkbox">
+                        <label class="wiki-toggle-label" role="checkbox" :aria-checked="aiCreatePageStore.createAsWiki"
+                            tabindex="0" @click="aiCreatePageStore.createAsWiki = !aiCreatePageStore.createAsWiki"
+                            @keydown.space.prevent="aiCreatePageStore.createAsWiki = !aiCreatePageStore.createAsWiki"
+                            @keydown.enter.prevent="aiCreatePageStore.createAsWiki = !aiCreatePageStore.createAsWiki">
+                            <span class="toggle-checkbox" aria-hidden="true">
                                 <font-awesome-icon v-if="aiCreatePageStore.createAsWiki" :icon="['fas', 'square-check']"
                                     class="checked" />
                                 <font-awesome-icon v-else :icon="['far', 'square']" />
@@ -535,8 +518,10 @@ function selectSubpage(index: number) {
                             <span>{{ t('page.ai.createPage.createAsWiki') }}</span>
                         </label>
                     </div>
-                    <div class="memo-button btn btn-primary" role="button" :class="{ 'disabled': isQuotaDepleted }"
-                        @click="hasGeneratedContent ? handleCreate() : handleGenerate()">{{ primaryButtonLabel }}</div>
+                    <button class="memo-button btn btn-primary"
+                        :disabled="isQuotaDepleted || (hasGeneratedContent ? !canCreate : !canGenerate)"
+                        @click="hasGeneratedContent ? handleCreate() : handleGenerate()">{{ primaryButtonLabel
+                        }}</button>
                 </div>
             </div>
         </template>
@@ -545,8 +530,8 @@ function selectSubpage(index: number) {
     <!-- Quota Depleted Modal -->
     <Teleport to="body">
         <Transition name="modal-fade">
-            <div v-if="showQuotaDepletedModal" class="quota-depleted-overlay"
-                @click.self="showQuotaDepletedModal = false">
+            <div v-if="showQuotaDepletedModal" class="quota-depleted-overlay" role="dialog" aria-modal="true"
+                :aria-label="t('page.ai.createPage.quotaDepleted.title')" @click.self="showQuotaDepletedModal = false">
                 <div class="quota-depleted-modal">
                     <div class="modal-icon">
                         <font-awesome-icon :icon="['fas', 'hourglass-half']" />
