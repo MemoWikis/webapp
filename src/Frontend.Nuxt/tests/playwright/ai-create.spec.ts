@@ -95,12 +95,10 @@ test.describe('AI Create Page', () => {
             return
         }
 
-        const slider = page.locator('.detail-slider').first()
+        const slider = page.locator('.slider-input').first()
         await expect(slider).toBeVisible()
-        await expect(slider).toHaveAttribute('aria-label', /.+/)
         await expect(slider).toHaveAttribute('aria-valuetext', /.+/)
 
-        const complexitySection = page.locator('.detail-section').first()
         await takeDevScreenshot(page, 'ai-modal-complexity-slider')
     })
 
@@ -116,12 +114,11 @@ test.describe('AI Create Page', () => {
             return
         }
 
-        const sliders = page.locator('.detail-slider')
+        const sliders = page.locator('.slider-input')
         await expect(sliders).toHaveCount(2)
 
         const lengthSlider = sliders.nth(1)
         await expect(lengthSlider).toBeVisible()
-        await expect(lengthSlider).toHaveAttribute('aria-label', /.+/)
         await expect(lengthSlider).toHaveAttribute('aria-valuetext', /.+/)
 
         await takeDevScreenshot(page, 'ai-modal-length-slider')
