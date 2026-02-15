@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { DifficultyLevel, ContentLength, InputMode, useAiCreateStore } from './aiCreateStore'
+import { DifficultyLevel, ContentLength, ContentType, InputMode, useAiCreateStore } from './aiCreateStore'
 import { useUserStore } from '~/components/user/userStore'
 import { useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { usePageStore } from '../../pageStore'
@@ -72,15 +72,47 @@ const selectedModelDisplayName = computed(() => {
     return model?.displayName ?? ''
 })
 
-// Wiki with subpages is generated when: createAsWiki is checked AND content length is Long
+// Wiki with subpages is generated when: Wiki tab is selected AND content length is Long
 const shouldGenerateWikiWithSubpages = computed(() => {
-    return aiCreateStore.createAsWiki && aiCreateStore.contentLength === ContentLength.Long
+    return aiCreateStore.contentType === ContentType.Wiki && aiCreateStore.contentLength === ContentLength.Long
 })
+
+const promptLabel = computed(() => {
+    if (aiCreateStore.contentType === ContentType.Wiki) {
+        return t('page.ai.createPage.promptLabelWiki')
+    }
+    return t('page.ai.createPage.promptLabel')
+})
+
+const contentLengthLabels = computed(() => ({
+    [ContentLength.Short]: t('page.ai.createPage.length.short'),
+    [ContentLength.Medium]: t('page.ai.createPage.length.medium'),
+    [ContentLength.Long]: t('page.ai.createPage.length.long')
+}))
+
+const currentContentLengthLabel = computed(() => {
+    return contentLengthLabels.value[aiCreateStore.contentLength]
+})
+
+const showUrlInput = ref(false)
+
+function sliderBackground(value: number, min: number, max: number): string {
+    const percentage = ((value - min) / (max - min)) * 100
+    return `linear-gradient(to right, #101010 0%, #101010 ${percentage}%, #EFEFEF ${percentage}%, #EFEFEF 100%)`
+}
+
+const complexitySliderStyle = computed(() => ({
+    background: sliderBackground(aiCreateStore.difficultyLevel, 1, 5)
+}))
+
+const contentLengthSliderStyle = computed(() => ({
+    background: sliderBackground(aiCreateStore.contentLength, 1, 3)
+}))
 
 const canGenerate = computed(() => {
     if (aiCreateStore.isGenerating) return false
 
-    if (aiCreateStore.inputMode === InputMode.Url) {
+    if (showUrlInput.value && aiCreateStore.url.trim().length > 0) {
         return aiCreateStore.isValidUrl(aiCreateStore.url.trim())
     }
     return aiCreateStore.prompt.trim().length > 0
@@ -131,6 +163,9 @@ watch(() => aiCreateStore.showModal, (isOpen) => {
     if (isOpen && userStore.isLoggedIn && !userStore.quotaInfo) {
         userStore.fetchQuotaInfo()
     }
+    if (isOpen) {
+        showUrlInput.value = false
+    }
 })
 
 async function handleGenerate() {
@@ -148,6 +183,13 @@ async function handleGenerate() {
     if (userStore.quotaInfo?.isQuotaDepleted) {
         showQuotaDepletedModal.value = true
         return
+    }
+
+    // Set input mode based on URL field state
+    if (showUrlInput.value && aiCreateStore.url.trim().length > 0) {
+        aiCreateStore.inputMode = InputMode.Url
+    } else {
+        aiCreateStore.inputMode = InputMode.Prompt
     }
 
     await aiCreateStore.generatePage(shouldGenerateWikiWithSubpages.value)
@@ -206,40 +248,67 @@ function selectSubpage(index: number) {
         @close="aiCreateStore.showModal = false">
         <template #header>
             <h4 class="modal-title">
-                <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" class="header-icon" />
+                <span class="header-icon-wrapper">
+                    <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" class="header-icon" />
+                </span>
                 {{ t('page.ai.createPage.title') }}
             </h4>
         </template>
 
         <template #body>
             <div id="AiCreate">
-                <!-- Input Mode Toggle -->
-                <div class="input-mode-toggle">
-                    <button type="button" class="mode-btn"
-                        :class="{ active: aiCreateStore.inputMode === InputMode.Prompt }"
-                        :disabled="aiCreateStore.isGenerating" @click="aiCreateStore.inputMode = InputMode.Prompt">
-                        <font-awesome-icon :icon="['fas', 'pen']" />
-                        {{ t('page.ai.createPage.modePrompt') }}
+                <!-- Content Type Tabs -->
+                <div class="content-type-tabs">
+                    <button type="button" class="content-tab"
+                        :class="{ active: aiCreateStore.contentType === ContentType.Page }"
+                        :disabled="aiCreateStore.isGenerating" @click="aiCreateStore.contentType = ContentType.Page">
+                        <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" class="tab-icon" />
+                        <span class="tab-label">{{ t('page.ai.createPage.tab.page') }}</span>
+                        <span class="tab-subtitle">{{ t('page.ai.createPage.tab.pageSubtitle') }}</span>
                     </button>
-                    <button type="button" class="mode-btn"
-                        :class="{ active: aiCreateStore.inputMode === InputMode.Url }"
-                        :disabled="aiCreateStore.isGenerating" @click="aiCreateStore.inputMode = InputMode.Url">
-                        <font-awesome-icon :icon="['fas', 'link']" />
-                        {{ t('page.ai.createPage.modeUrl') }}
+                    <button type="button" class="content-tab"
+                        :class="{ active: aiCreateStore.contentType === ContentType.Wiki }"
+                        :disabled="aiCreateStore.isGenerating" @click="aiCreateStore.contentType = ContentType.Wiki">
+                        <font-awesome-icon :icon="['fas', 'file-lines']" class="tab-icon" />
+                        <span class="tab-label">{{ t('page.ai.createPage.tab.wiki') }}</span>
+                        <span class="tab-subtitle">{{ t('page.ai.createPage.tab.wikiSubtitle') }}</span>
+                    </button>
+                    <button type="button" class="content-tab"
+                        :class="{ active: aiCreateStore.contentType === ContentType.Flashcards }"
+                        :disabled="aiCreateStore.isGenerating"
+                        @click="aiCreateStore.contentType = ContentType.Flashcards">
+                        <font-awesome-icon :icon="['fas', 'book-open']" class="tab-icon" />
+                        <span class="tab-label">{{ t('page.ai.createPage.tab.flashcards') }}</span>
+                        <span class="tab-subtitle">{{ t('page.ai.createPage.tab.flashcardsSubtitle') }}</span>
                     </button>
                 </div>
 
                 <!-- Prompt Input Section -->
-                <div v-if="aiCreateStore.inputMode === InputMode.Prompt" class="form-group">
-                    <label for="prompt-input">{{ t('page.ai.createPage.promptLabel') }}</label>
+                <div class="form-group">
+                    <label for="prompt-input">{{ promptLabel }}</label>
                     <textarea id="prompt-input" ref="promptTextArea" v-model="aiCreateStore.prompt"
                         class="form-control prompt-textarea" :placeholder="t('page.ai.createPage.promptPlaceholder')"
                         :disabled="aiCreateStore.isGenerating" @input="resizeTextArea()" />
                 </div>
 
-                <!-- URL Input Section -->
-                <div v-else class="form-group">
-                    <label for="url-input">{{ t('page.ai.createPage.urlLabel') }}</label>
+                <!-- Add content from URL link -->
+                <div v-if="!showUrlInput" class="url-toggle-link">
+                    <button type="button" class="add-url-btn" :disabled="aiCreateStore.isGenerating"
+                        @click="showUrlInput = true">
+                        <font-awesome-icon :icon="['fas', 'plus']" />
+                        {{ t('page.ai.createPage.addFromUrl') }}
+                    </button>
+                </div>
+
+                <!-- URL Input Section (expandable) -->
+                <div v-if="showUrlInput" class="form-group url-section">
+                    <div class="url-header">
+                        <label for="url-input">{{ t('page.ai.createPage.urlLabel') }}</label>
+                        <button type="button" class="url-close-btn" :disabled="aiCreateStore.isGenerating"
+                            @click="showUrlInput = false; aiCreateStore.url = ''">
+                            <font-awesome-icon :icon="['fas', 'xmark']" />
+                        </button>
+                    </div>
                     <input id="url-input" v-model="aiCreateStore.url" type="url" class="form-control url-input"
                         :placeholder="t('page.ai.createPage.urlPlaceholder')" :disabled="aiCreateStore.isGenerating" />
                     <small class="url-hint">{{ t('page.ai.createPage.urlHint') }}</small>
@@ -252,7 +321,7 @@ function selectSubpage(index: number) {
                     <!-- Desktop: Slider -->
                     <div v-if="!isMobile" class="detail-slider-container">
                         <input v-model.number="aiCreateStore.difficultyLevel" type="range" min="1" max="5"
-                            class="detail-slider" :disabled="aiCreateStore.isGenerating"
+                            class="detail-slider" :style="complexitySliderStyle" :disabled="aiCreateStore.isGenerating"
                             :aria-label="t('page.ai.createPage.complexityLabel')"
                             :aria-valuetext="currentComplexityLabel" />
                         <div class="detail-labels">
@@ -282,28 +351,39 @@ function selectSubpage(index: number) {
                 </div>
 
                 <!-- Content Length Section -->
-                <div class="form-group length-section">
+                <div class="form-group detail-section">
                     <label>{{ t('page.ai.createPage.lengthLabel') }}</label>
-                    <div class="length-toggle">
-                        <button type="button" class="length-btn"
-                            :class="{ active: aiCreateStore.contentLength === ContentLength.Short }"
-                            :disabled="aiCreateStore.isGenerating"
-                            @click="aiCreateStore.contentLength = ContentLength.Short">
-                            {{ t('page.ai.createPage.length.short') }}
-                        </button>
-                        <button type="button" class="length-btn"
-                            :class="{ active: aiCreateStore.contentLength === ContentLength.Medium }"
-                            :disabled="aiCreateStore.isGenerating"
-                            @click="aiCreateStore.contentLength = ContentLength.Medium">
-                            {{ t('page.ai.createPage.length.medium') }}
-                        </button>
-                        <button type="button" class="length-btn"
-                            :class="{ active: aiCreateStore.contentLength === ContentLength.Long }"
-                            :disabled="aiCreateStore.isGenerating"
-                            @click="aiCreateStore.contentLength = ContentLength.Long">
-                            {{ t('page.ai.createPage.length.long') }}
-                        </button>
+
+                    <!-- Desktop: Slider -->
+                    <div v-if="!isMobile" class="detail-slider-container">
+                        <input v-model.number="aiCreateStore.contentLength" type="range" min="1" max="3"
+                            class="detail-slider" :style="contentLengthSliderStyle"
+                            :disabled="aiCreateStore.isGenerating" :aria-label="t('page.ai.createPage.lengthLabel')"
+                            :aria-valuetext="currentContentLengthLabel" />
+                        <div class="detail-labels">
+                            <span class="detail-label-left">{{ t('page.ai.createPage.length.short') }}</span>
+                            <span class="detail-label-current">{{ currentContentLengthLabel }}</span>
+                            <span class="detail-label-right">{{ t('page.ai.createPage.length.long') }}</span>
+                        </div>
                     </div>
+
+                    <!-- Mobile: Dropdown -->
+                    <VDropdown v-else :distance="0" class="detail-dropdown">
+                        <div class="detail-select">
+                            <span>{{ currentContentLengthLabel }}</span>
+                            <font-awesome-icon :icon="['fas', 'chevron-down']" />
+                        </div>
+
+                        <template #popper="{ hide }">
+                            <div class="detail-dropdown-menu detail-dropdown-popper">
+                                <div v-for="(label, level) in contentLengthLabels" :key="level" class="dropdown-row"
+                                    :class="{ 'active': aiCreateStore.contentLength === Number(level) }"
+                                    @click="aiCreateStore.contentLength = Number(level); hide()">
+                                    {{ label }}
+                                </div>
+                            </div>
+                        </template>
+                    </VDropdown>
                 </div>
 
                 <!-- Loading State -->
@@ -399,7 +479,7 @@ function selectSubpage(index: number) {
                         <div class="model-select"
                             :class="{ disabled: aiCreateStore.isGenerating || aiCreateStore.isLoadingModels }">
                             <span v-if="aiCreateStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels')
-                                }}</span>
+                            }}</span>
                             <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }}</span>
                             <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
@@ -501,23 +581,12 @@ function selectSubpage(index: number) {
                 </NuxtLink>
 
                 <div class="buttons">
-                    <div class="wiki-toggle">
-                        <label class="wiki-toggle-label" role="checkbox" :aria-checked="aiCreateStore.createAsWiki"
-                            tabindex="0" @click="aiCreateStore.createAsWiki = !aiCreateStore.createAsWiki"
-                            @keydown.space.prevent="aiCreateStore.createAsWiki = !aiCreateStore.createAsWiki"
-                            @keydown.enter.prevent="aiCreateStore.createAsWiki = !aiCreateStore.createAsWiki">
-                            <span class="toggle-checkbox" aria-hidden="true">
-                                <font-awesome-icon v-if="aiCreateStore.createAsWiki" :icon="['fas', 'square-check']"
-                                    class="checked" />
-                                <font-awesome-icon v-else :icon="['far', 'square']" />
-                            </span>
-                            <span>{{ t('page.ai.createPage.createAsWiki') }}</span>
-                        </label>
-                    </div>
                     <button class="memo-button btn btn-primary"
                         :disabled="isQuotaDepleted || (hasGeneratedContent ? !canCreate : !canGenerate)"
-                        @click="hasGeneratedContent ? handleCreate() : handleGenerate()">{{ primaryButtonLabel
-                        }}</button>
+                        @click="hasGeneratedContent ? handleCreate() : handleGenerate()">
+                        <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" class="generate-icon" />
+                        {{ primaryButtonLabel }}
+                    </button>
                 </div>
             </div>
         </template>
@@ -563,50 +632,113 @@ function selectSubpage(index: number) {
 @import (reference) '~~/assets/includes/imports.less';
 
 #AiCreate {
-    .input-mode-toggle {
+    .content-type-tabs {
         display: flex;
-        gap: 8px;
+        gap: 12px;
         margin-bottom: 24px;
 
-        .mode-btn {
+        .content-tab {
             flex: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px 16px;
+            gap: 4px;
+            padding: 16px 12px;
             border: 1px solid @memo-grey-lighter;
             background: white;
-            border-radius: 0px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 500;
             transition: all 0.2s ease;
 
-            &:hover {
-                filter: brightness(0.95);
+            .tab-icon {
+                font-size: 18px;
+                color: @memo-grey-dark;
+                margin-bottom: 4px;
             }
 
-            &:active {
-                filter: brightness(0.9);
+            .tab-label {
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            .tab-subtitle {
+                font-size: 11px;
+                color: @memo-grey-dark;
+            }
+
+            &:hover {
+                border-color: @memo-grey-light;
+                background: @memo-grey-lightest;
             }
 
             &.active {
-                border-color: @memo-grey-light;
-                font-weight: 600;
-                color: @memo-blue;
+                border-color: @memo-blue-link;
+                background: fade(@memo-blue-link, 5%);
 
-                &:hover {
-                    filter: brightness(0.85);
-                }
-
-                &:active {
-                    filter: brightness(0.7);
+                .tab-icon {
+                    color: @memo-blue-link;
                 }
             }
 
             &:disabled {
                 opacity: 0.6;
                 cursor: not-allowed;
+            }
+        }
+    }
+
+    .url-toggle-link {
+        margin-top: -12px;
+        margin-bottom: 24px;
+
+        .add-url-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            padding: 0;
+            color: @memo-grey-dark;
+            font-size: 13px;
+            cursor: pointer;
+
+            &:hover {
+                color: @memo-blue-link;
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .url-section {
+        .url-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+
+            label {
+                margin-bottom: 0;
+            }
+
+            .url-close-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                background: none;
+                border: none;
+                color: @memo-grey-dark;
+                cursor: pointer;
+                padding: 0;
+
+                &:hover {
+                    color: @memo-grey-darker;
+                }
             }
         }
     }
@@ -640,8 +772,8 @@ function selectSubpage(index: number) {
 
     .url-input {
         width: 100%;
-        border-radius: 24px;
-        padding: 12px 16px;
+        border-radius: 0px;
+        padding: 12px;
         border-color: @memo-grey-lighter;
         box-shadow: none;
 
@@ -677,11 +809,11 @@ function selectSubpage(index: number) {
 
         .detail-slider {
             width: 100%;
-            height: 8px;
+            height: 6px;
             -webkit-appearance: none;
             appearance: none;
-            background: linear-gradient(to right, @memo-green, @memo-yellow, @memo-wish-knowledge-red);
-            border-radius: 4px;
+            background: @memo-grey-lighter;
+            border-radius: 3px;
             outline: none;
             cursor: pointer;
             user-select: none;
@@ -689,23 +821,29 @@ function selectSubpage(index: number) {
             &::-webkit-slider-thumb {
                 -webkit-appearance: none;
                 appearance: none;
-                width: 20px;
-                height: 20px;
+                width: 18px;
+                height: 18px;
                 background: white;
-                border: 1px solid @memo-grey-lighter;
+                border: 2px solid @memo-grey-darker;
                 border-radius: 50%;
                 cursor: pointer;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
             }
 
             &::-moz-range-thumb {
-                width: 20px;
-                height: 20px;
+                width: 18px;
+                height: 18px;
                 background: white;
-                border: 2px solid @memo-blue;
+                border: 2px solid @memo-grey-darker;
                 border-radius: 50%;
                 cursor: pointer;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+            }
+
+            &::-moz-range-progress {
+                background: @memo-grey-darkest;
+                border-radius: 3px;
+                height: 6px;
             }
         }
 
@@ -747,52 +885,6 @@ function selectSubpage(index: number) {
 
             &:hover {
                 filter: brightness(0.95);
-            }
-        }
-    }
-
-    .length-section {
-        .length-toggle {
-            display: flex;
-            gap: 8px;
-
-            .length-btn {
-                flex: 1;
-                padding: 10px 16px;
-                border: 1px solid @memo-grey-lighter;
-                background: white;
-                border-radius: 0px;
-                cursor: pointer;
-                font-weight: 500;
-                font-size: 14px;
-                transition: all 0.2s ease;
-
-                &:hover {
-                    filter: brightness(0.95);
-                }
-
-                &:active {
-                    filter: brightness(0.9);
-                }
-
-                &.active {
-                    border-color: @memo-grey-light;
-                    font-weight: 600;
-                    color: @memo-blue;
-
-                    &:hover {
-                        filter: brightness(0.85);
-                    }
-
-                    &:active {
-                        filter: brightness(0.7);
-                    }
-                }
-
-                &:disabled {
-                    opacity: 0.6;
-                    cursor: not-allowed;
-                }
             }
         }
     }
@@ -984,39 +1076,21 @@ function selectSubpage(index: number) {
 .modal-title {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     margin: 0;
 
-    .header-icon {
-        color: @memo-blue;
-    }
-}
-
-.wiki-toggle {
-    display: flex;
-    align-items: center;
-
-    .wiki-toggle-label {
+    .header-icon-wrapper {
         display: flex;
         align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        font-size: 14px;
-        color: @memo-grey-dark;
-        user-select: none;
-        margin-bottom: 0px;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: fade(@memo-blue-link, 15%);
+        border-radius: 8px;
 
-        &:hover {
-            color: @memo-blue;
-        }
-
-        .toggle-checkbox {
-            font-size: 18px;
-            color: @memo-grey-dark;
-
-            .checked {
-                color: @memo-blue-link;
-            }
+        .header-icon {
+            color: @memo-blue-link;
+            font-size: 16px;
         }
     }
 }
@@ -1117,6 +1191,19 @@ function selectSubpage(index: number) {
     .buttons {
         display: flex;
         gap: 12px;
+
+        .memo-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            padding: 10px 24px;
+            border-radius: 8px;
+
+            .generate-icon {
+                font-size: 14px;
+            }
+        }
     }
 }
 </style>

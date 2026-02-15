@@ -741,13 +741,23 @@
                 }
             },
             "createPage": {
-                "title": "Create page with AI",
+                "title": "Create content with AI",
                 "buttonTitle": "Create with AI",
                 "buttonTitleMobile": "AI",
+                "tab": {
+                    "page": "Page",
+                    "pageSubtitle": "New content",
+                    "wiki": "Wiki",
+                    "wikiSubtitle": "Documentation",
+                    "flashcards": "Flashcards",
+                    "flashcardsSubtitle": "From page"
+                },
                 "modePrompt": "Describe",
                 "modeUrl": "From URL",
                 "promptLabel": "Describe what the page should be about",
+                "promptLabelWiki": "Describe what the wiki should be about",
                 "promptPlaceholder": "e.g. Explain the basics of photosynthesis...",
+                "addFromUrl": "Add content from URL",
                 "urlLabel": "Enter a URL to create a page from",
                 "urlPlaceholder": "e.g. https://en.wikipedia.org/wiki/Photosynthesis",
                 "urlHint": "Works best with Wikipedia, GitHub, and static documentation sites. Some sites with bot protection may not work.",

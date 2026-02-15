@@ -19,6 +19,12 @@ export enum InputMode {
     Url = 'url',
 }
 
+export enum ContentType {
+    Page = 'page',
+    Wiki = 'wiki',
+    Flashcards = 'flashcards',
+}
+
 export interface GeneratedPageContent {
     title: string
     htmlContent: string
@@ -55,7 +61,8 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
     const generatedWikiContent = ref<GeneratedWikiContent | null>(null)
     const parentId = ref(0)
     const errorMessage = ref('')
-    const createAsWiki = ref(false)
+    const contentType = ref<ContentType>(ContentType.Page)
+    const createAsWiki = computed(() => contentType.value === ContentType.Wiki)
     const selectedSubpageIndex = ref<number | null>(null)
 
     // AI Model selection
@@ -161,7 +168,7 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
         generatedContent.value = null
         generatedWikiContent.value = null
         errorMessage.value = ''
-        createAsWiki.value = false
+        contentType.value = ContentType.Page
         selectedSubpageIndex.value = null
 
         // Fetch available models when opening modal
@@ -175,7 +182,7 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
         generatedContent.value = null
         generatedWikiContent.value = null
         errorMessage.value = ''
-        createAsWiki.value = false
+        contentType.value = ContentType.Page
         selectedSubpageIndex.value = null
     }
 
@@ -403,6 +410,7 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
         url,
         difficultyLevel,
         contentLength,
+        contentType,
         generatedContent,
         generatedWikiContent,
         parentId,

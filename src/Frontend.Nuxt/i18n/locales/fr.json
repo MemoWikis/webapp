@@ -738,13 +738,23 @@
                 }
             },
             "createPage": {
-                "title": "Créer une page avec l'IA",
+                "title": "Créer du contenu avec l'IA",
                 "buttonTitle": "Créer une page avec l'IA",
                 "buttonTitleMobile": "Page IA",
+                "tab": {
+                    "page": "Page",
+                    "pageSubtitle": "Nouveau contenu",
+                    "wiki": "Wiki",
+                    "wikiSubtitle": "Documentation",
+                    "flashcards": "Cartes",
+                    "flashcardsSubtitle": "Depuis la page"
+                },
                 "modePrompt": "Texte",
                 "modeUrl": "URL",
                 "promptLabel": "Décrivez le contenu de la page",
+                "promptLabelWiki": "Décrivez le contenu du wiki",
                 "promptPlaceholder": "Par exemple : Une page sur la photosynthèse avec les concepts principaux et les processus",
+                "addFromUrl": "Ajouter du contenu depuis une URL",
                 "urlLabel": "URL pour créer la page",
                 "urlPlaceholder": "Par exemple : https://fr.wikipedia.org/wiki/Photosynthèse",
                 "urlHint": "Fonctionne mieux avec Wikipedia, GitHub et les sites de documentation statiques. Certains sites avec protection anti-bots peuvent ne pas fonctionner.",

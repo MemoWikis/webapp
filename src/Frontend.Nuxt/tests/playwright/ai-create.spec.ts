@@ -42,7 +42,7 @@ test.describe('AI Create Page', () => {
         await expect(page.locator('.modal-title')).toContainText(/KI|AI/)
     })
 
-    test('should show input mode toggle with prompt and URL buttons', async ({
+    test('should show content type tabs for Page, Wiki, Flashcards', async ({
         authenticatedPage,
     }) => {
         const page = authenticatedPage
@@ -53,11 +53,11 @@ test.describe('AI Create Page', () => {
             return
         }
 
-        const modeButtons = page.locator('.mode-btn')
-        await expect(modeButtons).toHaveCount(2)
-        await expect(modeButtons.first()).toBeVisible()
+        const tabs = page.locator('.content-tab')
+        await expect(tabs).toHaveCount(3)
+        await expect(tabs.first()).toHaveClass(/active/)
 
-        await takeDevScreenshot(page, 'ai-modal-input-modes')
+        await takeDevScreenshot(page, 'ai-modal-content-tabs')
     })
 
     test('should have generate button disabled with empty prompt', async ({
@@ -95,19 +95,39 @@ test.describe('AI Create Page', () => {
             return
         }
 
-        const slider = page.locator('.detail-slider')
+        const slider = page.locator('.detail-slider').first()
         await expect(slider).toBeVisible()
         await expect(slider).toHaveAttribute('aria-label', /.+/)
         await expect(slider).toHaveAttribute('aria-valuetext', /.+/)
 
-        await takeElementScreenshot(
-            page,
-            '.detail-section',
-            'ai-modal-complexity-slider',
-        )
+        const complexitySection = page.locator('.detail-section').first()
+        await takeDevScreenshot(page, 'ai-modal-complexity-slider')
     })
 
-    test('should toggle content length options', async ({
+    test('should show content length slider on desktop', async ({
+        authenticatedPage,
+    }) => {
+        const page = authenticatedPage
+        await page.setViewportSize({ width: 1280, height: 800 })
+
+        const opened = await openAiModal(page)
+        if (!opened) {
+            test.skip()
+            return
+        }
+
+        const sliders = page.locator('.detail-slider')
+        await expect(sliders).toHaveCount(2)
+
+        const lengthSlider = sliders.nth(1)
+        await expect(lengthSlider).toBeVisible()
+        await expect(lengthSlider).toHaveAttribute('aria-label', /.+/)
+        await expect(lengthSlider).toHaveAttribute('aria-valuetext', /.+/)
+
+        await takeDevScreenshot(page, 'ai-modal-length-slider')
+    })
+
+    test('should switch content type to Wiki tab', async ({
         authenticatedPage,
     }) => {
         const page = authenticatedPage
@@ -118,45 +138,11 @@ test.describe('AI Create Page', () => {
             return
         }
 
-        const lengthButtons = page.locator('.length-btn')
-        await expect(lengthButtons).toHaveCount(3)
+        const wikiTab = page.locator('.content-tab').nth(1)
+        await wikiTab.click()
+        await expect(wikiTab).toHaveClass(/active/)
 
-        const firstBtn = lengthButtons.first()
-        const lastBtn = lengthButtons.last()
-
-        await firstBtn.click()
-        await expect(firstBtn).toHaveClass(/active/)
-
-        await lastBtn.click()
-        await expect(lastBtn).toHaveClass(/active/)
-        await expect(firstBtn).not.toHaveClass(/active/)
-
-        await takeDevScreenshot(page, 'ai-modal-length-toggled')
-    })
-
-    test('should show wiki toggle with proper checkbox role', async ({
-        authenticatedPage,
-    }) => {
-        const page = authenticatedPage
-
-        const opened = await openAiModal(page)
-        if (!opened) {
-            test.skip()
-            return
-        }
-
-        const wikiToggle = page.locator('.wiki-toggle-label')
-        await expect(wikiToggle).toBeVisible()
-        await expect(wikiToggle).toHaveAttribute('role', 'checkbox')
-        await expect(wikiToggle).toHaveAttribute('aria-checked', 'false')
-
-        await wikiToggle.click()
-        await expect(wikiToggle).toHaveAttribute('aria-checked', 'true')
-
-        await wikiToggle.click()
-        await expect(wikiToggle).toHaveAttribute('aria-checked', 'false')
-
-        await takeDevScreenshot(page, 'ai-modal-wiki-toggle')
+        await takeDevScreenshot(page, 'ai-modal-wiki-tab')
     })
 
     test('should display AI model selector in footer', async ({
@@ -203,7 +189,9 @@ test.describe('AI Create Page', () => {
 })
 
 test.describe('AI Create Page - URL Mode', () => {
-    test('should switch to URL input mode', async ({ authenticatedPage }) => {
+    test('should show URL input when clicking add from URL link', async ({
+        authenticatedPage,
+    }) => {
         const page = authenticatedPage
 
         const opened = await openAiModal(page)
@@ -212,14 +200,14 @@ test.describe('AI Create Page - URL Mode', () => {
             return
         }
 
-        const urlModeBtn = page.locator('.mode-btn').filter({ hasText: 'URL' })
-        await urlModeBtn.click()
-        await expect(urlModeBtn).toHaveClass(/active/)
+        const addUrlBtn = page.locator('.add-url-btn')
+        await expect(addUrlBtn).toBeVisible()
+        await addUrlBtn.click()
 
         const urlInput = page.locator('#url-input')
         await expect(urlInput).toBeVisible()
 
-        await takeDevScreenshot(page, 'ai-modal-url-mode')
+        await takeDevScreenshot(page, 'ai-modal-url-expanded')
     })
 
     test('should validate URL input - disabled for invalid, enabled for valid', async ({
@@ -233,8 +221,8 @@ test.describe('AI Create Page - URL Mode', () => {
             return
         }
 
-        const urlModeBtn = page.locator('.mode-btn').filter({ hasText: 'URL' })
-        await urlModeBtn.click()
+        const addUrlBtn = page.locator('.add-url-btn')
+        await addUrlBtn.click()
 
         const urlInput = page.locator('#url-input')
         const generateBtn = page.locator(`${MODAL_SELECTOR} .btn-primary`)

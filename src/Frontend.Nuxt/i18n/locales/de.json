@@ -741,13 +741,23 @@
                 }
             },
             "createPage": {
-                "title": "Seite mit KI erstellen",
+                "title": "Inhalte mit KI erstellen",
                 "buttonTitle": "Mit KI erstellen",
                 "buttonTitleMobile": "KI",
+                "tab": {
+                    "page": "Seite",
+                    "pageSubtitle": "Neuer Inhalt",
+                    "wiki": "Wiki",
+                    "wikiSubtitle": "Dokumentation",
+                    "flashcards": "Lernkarten",
+                    "flashcardsSubtitle": "Von Seite"
+                },
                 "modePrompt": "Beschreiben",
                 "modeUrl": "Von URL",
                 "promptLabel": "Beschreibe, worum es auf der Seite gehen soll",
+                "promptLabelWiki": "Beschreibe, worum es im Wiki gehen soll",
                 "promptPlaceholder": "z.B. Erkläre die Grundlagen der Photosynthese...",
+                "addFromUrl": "Inhalt von URL hinzufügen",
                 "urlLabel": "Gib eine URL ein, um eine Seite zu erstellen",
                 "urlPlaceholder": "z.B. https://de.wikipedia.org/wiki/Photosynthese",
                 "urlHint": "Funktioniert am besten mit Wikipedia, GitHub und statischen Dokumentationsseiten. Einige Seiten mit Bot-Schutz funktionieren möglicherweise nicht.",
