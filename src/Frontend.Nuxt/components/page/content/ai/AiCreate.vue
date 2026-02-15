@@ -77,6 +77,8 @@ const shouldGenerateWikiWithSubpages = computed(() => {
     return aiCreateStore.contentType === ContentType.Wiki && aiCreateStore.contentLength === ContentLength.Long
 })
 
+const isFlashcards = computed(() => aiCreateStore.contentType === ContentType.Flashcards)
+
 const promptLabel = computed(() => {
     if (aiCreateStore.contentType === ContentType.Wiki) {
         return t('page.ai.createPage.promptLabelWiki')
@@ -112,6 +114,8 @@ const contentLengthSliderStyle = computed(() => ({
 const canGenerate = computed(() => {
     if (aiCreateStore.isGenerating) return false
 
+    if (isFlashcards.value) return true
+
     if (showUrlInput.value && aiCreateStore.url.trim().length > 0) {
         return aiCreateStore.isValidUrl(aiCreateStore.url.trim())
     }
@@ -130,6 +134,9 @@ const canCreate = computed(() => {
 })
 
 const primaryButtonLabel = computed(() => {
+    if (isFlashcards.value) {
+        return t('page.ai.createPage.button.createFlashcards')
+    }
     if (hasGeneratedContent.value) {
         return shouldGenerateWikiWithSubpages.value
             ? t('page.ai.createPage.button.createWiki')
@@ -245,7 +252,7 @@ function selectSubpage(index: number) {
 <template>
     <LazyModal :show="aiCreateStore.showModal" :show-cancel-btn="false"
         :disabled="hasGeneratedContent ? !canCreate : !canGenerate" content-class="ai-create-modal"
-        @close="aiCreateStore.showModal = false">
+        :prevent-backdrop-close="true" @close="aiCreateStore.showModal = false">
         <template #header>
             <h4 class="modal-title">
                 <span class="header-icon-wrapper">
@@ -283,8 +290,14 @@ function selectSubpage(index: number) {
                     </button>
                 </div>
 
+                <!-- Flashcards Info Banner -->
+                <div v-if="isFlashcards" class="flashcards-info-banner">
+                    <font-awesome-icon :icon="['fas', 'book-open']" class="info-icon" />
+                    <span>{{ t('page.ai.createPage.flashcardsInfo') }}</span>
+                </div>
+
                 <!-- Prompt Input Section -->
-                <div class="form-group">
+                <div v-if="!isFlashcards" class="form-group">
                     <label for="prompt-input">{{ promptLabel }}</label>
                     <textarea id="prompt-input" ref="promptTextArea" v-model="aiCreateStore.prompt"
                         class="form-control prompt-textarea" :placeholder="t('page.ai.createPage.promptPlaceholder')"
@@ -292,7 +305,7 @@ function selectSubpage(index: number) {
                 </div>
 
                 <!-- Add content from URL link -->
-                <div v-if="!showUrlInput" class="url-toggle-link">
+                <div v-if="!isFlashcards && !showUrlInput" class="url-toggle-link">
                     <button type="button" class="add-url-btn" :disabled="aiCreateStore.isGenerating"
                         @click="showUrlInput = true">
                         <font-awesome-icon :icon="['fas', 'plus']" />
@@ -301,7 +314,7 @@ function selectSubpage(index: number) {
                 </div>
 
                 <!-- URL Input Section (expandable) -->
-                <div v-if="showUrlInput" class="form-group url-section">
+                <div v-if="!isFlashcards && showUrlInput" class="form-group url-section">
                     <div class="url-header">
                         <label for="url-input">{{ t('page.ai.createPage.urlLabel') }}</label>
                         <button type="button" class="url-close-btn" :disabled="aiCreateStore.isGenerating"
@@ -351,7 +364,7 @@ function selectSubpage(index: number) {
                 </div>
 
                 <!-- Content Length Section -->
-                <div class="form-group detail-section">
+                <div v-if="!isFlashcards" class="form-group detail-section">
                     <label>{{ t('page.ai.createPage.lengthLabel') }}</label>
 
                     <!-- Desktop: Slider -->
@@ -479,7 +492,7 @@ function selectSubpage(index: number) {
                         <div class="model-select"
                             :class="{ disabled: aiCreateStore.isGenerating || aiCreateStore.isLoadingModels }">
                             <span v-if="aiCreateStore.isLoadingModels">{{ t('page.ai.createPage.loadingModels')
-                            }}</span>
+                                }}</span>
                             <span v-else>{{ selectedModelDisplayName || t('page.ai.createPage.selectModel') }}</span>
                             <font-awesome-icon :icon="['fas', 'chevron-down']" />
                         </div>
@@ -684,6 +697,25 @@ function selectSubpage(index: number) {
                 opacity: 0.6;
                 cursor: not-allowed;
             }
+        }
+    }
+
+    .flashcards-info-banner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        background: fade(@memo-blue-link, 8%);
+        border: 1px solid fade(@memo-blue-link, 20%);
+        border-radius: 8px;
+        color: @memo-grey-darker;
+        font-size: 14px;
+        margin-bottom: 24px;
+
+        .info-icon {
+            color: @memo-blue-link;
+            font-size: 18px;
+            flex-shrink: 0;
         }
     }
 

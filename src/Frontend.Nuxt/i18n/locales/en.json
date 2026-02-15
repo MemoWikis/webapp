@@ -758,6 +758,7 @@
                 "promptLabelWiki": "Describe what the wiki should be about",
                 "promptPlaceholder": "e.g. Explain the basics of photosynthesis...",
                 "addFromUrl": "Add content from URL",
+                "flashcardsInfo": "Flashcards will be created based on the content of the current page.",
                 "urlLabel": "Enter a URL to create a page from",
                 "urlPlaceholder": "e.g. https://en.wikipedia.org/wiki/Photosynthesis",
                 "urlHint": "Works best with Wikipedia, GitHub, and static documentation sites. Some sites with bot protection may not work.",
@@ -799,7 +800,8 @@
                     "generate": "Generate",
                     "regenerate": "Regenerate",
                     "create": "Create page",
-                    "createWiki": "Create wiki"
+                    "createWiki": "Create wiki",
+                    "createFlashcards": "Create"
                 },
                 "generating": "Generating page...",
                 "generatingWiki": "Generating wiki with subpages...",
