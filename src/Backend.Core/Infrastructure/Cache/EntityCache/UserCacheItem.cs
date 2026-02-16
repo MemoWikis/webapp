@@ -60,12 +60,53 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     /// </summary>
     public int PaidTokensBalance { get; set; } = 0;
 
+    private long _currentWeekTokenUsage;
+    private DateTime _currentWeekStart = GetCurrentWeekStart();
+
     /// <summary>
     /// Token usage for the current week (since last Monday 00:00).
     /// Used for calculating remaining weekly quota.
     /// Updated on cache initialization and after each AI usage.
+    /// Automatically resets to 0 when a new week starts.
     /// </summary>
-    public long CurrentWeekTokenUsage { get; set; } = 0;
+    public long CurrentWeekTokenUsage
+    {
+        get
+        {
+            var currentWeekStart = GetCurrentWeekStart();
+            if (_currentWeekStart < currentWeekStart)
+            {
+                _currentWeekTokenUsage = 0;
+                _currentWeekStart = currentWeekStart;
+            }
+
+            return _currentWeekTokenUsage;
+        }
+        set
+        {
+            _currentWeekTokenUsage = value;
+            _currentWeekStart = GetCurrentWeekStart();
+        }
+    }
+
+    /// <summary>
+    /// Allows tests to simulate a week boundary crossing by setting the week start to a past date.
+    /// </summary>
+    internal DateTime CurrentWeekTokenUsageWeekStart
+    {
+        get => _currentWeekStart;
+        set => _currentWeekStart = value;
+    }
+
+    /// <summary>
+    /// Gets the start of the current week (Monday 00:00).
+    /// </summary>
+    internal static DateTime GetCurrentWeekStart()
+    {
+        var today = DateTime.Today;
+        var daysSinceMonday = ((int)today.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+        return today.AddDays(-daysSinceMonday);
+    }
 
     /// <summary>
     /// User's preferred AI model ID (e.g., "claude-sonnet-4-latest")

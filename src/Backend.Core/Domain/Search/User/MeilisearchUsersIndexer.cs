@@ -1,8 +1,5 @@
 ﻿using Meilisearch;
-using System.Runtime.CompilerServices;
 using Index = Meilisearch.Index;
-
-[assembly: InternalsVisibleTo("MemoWikis.Tests")]
 
 internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
 {
@@ -34,7 +31,7 @@ internal class MeilisearchUsersIndexer : MeilisearchIndexerBase
                     return;
                 // Check if the document exists before updating
                 await index.GetDocumentAsync<MeiliSearchUserMap>(user.Id.ToString());
-                
+
                 // Document exists, proceed with update
                 var userMap = CreateUserMap(user);
                 var taskInfo = await index

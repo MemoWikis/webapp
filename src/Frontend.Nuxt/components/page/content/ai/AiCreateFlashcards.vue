@@ -16,7 +16,7 @@ const complexityLabels = computed(() => ({
 <template>
     <div class="ai-create-flashcards">
         <!-- Info Banner -->
-        <div class="flashcards-info-banner">
+        <div v-if="aiCreateStore.generatedFlashcards.length === 0 && !aiCreateStore.isGenerating" class="flashcards-info-banner">
             <font-awesome-icon :icon="['fas', 'book-open']" class="info-icon" />
             <span>{{ t('page.ai.createPage.flashcardsInfo') }}</span>
         </div>
@@ -38,6 +38,12 @@ const complexityLabels = computed(() => ({
         <!-- Error Message -->
         <div v-if="aiCreateStore.errorMessage" class="alert alert-danger">
             {{ t(aiCreateStore.errorMessage) }}
+        </div>
+
+        <!-- Generated Flashcards -->
+        <div v-if="aiCreateStore.generatedFlashcards.length > 0" id="AiFlashcard" class="generated-flashcards">
+            <PageLearningAiFlashCard v-for="(flashcard, i) in aiCreateStore.generatedFlashcards" :key="i"
+                :flashcard="flashcard" :index="i" @delete-flashcard="aiCreateStore.deleteFlashcard(i)" />
         </div>
     </div>
 </template>

@@ -41,6 +41,11 @@ export interface GeneratedWikiContent {
     subpages: GeneratedSubpage[]
 }
 
+export interface GeneratedFlashcard {
+    front: string
+    back: string
+}
+
 export interface AiModel {
     modelId: string
     displayName: string
@@ -64,6 +69,7 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
     const contentType = ref<ContentType>(ContentType.Page)
     const createAsWiki = computed(() => contentType.value === ContentType.Wiki)
     const selectedSubpageIndex = ref<number | null>(null)
+    const generatedFlashcards = ref<GeneratedFlashcard[]>([])
 
     // AI Model selection
     const availableModels = ref<AiModel[]>([])
@@ -167,6 +173,7 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
         contentLength.value = ContentLength.Medium
         generatedContent.value = null
         generatedWikiContent.value = null
+        generatedFlashcards.value = []
         errorMessage.value = ''
         contentType.value = ContentType.Page
         selectedSubpageIndex.value = null
@@ -181,6 +188,7 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
         url.value = ''
         generatedContent.value = null
         generatedWikiContent.value = null
+        generatedFlashcards.value = []
         errorMessage.value = ''
         contentType.value = ContentType.Page
         selectedSubpageIndex.value = null
@@ -354,6 +362,41 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
         }
     }
 
+    async function generateFlashcards(pageId: number, pageText: string) {
+        isGenerating.value = true
+        errorMessage.value = ''
+        generatedFlashcards.value = []
+
+        try {
+            interface GenerateFlashcardResponse {
+                flashcards: GeneratedFlashcard[]
+                messageKey: string
+            }
+
+            const result = await $api<GenerateFlashcardResponse>('/apiVue/PageStore/GenerateFlashCard/', {
+                method: 'POST',
+                body: { pageId, text: pageText },
+                mode: 'cors',
+                credentials: 'include',
+            })
+
+            if (result.flashcards && result.flashcards.length > 0) {
+                generatedFlashcards.value = result.flashcards
+            }
+            if (result.messageKey) {
+                errorMessage.value = result.messageKey
+            }
+        } catch {
+            errorMessage.value = 'error.default'
+        } finally {
+            isGenerating.value = false
+        }
+    }
+
+    function deleteFlashcard(index: number) {
+        generatedFlashcards.value.splice(index, 1)
+    }
+
     async function createWiki(): Promise<{
         success: boolean
         wikiId?: number
@@ -413,6 +456,7 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
         contentType,
         generatedContent,
         generatedWikiContent,
+        generatedFlashcards,
         parentId,
         errorMessage,
         createAsWiki,
@@ -423,6 +467,8 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
         openModal,
         closeModal,
         generatePage,
+        generateFlashcards,
+        deleteFlashcard,
         createPage,
         createWiki,
         isValidUrl,

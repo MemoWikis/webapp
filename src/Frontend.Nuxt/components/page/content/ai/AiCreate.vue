@@ -3,11 +3,15 @@ import { DifficultyLevel, ContentLength, ContentType, InputMode, useAiCreateStor
 import { useUserStore } from '~/components/user/userStore'
 import { useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { usePageStore } from '../../pageStore'
+import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
+import { useLearningSessionConfigurationStore } from '~/components/page/learning/learningSessionConfigurationStore'
 
 const aiCreateStore = useAiCreateStore()
 const userStore = useUserStore()
 const snackbarStore = useSnackbarStore()
 const pageStore = usePageStore()
+const learningSessionStore = useLearningSessionStore()
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const { $urlHelper } = useNuxtApp()
 
 const { t } = useI18n()
@@ -64,6 +68,9 @@ const canGenerate = computed(() => {
 })
 
 const hasGeneratedContent = computed(() => {
+    if (isFlashcards.value) {
+        return aiCreateStore.generatedFlashcards.length > 0
+    }
     if (shouldGenerateWikiWithSubpages.value) {
         return aiCreateStore.generatedWikiContent !== null
     }
@@ -76,7 +83,10 @@ const canCreate = computed(() => {
 
 const primaryButtonLabel = computed(() => {
     if (isFlashcards.value) {
-        return t('page.ai.createPage.button.createFlashcards')
+        if (aiCreateStore.generatedFlashcards.length > 0) {
+            return t('page.ai.createPage.button.createFlashcards')
+        }
+        return t('page.ai.createPage.button.generate')
     }
     if (hasGeneratedContent.value) {
         return shouldGenerateWikiWithSubpages.value
@@ -116,6 +126,11 @@ async function handleGenerate() {
         return
     }
 
+    if (isFlashcards.value) {
+        await aiCreateStore.generateFlashcards(pageStore.id, pageStore.text)
+        return
+    }
+
     if (showUrlInput.value && aiCreateStore.url.trim().length > 0) {
         aiCreateStore.inputMode = InputMode.Url
     } else {
@@ -128,6 +143,11 @@ async function handleGenerate() {
 async function handleCreate() {
     if (!userStore.isLoggedIn) {
         userStore.openLoginModal()
+        return
+    }
+
+    if (isFlashcards.value) {
+        await handleCreateFlashcards()
         return
     }
 
@@ -168,6 +188,53 @@ function handlePrimaryAction() {
         handleCreate()
     } else {
         handleGenerate()
+    }
+}
+
+async function handleCreateFlashcards() {
+    const sessionConfig = learningSessionConfigurationStore.buildSessionConfigJson(pageStore.id)
+
+    interface CreateFlashcardsResult {
+        success: boolean
+        ids?: number[]
+        messageKey?: string
+        lastIndex?: number
+    }
+
+    try {
+        const result = await $api<CreateFlashcardsResult>('/apiVue/AiCreateFlashcard/Create/', {
+            method: 'POST',
+            body: {
+                pageId: pageStore.id,
+                flashCards: aiCreateStore.generatedFlashcards,
+                lastIndex: learningSessionStore.lastIndexInQuestionList,
+                sessionConfig
+            },
+            mode: 'cors',
+            credentials: 'include',
+        })
+
+        if (result.success) {
+            pageStore.updateQuestionCount()
+            snackbarStore.showSnackbar({
+                type: 'success',
+                text: { message: t('success.question.flashcardsAdded', result.ids?.length ?? 0) },
+                dismissible: true
+            })
+            aiCreateStore.closeModal()
+        } else if (result.messageKey) {
+            snackbarStore.showSnackbar({
+                type: 'error',
+                text: { message: t(result.messageKey) },
+                dismissible: true
+            })
+        }
+    } catch {
+        snackbarStore.showSnackbar({
+            type: 'error',
+            text: { message: t('error.default') },
+            dismissible: true
+        })
     }
 }
 </script>
