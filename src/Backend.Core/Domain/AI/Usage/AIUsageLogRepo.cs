@@ -4,14 +4,7 @@ using System.Collections.Concurrent;
 public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeductionService) : RepositoryDbBase<AiUsageLog>(_session)
 {
     private const string PriceJoinSubquery = @"
-            LEFT JOIN aimodelwhitelist w ON w.Id = (
-                SELECT w2.Id 
-                FROM aimodelwhitelist w2 
-                WHERE w2.ModelId = u.Model 
-                  AND w2.DateCreated <= u.DateCreated
-                ORDER BY w2.DateCreated DESC 
-                LIMIT 1
-            )";
+            LEFT JOIN aimodelwhitelist w ON w.ModelId = u.Model";
 
     private const string CostCalculations = @"
                 (u.TokenIn / 1000000.0) * COALESCE(w.InputPricePerMillion, 0) AS InputCostUsd,
@@ -297,7 +290,7 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
     {
         var sql = $@"
             SELECT 
-                CAST(DATE(u.DateCreated) AS DATETIME) AS Date,
+                DATE(u.DateCreated) AS Date,
                 u.Model AS ModelId,
                 MAX(w.DisplayName) AS DisplayName,
                 CAST(SUM(u.TokenIn) AS SIGNED) AS TotalInputTokens,
@@ -309,7 +302,7 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
             WHERE 1=1";
 
         sql = AppendDateRangeFilter(sql, fromDate, toDate);
-        sql += " GROUP BY DATE(u.DateCreated), u.Model ORDER BY Date DESC, TotalCostUsd DESC";
+        sql += " GROUP BY Date, u.Model ORDER BY Date DESC, TotalCostUsd DESC";
 
         var query = _session.CreateSQLQuery(sql);
         ApplyDateRangeParameters(query, fromDate, toDate);
