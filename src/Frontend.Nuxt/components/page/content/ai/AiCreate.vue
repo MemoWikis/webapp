@@ -221,6 +221,7 @@ async function handleCreateFlashcards() {
                 text: { message: t('success.question.flashcardsAdded', result.ids?.length ?? 0) },
                 dismissible: true
             })
+            aiCreateStore.resetModal()
             aiCreateStore.closeModal()
         } else if (result.messageKey) {
             snackbarStore.showSnackbar({
@@ -242,6 +243,7 @@ async function handleCreateFlashcards() {
 <template>
     <LazyModal :show="aiCreateStore.showModal" :show-cancel-btn="false"
         :disabled="hasGeneratedContent ? !canCreate : !canGenerate" content-class="ai-create-modal"
+        container-class="wide-modal"
         :prevent-backdrop-close="true" @close="aiCreateStore.showModal = false">
         <template #header>
             <h4 class="modal-title">

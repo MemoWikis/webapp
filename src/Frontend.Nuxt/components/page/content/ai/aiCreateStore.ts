@@ -166,17 +166,6 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
     function openModal(newParentId: number) {
         parentId.value = newParentId
         showModal.value = true
-        inputMode.value = InputMode.Prompt
-        prompt.value = ''
-        url.value = ''
-        difficultyLevel.value = DifficultyLevel.Intermediate
-        contentLength.value = ContentLength.Medium
-        generatedContent.value = null
-        generatedWikiContent.value = null
-        generatedFlashcards.value = []
-        errorMessage.value = ''
-        contentType.value = ContentType.Page
-        selectedSubpageIndex.value = null
 
         // Fetch available models when opening modal
         fetchModels()
@@ -184,8 +173,19 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
 
     function closeModal() {
         showModal.value = false
+    }
+
+    function resetAndOpenModal(newParentId: number) {
+        resetModal()
+        openModal(newParentId)
+    }
+
+    function resetModal() {
+        inputMode.value = InputMode.Prompt
         prompt.value = ''
         url.value = ''
+        difficultyLevel.value = DifficultyLevel.Intermediate
+        contentLength.value = ContentLength.Medium
         generatedContent.value = null
         generatedWikiContent.value = null
         generatedFlashcards.value = []
@@ -353,6 +353,7 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
             )
 
             if (result.success) {
+                resetModal()
                 closeModal()
             }
 
@@ -436,6 +437,7 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
             )
 
             if (result.success) {
+                resetModal()
                 closeModal()
             }
 
@@ -466,6 +468,8 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
         isLoadingModels,
         openModal,
         closeModal,
+        resetAndOpenModal,
+        resetModal,
         generatePage,
         generateFlashcards,
         deleteFlashcard,
