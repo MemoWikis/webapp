@@ -291,7 +291,7 @@ async function handleCreateFlashcards() {
                         <input id="url-input" v-model="aiCreateStore.url" type="url" class="form-control url-input"
                             :placeholder="t('page.ai.createPage.urlPlaceholder')"
                             :disabled="aiCreateStore.isGenerating" />
-                        <small class="url-hint">{{ t('page.ai.createPage.urlHint') }}</small>
+                        <small class="body-s">{{ t('page.ai.createPage.urlHint') }}</small>
                     </div>
 
                     <!-- Complexity Level & Content Length -->
@@ -357,7 +357,7 @@ async function handleCreateFlashcards() {
             background: none;
             border: none;
             padding: 0;
-            color: @memo-grey-dark;
+            color: @memo-grey-darker;
             font-size: 13px;
             cursor: pointer;
 
@@ -391,12 +391,12 @@ async function handleCreateFlashcards() {
                 height: 24px;
                 background: none;
                 border: none;
-                color: @memo-grey-dark;
+                color: @memo-grey-darker;
                 cursor: pointer;
                 padding: 0;
 
                 &:hover {
-                    color: @memo-grey-darker;
+                    color: @memo-grey-darkest;
                 }
             }
         }
@@ -440,8 +440,7 @@ async function handleCreateFlashcards() {
         overflow: hidden;
         border-radius: 0px;
         padding: 12px;
-        border-color: @memo-grey-lighter;
-        box-shadow: none;
+        border-color: @memo-grey-light;
 
         &:focus {
             border-color: @memo-green;
@@ -453,20 +452,12 @@ async function handleCreateFlashcards() {
         width: 100%;
         border-radius: 0px;
         padding: 12px;
-        border-color: @memo-grey-lighter;
-        box-shadow: none;
+        border-color: @memo-grey-light;
 
         &:focus {
             border-color: @memo-green;
             outline: none;
         }
-    }
-
-    .url-hint {
-        display: block;
-        margin-top: 8px;
-        color: @memo-grey-dark;
-        font-size: 12px;
     }
 
     .generating-state {
