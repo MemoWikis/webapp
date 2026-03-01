@@ -1129,7 +1129,7 @@ public class VueMaintenanceController(
     public AiCostsByDayAndModelResult GetAiCostsByDayAndModel([FromForm] int days = 30)
     {
         var fromDate = DateTime.UtcNow.AddDays(-days);
-        var data = _aiUsageLogRepo.GetCostSummaryByDayAndModel(fromDate, DateTime.UtcNow);
+        var data = _aiUsageLogRepo.GetCostSummaryByDayAndModel(fromDate);
 
         var items = data.Select(d => new AiDailyCostByModelItem(
             d.Date.ToString("yyyy-MM-dd"),
