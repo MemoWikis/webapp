@@ -2,7 +2,7 @@
 import type { JSONContent } from '@tiptap/vue-3';
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
-import type { GeneratedFlashcard } from '../../pageStore';
+import type { GeneratedFlashcard } from '../../content/ai/aiCreateStore';
 import { isEmpty } from 'underscore'
 
 interface Props {

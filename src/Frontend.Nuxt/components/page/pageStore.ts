@@ -9,7 +9,6 @@ import type { SnackbarData } from '../snackBar/snackBarStore'
 import { useSnackbarStore } from '../snackBar/snackBarStore'
 import type { ErrorCode } from '../error/errorCodeEnum'
 import { nanoid } from 'nanoid'
-import { useLoadingStore } from '../loading/loadingStore'
 
 export class Page {
     canAccess: boolean = false
@@ -131,21 +130,11 @@ export interface TinyPageModel {
     imgUrl: string
 }
 
-export interface GeneratedFlashcard {
-    front: string
-    back: string
-}
-
 interface GetPageAnalyticsResponse {
     viewsPast90DaysAggregatedPages: ViewSummary[]
     viewsPast90DaysPage: ViewSummary[]
     viewsPast90DaysAggregatedQuestions: ViewSummary[]
     viewsPast90DaysDirectQuestions: ViewSummary[]
-}
-
-export interface GenerateFlashcardResponse {
-    flashcards: GeneratedFlashcard[]
-    messageKey: string
 }
 
 export const usePageStore = defineStore('pageStore', () => {
@@ -188,7 +177,6 @@ export const usePageStore = defineStore('pageStore', () => {
     const saveTrackingArray = ref<string[]>([])
     const currentWiki = ref<TinyPageModel | null>(null)
     const text = ref('')
-    const selectedText = ref('')
     const contentLanguage = ref<'en' | 'de' | 'fr' | 'es'>('en')
     const canEdit = ref(false)
     const shareToken = ref<string | null>(null)
@@ -243,7 +231,6 @@ export const usePageStore = defineStore('pageStore', () => {
             viewsPast90DaysAggregatedQuestions.value = []
             viewsPast90DaysDirectQuestions.value = []
             text.value = ''
-            selectedText.value = ''
 
             contentLanguage.value = page.language
             canEdit.value = page.canEdit
@@ -297,10 +284,10 @@ export const usePageStore = defineStore('pageStore', () => {
                                 response: context.response,
                                 host: context.request,
                             },
-                        ]
+                        ],
                     )
                 },
-            }
+            },
         )
         const nuxtApp = useNuxtApp()
         const { $i18n } = nuxtApp
@@ -328,7 +315,7 @@ export const usePageStore = defineStore('pageStore', () => {
         }
 
         saveTrackingArray.value = saveTrackingArray.value.filter(
-            (filterId) => filterId !== uploadId
+            (filterId) => filterId !== uploadId,
         )
     }
 
@@ -369,10 +356,10 @@ export const usePageStore = defineStore('pageStore', () => {
                                 response: context.response,
                                 host: context.request,
                             },
-                        ]
+                        ],
                     )
                 },
-            }
+            },
         )
         const nuxtApp = useNuxtApp()
         const { $i18n } = nuxtApp
@@ -402,7 +389,7 @@ export const usePageStore = defineStore('pageStore', () => {
         }
 
         saveTrackingArray.value = saveTrackingArray.value.filter(
-            (filterId) => filterId !== uploadId
+            (filterId) => filterId !== uploadId,
         )
     }
 
@@ -444,10 +431,10 @@ export const usePageStore = defineStore('pageStore', () => {
                                 response: context.response,
                                 req: context.request,
                             },
-                        ]
+                        ],
                     )
                 },
-            }
+            },
         )
     }
 
@@ -467,10 +454,10 @@ export const usePageStore = defineStore('pageStore', () => {
                                 response: context.response,
                                 req: context.request,
                             },
-                        ]
+                        ],
                     )
                 },
-            }
+            },
         )
     }
 
@@ -490,10 +477,10 @@ export const usePageStore = defineStore('pageStore', () => {
                                 response: context.response,
                                 host: context.request,
                             },
-                        ]
+                        ],
                     )
                 },
-            }
+            },
         )
 
         if (result) gridItems.value = result
@@ -526,10 +513,10 @@ export const usePageStore = defineStore('pageStore', () => {
                                 response: context.response,
                                 req: context.request,
                             },
-                        ]
+                        ],
                     )
                 },
-            }
+            },
         )
 
         textIsHidden.value = result
@@ -550,11 +537,11 @@ export const usePageStore = defineStore('pageStore', () => {
                 method: 'POST',
                 mode: 'cors',
                 credentials: 'include',
-            }
+            },
         )
 
         uploadTrackingArray.value = uploadTrackingArray.value.filter(
-            (filterId) => filterId !== uploadId
+            (filterId) => filterId !== uploadId,
         )
 
         return result
@@ -589,10 +576,10 @@ export const usePageStore = defineStore('pageStore', () => {
                                 response: context.response,
                                 req: context.request,
                             },
-                        ]
+                        ],
                     )
                 },
-            }
+            },
         )
 
         if (data) {
@@ -607,41 +594,6 @@ export const usePageStore = defineStore('pageStore', () => {
             analyticsLoaded.value = true
         }
     }
-
-    const generateFlashcard = async (
-        selectedTextParam?: string
-    ): Promise<GenerateFlashcardResponse> => {
-        const loadingStore = useLoadingStore()
-        loadingStore.startLoading(9000, 'Karteikarten werden generiert')
-        const data = {
-            pageId: id.value,
-            text:
-                (selectedTextParam ?? '').length > 0
-                    ? selectedTextParam
-                    : text.value,
-        }
-        const result = await $api<GenerateFlashcardResponse>(
-            `/apiVue/PageStore/GenerateFlashcard/`,
-            {
-                body: data,
-                method: 'POST',
-                mode: 'cors',
-                credentials: 'include',
-            }
-        )
-
-        if (selectedTextParam != null && selectedTextParam.length > 0)
-            selectedText.value = selectedTextParam
-
-        await loadingStore.finishLoading()
-
-        return result
-    }
-
-    const reGenerateFlashcard =
-        async (): Promise<GenerateFlashcardResponse> => {
-            return await generateFlashcard(selectedText.value)
-        }
 
     const updateQuestionCount = async () => {
         const result = await $api<number>(
@@ -659,10 +611,10 @@ export const usePageStore = defineStore('pageStore', () => {
                                 response: context.response,
                                 req: context.request,
                             },
-                        ]
+                        ],
                     )
                 },
-            }
+            },
         )
 
         questionCount.value = result
@@ -709,7 +661,7 @@ export const usePageStore = defineStore('pageStore', () => {
     // Getters
     const getPageName = computed(() => name.value)
     const hasVisibleDirectChildren = computed(
-        () => directVisibleChildPageCount.value > 0
+        () => directVisibleChildPageCount.value > 0,
     )
 
     return {
@@ -752,7 +704,6 @@ export const usePageStore = defineStore('pageStore', () => {
         saveTrackingArray,
         currentWiki,
         text,
-        selectedText,
         contentLanguage,
         canEdit,
         shareToken,
@@ -777,8 +728,6 @@ export const usePageStore = defineStore('pageStore', () => {
         uploadContentImage,
         waitUntilAllUploadsComplete,
         getAnalyticsData,
-        generateFlashcard,
-        reGenerateFlashcard,
         updateQuestionCount,
         setToken,
         updateIsShared,

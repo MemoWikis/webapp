@@ -17,6 +17,7 @@ import UploadImage from '~/components/shared/imageUploadExtension'
 
 import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
+import { useAiCreateStore } from '~/components/page/content/ai/aiCreateStore'
 import { isEmpty } from 'underscore'
 
 import { getRandomColor, slugify } from '~/utils/utils'
@@ -519,17 +520,9 @@ const autoSave = () => {
 }
 
 const { isMobile } = useDevice()
-const createFlashcard = () => {
-    if (editor.value == null) return
-
-    const { state } = editor.value
-    const { selection } = state
-    if (selection.empty) pageStore.generateFlashcard()
-    else {
-        const { from, to } = selection
-        const text = state.doc.textBetween(from, to)
-        pageStore.generateFlashcard(text)
-    }
+const aiCreateStore = useAiCreateStore()
+const openAiCreate = () => {
+    aiCreateStore.resetAndOpenModal(pageStore.id)
 }
 </script>
 
@@ -538,7 +531,7 @@ const createFlashcard = () => {
         <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn && editor" :editor="editor" :heading="true"
             :is-page-content="true" class="page-content-menubar">
             <template #start>
-                <button class="menubar__button ai-create" @mousedown="createFlashcard">
+                <button class="menubar__button ai-create" @mousedown="openAiCreate">
                     <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
                 </button>
 
