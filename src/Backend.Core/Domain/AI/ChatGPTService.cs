@@ -35,9 +35,9 @@ public static class ChatGPTService
         }
     }
 
-    public static async Task<List<FlashCard>> GenerateFlashcardsAsync(string prompt)
+    public static async Task<List<FlashCard>> GenerateFlashcardsAsync(string prompt, string? modelOverride = null)
     {
-        ChatClient client = new(model: Settings.OpenAIModel, apiKey: Settings.OpenAIApiKey);
+        ChatClient client = new(model: modelOverride ?? Settings.OpenAIModel, apiKey: Settings.OpenAIApiKey);
 
         ChatCompletion chatCompletion = await client.CompleteChatAsync(prompt);
 

@@ -374,12 +374,19 @@ export const useAiCreateStore = defineStore('aiCreateStore', () => {
                 messageKey: string
             }
 
-            const result = await $api<GenerateFlashcardResponse>('/apiVue/PageStore/GenerateFlashCard/', {
-                method: 'POST',
-                body: { pageId, text: pageText },
-                mode: 'cors',
-                credentials: 'include',
-            })
+            const result = await $api<GenerateFlashcardResponse>(
+                '/apiVue/PageStore/GenerateFlashCard/',
+                {
+                    method: 'POST',
+                    body: {
+                        pageId,
+                        text: pageText,
+                        modelId: selectedModelId.value || undefined,
+                    },
+                    mode: 'cors',
+                    credentials: 'include',
+                },
+            )
 
             if (result.flashcards && result.flashcards.length > 0) {
                 generatedFlashcards.value = result.flashcards

@@ -246,7 +246,7 @@ public class PageStoreController(
         return GetQuestionViews(questions);
     }
 
-    public readonly record struct GenerateFlashCardRequest(int PageId, string Text, int? Count = 3);
+    public readonly record struct GenerateFlashCardRequest(int PageId, string Text, string? ModelId = null, int? Count = 3);
 
     [HttpPost]
     [ItemCanBeNull]
@@ -256,7 +256,7 @@ public class PageStoreController(
             return null;
 
         // Check if user has enough tokens for flashcard generation
-        if (!_tokenDeductionService.CanAffordTokens(_sessionUser.UserId, request.Text, TokenDeductionService.GenerationType.Flashcards))
+        if (!_tokenDeductionService.CanAffordTokens(_sessionUser.UserId, request.ModelId ?? "", request.Text, TokenDeductionService.GenerationType.Flashcards))
         {
             return new GenerateFlashCardResponse(new List<AiFlashCard.FlashCard>(), FrontendMessageKeys.Error.Ai.InsufficientTokens);
         }
@@ -274,7 +274,7 @@ public class PageStoreController(
 
         var aiFlashCard = new AiFlashCard(_aiUsageLogRepo);
         var flashcards =
-            await aiFlashCard.Generate(request.Text, request.PageId, _sessionUser.UserId, _permissionCheck);
+            await aiFlashCard.Generate(request.Text, request.PageId, _sessionUser.UserId, _permissionCheck, request.ModelId);
 
         if (flashcards.Count == 0)
             messageKey = FrontendMessageKeys.Error.Ai.GenerateFlashcards;

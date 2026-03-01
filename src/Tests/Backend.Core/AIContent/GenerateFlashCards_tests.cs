@@ -72,9 +72,9 @@ class GenerateFlashCards_tests : BaseTestHarness
         var totalInputTokens = usageLogs.Sum(log => log.TokenIn);
         var totalOutputTokens = usageLogs.Sum(log => log.TokenOut);
 
-        var inputTokensInRange = totalInputTokens >= MinExpectedInputTokens && 
+        var inputTokensInRange = totalInputTokens >= MinExpectedInputTokens &&
                                   totalInputTokens <= MaxExpectedInputTokens;
-        var outputTokensInRange = totalOutputTokens >= MinExpectedOutputTokens && 
+        var outputTokensInRange = totalOutputTokens >= MinExpectedOutputTokens &&
                                    totalOutputTokens <= MaxExpectedOutputTokens;
 
         return new AiUsageSummary(
@@ -168,8 +168,7 @@ Antworte nur mit 'true' oder 'false'.";
             SourceTexts.ShortSourceTextEN,
             page.Id,
             TestUserId,
-            CreateAnonymousPermissionCheck(),
-            AiModel.Claude);
+            CreateAnonymousPermissionCheck());
 
         await Verify(new
         {
@@ -190,14 +189,13 @@ Antworte nur mit 'true' oder 'false'.";
             SourceTexts.ShortSourceTextEN,
             page.Id,
             TestUserId,
-            permissionCheck,
-            AiModel.Claude);
+            permissionCheck);
 
         var initialFlashCardsJson = JsonSerializer.Serialize(initialFlashCards);
 
         // Generate additional flashcards with existing cards context
         var promptWithExistingCards = AiFlashCard.GetPrompt(SourceTexts.ShortSourceTextEN, initialFlashCardsJson);
-        var additionalFlashCards = await aiFlashCard.Generate(promptWithExistingCards, AiModel.Claude, TestUserId, TestPageId);
+        var additionalFlashCards = await aiFlashCard.Generate(promptWithExistingCards, TestUserId, TestPageId);
         var additionalFlashCardsJson = JsonSerializer.Serialize(additionalFlashCards);
 
         var hasDuplicates = await CheckForDuplicatesViaAi(initialFlashCardsJson, additionalFlashCardsJson);
@@ -231,8 +229,7 @@ Antworte nur mit 'true' oder 'false'.";
             SourceTexts.LongSourceTextEN,
             page.Id,
             TestUserId,
-            CreateAnonymousPermissionCheck(),
-            AiModel.Claude);
+            CreateAnonymousPermissionCheck());
 
         await Verify(new
         {
@@ -253,14 +250,13 @@ Antworte nur mit 'true' oder 'false'.";
             SourceTexts.LongSourceTextEN,
             page.Id,
             TestUserId,
-            permissionCheck,
-            AiModel.Claude);
+            permissionCheck);
 
         var initialFlashCardsJson = JsonSerializer.Serialize(initialFlashCards);
 
         // Generate additional flashcards with existing cards context
         var promptWithExistingCards = AiFlashCard.GetPrompt(SourceTexts.LongSourceTextEN, initialFlashCardsJson);
-        var additionalFlashCards = await aiFlashCard.Generate(promptWithExistingCards, AiModel.Claude, TestUserId, TestPageId);
+        var additionalFlashCards = await aiFlashCard.Generate(promptWithExistingCards, TestUserId, TestPageId);
         var additionalFlashCardsJson = JsonSerializer.Serialize(additionalFlashCards);
 
         var hasDuplicates = await CheckForDuplicatesViaAi(initialFlashCardsJson, additionalFlashCardsJson);
@@ -294,8 +290,7 @@ Antworte nur mit 'true' oder 'false'.";
             SourceTexts.LongSourceTextEN,
             page.Id,
             TestUserId,
-            CreateAnonymousPermissionCheck(),
-            AiModel.Claude);
+            CreateAnonymousPermissionCheck());
 
         var aiUsage = await QueryAiUsageLogsSince(testStartTime);
 
@@ -339,8 +334,7 @@ Antworte nur mit 'true' oder 'false'.";
             SourceTexts.LongSourceTextDE,
             page.Id,
             TestUserId,
-            CreateAnonymousPermissionCheck(),
-            AiModel.Claude);
+            CreateAnonymousPermissionCheck());
 
         var aiUsage = await QueryAiUsageLogsSince(testStartTime);
 

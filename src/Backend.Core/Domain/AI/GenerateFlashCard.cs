@@ -107,7 +107,7 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
         int pageId,
         int userId,
         PermissionCheck permissionCheck,
-        AiModel model = AiModel.Claude)
+        string? modelId = null)
     {
         var existingFlashCards = GetFlashCardsOnPage(pageId, permissionCheck);
         var flashcards = JsonSerializer.Serialize(existingFlashCards);
@@ -116,24 +116,27 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
         if (string.IsNullOrWhiteSpace(promptContent))
             return new List<FlashCard>();
 
-        return await Generate(promptContent, model, userId, pageId);
+        return await Generate(promptContent, userId, pageId, modelId);
     }
 
-    public async Task<List<FlashCard>> Generate(string promptContent, AiModel model, int userId, int pageId)
+    public async Task<List<FlashCard>> Generate(string promptContent, int userId, int pageId, string? modelId = null)
     {
-        var result = model switch
-        {
-            AiModel.ChatGPT => await ChatGPTService.GenerateFlashcardsAsync(promptContent),
-            AiModel.Claude => await GenerateFlashcardsWithTokenDeduction(promptContent, userId, pageId),
-            _ => throw new ArgumentOutOfRangeException(nameof(model), model, null)
-        };
+        var model = !string.IsNullOrEmpty(modelId)
+            ? AiModelCache.GetByModelId(modelId)
+            : null;
+        var provider = model?.Provider ?? AiModelProvider.Anthropic;
 
-        return result;
+        if (provider == AiModelProvider.OpenAI)
+        {
+            return await ChatGPTService.GenerateFlashcardsAsync(promptContent, modelId);
+        }
+
+        return await GenerateFlashcardsWithTokenDeduction(promptContent, userId, pageId, modelId);
     }
 
     private const int MaxRetries = 2;
 
-    private async Task<List<FlashCard>> GenerateFlashcardsWithTokenDeduction(string promptContent, int userId, int pageId)
+    private async Task<List<FlashCard>> GenerateFlashcardsWithTokenDeduction(string promptContent, int userId, int pageId, string? modelId = null)
     {
         Log.Debug(
             "FlashCard generation started for pageId {PageId}, userId {UserId}. PromptLength: {PromptLength} chars",
@@ -141,7 +144,7 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
 
         for (var attempt = 1; attempt <= MaxRetries; attempt++)
         {
-            var response = await ClaudeService.GetClaudeResponse(promptContent);
+            var response = await ClaudeService.GetClaudeResponse(promptContent, modelId);
 
             if (response != null)
             {
