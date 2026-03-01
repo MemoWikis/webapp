@@ -70,7 +70,7 @@ const gridClass = computed(() => ({
         padding: 2rem 0rem 1rem;
 
         .grid-title {
-            font-size: 1.6rem;
+            font-size: @font-size-ui-h3;
             font-weight: 600;
             color: @memo-grey-darker;
             margin: 0;

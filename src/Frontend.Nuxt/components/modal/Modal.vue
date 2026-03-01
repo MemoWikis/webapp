@@ -36,7 +36,8 @@ watch(() => props.show, (val) => {
 
 
 <template>
-    <VueFinalModal v-model="openModal" class="modal-container" :content-class="`modal-content ${props.contentClass}`" :z-index-auto="false" :id="props.id">
+    <VueFinalModal v-model="openModal" class="modal-container" :content-class="`modal-content ${props.contentClass}`"
+        :z-index-auto="false" :id="props.id">
 
         <div class="modal-default">
             <div class="modal-default-mask" @click="emit('close')">
@@ -49,7 +50,8 @@ watch(() => props.show, (val) => {
                             <div class="header-default-modal"
                                 v-bind:class="{ errorHeaderModal: isError, successHeaderModal: isSuccess }">
                                 <div class="modal-header-icon" v-if="isError || isSuccess || !!$slots.headerIcon">
-                                    <font-awesome-icon v-if="isError" icon="fa-solid fa-circle-xmark modal-header-icon" />
+                                    <font-awesome-icon v-if="isError"
+                                        icon="fa-solid fa-circle-xmark modal-header-icon" />
                                     <font-awesome-icon v-else-if="isSuccess"
                                         icon="fa-solid fa-circle-check modal-header-icon" />
                                     <slot name="headerIcon"></slot>

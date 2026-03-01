@@ -1,0 +1,192 @@
+/*--------------------------------------------------------
+  Typography — Single Source of Truth
+
+  Three scales for different contexts:
+  1. Content Scale: Page content, editor (large, readable)
+  2. UI Scale: Cards, panels, admin, settings, account
+  3. Modal Scale: Dialogs, modals
+--------------------------------------------------------*/
+
+@import (reference) 'variables.less';
+@import (reference) 'colors.less';
+@import (reference) 'shared.less';
+
+// === Heading Base ===
+
+.heading-base() {
+    font-family: @font-family-headings;
+    word-break: break-word;
+    line-height: 1.2;
+}
+
+// === 1. Content Scale — for page content and editor ===
+
+.content-headings() {
+    h1, h2, h3, h4, h5 {
+        .heading-base();
+        color: @memo-blue;
+    }
+
+    h1 {
+        font-size: @font-size-h1-mem;
+        font-weight: 400;
+        margin-top: 5px;
+
+        .media-below-sm({
+            font-size: max(6vw, 24px);
+        });
+    }
+
+    h2 {
+        font-size: @font-size-h2-mem;
+        font-weight: 600;
+
+        .media-below-sm({
+            font-size: @font-size-h3-mem;
+        });
+    }
+
+    h3 {
+        font-size: @font-size-h3-mem;
+        font-weight: 600;
+
+        .media-below-sm({
+            font-size: @font-size-h4-mem;
+        });
+    }
+
+    h4 {
+        font-size: @font-size-h4-mem;
+        font-weight: 600;
+
+        .media-below-sm({
+            font-size: 1.5rem;
+        });
+    }
+}
+
+// Content font size variants (used in ContentEditor)
+
+.content-headings-small() {
+    p {
+        font-size: 16px;
+    }
+
+    .media-below-sm({
+        font-size: 12px;
+    });
+}
+
+.content-headings-large() {
+    h2 {
+        font-size: 2.6rem;
+    }
+
+    h3 {
+        font-size: 2.3rem;
+    }
+
+    h4 {
+        font-size: 2.1rem;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    .media-below-sm({
+        font-size: 16px;
+    });
+}
+
+.content-headings-mobile() {
+    h3 {
+        font-size: 2.15rem;
+    }
+
+    h2 {
+        font-size: 2.4rem;
+    }
+
+    .small-font {
+        p {
+            font-size: 14px;
+        }
+
+        h3 {
+            font-size: 2rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+        }
+    }
+
+    .large-font {
+        h3 {
+            font-size: 2.3rem;
+        }
+
+        h2 {
+            font-size: 2.6rem;
+        }
+    }
+}
+
+// === 2. UI Scale — for interface elements ===
+
+@font-size-ui-h1: 2rem;
+@font-size-ui-h2: 1.8rem;
+@font-size-ui-h3: 1.6rem;
+@font-size-ui-h4: 1.4rem;
+
+.ui-headings() {
+    h1, h2, h3, h4, h5 {
+        .heading-base();
+        color: @memo-grey-darker;
+        font-weight: 600;
+    }
+
+    h1 {
+        font-size: @font-size-ui-h1;
+    }
+
+    h2 {
+        font-size: @font-size-ui-h2;
+    }
+
+    h3 {
+        font-size: @font-size-ui-h3;
+    }
+
+    h4 {
+        font-size: @font-size-ui-h4;
+    }
+}
+
+// === 3. Modal Scale — for dialogs ===
+
+.modal-headings() {
+    h1, h2, h3, h4, h5 {
+        .heading-base();
+        color: @memo-grey-darker;
+        font-weight: 600;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    h2 {
+        font-size: @font-size-ui-h2;
+        margin-bottom: 24px;
+    }
+
+    h3 {
+        font-size: @font-size-ui-h3;
+    }
+
+    h4 {
+        font-size: @font-size-ui-h4;
+    }
+}

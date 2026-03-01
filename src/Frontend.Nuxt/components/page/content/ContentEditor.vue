@@ -626,77 +626,20 @@ const createFlashcard = () => {
     }
 }
 
-@font-size-h2-mem: 2.5rem;
-@font-size-h3-mem: 2.1rem;
-@font-size-h4-mem: 1.8rem;
+// Typography variants — base sizes come from typography.less via global styles
 
 #PageContent {
     .small-font {
-        p {
-            font-size: 16px;
-        }
-
-        .media-below-sm({
-            font-size: 12px;
-
-        });
-}
-
-.large-font {
-    h2 {
-        font-size: 2.6rem;
-    }
-
-    h3 {
-        font-size: 2.3rem;
-    }
-
-    h4 {
-        font-size: 2.1rem;
-    }
-
-    p {
-        font-size: 20px;
-    }
-
-    .media-below-sm({
-        font-size: 16px;
-    });
-}
-
-&.is-mobile {
-    h3 {
-        font-size: 2.15rem;
-    }
-
-    h2 {
-        font-size: 2.4rem;
-    }
-
-    .small-font {
-        p {
-            font-size: 14px;
-        }
-
-        h3 {
-            font-size: 2rem;
-        }
-
-        h2 {
-            font-size: 2.2rem;
-        }
+        .content-headings-small();
     }
 
     .large-font {
-        h3 {
-            font-size: 2.3rem;
-        }
-
-        h2 {
-            font-size: 2.6rem;
-        }
+        .content-headings-large();
     }
-}
+
+    &.is-mobile {
+        .content-headings-mobile();
+    }
 }
 
 .private-page {

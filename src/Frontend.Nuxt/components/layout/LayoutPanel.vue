@@ -100,7 +100,7 @@ const toggleContent = () => {
         }
 
         .panel-title {
-            font-size: 1.8rem;
+            font-size: @font-size-ui-h2;
             font-weight: 600;
             color: @memo-grey-darker;
             margin: 0;
