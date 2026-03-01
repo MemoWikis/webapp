@@ -243,8 +243,7 @@ async function handleCreateFlashcards() {
 <template>
     <LazyModal :show="aiCreateStore.showModal" :show-cancel-btn="false"
         :disabled="hasGeneratedContent ? !canCreate : !canGenerate" content-class="ai-create-modal"
-        container-class="wide-modal"
-        :prevent-backdrop-close="true" @close="aiCreateStore.showModal = false">
+        container-class="wide-modal" :prevent-backdrop-close="true" @close="aiCreateStore.showModal = false">
         <template #header>
             <h4 class="modal-title">
                 <span class="header-icon-wrapper">
@@ -295,21 +294,23 @@ async function handleCreateFlashcards() {
                         <small class="url-hint">{{ t('page.ai.createPage.urlHint') }}</small>
                     </div>
 
-                    <!-- Complexity Level -->
-                    <div class="form-group">
-                        <label>{{ t('page.ai.createPage.complexityLabel') }}</label>
-                        <PageContentAiCreateSlider v-model="aiCreateStore.difficultyLevel" :min="1" :max="5"
-                            :labels="complexityLabels" :left-label="t('page.ai.createPage.complexity.simple')"
-                            :right-label="t('page.ai.createPage.complexity.expert')"
-                            :disabled="aiCreateStore.isGenerating" />
-                    </div>
+                    <!-- Complexity Level & Content Length -->
+                    <div class="slider-row">
+                        <div class="form-group">
+                            <label>{{ t('page.ai.createPage.complexityLabel') }}</label>
+                            <PageContentAiCreateSlider v-model="aiCreateStore.difficultyLevel" :min="1" :max="5"
+                                :labels="complexityLabels" :left-label="t('page.ai.createPage.complexity.simple')"
+                                :right-label="t('page.ai.createPage.complexity.expert')"
+                                :disabled="aiCreateStore.isGenerating" />
+                        </div>
 
-                    <!-- Content Length -->
-                    <div class="form-group">
-                        <label>{{ t('page.ai.createPage.lengthLabel') }}</label>
-                        <PageContentAiCreateSlider v-model="aiCreateStore.contentLength" :min="1" :max="3"
-                            :labels="contentLengthLabels" :left-label="t('page.ai.createPage.length.short')"
-                            :right-label="t('page.ai.createPage.length.long')" :disabled="aiCreateStore.isGenerating" />
+                        <div class="form-group">
+                            <label>{{ t('page.ai.createPage.lengthLabel') }}</label>
+                            <PageContentAiCreateSlider v-model="aiCreateStore.contentLength" :min="1" :max="3"
+                                :labels="contentLengthLabels" :left-label="t('page.ai.createPage.length.short')"
+                                :right-label="t('page.ai.createPage.length.long')"
+                                :disabled="aiCreateStore.isGenerating" />
+                        </div>
                     </div>
 
                     <!-- Loading State -->
@@ -397,6 +398,26 @@ async function handleCreateFlashcards() {
                 &:hover {
                     color: @memo-grey-darker;
                 }
+            }
+        }
+    }
+
+    .slider-row {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 24px;
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 767px) {
+            flex-direction: column;
+            gap: 0;
+
+            .form-group {
+                margin-bottom: 24px;
             }
         }
     }
