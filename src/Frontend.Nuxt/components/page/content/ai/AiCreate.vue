@@ -216,6 +216,12 @@ async function handleCreateFlashcards() {
 
         if (result.success) {
             pageStore.updateQuestionCount()
+            learningSessionConfigurationStore.getQuestionCount()
+
+            if (result.ids && result.lastIndex != null) {
+                learningSessionStore.addNewQuestionsToListByLastIndex(result.ids.length, result.lastIndex)
+            }
+
             snackbarStore.showSnackbar({
                 type: 'success',
                 text: { message: t('success.question.flashcardsAdded', result.ids?.length ?? 0) },
