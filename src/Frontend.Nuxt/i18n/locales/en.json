@@ -746,11 +746,8 @@
                 "buttonTitleMobile": "AI",
                 "tab": {
                     "page": "Page",
-                    "pageSubtitle": "New content",
                     "wiki": "Wiki",
-                    "wikiSubtitle": "Documentation",
-                    "flashcards": "Flashcards",
-                    "flashcardsSubtitle": "From page"
+                    "flashcards": "Flashcards"
                 },
                 "modePrompt": "Describe",
                 "modeUrl": "From URL",

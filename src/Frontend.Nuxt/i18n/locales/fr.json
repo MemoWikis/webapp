@@ -743,11 +743,8 @@
                 "buttonTitleMobile": "Page IA",
                 "tab": {
                     "page": "Page",
-                    "pageSubtitle": "Nouveau contenu",
                     "wiki": "Wiki",
-                    "wikiSubtitle": "Documentation",
-                    "flashcards": "Cartes",
-                    "flashcardsSubtitle": "Depuis la page"
+                    "flashcards": "Cartes"
                 },
                 "modePrompt": "Texte",
                 "modeUrl": "URL",

@@ -746,11 +746,8 @@
                 "buttonTitleMobile": "KI",
                 "tab": {
                     "page": "Seite",
-                    "pageSubtitle": "Neuer Inhalt",
                     "wiki": "Wiki",
-                    "wikiSubtitle": "Dokumentation",
-                    "flashcards": "Lernkarten",
-                    "flashcardsSubtitle": "Von Seite"
+                    "flashcards": "Lernkarten"
                 },
                 "modePrompt": "Beschreiben",
                 "modeUrl": "Von URL",

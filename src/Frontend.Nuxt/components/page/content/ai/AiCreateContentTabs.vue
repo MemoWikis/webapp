@@ -11,20 +11,17 @@ const { t } = useI18n()
             :disabled="aiCreateStore.isGenerating" @click="aiCreateStore.contentType = ContentType.Page">
             <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" class="tab-icon" />
             <span class="tab-label">{{ t('page.ai.createPage.tab.page') }}</span>
-            <span class="tab-subtitle">{{ t('page.ai.createPage.tab.pageSubtitle') }}</span>
         </button>
         <button type="button" class="content-tab" :class="{ active: aiCreateStore.contentType === ContentType.Wiki }"
             :disabled="aiCreateStore.isGenerating" @click="aiCreateStore.contentType = ContentType.Wiki">
             <font-awesome-icon :icon="['fas', 'file-lines']" class="tab-icon" />
             <span class="tab-label">{{ t('page.ai.createPage.tab.wiki') }}</span>
-            <span class="tab-subtitle">{{ t('page.ai.createPage.tab.wikiSubtitle') }}</span>
         </button>
         <button type="button" class="content-tab"
             :class="{ active: aiCreateStore.contentType === ContentType.Flashcards }"
             :disabled="aiCreateStore.isGenerating" @click="aiCreateStore.contentType = ContentType.Flashcards">
             <font-awesome-icon :icon="['fas', 'book-open']" class="tab-icon" />
             <span class="tab-label">{{ t('page.ai.createPage.tab.flashcards') }}</span>
-            <span class="tab-subtitle">{{ t('page.ai.createPage.tab.flashcardsSubtitle') }}</span>
         </button>
     </div>
 </template>
@@ -59,11 +56,6 @@ const { t } = useI18n()
         .tab-label {
             font-weight: 600;
             font-size: 14px;
-        }
-
-        .tab-subtitle {
-            font-size: 11px;
-            color: @memo-grey-dark;
         }
 
         &:hover {
