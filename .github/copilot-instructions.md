@@ -28,7 +28,7 @@ For naming conventions, file suffixes, and patterns, see **[Style Guide](.github
   await expect(page.locator(".v-popper__popper--shown")).toBeVisible();
   await page.locator(".item").click();
   ```
-- **Service health:** Before E2E tests, verify ports 3000 (Frontend), 5069 (Backend), 1234 (Hocuspocus). Use `app-start` skill if not running.
+- **Service health:** Before E2E tests, verify ports 3000 (Frontend), 5069 (Backend), 1234 (Hocuspocus). Start them if not running (see "Starting / Stopping the App").
 
 # Backend API Control
 
@@ -43,6 +43,18 @@ Use `api.ps1` at the project root to manage the Backend process:
 
 The script uses a `.api.pid` file for reliable process tracking and checks the `/healthcheck_backend` endpoint to confirm the API is healthy.
 **Always prefer `.\api.ps1 stop` over `Get-Process | Stop-Process` to stop the Backend.**
+
+# Starting / Stopping the App
+
+**Start Backend + Frontend:**
+1. `run_in_terminal`: `cd c:\Projects\memoWikis; .\api.ps1 start`
+2. `run_task` with id `Frontend` (workspaceFolder: `c:\Projects\memoWikis`)
+
+**Stop Backend + Frontend:**
+1. `run_in_terminal`: `cd c:\Projects\memoWikis; .\api.ps1 stop`
+2. `run_in_terminal`: `Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }`
+
+**Restart:** Run stop then start steps above, or `.\api.ps1 restart` for Backend only.
 
 # Architecture Overview
 
