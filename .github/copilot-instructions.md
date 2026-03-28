@@ -47,10 +47,12 @@ The script uses a `.api.pid` file for reliable process tracking and checks the `
 # Starting / Stopping the App
 
 **Start Backend + Frontend:**
+
 1. `run_in_terminal`: `cd c:\Projects\memoWikis; .\api.ps1 start`
 2. `run_task` with id `Frontend` (workspaceFolder: `c:\Projects\memoWikis`)
 
 **Stop Backend + Frontend:**
+
 1. `run_in_terminal`: `cd c:\Projects\memoWikis; .\api.ps1 stop`
 2. `run_in_terminal`: `Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }`
 

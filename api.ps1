@@ -133,6 +133,7 @@ function Start-Api {
 
     $process = Start-Process -FilePath "dotnet" `
         -ArgumentList $watchArguments `
+        -WorkingDirectory $ApiDir `
         -PassThru `
         -NoNewWindow `
         -RedirectStandardOutput "$LogFile.out" `
