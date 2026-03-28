@@ -79,6 +79,8 @@ export interface WhitelistedModel {
     tokenCostMultiplier: number
     inputPricePerMillion: number
     outputPricePerMillion: number
+    hasUsage: boolean
+    isEnabled: boolean
 }
 
 export interface AvailableModel {

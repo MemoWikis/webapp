@@ -388,7 +388,7 @@ public class AiPageGenerator(
             {
                 return (null, 0, 0, actualModelId);
             }
-            return (chatGptResponse.Text, chatGptResponse.InputTokens, chatGptResponse.OutputTokens, chatGptResponse.Model);
+            return (chatGptResponse.Text, chatGptResponse.InputTokens, chatGptResponse.OutputTokens, actualModelId);
         }
         else
         {
@@ -402,7 +402,7 @@ public class AiPageGenerator(
                 claudeResponse.Content[0].Text,
                 claudeResponse.Usage?.InputTokens ?? 0,
                 claudeResponse.Usage?.OutputTokens ?? 0,
-                claudeResponse.Model ?? actualModelId
+                actualModelId
             );
         }
     }

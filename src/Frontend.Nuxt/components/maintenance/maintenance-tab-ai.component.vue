@@ -22,7 +22,7 @@ const emit = defineEmits<{
     // Simple events without parameters
     (event: 'loadWhitelistedModels' | 'fetchAllProviderModels' | 'cancelEditCostRate' | 'saveDisplayName' | 'cancelEditDisplayName' | 'cancelEditPrices' | 'executeDelete' | 'cancelDelete'): void
     // Events with WhitelistedModel parameter
-    (event: 'startEditCostRate' | 'startEditDisplayName' | 'startEditPrices' | 'confirmDeleteModel', model: WhitelistedModel): void
+    (event: 'startEditCostRate' | 'startEditDisplayName' | 'startEditPrices' | 'confirmDeleteModel' | 'archiveModel' | 'unarchiveModel', model: WhitelistedModel): void
     // Other events with unique parameters
     (event: 'toggleWhitelist', providerName: string, model: AvailableModel): void
     (event: 'update:editingCostRate', value: { id: number, value: string } | null): void
@@ -146,7 +146,8 @@ const handlePriceKeydown = (event: KeyboardEvent) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="model in props.whitelistedModels" :key="model.id">
+                            <tr v-for="model in props.whitelistedModels" :key="model.id"
+                                :class="{ 'archived-row': !model.isEnabled }">
                                 <td>
                                     <span class="provider-badge" :class="model.provider.toLowerCase()">{{
                                         model.provider }}</span>
@@ -230,11 +231,25 @@ const handlePriceKeydown = (event: KeyboardEvent) => {
                                         </span>
                                     </template>
                                 </td>
-                                <td>
-                                    <button class="btn-icon btn-delete" title="Remove from whitelist"
-                                        @click="emit('confirmDeleteModel', model)">
-                                        <font-awesome-icon icon="fa-solid fa-trash" />
-                                    </button>
+                                <td class="actions-cell">
+                                    <template v-if="model.hasUsage && (model.inputPricePerMillion > 0 || model.outputPricePerMillion > 0)">
+                                        <button v-if="model.isEnabled" class="btn-icon btn-archive"
+                                            title="Archive (has usage data)"
+                                            @click="emit('archiveModel', model)">
+                                            <font-awesome-icon icon="fa-solid fa-box-archive" />
+                                        </button>
+                                        <button v-else class="btn-icon btn-unarchive"
+                                            title="Unarchive"
+                                            @click="emit('unarchiveModel', model)">
+                                            <font-awesome-icon icon="fa-solid fa-box-open" />
+                                        </button>
+                                    </template>
+                                    <template v-else>
+                                        <button class="btn-icon btn-delete" title="Remove from whitelist"
+                                            @click="emit('confirmDeleteModel', model)">
+                                            <font-awesome-icon icon="fa-solid fa-trash" />
+                                        </button>
+                                    </template>
                                 </td>
                             </tr>
                         </tbody>
@@ -436,6 +451,18 @@ const handlePriceKeydown = (event: KeyboardEvent) => {
     &.btn-delete {
         color: #B13A48;
     }
+
+    &.btn-archive {
+        color: @memo-grey-dark;
+    }
+
+    &.btn-unarchive {
+        color: @memo-green;
+    }
+}
+
+.archived-row {
+    opacity: 0.5;
 }
 
 .provider-section {

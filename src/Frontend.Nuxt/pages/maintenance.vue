@@ -924,6 +924,50 @@ const executeDelete = async () => {
     modelToDelete.value = null
 }
 
+const archiveModel = async (model: WhitelistedModel) => {
+    if (!antiForgeryToken.value) return
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('id', model.id.toString())
+
+    const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/ArchiveWhitelistModel', {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        model.isEnabled = false
+        showMessage(`${model.displayName} archived`, 'success')
+    } else {
+        showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
+    }
+}
+
+const unarchiveModel = async (model: WhitelistedModel) => {
+    if (!antiForgeryToken.value) return
+
+    const data = new FormData()
+    data.append('__RequestVerificationToken', antiForgeryToken.value)
+    data.append('id', model.id.toString())
+
+    const result = await $api<VueMaintenanceResult>('/apiVue/VueMaintenance/UnarchiveWhitelistModel', {
+        body: data,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include'
+    })
+
+    if (result?.success) {
+        model.isEnabled = true
+        showMessage(`${model.displayName} unarchived`, 'success')
+    } else {
+        showMessage(`Error: ${result?.data || 'Unknown error'}`, 'error')
+    }
+}
+
 const startEditCostRate = (model: WhitelistedModel) => {
     editingCostRate.value = { id: model.id, value: model.tokenCostMultiplier.toString() }
 }
@@ -1170,7 +1214,8 @@ onMounted(() => {
                 @save-display-name="saveDisplayName" @cancel-edit-display-name="cancelEditDisplayName"
                 @start-edit-prices="startEditPrices" @save-prices="savePrices" @cancel-edit-prices="cancelEditPrices"
                 @confirm-delete-model="confirmDeleteModel" @execute-delete="executeDelete" @cancel-delete="cancelDelete"
-                @toggle-whitelist="toggleWhitelist" @update:editing-cost-rate="editingCostRate = $event"
+                @toggle-whitelist="toggleWhitelist" @archive-model="archiveModel"
+                @unarchive-model="unarchiveModel" @update:editing-cost-rate="editingCostRate = $event"
                 @update:editing-display-name="editingDisplayName = $event"
                 @update:editing-prices="editingPrices = $event" />
 

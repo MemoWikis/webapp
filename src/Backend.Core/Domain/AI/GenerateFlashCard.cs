@@ -148,7 +148,8 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
 
             if (response != null)
             {
-                _aiUsageLogRepo.AddUsage(response, userId, pageId);
+                var loggedModelId = modelId ?? Settings.AnthropicModel;
+                _aiUsageLogRepo.AddUsage(userId, pageId, response.Usage?.InputTokens ?? 0, response.Usage?.OutputTokens ?? 0, loggedModelId);
                 Log.Debug(
                     "FlashCard AI response received for pageId {PageId} (attempt {Attempt}). " +
                     "TokensIn: {TokensIn}, TokensOut: {TokensOut}, StopReason: {StopReason}",

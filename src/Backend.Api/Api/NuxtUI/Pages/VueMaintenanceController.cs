@@ -900,7 +900,9 @@ public class VueMaintenanceController(
         string DisplayName,
         decimal TokenCostMultiplier,
         decimal InputPricePerMillion,
-        decimal OutputPricePerMillion);
+        decimal OutputPricePerMillion,
+        bool HasUsage,
+        bool IsEnabled);
 
     public readonly record struct GetWhitelistedModelsResponse(
         bool Success,
@@ -940,7 +942,9 @@ public class VueMaintenanceController(
                 model.DisplayName,
                 model.TokenCostMultiplier,
                 model.InputPricePerMillion,
-                model.OutputPricePerMillion))
+                model.OutputPricePerMillion,
+                _aiUsageLogRepo.HasUsageForModel(model.ModelId),
+                model.IsEnabled))
             .ToList();
 
         return new GetWhitelistedModelsResponse(true, models);
@@ -1027,15 +1031,70 @@ public class VueMaintenanceController(
     }
 
     /// <summary>
-    /// Remove a model from the whitelist by ID
+    /// Remove a model from the whitelist by ID.
+    /// Blocked if the model has usage records with prices set.
     /// </summary>
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public VueMaintenanceResult RemoveFromWhitelistById([FromForm] int id)
     {
+        var model = _aiModelWhitelistRepo.GetById(id);
+        if (model == null)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Model not found" };
+        }
+
+        var hasPrices = model.InputPricePerMillion > 0 || model.OutputPricePerMillion > 0;
+        if (hasPrices && _aiUsageLogRepo.HasUsageForModel(model.ModelId))
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Model has usage records with prices. Use archive instead of delete." };
+        }
+
         _aiModelWhitelistRepo.DeleteModel(id);
         return new VueMaintenanceResult { Success = true, Data = "Model removed from whitelist" };
+    }
+
+    /// <summary>
+    /// Archive a model (disable it) instead of deleting when it has usage records.
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult ArchiveWhitelistModel([FromForm] int id)
+    {
+        var model = _aiModelWhitelistRepo.GetById(id);
+        if (model == null)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Model not found" };
+        }
+
+        model.IsEnabled = false;
+        _aiModelWhitelistRepo.Update(model);
+        _aiModelWhitelistRepo.Flush();
+        AiModelCache.AddOrUpdate(model);
+        return new VueMaintenanceResult { Success = true, Data = "Model archived" };
+    }
+
+    /// <summary>
+    /// Unarchive a model (re-enable it).
+    /// </summary>
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult UnarchiveWhitelistModel([FromForm] int id)
+    {
+        var model = _aiModelWhitelistRepo.GetById(id);
+        if (model == null)
+        {
+            return new VueMaintenanceResult { Success = false, Data = "Model not found" };
+        }
+
+        model.IsEnabled = true;
+        _aiModelWhitelistRepo.Update(model);
+        _aiModelWhitelistRepo.Flush();
+        AiModelCache.AddOrUpdate(model);
+        return new VueMaintenanceResult { Success = true, Data = "Model unarchived" };
     }
 
     /// <summary>

@@ -7,16 +7,16 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
             LEFT JOIN aimodelwhitelist w ON w.ModelId = u.Model";
 
     private const string CostCalculations = @"
-                (u.TokenIn / 1000000.0) * COALESCE(w.InputPricePerMillion, 0) AS InputCostUsd,
-                (u.TokenOut / 1000000.0) * COALESCE(w.OutputPricePerMillion, 0) AS OutputCostUsd,
-                ((u.TokenIn / 1000000.0) * COALESCE(w.InputPricePerMillion, 0)) + 
-                ((u.TokenOut / 1000000.0) * COALESCE(w.OutputPricePerMillion, 0)) AS TotalCostUsd";
+                (CAST(u.TokenIn AS DECIMAL(18,2)) / 1000000) * COALESCE(w.InputPricePerMillion, 0) AS InputCostUsd,
+                (CAST(u.TokenOut AS DECIMAL(18,2)) / 1000000) * COALESCE(w.OutputPricePerMillion, 0) AS OutputCostUsd,
+                ((CAST(u.TokenIn AS DECIMAL(18,2)) / 1000000) * COALESCE(w.InputPricePerMillion, 0)) + 
+                ((CAST(u.TokenOut AS DECIMAL(18,2)) / 1000000) * COALESCE(w.OutputPricePerMillion, 0)) AS TotalCostUsd";
 
     private const string AggregateCostCalculations = @"
-                SUM((u.TokenIn / 1000000.0) * COALESCE(w.InputPricePerMillion, 0)) AS TotalInputCostUsd,
-                SUM((u.TokenOut / 1000000.0) * COALESCE(w.OutputPricePerMillion, 0)) AS TotalOutputCostUsd,
-                SUM(((u.TokenIn / 1000000.0) * COALESCE(w.InputPricePerMillion, 0)) + 
-                    ((u.TokenOut / 1000000.0) * COALESCE(w.OutputPricePerMillion, 0))) AS TotalCostUsd";
+                SUM((CAST(u.TokenIn AS DECIMAL(18,2)) / 1000000) * COALESCE(w.InputPricePerMillion, 0)) AS TotalInputCostUsd,
+                SUM((CAST(u.TokenOut AS DECIMAL(18,2)) / 1000000) * COALESCE(w.OutputPricePerMillion, 0)) AS TotalOutputCostUsd,
+                SUM(((CAST(u.TokenIn AS DECIMAL(18,2)) / 1000000) * COALESCE(w.InputPricePerMillion, 0)) + 
+                    ((CAST(u.TokenOut AS DECIMAL(18,2)) / 1000000) * COALESCE(w.OutputPricePerMillion, 0))) AS TotalCostUsd";
 
     public void AddUsage(AnthropicApiResponse response, int userId, int pageId)
     {
@@ -339,6 +339,15 @@ public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeduc
         {
             query.SetParameter("toDate", toDate.Value);
         }
+    }
+
+    public bool HasUsageForModel(string modelId)
+    {
+        var count = _session.CreateSQLQuery("SELECT COUNT(*) FROM ai_usage_log WHERE Model = :modelId")
+            .SetParameter("modelId", modelId)
+            .UniqueResult<long>();
+
+        return count > 0;
     }
 }
 

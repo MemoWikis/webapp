@@ -45,8 +45,8 @@ const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('de-DE', {
         style: 'currency',
         currency: 'USD',
-        minimumFractionDigits: 4,
-        maximumFractionDigits: 4
+        minimumFractionDigits: 6,
+        maximumFractionDigits: 6
     }).format(value)
 }
 
