@@ -34,3 +34,8 @@ appsettings.*.json
 /playwright-report/
 /src/Frontend.Nuxt/test-results/.last-run.json
 
+# api.ps1 runtime files
+.api.pid
+.api.log.out
+.api.log.err
+

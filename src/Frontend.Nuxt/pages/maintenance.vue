@@ -1214,8 +1214,8 @@ onMounted(() => {
                 @save-display-name="saveDisplayName" @cancel-edit-display-name="cancelEditDisplayName"
                 @start-edit-prices="startEditPrices" @save-prices="savePrices" @cancel-edit-prices="cancelEditPrices"
                 @confirm-delete-model="confirmDeleteModel" @execute-delete="executeDelete" @cancel-delete="cancelDelete"
-                @toggle-whitelist="toggleWhitelist" @archive-model="archiveModel"
-                @unarchive-model="unarchiveModel" @update:editing-cost-rate="editingCostRate = $event"
+                @toggle-whitelist="toggleWhitelist" @archive-model="archiveModel" @unarchive-model="unarchiveModel"
+                @update:editing-cost-rate="editingCostRate = $event"
                 @update:editing-display-name="editingDisplayName = $event"
                 @update:editing-prices="editingPrices = $event" />
 

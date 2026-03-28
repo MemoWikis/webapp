@@ -378,7 +378,7 @@ public class AiPageGenerator(
     {
         var model = _aiModelRegistry.GetModel(modelId);
         var provider = model?.Provider ?? AiModelProvider.Anthropic;
-        var actualModelId = !string.IsNullOrEmpty(modelId) ? modelId : 
+        var actualModelId = !string.IsNullOrEmpty(modelId) ? modelId :
             (provider == AiModelProvider.OpenAI ? Settings.OpenAIModel : Settings.AnthropicModel);
 
         if (provider == AiModelProvider.OpenAI)
@@ -413,7 +413,7 @@ public class AiPageGenerator(
     private static string CleanJsonResponse(string text)
     {
         text = text.Trim();
-        
+
         if (text.StartsWith("```json"))
         {
             text = text.Substring(7);
@@ -426,7 +426,7 @@ public class AiPageGenerator(
         {
             text = text.Substring(0, text.Length - 3);
         }
-        
+
         return text.Trim();
     }
 }

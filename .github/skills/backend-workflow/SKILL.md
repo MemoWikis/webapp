@@ -100,10 +100,9 @@ After completing changes, verify the build:
 
 ```powershell
 # Stop running backend first (avoid DLL locks)
-Get-Process -Name "MemoWikis.Backend.Api" -ErrorAction SilentlyContinue | Stop-Process -Force
+cd c:\Projects\memoWikis; .\api.ps1 stop
 
 # Build
-cd c:\Projects\memoWikis
 dotnet build src/Backend.Api/Backend.Api.csproj
 ```
 

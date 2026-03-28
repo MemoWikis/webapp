@@ -10,18 +10,23 @@ This skill can be invoked with any of these names:
 
 ## Description
 
-Stops and restarts Backend and Frontend services. Useful when cache or DLLs need refreshing, or after configuration changes.
+Stops and restarts Backend (via `api.ps1`) and Frontend services. Useful when cache or DLLs need refreshing, or after configuration changes.
 
 ## Copilot Execution Steps
 
 **IMPORTANT: Follow these steps exactly when the user invokes this skill:**
 
-### Step 1: Stop Backend Process
+### Step 1: Restart Backend via api.ps1
 
 Use `run_in_terminal`:
 ```powershell
-Get-Process -Name "MemoWikis.Backend.Api" -ErrorAction SilentlyContinue | Stop-Process -Force
+cd c:\Projects\memoWikis; .\api.ps1 restart
 ```
+
+The script will:
+- Stop the running Backend (PID file + port fallback)
+- Start it again with `dotnet watch run`
+- Wait for the health endpoint to confirm it's running
 
 ### Step 2: Stop Frontend Process
 
@@ -30,30 +35,24 @@ Use `run_in_terminal`:
 Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }
 ```
 
-### Step 3: Start Backend Task
-
-Use `run_task` with:
-- **workspaceFolder:** `c:\Projects\memoWikis`
-- **id:** `Backend`
-
-### Step 4: Start Frontend Task
+### Step 3: Start Frontend Task
 
 Use `run_task` with:
 - **workspaceFolder:** `c:\Projects\memoWikis`
 - **id:** `Frontend`
 
-### Step 5: Confirm to User
+### Step 4: Confirm to User
 
 Tell the user:
-- Backend restarted on http://localhost:5069
+- Backend restarted on http://localhost:5069 (dotnet watch)
 - Frontend restarted on http://localhost:3000
 
 ## Expected Result
 
 After running this skill:
 - Backend and Frontend processes restarted cleanly
+- Backend running with `dotnet watch` for hot-reload
 - Both services accessible via their URLs
-- Live logs visible in VS Code terminals
 
 ## Use Cases
 

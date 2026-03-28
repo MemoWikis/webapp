@@ -912,7 +912,8 @@ public class VueMaintenanceController(
     public readonly record struct AvailableModel(
         string ModelId,
         string DisplayName,
-        bool IsWhitelisted);
+        bool IsWhitelisted,
+        bool IsArchived);
 
     public readonly record struct ProviderModels(
         string ProviderName,
@@ -958,7 +959,12 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<GetAllProviderModelsResponse> FetchAllProviderModels()
     {
-        var whitelistedIds = _aiModelWhitelistRepo.GetAllFromDb()
+        var allWhitelisted = _aiModelWhitelistRepo.GetAllFromDb();
+        var whitelistedIds = allWhitelisted
+            .Select(model => model.ModelId)
+            .ToHashSet();
+        var archivedIds = allWhitelisted
+            .Where(model => !model.IsEnabled)
             .Select(model => model.ModelId)
             .ToHashSet();
 
@@ -972,7 +978,8 @@ public class VueMaintenanceController(
                 .Select(model => new AvailableModel(
                     model.ModelId,
                     model.DisplayName,
-                    whitelistedIds.Contains(model.ModelId)))
+                    whitelistedIds.Contains(model.ModelId),
+                    archivedIds.Contains(model.ModelId)))
                 .ToList();
 
             providers.Add(new ProviderModels("Anthropic", models));
@@ -986,7 +993,8 @@ public class VueMaintenanceController(
                 .Select(model => new AvailableModel(
                     model.ModelId,
                     model.DisplayName,
-                    whitelistedIds.Contains(model.ModelId)))
+                    whitelistedIds.Contains(model.ModelId),
+                    archivedIds.Contains(model.ModelId)))
                 .ToList();
 
             providers.Add(new ProviderModels("OpenAI", models));

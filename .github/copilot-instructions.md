@@ -21,7 +21,7 @@ For naming conventions, file suffixes, and patterns, see **[Style Guide](.github
 
 # Debugging
 
-- **HTTP 500:** Always check Backend console output first (`get_task_output` for "shell: Backend" task). The stack trace reveals the root cause.
+- **HTTP 500:** Always check Backend console output first (`.api.log.out` / `.api.log.err`). The stack trace reveals the root cause.
 - **Floating-vue & Playwright:** Components render outside DOM hierarchy. Wait for `.v-popper__popper--shown` before interacting:
   ```typescript
   await dropdown.click();
@@ -29,6 +29,20 @@ For naming conventions, file suffixes, and patterns, see **[Style Guide](.github
   await page.locator(".item").click();
   ```
 - **Service health:** Before E2E tests, verify ports 3000 (Frontend), 5069 (Backend), 1234 (Hocuspocus). Use `app-start` skill if not running.
+
+# Backend API Control
+
+Use `api.ps1` at the project root to manage the Backend process:
+
+```powershell
+.\api.ps1 start    # Start with dotnet watch (hot-reload), waits for health check
+.\api.ps1 stop     # Stop by PID (with port fallback), cleans up .api.pid
+.\api.ps1 restart  # Stop + Start
+.\api.ps1 status   # Check if running and healthy
+```
+
+The script uses a `.api.pid` file for reliable process tracking and checks the `/healthcheck_backend` endpoint to confirm the API is healthy.
+**Always prefer `.\api.ps1 stop` over `Get-Process | Stop-Process` to stop the Backend.**
 
 # Architecture Overview
 

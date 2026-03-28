@@ -87,6 +87,7 @@ export interface AvailableModel {
     modelId: string
     displayName: string
     isWhitelisted: boolean
+    isArchived: boolean
 }
 
 export interface ProviderModels {

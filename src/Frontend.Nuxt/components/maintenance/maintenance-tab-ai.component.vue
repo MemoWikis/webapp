@@ -232,14 +232,13 @@ const handlePriceKeydown = (event: KeyboardEvent) => {
                                     </template>
                                 </td>
                                 <td class="actions-cell">
-                                    <template v-if="model.hasUsage && (model.inputPricePerMillion > 0 || model.outputPricePerMillion > 0)">
+                                    <template
+                                        v-if="model.hasUsage && (model.inputPricePerMillion > 0 || model.outputPricePerMillion > 0)">
                                         <button v-if="model.isEnabled" class="btn-icon btn-archive"
-                                            title="Archive (has usage data)"
-                                            @click="emit('archiveModel', model)">
+                                            title="Archive (has usage data)" @click="emit('archiveModel', model)">
                                             <font-awesome-icon icon="fa-solid fa-box-archive" />
                                         </button>
-                                        <button v-else class="btn-icon btn-unarchive"
-                                            title="Unarchive"
+                                        <button v-else class="btn-icon btn-unarchive" title="Unarchive"
                                             @click="emit('unarchiveModel', model)">
                                             <font-awesome-icon icon="fa-solid fa-box-open" />
                                         </button>
@@ -285,17 +284,22 @@ const handlePriceKeydown = (event: KeyboardEvent) => {
                                 <tr>
                                     <th>Display Name</th>
                                     <th>Model ID</th>
+                                    <th>Status</th>
                                     <th>Whitelisted</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="model in provider.models" :key="model.modelId"
-                                    :class="{ 'whitelisted-row': model.isWhitelisted }">
+                                    :class="{ 'whitelisted-row': model.isWhitelisted && !model.isArchived, 'archived-row': model.isArchived }">
                                     <td>{{ model.displayName }}</td>
                                     <td class="model-id-cell">{{ model.modelId }}</td>
                                     <td>
-                                        <label class="toggle-switch">
+                                        <span v-if="model.isArchived" class="archived-badge">Archived</span>
+                                    </td>
+                                    <td>
+                                        <label class="toggle-switch" :class="{ 'toggle-disabled': model.isArchived }">
                                             <input type="checkbox" :checked="model.isWhitelisted"
+                                                :disabled="model.isArchived"
                                                 @change="emit('toggleWhitelist', provider.providerName, model)" />
                                             <span class="toggle-slider" />
                                         </label>
@@ -484,6 +488,21 @@ const handlePriceKeydown = (event: KeyboardEvent) => {
 
 .whitelisted-row {
     background-color: #e8f5e9 !important;
+}
+
+.archived-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    background: @memo-grey-light;
+    color: @memo-grey-dark;
+}
+
+.toggle-disabled {
+    opacity: 0.4;
+    pointer-events: none;
 }
 
 .toggle-switch {
