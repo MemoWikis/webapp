@@ -76,6 +76,16 @@ TipTap editor with Y.js CRDT and HocuspocusProvider for real-time collaboration.
 
 For **any task in `src/Frontend.Nuxt/`**, use the `frontend-workflow` skill.
 
+# Database Migrations
+
+When changing the database schema (adding/removing/renaming columns or tables, changing types), **always** create a migration step:
+
+1. **Migration step:** Create `UpdateToVsXXX.cs` in `src/Backend.Core/Infrastructure/Update/Steps/`. Increment the version number from the last existing step.
+2. **Register:** Add `.Add(XXX, () => UpdateToVsXXX.Run(_nhibernateSession))` in `src/Backend.Core/Infrastructure/Update/Update.cs`.
+3. **Keep in sync:** The `CREATE TABLE` in the original migration step must match the current NHibernate mapping (`*Map.cs`). If the mapping changed since the original step, create a **new** migration step that `ALTER TABLE`s the difference — never silently fix columns only in the DB.
+4. **MySQL compatibility:** Use `ADD COLUMN` (not `ADD COLUMN IF NOT EXISTS` — that's MariaDB-only). `CREATE TABLE IF NOT EXISTS` is fine.
+5. **Dev schema:** Also update `src/Docker/Dev/mysql-init/schema.sql` if it exists for the affected table.
+
 # Backend Development
 
 For **any task in `src/Backend.Core/` or `src/Backend.Api/`**, use the `backend-workflow` skill.

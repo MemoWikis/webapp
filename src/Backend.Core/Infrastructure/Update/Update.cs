@@ -1,7 +1,7 @@
 ﻿using NHibernate;
 
 public class Update(
-    UpdateStepExecuter _updateStepExecutor, 
+    UpdateStepExecuter _updateStepExecutor,
     ISession _nhibernateSession)
     : IRegisterAsInstancePerLifetime
 {
@@ -19,6 +19,7 @@ public class Update(
             .Add(287, () => UpdateToVs287.Run(_nhibernateSession))
             .Add(288, () => UpdateToVs288.Run(_nhibernateSession))
             .Add(289, () => UpdateToVs289.Run(_nhibernateSession))
+            .Add(290, () => UpdateToVs290.Run(_nhibernateSession))
             .Run();
     }
 }
