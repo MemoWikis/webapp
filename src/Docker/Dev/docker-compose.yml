@@ -21,6 +21,56 @@ services:
     restart: always
 
   # ------------------------------------------
+  # mysql-prod-test (large prod dump, tuned for performance)
+  # ------------------------------------------
+  mysql-prod-test:
+    image: mysql:8.0
+    container_name: mem-mysql-prod-test
+    profiles:
+      - prod-test
+    ports:
+      - "${MYSQL_PROD_TEST_PORT:-3307}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-error}
+      MYSQL_DATABASE: ${MYSQL_PROD_TEST_DATABASE:-memowikis_prod}
+      MYSQL_USER: ${MYSQL_USER:-error}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-error}
+    command: >
+      --innodb-buffer-pool-size=4G
+      --innodb-buffer-pool-instances=4
+      --innodb-log-file-size=1G
+      --innodb-log-buffer-size=256M
+      --innodb-flush-log-at-trx-commit=0
+      --innodb-flush-method=O_DIRECT
+      --innodb-doublewrite=OFF
+      --innodb-adaptive-hash-index=OFF
+      --innodb-autoinc-lock-mode=2
+      --innodb-change-buffering=none
+      --innodb-write-io-threads=16
+      --innodb-read-io-threads=16
+      --innodb-page-cleaners=4
+      --innodb-stats-on-metadata=OFF
+      --skip-log-bin
+      --performance-schema=OFF
+      --max-allowed-packet=256M
+      --innodb-io-capacity=2000
+      --innodb-io-capacity-max=4000
+      --sort-buffer-size=4M
+      --bulk-insert-buffer-size=256M
+      --tmp-table-size=256M
+      --max-heap-table-size=256M
+    volumes:
+      - "C:/mysql-data/prod-test:/var/lib/mysql"
+      - "${MYSQL_IMPORT_DIR:-C:/Files}:/import:ro"
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+    networks:
+      - environment-specific-network
+    restart: always
+
+  # ------------------------------------------
   # Meilisearch
   # ------------------------------------------
   meilisearch:

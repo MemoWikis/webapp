@@ -55,5 +55,11 @@
     "titleBar.inactiveBackground": "#3711fe99",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#3711fe"
+  "peacock.color": "#3711fe",
+  "chat.tools.terminal.autoApprove": {
+    "/^\\.\\\\api\\.ps1 start$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
 }
