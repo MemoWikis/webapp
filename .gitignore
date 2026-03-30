@@ -39,3 +39,4 @@ appsettings.*.json
 .api.log.out
 .api.log.err
 
+_next.md

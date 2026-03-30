@@ -143,8 +143,8 @@ function Start-Api {
         $process.Id | Out-File $PidFile -Encoding UTF8
         Write-Host "API process started with PID: $($process.Id). Waiting for health check..." -ForegroundColor Cyan
 
-        # Wait up to 120 seconds for the API to become healthy
-        $maxWaitSeconds = 120
+        # Wait up to 600 seconds for the API to become healthy (prod-test DB with large cache needs extra time)
+        $maxWaitSeconds = 600
         $startTime = Get-Date
         $lastLogLine = ""
 
