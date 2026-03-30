@@ -143,19 +143,54 @@ function Start-Api {
         $process.Id | Out-File $PidFile -Encoding UTF8
         Write-Host "API process started with PID: $($process.Id). Waiting for health check..." -ForegroundColor Cyan
 
-        # Wait up to 60 seconds for the API to become healthy
-        $attempts = 0
-        while ($attempts -lt 120) {
-            Start-Sleep -Milliseconds 500
+        # Wait up to 120 seconds for the API to become healthy
+        $maxWaitSeconds = 120
+        $startTime = Get-Date
+        $lastLogLine = ""
+
+        while (((Get-Date) - $startTime).TotalSeconds -lt $maxWaitSeconds) {
+            Start-Sleep -Milliseconds 1000
+
+            # Check if the process is still alive
+            $proc = Get-Process -Id $process.Id -ErrorAction SilentlyContinue
+            if (-not $proc) {
+                Write-Host ""
+                Write-Host "ERROR: API process exited unexpectedly." -ForegroundColor Red
+                if (Test-Path "$LogFile.err") {
+                    Write-Host "Last error output:" -ForegroundColor Red
+                    Get-Content "$LogFile.err" -Tail 10 | ForEach-Object { Write-Host "  $_" -ForegroundColor Red }
+                }
+                exit 1
+            }
+
             $status = Get-ApiStatus
             if ($status.IsHealthy) {
+                Write-Host ""
                 Write-Host "API is successfully started and healthy!" -ForegroundColor Green
                 return
             }
-            $attempts++
+
+            # Show progress from log file
+            $elapsed = [int]((Get-Date) - $startTime).TotalSeconds
+            if (Test-Path "$LogFile.err") {
+                $currentLogLine = Get-Content "$LogFile.err" -Tail 1 -ErrorAction SilentlyContinue
+                if ($currentLogLine -and $currentLogLine -ne $lastLogLine) {
+                    # Show meaningful log lines (skip blank/duplicate)
+                    $shortLine = if ($currentLogLine.Length -gt 100) { $currentLogLine.Substring(0, 100) + "..." } else { $currentLogLine }
+                    Write-Host "  [${elapsed}s] $shortLine" -ForegroundColor DarkGray
+                    $lastLogLine = $currentLogLine
+                }
+                else {
+                    Write-Host "  [${elapsed}s] Waiting for health check..." -ForegroundColor DarkGray
+                }
+            }
+            else {
+                Write-Host "  [${elapsed}s] Starting..." -ForegroundColor DarkGray
+            }
         }
 
-        Write-Host "ERROR: API started but did not become healthy within 60 seconds." -ForegroundColor Red
+        Write-Host ""
+        Write-Host "ERROR: API started but did not become healthy within $maxWaitSeconds seconds." -ForegroundColor Red
         Write-Host "Check $LogFile.out and $LogFile.err for details." -ForegroundColor Red
         exit 1
     }
