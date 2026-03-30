@@ -42,22 +42,35 @@ public class EntityCache
     public static void AddViewsLast30DaysToPages(List<PageViewSummaryWithId> allPageViews, List<PageCacheItem> pageCacheItems)
     {
         var thirtyDaysAgo = DateTime.Now.AddDays(-30).Date;
-        var pagesViewsLast30Days = allPageViews.Where(view => view.DateOnly >= thirtyDaysAgo).ToList();
+
+        var pageViewsByPageId = allPageViews
+            .Where(view => view.DateOnly >= thirtyDaysAgo)
+            .GroupBy(v => v.PageId)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
         foreach (var pageCacheItem in pageCacheItems)
         {
-            var aggregatedPages = pageCacheItem.GetAllAggregatedPages()
+            var aggregatedPageIds = pageCacheItem.GetAllAggregatedPages()
                 .Select(t => t.Key);
 
-            var aggregatedPageViews30Days = pagesViewsLast30Days
-                .Where(view => aggregatedPages.Contains(view.PageId))
+            var aggregatedViews = new List<PageViewSummaryWithId>();
+            foreach (var pageId in aggregatedPageIds)
+            {
+                if (pageViewsByPageId.TryGetValue(pageId, out var views))
+                {
+                    aggregatedViews.AddRange(views);
+                }
+            }
+
+            var aggregatedPageViews30Days = aggregatedViews
                 .GroupBy(view => view.DateOnly)
                 .Select(g => new { Date = g.Key, TotalCount = g.Sum(v => v.Count) })
                 .OrderBy(result => result.Date)
                 .Select(v => new DailyViews() { Date = v.Date, Count = v.TotalCount })
                 .ToList();
 
-            var pageViews30Days = pagesViewsLast30Days
-                .Where(view => view.PageId == pageCacheItem.Id)
+            pageViewsByPageId.TryGetValue(pageCacheItem.Id, out var selfViews);
+            var pageViews30Days = (selfViews ?? new List<PageViewSummaryWithId>())
                 .GroupBy(view => view.DateOnly)
                 .Select(g => new { Date = g.Key, TotalCount = g.Sum(v => v.Count) })
                 .OrderBy(result => result.Date)

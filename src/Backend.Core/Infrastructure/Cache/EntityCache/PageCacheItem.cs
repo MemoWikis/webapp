@@ -454,10 +454,8 @@ public class PageCacheItem : IPersistable
         var startDate = DateTime.Now.Date.AddDays(-90);
         var endDate = DateTime.Now.Date;
 
-        var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
-            .Select(d => startDate.AddDays(d));
-
-        pageCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
+        pageCacheItem.ViewsOfPast90Days = views
+            .Where(qv => qv.DateOnly >= startDate && qv.DateOnly <= endDate)
             .Select(qv => new DailyViews { Date = qv.DateOnly, Count = qv.Count })
             .OrderBy(v => v.Date)
             .ToList();

@@ -12,6 +12,7 @@ public class EntityCacheInitializer(
     SharesRepository _sharesRepository,
     PageViewMmapCache _pageViewMmapCache,
     QuestionViewMmapCache _questionViewMmapCache,
+    PageChangeMmapCache _pageChangeMmapCache,
     MmapCacheRefreshService _mmapCacheRefreshService,
     AiModelWhitelistRepo _aiModelWhitelistRepo) : IRegisterAsInstancePerLifetime
 {
@@ -91,8 +92,8 @@ public class EntityCacheInitializer(
 
         var allPageViews = LoadPageViewsFromMmapOrDatabase();
 
-        var allPageChanges = pageChangeRepo.GetAll();
-        Log.Information("{Elapsed} - EntityCache PageChangesLoadedFromRepo{CustomMessage}", _stopWatch.Elapsed, _customMessage);
+        var allPageChanges = LoadPageChangesFromMmapOrDatabase();
+        Log.Information("{Elapsed} - EntityCache PageChangesLoaded{CustomMessage}", _stopWatch.Elapsed, _customMessage);
 
         var pages = PageCacheItem.ToCachePages(allPages, allPageViews, allPageChanges).ToList();
         Log.Information("{Elapsed} - EntityCache PagesCached{CustomMessage}", _stopWatch.Elapsed, _customMessage);
@@ -102,6 +103,24 @@ public class EntityCacheInitializer(
 
         EntityCache.AddViewsLast30DaysToPages(allPageViews, pages);
         Log.Information("{Elapsed} - EntityCache PageViewsAddedToPages{CustomMessage}", _stopWatch.Elapsed, _customMessage);
+    }
+
+    private IList<PageChange> LoadPageChangesFromMmapOrDatabase()
+    {
+        var cachedChanges = _pageChangeMmapCache.LoadPageChanges();
+        if (cachedChanges.Any())
+        {
+            var pageChanges = PageChangeMmapCache.ToPageChanges(cachedChanges);
+            Log.Information("{Elapsed} - EntityCache PageChangesLoadedFromMmap ({Count} entries){CustomMessage}",
+                _stopWatch.Elapsed, pageChanges.Count, _customMessage);
+            return pageChanges;
+        }
+
+        var dbPageChanges = pageChangeRepo.GetAll();
+        Log.Information("{Elapsed} - EntityCache PageChangesLoadedFromRepo{CustomMessage}", _stopWatch.Elapsed, _customMessage);
+
+        _pageChangeMmapCache.SaveAllPageChanges(PageChangeMmapCache.FromPageChanges(dbPageChanges));
+        return dbPageChanges;
     }
 
     private List<PageViewSummaryWithId> LoadPageViewsFromMmapOrDatabase()

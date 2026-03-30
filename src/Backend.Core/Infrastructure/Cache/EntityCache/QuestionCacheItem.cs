@@ -189,10 +189,8 @@ public class QuestionCacheItem
                 var startDate = DateTime.Now.Date.AddDays(-90);
                 var endDate = DateTime.Now.Date;
 
-                var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
-                    .Select(d => startDate.AddDays(d));
-
-                questionCacheItem.ViewsOfPast90Days = questionViews.Where(qv => dateRange.Contains(qv.DateOnly))
+                questionCacheItem.ViewsOfPast90Days = questionViews
+                    .Where(qv => qv.DateOnly >= startDate && qv.DateOnly <= endDate)
                     .Select(qv => new DailyViews
                     {
                         Date = qv.DateOnly,

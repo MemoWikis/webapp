@@ -39,15 +39,11 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
         _session.QueryOver<Question>()
             .Fetch(SelectMode.Fetch, x => x.References)
             .Future();
-        var result = questions;
 
-        foreach (var question in result)
-        {
-            NHibernateUtil.Initialize(question.Creator);
-            NHibernateUtil.Initialize(question.References);
-        }
+        // Creator.Id is available on NHibernate proxy without initialization (no extra queries needed)
+        // References and Pages are batch-loaded via the future queries above
 
-        return result.ToList();
+        return questions;
     }
 
     public Question GetById(int id)

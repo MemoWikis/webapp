@@ -7,8 +7,10 @@ using System.Diagnostics;
 public class MmapCacheRefreshService(
     PageViewMmapCache pageViewMmapCache,
     QuestionViewMmapCache questionViewMmapCache,
+    PageChangeMmapCache pageChangeMmapCache,
     PageViewRepo pageViewRepo,
-    QuestionViewRepository questionViewRepo)
+    QuestionViewRepository questionViewRepo,
+    PageChangeRepo pageChangeRepo)
     : IRegisterAsInstancePerLifetime
 {
     /// <summary>
@@ -39,6 +41,12 @@ public class MmapCacheRefreshService(
 
         // Refresh QuestionView mmap cache  
         RecreateQuestionViewCache();
+
+        JobTracking.UpdateJobStatus(jobTrackingId, JobStatus.Running, "Refreshing PageChange mmap cache...",
+            "RefreshMmapCaches");
+
+        // Refresh PageChange mmap cache
+        RecreatePageChangeCache();
 
         stopwatch.Stop();
         Log.Information("Completed mmap cache recreate in {ElapsedMs} ms", stopwatch.ElapsedMilliseconds);
@@ -92,6 +100,32 @@ public class MmapCacheRefreshService(
         {
             stopwatch.Stop();
             Log.Error(exception, "Failed to recreate QuestionView mmap cache after {ElapsedMs} ms",
+                stopwatch.ElapsedMilliseconds);
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Refresh PageChange mmap cache from database
+    /// </summary>
+    private void RecreatePageChangeCache()
+    {
+        var stopwatch = Stopwatch.StartNew();
+        Log.Information("Refreshing PageChange mmap cache from database");
+
+        try
+        {
+            var allPageChanges = pageChangeRepo.GetAll();
+            pageChangeMmapCache.SaveAllPageChanges(PageChangeMmapCache.FromPageChanges(allPageChanges));
+
+            stopwatch.Stop();
+            Log.Information("Refreshed PageChange mmap cache with {Count} changes in {ElapsedMs} ms",
+                allPageChanges.Count, stopwatch.ElapsedMilliseconds);
+        }
+        catch (Exception exception)
+        {
+            stopwatch.Stop();
+            Log.Error(exception, "Failed to recreate PageChange mmap cache after {ElapsedMs} ms",
                 stopwatch.ElapsedMilliseconds);
             throw;
         }
@@ -174,11 +208,9 @@ public class MmapCacheRefreshService(
                 // Update ViewsOfPast90Days (same logic as in ToCacheQuestion)
                 var startDate = DateTime.Now.Date.AddDays(-90);
                 var endDate = DateTime.Now.Date;
-                var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
-                    .Select(d => startDate.AddDays(d));
 
                 questionCacheItem.ViewsOfPast90Days = views
-                    .Where(qv => dateRange.Contains(qv.DateOnly))
+                    .Where(qv => qv.DateOnly >= startDate && qv.DateOnly <= endDate)
                     .Select(qv => new DailyViews { Date = qv.DateOnly, Count = qv.Count })
                     .OrderBy(v => v.Date)
                     .ToList();
@@ -192,6 +224,7 @@ public class MmapCacheRefreshService(
         {
             pageViewMmapCache.DeleteCacheFile();
             questionViewMmapCache.DeleteCacheFile();
+            pageChangeMmapCache.DeleteCacheFile();
             Log.Information("Deleted all mmap cache files");
         }
         catch (Exception exception)
