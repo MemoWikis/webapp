@@ -26,11 +26,12 @@ internal class UpdateToVs289
                   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
             ).ExecuteUpdate();
 
-            // Add token balance fields to user table
+            // Add token balance fields and AI model preference to user table
             nhibernateSession.CreateSQLQuery(
                 @"ALTER TABLE `user` 
-                  ADD COLUMN IF NOT EXISTS `SubscriptionTokensBalance` INT NOT NULL DEFAULT 0,
-                  ADD COLUMN IF NOT EXISTS `PaidTokensBalance` INT NOT NULL DEFAULT 0;"
+                  ADD COLUMN `SubscriptionTokensBalance` INT NOT NULL DEFAULT 0,
+                  ADD COLUMN `PaidTokensBalance` INT NOT NULL DEFAULT 0,
+                  ADD COLUMN `PreferredAiModelId` VARCHAR(255) DEFAULT NULL;"
             ).ExecuteUpdate();
 
             transaction.Commit();
