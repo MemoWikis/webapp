@@ -25,7 +25,7 @@
     "axios": "^1.12.0",
     "cookie": "^1.0.2",
     "dotenv": "^16.4.5",
-    "express": "^4.21.2",
+    "express": "^4.22.1",
     "express-ws": "^5.0.2",
     "ioredis": "^5.4.1",
     "y-prosemirror": "^1.2.15",
