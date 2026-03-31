@@ -494,9 +494,10 @@ const handleClick = (key?: string) => {
 <template>
     <div id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }"
         @mouseleave="handleMouseLeave">
-        <PerfectScrollbar :options="{ suppressScrollX: true }" @ps-scroll-y.stop>
+        <PerfectScrollbar :options="{ suppressScrollX: true }" @ps-scroll-y.stop
+            :style="`max-height: calc(${windowHeight}px - 181px)`">
 
-            <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
+            <div id="SideSheetContainer">
                 <SideSheetSection class="no-b-padding" @mouseover="handleMouseOver">
                     <template #header>
                         <NuxtLink :to="`/${t('url.missionControl')}`" class="mission-control-link"
@@ -550,6 +551,7 @@ const handleClick = (key?: string) => {
                                             <font-awesome-icon
                                                 :icon="sideSheetStore.isExpanded('wikis', wiki.id) ? ['fas', 'angle-down'] : ['fas', 'angle-right']" />
                                         </div>
+                                        <div v-else class="expand-toggle-space" />
                                         <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)"
                                             :class="{ 'is-here': wiki.id === pageStore.id }">
                                             <div class="link">
@@ -629,6 +631,7 @@ const handleClick = (key?: string) => {
                                             <font-awesome-icon
                                                 :icon="sideSheetStore.isExpanded('favorites', favorite.id) ? ['fas', 'angle-down'] : ['fas', 'angle-right']" />
                                         </div>
+                                        <div v-else class="expand-toggle-space" />
                                         <NuxtLink :to="$urlHelper.getPageUrl(favorite.name, favorite.id)"
                                             :class="{ 'is-here': favorite.id === pageStore.id }">
                                             <div class="link">
@@ -680,12 +683,12 @@ const handleClick = (key?: string) => {
                             <div v-if="showShared">
                                 <div v-for="page in sideSheetStore.sharedPages" :key="page.id">
                                     <div class="content-item">
-                                        <div class="drag-handle-space" />
                                         <div v-if="page.childrenCount && page.childrenCount > 0" class="expand-toggle"
                                             @click.stop="toggleChildPages('shared', page.id)">
                                             <font-awesome-icon
                                                 :icon="sideSheetStore.isExpanded('shared', page.id) ? ['fas', 'angle-down'] : ['fas', 'angle-right']" />
                                         </div>
+                                        <div v-else class="expand-toggle-space" />
                                         <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)"
                                             :class="{ 'is-here': page.id === pageStore.id }">
                                             <div class="link">
@@ -726,12 +729,12 @@ const handleClick = (key?: string) => {
                             <div v-if="showRecents">
                                 <div v-for="recent in displayedRecentPages" :key="recent.id">
                                     <div class="content-item">
-                                        <div class="drag-handle-space" />
                                         <div v-if="recent.childrenCount && recent.childrenCount > 0"
                                             class="expand-toggle" @click.stop="toggleChildPages('recents', recent.id)">
                                             <font-awesome-icon
                                                 :icon="sideSheetStore.isExpanded('recents', recent.id) ? ['fas', 'angle-down'] : ['fas', 'angle-right']" />
                                         </div>
+                                        <div v-else class="expand-toggle-space" />
                                         <NuxtLink :to="$urlHelper.getPageUrl(recent.name, recent.id)"
                                             :class="{ 'is-here': recent.id === pageStore.id }">
                                             <div class="link">
@@ -819,7 +822,6 @@ const handleClick = (key?: string) => {
     }
 
     #SideSheetContainer {
-        height: 100%;
         overscroll-behavior: none;
     }
 

@@ -133,29 +133,29 @@
             user-select: none;
             padding-right: 8px;
             min-height: 32px;
+            position: relative;
 
             &.drag-over {
                 border-top: 2px solid @memo-blue;
             }
 
             .drag-handle {
+                position: absolute;
+                left: 4px;
+                top: 0;
+                bottom: 0;
                 display: flex;
                 align-items: center;
                 cursor: grab;
                 color: @memo-grey-light;
-                padding-right: 6px;
                 font-size: 12px;
                 opacity: 0;
                 transition: opacity 0.15s ease;
+                z-index: 2;
 
                 &:active {
                     cursor: grabbing;
                 }
-            }
-
-            .drag-handle-space {
-                width: 14px;
-                flex-shrink: 0;
             }
 
             .expand-toggle {
