@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 public class AiUsageLogRepo(ISession _session, TokenDeductionService _tokenDeductionService) : RepositoryDbBase<AiUsageLog>(_session)
 {
     private const string PriceJoinSubquery = @"
-            LEFT JOIN aimodelwhitelist w ON w.ModelId = u.Model";
+            LEFT JOIN aimodelwhitelist w ON w.ModelId = u.Model COLLATE utf8mb4_unicode_ci";
 
     private const string CostCalculations = @"
                 (CAST(u.TokenIn AS DECIMAL(18,2)) / 1000000) * COALESCE(w.InputPricePerMillion, 0) AS InputCostUsd,
