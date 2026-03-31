@@ -272,7 +272,7 @@ watch(locale, () => {
 
 <template>
 	<HeaderNavigation />
-	<HeaderMain v-if="siteType === SiteType.Page || siteType === SiteType.Question" :site="siteType"
+	<HeaderMain v-if="(siteType === SiteType.Page && !pageStore.isWiki) || siteType === SiteType.Question" :site="siteType"
 		:question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 	<SideSheet :footer-pages="footerPages" />
 

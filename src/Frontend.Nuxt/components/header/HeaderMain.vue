@@ -129,8 +129,6 @@ const { sideSheetOpen } = useSideSheetState()
     font-size: 13px;
     overflow: hidden;
     line-height: 21px;
-    background-color: @memo-grey-lighter;
-    border-bottom: 1px solid @memo-grey-light;
     position: relative;
     z-index: 98;
     white-space: nowrap;
