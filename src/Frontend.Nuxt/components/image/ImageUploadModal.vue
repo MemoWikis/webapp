@@ -145,8 +145,7 @@ watch(selectedImageUploadMode, (mode) => {
     else imageLoaded.value = false
 })
 
-const licenseGiverName = ref('')
-const isPersonalCreation = ref<boolean>()
+const licenseConfirmed = ref(false)
 
 async function upload() {
     let url
@@ -166,7 +165,7 @@ async function upload() {
 
         data.append('file', imgFile.value)
         data.append('pageId', pageStore.id.toString())
-        data.append('licenseOwner', licenseGiverName.value)
+        data.append('licenseOwner', 'Eigenes Werk / freie Lizenz')
     }
     const result = await $api<boolean>(url, {
         body: data,
@@ -192,7 +191,7 @@ async function upload() {
 const disablePrimaryButton = computed(() => {
     if (selectedImageUploadMode.value === ImageUploadMode.Wikimedia && imageLoaded.value)
         return false
-    else if (selectedImageUploadMode.value === ImageUploadMode.Custom && imageLoaded.value && isPersonalCreation.value && licenseGiverName.value.length >= 3)
+    else if (selectedImageUploadMode.value === ImageUploadMode.Custom && imageLoaded.value && licenseConfirmed.value)
         return false
     else return true
 })
@@ -206,49 +205,46 @@ function resetModal() {
     imgFile.value = undefined
     customImgUrl.value = ''
     showTypeError.value = false
-    licenseGiverName.value = ''
-    isPersonalCreation.value = undefined
+    licenseConfirmed.value = false
 }
 </script>
 
 <template>
     <Modal :show="props.show" :show-cancel-btn="true" @close="emit('close')" @primary-btn="upload"
-        :primary-btn-label="primaryLabel" :disabled="disablePrimaryButton">
+        :primary-btn-label="primaryLabel" :disabled="disablePrimaryButton" container-class="image-upload-modal">
         <template v-slot:header>
             {{ t('image.upload.header') }}
         </template>
         <template v-slot:body>
-            <div class="alert alert-info">
-                <b>{{ t('label.attention') }}:</b> {{ t('image.upload.warnings.attention') }}
+            <div class="upload-notice">
+                <font-awesome-icon :icon="['fas', 'circle-info']" class="upload-notice-icon" />
+                {{ t('image.upload.warnings.attention') }}
             </div>
-            <div class="imagetype-select-container">
-                <div @click="selectedImageUploadMode = ImageUploadMode.Wikimedia" class="imagetype-select">
-                    <font-awesome-icon icon="fa-solid fa-circle-dot" class="imagetype-select-radio active"
-                        v-if="selectedImageUploadMode === ImageUploadMode.Wikimedia" />
-                    <font-awesome-icon icon="fa-regular fa-circle" class="imagetype-select-radio" v-else />
-                    {{ t('image.upload.options.wikimedia') }}
-                </div>
 
-                <div @click="selectedImageUploadMode = ImageUploadMode.Custom" class="imagetype-select">
-                    <font-awesome-icon icon="fa-solid fa-circle-dot" class="imagetype-select-radio active"
-                        v-if="selectedImageUploadMode === ImageUploadMode.Custom" />
-                    <font-awesome-icon icon="fa-regular fa-circle" class="imagetype-select-radio" v-else />
+            <div class="mode-tabs">
+                <button class="mode-tab" :class="{ active: selectedImageUploadMode === ImageUploadMode.Wikimedia }"
+                    @click="selectedImageUploadMode = ImageUploadMode.Wikimedia">
+                    <font-awesome-icon icon="fa-solid fa-globe" class="mode-tab-icon" />
+                    {{ t('image.upload.options.wikimedia') }}
+                </button>
+                <button class="mode-tab" :class="{ active: selectedImageUploadMode === ImageUploadMode.Custom }"
+                    @click="selectedImageUploadMode = ImageUploadMode.Custom">
+                    <font-awesome-icon icon="fa-solid fa-upload" class="mode-tab-icon" />
                     {{ t('image.upload.options.custom') }}
-                </div>
+                </button>
             </div>
+
             <Transition name="fade">
                 <div v-if="selectedImageUploadMode === ImageUploadMode.Wikimedia" class="content">
-                    <p>{{ t('image.upload.wikimedia.info') }}</p>
-
-                    <p>
-                        {{ t('image.upload.wikimedia.tip') }}
+                    <p class="wikimedia-hint">
+                        {{ t('image.upload.wikimedia.info') }}
+                        <font-awesome-icon :icon="['fas', 'circle-info']"
+                            v-tooltip="t('image.upload.wikimedia.tip')" class="wikimedia-tip-icon" />
                     </p>
 
                     <div class="form-group">
-                        <input class="form-control wikimedia-url-input" v-model="wikimediaUrl" placeholder="http://" />
-                        <small class="form-text text-muted">{{ t('image.upload.wikimedia.urlLabel') }} <font-awesome-icon
-                                :icon="['fas', 'circle-info']"
-                                v-tooltip="t('image.upload.wikimedia.urlTooltip')" /></small>
+                        <label class="input-label">{{ t('image.upload.wikimedia.urlLabel') }}</label>
+                        <input class="form-control wikimedia-url-input" v-model="wikimediaUrl" placeholder="https://commons.wikimedia.org/wiki/File:..." />
                     </div>
                     <div v-if="showWikimediaError" class="alert alert-warning">
                         {{ t('image.upload.warnings.allowedFormats', { formats: allowedExtensions.join(', ') }) }}
@@ -262,30 +258,24 @@ function resetModal() {
                 </div>
                 <div v-else-if="selectedImageUploadMode === ImageUploadMode.Custom"
                     class="imageupload-dropzone-container">
-                    <label for="imageUpload" class="imageupload-dropzone" @drop.prevent="handleImageChange"
+                    <div class="imageupload-dropzone" @drop.prevent="handleImageChange"
                         :class="{ 'active': onDragOver }" @dragover.prevent="onDragOver = true"
                         @dragleave.prevent="onDragOver = false">
                         <input type="file" class="imageupload-dropzone-input" :accept="imageTypes.join(', ')"
                             name="file" id="imageUpload" v-on:change="handleImageChange" />
-                        <div>
-                            <h4>
-                                <font-awesome-icon icon="fa-solid fa-upload" />
-                                {{ t('image.upload.dropzone.title') }}
-                            </h4>
-                        </div>
-                        <div>
+                        <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" class="dropzone-icon" />
+                        <div class="dropzone-text">
                             {{ t('image.upload.dropzone.dragHere') }}
-                            <br />
-                            {{ t('image.upload.dropzone.or') }}
-                            <br />
-                            <div class="memo-button btn-link btn">
+                        </div>
+                        <div class="dropzone-actions">
+                            <label for="imageUpload" class="btn memo-button btn-primary dropzone-btn">
                                 {{ t('image.upload.buttons.chooseFile') }}
-                            </div>
+                            </label>
                             <div class="paste-hint">
                                 {{ t('image.upload.dropzone.pasteHint') }}
                             </div>
                         </div>
-                    </label>
+                    </div>
                     <div v-if="showTypeError" class="alert alert-warning">
                         {{ t('image.upload.warnings.allowedFormats', { formats: allowedExtensions.join(', ') }) }}
                     </div>
@@ -294,43 +284,10 @@ function resetModal() {
                         <Image :src="customImgUrl" :format="ImageFormat.Page" class="image-preview" :square="true" />
                     </div>
                     <div v-if="imageLoaded" class="license-container">
-                        <b>{{ t('image.upload.license.title') }}</b>
-                        <p>{{ t('image.upload.license.info') }}</p>
-
-                        <div>
-                            <div @click="isPersonalCreation = true" class="license-select">
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="license-select-radio active"
-                                    v-if="isPersonalCreation === true" />
-                                <font-awesome-icon icon="fa-regular fa-circle" class="license-select-radio" v-else />
-                                {{ t('image.upload.license.isOwnWork') }}
-                            </div>
-                            <p v-if="isPersonalCreation === true" class="license-info">
-                                <i18n-t keypath="image.upload.license.declaration" tag="span">
-                                    <template #name>
-                                        <input v-model="licenseGiverName" :placeholder="t('image.upload.license.namePlaceholder')"
-                                            class="creator-name-input" />
-                                    </template>
-                                    <template #licenseLink>
-                                        <NuxtLink to="https://creativecommons.org/licenses/by/4.0/deed.de" :external="true">
-                                            {{ t('image.upload.license.licenseText') }}
-                                        </NuxtLink>
-                                    </template>
-                                </i18n-t>
-                            </p>
-
-                            <div @click="isPersonalCreation = false" class="license-select">
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="license-select-radio active" v-if="isPersonalCreation === false" />
-                                <font-awesome-icon icon="fa-regular fa-circle" class="license-select-radio" v-else />
-                                {{ t('image.upload.license.notOwnWork') }}
-                            </div>
-                            <p v-if="isPersonalCreation === false" class="license-info">
-                                {{ t('image.upload.license.useWikimedia') }}
-                                <NuxtLink to="https://commons.wikimedia.org/wiki/Main_Page" :external="true">
-                                    Wikimedia
-                                </NuxtLink>
-                                {{ t('label.toUpload') }}
-                            </p>
-                        </div>
+                        <label class="license-checkbox-label" @click.prevent="licenseConfirmed = !licenseConfirmed">
+                            <input type="checkbox" v-model="licenseConfirmed" class="license-checkbox" />
+                            {{ t('image.upload.license.confirmation') }}
+                        </label>
                     </div>
                 </div>
             </Transition>
@@ -341,77 +298,173 @@ function resetModal() {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.imagetype-select-container {
+.upload-notice {
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: @memo-grey-dark;
+    background: @memo-grey-lightest;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+
+    .upload-notice-icon {
+        color: @memo-blue-link;
+        margin-top: 3px;
+        flex-shrink: 0;
+    }
 }
 
-.imagetype-select,
-.license-select {
+.mode-tabs {
     display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    cursor: pointer;
-    margin-right: 20px;
-    padding-bottom: 8px;
-    padding-top: 8px;
+    gap: 0;
+    border-bottom: 2px solid @memo-grey-light;
+    margin-bottom: 20px;
 
-    .imagetype-select-radio,
-    .license-select-radio {
-        margin-right: 8px;
+    .mode-tab {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border: none;
+        background: none;
+        color: @memo-grey-dark;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        position: relative;
+        transition: color 0.2s;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: transparent;
+            transition: background 0.2s;
+        }
+
+        &:hover {
+            color: @memo-blue-link;
+        }
 
         &.active {
             color: @memo-blue-link;
+
+            &::after {
+                background: @memo-blue-link;
+            }
+        }
+
+        .mode-tab-icon {
+            font-size: 15px;
         }
     }
 }
 
 .content {
-    margin-top: 20px;
-}
+    .wikimedia-hint {
+        font-size: 14px;
+        line-height: 1.6;
+        color: @memo-grey-darker;
+        margin-bottom: 16px;
 
-.wikimedia-url-input {
-    border-radius: 0px
+        .wikimedia-tip-icon {
+            color: @memo-blue-link;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+    }
+
+    .input-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: @memo-grey-darker;
+        margin-bottom: 6px;
+    }
+
+    .wikimedia-url-input {
+        border-radius: 6px;
+        border: 1px solid @memo-grey-light;
+        padding: 10px 14px;
+        font-size: 14px;
+        transition: border-color 0.2s;
+
+        &:focus {
+            border-color: @memo-blue-link;
+            outline: none;
+            box-shadow: 0 0 0 3px @memo-blue-light-transparent;
+        }
+    }
 }
 
 .imageupload-dropzone-container {
-    padding-top: 20px;
-
     .imageupload-dropzone {
-        height: 160px;
         width: 100%;
-        border: dashed 1px silver;
+        min-height: 180px;
+        border: 2px dashed @memo-grey-light;
+        border-radius: 12px;
+        background: @memo-grey-lightest;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         text-align: center;
+        padding: 28px 20px;
+        gap: 8px;
+        transition: border-color 0.2s, background 0.2s;
+        cursor: default;
+
+        &:hover {
+            border-color: @memo-blue-link;
+        }
 
         &.active {
-            background: @memo-grey-lighter;
+            border-color: @memo-blue-link;
+            background: @memo-blue-light-transparent;
         }
 
         .imageupload-dropzone-input {
             display: none;
+        }
 
-            &::-webkit-file-upload-button {
-                border: none;
-                font-size: 0px;
-                width: 100%;
-                min-height: 200px;
-                color: white;
-            }
+        .dropzone-icon {
+            font-size: 36px;
+            color: @memo-blue-link;
+            opacity: 0.7;
+        }
 
-            .imageupload-dropzone-input-visible {
-                visibility: visible;
+        .dropzone-text {
+            font-size: 15px;
+            color: @memo-grey-darker;
+        }
+
+        .dropzone-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+
+            .dropzone-btn {
+                font-size: 13px;
+                padding: 6px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+                margin: 0;
             }
         }
 
         .paste-hint {
-            margin-top: 6px;
             font-size: 12px;
-            color: @memo-grey-dark;
+            color: @memo-grey;
         }
     }
 }
@@ -430,11 +483,18 @@ function resetModal() {
     }
 }
 
-.creator-name-input {
-    border: solid 1px @memo-grey-light;
-}
+.license-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.4;
+    color: @memo-grey-dark;
 
-.license-info {
-    padding-left: 22px;
+    .license-checkbox {
+        margin-top: 3px;
+        flex-shrink: 0;
+    }
 }
 </style>

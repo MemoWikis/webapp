@@ -41,5 +41,7 @@ appsettings.*.json
 
 # Playwright local credentials
 .playwright.env
+.playwright.env.prod
 
 _next.md
+.playwright.env.dev

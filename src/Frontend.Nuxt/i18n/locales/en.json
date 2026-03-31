@@ -1802,6 +1802,7 @@
             "license": {
                 "title": "Copyright information:",
                 "info": "We need copyright information for this image to ensure that content on memoWikis can be freely reused. memoWikis follows the Wikipedia principle.",
+                "confirmation": "I confirm that this is my own work or that the image is under a free license that does not require attribution.",
                 "isOwnWork": "This image is my own work.",
                 "notOwnWork": "This image is not my own work.",
                 "declaration": "I, {name}, the copyright holder of this work, hereby irrevocably grant anyone the right to use it under the “Creative Commons” licence \"Attribution 4.0 International\" (CC BY 4.0) {licenseLink}.",

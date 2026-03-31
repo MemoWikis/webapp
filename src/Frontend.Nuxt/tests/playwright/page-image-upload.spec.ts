@@ -6,17 +6,14 @@ test.describe('Page image upload modal', () => {
     test.skip(!TEST_USERS.admin.password, 'Skipped: set PLAYWRIGHT_ADMIN_PASSWORD in .playwright.env')
 
     test('visual check of image upload modal', async ({ authenticatedPage: page }) => {
-        await page.goto('/1/test', { waitUntil: 'networkidle' })
+        // Navigate to the first page in the dev database
+        await page.goto('/Welcome-to-memoWikis/1', { waitUntil: 'networkidle' })
 
-        // Hover over the page header image to show the edit overlay
+        // Click the page header image area to open the upload modal
+        // The edit overlay intercepts pointer events, so click it directly with force
         const headerImage = page.locator('.page-header-image').first()
         await headerImage.waitFor({ state: 'visible', timeout: 10000 })
-        await headerImage.hover()
-
-        // Click the edit overlay to open the upload modal
-        const editOverlay = page.locator('.edit-overlay').first()
-        await editOverlay.waitFor({ state: 'visible', timeout: 5000 })
-        await editOverlay.click()
+        await headerImage.click({ force: true })
 
         // Wait for the modal to appear
         const modal = page.locator('.modal-default-container')
@@ -26,10 +23,8 @@ test.describe('Page image upload modal', () => {
         await takeDevScreenshot(page, 'image-upload-modal-wikimedia-mode')
 
         // Switch to Custom upload mode
-        const customRadio = page.locator('label').filter({ hasText: /eigenes Bild|Custom|upload/i })
-        if (await customRadio.isVisible()) {
-            await customRadio.click()
-        }
+        const customTab = page.locator('.mode-tab').nth(1)
+        await customTab.click()
 
         await page.waitForTimeout(500)
 
@@ -43,6 +38,10 @@ test.describe('Page image upload modal', () => {
         // Verify paste hint is visible
         const pasteHint = page.locator('.paste-hint')
         await expect(pasteHint).toBeVisible()
+
+        // Verify the choose-file button is visible
+        const chooseFileButton = dropzone.locator('.dropzone-btn')
+        await expect(chooseFileButton).toBeVisible()
 
         // Screenshot: Full page for layout context
         await takeDevScreenshot(page, 'image-upload-modal-fullpage', { fullPage: true })

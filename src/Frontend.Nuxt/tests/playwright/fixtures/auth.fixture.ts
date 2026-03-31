@@ -5,26 +5,49 @@ import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+const projectRoot = path.resolve(__dirname, '../../../../..')
 
 /**
- * Loads credentials from .playwright.env in the project root.
- * Falls back to dev database defaults if the file doesn't exist.
+ * Detects whether the backend is configured for dev or prod database
+ * by reading the ConnectionString port from appsettings.Development.json.
+ * Port 3306 = dev, Port 3307 = prod.
  */
-function loadPlaywrightEnv(): Record<string, string> {
-    const envPath = path.resolve(__dirname, '../../../../..', '.playwright.env')
+function detectEnvironment(): 'dev' | 'prod' {
+    const settingsPath = path.resolve(projectRoot, 'src/Backend.Api/appsettings.Development.json')
+
+    if (fs.existsSync(settingsPath)) {
+        const content = fs.readFileSync(settingsPath, 'utf-8')
+        const portMatch = content.match(/Port=(\d+)/)
+        if (portMatch) {
+            const port = parseInt(portMatch[1], 10)
+            if (port === 3306) {
+                return 'dev'
+            }
+        }
+    }
+
+    return 'prod'
+}
+
+/**
+ * Parses a simple key=value env file. Ignores comments and empty lines.
+ */
+function parseEnvFile(filePath: string): Record<string, string> {
     const envVars: Record<string, string> = {}
 
-    if (fs.existsSync(envPath)) {
-        const content = fs.readFileSync(envPath, 'utf-8')
-        for (const line of content.split('\n')) {
-            const trimmed = line.trim()
-            if (trimmed && !trimmed.startsWith('#')) {
-                const eqIndex = trimmed.indexOf('=')
-                if (eqIndex > 0) {
-                    const key = trimmed.substring(0, eqIndex).trim()
-                    const value = trimmed.substring(eqIndex + 1).trim()
-                    envVars[key] = value
-                }
+    if (!fs.existsSync(filePath)) {
+        return envVars
+    }
+
+    const content = fs.readFileSync(filePath, 'utf-8')
+    for (const line of content.split('\n')) {
+        const trimmed = line.trim()
+        if (trimmed && !trimmed.startsWith('#')) {
+            const eqIndex = trimmed.indexOf('=')
+            if (eqIndex > 0) {
+                const key = trimmed.substring(0, eqIndex).trim()
+                const value = trimmed.substring(eqIndex + 1).trim()
+                envVars[key] = value
             }
         }
     }
@@ -32,9 +55,31 @@ function loadPlaywrightEnv(): Record<string, string> {
     return envVars
 }
 
-const playwrightEnv = loadPlaywrightEnv()
+/**
+ * Loads credentials from the environment-specific .playwright.env file.
+ * - Dev: .playwright.env.dev (committed, known test credentials)
+ * - Prod: .playwright.env.prod (gitignored, personal credentials)
+ */
+function loadPlaywrightEnv(): { env: Record<string, string>; environment: 'dev' | 'prod' } {
+    const environment = detectEnvironment()
+    const envFile = `.playwright.env.${environment}`
+    const envPath = path.resolve(projectRoot, envFile)
 
-// Test user credentials: reads from .playwright.env, falls back to dev database defaults
+    console.log(`🔍 Detected environment: ${environment} → loading ${envFile}`)
+
+    const env = parseEnvFile(envPath)
+
+    if (Object.keys(env).length === 0) {
+        console.warn(`⚠️  No credentials found in ${envFile}. Tests requiring login will be skipped.`)
+    }
+
+    return { env, environment }
+}
+
+const { env: playwrightEnv, environment: detectedEnvironment } = loadPlaywrightEnv()
+export { detectedEnvironment }
+
+// Test user credentials: loaded from environment-specific .playwright.env file
 export const TEST_USERS = {
     admin: {
         email: playwrightEnv['PLAYWRIGHT_ADMIN_EMAIL'] ?? 'admin@memowikis.net',
