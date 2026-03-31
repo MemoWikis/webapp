@@ -9,6 +9,7 @@ const props = defineProps<{
     cacheMethods: MethodData[]
     mmapCacheStatus: MmapCacheStatusData | null
     mmapCacheStatusLoaded: boolean
+    loadDurationMs: number | null
 }>()
 
 const emit = defineEmits<{
@@ -17,6 +18,14 @@ const emit = defineEmits<{
 }>()
 
 const { t: $t } = useI18n()
+
+const loadedAtFormatted = ref('')
+
+watch(() => props.loadDurationMs, (newVal) => {
+    if (newVal != null) {
+        loadedAtFormatted.value = new Date().toLocaleTimeString()
+    }
+})
 
 const formatSize = (status: MmapCacheFileStatus): string => {
     if (status.sizeMb) {
@@ -76,12 +85,18 @@ const cacheCards = computed(() => {
             :icon="['fas', 'retweet']" @method-clicked="emit('executeMaintenanceOperation', $event)" />
 
         <LayoutPanel :title="$t('maintenance.cacheTab.title')">
-            <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
+            <div class="cache-controls">
                 <button class="memo-button btn btn-primary" @click="emit('loadMmapCacheStatus')">
                     <font-awesome-icon :icon="['fas', 'sync-alt']" />
                     {{ $t('maintenance.cacheTab.loadStatus') }}
                 </button>
-            </LayoutCard>
+
+                <span v-if="props.mmapCacheStatusLoaded && props.loadDurationMs != null" class="load-feedback">
+                    <font-awesome-icon :icon="['fas', 'check-circle']" />
+                    {{ $t('maintenance.cacheTab.loadedIn', { ms: props.loadDurationMs }) }}
+                    ({{ loadedAtFormatted }})
+                </span>
+            </div>
 
             <div v-if="props.mmapCacheStatus" class="cache-grid">
                 <div v-for="card in cacheCards" :key="card.key" class="cache-card"
@@ -143,9 +158,15 @@ const cacheCards = computed(() => {
 
 .cache-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    padding: 16px;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .cache-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .cache-card {
@@ -200,18 +221,21 @@ const cacheCards = computed(() => {
 
     &__row {
         display: flex;
-        justify-content: space-between;
         padding: 4px 0;
         font-size: 13px;
     }
 
     &__label {
         color: @memo-grey-dark;
+        width: 120px;
+        flex-shrink: 0;
     }
 
     &__value {
         font-weight: 500;
         font-family: 'Courier New', monospace;
+        text-align: right;
+        flex: 1;
     }
 
     &__error {
@@ -232,6 +256,21 @@ const cacheCards = computed(() => {
         font-style: italic;
         padding: 8px 0;
     }
+}
+
+.cache-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.load-feedback {
+    font-size: 13px;
+    color: #1e7e34;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .no-data-message {

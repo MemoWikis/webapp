@@ -568,10 +568,13 @@ const clearJob = async (jobTrackingId: string) => {
 
 const mmapCacheStatus = ref<MmapCacheStatusData | null>(null)
 const mmapCacheStatusLoaded = ref(false)
+const mmapCacheLoadDurationMs = ref<number | null>(null)
 
 const loadMmapCacheStatus = async () => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
+
+    const startTime = performance.now()
 
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
@@ -587,6 +590,7 @@ const loadMmapCacheStatus = async () => {
         mmapCacheStatus.value = result
     }
     mmapCacheStatusLoaded.value = true
+    mmapCacheLoadDurationMs.value = Math.round(performance.now() - startTime)
 }
 
 watch(activeTab, (newTab) => {
@@ -1240,6 +1244,7 @@ onMounted(() => {
                 :cache-methods="cacheMethods"
                 :mmap-cache-status="mmapCacheStatus"
                 :mmap-cache-status-loaded="mmapCacheStatusLoaded"
+                :load-duration-ms="mmapCacheLoadDurationMs"
                 @execute-maintenance-operation="executeMaintenanceOperation"
                 @load-mmap-cache-status="loadMmapCacheStatus" />
 

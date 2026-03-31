@@ -2004,7 +2004,8 @@
             "invalid": "Invalid",
             "missing": "Missing",
             "noCacheFile": "No cache file found.",
-            "noData": "No data available."
+            "noData": "No data available.",
+            "loadedIn": "Loaded in {ms} ms"
         },
         "pages": {
             "title": "Pages",

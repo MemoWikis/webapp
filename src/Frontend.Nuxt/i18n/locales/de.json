@@ -2003,7 +2003,8 @@
             "invalid": "Ungültig",
             "missing": "Nicht vorhanden",
             "noCacheFile": "Keine Cache-Datei vorhanden.",
-            "noData": "Keine Daten verfügbar."
+            "noData": "Keine Daten verfügbar.",
+            "loadedIn": "Geladen in {ms} ms"
         },
         "pages": {
             "title": "Seiten",
