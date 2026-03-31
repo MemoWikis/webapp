@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 import type {
     MethodData,
-    MmapCacheStatusData,
     RelationErrorItem
 } from './maintenance.types'
 
 // Props
 const props = defineProps<{
     questionMethods: MethodData[]
-    cacheMethods: MethodData[]
     pageMethods: MethodData[]
     meiliSearchMethods: MethodData[]
     userMethods: MethodData[]
@@ -20,8 +18,6 @@ const props = defineProps<{
     tokenUserId: number
     tokenAmount: number
     tokenType: 'subscription' | 'paid'
-    mmapCacheStatus: MmapCacheStatusData | null
-    mmapCacheStatusLoaded: boolean
     relationErrors: RelationErrorItem[]
     relationErrorsLoaded: boolean
     isAnalyzing: boolean
@@ -30,7 +26,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
     // Simple events without parameters
-    (event: 'loadMmapCacheStatus' | 'loadRelationErrors' | 'clearRelationErrorsCache' | 'deleteUser' | 'addTokensToUser' | 'removeAdminRights'): void
+    (event: 'loadRelationErrors' | 'clearRelationErrorsCache' | 'deleteUser' | 'addTokensToUser' | 'removeAdminRights'): void
     // Events with string parameter
     (event: 'executeMaintenanceOperation', url: string): void
     // Events with number parameter
@@ -73,46 +69,9 @@ const localTokenType = computed({
 
         <MaintenanceSection :title="$t('maintenance.questions.title')" :methods="props.questionMethods"
             :icon="['fas', 'retweet']" @method-clicked="emit('executeMaintenanceOperation', $event)" />
-        <MaintenanceSection :title="$t('maintenance.cache.title')" :methods="props.cacheMethods"
-            :icon="['fas', 'retweet']" @method-clicked="emit('executeMaintenanceOperation', $event)" />
         <MaintenanceSection v-if="props.pageMethods.length > 0" :title="$t('maintenance.pages.title')"
             :methods="props.pageMethods" :icon="['fas', 'retweet']"
             @method-clicked="emit('executeMaintenanceOperation', $event)" />
-
-        <LayoutPanel :title="$t('maintenance.mmapCache.title')">
-            <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">
-                <button class="memo-button btn btn-primary" @click="emit('loadMmapCacheStatus')">
-                    {{ $t('maintenance.mmapCache.loadStatus') }}
-                </button>
-            </LayoutCard>
-            <template v-if="props.mmapCacheStatus">
-                <LayoutCard v-if="props.mmapCacheStatus.pageViewsCache" :size="LayoutCardSize.Tiny"
-                    :title="$t('maintenance.mmapCache.pageViews')">
-                    <ul v-if="props.mmapCacheStatus.pageViewsCache.exists">
-                        <li>lastModified: <br /><b>{{ props.mmapCacheStatus.pageViewsCache.lastModified ? new
-                            Date(props.mmapCacheStatus.pageViewsCache.lastModified).toLocaleString() : 'N/A'
-                                }}</b>
-                        </li>
-                        <li>sizeBytes: <br /><b>{{ props.mmapCacheStatus.pageViewsCache.sizeBytes }}</b></li>
-                    </ul>
-                    <span v-else>{{ $t('maintenance.mmapCache.noPageViewsCacheFile') }}</span>
-                </LayoutCard>
-                <LayoutCard v-if="props.mmapCacheStatus.questionViewsCache" :size="LayoutCardSize.Tiny"
-                    :title="$t('maintenance.mmapCache.questionViews')">
-                    <ul v-if="props.mmapCacheStatus.questionViewsCache.exists">
-                        <li>lastModified: <br /><b>{{ props.mmapCacheStatus.questionViewsCache.lastModified ? new
-                            Date(props.mmapCacheStatus.questionViewsCache.lastModified).toLocaleString() : 'N/A'
-                                }}</b></li>
-                        <li>sizeBytes: <br /><b>{{ props.mmapCacheStatus.questionViewsCache.sizeBytes }}</b></li>
-                    </ul>
-                    <span v-else>{{ $t('maintenance.mmapCache.noQuestionViewsCacheFile') }}</span>
-                </LayoutCard>
-            </template>
-
-            <div v-else-if="props.mmapCacheStatusLoaded && props.mmapCacheStatus == null" class="no-errors-message">
-                {{ $t('maintenance.relations.noErrorsFound') }}
-            </div>
-        </LayoutPanel>
 
         <LayoutPanel :title="$t('maintenance.relations.title')">
             <LayoutCard :size="LayoutCardSize.Large" :background-color="'transparent'">

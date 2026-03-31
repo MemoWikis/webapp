@@ -11,7 +11,6 @@ import {
     type RelationErrorsResponse,
     type VueMaintenanceResult,
     type MmapCacheStatusData,
-    type GetMmapCacheStatusResult,
     type QuartzJob,
     type WhitelistedModel,
     type AvailableModel,
@@ -577,15 +576,15 @@ const loadMmapCacheStatus = async () => {
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
 
-    const result = await $api<GetMmapCacheStatusResult>(`/apiVue/VueMaintenance/GetMmapCacheStatus`, {
+    const result = await $api<MmapCacheStatusData>(`/apiVue/VueMaintenance/GetMmapCacheStatus`, {
         body: data,
         method: 'POST',
         mode: 'cors',
         credentials: 'include'
     })
 
-    if (result?.success) {
-        mmapCacheStatus.value = JSON.parse(result.data) as MmapCacheStatusData
+    if (result) {
+        mmapCacheStatus.value = result
     }
     mmapCacheStatusLoaded.value = true
 }
@@ -1194,6 +1193,10 @@ onMounted(() => {
                     <font-awesome-icon :icon="['fas', 'chart-line']" />
                     {{ $t('maintenance.aiCosts.tabTitle') }}
                 </button>
+                <button class="tab-button" :class="{ active: activeTab === 'cache' }" @click="activeTab = 'cache'">
+                    <font-awesome-icon :icon="['fas', 'database']" />
+                    Cache
+                </button>
             </div>
 
             <!-- ==================== QUARTZ TAB ==================== -->
@@ -1222,17 +1225,24 @@ onMounted(() => {
             <!-- ==================== AI COSTS TAB ==================== -->
             <MaintenanceTabAiCostsComponent v-show="activeTab === 'ai-costs'" :anti-forgery-token="antiForgeryToken" />
 
+            <!-- ==================== CACHE TAB ==================== -->
+            <MaintenanceTabCacheComponent v-show="activeTab === 'cache'"
+                :cache-methods="cacheMethods"
+                :mmap-cache-status="mmapCacheStatus"
+                :mmap-cache-status-loaded="mmapCacheStatusLoaded"
+                @execute-maintenance-operation="executeMaintenanceOperation"
+                @load-mmap-cache-status="loadMmapCacheStatus" />
+
             <!-- ==================== GENERAL TAB ==================== -->
             <MaintenanceTabGeneralComponent v-show="activeTab === 'general'" :question-methods="questionMethods"
-                :cache-methods="cacheMethods" :page-methods="pageMethods" :meili-search-methods="meiliSearchMethods"
+                :page-methods="pageMethods" :meili-search-methods="meiliSearchMethods"
                 :user-methods="userMethods" :misc-methods="miscMethods" :tools-methods="toolsMethods"
                 :logged-in-user-count="loggedInUserCount" :anonymous-user-count="anonymousUserCount"
                 :user-id-to-delete="userIdToDelete" :token-user-id="tokenUserId" :token-amount="tokenAmount"
-                :token-type="tokenType" :mmap-cache-status="mmapCacheStatus"
-                :mmap-cache-status-loaded="mmapCacheStatusLoaded" :relation-errors="relationErrors"
+                :token-type="tokenType" :relation-errors="relationErrors"
                 :relation-errors-loaded="relationErrorsLoaded" :is-analyzing="isAnalyzing"
                 @execute-maintenance-operation="executeMaintenanceOperation"
-                @load-mmap-cache-status="loadMmapCacheStatus" @load-relation-errors="loadRelationErrors"
+                @load-relation-errors="loadRelationErrors"
                 @clear-relation-errors-cache="clearRelationErrorsCache" @heal-relations="healRelations"
                 @delete-user="deleteUser" @add-tokens-to-user="addTokensToUser" @remove-admin-rights="removeAdminRights"
                 @update:user-id-to-delete="userIdToDelete = $event" @update:token-user-id="tokenUserId = $event"

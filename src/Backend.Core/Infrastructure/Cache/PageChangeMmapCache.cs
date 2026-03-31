@@ -10,67 +10,17 @@ public record struct PageChangeSummary(
     [property: Key(5)] int Type,
     [property: Key(6)] DateTime DateCreated);
 
-public class PageChangeMmapCache : IRegisterAsInstancePerLifetime
+public class PageChangeMmapCache : MmapCacheBase<PageChangeSummary>, IRegisterAsInstancePerLifetime
 {
-    private readonly string _pageChangesFilePath;
-    private readonly object _pageChangeLock = new();
+    public const int SchemaVersion = 1;
 
-    public PageChangeMmapCache()
-    {
-        var cacheDirectory = Settings.MmapCachePath;
-        Directory.CreateDirectory(cacheDirectory);
+    protected override int SchemaVersionValue => SchemaVersion;
 
-        _pageChangesFilePath = Path.Combine(cacheDirectory, "pagechanges.mmap");
-    }
+    public PageChangeMmapCache() : base("pagechanges.mmap", "PageChange") { }
 
-    public List<PageChangeSummary> LoadPageChanges()
-    {
-        if (!File.Exists(_pageChangesFilePath))
-        {
-            return new List<PageChangeSummary>();
-        }
+    public List<PageChangeSummary> LoadPageChanges() => Load();
 
-        try
-        {
-            lock (_pageChangeLock)
-            {
-                using var fileStream =
-                    new FileStream(_pageChangesFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                var changes = MessagePackSerializer.Deserialize<List<PageChangeSummary>>(fileStream);
-
-                Log.Information("Loaded {Count} page changes from mmap cache", changes.Count);
-                return changes;
-            }
-        }
-        catch (Exception exception)
-        {
-            Log.Error(exception, "Failed to load page changes from mmap cache");
-            File.Delete(_pageChangesFilePath);
-            return new List<PageChangeSummary>();
-        }
-    }
-
-    public void SaveAllPageChanges(IList<PageChangeSummary> changes)
-    {
-        lock (_pageChangeLock)
-        {
-            var tempFile = _pageChangesFilePath + ".tmp";
-            File.WriteAllBytes(tempFile, MessagePackSerializer.Serialize(changes));
-            File.Move(tempFile, _pageChangesFilePath, true);
-            Log.Information("Saved {Count} page changes to mmap cache", changes.Count);
-        }
-    }
-
-    public void DeleteCacheFile()
-    {
-        lock (_pageChangeLock)
-        {
-            if (File.Exists(_pageChangesFilePath))
-            {
-                File.Delete(_pageChangesFilePath);
-            }
-        }
-    }
+    public void SaveAllPageChanges(IList<PageChangeSummary> changes) => SaveAll(changes);
 
     public static IList<PageChange> ToPageChanges(List<PageChangeSummary> summaries)
     {

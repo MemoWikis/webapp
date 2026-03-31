@@ -1,55 +1,48 @@
-using System.Text.Json;
-
-public class MmapCacheStatusService : IRegisterAsInstancePerLifetime
+public class MmapCacheStatusService(
+    PageViewMmapCache _pageViewMmapCache,
+    QuestionViewMmapCache _questionViewMmapCache,
+    PageChangeMmapCache _pageChangeMmapCache) : IRegisterAsInstancePerLifetime
 {
-    private readonly string _cacheDirectory;
-    private readonly string _pageViewsFile;
-    private readonly string _questionViewsFile;
-
-    public MmapCacheStatusService()
+    public MmapCacheStatusResponse GetCacheStatus()
     {
-        _cacheDirectory = Settings.MmapCachePath;
-        _pageViewsFile = Path.Combine(_cacheDirectory, "pageviews.mmap");
-        _questionViewsFile = Path.Combine(_cacheDirectory, "questionviews.mmap");
+        return new MmapCacheStatusResponse(
+            PageViewsCache: GetFileStatus(_pageViewMmapCache.FilePath, PageViewMmapCache.SchemaVersion),
+            QuestionViewsCache: GetFileStatus(_questionViewMmapCache.FilePath, QuestionViewMmapCache.SchemaVersion),
+            PageChangesCache: GetFileStatus(_pageChangeMmapCache.FilePath, PageChangeMmapCache.SchemaVersion));
     }
 
-    public string GetCacheStatusAsJson()
+    private static MmapCacheFileStatus GetFileStatus(string filePath, int expectedSchemaVersion)
     {
-        var status = new
-        {
-            pageViewsCache = new
-            {
-                exists = File.Exists(_pageViewsFile),
-                lastModified = File.Exists(_pageViewsFile) ? File.GetLastWriteTime(_pageViewsFile) : (DateTime?)null,
-                sizeBytes = File.Exists(_pageViewsFile) ? new FileInfo(_pageViewsFile).Length : 0
-            },
-            questionViewsCache = new
-            {
-                exists = File.Exists(_questionViewsFile),
-                lastModified = File.Exists(_questionViewsFile) ? File.GetLastWriteTime(_questionViewsFile) : (DateTime?)null,
-                sizeBytes = File.Exists(_questionViewsFile) ? new FileInfo(_questionViewsFile).Length : 0
-            }
-        };
+        var exists = File.Exists(filePath);
+        var metadata = MmapCacheMetadata.Load(filePath);
+        long sizeBytes = exists ? new FileInfo(filePath).Length : 0;
+        string? validationError = exists
+            ? MmapCacheMetadata.ValidateMetadataOnly(filePath, expectedSchemaVersion)
+            : null;
 
-        return JsonSerializer.Serialize(status);
-    }
-
-    public object GetCacheStatus()
-    {
-        return new
-        {
-            pageViewsCache = new
-            {
-                exists = File.Exists(_pageViewsFile),
-                lastModified = File.Exists(_pageViewsFile) ? File.GetLastWriteTime(_pageViewsFile) : (DateTime?)null,
-                sizeBytes = File.Exists(_pageViewsFile) ? new FileInfo(_pageViewsFile).Length : 0
-            },
-            questionViewsCache = new
-            {
-                exists = File.Exists(_questionViewsFile),
-                lastModified = File.Exists(_questionViewsFile) ? File.GetLastWriteTime(_questionViewsFile) : (DateTime?)null,
-                sizeBytes = File.Exists(_questionViewsFile) ? new FileInfo(_questionViewsFile).Length : 0
-            }
-        };
+        return new MmapCacheFileStatus(
+            Exists: exists,
+            SizeKb: Math.Round(sizeBytes / 1024.0, 1),
+            SizeMb: sizeBytes > 1024 * 1024 ? Math.Round(sizeBytes / (1024.0 * 1024.0), 1) : null,
+            EntryCount: metadata?.EntryCount,
+            SavedAtUtc: metadata?.SavedAtUtc,
+            SchemaVersion: metadata?.SchemaVersion,
+            IsValid: exists && validationError == null,
+            ValidationError: validationError);
     }
 }
+
+public readonly record struct MmapCacheStatusResponse(
+    MmapCacheFileStatus PageViewsCache,
+    MmapCacheFileStatus QuestionViewsCache,
+    MmapCacheFileStatus PageChangesCache);
+
+public readonly record struct MmapCacheFileStatus(
+    bool Exists,
+    double SizeKb,
+    double? SizeMb,
+    int? EntryCount,
+    DateTime? SavedAtUtc,
+    int? SchemaVersion,
+    bool IsValid,
+    string? ValidationError);

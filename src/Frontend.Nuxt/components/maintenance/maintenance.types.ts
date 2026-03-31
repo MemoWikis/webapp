@@ -10,7 +10,7 @@ export enum JobStatus {
     NotFound = 3,
 }
 
-export type MaintenanceTabType = 'general' | 'quartz' | 'ai' | 'ai-costs'
+export type MaintenanceTabType = 'general' | 'quartz' | 'ai' | 'ai-costs' | 'cache'
 
 // ==================== Method Configuration ====================
 
@@ -127,15 +127,21 @@ export interface AiCostsByDayAndModelResult {
 
 // ==================== MMap Cache ====================
 
-export interface MmapCacheStatus {
+export interface MmapCacheFileStatus {
     exists: boolean
-    lastModified: string
-    sizeBytes: number
+    sizeKb: number
+    sizeMb: number | null
+    entryCount: number | null
+    savedAtUtc: string | null
+    schemaVersion: number | null
+    isValid: boolean
+    validationError: string | null
 }
 
 export interface MmapCacheStatusData {
-    pageViewsCache: MmapCacheStatus
-    questionViewsCache: MmapCacheStatus
+    pageViewsCache: MmapCacheFileStatus
+    questionViewsCache: MmapCacheFileStatus
+    pageChangesCache: MmapCacheFileStatus
 }
 
 export interface GetMmapCacheStatusResult {

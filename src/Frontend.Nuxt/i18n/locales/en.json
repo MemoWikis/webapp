@@ -1988,6 +1988,24 @@
             "noPageViewsCacheFile": "No page views cache file found",
             "noQuestionViewsCacheFile": "No question views cache file found"
         },
+        "cacheTab": {
+            "title": "Mmap Cache Status",
+            "operations": "Cache Operations",
+            "loadStatus": "Load Status",
+            "pageViews": "Page Views Cache",
+            "questionViews": "Question Views Cache",
+            "pageChanges": "Page Changes Cache",
+            "size": "Size",
+            "entries": "Entries",
+            "age": "Age",
+            "savedAt": "Saved at",
+            "schema": "Schema Version",
+            "valid": "Valid",
+            "invalid": "Invalid",
+            "missing": "Missing",
+            "noCacheFile": "No cache file found.",
+            "noData": "No data available."
+        },
         "pages": {
             "title": "Pages",
             "updateCategoryAuthors": "Update page authors"

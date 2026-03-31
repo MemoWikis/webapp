@@ -881,13 +881,9 @@ public class VueMaintenanceController(
 
     [AccessOnlyAsAdmin]
     [HttpPost]
-    public VueMaintenanceResult GetMmapCacheStatus()
+    public MmapCacheStatusResponse GetMmapCacheStatus()
     {
-        return new VueMaintenanceResult
-        {
-            Success = true,
-            Data = _mmapCacheStatusService.GetCacheStatusAsJson()
-        };
+        return _mmapCacheStatusService.GetCacheStatus();
     }
 
     // AI Model Management
