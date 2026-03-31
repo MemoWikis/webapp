@@ -90,6 +90,42 @@ function handleImageChange(e: any) {
 }
 const onDragOver = ref(false)
 
+const handlePaste = (e: ClipboardEvent) => {
+    if (!props.show) {
+        return
+    }
+
+    const items = e.clipboardData?.items
+    if (!items) {
+        return
+    }
+
+    for (const item of items) {
+        if (imageTypes.includes(item.type)) {
+            const file = item.getAsFile()
+            if (file) {
+                selectedImageUploadMode.value = ImageUploadMode.Custom
+                showTypeError.value = false
+                createImage(file)
+                e.preventDefault()
+                return
+            }
+        }
+    }
+}
+
+watch(() => props.show, (visible) => {
+    if (visible) {
+        document.addEventListener('paste', handlePaste)
+    } else {
+        document.removeEventListener('paste', handlePaste)
+    }
+})
+
+onUnmounted(() => {
+    document.removeEventListener('paste', handlePaste)
+})
+
 function createImage(file: File) {
     imgFile.value = file
     const previewImgUrl = URL.createObjectURL(file)
@@ -245,6 +281,9 @@ function resetModal() {
                             <div class="memo-button btn-link btn">
                                 {{ t('image.upload.buttons.chooseFile') }}
                             </div>
+                            <div class="paste-hint">
+                                {{ t('image.upload.dropzone.pasteHint') }}
+                            </div>
                         </div>
                     </label>
                     <div v-if="showTypeError" class="alert alert-warning">
@@ -367,6 +406,12 @@ function resetModal() {
             .imageupload-dropzone-input-visible {
                 visibility: visible;
             }
+        }
+
+        .paste-hint {
+            margin-top: 6px;
+            font-size: 12px;
+            color: @memo-grey-dark;
         }
     }
 }

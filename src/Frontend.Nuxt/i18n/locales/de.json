@@ -1794,7 +1794,8 @@
             "dropzone": {
                 "title": "Bild Hochladen",
                 "dragHere": "Zieh ein Bild hierher",
-                "or": "oder.."
+                "or": "oder..",
+                "pasteHint": "Strg+V zum Einfügen aus der Zwischenablage"
             },
             "preview": "Bildvorschau:",
             "license": {

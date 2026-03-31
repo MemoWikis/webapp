@@ -1795,7 +1795,8 @@
             "dropzone": {
                 "title": "Upload image",
                 "dragHere": "Drag an image here",
-                "or": "or.."
+                "or": "or..",
+                "pasteHint": "Ctrl+V to paste from clipboard"
             },
             "preview": "Image preview:",
             "license": {

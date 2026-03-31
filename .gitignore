@@ -39,4 +39,7 @@ appsettings.*.json
 .api.log.out
 .api.log.err
 
+# Playwright local credentials
+.playwright.env
+
 _next.md

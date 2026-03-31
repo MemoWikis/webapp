@@ -1,16 +1,50 @@
 import { test as base, expect, type Page } from '@playwright/test'
+import * as fs from 'fs'
+import * as path from 'path'
+import { fileURLToPath } from 'url'
 
-// Test user credentials (from dev database)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+/**
+ * Loads credentials from .playwright.env in the project root.
+ * Falls back to dev database defaults if the file doesn't exist.
+ */
+function loadPlaywrightEnv(): Record<string, string> {
+    const envPath = path.resolve(__dirname, '../../../../..', '.playwright.env')
+    const envVars: Record<string, string> = {}
+
+    if (fs.existsSync(envPath)) {
+        const content = fs.readFileSync(envPath, 'utf-8')
+        for (const line of content.split('\n')) {
+            const trimmed = line.trim()
+            if (trimmed && !trimmed.startsWith('#')) {
+                const eqIndex = trimmed.indexOf('=')
+                if (eqIndex > 0) {
+                    const key = trimmed.substring(0, eqIndex).trim()
+                    const value = trimmed.substring(eqIndex + 1).trim()
+                    envVars[key] = value
+                }
+            }
+        }
+    }
+
+    return envVars
+}
+
+const playwrightEnv = loadPlaywrightEnv()
+
+// Test user credentials: reads from .playwright.env, falls back to dev database defaults
 export const TEST_USERS = {
     admin: {
-        email: 'admin@memowikis.net',
-        password: 'test',
+        email: playwrightEnv['PLAYWRIGHT_ADMIN_EMAIL'] ?? 'admin@memowikis.net',
+        password: playwrightEnv['PLAYWRIGHT_ADMIN_PASSWORD'] ?? 'test',
     },
     user: {
-        email: 'user@memowikis.net',
-        password: 'test',
+        email: playwrightEnv['PLAYWRIGHT_USER_EMAIL'] ?? 'user@memowikis.net',
+        password: playwrightEnv['PLAYWRIGHT_USER_PASSWORD'] ?? 'test',
     },
-} as const
+}
 
 export type TestUserKey = keyof typeof TEST_USERS
 
