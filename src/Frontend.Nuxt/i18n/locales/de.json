@@ -258,7 +258,10 @@
         "prices": "Preise",
         "settings": "Einstellungen",
         "register": "Registrieren",
-        "missionControl": "Mission-Control"
+        "missionControl": "Mission-Control",
+        "wikis": "Wikis",
+        "about": "Ueber-memoWikis",
+        "community": "Community"
     },
     "search": {
         "results": "{count} Treffer",
@@ -2132,5 +2135,31 @@
         "placeholderFlavorText3": "Diese Person ist wahrscheinlich zu beschäftigt damit, großartige Sachen zu lernen! 📚",
         "placeholderFlavorText4": "Hier ist noch nichts, aber sicher kommen tolle Dinge! ✨",
         "placeholderFlavorText5": "Dieser Platz wartet darauf, dass etwas Persönliches passiert! 🎭"
+    },
+    "nav": {
+        "wikis": "Wikis",
+        "community": "Community",
+        "about": "Über memoWikis"
+    },
+    "aboutPage": {
+        "title": "Willkommen bei memoWikis",
+        "subtitle": "Dein Wiki und Lernwerkzeug",
+        "description": "memoWikis ist eine Plattform, die Wiki und Lernwerkzeug vereint. Erstelle Wikis, organisiere dein Wissen und lerne mit Karteikarten.",
+        "meta": {
+            "title": "Über memoWikis",
+            "description": "Erfahre mehr über memoWikis – die Plattform, die Wiki und Lernwerkzeug vereint."
+        }
+    },
+    "wikisPage": {
+        "title": "Wikis entdecken",
+        "subtitle": "Öffentliche Wikis auf memoWikis",
+        "noWikis": "Noch keine öffentlichen Wikis vorhanden.",
+        "questions": "Fragen",
+        "pages": "Seiten",
+        "by": "von",
+        "meta": {
+            "title": "Wikis – memoWikis",
+            "description": "Entdecke öffentliche Wikis auf memoWikis."
+        }
     }
 }

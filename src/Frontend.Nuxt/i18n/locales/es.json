@@ -255,7 +255,10 @@
         "prices": "Prices",
         "settings": "Settings",
         "register": "Register",
-        "missionControl": "PanelDeControl"
+        "missionControl": "PanelDeControl",
+        "wikis": "Wikis",
+        "about": "Sobre-memoWikis",
+        "community": "Comunidad"
     },
     "search": {
         "results": "{count} resultados",
@@ -2031,5 +2034,31 @@
         "placeholderFlavorText3": "¡Esta persona probablemente está muy ocupada aprendiendo cosas increíbles! 📚",
         "placeholderFlavorText4": "Nada aquí por ahora, ¡pero seguramente vienen cosas geniales! ✨",
         "placeholderFlavorText5": "¡Este espacio está esperando que ocurra un poco de magia personal! 🎭"
+    },
+    "nav": {
+        "wikis": "Wikis",
+        "community": "Comunidad",
+        "about": "Sobre memoWikis"
+    },
+    "aboutPage": {
+        "title": "Bienvenido a memoWikis",
+        "subtitle": "Tu wiki y herramienta de aprendizaje",
+        "description": "memoWikis es una plataforma que combina wiki y herramientas de aprendizaje. Crea wikis, organiza tu conocimiento y aprende con tarjetas de memoria.",
+        "meta": {
+            "title": "Sobre memoWikis",
+            "description": "Descubre más sobre memoWikis – la plataforma que combina wiki y herramientas de aprendizaje."
+        }
+    },
+    "wikisPage": {
+        "title": "Descubrir Wikis",
+        "subtitle": "Wikis públicos en memoWikis",
+        "noWikis": "Aún no hay wikis públicos disponibles.",
+        "questions": "Preguntas",
+        "pages": "Páginas",
+        "by": "por",
+        "meta": {
+            "title": "Wikis – memoWikis",
+            "description": "Descubre los wikis públicos en memoWikis."
+        }
     }
 }

@@ -10,11 +10,12 @@ export default <RouterConfig>{
         {
             name: 'welcomePage',
             path: '/',
-            component: () => import('~/pages/[page]/[id].vue'),
-            props: { tab: PageTab.Text },
-            meta: {
-                middleware: ['startpage'],
-            },
+            component: () => import('~/pages/index.vue'),
+        },
+        {
+            name: 'wikisPage',
+            path: '/wikis',
+            component: () => import('~/pages/wikis.vue'),
         },
         {
             name: 'missionControlPageDE',

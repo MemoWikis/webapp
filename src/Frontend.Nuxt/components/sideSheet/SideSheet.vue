@@ -494,8 +494,7 @@ const handleClick = (key?: string) => {
 <template>
     <div id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }"
         @mouseleave="handleMouseLeave">
-        <PerfectScrollbar :options="{ suppressScrollX: true }" @ps-scroll-y.stop
-            :style="`max-height: calc(${windowHeight}px - 181px)`">
+        <div class="sidesheet-scrollbar">
 
             <div id="SideSheetContainer">
                 <SideSheetSection class="no-b-padding" @mouseover="handleMouseOver">
@@ -627,7 +626,8 @@ const handleClick = (key?: string) => {
                                             <font-awesome-icon :icon="['fas', 'grip-vertical']" />
                                         </div>
                                         <div v-if="favorite.childrenCount && favorite.childrenCount > 0"
-                                            class="expand-toggle" @click.stop="toggleChildPages('favorites', favorite.id)">
+                                            class="expand-toggle"
+                                            @click.stop="toggleChildPages('favorites', favorite.id)">
                                             <font-awesome-icon
                                                 :icon="sideSheetStore.isExpanded('favorites', favorite.id) ? ['fas', 'angle-down'] : ['fas', 'angle-right']" />
                                         </div>
@@ -759,7 +759,7 @@ const handleClick = (key?: string) => {
                 </SideSheetSection>
             </div>
 
-        </PerfectScrollbar>
+        </div>
 
         <div id="SideSheetFooter">
             <div class="bg-fade"></div>
@@ -819,6 +819,34 @@ const handleClick = (key?: string) => {
 
     &.not-logged-in {
         padding-top: 131px;
+
+        .sidesheet-scrollbar {
+            max-height: calc(100vh - 241px);
+        }
+    }
+
+    .sidesheet-scrollbar {
+        max-height: calc(100vh - 181px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior: none;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: @memo-grey-light;
+            border-radius: 3px;
+
+            &:hover {
+                background: @memo-grey-dark;
+            }
+        }
     }
 
     #SideSheetContainer {

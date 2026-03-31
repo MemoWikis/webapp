@@ -258,7 +258,10 @@
         "prices": "Prices",
         "settings": "Settings",
         "register": "Register",
-        "missionControl": "MissionControl"
+        "missionControl": "MissionControl",
+        "wikis": "Wikis",
+        "about": "About-memoWikis",
+        "community": "Community"
     },
     "search": {
         "results": "{count} results",
@@ -2133,5 +2136,31 @@
         "placeholderFlavorText3": "This user is probably too busy learning awesome stuff to write about themselves! 📚",
         "placeholderFlavorText4": "Nothing here yet, but great things are surely coming! ✨",
         "placeholderFlavorText5": "This space is waiting for some personal magic to happen! 🎭"
+    },
+    "nav": {
+        "wikis": "Wikis",
+        "community": "Community",
+        "about": "About memoWikis"
+    },
+    "aboutPage": {
+        "title": "Welcome to memoWikis",
+        "subtitle": "Your wiki and learning tool",
+        "description": "memoWikis is a platform that combines wiki and learning tools. Create wikis, organize your knowledge, and learn with flashcards.",
+        "meta": {
+            "title": "About memoWikis",
+            "description": "Learn more about memoWikis – the platform that combines wiki and learning tools."
+        }
+    },
+    "wikisPage": {
+        "title": "Discover Wikis",
+        "subtitle": "Public wikis on memoWikis",
+        "noWikis": "No public wikis available yet.",
+        "questions": "Questions",
+        "pages": "Pages",
+        "by": "by",
+        "meta": {
+            "title": "Wikis – memoWikis",
+            "description": "Discover public wikis on memoWikis."
+        }
     }
 }

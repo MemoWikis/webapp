@@ -271,8 +271,9 @@ watch(locale, () => {
 </script>
 
 <template>
-	<HeaderGuest v-if="!userStore.isLoggedIn" />
-	<HeaderMain :site="siteType" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
+	<HeaderNavigation />
+	<HeaderMain v-if="siteType === SiteType.Page || siteType === SiteType.Question" :site="siteType"
+		:question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 	<SideSheet :footer-pages="footerPages" />
 
 	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen }">
@@ -287,14 +288,14 @@ watch(locale, () => {
 
 			<NuxtLayout>
 				<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-					@set-breadcrumb="setBreadcrumb" :site="siteType"
-					:class="{ 'window-loading': !windowLoaded }" />
+					@set-breadcrumb="setBreadcrumb" :site="siteType" :class="{ 'window-loading': !windowLoaded }" />
 			</NuxtLayout>
 
 			<template #error="{ error }">
 				<NuxtLayout>
 					<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
-						:error="error as NuxtError<unknown>" :in-error-boundary="true" @clear-error="clearErrorAndStatusCode" />
+						:error="error as NuxtError<unknown>" :in-error-boundary="true"
+						@clear-error="clearErrorAndStatusCode" />
 					<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages" :site="SiteType.Error" />
 				</NuxtLayout>
@@ -302,8 +303,10 @@ watch(locale, () => {
 		</NuxtErrorBoundary>
 	</div>
 
-	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
-	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
+	<FooterGlobalLicense :site="siteType" :question-page-is-private="questionPageData?.isPrivate"
+		v-show="!modalIsOpen" />
+	<Footer :footer-pages="footerPages" v-if="footerPages" :site="siteType"
+		:question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 	<ClientOnly>
 		<LazyUserLoginModal v-if="!userStore.isLoggedIn" />
 		<LazyLoading />
