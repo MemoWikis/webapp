@@ -37,12 +37,13 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.SolutionType).CustomType<SolutionType>();
         Map(x => x.SolutionMetadataJson).CustomSqlType("VARCHAR(7000)").Length(7000);
 
-        HasMany(x => x.References).Cascade.AllDeleteOrphan();
+        HasMany(x => x.References).Cascade.AllDeleteOrphan().BatchSize(500);
         HasManyToMany(x => x.Pages)
             .Table("pages_to_questions")
             .ParentKeyColumn("Question_id")
             .ChildKeyColumn("Page_id")
-            .Cascade.SaveUpdate();
+            .Cascade.SaveUpdate()
+            .BatchSize(500);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

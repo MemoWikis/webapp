@@ -30,18 +30,19 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
 
     public IList<Question> GetAllEager()
     {
-        var questions = _session.QueryOver<Question>().Future().ToList();
+        var questions = _session.QueryOver<Question>().List();
 
-        _session.QueryOver<Question>()
-            .Fetch(SelectMode.Fetch, x => x.Pages)
-            .Future();
+        // With BatchSize(500) on QuestionMap, NHibernate batches the initialization:
+        // instead of N individual queries, it fires ceil(N/500) batch queries.
+        foreach (var question in questions)
+        {
+            NHibernateUtil.Initialize(question.Pages);
+        }
 
-        _session.QueryOver<Question>()
-            .Fetch(SelectMode.Fetch, x => x.References)
-            .Future();
-
-        // Creator.Id is available on NHibernate proxy without initialization (no extra queries needed)
-        // References and Pages are batch-loaded via the future queries above
+        foreach (var question in questions)
+        {
+            NHibernateUtil.Initialize(question.References);
+        }
 
         return questions;
     }
