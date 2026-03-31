@@ -37,6 +37,7 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
                 id: id,
                 hasParents: false,
                 imgUrl: imgUrl,
+                childrenCount: 0,
             })
         } else {
             wikis.value = [
@@ -45,6 +46,7 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
                     id: id,
                     hasParents: false,
                     imgUrl: imgUrl,
+                    childrenCount: 0,
                 },
             ]
         }
@@ -105,17 +107,23 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
 
     const sharedPages = ref<SideSheetPage[]>([])
 
-    const expandedPages = ref<Set<number>>(new Set())
+    const expandedPages = ref<Map<string, Set<number>>>(new Map())
     const childrenMap = ref<Map<number, SideSheetChildPage[]>>(new Map())
 
-    const toggleExpanded = (pageId: number) => {
-        const newSet = new Set(expandedPages.value)
-        if (newSet.has(pageId)) {
-            newSet.delete(pageId)
+    const isExpanded = (section: string, pageId: number) => {
+        return expandedPages.value.get(section)?.has(pageId) ?? false
+    }
+
+    const toggleExpanded = (section: string, pageId: number) => {
+        const newMap = new Map(expandedPages.value)
+        const sectionSet = new Set(newMap.get(section) ?? [])
+        if (sectionSet.has(pageId)) {
+            sectionSet.delete(pageId)
         } else {
-            newSet.add(pageId)
+            sectionSet.add(pageId)
         }
-        expandedPages.value = newSet
+        newMap.set(section, sectionSet)
+        expandedPages.value = newMap
     }
 
     const setChildren = (pageId: number, children: SideSheetChildPage[]) => {
@@ -133,6 +141,7 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
         sharedPages,
         expandedPages,
         childrenMap,
+        isExpanded,
         toggleExpanded,
         setChildren,
         addToFavoriteWikis,

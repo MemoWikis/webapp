@@ -26,7 +26,7 @@
     .header,
     .content,
     .footer {
-        padding: 0 20px;
+        padding: 0 12px;
     }
 
     .header {
@@ -124,7 +124,7 @@
             align-items: center;
             justify-content: space-between;
             border-radius: 4px;
-            padding: 2px 16px;
+            padding: 2px 8px;
             background: @memo-grey-lightest;
             color: @memo-grey-dark;
             text-overflow: ellipsis;
@@ -145,10 +145,17 @@
                 color: @memo-grey-light;
                 padding-right: 6px;
                 font-size: 12px;
+                opacity: 0;
+                transition: opacity 0.15s ease;
 
                 &:active {
                     cursor: grabbing;
                 }
+            }
+
+            .drag-handle-space {
+                width: 14px;
+                flex-shrink: 0;
             }
 
             .expand-toggle {
@@ -252,6 +259,10 @@
 
             &:hover {
                 .content-item-options {
+                    opacity: 1;
+                }
+
+                .drag-handle {
                     opacity: 1;
                 }
             }
