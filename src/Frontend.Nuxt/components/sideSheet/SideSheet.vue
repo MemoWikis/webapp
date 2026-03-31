@@ -79,19 +79,31 @@ interface GetWikisResponse {
     id: number
     name: string
     hasParents: boolean
+    imgUrl: string
 }
 
 interface GetPageResponse {
     id: number
     name: string
+    imgUrl: string
 }
 
 const init = async () => {
     sideSheetStore.wikis = await $api<GetWikisResponse[]>('/apiVue/SideSheet/GetWikis')
     sideSheetStore.favorites = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetFavorites')
-    sideSheetStore.recentPages = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetRecentPages')
+    sideSheetStore.recentPagesCount = 15
+    sideSheetStore.recentPages = await $api<GetPageResponse[]>(`/apiVue/SideSheet/GetRecentPages?count=${sideSheetStore.recentPagesCount}`)
     sideSheetStore.sharedPages = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetSharedPages')
 }
+
+const loadMoreRecentPages = async () => {
+    sideSheetStore.recentPagesCount += 15
+    sideSheetStore.recentPages = await $api<GetPageResponse[]>(`/apiVue/SideSheet/GetRecentPages?count=${sideSheetStore.recentPagesCount}`)
+}
+
+const hasMoreRecentPages = computed(() => {
+    return sideSheetStore.recentPages.length >= sideSheetStore.recentPagesCount && sideSheetStore.recentPagesCount < 100
+})
 
 onBeforeMount(async () => {
     if (userStore.isLoggedIn) {
@@ -327,6 +339,47 @@ onMounted(() => {
 const hoverWikiButton = ref(false)
 const hoverFavoritesButton = ref(false)
 
+const draggedFavoriteIndex = ref<number | null>(null)
+const dragOverFavoriteIndex = ref<number | null>(null)
+
+const handleFavoriteDragStart = (index: number) => {
+    draggedFavoriteIndex.value = index
+}
+
+const handleFavoriteDragOver = (event: DragEvent, index: number) => {
+    event.preventDefault()
+    dragOverFavoriteIndex.value = index
+}
+
+const handleFavoriteDrop = async (index: number) => {
+    if (draggedFavoriteIndex.value === null || draggedFavoriteIndex.value === index) {
+        draggedFavoriteIndex.value = null
+        dragOverFavoriteIndex.value = null
+        return
+    }
+
+    const items = [...sideSheetStore.favorites]
+    const [moved] = items.splice(draggedFavoriteIndex.value, 1)
+    items.splice(index, 0, moved)
+    sideSheetStore.favorites = items
+
+    draggedFavoriteIndex.value = null
+    dragOverFavoriteIndex.value = null
+
+    const orderedIds = items.map(f => f.id)
+    await $api('/apiVue/SideSheet/ReorderFavorites', {
+        method: 'POST',
+        body: orderedIds,
+        mode: 'cors',
+        credentials: 'include',
+    })
+}
+
+const handleFavoriteDragEnd = () => {
+    draggedFavoriteIndex.value = null
+    dragOverFavoriteIndex.value = null
+}
+
 const handleClick = (key?: string) => {
     if (collapsed.value)
         sideSheetStore.showSideSheet = !sideSheetStore.showSideSheet
@@ -395,7 +448,8 @@ const handleClick = (key?: string) => {
                                     <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)"
                                         :class="{ 'is-here': wiki.id === pageStore.id }">
                                         <div class="link">
-                                            {{ wiki.name }}
+                                            <img :src="wiki.imgUrl" class="sidesheet-thumb" />
+                                            <span class="link-text">{{ wiki.name }}</span>
                                         </div>
                                     </NuxtLink>
 
@@ -449,11 +503,22 @@ const handleClick = (key?: string) => {
                     <template #content v-if="!collapsed">
                         <Transition name="collapse">
                             <div v-if="showFavorites">
-                                <div v-for="favorite in sideSheetStore.favorites" class="content-item">
+                                <div v-for="(favorite, index) in sideSheetStore.favorites"
+                                    class="content-item"
+                                    :class="{ 'drag-over': dragOverFavoriteIndex === index }"
+                                    draggable="true"
+                                    @dragstart="handleFavoriteDragStart(index)"
+                                    @dragover="handleFavoriteDragOver($event, index)"
+                                    @drop="handleFavoriteDrop(index)"
+                                    @dragend="handleFavoriteDragEnd">
+                                    <div class="drag-handle">
+                                        <font-awesome-icon :icon="['fas', 'grip-vertical']" />
+                                    </div>
                                     <NuxtLink :to="$urlHelper.getPageUrl(favorite.name, favorite.id)"
                                         :class="{ 'is-here': favorite.id === pageStore.id }">
                                         <div class="link">
-                                            {{ favorite.name }}
+                                            <img :src="favorite.imgUrl" class="sidesheet-thumb" />
+                                            <span class="link-text">{{ favorite.name }}</span>
                                         </div>
                                     </NuxtLink>
                                     <div class="content-item-options" @click="removeFromFavorites(favorite.id)">
@@ -496,7 +561,8 @@ const handleClick = (key?: string) => {
                                     <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)"
                                         :class="{ 'is-here': page.id === pageStore.id }">
                                         <div class="link">
-                                            {{ page.name }}
+                                            <img :src="page.imgUrl" class="sidesheet-thumb" />
+                                            <span class="link-text">{{ page.name }}</span>
                                         </div>
                                     </NuxtLink>
                                 </div>
@@ -530,9 +596,13 @@ const handleClick = (key?: string) => {
                                     <NuxtLink :to="$urlHelper.getPageUrl(recent.name, recent.id)"
                                         :class="{ 'is-here': recent.id === pageStore.id }">
                                         <div class="link">
-                                            {{ recent.name }}
+                                            <img :src="recent.imgUrl" class="sidesheet-thumb" />
+                                            <span class="link-text">{{ recent.name }}</span>
                                         </div>
                                     </NuxtLink>
+                                </div>
+                                <div v-if="hasMoreRecentPages" class="load-more" @click="loadMoreRecentPages">
+                                    {{ t('sideSheet.loadMore') }}
                                 </div>
                             </div>
                         </Transition>
@@ -717,6 +787,18 @@ const handleClick = (key?: string) => {
     color: @memo-grey-dark;
     font-style: italic;
     font-size: 14px;
+}
+
+.load-more {
+    padding: 6px 16px;
+    color: @memo-blue-link;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 </style>
 

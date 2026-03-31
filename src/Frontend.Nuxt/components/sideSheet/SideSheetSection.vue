@@ -132,7 +132,24 @@
             white-space: nowrap;
             user-select: none;
             padding-right: 8px;
-            height: 26px;
+            min-height: 32px;
+
+            &.drag-over {
+                border-top: 2px solid @memo-blue;
+            }
+
+            .drag-handle {
+                display: flex;
+                align-items: center;
+                cursor: grab;
+                color: @memo-grey-light;
+                padding-right: 6px;
+                font-size: 12px;
+
+                &:active {
+                    cursor: grabbing;
+                }
+            }
 
             &:hover {
                 filter: brightness(0.95);
@@ -150,10 +167,27 @@
                 max-width: 100%;
 
                 .link {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
                     text-overflow: ellipsis;
                     overflow: hidden;
                     white-space: nowrap;
                     color: @memo-grey-dark;
+
+                    .sidesheet-thumb {
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 4px;
+                        object-fit: cover;
+                        flex-shrink: 0;
+                    }
+
+                    .link-text {
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        white-space: nowrap;
+                    }
 
                     &:hover {
                         color: @memo-grey-darker;

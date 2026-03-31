@@ -263,7 +263,7 @@ public class PageViewRepo(
             WHERE user_id = :userId AND Page_id IS NOT NULL
             GROUP BY Page_id
             ORDER BY MAX(DateCreated) DESC
-            LIMIT 5");
+            LIMIT 100");
 
         query.SetParameter("userId", userId);
 

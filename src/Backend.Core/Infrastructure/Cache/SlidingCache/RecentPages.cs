@@ -1,7 +1,7 @@
 ﻿public class RecentPages()
 {
     public readonly Queue<int> PagesQueue = new Queue<int>();
-    private readonly int maxSize = 5;
+    private readonly int maxSize = 100;
 
     public RecentPages(int userId, PageViewRepo pageViewRepo) : this()
     {
