@@ -195,6 +195,7 @@ public class UserWritingRepo(
             user.FollowerCount = userCacheItem.FollowerCount;
             user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
             user.FavoriteIds = string.Join(",", userCacheItem.FavoriteIds.Distinct());
+            user.WikiOrder = userCacheItem.WikiOrder.Any() ? string.Join(",", userCacheItem.WikiOrder.Distinct()) : null;
             user.UiLanguage = userCacheItem.UiLanguage;
 
             Update(user);

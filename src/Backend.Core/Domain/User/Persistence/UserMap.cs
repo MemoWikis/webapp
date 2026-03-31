@@ -55,6 +55,7 @@ public class UserMap : ClassMap<User>
         Map(x => x.RecentlyUsedRelationTargetPages);
 
         Map(x => x.FavoriteIds);
+        Map(x => x.WikiOrder);
         Map(x => x.UiLanguage);
 
         Map(x => x.SubscriptionTokensBalance);

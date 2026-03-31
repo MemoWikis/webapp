@@ -80,12 +80,14 @@ interface GetWikisResponse {
     name: string
     hasParents: boolean
     imgUrl: string
+    childrenCount: number
 }
 
 interface GetPageResponse {
     id: number
     name: string
     imgUrl: string
+    childrenCount?: number
 }
 
 const init = async () => {
@@ -96,13 +98,35 @@ const init = async () => {
     sideSheetStore.sharedPages = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetSharedPages')
 }
 
+const recentPagesDisplayCount = 5
+const recentPagesExpandedCookie = useCookie<boolean>('sideSheetRecentsExpanded')
+const recentPagesExpanded = ref(recentPagesExpandedCookie.value ?? false)
+watch(recentPagesExpanded, (val) => {
+    recentPagesExpandedCookie.value = val
+})
+
+const displayedRecentPages = computed(() => {
+    if (recentPagesExpanded.value) {
+        return sideSheetStore.recentPages
+    }
+    return sideSheetStore.recentPages.slice(0, recentPagesDisplayCount)
+})
+
+const hasHiddenRecentPages = computed(() => {
+    return !recentPagesExpanded.value && sideSheetStore.recentPages.length > recentPagesDisplayCount
+})
+
+const expandRecentPages = () => {
+    recentPagesExpanded.value = true
+}
+
 const loadMoreRecentPages = async () => {
     sideSheetStore.recentPagesCount += 15
     sideSheetStore.recentPages = await $api<GetPageResponse[]>(`/apiVue/SideSheet/GetRecentPages?count=${sideSheetStore.recentPagesCount}`)
 }
 
 const hasMoreRecentPages = computed(() => {
-    return sideSheetStore.recentPages.length >= sideSheetStore.recentPagesCount && sideSheetStore.recentPagesCount < 100
+    return recentPagesExpanded.value && sideSheetStore.recentPages.length >= sideSheetStore.recentPagesCount && sideSheetStore.recentPagesCount < 100
 })
 
 onBeforeMount(async () => {
@@ -149,7 +173,11 @@ watch(() => userStore.isLoggedIn, (isLoggedIn) => {
 
 const showWikis = ref(true)
 const showFavorites = ref(true)
-const showRecents = ref(true)
+const showRecentsCookie = useCookie<boolean>('showSideSheetRecents')
+const showRecents = ref(showRecentsCookie.value ?? false)
+watch(showRecents, (val) => {
+    showRecentsCookie.value = val
+})
 const showShared = ref(true)
 const { $urlHelper } = useNuxtApp()
 
@@ -231,16 +259,16 @@ const addToFavorites = async (name: string, id: number) => {
         credentials: 'include',
     })
 
-    if (result.success)
-        sideSheetStore.addToFavoritePages(name, id)
-    else if (result.messageKey)
+    if (result.success) {
+        sideSheetStore.favorites = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetFavorites')
+    } else if (result.messageKey) {
         snackbarStore.showSnackbar({
             text: {
                 message: t(result.messageKey),
             },
             type: 'error'
         })
-
+    }
 }
 
 const removeFromFavorites = async (id: number) => {
@@ -339,6 +367,47 @@ onMounted(() => {
 const hoverWikiButton = ref(false)
 const hoverFavoritesButton = ref(false)
 
+const draggedWikiIndex = ref<number | null>(null)
+const dragOverWikiIndex = ref<number | null>(null)
+
+const handleWikiDragStart = (index: number) => {
+    draggedWikiIndex.value = index
+}
+
+const handleWikiDragOver = (event: DragEvent, index: number) => {
+    event.preventDefault()
+    dragOverWikiIndex.value = index
+}
+
+const handleWikiDrop = async (index: number) => {
+    if (draggedWikiIndex.value === null || draggedWikiIndex.value === index) {
+        draggedWikiIndex.value = null
+        dragOverWikiIndex.value = null
+        return
+    }
+
+    const items = [...sideSheetStore.wikis]
+    const [moved] = items.splice(draggedWikiIndex.value, 1)
+    items.splice(index, 0, moved)
+    sideSheetStore.wikis = items
+
+    draggedWikiIndex.value = null
+    dragOverWikiIndex.value = null
+
+    const orderedIds = items.map(w => w.id)
+    await $api('/apiVue/SideSheet/ReorderWikis', {
+        method: 'POST',
+        body: orderedIds,
+        mode: 'cors',
+        credentials: 'include',
+    })
+}
+
+const handleWikiDragEnd = () => {
+    draggedWikiIndex.value = null
+    dragOverWikiIndex.value = null
+}
+
 const draggedFavoriteIndex = ref<number | null>(null)
 const dragOverFavoriteIndex = ref<number | null>(null)
 
@@ -378,6 +447,20 @@ const handleFavoriteDrop = async (index: number) => {
 const handleFavoriteDragEnd = () => {
     draggedFavoriteIndex.value = null
     dragOverFavoriteIndex.value = null
+}
+
+const toggleChildPages = async (pageId: number) => {
+    sideSheetStore.toggleExpanded(pageId)
+
+    if (sideSheetStore.expandedPages.has(pageId) && !sideSheetStore.childrenMap.has(pageId)) {
+        const children = await $api<GetPageResponse[]>(`/apiVue/SideSheet/GetChildPages/${pageId}`)
+        sideSheetStore.setChildren(pageId, children.map(c => ({
+            id: c.id,
+            name: c.name,
+            imgUrl: c.imgUrl,
+            childrenCount: c.childrenCount ?? 0,
+        })))
+    }
 }
 
 const handleClick = (key?: string) => {
@@ -444,32 +527,51 @@ const handleClick = (key?: string) => {
                     <template #content v-if="!collapsed">
                         <Transition name="collapse">
                             <div v-if="showWikis">
-                                <div v-for="wiki in sideSheetStore.wikis" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)"
-                                        :class="{ 'is-here': wiki.id === pageStore.id }">
-                                        <div class="link">
-                                            <img :src="wiki.imgUrl" class="sidesheet-thumb" />
-                                            <span class="link-text">{{ wiki.name }}</span>
+                                <div v-for="(wiki, index) in sideSheetStore.wikis" :key="wiki.id">
+                                    <div class="content-item"
+                                        :class="{ 'drag-over': dragOverWikiIndex === index }"
+                                        draggable="true"
+                                        @dragstart="handleWikiDragStart(index)"
+                                        @dragover="handleWikiDragOver($event, index)"
+                                        @drop="handleWikiDrop(index)"
+                                        @dragend="handleWikiDragEnd">
+                                        <div class="drag-handle">
+                                            <font-awesome-icon :icon="['fas', 'grip-vertical']" />
                                         </div>
-                                    </NuxtLink>
-
-                                    <VDropdown :aria-id="`${ariaId}-w-${wiki.id}`" :distance="0">
-                                        <div class="content-item-options">
-                                            <font-awesome-icon :icon="['fas', 'ellipsis']" />
+                                        <div v-if="wiki.childrenCount > 0" class="expand-toggle" @click.stop="toggleChildPages(wiki.id)">
+                                            <font-awesome-icon :icon="sideSheetStore.expandedPages.has(wiki.id) ? ['fas', 'angle-down'] : ['fas', 'angle-right']" />
                                         </div>
-                                        <template #popper="{ hide }">
-                                            <div class="sidesheet-wikioptions" @mouseenter="cancelMouseLeave">
-                                                <p class="breadcrumb-dropdown dropdown-row"
-                                                    @click="deletePageStore.openModal(wiki.id, false); hide()">
-                                                    {{ t('sideSheet.deleteWiki') }}
-                                                </p>
-                                                <p v-if="wiki.hasParents" class="breadcrumb-dropdown dropdown-row"
-                                                    @click="convertStore.openModal(wiki.id)">
-                                                    {{ t('sideSheet.convertToPage') }}
-                                                </p>
+                                        <div v-else class="expand-toggle-space" />
+                                        <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)"
+                                            :class="{ 'is-here': wiki.id === pageStore.id }">
+                                            <div class="link">
+                                                <img :src="wiki.imgUrl" class="sidesheet-thumb" />
+                                                <span class="link-text">{{ wiki.name }}</span>
                                             </div>
-                                        </template>
-                                    </VDropdown>
+                                        </NuxtLink>
+
+                                        <VDropdown :aria-id="`${ariaId}-w-${wiki.id}`" :distance="0">
+                                            <div class="content-item-options">
+                                                <font-awesome-icon :icon="['fas', 'ellipsis']" />
+                                            </div>
+                                            <template #popper="{ hide }">
+                                                <div class="sidesheet-wikioptions" @mouseenter="cancelMouseLeave">
+                                                    <p class="breadcrumb-dropdown dropdown-row"
+                                                        @click="deletePageStore.openModal(wiki.id, false); hide()">
+                                                        {{ t('sideSheet.deleteWiki') }}
+                                                    </p>
+                                                    <p v-if="wiki.hasParents" class="breadcrumb-dropdown dropdown-row"
+                                                        @click="convertStore.openModal(wiki.id)">
+                                                        {{ t('sideSheet.convertToPage') }}
+                                                    </p>
+                                                </div>
+                                            </template>
+                                        </VDropdown>
+                                    </div>
+                                    <SideSheetChildren
+                                        v-if="sideSheetStore.expandedPages.has(wiki.id)"
+                                        :page-id="wiki.id"
+                                        :depth="1" />
                                 </div>
                                 <div v-if="sideSheetStore.wikis.length === 0" class="empty-pages">
                                     {{ userStore.isLoggedIn ? t('sideSheet.noWikis') : t('sideSheet.noWikisNotLoggedIn') }}
@@ -504,31 +606,41 @@ const handleClick = (key?: string) => {
                         <Transition name="collapse">
                             <div v-if="showFavorites">
                                 <div v-for="(favorite, index) in sideSheetStore.favorites"
-                                    class="content-item"
-                                    :class="{ 'drag-over': dragOverFavoriteIndex === index }"
-                                    draggable="true"
-                                    @dragstart="handleFavoriteDragStart(index)"
-                                    @dragover="handleFavoriteDragOver($event, index)"
-                                    @drop="handleFavoriteDrop(index)"
-                                    @dragend="handleFavoriteDragEnd">
-                                    <div class="drag-handle">
-                                        <font-awesome-icon :icon="['fas', 'grip-vertical']" />
-                                    </div>
-                                    <NuxtLink :to="$urlHelper.getPageUrl(favorite.name, favorite.id)"
-                                        :class="{ 'is-here': favorite.id === pageStore.id }">
-                                        <div class="link">
-                                            <img :src="favorite.imgUrl" class="sidesheet-thumb" />
-                                            <span class="link-text">{{ favorite.name }}</span>
+                                    :key="favorite.id">
+                                    <div class="content-item"
+                                        :class="{ 'drag-over': dragOverFavoriteIndex === index }"
+                                        draggable="true"
+                                        @dragstart="handleFavoriteDragStart(index)"
+                                        @dragover="handleFavoriteDragOver($event, index)"
+                                        @drop="handleFavoriteDrop(index)"
+                                        @dragend="handleFavoriteDragEnd">
+                                        <div class="drag-handle">
+                                            <font-awesome-icon :icon="['fas', 'grip-vertical']" />
                                         </div>
-                                    </NuxtLink>
-                                    <div class="content-item-options" @click="removeFromFavorites(favorite.id)">
-                                        <font-awesome-layers>
-                                            <font-awesome-icon :icon="['far', 'star']" transform="left-1" />
-                                            <font-awesome-icon :icon="['fas', 'slash']" transform="down-2 left-2"
-                                                class="slash-bg" />
-                                            <font-awesome-icon :icon="['fas', 'slash']" transform="left-2 shrink-2" />
-                                        </font-awesome-layers>
+                                        <div v-if="favorite.childrenCount && favorite.childrenCount > 0" class="expand-toggle" @click.stop="toggleChildPages(favorite.id)">
+                                            <font-awesome-icon :icon="sideSheetStore.expandedPages.has(favorite.id) ? ['fas', 'angle-down'] : ['fas', 'angle-right']" />
+                                        </div>
+                                        <div v-else class="expand-toggle-space" />
+                                        <NuxtLink :to="$urlHelper.getPageUrl(favorite.name, favorite.id)"
+                                            :class="{ 'is-here': favorite.id === pageStore.id }">
+                                            <div class="link">
+                                                <img :src="favorite.imgUrl" class="sidesheet-thumb" />
+                                                <span class="link-text">{{ favorite.name }}</span>
+                                            </div>
+                                        </NuxtLink>
+                                        <div class="content-item-options" @click="removeFromFavorites(favorite.id)">
+                                            <font-awesome-layers>
+                                                <font-awesome-icon :icon="['far', 'star']" transform="left-1" />
+                                                <font-awesome-icon :icon="['fas', 'slash']" transform="down-2 left-2"
+                                                    class="slash-bg" />
+                                                <font-awesome-icon :icon="['fas', 'slash']" transform="left-2 shrink-2" />
+                                            </font-awesome-layers>
+                                        </div>
                                     </div>
+                                    <SideSheetChildren
+                                        v-if="sideSheetStore.expandedPages.has(favorite.id)"
+                                        :page-id="favorite.id"
+                                        :depth="1" />
                                 </div>
                                 <div v-if="sideSheetStore.favorites.length === 0" class="empty-pages">
                                     {{ userStore.isLoggedIn ? t('sideSheet.noFavorites') : t('sideSheet.noFavoritesNotLoggedIn') }}
@@ -557,14 +669,24 @@ const handleClick = (key?: string) => {
                     <template #content v-if="!collapsed">
                         <Transition name="collapse">
                             <div v-if="showShared">
-                                <div v-for="page in sideSheetStore.sharedPages" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)"
-                                        :class="{ 'is-here': page.id === pageStore.id }">
-                                        <div class="link">
-                                            <img :src="page.imgUrl" class="sidesheet-thumb" />
-                                            <span class="link-text">{{ page.name }}</span>
+                                <div v-for="page in sideSheetStore.sharedPages" :key="page.id">
+                                    <div class="content-item">
+                                        <div v-if="page.childrenCount && page.childrenCount > 0" class="expand-toggle" @click.stop="toggleChildPages(page.id)">
+                                            <font-awesome-icon :icon="sideSheetStore.expandedPages.has(page.id) ? ['fas', 'angle-down'] : ['fas', 'angle-right']" />
                                         </div>
-                                    </NuxtLink>
+                                        <div v-else class="expand-toggle-space" />
+                                        <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)"
+                                            :class="{ 'is-here': page.id === pageStore.id }">
+                                            <div class="link">
+                                                <img :src="page.imgUrl" class="sidesheet-thumb" />
+                                                <span class="link-text">{{ page.name }}</span>
+                                            </div>
+                                        </NuxtLink>
+                                    </div>
+                                    <SideSheetChildren
+                                        v-if="sideSheetStore.expandedPages.has(page.id)"
+                                        :page-id="page.id"
+                                        :depth="1" />
                                 </div>
                                 <div v-if="sideSheetStore.sharedPages.length === 0" class="empty-pages">
                                     {{ t('sideSheet.noSharedPages') }}
@@ -592,14 +714,27 @@ const handleClick = (key?: string) => {
                     <template #content v-if="!collapsed">
                         <Transition name="collapse">
                             <div v-if="showRecents">
-                                <div v-for="recent in sideSheetStore.recentPages" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(recent.name, recent.id)"
-                                        :class="{ 'is-here': recent.id === pageStore.id }">
-                                        <div class="link">
-                                            <img :src="recent.imgUrl" class="sidesheet-thumb" />
-                                            <span class="link-text">{{ recent.name }}</span>
+                                <div v-for="recent in displayedRecentPages" :key="recent.id">
+                                    <div class="content-item">
+                                        <div v-if="recent.childrenCount && recent.childrenCount > 0" class="expand-toggle" @click.stop="toggleChildPages(recent.id)">
+                                            <font-awesome-icon :icon="sideSheetStore.expandedPages.has(recent.id) ? ['fas', 'angle-down'] : ['fas', 'angle-right']" />
                                         </div>
-                                    </NuxtLink>
+                                        <div v-else class="expand-toggle-space" />
+                                        <NuxtLink :to="$urlHelper.getPageUrl(recent.name, recent.id)"
+                                            :class="{ 'is-here': recent.id === pageStore.id }">
+                                            <div class="link">
+                                                <img :src="recent.imgUrl" class="sidesheet-thumb" />
+                                                <span class="link-text">{{ recent.name }}</span>
+                                            </div>
+                                        </NuxtLink>
+                                    </div>
+                                    <SideSheetChildren
+                                        v-if="sideSheetStore.expandedPages.has(recent.id)"
+                                        :page-id="recent.id"
+                                        :depth="1" />
+                                </div>
+                                <div v-if="hasHiddenRecentPages" class="load-more" @click="expandRecentPages">
+                                    <span class="ellipsis-dots">···</span> {{ t('sideSheet.showAll') }}
                                 </div>
                                 <div v-if="hasMoreRecentPages" class="load-more" @click="loadMoreRecentPages">
                                     {{ t('sideSheet.loadMore') }}
@@ -795,6 +930,17 @@ const handleClick = (key?: string) => {
     font-size: 13px;
     cursor: pointer;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    .ellipsis-dots {
+        font-size: 18px;
+        line-height: 1;
+        letter-spacing: 2px;
+        color: @memo-grey-dark;
+    }
 
     &:hover {
         text-decoration: underline;

@@ -54,6 +54,7 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string GoogleId { get; set; }
 
     public virtual string? FavoriteIds { get; set; }
+    public virtual string? WikiOrder { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
 
     /// <summary>

@@ -5,13 +5,13 @@
 <template>
     <div class="sidesheet-section">
         <div class="header">
-            <slot name="header"></slot>
+            <slot name="header" />
         </div>
         <div class="content">
-            <slot name="content"></slot>
+            <slot name="content" />
         </div>
         <div class="footer">
-            <slot name="footer"></slot>
+            <slot name="footer" />
         </div>
     </div>
 </template>
@@ -149,6 +149,28 @@
                 &:active {
                     cursor: grabbing;
                 }
+            }
+
+            .expand-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                width: 16px;
+                flex-shrink: 0;
+                color: @memo-grey-dark;
+                font-size: 12px;
+                margin-right: 4px;
+
+                &:hover {
+                    color: @memo-blue-link;
+                }
+            }
+
+            .expand-toggle-space {
+                width: 16px;
+                flex-shrink: 0;
+                margin-right: 4px;
             }
 
             &:hover {

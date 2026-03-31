@@ -42,6 +42,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
     public List<int> FavoriteIds { get; set; } = new List<int>();
     public List<PageCacheItem> Favorites => EntityCache.GetPages(FavoriteIds);
+    public List<int> WikiOrder { get; set; } = new List<int>();
     public RecentPages? RecentPages { get; set; }
     public List<int> SharedPageIds { get; set; } = new List<int>();
     public List<int> VisibleSharedPageIds { get; set; } = new List<int>();
@@ -149,6 +150,9 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
         if (!String.IsNullOrEmpty(user.FavoriteIds))
             FavoriteIds = user.FavoriteIds.Split(',').Select(int.Parse).ToList();
+
+        if (!String.IsNullOrEmpty(user.WikiOrder))
+            WikiOrder = user.WikiOrder.Split(',').Select(int.Parse).ToList();
     }
 
     public void Populate(UserCacheItem user)
@@ -182,6 +186,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         Rank = user.ReputationPos;
 
         FavoriteIds = user.FavoriteIds;
+        WikiOrder = user.WikiOrder;
 
         UiLanguage = user.UiLanguage;
         AboutMeText = user.AboutMeText;

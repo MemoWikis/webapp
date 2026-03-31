@@ -2,7 +2,8 @@
     SessionUser _sessionUser,
     UserWritingRepo _userWritingRepo,
     ExtendedUserCache _extendedUserCache,
-    IHttpContextAccessor _httpContextAccessor) : ApiBaseController
+    IHttpContextAccessor _httpContextAccessor,
+    PermissionCheck _permissionCheck) : ApiBaseController
 {
     // Section: Wikis
 
@@ -18,13 +19,24 @@
                 w.Id,
                 w.Name,
                 w.Parents().Any(),
-                new PageImageSettings(w.Id, _httpContextAccessor).GetUrl(50, isSquare: true).Url))
+                new PageImageSettings(w.Id, _httpContextAccessor).GetUrl(50, isSquare: true).Url,
+                w.VisibleChildrenCount(_permissionCheck, _sessionUser.UserId)))
             .ToList();
+
+        if (userCacheItem.WikiOrder.Any())
+        {
+            var orderMap = userCacheItem.WikiOrder
+                .Select((id, index) => new { id, index })
+                .ToDictionary(x => x.id, x => x.index);
+            wikis = wikis
+                .OrderBy(w => orderMap.TryGetValue(w.Id, out var idx) ? idx : int.MaxValue)
+                .ToList();
+        }
 
         return wikis;
     }
 
-    public readonly record struct WikiItem(int Id, string Name, bool HasParents, string ImgUrl);
+    public readonly record struct WikiItem(int Id, string Name, bool HasParents, string ImgUrl, int ChildrenCount);
 
     // Section: Favorites
 
@@ -39,13 +51,14 @@
             .Select(f => new FavoriteItem(
                 f.Id,
                 f.Name,
-                new PageImageSettings(f.Id, _httpContextAccessor).GetUrl(50, isSquare: true).Url))
+                new PageImageSettings(f.Id, _httpContextAccessor).GetUrl(50, isSquare: true).Url,
+                f.VisibleChildrenCount(_permissionCheck, _sessionUser.UserId)))
             .ToList();
 
         return favorites;
     }
 
-    public readonly record struct FavoriteItem(int Id, string Name, string ImgUrl);
+    public readonly record struct FavoriteItem(int Id, string Name, string ImgUrl, int ChildrenCount);
 
     [HttpPost]
     public AddToFavoriteResponse AddToFavorites([FromRoute] int id)
@@ -103,6 +116,45 @@
         return true;
     }
 
+    [HttpPost]
+    public bool ReorderWikis([FromBody] List<int> orderedIds)
+    {
+        if (_sessionUser == null || !_sessionUser.IsLoggedIn)
+            return false;
+
+        var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
+        var existingWikiIds = new HashSet<int>(userCacheItem.GetWikis().Select(w => w.Id));
+
+        if (orderedIds.Count != existingWikiIds.Count || !orderedIds.All(existingWikiIds.Contains))
+            return false;
+
+        userCacheItem.WikiOrder = orderedIds;
+        _userWritingRepo.Update(userCacheItem);
+
+        return true;
+    }
+
+    [HttpGet]
+    public IList<ChildPageItem> GetChildPages([FromRoute] int id)
+    {
+        var page = EntityCache.GetPage(id);
+        if (page == null)
+            return new List<ChildPageItem>();
+
+        var userId = _sessionUser.IsLoggedIn ? _sessionUser.UserId : 0;
+        var children = GraphService.VisibleChildren(id, _permissionCheck, userId);
+
+        return children
+            .Select(c => new ChildPageItem(
+                c.Id,
+                c.Name,
+                new PageImageSettings(c.Id, _httpContextAccessor).GetUrl(50, isSquare: true).Url,
+                c.VisibleChildrenCount(_permissionCheck, userId)))
+            .ToList();
+    }
+
+    public readonly record struct ChildPageItem(int Id, string Name, string ImgUrl, int ChildrenCount);
+
     // Section: Recent Pages
 
     [HttpGet]
@@ -117,13 +169,14 @@
             .Select(rp => new RecentPageItem(
                 rp.Name,
                 rp.Id,
-                new PageImageSettings(rp.Id, _httpContextAccessor).GetUrl(50, isSquare: true).Url))
+                new PageImageSettings(rp.Id, _httpContextAccessor).GetUrl(50, isSquare: true).Url,
+                rp.VisibleChildrenCount(_permissionCheck, _sessionUser.UserId)))
             .ToList();
 
         return recentPages;
     }
 
-    public readonly record struct RecentPageItem(string Name, int Id, string ImgUrl);
+    public readonly record struct RecentPageItem(string Name, int Id, string ImgUrl, int ChildrenCount);
 
     // Section: Shared Pages
 
@@ -140,9 +193,10 @@
             .Select(p => new SharedPageItem(
                 p.Name,
                 p.Id,
-                new PageImageSettings(p.Id, _httpContextAccessor).GetUrl(50, isSquare: true).Url))
+                new PageImageSettings(p.Id, _httpContextAccessor).GetUrl(50, isSquare: true).Url,
+                p.VisibleChildrenCount(_permissionCheck, _sessionUser.UserId)))
             .ToList();
     }
 
-    public readonly record struct SharedPageItem(string Name, int Id, string ImgUrl);
+    public readonly record struct SharedPageItem(string Name, int Id, string ImgUrl, int ChildrenCount);
 }
