@@ -171,6 +171,7 @@
         }
 
         pageCacheItem.Visibility = PageVisibility.Private;
+        EntityCache.AddOrUpdate(pageCacheItem);
         page.Visibility = PageVisibility.Private;
         pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Privatized);
 

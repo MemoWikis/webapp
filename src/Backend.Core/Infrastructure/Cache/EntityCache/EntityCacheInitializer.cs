@@ -103,6 +103,9 @@ public class EntityCacheInitializer(
 
         EntityCache.AddViewsLast30DaysToPages(allPageViews, pages);
         Log.Information("{Elapsed} - EntityCache PageViewsAddedToPages{CustomMessage}", _stopWatch.Elapsed, _customMessage);
+
+        PublicWikiCache.Initialize(pages);
+        Log.Information("{Elapsed} - EntityCache PublicWikiCacheInitialized{CustomMessage}", _stopWatch.Elapsed, _customMessage);
     }
 
     private IList<PageChange> LoadPageChangesFromMmapOrDatabase()

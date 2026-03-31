@@ -34,6 +34,7 @@
                     };
 
                 pageCacheItem.Visibility = PageVisibility.Public;
+                EntityCache.AddOrUpdate(pageCacheItem);
                 var page = pageRepository.GetById(request.id);
                 page.Visibility = PageVisibility.Public;
                 pageRepository.Update(page, _sessionUser.UserId,

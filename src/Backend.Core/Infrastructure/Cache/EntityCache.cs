@@ -333,6 +333,7 @@ public class EntityCache
     public static void AddOrUpdate(PageCacheItem pageCacheItem)
     {
         AddOrUpdate(Pages, pageCacheItem);
+        PublicWikiCache.UpdateIfRelevant(pageCacheItem);
     }
 
     public static void AddOrUpdate(ShareCacheItem shareCacheItem)
@@ -393,6 +394,7 @@ public class EntityCache
     public static void Remove(PageCacheItem page, int userId)
     {
         Remove(Pages, page);
+        PublicWikiCache.Remove(page.Id);
         var connectedQuestions = page.GetAggregatedQuestions(userId);
 
         foreach (var connectedQuestion in connectedQuestions)
