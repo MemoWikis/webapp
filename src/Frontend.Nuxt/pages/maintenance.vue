@@ -589,6 +589,16 @@ const loadMmapCacheStatus = async () => {
     mmapCacheStatusLoaded.value = true
 }
 
+watch(activeTab, (newTab) => {
+    if (newTab === 'cache' && !mmapCacheStatusLoaded.value) {
+        loadMmapCacheStatus()
+    }
+})
+
+if (activeTab.value === 'cache') {
+    loadMmapCacheStatus()
+}
+
 const clearStuckJobs = async () => {
     if (!isAdmin.value || !userStore.isAdmin || antiForgeryToken.value == undefined || antiForgeryToken.value.length < 0)
         throw createError({ statusCode: 404, statusMessage: 'Not Found' })
