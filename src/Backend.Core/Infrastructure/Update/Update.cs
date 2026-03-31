@@ -20,6 +20,7 @@ public class Update(
             .Add(288, () => UpdateToVs288.Run(_nhibernateSession))
             .Add(289, () => UpdateToVs289.Run(_nhibernateSession))
             .Add(290, () => UpdateToVs290.Run(_nhibernateSession))
+            .Add(291, () => UpdateToVs291.Run(_nhibernateSession))
             .Run();
     }
 }
