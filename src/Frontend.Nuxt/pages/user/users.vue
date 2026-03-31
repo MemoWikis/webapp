@@ -180,13 +180,13 @@ watch(selectedLanguages, () => {
 </script>
 
 <template>
-    <div class="main-content">
-        <div class="users-header">
-            <h1>{{ t('usersOverview.title') }}</h1>
-        </div>
+    <div class="users-page">
+        <div class="users-container">
+            <div class="users-header">
+                <h1>{{ t('usersOverview.title') }}</h1>
+            </div>
 
-        <div class="row content">
-            <div class="col-xs-12 col-sm-12 users-title">
+            <div class="users-title">
                 <div class="overline-s no-line" v-if="pageData && pageData.totalItems != null && pageData.totalItems <= 0 && searchTerm.length > 0">
                     {{ t('usersOverview.search.noResults', { term: searchTerm }) }}
                 </div>
@@ -198,7 +198,8 @@ watch(selectedLanguages, () => {
                     <template v-if="totalUserCount != null"> ({{ totalUserCount }})</template>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 users-options">
+
+            <div class="users-options">
                 <div class="search-section">
                     <div class="search-container">
                         <input type="text" v-model="searchTerm" class="search-input" :placeholder="t('usersOverview.search.placeholder')" />
@@ -212,18 +213,14 @@ watch(selectedLanguages, () => {
                 </div>
                 <div class="filter-options">
                     <div class="language-section">
-
                         <div class="language-dropdown">
                             <VDropdown :aria-id="ariaId" :distance="0">
                                 <div class="language-select">
                                     <div class="select-label">
                                         <font-awesome-icon icon="fa-solid fa-language" />
-                                        <div class="language-label">{{ t('usersOverview.contentLanguageLabel')
-                                        }}</div>
+                                        <div class="language-label">{{ t('usersOverview.contentLanguageLabel') }}</div>
                                     </div>
-
                                     <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
-
                                 </div>
 
                                 <template #popper>
@@ -284,66 +281,45 @@ watch(selectedLanguages, () => {
             </div>
 
             <template v-if="pageData">
-                <div class="row usercard-container">
-                    <TransitionGroup name="usercard">
-                        <UsersCard v-for="u in pageData.users" :user="u" :key="u.id" />
-                    </TransitionGroup>
-                </div>
+                <TransitionGroup name="usercard" tag="div" class="usercard-container">
+                    <UsersCard v-for="u in pageData.users" :user="u" :key="u.id" />
+                </TransitionGroup>
 
-                <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
+                <div class="empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
                     <div class="empty-page">
                         {{ t('usersOverview.search.noUserWithName', { term: searchTerm }) }}
                     </div>
                 </div>
 
-                <div class="col-xs-12" v-if="searchTerm.length === 0 && pageData.users.length > 0">
-                    <div class="pagination hidden-xs">
-                        <vue-awesome-paginate v-if="currentPage > 0 && totalUserCount != null && totalUserCount > 0" :total-items="totalUserCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true"
-                            :show-breakpoint-buttons="false">
-                            <template #first-page-button>
-                                <font-awesome-layers>
-                                    <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
-                                    <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
-                                </font-awesome-layers>
-                            </template>
-                            <template #prev-button>
-                                <font-awesome-icon :icon="['fas', 'chevron-left']" />
-                            </template>
-                            <template #next-button>
-                                <font-awesome-icon :icon="['fas', 'chevron-right']" />
-                            </template>
-                            <template #last-page-button>
-                                <font-awesome-layers>
-                                    <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
-                                    <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
-                                </font-awesome-layers>
-                            </template>
-                        </vue-awesome-paginate>
-                    </div>
-                    <div class="pagination hidden-sm hidden-md hidden-lg">
-                        <vue-awesome-paginate v-if="currentPage > 0 && userCount != null && userCount > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true"
-                            :show-breakpoint-buttons="false">
-                            <template #first-page-button>
-                                <font-awesome-layers>
-                                    <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
-                                    <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
-                                </font-awesome-layers>
-                            </template>
-                            <template #prev-button>
-                                <font-awesome-icon :icon="['fas', 'chevron-left']" />
-                            </template>
-                            <template #next-button>
-                                <font-awesome-icon :icon="['fas', 'chevron-right']" />
-                            </template>
-                            <template #last-page-button>
-                                <font-awesome-layers>
-                                    <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
-                                    <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
-                                </font-awesome-layers>
-                            </template>
-                        </vue-awesome-paginate>
-                    </div>
+                <div v-if="searchTerm.length === 0 && pageData.users.length > 0" class="users-pagination">
+                    <vue-awesome-paginate v-if="currentPage > 0 && totalUserCount != null && totalUserCount > 0"
+                        :total-items="totalUserCount"
+                        :items-per-page="20"
+                        :max-pages-shown="5"
+                        v-model="currentPage"
+                        :show-ending-buttons="true"
+                        :show-breakpoint-buttons="false">
+                        <template #first-page-button>
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                            </font-awesome-layers>
+                        </template>
+                        <template #prev-button>
+                            <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                        </template>
+                        <template #next-button>
+                            <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                        </template>
+                        <template #last-page-button>
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                                <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                            </font-awesome-layers>
+                        </template>
+                    </vue-awesome-paginate>
                 </div>
+
                 <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">
                     {{ t('usersOverview.search.limitedResults') }}
                 </div>
@@ -355,38 +331,57 @@ watch(selectedLanguages, () => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.users-page {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.users-container {
+    max-width: 1200px;
+    width: 100%;
+}
+
 .users-header {
-    height: 54px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+
+    h1 {
+        font-size: 28px;
+        font-weight: 600;
+        color: @memo-grey-darkest;
+        margin-bottom: 0;
+    }
 }
 
 .empty-page-container {
-    padding: 4px 12px;
+    margin-top: 16px;
 
     .empty-page {
         border: solid 1px @memo-grey-light;
         padding: 24px;
+        border-radius: 8px;
     }
 }
 
-
-.content {
-    padding-top: 30px;
-    padding-bottom: 30px;
-
-    .info-bar {
-        padding: 12px;
-        background: @memo-yellow;
-        margin-top: 24px;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-    }
+.info-bar {
+    padding: 12px;
+    background: @memo-yellow;
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-radius: 8px;
 }
 
 .users-title {
     min-height: 22px;
+    margin-bottom: 16px;
+}
+
+.users-pagination {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
 }
 
 .users-options {
@@ -410,6 +405,7 @@ watch(selectedLanguages, () => {
             display: flex;
             justify-content: flex-end;
             align-items: center;
+            position: relative;
 
             .search-input {
                 border-radius: 24px;
@@ -496,9 +492,10 @@ watch(selectedLanguages, () => {
 }
 
 .usercard-container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 0;
 }
 
 .orderby-dropdown {
