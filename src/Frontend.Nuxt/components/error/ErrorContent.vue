@@ -13,12 +13,21 @@ emit('setPage', SiteType.Error)
 
 const { t } = useI18n()
 
-onBeforeMount(() => {
-    if (props.error?.statusCode)
-        setErrorImage(props.error.statusCode)
-    if (props.error?.message)
-        description.value = props.error.message
+const getErrorImage = (statusCode?: number) => {
+    switch (statusCode) {
+        case ErrorCode.NotFound:
+        case ErrorCode.Unauthorized:
+            return '/Images/Error/memo-404_german_600.png'
+        case ErrorCode.Error:
+        default:
+            return '/Images/Error/memo-500_german_600.png'
+    }
+}
 
+const errorImgSrc = ref<string>(getErrorImage(props.error?.statusCode))
+const description = ref<string>(props.error?.message || t('errorContent.route.notFound'))
+
+onBeforeMount(() => {
     if (props.inErrorBoundary) {
         const router = useRouter()
 
@@ -27,24 +36,6 @@ onBeforeMount(() => {
         })
     }
 })
-
-function setErrorImage(statusCode: number) {
-    switch (statusCode) {
-        case ErrorCode.NotFound:
-            errorImgSrc.value = '/Images/Error/memo-404_german_600.png'
-            break
-        case ErrorCode.Unauthorized:
-            errorImgSrc.value = '/Images/Error/memo-404_german_600.png'
-            break
-        case ErrorCode.Error:
-        default:
-            errorImgSrc.value = '/Images/Error/memo-500_german_600.png'
-            break
-    }
-}
-
-const errorImgSrc = ref<string>('/Images/Error/memo-500_german_600.png')
-const description = ref<string>(t('errorContent.route.notFound'))
 
 function handleError() {
     clearError({ redirect: '/' })
