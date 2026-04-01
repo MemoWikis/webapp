@@ -272,8 +272,7 @@ watch(locale, () => {
 
 <template>
 	<HeaderNavigation />
-	<HeaderMain :site="siteType"
-		:question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
+	<HeaderMain :site="siteType" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 	<SideSheet :footer-pages="footerPages" />
 
 	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen }">
