@@ -18,6 +18,46 @@ export default <RouterConfig>{
             component: () => import('~/pages/wikis.vue'),
         },
         {
+            name: 'newsPageDE',
+            path: '/Neuigkeiten',
+            component: () => import('~/pages/news.vue'),
+        },
+        {
+            name: 'newsPageEN',
+            path: '/News',
+            component: () => import('~/pages/news.vue'),
+        },
+        {
+            name: 'newsPageFR',
+            path: '/Actualites',
+            component: () => import('~/pages/news.vue'),
+        },
+        {
+            name: 'newsPageES',
+            path: '/Noticias',
+            component: () => import('~/pages/news.vue'),
+        },
+        {
+            name: 'topicsPageDE',
+            path: '/Themen',
+            component: () => import('~/pages/topics.vue'),
+        },
+        {
+            name: 'topicsPageEN',
+            path: '/Topics',
+            component: () => import('~/pages/topics.vue'),
+        },
+        {
+            name: 'topicsPageFR',
+            path: '/Sujets',
+            component: () => import('~/pages/topics.vue'),
+        },
+        {
+            name: 'topicsPageES',
+            path: '/Temas',
+            component: () => import('~/pages/topics.vue'),
+        },
+        {
             name: 'missionControlPageDE',
             path: '/Mission-Control',
             component: () =>

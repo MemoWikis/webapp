@@ -261,7 +261,9 @@
         "missionControl": "MissionControl",
         "wikis": "Wikis",
         "about": "About-memoWikis",
-        "community": "Community"
+        "community": "Community",
+        "news": "News",
+        "topics": "Topics"
     },
     "search": {
         "results": "{count} results",
@@ -2138,6 +2140,8 @@
         "placeholderFlavorText5": "This space is waiting for some personal magic to happen! 🎭"
     },
     "nav": {
+        "news": "News",
+        "topics": "Topics",
         "wikis": "Wikis",
         "community": "Community",
         "about": "About memoWikis"
@@ -2161,6 +2165,24 @@
         "meta": {
             "title": "Wikis – memoWikis",
             "description": "Discover public wikis on memoWikis."
+        }
+    },
+    "newsPage": {
+        "title": "News",
+        "subtitle": "Latest updates from memoWikis",
+        "comingSoon": "News will appear here soon.",
+        "meta": {
+            "title": "News – memoWikis",
+            "description": "News and updates from memoWikis."
+        }
+    },
+    "topicsPage": {
+        "title": "Topics",
+        "subtitle": "Discover topics on memoWikis",
+        "comingSoon": "Topics will appear here soon.",
+        "meta": {
+            "title": "Topics – memoWikis",
+            "description": "Discover topics on memoWikis."
         }
     }
 }

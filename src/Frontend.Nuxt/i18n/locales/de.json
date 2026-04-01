@@ -261,7 +261,9 @@
         "missionControl": "Mission-Control",
         "wikis": "Wikis",
         "about": "Ueber-memoWikis",
-        "community": "Community"
+        "community": "Community",
+        "news": "Neuigkeiten",
+        "topics": "Themen"
     },
     "search": {
         "results": "{count} Treffer",
@@ -2137,6 +2139,8 @@
         "placeholderFlavorText5": "Dieser Platz wartet darauf, dass etwas Persönliches passiert! 🎭"
     },
     "nav": {
+        "news": "News",
+        "topics": "Themen",
         "wikis": "Wikis",
         "community": "Community",
         "about": "Über memoWikis"
@@ -2160,6 +2164,24 @@
         "meta": {
             "title": "Wikis – memoWikis",
             "description": "Entdecke öffentliche Wikis auf memoWikis."
+        }
+    },
+    "newsPage": {
+        "title": "News",
+        "subtitle": "Neuigkeiten rund um memoWikis",
+        "comingSoon": "Hier erscheinen bald Neuigkeiten.",
+        "meta": {
+            "title": "News – memoWikis",
+            "description": "Neuigkeiten und Updates von memoWikis."
+        }
+    },
+    "topicsPage": {
+        "title": "Themen",
+        "subtitle": "Themen auf memoWikis entdecken",
+        "comingSoon": "Hier erscheinen bald Themen.",
+        "meta": {
+            "title": "Themen – memoWikis",
+            "description": "Entdecke Themen auf memoWikis."
         }
     }
 }

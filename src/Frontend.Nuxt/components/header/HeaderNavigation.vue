@@ -82,19 +82,27 @@ const distance = computed(() => {
                         <Image src="/Images/Logo/LogoSmall.svg" class="logo-small" alt="memoWikis" />
                     </NuxtLink>
 
-                    <div class="nav-search" :class="{ 'search-expanded': showSearch }">
+                    <div class="nav-search" :class="{ 'search-expanded': showSearch || isDesktopOrTablet }">
                         <div class="search-toggle" @click="showSearch = !showSearch">
                             <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
                             <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                         </div>
                         <div class="search-wrapper">
-                            <Search :search-type="SearchType.all" :show-search="showSearch" placement="bottom-start"
+                            <Search :search-type="SearchType.all" :show-search="showSearch || isDesktopOrTablet" placement="bottom-start"
                                 :distance="distance" @select-item="openUrl" />
                         </div>
                     </div>
                 </div>
 
                 <div class="nav-center" :class="{ 'hidden-when-search': showSearch }">
+                    <NuxtLink :to="`/${t('url.news')}`" class="nav-link">
+                        <font-awesome-icon :icon="['fas', 'newspaper']" class="nav-link-icon" />
+                        <span class="nav-link-label">{{ t('nav.news') }}</span>
+                    </NuxtLink>
+                    <NuxtLink :to="`/${t('url.topics')}`" class="nav-link">
+                        <font-awesome-icon :icon="['fas', 'layer-group']" class="nav-link-icon" />
+                        <span class="nav-link-label">{{ t('nav.topics') }}</span>
+                    </NuxtLink>
                     <NuxtLink to="/wikis" class="nav-link">
                         <font-awesome-icon :icon="['fas', 'book']" class="nav-link-icon" />
                         <span class="nav-link-label">{{ t('nav.wikis') }}</span>
@@ -134,7 +142,7 @@ const distance = computed(() => {
 @import (reference) '~~/assets/includes/imports.less';
 
 #HeaderNavigation {
-    height: 50px;
+    height: 56px;
     background-color: white;
     border-bottom: 1px solid @memo-grey-light;
     position: sticky;
@@ -204,8 +212,8 @@ const distance = computed(() => {
         width: 100%;
         max-width: 1600px;
         height: 100%;
-        padding: 0 16px;
-        gap: 8px;
+        padding: 0 20px;
+        gap: 12px;
     }
 
     .nav-left {
@@ -221,7 +229,7 @@ const distance = computed(() => {
             flex-shrink: 0;
 
             .logo-full {
-                height: 28px;
+                height: 22px;
                 display: block;
 
                 @media (max-width: 600px) {
@@ -230,7 +238,7 @@ const distance = computed(() => {
             }
 
             .logo-small {
-                height: 32px;
+                height: 24px;
                 display: none;
 
                 @media (max-width: 600px) {
@@ -254,6 +262,10 @@ const distance = computed(() => {
                 color: @memo-grey-dark;
                 font-size: 16px;
 
+                @media (min-width: 769px) {
+                    display: none;
+                }
+
                 &:hover {
                     background-color: @memo-grey-lighter;
                 }
@@ -266,10 +278,10 @@ const distance = computed(() => {
             }
 
             &.search-expanded .search-wrapper {
-                width: 240px;
+                width: 220px;
 
                 @media (max-width: 900px) {
-                    width: 180px;
+                    width: 160px;
                 }
 
                 @media (max-width: 600px) {
@@ -282,7 +294,7 @@ const distance = computed(() => {
     .nav-center {
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 8px;
         flex: 1;
         justify-content: center;
 

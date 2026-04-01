@@ -258,7 +258,9 @@
         "missionControl": "PanelDeControl",
         "wikis": "Wikis",
         "about": "Sobre-memoWikis",
-        "community": "Comunidad"
+        "community": "Comunidad",
+        "news": "Noticias",
+        "topics": "Temas"
     },
     "search": {
         "results": "{count} resultados",
@@ -2036,6 +2038,8 @@
         "placeholderFlavorText5": "¡Este espacio está esperando que ocurra un poco de magia personal! 🎭"
     },
     "nav": {
+        "news": "Noticias",
+        "topics": "Temas",
         "wikis": "Wikis",
         "community": "Comunidad",
         "about": "Sobre memoWikis"
@@ -2059,6 +2063,24 @@
         "meta": {
             "title": "Wikis – memoWikis",
             "description": "Descubre los wikis públicos en memoWikis."
+        }
+    },
+    "newsPage": {
+        "title": "Noticias",
+        "subtitle": "Últimas novedades de memoWikis",
+        "comingSoon": "Pronto aparecerán noticias aquí.",
+        "meta": {
+            "title": "Noticias – memoWikis",
+            "description": "Noticias y novedades de memoWikis."
+        }
+    },
+    "topicsPage": {
+        "title": "Temas",
+        "subtitle": "Descubre temas en memoWikis",
+        "comingSoon": "Pronto aparecerán temas aquí.",
+        "meta": {
+            "title": "Temas – memoWikis",
+            "description": "Descubre temas en memoWikis."
         }
     }
 }
