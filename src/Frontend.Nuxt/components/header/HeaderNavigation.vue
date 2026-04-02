@@ -212,8 +212,13 @@ const distance = computed(() => {
         width: 100%;
         max-width: 1600px;
         height: 100%;
-        padding: 0 20px;
+        padding: 0 16px;
         gap: 12px;
+
+        @media (max-width: 600px) {
+            padding: 0 8px;
+            gap: 8px;
+        }
     }
 
     .nav-left {
@@ -221,6 +226,10 @@ const distance = computed(() => {
         align-items: center;
         gap: 12px;
         flex-shrink: 0;
+
+        @media (max-width: 600px) {
+            gap: 8px;
+        }
 
         .nav-logo {
             display: flex;
@@ -275,17 +284,26 @@ const distance = computed(() => {
                 width: 0;
                 overflow: hidden;
                 transition: width 0.2s ease;
+
+                :deep(.searchInputContainer) {
+                    min-width: 0;
+                }
             }
 
             &.search-expanded .search-wrapper {
-                width: 220px;
+                width: 260px;
+
+                @media (max-width: 1100px) {
+                    width: 200px;
+                }
 
                 @media (max-width: 900px) {
                     width: 160px;
                 }
 
                 @media (max-width: 600px) {
-                    width: 140px;
+                    width: calc(100vw - 160px);
+                    max-width: 200px;
                 }
             }
         }
@@ -297,6 +315,10 @@ const distance = computed(() => {
         gap: 8px;
         flex: 1;
         justify-content: center;
+
+        @media (max-width: 768px) {
+            display: none;
+        }
 
         &.hidden-when-search {
             @media (max-width: 768px) {
@@ -317,6 +339,10 @@ const distance = computed(() => {
             white-space: nowrap;
             transition: background-color 0.15s;
 
+            @media (max-width: 900px) {
+                padding: 6px 10px;
+            }
+
             &:hover {
                 background-color: @memo-grey-lighter;
             }
@@ -331,7 +357,7 @@ const distance = computed(() => {
             }
 
             .nav-link-label {
-                @media (max-width: 500px) {
+                @media (max-width: 900px) {
                     display: none;
                 }
             }
@@ -366,7 +392,7 @@ const distance = computed(() => {
             }
 
             .login-label {
-                @media (max-width: 500px) {
+                @media (max-width: 600px) {
                     display: none;
                 }
             }
@@ -384,6 +410,10 @@ const distance = computed(() => {
             font-weight: 500;
             white-space: nowrap;
             transition: filter 0.15s;
+
+            @media (max-width: 768px) {
+                display: none;
+            }
 
             &:hover {
                 filter: brightness(0.95);

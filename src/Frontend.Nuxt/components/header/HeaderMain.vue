@@ -127,7 +127,6 @@ const { sideSheetOpen } = useSideSheetState()
     height: 36px;
     min-height: 36px;
     font-size: 13px;
-    overflow: hidden;
     line-height: 21px;
     position: relative;
     z-index: 98;
@@ -167,16 +166,20 @@ const { sideSheetOpen } = useSideSheetState()
         display: flex;
         align-items: center;
         height: 100%;
-        overflow: hidden;
         width: 100%;
     }
 
     .header-container {
         width: 100%;
+        overflow: hidden;
     }
 
     .main-container {
         padding: 0 16px;
+
+        @media (max-width: 600px) {
+            padding: 0 8px;
+        }
     }
 
     .partial {
@@ -184,6 +187,7 @@ const { sideSheetOpen } = useSideSheetState()
         display: flex;
         align-items: center;
         flex-grow: 1;
+        overflow: hidden;
 
         &.start {
             align-items: center;
