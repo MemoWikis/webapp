@@ -813,20 +813,12 @@ const handleClick = (key?: string) => {
     position: fixed;
     z-index: 51;
     transition: all 0.3s ease-in-out;
-    padding-top: 71px;
+    padding-top: 72px;
     overscroll-behavior: none;
     height: 100%;
 
-    &.not-logged-in {
-        padding-top: 131px;
-
-        .sidesheet-scrollbar {
-            max-height: calc(100vh - 241px);
-        }
-    }
-
     .sidesheet-scrollbar {
-        max-height: calc(100vh - 181px);
+        max-height: calc(100vh - 182px);
         overflow-y: auto;
         overflow-x: hidden;
         overscroll-behavior: none;
