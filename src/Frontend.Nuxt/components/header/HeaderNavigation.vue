@@ -8,37 +8,34 @@ const { t } = useI18n()
 const userStore = useUserStore()
 const sideSheetStore = useSideSheetStore()
 const { sideSheetOpen } = useSideSheetState()
-const { isDesktopOrTablet, isMobile } = useDevice()
+
+const windowWidth = ref(1024)
+const isWideViewport = computed(() => windowWidth.value >= 769)
 
 const showSearch = ref(false)
+const showMobileMenu = ref(false)
 
 const openUrl = async (val: PageItem | QuestionItem | UserItem) => {
-    if (isMobile || window?.innerWidth < 480) {
+    if (!isWideViewport.value) {
         showSearch.value = false
     }
     return await navigateTo(val.url)
 }
 
 const handleResize = () => {
-    if (showSearch.value) {
-        return
-    }
-    if (window.innerWidth < 769) {
-        showSearch.value = false
+    windowWidth.value = window.innerWidth
+    if (windowWidth.value >= 768) {
+        showMobileMenu.value = false
     }
 }
 
 onMounted(() => {
-    if (isMobile || window?.innerWidth < 769) {
-        showSearch.value = false
-    }
-    if (typeof window !== "undefined") {
-        window.addEventListener('resize', handleResize)
-    }
+    windowWidth.value = window.innerWidth
+    window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
         window.removeEventListener('resize', handleResize)
     }
 })
@@ -58,6 +55,20 @@ watch(openedModals, (val) => {
 const distance = computed(() => {
     return userStore.isLoggedIn ? 24 : 6
 })
+
+const toggleMobileMenu = () => {
+    showMobileMenu.value = !showMobileMenu.value
+    if (showMobileMenu.value) {
+        showSearch.value = false
+    }
+}
+
+const toggleSearch = () => {
+    showSearch.value = !showSearch.value
+    if (showSearch.value) {
+        showMobileMenu.value = false
+    }
+}
 </script>
 
 <template>
@@ -82,19 +93,19 @@ const distance = computed(() => {
                         <Image src="/Images/Logo/LogoSmall.svg" class="logo-small" alt="memoWikis" />
                     </NuxtLink>
 
-                    <div class="nav-search" :class="{ 'search-expanded': showSearch || isDesktopOrTablet }">
-                        <div class="search-toggle" @click="showSearch = !showSearch">
+                    <div class="nav-search" :class="{ 'search-expanded': showSearch || isWideViewport }">
+                        <div class="search-toggle" @click="toggleSearch">
                             <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
                             <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                         </div>
                         <div class="search-wrapper">
-                            <Search :search-type="SearchType.all" :show-search="showSearch || isDesktopOrTablet" placement="bottom-start"
-                                :distance="distance" @select-item="openUrl" />
+                            <Search :search-type="SearchType.all" :show-search="showSearch || isWideViewport"
+                                placement="bottom-start" :distance="distance" @select-item="openUrl" />
                         </div>
                     </div>
                 </div>
 
-                <div class="nav-center" :class="{ 'hidden-when-search': showSearch }">
+                <div class="nav-center">
                     <NuxtLink :to="`/${t('url.news')}`" class="nav-link">
                         <font-awesome-icon :icon="['fas', 'newspaper']" class="nav-link-icon" />
                         <span class="nav-link-label">{{ t('nav.news') }}</span>
@@ -114,6 +125,11 @@ const distance = computed(() => {
                 </div>
 
                 <div class="nav-right">
+                    <div class="mobile-menu-toggle" @click="toggleMobileMenu">
+                        <font-awesome-icon v-if="showMobileMenu" icon="fa-solid fa-xmark" />
+                        <font-awesome-icon v-else icon="fa-solid fa-ellipsis-vertical" />
+                    </div>
+
                     <ClientOnly>
                         <HeaderUserDropdown v-if="userStore.isLoggedIn" />
 
@@ -123,7 +139,7 @@ const distance = computed(() => {
                                 <font-awesome-icon icon="fa-solid fa-right-to-bracket" class="login-icon" />
                                 <span class="login-label">{{ t('label.login') }}</span>
                             </button>
-                            <NuxtLink v-if="isDesktopOrTablet" :to="`/${t('url.register')}`" class="nav-register-btn">
+                            <NuxtLink :to="`/${t('url.register')}`" class="nav-register-btn">
                                 {{ t('label.register') }}
                             </NuxtLink>
                         </template>
@@ -135,6 +151,41 @@ const distance = computed(() => {
                 </div>
             </div>
         </div>
+
+        <Transition name="mobile-menu">
+            <div v-if="showMobileMenu" class="mobile-menu-dropdown">
+                <NuxtLink :to="`/${t('url.news')}`" class="mobile-menu-link" @click="showMobileMenu = false">
+                    <font-awesome-icon :icon="['fas', 'newspaper']" class="mobile-menu-icon" />
+                    {{ t('nav.news') }}
+                </NuxtLink>
+                <NuxtLink :to="`/${t('url.topics')}`" class="mobile-menu-link" @click="showMobileMenu = false">
+                    <font-awesome-icon :icon="['fas', 'layer-group']" class="mobile-menu-icon" />
+                    {{ t('nav.topics') }}
+                </NuxtLink>
+                <NuxtLink to="/wikis" class="mobile-menu-link" @click="showMobileMenu = false">
+                    <font-awesome-icon :icon="['fas', 'book']" class="mobile-menu-icon" />
+                    {{ t('nav.wikis') }}
+                </NuxtLink>
+                <NuxtLink :to="`/${t('url.users')}`" class="mobile-menu-link" @click="showMobileMenu = false">
+                    <font-awesome-icon :icon="['fas', 'users']" class="mobile-menu-icon" />
+                    {{ t('nav.community') }}
+                </NuxtLink>
+                <ClientOnly>
+                    <template v-if="!userStore.isLoggedIn">
+                        <div class="mobile-menu-divider" />
+                        <button class="mobile-menu-link" @click="userStore.openLoginModal(); showMobileMenu = false">
+                            <font-awesome-icon icon="fa-solid fa-right-to-bracket" class="mobile-menu-icon" />
+                            {{ t('label.login') }}
+                        </button>
+                        <NuxtLink :to="`/${t('url.register')}`" class="mobile-menu-link"
+                            @click="showMobileMenu = false">
+                            <font-awesome-icon icon="fa-solid fa-user-plus" class="mobile-menu-icon" />
+                            {{ t('label.register') }}
+                        </NuxtLink>
+                    </template>
+                </ClientOnly>
+            </div>
+        </Transition>
     </div>
 </template>
 
@@ -163,7 +214,7 @@ const distance = computed(() => {
         user-select: none;
         border-right: 1px solid @memo-grey-light;
 
-        @media (min-width: 900px) {
+        @media (min-width: 901px) {
             position: absolute;
             left: 0;
             z-index: 2000;
@@ -189,19 +240,15 @@ const distance = computed(() => {
         width: 100%;
         height: 100%;
 
-        @media (min-width: 900px) {
-            padding-left: 80px;
-        }
-
-        &.sidesheet-open {
-            padding-left: 410px;
+        &.sidesheet-open .nav-inner {
+            padding-left: 420px;
 
             @media (max-width: 900px) {
-                padding-left: 0;
+                padding-left: 10px;
             }
 
             @media (min-width: 1980px) {
-                padding-left: clamp(80px, calc(410px - (100vw - 1980px)), 410px);
+                padding-left: clamp(90px, calc(420px - (100vw - 1980px)), 420px);
             }
         }
     }
@@ -212,8 +259,12 @@ const distance = computed(() => {
         width: 100%;
         max-width: 1600px;
         height: 100%;
-        padding: 0 16px;
+        padding: 0 10px;
         gap: 12px;
+
+        @media (min-width: 901px) {
+            padding-left: 90px;
+        }
 
         @media (max-width: 600px) {
             padding: 0 8px;
@@ -226,6 +277,11 @@ const distance = computed(() => {
         align-items: center;
         gap: 12px;
         flex-shrink: 0;
+
+        @media (max-width: 768px) {
+            flex: 1;
+            min-width: 0;
+        }
 
         @media (max-width: 600px) {
             gap: 8px;
@@ -247,7 +303,7 @@ const distance = computed(() => {
             }
 
             .logo-small {
-                height: 24px;
+                height: 22px;
                 display: none;
 
                 @media (max-width: 600px) {
@@ -259,6 +315,11 @@ const distance = computed(() => {
         .nav-search {
             display: flex;
             align-items: center;
+
+            @media (max-width: 768px) {
+                flex: 1;
+                min-width: 0;
+            }
 
             .search-toggle {
                 display: flex;
@@ -301,9 +362,10 @@ const distance = computed(() => {
                     width: 160px;
                 }
 
-                @media (max-width: 600px) {
-                    width: calc(100vw - 160px);
-                    max-width: 200px;
+                @media (max-width: 768px) {
+                    flex: 1;
+                    width: auto;
+                    max-width: none;
                 }
             }
         }
@@ -320,12 +382,6 @@ const distance = computed(() => {
             display: none;
         }
 
-        &.hidden-when-search {
-            @media (max-width: 768px) {
-                display: none;
-            }
-        }
-
         .nav-link {
             display: flex;
             align-items: center;
@@ -339,7 +395,7 @@ const distance = computed(() => {
             white-space: nowrap;
             transition: background-color 0.15s;
 
-            @media (max-width: 900px) {
+            @media (max-width: 1000px) {
                 padding: 6px 10px;
             }
 
@@ -357,7 +413,7 @@ const distance = computed(() => {
             }
 
             .nav-link-label {
-                @media (max-width: 900px) {
+                @media (max-width: 960px) {
                     display: none;
                 }
             }
@@ -369,6 +425,26 @@ const distance = computed(() => {
         align-items: center;
         gap: 8px;
         flex-shrink: 0;
+
+        .mobile-menu-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: @memo-grey-dark;
+            font-size: 16px;
+
+            @media (max-width: 768px) {
+                display: flex;
+            }
+
+            &:hover {
+                background-color: @memo-grey-lighter;
+            }
+        }
 
         .nav-login-btn {
             display: flex;
@@ -383,6 +459,10 @@ const distance = computed(() => {
             border-radius: 6px;
             white-space: nowrap;
 
+            @media (max-width: 768px) {
+                display: none;
+            }
+
             &:hover {
                 background-color: @memo-grey-lighter;
             }
@@ -392,7 +472,7 @@ const distance = computed(() => {
             }
 
             .login-label {
-                @media (max-width: 600px) {
+                @media (max-width: 900px) {
                     display: none;
                 }
             }
@@ -425,6 +505,66 @@ const distance = computed(() => {
             height: 32px;
         }
     }
+
+    .mobile-menu-dropdown {
+        position: absolute;
+        top: 56px;
+        right: 0;
+        background: white;
+        border: 1px solid @memo-grey-light;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        min-width: 200px;
+        z-index: 99;
+        padding: 4px 0;
+
+        .mobile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            text-decoration: none;
+            color: @memo-grey-darkest;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            background: none;
+            width: 100%;
+            cursor: pointer;
+            text-align: left;
+
+            &:hover {
+                background-color: @memo-grey-lighter;
+            }
+
+            &.router-link-active {
+                color: @memo-blue;
+            }
+        }
+
+        .mobile-menu-icon {
+            width: 16px;
+            text-align: center;
+            color: @memo-grey-dark;
+        }
+
+        .mobile-menu-divider {
+            height: 1px;
+            background-color: @memo-grey-light;
+            margin: 4px 0;
+        }
+    }
+}
+
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.mobile-menu-enter-from,
+.mobile-menu-leave-to {
+    opacity: 0;
+    transform: translateY(-8px);
 }
 
 .animate-grow {

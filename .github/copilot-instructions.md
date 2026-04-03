@@ -13,6 +13,7 @@
 - All code comments in English
 - Spell out variable names; no abbreviations
 - Always use braces after if/loops (no single-line statements)
+- **Do NOT restart the backend** (`.\api.ps1 start/restart`) after pure frontend changes. The backend restart is slow and unnecessary when only files in `src/Frontend.Nuxt/` were modified. Only restart the backend when backend code (`src/Backend.Api/`, `src/Backend.Core/`) was changed.
 - **C#:** No namespaces. Prefer `Verify()` for tests. Use `_testHarness.ApiCall("apiVue/{controller}/{action}")` for API calls in tests.
 - **LESS:** Verify variables in `src/Frontend.Nuxt/assets/includes/colors.less`. Do NOT guess names (e.g. `@memo-dark` does not exist; use `@memo-grey-dark` or `@memo-grey-darkest`).
 - **Tests:** Always create/update tests for features and bug fixes. Use `runTests` tool (handles process management automatically).

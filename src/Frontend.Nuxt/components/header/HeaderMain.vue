@@ -144,7 +144,7 @@ const { sideSheetOpen } = useSideSheetState()
         width: 100%;
         max-width: 1600px;
 
-        @media (min-width: 900px) {
+        @media (min-width: 901px) {
             padding-left: 80px;
         }
 
@@ -175,7 +175,7 @@ const { sideSheetOpen } = useSideSheetState()
     }
 
     .main-container {
-        padding: 0 16px;
+        padding: 0 10px;
 
         @media (max-width: 600px) {
             padding: 0 8px;
