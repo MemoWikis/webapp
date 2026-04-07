@@ -5,6 +5,7 @@ public class ExtendedUserCacheItem : UserCacheItem
     public ConcurrentDictionary<int, PageValuation> PageValuations = new();
     public ConcurrentDictionary<int, QuestionValuationCacheItem> QuestionValuations = new();
     public ConcurrentDictionary<int, AnswerRecord> AnswerCounter = new();
+    public ConcurrentDictionary<DateTime, int> ActivityCounts = new();
     private ConcurrentDictionary<int, KnowledgeEvaluationCacheItem> Skills = new();
     private ConcurrentDictionary<int, KnowledgeEvaluationCacheItem> KnowledgeSummaries = new();
 
@@ -85,7 +86,7 @@ public class ExtendedUserCacheItem : UserCacheItem
     public void RemoveSkill(int pageId)
     {
         Skills.TryRemove(pageId, out _);
-        
+
         // Update in sliding cache to refresh expiration and persist changes
         SlidingCache.AddOrUpdate(this);
     }
@@ -111,7 +112,7 @@ public class ExtendedUserCacheItem : UserCacheItem
         Skills = new ConcurrentDictionary<int, KnowledgeEvaluationCacheItem>(
             skillsList.ToDictionary(skill => skill.PageId, skill => skill)
         );
-        
+
         // Update in sliding cache to refresh expiration and persist changes
         SlidingCache.AddOrUpdate(this);
     }
@@ -157,7 +158,7 @@ public class ExtendedUserCacheItem : UserCacheItem
     public void RemoveKnowledgeSummary(int pageId)
     {
         KnowledgeSummaries.TryRemove(pageId, out _);
-        
+
         // Update in sliding cache to refresh expiration and persist changes
         SlidingCache.AddOrUpdate(this);
     }
@@ -178,7 +179,7 @@ public class ExtendedUserCacheItem : UserCacheItem
         KnowledgeSummaries = new ConcurrentDictionary<int, KnowledgeEvaluationCacheItem>(
             knowledgeSummariesList.ToDictionary(knowledgeSummary => knowledgeSummary.PageId, knowledgeSummary => knowledgeSummary)
         );
-        
+
         // Update in sliding cache to refresh expiration and persist changes
         SlidingCache.AddOrUpdate(this);
     }

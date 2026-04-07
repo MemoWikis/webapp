@@ -65,6 +65,35 @@ The script uses a `.api.pid` file for reliable process tracking and checks the `
 
 Central in-memory cache for entities (Users, Pages, Questions). **Read from cache, write to both DB and cache.** For full patterns and pitfalls, use the `entity-cache-pattern` skill.
 
+### Cache-First Rule
+
+**Always check the in-memory cache before writing SQL queries.** The `ExtendedUserCacheItem` (loaded at login, 10h sliding expiration) already contains per-user data:
+
+| Data                       | Cache Location                                        | SQL needed? |
+| -------------------------- | ----------------------------------------------------- | ----------- |
+| Answer counts per question | `ExtendedUserCacheItem.AnswerCounter`                 | No          |
+| Daily learning activity    | `ExtendedUserCacheItem.ActivityCounts`                | No          |
+| Question valuations        | `ExtendedUserCacheItem.QuestionValuations`            | No          |
+| Page valuations            | `ExtendedUserCacheItem.PageValuations`                | No          |
+| AI token usage             | `UserCacheItem.CurrentWeekTokenUsage`                 | No          |
+| Page/Question entities     | `EntityCache.GetPage()` / `EntityCache.GetQuestion()` | No          |
+
+When adding new per-user data: **extend the cache** (`ExtendedUserCacheItem`), populate it in `ExtendedUserCache.CreateExtendedUserCacheItem()`, and update it on writes (see `AnswerCache.AddAnswerToCache` pattern).
+
+## Service Registration (IoC)
+
+Services are registered via the marker interface `IRegisterAsInstancePerLifetime` (one instance per HTTP request). **No manual Autofac registration needed** — the container scans for this interface automatically.
+
+```csharp
+// Correct: implement marker interface, inject dependencies via primary constructor
+public class MyService(SomeDependency _dependency, AnotherRepo _repo) : IRegisterAsInstancePerLifetime
+{
+    public Result DoWork(int userId) { ... }
+}
+```
+
+**Keep business logic in services (`Backend.Core`), not in controllers (`Backend.Api`).** Controllers should only call services, check auth, and return responses.
+
 ## AI Token Usage
 
 Core files in `src/Backend.Core/Domain/AI/`. Weekly quota system with cache in `ExtendedUserCacheItem.CurrentWeekTokenUsage`. See `docs/ai-token-usage-system.md` for details.

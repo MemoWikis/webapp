@@ -2,14 +2,11 @@
     SessionUser _sessionUser,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
     IHttpContextAccessor _httpContextAccessor,
-    PopularityCalculator _popularityCalculator)
+    PopularityCalculator _popularityCalculator,
+    ActivityCalendarLoader _activityCalendarLoader)
     : ApiBaseController
 {
-    public readonly record struct Activity(DateTime Day, int Count);
-
-    public readonly record struct ActivityCalendar(IList<Activity> Activity);
-
-    public readonly record struct GetAllResponse(IList<PageItem> Wikis, IList<PageItem> Favorites, KnowledgeSummaryResponse KnowledgeStatus, ActivityCalendar ActivityCalendar);
+    public readonly record struct GetAllResponse(IList<PageItem> Wikis, IList<PageItem> Favorites, KnowledgeSummaryResponse KnowledgeStatus, ActivityCalendarLoader.ActivityCalendar ActivityCalendar);
 
     [HttpGet]
     public GetAllResponse GetAll()
@@ -20,7 +17,7 @@
                 new List<PageItem>(),
                 new List<PageItem>(),
                 new KnowledgeSummaryResponse(),
-                new ActivityCalendar(new List<Activity>())
+                new ActivityCalendarLoader.ActivityCalendar(new List<ActivityCalendarLoader.Activity>())
             );
         }
 
@@ -30,7 +27,7 @@
             GetWikis(),
             GetFavorites(),
             knowledgeSummary,
-            GetActivityCalendar());
+            _activityCalendarLoader.GetForUser(_sessionUser.UserId));
     }
 
     private IList<PageItem> GetWikis()
@@ -68,40 +65,24 @@
     }
 
     [HttpGet]
-    public ActivityCalendar GetMockActivityCalendar() => GetActivityCalendar();
-
-    // wip mockup data
-    private static ActivityCalendar GetActivityCalendar()
+    public ActivityCalendarLoader.ActivityCalendar GetActivityCalendar()
     {
-        var endDate = DateTime.Today;
-        var startDate = endDate.AddDays(-364); // 365 days including today
-        var random = new Random();
-        var activity = new List<Activity>();
-
-        for (var date = startDate; date <= endDate; date = date.AddDays(1))
+        if (_sessionUser == null || !_sessionUser.IsLoggedIn)
         {
-            int count;
-
-            // Less activity on weekends
-            if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
-            {
-                count = random.Next(0, 5);
-            }
-            // More activity on weekdays
-            else
-            {
-                count = random.Next(1, 15);
-            }
-
-            // Occasional spikes of high activity
-            if (random.NextDouble() < 0.05)
-            {
-                count = random.Next(15, 30);
-            }
-
-            activity.Add(new Activity(date, count));
+            return new ActivityCalendarLoader.ActivityCalendar(new List<ActivityCalendarLoader.Activity>());
         }
 
-        return new ActivityCalendar(activity);
+        return _activityCalendarLoader.GetForUser(_sessionUser.UserId);
+    }
+
+    [HttpGet]
+    public ActivityCalendarLoader.ActivityCalendar GetPageActivityCalendar([FromRoute] int id)
+    {
+        if (_sessionUser == null || !_sessionUser.IsLoggedIn)
+        {
+            return new ActivityCalendarLoader.ActivityCalendar(new List<ActivityCalendarLoader.Activity>());
+        }
+
+        return _activityCalendarLoader.GetForUser(_sessionUser.UserId, id);
     }
 }

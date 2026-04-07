@@ -242,6 +242,13 @@ public class ExtendedUserCache(
                     .GroupBy(a => a.Question.Id)
                     .ToDictionary(g => g.Key, AnswerCache.AnswersToAnswerRecord)
             );
+
+            cacheItem.ActivityCounts = new ConcurrentDictionary<DateTime, int>(
+                answers
+                    .Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView)
+                    .GroupBy(a => a.DateCreated.Date)
+                    .ToDictionary(g => g.Key, g => g.Count())
+            );
         }
     }
 

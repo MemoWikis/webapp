@@ -22,69 +22,59 @@ onMounted(() => {
     }
 })
 
-const mockActivity = ref<ActivityCalendarData | null>(null)
+const activityCalendar = ref<ActivityCalendarData | null>(null)
 
-const getMockActivityCalendar = async () => {
-    const result = await $api<ActivityCalendarData>('/apiVue/MissionControl/GetMockActivityCalendar')
-    if (result)
-        mockActivity.value = result
+const getActivityCalendar = async () => {
+    const result = await $api<ActivityCalendarData>(`/apiVue/MissionControl/GetPageActivityCalendar/${pageStore.id}`)
+    if (result) {
+        activityCalendar.value = result
+    }
 }
 
 onBeforeMount(() => {
-    getMockActivityCalendar()
+    getActivityCalendar()
 })
 
 </script>
 
 <template>
     <div class="analytics">
-        <LayoutPanel :title="t(PageAnalytics.KNOWLEDGE_SECTION.translationKey)" :id="PageAnalytics.KNOWLEDGE_SECTION.id">
+        <LayoutPanel :title="t(PageAnalytics.KNOWLEDGE_SECTION.translationKey)"
+            :id="PageAnalytics.KNOWLEDGE_SECTION.id">
             <LayoutCard class="analytics-knowledgesummary-section" :size="LayoutCardSize.Flex">
                 <PageAnalyticsKnowledgeSummarySection />
             </LayoutCard>
         </LayoutPanel>
 
-        <!-- LearnCalendar Section with Coming Soon overlay -->
-        <LayoutPanel :title="t(PageAnalytics.LEARN_CALENDAR_SECTION.translationKey)" :id="PageAnalytics.LEARN_CALENDAR_SECTION.id">
-            <div class="coming-soon-container">
-                <MissionControlLearnCalendar v-if="mockActivity" :calendarData="mockActivity" />
-                <div class="coming-soon-overlay">
-                    <div class="coming-soon-content">
-                        <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>
-                    </div>
-                </div>
-            </div>
+        <!-- LearnCalendar Section -->
+        <LayoutPanel :title="t(PageAnalytics.LEARN_CALENDAR_SECTION.translationKey)"
+            :id="PageAnalytics.LEARN_CALENDAR_SECTION.id">
+            <LayoutCard>
+                <MissionControlLearnCalendar v-if="activityCalendar" :calendarData="activityCalendar" />
+            </LayoutCard>
         </LayoutPanel>
 
         <LayoutPanel :title="t(PageAnalytics.CONTENT_SECTION.translationKey)" :id="PageAnalytics.CONTENT_SECTION.id">
             <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.hasVisibleDirectChildren">
-                <LayoutCounter
-                    :value="pageStore.directVisibleChildPageCount"
+                <LayoutCounter :value="pageStore.directVisibleChildPageCount"
                     :label="t('page.analytics.directVisibleChildPageLabel')" />
             </LayoutCard>
 
             <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
-                <LayoutCounter
-                    :value="pageStore.childPageCount"
-                    :label="t('page.analytics.childPageCount')" />
+                <LayoutCounter :value="pageStore.childPageCount" :label="t('page.analytics.childPageCount')" />
             </LayoutCard>
 
             <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.directQuestionCount > 0">
-                <LayoutCounter
-                    :value="pageStore.directQuestionCount"
+                <LayoutCounter :value="pageStore.directQuestionCount"
                     :label="t('page.analytics.directlyLinkedQuestionsLabel')" />
             </LayoutCard>
 
             <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">
-                <LayoutCounter
-                    :value="pageStore.questionCount"
-                    :label="t('page.analytics.includedQuestionsLabel')" />
+                <LayoutCounter :value="pageStore.questionCount" :label="t('page.analytics.includedQuestionsLabel')" />
             </LayoutCard>
 
             <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.parentPageCount > 0">
-                <LayoutCounter
-                    :value="pageStore.parentPageCount"
-                    :label="t('page.analytics.parentPageLabel')" />
+                <LayoutCounter :value="pageStore.parentPageCount" :label="t('page.analytics.parentPageLabel')" />
             </LayoutCard>
 
 
@@ -92,36 +82,33 @@ onBeforeMount(() => {
 
         <LayoutPanel :title="t(PageAnalytics.VIEWS_SECTION.translationKey)" :id="PageAnalytics.VIEWS_SECTION.id">
             <LayoutCard :size="LayoutCardSize.Tiny">
-                <LayoutCounter
-                    :value="pageStore.views"
-                    :label="pageStore.name" />
+                <LayoutCounter :value="pageStore.views" :label="pageStore.name" />
             </LayoutCard>
 
             <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.childPageCount > 0">
-                <LayoutCounter
-                    :value="pageStore.subpageViews"
-                    :label="t('page.analytics.subpageViewsLabel')" />
+                <LayoutCounter :value="pageStore.subpageViews" :label="t('page.analytics.subpageViewsLabel')" />
             </LayoutCard>
 
             <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.questionCount > 0">
-                <LayoutCounter
-                    :value="pageStore.directQuestionViews"
+                <LayoutCounter :value="pageStore.directQuestionViews"
                     :label="t('page.analytics.directQuestionViewsLabel')" />
             </LayoutCard>
 
             <LayoutCard :size="LayoutCardSize.Tiny" v-if="pageStore.totalQuestionViews">
-                <LayoutCounter
-                    :value="pageStore.totalQuestionViews"
+                <LayoutCounter :value="pageStore.totalQuestionViews"
                     :label="t('page.analytics.aggregatedQuestionViewsLabel')" />
             </LayoutCard>
         </LayoutPanel>
 
         <template v-if="pageStore.analyticsLoaded">
-            <LayoutPanel :title="t(PageAnalytics.PAGE_VIEWS_SECTION.translationKey)" :id="PageAnalytics.PAGE_VIEWS_SECTION.id">
+            <LayoutPanel :title="t(PageAnalytics.PAGE_VIEWS_SECTION.translationKey)"
+                :id="PageAnalytics.PAGE_VIEWS_SECTION.id">
                 <PageAnalyticsPageViewChart />
             </LayoutPanel>
 
-            <LayoutPanel v-if="pageStore.questionCount > 0" :title="t(PageAnalytics.QUESTION_VIEWS_SECTION.translationKey)" :id="PageAnalytics.QUESTION_VIEWS_SECTION.id">
+            <LayoutPanel v-if="pageStore.questionCount > 0"
+                :title="t(PageAnalytics.QUESTION_VIEWS_SECTION.translationKey)"
+                :id="PageAnalytics.QUESTION_VIEWS_SECTION.id">
                 <PageAnalyticsQuestionViewChart />
             </LayoutPanel>
         </template>
@@ -150,40 +137,6 @@ onBeforeMount(() => {
 
 h3 {
     margin-top: 36px;
-}
-
-.coming-soon-container {
-    position: relative;
-    width: 100%;
-
-    .coming-soon-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.85);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 8px;
-        z-index: 10;
-    }
-
-    .coming-soon-content {
-        text-align: center;
-        padding: 20px;
-        border-radius: 8px;
-        background-color: white;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        display: flex;
-    }
-
-    .coming-soon-text {
-        font-size: 24px;
-        font-weight: 600;
-        color: @memo-blue;
-    }
 }
 </style>
 

@@ -80,6 +80,43 @@ public class AnswerRepo : RepositoryDb<Answer>
             .SingleOrDefault();
     }
 
+    public IList<DailyActivityCount> GetDailyActivityForUser(int userId, DateTime startDate)
+    {
+        return Session.CreateSQLQuery(@"
+                SELECT DATE(DateCreated) AS Day, COUNT(*) AS Count
+                FROM answer
+                WHERE UserId = :userId
+                  AND DateCreated >= :startDate
+                  AND AnswerredCorrectly != :isView
+                GROUP BY DATE(DateCreated)
+                ORDER BY Day")
+            .SetParameter("userId", userId)
+            .SetParameter("startDate", startDate)
+            .SetParameter("isView", (int)AnswerCorrectness.IsView)
+            .SetResultTransformer(NHibernate.Transform.Transformers.AliasToBean<DailyActivityCount>())
+            .List<DailyActivityCount>();
+    }
+
+    public IList<DailyActivityCount> GetDailyActivityForUserOnPage(int userId, int pageId, DateTime startDate)
+    {
+        return Session.CreateSQLQuery(@"
+                SELECT DATE(ah.DateCreated) AS Day, COUNT(*) AS Count
+                FROM answer ah
+                JOIN pages_to_questions cq ON cq.Question_id = ah.QuestionId
+                WHERE ah.UserId = :userId
+                  AND cq.Page_id = :pageId
+                  AND ah.DateCreated >= :startDate
+                  AND ah.AnswerredCorrectly != :isView
+                GROUP BY DATE(ah.DateCreated)
+                ORDER BY Day")
+            .SetParameter("userId", userId)
+            .SetParameter("pageId", pageId)
+            .SetParameter("startDate", startDate)
+            .SetParameter("isView", (int)AnswerCorrectness.IsView)
+            .SetResultTransformer(NHibernate.Transform.Transformers.AliasToBean<DailyActivityCount>())
+            .List<DailyActivityCount>();
+    }
+
     private new IQueryOver<Answer, Answer> Query(bool includingSolutionViews = false)
     {
         var query = Session.QueryOver<Answer>();

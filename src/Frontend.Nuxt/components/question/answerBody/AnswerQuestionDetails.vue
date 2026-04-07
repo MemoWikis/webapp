@@ -814,16 +814,20 @@ async function loadData() {
 
     if (props.id === deleteQuestionStore.deletedQuestionId)
         return
-    const result = await $api<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get/${props.id}`, {
-        credentials: 'include',
-        mode: 'cors',
-        onResponseError(context) {
-            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+    try {
+        const result = await $api<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get/${props.id}`, {
+            credentials: 'include',
+            mode: 'cors',
+            onResponseError(context) {
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+            }
+        })
+        if (result) {
+            loadDataResult.value = result
+            initData(result)
         }
-    })
-    if (result) {
-        loadDataResult.value = result
-        initData(result)
+    } catch (error) {
+        $logger.error(`Failed to load question details for id ${props.id}`, [{ error }])
     }
 }
 

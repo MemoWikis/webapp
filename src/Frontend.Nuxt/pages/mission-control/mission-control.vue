@@ -117,62 +117,58 @@ onMounted(() => {
 
             <div v-if="dashboardData">
                 <!-- Knowledge Status Section -->
-                <LayoutPanel :id="missionControlSections.KNOWLEDGE_STATUS_SECTION.id" :title="t(missionControlSections.KNOWLEDGE_STATUS_SECTION.translationKey)">
+                <LayoutPanel :id="missionControlSections.KNOWLEDGE_STATUS_SECTION.id"
+                    :title="t(missionControlSections.KNOWLEDGE_STATUS_SECTION.translationKey)">
                     <LayoutCard :size="LayoutCardSize.Flex">
                         <MissionControlKnowledgeSummary v-if="dashboardData.knowledgeStatus"
                             :knowledgeStatus="dashboardData.knowledgeStatus" />
                     </LayoutCard>
                 </LayoutPanel>
 
-                <DevOnly>
-                    <!-- LearnCalendar Section -->
-                    <LayoutPanel :id="missionControlSections.LEARN_CALENDAR_SECTION.id" :title="t(missionControlSections.LEARN_CALENDAR_SECTION.translationKey)">
-                        <LayoutCard>
-                            <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
-                                :calendarData="dashboardData.activityCalendar" />
-                        </LayoutCard>
-                    </LayoutPanel>
-                </DevOnly>
+                <!-- LearnCalendar Section -->
+                <LayoutPanel :id="missionControlSections.LEARN_CALENDAR_SECTION.id"
+                    :title="t(missionControlSections.LEARN_CALENDAR_SECTION.translationKey)">
+                    <LayoutCard>
+                        <MissionControlLearnCalendar v-if="dashboardData.activityCalendar"
+                            :calendarData="dashboardData.activityCalendar" />
+                    </LayoutCard>
+                </LayoutPanel>
 
                 <template v-if="isMobile">
                     <!-- Wikis Section -->
                     <LayoutPanel v-if="dashboardData.wikis" :id="missionControlSections.WIKIS_SECTION.id"
                         :title="t(missionControlSections.WIKIS_SECTION.translationKey)">
-                        <MissionControlGrid :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
+                        <MissionControlGrid :pages="dashboardData.wikis"
+                            :no-pages-text="t('missionControl.pageTable.noWikis')" />
                     </LayoutPanel>
                     <!-- Favorites Section -->
                     <LayoutPanel v-if="dashboardData.favorites" :id="missionControlSections.FAVORITES_SECTION.id"
                         :title="t(missionControlSections.FAVORITES_SECTION.translationKey)">
-                        <MissionControlGrid :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
+                        <MissionControlGrid :pages="dashboardData.favorites"
+                            :no-pages-text="t('missionControl.pageTable.noFavorites')" />
                     </LayoutPanel>
                 </template>
 
                 <template v-else>
                     <!-- Wikis Section -->
-                    <LayoutPanel v-if="dashboardData.wikis" :id="missionControlSections.WIKIS_SECTION.id" :title="t(missionControlSections.WIKIS_SECTION.translationKey)">
+                    <LayoutPanel v-if="dashboardData.wikis" :id="missionControlSections.WIKIS_SECTION.id"
+                        :title="t(missionControlSections.WIKIS_SECTION.translationKey)">
                         <LayoutCard :no-padding="true">
-                            <MissionControlTable :pages="dashboardData.wikis" :no-pages-text="t('missionControl.pageTable.noWikis')" />
+                            <MissionControlTable :pages="dashboardData.wikis"
+                                :no-pages-text="t('missionControl.pageTable.noWikis')" />
                         </LayoutCard>
                     </LayoutPanel>
                     <!-- Favorites Section -->
-                    <LayoutPanel v-if="dashboardData.favorites" :id="missionControlSections.FAVORITES_SECTION.id" :title="t(missionControlSections.FAVORITES_SECTION.translationKey)">
+                    <LayoutPanel v-if="dashboardData.favorites" :id="missionControlSections.FAVORITES_SECTION.id"
+                        :title="t(missionControlSections.FAVORITES_SECTION.translationKey)">
                         <LayoutCard :no-padding="true">
-                            <MissionControlTable :pages="dashboardData.favorites" :no-pages-text="t('missionControl.pageTable.noFavorites')" />
+                            <MissionControlTable :pages="dashboardData.favorites"
+                                :no-pages-text="t('missionControl.pageTable.noFavorites')" />
                         </LayoutCard>
                     </LayoutPanel>
                 </template>
 
-                <!-- LearnCalendar Section with Coming Soon overlay -->
-                <LayoutPanel :id="missionControlSections.LEARN_CALENDAR_SECTION.id" :title="t(missionControlSections.LEARN_CALENDAR_SECTION.translationKey)">
-                    <div class="coming-soon-container">
-                        <MissionControlLearnCalendar v-if="dashboardData.activityCalendar" :calendarData="dashboardData.activityCalendar" />
-                        <div class="coming-soon-overlay">
-                            <div class="coming-soon-content">
-                                <div class="coming-soon-text">{{ t('general.comingSoon') }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </LayoutPanel>
+
             </div>
         </div>
 
@@ -216,40 +212,6 @@ onMounted(() => {
         background: @memo-grey-lighter;
         width: 100%;
         margin-bottom: 20px;
-    }
-
-    .coming-soon-container {
-        position: relative;
-        width: 100%;
-
-        .coming-soon-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.85);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 8px;
-            z-index: 10;
-        }
-
-        .coming-soon-content {
-            text-align: center;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-        }
-
-        .coming-soon-text {
-            font-size: 24px;
-            font-weight: 600;
-            color: @memo-blue;
-        }
     }
 }
 </style>

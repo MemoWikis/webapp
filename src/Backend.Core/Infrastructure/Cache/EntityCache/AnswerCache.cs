@@ -20,6 +20,12 @@
                 new AnswerRecord(0, 0, 0, 0),
                 (key, existingValue) => UpdateAnswerRecord(existingValue, answer)
             );
+
+            if (answer.AnswerredCorrectly != AnswerCorrectness.IsView)
+            {
+                var date = answer.DateCreated.Date;
+                user.ActivityCounts.AddOrUpdate(date, 1, (_, count) => count + 1);
+            }
         }
     }
 
