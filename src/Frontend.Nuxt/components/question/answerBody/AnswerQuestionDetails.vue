@@ -984,9 +984,7 @@ const activityPointsStore = useActivityPointsStore()
                     <span id="ActivityPoints">
                         {{ activityPointsStore.points }}
                     </span>
-                    <font-awesome-icon
-                        icon="fa-solid fa-circle-info"
-                        class="activity-points-icon"
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="activity-points-icon"
                         v-tooltip="t('answerbody.details.tooltipLearningPoints')" />
                 </div>
             </div>
@@ -1000,11 +998,7 @@ const activityPointsStore = useActivityPointsStore()
                     <div class="overline-s no-line">{{ t('answerbody.details.pages') }}</div>
                     <div class="pageListChips">
                         <div style="display: flex; flex-wrap: wrap;">
-                            <PageChip
-                                v-for="(t, index) in pages"
-                                :key="t.id + index"
-                                :page="t"
-                                :index="index"
+                            <PageChip v-for="(t, index) in pages" :key="t.id + index" :page="t" :index="index"
                                 :is-spoiler="learningSessionStore.isInTestMode && t.isSpoiler && !$props.landingPage" />
                         </div>
                     </div>
@@ -1014,11 +1008,7 @@ const activityPointsStore = useActivityPointsStore()
                         <div class="overline-s no-line">{{ t('answerbody.details.answerProbability') }}</div>
                         <div id="semiPieSection">
                             <div id="semiPieChart" style="min-height:130px">
-                                <svg
-                                    class="semiPieSvgContainer"
-                                    ref="semiPie"
-                                    width="200"
-                                    height="130"
+                                <svg class="semiPieSvgContainer" ref="semiPie" width="200" height="130"
                                     :class="{ 'isInWishKnowledge': isInWishKnowledge }"></svg>
                             </div>
                             <div id="probabilityText">
@@ -1047,7 +1037,8 @@ const activityPointsStore = useActivityPointsStore()
                                         {{ t('answerbody.details.fromUnregistered') }}
                                     </template>
                                     <br />
-                                    <strong>{{ answerCount }}</strong> {{ t('answerbody.details.answeredXTimes') }} <br />
+                                    <strong>{{ answerCount }}</strong> {{ t('answerbody.details.answeredXTimes') }}
+                                    <br />
                                     <strong>{{ correctAnswers }}</strong> {{ t('answerbody.details.correct') }} /
                                     <strong>{{ wrongAnswers }}</strong> {{ t('answerbody.details.wrong') }}
                                 </div>
@@ -1065,7 +1056,8 @@ const activityPointsStore = useActivityPointsStore()
                                 <svg ref="overallCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="overallAnswerCount > 0" class="counterLabel">
                                     {{ t('answerbody.details.fromAllUsers') }} <br />
-                                    <strong>{{ allAnswerCount }}</strong> {{ t('answerbody.details.answeredXTimes') }} <br />
+                                    <strong>{{ allAnswerCount }}</strong> {{ t('answerbody.details.answeredXTimes') }}
+                                    <br />
                                     <strong>{{ allCorrectAnswers }}</strong> {{ t('answerbody.details.correct') }} /
                                     <strong>{{ allWrongAnswers }}</strong> {{ t('answerbody.details.wrong') }}
                                 </div>

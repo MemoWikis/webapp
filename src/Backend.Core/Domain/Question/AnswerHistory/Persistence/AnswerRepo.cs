@@ -80,23 +80,6 @@ public class AnswerRepo : RepositoryDb<Answer>
             .SingleOrDefault();
     }
 
-    public IList<DailyActivityCount> GetDailyActivityForUser(int userId, DateTime startDate)
-    {
-        return Session.CreateSQLQuery(@"
-                SELECT DATE(DateCreated) AS Day, COUNT(*) AS Count
-                FROM answer
-                WHERE UserId = :userId
-                  AND DateCreated >= :startDate
-                  AND AnswerredCorrectly != :isView
-                GROUP BY DATE(DateCreated)
-                ORDER BY Day")
-            .SetParameter("userId", userId)
-            .SetParameter("startDate", startDate)
-            .SetParameter("isView", (int)AnswerCorrectness.IsView)
-            .SetResultTransformer(NHibernate.Transform.Transformers.AliasToBean<DailyActivityCount>())
-            .List<DailyActivityCount>();
-    }
-
     public IList<DailyActivityCount> GetDailyActivityForUserOnPage(int userId, int pageId, DateTime startDate)
     {
         return Session.CreateSQLQuery(@"
