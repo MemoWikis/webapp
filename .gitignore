@@ -43,5 +43,4 @@ appsettings.*.json
 .playwright.env
 .playwright.env.prod
 
-_next.md
 .playwright.env.dev
