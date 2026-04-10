@@ -98,6 +98,32 @@ const isDateBeforeRange = (dateStr: string) => {
     const date = new Date(dateStr)
     return date < rawStart
 }
+
+const scrollContainerRef = ref<HTMLElement | null>(null)
+let hasScrolled = false
+
+const scrollToEnd = () => {
+    const container = scrollContainerRef.value?.querySelector('.ps')
+    if (container && container.scrollWidth > container.clientWidth) {
+        container.scrollLeft = container.scrollWidth
+        hasScrolled = true
+    }
+}
+
+onMounted(() => {
+    if (!scrollContainerRef.value) {
+        return
+    }
+
+    const observer = new ResizeObserver(() => {
+        if (!hasScrolled) {
+            scrollToEnd()
+        }
+    })
+    observer.observe(scrollContainerRef.value)
+
+    onUnmounted(() => observer.disconnect())
+})
 </script>
 
 <template>
@@ -106,7 +132,7 @@ const isDateBeforeRange = (dateStr: string) => {
             <div>{{ t('missionControl.learnCalendar.currentStreak', { count: currentStreak }) }}</div>
             <div>{{ t('missionControl.learnCalendar.longestStreak', { count: longestStreak }) }}</div>
         </div>
-        <div class="grid-container">
+        <div class="grid-container" ref="scrollContainerRef">
             <PerfectScrollbar :options="{ suppressScrollY: true, wheelPropagation: true, useBothWheelAxes: true }">
                 <div class="grid">
                     <table>
