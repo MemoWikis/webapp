@@ -145,19 +145,15 @@ onMounted(() => {
                         <tbody>
                             <tr v-for="(label, d) in dayLabels" :key="d">
                                 <th class="day-label">
-                                    <span v-if="[1, 3, 5].includes(d)">{{ t(`missionControl.learnCalendar.days.${d}`) }}</span>
+                                    <span v-if="[1, 3, 5].includes(d)">{{ t(`missionControl.learnCalendar.days.${d}`)
+                                        }}</span>
                                 </th>
-                                <td
-                                    v-for="(week, wIdx) in weeks"
-                                    :key="wIdx"
-                                    class="day"
-                                    :class="[
-                                        getColorClass(week[d]?.count || 0),
-                                        {
-                                            'disabled': week[d]?.date === undefined || week[d]?.date && isDateBeforeRange(week[d]?.date),
-                                        }
-                                    ]"
-                                    v-tooltip="{
+                                <td v-for="(week, wIdx) in weeks" :key="wIdx" class="day" :class="[
+                                    getColorClass(week[d]?.count || 0),
+                                    {
+                                        'disabled': week[d]?.date === undefined || week[d]?.date && isDateBeforeRange(week[d]?.date),
+                                    }
+                                ]" v-tooltip="{
                                         content: week[d]?.date ? t('missionControl.learnCalendar.dayTooltip', { date: week[d]?.date, count: week[d]?.count }) : '',
                                         disabled: week[d]?.date === undefined || isDateBeforeRange(week[d]?.date)
                                     }">
