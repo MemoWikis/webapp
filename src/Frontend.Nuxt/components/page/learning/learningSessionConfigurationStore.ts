@@ -525,6 +525,24 @@ export const useLearningSessionConfigurationStore = defineStore(
                 this.activeCustomSettings = true
                 this.lazyLoadCustomSession()
             },
+            resetQuestionCount() {
+                this.selectedQuestionCount = this.maxSelectableQuestionCount
+                this.userHasChangedMaxCount = false
+                this.checkActiveCustomSettings()
+                this.lazyLoadCustomSession()
+            },
+            checkActiveCustomSettings() {
+                const userStore = useUserStore()
+                const defaults = new SessionConfig()
+                const hasCustomQuestionFilter = Object.keys(defaults.questionFilterOptions).some(
+                    (key) => this.questionFilterOptions[key]?.isSelected !== defaults.questionFilterOptions[key]?.isSelected
+                )
+                const hasCustomKnowledgeSummary = Object.keys(defaults.knowledgeSummary).some(
+                    (key) => this.knowledgeSummary[key]?.isSelected !== defaults.knowledgeSummary[key]?.isSelected
+                )
+                const hasCustomMode = userStore.isLoggedIn ? this.isTestMode : this.isPracticeMode
+                this.activeCustomSettings = hasCustomQuestionFilter || hasCustomKnowledgeSummary || hasCustomMode || this.userHasChangedMaxCount
+            },
             setSelectedQuestionCount(val: number) {
                 this.questionCountIsInvalid =
                     val <= 0 || isNaN(val) || val == null

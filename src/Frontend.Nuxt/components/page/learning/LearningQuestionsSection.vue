@@ -168,7 +168,7 @@ const { t } = useI18n()
 
 #QuestionListSection {
 
-    margin-top: 100px;
+    margin-top: 120px;
     background-color: @memo-grey-lighter;
     padding: 0px 20px 33px 20px;
     margin-right: 0;

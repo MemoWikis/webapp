@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { useTabsStore, Tab } from '../tabs/tabsStore'
 
 const userStore = useUserStore()
+const tabsStore = useTabsStore()
 interface Props {
     openFilter?: boolean
     cookieName: string
@@ -28,18 +30,26 @@ function closeKnowledgeSummaryDropdown() {
     showKnowledgeSummaryDropdown.value = false
 }
 onBeforeMount(() => {
-    if (props.openFilter)
+    if (props.openFilter) {
         showFilterDropdown.value = true
+    }
 })
 onMounted(() => learningSessionConfigurationStore.checkQuestionFilterSelection())
 watch(() => props.openFilter, (val) => {
-    if (val)
+    if (val) {
         showFilterDropdown.value = true
+    }
 })
 watch(showFilterDropdown, (val) => {
     const cookieOptions = props.expiryDate ? { expires: props.expiryDate } : {}
     const cookie = useCookie(props.cookieName, cookieOptions)
     cookie.value = val.toString()
+})
+
+watch(() => tabsStore.activeTab, (newTab, oldTab) => {
+    if (newTab === Tab.Learning && oldTab !== null && oldTab !== Tab.Learning) {
+        showFilterDropdown.value = false
+    }
 })
 
 const { isMobile } = useDevice()
@@ -123,6 +133,11 @@ const { t } = useI18n()
                     <input type="number" min="0" v-model="learningSessionConfigurationStore.selectedQuestionCount" @input="(event: any) => learningSessionConfigurationStore.setSelectedQuestionCount(event.target.value)"
                         @focus="learningSessionConfigurationStore.questionCountInputFocused = true" @blur="learningSessionConfigurationStore.questionCountInputFocused = false" />
                     <div class="question-counter-selector-container">
+                        <div v-if="learningSessionConfigurationStore.userHasChangedMaxCount"
+                            class="question-counter-reset selectable-item"
+                            @click="learningSessionConfigurationStore.resetQuestionCount()">
+                            <font-awesome-icon icon="fa-solid fa-xmark" />
+                        </div>
                         <div class="question-counter-selector selectable-item" @click="learningSessionConfigurationStore.selectQuestionCount(1)">
                             <font-awesome-icon icon="fa-solid fa-chevron-up" />
                         </div>
@@ -427,6 +442,15 @@ const { t } = useI18n()
 
             .question-counter-selector {
                 padding: 0 5px;
+            }
+
+            .question-counter-reset {
+                padding: 0 5px;
+                color: @memo-grey-dark;
+
+                &:hover {
+                    color: @memo-salmon;
+                }
             }
         }
     }
