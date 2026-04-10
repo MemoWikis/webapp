@@ -181,26 +181,34 @@ export const useLearningSessionConfigurationStore = defineStore(
         actions: {
             setCounter(questionCounter: QustionCounter) {
                 if (questionCounter != null) {
-                    this.questionFilterOptions.inWishKnowledge.count = questionCounter.inWishKnowledge ?? 0
-                    this.questionFilterOptions.notInWishKnowledge.count = questionCounter.notInWishKnowledge ?? 0
+                    this.questionFilterOptions.inWishKnowledge.count =
+                        questionCounter.inWishKnowledge ?? 0
+                    this.questionFilterOptions.notInWishKnowledge.count =
+                        questionCounter.notInWishKnowledge ?? 0
                     this.questionFilterOptions.createdByCurrentUser.count =
                         questionCounter.createdByCurrentUser ?? 0
                     this.questionFilterOptions.notCreatedByCurrentUser.count =
                         questionCounter.notCreatedByCurrentUser ?? 0
                     this.questionFilterOptions.privateQuestions.count =
                         questionCounter.private ?? 0
-                    this.questionFilterOptions.publicQuestions.count = questionCounter.public ?? 0
+                    this.questionFilterOptions.publicQuestions.count =
+                        questionCounter.public ?? 0
 
-                    this.knowledgeSummary.notLearned.count = questionCounter.notLearned ?? 0
-                    this.knowledgeSummary.needsLearning.count = questionCounter.needsLearning ?? 0
+                    this.knowledgeSummary.notLearned.count =
+                        questionCounter.notLearned ?? 0
+                    this.knowledgeSummary.needsLearning.count =
+                        questionCounter.needsLearning ?? 0
                     this.knowledgeSummary.needsConsolidation.count =
                         questionCounter.needsConsolidation ?? 0
-                    this.knowledgeSummary.solid.count = questionCounter.solid ?? 0
+                    this.knowledgeSummary.solid.count =
+                        questionCounter.solid ?? 0
 
-                    this.maxSelectableQuestionCount = (questionCounter.max ?? 0) as number
+                    this.maxSelectableQuestionCount = (questionCounter.max ??
+                        0) as number
 
                     if (!this.userHasChangedMaxCount)
-                        this.selectedQuestionCount = (questionCounter.max ?? 0) as number
+                        this.selectedQuestionCount = (questionCounter.max ??
+                            0) as number
 
                     if (this.maxQuestionCountIsZero)
                         this.showSelectionError = true
@@ -211,20 +219,28 @@ export const useLearningSessionConfigurationStore = defineStore(
                 // Migration: handle old property names
                 if (sessionConfig.questionFilterOptions) {
                     if (sessionConfig.questionFilterOptions.inWuwi) {
-                        sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWuwi
+                        sessionConfig.questionFilterOptions.inWishKnowledge =
+                            sessionConfig.questionFilterOptions.inWuwi
                         delete sessionConfig.questionFilterOptions.inWuwi
                     }
                     if (sessionConfig.questionFilterOptions.inWishknowledge) {
-                        sessionConfig.questionFilterOptions.inWishKnowledge = sessionConfig.questionFilterOptions.inWishknowledge
-                        delete sessionConfig.questionFilterOptions.inWishknowledge
+                        sessionConfig.questionFilterOptions.inWishKnowledge =
+                            sessionConfig.questionFilterOptions.inWishknowledge
+                        delete sessionConfig.questionFilterOptions
+                            .inWishknowledge
                     }
                     if (sessionConfig.questionFilterOptions.notInWuwi) {
-                        sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWuwi
+                        sessionConfig.questionFilterOptions.notInWishKnowledge =
+                            sessionConfig.questionFilterOptions.notInWuwi
                         delete sessionConfig.questionFilterOptions.notInWuwi
                     }
-                    if (sessionConfig.questionFilterOptions.notInWishknowledge) {
-                        sessionConfig.questionFilterOptions.notInWishKnowledge = sessionConfig.questionFilterOptions.notInWishknowledge
-                        delete sessionConfig.questionFilterOptions.notInWishknowledge
+                    if (
+                        sessionConfig.questionFilterOptions.notInWishknowledge
+                    ) {
+                        sessionConfig.questionFilterOptions.notInWishKnowledge =
+                            sessionConfig.questionFilterOptions.notInWishknowledge
+                        delete sessionConfig.questionFilterOptions
+                            .notInWishknowledge
                     }
                 }
             },
@@ -236,7 +252,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                     this.sessionConfigKey = `sessionConfig-u${userStore.id}`
 
                 const storedSession = localStorage.getItem(
-                    this.sessionConfigKey
+                    this.sessionConfigKey,
                 )
 
                 if (storedSession != null) {
@@ -245,10 +261,13 @@ export const useLearningSessionConfigurationStore = defineStore(
 
                     if (userStore.isLoggedIn) {
                         this.knowledgeSummary = sessionConfig.knowledgeSummary
-                        this.questionFilterOptions = sessionConfig.questionFilterOptions
+                        this.questionFilterOptions =
+                            sessionConfig.questionFilterOptions
                     }
-                    this.userHasChangedMaxCount = sessionConfig.userHasChangedMaxCount
-                    this.selectedQuestionCount = sessionConfig.selectedQuestionCount as number
+                    this.userHasChangedMaxCount =
+                        sessionConfig.userHasChangedMaxCount
+                    this.selectedQuestionCount =
+                        sessionConfig.selectedQuestionCount as number
                     this.isTestMode = sessionConfig.isTestMode
                     this.isPracticeMode = sessionConfig.isPracticeMode
                     this.testOptions = sessionConfig.testOptions
@@ -263,12 +282,12 @@ export const useLearningSessionConfigurationStore = defineStore(
             async getQuestionCount(pageId?: number) {
                 const pageStore = usePageStore()
                 let targetPageId = pageId
-                
+
                 if (targetPageId === undefined) {
                     // If no pageId provided, use pageStore.id if valid, otherwise 0 (wishknowledge)
                     targetPageId = pageStore.id > 0 ? pageStore.id : 0
                 }
-                
+
                 const sessionJson = this.buildSessionConfigJson(targetPageId)
                 const count = await $api<QustionCounter>(
                     `/apiVue/LearningSessionConfigurationStore/GetCount/`,
@@ -277,7 +296,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                         method: 'POST',
                         mode: 'cors',
                         credentials: 'include',
-                    }
+                    },
                 )
                 if (count) this.setCounter(count)
             },
@@ -305,7 +324,7 @@ export const useLearningSessionConfigurationStore = defineStore(
 
                 localStorage.setItem(
                     this.sessionConfigKey,
-                    JSON.stringify(sessionConfig)
+                    JSON.stringify(sessionConfig),
                 )
             },
 
@@ -324,7 +343,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                     this.selectKnowledgeSummary(
                         this.knowledgeSummary[key],
                         false,
-                        force
+                        force,
                     )
                 }
                 this.activeCustomSettings = true
@@ -335,7 +354,7 @@ export const useLearningSessionConfigurationStore = defineStore(
             selectKnowledgeSummary(
                 summary: any,
                 loadCustomSession = true,
-                force: boolean | null = null
+                force: boolean | null = null,
             ) {
                 const userStore = useUserStore()
                 if (!userStore.isLoggedIn) {
@@ -384,7 +403,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                     this.selectQuestionFilter(
                         this.questionFilterOptions[key],
                         false,
-                        force
+                        force,
                     )
                 }
                 this.activeCustomSettings = true
@@ -396,7 +415,7 @@ export const useLearningSessionConfigurationStore = defineStore(
             selectQuestionFilter(
                 option: any,
                 loadCustomSession = true,
-                force: boolean | null = null
+                force: boolean | null = null,
             ) {
                 const userStore = useUserStore()
                 if (!userStore.isLoggedIn) {
@@ -448,7 +467,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                 const userStore = useUserStore()
 
                 const json: { [key: string]: any } = {}
-                
+
                 // Determine the pageId to use
                 let effectivePageId = id
                 if (id === 0) {
@@ -460,8 +479,11 @@ export const useLearningSessionConfigurationStore = defineStore(
                     pageId: effectivePageId,
                     maxQuestionCount: this.selectedQuestionCount,
 
-                    inWishKnowledge: this.questionFilterOptions.inWishKnowledge.isSelected,
-                    notInWishKnowledge: this.questionFilterOptions.notInWishKnowledge.isSelected,
+                    inWishKnowledge:
+                        this.questionFilterOptions.inWishKnowledge.isSelected,
+                    notInWishKnowledge:
+                        this.questionFilterOptions.notInWishKnowledge
+                            .isSelected,
                     createdByCurrentUser:
                         this.questionFilterOptions.createdByCurrentUser
                             .isSelected,
@@ -498,7 +520,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                     }
 
                     Object.keys(practiceJson).forEach(
-                        (key) => (json[key] = practiceJson[key])
+                        (key) => (json[key] = practiceJson[key]),
                     )
                 } else if (this.isTestMode) {
                     const testJson: { [key: string]: any } = {
@@ -509,7 +531,7 @@ export const useLearningSessionConfigurationStore = defineStore(
                     }
 
                     Object.keys(testJson).forEach(
-                        (key) => (json[key] = testJson[key])
+                        (key) => (json[key] = testJson[key]),
                     )
                 }
 
@@ -534,14 +556,28 @@ export const useLearningSessionConfigurationStore = defineStore(
             checkActiveCustomSettings() {
                 const userStore = useUserStore()
                 const defaults = new SessionConfig()
-                const hasCustomQuestionFilter = Object.keys(defaults.questionFilterOptions).some(
-                    (key) => this.questionFilterOptions[key]?.isSelected !== defaults.questionFilterOptions[key]?.isSelected
+                const hasCustomQuestionFilter = Object.keys(
+                    defaults.questionFilterOptions,
+                ).some(
+                    (key) =>
+                        this.questionFilterOptions[key]?.isSelected !==
+                        defaults.questionFilterOptions[key]?.isSelected,
                 )
-                const hasCustomKnowledgeSummary = Object.keys(defaults.knowledgeSummary).some(
-                    (key) => this.knowledgeSummary[key]?.isSelected !== defaults.knowledgeSummary[key]?.isSelected
+                const hasCustomKnowledgeSummary = Object.keys(
+                    defaults.knowledgeSummary,
+                ).some(
+                    (key) =>
+                        this.knowledgeSummary[key]?.isSelected !==
+                        defaults.knowledgeSummary[key]?.isSelected,
                 )
-                const hasCustomMode = userStore.isLoggedIn ? this.isTestMode : this.isPracticeMode
-                this.activeCustomSettings = hasCustomQuestionFilter || hasCustomKnowledgeSummary || hasCustomMode || this.userHasChangedMaxCount
+                const hasCustomMode = userStore.isLoggedIn
+                    ? this.isTestMode
+                    : this.isPracticeMode
+                this.activeCustomSettings =
+                    hasCustomQuestionFilter ||
+                    hasCustomKnowledgeSummary ||
+                    hasCustomMode ||
+                    this.userHasChangedMaxCount
             },
             setSelectedQuestionCount(val: number) {
                 this.questionCountIsInvalid =
@@ -577,7 +613,8 @@ export const useLearningSessionConfigurationStore = defineStore(
                 this.checkQuestionFilterSelection()
                 this.checkKnowledgeSummarySelection()
                 // Use pageStore.questionCount if available, otherwise use a default value
-                this.selectedQuestionCount = pageStore.questionCount > 0 ? pageStore.questionCount : 20
+                this.selectedQuestionCount =
+                    pageStore.questionCount > 0 ? pageStore.questionCount : 20
                 this.userHasChangedMaxCount = false
                 this.isTestMode = !userStore.isLoggedIn
                 this.testOptions = {
@@ -638,59 +675,69 @@ export const useLearningSessionConfigurationStore = defineStore(
                 for (const key in this.knowledgeSummary) {
                     this.knowledgeSummary[key].isSelected = false
                 }
-                
+
                 // Map the new KnowledgeSummaryType enum values to the corresponding keys
-                const typeToKeyMap: { [key in KnowledgeSummaryType]?: string } = {
-                    // WishKnowledge (wishKnowledge) types - use inWishKnowledge filter
-                    [KnowledgeSummaryType.SolidWishKnowledge]: 'solid',
-                    [KnowledgeSummaryType.NeedsConsolidationWishKnowledge]: 'needsConsolidation',
-                    [KnowledgeSummaryType.NeedsLearningWishKnowledge]: 'needsLearning',
-                    [KnowledgeSummaryType.NotLearnedWishKnowledge]: 'notLearned',
-                    
-                    [KnowledgeSummaryType.SolidNotInWishKnowledge]: 'solid',
-                    [KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge]: 'needsConsolidation',
-                    [KnowledgeSummaryType.NeedsLearningNotInWishKnowledge]: 'needsLearning',
-                    [KnowledgeSummaryType.NotLearnedNotInWishKnowledge]: 'notLearned',
-                }
-                
+                const typeToKeyMap: { [key in KnowledgeSummaryType]?: string } =
+                    {
+                        // WishKnowledge (wishKnowledge) types - use inWishKnowledge filter
+                        [KnowledgeSummaryType.SolidWishKnowledge]: 'solid',
+                        [KnowledgeSummaryType.NeedsConsolidationWishKnowledge]:
+                            'needsConsolidation',
+                        [KnowledgeSummaryType.NeedsLearningWishKnowledge]:
+                            'needsLearning',
+                        [KnowledgeSummaryType.NotLearnedWishKnowledge]:
+                            'notLearned',
+
+                        [KnowledgeSummaryType.SolidNotInWishKnowledge]: 'solid',
+                        [KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge]:
+                            'needsConsolidation',
+                        [KnowledgeSummaryType.NeedsLearningNotInWishKnowledge]:
+                            'needsLearning',
+                        [KnowledgeSummaryType.NotLearnedNotInWishKnowledge]:
+                            'notLearned',
+                    }
+
                 const targetKey = typeToKeyMap[type]
-                
-                if (type === KnowledgeSummaryType.SolidWishKnowledge || 
-                    type === KnowledgeSummaryType.NeedsConsolidationWishKnowledge ||
+
+                if (
+                    type === KnowledgeSummaryType.SolidWishKnowledge ||
+                    type ===
+                        KnowledgeSummaryType.NeedsConsolidationWishKnowledge ||
                     type === KnowledgeSummaryType.NeedsLearningWishKnowledge ||
-                    type === KnowledgeSummaryType.NotLearnedWishKnowledge) {
-                    
+                    type === KnowledgeSummaryType.NotLearnedWishKnowledge
+                ) {
                     this.questionFilterOptions.inWishKnowledge.isSelected = true
                     this.questionFilterOptions.notInWishKnowledge.isSelected = false
-                    
+
                     if (targetKey && this.knowledgeSummary[targetKey]) {
                         this.knowledgeSummary[targetKey].isSelected = true
                     }
-                }
-                else if (type === KnowledgeSummaryType.NotInWishKnowledge) {
+                } else if (type === KnowledgeSummaryType.NotInWishKnowledge) {
                     for (const key in this.knowledgeSummary) {
                         this.knowledgeSummary[key].isSelected = true
                     }
                     this.questionFilterOptions.inWishKnowledge.isSelected = false
                     this.questionFilterOptions.notInWishKnowledge.isSelected = true
-                }
-                else if (type === KnowledgeSummaryType.SolidNotInWishKnowledge || 
-                         type === KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge ||
-                         type === KnowledgeSummaryType.NeedsLearningNotInWishKnowledge ||
-                         type === KnowledgeSummaryType.NotLearnedNotInWishKnowledge) {
-                    
+                } else if (
+                    type === KnowledgeSummaryType.SolidNotInWishKnowledge ||
+                    type ===
+                        KnowledgeSummaryType.NeedsConsolidationNotInWishKnowledge ||
+                    type ===
+                        KnowledgeSummaryType.NeedsLearningNotInWishKnowledge ||
+                    type === KnowledgeSummaryType.NotLearnedNotInWishKnowledge
+                ) {
                     this.questionFilterOptions.inWishKnowledge.isSelected = false
                     this.questionFilterOptions.notInWishKnowledge.isSelected = true
-                    
+
                     if (targetKey && this.knowledgeSummary[targetKey]) {
                         this.knowledgeSummary[targetKey].isSelected = true
                     }
                 }
-                
+
                 this.checkQuestionFilterSelection()
                 this.checkKnowledgeSummarySelection()
                 this.activeCustomSettings = true
             },
         },
-    }
+    },
 )

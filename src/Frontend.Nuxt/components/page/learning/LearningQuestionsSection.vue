@@ -70,8 +70,7 @@ const { t } = useI18n()
     <div id="QuestionListSection" :class="getClass()">
         <div>
             <div v-if="learningSessionConfigurationStore.showFilter" id="PageLearnignSessionContainer">
-                <PageLearningSessionConfiguration cookie-name="show-bottom-dropdown"
-                    :open-filter="openFilter">
+                <PageLearningSessionConfiguration cookie-name="show-bottom-dropdown" :open-filter="openFilter">
                     <slot>
                         <div class="drop-down-question-sort">
                             <div class="session-config-header">
@@ -80,17 +79,21 @@ const { t } = useI18n()
                                 <template v-if="props.allWishknowledgeMode">
                                     <!-- Wishknowledge mode text -->
                                     <b>{{ learningSessionStore.steps.length }}&nbsp;</b>
-                                    <template v-if="learningSessionStore.steps.length === 1"> {{ t('page.questionsSection.question') }}&nbsp;</template>
+                                    <template v-if="learningSessionStore.steps.length === 1"> {{
+                                        t('page.questionsSection.question') }}&nbsp;</template>
                                     <template v-else>{{ t('page.questionsSection.questions') }}&nbsp;</template>
-                                    <span class="hidden-xs">{{ t('page.questionsSection.fromYourWishknowledge', 'from your saved questions') }}</span>
+                                    <span class="hidden-xs">{{ t('page.questionsSection.fromYourWishknowledge')
+                                        }}</span>
                                     ({{ learningSessionConfigurationStore.maxSelectableQuestionCount || 0 }})
                                 </template>
 
                                 <template v-else>
                                     <!-- Regular page mode text -->
-                                    <b v-if="learningSessionStore.steps.length === pageStore.questionCount">{{ t('page.questionsSection.all') }}&nbsp;</b>
+                                    <b v-if="learningSessionStore.steps.length === pageStore.questionCount">{{
+                                        t('page.questionsSection.all') }}&nbsp;</b>
                                     <b v-else>{{ learningSessionStore.steps.length }}&nbsp;</b>
-                                    <template v-if="learningSessionStore.steps.length === 1"> {{ t('page.questionsSection.question') }}&nbsp;</template>
+                                    <template v-if="learningSessionStore.steps.length === 1"> {{
+                                        t('page.questionsSection.question') }}&nbsp;</template>
                                     <template v-else>{{ t('page.questionsSection.questions') }}&nbsp;</template>
                                     <span class="hidden-xs">{{ t('page.questionsSection.onThisPage') }}</span>
                                     ({{ pageStore.questionCount }})
@@ -100,7 +103,8 @@ const { t } = useI18n()
                             <div id="ButtonAndDropdown">
                                 <div id="QuestionListHeaderDropDown" class="Button dropdown">
                                     <VDropdown :aria-id="ariaId" :distance="0">
-                                        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" class="btn btn-link btn-sm ButtonEllipsis" />
+                                        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
+                                            class="btn btn-link btn-sm ButtonEllipsis" />
                                         <template #popper>
 
                                             <div v-if="userStore.isLoggedIn" class="dropdown-row"
@@ -108,7 +112,8 @@ const { t } = useI18n()
                                                 <div class="dropdown-icon">
                                                     <font-awesome-icon icon="fa-solid fa-circle-plus" />
                                                 </div>
-                                                <div class="dropdown-label">{{ t('page.questionsSection.addQuestion') }}</div>
+                                                <div class="dropdown-label">{{ t('page.questionsSection.addQuestion') }}
+                                                </div>
 
                                             </div>
 
@@ -157,7 +162,8 @@ const { t } = useI18n()
                 </div>
             </div>
 
-            <PageLearningQuestionList :expand-question="questionsExpanded" :all-wishknowledge-mode="props.allWishknowledgeMode" />
+            <PageLearningQuestionList :expand-question="questionsExpanded"
+                :all-wishknowledge-mode="props.allWishknowledgeMode" />
 
         </div>
     </div>
